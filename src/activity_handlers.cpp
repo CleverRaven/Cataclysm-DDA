@@ -2059,12 +2059,13 @@ void activity_handlers::open_gate_finish( player_activity *act, player * )
 }
 
 enum repeat_type : int {
-    REPEAT_ONCE = 0,    // Repeat just once
+    // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
+    REPEAT_INIT = 0,    // Haven't found repeat value yet.
+    REPEAT_ONCE,        // Repeat just once
     REPEAT_FOREVER,     // Repeat for as long as possible
     REPEAT_FULL,        // Repeat until damage==0
     REPEAT_EVENT,       // Repeat until something interesting happens
     REPEAT_CANCEL,      // Stop repeating
-    REPEAT_INIT         // Haven't found repeat value yet.
 };
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
@@ -2073,14 +2074,15 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     rmenu.text = title;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
-    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
+    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat until reinforced" ) );
     rmenu.addentry( REPEAT_FULL, true, '3', _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( REPEAT_EVENT, true, '4', _( "Repeat until success/failure/level up" ) );
+    rmenu.addentry( REPEAT_INIT, true, '5', _( "Back to item selection" ) );
 
-    rmenu.selected = last_selection;
-
+    rmenu.selected = last_selection - REPEAT_ONCE;
     rmenu.query();
-    if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
+
+    if( rmenu.ret >= REPEAT_INIT && rmenu.ret <= REPEAT_EVENT ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
@@ -2136,6 +2138,10 @@ struct weldrig_hack {
         veh->charge_battery( pseudo.charges );
         pseudo.charges = 0;
     }
+
+    ~weldrig_hack() {
+        clean_up();
+    }
 };
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
@@ -2159,7 +2165,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    bool event_happened = false;
 
     const auto use_fun = used_tool->get_use( iuse_name_string );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
@@ -2170,18 +2175,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
-    // TODO: Allow setting this in the actor
-    // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-    if( !used_tool->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
-        act->set_to_null();
-        return;
-    }
+    // Valid Repeat choice and target, attempt repair.
+    if( repeat != REPEAT_INIT && act->position != INT_MIN ) {
+        item &fix = p->i_at( act->position );
 
-    item &fix = p->i_at( act->position );
-
-    // The first time through we just find out how many times the player wants to repeat the action.
-    if( repeat != REPEAT_INIT ) {
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
@@ -2193,33 +2190,66 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         }
 
+        // TODO: Allow setting this in the actor
+        // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
+        if( !used_tool->ammo_sufficient() ) {
+            p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
+            act->set_to_null();
+            return;
+        }
+
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         if( attempt == repair_item_actor::AS_CANT ||
             destroyed ||
-            !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
-            // Can't repeat any more
-            act->set_to_null();
-            w_hack.clean_up();
-            return;
+            !actor->can_repair_target( *p, fix, !destroyed ) ) {
+            // Cannot continue to repair target, select another target.
+            act->position = INT_MIN;
         }
 
-        event_happened =
+        bool event_happened =
             attempt == repair_item_actor::AS_FAILURE ||
             attempt == repair_item_actor::AS_SUCCESS ||
             old_level != p->get_skill_level( actor->used_skill );
-    } else {
-        repeat = REPEAT_ONCE;
+
+        const bool need_input =
+            repeat == REPEAT_ONCE ||
+            ( repeat == REPEAT_EVENT && event_happened ) ||
+            ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+        if( need_input ) {
+            repeat = REPEAT_INIT;
+        }
+    }
+    // Check tool is valid before we query target and Repeat choice.
+    if( !actor->can_use_tool( *p, *used_tool, true ) ) {
+        act->set_to_null();
+        return;
     }
 
-    w_hack.clean_up();
-    const bool need_input =
-        repeat == REPEAT_ONCE ||
-        ( repeat == REPEAT_EVENT && event_happened ) ||
-        ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+    // target selection and validation.
+    while( act->position == INT_MIN ) {
+        g->draw_sidebar_messages();     // Refresh messages to show feedback.
+        const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
+            return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
+                   &itm != &main_tool;
+        }, string_format( _( "You have no items that could be repaired with a %s." ),
+                          main_tool.type_name( 1 ) ) );
 
-    if( need_input ) {
+        if( pos == INT_MIN ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ) );
+            act->set_to_null();
+            return;
+        }
+        if( actor->can_repair_target( *p, p->i_at( pos ), true ) ) {
+            act->position = pos;
+            repeat = REPEAT_INIT;
+        }
+    }
+
+    const item &fix = p->i_at( act->position );
+
+    if( repeat == REPEAT_INIT ) {
         g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
@@ -2233,20 +2263,33 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s\nSuccess chance: %.1f%%\nDamage chance: %.1f%%" ),
-                                      repair_item_actor::action_description( action_type ).c_str(),
+                                      _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
+                                         "Damage chance: <color_light_blue>%.1f</color>%%" ),
+                                      repair_item_actor::action_description( action_type ),
+                                      fix.tname(),
                                       100.0f * chance.first, 100.0f * chance.second );
-        repeat_type answer = repeat_menu( title, repeat );
-        if( answer == REPEAT_CANCEL ) {
-            act->set_to_null();
-            return;
-        }
 
         if( act->values.empty() ) {
             act->values.resize( 1 );
         }
+        do {
+            g->draw_sidebar_messages();
+            repeat = repeat_menu( title, repeat );
 
-        act->values[0] = static_cast<int>( answer );
+            if( repeat == REPEAT_CANCEL ) {
+                act->set_to_null();
+                return;
+            }
+            act->values[0] = static_cast<int>( repeat );
+            if( repeat == REPEAT_INIT ) {       // BACK selected, redo target selection next.
+                p->activity.position = INT_MIN;
+                return;
+            }
+            if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
+                p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+                repeat = REPEAT_INIT;
+            }
+        } while( repeat == REPEAT_INIT );
     }
 
     // Otherwise keep retrying
