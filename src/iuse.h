@@ -100,6 +100,7 @@ class iuse
         int trimmer_off( player *, item *, bool, const tripoint & );
         int trimmer_on( player *, item *, bool, const tripoint & );
         int circsaw_on( player *, item *, bool, const tripoint & );
+        int cordless_drill_on( player *, item *, bool, const tripoint & );
         int combatsaw_off( player *, item *, bool, const tripoint & );
         int combatsaw_on( player *, item *, bool, const tripoint & );
         int e_combatsaw_off( player *, item *, bool, const tripoint & );

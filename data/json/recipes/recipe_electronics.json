@@ -28,7 +28,7 @@
     ]
 },{
   "type" : "recipe",
-  "result": "cordless_drill",
+  "result": "cordless_drill_off",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
   "skill_used": "fabrication",

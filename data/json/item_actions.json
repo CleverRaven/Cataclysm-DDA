@@ -137,6 +137,10 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "CORDLESS_DRILL_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
         "id" : "CHAINSAW_ON",
         "name" : "Turn off"
     },{
