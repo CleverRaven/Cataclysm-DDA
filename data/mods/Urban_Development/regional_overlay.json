@@ -1,0 +1,53 @@
+[
+  {
+    "type": "region_overlay",
+    "id": "urban_buildings_overlay",
+    "regions": [ "all" ],
+    "city": {
+      "houses": { 
+        "urban_1": 30,
+        "urban_2": 30,
+        "urban_3": 30,
+        "urban_4": 30,
+        "urban_5": 30,
+        "urban_6": 30,
+        "urban_7": 30,
+        "urban_8": 30,
+        "urban_9": 30,
+        "urban_10": 30,
+        "urban_11": 30,
+        "urban_12": 30,
+        "urban_13": 30,
+        "urban_14": 30,
+        "urban_15": 30,
+        "urban_16": 30,
+        "urban_17": 30,
+        "urban_18": 30,
+        "urban_19": 30,
+        "urban_20": 30,
+        "urban_21": 30,
+        "urban_22": 30,
+        "urban_40": 30
+      },
+      "shops": { 
+        "urban_23": 2,
+        "urban_24": 3,
+        "urban_25": 4,
+        "urban_26": 3,
+        "urban_27": 1,
+        "urban_28": 4,
+        "urban_29": 10,
+        "urban_30": 5,
+        "urban_31": 1,
+        "urban_32": 2,
+        "urban_33": 3,
+        "urban_34": 2,
+        "urban_35": 2,
+        "urban_36": 8,
+        "urban_37": 1,
+        "urban_38": 5,
+        "urban_39": 8
+      }
+    }
+  }
+]
