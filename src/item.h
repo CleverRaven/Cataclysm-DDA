@@ -1860,7 +1860,7 @@ class item : public visitable<item>
 
         std::set<std::string> item_tags; // generic item specific flags
         int item_counter = 0; // generic counter to be used with item flags
-        int specific_energy = -10; // Thermal energy in the item per mass (0.00001 J/g). Default negative value means that the item has not been processed ever.
+        int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
         int temperature = 0; // Temperature of the item (in 0.00001 K).
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!
