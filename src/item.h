@@ -672,10 +672,10 @@ class item : public visitable<item>
 
         /** Set the item to HOT */
         void heat_up();
-        
+
         /** Set the item to COLD */
         void cold_up();
-        
+
         /** Sets the item temperature and item energy from new temperature (K)*/
         void set_temperature( float new_temperature );
 
@@ -742,7 +742,7 @@ class item : public visitable<item>
          * @param time Duration of time at which to process at temperature
          */
         void calc_temp( const int temp, const float insulation, const time_duration &time );
-        
+
         /**
          * Get the thermal energy of the item in Joules.
          */
