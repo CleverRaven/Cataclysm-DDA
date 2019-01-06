@@ -677,7 +677,7 @@ class item : public visitable<item>
         void cold_up();
         
         /** Sets the item temperature and item energy from new temperature (K)*/
-        void set_temperature(float new_temperature);
+        void set_temperature( float new_temperature );
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
