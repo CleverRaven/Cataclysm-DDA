@@ -796,7 +796,6 @@
     "use_action": "CAFF",
     "stim": 3,
     "stamina_pool_recovery": 250,
-    "stamina_pool_recovery": 250,
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
