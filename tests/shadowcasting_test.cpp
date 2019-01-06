@@ -50,7 +50,6 @@ void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
                 if( input_array[currentX][currentY] == LIGHT_TRANSPARENCY_SOLID ) {
                     //hit a wall
                     newStart = rightSlope;
-                    continue;
                 } else {
                     blocked = false;
                     start = newStart;
