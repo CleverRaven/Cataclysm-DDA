@@ -41,7 +41,7 @@ npc create_model()
     npc model_npc;
     model_npc.normalize();
     model_npc.randomize( NC_NONE );
-    for( trait_id tr : model_npc.get_mutations() ) {
+    for( const trait_id &tr : model_npc.get_mutations() ) {
         model_npc.unset_mutation( tr );
     }
     model_npc.set_hunger( 0 );
@@ -164,7 +164,7 @@ TEST_CASE( "snippet-tag-test" )
         const auto ids = SNIPPET.all_ids_from_category( tag );
         std::set<std::string> valid_snippets;
         for( int id : ids ) {
-            const auto snip = SNIPPET.get( id );
+            const auto &snip = SNIPPET.get( id );
             valid_snippets.insert( snip );
         }
 
@@ -400,7 +400,7 @@ TEST_CASE( "npc-movement" )
     }
 
     SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
-        tripoint origin = g->u.pos();
+        const tripoint origin = g->u.pos();
 
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
@@ -440,9 +440,9 @@ TEST_CASE( "npc_can_target_player" )
     }
     g->unload_npcs();
 
-    const auto spawn_npc = []( int x, int y, const std::string & npc_class ) {
+    const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
-        int model_id = g->m.place_npc( 10, 10, test_guy, true );
+        const int model_id = g->m.place_npc( 10, 10, test_guy, true );
         g->load_npcs();
 
         npc *guy = g->find_npc( model_id );

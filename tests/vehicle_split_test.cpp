@@ -8,7 +8,7 @@
 TEST_CASE( "vehicle_split_section" )
 {
     GIVEN( "Some vehicles to split" ) {
-        tripoint test_origin( 15, 15, 0 );
+        const tripoint test_origin( 15, 15, 0 );
         g->u.setpos( test_origin );
         tripoint vehicle_origin = tripoint( 10, 10, 0 );
         VehicleList vehs = g->m.get_vehicles();

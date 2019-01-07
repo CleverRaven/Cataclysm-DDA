@@ -88,14 +88,14 @@ TEST_CASE( "lru_cache_perf", "[.]" )
 {
     constexpr int max_size = 1000000;
     lru_cache<long> symbol_cache;
-    auto start1 = std::chrono::high_resolution_clock::now();
+    const auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < 1000000; ++i ) {
         for( int j = -60; j <= 60; ++j ) {
             symbol_cache.insert( max_size, { i, j, 0 }, 1 );
         }
     }
-    auto end1 = std::chrono::high_resolution_clock::now();
-    long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
+    const auto end1 = std::chrono::high_resolution_clock::now();
+    const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
     printf( "completed %d insertions in %ld microseconds.\n", max_size, diff1 );
     /*
      * Original tripoint hash    completed 1000000 insertions in 96136925 microseconds.
