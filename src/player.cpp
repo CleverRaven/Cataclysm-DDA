@@ -571,7 +571,7 @@ std::string player::disp_name( bool possessive ) const
 {
     if( !possessive ) {
         if( is_player() ) {
-            return _( "you" );
+            return pgettext( "not possessive", "you" );
         }
         return name;
     } else {
