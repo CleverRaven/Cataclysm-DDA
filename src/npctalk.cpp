@@ -1940,6 +1940,32 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
     };
 }
 
+void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost, int count )
+{
+    function = [item_name, cost, count]( const dialogue &d ) {
+        npc &p = *d.beta;
+        player &u = *d.alpha;
+        item old_item( item_name, calendar::turn );
+        for( int i = 0; i < count; i++ ) {
+            int item_at = u.inv.position_by_type( item_name );
+            if( item_at == INT_MIN ) {
+                popup( _( "You don't have a %1$s!" ), old_item.tname() );
+                return;
+            }
+            old_item = u.i_rem( item_at );
+            p.i_add( old_item );
+        }
+        if( count == 1 ) {
+            //~ %1%s is the NPC name, %2$s is an item
+            popup( _( "You give %1$s a %2$s" ), p.name, old_item.tname() );
+        } else {
+            //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+            popup( _( "You give %1$s %2$d %3$s" ), p.name, count, old_item.tname() );
+        }
+        u.cash += cost;
+    };
+}
+
 void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue &d ) {
@@ -2083,6 +2109,17 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_int( "u_spend_cash" ) ) {
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
+    } else if(  jo.has_string( "u_sell_item" ) ) {
+        std::string item_name = jo.get_string( "u_sell_item" );
+        int cost = 0;
+        if( jo.has_int( "cost" ) ) {
+            cost = jo.get_int( "cost" );
+        }
+        int count = 1;
+        if( jo.has_int( "count" ) ) {
+            count = jo.get_int( "count" );
+        }
+        subeffect_fun.set_u_sell_item( item_name, cost, count );
     } else if( jo.has_string( "npc_change_faction" ) ) {
         std::string faction_name = jo.get_string( "npc_change_faction" );
         subeffect_fun.set_npc_change_faction( faction_name );
