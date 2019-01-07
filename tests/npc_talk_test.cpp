@@ -277,6 +277,32 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a is night test response." );
     calendar::turn = old_calendar;
 
+    d.add_topic( "TALK_TEST_SWITCH" );
+    g->u.cash = 1000;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch 1 test response." );
+    CHECK( d.responses[2].text == "This is another basic test response." );
+    g->u.cash = 100;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch 2 test response." );
+    CHECK( d.responses[2].text == "This is another basic test response." );
+    g->u.cash = 10;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch default 1 test response." );
+    CHECK( d.responses[2].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[3].text == "This is another basic test response." );
+    g->u.cash = 0;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[2].text == "This is another basic test response." );
 
     d.add_topic( "TALK_TEST_OR" );
     g->u.cash = 0;

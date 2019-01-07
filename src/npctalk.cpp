@@ -10,7 +10,8 @@
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "editmap.h"
@@ -120,7 +121,8 @@ const std::string &talk_trial::name() const
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) - 1_turns * p.get_skill_level( skill );
+    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) -
+           1_turns * p.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -163,9 +165,7 @@ void game::chat()
 {
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
         // @todo: Get rid of the z-level check when z-level vision gets "better"
-        return u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) &&
-               rl_dist( u.pos(), guy.pos() ) <= 24;
+        return u.posz() == guy.posz() && u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
     } );
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc &guy ) {
         return guy.is_friend() && guy.is_following() && u.posz() == guy.posz() &&
@@ -403,8 +403,10 @@ void npc::talk_to_u( bool text_only )
         g->u.cancel_activity();
 
         // Don't query if we're training the player
-    } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,  string_format( _( "%s talked to you." ), name ) );
+    } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) ||
+               g->u.activity.index != getID() ) {
+        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
+                                            string_format( _( "%s talked to you." ), name ) );
     }
 }
 
@@ -430,7 +432,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
     if( topic == "TALK_SEDATED" ) {
         return string_format( _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
-                              beta->name.c_str() );
+                              beta->name );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below
@@ -551,17 +553,17 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         std::string npcstr = p->male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
         if( p->rules.use_guns ) {
             if( p->rules.use_silent ) {
-                status << string_format( _( " %s will use silenced firearms." ), npcstr.c_str() );
+                status << string_format( _( " %s will use silenced firearms." ), npcstr );
             } else {
-                status << string_format( _( " %s will use firearms." ), npcstr.c_str() );
+                status << string_format( _( " %s will use firearms." ), npcstr );
             }
         } else {
-            status << string_format( _( " %s will not use firearms." ), npcstr.c_str() );
+            status << string_format( _( " %s will not use firearms." ), npcstr );
         }
         if( p->rules.use_grenades ) {
-            status << string_format( _( " %s will use grenades." ), npcstr.c_str() );
+            status << string_format( _( " %s will use grenades." ), npcstr );
         } else {
-            status << string_format( _( " %s will not use grenades." ), npcstr.c_str() );
+            status << string_format( _( " %s will not use grenades." ), npcstr );
         }
 
         return status.str();
@@ -681,41 +683,41 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         std::string npcstr = p->male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
 
         if( p->rules.allow_pick_up && p->rules.pickup_whitelist->empty() ) {
-            status << string_format( _( " %s will pick up all items." ), npcstr.c_str() );
+            status << string_format( _( " %s will pick up all items." ), npcstr );
         } else if( p->rules.allow_pick_up ) {
-            status << string_format( _( " %s will pick up items from the whitelist." ), npcstr.c_str() );
+            status << string_format( _( " %s will pick up items from the whitelist." ), npcstr );
         } else {
-            status << string_format( _( " %s will not pick up items." ), npcstr.c_str() );
+            status << string_format( _( " %s will not pick up items." ), npcstr );
         }
 
         if( p->rules.allow_bash ) {
-            status << string_format( _( " %s will bash down obstacles." ), npcstr.c_str() );
+            status << string_format( _( " %s will bash down obstacles." ), npcstr );
         } else {
-            status << string_format( _( " %s will not bash down obstacles." ), npcstr.c_str() );
+            status << string_format( _( " %s will not bash down obstacles." ), npcstr );
         }
 
         if( p->rules.allow_sleep ) {
-            status << string_format( _( " %s will sleep when tired." ), npcstr.c_str() );
+            status << string_format( _( " %s will sleep when tired." ), npcstr );
         } else {
-            status << string_format( _( " %s will sleep only when exhausted." ), npcstr.c_str() );
+            status << string_format( _( " %s will sleep only when exhausted." ), npcstr );
         }
 
         if( p->rules.allow_complain ) {
-            status << string_format( _( " %s will complain about wounds and needs." ), npcstr.c_str() );
+            status << string_format( _( " %s will complain about wounds and needs." ), npcstr );
         } else {
-            status << string_format( _( " %s will only complain in an emergency." ), npcstr.c_str() );
+            status << string_format( _( " %s will only complain in an emergency." ), npcstr );
         }
 
         if( p->rules.allow_pulp ) {
-            status << string_format( _( " %s will smash nearby zombie corpses." ), npcstr.c_str() );
+            status << string_format( _( " %s will smash nearby zombie corpses." ), npcstr );
         } else {
-            status << string_format( _( " %s will leave zombie corpses intact." ), npcstr.c_str() );
+            status << string_format( _( " %s will leave zombie corpses intact." ), npcstr );
         }
 
         if( p->rules.close_doors ) {
-            status << string_format( _( " %s will close doors behind themselves." ), npcstr.c_str() );
+            status << string_format( _( " %s will close doors behind themselves." ), npcstr );
         } else {
-            status << string_format( _( " %s will leave doors open." ), npcstr.c_str() );
+            status << string_format( _( " %s will leave doors open." ), npcstr );
         }
 
         return status.str();
@@ -732,20 +734,21 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
 
     return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
-                          topic.c_str() );
+                          topic );
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, const bool first )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r,
+                                       const bool first )
 {
     talk_response result = talk_response();
     result.text = text;
     result.success.next_topic = talk_topic( r );
     if( first ) {
-    responses.insert( responses.begin(), result );
-    return responses.front();
+        responses.insert( responses.begin(), result );
+        return responses.front();
     } else {
-    responses.push_back( result );
-    return responses.back();
+        responses.push_back( result );
+        return responses.back();
     }
 }
 
@@ -828,12 +831,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
     }
+
     // Can be nullptr! Check before dereferencing
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_MISSION_LIST" ) {
         if( p->chatbin.missions.size() == 1 ) {
-            add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",  p->chatbin.missions.front(), true );
+            add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",
+                          p->chatbin.missions.front(), true );
         } else {
             for( auto &mission : p->chatbin.missions ) {
                 add_response( mission->get_type().name, "TALK_MISSION_OFFER", mission, true );
@@ -873,42 +878,40 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _( "No.  I'll get back to it, bye!" ) );
         } else {
             // TODO: Lie about mission
+            std::string msg;
             switch( miss->get_type().goal ) {
                 case MGOAL_FIND_ITEM:
                 case MGOAL_FIND_ANY_ITEM:
-                    add_response( _( "Yup!  Here it is!" ), "TALK_MISSION_SUCCESS",
-                                  &talk_function::mission_success );
+                    msg = _( "Yup!  Here it is!" );
                     break;
                 case MGOAL_GO_TO_TYPE:
-                    add_response( _( "We're here!" ), "TALK_MISSION_SUCCESS", &talk_function::mission_success );
+                    msg = _( "We're here!" );
                     break;
                 case MGOAL_GO_TO:
                 case MGOAL_FIND_NPC:
-                    add_response( _( "Here I am." ), "TALK_MISSION_SUCCESS", &talk_function::mission_success );
+                    msg = _( "Here I am." );
                     break;
                 case MGOAL_FIND_MONSTER:
-                    add_response( _( "Here it is!" ), "TALK_MISSION_SUCCESS", &talk_function::mission_success );
+                    msg = _( "Here it is!" );
                     break;
                 case MGOAL_ASSASSINATE:
-                    add_response( _( "Justice has been served." ), "TALK_MISSION_SUCCESS",
-                                  &talk_function::mission_success );
+                    msg = _( "Justice has been served." );
                     break;
                 case MGOAL_KILL_MONSTER:
-                    add_response( _( "I killed it." ), "TALK_MISSION_SUCCESS", &talk_function::mission_success );
+                    msg = _( "I killed it." );
                     break;
                 case MGOAL_RECRUIT_NPC:
                 case MGOAL_RECRUIT_NPC_CLASS:
-                    add_response( _( "I brought'em." ), "TALK_MISSION_SUCCESS", &talk_function::mission_success );
+                    msg = _( "I brought'em." );
                     break;
                 case MGOAL_COMPUTER_TOGGLE:
-                    add_response( _( "I've taken care of it..." ), "TALK_MISSION_SUCCESS",
-                                  &talk_function::mission_success );
+                    msg = _( "I've taken care of it..." );
                     break;
                 default:
-                    add_response( _( "Mission success!  I don't know what else to say." ),
-                                  "TALK_MISSION_SUCCESS", &talk_function::mission_success );
+                    msg = _( "Mission success!  I don't know what else to say." );
                     break;
             }
+            add_response( msg, "TALK_MISSION_SUCCESS", &talk_function::mission_success );
         }
     } else if( topic == "TALK_MISSION_SUCCESS" ) {
         int mission_value = 0;
@@ -946,7 +949,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
         for( const auto &id : wanted ) {
             if( g->u.charges_of( id ) > 0 ) {
-                const std::string msg = string_format( _( "Delivering %s." ), item::nname( id ).c_str() );
+                const std::string msg = string_format( _( "Delivering %s." ), item::nname( id ) );
                 add_response( msg, "TALK_DELIVER_ASK", id, true );
             }
         }
@@ -1020,7 +1023,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             std::stringstream resume;
             resume << _( "Yes, let's resume training " );
             const skill_id skillt( backlog.name );
-            // TODO: This is potentially dangerous. A skill and a martial art could have the same ident!
+            // TODO: This is potentially dangerous. A skill and a martial art
+            // could have the same ident!
             if( !skillt.is_valid() ) {
                 auto &style = matype_id( backlog.name ).obj();
                 resume << style.name;
@@ -1041,15 +1045,17 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
-                                                    _( style.name.c_str() ), cost / 100 );
+                                                    _( style.name ), cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
         for( auto &trained : trainable ) {
             const int cost = calc_skill_training_cost( *p, trained );
             const int cur_level = g->u.get_skill_level( trained );
             //~Skill name: current level -> next level (cost in dollars)
-            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) : _( "%s: %d -> %d" ),
-                                              trained.obj().name().c_str(), cur_level, cur_level + 1, cost / 100 );
+            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) :
+                                                         _( "%s: %d -> %d" ),
+                                              trained.obj().name(), cur_level, cur_level + 1,
+                                              cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
         }
         add_response_none( _( "Eh, never mind." ) );
@@ -1129,27 +1135,29 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
 
         if( !p->is_following() ) {
-            add_response( _( "I need you to come with me." ), "TALK_FRIEND", &talk_function::stop_guard );
+            add_response( _( "I need you to come with me." ), "TALK_FRIEND",
+                             &talk_function::stop_guard );
             add_response_done( _( "Bye." ) );
         }
 
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
         add_response( _( "Change your engagement rules..." ), "TALK_COMBAT_ENGAGEMENT" );
         add_response( _( "Change your aiming rules..." ), "TALK_AIM_RULES" );
-        add_response( p->rules.use_guns ? _( "Don't use guns anymore." ) : _( "You can use guns." ),
-        "TALK_COMBAT_COMMANDS",  []( npc & np ) {
-            np.rules.use_guns = !np.rules.use_guns;
-        } );
+        add_response( p->rules.use_guns ? _( "Don't use guns anymore." ) :
+                      _( "You can use guns." ),
+                      "TALK_COMBAT_COMMANDS",  []( npc & np ) {
+                          np.rules.use_guns = !np.rules.use_guns;
+                      } );
         add_response( p->rules.use_silent ? _( "Don't worry about noise." ) :
                       _( "Use only silent weapons." ),
-        "TALK_COMBAT_COMMANDS", []( npc & np ) {
-            np.rules.use_silent = !np.rules.use_silent;
-        } );
+                      "TALK_COMBAT_COMMANDS", []( npc & np ) {
+                          np.rules.use_silent = !np.rules.use_silent;
+                      } );
         add_response( p->rules.use_grenades ? _( "Don't use grenades anymore." ) :
                       _( "You can use grenades." ),
-        "TALK_COMBAT_COMMANDS", []( npc & np ) {
-            np.rules.use_grenades = !np.rules.use_grenades;
-        } );
+                      "TALK_COMBAT_COMMANDS", []( npc & np ) {
+                           np.rules.use_grenades = !np.rules.use_grenades;
+                      } );
         add_response_none( _( "Never mind." ) );
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
@@ -1213,42 +1221,46 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response_done( _( "Go back to sleep." ) );
 
     } else if( topic == "TALK_MISC_RULES" ) {
-        add_response( _( "Follow same rules as this follower." ), "TALK_MISC_RULES", []( npc & np ) {
-            const npc *other = pick_follower();
-            if( other != nullptr && other != &np ) {
-                np.rules = other->rules;
-            }
-        } );
-
+        add_response( _( "Follow same rules as this follower." ),
+                      "TALK_MISC_RULES", []( npc & np ) {
+                          const npc *other = pick_follower();
+                          if( other != nullptr && other != &np ) {
+                               np.rules = other->rules;
+                          }
+                      } );
         add_response( p->rules.allow_pick_up ? _( "Don't pick up items." ) :
                       _( "You can pick up items now." ),
-        "TALK_MISC_RULES", []( npc & np ) {
-            np.rules.allow_pick_up = !np.rules.allow_pick_up;
-        } );
-        add_response( p->rules.allow_bash ? _( "Don't bash obstacles." ) : _( "You can bash obstacles." ),
-        "TALK_MISC_RULES", []( npc & np ) {
-            np.rules.allow_bash = !np.rules.allow_bash;
-        } );
-        add_response( p->rules.allow_sleep ? _( "Stay awake." ) : _( "Sleep when you feel tired." ),
-        "TALK_MISC_RULES", []( npc & np ) {
-            np.rules.allow_sleep = !np.rules.allow_sleep;
-        } );
+                      "TALK_MISC_RULES", []( npc & np ) {
+                          np.rules.allow_pick_up = !np.rules.allow_pick_up;
+                      } );
+        add_response( p->rules.allow_bash ? _( "Don't bash obstacles." ) :
+                      _( "You can bash obstacles." ),
+                      "TALK_MISC_RULES", []( npc & np ) {
+                          np.rules.allow_bash = !np.rules.allow_bash;
+                      } );
+        add_response( p->rules.allow_sleep ? _( "Stay awake." ) :
+                      _( "Sleep when you feel tired." ),
+                      "TALK_MISC_RULES", []( npc & np ) {
+                          np.rules.allow_sleep = !np.rules.allow_sleep;
+                      } );
         add_response( p->rules.allow_complain ? _( "Stay quiet." ) :
                       _( "Tell me when you need something." ),
-        "TALK_MISC_RULES", []( npc & np ) {
-            np.rules.allow_complain = !np.rules.allow_complain;
-        } );
-        add_response( p->rules.allow_pulp ? _( "Leave corpses alone." ) : _( "Smash zombie corpses." ),
-        "TALK_MISC_RULES", []( npc & np ) {
-            np.rules.allow_pulp = !np.rules.allow_pulp;
-        } );
-        add_response( p->rules.close_doors ? _( "Leave doors open." ) : _( "Close the doors." ),
-        "TALK_MISC_RULES", []( npc & np ) {
-            np.rules.close_doors = !np.rules.close_doors;
-        } );
+                      "TALK_MISC_RULES", []( npc & np ) {
+                         np.rules.allow_complain = !np.rules.allow_complain;
+                      } );
+        add_response( p->rules.allow_pulp ? _( "Leave corpses alone." ) :
+                      _( "Smash zombie corpses." ),
+                      "TALK_MISC_RULES", []( npc & np ) {
+                          np.rules.allow_pulp = !np.rules.allow_pulp;
+                      } );
+        add_response( p->rules.close_doors ? _( "Leave doors open." ) :
+                      _( "Close the doors." ),
+                      "TALK_MISC_RULES", []( npc & np ) {
+                          np.rules.close_doors = !np.rules.close_doors;
+                      } );
 
         add_response( _( "Set up pickup rules." ), "TALK_MISC_RULES", []( npc & np ) {
-            const std::string title = string_format( _( "Pickup rules for %s" ), np.name.c_str() );
+            const std::string title = string_format( _( "Pickup rules for %s" ), np.name );
             np.rules.pickup_whitelist->show( title, false );
         } );
 
@@ -1313,7 +1325,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
             chance += u_mods.lie;
 
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
+            //come on, who would suspect a robot of lying?
+            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
                 chance += 10;
             }
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
@@ -1384,9 +1397,10 @@ int topic_category( const talk_topic &the_topic )
     // How this works: each category has a set of topics that belong to it, each set is checked
     // for the given topic and if a set contains, the category number is returned.
     static const std::unordered_set<std::string> topic_1 = { {
-            "TALK_MISSION_START", "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
-            "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE", "TALK_MISSION_INQUIRE", "TALK_MISSION_SUCCESS",
-            "TALK_MISSION_SUCCESS_LIE", "TALK_MISSION_FAILURE", "TALK_MISSION_REWARD", "TALK_MISSION_END"
+            "TALK_MISSION_START", "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER",
+            "TALK_MISSION_ACCEPTED", "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE",
+            "TALK_MISSION_INQUIRE", "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE",
+            "TALK_MISSION_FAILURE", "TALK_MISSION_REWARD", "TALK_MISSION_END"
         }
     };
     if( topic_1.count( topic ) > 0 ) {
@@ -1470,8 +1484,9 @@ void talk_function::start_camp( npc &p )
 
     std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( p, 1 );
     for( const auto &om_near : om_region ){
-        if ( om_near.first != "field" && om_near.first != "forest" && om_near.first != "forest_thick" &&
-                om_near.first != "forest_water" && om_near.first.find("river_") == std::string::npos ){
+        if ( om_near.first != "field" && om_near.first != "forest" &&
+             om_near.first != "forest_thick" && om_near.first != "forest_water" &&
+             om_near.first.find("river_") == std::string::npos ){
             popup( _("You need more room for camp expansions!") );
             return;
         }
@@ -1634,18 +1649,16 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
 {
     std::string ftext;
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
-        ftext = string_format( pgettext( "talk option",
-                                         "%1$c: [%2$s %3$d%%] %4$s" ),
+        ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ),
                                letter,                         // option letter
-                               trial.name().c_str(),     // trial type
+                               trial.name(),     // trial type
                                trial.calc_chance( d ), // trial % chance
-                               text.c_str()                // response
+                               text                // response
                              );
     } else { // regular dialogue
-        ftext = string_format( pgettext( "talk option",
-                                         "%1$c: %2$s" ),
+        ftext = string_format( pgettext( "talk option", "%1$c: %2$s" ),
                                letter,          // option letter
-                               text.c_str() // response
+                               text // response
                              );
     }
     parse_tags( ftext, *d.alpha, *d.beta );
@@ -1726,11 +1739,11 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         // No name prepended!
         challenge = challenge.substr( 1 );
     } else if( challenge[0] == '*' ) {
-        challenge = string_format( pgettext( "npc does something", "%s %s" ), beta->name.c_str(),
-                                   challenge.substr( 1 ).c_str() );
+        challenge = string_format( pgettext( "npc does something", "%s %s" ), beta->name,
+                                   challenge.substr( 1 ) );
     } else {
-        challenge = string_format( pgettext( "npc says something", "%s: %s" ), beta->name.c_str(),
-                                   challenge.c_str() );
+        challenge = string_format( pgettext( "npc says something", "%s: %s" ), beta->name,
+                                   challenge );
     }
 
     d_win.add_history_separator();
@@ -1779,7 +1792,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     talk_response chosen = responses[ch];
     std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   chosen.text.c_str() );
+                                   chosen.text );
     d_win.add_to_history( response_printed );
 
     if( chosen.mission_selected != nullptr ) {
@@ -1872,7 +1885,8 @@ void talk_effect_fun_t::set_u_add_permanent_effect( const std::string &new_effec
     };
 }
 
-void talk_effect_fun_t::set_u_add_effect( const std::string &new_effect, const time_duration &duration )
+void talk_effect_fun_t::set_u_add_effect( const std::string &new_effect,
+                                          const time_duration &duration )
 {
     function = [new_effect, duration]( const dialogue &d ) {
         player &u = *d.alpha;
@@ -1914,7 +1928,7 @@ void talk_effect_fun_t::set_npc_add_trait( const std::string &new_trait )
 }
 
 void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, int count,
-                                   const std::string &container_name )
+                                        const std::string &container_name )
 {
     function = [item_name, cost, count, container_name]( const dialogue &d ) {
         npc &p = *d.beta;
@@ -1997,7 +2011,8 @@ void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialog
     guaranteed_consequence = std::max( guaranteed_consequence, con );
 }
 
-void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con )
+void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr,
+                                            dialogue_consequence con )
 {
     talk_effect_fun_t npctalk_setter( ptr );
     set_effect_consequence( npctalk_setter, con );
@@ -2076,14 +2091,16 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         if( jo.has_string( "duration" ) && jo.get_string( "duration" ) == "PERMANENT" ) {
             subeffect_fun.set_u_add_permanent_effect( new_effect );
         } else {
-            subeffect_fun.set_u_add_effect( new_effect, time_duration::from_turns( jo.get_int( "duration" ) ) );
+            subeffect_fun.set_u_add_effect( new_effect,
+                          time_duration::from_turns( jo.get_int( "duration" ) ) );
         }
     } else if( jo.has_string( "npc_add_effect" ) ) {
         std::string new_effect = jo.get_string( "npc_add_effect" );
         if( jo.has_string( "duration" ) && jo.get_string( "duration" ) == "PERMANENT" ) {
             subeffect_fun.set_npc_add_permanent_effect( new_effect );
         } else {
-            subeffect_fun.set_npc_add_effect( new_effect, time_duration::from_turns( jo.get_int( "duration" ) ) );
+            subeffect_fun.set_npc_add_effect( new_effect,
+                          time_duration::from_turns( jo.get_int( "duration" ) ) );
         }
     } else if( jo.has_string( "u_add_trait" ) ) {
         std::string new_trait = jo.get_string( "u_add_trait" );
@@ -2241,7 +2258,7 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "failure" ) ) {
         failure = talk_effect_t( jo.get_object( "failure" ) );
     }
-    text = _( jo.get_string( "text" ).c_str() );
+    text = _( jo.get_string( "text" ) );
     // TODO: mission_selected
     // TODO: skill
     // TODO: style
@@ -2576,6 +2593,8 @@ conditional_t::conditional_t( const std::string &type )
 
 void json_talk_response::load_condition( JsonObject &jo )
 {
+    is_switch = jo.get_bool( "switch", false );
+    is_default = jo.get_bool( "default", false );
     static const std::string member_name( "condition" );
     if( !jo.has_member( member_name ) ) {
         // Leave condition unset, defaults to true.
@@ -2605,11 +2624,15 @@ bool json_talk_response::test_condition( const dialogue &d ) const
     return true;
 }
 
-void json_talk_response::gen_responses( dialogue &d ) const
+bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
 {
     if( test_condition( d ) ) {
-        d.responses.emplace_back( actual_response );
+        if( !is_switch || ( is_switch && !switch_done ) ) {
+             d.responses.emplace_back( actual_response );
+        }
+        return is_switch && !is_default;
     }
+    return false;
 }
 
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
@@ -2868,8 +2891,9 @@ void json_talk_topic::load( JsonObject &jo )
 bool json_talk_topic::gen_responses( dialogue &d ) const
 {
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
+    bool switch_done = false;
     for( auto &r : responses ) {
-        r.gen_responses( d );
+        switch_done |= r.gen_responses( d, switch_done );
     }
     return replace_built_in_responses;
 }
@@ -3099,7 +3123,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             reason << std::endl;
             if( free_space > 0 ) {
                 reason << string_format( _( "I can only store %s %s more." ),
-                                         format_volume( free_space ).c_str(), volume_units_long() );
+                                         format_volume( free_space ), volume_units_long() );
             } else {
                 reason << string_format( _( "...or to store anything else for that matter." ) );
             }
