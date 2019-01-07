@@ -165,7 +165,7 @@
         "backpack",
         "long_underpants",
         "boots",
-        "socks_wool",
+        [ "socks_wool", "socks" ],
         "socks",
         "hoodie",
         "folding_poncho_on",
