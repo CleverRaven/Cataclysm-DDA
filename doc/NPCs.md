@@ -713,6 +713,9 @@ npc_service cash available.  Useful to check if the player character can hire an
 #### "is_outside (simple string)
 `true` if the NPC is on a tile without a roof.
 
+#### "u_has_camp" (simple string)
+`true` is the player has one or more active base camps.
+
 #### Sample responses with conditions
 ```C++
 {

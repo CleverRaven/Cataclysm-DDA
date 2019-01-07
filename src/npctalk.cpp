@@ -1577,7 +1577,14 @@ void talk_function::remove_overseer( npc &p )
 
     add_msg( _( "%s has abandoned the camp." ), p.name );
     p.companion_mission_role_id.clear();
-    stop_guard(p);
+
+    std::set<tripoint>::iterator it;
+    it = g->u.camps.find( p.global_omt_location() );
+    if( it != g->u.camps.end() ) {
+        g->u.camps.erase( it );
+    }
+
+    stop_guard( p );
 }
 
 void parse_tags( std::string &phrase, const player &u, const player &me )
@@ -2510,7 +2517,7 @@ conditional_t::conditional_t( JsonObject jo )
                 "has_available_mission", "has_many_available_missions",
                 "npc_available", "npc_following",
                 "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
-                "is_day", "is_outside"
+                "is_day", "is_outside", "u_has_camp"
             }
         };
         bool found_sub_member = false;
@@ -2591,6 +2598,10 @@ conditional_t::conditional_t( const std::string &type )
         condition = []( const dialogue &d ) {
             const tripoint pos = g->m.getabs( d.beta->pos() );
             return !g->m.has_flag( TFLAG_INDOORS, pos );
+        };
+    } else if( type == "u_has_camp" ) {
+        condition = []( const dialogue & ) {
+            return !g->u.camps.empty();
         };
     } else {
         condition = []( const dialogue & ) {

@@ -300,6 +300,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     if( !bcp ) {
         return;
     }
+    g->u.camps.insert( bcp->camp_pos() );
 
     const std::string camp_ctr = "camp";
     const std::string base_dir = "[B]";
