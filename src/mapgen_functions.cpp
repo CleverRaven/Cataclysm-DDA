@@ -1,5 +1,11 @@
 #include "mapgen_functions.h"
 
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <iterator>
+#include <random>
+
 #include "computer.h"
 #include "debug.h"
 #include "field.h"
@@ -17,12 +23,6 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <array>
-#include <chrono>
-#include <iterator>
-#include <random>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

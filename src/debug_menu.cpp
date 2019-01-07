@@ -1,5 +1,8 @@
 #include "debug_menu.h"
 
+#include <algorithm>
+#include <vector>
+
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "game.h"
@@ -17,9 +20,6 @@
 #include "string_input_popup.h"
 #include "ui.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <vector>
 
 namespace debug_menu
 {

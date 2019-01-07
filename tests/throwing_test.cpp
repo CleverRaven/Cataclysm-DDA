@@ -1,5 +1,7 @@
-#include "catch/catch.hpp"
+#include <ostream>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "dispersion.h"
 #include "game.h"
 #include "item.h"
@@ -12,12 +14,9 @@
 #include "projectile.h"
 #include "test_statistics.h"
 
-#include <ostream>
-#include <vector>
-
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
-    standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
+    const standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
     item grenade( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );

@@ -1,5 +1,10 @@
 #include "mapgen.h"
 
+#include <algorithm>
+#include <cassert>
+#include <list>
+#include <sstream>
+
 #include "ammo.h"
 #include "catalua.h"
 #include "computer.h"
@@ -37,11 +42,6 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-
-#include <algorithm>
-#include <cassert>
-#include <list>
-#include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

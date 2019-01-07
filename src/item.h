@@ -2,6 +2,13 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <climits>
+#include <list>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -9,13 +16,6 @@
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
-
-#include <climits>
-#include <list>
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
 
 namespace cata
 {
@@ -1704,6 +1704,8 @@ class item : public visitable<item>
         /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
         gun_type_type gun_type() const;
 
+        /** Get mod locations, including those added by other mods */
+        std::map<gunmod_location, int> get_mod_locations() const;
         /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.

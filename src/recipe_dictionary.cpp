@@ -1,5 +1,7 @@
 #include "recipe_dictionary.h"
 
+#include <algorithm>
+
 #include "cata_utility.h"
 #include "crafting.h"
 #include "generic_factory.h"
@@ -10,8 +12,6 @@
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
-
-#include <algorithm>
 
 recipe_dictionary recipe_dict;
 

@@ -1,5 +1,8 @@
 #include "iuse_actor.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "action.h"
 #include "ammo.h"
 #include "assign.h"
@@ -47,9 +50,6 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <sstream>
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
@@ -2443,7 +2443,7 @@ void repair_item_actor::load( JsonObject &obj )
     trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
 }
 
-bool could_repair( const player &p, const item &it, bool print_msg )
+bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool print_msg ) const
 {
     if( p.is_underwater() ) {
         if( print_msg ) {
@@ -2457,7 +2457,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
         }
         return false;
     }
-    if( !it.ammo_sufficient() ) {
+    if( !tool.ammo_sufficient() ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }
@@ -2478,25 +2478,16 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
 
 long repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
 {
-    if( !could_repair( p, it, true ) ) {
-        return 0;
-    }
-    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item & itm ) {
-        return itm.made_of_any( materials ) && !itm.count_by_charges() && !itm.is_firearm() && &itm != &it;
-    }, string_format( _( "You have no items that could be repaired with a %s." ),
-                      it.type_name( 1 ).c_str() ) );
-
-    if( pos == INT_MIN ) {
-        p.add_msg_if_player( m_info, _( "Never mind." ) );
+    if( !can_use_tool( p, it, true ) ) {
         return 0;
     }
 
-    p.assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p.get_item_position( &it ), pos );
+    p.assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p.get_item_position( &it ), INT_MIN );
     // We also need to store the repair actor subtype in the activity
     p.activity.str_values.push_back( type );
     // storing of item_location to support repairs by tools on the ground
     p.activity.targets.emplace_back( get_item_location( p, it, position ) );
-    // All repairs are done in the activity, including charge cost
+    // All repairs are done in the activity, including charge cost and target item selection
     return 0;
 }
 
@@ -2572,7 +2563,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
 
     if( !just_check ) {
         if( comps.empty() ) {
-            // This shouldn't happen - the check in can_repair should prevent it
+            // This shouldn't happen - the check in can_repair_target should prevent it
             // But report it, just in case
             debugmsg( "Attempted repair with no components" );
         }
@@ -2613,13 +2604,9 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     return min;
 }
 
-bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fix,
-                                    bool print_msg ) const
+bool repair_item_actor::can_repair_target( player &pl, const item &fix,
+        bool print_msg ) const
 {
-    if( !could_repair( pl, tool, print_msg ) ) {
-        return false;
-    }
-
     // In some rare cases (indices getting scrambled after inventory overflow)
     //  our `fix` can be a different item.
     if( fix.is_null() ) {
@@ -2641,7 +2628,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return false;
     }
 
-    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id & mat ) {
+    if( any_of( materials.begin(), materials.end(), [&fix]( const material_id & mat ) {
     return mat.obj()
                .repaired_with() == fix.typeId();
     } ) ) {
@@ -2782,7 +2769,10 @@ bool damage_item( player &pl, item &fix )
 
 repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
 {
-    if( !can_repair( pl, tool, fix, true ) ) {
+    if( !can_use_tool( pl, tool, true ) ) {
+        return AS_CANT_USE_TOOL;
+    }
+    if( !can_repair_target( pl, fix, true ) ) {
         return AS_CANT;
     }
 
@@ -3656,9 +3646,6 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
         item *gm = mods[ prompt.ret ];
         const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
-        //~ %1$s - gunmod, %2$s - gun.
-        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), mod_name.c_str(),
-                             it.tname().c_str() );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
     }

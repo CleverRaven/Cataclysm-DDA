@@ -1,5 +1,9 @@
 #include "sounds.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -19,10 +23,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <chrono>
-#include <cmath>
 
 #ifdef SDL_SOUND
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -1107,6 +1107,7 @@ void sfx::do_obstacle()
 /** Dummy implementations for builds without sound */
 /*@{*/
 void sfx::load_sound_effects( JsonObject & ) { }
+void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }

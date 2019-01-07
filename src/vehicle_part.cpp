@@ -1,4 +1,9 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <set>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -14,11 +19,6 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <set>
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -427,6 +427,8 @@ bool vehicle_part::is_light() const
 {
     const auto &vp = info();
     return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
            vp.has_flag( VPFLAG_DOME_LIGHT ) ||

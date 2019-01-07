@@ -1,5 +1,20 @@
 #include "game.h"
 
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <csignal>
+#include <ctime>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "action.h"
 #include "activity_handlers.h"
 #include "artifact.h"
@@ -100,21 +115,6 @@
 #include "worldfactory.h"
 #include "map_selector.h"
 
-#include <algorithm>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <csignal>
-#include <ctime>
-#include <iterator>
-#include <locale>
-#include <map>
-#include <queue>
-#include <set>
-#include <sstream>
-#include <string>
-#include <vector>
-
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
@@ -124,12 +124,14 @@
 #endif
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
-#include <cstring>
 #include <langinfo.h>
+#include <cstring>
 #endif
 
 #if (defined _WIN32 || defined __WIN32__)
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #   include "platform_win.h"
+#endif
 #   include <tchar.h>
 #endif
 
@@ -1357,7 +1359,8 @@ static int veh_lumi( vehicle &veh )
 
     for( const auto pt : lights ) {
         const auto &vp = pt->info();
-        if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+        if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
+            vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
             veh_luminance += vp.bonus / iteration;
             iteration = iteration * 1.1;
         }
@@ -3285,8 +3288,9 @@ void game::debug()
             }
 
             auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
-            u.set_destination( rt );
-            if( !u.has_destination() ) {
+            if( rt.size() > 0 ) {
+                u.set_destination( rt );
+            } else {
                 popup( "Couldn't find path" );
             }
         }
@@ -3371,7 +3375,8 @@ void game::disp_kills()
     for( const auto &entry : kill_counts ) {
         std::ostringstream buffer;
         buffer << "<color_" << std::get<2>( entry.first ) << ">";
-        buffer << std::get<1>( entry.first ) << "</color>" << " " << std::get<0>( entry.first );
+        buffer << std::get<1>( entry.first ) << "</color>" << " ";
+        buffer << "<color_light_gray>" << std::get<0>( entry.first ) << "</color>";
         const int w = colum_width - utf8_width( std::get<0>( entry.first ) );
         buffer.width( w - 3 ); // gap between cols, monster sym, space
         buffer.fill( ' ' );
@@ -6456,7 +6461,8 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
+void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+                                const std::string &area_name, int column,
                                 int &line,
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
@@ -6466,7 +6472,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
             const Creature *creature = critter_at( lp, true );
-            print_terrain_info( lp, w_look, column, line );
+            print_terrain_info( lp, w_look, area_name, column, line );
             print_fields_info( lp, w_look, column, line );
             print_trap_info( lp, w_look, column, line );
             print_creature_info( creature, w_look, column, line );
@@ -6547,21 +6553,23 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
     line += 2;
 }
 
-void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column,
+void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
+                               const std::string &area_name, int column,
                                int &line )
 {
     const int max_width = getmaxx( w_look ) - column - 1;
     int lines;
     std::string tile = m.tername( lp );
+    tile = "(" + area_name + ") " + tile;
     if( m.has_furn( lp ) ) {
         tile += "; " + m.furnname( lp );
     }
 
     if( m.impassable( lp ) ) {
-        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Impassable" ),
+        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Impassable" ),
                                 tile.c_str() );
     } else {
-        lines = fold_and_print( w_look, line, column, max_width, c_dark_gray, _( "%s; Movement cost %d" ),
+        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Movement cost %d" ),
                                 tile.c_str(), m.move_cost( lp ) * 50 );
 
         const auto ll = get_light_level( std::max( 1.0,
@@ -6572,7 +6580,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, ++lines, column, max_width, c_light_gray,
+        trim_and_print( w_look, ++lines, column, max_width, c_dark_gray,
                         u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     }
 
@@ -6593,7 +6601,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
     }
 
-    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_light_gray,
+    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_dark_gray,
                                        m.features( lp ) );
     if( line < lines ) {
         line = lines + map_features - 1;
@@ -7282,6 +7290,18 @@ void game::zones_manager()
     refresh_all();
 }
 
+void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
+                                    int &first_line, const int last_line,
+                                    const visibility_variables &cache )
+{
+    // get global area info according to look_around caret position
+    const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
+    // we only need the area name and then pass it to print_all_tile_info() function below
+    const std::string area_name = cur_ter_m->get_name();
+    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, !is_draw_tiles_mode(),
+                         cache );
+}
+
 cata::optional<tripoint> game::look_around()
 {
     tripoint center = u.pos() + u.view_offset;
@@ -7369,6 +7389,15 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 werase( w_info );
                 draw_border( w_info );
 
+                static const char *title_prefix = "< ";
+                static const char *title = _( "Look Around" );
+                static const char *title_suffix = " >";
+                static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
+                const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w_info ) - 1 );
+                mvwprintz( w_info, 0, start_pos, c_white, title_prefix );
+                wprintz( w_info, c_green, title );
+                wprintz( w_info, c_white, title_suffix );
+
                 nc_color clr = c_white;
                 std::string colored_key = string_format( "<color_light_green>%s</color>",
                                           ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
@@ -7389,8 +7418,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
                 int first_line = 1;
                 const int last_line = getmaxy( w_messages ) - 2;
-                print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
-
+                pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
                 if( fast_scroll ) {
                     //~ "Fast Scroll" mark below the top right corner of the info window
                     right_print( w_info, 1, 0, c_light_green, _( "F" ) );
@@ -9446,7 +9474,7 @@ void game::butcher()
         if( disassembles.size() > 1 ) {
             int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
-            for( const auto stack : disassembly_stacks ) {
+            for( const auto &stack : disassembly_stacks ) {
                 const item &it = items[ stack.first ];
                 const int time = recipe_dictionary::get_uncraft( it.typeId() ).time;
                 time_to_disassemble += time;
@@ -9460,7 +9488,7 @@ void game::butcher()
         }
         if( salvageables.size() > 1 ) {
             int time_to_salvage = 0;
-            for( const auto stack : salvage_stacks ) {
+            for( const auto &stack : salvage_stacks ) {
                 const item &it = items[ stack.first ];
                 time_to_salvage += salvage_iuse->time_to_cut_up( it ) * stack.second;
             }
@@ -10417,8 +10445,8 @@ bool game::plmove( int dx, int dy, int dz )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( "SWIMMABLE", u.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, u.pos() );
-    bool fromBoat = veh0 != nullptr && !veh0->floating.empty();
-    bool toBoat = veh1 != nullptr && !veh1->floating.empty();
+    bool fromBoat = veh0 != nullptr && veh0->is_in_water();
+    bool toBoat = veh1 != nullptr && veh1->is_in_water();
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously
@@ -10432,6 +10460,20 @@ bool game::plmove( int dx, int dy, int dz )
         }
 
         on_move_effects();
+        return true;
+    }
+
+    //Wooden Fence Gate (or equivalently walkable doors):
+    // open it if we are walking
+    // vault over it if we are running
+    if( m.passable_ter_furn( dest_loc )
+        && u.move_mode == "walk"
+        && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
+        u.moves -= 100;
+        // if auto-move is on, continue moving next turn
+        if( u.has_destination() ) {
+            u.defer_move( dest_loc );
+        }
         return true;
     }
 
@@ -12808,7 +12850,7 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_RADIOACTIVE:
                 if( one_in( 4 ) ) {
-                    p.radiation++;
+                    p.irradiate( 1.0f );
                 }
                 break;
 

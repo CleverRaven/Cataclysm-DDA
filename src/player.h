@@ -2,6 +2,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <array>
+#include <memory>
+#include <unordered_set>
+
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -14,10 +18,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
-
-#include <array>
-#include <memory>
-#include <unordered_set>
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
@@ -194,6 +194,9 @@ class player : public Character
         /** Outputs a serialized json string for saving */
         virtual std::string save_info() const;
 
+        /** Returns an enumeration of visible mutations with colors */
+        std::string visible_mutations( const int visibility_cap ) const;
+        std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
@@ -328,6 +331,8 @@ class player : public Character
         void process_bionic( int b );
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
+        /** Remove all bionics */
+        void clear_bionics();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
         /** Returns amount of Storage CBMs in the corpse **/
@@ -770,6 +775,8 @@ class player : public Character
         void siphon( vehicle &veh, const itype_id &desired_liquid );
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
+        /** Handles mitigation and application of radiation */
+        bool irradiate( float rads, bool bypass = false );
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
         void mend( int rate_multiplier );
         /** Handles player vomiting effects */
@@ -818,7 +825,7 @@ class player : public Character
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
-        int book_fun_for( const item &book ) const;
+        int book_fun_for( const item &book, const player &p ) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.
@@ -1116,6 +1123,9 @@ class player : public Character
     private:
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
+        /** Used in max_memorized_tiles to cache memory capacity. **/
+        mutable time_point current_map_memory_turn = calendar::before_time_starts;
+        mutable size_t current_map_memory_capacity = 0;
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
@@ -1330,7 +1340,7 @@ class player : public Character
         void long_craft();
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe *making, int batch_size,
+        std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
                 bool ignore_last = false );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */

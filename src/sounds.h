@@ -2,10 +2,10 @@
 #ifndef SOUNDS_H
 #define SOUNDS_H
 
-#include "enums.h" // For point
-
 #include <string>
 #include <vector>
+
+#include "enums.h" // For point
 
 class monster;
 class player;
@@ -73,6 +73,7 @@ extern bool sound_enabled;
 namespace sfx
 {
 void load_sound_effects( JsonObject &jsobj );
+void load_sound_effect_preload( JsonObject &jsobj );
 void load_playlist( JsonObject &jsobj );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                          float pitch_mix = 1.0, float pitch_max = 1.0 );

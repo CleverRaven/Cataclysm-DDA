@@ -2,11 +2,11 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-#include "string_formatter.h"
-
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "string_formatter.h"
 
 class JsonOut;
 class JsonObject;

@@ -2,11 +2,11 @@
 #ifndef DEPENDENCY_TREE_H
 #define DEPENDENCY_TREE_H
 
-#include "string_id.h"
-
 #include <map>
 #include <stack>
 #include <vector>
+
+#include "string_id.h"
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;

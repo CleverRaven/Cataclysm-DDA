@@ -1,5 +1,7 @@
 #include "mod_manager.h"
 
+#include <queue>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -11,8 +13,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "worldfactory.h"
-
-#include <queue>
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 

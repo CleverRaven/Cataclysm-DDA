@@ -1,5 +1,10 @@
 #include "ranged.h"
 
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -26,11 +31,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -527,6 +527,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         // Pure grindy practice - cap gain at lvl 2
         practice( skill_used, 5, 2 );
     }
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
 
     return dealt_attack;
 }
@@ -946,20 +948,33 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     auto update_targets = [&]( int range, std::vector<Creature *> &targets, int &idx, tripoint & dst ) {
         targets = pc.get_targetable_creatures( range );
 
+        // Convert and check last_target_pos is a valid aim point
+        cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
+        if( pc.last_target_pos ) {
+            local_last_tgt_pos = g->m.getlocal( *pc.last_target_pos );
+            if( rl_dist( src, *local_last_tgt_pos ) > range ) {
+                local_last_tgt_pos = cata::nullopt;
+            }
+        }
+
         targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
             return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
         } ), targets.end() );
 
         if( targets.empty() ) {
             idx = -1;
-            if( pc.last_target_pos ) {
-                dst = *pc.last_target_pos;
 
+            if( pc.last_target_pos ) {
+
+                if( local_last_tgt_pos ) {
+                    dst = *local_last_tgt_pos;
+                }
                 if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock().get() ) ) &&
                     pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
                     //We lost our target. Stop auto aiming.
                     pc.cancel_activity();
                 }
+
             } else {
                 auto adjacent = closest_tripoints_first( range, dst );
                 const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
@@ -987,7 +1002,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             pc.last_target_pos = cata::nullopt;
         } else {
             idx = 0;
-            dst = pc.last_target_pos ? *pc.last_target_pos : targets[ 0 ]->pos();
+            dst = local_last_tgt_pos ? *local_last_tgt_pos : targets[ 0 ]->pos();
             pc.last_target.reset();
         }
     };
@@ -1074,7 +1089,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const auto set_last_target = [&pc]( const tripoint & dst ) {
-        pc.last_target_pos = dst;
+        pc.last_target_pos = g->m.getabs( dst );
         if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
             pc.last_target = g->shared_from( *critter_ptr );
         } else {
@@ -1263,13 +1278,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // by a direction key, or by the previous value.
         if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
             targ = *mouse_pos;
-            if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
-                // Snap to target doesn't currently work with tiles.
-                targ.x += dst.x - src.x;
-                targ.y += dst.y - src.y;
-            }
             targ.x -= dst.x;
             targ.y -= dst.y;
+            targ.z -= dst.z;
         } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             targ.x = vec->x;
             targ.y = vec->y;

@@ -1,4 +1,8 @@
-#include "lightmap.h"
+#include "lightmap.h" // IWYU pragma: associated
+#include "shadowcasting.h" // IWYU pragma: associated
+
+#include <cmath>
+#include <cstring>
 
 #include "fragment_cloud.h"
 #include "game.h"
@@ -8,7 +12,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "shadowcasting.h"
 #include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -16,9 +19,6 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
-
-#include <cmath>
-#include <cstring>
 
 #define INBOUNDS(x, y) \
     (x >= 0 && x < MAPSIZE_X && y >= 0 && y < MAPSIZE_Y)
@@ -346,7 +346,8 @@ void map::generate_lightmap( const int zlev )
 
         for( const auto pt : lights ) {
             const auto &vp = pt->info();
-            if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+            if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
+                vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 veh_luminance += vp.bonus / iteration;
                 iteration = iteration * 1.1;
             }
@@ -365,6 +366,16 @@ void map::generate_lightmap( const int zlev )
                     add_light_source( src, SQRT_2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
                 }
+
+            } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
+                if( veh_luminance > LL_LIT ) {
+                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
+                }
+
+            } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
+                add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180 );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );

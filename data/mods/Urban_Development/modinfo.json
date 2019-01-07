@@ -4,6 +4,7 @@
     "ident": "Urban_Development",
     "name": "Urban Development",
     "authors": [ "acidia" ],
+    "maintainers": [ "Fuji" ],
     "description": "Holder for suburban and urban buildings.",
     "category": "buildings",
     "dependencies": [ "dda" ]

@@ -1,5 +1,7 @@
 #include "iuse_software_sokoban.h"
 
+#include <sstream>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
@@ -9,8 +11,6 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <sstream>
 
 sokoban_game::sokoban_game()
 {

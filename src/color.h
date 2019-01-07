@@ -402,6 +402,7 @@ class color_manager
 
             color_id col_id; // Index of this color
             color_id invert_id; // Index of inversion of this color
+            std::string name;
             // String names for custom colors
             std::string name_custom;
             std::string name_invert_custom;

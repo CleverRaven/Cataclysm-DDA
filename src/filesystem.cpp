@@ -1,7 +1,7 @@
 #include "filesystem.h"
 
-#include "debug.h"
-
+// FILE I/O
+#include <sys/stat.h>
 #include <algorithm>
 #include <cerrno>
 #include <cstddef>
@@ -10,13 +10,14 @@
 #include <deque>
 #include <fstream>
 #include <string>
-// FILE I/O
-#include <sys/stat.h>
 #include <vector>
 
+#include "debug.h"
+
 #ifdef _MSC_VER
-#   include "wdirent.h"
 #   include <direct.h>
+
+#   include "wdirent.h"
 #else
 #   include <dirent.h>
 #   include <unistd.h>
@@ -66,10 +67,6 @@ bool assure_dir_exist( const std::string &path )
     if( dir != nullptr ) {
         closedir( dir );
         return true;
-    }
-    const size_t slash_idx = path.find_last_of( "\\/" );
-    if( slash_idx != std::string::npos ) {
-        assure_dir_exist( path.substr( 0, slash_idx ) );
     }
     return do_mkdir( path, 0777 );
 }

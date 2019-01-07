@@ -1,11 +1,14 @@
-#include "explosion.h"
+#include "explosion.h" // IWYU pragma: associated
+#include "fragment_cloud.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <chrono>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "field.h"
-#include "fragment_cloud.h"
 #include "game.h"
 #include "item_factory.h"
 #include "json.h"
@@ -20,8 +23,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-#include <algorithm>
-#include <chrono>
 // For M_PI
 #define _USE_MATH_DEFINES
 #include <cmath>

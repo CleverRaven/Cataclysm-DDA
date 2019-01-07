@@ -1,5 +1,9 @@
 #include "action.h"
 
+#include <algorithm>
+#include <istream>
+#include <iterator>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -18,10 +22,6 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <istream>
-#include <iterator>
 
 extern bool tile_iso;
 
