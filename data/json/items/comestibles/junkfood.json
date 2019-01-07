@@ -85,7 +85,6 @@
     "name": "potato chips",
     "name_plural": "potato chips",
     "copy-from": "chips",
-    "quench": -2,
     "description": "Oh man, you love these chips!  Score!",
     "//": "Favorite flavor varies.",
     "fun": 12
@@ -1123,7 +1122,6 @@
   {
     "id": "hotdogs_campfire",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
     "name": "campfire hot dog",
     "name_plural": "campfire hot dogs",
     "copy-from": "hotdogs_frozen",
