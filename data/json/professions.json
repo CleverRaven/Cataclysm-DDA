@@ -76,6 +76,7 @@
           [ "boots_winter", "boots_fur" ],
           [ "cloak_wool", "cloak_leather" ],
           [ "gloves_wool", "gloves_leather" ],
+          [ "socks_wool", "socks" ],
           [ "kilt", "kilt_leather" ],
           [ "mask_ski", "balclava" ]
         ]
