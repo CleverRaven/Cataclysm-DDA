@@ -7,7 +7,7 @@
     "responses": [
       { "text": "Cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "Are you seriously wearing a dinosaur costume?": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
+      { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
       { "text": "Get away from me.", "topic": "TALK_DONE" },
       { "text": "...", "topic": "TALK_DONE" }
     ]
