@@ -1005,7 +1005,7 @@
     "item": "textbook_biodiesel",
     "start": "ranch_chop_shop_1",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_CHOP_SHOP_2",
+    "followup": "MISSION_RANCH_CHOP_SHOP_3",
     "dialogue": {
       "describe": "We need help...",
       "offer": "Getting cars fueled up for trips has been a lot less hassle with our own supply of gasoline to fill vehicles.  As great as that is though I have some concerns about keeping things running in the future.  I think we seriously need to look into creating our own fuel source.  With that in mind I’ve been working on some diesel engines that came through the garage to get them into working order.  With the right equipment it’s possible to make biodiesel unfortunately I don’t have a book on hand to tell me how to do it.  If you can manage to find a book detailing the process to making diesel it would be a great help.",
