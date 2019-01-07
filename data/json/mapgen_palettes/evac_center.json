@@ -62,6 +62,7 @@
       "@": "f_bed",
       "D": "f_trashcan",
       "L": "f_locker",
+      "p": "f_pillow_fort",
       "P": "f_indoor_plant",
       "S": "f_sink",
       "U": "f_statue",
