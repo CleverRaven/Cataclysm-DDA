@@ -509,8 +509,6 @@
     {
         "type": "effect_type",
         "id": "glowy_led",
-        "name": ["LED Glow"],
-        "desc": ["You are emitting a LED glow"],
         "apply_message": "You are emitting a LED glow",
         "rating": "mixed"
     },
