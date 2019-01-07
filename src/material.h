@@ -1,16 +1,16 @@
 #pragma once
-#ifndef MATERIALS_H
-#define MATERIALS_H
+#ifndef MATERIAL_H
+#define MATERIAL_H
 
-#include <string>
 #include <array>
 #include <map>
+#include <string>
 #include <vector>
 
-#include "optional.h"
-#include "game_constants.h"
-#include "string_id.h"
 #include "fire.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "string_id.h"
 
 enum damage_type : int;
 class material_type;

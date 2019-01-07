@@ -63,6 +63,34 @@
   },
   {
     "type": "recipe",
+    "result": "tent_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "time": 28000,
+    "autolearn": true,
+    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ] ], [ [ "superglue", 2 ], [ "duct_tape", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "large_tent_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "time": 32000,
+    "autolearn": true,
+    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ] ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "felt_patch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -311,6 +339,19 @@
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ], [ [ "superglue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wide_headlight_reinforced",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 24000,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -713,7 +754,7 @@
     "decomp_learn": 0,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fur", 24 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 360, "LIST" ] ] ]
+    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 360, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -880,12 +921,10 @@
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": 30000,
-    "reversible": true,
-    "decomp_learn": 3,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 3 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 10 ] ], [ [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "pipe", 6 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1086,7 +1125,7 @@
   },
   {
     "type": "recipe",
-    "result": "screwdriver",
+    "result": "screwdriver_set",
     "id_suffix": "forged",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1094,10 +1133,16 @@
     "difficulty": 6,
     "time": 180000,
     "autolearn": true,
-    "using": [ [ "forging_standard", 10 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "forging_standard", 10 ], [ "steel_tiny", 2 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "CUT", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1859,6 +1904,20 @@
   },
   {
     "type": "recipe",
+    "result": "jerrycan_big",
+    "id_suffix": "welder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 10000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 8 ], [ "scrap", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "flask_hip",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1950,7 +2009,7 @@
     "components": [
       [ [ "glasses_safety", 1 ] ],
       [ [ "hose", 3 ] ],
-      [ [ "flask_glass", 4 ], [ "jar_glass", 4 ], [ "bottle_glass", 4 ] ],
+      [ [ "flask_glass", 4 ], [ "jar_glass", 4 ], [ "bottle_glass", 4 ], [ "test_tube", 20 ] ],
       [ [ "box_small", 1 ], [ "bag_canvas", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "rucksack", 1 ] ]
     ]
   },
@@ -2927,6 +2986,19 @@
   },
   {
     "type": "recipe",
+    "result": "test_tube",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 4000,
+    "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "mirror",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3204,7 +3276,7 @@
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "nail", 11 ] ],
       [ [ "wire", 1 ] ],
-      [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "switchblade", 1 ], [ "knife_steak", 1 ] ],
+      [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
       [ [ "hacksaw", 1 ] ],
       [ [ "wrench", 1 ] ],
@@ -3472,7 +3544,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
+      [ [ "raw_leather", 50 ], [ "raw_tainted_leather", 50 ], [ "raw_hleather", 50 ] ]
     ]
   },
   {
@@ -3525,7 +3597,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
+    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 50 ], [ "raw_tainted_fur", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -4106,5 +4178,64 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ], [ [ "plant_fibre", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pot_canning",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "platinum_grille",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "book_learn": [ [ "textbook_chemistry", 5 ], [ "textbook_fabrication", 4 ] ],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "steel_grille", 1 ] ],
+      [ [ "platinum_small", 100 ] ],
+      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "acid", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "steel_grille",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 45000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
+    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pressure_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 90000,
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "components": [ [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ] ]
   }
 ]

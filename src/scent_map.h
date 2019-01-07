@@ -2,10 +2,12 @@
 #ifndef SCENT_H
 #define SCENT_H
 
+#include <array>
+
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
-#include <array>
+#include "optional.h"
 
 class map;
 class game;
@@ -21,13 +23,13 @@ class scent_map
         using scent_array = std::array<std::array<T, SEEY *MAPSIZE>, SEEX *MAPSIZE>;
 
         scent_array<int> grscent;
-        tripoint player_last_position = tripoint_min;
+        cata::optional<tripoint> player_last_position;
         time_point player_last_moved = calendar::before_time_starts;
 
         const game &gm;
 
     public:
-        scent_map( const game &g ) : gm( g ) { };
+        scent_map( const game &g ) : gm( g ) { }
 
         void deserialize( const std::string &data );
         std::string serialize() const;

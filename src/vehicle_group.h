@@ -2,12 +2,12 @@
 #ifndef VEHICLE_GROUP_H
 #define VEHICLE_GROUP_H
 
-#include "mapgen.h"
-#include <string>
 #include <memory>
 #include <unordered_map>
 
+#include "mapgen.h"
 #include "optional.h"
+#include "rng.h"
 #include "string_id.h"
 #include "weighted_list.h"
 

@@ -1,22 +1,21 @@
 #include "start_location.h"
 
+#include <algorithm>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
-#include "mapdata.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "map.h"
-#include "mapgen.h"
 #include "map_extras.h"
+#include "mapdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-
-#include <algorithm>
 
 const efftype_id effect_bleed( "bleed" );
 
@@ -180,7 +179,7 @@ void board_up( map &m, const tripoint &start, const tripoint &end )
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, f_null );
         auto destination_items = m.i_at( bp );
-        for( auto moved_item : m.i_at( fp ) ) {
+        for( const item &moved_item : m.i_at( fp ) ) {
             destination_items.push_back( moved_item );
         }
         m.i_clear( fp );
@@ -204,7 +203,7 @@ tripoint start_location::find_player_initial_location() const
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 32;
-    for( const point &omp : closest_points_first( radius, point( 0, 0 ) ) ) {
+    for( const point &omp : closest_points_first( radius, point_zero ) ) {
         overmap &omap = overmap_buffer.get( omp.x, omp.y );
         const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {

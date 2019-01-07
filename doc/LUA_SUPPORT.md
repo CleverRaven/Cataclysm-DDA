@@ -173,6 +173,13 @@ Following Lua-callbacks exist:
 - `on_mission_assignment(player_id, mission_id)` runs whenever player is assigned to mission;
 - `on_mission_finished(player_id, mission_id)` runs whenever player finishes the mission.
 
+*player activity-related*:
+
+- `on_activity_call_do_turn_started(act_id, player_id)` runs whenever player activity turn started;
+- `on_activity_call_do_turn_finished(act_id, player_id)` runs whenever player activity turn ended;
+- `on_activity_call_finish_started(act_id, player_id)` runs whenever player activity finish started;
+- `on_activity_call_finish_finished(act_id, player_id)` runs whenever player activity finish ended.
+
 __Note for `player_id`:__ Value of -1 (when game is not started) or 1 (when game is started) are used for player character, values bigger than 1 are used for npcs.
 
 *mapgen-related*:

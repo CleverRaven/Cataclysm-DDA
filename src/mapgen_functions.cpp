@@ -1,29 +1,28 @@
 #include "mapgen_functions.h"
 
-#include "mapgen.h"
-#include "map_iterator.h"
-#include "output.h"
-#include "line.h"
-#include "mapgenformat.h"
-#include "overmap.h"
-#include "options.h"
-#include "debug.h"
-#include "scenario.h"
-#include "item.h"
-#include "translations.h"
-#include "vpart_position.h"
-#include "trap.h"
-#include <array>
-#include "vehicle_group.h"
-#include "computer.h"
-#include "mapdata.h"
-#include "map.h"
-#include "omdata.h"
-#include "field.h"
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <iterator>
 #include <random>
-#include <chrono>
+
+#include "computer.h"
+#include "debug.h"
+#include "field.h"
+#include "item.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen.h"
+#include "mapgenformat.h"
+#include "omdata.h"
+#include "options.h"
+#include "overmap.h"
+#include "translations.h"
+#include "trap.h"
+#include "vehicle_group.h"
+#include "vpart_position.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -99,6 +98,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "field",            &mapgen_field },
             { "dirtlot",          &mapgen_dirtlot },
             { "forest",           &mapgen_forest },
+            { "forest_trail_straight",    &mapgen_forest_trail_straight },
+            { "forest_trail_curved",      &mapgen_forest_trail_curved },
+            // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
+            { "forest_trail_end",         &mapgen_forest_trail_straight },
+            { "forest_trail_tee",         &mapgen_forest_trail_tee },
+            { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
             { "hive",             &mapgen_hive },
             { "spider_pit",       &mapgen_spider_pit },
             { "fungal_bloom",     &mapgen_fungal_bloom },
@@ -112,6 +117,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "field",            &mapgen_field },
             { "bridge",           &mapgen_bridge },
             { "highway",          &mapgen_highway },
+            { "railroad_straight", &mapgen_railroad },
+            { "railroad_curved",   &mapgen_railroad },
+            { "railroad_end",      &mapgen_railroad },
+            { "railroad_tee",      &mapgen_railroad },
+            { "railroad_four_way", &mapgen_railroad },
+            { "railroad_bridge",   &mapgen_railroad_bridge },
             { "river_center", &mapgen_river_center },
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
@@ -216,33 +227,24 @@ int &mapgendata::dir( int dir_in )
     switch( dir_in ) {
         case 0:
             return n_fac;
-            break;
         case 1:
             return e_fac;
-            break;
         case 2:
             return s_fac;
-            break;
         case 3:
             return w_fac;
-            break;
         case 4:
             return ne_fac;
-            break;
         case 5:
             return se_fac;
-            break;
         case 6:
             return sw_fac;
-            break;
         case 7:
             return nw_fac;
-            break;
         default:
             debugmsg( "Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in );
             //return something just so the compiler doesn't freak out. Not really correct, though.
             return n_fac;
-            break;
     }
 }
 
@@ -1594,6 +1596,336 @@ void mapgen_highway( map *m, oter_id terrain_type, mapgendata dat, const time_po
         m->rotate( 1 );
     }
     m->place_items( "road", 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn );
+}
+
+// mapgen_railroad
+// TODO: Refactor and combine with other similiar functions (e.g. road).
+void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
+{
+    // start by filling the whole map with grass/dirt/etc
+    dat.fill_groundcover();
+    // which of the cardinal directions get railroads?
+    bool railroads_nesw[4] = {};
+    int num_dirs = terrain_type_to_nesw_array( terrain_type, railroads_nesw );
+    // which way should our railroads curve, based on neighbor railroads?
+    int curvedir_nesw[4] = {};
+    for( int dir = 0; dir < 4; dir++ ) { // N E S W
+        if( railroads_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "railroad" ) {
+            continue;
+        }
+        // n_* contain details about the neighbor being considered
+        bool n_railroads_nesw[4] = {};
+        //TODO figure out how to call this function without creating a new oter_id object
+        int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_railroads_nesw );
+        // if 2-way neighbor has a railroad facing us
+        if( n_num_dirs == 2 && n_railroads_nesw[( dir + 2 ) % 4] ) {
+            // curve towards the direction the neighbor turns
+            if( n_railroads_nesw[( dir - 1 + 4 ) % 4] ) {
+                curvedir_nesw[dir]--;    // our railroad curves counterclockwise
+            }
+            if( n_railroads_nesw[( dir + 1 ) % 4] ) {
+                curvedir_nesw[dir]++;    // our railroad curves clockwise
+            }
+        }
+    }
+    // calculate how far to rotate the map so we can work with just one orientation
+    // also keep track of diagonal railroads
+    int rot = 0;
+    bool diag = false;
+    //TODO reduce amount of logical/conditional constructs here
+    switch( num_dirs ) {
+        case 4: // 4-way intersection
+            break;
+        case 3: // tee
+            if( !railroads_nesw[0] ) {
+                rot = 2;    // E/S/W, rotate 180 degrees
+                break;
+            }
+            if( !railroads_nesw[1] ) {
+                rot = 3;    // N/S/W, rotate 270 degrees
+                break;
+            }
+            if( !railroads_nesw[3] ) {
+                rot = 1;    // N/E/S, rotate  90 degrees
+                break;
+            }
+            break;                                       // N/E/W, don't rotate
+        case 2: // straight or diagonal
+            if( railroads_nesw[1] && railroads_nesw[3] ) {
+                rot = 1;    // E/W, rotate  90 degrees
+                break;
+            }
+            if( railroads_nesw[1] && railroads_nesw[2] ) {
+                rot = 1;    // E/S, rotate  90 degrees
+                diag = true;
+                break;
+            }
+            if( railroads_nesw[2] && railroads_nesw[3] ) {
+                rot = 2;    // S/W, rotate 180 degrees
+                diag = true;
+                break;
+            }
+            if( railroads_nesw[3] && railroads_nesw[0] ) {
+                rot = 3;    // W/N, rotate 270 degrees
+                diag = true;
+                break;
+            }
+            if( railroads_nesw[0] && railroads_nesw[1] ) {
+                diag = true;    // N/E, don't rotate
+                break;
+            }
+            break;                                                                        // N/S, don't rotate
+        case 1: // dead end
+            if( railroads_nesw[1] ) {
+                rot = 1;    // E, rotate  90 degrees
+                break;
+            }
+            if( railroads_nesw[2] ) {
+                rot = 2;    // S, rotate 180 degrees
+                break;
+            }
+            if( railroads_nesw[3] ) {
+                rot = 3;    // W, rotate 270 degrees
+                break;
+            }
+            break;                               // N, don't rotate
+    }
+    // rotate the arrays left by rot steps
+    nesw_array_rotate<bool>( railroads_nesw, 4, rot );
+    nesw_array_rotate<int> ( curvedir_nesw,  4, rot );
+    // now we have only these shapes: '   |   '-   -'-   -|-
+    switch( num_dirs ) {
+        case 4: // 4-way intersection
+            mapf::formatted_set_simple( m, 0, 0, "\
+.DD^^DD^........^DD^^DD.\n\
+DD^^DD^..........^DD^^DD\n\
+D^^DD^............^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
+D^....................^D\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+D^....................^D\n\
+DD^..................^DD\n\
+^DD^................^DD^\n\
+^^DD^..............^DD^^\n\
+D^^DD^............^DD^^D\n\
+DD^^DD^..........^DD^^DD\n\
+.DD^^DD^........^DD^^DD.",
+                                        mapf::ter_bind( ". ^ D",
+                                                t_dirt,
+                                                t_railroad_rubble,
+                                                t_railroad_track_d ),
+                                        mapf::furn_bind( ". ^ D",
+                                                f_null,
+                                                f_null,
+                                                f_null ) );
+            break;
+        case 3: // tee
+            mapf::formatted_set_simple( m, 0, 0, "\
+.DD^^DD^........^DD^^DD.\n\
+DD^^DD^..........^DD^^DD\n\
+D^^DD^............^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
+D^....................^D\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+XxXXxXXxXXxXXxXXxXXxXXxX\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+XxXXxXXxXXxXXxXXxXXxXXxX\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+........................",
+                                        mapf::ter_bind( ". ^ | X x / D",
+                                                t_dirt,
+                                                t_railroad_rubble,
+                                                t_railroad_tie,
+                                                t_railroad_track,
+                                                t_railroad_track_on_tie,
+                                                t_railroad_tie_d,
+                                                t_railroad_track_d ),
+                                        mapf::furn_bind( ". ^ | X x / D",
+                                                f_null,
+                                                f_null,
+                                                f_null,
+                                                f_null,
+                                                f_null,
+                                                f_null,
+                                                f_null ) );
+            break;
+        case 2: // straight or diagonal
+            if( diag ) { // diagonal railroads get drawn differently from all other types
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^DD^^DD^.......^DD^^DD^\n\
+..^DD^^DD^.......^DD^^DD\n\
+...^DD^^DD^.......^DD^^D\n\
+....^DD^^DD^.......^DD^^\n\
+.....^DD^^DD^.......^DD^\n\
+......^DD^^DD^.......^DD\n\
+.......^DD^^DD^.......^D\n\
+........^DD^^DD^.......^\n\
+.........^DD^^DD^.......\n\
+..........^DD^^DD^......\n\
+...........^DD^^DD^.....\n\
+............^DD^^DD^....\n\
+.............^DD^^DD^...\n\
+..............^DD^^DD^..\n\
+...............^DD^^DD^.\n\
+................^DD^^DD^\n\
+.................^DD^^DD\n\
+..................^DD^^D\n\
+...................^DD^^\n\
+....................^DD^\n\
+.....................^DD\n\
+......................^D\n\
+.......................^\n\
+........................",
+                                            mapf::ter_bind( ". ^ D",
+                                                    t_dirt,
+                                                    t_railroad_rubble,
+                                                    t_railroad_track_d ),
+                                            mapf::furn_bind( ". ^ D",
+                                                    f_null,
+                                                    f_null,
+                                                    f_null ) );
+            } else { // normal railroads drawing
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.",
+                                            mapf::ter_bind( ". ^ - X x",
+                                                    t_dirt,
+                                                    t_railroad_rubble,
+                                                    t_railroad_tie,
+                                                    t_railroad_track,
+                                                    t_railroad_track_on_tie ),
+                                            mapf::furn_bind( ". ^ - X x",
+                                                    f_null,
+                                                    f_null,
+                                                    f_null,
+                                                    f_null,
+                                                    f_null ) );
+            }
+            break;
+        case 1:  // dead end
+            mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^S^^^S^........^S^^^S^.\n\
+.^^^^^^^........^^^^^^^.\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................\n\
+........................",
+                                        mapf::ter_bind( ". ^ S - X x",
+                                                t_dirt,
+                                                t_railroad_rubble,
+                                                t_buffer_stop,
+                                                t_railroad_tie,
+                                                t_railroad_track,
+                                                t_railroad_track_on_tie ),
+                                        mapf::furn_bind( ". ^ S - X x",
+                                                f_null,
+                                                f_null,
+                                                f_null,
+                                                f_null,
+                                                f_null,
+                                                f_null ) );
+            break;
+    }
+    // finally, unrotate the map
+    m->rotate( rot );
+}
+///////////////////
+void mapgen_railroad_bridge( map *m, oter_id terrain_type, mapgendata, const time_point &, float )
+{
+    mapf::formatted_set_simple( m, 0, 0, "\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r\n\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r\n\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r\n\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r\n\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r\n\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r\n\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r\n\
+r^X^^^X^________^X^^^X^r\n\
+r-x---x-________-x---x-r\n\
+r^X^^^X^________^X^^^X^r",
+                                mapf::ter_bind( ". _ r ^ - X x", t_dirt, t_concrete, t_railing, t_railroad_rubble, t_railroad_tie,
+                                        t_railroad_track, t_railroad_track_on_tie ),
+                                mapf::furn_bind( ". _ r ^ - X x", f_null, f_null, f_null, f_null, f_null, f_null, f_null )
+                              );
+    m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
 
 void mapgen_river_center( map *m, oter_id, mapgendata dat, const time_point &, float )
@@ -3621,7 +3953,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
     const auto get_max_sparseness_adjacency_factor = [&dat]() {
-        if( dat.region.forest_composition.biomes.size() == 0 ) {
+        if( dat.region.forest_composition.biomes.empty() ) {
             return 0;
         }
         std::vector<int> factors;
@@ -3773,7 +4105,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     // If this biome does not define its own groundcover, then fill with the region's ground
     // cover. Otherwise, fill with the biome defs groundcover.
-    if( current_biome_def.groundcover.size() == 0 ) {
+    if( current_biome_def.groundcover.empty() ) {
         dat.fill_groundcover();
     } else {
         m->draw_fill_background( current_biome_def.groundcover );
@@ -3817,6 +4149,164 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
         m->place_items( current_biome_def.item_group, current_biome_def.item_group_chance, 0, 0,
                         SEEX * 2 - 1, SEEY * 2 - 1, true, turn );
     }
+}
+
+void mapgen_forest_trail_straight( map *m, oter_id terrain_type, mapgendata dat,
+                                   const time_point &turn,
+                                   float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( i > center_x - width_offset() && i < center_x + width_offset() ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    if( terrain_type == "forest_trail_ew" || terrain_type == "forest_trail_end_east" ||
+        terrain_type == "forest_trail_end_west" ) {
+        m->rotate( 1 );
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
+}
+
+void mapgen_forest_trail_curved( map *m, oter_id terrain_type, mapgendata dat,
+                                 const time_point &turn,
+                                 float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( ( i > center_x - width_offset() && i < center_x + width_offset() &&
+                  j < center_y + width_offset() ) ||
+                ( j > center_y - width_offset() && j < center_y + width_offset() &&
+                  i > center_x - width_offset() ) ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    if( terrain_type == "forest_trail_es" ) {
+        m->rotate( 1 );
+    }
+    if( terrain_type == "forest_trail_sw" ) {
+        m->rotate( 2 );
+    }
+    if( terrain_type == "forest_trail_wn" ) {
+        m->rotate( 3 );
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
+}
+
+void mapgen_forest_trail_tee( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+                              float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( ( i > center_x - width_offset() && i < center_x + width_offset() ) ||
+                ( j > center_y - width_offset() &&
+                  j < center_y + width_offset() && i > center_x - width_offset() ) ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    if( terrain_type == "forest_trail_esw" ) {
+        m->rotate( 1 );
+    }
+    if( terrain_type == "forest_trail_nsw" ) {
+        m->rotate( 2 );
+    }
+    if( terrain_type == "forest_trail_new" ) {
+        m->rotate( 3 );
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
+}
+
+void mapgen_forest_trail_four_way( map *m, oter_id, mapgendata dat, const time_point &turn,
+                                   float density )
+{
+    mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
+
+    const auto center_offset = [&dat]() {
+        return rng( -dat.region.forest_trail.trail_center_variance,
+                    dat.region.forest_trail.trail_center_variance );
+    };
+
+    const auto width_offset = [&dat]() {
+        return rng( dat.region.forest_trail.trail_width_offset_min,
+                    dat.region.forest_trail.trail_width_offset_max );
+    };
+
+    int center_x = SEEX + center_offset();
+    int center_y = SEEY + center_offset();
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( ( i > center_x - width_offset() && i < center_x + width_offset() ) ||
+                ( j > center_y - width_offset() &&
+                  j < center_y + width_offset() ) ) {
+                m->furn_set( i, j, f_null );
+                m->ter_set( i, j, *dat.region.forest_trail.trail_terrain.pick() );
+            }
+        }
+    }
+
+    m->place_items( "forest_trail", 75, center_x - 2, center_y - 2, center_x + 2, center_y + 2, true,
+                    turn );
 }
 
 void mremove_trap( map *m, int x, int y )
@@ -3884,7 +4374,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     std::vector<tripoint> tripoints;
 
     // Find the basement's stairs first.
-    for( auto &&p : tr ) {
+    for( auto &&p : tr ) { // *NOPAD*
         if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
             const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
             stairs.emplace_back( rotated );
@@ -3912,7 +4402,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 
     // Find a tripoint where all the underground tripoints for stairs are on
     // suitable locations aboveground.
-    for( auto &&p : tripoints ) {
+    for( auto &&p : tripoints ) { // *NOPAD*
         int count = 1;
         all_can_be_placed = true;
         stairs_debug_log( m, "ok first:", p );
@@ -3956,7 +4446,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
                          << "and the rest may end up in odd locations.";
     }
 
-    for( auto &&p : stairs ) {
+    for( auto &&p : stairs ) { // *NOPAD*
         tripoint stair = p + shift;
 
         if( m->ter_set( stair, t_stairs_down ) ) {

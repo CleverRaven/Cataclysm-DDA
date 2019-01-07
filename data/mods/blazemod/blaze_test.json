@@ -406,7 +406,7 @@
       { "item": "dshards", "count": [ 50, 100 ] },
       { "item": "dcluster", "count": [ 2, 6 ] }
     ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "flags": [ "OBSTACLE", "WINDOW", "FULL_BOARD" ]
   },
   {
     "id": "dboard_ne",
@@ -723,7 +723,7 @@
     "broken_color": "magenta",
     "difficulty": 8,
     "durability": 400,
-    "size": 1000000,
+    "size": 40000,
     "breaks_into": [],
     "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
   },
@@ -807,8 +807,8 @@
     "broken_color": "magenta",
     "difficulty": 6,
     "durability": 400,
-    "power": 100,
-    "epower": 5,
+    "power": 37300,
+    "epower": 1865,
     "noise_factor": 25,
     "m2c": 90,
     "size": 100,

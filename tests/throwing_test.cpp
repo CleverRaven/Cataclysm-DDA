@@ -1,30 +1,22 @@
-#include "catch/catch.hpp"
+#include <ostream>
+#include <vector>
 
-#include "ballistics.h"
+#include "catch/catch.hpp"
 #include "dispersion.h"
 #include "game.h"
-#include "monattack.h"
-#include "monster.h"
-#include "npc.h"
-#include "units.h"
-#include "player.h"
-#include "map.h"
 #include "item.h"
 #include "itype.h"
-#include "monster.h"
-#include "projectile.h"
-#include "ranged.h"
 #include "line.h"
-
-#include "test_statistics.h"
 #include "map_helpers.h"
-
-#include <vector>
-#include <ostream>
+#include "monster.h"
+#include "npc.h"
+#include "player.h"
+#include "projectile.h"
+#include "test_statistics.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
-    standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
+    const standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
     item grenade( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );
@@ -78,7 +70,6 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
 // In that order.
 constexpr int min_throw_test_iterations = 100;
 constexpr int max_throw_test_iterations = 10000;
-constexpr double no_epsilon = -1;
 
 // tighter thresholds here will increase accuracy but also increase average test
 // time since more samples are required to get a more accurate test
@@ -228,24 +219,26 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
     }
 }
 
-constexpr int default_player_moves = 100;
 void test_player_kills_monster( player &p, const std::string &mon_id, const std::string &item_id,
                                 const int range, const int dist_thresh, const throw_test_pstats &pstats,
                                 const int iterations )
 {
     const tripoint monster_start = { 30 + range, 30, 0 };
     const tripoint player_start = { 30, 30, 0 };
-    bool mon_is_dead = false;
-    int turns, num_items;
-    int last_range = -1;
+    int failure_turns = -1;
+    int failure_num_items = -1;
+    int failure_last_range = -1;
     item it( item_id );
-    int i = 0;
+    int num_failures = 0;
 
     // We want to be real sure it isn't possible so do it a bunch of times
     // until we manage to make it happen or if we hit iterations then we're
     // good.
-    for( ; i < iterations && !mon_is_dead; i++ ) {
-        turns = num_items = 0;
+    for( int i = 0; i < iterations; i++ ) {
+        bool mon_is_dead = false;
+        int turns = 0;
+        int num_items = 0;
+        int last_range = -1;
 
         reset_player( p, pstats, player_start );
 
@@ -253,7 +246,6 @@ void test_player_kills_monster( player &p, const std::string &mon_id, const std:
         mon.set_moves( 0 );
 
         while( !mon_is_dead ) {
-            const int monster_speed = mon.get_speed();
 
             ++turns;
             mon.process_turn();
@@ -279,15 +271,19 @@ void test_player_kills_monster( player &p, const std::string &mon_id, const std:
 
         if( !mon_is_dead ) {
             g->remove_zombie( mon );
+        } else {
+            ++num_failures;
+            failure_turns = turns;
+            failure_num_items = num_items;
+            failure_last_range = last_range;
         }
     }
 
     INFO( "You killed him :( He had kids you know." );
-    INFO( "Test iteration: " << i );
-    INFO( "Distance - Start: " << range << " End: " << last_range );
-    INFO( "Turns: " << turns );
-    INFO( "# Items thrown: " << num_items );
-    CHECK( !mon_is_dead );
+    INFO( "Distance - Start: " << range << " End: " << failure_last_range );
+    INFO( "Turns: " << failure_turns );
+    INFO( "# Items thrown: " << failure_num_items );
+    CHECK( num_failures <= 1 );
 }
 
 TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )

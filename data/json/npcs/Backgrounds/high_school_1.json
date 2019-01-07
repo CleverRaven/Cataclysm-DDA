@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGSS_HIGH_SCHOOL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was at school.  I'm a senior.  We'd heard about riots...  It started with a kid showing videos of one of the big riots in Providence.  You've probably seen it, the one where the woman turns to the camera and you can see her whole lower lip has been ripped off, and is just flapping there?  It got so bad, they went over the PA system to tell us about Chinese drugs in the water supply.  Right...  Does anyone buy that explanation?",
+    "responses": [
+      { "text": "Where did things go from there?", "topic": "BGSS_HIGH_SCHOOL_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_HIGH_SCHOOL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I guess it got worse, because the faculty decided to put us in lockdown.  For hours.  And then the school buses showed up to evacuate us.  Eventually, they ran out of buses.  I was one of the lucky few who didn't have a bus to get on.  The soldiers weren't much older than me...  They didn't look like they knew what was going on.  I lived just a few blocks away.  I snuck off.",
+    "responses": [
+      { "text": "Did you get home?", "topic": "BGSS_HIGH_SCHOOL_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_HIGH_SCHOOL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah.  On the way there, I met some <zombies> for real.  They chased me, but I did pretty well in track.  I lost them...  But I couldn't get home, there were just too many.  I wound up running more.  Stole a bike and ran more again.  I'm a bit better at killing those things now, but I haven't made it home yet.  I guess I'm afraid of what I'll find.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

@@ -2,14 +2,14 @@
 #ifndef MONGROUP_H
 #define MONGROUP_H
 
-#include <vector>
 #include <map>
 #include <set>
-#include <string>
-#include "enums.h"
-#include "string_id.h"
+#include <vector>
+
 #include "calendar.h"
+#include "enums.h"
 #include "monster.h"
+#include "string_id.h"
 
 // from overmap.h
 class overmap;
@@ -105,7 +105,7 @@ struct mongroup {
      *  And "roam", who roam around the map randomly, not taking care to return
      *  anywhere.
      */
-    std::string horde_behaviour = "";
+    std::string horde_behaviour;
     bool diffuse = false;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )
@@ -113,17 +113,13 @@ struct mongroup {
         , pos( pposx, pposy, pposz )
         , radius( prad )
         , population( ppop )
-        , target()
-        , interest( 0 )
-        , dying( false )
-        , horde( false )
-        , diffuse( false ) {
+        , target() {
     }
     mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
-    mongroup() { }
+    mongroup() = default;
     bool is_safe() const;
     bool empty() const;
     void clear();

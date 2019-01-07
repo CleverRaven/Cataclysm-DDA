@@ -2,12 +2,11 @@
 #ifndef INIT_H
 #define INIT_H
 
+#include <functional>
+#include <list>
+#include <map>
 #include <string>
 #include <vector>
-#include <list>
-#include <memory>
-#include <map>
-#include <functional>
 
 class loading_ui;
 class JsonObject;

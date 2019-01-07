@@ -1,26 +1,26 @@
 #include "weather.h"
 
-#include "coordinate_conversions.h"
-#include "options.h"
-#include "output.h"
+#include <cmath>
+#include <sstream>
+#include <vector>
+
 #include "calendar.h"
+#include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "game.h"
+#include "game_constants.h"
 #include "map.h"
 #include "messages.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "trap.h"
-#include "math.h"
+#include "player.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "weather_gen.h"
-#include "sounds.h"
-#include "cata_utility.h"
-#include "player.h"
-#include "game_constants.h"
-
-#include <vector>
-#include <sstream>
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
@@ -146,7 +146,12 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             tick_size = 1_minutes;
         }
 
-        const auto wtype = wgen.get_weather_conditions( location, to_turn<int>( t ), g->get_seed() );
+        weather_type wtype;
+        if( g->weather_override == WEATHER_NULL ) {
+            wtype = wgen.get_weather_conditions( location, t, g->get_seed() );
+        } else {
+            wtype = g->weather_override;
+        }
         proc_weather_sum( wtype, data, t, tick_size );
     }
 
@@ -253,7 +258,8 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     static const item water( "water", 0 );
-    static const double charge_ml = ( double ) to_gram( water.weight() ) / water.charges; // 250ml
+    static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
+                                    water.charges; // 250ml
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
     const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS( 1 );
@@ -387,10 +393,10 @@ void generic_very_wet( bool acid )
     wet_player( 60 );
 }
 
-void weather_effect::none()      {};
-void weather_effect::flurry()    {};
-void weather_effect::snow()      {};
-void weather_effect::snowstorm() {};
+void weather_effect::none()      {}
+void weather_effect::flurry()    {}
+void weather_effect::snow()      {}
+void weather_effect::snowstorm() {}
 
 /**
  * Wet.
@@ -560,7 +566,7 @@ static std::string print_time_just_hour( const time_point &p )
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast( point const &abs_sm_pos )
+std::string weather_forecast( const point &abs_sm_pos )
 {
     std::ostringstream weather_report;
     // Local conditions
@@ -592,11 +598,12 @@ std::string weather_forecast( point const &abs_sm_pos )
     double low = 100.0;
     const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
     // TODO wind direction and speed
-    int last_hour = calendar::turn - ( calendar::turn % HOURS( 1 ) );
+    const time_point last_hour = calendar::turn - ( calendar::turn - calendar::time_of_cataclysm ) %
+                                 1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type forecast = WEATHER_NULL;
         const auto wgen = g->get_cur_weather_gen();
-        for( calendar i( last_hour + 7200 * d ); i < last_hour + 7200 * ( d + 1 ); i += 600 ) {
+        for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
             forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
             high = std::max( high, w.temperature );
@@ -604,8 +611,8 @@ std::string weather_forecast( point const &abs_sm_pos )
         }
         std::string day;
         bool started_at_night;
-        calendar c( last_hour + 7200 * d );
-        if( d == 0 && c.is_night() ) {
+        const time_point c = last_hour + 12_hours * d;
+        if( d == 0 && calendar( to_turn<int>( c ) ).is_night() ) {
             day = _( "Tonight" );
             started_at_night = true;
         } else {
@@ -638,6 +645,9 @@ std::string print_temperature( double fahrenheit, int decimals )
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         ret << temp_to_celsius( fahrenheit );
         return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str().c_str() );
+    } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
+        ret << temp_to_kelvin( fahrenheit );
+        return string_format( pgettext( "temperature in Kelvin", "%sK" ), ret.str().c_str() );
     } else {
         ret << fahrenheit;
         return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str().c_str() );

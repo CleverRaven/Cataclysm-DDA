@@ -51,7 +51,7 @@
     "dispersion": 300,
     "durability": 6,
     "relative": { "reload": 2 },
-    "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
+    "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
   },
   {
     "id": "rm451_flamethrower",

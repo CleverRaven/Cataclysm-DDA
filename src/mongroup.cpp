@@ -1,14 +1,12 @@
 #include "mongroup.h"
-#include <vector>
 
-#include "rng.h"
+#include "assign.h"
+#include "calendar.h"
 #include "debug.h"
-#include "options.h"
-#include "monstergenerator.h"
 #include "json.h"
 #include "mtype.h"
-#include "calendar.h"
-#include "assign.h"
+#include "options.h"
+#include "rng.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.

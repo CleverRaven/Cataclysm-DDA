@@ -2,17 +2,27 @@
 #ifndef ACTIVITY_HANDLERS_H
 #define ACTIVITY_HANDLERS_H
 
-#include "player_activity.h"
-
 #include <functional>
 #include <map>
-#include <vector>
 #include <unordered_set>
+#include <vector>
+
+#include "player_activity.h"
 
 class player;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
         const std::unordered_set<tripoint> &tiles );
+
+enum butcher_type : int {
+    BUTCHER,        // quick butchery
+    BUTCHER_FULL,   // full workshop butchery
+    F_DRESS,        // field dressing a corpse
+    QUARTER,        // quarter a corpse
+    DISSECT         // dissect a corpse for CBMs
+};
+
+int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -21,6 +31,17 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 void try_refuel_fire( player &p );
+
+enum class item_drop_reason {
+    deliberate,
+    too_large,
+    too_heavy,
+    tumbling
+};
+
+void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
+                               const tripoint &where );
 
 // advanced_inv.cpp
 void advanced_inv();
@@ -60,6 +81,8 @@ void dig_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void till_plot_do_turn( player_activity *act, player *p );
 void plant_plot_do_turn( player_activity *act, player *p );
+void fertilize_plot_do_turn( player_activity *act, player *p );
+void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp

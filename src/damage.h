@@ -2,13 +2,11 @@
 #ifndef DAMAGE_H
 #define DAMAGE_H
 
+#include <array>
+#include <vector>
+
 #include "enums.h"
 #include "string_id.h"
-#include <array>
-#include <string>
-#include <vector>
-#include <set>
-#include <memory>
 
 class item;
 class monster;
@@ -108,7 +106,7 @@ struct resistances {
 };
 
 damage_type dt_by_name( const std::string &name );
-const std::string &name_by_dt( const damage_type &dt );
+const std::string name_by_dt( const damage_type &dt );
 
 const skill_id &skill_by_dt( damage_type dt );
 

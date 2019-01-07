@@ -1,20 +1,20 @@
-#include "player.h"
-#include "game.h"
-#include "mutation.h"
-#include "output.h"
-#include "options.h"
-#include "weather.h"
-#include "string_formatter.h"
-#include "units.h"
-#include "profession.h"
-#include "effect.h"
-#include "input.h"
-#include "addiction.h"
-#include "skill.h"
-#include "bionics.h"
-#include "messages.h"
+#include "player.h" // IWYU pragma: associated
 
 #include <algorithm>
+
+#include "addiction.h"
+#include "bionics.h"
+#include "effect.h"
+#include "game.h"
+#include "input.h"
+#include "mutation.h"
+#include "options.h"
+#include "output.h"
+#include "profession.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "units.h"
+#include "weather.h"
 
 const skill_id skill_swimming( "swimming" );
 
@@ -49,9 +49,10 @@ void player::print_encumbrance( const catacurses::window &win, int line,
     do {
         if( !skip[off > 0] && line + off >= 0 && line + off < num_bp ) { // line+off is in bounds
             parts.insert( line + off );
-            if( line + off != ( int )bp_aiOther[line + off] &&
+            if( line + off != static_cast<int>( bp_aiOther[line + off] ) &&
                 should_combine_bps( *this, line + off, bp_aiOther[line + off] ) ) { // part of a pair
-                skip[( int )bp_aiOther[line + off] > line + off ] = 1; // skip the next candidate in this direction
+                skip[static_cast<int>( bp_aiOther[line + off] ) > line + off ] =
+                    1; // skip the next candidate in this direction
             }
         } else {
             skip[off > 0] = 0;
@@ -61,7 +62,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         } else {
             off = -off - 1;
         }
-    } while( off > -num_bp && ( int )parts.size() < height - 1 );
+    } while( off > -num_bp && static_cast<int>( parts.size() ) < height - 1 );
 
     std::string out;
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
@@ -157,7 +158,7 @@ int get_encumbrance( const player &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
-    bool combines_with_other = ( int )bp_aiOther[bp] != bp;
+    bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
@@ -224,7 +225,7 @@ void player::disp_info()
     unsigned line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
-    std::string tmp = "";
+    std::string tmp;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();
@@ -273,12 +274,10 @@ void player::disp_info()
 
         if( starvation_base_penalty > 500 ) {
             starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
-        }
-        if( starvation_base_penalty > 1000 ) {
-            starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
-        }
-        if( starvation_base_penalty > 1000 ) {
-            starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+            if( starvation_base_penalty > 1000 ) {
+                starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+                starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+            }
         }
 
         int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
@@ -318,15 +317,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
 
-    std::vector<trait_id> traitslist = get_mutations();
+    std::vector<trait_id> traitslist = get_mutations( false );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
 
     std::vector<bionic> bionicslist = *my_bionics;
     unsigned bionics_win_size_y = 2 + bionicslist.size();
 
-    const auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
-        int const level_a = get_skill_level_object( a.ident() ).exercised_level();
-        int const level_b = get_skill_level_object( b.ident() ).exercised_level();
+    const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
+        const int level_a = get_skill_level_object( a.ident() ).exercised_level();
+        const int level_b = get_skill_level_object( b.ident() ).exercised_level();
         return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
     } );
     unsigned skill_win_size_y = 1 + skillslist.size();
@@ -342,7 +341,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         if( std::min( bionics_win_size_y, trait_win_size_y ) > max_shared_y ) {
             bionics_win_size_y = max_shared_y;
             // trait window is less than the shared size, so give space to bionics
-        } else if( trait_win_size_y < max_shared_y ) {
+        } else if( trait_win_size_y <= max_shared_y ) {
             bionics_win_size_y = maxy - infooffsetybottom - trait_win_size_y;
         }
         // fall through if bionics is smaller
@@ -503,7 +502,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
         mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name.c_str(),
                    male ? _( "Male" ) : _( "Female" ), race.c_str() );
-    } else if( prof == NULL || prof == prof->generic() ) {
+    } else if( prof == nullptr || prof == prof->generic() ) {
         // Regular person. Nothing interesting.
         //~ player info window: 1s - name, 2s - gender, '|' - field separator.
         mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s" ), name.c_str(),
@@ -581,7 +580,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     const std::string title_BIONICS = _( "BIONICS" );
     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
         trim_and_print( w_bionics, int( i ) + 2, 1, getmaxx( w_bionics ) - 1, c_white,
                         bionicslist[i].info().name );
@@ -718,14 +717,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     std::map<std::string, int> speed_effects;
-    std::string dis_text = "";
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             bool reduced = resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );
             if( move_adjust != 0 ) {
-                dis_text = it.get_speed_name();
+                const std::string dis_text = it.get_speed_name();
                 speed_effects[dis_text] += move_adjust;
             }
         }
@@ -733,7 +731,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     for( auto &speed_effect : speed_effects ) {
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
-        mvwprintz( w_speed, line, 1, col, "%s", _( speed_effect.first.c_str() ) );
+        mvwprintz( w_speed, line, 1, col, "%s", speed_effect.first );
         mvwprintz( w_speed, line, 21, col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, line, ( abs( speed_effect.second ) >= 10 ? 22 : 23 ), col, "%d%%",
                    abs( speed_effect.second ) );
@@ -987,7 +985,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_bionics, 0, 0, h_light_gray, header_spaces );
                 center_print( w_bionics, 0, h_light_gray, title_BIONICS );
                 trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                                string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                                string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
 
                 if( line <= ( ( bionics_useful_size_y - 1 ) / 2 ) ) {
                     min = 0;
@@ -998,7 +996,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     max = bionicslist.size();
                 } else {
                     min = line - ( bionics_useful_size_y - 1 ) / 2;
-                    max = std::min( bionicslist.size(), ( size_t )( 1 + line + bionics_useful_size_y / 2 ) );
+                    max = std::min( bionicslist.size(), static_cast<size_t>( 1 + line + bionics_useful_size_y / 2 ) );
                 }
 
                 for( size_t i = min; i < max; i++ ) {
@@ -1026,7 +1024,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
                     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                                    string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
                     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
                         mvwprintz( w_bionics, int( i + 2 ), 1, c_black, "                         " );
                         trim_and_print( w_bionics, int( i + 2 ), 1, getmaxx( w_bionics ) - 1,
@@ -1116,7 +1114,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 }
 
-                const Skill *selectedSkill = NULL;
+                const Skill *selectedSkill = nullptr;
 
                 for( size_t i = min; i < max; i++ ) {
                     const Skill *aSkill = skillslist[i];

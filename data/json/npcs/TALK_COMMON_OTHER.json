@@ -1,0 +1,229 @@
+[
+  {
+    "id": "TALK_SHELTER",
+    "type": "talk_topic",
+    "dynamic_line": [ "Well, I guess it's just us.", "At least we've got shelter." ],
+    "responses": [
+      { "text": "What should we do now?", "topic": "TALK_SHELTER_PLANS" },
+      { "text": "Any tips?", "topic": "TALK_SHELTER_ADVICE" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW", "condition": { "not": "npc_following" } },
+      { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "I can't leave the shelter without equipment.", "topic": "TALK_SHARE_EQUIPMENT" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_SHELTER_PLANS",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I don't know, look for supplies and other survivors I guess.",
+      "Maybe we should start boarding up this place.",
+      "I suppose getting a car up and running should really be useful if we have to disappear quickly from here.",
+      "We could look for one of those farms out here.  They can provide plenty of food and aren't close to the cities.",
+      "We should probably stay away from those cities, even if there's plenty of useful stuff there."
+    ],
+    "responses": [ { "text": "Hmm, okay.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_SHELTER_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": { "give_hint": true },
+    "responses": [ { "text": "Thanks!", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_SUGGEST_FOLLOW",
+    "type": "talk_topic",
+    "category": "CATEGORY_FOLLOW",
+    "dynamic_line": {
+      "npc_has_effect": "infected",
+      "yes": "Not until I get some antibiotics...",
+      "no": {
+        "npc_has_effect": "asked_to_follow",
+        "yes": "You asked me recently; ask again later.",
+        "no": "Why should I travel with you?"
+      }
+    },
+    "responses": [
+      {
+        "text": "Understood.  I'll get those antibiotics.",
+        "topic": "TALK_NONE",
+        "condition": { "npc_has_effect": "infected" }
+      },
+      {
+        "text": "Right, right, I'll ask later.",
+        "topic": "TALK_NONE",
+        "condition": { "npc_has_effect": "asked_to_follow" }
+      },
+      {
+        "text": "I can keep you safe.",
+        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "value": -1, "anger": 1 } }
+      },
+      {
+        "text": "You can keep me safe.",
+        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 0,
+          "mod": [ [ "ALTRUISM", 6 ], [ "POS_FEAR", -6 ], [ "BRAVERY", 2 ], [ "ANGER", -6 ], [ "VALUE", 2 ] ]
+        },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "value": -1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
+      },
+      {
+        "text": "We're friends, aren't we?",
+        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 2, "anger": -1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 1, "fear": -2, "value": -1, "anger": 1 } }
+      },
+      {
+        "text": "I'll kill you if you don't.",
+        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_AGREE_FOLLOW",
+    "type": "talk_topic",
+    "category": "CATEGORY_FOLLOW",
+    "dynamic_line": "You got it, I'm with you!",
+    "responses": [ { "text": "Awesome!", "topic": "TALK_FRIEND" }, { "text": "Okay, let's go!", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_DENY_FOLLOW",
+    "type": "talk_topic",
+    "category": "CATEGORY_FOLLOW",
+    "dynamic_line": "Yeah... I don't think so.",
+    "responses": [ { "text": "Oh, okay.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "You're really leaving?",
+    "responses": [
+      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave" },
+      { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_LEADER",
+    "type": "talk_topic",
+    "dynamic_line": "What is it?",
+    "responses": [
+      { "text": "How much further?", "topic": "TALK_HOW_MUCH_FURTHER", "condition": "npc_has_destination" },
+      {
+        "text": "I'd like to lead for a while.",
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 0,
+          "mod": [ [ "FEAR", 1 ], [ "VALUE", 1 ], [ "TRUST", 1 ], [ "BRAVERY", -1 ], [ "AGGRESSION", -1 ] ]
+        },
+        "success": { "topic": "TALK_PLAYER_LEADS", "effect": "follow" },
+        "failure": { "topic": "TALK_LEADER_STAYS", "opinion": { "value": -1, "anger": -1 } }
+      },
+      {
+        "text": "Step aside.  I'm leader now.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 40 },
+        "success": { "topic": "TALK_PLAYER_LEADS", "effect": "follow", "opinion": { "trust": -1, "fear": 1, "value": -1, "anger": 1 } },
+        "failure": { "topic": "TALK_LEADER_STAYS", "opinion": { "trust": -1, "value": -1, "anger": 1 } }
+      },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_PLAYER_LEADS",
+    "type": "talk_topic",
+    "dynamic_line": "Alright.  You can lead now.",
+    "responses": [
+      { "text": "Good.  Something else...", "topic": "TALK_FRIEND" },
+      { "text": "Alright, let's go.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_LEADER_STAYS",
+    "type": "talk_topic",
+    "responses": [ { "text": "Okay, okay.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_DENY_GUARD",
+    "type": "talk_topic",
+    "dynamic_line": "Not a bloody chance, I'm going to get left behind!",
+    "responses": [ { "text": "Fine.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FRIEND_GUARD",
+    "type": "talk_topic",
+    "dynamic_line": "I'm on watch.",
+    "responses": [
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND", "effect": "stop_guard" },
+      { "text": "See you around.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_UNCOMFORTABLE",
+    "type": "talk_topic",
+    "dynamic_line": "I really don't feel comfortable doing so...",
+    "responses": [ { "text": "I'll give you some space.", "topic": "TALK_FRIEND" } ]
+  },
+  {
+    "id": "TALK_DENY_PERSONAL",
+    "type": "talk_topic",
+    "dynamic_line": "I'd prefer to keep that to myself.",
+    "responses": [ { "text": "I understand...", "topic": "TALK_FRIEND" } ]
+  },
+  {
+    "id": "TALK_GIVE_EQUIPMENT",
+    "type": "talk_topic",
+    "category": "CATEGORY_EQUIP",
+    "dynamic_line": "Okay, here you go.",
+    "responses": [
+      { "text": "Thank you!", "topic": "TALK_NONE" },
+      { "text": "Thanks!  But can I have some more?", "topic": "TALK_SHARE_EQUIPMENT" },
+      { "text": "Thanks, see you later!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_DENY_EQUIPMENT",
+    "type": "talk_topic",
+    "category": "CATEGORY_EQUIP",
+    "responses": [
+      { "text": "Okay, okay, sorry.", "topic": "TALK_NONE" },
+      { "text": "Seriously, give me more stuff!", "topic": "TALK_SHARE_EQUIPMENT" },
+      { "text": "Okay, fine, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_START",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, let's begin.",
+    "responses": [
+      { "text": "Sounds good.", "topic": "TALK_DONE", "condition": "at_safe_space", "effect": "start_training" },
+      {
+        "text": "Okay.  Lead the way.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "at_safe_space" },
+        "effect": "lead_to_safety"
+      },
+      { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_FORCE", "condition": { "not": "at_safe_space" } },
+      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_FORCE",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, let's begin.",
+    "responses": [
+      { "text": "Sounds good.", "topic": "TALK_DONE", "effect": "start_training" },
+      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+    ]
+  }
+]

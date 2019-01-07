@@ -115,8 +115,13 @@ enum DebugClass {
     DC_ALL    = ( 1 << 30 ) - 1
 };
 
+enum class DebugOutput {
+    std_err,
+    file,
+};
+
 /** Initializes the debugging system, called exactly once from main() */
-void setupDebug();
+void setupDebug( DebugOutput );
 /** Opposite of setupDebug, shuts the debugging system down. */
 void deinitDebug();
 
@@ -170,5 +175,12 @@ std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
  */
 extern bool debug_mode;
 
-// vim:tw=72:sw=1:fdm=marker:fdl=0:
+#ifdef BACKTRACE
+/**
+ * Write a stack backtrace to the given ostream
+ */
+void debug_write_backtrace( std::ostream &out );
+#endif
+
+// vim:tw=72:sw=4:fdm=marker:fdl=0:
 #endif

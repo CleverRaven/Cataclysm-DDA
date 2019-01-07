@@ -1,37 +1,26 @@
 #include "sidebar.h"
 
-#include "player.h"
-#include "string_formatter.h"
-#include "effect.h"
-#include "game.h"
-#include "map.h"
-#include "options.h"
-#include "gun_mode.h"
-#include "weather.h"
-#include "item.h"
-#include "translations.h"
-#include "vpart_position.h"
+#include <cmath>
+#include <cstdlib>
+#include <string>
+
+#include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "effect.h"
+#include "game.h"
+#include "gun_mode.h"
+#include "item.h"
+#include "map.h"
 #include "martialarts.h"
+#include "options.h"
 #include "output.h"
-#include "input.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "vehicle.h"
-#include "cata_utility.h"
-
-#include <iterator>
-
-//Used for e^(x) functions
-#include <stdio.h>
-#include <math.h>
-
-#include <ctime>
-#include <algorithm>
-#include <numeric>
-#include <string>
-#include <sstream>
-#include <stdlib.h>
-#include <limits>
+#include "vpart_position.h"
+#include "weather.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -138,7 +127,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
     const int hpy = wide ? 0 : 1;
     const int dy = wide ? 1 : 2;
 
-    bool const is_self_aware = p.has_trait( trait_SELFAWARE );
+    const bool is_self_aware = p.has_trait( trait_SELFAWARE );
 
     for( int i = 0; i < num_hp_parts; i++ ) {
         wmove( w_HP, i * dy + hpy, hpx );
@@ -176,7 +165,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             continue;
         }
 
-        auto const &hp = get_hp_bar( p.hp_cur[i], p.hp_max[i] );
+        const auto &hp = get_hp_bar( p.hp_cur[i], p.hp_max[i] );
 
         if( is_self_aware ) {
             wprintz( w_HP, hp.second, "%3d  ", p.hp_cur[i] );
@@ -239,6 +228,10 @@ static std::string print_gun_mode( const player &p )
     auto m = p.weapon.gun_current_mode();
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
+            if( p.ammo_location && p.weapon.can_reload_with( p.ammo_location->typeId() ) ) {
+                return string_format( "%s (%d)", p.weapname().c_str(),
+                                      p.ammo_location->charges );
+            }
             return string_format( m.name().empty() ? "%s" : "%s (%s)",
                                   p.weapname().c_str(), m.name() );
         } else {
@@ -486,7 +479,8 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         int speedox = sideStyle ? 0 : 28;
         int speedoy = sideStyle ? 5 :  3;
 
-        const bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        const bool metric = type == "km/h";
         // @todo: Logic below is not applicable to translated units and should be changed
         const int velx    = metric ? 4 : 3; // strlen(units) + 1
         const int cruisex = metric ? 9 : 8; // strlen(units) + 6
@@ -502,16 +496,16 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
         mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
-        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
-                   int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
+        mvwprintz( w, speedoy, speedox + velx, col_vel,   type == "t/t" ? "%4.1f" : "%4.0f",
+                   convert_velocity( veh->velocity, VU_VEHICLE ) );
         if( veh->cruise_on ) {
             mvwprintz( w, speedoy, speedox + cruisex, c_light_green, "%4d",
                        int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
         }
 
-        const int vel_offset = 11 + ( veh->velocity != 0 ? 2 : 0 );
+        const int vel_offset = 11 + ( veh->is_moving() ? 2 : 0 );
         wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - vel_offset );
-        if( veh->velocity != 0 ) {
+        if( veh->is_moving() ) {
             nc_color col_indc = veh->skidding ? c_red : c_green;
             int dfm = veh->face.dir() - veh->move.dir();
 

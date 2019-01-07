@@ -591,9 +591,12 @@
     "id": "bio_memory",
     "type": "bionic",
     "name": "Enhanced Memory Banks",
-    "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power.",
+    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 10,
+    "react_cost": 1,
+    "time": 100
   },
   {
     "id": "bio_metabolics",
@@ -1080,7 +1083,8 @@
     "type": "bionic",
     "name": "Titanium Skeletal Bracing",
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
-    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ]
+    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_shock_absorber",

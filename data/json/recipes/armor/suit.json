@@ -189,6 +189,25 @@
     ]
   },
   {
+    "result": "armor_nomad_light",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 80000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 90 ] ],
+    "components": [
+      [ [ "tunic", 1 ] ],
+      [ [ "shorts_cargo", 1 ], [ "shorts_denim", 1 ] ],
+      [ [ "vest", 1 ], [ "chestrig", 1 ] ],
+      [ [ "ragpouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
+      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
+      [ [ "rag", 20 ] ]
+    ]
+  },
+  {
     "result": "armor_plarmor",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -455,6 +474,18 @@
       [ [ "duct_tape", 300 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
     ]
+  },
+  {
+    "result": "jumpsuit",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 48000,
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 20 ] ] ]
   },
   {
     "result": "jumpsuit_xl",

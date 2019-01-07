@@ -1,7 +1,9 @@
 #include "tileray.h"
+
+#include <cmath>
+#include <cstdlib>
+
 #include "game_constants.h"
-#include <math.h>
-#include <stdlib.h>
 
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
@@ -30,7 +32,8 @@ void tileray::init( int adx, int ady )
     if( !adx && !ady ) {
         direction = 0;
     } else {
-        direction = static_cast<int>( atan2( ( double )deltay, ( double )deltax ) * 180.0 / M_PI );
+        direction = static_cast<int>( atan2( static_cast<double>( deltay ),
+                                             static_cast<double>( deltax ) ) * 180.0 / M_PI );
         if( direction < 0 ) {
             direction += 360;
         }
@@ -48,8 +51,8 @@ void tileray::init( int adir )
     direction = ( adir < 0 ? 360 - ( ( -adir ) % 360 ) : adir % 360 );
     last_dx = 0;
     last_dy = 0;
-    deltax = static_cast<int>( cos( ( float ) direction * M_PI / 180.0 ) * 100 );
-    deltay = static_cast<int>( sin( ( float ) direction * M_PI / 180.0 ) * 100 );
+    deltax = static_cast<int>( cos( static_cast<float>( direction ) * M_PI / 180.0 ) * 100 );
+    deltay = static_cast<int>( sin( static_cast<float>( direction ) * M_PI / 180.0 ) * 100 );
     ax = abs( deltax );
     ay = abs( deltay );
     steps = 0;

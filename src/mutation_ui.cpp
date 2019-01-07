@@ -1,16 +1,16 @@
-#include "mutation.h"
+#include "player.h" // IWYU pragma: associated
 
+#include <algorithm> //std::min
+#include <sstream>
+
+#include "mutation.h"
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"
-#include "player.h"
-#include "translations.h"
 #include "string_formatter.h"
-
-#include <algorithm> //std::min
-#include <sstream>
+#include "translations.h"
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -128,6 +128,15 @@ void player::power_mutations()
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+#ifdef __ANDROID__
+    for( const auto &p : passive ) {
+        ctxt.register_manual_key( my_mutations[p].key, p.obj().name() );
+    }
+    for( const auto &a : active ) {
+        ctxt.register_manual_key( my_mutations[a].key, a.obj().name() );
+    }
+#endif
+
     bool redraw = true;
     std::string menu_mode = "activating";
 

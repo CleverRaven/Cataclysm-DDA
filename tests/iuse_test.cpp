@@ -1,11 +1,9 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "iuse.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
-
 
 player &get_sanitized_player( )
 {

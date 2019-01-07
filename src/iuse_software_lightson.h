@@ -2,11 +2,9 @@
 #ifndef SOFTWARE_LIGHTSON_H
 #define SOFTWARE_LIGHTSON_H
 
-#include "cursesdef.h"
-
-#include <string>
 #include <vector>
-#include <map>
+
+#include "cursesdef.h"
 
 namespace catacurses
 {

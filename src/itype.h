@@ -2,26 +2,24 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
-#include "optional.h"
-#include "color.h" // nc_color
-#include "enums.h" // point
-#include "iuse.h" // use_function
-#include "pldata.h" // add_type
-#include "bodypart.h" // body_part::num_bp
-#include "string_id.h"
-#include "explosion.h"
-#include "units.h"
-#include "damage.h"
-#include "translations.h"
-#include "calendar.h"
-#include "game_constants.h"
-
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
-#include <map>
-#include <bitset>
-#include <memory>
+
+#include "bodypart.h" // body_part::num_bp
+#include "calendar.h"
+#include "color.h" // nc_color
+#include "damage.h"
+#include "enums.h" // point
+#include "explosion.h"
+#include "game_constants.h"
+#include "iuse.h" // use_function
+#include "optional.h"
+#include "pldata.h" // add_type
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
 
 // see item.h
 class item_category;
@@ -531,6 +529,18 @@ struct islot_gunmod : common_ranged_data {
 
     /** Relative adjustment to base gun handling */
     int handling = 0;
+
+    /** Percentage value change to the gun's loading time. Higher is slower */
+    int reload_modifier = 0;
+
+    /** Modifies base strength required */
+    int min_str_required_mod = 0;
+
+    /** Additional gunmod slots to add to the gun */
+    std::map<gunmod_location, int> add_mod;
+
+    /** Not compatable on weapons that have this mod slot */
+    std::set<gunmod_location> blacklist_mod;
 };
 
 struct islot_magazine {
@@ -612,6 +622,12 @@ struct islot_ammo : common_ranged_data {
      * @warning It is not read from the json directly.
      * */
     bool special_cookoff = false;
+
+    /**
+     * If set, ammo does not give a flat damage, instead it multiplies the base
+     * damage of the gun by this value.
+     */
+    cata::optional<float> prop_damage;
 };
 
 struct islot_bionic {
@@ -623,6 +639,10 @@ struct islot_bionic {
      * Id of the bionic, see bionics.cpp for its usage.
      */
     bionic_id id;
+    /**
+     * Whether this CBM is an upgrade of another.
+     */
+    bool is_upgrade = false;
 };
 
 struct islot_seed {
@@ -766,16 +786,36 @@ struct itype {
         /** Can item be combined with other identical items? */
         bool stackable = false;
 
-        /** After loading from JSON these properties guaranteed to be zero or positive */
-        /*@{*/
-        units::mass weight  =  0; // Weight for item ( or each stack member )
-        units::volume volume = 0; // Space occupied by items of this type
-        int price           =  0; // Value before cataclysm
-        int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
-        int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-        units::volume integral_volume = units::from_milliliter(
-                                            -1 ); // Space consumed when integrated as part of another item (defaults to volume)
-        /*@}*/
+        /**
+         * @name Non-negative properties
+         * After loading from JSON these properties guaranteed to be zero or positive
+         */
+        /**@{*/
+
+        /** Weight of item ( or each stack member ) */
+        units::mass weight = 0;
+
+        /**
+         * Space occupied by items of this type
+         * CAUTION: value given is for a default-sized stack. Avoid using where @ref stackable items may be encountered; see @ref item::volume instead.
+         * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
+         */
+        units::volume volume = 0;
+        /**
+         * Space consumed when integrated as part of another item (defaults to volume)
+         * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
+         */
+        units::volume integral_volume = units::from_milliliter( -1 );
+
+        /** Number of items per above volume for @ref stackable items */
+        int stack_size = 0;
+
+        /** Value before cataclysm. Price given is for a default-sized stack. */
+        int price = 0;
+        /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
+        int price_post = -1;
+
+        /**@}*/
 
         bool rigid =
             true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
@@ -809,6 +849,8 @@ struct itype {
 
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0;
+
+        layer_level layer;
 
         /**
          * How much insulation this item provides, either as a container, or as
@@ -875,6 +917,12 @@ struct itype {
             }
             return 1;
         }
+
+        /**
+         * Number of (charges of) this type of item that fit into the given volume.
+         * May return 0 if not even one charge fits into the volume.
+         */
+        long charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
         bool can_use( const std::string &iuse_name ) const;

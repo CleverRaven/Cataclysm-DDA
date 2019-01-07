@@ -1,15 +1,15 @@
 #include "material.h"
 
-#include "debug.h"
+#include <map>
+#include <string>
+
+#include "assign.h"
 #include "damage.h" // damage_type
-#include "json.h"
-#include "translations.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "assign.h"
-
-#include <string>
-#include <map>
+#include "json.h"
+#include "translations.h"
 
 namespace
 {
@@ -145,22 +145,16 @@ int material_type::dam_resist( damage_type damtype ) const
     switch( damtype ) {
         case DT_BASH:
             return _bash_resist;
-            break;
         case DT_CUT:
             return _cut_resist;
-            break;
         case DT_ACID:
             return _acid_resist;
-            break;
         case DT_ELECTRIC:
             return _elec_resist;
-            break;
         case DT_HEAT:
             return _fire_resist;
-            break;
         default:
             return 0;
-            break;
     }
 }
 

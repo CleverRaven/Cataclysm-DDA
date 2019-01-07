@@ -1,79 +1,68 @@
 #include "init.h"
 
-#include "json.h"
-#include "filesystem.h"
-
-// can load from json
-#include "activity_type.h"
-#include "flag.h"
-#include "effect.h"
-#include "emit.h"
-#include "vitamin.h"
-#include "fault.h"
-#include "material.h"
-#include "bionics.h"
-#include "profession.h"
-#include "skill.h"
-#include "mutation.h"
-#include "text_snippets.h"
-#include "item_factory.h"
-#include "vehicle_group.h"
-#include "string_formatter.h"
-#include "crafting.h"
-#include "crafting_gui.h"
-#include "mapdata.h"
-#include "color.h"
-#include "trap.h"
-#include "mission.h"
-#include "monstergenerator.h"
-#include "inventory.h"
-#include "tutorial.h"
-#include "overmap.h"
-#include "regional_settings.h"
-#include "overmap_connection.h"
-#include "artifact.h"
-#include "overmap_location.h"
-#include "mapgen.h"
-#include "speech.h"
-#include "construction.h"
-#include "ammo.h"
-#include "debug.h"
-#include "path_info.h"
-#include "requirements.h"
-#include "start_location.h"
-#include "scenario.h"
-#include "omdata.h"
-#include "options.h"
-#include "faction.h"
-#include "npc.h"
-#include "item_action.h"
-#include "dialogue.h"
-#include "mongroup.h"
-#include "monfaction.h"
-#include "martialarts.h"
-#include "veh_type.h"
-#include "clzones.h"
-#include "sounds.h"
-#include "gates.h"
-#include "overlay_ordering.h"
-#include "worldfactory.h"
-#include "weather_gen.h"
-#include "npc_class.h"
-#include "recipe_dictionary.h"
-#include "rotatable_symbols.h"
-#include "harvest.h"
-#include "morale_types.h"
-#include "anatomy.h"
-#include "loading_ui.h"
-#include "recipe_groups.h"
-#include "mod_tileset.h"
-
-#include <assert.h>
-#include <string>
-#include <vector>
+#include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
-#include <locale> // for loading names
+#include <string>
+#include <vector>
+
+#include "activity_type.h"
+#include "ammo.h"
+#include "anatomy.h"
+#include "bionics.h"
+#include "clzones.h"
+#include "construction.h"
+#include "crafting_gui.h"
+#include "debug.h"
+#include "dialogue.h"
+#include "effect.h"
+#include "emit.h"
+#include "faction.h"
+#include "fault.h"
+#include "filesystem.h"
+#include "flag.h"
+#include "gates.h"
+#include "harvest.h"
+#include "item_action.h"
+#include "item_factory.h"
+#include "json.h"
+#include "loading_ui.h"
+#include "mapdata.h"
+#include "mapgen.h"
+#include "martialarts.h"
+#include "material.h"
+#include "mission.h"
+#include "mod_tileset.h"
+#include "monfaction.h"
+#include "mongroup.h"
+#include "monstergenerator.h"
+#include "morale_types.h"
+#include "mutation.h"
+#include "npc.h"
+#include "npc_class.h"
+#include "omdata.h"
+#include "overlay_ordering.h"
+#include "overmap_connection.h"
+#include "overmap_location.h"
+#include "profession.h"
+#include "recipe_dictionary.h"
+#include "recipe_groups.h"
+#include "regional_settings.h"
+#include "requirements.h"
+#include "rotatable_symbols.h"
+#include "scenario.h"
+#include "skill.h"
+#include "sounds.h"
+#include "speech.h"
+#include "start_location.h"
+#include "string_formatter.h"
+#include "text_snippets.h"
+#include "trap.h"
+#include "tutorial.h"
+#include "veh_type.h"
+#include "vehicle_group.h"
+#include "vitamin.h"
+#include "worldfactory.h"
 
 #if defined(TILES)
 void load_tileset();
@@ -336,6 +325,7 @@ void DynamicDataLoader::initialize()
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
     add( "sound_effect", &sfx::load_sound_effects );
+    add( "sound_effect_preload", &sfx::load_sound_effect_preload );
     add( "playlist", &sfx::load_playlist );
 
     add( "gate", &gates::load );
@@ -436,6 +426,7 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
+    harvest_list::reset();
     json_flag::reset();
     requirement_data::reset();
     vitamin::reset();

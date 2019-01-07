@@ -26880,7 +26880,7 @@
           "rotates": false
         },
         {
-          "id": "apple_vac",
+          "id": "apple_sugar",
           "fg": 736,
           "bg": 632,
           "rotates": false
@@ -26990,38 +26990,14 @@
           "rotates": false
         },
         {
-          "id": "bag_apple_vac",
+          "id": "plastic_bag_vac",
           "fg": 1168,
-          "bg": 632,
-          "rotates": false
-        },
-        {
-          "id": "bag_fish_vac",
-          "fg": 1169,
-          "bg": 632,
-          "rotates": false
-        },
-        {
-          "id": "bag_hflesh_vac",
-          "fg": 1170,
-          "bg": 632,
-          "rotates": false
-        },
-        {
-          "id": "bag_meat_vac",
-          "fg": 1171,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "bag_plastic",
           "fg": 2792,
-          "bg": 632,
-          "rotates": false
-        },
-        {
-          "id": "bag_veggy_vac",
-          "fg": 1172,
           "bg": 632,
           "rotates": false
         },
@@ -29729,12 +29705,6 @@
           "rotates": false
         },
         {
-          "id": "salted_fish",
-          "fg": 833,
-          "bg": 632,
-          "rotates": false
-        },
-        {
           "id": "fish_cooked",
           "fg": 833,
           "bg": 632,
@@ -29777,7 +29747,7 @@
           "rotates": false
         },
         {
-          "id": "fish_vac",
+          "id": "salted_fish",
           "fg": 833,
           "bg": 632,
           "rotates": false
@@ -30308,7 +30278,7 @@
           "rotates": false
         },
         {
-          "id": "hflesh_vac",
+          "id": "hflesh_salted",
           "fg": 848,
           "bg": 632,
           "rotates": false
@@ -31420,7 +31390,7 @@
           "rotates": false
         },
         {
-          "id": "meat_vac",
+          "id": "meat_salted",
           "fg": 896,
           "bg": 632,
           "rotates": false
@@ -34061,7 +34031,7 @@
           "rotates": false
         },
         {
-          "id": "veggy_vac",
+          "id": "veggy_salted",
           "fg": 988,
           "bg": 632,
           "rotates": false

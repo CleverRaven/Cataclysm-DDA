@@ -1,25 +1,25 @@
 #include "debug_menu.h"
 
+#include <algorithm>
+#include <vector>
+
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "messages.h"
-#include "overmap.h"
-#include "overmap_ui.h"
-#include "player.h"
-#include "ui.h"
+#include "mission.h"
+#include "morale_types.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "vitamin.h"
-#include "mission.h"
+#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "morale_types.h"
-
-#include <algorithm>
-#include <vector>
+#include "ui.h"
+#include "vitamin.h"
 
 namespace debug_menu
 {
@@ -39,11 +39,11 @@ class mission_debug
 
 void teleport_short()
 {
-    const tripoint where( g->look_around() );
-    if( where == tripoint_min || where == g->u.pos() ) {
+    const cata::optional<tripoint> where = g->look_around();
+    if( !where || *where == g->u.pos() ) {
         return;
     }
-    g->place_player( where );
+    g->place_player( *where );
     const tripoint new_pos( g->u.pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
@@ -60,13 +60,12 @@ void teleport_long()
 
 void teleport_overmap()
 {
-    tripoint dir;
-
-    if( !choose_direction( _( "Where is the desired overmap?" ), dir ) ) {
+    const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+    if( !dir_ ) {
         return;
     }
 
-    const tripoint offset( OMAPX * dir.x, OMAPY * dir.y, dir.z );
+    const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
     const tripoint where( g->u.global_omt_location() + offset );
 
     g->place_player_overmap( where );
@@ -398,7 +397,7 @@ void character_edit_menu()
             }
 
             types.query();
-            if( types.ret >= 0 && types.ret < ( int )mts.size() ) {
+            if( types.ret >= 0 && types.ret < static_cast<int>( mts.size() ) ) {
                 np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
             }
         }
@@ -407,9 +406,8 @@ void character_edit_menu()
             mission_debug::edit( p );
             break;
         case D_TELE: {
-            tripoint newpos = g->look_around();
-            if( newpos != tripoint_min ) {
-                p.setpos( newpos );
+            if( const cata::optional<tripoint> newpos = g->look_around() ) {
+                p.setpos( *newpos );
                 if( p.is_player() ) {
                     g->update_map( g->u );
                 }
@@ -428,7 +426,7 @@ void character_edit_menu()
             }
 
             classes.query();
-            if( classes.ret < ( int )ids.size() && classes.ret >= 0 ) {
+            if( classes.ret < static_cast<int>( ids.size() ) && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
             }
         }
@@ -469,10 +467,10 @@ std::string mission_debug::describe( const mission &m )
 
 void add_header( uilist &mmenu, const std::string &str )
 {
-    if( mmenu.entries.size() != 0 ) {
+    if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
     }
-    uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
+    uilist_entry header( -1, false, -1, str, c_yellow, c_yellow );
     header.force_color = true;
     mmenu.entries.push_back( header );
 }
@@ -507,7 +505,7 @@ void mission_debug::edit_npc( npc &who )
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 
@@ -540,7 +538,7 @@ void mission_debug::edit_player()
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 

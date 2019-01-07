@@ -1,21 +1,23 @@
 #include "options.h"
-#include "game.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "filesystem.h"
-#include "string_formatter.h"
-#include "cursesdef.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "json.h"
-#include "sounds.h"
+
 #include "cata_utility.h"
-#include "input.h"
-#include "worldfactory.h"
 #include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "filesystem.h"
+#include "game.h"
 #include "game_constants.h"
+#include "input.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "output.h"
+#include "path_info.h"
+#include "sdlsound.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "worldfactory.h"
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -29,13 +31,12 @@
 #include <jni.h>
 #endif
 
-#include <stdlib.h>
-#include <string>
-#include <locale>
-#include <sstream>
 #include <algorithm>
-#include <cctype>
+#include <cstdlib>
+#include <locale>
 #include <memory>
+#include <sstream>
+#include <string>
 
 bool trigdist;
 bool use_tiles;
@@ -86,7 +87,7 @@ void options_manager::add_retry( const std::string &lvar, const::std::string &lv
 }
 
 void options_manager::add_value( const std::string &lvar, const std::string &lval,
-                                 const std::string &lvalname )
+                                 const translation &lvalname )
 {
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find( lvar );
     if( it != post_json_verify.end() ) {
@@ -98,7 +99,7 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
                     return;
                 }
             }
-            ot->second.vItems.emplace_back( lval, lvalname.empty() ? lval : lvalname );
+            ot->second.vItems.emplace_back( lval, lvalname );
             // our value was saved, then set to default, so set it again.
             if( it->second == lval ) {
                 options[ lvar ].setValue( lval );
@@ -142,7 +143,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
 //add string select option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
+                           const std::vector<id_and_option> &sItemsIn, std::string sDefaultIn,
                            copt_hide_t opt_hide )
 {
     cOpt thisOpt;
@@ -349,11 +350,7 @@ std::string options_manager::cOpt::getPrerequisite() const
 
 bool options_manager::cOpt::hasPrerequisite() const
 {
-    if( sPrerequisite.empty() ) {
-        return true;
-    }
-
-    return ::get_option<bool>( sPrerequisite );
+    return !sPrerequisite.empty();
 }
 
 //helper functions
@@ -523,11 +520,11 @@ std::string options_manager::cOpt::getValueName() const
 {
     if( sType == "string_select" ) {
         const auto iter = std::find_if( vItems.begin(),
-        vItems.end(), [&]( const std::pair<std::string, std::string> &e ) {
+        vItems.end(), [&]( const id_and_option & e ) {
             return e.first == sSet;
         } );
         if( iter != vItems.end() ) {
-            return _( iter->second.c_str() );
+            return iter->second.translated();
         }
 
     } else if( sType == "bool" ) {
@@ -544,15 +541,15 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
 {
     if( sType == "string_select" ) {
         const auto iter = std::find_if( vItems.begin(), vItems.end(),
-        [this]( const std::pair<std::string, std::string> &elem ) {
+        [this]( const id_and_option & elem ) {
             return elem.first == sDefault;
         } );
         const std::string defaultName = iter == vItems.end() ? std::string() :
-                                        ( bTranslated ? _( iter->second.c_str() ) : iter->first );
+                                        ( bTranslated ? iter->second.translated() : iter->first );
         const std::string &sItems = enumerate_as_string( vItems.begin(), vItems.end(),
-        [bTranslated]( const std::pair<std::string, std::string> &elem ) {
-            return bTranslated ? _( elem.second.c_str() ) : elem.first;
-        }, false );
+        [bTranslated]( const id_and_option & elem ) {
+            return bTranslated ? elem.second.translated() : elem.first;
+        }, enumeration_conjunction::none );
         return string_format( _( "Default: %s - Values: %s" ),
                               defaultName.c_str(), sItems.c_str() );
 
@@ -589,7 +586,7 @@ int options_manager::cOpt::getItemPos( const std::string &sSearch ) const
     return -1;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::cOpt::getItems() const
+std::vector<options_manager::id_and_option> options_manager::cOpt::getItems() const
 {
     return vItems;
 }
@@ -608,7 +605,7 @@ void options_manager::cOpt::setNext()
 {
     if( sType == "string_select" ) {
         int iNext = getItemPos( sSet ) + 1;
-        if( iNext >= ( int )vItems.size() ) {
+        if( iNext >= static_cast<int>( vItems.size() ) ) {
             iNext = 0;
         }
 
@@ -763,14 +760,14 @@ void options_manager::cOpt::setValue( std::string sSetIn )
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
  */
-static std::vector<std::pair<std::string, std::string>> build_resource_list(
-            std::map<std::string, std::string> &resource_option, const std::string &operation_name,
-            const std::string &dirname_label, const std::string &filename_label )
+static std::vector<options_manager::id_and_option> build_resource_list(
+    std::map<std::string, std::string> &resource_option, const std::string &operation_name,
+    const std::string &dirname_label, const std::string &filename_label )
 {
-    std::vector<std::pair<std::string, std::string>> resource_names;
+    std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
-    auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
+    const auto resource_dirs = get_directories_with( FILENAMES[filename_label],
                                FILENAMES[dirname_label], true );
 
     for( auto &resource_dir : resource_dirs ) {
@@ -799,7 +796,8 @@ static std::vector<std::pair<std::string, std::string>> build_resource_list(
                     }
                 }
             }
-            resource_names.emplace_back( resource_name, view_name.empty() ? resource_name : view_name );
+            resource_names.emplace_back( resource_name,
+                                         view_name.empty() ? no_translation( resource_name ) : translation( view_name ) );
             if( resource_option.count( resource_name ) != 0 ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " <<
                                             resource_name;
@@ -812,20 +810,20 @@ static std::vector<std::pair<std::string, std::string>> build_resource_list(
     return resource_names;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::build_tilesets_list()
+std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
     auto tileset_names = build_resource_list( TILESETS, "tileset",
                          "gfxdir", "tileset-conf" );
 
     if( tileset_names.empty() ) {
-        tileset_names.emplace_back( "hoder", translate_marker( "Hoder's" ) );
-        tileset_names.emplace_back( "deon", translate_marker( "Deon's" ) );
+        tileset_names.emplace_back( "hoder", translation( "Hoder's" ) );
+        tileset_names.emplace_back( "deon", translation( "Deon's" ) );
     }
     return tileset_names;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack_from(
-            const std::string &path )
+std::vector<options_manager::id_and_option> options_manager::load_soundpack_from(
+    const std::string &path )
 {
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
@@ -838,11 +836,11 @@ std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack
     return soundpack_names;
 }
 
-std::vector<std::pair<std::string, std::string>> options_manager::build_soundpacks_list()
+std::vector<options_manager::id_and_option> options_manager::build_soundpacks_list()
 {
     // Clear soundpacks before loading
     SOUNDPACKS.clear();
-    std::vector<std::pair<std::string, std::string>> result;
+    std::vector<id_and_option> result;
 
     // Search data directory for sound packs
     auto data_soundpacks = load_soundpack_from( "data_sound" );
@@ -854,7 +852,7 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_soundpac
 
     // Select default built-in sound pack
     if( result.empty() ) {
-        result.emplace_back( "basic", translate_marker( "Basic" ) );
+        result.emplace_back( "basic", translation( "Basic" ) );
     }
     return result;
 }
@@ -898,6 +896,55 @@ void options_manager::init()
     vPages.emplace_back( "android", translate_marker( "Android" ) );
 #endif
 
+    add_options_general();
+    add_options_interface();
+    add_options_graphics();
+    add_options_debug();
+    add_options_world_default();
+    add_options_android();
+
+    for( unsigned i = 0; i < vPages.size(); ++i ) {
+        mPageItems[i].resize( mOptionsSort[vPages[i].first] );
+    }
+
+    for( auto &elem : options ) {
+        for( unsigned i = 0; i < vPages.size(); ++i ) {
+            if( vPages[i].first == ( elem.second ).getPage() &&
+                ( elem.second ).getSortPos() > -1 ) {
+                mPageItems[i][( elem.second ).getSortPos()] = elem.first;
+                break;
+            }
+        }
+    }
+
+    //Sort out possible double empty lines after options are hidden
+    for( unsigned i = 0; i < vPages.size(); ++i ) {
+        bool bLastLineEmpty = false;
+        while( mPageItems[i][0].empty() ) {
+            //delete empty lines at the beginning
+            mPageItems[i].erase( mPageItems[i].begin() );
+        }
+
+        while( mPageItems[i][mPageItems[i].size() - 1].empty() ) {
+            //delete empty lines at the end
+            mPageItems[i].erase( mPageItems[i].end() - 1 );
+        }
+
+        for( unsigned j = mPageItems[i].size() - 1; j > 0; --j ) {
+            bool bThisLineEmpty = mPageItems[i][j].empty();
+
+            if( bLastLineEmpty && bThisLineEmpty ) {
+                //delete empty lines in between
+                mPageItems[i].erase( mPageItems[i].begin() + j );
+            }
+
+            bLastLineEmpty = bThisLineEmpty;
+        }
+    }
+}
+
+void options_manager::add_options_general()
+{
     ////////////////////////////GENERAL//////////////////////////
     add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
          translate_marker( "Set a default character name that will be used instead of a random name on character creation." ),
@@ -949,18 +996,33 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
-         translate_marker( "If true, enables auto pulping resurrecting corpses or auto butchering any corpse.  Never pulps acidic corpses.  Disabled as long as any enemy monster is seen." ),
+    add( "AUTO_FEATURES", "general", translate_marker( "Additional auto features" ),
+         translate_marker( "If true, enables configured auto features below.  Disabled as long as any enemy monster is seen." ),
          false
        );
 
-    add( "AUTO_PULP_BUTCHER_ACTION", "general", translate_marker( "Auto pulp or butcher action" ),
+    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
-    "butcher"
+    { { "off", translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    "off"
        );
 
-    get_option( "AUTO_PULP_BUTCHER_ACTION" ).setPrerequisite( "AUTO_PULP_BUTCHER" );
+    get_option( "AUTO_PULP_BUTCHER" ).setPrerequisite( "AUTO_FEATURES" );
+
+    add( "AUTO_MINING", "general", translate_marker( "Auto mining" ),
+         translate_marker( "If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain." ),
+         false
+       );
+
+    get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
+
+    add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
+         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Both: Forage bushes and trees." ),
+    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
+    "off"
+       );
+
+    get_option( "AUTO_FORAGING" ).setPrerequisite( "AUTO_FEATURES" );
 
     mOptionsSort["general"]++;
 
@@ -994,6 +1056,11 @@ void options_manager::init()
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
          translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
          1, 100, 50
+       );
+
+    add( "SAFEMODEIGNORETURNS", "general", translate_marker( "Turns to remember ignored monsters" ),
+         translate_marker( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
+         0, 600, 200
        );
 
     mOptionsSort["general"]++;
@@ -1050,13 +1117,6 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add( "AUTO_MINING", "general", translate_marker( "Automatic mining" ),
-         translate_marker( "If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain." ),
-         true
-       );
-
-    mOptionsSort["general"]++;
-
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
          translate_marker( "If true, music and sound are enabled." ),
          true, COPT_NO_SOUND_HIDE
@@ -1082,7 +1142,10 @@ void options_manager::init()
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
+}
 
+void options_manager::add_options_interface()
+{
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
@@ -1091,31 +1154,32 @@ void options_manager::init()
         // Note: language names are in their own language and are *not* translated at all.
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
-        { "en", R"( English )" },
-        { "de", R"( Deutsch )" },
-        { "es_AR", R"( Español ( Argentina ) )" },
-        { "es_ES", R"( Español ( España ) )" },
-        { "fr", R"( Français )" },
-        { "hu", R"( magyar nyelv )"},
-        { "ja", R"( 日本語 )" },
-        { "ko", R"( 한국어 )" },
-        { "pl", R"( Polski )" },
-        { "ru", R"( Русский )" },
-        { "zh_CN", R"( 中文( 天朝 ) )" },
-        { "zh_TW", R"( 中文( 台灣 ) )" },
+        { "en", no_translation( R"(English)" ) },
+        { "de", no_translation( R"(Deutsch)" ) },
+        { "es_AR", no_translation( R"(Español (Argentina))" ) },
+        { "es_ES", no_translation( R"(Español (España))" ) },
+        { "fr", no_translation( R"(Français)" ) },
+        { "hu", no_translation( R"(Magyar)" ) },
+        { "ja", no_translation( R"(日本語)" ) },
+        { "ko", no_translation( R"(한국어)" ) },
+        { "pl", no_translation( R"(Polski)" ) },
+        { "ru", no_translation( R"(Русский)" ) },
+        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     }, "" );
 
     mOptionsSort["interface"]++;
 
     add( "USE_CELSIUS", "interface", translate_marker( "Temperature units" ),
-         translate_marker( "Switch between Celsius and Fahrenheit." ),
-    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) } },
+         translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
+    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
     "fahrenheit"
        );
 
     add( "USE_METRIC_SPEEDS", "interface", translate_marker( "Speed units" ),
-         translate_marker( "Switch between km/h and mph." ),
-    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) } }, "mph"
+         translate_marker( "Switch between mph, km/h and tiles/turn." ),
+    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) }, { "t/t", translate_marker( "tiles/turn" ) } },
+    "mph"
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", translate_marker( "Mass units" ),
@@ -1298,7 +1362,10 @@ void options_manager::init()
         { "hidekb", translate_marker( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
+}
 
+void options_manager::add_options_graphics()
+{
     ////////////////////////////GRAPHICS/////////////////////////
     add( "ANIMATIONS", "graphics", translate_marker( "Animations" ),
          translate_marker( "If true, will display enabled animations." ),
@@ -1354,17 +1421,12 @@ void options_manager::init()
 
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
          translate_marker( "If true, replaces some TTF rendered text with tiles." ),
-#ifdef __ANDROID__
-         android_get_default_setting( "Use tiles", false ),
-         COPT_CURSES_HIDE // take default setting from pre-game settings screen - important as many devices lack memory to run with tiles
-#else
          true, COPT_CURSES_HIDE
-#endif
        );
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-         build_tilesets_list(), "ChestHole", COPT_CURSES_HIDE
+         build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -1454,7 +1516,10 @@ void options_manager::init()
         { "linear", translate_marker( "Linear filtering" ) }
     },
     "none", COPT_CURSES_HIDE );
+}
 
+void options_manager::add_options_debug()
+{
     ////////////////////////////DEBUG////////////////////////////
     add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
          translate_marker( "Determines the scope, which is known in the beginning of the game." ),
@@ -1517,7 +1582,10 @@ void options_manager::init()
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
        );
+}
 
+void options_manager::add_options_world_default()
+{
     ////////////////////////////WORLD DEFAULT////////////////////
     add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
          translate_marker( "Controls what migrations are applied for legacy worlds" ),
@@ -1537,7 +1605,7 @@ void options_manager::init()
 
     add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
          translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
-         0, 16, 4
+         0, 16, 8
        );
 
     add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
@@ -1683,7 +1751,10 @@ void options_manager::init()
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
     "any"
        );
+}
 
+void options_manager::add_options_android()
+{
 #ifdef __ANDROID__
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
          translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
@@ -1735,7 +1806,7 @@ void options_manager::init()
     add( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW", "android",
          translate_marker( "Virtual joystick follows finger" ),
          translate_marker( "If true, the virtual joystick will follow when sliding beyond its range." ),
-         true
+         false
        );
 
     add( "ANDROID_REPEAT_DELAY_MAX", "android",
@@ -1925,45 +1996,6 @@ void options_manager::init()
        );
 
 #endif
-
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
-        mPageItems[i].resize( mOptionsSort[vPages[i].first] );
-    }
-
-    for( auto &elem : options ) {
-        for( unsigned i = 0; i < vPages.size(); ++i ) {
-            if( vPages[i].first == ( elem.second ).getPage() &&
-                ( elem.second ).getSortPos() > -1 ) {
-                mPageItems[i][( elem.second ).getSortPos()] = elem.first;
-                break;
-            }
-        }
-    }
-
-    //Sort out possible double empty lines after options are hidden
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
-        bool bLastLineEmpty = false;
-        while( mPageItems[i][0].empty() ) {
-            //delete empty lines at the beginning
-            mPageItems[i].erase( mPageItems[i].begin() );
-        }
-
-        while( mPageItems[i][mPageItems[i].size() - 1].empty() ) {
-            //delete empty lines at the end
-            mPageItems[i].erase( mPageItems[i].end() - 1 );
-        }
-
-        for( unsigned j = mPageItems[i].size() - 1; j > 0; --j ) {
-            bool bThisLineEmpty = mPageItems[i][j].empty();
-
-            if( bLastLineEmpty && bThisLineEmpty ) {
-                //delete empty lines in between
-                mPageItems[i].erase( mPageItems[i].begin() + j );
-            }
-
-            bLastLineEmpty = bThisLineEmpty;
-        }
-    }
 }
 
 #ifdef TILES
@@ -2040,7 +2072,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
-    if( world_generator->active_world == NULL ) {
+    if( world_generator->active_world == nullptr ) {
         ingame = false;
     }
 
@@ -2120,15 +2152,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         //Draw options
         size_t iBlankOffset = 0; // Offset when blank line is printed.
         for( int i = iStartPos;
-             i < iStartPos + ( ( iContentHeight > ( int )mPageItems[iCurrentPage].size() ) ?
-                               ( int )mPageItems[iCurrentPage].size() : iContentHeight ); i++ ) {
+             i < iStartPos + ( ( iContentHeight > static_cast<int>( mPageItems[iCurrentPage].size() ) ) ?
+                               static_cast<int>( mPageItems[iCurrentPage].size() ) : iContentHeight ); i++ ) {
 
-            int line_pos; // Current line position in window.
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
             bool hasPrerequisite = current_opt.hasPrerequisite();
+            bool prerequisiteEnabled = !hasPrerequisite ||
+                                       cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
-            line_pos = i - iStartPos;
+            int line_pos = i - iStartPos; // Current line position in window.
 
             sTemp.str( "" );
             sTemp << i + 1 - iBlankOffset;
@@ -2141,9 +2174,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
 
             const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
-            mvwprintz( w_options, line_pos, name_col + 3, hasPrerequisite ? c_white : c_light_gray, name );
+            mvwprintz( w_options, line_pos, name_col + 3, !hasPrerequisite ||
+                       prerequisiteEnabled ? c_white : c_light_gray, name );
 
-            if( !hasPrerequisite ) {
+            if( hasPrerequisite && !prerequisiteEnabled ) {
                 cLineColor = c_light_gray;
 
             } else if( current_opt.getValue() == "false" ) {
@@ -2162,7 +2196,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         //Draw Tabs
         if( !world_options_only ) {
             mvwprintz( w_options_header, 0, 7, c_white, "" );
-            for( int i = 0; i < ( int )vPages.size(); i++ ) {
+            for( int i = 0; i < static_cast<int>( vPages.size() ); i++ ) {
                 if( mPageItems[i].empty() ) {
                     continue;
                 }
@@ -2241,8 +2275,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         }
 
         cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
+        bool hasPrerequisite = current_opt.hasPrerequisite();
+        bool prerequisiteEnabled = !hasPrerequisite ||
+                                   cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
 
-        if( !current_opt.hasPrerequisite() &&
+        if( hasPrerequisite && !prerequisiteEnabled &&
             ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
             popup( _( "Prerequisite for this option not met!\n(%s)" ),
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
@@ -2252,7 +2289,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         if( action == "DOWN" ) {
             do {
                 iCurrentLine++;
-                if( iCurrentLine >= ( int )mPageItems[iCurrentPage].size() ) {
+                if( iCurrentLine >= static_cast<int>( mPageItems[iCurrentPage].size() ) ) {
                     iCurrentLine = 0;
                 }
             } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
@@ -2271,7 +2308,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             iCurrentLine = 0;
             iStartPos = 0;
             iCurrentPage++;
-            if( iCurrentPage >= ( int )vPages.size() ) {
+            if( iCurrentPage >= static_cast<int>( vPages.size() ) ) {
                 iCurrentPage = 0;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -2374,7 +2411,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             save();
             if( ingame && world_options_changed ) {
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
-                world_generator->save_world( world_generator->active_world, false );
+                world_generator->active_world->save();
             }
         } else {
             used_tiles_changed = false;

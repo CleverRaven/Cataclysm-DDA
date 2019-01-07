@@ -2,8 +2,8 @@
 #ifndef PATH_INFO_H
 #define PATH_INFO_H
 
-#include <string>
 #include <map>
+#include <string>
 
 extern std::map<std::string, std::string> FILENAMES;
 

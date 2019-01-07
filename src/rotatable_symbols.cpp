@@ -1,13 +1,11 @@
 #include "rotatable_symbols.h"
 
-#include "debug.h"
-#include "json.h"
-#include "generic_factory.h"
-#include "output.h"
-#include "string_formatter.h"
-
 #include <array>
 #include <vector>
+
+#include "generic_factory.h"
+#include "json.h"
+#include "string_formatter.h"
 
 namespace
 {

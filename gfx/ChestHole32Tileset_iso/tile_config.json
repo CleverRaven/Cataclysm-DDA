@@ -4607,7 +4607,7 @@
         {
           "bg": 632,
           "fg": 736,
-          "id": ["apple_canned", "apple_vac"],
+          "id": ["apple_canned", "apple_sugar"],
           "rotates": false
         },
         {
@@ -5160,7 +5160,7 @@
         {
           "bg": 632,
           "fg": 833,
-          "id": [ "fish_pickled", "fish_pickled_jarred", "fish_canned", "salted_fish", "fish_cooked", "fish_fried", "fish_dry", "rehydrated_fish", "fish_smoked", "dry_fish", "fish_vac" ],
+          "id": [ "fish_pickled", "fish_pickled_jarred", "fish_canned", "salted_fish", "fish_cooked", "fish_fried", "fish_dry", "rehydrated_fish", "fish_smoked", "dry_fish", "salted_fish" ],
           "rotates": false
         },
         {
@@ -5248,7 +5248,7 @@
         {
           "bg": 632,
           "fg": 848,
-          "id": ["hflesh_vac", "dry_hflesh", "human_canned", "human_pickled"],
+          "id": ["hflesh_salted", "dry_hflesh", "human_canned", "human_pickled"],
           "rotates": false
         },
         {
@@ -5520,7 +5520,7 @@
         {
           "bg": 632,
           "fg": 896,
-          "id": ["meat_canned", "meat_pickled", "meat_vac"],
+          "id": ["meat_canned", "meat_pickled"],
           "rotates": false
         },
         {
@@ -6049,7 +6049,7 @@
         {
           "bg": 632,
           "fg": 988,
-          "id": ["veggy_canned", "veggy_pickled", "veggy_vac"],
+          "id": ["veggy_canned", "veggy_pickled", "veggy_salted"],
           "rotates": false
         },
         {
@@ -6696,32 +6696,8 @@
         },
         {
           "bg": 632,
-          "fg": 1168,
-          "id": "bag_apple_vac",
-          "rotates": false
-        },
-        {
-          "bg": 632,
-          "fg": 1169,
-          "id": "bag_fish_vac",
-          "rotates": false
-        },
-        {
-          "bg": 632,
           "fg": 1170,
-          "id": "bag_hflesh_vac",
-          "rotates": false
-        },
-        {
-          "bg": 632,
-          "fg": 1171,
-          "id": "bag_meat_vac",
-          "rotates": false
-        },
-        {
-          "bg": 632,
-          "fg": 1172,
-          "id": "bag_veggy_vac",
+          "id": "plastic_bag_vac",
           "rotates": false
         },
         {
@@ -7223,7 +7199,7 @@
         {
           "bg": 632,
           "fg": 1261,
-          "id": ["jar_human_canned", "jar_human_pickled", "jar_meat_canned", "jar_meat_pickled"],
+          "id": ["jar_human_canned", "jar_human_pickled", "jar_meat_canned", "jar_meat_pickled", "meat_salted"],
           "rotates": false
         },
         {

@@ -1,34 +1,30 @@
-#include "gamemode.h"
-#include "action.h"
-#include "color.h"
-#include "enums.h"
-#include "game.h"
-#include "map.h"
-#include "debug.h"
-#include "itype.h"
-#include "mtype.h"
-#include "overmapbuffer.h"
-#include "crafting.h"
-#include "recipe_dictionary.h"
-#include "monstergenerator.h"
-#include "construction.h"
-#include "messages.h"
-#include "map_iterator.h"
-#include "rng.h"
-#include "mongroup.h"
-#include "translations.h"
-#include "input.h"
-#include "overmap.h"
-#include "output.h"
-#include "player.h"
-#include "string_input_popup.h"
-#include "string_formatter.h"
-#include "item_group.h"
+#include "gamemode.h" // IWYU pragma: associated
 
-#include <string>
-#include <vector>
 #include <ostream>
 #include <sstream>
+
+#include "action.h"
+#include "color.h"
+#include "construction.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "item_group.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "mongroup.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters

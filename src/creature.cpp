@@ -1,27 +1,27 @@
 #include "creature.h"
-#include "item.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "messages.h"
-#include "rng.h"
-#include "translations.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "effect.h"
-#include "mtype.h"
-#include "npc.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "field.h"
-#include "projectile.h"
-#include "anatomy.h"
 
 #include <algorithm>
-#include <numeric>
 #include <cmath>
 #include <map>
+
+#include "item.h"
+#include "anatomy.h"
+#include "debug.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "itype.h"
+#include "map.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "projectile.h"
+#include "rng.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -38,11 +38,25 @@ const std::map<std::string, m_size> Creature::size_map = {
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
 };
 
+const std::set<material_id> Creature::cmat_flesh{
+    material_id( "flesh" ), material_id( "iflesh" )
+};
+const std::set<material_id> Creature::cmat_fleshnveg{
+    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
+};
+const std::set<material_id> Creature::cmat_flammable{
+    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
+    material_id( "cotton" ), material_id( "wool" )
+};
+const std::set<material_id> Creature::cmat_flameres{
+    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
+};
+
 Creature::Creature()
 {
     moves = 0;
     pain = 0;
-    killer = NULL;
+    killer = nullptr;
     speed_base = 100;
     underwater = false;
 
@@ -188,7 +202,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
-            return range >= wanted_range &&
+            const float player_visibility_factor = g->u.visibility() / 100.0f;
+            int adj_range = std::floor( range * player_visibility_factor );
+            return adj_range >= wanted_range &&
                    g->m.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
             return g->m.sees( pos(), t, range );
@@ -242,7 +258,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         } else if( pldist < 3 ) {
             iff_hangle = ( pldist == 2 ? 30 : 60 );  // granularity increases with proximity
         }
-        u_angle = g->m.coord_to_angle( posx(), posy(), u.posx(), u.posy() );
+        u_angle = coord_to_angle( pos(), u.pos() );
     }
 
     if( area > 0 && in_veh != nullptr ) {
@@ -264,7 +280,36 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     for( auto &m : targets ) {
         if( !sees( *m ) ) {
             // can't see nor sense it
-            continue;
+            if( is_fake() && in_veh ) {
+                // If turret in the vehicle then
+                // Hack: trying yo avoid turret LOS blocking by frames bug by trying to see target from vehicle boundary
+                // Or turret wallhack for turret's car
+                // TODO: to visibility checking another way, probably using 3D FOV
+                std::vector<tripoint> path_to_target = line_to( pos(), m->pos() );
+                path_to_target.insert( path_to_target.begin(), pos() );
+
+                // Getting point on vehicle boundaries and on line between target and turret
+                bool continueFlag = true;
+                do {
+                    const optional_vpart_position vp = g->m.veh_at( path_to_target.back() );
+                    vehicle *const veh = vp ? &vp->vehicle() : nullptr;
+                    if( in_veh == veh ) {
+                        continueFlag = false;
+                    } else {
+                        path_to_target.pop_back();
+                    }
+                } while( continueFlag );
+
+                tripoint oldPos = pos();
+                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
+                bool seesFromVehBound = sees( *m ); // And look from there
+                setpos( oldPos );
+                if( !seesFromVehBound ) {
+                    continue;
+                }
+            } else {
+                continue;
+            }
         }
         int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
         if( dist > range + 1 || dist < area ) {
@@ -292,7 +337,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            int tangle = g->m.coord_to_angle( posx(), posy(), m->posx(), m->posy() );
+            int tangle = coord_to_angle( pos(), m->pos() );
             int diff = abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
@@ -479,7 +524,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
-    std::string message = "";
+    std::string message;
     game_message_type gmtSCTcolor = m_neutral;
 
     if( goodhit < accuracy_headshot ) {
@@ -522,7 +567,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     impact.mult_damage( damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
-        float dmg_ratio = ( float )impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
+        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( player::bp_to_hp(
+                              bp_hit ) );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -533,28 +579,21 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // Apply ammo effects to target.
     if( proj.proj_effects.count( "FLAME" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, rng( 5_turns, 10_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "INCENDIARY" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
-        } else if( ( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) &&
-                   one_in( 4 ) ) {
+        } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
             add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
-            made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
-            made_of( material_id( "wood" ) ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, 6_turns, bp_hit );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, 10_turns, bp_hit );
         }
     }
@@ -1383,24 +1422,6 @@ units::mass Creature::weight_capacity() const
     return base_carry;
 }
 
-units::mass Creature::get_weight() const
-{
-    switch( get_size() ) {
-        case MS_TINY:
-            return 1000_gram;
-        case MS_SMALL:
-            return 40750_gram;
-        case MS_MEDIUM:
-            return 81500_gram;
-        case MS_LARGE:
-            return 120_kilogram;
-        case MS_HUGE:
-            return 200_kilogram;
-    }
-
-    return 0;
-}
-
 /*
  * Drawing-related functions
  */
@@ -1450,10 +1471,10 @@ void Creature::check_dead_state()
     }
 }
 
-std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude att )
+const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    static std::array<pair_t, 5> const strings {
+    static const std::array<pair_t, 5> strings {
         {
             pair_t {_( "Hostile" ), c_red},
             pair_t {_( "Neutral" ), h_white},
@@ -1463,7 +1484,7 @@ std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude
         }
     };
 
-    if( ( int ) att < 0 || ( int ) att >= ( int ) strings.size() ) {
+    if( static_cast<int>( att ) < 0 || static_cast<int>( att ) >= static_cast<int>( strings.size() ) ) {
         return strings.back();
     }
 

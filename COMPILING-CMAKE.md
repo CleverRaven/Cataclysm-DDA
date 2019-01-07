@@ -3,7 +3,7 @@
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
 
 For official way to build CataclysmDDA See:
-  * The latest instructions on how to compile can be found on [our wiki](http://tools.cataclysmdda.com/wiki). 
+  * The latest instructions on how to compile can be found on [our wiki](http://tools.cataclysmdda.com/wiki).
   * [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md)
 
 
@@ -65,7 +65,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
  1. Follow steps from here: https://msys2.github.io/
  2. Install CataclysmDDA build deps:
- 
+
  ```
 	pacman -S mingw-w64-i686-toolchain msys/git \
 		  mingw-w64-i686-cmake \
@@ -75,7 +75,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 		  gettext-devel
  ```
 
- This should get your environment set up to build console and tiles version of windows. 
+ This should get your environment set up to build console and tiles version of windows.
 
  **NOTE**: This is only for 32bit builds. 64bit requires the x86_64 instead of the i686
        packages listed above:
@@ -141,7 +141,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  For Mingw,MSYS,MSYS2 you should set [Makefiles generator](http://www.cmake.org/cmake/help/cmake-2.6.html#section_Generators)
 
  Valid choices for MINGW/MSYS are:
-	
+
  * MSYS Makefiles
  * MinGW Makefiles
 
@@ -178,12 +178,12 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  ```
 
  Shared libraries:
- 
+
  If you got `libgcc_s_dw2-1.dll not found` error you need to copy shared libraries
  to directory with CataclysmDDA executables.
 
  **NOTE**: For `-DRELEASE=OFF` development builds, You can automate copy process with:
- 
+
  ```
 	$ mingw32-make install
  ```
@@ -233,7 +233,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
    * `smpeg2.dll`
    * `libvorbisfile-3.dll`
 
- 
+
 # Build Options
 
  A full list of options supported by CMake, you may either run the `ccmake`
@@ -245,7 +245,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  ```
 
 
-## CMake specific options 
+## CMake specific options
 
  * CMAKE_BUILD_TYPE=`<build type>`
 
@@ -262,7 +262,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
  Installation prefix for binaries, resources, and documentation files.
 
- 
+
 ## CataclysmDDA specific options
 
  * CURSES=`<boolean>`
@@ -315,7 +315,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  * GIT_BINARY=`<str>`
 
  Override default Git binary name or path.
- 
+
  So a CMake command for building Cataclysm-DDA in release mode with tiles, sound and lua support will look as follows, provided it is run in build directory located in the project.
 ```
 cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON -DLUA=ON

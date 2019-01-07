@@ -1,16 +1,11 @@
 #include "player_activity.h"
 
+#include <algorithm>
+
+#include "activity_handlers.h"
 #include "activity_type.h"
-#include "construction.h"
 #include "craft_command.h"
 #include "player.h"
-#include "requirements.h"
-#include "translations.h"
-#include "activity_handlers.h"
-#include "messages.h"
-#include "mapdata.h"
-
-#include <algorithm>
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -89,7 +84,7 @@ bool player_activity::is_suspendable() const
     return type->suspendable();
 }
 
-std::string player_activity::get_str_value( size_t index, std::string def ) const
+std::string player_activity::get_str_value( size_t index, const std::string &def ) const
 {
     return ( index < str_values.size() ) ? str_values[index] : def;
 }
@@ -139,7 +134,7 @@ void player_activity::do_turn( player &p )
 
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
-        p.drop_inventory_overflow();
+        p.drop_invalid_inventory();
     }
 }
 

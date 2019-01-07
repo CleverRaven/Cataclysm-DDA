@@ -1,20 +1,17 @@
 #include "event.h"
-#include "npc.h"
-#include "game.h"
-#include "map.h"
-#include "debug.h"
-#include "line.h"
-#include "rng.h"
-#include "output.h"
-#include "options.h"
-#include "translations.h"
-#include "overmapbuffer.h"
-#include "messages.h"
-#include "sounds.h"
-#include "morale_types.h"
-#include "mapdata.h"
 
-#include <climits>
+#include "debug.h"
+#include "game.h"
+#include "line.h"
+#include "map.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "morale_types.h"
+#include "options.h"
+#include "output.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 const mtype_id mon_copbot( "mon_copbot" );
@@ -78,7 +75,7 @@ void event::actualize()
             }
             // You could drop the flag, you know.
             if( g->u.has_amount( "petrified_eye", 1 ) ) {
-                sounds::sound( g->u.pos(), 60, "" );
+                sounds::sound( g->u.pos(), 60, sounds::sound_t::speech, _( "a tortured scream!" ) );
                 if( !g->u.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
                     g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 5_turns );

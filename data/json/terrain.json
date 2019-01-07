@@ -364,7 +364,7 @@
     "color": "brown",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
     "examine_action": "dirtmound"
   },
   {
@@ -382,7 +382,6 @@
       "str_min": 50,
       "str_max": 100,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     },
     "examine_action": "dirtmound"
@@ -494,7 +493,20 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "flags": [ "TRANSPARENT", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_floor_no_roof",
+    "name": "rock floor",
+    "description": "A relatively flat area of rock and stone.  Looks stable enough to be mined with the proper mining gear.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_open_air",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -507,7 +519,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -560,11 +572,11 @@
     "id": "t_grass_tall",
     "name": "tall grass",
     "description": "Tall grass about head high.",
-    "looks_like": "t_grass",
+    "looks_like": "t_shrub",
     "symbol": ",",
-    "color": "green",
+    "color": "brown_green",
     "move_cost": 5,
-    "flags": [ "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -628,7 +640,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "rock", "count": [ 2, 10 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
   },
@@ -647,7 +658,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "rock", "count": [ 2, 10 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
   },
@@ -665,7 +675,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
     }
   },
@@ -683,7 +692,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "rock", "count": [ 2, 15 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
   },
@@ -703,7 +711,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
   },
@@ -723,7 +730,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [
         { "item": "log", "count": [ 0, 1 ] },
         { "item": "stick", "count": [ 1, 4 ] },
@@ -747,7 +753,6 @@
       "sound": "SMASH!",
       "ter_set": "t_null",
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
     }
   },
@@ -766,7 +771,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "wax", "count": [ 1, 3 ] } ]
     }
   },
@@ -785,7 +789,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
   },
@@ -834,7 +837,6 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "bash_below": true,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
   },
@@ -923,7 +925,7 @@
     "move_cost": 0,
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_TO_WALL", "WALL" ],
     "bash": {
-      "str_min": 10,
+      "str_min": 35,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
@@ -941,7 +943,7 @@
     "move_cost": 0,
     "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL" ],
     "bash": {
-      "str_min": 6,
+      "str_min": 24,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
@@ -2481,7 +2483,7 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL"
     ],
-    "examine_action": "locked_object",
+    "examine_action": "curtains",
     "close": "t_curtains",
     "open": "t_window_open",
     "deconstruct": {
@@ -2585,6 +2587,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "flags": [ "FLAMMABLE", "NOITEM", "WALL" ],
+    "examine_action": "curtains",
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2610,6 +2613,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "examine_action": "curtains",
     "close": "t_window_domestic",
     "bash": {
       "str_min": 3,
@@ -2974,6 +2978,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
       "items": [
         { "item": "rock", "count": [ 3, 7 ] },
         { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
@@ -5841,6 +5846,66 @@
   },
   {
     "type": "terrain",
+    "id": "t_nanofab_body",
+    "name": "nanofabricator",
+    "symbol": "%",
+    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3d printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "e_scrap", "count": [ 10, 14 ] },
+        { "item": "processor", "count": [ 10, 20 ] },
+        { "item": "RAM", "count": [ 14, 20 ] },
+        { "item": "nanomaterial", "count": 1, "prob": 10 },
+        { "item": "bearing", "charges": [ 20, 60 ] },
+        { "item": "motor", "count": 4 },
+        { "item": "power_supply", "count": [ 4, 16 ] },
+        { "item": "amplifier", "count": [ 4, 16 ] },
+        { "item": "cable", "charges": [ 250, 500 ] },
+        { "item": "circuit", "count": [ 1, 6 ] },
+        { "item": "scrap", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nanofab",
+    "name": "nanofabricator control panel",
+    "symbol": "&",
+    "description": "A small computer panel attached to a nanofabricator.  It has a single slot for reading templates.",
+    "color": "red",
+    "move_cost": 0,
+    "flags": [ "WALL", "NOITEM", "PERMEABLE" ],
+    "examine_action": "nanofab",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_column",
     "name": "column",
     "symbol": "1",
@@ -7173,11 +7238,29 @@
     "color": "brown",
     "move_cost": 0,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_blackjack_harvested",
     "examine_action": "harvest_ter",
-    "transforms_into": "t_tree",
     "harvest_by_season": [
       { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ] }
     ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_blackjack_harvested",
+    "name": "blackjack oak",
+    "symbol": "7",
+    "color": "brown",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_blackjack",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -7704,7 +7787,6 @@
       "str_max": 400,
       "str_min_supported": 100,
       "ter_set": "t_null",
-      "bash_below": true,
       "sound": "SMASH!",
       "items": [ { "item": "wax", "count": [ 1, 3 ] } ]
     },
@@ -7723,7 +7805,6 @@
       "str_max": 400,
       "str_min_supported": 100,
       "ter_set": "t_null",
-      "bash_below": true,
       "sound": "SMASH!",
       "items": [ { "item": "wax", "count": [ 1, 3 ] } ]
     },
@@ -7777,7 +7858,7 @@
       "ter_set": "t_dirt",
       "sound": "crack.",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 5 ] }, { "item": "nail", "count": [ 3, 8 ] }, { "item": "splinter", "count": 2 } ]
+      "items": [ { "item": "2x4", "count": [ 2, 5 ] }, { "item": "nail", "charges": [ 3, 8 ] }, { "item": "splinter", "count": 2 } ]
     },
     "flags": [ "BASHABLE", "TRANSPARENT", "NOITEM", "MOUNTABLE" ]
   },
@@ -7864,7 +7945,7 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "2x4", "count": [ 1, 3 ] },
-        { "item": "nail", "count": [ 0, 4 ] },
+        { "item": "nail", "charges": [ 0, 4 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
     },
@@ -7904,6 +7985,70 @@
       "sound_fail": "whump!",
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_junk_palisade",
+    "name": "junk metal barrier",
+    "looks_like": "t_scrap_wall_halfway",
+    "description": "A simple wall of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  This one isn't quite strong enough to support a roof, but could be reinforced.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 30,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_junk_wall",
+    "name": "junk metal wall",
+    "looks_like": "t_scrap_wall",
+    "description": "A wall of rusty scrap metal bolted and wire-tied to a sturdy frame.  Very fashionable in post-apocalyptic shantytowns.  Can support a roof.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 60,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pit_shallow",
+      "items": [
+        { "item": "pipe", "count": [ 1, 6 ] },
+        { "item": "scrap", "count": [ 1, 40 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 30 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_junk_floor",
+    "name": "junk metal floor",
+    "looks_like": "t_scrap_floor",
+    "description": "A simple roof and floor of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  Hope you like the sound of rain on corrugated metal.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
     }
   }
 ]

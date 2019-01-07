@@ -23,7 +23,7 @@ bool item_category::operator!=( const item_category &rhs ) const
 
 std::string item_category::name() const
 {
-    return name_;
+    return name_.translated();
 }
 
 std::string item_category::id() const

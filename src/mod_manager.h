@@ -2,14 +2,13 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
-#include "string_id.h"
-#include "pimpl.h"
-
-#include <string>
-#include <vector>
 #include <map>
 #include <set>
-#include <memory>
+#include <string>
+#include <vector>
+
+#include "pimpl.h"
+#include "string_id.h"
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 
@@ -124,7 +123,6 @@ class mod_manager
             return usable_mods;
         }
 
-    protected:
     private:
         // Make this accessible for now
         friend class mod_ui;

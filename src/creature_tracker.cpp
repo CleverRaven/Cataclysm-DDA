@@ -1,13 +1,13 @@
 #include "creature_tracker.h"
-#include "pathfinding.h"
-#include "monster.h"
-#include "mongroup.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "mtype.h"
-#include "item.h"
 
 #include <algorithm>
+
+#include "debug.h"
+#include "item.h"
+#include "mongroup.h"
+#include "monster.h"
+#include "mtype.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -129,8 +129,6 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         rebuild_cache();
         return false;
     }
-
-    return false;
 }
 
 void Creature_tracker::remove_from_location_map( const monster &critter )

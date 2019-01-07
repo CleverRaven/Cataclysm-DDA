@@ -77,7 +77,8 @@
         "volume" : 90,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -93,7 +94,8 @@
         "volume" : 90,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -109,7 +111,8 @@
         "volume" : 20,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 3500
+        "price" : 3500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -159,7 +162,8 @@
         "volume" : 80,
         "bashing" : 25,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "qualities": [ [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -235,7 +239,8 @@
         "volume" : 14,
         "bashing" : 19,
         "category" : "veh_parts",
-        "price" : 3000
+        "price" : 3000,
+        "qualities": [ [ "HAMMER", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -243,7 +248,7 @@
         "name" : "vehicle controls",
         "name_plural" : "sets of vehicle controls",
         "description" : "A set of various vehicle controls.  Useful for crafting.",
-        "weight" : 2721,
+        "weight" : 6000,
         "to_hit" : -4,
         "color" : "light_cyan",
         "symbol" : "$",
@@ -258,7 +263,7 @@
         "id" : "vehicle_dashboard",
         "name" : "dashboard",
         "description" : "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
-        "weight" : 6000,
+        "weight" : 2721,
         "to_hit" : -2,
         "color" : "cyan",
         "symbol" : "$",
@@ -402,6 +407,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "wide_headlight_reinforced",
+        "name" : "reinforced wide-angle headlight",
+        "description" : "A wide-angle vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
+        "weight" : 1400,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel", "plastic"],
+        "volume" : 5,
+        "bashing" : 4,
+        "category" : "veh_parts",
+        "price" : 40000
+    },
+    {
+        "type":"GENERIC",
         "id" : "it_battery_mount",
         "name" : "storage battery case",
         "name_plural" : "storage battery cases",
@@ -415,6 +435,22 @@
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 1000
+    },
+    {
+        "type": "TOOL",
+        "id": "black_box",
+        "category": "other",
+        "name": "military black box",
+        "name_plural": "military black boxes",
+        "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this you may find something of interest.",
+        "weight": 4535,
+        "volume": 2,
+        "price": 0,
+        "to_hit": -1,
+        "bashing": 4,
+        "material": ["steel"],
+        "symbol": ";",
+        "color": "light_gray"
     },
     {
         "type": "TOOL",
@@ -567,7 +603,7 @@
         "material" : ["glass"],
         "volume" : 1,
         "bashing" : 1,
-        "category" : "veh_parts",
+        "category" : "spare_parts",
         "price" : 5000
     },
     {
@@ -583,15 +619,16 @@
         "material" : ["steel"],
         "volume" : 4,
         "bashing" : 5,
-        "category" : "veh_parts",
-        "price" : 6000
+        "category" : "spare_parts",
+        "price" : 6000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
         "id" : "sheet_metal_lit",
         "name" : "wired sheet metal",
         "description" : "Sheet metal that has had light housing wired into it.",
-        "weight" : 6200, 
+        "weight" : 6200,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : "]",
@@ -629,7 +666,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -644,7 +682,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 18500
+        "price" : 18500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -658,7 +697,8 @@
         "material" : ["superalloy"],
         "volume" : 2,
         "category" : "veh_parts",
-        "price" : 8500
+        "price" : 8500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -675,7 +715,8 @@
         "cutting" : 3,
         "flags" : ["STAB"],
         "category" : "veh_parts",
-        "price" : 18500
+        "price" : 18500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -690,7 +731,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 16000
+        "price" : 16000,
+        "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -705,7 +747,8 @@
         "volume" : 12,
         "bashing" : 8,
         "category" : "veh_parts",
-        "price" : 16000
+        "price" : 16000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -863,9 +906,25 @@
     },
     {
         "type":"GENERIC",
+        "id": "directed_floodlight",
+        "name": "directed floodlight",
+        "description": "A large and heavy light designed to illuminate a wide area in a half-circular cone.",
+        "weight": 2500,
+        "to_hit": 1,
+        "color": "white",
+        "symbol": ";",
+        "material": ["plastic", "steel"],
+        "volume": 8,
+        "bashing": 5,
+        "category" : "veh_parts",
+        "price": 90000,
+        "looks_like": "floodlight"
+    },
+    {
+        "type":"GENERIC",
         "id": "recharge_station",
         "name": "UPS-compatible recharging station",
-        "description": "A Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from vehicle controls, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
+        "description": "A Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from a dashboard or electronics control unit, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
         "weight": 10000,
         "to_hit": 1,
         "color": "light_blue",
@@ -1026,7 +1085,7 @@
         "to_hit" : -3,
         "color" : "light_blue",
         "symbol" : "#",
-        "material" : ["steel"],
+        "material" : ["plastic"],
         "volume" : 16,
         "category" : "veh_parts",
         "price" : 10000
@@ -1159,6 +1218,19 @@
         "volume": 4,
         "price": 3000
     },{
+        "id": "car_wide_headlight",
+        "type":"GENERIC",
+        "name": "wide-angle car headlight",
+        "description": "A wide-angle vehicle headlight to light up the way.",
+        "symbol": ";",
+        "color": "white",
+        "material": "plastic",
+        "category": "veh_parts",
+        "looks_like": "car_headlight",
+        "weight": 2000,
+        "volume": 5,
+        "price": 4000
+    },{
         "id": "cargo_lock",
         "type":"GENERIC",
         "name": "cargo lock set",
@@ -1193,7 +1265,7 @@
     "looks_like": "cargo_rack",
     "material": "steel",
     "category": "veh_parts",
-    "weight": 80000,
+    "weight": 22000,
     "volume": 220,
     "capacity": 2000,
     "reliability": 10,

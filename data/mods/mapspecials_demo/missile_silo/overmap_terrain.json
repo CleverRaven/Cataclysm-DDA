@@ -1,0 +1,132 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "silo_entrance",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_trc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_brc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_blc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_utlca",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_utlcb",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_utrc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_ublc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_ubrc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 2, 6 ], "chance": 75 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_ftlc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 4, 6 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_ftrc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 4, 6 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_fblc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 4, 6 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_fbrc",
+    "name": "missile silo",
+    "sym": 109,
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MISSILE_SILO", "population": [ 4, 6 ], "chance": 100 }
+  }
+]

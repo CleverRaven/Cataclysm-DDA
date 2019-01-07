@@ -2,16 +2,17 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "player.h"
-#include "faction.h"
-#include "pimpl.h"
-#include "calendar.h"
-
-#include <vector>
-#include <set>
-#include <string>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
+#include "calendar.h"
+#include "faction.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
 
 class JsonObject;
 class JsonIn;
@@ -86,7 +87,8 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_3,
 
     NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
-    NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
+    NPC_MISSION_GUARD, // Assigns an non-allied NPC to guard a position
+    NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
 };
 
 struct npc_companion_mission {
@@ -127,7 +129,7 @@ struct npc_personality {
         bravery    = 0;
         collector  = 0;
         altruism   = 0;
-    };
+    }
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -217,11 +219,13 @@ struct npc_short_term_cache {
     float danger;
     float total_danger;
     float danger_assessment;
-    std::shared_ptr<Creature> target;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::weak_ptr<Creature> target;
 
     double my_weapon_value;
 
-    std::vector<std::shared_ptr<Creature>> friends;
+    // Use weak_ptr to avoid circular references between Creatures
+    std::vector<std::weak_ptr<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
 };
 
@@ -441,9 +445,9 @@ class npc : public player
     public:
 
         npc();
-        npc( const npc & );
+        npc( const npc & ) = delete;
         npc( npc && );
-        npc &operator=( const npc & );
+        npc &operator=( const npc & ) = delete;
         npc &operator=( npc && );
         ~npc() override;
 
@@ -496,11 +500,9 @@ class npc : public player
         // Display
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
-        std::string short_description() const;
         std::string opinion_text() const;
 
         // Goal / mission functions
-        void pick_long_term_goal();
         bool fac_has_value( faction_value value ) const;
         bool fac_has_job( faction_job job ) const;
 
@@ -547,7 +549,7 @@ class npc : public player
         int  follow_distance() const; // How closely do we follow the player?
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u();
+        void talk_to_u( bool text_only = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items
@@ -600,9 +602,17 @@ class npc : public player
         // @param dur time duration between complaints
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
-        bool complain_about( const std::string &issue, const time_duration &dur, const std::string &speech,
-                             const bool force = false );
+        bool complain_about( const std::string &issue, const time_duration &dur,
+                             const std::string &speech, const bool force = false );
+        // wrapper for complain_about that warns about a specific type of threat, with
+        // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
+        void warn_about( const std::string &type, const time_duration &d = 10_minutes,
+                         const std::string &name = "" );
         bool complain(); // Finds something to complain about and complains. Returns if complained.
+
+        void handle_sound( int priority, const std::string &description, int heard_volume,
+                           const tripoint &spos );
+
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
@@ -803,7 +813,7 @@ class npc : public player
          * This does not change the global position of the NPC.
          */
         tripoint global_square_location() const override;
-        tripoint last_player_seen_pos; // Where we last saw the player
+        cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
@@ -819,7 +829,7 @@ class npc : public player
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
-        tripoint pulp_location;
+        cata::optional<tripoint> pulp_location;
 
         time_point restock;
         bool fetching_item;
@@ -849,7 +859,7 @@ class npc : public player
         bool hit_by_player;
         std::vector<npc_need> needs;
         // Dummy point that indicates that the goal is invalid.
-        static const tripoint no_goal_point;
+        static constexpr tripoint no_goal_point = tripoint_min;
 
         time_point last_updated;
         /**

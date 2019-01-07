@@ -18,7 +18,7 @@ enum nameFlags {
 namespace Name
 {
 /// Load names from given json file to use for generation
-void load_from_file( std::string const &filename );
+void load_from_file( const std::string &filename );
 
 /// Return a random name given search flags
 std::string get( nameFlags searchFlags );
@@ -28,7 +28,7 @@ std::string generate( bool is_male );
 
 /// Clear names used for generation
 void clear();
-};
+}
 
 inline nameFlags operator|( nameFlags l, nameFlags r )
 {

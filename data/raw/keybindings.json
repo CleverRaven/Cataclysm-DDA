@@ -2,42 +2,42 @@
   {
     "type": "keybinding",
     "id": "SCROLL_UP",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Scroll up",
     "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_DOWN",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Scroll down",
     "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
   },
   {
     "type": "keybinding",
     "id": "UP",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Pan up",
     "bindings": [ { "input_method": "keyboard", "key": "UP" } ]
   },
   {
     "type": "keybinding",
     "id": "DOWN",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Pan down",
     "bindings": [ { "input_method": "keyboard", "key": "DOWN" } ]
   },
   {
     "type": "keybinding",
     "id": "FILTER",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Filter",
     "bindings": [ { "input_method": "keyboard", "key": "/" } ]
   },
   {
     "type": "keybinding",
     "id": "QUIT",
-    "category": "UIMENU",
+    "category": "UILIST",
     "name": "Cancel menu",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
@@ -428,10 +428,24 @@
   },
   {
     "type": "keybinding",
+    "id": "SORT_ARMOR",
+    "category": "SORT_ARMOR",
+    "name": "Sort armor into natural layer order",
+    "bindings": [ { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EQUIP_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Equip armor from inventory",
     "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EQUIP_ARMOR_HERE",
+    "category": "SORT_ARMOR",
+    "name": "Equip armor from inventory at this position",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
   },
   {
     "type": "keybinding",
@@ -513,10 +527,10 @@
   },
   {
     "type": "keybinding",
-    "id": "CENTER",
-    "category": "OVERMAP",
-    "name": "Center On Character",
-    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
+    "id": "TOGGLE_FAVORITE",
+    "category": "CRAFTING",
+    "name": "Toggle recipes to be shown in favorite tab",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
@@ -598,6 +612,13 @@
     "category": "MODMANAGER_DIALOG",
     "name": "Save mods as default",
     "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "VIEW_MOD_DESCRIPTION",
+    "category": "MODMANAGER_DIALOG",
+    "name": "View full mod description",
+    "bindings": [ { "input_method": "keyboard", "key": "v" } ]
   },
   {
     "type": "keybinding",
@@ -690,6 +711,13 @@
     "category": "OVERMAP",
     "name": "Toggle Hordes",
     "bindings": [ { "input_method": "keyboard", "key": "H" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_FOREST_TRAILS",
+    "category": "OVERMAP",
+    "name": "Toggle Forest Trails",
+    "bindings": [ { "input_method": "keyboard", "key": "T" } ]
   },
   {
     "type": "keybinding",
@@ -856,13 +884,19 @@
     "type": "keybinding",
     "id": "TRAVEL_TO",
     "name": "Travel to destination",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "T" } ]
   },
   {
     "type": "keybinding",
     "id": "TOGGLE_SNAP_TO_TARGET",
     "name": "Toggle Snap to Target",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CENTER",
+    "name": "Center On Character",
+    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
   },
   {
     "type": "keybinding",
@@ -1377,6 +1411,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Haul items along the ground",
+    "category": "DEFAULTMODE",
+    "id": "haul",
+    "bindings": [ { "input_method": "keyboard", "key": "\\" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Zone activities",
     "category": "DEFAULTMODE",
     "id": "loot",
@@ -1496,7 +1537,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Select Unarmed Style",
+    "name": "Select Martial Arts Style",
     "category": "DEFAULTMODE",
     "id": "pick_style",
     "bindings": [ { "input_method": "keyboard", "key": "_" } ]
@@ -1520,6 +1561,13 @@
     "name": "Throw Item",
     "category": "DEFAULTMODE",
     "id": "throw",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Blind Throw Item",
+    "category": "LOOK",
+    "id": "throw_blind",
     "bindings": [ { "input_method": "keyboard", "key": "t" } ]
   },
   {
@@ -1764,9 +1812,33 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Auto pulp or butcher",
+    "name": "Reload Tileset",
+    "category": "DEFAULTMODE",
+    "id": "reload_tileset"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Features",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_features"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Pulp/Butcher",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pulp_butcher"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Mining",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_mining"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Foraging",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_foraging"
   },
   {
     "type": "keybinding",
@@ -1931,6 +2003,34 @@
     "category": "LIST_ITEMS",
     "name": "Change sort order",
     "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SAFEMODE_BLACKLIST_ADD",
+    "category": "LIST_MONSTERS",
+    "name": "Add to safemode blacklist",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SAFEMODE_BLACKLIST_REMOVE",
+    "category": "LIST_MONSTERS",
+    "name": "Remove from safemode blacklist",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "look",
+    "category": "LIST_MONSTERS",
+    "name": "look around",
+    "bindings": [ { "input_method": "keyboard", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "fire",
+    "category": "LIST_MONSTERS",
+    "name": "fire",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
     "type": "keybinding",
@@ -2418,5 +2518,47 @@
     "category": "COLORS",
     "name": "Load color template",
     "bindings": [ { "input_method": "keyboard", "key": "t" }, { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YESNO",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNO",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "IGNORE",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Ignore further distractions and finish",
+    "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "POPUP_WAIT",
+    "name": "Cancel popup",
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "keyboard", "key": "SPACE" }, { "input_method": "keyboard", "key": "RETURN" } ]
   }
 ]

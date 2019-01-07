@@ -1,16 +1,16 @@
 #include "fungal_effects.h"
+
+#include "creature.h"
+#include "field.h"
 #include "game.h"
 #include "map.h"
-#include "mapdata.h"
-#include "creature.h"
-#include "monster.h"
-#include "field.h"
-#include "mtype.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "output.h"
 #include "player.h"
-#include "messages.h"
-#include "field.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );
