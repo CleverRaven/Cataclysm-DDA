@@ -1605,7 +1605,7 @@ void options_manager::add_options_world_default()
 
     add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
          translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
-         0, 16, 4
+         0, 16, 8
        );
 
     add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),

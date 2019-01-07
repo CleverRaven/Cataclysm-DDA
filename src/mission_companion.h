@@ -2,14 +2,14 @@
 #ifndef MISSION_COMPANION_H
 #define MISSION_COMPANION_H
 
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "game.h"
 #include "map.h"
 #include "npc.h"
 #include "output.h"
-
-#include <memory>
-#include <string>
-#include <vector>
 
 class martialart;
 class JsonObject;

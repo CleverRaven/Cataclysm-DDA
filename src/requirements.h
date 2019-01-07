@@ -2,11 +2,11 @@
 #ifndef REQUIREMENTS_H
 #define REQUIREMENTS_H
 
-#include "string_id.h"
-
 #include <functional>
 #include <map>
 #include <vector>
+
+#include "string_id.h"
 
 class nc_color;
 class JsonObject;

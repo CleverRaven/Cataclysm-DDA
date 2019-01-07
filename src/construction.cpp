@@ -1,5 +1,8 @@
 #include "construction.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "action.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -29,9 +32,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <sstream>
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );

@@ -1,15 +1,15 @@
 #include "artifact.h"
 
+#include <array>
+#include <cmath>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "item_factory.h"
 #include "json.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <array>
-#include <cmath>
-#include <sstream>
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,

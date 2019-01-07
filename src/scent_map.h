@@ -2,12 +2,12 @@
 #ifndef SCENT_H
 #define SCENT_H
 
+#include <array>
+
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "optional.h"
-
-#include <array>
 
 class map;
 class game;

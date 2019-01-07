@@ -1,3 +1,10 @@
+#include "faction_camp.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <string>
+#include <vector>
+
 #include "ammo.h"
 #include "bionics.h"
 #include "catacharset.h"
@@ -37,14 +44,7 @@
 #include "vehicle.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include "faction_camp.h"
 #include "basecamp.h"
-
-#include <algorithm>
-#include <cassert>
-#include <string>
-#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

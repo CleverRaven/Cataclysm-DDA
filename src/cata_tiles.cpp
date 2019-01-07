@@ -1,6 +1,12 @@
 #if (defined TILES)
 #include "cata_tiles.h"
 
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <cstdlib>
+#include <fstream>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
@@ -36,12 +42,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weighted_list.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <cstdlib>
-#include <fstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -2976,95 +2976,91 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 
     bool connects[4];
     char val = 0;
-    int num_connects = 0;
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
         connects[i] = ( neighborhood[i] == tid );
 
         if( connects[i] ) {
-            ++num_connects;
             val += 1 << i;
         }
     }
 
-    get_rotation_and_subtile( val, num_connects, rota, subtile );
+    get_rotation_and_subtile( val, rota, subtile );
 }
-void cata_tiles::get_rotation_and_subtile( const char val, const int num_connects, int &rotation,
-        int &subtile )
+
+void cata_tiles::get_rotation_and_subtile( const char val, int &rotation, int &subtile )
 {
-    switch( num_connects ) {
+    switch( val ) {
+        // no connections
         case 0:
-            rotation = 0;
             subtile = unconnected;
+            rotation = 0;
+            break;
+        // all connections
+        case 15:
+            subtile = center;
+            rotation = 0;
+            break;
+        // end pieces
+        case 8:
+            subtile = end_piece;
+            rotation = 2;
             break;
         case 4:
-            rotation = 0;
-            subtile = center;
-            break;
-        case 1: // all end pieces
             subtile = end_piece;
-            switch( val ) {
-                case 8:
-                    rotation = 2;
-                    break;
-                case 4:
-                    rotation = 3;
-                    break;
-                case 2:
-                    rotation = 1;
-                    break;
-                case 1:
-                    rotation = 0;
-                    break;
-            }
+            rotation = 3;
             break;
         case 2:
-            switch( val ) {
-                // edges
-                case 9:
-                    subtile = edge;
-                    rotation = 0;
-                    break;
-                case 6:
-                    subtile = edge;
-                    rotation = 1;
-                    break;
-                // corners
-                case 12:
-                    subtile = corner;
-                    rotation = 2;
-                    break;
-                case 10:
-                    subtile = corner;
-                    rotation = 1;
-                    break;
-                case 3:
-                    subtile = corner;
-                    rotation = 0;
-                    break;
-                case 5:
-                    subtile = corner;
-                    rotation = 3;
-                    break;
-            }
+            subtile = end_piece;
+            rotation = 1;
             break;
-        case 3: // all t_connections
+        case 1:
+            subtile = end_piece;
+            rotation = 0;
+            break;
+        // edges
+        case 9:
+            subtile = edge;
+            rotation = 0;
+            break;
+        case 6:
+            subtile = edge;
+            rotation = 1;
+            break;
+        // corners
+        case 12:
+            subtile = corner;
+            rotation = 2;
+            break;
+        case 10:
+            subtile = corner;
+            rotation = 1;
+            break;
+        case 3:
+            subtile = corner;
+            rotation = 0;
+            break;
+        case 5:
+            subtile = corner;
+            rotation = 3;
+            break;
+        // all t_connections
+        case 14:
             subtile = t_connection;
-            switch( val ) {
-                case 14:
-                    rotation = 2;
-                    break;
-                case 11:
-                    rotation = 1;
-                    break;
-                case 7:
-                    rotation = 0;
-                    break;
-                case 13:
-                    rotation = 3;
-                    break;
-            }
+            rotation = 2;
+            break;
+        case 11:
+            subtile = t_connection;
+            rotation = 1;
+            break;
+        case 7:
+            subtile = t_connection;
+            rotation = 0;
+            break;
+        case 13:
+            subtile = t_connection;
+            rotation = 3;
             break;
     }
 }
@@ -3072,38 +3068,21 @@ void cata_tiles::get_rotation_and_subtile( const char val, const int num_connect
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                      int connect_group )
 {
-    const bool connects[4] = {
-        g->m.ter( tripoint( p.x, p.y + 1, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x + 1, p.y, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x - 1, p.y, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x, p.y - 1, p.z ) ).obj().connects_to( connect_group )
-    };
-    char val = 0;
-    int num_connects = 0;
-
-    // populate connection information
-    for( int i = 0; i < 4; ++i ) {
-        if( connects[i] ) {
-            ++num_connects;
-            val += 1 << i;
-        }
-    }
-    get_rotation_and_subtile( val, num_connects, rotation, subtile );
+    uint8_t connections = g->m.get_known_connections( p, connect_group );
+    get_rotation_and_subtile( connections, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int &rotation )
 {
     bool connects[4];
-    int num_connects = 0;
     char val = 0;
     for( int i = 0; i < 4; ++i ) {
         connects[i] = ( tn[i] == t );
         if( connects[i] ) {
-            ++num_connects;
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile( val, num_connects, rotation, subtile );
+    get_rotation_and_subtile( val, rotation, subtile );
 }
 
 void cata_tiles::do_tile_loading_report()

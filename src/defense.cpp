@@ -1,4 +1,7 @@
-#include "gamemode.h"
+#include "gamemode.h" // IWYU pragma: associated
+
+#include <ostream>
+#include <sstream>
 
 #include "action.h"
 #include "color.h"
@@ -22,9 +25,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-
-#include <ostream>
-#include <sstream>
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters

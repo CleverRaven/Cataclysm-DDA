@@ -1,5 +1,13 @@
 #include "item.h"
 
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <iomanip>
+#include <iterator>
+#include <set>
+#include <sstream>
+
 #include "advanced_inv.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -51,14 +59,6 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <iomanip>
-#include <iterator>
-#include <set>
-#include <sstream>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -1830,10 +1830,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "Requires <info>intelligence of</info> <num> to easily read." ),
                                           iteminfo::lower_is_better, book.intel ) );
             }
-            if( g->u.book_fun_for( *this ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
+            if( g->u.book_fun_for( *this, g->u ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          iteminfo::show_plus, g->u.book_fun_for( *this ) ) );
+                                          iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
             }
             if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
                 auto fmt = ngettext(
@@ -5318,7 +5318,8 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name().c_str() );
 
-    } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
+    } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
+               !mod.type->gunmod->usable.count( typeId() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
     } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
@@ -5388,8 +5389,15 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
-                                                 m.second.qty(), m.second.flags() } );
+                //checks for melee gunmod, points to gunmod
+                if( m.first == "REACH" ) {
+                    res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
+                                                     m.second.qty(), m.second.flags() } );
+                    //otherwise points to the parent gun, not the gunmod
+                } else {
+                    res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( this ),
+                                                     m.second.qty(), m.second.flags() } );
+                }
             }
         }
     }

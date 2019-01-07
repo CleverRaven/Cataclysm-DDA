@@ -1,5 +1,9 @@
 #include "monattack.h"
 
+#include <algorithm>
+#include <cmath>
+#include <map>
+
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
@@ -33,10 +37,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
-
-#include <algorithm>
-#include <cmath>
-#include <map>
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );

@@ -1,5 +1,10 @@
 #include "crafting.h"
 
+#include <algorithm>
+#include <cmath>
+#include <sstream>
+#include <string>
+
 #include "activity_handlers.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -24,11 +29,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <cmath>
-#include <sstream>
-#include <string>
 
 const efftype_id effect_contacts( "contacts" );
 

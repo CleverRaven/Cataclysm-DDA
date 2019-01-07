@@ -4,7 +4,7 @@
 
 #include <string>
 
-int get_remaining_charges( std::string tool_id );
+int get_remaining_charges( const std::string &tool_id );
 void clear_player();
 
 #endif

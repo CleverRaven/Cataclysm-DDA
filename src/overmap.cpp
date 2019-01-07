@@ -1,4 +1,17 @@
-#include "overmap.h"
+#include "omdata.h" // IWYU pragma: associated
+#include "overmap.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <numeric>
+#include <ostream>
+#include <queue>
+#include <random>
+#include <vector>
 
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -29,18 +42,6 @@
 #include "simple_pathfinding.h"
 #include "translations.h"
 
-#include <algorithm>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <numeric>
-#include <ostream>
-#include <queue>
-#include <random>
-#include <vector>
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define BUILDINGCHANCE 4
@@ -56,7 +57,6 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
-#include "omdata.h"
 ////////////////
 oter_id  ot_null,
          ot_crater,
@@ -2332,9 +2332,23 @@ void overmap::place_cities()
 
 overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
 {
-    if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
+    int shop_radius = settings.city_spec.shop_radius;
+    int park_radius = settings.city_spec.park_radius;
+
+    int shop_sigma = settings.city_spec.shop_sigma;
+    int park_sigma = settings.city_spec.park_sigma;
+
+    //Normally distribute shops and parks
+    //Clamp at 1/2 radius to prevent houses from spawning in the city center.
+    //Parks are nearly guaranteed to have a non-zero chance of spawning anywhere in the city.
+    int shop_normal = std::max( static_cast<int>( normal_roll( shop_radius, shop_sigma ) ),
+                                shop_radius );
+    int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
+                                park_radius );
+
+    if( shop_normal > town_dist ) {
         return settings.city_spec.pick_shop();
-    } else if( rng( 0, 99 ) > settings.city_spec.park_radius * town_dist ) {
+    } else if( park_normal > town_dist ) {
         return settings.city_spec.pick_park();
     } else {
         return settings.city_spec.pick_house();
@@ -2346,8 +2360,8 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     const tripoint building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
 
-    const int town_dist = trig_dist( building_pos.x, building_pos.y, town.pos.x,
-                                     town.pos.y ) / std::max( town.size, 1 );
+    const int town_dist = ( trig_dist( building_pos.x, building_pos.y, town.pos.x,
+                                       town.pos.y ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist );

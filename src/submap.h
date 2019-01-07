@@ -2,6 +2,10 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
+#include <list>
+#include <memory>
+#include <vector>
+
 #include "active_item_cache.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -11,10 +15,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "string_id.h"
-
-#include <list>
-#include <memory>
-#include <vector>
 
 class map;
 class vehicle;

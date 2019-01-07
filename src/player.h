@@ -2,6 +2,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <array>
+#include <memory>
+#include <unordered_set>
+
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -14,10 +18,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
-
-#include <array>
-#include <memory>
-#include <unordered_set>
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
@@ -825,7 +825,7 @@ class player : public Character
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
-        int book_fun_for( const item &book ) const;
+        int book_fun_for( const item &book, const player &p ) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.
@@ -1123,6 +1123,9 @@ class player : public Character
     private:
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
+        /** Used in max_memorized_tiles to cache memory capacity. **/
+        mutable time_point current_map_memory_turn = calendar::before_time_starts;
+        mutable size_t current_map_memory_capacity = 0;
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier

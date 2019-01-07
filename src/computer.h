@@ -2,11 +2,11 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "calendar.h"
-#include "cursesdef.h"
-
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "cursesdef.h"
 
 class game;
 class player;

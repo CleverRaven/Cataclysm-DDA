@@ -2,6 +2,10 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <functional>
+#include <limits>
+#include <memory>
+
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -9,10 +13,6 @@
 #include "item_location.h"
 #include "pimpl.h"
 #include "units.h"
-
-#include <functional>
-#include <limits>
-#include <memory>
 
 class Character;
 

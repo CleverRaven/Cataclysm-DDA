@@ -2,6 +2,12 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include <array>
+#include <list>
+#include <map>
+#include <stack>
+#include <vector>
+
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "clzones.h"
@@ -14,12 +20,6 @@
 #include "tileray.h"
 #include "ui.h"
 #include "units.h"
-
-#include <array>
-#include <list>
-#include <map>
-#include <stack>
-#include <vector>
 
 class nc_color;
 class map;

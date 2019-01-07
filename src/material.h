@@ -2,15 +2,15 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "fire.h"
-#include "game_constants.h"
-#include "optional.h"
-#include "string_id.h"
-
 #include <array>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "fire.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "string_id.h"
 
 enum damage_type : int;
 class material_type;

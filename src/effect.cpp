@@ -1,5 +1,8 @@
 #include "effect.h"
 
+#include <map>
+#include <sstream>
+
 #include "debug.h"
 #include "json.h"
 #include "messages.h"
@@ -7,9 +10,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-
-#include <map>
-#include <sstream>
 
 namespace
 {

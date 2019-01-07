@@ -1,5 +1,9 @@
 #include "pathfinding.h"
 
+#include <algorithm>
+#include <queue>
+#include <set>
+
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -13,10 +17,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <queue>
-#include <set>
 
 enum astar_state {
     ASL_NONE,
