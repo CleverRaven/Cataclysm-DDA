@@ -10,6 +10,8 @@
     "bonus_dex": { "rng": [ -4, -1 ] },
     "bonus_int": { "rng": [ 1, 2 ] },
     "bonus_per": { "rng": [ -3, -1 ] },
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
     "traits": [
       { "trait": "GLASSJAW" },
       { "trait": "VEGETARIAN" },
@@ -37,6 +39,9 @@
     "bonus_dex": { "rng": [ -5, -1 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
     "bonus_per": { "rng": [ -6, -2 ] },
+    "worn_override": "NC_BEGGAR_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
     "traits": [
       { "trait": "GLASSJAW" },
       { "trait": "ADDICTIVE" },
@@ -62,6 +67,8 @@
     "bonus_dex": { "rng": [ -4, -1 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
     "bonus_per": { "rng": [ 0, 3 ] },
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
     "traits": [
       { "trait": "SLOWHEALER2" },
       { "trait": "SLOWRUNNER" },
@@ -83,6 +90,8 @@
     "bonus_dex": { "rng": [ -4, -1 ] },
     "bonus_int": { "rng": [ -6, -2 ] },
     "bonus_per": { "rng": [ -3, -1 ] },
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
     "traits": [
       { "trait": "GLASSJAW" },
       { "trait": "ASTHMA" },
@@ -113,11 +122,20 @@
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 2 ] },
     "bonus_per": { "rng": [ 0, 4 ] },
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
     "traits": [ { "trait": "FUR" }, { "trait": "OPTIMISTIC" }, { "trait": "LIGHTSTEP" }, { "trait": "WEAKSCENT" } ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
       { "skill": "melee", "bonus": { "rng": [ 0, 5 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 0, 5 ] } }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_BEGGAR_worn",
+    "items":[
+      ["dinosuit", 100]
     ]
   }
 ]
