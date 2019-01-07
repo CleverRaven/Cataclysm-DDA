@@ -1210,8 +1210,8 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
         int tries = 0;
         tripoint monp = examp;
         do {
-            monp.x = rng(0, SEEX * MAPSIZE);
-            monp.y = rng(0, SEEY * MAPSIZE);
+            monp.x = rng(0, MAPSIZE_X);
+            monp.y = rng(0, MAPSIZE_Y);
             tries++;
         } while (tries < 10 && !g->is_empty( monp ) &&
                     rl_dist( p.pos(), monp ) <= 2);
@@ -1292,7 +1292,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     tripoint tmp;
     tmp.z = examp.z;
     for (tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
-        for (tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++) {
+        for (tmp.x = 0; tmp.x < MAPSIZE_X; tmp.x++) {
             if ( terid == t_switch_rg ) {
                 if (g->m.ter(tmp) == t_rock_red) {
                     g->m.ter_set(tmp, t_floor_red);
@@ -3132,7 +3132,7 @@ static cata::optional<tripoint> getNearFilledGasTank(const tripoint &center, lon
     int distance = INT_MAX;
     gas_units = 0;
 
-    for( const tripoint &tmp : g->m.points_in_radius( center, 24 ) ) {
+    for( const tripoint &tmp : g->m.points_in_radius( center, SEEX * 2 ) ) {
         if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
             continue;
         }

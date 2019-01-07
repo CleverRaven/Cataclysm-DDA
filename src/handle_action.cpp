@@ -134,8 +134,8 @@ input_context game::get_player_input( std::string &action )
         if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
-            iEndX = MAPSIZE * SEEX;
-            iEndY = MAPSIZE * SEEY;
+            iEndX = MAPSIZE_X;
+            iEndY = MAPSIZE_Y;
             offset_x = 0;
             offset_y = 0;
         }

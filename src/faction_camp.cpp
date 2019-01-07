@@ -2916,7 +2916,7 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 {
     std::string entry = " \n";
     //A square is roughly 3 m
-    int dist_m = distance * 24 * 3;
+    int dist_m = distance * SEEX * 2 * 3;
     if( dist_m > 1000 ) {
         entry += string_format( _( ">Distance:%15.2f (km)\n" ), dist_m / 1000.0 );
         entry += string_format( _( ">One Way: %15d (trips)\n" ), trips );

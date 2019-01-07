@@ -4309,7 +4309,7 @@ int game::mon_info( const catacurses::window &w )
     const int current_turn = calendar::turn;
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
-    for( auto &c : u.get_visible_creatures( SEEX * MAPSIZE ) ) {
+    for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
         const auto m = dynamic_cast<monster *>( c );
         const auto p = dynamic_cast<npc *>( c );
         const auto dir_to_mon = direction_from( view.x, view.y, c->posx(), c->posy() );
@@ -4714,10 +4714,10 @@ void game::monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( monster &critter : all_monsters() ) {
-        if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
-            critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
-            critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
-            critter.posy() > ( SEEY * MAPSIZE * 7 ) / 6 ) {
+        if( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
+            critter.posy() < 0 - ( MAPSIZE_Y ) / 6 ||
+            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
+            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
             despawn_monster( critter );
         }
     }
@@ -7532,8 +7532,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 // The last event is not a mouse event or timeout, it needs to be processed in the next loop.
                 action_unprocessed = true;
             }
-            lx = clamp( lx, 0, MAPSIZE * SEEX );
-            ly = clamp( ly, 0, MAPSIZE * SEEY );
+            lx = clamp( lx, 0, MAPSIZE_X );
+            ly = clamp( ly, 0, MAPSIZE_Y );
             if( select_zone && has_first_point ) { // is blinking
                 if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
                     redraw = false; // no need to redraw, so don't redraw to save CPU
@@ -10321,7 +10321,7 @@ bool game::plmove( int dx, int dy, int dz )
         int curdist = INT_MAX;
         int newdist = INT_MAX;
         const tripoint minp = tripoint( 0, 0, u.posz() );
-        const tripoint maxp = tripoint( SEEX * MAPSIZE, SEEY * MAPSIZE, u.posz() );
+        const tripoint maxp = tripoint( MAPSIZE_X, MAPSIZE_Y, u.posz() );
         for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == t_fault ) {
                 int dist = rl_dist( pt, u.pos() );
@@ -12181,8 +12181,8 @@ void game::update_stair_monsters()
         coming_to_stairs.clear();
     }
 
-    for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-        for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+    for( int x = 0; x < MAPSIZE_X; x++ ) {
+        for( int y = 0; y < MAPSIZE_Y; y++ ) {
             tripoint dest( x, y, u.posz() );
             if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
                 ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
@@ -12223,10 +12223,10 @@ void game::update_stair_monsters()
         const tripoint dest{mposx, mposy, g->get_levz()};
 
         // We might be not be visible.
-        if( ( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
-              critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
-              critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
-              critter.posy() > ( SEEY * MAPSIZE * 7 ) / 6 ) ) {
+        if( ( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
+              critter.posy() < 0 - ( MAPSIZE_Y ) / 6 ||
+              critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
+              critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) ) {
             continue;
         }
 

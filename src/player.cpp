@@ -11884,11 +11884,11 @@ void player::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
     bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
-    int finX = rng( 1, 22);
-    int finY = rng( 1, 22);
+    int finX = rng( 1, SEEX * 2 - 2 );
+    int finY = rng( 1, SEEX * 2 - 2 );
     if( bay.furn( finX, finY) != furn_str_id( "f_null" ) ){
-        for (int x = 0; x < 23; x++){
-            for (int y = 0; y < 23; y++){
+        for (int x = 0; x < SEEX * 2 - 1; x++){
+            for (int y = 0; y < SEEY * 2 - 1; y++){
                 if ( bay.furn(x,y) == furn_str_id( "f_null" ) ){
                     finX = x;
                     finY = y;

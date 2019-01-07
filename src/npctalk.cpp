@@ -165,16 +165,18 @@ void game::chat()
 {
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
         // @todo: Get rid of the z-level check when z-level vision gets "better"
-        return u.posz() == guy.posz() && u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
+        return u.posz() == guy.posz() &&
+               u.sees( guy.pos() ) &&
+               rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc &guy ) {
         return guy.is_friend() && guy.is_following() && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
+               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc &guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
                guy.companion_mission_role_id != "FACTION_CAMP" && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= 24;
+               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
 
     uilist nmenu;

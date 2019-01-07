@@ -4958,11 +4958,11 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     tripoint pos;
     ( void )z;
     pos.z = abs_sub.z;
-    for( pos.x = 0; pos.x < SEEX * MAPSIZE; pos.x++ ) {
+    for( pos.x = 0; pos.x < MAPSIZE_X; pos.x++ ) {
         if( x != -1 && x != pos.x ) {
             continue;
         }
-        for( pos.y = 0; pos.y < SEEY * MAPSIZE; pos.y++ ) {
+        for( pos.y = 0; pos.y < MAPSIZE_Y; pos.y++ ) {
             if( y != -1 && y != pos.y ) {
                 continue;
             }
@@ -5404,8 +5404,8 @@ basecamp *map::camp_at( const tripoint &p, const int radius )
     }
     const int sx = std::max( 0, p.x - radius );
     const int sy = std::max( 0, p.y - radius );
-    const int ex = std::min( p.x + radius, SEEX * MAPSIZE - 1 );
-    const int ey = std::min( p.y + radius, SEEY * MAPSIZE - 1 );
+    const int ex = std::min( p.x + radius, MAPSIZE_X - 1 );
+    const int ey = std::min( p.y + radius, MAPSIZE_Y - 1 );
 
     for( int ly = sy; ly < ey; ly += SEEY ) {
         for( int lx = sx; lx < ex; lx += SEEX ) {
@@ -5449,8 +5449,8 @@ void map::update_visibility_cache( const int zlev )
     p.z = zlev;
     int &x = p.x;
     int &y = p.y;
-    for( x = 0; x < MAPSIZE * SEEX; x++ ) {
-        for( y = 0; y < MAPSIZE * SEEY; y++ ) {
+    for( x = 0; x < MAPSIZE_X; x++ ) {
+        for( y = 0; y < MAPSIZE_Y; y++ ) {
             lit_level ll = apparent_light_at( p, visibility_variables_cache );
             visibility_cache[x][y] = ll;
             sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == LL_BRIGHT || ll == LL_LIT );
@@ -5579,7 +5579,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
         const int maxxrender = center.x - getmaxx( w ) / 2 + getmaxx( w );
         x = center.x - getmaxx( w ) / 2;
-        if( y < 0 || y >= MAPSIZE * SEEY ) {
+        if( y < 0 || y >= MAPSIZE_Y ) {
             for( ; x < maxxrender; x++ ) {
                 if( !do_map_memory || !draw_maptile_from_memory( w, p, center, false ) ) {
                     wputch( w, c_black, ' ' );
@@ -5596,7 +5596,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
         }
 
         point l;
-        const int maxx = std::min( MAPSIZE * SEEX, maxxrender );
+        const int maxx = std::min( MAPSIZE_X, maxxrender );
         while( x < maxx ) {
             submap *cur_submap = get_submap_at( p, l );
             submap *sm_below = p.z > -OVERMAP_DEPTH ?
@@ -7306,14 +7306,14 @@ void map::build_outside_cache( const int zlev )
 
     // Make a bigger cache to avoid bounds checking
     // We will later copy it to our regular cache
-    const size_t padded_w = ( MAPSIZE * SEEX ) + 2;
-    const size_t padded_h = ( MAPSIZE * SEEY ) + 2;
+    const size_t padded_w = ( MAPSIZE_X ) + 2;
+    const size_t padded_h = ( MAPSIZE_Y ) + 2;
     bool padded_cache[padded_w][padded_h];
 
     auto &outside_cache = ch.outside_cache;
     if( zlev < 0 ) {
         std::uninitialized_fill_n(
-            &outside_cache[0][0], ( MAPSIZE * SEEX ) * ( MAPSIZE * SEEY ), false );
+            &outside_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), false );
         return;
     }
 
@@ -7344,15 +7344,15 @@ void map::build_outside_cache( const int zlev )
     }
 
     // Copy the padded cache back to the proper one, but with no padding
-    for( int x = 0; x < my_MAPSIZE * SEEX; x++ ) {
-        std::copy_n( &padded_cache[x + 1][1], my_MAPSIZE * SEEX, &outside_cache[x][0] );
+    for( int x = 0; x < SEEX * my_MAPSIZE; x++ ) {
+        std::copy_n( &padded_cache[x + 1][1], SEEX * my_MAPSIZE, &outside_cache[x][0] );
     }
 
     ch.outside_cache_dirty = false;
 }
 
 void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+                                fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{
@@ -7432,7 +7432,7 @@ void map::build_floor_cache( const int zlev )
 
     auto &floor_cache = ch.floor_cache;
     std::uninitialized_fill_n(
-        &floor_cache[0][0], ( MAPSIZE * SEEX ) * ( MAPSIZE * SEEY ), true );
+        &floor_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), true );
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -7474,7 +7474,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     tripoint start( 0, 0, minz );
-    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, maxz );
+    tripoint end( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, maxz );
     VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
@@ -7866,8 +7866,8 @@ void map::function_over( const int stx, const int sty, const int stz,
     const int minx = std::max( std::min( stx, enx ), 0 );
     const int miny = std::max( std::min( sty, eny ), 0 );
     const int minz = std::max( std::min( stz, enz ), -OVERMAP_DEPTH );
-    const int maxx = std::min( std::max( stx, enx ), my_MAPSIZE * SEEX - 1 );
-    const int maxy = std::min( std::max( sty, eny ), my_MAPSIZE * SEEY - 1 );
+    const int maxx = std::min( std::max( stx, enx ), SEEX * my_MAPSIZE - 1 );
+    const int maxy = std::min( std::max( sty, eny ), SEEY * my_MAPSIZE - 1 );
     const int maxz = std::min( std::max( stz, enz ), OVERMAP_HEIGHT );
 
     // Submaps that contain the bounding points
@@ -7917,8 +7917,8 @@ void map::function_over( const int stx, const int sty, const int stz,
     }
 }
 
-void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPSIZE> &blocks_scent,
-                          std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPSIZE> &reduces_scent,
+void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
+                          std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
                           const int minx, const int miny, const int maxx, const int maxy )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
@@ -8050,7 +8050,7 @@ const level_cache &map::access_cache( int zlev ) const
 
 level_cache::level_cache()
 {
-    const int map_dimensions = SEEX * MAPSIZE * SEEY * MAPSIZE;
+    const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     floor_cache_dirty = false;
@@ -8108,7 +8108,7 @@ void map::update_pathfinding_cache( int zlev ) const
         return;
     }
 
-    std::uninitialized_fill_n( &cache.special[0][0], MAPSIZE * SEEX * MAPSIZE * SEEY, PF_NORMAL );
+    std::uninitialized_fill_n( &cache.special[0][0], MAPSIZE_X * MAPSIZE_Y, PF_NORMAL );
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -8181,14 +8181,14 @@ void map::clip_to_bounds( int &x, int &y ) const
 {
     if( x < 0 ) {
         x = 0;
-    } else if( x >= my_MAPSIZE * SEEX ) {
-        x = my_MAPSIZE * SEEX - 1;
+    } else if( x >= SEEX * my_MAPSIZE ) {
+        x = SEEX * my_MAPSIZE - 1;
     }
 
     if( y < 0 ) {
         y = 0;
-    } else if( y >= my_MAPSIZE * SEEY ) {
-        y = my_MAPSIZE * SEEY - 1;
+    } else if( y >= SEEY * my_MAPSIZE ) {
+        y = SEEY * my_MAPSIZE - 1;
     }
 }
 

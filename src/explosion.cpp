@@ -442,8 +442,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    fragment_cloud obstacle_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
-    fragment_cloud visited_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
+    fragment_cloud obstacle_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
+    fragment_cloud visited_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
 
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().

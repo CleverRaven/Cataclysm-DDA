@@ -1138,8 +1138,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     }
 
     //Memorize everything the character just saw even if it wasn't displayed.
-    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
-        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+    for( int y = 0; y < MAPSIZE_Y; y++ ) {
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
             //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
             if( x >= o_x && x < sx + o_x &&
                 y >= o_y && y < sy + o_y ) {
@@ -1153,9 +1153,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                     continue;
                 }
                 //iso_mode does weird things to x and y... replicate that
-                //The MAPSIZE*SEEX/2 offset is to keep the rectangle in the upper right quadrant.
-                p.x = ( x - y - MAPSIZE * SEEX / 2 + MAPSIZE * SEEY / 2 ) / 2 + MAPSIZE * SEEX / 2;
-                p.y = ( y + x - MAPSIZE * SEEY / 2 - MAPSIZE * SEEX / 2 ) / 2 + MAPSIZE * SEEY / 2;
+                //The MAPSIZE_X/2 offset is to keep the rectangle in the upper right quadrant.
+                p.x = ( x - y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
+                p.y = ( y + x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
                 //Check if we're in previously done iso_mode space
                 if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o_x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o_x &&
                     p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o_y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o_y ) {
@@ -1388,8 +1388,8 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_prep = true;
     minimap_min.x = 0;
     minimap_min.y = 0;
-    minimap_max.x = MAPSIZE * SEEX;
-    minimap_max.y = MAPSIZE * SEEY;
+    minimap_max.x = MAPSIZE_X;
+    minimap_max.y = MAPSIZE_Y;
     minimap_tiles_range.x = ( MAPSIZE - 2 ) * SEEX;
     minimap_tiles_range.y = ( MAPSIZE - 2 ) * SEEY;
     minimap_tile_size.x = std::max( width / minimap_tiles_range.x, 1 );
@@ -1463,8 +1463,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
     const int brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
     //check all of exposed submaps (MAPSIZE*MAPSIZE submaps) and apply new color changes to the cache
-    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
-        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+    for( int y = 0; y < MAPSIZE_Y; y++ ) {
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
             tripoint p( x, y, center.z );
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
