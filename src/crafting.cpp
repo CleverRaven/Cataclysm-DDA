@@ -710,6 +710,11 @@ void player::complete_craft()
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+            for( item &comp : used ) {
+                if( !comp.type->comestible->cooks_like.empty() ) {
+                    comp = item(comp.type->comestible->cooks_like, comp.birthday(), comp.charges);
+                }
+            }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {
