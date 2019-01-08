@@ -2,15 +2,15 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include "options.h"
-#include "pimpl.h"
-#include "string_id.h"
-
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <memory>
 #include <vector>
+
+#include "options.h"
+#include "pimpl.h"
+#include "string_id.h"
 
 class JsonIn;
 class JsonObject;

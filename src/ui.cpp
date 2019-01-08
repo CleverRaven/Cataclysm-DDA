@@ -1,5 +1,8 @@
 #include "ui.h"
 
+#include <algorithm>
+#include <iterator>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -9,12 +12,10 @@
 #include "player.h"
 #include "string_input_popup.h"
 
-#include <algorithm>
-#include <iterator>
-
 #ifdef __ANDROID__
-#include "options.h"
 #include <SDL_keyboard.h>
+
+#include "options.h"
 #endif
 
 /**
@@ -517,6 +518,10 @@ void uilist::setup()
         scrollbar_auto = false;
     }
     window = catacurses::newwin( w_height, w_width, w_y, w_x );
+    if( !window ) {
+        debugmsg( "Window not created; probably trying to use uilist in test mode." );
+        abort();
+    }
 
     fselected = selected;
     if(fselected < 0) {

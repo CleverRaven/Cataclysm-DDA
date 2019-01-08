@@ -2,6 +2,13 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
+#include <memory>
+#include <map>
+#include <set>
+#include <vector>
+#include <string>
+#include <unordered_map>
+
 #include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
@@ -10,13 +17,6 @@
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
-
-#include <memory>
-#include <map>
-#include <set>
-#include <vector>
-#include <string>
-#include <unordered_map>
 
 class cata_tiles;
 class Creature;
@@ -432,7 +432,7 @@ class cata_tiles
         void get_tile_values( const int t, const int *tn, int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
-        void get_rotation_and_subtile( const char val, const int num_connects, int &rota, int &subtype );
+        void get_rotation_and_subtile( const char val, int &rota, int &subtype );
 
         /** Drawing Layers */
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );

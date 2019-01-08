@@ -1,7 +1,7 @@
 #include "filesystem.h"
 
-#include "debug.h"
-
+// FILE I/O
+#include <sys/stat.h>
 #include <algorithm>
 #include <cerrno>
 #include <cstddef>
@@ -10,13 +10,14 @@
 #include <deque>
 #include <fstream>
 #include <string>
-// FILE I/O
-#include <sys/stat.h>
 #include <vector>
 
+#include "debug.h"
+
 #ifdef _MSC_VER
-#   include "wdirent.h"
 #   include <direct.h>
+
+#   include "wdirent.h"
 #else
 #   include <dirent.h>
 #   include <unistd.h>

@@ -1,5 +1,9 @@
 #include "sounds.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -19,10 +23,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <chrono>
-#include <cmath>
 
 #ifdef SDL_SOUND
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -132,7 +132,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     const int num_seed_clusters = std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
                                             static_cast<size_t>( log( recent_sounds.size() ) ) );
     const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
-    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE * SEEX, MAPSIZE * SEEY );
+    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE_X, MAPSIZE_Y );
     // Randomly choose cluster seeds.
     for( size_t i = recent_sounds.size(); i > stopping_point; i-- ) {
         size_t index = rng( 0, i - 1 );
@@ -1107,6 +1107,7 @@ void sfx::do_obstacle()
 /** Dummy implementations for builds without sound */
 /*@{*/
 void sfx::load_sound_effects( JsonObject & ) { }
+void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }

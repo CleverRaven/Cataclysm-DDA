@@ -2,10 +2,10 @@
 #ifndef CATA_IO_H
 #define CATA_IO_H
 
-#include "json.h"
-
 #include <string>
 #include <type_traits>
+
+#include "json.h"
 
 /**
  * @name Serialization and deserialization

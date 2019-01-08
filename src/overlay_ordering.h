@@ -2,9 +2,9 @@
 #ifndef OVERLAY_ORDERING_H
 #define OVERLAY_ORDERING_H
 
-#include "string_id.h"
-
 #include <map>
+
+#include "string_id.h"
 
 class JsonObject;
 struct mutation_branch;

@@ -1,5 +1,15 @@
 #include "output.h"
 
+#include <algorithm>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -14,16 +24,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "units.h"
-
-#include <algorithm>
-#include <cstdarg>
-#include <cstdlib>
-#include <cstring>
-#include <map>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"

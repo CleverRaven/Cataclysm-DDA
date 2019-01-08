@@ -40,6 +40,20 @@ Sound effects can be included with a format like this:
 ]
 ```
 
+Sound effects can be included for preloading with a format like this:
+
+```javascript
+[
+    {
+        "type": "sound_effect_preload",
+        "preload": [
+            { "id": "environment", "variant": "daytime" },
+            { "id": "environment" }
+        ]
+    }
+]
+```
+
 A playlist can be included with a format like this:
 
 ```javascript

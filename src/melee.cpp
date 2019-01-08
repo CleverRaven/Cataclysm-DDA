@@ -1,5 +1,9 @@
 #include "melee.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "field.h"
@@ -21,10 +25,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -513,6 +513,8 @@ void player::reach_attack( const tripoint &p )
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? critter->get_size() : 2;
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
 
     int move_cost = attack_speed( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );

@@ -2,13 +2,13 @@
 #ifndef TRAP_H
 #define TRAP_H
 
+#include <functional>
+#include <vector>
+
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "units.h"
-
-#include <functional>
-#include <vector>
 
 class Creature;
 class item;

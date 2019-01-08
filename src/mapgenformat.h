@@ -2,10 +2,10 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
-#include "int_id.h"
-
 #include <string>
 #include <vector>
+
+#include "int_id.h"
 
 struct ter_t;
 using ter_id = int_id<ter_t>;

@@ -1067,28 +1067,16 @@ void npc::form_opinion( const player &u )
     if( u.has_trait( trait_SAPIOVORE ) ) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
-
-    if( u.has_trait( trait_PRETTY ) ) {
-        op_of_u.fear += 1;
-    } else if( u.has_trait( trait_BEAUTIFUL ) ) {
-        op_of_u.fear += 2;
-    } else if( u.has_trait( trait_BEAUTIFUL2 ) ) {
-        op_of_u.fear += 3;
-    } else if( u.has_trait( trait_BEAUTIFUL3 ) ) {
-        op_of_u.fear += 4;
-    } else if( u.has_trait( trait_UGLY ) ) {
-        op_of_u.fear -= 1;
-    } else if( u.has_trait( trait_DEFORMED ) ) {
-        op_of_u.fear += 3;
-    } else if( u.has_trait( trait_DEFORMED2 ) ) {
-        op_of_u.fear += 6;
-    } else if( u.has_trait( trait_DEFORMED3 ) ) {
-        op_of_u.fear += 9;
-    }
-
     if( u.has_trait( trait_TERRIFYING ) ) {
         op_of_u.fear += 6;
     }
+
+    int u_ugly = 0;
+    for( trait_id &mut : u.get_mutations() ) {
+        u_ugly += mut.obj().ugliness;
+    }
+    op_of_u.fear += u_ugly / 2;
+    op_of_u.trust -= u_ugly / 3;
 
     if( u.stim > 20 ) {
         op_of_u.fear++;
@@ -1123,24 +1111,6 @@ void npc::form_opinion( const player &u )
     }
     if( u.get_painkiller() > 30 ) {
         op_of_u.trust -= 1;
-    }
-
-    if( u.has_trait( trait_PRETTY ) ) {
-        op_of_u.trust += 1;
-    } else if( u.has_trait( trait_BEAUTIFUL ) ) {
-        op_of_u.trust += 3;
-    } else if( u.has_trait( trait_BEAUTIFUL2 ) ) {
-        op_of_u.trust += 5;
-    } else if( u.has_trait( trait_BEAUTIFUL3 ) ) {
-        op_of_u.trust += 7;
-    } else if( u.has_trait( trait_UGLY ) ) {
-        op_of_u.trust -= 1;
-    } else if( u.has_trait( trait_DEFORMED ) ) {
-        op_of_u.trust -= 3;
-    } else if( u.has_trait( trait_DEFORMED2 ) ) {
-        op_of_u.trust -= 6;
-    } else if( u.has_trait( trait_DEFORMED3 ) ) {
-        op_of_u.trust -= 9;
     }
 
     if( op_of_u.trust > 0 ) {
@@ -1779,42 +1749,16 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         enumerate_print( wearing, c_blue );
     }
 
+    // @todo: Balance this formula
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
-    const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-    [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = pr.first.obj();
-        // Finally some use for visibility trait of mutations
-        // @todo: Balance this formula
-        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
-        {
-            return mut_branch.name();
-        }
 
-        return std::string();
-    } );
+    const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
         std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
         enumerate_print( mutations, c_green );
     }
 
     return line;
-}
-
-std::string npc::short_description() const
-{
-    std::stringstream ret;
-
-    if( is_armed() ) {
-        ret << _( "Wielding: " ) << weapon.tname() << ";   ";
-    }
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
-    []( const item & it ) {
-        return it.tname();
-    } );
-    if( !worn_str.empty() ) {
-        ret << _( "Wearing: " ) << worn_str << ";";
-    }
-    return ret.str();
 }
 
 std::string npc::opinion_text() const

@@ -1,5 +1,10 @@
 #include "safemode_ui.h"
 
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
+#include <string>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -15,11 +20,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
-#include <string>
 
 safemode &get_safemode()
 {

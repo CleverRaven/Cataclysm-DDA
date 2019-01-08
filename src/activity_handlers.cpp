@@ -1,5 +1,8 @@
 #include "activity_handlers.h"
 
+#include <algorithm>
+#include <cmath>
+
 #include "action.h"
 #include "catalua.h"
 #include "clzones.h"
@@ -35,9 +38,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "map_selector.h"
-
-#include <algorithm>
-#include <cmath>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -88,7 +88,9 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
+    { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
@@ -300,6 +302,10 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 break;
             case 3:
                 u.add_msg_if_player( m_info, _( "You dissect the corpse with a trusty scalpel." ) );
+                break;
+            case 5:
+                u.add_msg_if_player( m_info,
+                                     _( "You dissect the corpse with a sophisticated system of surgical grade scalpels." ) );
                 break;
         }
     }
@@ -2053,12 +2059,13 @@ void activity_handlers::open_gate_finish( player_activity *act, player * )
 }
 
 enum repeat_type : int {
-    REPEAT_ONCE = 0,    // Repeat just once
+    // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
+    REPEAT_INIT = 0,    // Haven't found repeat value yet.
+    REPEAT_ONCE,        // Repeat just once
     REPEAT_FOREVER,     // Repeat for as long as possible
     REPEAT_FULL,        // Repeat until damage==0
     REPEAT_EVENT,       // Repeat until something interesting happens
     REPEAT_CANCEL,      // Stop repeating
-    REPEAT_INIT         // Haven't found repeat value yet.
 };
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
@@ -2067,14 +2074,15 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     rmenu.text = title;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
-    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
+    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat until reinforced" ) );
     rmenu.addentry( REPEAT_FULL, true, '3', _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( REPEAT_EVENT, true, '4', _( "Repeat until success/failure/level up" ) );
+    rmenu.addentry( REPEAT_INIT, true, '5', _( "Back to item selection" ) );
 
-    rmenu.selected = last_selection;
-
+    rmenu.selected = last_selection - REPEAT_ONCE;
     rmenu.query();
-    if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
+
+    if( rmenu.ret >= REPEAT_INIT && rmenu.ret <= REPEAT_EVENT ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
@@ -2130,6 +2138,10 @@ struct weldrig_hack {
         veh->charge_battery( pseudo.charges );
         pseudo.charges = 0;
     }
+
+    ~weldrig_hack() {
+        clean_up();
+    }
 };
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
@@ -2153,7 +2165,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    bool event_happened = false;
 
     const auto use_fun = used_tool->get_use( iuse_name_string );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
@@ -2164,18 +2175,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
-    // TODO: Allow setting this in the actor
-    // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-    if( !used_tool->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
-        act->set_to_null();
-        return;
-    }
+    // Valid Repeat choice and target, attempt repair.
+    if( repeat != REPEAT_INIT && act->position != INT_MIN ) {
+        item &fix = p->i_at( act->position );
 
-    item &fix = p->i_at( act->position );
-
-    // The first time through we just find out how many times the player wants to repeat the action.
-    if( repeat != REPEAT_INIT ) {
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
@@ -2187,33 +2190,66 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         }
 
+        // TODO: Allow setting this in the actor
+        // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
+        if( !used_tool->ammo_sufficient() ) {
+            p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
+            act->set_to_null();
+            return;
+        }
+
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         if( attempt == repair_item_actor::AS_CANT ||
             destroyed ||
-            !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
-            // Can't repeat any more
-            act->set_to_null();
-            w_hack.clean_up();
-            return;
+            !actor->can_repair_target( *p, fix, !destroyed ) ) {
+            // Cannot continue to repair target, select another target.
+            act->position = INT_MIN;
         }
 
-        event_happened =
+        bool event_happened =
             attempt == repair_item_actor::AS_FAILURE ||
             attempt == repair_item_actor::AS_SUCCESS ||
             old_level != p->get_skill_level( actor->used_skill );
-    } else {
-        repeat = REPEAT_ONCE;
+
+        const bool need_input =
+            repeat == REPEAT_ONCE ||
+            ( repeat == REPEAT_EVENT && event_happened ) ||
+            ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+        if( need_input ) {
+            repeat = REPEAT_INIT;
+        }
+    }
+    // Check tool is valid before we query target and Repeat choice.
+    if( !actor->can_use_tool( *p, *used_tool, true ) ) {
+        act->set_to_null();
+        return;
     }
 
-    w_hack.clean_up();
-    const bool need_input =
-        repeat == REPEAT_ONCE ||
-        ( repeat == REPEAT_EVENT && event_happened ) ||
-        ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+    // target selection and validation.
+    while( act->position == INT_MIN ) {
+        g->draw_sidebar_messages();     // Refresh messages to show feedback.
+        const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
+            return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
+                   &itm != &main_tool;
+        }, string_format( _( "You have no items that could be repaired with a %s." ),
+                          main_tool.type_name( 1 ) ) );
 
-    if( need_input ) {
+        if( pos == INT_MIN ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ) );
+            act->set_to_null();
+            return;
+        }
+        if( actor->can_repair_target( *p, p->i_at( pos ), true ) ) {
+            act->position = pos;
+            repeat = REPEAT_INIT;
+        }
+    }
+
+    const item &fix = p->i_at( act->position );
+
+    if( repeat == REPEAT_INIT ) {
         g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
@@ -2227,20 +2263,33 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s\nSuccess chance: %.1f%%\nDamage chance: %.1f%%" ),
-                                      repair_item_actor::action_description( action_type ).c_str(),
+                                      _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
+                                         "Damage chance: <color_light_blue>%.1f</color>%%" ),
+                                      repair_item_actor::action_description( action_type ),
+                                      fix.tname(),
                                       100.0f * chance.first, 100.0f * chance.second );
-        repeat_type answer = repeat_menu( title, repeat );
-        if( answer == REPEAT_CANCEL ) {
-            act->set_to_null();
-            return;
-        }
 
         if( act->values.empty() ) {
             act->values.resize( 1 );
         }
+        do {
+            g->draw_sidebar_messages();
+            repeat = repeat_menu( title, repeat );
 
-        act->values[0] = static_cast<int>( answer );
+            if( repeat == REPEAT_CANCEL ) {
+                act->set_to_null();
+                return;
+            }
+            act->values[0] = static_cast<int>( repeat );
+            if( repeat == REPEAT_INIT ) {       // BACK selected, redo target selection next.
+                p->activity.position = INT_MIN;
+                return;
+            }
+            if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
+                p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+                repeat = REPEAT_INIT;
+            }
+        } while( repeat == REPEAT_INIT );
     }
 
     // Otherwise keep retrying
@@ -2802,21 +2851,17 @@ static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
     }
 }
 
-void activity_handlers::till_plot_do_turn( player_activity *, player *p )
+static void perform_zone_activity_turn( player *p,
+                                        const zone_type_id &ztype,
+                                        const std::function<bool( const tripoint & )> &tile_filter,
+                                        const std::function<void ( player &p, const tripoint & )> &tile_action,
+                                        const std::string &finished_msg )
 {
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+    auto unsorted_tiles = mgr.get_near( ztype, abspos );
 
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
-    // cleanup unwanted tiles
-    auto cleanup = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
-               g->m.ter( tile ) == t_dirtmound;
-    };
-    cleanup_tiles( unsorted_tiles, cleanup );
+    cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
     const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
@@ -2827,37 +2872,114 @@ void activity_handlers::till_plot_do_turn( player_activity *, player *p )
         auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
-            }
+
+            p->set_destination( route, p->activity );
+            p->activity.set_to_null();
             return;
         } else { // we are at destination already
-            p->add_msg_if_player( _( "You churn up the earth here." ) );
-            p->mod_moves( -300 );
-            g->m.ter_set( tile_loc, t_dirtmound );
+            /* Perform action */
+            tile_action( *p, tile_loc );
 
             if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_TILL_PLOT" ) );
                 return;
             }
         }
     }
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You tilled every tile you could." ) );
+    add_msg( m_info, finished_msg );
+    p->activity.set_to_null();
+}
+
+
+void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
+{
+    auto reject_tile = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
+    };
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                iexamine::harvest_plant,
+                                _( "You harvested all the plots you could." ) );
+
+}
+
+void activity_handlers::till_plot_do_turn( player_activity *, player *p )
+{
+    auto reject_tile = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+               g->m.ter( tile ) == t_dirtmound;
+    };
+
+    auto dig = []( player & p, const tripoint & tile_loc ) {
+        p.add_msg_if_player( _( "You churn up the earth here." ) );
+        p.mod_moves( -300 );
+        g->m.ter_set( tile_loc, t_dirtmound );
+    };
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                dig,
+                                _( "You tilled every tile you could." ) );
+}
+
+void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p )
+{
+    itype_id fertilizer;
+    auto check_fertilizer = [&]( bool ask_user = true ) -> void {
+        if( act->str_values.empty() )
+        {
+            act->str_values.push_back( "" );
+        }
+        fertilizer = act->str_values[0];
+
+        /* If unspecified, or if we're out of what we used before, ask */
+        if( ask_user && ( fertilizer.empty() || !p->has_charges( fertilizer, 1 ) ) )
+        {
+            fertilizer = iexamine::choose_fertilizer( *p, "plant",
+                    false /* Don't confirm action with player */ );
+            act->str_values[0] = fertilizer;
+        }
+    };
+
+    auto have_fertilizer = [&]( void ) {
+        return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
+    };
+
+
+    auto reject_tile = [&]( const tripoint & tile ) {
+        check_fertilizer();
+        std::string failure = iexamine::fertilize_failure_reason( *p, tile, fertilizer );
+        return !p->sees( tile ) || !failure.empty();
+    };
+
+    auto fertilize = [&]( player & p, const tripoint & tile ) {
+        check_fertilizer();
+        if( have_fertilizer() ) {
+            iexamine::fertilize_plant( p, tile, fertilizer );
+            if( !have_fertilizer() ) {
+                add_msg( m_info, _( "You have run out of %s" ), fertilizer );
+            }
+        }
+    };
+
+    check_fertilizer();
+    if( !have_fertilizer() ) {
+        act->set_to_null();
+        return;
+    }
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                fertilize,
+                                _( "You fertilized every plot you could." ) );
 }
 
 void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 {
     const auto &mgr = zone_manager::get_manager();
-    const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
-
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
     std::vector<item *> seed_inv = p->items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
@@ -2879,7 +3001,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     };
 
     // cleanup unwanted tiles (local coords)
-    auto cleanup = [&]( const tripoint & tile ) {
+    auto reject_tiles = [&]( const tripoint & tile ) {
         if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
             return true;
         }
@@ -2892,42 +3014,24 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             } );
         } );
     };
-    cleanup_tiles( unsorted_tiles, cleanup );
 
-    // sort remaining tiles by distance
-    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
-
-    for( auto &tile : tiles ) {
-        const auto &tile_loc = g->m.getlocal( tile );
-
-        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
-        if( route.size() > 1 ) {
-            route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
-            }
-            return;
-        } else { // we are at destination already
-            const auto seeds = get_seeds( tile_loc );
-            std::vector<item *> seed_inv = p->items_with( [seeds]( const item & itm ) {
-                return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
-                    return itm.typeId() == itype_id( seed );
-                } );
+    auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
+        const auto seeds = get_seeds( tile_loc );
+        std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
+            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
+                return itm.typeId() == itype_id( seed );
             } );
-            if( !seed_inv.empty() ) {
-                auto it = seed_inv.front();
-                iexamine::plant_seed( *p, tile_loc, it->typeId() );
-            }
-
-            if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-                return;
-            }
+        } );
+        if( !seed_inv.empty() ) {
+            auto it = seed_inv.front();
+            iexamine::plant_seed( p, tile_loc, it->typeId() );
         }
-    }
+    };
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You planted all seeds you could." ) );
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tiles,
+                                plant_appropriate_seed,
+                                _( "You planted all seeds you could." ) );
 }

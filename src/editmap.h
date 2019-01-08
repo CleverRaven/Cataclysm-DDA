@@ -2,14 +2,14 @@
 #ifndef EDITMAP_H
 #define EDITMAP_H
 
+#include <map>
+#include <vector>
+
 #include "map.h"
 #include "omdata.h"
 #include "optional.h"
 #include "trap.h"
 #include "ui.h"
-
-#include <map>
-#include <vector>
 
 struct real_coords;
 enum field_id : int;

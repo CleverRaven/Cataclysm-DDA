@@ -2,16 +2,16 @@
 #ifndef OVERMAPBUFFER_H
 #define OVERMAPBUFFER_H
 
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <vector>
+
 #include "enums.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "string_id.h"
-
-#include <memory>
-#include <set>
-#include <unordered_map>
-#include <vector>
 
 struct mongroup;
 class monster;
@@ -497,6 +497,7 @@ class overmapbuffer
         /**
          * Retrieve overmaps that overlap the bounding box defined by the location and radius.
          * The location is in absolute submap coordinates, the radius is in the same system.
+         * The overmaps are returned sorted by distance from the provided location (closest first).
          */
         std::vector<overmap *> get_overmaps_near( const point &location, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );

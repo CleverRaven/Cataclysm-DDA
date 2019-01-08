@@ -202,8 +202,26 @@
     ]
   },
   {
+    "id": "animal_noskin",
+    "//": "for those vertebrates that don't have something you can skin off of them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "animal_large_noskin",
-    "//": "for those vertibrates that don't have something you can skin off of them",
+    "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
@@ -251,11 +269,11 @@
     "id": "bird_large",
     "type": "harvest",
     "entries": [
-      { "drops": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drops": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-      { "drops": "fat", "type": "flesh", "mass_ratio": 0.18 },
-      { "drops": "feather", "type": "skin", "mass_ratio": 0.03 },
-      { "drops": "bone", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.03 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
