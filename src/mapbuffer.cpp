@@ -1,5 +1,7 @@
 #include "mapbuffer.h"
 
+#include <sstream>
+
 #include "cata_utility.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -14,8 +16,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
-
-#include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -2,12 +2,12 @@
 #ifndef SCENT_H
 #define SCENT_H
 
+#include <array>
+
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "optional.h"
-
-#include <array>
 
 class map;
 class game;
@@ -20,7 +20,7 @@ class scent_map
 {
     protected:
         template<typename T>
-        using scent_array = std::array<std::array<T, SEEY *MAPSIZE>, SEEX *MAPSIZE>;
+        using scent_array = std::array<std::array<T, MAPSIZE_Y>, MAPSIZE_X>;
 
         scent_array<int> grscent;
         cata::optional<tripoint> player_last_position;

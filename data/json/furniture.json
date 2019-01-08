@@ -1588,7 +1588,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "close": "f_canvas_door",
+    "close": "f_large_canvas_door",
     "bash": {
       "str_min": 1,
       "str_max": 8,

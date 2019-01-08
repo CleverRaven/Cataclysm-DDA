@@ -5,12 +5,17 @@
 #include <string>
 #include <vector>
 
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 class martialart;
 class JsonObject;
 class mission;
 class time_point;
 class npc;
 class item;
+struct point;
 struct tripoint;
 struct comp_rank;
 struct mission_entry;

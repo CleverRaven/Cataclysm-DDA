@@ -1,4 +1,7 @@
-#include "gamemode.h"
+#include "gamemode.h" // IWYU pragma: associated
+
+#include <ostream>
+#include <sstream>
 
 #include "action.h"
 #include "color.h"
@@ -22,9 +25,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-
-#include <ostream>
-#include <sstream>
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -1423,12 +1423,12 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
         } else if( one_in( 2 ) ) {
             pnt = point( rng( SEEX * ( MAPSIZE / 2 ), SEEX * ( 1 + MAPSIZE / 2 ) ), rng( 1, SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( pnt.x, SEEY * MAPSIZE - 1 - pnt.y );
+                pnt = point( pnt.x, MAPSIZE_Y - 1 - pnt.y );
             }
         } else {
             pnt = point( rng( 1, SEEX ), rng( SEEY * ( MAPSIZE / 2 ), SEEY * ( 1 + MAPSIZE / 2 ) ) );
             if( one_in( 2 ) ) {
-                pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
+                pnt = point( MAPSIZE_X - 1 - pnt.x, pnt.y );
             }
         }
         if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {

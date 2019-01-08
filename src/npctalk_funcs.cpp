@@ -1,4 +1,8 @@
-#include "npc.h"
+#include "npctalk.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+#include <vector>
 
 #include "basecamp.h"
 #include "bionics.h"
@@ -10,7 +14,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "npctalk.h"
+#include "npc.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
@@ -21,10 +25,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 

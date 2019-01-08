@@ -2,15 +2,15 @@
 #ifndef COLOR_LOADER_H
 #define COLOR_LOADER_H
 
-#include "debug.h"
-#include "filesystem.h"
-#include "json.h"
-#include "path_info.h"
-
 #include <array>
 #include <fstream>
 #include <map>
 #include <string>
+
+#include "debug.h"
+#include "filesystem.h"
+#include "json.h"
+#include "path_info.h"
 
 template<typename ColorType>
 class color_loader

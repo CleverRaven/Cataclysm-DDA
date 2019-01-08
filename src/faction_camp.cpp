@@ -1,3 +1,10 @@
+#include "faction_camp.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <string>
+#include <vector>
+
 #include "ammo.h"
 #include "bionics.h"
 #include "catacharset.h"
@@ -37,14 +44,7 @@
 #include "vehicle.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include "faction_camp.h"
 #include "basecamp.h"
-
-#include <algorithm>
-#include <cassert>
-#include <string>
-#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -2916,7 +2916,7 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 {
     std::string entry = " \n";
     //A square is roughly 3 m
-    int dist_m = distance * 24 * 3;
+    int dist_m = distance * SEEX * 2 * 3;
     if( dist_m > 1000 ) {
         entry += string_format( _( ">Distance:%15.2f (km)\n" ), dist_m / 1000.0 );
         entry += string_format( _( ">One Way: %15d (trips)\n" ), trips );

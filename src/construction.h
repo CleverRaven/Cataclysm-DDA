@@ -2,13 +2,13 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include "optional.h"
-#include "string_id.h"
-
 #include <functional>
 #include <map>
 #include <set>
 #include <vector>
+
+#include "optional.h"
+#include "string_id.h"
 
 namespace catacurses
 {

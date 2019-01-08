@@ -2,13 +2,13 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "translations.h"
-
 #include <map>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include "translations.h"
 
 class JsonIn;
 class JsonOut;

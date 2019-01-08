@@ -1,5 +1,10 @@
 #include "crafting_gui.h"
 
+#include <algorithm>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
@@ -18,11 +23,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
-
-#include <algorithm>
-#include <map>
-#include <string>
-#include <vector>
 
 enum TAB_MODE {
     NORMAL,

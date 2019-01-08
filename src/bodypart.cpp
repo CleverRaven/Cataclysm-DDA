@@ -1,13 +1,13 @@
 #include "bodypart.h"
 
+#include <map>
+#include <unordered_map>
+
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "rng.h"
 #include "translations.h"
-
-#include <map>
-#include <unordered_map>
 
 side opposite_side( side s )
 {

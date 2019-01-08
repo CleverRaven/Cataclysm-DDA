@@ -2,12 +2,12 @@
 #ifndef IUSE_H
 #define IUSE_H
 
-#include "enums.h"
-#include "units.h"
-
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "enums.h"
+#include "units.h"
 
 class item;
 class player;

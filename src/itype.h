@@ -2,6 +2,11 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
 #include "color.h" // nc_color
@@ -15,11 +20,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
-
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
 
 // see item.h
 class item_category;

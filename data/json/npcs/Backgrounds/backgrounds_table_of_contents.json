@@ -20,6 +20,21 @@
       },
       {
         "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_3" }
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_4_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_4" }
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_NO_PAST_5_STORY1",
+        "condition": { "npc_has_trait": "BGSS_No_Past_5" }
+      },
+      {
+        "text": "<BGSS_intro_question>",
         "topic": "BGSS_RELIGIOUS_1_STORY1",
         "condition": { "npc_has_trait": "BGSS_Religious_1" }
       },
@@ -32,6 +47,11 @@
         "text": "<BGSS_intro_question>",
         "topic": "BGSS_DREAMER_STORY1",
         "condition": { "npc_has_trait": "BGSS_Dreamer" }
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_WEDDING_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Wedding_1" }
       },
       {
         "text": "<BGSS_intro_question>",
@@ -243,10 +263,10 @@
   {
     "type": "effect_type",
     "id": "player_BGSS_SAIDNO",
-    "//": "Defined here in the conversation section because this should be the only time this effect is referenced: it's specifically for survival stories only.",
+    "//": "Defined here because this should be the only time this effect is referenced.",
     "name": [ "Story Denied" ],
     "desc": [
-      "AI tag used when you already asked an NPC for a detail in their survival story and they don't want to tell you again right now.  This is a bug if you have it."
+      "AI tag: you already asked an NPC for a detail and they don't want to tell you again.  This is a bug if you have it."
     ]
   }
 ]

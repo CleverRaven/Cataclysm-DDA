@@ -2,6 +2,13 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <climits>
+#include <list>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -9,13 +16,6 @@
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
-
-#include <climits>
-#include <list>
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
 
 namespace cata
 {

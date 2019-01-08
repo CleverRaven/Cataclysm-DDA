@@ -1,5 +1,10 @@
 #include "item_factory.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <sstream>
+
 #include "addiction.h"
 #include "ammo.h"
 #include "artifact.h"
@@ -25,11 +30,6 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <sstream>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;

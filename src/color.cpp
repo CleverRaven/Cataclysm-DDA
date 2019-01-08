@@ -1,5 +1,7 @@
 #include "color.h"
 
+#include <algorithm> // for std::count
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -10,8 +12,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <algorithm> // for std::count
 
 void nc_color::serialize( JsonOut &jsout ) const
 {

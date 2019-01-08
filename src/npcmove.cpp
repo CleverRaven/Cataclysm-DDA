@@ -1,4 +1,9 @@
-#include "npc.h"
+#include "npc.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <memory>
+#include <numeric>
+#include <sstream>
 
 #include "ammo.h"
 #include "cata_algo.h"
@@ -31,11 +36,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <memory>
-#include <numeric>
-#include <sstream>
 
 // @todo: Get rid of this include
 
@@ -238,7 +238,8 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
-            if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
+            if( critter.type->difficulty > ( 8 + personality.bravery + rng( 0, 5 ) ) &&
+                ( is_enemy() || !critter.friendly ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname() );
             }
         }
@@ -2440,10 +2441,11 @@ bool npc::wield_better_weapon()
 bool npc::scan_new_items()
 {
     add_msg( m_debug, "%s scanning new items", name.c_str() );
-    if( !wield_better_weapon() ) {
+    if( wield_better_weapon() ) {
+        return true;
+    } else {
         // Stop "having new items" when you no longer do anything with them
         has_new_items = false;
-        return true;
     }
 
     return false;
@@ -2934,8 +2936,8 @@ void npc::look_for_player( player &sought )
         path.clear();
     }
     std::vector<point> possibilities;
-    for (int x = 1; x < SEEX * MAPSIZE; x += 11) { // 1, 12, 23, 34
-        for (int y = 1; y < SEEY * MAPSIZE; y += 11) {
+    for (int x = 1; x < MAPSIZE_X; x += 11) { // 1, 12, 23, 34
+        for (int y = 1; y < MAPSIZE_Y; y += 11) {
             if( sees( x, y ) ) {
                 possibilities.push_back(point(x, y));
             }
