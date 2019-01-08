@@ -998,7 +998,7 @@
   {
     "id": "MISSION_RANCH_CHOP_SHOP_2",
     "type": "mission_definition",
-    "name": "Find a book detailing how to make Biodiesel",
+    "name": "Find a book detailing how to make biodiesel",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
