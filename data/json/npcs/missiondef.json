@@ -1008,7 +1008,7 @@
     "followup": "MISSION_RANCH_CHOP_SHOP_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Getting cars fueled up for trips has been a lot less hassle with our own supply of gasoline to fill vehicles.  As great as that is though I have some concerns about keeping things running in the future.  I think we seriously need to look into creating our own fuel source.  With that in mind I’ve been working on some diesel engines that came through the garage to get them into working order.  With the right equipment it’s possible to make biodiesel unfortunately I don’t have a book on hand to tell me how to do it.  If you can manage to find a book detailing the process to making diesel it would be a great help.",
+      "offer": "Getting cars fueled up for trips has been a lot less hassle with our own supply of gasoline to fill vehicles.  As great as that is though I have some concerns about keeping things running in the future.  I think we seriously need to look into creating our own fuel source.  With that in mind I've been working on some diesel engines that came through the garage to get them into working order.  With the right equipment it's possible to make biodiesel unfortunately I don't have a book on hand to tell me how to do it.  If you can manage to find a book detailing the process to making diesel it would be a great help.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "Finding a book for biodiesel is probably going to be more tedious than hard.  You’ll probably be able to find a copy anywhere you find books like libraries or schools.  It’s just a question of finding a place that has a copy.",
