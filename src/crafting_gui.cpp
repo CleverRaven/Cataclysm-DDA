@@ -315,10 +315,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                                                              learned.end(),
                                                              std::back_inserter( intersection_result ) );
                                     }
-                                    std::vector<const recipe *> col_result;
-                                    std::set_intersection( intersection_result.begin(), intersection_result.end(), picking.begin(),
-                                                           picking.end(), std::back_inserter( col_result ) );
-                                    picking.swap( col_result );
+                                    // Populate if the first query filter, reduce otherwise
+                                    if( qry_begin == 0 ) {
+                                        picking.swap( intersection_result );
+                                    } else {
+                                        std::vector<const recipe *> col_result;
+                                        std::set_intersection( intersection_result.begin(), intersection_result.end(), picking.begin(),
+                                                            picking.end(), std::back_inserter( col_result ) );
+                                        picking.swap( col_result );
+                                    }
                                     break;
                                 }
 
@@ -326,9 +331,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     std::vector<const recipe *> available;
                                     std::copy( available_recipes.begin(), available_recipes.end(), std::back_inserter( available ) );
                                     std::vector<const recipe *> col_result;
-                                    std::set_intersection( available.begin(), available.end(), picking.begin(), picking.end(),
-                                                           std::back_inserter( col_result ) );
-                                    picking.swap( col_result );
+                                    
+                                    // Populate if the first query filter, reduce otherwise
+                                    if( qry_begin == 0 ) {
+                                        picking.swap( available );
+                                    } else {
+                                        std::set_intersection( available.begin(), available.end(), picking.begin(), picking.end(),
+                                                            std::back_inserter( col_result ) );
+                                        picking.swap( col_result );
+                                    }
 
                                     if( query_is_yes( qry_filter_str ) ) {
                                         show_hidden = true;
