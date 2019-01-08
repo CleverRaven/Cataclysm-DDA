@@ -477,6 +477,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return _( "Bye." );
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
+    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
+        return _( "Pleasure doing business!" );
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
         if( p->has_effect( effect_asked_for_item ) ) {
             return _( "You just asked me for stuff; ask later." );
