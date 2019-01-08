@@ -1021,7 +1021,7 @@
   {
     "id": "MISSION_RANCH_CHOP_SHOP_3",
     "type": "mission_definition",
-    "name": "Gather 600L of Diesel",
+    "name": "Gather 600L of diesel",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
