@@ -1911,15 +1911,11 @@
     "max_intensity": 3,
     "base_mods": {
       "vomit_tick": [ 10 ],
-      "pkill_min": [ 1 ],
-      "pkill_tick": [ 10 ],
-      "pkill_max_val": [ 10 ],
       "health_chance": [ 1500 ],
       "health_min": [ 1 ],
       "fatigue_amount": [ 50 ]
     },
     "scaling_mods": {
-      "pkill_max_val": [ 10 ],
       "fatigue_amount": [ 75 ],
       "health_min": [ -1.5 ],
       "health_min_val": [ -2 ],
