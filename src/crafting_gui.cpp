@@ -321,7 +321,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     } else {
                                         std::vector<const recipe *> col_result;
                                         std::set_intersection( intersection_result.begin(), intersection_result.end(), picking.begin(),
-                                                            picking.end(), std::back_inserter( col_result ) );
+                                                               picking.end(), std::back_inserter( col_result ) );
                                         picking.swap( col_result );
                                     }
                                     break;
@@ -331,13 +331,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     std::vector<const recipe *> available;
                                     std::copy( available_recipes.begin(), available_recipes.end(), std::back_inserter( available ) );
                                     std::vector<const recipe *> col_result;
-                                    
+
                                     // Populate if the first query filter, reduce otherwise
                                     if( qry_begin == 0 ) {
                                         picking.swap( available );
                                     } else {
                                         std::set_intersection( available.begin(), available.end(), picking.begin(), picking.end(),
-                                                            std::back_inserter( col_result ) );
+                                                               std::back_inserter( col_result ) );
                                         picking.swap( col_result );
                                     }
 
@@ -355,7 +355,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                         }
 
                         qry_begin = qry_end + 1;
-                    } while( qry_end != std::string::npos );
+                    } while( qry_end != std::string::npos && !picking.empty() );
                 } else if( subtab.cur() == "CSC_*_FAVORITE" ) {
                     picking = available_recipes.favorite();
                 } else if( subtab.cur() == "CSC_*_RECENT" ) {
