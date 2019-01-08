@@ -975,7 +975,7 @@
     {
     "id": "MISSION_RANCH_CHOP_SHOP_1",
     "type": "mission_definition",
-    "name": "Gather 1200L of Gasoline",
+    "name": "Gather 1200L of gasoline",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
