@@ -910,6 +910,15 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &locatio
         }
     }
 
+    // Sort the resulting overmaps so that the closest ones are first.
+    const tripoint center = sm_to_om_copy( location );
+    std::sort( result.begin(), result.end(), [&center]( const overmap * lhs,
+    const overmap * rhs ) {
+        const tripoint lhs_pos( lhs->pos(), 0 );
+        const tripoint rhs_pos( rhs->pos(), 0 );
+        return trig_dist( center, lhs_pos ) < trig_dist( center, rhs_pos );
+    } );
+
     return result;
 }
 
