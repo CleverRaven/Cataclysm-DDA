@@ -1721,6 +1721,10 @@ npc_ptr basecamp::companion_choose_return( npc &p, const std::string &miss_id,
 {
     return talk_function::companion_choose_return( p, miss_id, calendar::turn - min_duration );
 }
+npc_ptr basecamp::companion_choose_return( const std::string &miss_id, time_duration min_duration )
+{
+    return talk_function::companion_choose_return( pos, "FACTION_CAMP", miss_id, calendar::turn - min_duration );
+}
 void basecamp::finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
                               const std::string &skill, int difficulty )
 {

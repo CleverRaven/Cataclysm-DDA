@@ -119,6 +119,7 @@ class basecamp
         // mission return functions
         /// called to select a companion to return to the base
         npc_ptr companion_choose_return( npc &p, const std::string &miss_id, time_duration min_duration );
+        npc_ptr companion_choose_return( const std::string &miss_id, time_duration min_duration );
         /// called with a companion @ref comp who is not the camp manager, finishes updating their
         /// skills, consuming food, and returning them to the base.
         void finish_return( npc &comp, bool fixed_time, const std::string &return_msg,

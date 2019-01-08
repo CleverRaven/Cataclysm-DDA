@@ -1849,15 +1849,14 @@ std::shared_ptr<npc> talk_function::companion_choose( const std::string &skill_t
     return available[npc_choice];
 }
 
-std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const std::string &id,
-        const time_point &deadline )
+std::shared_ptr<npc> talk_function::companion_choose_return( const tripoint omt_pos, const std::string cmri,
+        const std::string &id, const time_point &deadline )
 {
     std::vector<std::shared_ptr<npc>> available;
-    const tripoint omt_pos = p.global_omt_location();
     for( std::shared_ptr<npc> &guy : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.position != omt_pos ||
-            c_mission.mission_id != id || c_mission.role_id != p.companion_mission_role_id ) {
+            c_mission.mission_id != id || c_mission.role_id != cmri ) {
             continue;
         }
         if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -1890,6 +1889,12 @@ std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const
     }
     popup( _( "No one returns to your party..." ) );
     return nullptr;
+}
+
+std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const std::string &id,
+            const time_point &deadline )
+{
+    return companion_choose_return( p.global_omt_location(), p.companion_mission_role_id, id, deadline );
 }
 
 //Smash stuff, steal valuables, and change map maker

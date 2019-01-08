@@ -139,6 +139,8 @@ std::vector<std::shared_ptr<npc>> companion_sort( std::vector<std::shared_ptr<np
 std::vector<comp_rank> companion_rank( const std::vector<std::shared_ptr<npc>> &available,
                                        bool adj = true );
 std::shared_ptr<npc> companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
+std::shared_ptr<npc> companion_choose_return( const tripoint omt_pos, const std::string cmri,
+        const time_point &deadline );
 std::shared_ptr<npc> companion_choose_return( const npc &p, const std::string &id,
         const time_point &deadline );
 //Return NPC to your party
