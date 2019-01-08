@@ -743,7 +743,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
-                   "can be used with a colon (:) to search in other ways.\n"
+                   "can be used with a colon (:) to search in other ways. Additional filters "
+                   "are separated by commas (,).\n"
                    "\n"
                    "<color_white>Examples:</color>\n" );
 
