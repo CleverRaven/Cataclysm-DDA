@@ -5817,7 +5817,9 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         }
     }
 
-    g->u.memorize_symbol( getabs( p ), memory_sym );
+    if( !check_and_set_seen_cache( p ) ) {
+        g->u.memorize_symbol( getabs( p ), memory_sym );
+    }
 
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
