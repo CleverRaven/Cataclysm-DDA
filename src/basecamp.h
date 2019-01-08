@@ -8,6 +8,7 @@
 #include <string>
 
 #include "enums.h"
+#include "mission_companion.h"
 
 class JsonIn;
 class JsonOut;
@@ -116,7 +117,9 @@ class basecamp
         bool start_garage_chop( npc &p, const std::string dir, const tripoint &omt_tgt );
         void start_farm_op( npc &p, const std::string &dir, const tripoint &omt_tgt, farm_ops op );
 
-        // mission return functions
+        // mission functions
+        void camp_missions( mission_data &mission_key, npc &p );
+        bool handle_camp_mission( mission_entry &cur_key, npc &p );
         /// called to select a companion to return to the base
         npc_ptr companion_choose_return( npc &p, const std::string &miss_id, time_duration min_duration );
         npc_ptr companion_choose_return( const std::string &miss_id, time_duration min_duration );

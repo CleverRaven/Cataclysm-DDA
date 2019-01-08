@@ -68,9 +68,6 @@ namespace talk_function
  *sending companions out on simulated adventures or tasks.  This is not meant to be a replacement for the existing system.
  */
 
-void camp_missions( mission_data &mission_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
-
 //Identifies which mission set the NPC draws from
 void companion_mission( npc & );
 /**

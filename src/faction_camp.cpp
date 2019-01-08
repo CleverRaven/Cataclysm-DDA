@@ -293,7 +293,7 @@ void talk_function::become_overseer( npc &p )
 }
 
 
-void talk_function::camp_missions( mission_data &mission_key, npc &p )
+void basecamp::camp_missions( mission_data &mission_key, npc &p )
 {
     std::string entry;
     basecamp *bcp = get_basecamp( p );
@@ -306,7 +306,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     std::string bldg = bcp->next_upgrade( base_dir );
 
     if( bldg != "null" ) {
-        comp_list npc_list = companion_list( p, "_faction_upgrade_camp" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_upgrade_camp" );
         entry = om_upgrade_description( bldg );
         mission_key.add_start( "Upgrade Camp", _( "Upgrade Camp" ), "", entry, npc_list.empty() );
         if( !npc_list.empty() ) {
@@ -318,7 +318,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 0, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_crafting_" + base_dir );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_crafting_" + base_dir );
         //This handles all crafting by the base, regardless of level
         std::map<std::string, std::string> craft_r = bcp->recipe_deck( base_dir );
         inventory found_inv = g->u.crafting_inventory();
@@ -340,7 +340,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 1, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_gathering" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_gathering" );
         entry = om_gathering_description( p, bldg );
         mission_key.add_start( "Gather Materials", _( "Gather Materials" ), "", entry,
                                npc_list.size() < 3 );
@@ -383,7 +383,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 2, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_firewood" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_firewood" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to gather light brush and heavy sticks.\n \n"
                                   "Skill used: survival\n"
@@ -406,7 +406,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 3, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_menial" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_menial" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to do low level chores and sort supplies.\n \n"
                                   "Skill used: fabrication\n"
@@ -429,7 +429,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->can_expand() ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_expansion" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_expansion" );
         entry = string_format( _( "Notes:\n"
                                   "Your base has become large enough to support an expansion."
                                   "Expansions open up new opportunities but can be expensive and "
@@ -458,7 +458,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 5, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_cut_log" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_cut_log" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to a nearby forest to cut logs.\n \n"
                                   "Skill used: fabrication\n"
@@ -481,7 +481,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 5, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_clearcut" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_clearcut" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to a clear a nearby forest.\n \n"
                                   "Skill used: fabrication\n"
@@ -505,7 +505,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 7, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_hide_site" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_hide_site" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to build an improvised shelter and stock it "
                                   "with equipment at a distant map location.\n \n"
@@ -526,7 +526,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
             mission_key.add_return( "Recover Hide Setup", _( "Recover Hide Setup" ), "", entry,
                                     avail );
         }
-        npc_list = companion_list( p, "_faction_camp_hide_trans" );
+        npc_list = talk_function::companion_list( p, "_faction_camp_hide_trans" );
         entry = string_format( _( "Notes:\n"
                                   "Push gear out to a hide site or bring gear back from one.\n \n"
                                   "Skill used: survival\n"
@@ -551,7 +551,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 2, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_foraging" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_foraging" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to forage for edible plants.\n \n"
                                   "Skill used: survival\n"
@@ -575,7 +575,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 6, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_trapping" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_trapping" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to set traps for small game.\n \n"
                                   "Skill used: trapping\n"
@@ -598,7 +598,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 8, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_hunting" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_hunting" );
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to hunt large animals.\n \n"
                                   "Skill used: marksmanship\n"
@@ -619,7 +619,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 9, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_om_fortifications" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_om_fortifications" );
         entry = om_upgrade_description( "faction_wall_level_N_0" );
         mission_key.add_start( "Construct Map Fort", _( "Construct Map Fortifications" ), "",
                                entry, npc_list.empty() );
@@ -635,7 +635,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 11, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_recruit_0" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_recruit_0" );
         entry = bcp->recruit_description( npc_list.size() );
         mission_key.add_start( "Recruit Companions", _( "Recruit Companions" ), "", entry,
                                npc_list.empty() );
@@ -648,7 +648,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 13, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_scout_0" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_scout_0" );
         entry =  string_format( _( "Notes:\n"
                                    "Send a companion out into the great unknown.  High survival "
                                    "skills are needed to avoid combat but you should expect an "
@@ -672,7 +672,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 
     if( bcp->has_level( camp_ctr, 15, base_dir ) ) {
-        comp_list npc_list = companion_list( p, "_faction_camp_combat_0" );
+        comp_list npc_list = talk_function::companion_list( p, "_faction_camp_combat_0" );
         entry =  string_format( _( "Notes:\n"
                                    "Send a companion to purge the wasteland.  Their goal is to "
                                    "kill anything hostile they encounter and return when "
@@ -701,9 +701,9 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     //This starts all of the expansion missions
     for( const std::string &dir : bcp->directions ) {
         const std::string bldg_exp = bcp->next_upgrade( dir );
-        const tripoint omt_trg = bcp->camp_pos() + om_dir_to_offset( dir );
+        const tripoint omt_trg = bcp->camp_pos() + talk_function::om_dir_to_offset( dir );
         if( bldg_exp != "null" ) {
-            comp_list npc_list = companion_list( p, "_faction_upgrade_exp_" + dir );
+            comp_list npc_list = talk_function::companion_list( p, "_faction_upgrade_exp_" + dir );
             std::string title_e = dir + " Expansion Upgrade";
             entry = om_upgrade_description( bldg_exp );
             mission_key.add_start( title_e, dir + _( " Expansion Upgrade" ), dir, entry,
@@ -718,7 +718,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         }
 
         if( bcp->has_level( "garage", 1, dir ) ) {
-            comp_list npc_list = companion_list( p, "_faction_exp_chop_shop_" + dir );
+            comp_list npc_list = talk_function::companion_list( p, "_faction_exp_chop_shop_" + dir );
             std::string title_e = dir + " Chop Shop";
             entry = _( "Notes:\n"
                        "Have a companion attempt to completely dissemble a vehicle into "
@@ -743,7 +743,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
         std::map<std::string, std::string> cooking_recipes = bcp->recipe_deck( dir );
         if( bcp->has_level( "kitchen", 1, dir ) ) {
             inventory found_inv = g->u.crafting_inventory();
-            comp_list npc_list = companion_list( p, "_faction_exp_kitchen_cooking_" + dir );
+            comp_list npc_list = talk_function::companion_list( p, "_faction_exp_kitchen_cooking_" + dir );
             if( npc_list.empty() ) {
                 for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                      it != cooking_recipes.end(); ++it ) {
@@ -763,7 +763,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 
         if( bcp->has_level( "blacksmith", 1, dir ) ) {
             inventory found_inv = g->u.crafting_inventory();
-            comp_list npc_list = companion_list( p, "_faction_exp_blacksmith_crafting_" + dir );
+            comp_list npc_list = talk_function::companion_list( p, "_faction_exp_blacksmith_crafting_" + dir );
             if( npc_list.empty() ) {
                 for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                      it != cooking_recipes.end(); ++it ) {
@@ -784,7 +784,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 
         if( bcp->has_level( "farm", 1, dir ) ) {
             size_t plots = 0;
-            comp_list npc_list = companion_list( p, "_faction_exp_plow_" + dir );
+            comp_list npc_list = talk_function::companion_list( p, "_faction_exp_plow_" + dir );
             if( npc_list.empty() ) {
                 std::string title_e = dir + " Plow Fields";
                 entry = _( "Notes:\n"
@@ -807,7 +807,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                         dir + _( " (Finish) Plow Fields" ), dir, entry, avail );
             }
 
-            npc_list = companion_list( p, "_faction_exp_plant_" + dir );
+            npc_list = talk_function::companion_list( p, "_faction_exp_plant_" + dir );
             if( npc_list.empty() ) {
                 std::string title_e = dir + " Plant Fields";
                 entry = _( "Notes:\n"
@@ -833,7 +833,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
                                         dir + _( " (Finish) Plant Fields" ), dir, entry, avail );
             }
 
-            npc_list = companion_list( p, "_faction_exp_harvest_" + dir );
+            npc_list = talk_function::companion_list( p, "_faction_exp_harvest_" + dir );
             if( npc_list.empty() ) {
                 std::string title_e = dir + " Harvest Fields";
                 entry = _( "Notes:\n"
@@ -859,7 +859,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
 
         if( bcp->has_level( "farm", 4, dir ) ) {
             inventory found_inv = g->u.crafting_inventory();
-            comp_list npc_list = companion_list( p, "_faction_exp_farm_crafting_" + dir );
+            comp_list npc_list = talk_function::companion_list( p, "_faction_exp_farm_crafting_" + dir );
             if( npc_list.empty() ) {
                 for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
                      it != cooking_recipes.end(); ++it ) {
@@ -879,7 +879,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     }
 }
 
-bool talk_function::handle_camp_mission( mission_entry &cur_key, npc &p )
+bool basecamp::handle_camp_mission( mission_entry &cur_key, npc &p )
 {
     basecamp *bcp = get_basecamp( p );
     if( !bcp ) {
