@@ -126,7 +126,7 @@ std::vector<const recipe *> recipe_subset::search( const std::vector<const recip
 {
     std::vector<const recipe *> res;
 
-    std::copy_if( subset.begin(), subset.end(), std::back_inserter( res ), [&]( const recipe *r ) {
+    std::copy_if( subset.begin(), subset.end(), std::back_inserter( res ), [&]( const recipe * r ) {
         if( !*r ) {
             return false;
         }

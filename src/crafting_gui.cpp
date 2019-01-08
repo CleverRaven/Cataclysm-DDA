@@ -261,7 +261,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     bool filter_complete = false;
                     size_t qry_begin = 0;
                     size_t qry_end = 0;
-                    do{
+                    do {
                         // Find next ','
                         qry_end = qry.find_first_of( ',', qry_begin );
 
@@ -277,7 +277,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         break;
 
                                     case 'c':
-                                        picking = available_recipes.search( qry_filter_str.substr( 2 ), recipe_subset::search_type::component );
+                                        picking = available_recipes.search( qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::component );
                                         break;
 
                                     case 's':
@@ -285,15 +286,18 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         break;
 
                                     case 'p':
-                                        picking = available_recipes.search( qry_filter_str.substr( 2 ), recipe_subset::search_type::primary_skill );
+                                        picking = available_recipes.search( qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::primary_skill );
                                         break;
 
                                     case 'Q':
-                                        picking = available_recipes.search( qry_filter_str.substr( 2 ), recipe_subset::search_type::quality );
+                                        picking = available_recipes.search( qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::quality );
                                         break;
 
                                     case 'q':
-                                        picking = available_recipes.search( qry_filter_str.substr( 2 ), recipe_subset::search_type::quality_result );
+                                        picking = available_recipes.search( qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::quality_result );
                                         break;
 
                                     case 'd':
@@ -305,11 +309,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         auto &learned = g->u.get_learned_recipes();
                                         if( query_is_yes( qry_filter_str ) ) {
                                             std::set_intersection( available_recipes.begin(), available_recipes.end(), learned.begin(),
-                                                                learned.end(), std::back_inserter( picking ) );
+                                                                   learned.end(), std::back_inserter( picking ) );
                                         } else {
                                             std::set_difference( available_recipes.begin(), available_recipes.end(), learned.begin(),
-                                                                learned.end(),
-                                                                std::back_inserter( picking ) );
+                                                                 learned.end(),
+                                                                 std::back_inserter( picking ) );
                                         }
                                         break;
                                     }
@@ -333,27 +337,33 @@ const recipe *select_crafting_recipe( int &batch_size )
                             if( qry_filter_str.size() > 2 && qry_filter_str[1] == ':' ) {
                                 switch( qry_filter_str[0] ) {
                                     case 't':
-                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ), recipe_subset::search_type::tool );
+                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::tool );
                                         break;
 
                                     case 'c':
-                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ), recipe_subset::search_type::component );
+                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::component );
                                         break;
 
                                     case 's':
-                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ), recipe_subset::search_type::skill );
+                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::skill );
                                         break;
 
                                     case 'p':
-                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ), recipe_subset::search_type::primary_skill );
+                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::primary_skill );
                                         break;
 
                                     case 'Q':
-                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ), recipe_subset::search_type::quality );
+                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::quality );
                                         break;
 
                                     case 'q':
-                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ), recipe_subset::search_type::quality_result );
+                                        picking = available_recipes.search( picking, qry_filter_str.substr( 2 ),
+                                                                            recipe_subset::search_type::quality_result );
                                         break;
 
                                     case 'd':
@@ -366,14 +376,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         std::vector<const recipe *> intersection_result;
                                         if( query_is_yes( qry_filter_str ) ) {
                                             std::set_intersection( available_recipes.begin(), available_recipes.end(), learned.begin(),
-                                                                learned.end(), std::back_inserter( intersection_result ) );
+                                                                   learned.end(), std::back_inserter( intersection_result ) );
                                         } else {
                                             std::set_difference( available_recipes.begin(), available_recipes.end(), learned.begin(),
-                                                                learned.end(),
-                                                                std::back_inserter( intersection_result ) );
+                                                                 learned.end(),
+                                                                 std::back_inserter( intersection_result ) );
                                         }
                                         std::vector<const recipe *> col_result;
-                                        std::set_intersection( intersection_result.begin(), intersection_result.end(), picking.begin(), picking.end(), std::back_inserter( col_result ) );
+                                        std::set_intersection( intersection_result.begin(), intersection_result.end(), picking.begin(),
+                                                               picking.end(), std::back_inserter( col_result ) );
                                         picking.swap( col_result );
                                         break;
                                     }
@@ -382,7 +393,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         std::vector<const recipe *> available;
                                         std::copy( available_recipes.begin(), available_recipes.end(), std::back_inserter( available ) );
                                         std::vector<const recipe *> col_result;
-                                        std::set_intersection( available.begin(), available.end(), picking.begin(), picking.end(), std::back_inserter( col_result ) );
+                                        std::set_intersection( available.begin(), available.end(), picking.begin(), picking.end(),
+                                                               std::back_inserter( col_result ) );
                                         picking.swap( col_result );
 
                                         if( query_is_yes( qry_filter_str ) ) {
