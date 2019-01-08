@@ -497,6 +497,7 @@ class overmapbuffer
         /**
          * Retrieve overmaps that overlap the bounding box defined by the location and radius.
          * The location is in absolute submap coordinates, the radius is in the same system.
+         * The overmaps are returned sorted by distance from the provided location (closest first).
          */
         std::vector<overmap *> get_overmaps_near( const point &location, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
