@@ -89,6 +89,7 @@
     "calories": 449,
     "healthy": -1,
     "fun": -10,
+    "cooks_like": "meat_cooked",
     "flags": [ "SMOKABLE" ]
   },
   {
@@ -101,6 +102,7 @@
     "weight": 10,
     "volume": "12 ml",
     "price": 24,
+    "cooks_like": "meat_scrap_cooked",
     "calories": 12
   },
   {
@@ -134,7 +136,7 @@
     "calories": 402,
     "healthy": 0,
     "fun": 0,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "meat_scrap_cooked",
@@ -145,6 +147,7 @@
     "parasites": 0,
     "fun": 0,
     "healthy": 0,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
     "calories": 51
   },
   {

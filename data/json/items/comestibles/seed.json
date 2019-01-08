@@ -399,6 +399,7 @@
     "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
     "price": 90,
     "fun": -1,
+    "cooks_like": "beans_cooked",
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },
