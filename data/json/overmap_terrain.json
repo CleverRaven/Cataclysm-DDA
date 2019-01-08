@@ -10103,5 +10103,81 @@
     "type": "overmap_terrain",
     "id": "loffice_tower_16",
     "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "animalpound",
+    "name": "animal pound",
+    "copy-from": "generic_city_building",
+    "sym": 84,
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "animalshelter",
+    "name": "animal shelter",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_antique",
+    "name": "antique store",
+    "copy-from": "generic_city_building",
+    "sym": 65,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_arcade",
+    "name": "arcade",
+    "copy-from": "generic_city_building",
+    "sym": 65,
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bowling_alley",
+    "name": "bowling alley",
+    "copy-from": "generic_city_building",
+    "sym": 66,
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym",
+    "name": "boxing gym",
+    "copy-from": "generic_city_building",
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_fitness",
+    "name": "fitness gym",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo",
+    "name": "dojo",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fire_station",
+    "name": "fire station",
+    "copy-from": "generic_city_building",
+    "sym": 70,
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gardening",
+    "name": "gardening supply",
+    "copy-from": "generic_city_building",
+    "sym": 70,
+    "color": "green"
   }
 ]
