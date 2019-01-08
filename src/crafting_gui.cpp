@@ -258,16 +258,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                 std::vector<const recipe *> picking;
                 if( !filterstring.empty() ) {
                     auto qry = trim( filterstring );
-                    bool filter_complete = false;
                     size_t qry_begin = 0;
                     size_t qry_end = 0;
                     do {
                         // Find next ','
                         qry_end = qry.find_first_of( ',', qry_begin );
 
-                        if( qry_end == std::string::npos ) {
-                            filter_complete = true;
-                        }
                         auto qry_filter_str = trim( qry.substr( qry_begin, qry_end - qry_begin ) );
                         if( qry_begin == 0 ) {
                             if( qry_filter_str.size() > 2 && qry_filter_str[1] == ':' ) {
@@ -412,7 +408,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                         }
 
                         qry_begin = qry_end + 1;
-                    } while( !filter_complete );
+                    } while( qry_end != std::string::npos );
                 } else if( subtab.cur() == "CSC_*_FAVORITE" ) {
                     picking = available_recipes.favorite();
                 } else if( subtab.cur() == "CSC_*_RECENT" ) {
