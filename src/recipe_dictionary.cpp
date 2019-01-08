@@ -120,7 +120,55 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
+std::vector<const recipe *> recipe_subset::search( const std::vector<const recipe *> subset,
+        const std::string &txt,
+        const search_type key ) const
+{
+    std::vector<const recipe *> res;
 
+    std::copy_if( subset.begin(), subset.end(), std::back_inserter( res ), [&]( const recipe *r ) {
+        if( !*r ) {
+            return false;
+        }
+        switch( key ) {
+            case search_type::name:
+                return lcmatch( r->result_name(), txt );
+
+            case search_type::skill:
+                return lcmatch( r->required_skills_string( nullptr ), txt ) ||
+                       lcmatch( r->skill_used->name(), txt );
+
+            case search_type::primary_skill:
+                return lcmatch( r->skill_used->name(), txt );
+
+            case search_type::component:
+                return search_reqs( r->requirements().get_components(), txt );
+
+            case search_type::tool:
+                return search_reqs( r->requirements().get_tools(), txt );
+
+            case search_type::quality:
+                return search_reqs( r->requirements().get_qualities(), txt );
+
+            case search_type::quality_result: {
+                const auto &quals = item::find_type( r->result() )->qualities;
+                return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
+                    return lcmatch( e.first->name, txt );
+                } );
+            }
+
+            case search_type::description_result: {
+                const item result = r->create_result();
+                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+            }
+
+            default:
+                return false;
+        }
+    } );
+
+    return res;
+}
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {

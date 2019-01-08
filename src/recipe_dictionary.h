@@ -133,6 +133,10 @@ class recipe_subset
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
                                             const search_type key = search_type::name ) const;
+        /** Find recipes matching query existing in subset of recipes (left anchored partial matches are supported) */
+        std::vector<const recipe *> search( const std::vector<const recipe *> subset,
+                                            const std::string &txt,
+                                            const search_type key = search_type::name ) const;
         /** Find recipes producing the item */
         std::vector<const recipe *> search_result( const itype_id &item ) const;
 
