@@ -79,6 +79,8 @@ void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
 void camp_missions( mission_data &mission_key, npc &p );
+bool display_and_choose_opts( mission_data &mission_key, const tripoint omt_pos, const std::string &id,
+                              const std::string &title );
 bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
@@ -355,6 +357,12 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
 bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
         const std::string &id, const std::string &title )
 {
+    return talk_function::display_and_choose_opts( mission_key, p.global_omt_location(), id, title );
+}
+
+bool talk_function::display_and_choose_opts( mission_data &mission_key, const tripoint omt_pos,
+        const std::string &id, const std::string &title )
+{
     if( mission_key.entries.empty() ) {
         popup( _( "There are no missions at this colony.  Press Spacebar..." ) );
         return false;
@@ -419,7 +427,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
         if( redraw ) {
             werase( w_list );
             draw_border( w_list );
-            mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( p, id, title, tab_mode ) );
+            mvwprintz( w_list, 1, 1, c_white, talk_function::name_mission_tabs( omt_pos, id, title, tab_mode ) );
 
             calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
 
@@ -1849,6 +1857,12 @@ std::shared_ptr<npc> talk_function::companion_choose( const std::string &skill_t
     return available[npc_choice];
 }
 
+std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const std::string &id,
+            const time_point &deadline )
+{
+    return companion_choose_return( p.global_omt_location(), p.companion_mission_role_id, id, deadline );
+}
+
 std::shared_ptr<npc> talk_function::companion_choose_return( const tripoint omt_pos, const std::string cmri,
         const std::string &id, const time_point &deadline )
 {
@@ -1889,12 +1903,6 @@ std::shared_ptr<npc> talk_function::companion_choose_return( const tripoint omt_
     }
     popup( _( "No one returns to your party..." ) );
     return nullptr;
-}
-
-std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const std::string &id,
-            const time_point &deadline )
-{
-    return companion_choose_return( p.global_omt_location(), p.companion_mission_role_id, id, deadline );
 }
 
 //Smash stuff, steal valuables, and change map maker

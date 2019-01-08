@@ -100,10 +100,16 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
 
 void basecamp::define_camp( npc &p )
 {
-    pos = p.global_omt_location();
-    sort_points = p.companion_mission_points;
+    define_camp( p.global_omt_location() );
+}
+
+void basecamp::define_camp( const tripoint omt_pos )
+{
+    pos = omt_pos;
+    //I don't think I need this line, because it has no obvious purpose, but I will leave it in for now
+    //sort_points = p.companion_mission_points;
     // purging the regions guarantees all entries will start with faction_base_
-    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( p, 1,
+    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( omt_pos, 1,
             true ) ) {
         add_expansion( expansion.first, expansion.second );
     }

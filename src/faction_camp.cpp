@@ -262,18 +262,23 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     }
     entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
     return avail;
-}
+}//
 
 static basecamp *get_basecamp( npc &p )
 {
-    basecamp *bcp = g->m.camp_at( p.pos(), 60 );
+    return get_basecamp( p.pos() );
+}
+
+static basecamp *get_basecamp( const tripoint omt_pos )
+{
+    basecamp *bcp = g->m.camp_at( omt_pos, 60 );
     if( bcp ) {
         return bcp;
     }
-    g->m.add_camp( p.pos(), "faction_camp" );
-    bcp = g->m.camp_at( p.pos(), 60 );
+    g->m.add_camp( omt_pos, "faction_camp" );
+    bcp = g->m.camp_at( omt_pos, 60 );
     if( bcp ) {
-        bcp->define_camp( p );
+        bcp->define_camp( omt_pos );
     }
     return bcp;
 }
@@ -2238,10 +2243,16 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
 std::string talk_function::name_mission_tabs( npc &p, const std::string &id,
         const std::string &cur_title, camp_tab_mode cur_tab )
 {
+    return name_mission_tabs( p.global_omt_location(), id, cur_title, cur_tab);
+}
+
+std::string talk_function::name_mission_tabs( const tripoint omt_pos, const std::string &id,
+        const std::string &cur_title, camp_tab_mode cur_tab )
+{
     if( id != "FACTION_CAMP" ) {
         return cur_title;
     }
-    basecamp *bcp = get_basecamp( p );
+    basecamp *bcp = get_basecamp( omt_pos );
     std::string dir;
     switch( cur_tab ) {
         case TAB_MAIN:
@@ -2862,7 +2873,11 @@ bool basecamp::set_sort_points( bool reset_pts, bool choose_pts )
 std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region( npc &p, int range,
         bool purge )
 {
-    const tripoint omt_pos = p.global_omt_location();
+    return talk_function::om_building_region( p.global_omt_location(), range, purge );
+}
+std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region( const tripoint omt_pos, int range,
+        bool purge )
+{
     std::vector<std::pair<std::string, tripoint>> om_camp_region;
     for( int x = -range; x <= range; x++ ) {
         for( int y = -range; y <= range; y++ ) {

@@ -57,6 +57,7 @@ class basecamp
 
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
         void define_camp( npc &p );
+        void define_camp( const tripoint omt_pos );
 
         std::string expansion_tab( const std::string &dir ) const;
 
