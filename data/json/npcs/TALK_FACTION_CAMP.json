@@ -5,6 +5,7 @@
     "dynamic_line": "What about faction camps?",
     "responses": [
       { "text": "Tell me how faction camps work.", "topic": "TALK_CAMP_TUTORIAL_1" },
+      { "text": "What needs to be done?", "effect": { "companion_mission": "FACTION_CAMP" }, "condition": { "u_at_om_location": "FACTION_CAMP_ANY" } },
       {
         "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
@@ -77,16 +78,6 @@
       { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_CAMP_OVERSEER",
-    "type": "talk_topic",
-    "dynamic_line": "Hey Boss...",
-    "responses": [
-      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } },
-      { "text": "We're abandoning this camp.", "topic": "TALK_DONE", "effect": "remove_overseer" },
-      { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   }
 ]
