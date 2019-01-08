@@ -985,7 +985,7 @@
     "followup": "MISSION_RANCH_CHOP_SHOP_2",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Getting spare parts for vehicles is never really an issue.  Unfortunately the same can’t be said for gasoline.  Sending out people to siphon fuel from vehicles or gas stations is a dangerous job.  It’s even worse if people driving have to stop to fill up.  Ideally we’d like to send people out with a full tank of fuel so they don’t have to make any dangerous detours.  I’d like us to have our own little service station for refueling but for that we’re going to need at least 1200L of gasoline.  I don’t have anyone crazy enough on hand to attempt that sadly, if you think you can pull it off the job is yours.",
+      "offer": "Getting spare parts for vehicles is never really an issue.  Unfortunately the same can't be said for gasoline.  Sending out people to siphon fuel from vehicles or gas stations is a dangerous job.  It's even worse if people driving have to stop to fill up.  Ideally we'd like to send people out with a full tank of fuel so they don't have to make any dangerous detours.  I'd like us to have our own little service station for refueling but for that we're going to need at least 1200L of gasoline.  I don't have anyone crazy enough on hand to attempt that sadly, if you think you can pull it off the job is yours.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "Finding gasoline is never an issue, there’s plenty of cars still filled in the city and plenty of gas stations.  It’s the time to siphon it and transport it that’s the problem.  To make it easier you might want to see about transporting it in a truck or a tanker.",
