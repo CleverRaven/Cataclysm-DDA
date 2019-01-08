@@ -168,33 +168,40 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
 
     return res;
 }
-static void insert_vector( const recipe_subset &src, recipe_subset &dst, const std::vector<const recipe *> &recipes ) {
+static void insert_vector( const recipe_subset &src, recipe_subset &dst,
+                           const std::vector<const recipe *> &recipes )
+{
     for( const auto elem : recipes ) {
         dst.include( elem, src.get_custom_difficulty( elem ) );
     }
 }
 
-recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const {
+recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+{
     recipe_subset result;
 
     insert_vector( *this, result, search( txt, key ) );
 
     return result;
 }
-recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const {
+recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
+{
     recipe_subset result;
 
     std::vector<const recipe *> intersection_result;
-    std::set_intersection( this->begin(), this->end(), subset.begin(), subset.end(), std::back_inserter( intersection_result ) );
+    std::set_intersection( this->begin(), this->end(), subset.begin(), subset.end(),
+                           std::back_inserter( intersection_result ) );
     insert_vector( *this, result, intersection_result );
 
     return result;
 }
-recipe_subset recipe_subset::difference( const recipe_subset &subset ) const {
+recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
+{
     recipe_subset result;
 
     std::vector<const recipe *> difference_result;
-    std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(), std::back_inserter( difference_result ) );
+    std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(),
+                         std::back_inserter( difference_result ) );
     insert_vector( *this, result, difference_result );
 
     return result;

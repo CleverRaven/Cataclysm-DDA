@@ -270,31 +270,38 @@ const recipe *select_crafting_recipe( int &batch_size )
                         if( qry_filter_str.size() > 2 && qry_filter_str[1] == ':' ) {
                             switch( qry_filter_str[0] ) {
                                 case 't':
-                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), recipe_subset::search_type::tool );
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::tool );
                                     break;
 
                                 case 'c':
-                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), recipe_subset::search_type::component );
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::component );
                                     break;
 
                                 case 's':
-                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), recipe_subset::search_type::skill );
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::skill );
                                     break;
 
                                 case 'p':
-                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), recipe_subset::search_type::primary_skill );
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::primary_skill );
                                     break;
 
                                 case 'Q':
-                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), recipe_subset::search_type::quality );
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::quality );
                                     break;
 
                                 case 'q':
-                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), recipe_subset::search_type::quality_result );
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::quality_result );
                                     break;
 
                                 case 'd':
-                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), recipe_subset::search_type::description_result );
+                                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                                       recipe_subset::search_type::description_result );
                                     break;
 
                                 case 'm': {
