@@ -1,0 +1,10 @@
+   {
+       "type": "MOD_INFO",
+       "mod_type": "SUPPLEMENTAL",
+       "ident": "Uekibati_mod",
+       "name": "Flowerpot (uekibati) mod",
+       "description": "This mod adds flowerpots for growing plants.",
+       "author": "火男 - Translated by Chesthole",
+		"category": "items",
+       "path": ""
+   }
