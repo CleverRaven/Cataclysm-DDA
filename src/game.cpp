@@ -851,8 +851,8 @@ bool game::start_game()
     }
     tripoint lev = omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
-    lev.x -= MAPSIZE / 2;
-    lev.y -= MAPSIZE / 2;
+    lev.x -= HALF_MAPSIZE;
+    lev.y -= HALF_MAPSIZE;
     load_map( lev );
 
     m.build_map_cache( get_levz() );
@@ -973,7 +973,7 @@ bool game::start_game()
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    const int radius = int( MAPSIZE / 2 ) - 1;
+    const int radius = HALF_MAPSIZE - 1;
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
@@ -11047,7 +11047,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     }
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    const tripoint map_om_pos( om_dest.x * 2 - MAPSIZE / 2, om_dest.y * 2 - MAPSIZE / 2, om_dest.z );
+    const tripoint map_om_pos( om_dest.x * 2 - HALF_MAPSIZE, om_dest.y * 2 - HALF_MAPSIZE, om_dest.z );
     const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
 
     load_map( map_om_pos );
@@ -12049,19 +12049,19 @@ void game::update_map( int &x, int &y )
     int shiftx = 0;
     int shifty = 0;
 
-    while( x < SEEX * int( MAPSIZE / 2 ) ) {
+    while( x < HALF_MAPSIZE_X ) {
         x += SEEX;
         shiftx--;
     }
-    while( x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) ) {
+    while( x >= HALF_MAPSIZE_X + SEEX ) {
         x -= SEEX;
         shiftx++;
     }
-    while( y < SEEY * int( MAPSIZE / 2 ) ) {
+    while( y < HALF_MAPSIZE_Y ) {
         y += SEEY;
         shifty--;
     }
-    while( y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+    while( y >= HALF_MAPSIZE_Y + SEEY ) {
         y -= SEEY;
         shifty++;
     }
@@ -13223,7 +13223,7 @@ int game::get_levz() const
 overmap &game::get_cur_om() const
 {
     // The player is located in the middle submap of the map.
-    const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
+    const tripoint sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }
