@@ -140,7 +140,7 @@
     "volume": "3ml"
   },
   {
-    "id": "45_casing",
+    "id": "460_casing",
     "copy-from": "casing",
     "type": "GENERIC",
     "name": ".460 rowland casing",
