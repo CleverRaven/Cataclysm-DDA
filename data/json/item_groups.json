@@ -2995,9 +2995,9 @@
     "id" : "male_underwear_top",
     "items":[
       ["undershirt", 50],
-      ["long_undertop", 20]
+      ["long_undertop", 20],
       ["under_armor", 20],
-      ["tank_top", 50],
+      ["tank_top", 50]
     ]
   },{
     "type" : "item_group",

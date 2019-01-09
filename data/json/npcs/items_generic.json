@@ -4,7 +4,7 @@
     "id": "npc_underwear_bottom_male",
     "groups": [
       [ "male_underwear_bottom", 95 ],
-      [ "none", 5 ]
+      [ "null", 5 ]
     ]
   },
   {
@@ -12,7 +12,7 @@
     "id": "npc_underwear_bottom_female",
     "groups": [
       [ "female_underwear_bottom", 95 ],
-      [ "none", 5 ]
+      [ "null", 5 ]
     ]
   },
   {
@@ -20,7 +20,7 @@
     "id": "npc_underwear_top_male",
     "groups": [
       [ "male_underwear_top", 50 ],
-      [ "none", 50 ]
+      [ "null", 50 ]
     ]
   },
   {
@@ -28,7 +28,7 @@
     "id": "npc_underwear_top_female",
     "groups": [
       [ "female_underwear_top", 95 ],
-      [ "none", 5 ]
+      [ "null", 5 ]
     ]
   },
   {
@@ -37,7 +37,7 @@
     "items": [
       [ "socks", 80 ],
       [ "socks_wool", 20 ],
-      [ "none", 5 ]
+      [ "null", 5 ]
     ]
   },
   {
@@ -48,7 +48,7 @@
       [ "socks_wool", 10 ],
       [ "stockings", 20 ],
       [ "tights", 20 ],
-      [ "none", 5 ]
+      [ "null", 5 ]
     ]
   },
   {
@@ -111,7 +111,7 @@
       [ "sweatshirt", 20 ],
       [ "striped_shirt", 10 ],
       [ "sweater", 20 ],
-      [ "jersey", 10 ]
+      [ "jersey", 10 ],
       [ "tank_top", 20 ],
       [ "halter_top", 20 ],
       [ "camisole", 20 ],
@@ -130,10 +130,10 @@
       [ "fire_gauntlets", 20 ],
       [ "gloves_work", 10 ],
       [ "gloves_fingerless_mod", 5 ],
-      [ "gloves_medical", 10 ]
-      [ "gloves_winter", 5 ]
-      [ "gloves_wool", 20 ]
-      [ "gloves_light", 20 ]
+      [ "gloves_medical", 10 ],
+      [ "gloves_winter", 5 ],
+      [ "gloves_wool", 20 ],
+      [ "gloves_light", 20 ],
       [ "gloves_tactical", 5 ]
     ]
   },
@@ -232,7 +232,7 @@
       [ "null", 80 ],
       [ "glasses_safety", 20 ],
       [ "sunglasses", 20 ],
-      [ "fancy_sunglasses", 10 ],
+      [ "fancy_sunglasses", 10 ]
     ]
   },
   {
@@ -285,7 +285,7 @@
       [ "null", 20 ],
       [ "diving_watch", 10 ],
       [ "game_watch", 5 ],
-      [ "gold_watch	", 5 ],
+      [ "gold_watch", 5 ],
       [ "wristwatch", 20 ],
       [ "sf_watch", 5 ]
     ]
