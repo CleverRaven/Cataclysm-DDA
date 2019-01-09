@@ -312,6 +312,22 @@ inline bool operator<( const tripoint &a, const tripoint &b )
     return false;
 }
 
+struct rectangle {
+    point p_min;
+    point p_max;
+    constexpr rectangle() = default;
+    constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+};
+
+struct box {
+    tripoint p_min;
+    tripoint p_max;
+    constexpr box() = default;
+    constexpr box( const tripoint &P_MIN, const tripoint &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+    explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
+        p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
+};
+
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_zero { 0, 0, 0 };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
@@ -320,6 +336,8 @@ static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
 static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
 static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
 
+static constexpr box box_zero( tripoint_zero, tripoint_zero );
+static constexpr rectangle rectangle_zero( point_zero, point_zero );
 struct sphere {
     int radius = 0;
     tripoint center = tripoint_zero;
