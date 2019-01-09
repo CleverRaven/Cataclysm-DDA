@@ -710,6 +710,7 @@ void player::complete_craft()
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+            // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 if( !comp.type->comestible->cooks_like.empty() ) {
                     comp = item( comp.type->comestible->cooks_like, comp.birthday(), comp.charges );
