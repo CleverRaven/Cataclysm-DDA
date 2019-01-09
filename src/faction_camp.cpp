@@ -287,7 +287,7 @@ void talk_function::become_overseer( npc &p )
     p.companion_mission_role_id = "FACTION_CAMP";
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
-    p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
+    p.chatbin.first_topic = "TALK_CAMP_GENERAL";
     p.set_destination();
     get_basecamp( p.global_omt_location() );
 }
