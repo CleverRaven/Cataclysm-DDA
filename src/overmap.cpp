@@ -1085,11 +1085,17 @@ std::vector<point> overmap::find_notes( const int z, const std::string &text )
     return note_locations;
 }
 
-bool overmap::inbounds( const tripoint &loc, int clearance )
+bool overmap::inbounds( const tripoint &loc, int clearance = 0 )
 {
-    return ( loc.x >= clearance && loc.x < OMAPX - clearance &&
-             loc.y >= clearance && loc.y < OMAPY - clearance &&
-             loc.z >= -OVERMAP_DEPTH && loc.z <= OVERMAP_HEIGHT );
+    const tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    const tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT );
+    const tripoint overmap_clearance_min( 0 + clearance, 0 + clearance, 0 );
+    const tripoint overmap_clearance_max( 1 + clearance, 1 + clearance, 0 );
+
+    const box overmap_boundaries( overmap_boundary_min, overmap_boundary_max );
+    const box overmap_clearance( overmap_clearance_min, overmap_clearance_max );
+
+    return generic_inbounds( p, overmap_boundaries, overmap_clearance );
 }
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
@@ -1970,9 +1976,7 @@ void overmap::place_forest_trails()
             }
 
             // This point is out of bounds, so bail.
-            bool in_bounds = current_point.x >= 0 && current_point.x < OMAPX && current_point.y >= 0 &&
-                             current_point.y < OMAPY;
-            if( !in_bounds ) {
+            if( !inbounds( current_point, 1 ) ) {
                 continue;
             }
 
