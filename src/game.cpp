@@ -10275,7 +10275,8 @@ bool game::plmove( int dx, int dy, int dz )
                 if( u.weapon.ammo_sufficient() ) {
                     turns = MINUTES( 30 );
                     u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
-                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), turns, -1, u.get_item_position( &u.weapon ) );
+                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), turns * 100, -1,
+                                       u.get_item_position( &u.weapon ) );
                     u.activity.placement = dest_loc;
                     add_msg( _( "You start breaking the %1$s with your %2$s." ),
                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
