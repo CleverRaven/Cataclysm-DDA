@@ -713,6 +713,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( get_clothing_item( type, "underwear_top", male ) );
         ret.push_back( get_clothing_item( type, "underwear_bottom", male ) );
         ret.push_back( get_clothing_item( type, "underwear_feet", male ) );
+        ret.push_back( get_clothing_item( type, "shoes", male ) );
         ret.push_back( random_item_from( type, "gloves" ) );
         ret.push_back( random_item_from( type, "coat" ) );
         ret.push_back( random_item_from( type, "vest" ) );
