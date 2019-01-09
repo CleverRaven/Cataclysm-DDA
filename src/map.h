@@ -1249,10 +1249,10 @@ class map
             return getlocal( p.x, p.y );
         }
         tripoint getlocal( const tripoint &p ) const;
-        bool inbounds( const int x, const int y ) const;
-        bool inbounds( const point &x ) const;
-        bool inbounds( const int x, const int y, const int z ) const;
         bool inbounds( const tripoint &p ) const;
+        bool inbounds( const point &p ) const {
+            return inbounds( tripoint( p, 0 ) );
+        }
 
         bool inbounds_z( const int z ) const {
             return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;

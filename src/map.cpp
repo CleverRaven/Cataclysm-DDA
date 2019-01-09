@@ -206,7 +206,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
         const tripoint p = veh->global_part_pos3( *it );
         ch.veh_cached_parts.insert( std::make_pair( p,
                                     std::make_pair( veh, partid ) ) );
-        if( inbounds( p.x, p.y ) ) {
+        if( inbounds( p ) ) {
             ch.veh_exists_at[p.x][p.y] = true;
         }
     }
@@ -226,7 +226,7 @@ void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
     while( it != end ) {
         if( it->second.first == veh ) {
             const tripoint p = it->first;
-            if( inbounds( p.x, p.y ) ) {
+            if( inbounds( p ) ) {
                 ch.veh_exists_at[p.x][p.y] = false;
             }
             ch.veh_cached_parts.erase( it++ );
@@ -1122,12 +1122,13 @@ bool map::has_furn( const int x, const int y ) const
 
 furn_id map::furn( const int x, const int y ) const
 {
-    if( !inbounds( x, y ) ) {
+    const point p( x, y );
+    if( !inbounds( p ) ) {
         return f_null;
     }
 
     point l;
-    submap *const current_submap = get_submap_at( { x, y }, l );
+    submap *const current_submap = get_submap_at( p, l );
 
     return current_submap->get_furn( l );
 }
@@ -1267,12 +1268,13 @@ std::string map::furnname( const tripoint &p )
 
 ter_id map::ter( const int x, const int y ) const
 {
-    if( !inbounds( x, y ) ) {
+    const point p( x, y );
+    if( !inbounds( p ) ) {
         return t_null;
     }
 
     point l;
-    submap *const current_submap = get_submap_at( { x, y }, l );
+    submap *const current_submap = get_submap_at( p, l );
     return current_submap->get_ter( l );
 }
 
@@ -1563,12 +1565,13 @@ bool map::passable( const int x, const int y ) const
 
 int map::move_cost_ter_furn( const int x, const int y ) const
 {
-    if( !inbounds( x, y ) ) {
+    const point p( x, y );
+    if( !inbounds( p ) ) {
         return 0;
     }
 
     point l;
-    submap *const current_submap = get_submap_at( { x, y }, l );
+    submap *const current_submap = get_submap_at( p, l );
 
     const int tercost = current_submap->get_ter( l ).obj().movecost;
     if( tercost == 0 ) {
@@ -1810,7 +1813,7 @@ bool map::has_floor( const tripoint &p ) const
         return true;
     }
 
-    if( !inbounds( p.x, p.y ) ) {
+    if( !inbounds( p ) ) {
         return true;
     }
 
@@ -2108,12 +2111,13 @@ bool map::has_flag_furn( const std::string &flag, const int x, const int y ) con
 
 bool map::has_flag_ter_or_furn( const std::string &flag, const int x, const int y ) const
 {
-    if( !inbounds( x, y ) ) {
+    const point p( x, y );
+    if( !inbounds( p ) ) {
         return false;
     }
 
     point l;
-    submap *const current_submap = get_submap_at( { x, y }, l );
+    submap *const current_submap = get_submap_at( p, l );
 
     return current_submap->get_ter( l ).obj().has_flag( flag ) ||
            current_submap->get_furn( l ).obj().has_flag( flag );
@@ -2137,12 +2141,13 @@ bool map::has_flag_furn( const ter_bitflags flag, const int x, const int y ) con
 
 bool map::has_flag_ter_or_furn( const ter_bitflags flag, const int x, const int y ) const
 {
-    if( !inbounds( x, y ) ) {
+    const point p( x, y );
+    if( !inbounds( p ) ) {
         return false;
     }
 
     point l;
-    submap *const current_submap = get_submap_at( { x, y }, l );
+    submap *const current_submap = get_submap_at( p, l );
 
     return current_submap->get_ter( l ).obj().has_flag( flag ) ||
            current_submap->get_furn( l ).obj().has_flag( flag );
@@ -2480,7 +2485,8 @@ bool map::is_divable( const tripoint &p ) const
 
 bool map::is_outside( const int x, const int y ) const
 {
-    if( !inbounds( x, y ) ) {
+    const point p( x, y );
+    if( !inbounds( p ) ) {
         return true;
     }
 
@@ -3896,15 +3902,16 @@ void map::set_temperature( const int x, const int y, int new_temperature )
 // Items: 2D
 map_stack map::i_at( const int x, const int y )
 {
-    if( !inbounds( x, y ) ) {
+    const point p( x, y );
+    if( !inbounds( p ) ) {
         nulitems.clear();
-        return map_stack{ &nulitems, tripoint( x, y, abs_sub.z ), this };
+        return map_stack{ &nulitems, tripoint( p, abs_sub.z ), this };
     }
 
     point l;
-    submap *const current_submap = get_submap_at( { x, y }, l );
+    submap *const current_submap = get_submap_at( p, l );
 
-    return map_stack{ &current_submap->itm[l.x][l.y], tripoint( x, y, abs_sub.z ), this };
+    return map_stack{ &current_submap->itm[l.x][l.y], tripoint( p, abs_sub.z ), this };
 }
 
 std::list<item>::iterator map::i_rem( const point location, std::list<item>::iterator it )
@@ -5048,7 +5055,7 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index )
 
 const trap &map::tr_at( const tripoint &p ) const
 {
-    if( !inbounds( p.x, p.y, p.z ) ) {
+    if( !inbounds( p ) ) {
         return tr_null.obj();
     }
 
@@ -6047,7 +6054,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
     if( f.z == t.z ) {
         if( ( range >= 0 && range < rl_dist( f.x, f.y, t.x, t.y ) ) ||
-            !inbounds( t.x, t.y ) ) {
+            !inbounds( t ) ) {
             return false; // Out of range!
         }
         bool is_clear = true;
@@ -7181,28 +7188,17 @@ const std::vector<tripoint> &map::trap_locations( trap_id t ) const
     return traplocs[t];
 }
 
-bool map::inbounds( const int x, const int y ) const
-{
-    return ( x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE );
-}
-
-bool map::inbounds( const point &p ) const
-{
-    return ( p.x >= 0 && p.x < SEEX * my_MAPSIZE && p.y >= 0 && p.y < SEEY * my_MAPSIZE );
-}
-
-bool map::inbounds( const int x, const int y, const int z ) const
-{
-    return ( x >= 0 && x < SEEX * my_MAPSIZE &&
-             y >= 0 && y < SEEY * my_MAPSIZE &&
-             z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT );
-}
-
 bool map::inbounds( const tripoint &p ) const
 {
-    return ( p.x >= 0 && p.x < SEEX * my_MAPSIZE &&
-             p.y >= 0 && p.y < SEEY * my_MAPSIZE &&
-             p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT );
+    const tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    const tripoint map_boundary_max( SEEY * my_MAPSIZE, SEEX * my_MAPSIZE, OVERMAP_HEIGHT );
+    const tripoint map_clearance_min( tripoint_zero );
+    const tripoint map_clearance_max( 1, 1, 0 );
+
+    const box map_boundaries( map_boundary_min, map_boundary_max );
+    const box map_clearance( map_clearance_min, map_clearance_max );
+
+    return generic_inbounds( p, map_boundaries, map_clearance );
 }
 
 void map::set_graffiti( const tripoint &p, const std::string &contents )
@@ -7486,7 +7482,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
             const size_t part = vp.part_index();
             int px = v.x + vp.part().precalc[0].x;
             int py = v.y + vp.part().precalc[0].y;
-            if( !inbounds( px, py ) ) {
+            const point p( px, py );
+            if( !inbounds( p ) ) {
                 continue;
             }
 
