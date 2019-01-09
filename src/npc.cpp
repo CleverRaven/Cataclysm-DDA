@@ -695,9 +695,9 @@ item random_item_from( const npc_class_id &type, const std::string &what )
 item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
     if( male ) {
-        return random_item_from( type, what + "_male", "npc_" + what );
+        return random_item_from( type, what + "_male", what );
     } else {
-        return random_item_from( type, what + "_female", "npc_" + what );
+        return random_item_from( type, what + "_female", what );
     }
 }
 
