@@ -4,6 +4,7 @@
 #include <cassert>
 #include <vector>
 
+#include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
@@ -78,13 +79,11 @@ void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
-void camp_missions( mission_data &mission_key, npc &p );
 bool display_and_choose_opts( mission_data &mission_key, const tripoint omt_pos, const std::string &id,
                               const std::string &title );
 bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
 }
 
 void talk_function::companion_mission( npc &p )
@@ -95,7 +94,8 @@ void talk_function::companion_mission( npc &p )
     std::string title = _( "Outpost Missions" );
     if( id == "FACTION_CAMP" ) {
         title = _( "Base Missions" );
-        camp_missions( mission_key, p );
+        basecamp bcmp;
+        bcmp.camp_missions( mission_key, p );
     } else {
         if( id == "SCAVENGER" ) {
             title = _( "Junk Shop Missions" );
@@ -121,7 +121,8 @@ void talk_function::companion_mission( npc &p )
     }
     if( display_and_choose_opts( mission_key, p, id, title ) ) {
         if( id == "FACTION_CAMP" ) {
-            handle_camp_mission( mission_key.cur_key, p );
+            basecamp bcmp;
+            bcmp.handle_camp_mission( mission_key.cur_key, p );
         } else {
             handle_outpost_mission( mission_key.cur_key, p );
         }

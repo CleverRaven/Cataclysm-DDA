@@ -262,11 +262,6 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     }
     entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
     return avail;
-}//
-
-static basecamp *get_basecamp( npc &p )
-{
-    return get_basecamp( p.pos() );
 }
 
 static basecamp *get_basecamp( const tripoint omt_pos )
@@ -294,14 +289,14 @@ void talk_function::become_overseer( npc &p )
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
     p.set_destination();
-    get_basecamp( p );
+    get_basecamp( p.global_omt_location() );
 }
 
 
 void basecamp::camp_missions( mission_data &mission_key, npc &p )
 {
     std::string entry;
-    basecamp *bcp = get_basecamp( p );
+    basecamp *bcp = get_basecamp( p.global_omt_location() );
     if( !bcp ) {
         return;
     }
@@ -886,7 +881,7 @@ void basecamp::camp_missions( mission_data &mission_key, npc &p )
 
 bool basecamp::handle_camp_mission( mission_entry &cur_key, npc &p )
 {
-    basecamp *bcp = get_basecamp( p );
+    basecamp *bcp = get_basecamp( p.global_omt_location() );
     if( !bcp ) {
         return false;
     }
