@@ -746,6 +746,8 @@ class Character : public Creature, public visitable<Character>
         Character &operator=( const Character & ) = delete;
         Character &operator=( Character && );
         struct trait_data {
+            /** Whether the mutation is activated. */
+            bool powered = false;
             /** Key to select the mutation in the UI. */
             char key = ' ';
             /**
@@ -754,8 +756,6 @@ class Character : public Creature, public visitable<Character>
              * is reset to @ref mutation_branch::cooldown.
              */
             int charge = 0;
-            /** Whether the mutation is activated. */
-            bool powered = false;
             void serialize( JsonOut &json ) const;
             void deserialize( JsonIn &jsin );
         };
