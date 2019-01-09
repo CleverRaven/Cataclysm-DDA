@@ -117,7 +117,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "223",
-    "range": -8,
+    "range": -6,
     "ranged_damage": -16,
     "dispersion": 380,
     "durability": 8,
