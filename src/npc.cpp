@@ -695,9 +695,9 @@ item random_item_from( const npc_class_id &type, const std::string &what )
 item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
     if( male ) {
-        return random_item_from( type, what + "_male", "npc_" + what + "_male" );
+        return random_item_from( type, what + "_male", "npc_" + what );
     } else {
-        return random_item_from( type, what + "_female", "npc_" + what + "_female" );
+        return random_item_from( type, what + "_female", "npc_" + what );
     }
 }
 
@@ -717,7 +717,6 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "gloves" ) );
         ret.push_back( random_item_from( type, "coat" ) );
         ret.push_back( random_item_from( type, "vest" ) );
-        ret.push_back( random_item_from( type, "shoes" ) );
         ret.push_back( random_item_from( type, "masks" ) );
         // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
         ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
