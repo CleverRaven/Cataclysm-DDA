@@ -81,8 +81,6 @@ void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
 bool display_and_choose_opts( mission_data &mission_key, const tripoint omt_pos, const std::string &id,
                               const std::string &title );
-bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
-                              const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
 }
 
@@ -119,7 +117,7 @@ void talk_function::companion_mission( npc &p )
             commune_refuge_caravan( mission_key, p );
         }
     }
-    if( display_and_choose_opts( mission_key, p, id, title ) ) {
+    if( display_and_choose_opts( mission_key, p.global_omt_location(), id, title ) ) {
         if( id == "FACTION_CAMP" ) {
             basecamp bcmp;
             bcmp.handle_camp_mission( mission_key.cur_key, p );
@@ -353,12 +351,6 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
         mission_key.add( "Recover Commune-Refugee Center", _( "Recover Commune-Refugee Center" ),
                          entry );
     }
-}
-
-bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
-        const std::string &id, const std::string &title )
-{
-    return talk_function::display_and_choose_opts( mission_key, p.global_omt_location(), id, title );
 }
 
 bool talk_function::display_and_choose_opts( mission_data &mission_key, const tripoint omt_pos,
