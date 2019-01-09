@@ -55,7 +55,7 @@
       ["jacket_windbreaker", 10],
       ["jacket_leather", 20],
       ["trenchcoat", 20],
-      ["jacket_jean", 60],
+      ["jacket_jean", 60]
     ]
   },{
     "type" : "item_group",
