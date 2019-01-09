@@ -694,11 +694,24 @@ item random_item_from( const npc_class_id &type, const std::string &what )
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
 item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
+    item result;
+    //Check if class has gendered clothing
+    //Then check if it has an ungendered version
+    //Only if all that fails, grab from the default class.
     if( male ) {
-        return random_item_from( type, what + "_male", what );
+        result = random_item_from( type, what + "_male", "null" );
     } else {
-        return random_item_from( type, what + "_female", what );
+        result = random_item_from( type, what + "_female", "null" );
     }
+    if( result.is_null() ) {
+        if( male ) {
+            result = random_item_from( type, what, "npc_" + what + "_male" );
+        } else {
+            result = random_item_from( type, what, "npc_" + what + "_female" );
+        }
+    }
+
+    return result;
 }
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male )
