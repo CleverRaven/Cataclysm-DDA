@@ -308,7 +308,7 @@ const npc_class_id &npc_class::random_common()
         }
     }
 
-    if( common_classes.empty() ) {
+    if( common_classes.empty() || one_in( common_classes.size() ) ) {
         return NC_NONE;
     }
 
