@@ -3224,7 +3224,7 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         return;
     }
     const std::string warning_name = "warning_" + type + name;
-    const std::string speech = name == "" ? snip : string_format( _( "%s %s<punc>" ), snip, name );
+    const std::string speech = name.empty() ? snip : string_format( _( "%s %s<punc>" ), snip, name );
     complain_about( warning_name, d, speech, is_enemy() );
 }
 
