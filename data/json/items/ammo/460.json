@@ -3,8 +3,8 @@
     "id": "460fmj",
     "copy-from": "460Rowland",
     "type": "AMMO",
-    "name": ".460 Rowland FMJ",
-    "description": "A brass-jacketed variant of the .460 Rowland round.  This increases penetration slightly at the cost of reduced damage from expansion.",
+    "name": ".460 Rowland HCFN",
+    "description": "A hard cast flat nosed variant of the .460 Rowland round.  This increases penetration slightly at the cost of reduced damage from expansion.",
     "relative": { "damage": -4, "pierce": 8 }
   },
   {
