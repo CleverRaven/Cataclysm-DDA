@@ -2466,8 +2466,8 @@ bool mattack::ranged_pull( monster *z )
                 g->m.unboard_vehicle( foe->pos() );
             }
 
-            if( target->is_player() && ( pt.x < SEEX * int( MAPSIZE / 2 ) || pt.y < SEEY * int( MAPSIZE / 2 ) ||
-                                         pt.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || pt.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) ) {
+            if( target->is_player() && ( pt.x < SEEX * HALF_MAPSIZE || pt.y < SEEY * HALF_MAPSIZE ||
+                                         pt.x >= SEEX * ( 1 + HALF_MAPSIZE ) || pt.y >= SEEY * ( 1 + HALF_MAPSIZE ) ) ) {
                 g->update_map( pt.x, pt.y );
             }
         }
@@ -2571,9 +2571,9 @@ bool mattack::grab_drag( monster *z )
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
             return false;
         }
-        if( target->is_player() && ( zpt.x < SEEX * int( MAPSIZE / 2 ) ||
-                                     zpt.y < SEEY * int( MAPSIZE / 2 ) ||
-                                     zpt.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || zpt.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) ) {
+        if( target->is_player() && ( zpt.x < SEEX * HALF_MAPSIZE ||
+                                     zpt.y < SEEY * HALF_MAPSIZE ||
+                                     zpt.x >= SEEX * ( 1 + HALF_MAPSIZE ) || zpt.y >= SEEY * ( 1 + HALF_MAPSIZE ) ) ) {
             g->update_map( zpt.x, zpt.y );
         }
         if( foe != nullptr ) {

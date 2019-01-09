@@ -7089,7 +7089,7 @@ void map::rotate( int turns )
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
     // @todo: This radius can be smaller - how small?
-    const int radius = int( MAPSIZE / 2 ) + 3;
+    const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
                                          abs_sub.z, radius );

@@ -6958,7 +6958,7 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
 
 void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
-    const int s_range = std::min( SEEX * ( MAPSIZE / 2 ),
+    const int s_range = std::min( SEEX * HALF_MAPSIZE,
                                   g->u.sight_range( g->light_level( g->u.posz() ) ) );
     int pop = group.population;
     std::vector<tripoint> locations;
