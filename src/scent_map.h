@@ -52,6 +52,9 @@ class scent_map
         /**@}*/
 
         bool inbounds( const tripoint &p ) const;
+        bool inbounds( const point &p ) const {
+            return inbounds( tripoint( p, 0 ) );
+        }
 };
 
 #endif
