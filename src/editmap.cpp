@@ -2038,7 +2038,8 @@ int editmap::mapgen_retarget()
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ), target.z );
+            tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
+                                         target.z );
             if( generic_inbounds( ptarget, editmap_boundaries, editmap_clearance ) &&
                 generic_inbounds( { ptarget.x + SEEX, ptarget.y + SEEY, ptarget.z },
                                   editmap_boundaries, editmap_clearance ) ) {
@@ -2046,7 +2047,7 @@ int editmap::mapgen_retarget()
 
                 target_list.clear();
                 for( int x = target.x - SEEX - 1; x < target.x + SEEX + 1; x++ ) {
-                    for( int y = target.y - SEEY -1; y < target.y + SEEY + 1; y++ ) {
+                    for( int y = target.y - SEEY - 1; y < target.y + SEEY + 1; y++ ) {
                         target_list.push_back( tripoint( x, y, target.z ) );
                     }
                 }
