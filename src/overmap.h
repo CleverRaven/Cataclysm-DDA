@@ -207,8 +207,6 @@ class overmap
          * @param clearance Minimal distance from the edges of the overmap
          */
         static bool inbounds( const tripoint &loc, int clearance = 0 );
-        static bool inbounds( int x, int y, int z,
-                              int clearance = 0 ); /// @todo: This one should be obsoleted
         /**
          * Dummy value, used to indicate that a point returned by a function is invalid.
          */

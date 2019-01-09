@@ -906,7 +906,7 @@ void overmap::init_layers()
 
 oter_id &overmap::ter( const int x, const int y, const int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return ot_null;
     }
 
@@ -920,7 +920,7 @@ oter_id &overmap::ter( const tripoint &p )
 
 const oter_id overmap::get_ter( const int x, const int y, const int z ) const
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return ot_null;
     }
 
@@ -934,7 +934,7 @@ const oter_id overmap::get_ter( const tripoint &p ) const
 
 bool &overmap::seen( int x, int y, int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -943,7 +943,7 @@ bool &overmap::seen( int x, int y, int z )
 
 bool &overmap::explored( int x, int y, int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -952,7 +952,7 @@ bool &overmap::explored( int x, int y, int z )
 
 bool overmap::is_explored( const int x, const int y, const int z ) const
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return false;
     }
     return layer[z + OVERMAP_DEPTH].explored[x][y];
@@ -1090,11 +1090,6 @@ bool overmap::inbounds( const tripoint &loc, int clearance )
     return ( loc.x >= clearance && loc.x < OMAPX - clearance &&
              loc.y >= clearance && loc.y < OMAPY - clearance &&
              loc.z >= -OVERMAP_DEPTH && loc.z <= OVERMAP_HEIGHT );
-}
-
-bool overmap::inbounds( int x, int y, int z, int clearance )
-{
-    return inbounds( tripoint( x, y, z ), clearance );
 }
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
@@ -2242,7 +2237,7 @@ void overmap::place_river( point pa, point pb )
         for( int i = -1; i <= 1; i++ ) {
             for( int j = -1; j <= 1; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
-                if( inbounds( x + j, y + i, 0, 1 ) ||
+                if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
                     ter( x + j, y + i, 0 ) = oter_id( "river_center" );
