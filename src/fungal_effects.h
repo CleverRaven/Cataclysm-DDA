@@ -20,8 +20,8 @@ class fungal_effects
 
         bool marlossify( const tripoint &p );
         /** Makes spores at p. source is used for kill counting */
-        void create_spores( const tripoint &p, Creature *source = nullptr );
-        void fungalize( const tripoint &p, Creature *source = nullptr, double spore_chance = 0.0 );
+        void create_spores( const tripoint &p, Creature *origin = nullptr );
+        void fungalize( const tripoint &p, Creature *origin = nullptr, double spore_chance = 0.0 );
 
         bool spread_fungus( const tripoint &p );
 };

@@ -755,9 +755,9 @@ void advanced_inventory::init()
 }
 
 advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int count,
-        aim_location _area, bool from_veh )
+        aim_location area, bool from_vehicle )
     : idx( index )
-    , area( _area )
+    , area( area )
     , id( an_item->typeId() )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
@@ -766,16 +766,16 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
     , cat( &an_item->get_category() )
-    , from_vehicle( from_veh )
+    , from_vehicle( from_vehicle )
 {
     items.push_back( an_item );
     assert( stacks >= 1 );
 }
 
 advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int index,
-        aim_location loc, bool veh ) :
+        aim_location area, bool from_vehicle ) :
     idx( index ),
-    area( loc ),
+    area( area ),
     id( list.front()->typeId() ),
     items( list ),
     name( list.front()->tname( list.size() ) ),
@@ -785,7 +785,7 @@ advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int
     volume( list.front()->volume() * stacks ),
     weight( list.front()->weight() * stacks ),
     cat( &list.front()->get_category() ),
-    from_vehicle( veh )
+    from_vehicle( from_vehicle )
 {
     assert( stacks >= 1 );
 }
@@ -800,14 +800,14 @@ advanced_inv_listitem::advanced_inv_listitem()
 {
 }
 
-advanced_inv_listitem::advanced_inv_listitem( const item_category *category )
+advanced_inv_listitem::advanced_inv_listitem( const item_category *cat )
     : idx()
     , area()
     , id( "null" )
-    , name( category->name() )
+    , name( cat->name() )
     , autopickup()
     , stacks()
-    , cat( category )
+    , cat( cat )
 {
 }
 

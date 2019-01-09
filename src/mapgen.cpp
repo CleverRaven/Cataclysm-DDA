@@ -101,7 +101,6 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );

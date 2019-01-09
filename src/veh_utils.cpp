@@ -42,10 +42,10 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, Character &who )
     return std::ceil( double( vp.install_moves ) / to_moves<int>( 1_minutes * pow( lvl, 2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool only_repairable )
+vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool only_repairable )
 {
     // @todo: Get rid of this cast after moving relevant functions down to Character
-    player &who = ( player & )who_c;
+    player &who = ( player & )who_arg;
     const auto &inv = who.crafting_inventory();
 
     enum repairable_status {

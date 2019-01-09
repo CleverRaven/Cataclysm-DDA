@@ -226,7 +226,7 @@ editmap::editmap()
 
 editmap::~editmap() = default;
 
-void editmap_hilight::draw( editmap &hm, bool update )
+void editmap_hilight::draw( editmap &em, bool update )
 {
     cur_blink++;
     if( cur_blink >= static_cast<int>( blink_interval.size() ) ) {
@@ -258,7 +258,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
                 if( blink_interval[ cur_blink ] ) {
                     t_col = getbg( t_col );
                 }
-                tripoint scrpos = hm.pos2screen( p );
+                tripoint scrpos = em.pos2screen( p );
                 mvwputch( g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym );
             }
         }

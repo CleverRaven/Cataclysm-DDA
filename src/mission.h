@@ -321,7 +321,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
-        void set_target( const tripoint &target );
+        void set_target( const tripoint &p );
         /*@}*/
 
         /** Assigns the mission to the player. */

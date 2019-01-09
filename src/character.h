@@ -418,7 +418,7 @@ class Character : public Creature, public visitable<Character>
         // @todo: Cache this, it's kinda expensive to compute
         resistances mutation_armor( body_part bp ) const;
         float mutation_armor( body_part bp, damage_type dt ) const;
-        float mutation_armor( body_part bp, const damage_unit &dt ) const;
+        float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */

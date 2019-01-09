@@ -76,9 +76,9 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jsobj, const std::string &member );
-        bool load_miss_msgs( JsonObject &jsobj, const std::string &member );
-        bool load_decay_msgs( JsonObject &jsobj, const std::string &member );
+        bool load_mod_data( JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( JsonObject &jo, const std::string &member );
+        bool load_decay_msgs( JsonObject &jo, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );

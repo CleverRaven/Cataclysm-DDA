@@ -240,25 +240,25 @@ void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
 }
 
 recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
-                                 std::map<recipe_id, recipe> &dest )
+                                 std::map<recipe_id, recipe> &out )
 {
     recipe r;
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
-        if( !dest.count( base ) ) {
+        if( !out.count( base ) ) {
             deferred.emplace_back( jo.str(), src );
             return null_recipe;
         }
-        r = dest[ base ];
+        r = out[ base ];
     }
 
     r.load( jo, src );
 
-    dest[ r.ident() ] = std::move( r );
+    out[ r.ident() ] = std::move( r );
 
-    return dest[ r.ident() ];
+    return out[ r.ident() ];
 }
 
 size_t recipe_dictionary::size() const

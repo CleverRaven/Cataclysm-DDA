@@ -34,7 +34,7 @@ class scent_map
         void deserialize( const std::string &data );
         std::string serialize() const;
 
-        void draw( const catacurses::window &w, int div, const tripoint &center ) const;
+        void draw( const catacurses::window &win, int div, const tripoint &center ) const;
 
         void update( const tripoint &center, map &m );
         void reset();

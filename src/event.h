@@ -33,7 +33,7 @@ struct event {
     /** Where the event happens, in global submap coordinates */
     tripoint map_point = tripoint_min;
 
-    event( event_type e_t, const time_point &w, int f_id, tripoint map_point );
+    event( event_type e_t, const time_point &w, int f_id, tripoint p );
 
     void actualize(); // When the time runs out
     void per_turn();  // Every turn

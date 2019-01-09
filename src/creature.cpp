@@ -1425,9 +1425,9 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, int player_x, int player_y, bool inverted ) const
+void Creature::draw( const catacurses::window &w, int x, int y, bool inverted ) const
 {
-    draw( w, tripoint( player_x, player_y, posz() ), inverted );
+    draw( w, tripoint( x, y, posz() ), inverted );
 }
 
 void Creature::draw( const catacurses::window &w, const tripoint &p, bool inverted ) const
