@@ -105,15 +105,15 @@ bool scent_map::inbounds( const tripoint &p ) const
     // A z-level can access scentmap if it is within 1 flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
 
-    static constexpr tripoint scent_map_boundary_min( 0, 0, p.z - 1 );
-    static constexpr tripoint scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y, p.z + 1 );
-    static constexpr tripoint scent_map_clearance_min( tripoint_zero );
-    static constexpr tripoint scent_map_clearance_max( 1, 1, 0 );
+    const tripoint scent_map_boundary_min( 0, 0, p.z - 1 );
+    const tripoint scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y, p.z + 1 );
+    const tripoint scent_map_clearance_min( tripoint_zero );
+    const tripoint scent_map_clearance_max( 1, 1, 0 );
 
     const box scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
     const box scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
 
-    return generic_inbounds( p, map_boundaries, map_clearance );
+    return generic_inbounds( p, scent_map_boundaries, scent_map_clearance );
 }
 
 void scent_map::update( const tripoint &center, map &m )

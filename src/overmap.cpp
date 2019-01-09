@@ -1085,7 +1085,7 @@ std::vector<point> overmap::find_notes( const int z, const std::string &text )
     return note_locations;
 }
 
-bool overmap::inbounds( const tripoint &loc, int clearance = 0 )
+bool overmap::inbounds( const tripoint &p, int clearance )
 {
     const tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
     const tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT );

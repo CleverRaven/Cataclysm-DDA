@@ -203,10 +203,10 @@ class overmap
         void set_scent( const tripoint &loc, scent_trace &new_scent );
 
         /**
-         * @returns Whether @param loc is within desired bounds of the overmap
+         * @returns Whether @param p is within desired bounds of the overmap
          * @param clearance Minimal distance from the edges of the overmap
          */
-        static bool inbounds( const tripoint &loc, int clearance = 0 );
+        static bool inbounds( const tripoint &p, int clearance = 0 );
         static bool inbounds( const point &p, int clearance = 0 ) {
             return inbounds( tripoint( p, 0 ), clearance );
         }

@@ -4221,10 +4221,10 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
 
     std::unordered_set<tripoint> visited;
 
-    const point fishing_boundary_min( fish_pos.x - distance, fish_pos.y - distance );
-    const point fishing_boundary_max( fish_pos.x + distance, fish_pos.y + distance );
+    const tripoint fishing_boundary_min( fish_pos.x - distance, fish_pos.y - distance, fish_pos.z );
+    const tripoint fishing_boundary_max( fish_pos.x + distance, fish_pos.y + distance, fish_pos.z );
 
-    const rectangle fishing_boundaries( map_boundary_min, map_boundary_max );
+    const box fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
 
     const auto get_fishable_terrain = [&]( tripoint starting_point,
     std::unordered_set<tripoint> &fishable_terrain ) {
@@ -4240,7 +4240,7 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
             }
 
             // This point is out of bounds, so bail.
-            if( !generic_inbounds( p, fishing_boundaries ) ) {
+            if( !generic_inbounds( current_point, fishing_boundaries ) ) {
                 continue;
             }
 
