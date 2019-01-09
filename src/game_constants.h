@@ -43,6 +43,9 @@
 #define MAPSIZE_X (SEEX * MAPSIZE)
 #define MAPSIZE_Y (SEEY * MAPSIZE)
 
+#define HALF_MAPSIZE_X (SEEX * HALF_MAPSIZE)
+#define HALF_MAPSIZE_Y (SEEY * HALF_MAPSIZE)
+
 #define MAX_VIEW_DISTANCE ( SEEX * HALF_MAPSIZE )
 
 // Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,

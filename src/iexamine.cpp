@@ -829,8 +829,8 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         g->m.unboard_vehicle( p.pos() );
     }
     p.setpos( examp );
-    if( examp.x < SEEX * HALF_MAPSIZE || examp.y < SEEY * HALF_MAPSIZE ||
-        examp.x >= SEEX * ( 1 + HALF_MAPSIZE ) || examp.y >= SEEY * ( 1 + HALF_MAPSIZE ) ) {
+    if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
+        examp.x >= HALF_MAPSIZE_X + SEEX || examp.y >= HALF_MAPSIZE_Y + SEEY ) {
         if( p.is_player() ) {
             g->update_map( p );
         }

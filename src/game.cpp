@@ -12049,19 +12049,19 @@ void game::update_map( int &x, int &y )
     int shiftx = 0;
     int shifty = 0;
 
-    while( x < SEEX * HALF_MAPSIZE ) {
+    while( x < HALF_MAPSIZE_X ) {
         x += SEEX;
         shiftx--;
     }
-    while( x >= SEEX * ( 1 + HALF_MAPSIZE ) ) {
+    while( x >= HALF_MAPSIZE_X + SEEX ) {
         x -= SEEX;
         shiftx++;
     }
-    while( y < SEEY * HALF_MAPSIZE ) {
+    while( y < HALF_MAPSIZE_Y ) {
         y += SEEY;
         shifty--;
     }
-    while( y >= SEEY * ( 1 + HALF_MAPSIZE ) ) {
+    while( y >= HALF_MAPSIZE_Y + SEEY ) {
         y -= SEEY;
         shifty++;
     }
