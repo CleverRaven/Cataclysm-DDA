@@ -107,9 +107,6 @@ void set_science_room( map *m, int x1, int y1, bool faces_right, const time_poin
 void silo_rooms( map *m );
 void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
 
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id t );
-
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
 void map::generate( const int x, const int y, const int z, const time_point &when )

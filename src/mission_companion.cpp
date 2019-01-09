@@ -78,11 +78,9 @@ void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
-void camp_missions( mission_data &mission_key, npc &p );
 bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
 }
 
 void talk_function::companion_mission( npc &p )

@@ -70,8 +70,6 @@ void weather_effect::glare()
 }
 ////// food vs weather
 
-int get_hourly_rotpoints_at_temp( int temp );
-
 time_duration get_rot_since( const time_point &start, const time_point &end,
                              const tripoint &location )
 {

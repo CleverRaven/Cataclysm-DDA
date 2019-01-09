@@ -19,9 +19,6 @@
 #include "pimpl.h"
 #include "posix_time.h"
 
-extern const int savegame_version;
-extern int save_loading_version;
-
 extern bool test_mode;
 
 // The reference to the one and only game instance.

@@ -55,6 +55,8 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
     }
 };
 
+void advanced_inv();
+
 /**
  * Cancels ongoing move all action.
  * @todo: Make this not needed.

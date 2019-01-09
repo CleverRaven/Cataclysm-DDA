@@ -77,7 +77,6 @@ std::unique_ptr<cata_tiles> tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
-extern bool tile_iso;
 
 /**
  * A class that draws a single character on screen.

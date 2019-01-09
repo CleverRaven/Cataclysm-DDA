@@ -203,7 +203,6 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_BURROW( "BURROW" );
 
-void advanced_inv(); // player_activity.cpp
 void intro();
 
 #ifdef __ANDROID__

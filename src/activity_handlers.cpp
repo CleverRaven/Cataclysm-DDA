@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "action.h"
+#include "advanced_inv.h"
 #include "catalua.h"
 #include "clzones.h"
 #include "construction.h"

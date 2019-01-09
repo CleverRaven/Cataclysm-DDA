@@ -43,12 +43,6 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<i
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
                                const tripoint &where );
 
-// advanced_inv.cpp
-void advanced_inv();
-
-// veh_interact.cpp
-void complete_vehicle();
-
 namespace activity_handlers
 {
 
