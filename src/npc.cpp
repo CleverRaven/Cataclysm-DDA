@@ -389,9 +389,9 @@ void npc::randomize( const npc_class_id &type )
         hp_cur[i] = hp_max[i];
     }
 
-    starting_weapon( type );
-    starting_clothes( *this, type, male );
-    starting_inv( *this, type );
+    starting_weapon( myclass );
+    starting_clothes( *this, myclass, male );
+    starting_inv( *this, myclass );
     has_new_items = true;
 
     my_mutations.clear();
