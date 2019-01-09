@@ -137,6 +137,7 @@
     "price": 1100,
     "material": [ "powder", "milk" ],
     "volume": 1,
+    "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "fun": -5
