@@ -477,6 +477,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return _( "Bye." );
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
+    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
+        return _( "Pleasure doing business!" );
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
         if( p->has_effect( effect_asked_for_item ) ) {
             return _( "You just asked me for stuff; ask later." );
@@ -1961,16 +1963,16 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue &d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item( item_name, calendar::turn );
-        for( int i = 0; i < count; i++ ) {
-            int item_at = u.inv.position_by_type( item_name );
-            if( item_at == INT_MIN ) {
-                popup( _( "You don't have a %1$s!" ), old_item.tname() );
-                return;
-            }
-            old_item = u.i_rem( item_at );
-            p.i_add( old_item );
+        item old_item( item_name );
+        if( u.has_charges( item_name, count ) ) {
+            u.use_charges( item_name, count );
+        } else if( u.has_amount( item_name, count ) ) {
+            u.use_amount( item_name, count );
+        } else {
+            popup( _( "You don't have a %1$s!" ), old_item.tname() );
+            return;
         }
+
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "You give %1$s a %2$s" ), p.name, old_item.tname() );
@@ -2409,8 +2411,7 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_string( "u_has_item" ) ) {
         const std::string item_id = jo.get_string( "u_has_item" );
         condition = [item_id]( const dialogue & d ) {
-            return d.alpha->inv.position_by_type( item_id ) != INT_MIN ||
-                   d.alpha->inv.has_charges( item_id, 1 );
+            return d.alpha->charges_of( item_id ) > 0 || d.alpha->has_amount( item_id, 1 );
         };
     } else if( jo.has_member( "u_has_items" ) ) {
         JsonObject has_items = jo.get_object( "u_has_items" );
@@ -2422,15 +2423,8 @@ conditional_t::conditional_t( JsonObject jo )
             const std::string item_id = has_items.get_string( "item" );
             int count = has_items.get_int( "count" );
             condition = [item_id, count]( const dialogue & d ) {
-                if( d.alpha->inv.has_charges( item_id, count ) ) {
-                    return true;
-                }
-                int item_at = d.alpha->inv.position_by_type( item_id );
-                if( item_at == INT_MIN ) {
-                    return false;
-                }
-                const item &actual_item = d.alpha->i_at( item_at );
-                return actual_item.count() >= count;
+                return d.alpha->has_charges( item_id, count ) ||
+                       d.alpha->has_amount( item_id, count );
             };
         }
     } else if( jo.has_string( "npc_has_effect" ) ) {
@@ -2690,8 +2684,8 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [item_id, yes, no]( const dialogue & d ) {
-            const bool has_it = d.alpha->inv.position_by_type( item_id ) != INT_MIN ||
-                                d.alpha->inv.has_charges( item_id, 1 );
+            const bool has_it = d.alpha->has_charges( item_id, 1 ) ||
+                                d.alpha->has_amount( item_id, 1 );
             return ( has_it ? yes : no )( d );
         };
     } else if( jo.has_member( "npc_has_effect" ) ) {
