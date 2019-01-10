@@ -477,7 +477,7 @@ class Creature
         bool underwater;
 
         void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
-        void draw( const catacurses::window &w, const tripoint &p, bool inverted ) const;
+        void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.
