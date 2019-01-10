@@ -148,7 +148,7 @@ struct oter_type_t {
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
 
-        oter_type_t() {}
+        oter_type_t() = default;
 
         oter_id get_first() const;
         oter_id get_rotated( om_direction::type dir ) const;

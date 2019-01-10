@@ -671,7 +671,7 @@ struct islot_seed {
      */
     std::vector<std::string> byproducts;
 
-    islot_seed() { }
+    islot_seed() = default;
 };
 
 struct islot_artifact {
