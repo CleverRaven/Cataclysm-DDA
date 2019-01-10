@@ -389,7 +389,7 @@ class color_manager
 {
     private:
         void add_color( const color_id col, const std::string &name,
-                        const nc_color color_pair, const color_id inv_enum );
+                        const nc_color color_pair, const color_id inv_id );
         void clear();
         void finalize(); // Caches colors properly
 

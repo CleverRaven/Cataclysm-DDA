@@ -85,9 +85,9 @@ bool damage_instance::empty() const
     return damage_units.empty();
 }
 
-void damage_instance::add( const damage_instance &b )
+void damage_instance::add( const damage_instance &added_di )
 {
-    for( auto &added_du : b.damage_units ) {
+    for( auto &added_du : added_di.damage_units ) {
         add( added_du );
     }
 }

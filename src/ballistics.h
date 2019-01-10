@@ -27,8 +27,8 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
  *  dispersion.
  *  Returns the rolled dispersion of the shot and the actually hit point.
  */
-dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
-        const tripoint &target, const dispersion_sources &dispersion,
+dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
+        const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin = nullptr, const vehicle *in_veh = nullptr );
 
 #endif

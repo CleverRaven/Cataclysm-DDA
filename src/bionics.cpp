@@ -1503,14 +1503,14 @@ void finalize_bionics()
     }
 }
 
-int bionic::get_quality( const quality_id &q ) const
+int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
     if( i.fake_item.empty() ) {
         return INT_MIN;
     }
 
-    return item( i.fake_item ).get_quality( q );
+    return item( i.fake_item ).get_quality( quality );
 }
 
 void bionic::serialize( JsonOut &json ) const

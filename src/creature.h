@@ -204,8 +204,8 @@ class Creature
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
-        virtual void deal_melee_hit( Creature *source, int hit_spread, bool crit,
-                                     const damage_instance &d, dealt_damage_instance &dealt_dam );
+        virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                                     const damage_instance &dam, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
@@ -225,7 +225,7 @@ class Creature
          * @param d The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
-                const damage_instance &d );
+                const damage_instance &dam );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
@@ -476,8 +476,8 @@ class Creature
         int moves;
         bool underwater;
 
-        void draw( const catacurses::window &w, int plx, int ply, bool inv ) const;
-        void draw( const catacurses::window &w, const tripoint &plp, bool inv ) const;
+        void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
+        void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

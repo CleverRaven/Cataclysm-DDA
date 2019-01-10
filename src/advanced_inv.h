@@ -55,6 +55,8 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
     }
 };
 
+void advanced_inv();
+
 /**
  * Cancels ongoing move all action.
  * @todo: Make this not needed.
@@ -451,10 +453,10 @@ class advanced_inventory
         int remove_item( advanced_inv_listitem &sitem, int count = 1 );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src Source container
-         * @param dest Destination container
+         * @param src_container Source container
+         * @param dest_container Destination container
          */
-        bool move_content( item &src, item &dest );
+        bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

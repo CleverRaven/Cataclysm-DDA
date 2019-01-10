@@ -19,9 +19,6 @@
 #include "pimpl.h"
 #include "posix_time.h"
 
-extern const int savegame_version;
-extern int save_loading_version;
-
 extern bool test_mode;
 
 // The reference to the one and only game instance.
@@ -131,9 +128,9 @@ enum liquid_dest : int {
 
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
+    tripoint pos;
     item_location item_loc;
     vehicle *veh = nullptr;
-    tripoint pos;
 };
 
 enum peek_act : int {

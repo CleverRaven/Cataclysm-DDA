@@ -92,9 +92,9 @@ void computer::add_option( const computer_option &opt )
 }
 
 void computer::add_option( const std::string &opt_name, computer_action action,
-                           int Security )
+                           int security )
 {
-    add_option( computer_option( opt_name, action, Security ) );
+    add_option( computer_option( opt_name, action, security ) );
 }
 
 void computer::add_failure( const computer_failure &failure )
@@ -1487,10 +1487,10 @@ TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_tar
 }
 
 template<typename ...Args>
-bool computer::query_bool( const char *const mes, Args &&... args )
+bool computer::query_bool( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
 #ifdef __ANDROID__
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1507,19 +1507,19 @@ bool computer::query_bool( const char *const mes, Args &&... args )
 }
 
 template<typename ...Args>
-bool computer::query_any( const char *const mes, Args &&... args )
+bool computer::query_any( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s", formatted_text .c_str() );
     inp_mngr.wait_for_any_key();
     return true;
 }
 
 template<typename ...Args>
-char computer::query_ynq( const char *const mes, Args &&... args )
+char computer::query_ynq( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
 #ifdef __ANDROID__
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1536,30 +1536,30 @@ char computer::query_ynq( const char *const mes, Args &&... args )
 }
 
 template<typename ...Args>
-void computer::print_line( const char *const mes, Args &&... args )
+void computer::print_line( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_green, text );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    wprintz( w_terminal, c_green, formatted_text );
     print_newline();
     wrefresh( w_terminal );
 }
 
 template<typename ...Args>
-void computer::print_error( const char *const mes, Args &&... args )
+void computer::print_error( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_red, text );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    wprintz( w_terminal, c_red, formatted_text );
     print_newline();
     wrefresh( w_terminal );
 }
 
 template<typename ...Args>
-void computer::print_text( const char *const mes, Args &&... args )
+void computer::print_text( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
+    const std::string formated_text = string_format( text, std::forward<Args>( args )... );
     int y = getcury( w_terminal );
     int w = getmaxx( w_terminal ) - 2;
-    fold_and_print( w_terminal, y, 1, w, c_green, text );
+    fold_and_print( w_terminal, y, 1, w, c_green, formated_text );
     print_newline();
     print_newline();
     wrefresh( w_terminal );

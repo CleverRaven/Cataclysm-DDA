@@ -754,19 +754,19 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
 }
 
-void starting_inv( npc &me, const npc_class_id &type )
+void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
-    me.inv.clear();
+    who.inv.clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        me.inv += item_group::items_from( type->carry_override );
+        who.inv += item_group::items_from( type->carry_override );
         return;
     }
 
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
-    if( me.weapon.is_gun() ) {
-        item ammo( me.weapon.ammo_type()->default_ammotype() );
+    if( who.weapon.is_gun() ) {
+        item ammo( who.weapon.ammo_type()->default_ammotype() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -780,7 +780,7 @@ void starting_inv( npc &me, const npc_class_id &type )
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while( qty-- != 0 && me.can_pickVolume( ammo ) ) {
+        while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
             // @todo: give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -800,7 +800,7 @@ void starting_inv( npc &me, const npc_class_id &type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me.can_pickVolume( tmp ) ) {
+            if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
@@ -810,7 +810,7 @@ void starting_inv( npc &me, const npc_class_id &type )
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
-    me.inv += res;
+    who.inv += res;
 }
 
 void npc::spawn_at_sm( int x, int y, int z )

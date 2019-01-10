@@ -2003,14 +2003,14 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
     }
 
     for( auto it = pattern.begin(); it != pattern.end(); ++it ) {
-        if( it == pattern.begin() && *it != "" ) {
+        if( it == pattern.begin() && !it->empty() ) {
             if( text.length() < it->length() ||
                 ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
                 return false;
             }
 
             text = text.substr( it->length(), text.length() - it->length() );
-        } else if( it == pattern.end() - 1 && *it != "" ) {
+        } else if( it == pattern.end() - 1 && !it->empty() ) {
             if( text.length() < it->length() ||
                 ci_find_substr( text.substr( text.length() - it->length(),
                                              it->length() ), *it ) == -1 ) {
