@@ -3,7 +3,9 @@
 #include "sdlsound.h"
 
 #include <algorithm>
+#include <chrono>
 #include <map>
+#include <random>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -183,7 +185,9 @@ void play_music( std::string playlist )
         playlist_indexes.push_back( i );
     }
     if( list.shuffle ) {
-        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
+        static auto eng = std::default_random_engine(
+                              std::chrono::system_clock::now().time_since_epoch().count() );
+        std::shuffle( playlist_indexes.begin(), playlist_indexes.end(), eng );
     }
 
     current_playlist = playlist;

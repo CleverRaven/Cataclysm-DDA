@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <list>
+#include <random>
 #include <sstream>
 
 #include "ammo.h"
@@ -5894,7 +5896,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             for( int a = 0; a < 21; a++ ) {
                 vset.push_back( a );
             }
-            std::random_shuffle( vset.begin(), vset.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( vset.begin(), vset.end(), eng );
             for( int a = 0; a < vnum; a++ ) {
                 if( vset[a] < 12 ) {
                     if( one_in( 2 ) ) {
