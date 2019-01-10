@@ -280,20 +280,19 @@
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "cucumber", 20 ] ] ]
   },
   {
-  "type" : "recipe",
-  "result": "gp_garlic",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_OTHER",
-  "skill_used": "survival",
-  "difficulty": 1,
-  "time": 500,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-  ],
-  "components": [ [ [ "gp_pot", 1 ] ], [ [ "seed_garlic", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-},
-{
+    "type": "recipe",
+    "result": "gp_garlic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [  ],
+    "components": [ [ [ "gp_pot", 1 ] ], [ [ "seed_garlic", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
     "type": "uncraft",
     "result": "gp_garlic_ready",
     "category": "CC_FOOD",

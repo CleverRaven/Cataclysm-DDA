@@ -5,7 +5,7 @@
     "name": "Growable pots",
     "authors": [ "Xhuis" ],
     "description": "Allows you to grow some seeds in flower pots.",
-	"author": "Honcharuk and ",
+    "author": "Honcharuk",
     "category": "items",
     "dependencies": [ "dda" ]
   }

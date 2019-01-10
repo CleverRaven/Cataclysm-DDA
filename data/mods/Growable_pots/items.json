@@ -35,7 +35,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Tomatoes are ready to harvest!",
       "moves": 0,
@@ -77,7 +77,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 30,
+      "transform_age": 432000,
       "not_ready_msg": "The wheat is growing quickly.",
       "msg": "The wheat is ready to harvest.",
       "moves": 0,
@@ -119,7 +119,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -161,7 +161,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -203,7 +203,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -245,7 +245,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -287,7 +287,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -329,7 +329,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -371,7 +371,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -413,7 +413,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -455,7 +455,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
@@ -497,7 +497,7 @@
     "category": "tools",
     "use_action": {
       "type": "delayed_transform",
-      "transform_age": 300,
+      "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
