@@ -1,0 +1,171 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Jenny",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Jenny Forcette is an experienced mechanical engineer.  Like the other refugees in the center, she's terrified of the outside world.  Unlike many, she has some ideas what to do about it.",
+    "bonus_str": { "rng": [ -4, -2 ] },
+    "bonus_dex": { "rng": [ -2, 1 ] },
+    "bonus_int": { "rng": [ 3, 4 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "REFUGEE_Jenny_worn",
+    "carry_override": "REFUGEE_Jenny_carried",
+    "weapon_override": "REFUGEE_Jenny_wield",
+    "traits": [ { "trait": "PACIFIST" }, { "trait": "Exp_MechEng2" } ],
+    "skills": [
+      { "skill": "mechanics", "bonus": { "rng": [ 5, 7 ] } },
+      { "skill": "computers", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Jenny_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "linuxtshirt" },
+      { "item": "jeans" },
+      { "item": "hoody" },
+      { "item": "sports_bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "backpack" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Jenny_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "paper" }, { "item": "soldering_iron", "ammo-item": "battery", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Jenny_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "laptop" } ]
+  },
+  {
+    "type": "npc",
+    "id": "refugee_JennyForcette",
+    "name_unique": "Jenny Forcette",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Jenny",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_JENNY_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_1",
+    "dynamic_line": {
+      "npc_has_effect": "player_has_met",
+      "yes": [ "Hello again.", "Nice to see you again.", "What's up?" ],
+      "no": "Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette."
+    },
+    "responses": [
+      {
+        "text": "What are you doing on that computer?",
+        "condition": { "days_since_cataclysm": 60 },
+        "npc_add_effect": "player_has_met",
+        "topic": "TALK_REFUGEE_JENNY_Project1_developed",
+        "switch": true
+      },
+      {
+        "text": "What are you doing on that computer?",
+        "condition": { "days_since_cataclysm": 30 },
+        "npc_add_effect": "player_has_met",
+        "topic": "TALK_REFUGEE_JENNY_Project1_early",
+        "switch": true
+      },
+      {
+        "text": "What are you doing on that computer?",
+        "npc_add_effect": "player_has_met",
+        "topic": "TALK_REFUGEE_JENNY_Project1_veryearly",
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "Nice meeting you.  I'd best get going, though.",
+        "condition": { "not": { "npc_has_effect": "player_has_met" } },
+        "npc_add_effect": "player_has_met",
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Sorry Jenny, I can't stay to chat.",
+        "condition": { "npc_has_effect": "player_has_met" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project1_veryearly",
+    "dynamic_line": "Just puttering around.  I'm still a bit too shell-shocked to do very much.  I used to be an engineer, though... I'm trying to think of some kind of project to get my mind off all this.",
+    "responses": [
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_veryearly" },
+      { "text": "Good luck with that.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Personal1_veryearly",
+    "dynamic_line": "Living here?  Yeah, I guess I live here now.  It's... it's weird.  We're crowded into this tiny space, I don't know these people, but we're sharing bathrooms and we've all been through the same stuff.  It's not great.  At night we can hear the <zombies> outside, and we all just lie there awake, thinking the same things but too scared to talk about it.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project1_early",
+    "dynamic_line": "I recently came into possession of this mold for making high-calibre air rifle bullets.  I'm kinda working on a design that would use them to protect the base.  Got a long way to go, though.",
+    "responses": [
+      { "text": "What are you planning?", "topic": "TALK_REFUGEE_JENNY_Project2_early" },
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
+      { "text": "Good luck with that.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project2_early",
+    "dynamic_line": "Well, these things are a standard .30 calibre.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
+    "responses": [
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
+      { "text": "Good luck with that.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Personal1_early",
+    "dynamic_line": "It's been over a month now, so I guess I'm starting to get used to it.  Things were pretty rough after Sean died, but it wasn't our first big loss and it won't be the last I guess.  I've made a couple friends, and in a weird way we're all like family.  We were all hoping they'd let us downstairs sooner than this though.  We're never quite sure if there's going to be enough food to go around.  I'm really hoping I can lose myself in this project.  Still haven't had a good night's sleep since <the_cataclysm>.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project1_developed",
+    "dynamic_line": "About a month ago, I got a mold for making high-calibre air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!",
+    "responses": [
+      { "text": "Tell me more about those turrets.", "topic": "TALK_REFUGEE_JENNY_Project2_developed" },
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_mid" },
+      { "text": "Sounds interesting, talk to you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Project2_developed",
+    "dynamic_line": "They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need.",
+    "responses": [
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_mid" },
+      { "text": "Sounds interesting, talk to you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Personal1_mid",
+    "dynamic_line": "There's good and there's bad.  We're all pretty sick of being cooped up in here for the last two months, never knowing if there's going to be food to eat or not.  It's starting to look like they're never going to let us go down to the secure basement, and none of us have slept well since we were brought in.  We know we've got it pretty good... we're safe, we're alive.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  }
+]
