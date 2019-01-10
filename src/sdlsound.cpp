@@ -73,7 +73,7 @@ static inline bool check_sound( const int volume = 1 )
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
-bool init_sound( void )
+bool init_sound()
 {
     int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
@@ -101,7 +101,7 @@ bool init_sound( void )
 
     return sound_init_success;
 }
-void shutdown_sound( void )
+void shutdown_sound()
 {
     // De-allocate all loaded sound.
     sfx_resources.resource.clear();
@@ -207,7 +207,7 @@ void update_music_volume()
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
 // that is created when loading of a sound effect resource fails. Does not own
 // memory. Mix_FreeChunk will free the SDL_malloc'd Mix_Chunk pointer.
-static Mix_Chunk *make_null_chunk( void )
+static Mix_Chunk *make_null_chunk()
 {
     static Mix_Chunk null_chunk = { 0, nullptr, 0, 0 };
     // SDL_malloc to match up with Mix_FreeChunk's SDL_free call

@@ -2944,7 +2944,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         }
     };
 
-    auto have_fertilizer = [&]( void ) {
+    auto have_fertilizer = [&]() {
         return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
     };
 
