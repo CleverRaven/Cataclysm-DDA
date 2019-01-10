@@ -17,13 +17,13 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-   "id": "lw460mag",
-   "copy-from": "lw12mag",
-   "type": "MAGAZINE",
-   "name": "LW-460 magazine",
-   "//": "Placeholder until magazines can accept more than one caliber. And probably also until the gun code properly checks the magazine for compatible ammo.",
-   "ammo_type": "460"
-  },
+    "id": "lw460mag",
+    "copy-from": "lw12mag",
+    "type": "MAGAZINE",
+    "name": "LW-460 magazine",
+    "//": "Placeholder until magazines can accept more than one caliber. And probably also until the gun code properly checks the magazine for compatible ammo.",
+    "ammo_type": "460"
+  }
   {
     "id": "m1911bigmag",
     "type": "MAGAZINE",

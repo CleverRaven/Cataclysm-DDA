@@ -7,10 +7,8 @@
     "description": "Developed as a testament to the L39 family of pistols' strength, this hefty pistol chambers powerful .460 Rowland. In addition to the heavy slide and L39 standard sighting package, this pistol sports a large muzzle brake. Normal .45ACP can be fired through the weapon, albeit at reduced accuracy due to the slight freebore. Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 90000,
     "ammo": "460",
-    "relative": {
-      "durability": -1
-    },
-    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight"],
+    "relative": { "durability": -1 },
+    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -34,7 +32,7 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight"],
+    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -61,7 +59,7 @@
     "durability": 9,
     "clip_size": 12,
     "barrel_length": 2,
-    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight"],
+    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   }
