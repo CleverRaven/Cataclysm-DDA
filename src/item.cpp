@@ -6469,7 +6469,8 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 
     // specific_energy = item thermal energy (10e-5 J/g). Stored in the item
     // temperature = item temperature (10e-5 K). Stored in the item
-    const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ), 2.0 / 3.0 ) / insulation;
+    const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
+                                    2.0 / 3.0 ) / insulation;
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
     const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
@@ -6492,7 +6493,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // In other transitions the item may cool/heat too little but that won't be a problem.
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
-        new_item_temperature = ( - temperature_difference 
+        new_item_temperature = ( - temperature_difference
                                  * exp( - to_turns<int>( time ) * conductivity_term / ( mass * specific_heat_solid ) )
                                  + env_temperature );
         new_specific_energy = new_item_temperature * specific_heat_solid;
