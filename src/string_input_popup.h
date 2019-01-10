@@ -228,7 +228,7 @@ class string_input_popup
          * canceled). Cancelling the popup keeps the value unmodified.
          */
         /**@{*/
-        void edit( std::string &text );
+        void edit( std::string &value );
         void edit( long &value );
         void edit( int &value );
         /**@}*/

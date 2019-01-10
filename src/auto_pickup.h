@@ -18,7 +18,7 @@ class item;
 class auto_pickup
 {
     private:
-        void test_pattern( const int iCurrentPage, const int iCurrentLine );
+        void test_pattern( const int iTab, const int iRow );
         void load( const bool bCharacter );
         bool save( const bool bCharacter );
         bool load_legacy( const bool bCharacter );

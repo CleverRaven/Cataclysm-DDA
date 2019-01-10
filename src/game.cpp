@@ -203,7 +203,6 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_BURROW( "BURROW" );
 
-void advanced_inv(); // player_activity.cpp
 void intro();
 
 #ifdef __ANDROID__
@@ -3289,7 +3288,7 @@ void game::debug()
             }
 
             auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
-            if( rt.size() > 0 ) {
+            if( !rt.empty() ) {
                 u.set_destination( rt );
             } else {
                 popup( "Couldn't find path" );

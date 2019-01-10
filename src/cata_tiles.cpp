@@ -59,8 +59,8 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int fontwidth, fontheight;
-extern bool tile_iso;
+extern int fontwidth;
+extern int fontheight;
 
 SDL_Color cursesColorToSDL( const nc_color &color );
 ///@throws std::exception upon errors.

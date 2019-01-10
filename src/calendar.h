@@ -520,7 +520,7 @@ std::string to_string_clipped( const time_duration &d, clipped_align align = cli
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */
-std::string to_string_approx( const time_duration &d, bool verbose = true );
+std::string to_string_approx( const time_duration &dur, bool verbose = true );
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.
