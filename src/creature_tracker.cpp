@@ -214,13 +214,15 @@ bool Creature_tracker::kill_marked_for_death()
     // been removed, the dying creature could still have a pointer (the killer) to another creature.
     bool monster_is_dead = false;
     for( const auto &mon_ptr : monsters_list ) {
-        monster &critter = *mon_ptr;
-        if( critter.is_dead() ) {
-            dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                            critter.posx(), critter.posy(), critter.posz(),
-                                            critter.get_hp(), critter.name().c_str() );
-            critter.die( nullptr );
-            monster_is_dead = true;
+        if( mon_ptr != nullptr ) {
+            monster &critter = *mon_ptr;
+            if( critter.is_dead() ) {
+                dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
+                                                critter.posx(), critter.posy(), critter.posz(),
+                                                critter.get_hp(), critter.name().c_str() );
+                critter.die( nullptr );
+                monster_is_dead = true;
+            }
         }
     }
 

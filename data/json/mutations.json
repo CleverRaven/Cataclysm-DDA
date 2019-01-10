@@ -5659,7 +5659,28 @@
         "player_display": false,
         "valid": false,
         "purifiable": false
-    },{
+    },
+  {
+    "type": "mutation",
+    "id": "NPC_STARTING_NPC",
+    "name": "Starting NPC",
+    "points": 0,
+    "description": "Marker for starting NPCs",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_STATIC_NPC",
+    "name": "Static NPC",
+    "points": 0,
+    "description": "Marker for static NPCs",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
         "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",

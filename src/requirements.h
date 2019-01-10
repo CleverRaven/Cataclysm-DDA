@@ -62,7 +62,7 @@ struct tool_comp : public component {
     tool_comp() : component() { }
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
@@ -74,7 +74,7 @@ struct item_comp : public component {
     item_comp() : component() { }
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
@@ -92,7 +92,7 @@ struct quality_requirement {
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int = 0 ) const;

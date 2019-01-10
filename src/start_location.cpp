@@ -294,8 +294,8 @@ void start_location::place_player( player &u ) const
     // Need the "real" map with it's inside/outside cache and the like.
     map &m = g->m;
     // Start us off somewhere in the center of the map
-    u.setx( SEEX * int( MAPSIZE / 2 ) );
-    u.sety( SEEY * int( MAPSIZE / 2 ) );
+    u.setx( HALF_MAPSIZE_X );
+    u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -328,8 +328,8 @@ void start_location::place_player( player &u ) const
     };
 
     while( !found_good_spot && tries < 100 ) {
-        tripoint rand_point( ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 - 1 ),
-                             ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 - 1 ),
+        tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
+                             HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
                              u.posz() );
         check_spot( rand_point );
     }
@@ -358,8 +358,8 @@ void start_location::burn( const tripoint &omtstart,
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const int ux = g->u.posx() % ( SEEX * int( MAPSIZE / 2 ) );
-    const int uy = g->u.posy() % ( SEEY * int( MAPSIZE / 2 ) );
+    const int ux = g->u.posx() % HALF_MAPSIZE_X;
+    const int uy = g->u.posy() % HALF_MAPSIZE_Y;
     std::vector<tripoint> valid;
     tripoint p = player_location;
     int &x = p.x;

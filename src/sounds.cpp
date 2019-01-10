@@ -622,14 +622,14 @@ void sfx::do_ambient()
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
 // vehicle turrets) or a NPC.
-void sfx::generate_gun_sound( const player &p, const item &firing )
+void sfx::generate_gun_sound( const player &source_arg, const item &firing )
 {
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
-    const tripoint source = p.pos();
+    const tripoint source = source_arg.pos();
     int heard_volume = get_heard_volume( source );
     if( heard_volume <= 30 ) {
         heard_volume = 30;

@@ -126,15 +126,15 @@ color_id color_manager::color_to_id( const nc_color color ) const
     return def_c_unset;
 }
 
-nc_color color_manager::get( const color_id col ) const
+nc_color color_manager::get( const color_id id ) const
 {
-    if( col >= num_colors ) {
-        debugmsg( "Invalid color index: %d. Color array size: %ld", col,
+    if( id >= num_colors ) {
+        debugmsg( "Invalid color index: %d. Color array size: %ld", id,
                   static_cast<unsigned long>( color_array.size() ) );
         return nc_color();
     }
 
-    auto &entry = color_array[col];
+    auto &entry = color_array[id];
 
     return entry.custom > 0 ? entry.custom : entry.color;
 }
@@ -145,9 +145,9 @@ std::string color_manager::get_name( const nc_color color ) const
     return id_to_name( id );
 }
 
-nc_color color_manager::get_invert( const nc_color col ) const
+nc_color color_manager::get_invert( const nc_color color ) const
 {
-    const color_id id = color_to_id( col );
+    const color_id id = color_to_id( color );
     auto &entry = color_array[id];
 
     return entry.invert_custom > 0 ? entry.invert_custom : entry.invert;

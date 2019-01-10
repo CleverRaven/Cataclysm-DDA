@@ -101,14 +101,10 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
 void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
-
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id t );
 
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
@@ -6771,6 +6767,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }
@@ -7089,7 +7086,7 @@ void map::rotate( int turns )
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
     // @todo: This radius can be smaller - how small?
-    const int radius = int( MAPSIZE / 2 ) + 3;
+    const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
                                          abs_sub.z, radius );

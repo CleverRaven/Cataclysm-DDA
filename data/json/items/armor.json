@@ -3180,7 +3180,6 @@
     "coverage": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {

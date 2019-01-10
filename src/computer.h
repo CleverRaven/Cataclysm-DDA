@@ -106,7 +106,7 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &name, int Security );
+        computer( const std::string &new_name, int new_security );
         computer( const computer &rhs );
         ~computer();
 

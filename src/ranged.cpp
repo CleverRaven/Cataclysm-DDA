@@ -295,6 +295,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // apply delayed recoil
     recoil += delay;
+    // Reset aim for bows and other reload-and-shoot weapons.
+    if( gun.has_flag( "RELOAD_AND_SHOOT" ) ) {
+        recoil = MAX_RECOIL;
+    }
     // Cap
     recoil = std::min( MAX_RECOIL, recoil );
 
@@ -1498,7 +1502,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_fire( const Character &p, const itype &firingt )
+int time_to_fire( const Character &p, const itype &firing )
 {
     struct time_info_t {
         int min_time;  // absolute floor on the time taken to fire.
@@ -1517,7 +1521,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun->skill_used;
+    const skill_id &skill_used = firing.gun->skill_used;
     const auto it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };

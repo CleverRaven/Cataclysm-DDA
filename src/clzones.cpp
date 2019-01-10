@@ -321,15 +321,15 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> position,
     zone_manager::get_manager().cache_data();
 }
 
-void zone_data::set_enabled( const bool _enabled )
+void zone_data::set_enabled( const bool enabled_arg )
 {
     zone_manager::get_manager().zone_edited( *this );
-    enabled = _enabled;
+    enabled = enabled_arg;
 }
 
-void zone_data::set_is_vehicle( const bool _is_vehicle )
+void zone_data::set_is_vehicle( const bool is_vehicle_arg )
 {
-    is_vehicle = _is_vehicle;
+    is_vehicle = is_vehicle_arg;
 }
 
 tripoint zone_data::get_center_point() const
