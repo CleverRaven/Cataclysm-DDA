@@ -143,9 +143,9 @@ std::string remove_color_tags( const std::string &s )
     size_t next_pos = 0;
 
     if( tag_positions.size() > 1 ) {
-        for( size_t i = 0; i < tag_positions.size(); ++i ) {
-            ret += s.substr( next_pos, tag_positions[i] - next_pos );
-            next_pos = s.find( ">", tag_positions[i], 1 ) + 1;
+        for( size_t tag_position : tag_positions ) {
+            ret += s.substr( next_pos, tag_position - next_pos );
+            next_pos = s.find( ">", tag_position, 1 ) + 1;
         }
 
         ret += s.substr( next_pos, std::string::npos );
@@ -773,24 +773,24 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     std::ostringstream buffer;
     bool bIsNewLine = true;
 
-    for( size_t i = 0; i < vItemDisplay.size(); i++ ) {
-        if( vItemDisplay[i].sType == "DESCRIPTION" ) {
+    for( const auto &i : vItemDisplay ) {
+        if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer << "\n";
             }
-            if( vItemDisplay[i].bDrawName ) {
-                buffer << vItemDisplay[i].sName;
+            if( i.bDrawName ) {
+                buffer << i.sName;
             }
             // Always end with a linebreak for sType == "DESCRIPTION"
             buffer << "\n";
             bIsNewLine = true;
         } else {
-            if( vItemDisplay[i].bDrawName ) {
-                buffer << vItemDisplay[i].sName;
+            if( i.bDrawName ) {
+                buffer << i.sName;
             }
 
-            std::string sFmt = vItemDisplay[i].sFmt;
+            std::string sFmt = i.sFmt;
             std::string sPost;
 
             //A bit tricky, find %d and split the string
@@ -802,22 +802,22 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 buffer << sFmt;
             }
 
-            if( vItemDisplay[i].sValue != "-999" ) {
+            if( i.sValue != "-999" ) {
                 nc_color thisColor = c_yellow;
                 for( auto &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
-                        if( vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType ) {
-                            if( vItemDisplay[i].dValue > k.dValue - .1 &&
-                                vItemDisplay[i].dValue < k.dValue + .1 ) {
+                        if( i.sName == k.sName && i.sType == k.sType ) {
+                            if( i.dValue > k.dValue - .1 &&
+                                i.dValue < k.dValue + .1 ) {
                                 thisColor = c_light_gray;
-                            } else if( vItemDisplay[i].dValue > k.dValue ) {
-                                if( vItemDisplay[i].bLowerIsBetter ) {
+                            } else if( i.dValue > k.dValue ) {
+                                if( i.bLowerIsBetter ) {
                                     thisColor = c_light_red;
                                 } else {
                                     thisColor = c_light_green;
                                 }
-                            } else if( vItemDisplay[i].dValue < k.dValue ) {
-                                if( vItemDisplay[i].bLowerIsBetter ) {
+                            } else if( i.dValue < k.dValue ) {
+                                if( i.bLowerIsBetter ) {
                                     thisColor = c_light_green;
                                 } else {
                                     thisColor = c_light_red;
@@ -828,13 +828,13 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << "<color_" << string_from_color( thisColor ) << ">"
-                       << vItemDisplay[i].sValue
+                       << i.sValue
                        << "</color>";
             }
             buffer << sPost;
 
             // Set bIsNewLine in case the next line should always start in a new line
-            if( ( bIsNewLine = vItemDisplay[i].bNewLine ) ) {
+            if( ( bIsNewLine = i.bNewLine ) ) {
                 buffer << "\n";
             }
         }
@@ -1805,10 +1805,10 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
                        p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
-            for( std::vector<cSCT>::iterator iter = vSCT.begin(); iter != vSCT.end(); ++iter ) {
-                if( iter->getDirecton() == p_oDir && ( iter->getStep() + iter->getStepOffset() ) == iCurStep ) {
+            for( auto &iter : vSCT ) {
+                if( iter.getDirecton() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
-                    iter->advanceStepOffset();
+                    iter.advanceStepOffset();
                 }
             }
             vSCT.insert( vSCT.begin(), cSCT( p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,

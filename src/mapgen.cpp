@@ -240,23 +240,23 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup too
 {
     oter_mapgen_weights.clear();
-    for( auto oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
+    for( auto &omw : oter_mapgen ) {
         int funcnum = 0;
         int wtotal = 0;
-        oter_mapgen_weights[ oit->first ] = std::map<int, int>();
-        for( auto fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
+        oter_mapgen_weights[ omw.first ] = std::map<int, int>();
+        for( auto fit = omw.second.begin(); fit != omw.second.end(); ++fit ) {
             //
             int weight = ( *fit )->weight;
             if( weight < 1 ) {
-                dbg( D_INFO ) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
+                dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
                               wtotal;
                 ++funcnum;
                 continue; // rejected!
             }
             ( *fit )->setup();
             wtotal += weight;
-            oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
-            dbg( D_INFO ) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
+            oter_mapgen_weights[ omw.first ][ wtotal ] = funcnum;
+            dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): +" << weight << " = " << wtotal;
             ++funcnum;
         }
     }

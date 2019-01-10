@@ -405,8 +405,7 @@ void vehicle::smash_security_system()
     //get security and controls location
     int s = -1;
     int c = -1;
-    for( size_t d = 0; d < speciality.size(); d++ ) {
-        int p = speciality[d];
+    for( int p : speciality ) {
         if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
             s = p;
             c = part_with_feature( s, "CONTROLS", true );

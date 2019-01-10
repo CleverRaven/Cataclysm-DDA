@@ -772,8 +772,8 @@ void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, 
 
 void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
-    for( unsigned int i = 0; i < framebuffer.size(); i++ ) {
-        std::fill_n( framebuffer[i].chars.begin(), framebuffer[i].chars.size(), cursecell( "" ) );
+    for( auto &i : framebuffer ) {
+        std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
     }
 }
 
