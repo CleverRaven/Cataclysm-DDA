@@ -1618,7 +1618,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             temp1.str( "" );
             temp1 << _( "<bold>Incompatible with mod location: </bold> " );
             int iternum = 0;
-            for( auto black : mod.blacklist_mod ) {
+            for( const auto &black : mod.blacklist_mod ) {
                 if( iternum != 0 ) {
                     temp1 << ", ";
                 }
@@ -5349,7 +5349,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
     }
 
-    for( auto slot : mod.type->gunmod->blacklist_mod ) {
+    for( const auto &slot : mod.type->gunmod->blacklist_mod ) {
         if( get_mod_locations().count( slot ) ) {
             return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
                                                 slot.name().c_str() );

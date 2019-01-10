@@ -1761,7 +1761,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<std::sha
     int max_combat = 0;
     int max_survival = 0;
     int max_industry = 0;
-    for( auto e : available ) {
+    for( const auto &e : available ) {
         comp_rank r;
         r.combat = companion_combat_rank( *e );
         r.survival = companion_survival_rank( *e );
