@@ -1001,12 +1001,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
-                }
-                if( food ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                               food->temperature ) );
                     info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
-                                              1000 * food->specific_energy ) );
+                                              food->specific_energy ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "", iteminfo::lower_is_better,
                                               1000 * food->type->comestible->spec_heat_liquid ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "", iteminfo::lower_is_better,
@@ -6067,15 +6065,11 @@ void item::set_temperature( float new_temperature )
         }
     } else if( item_tags.count( "COLD" ) ) {
         item_tags.erase( "COLD" );
-    } else if( item_tags.count( "WARM" ) ) {
-        item_tags.erase( "WARM" );
     } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
     if( new_temperature > temp_to_kelvin( temperatures::hot ) ) {
         item_tags.insert( "HOT" );
-    } else if( new_temperature > temp_to_kelvin( temperatures::warm ) ) {
-        item_tags.insert( "WARM" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
@@ -6475,7 +6469,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 
     // specific_energy = item thermal energy (10e-5 J/g). Stored in the item
     // temperature = item temperature (10e-5 K). Stored in the item
-    const float conductivity_term = 0.046 * pow( to_milliliter( volume() ), 2 / 3 ) / insulation;
+    const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ), 2.0 / 3.0 ) / insulation;
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
     const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
@@ -6498,7 +6492,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // In other transitions the item may cool/heat too little but that won't be a problem.
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
-        new_item_temperature = ( ( old_temperature - env_temperature )
+        new_item_temperature = ( - temperature_difference 
                                  * exp( - to_turns<int>( time ) * conductivity_term / ( mass * specific_heat_solid ) )
                                  + env_temperature );
         new_specific_energy = new_item_temperature * specific_heat_solid;
@@ -6508,7 +6502,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // Calculate how long the item was solid
             // and apply rest of the time as melting
             extra_time = to_turns<int>( time )
-                         - log( ( old_temperature - env_temperature ) / ( freezing_temperature - env_temperature ) )
+                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_solid / conductivity_term );
             new_specific_energy = completely_frozen_specific_energy
                                   + conductivity_term
@@ -6523,7 +6517,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         }
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
-        new_item_temperature = ( ( old_temperature - env_temperature )
+        new_item_temperature = ( - temperature_difference
                                  * exp( - to_turns<int>( time ) * conductivity_term / ( mass *
                                          specific_heat_liquid ) )
                                  + env_temperature );
@@ -6535,7 +6529,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // Calculate how long the item was liquid
             // and apply rest of the time as freezing
             extra_time = to_turns<int>( time )
-                         - log( ( old_temperature - env_temperature ) / ( freezing_temperature - env_temperature ) )
+                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_liquid / conductivity_term );
             new_specific_energy = completely_liquid_specific_energy
                                   + conductivity_term
@@ -6604,15 +6598,11 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         }
     } else if( item_tags.count( "COLD" ) ) {
         item_tags.erase( "COLD" );
-    } else if( item_tags.count( "WARM" ) ) {
-        item_tags.erase( "WARM" );
     } else if( item_tags.count( "HOT" ) ) {
         item_tags.erase( "HOT" );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
         item_tags.insert( "HOT" );
-    } else if( new_item_temperature > temp_to_kelvin( temperatures::warm ) ) {
-        item_tags.insert( "WARM" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
@@ -6640,12 +6630,11 @@ void item::heat_up()
     const float mass = to_gram( weight() ); // g
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
-    item_tags.erase( "WARM" );
     item_tags.insert( "HOT" );
-    // Set item temperature to 50 C (323.15 K, 122 F)
+    // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
-    temperature = 323.15 * 100000;
-    specific_energy = static_cast<int>( 100000 * get_energy_from_temperature( 323.15 ) / mass + 0.5 );
+    temperature = 333.15 * 100000;
+    specific_energy = static_cast<int>( 100000 * get_energy_from_temperature( 333.15 ) / mass + 0.5 );
 
     reset_temp_check();
 }
@@ -6655,7 +6644,6 @@ void item::cold_up()
     const float mass = to_gram( weight() ); // g
     item_tags.erase( "HOT" );
     item_tags.erase( "FROZEN" );
-    item_tags.erase( "WARM" );
     item_tags.insert( "COLD" );
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match

@@ -76,10 +76,7 @@
 namespace temperatures
 {
 /** temperature at which something starts is considered HOT */
-constexpr int hot = 122; // ~ 50 Celsius
-
-/** temperature at which something is considered WARM */
-constexpr int warm = 86; // ~ 30 Celsius
+constexpr int hot = 100; // ~ 38 Celsius
 
 /** the "normal" temperature midpoint between cold and hot */
 constexpr int normal = 70; // ~ 21 Celsius
