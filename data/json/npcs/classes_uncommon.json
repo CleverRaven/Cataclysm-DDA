@@ -30,10 +30,10 @@
     "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
   },
   {
-    "type" : "item_group",
-    "id" : "NC_BEGGAR_1_worn",
+    "type": "item_group",
+    "id": "NC_BEGGAR_1_worn",
     "subtype": "collection",
-    "entries":[
+    "entries": [
       { "item": "blanket" },
       { "item": "jeans" },
       { "item": "sweater" },
@@ -72,8 +72,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "NC_BEGGAR_2_worn",
+    "type": "item_group",
+    "id": "NC_BEGGAR_2_worn",
     "subtype": "collection",
     "entries": [
       { "item": "dinosuit" },
@@ -108,10 +108,10 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "NC_BEGGAR_3_worn",
+    "type": "item_group",
+    "id": "NC_BEGGAR_3_worn",
     "subtype": "collection",
-    "items": [ 
+    "items": [
       { "item": "hoodie" },
       { "item": "jacket_evac" },
       { "item": "jeans" },
@@ -156,8 +156,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "NC_BEGGAR_4_worn",
+    "type": "item_group",
+    "id": "NC_BEGGAR_4_worn",
     "subtype": "collection",
     "items": [
       { "item": "house_coat" },
@@ -190,8 +190,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "NC_BEGGAR_5_worn",
+    "type": "item_group",
+    "id": "NC_BEGGAR_5_worn",
     "subtype": "collection",
     "items": [
       { "item": "jacket_jean" },
