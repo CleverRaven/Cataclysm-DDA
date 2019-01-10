@@ -414,7 +414,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     }
     const sound_effect &selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );;
+    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     Mix_PlayChannel( -1, effect_to_play, 0 );
@@ -434,7 +434,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     }
     const sound_effect &selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );;
+    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
     Mix_VolumeChunk( shifted_effect,
@@ -458,7 +458,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     }
     const sound_effect &selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );;
+    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
