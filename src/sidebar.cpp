@@ -133,7 +133,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         wmove( w_HP, i * dy + hpy, hpx );
 
         static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
-        const nc_color color ) {
+        const nc_color & color ) {
             while( num-- > 0 ) {
                 wprintz( w, color, sym.c_str() );
             }

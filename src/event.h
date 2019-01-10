@@ -54,7 +54,7 @@ class event_manager
          * Add an entry to the event queue. Parameters are basically passed
          * through to @ref event::event.
          */
-        void add( event_type type, const time_point &when, int faction_id, tripoint where );
+        void add( event_type type, const time_point &when, int faction_id, const tripoint &where );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`

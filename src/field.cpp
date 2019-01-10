@@ -479,7 +479,7 @@ field_id field_from_ident( const std::string &field_ident )
     return fd_null;
 }
 
-void map::create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass )
+void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {

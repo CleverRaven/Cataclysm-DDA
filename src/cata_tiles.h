@@ -405,15 +405,15 @@ class cata_tiles
         const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
         bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
-        bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                  const std::string &subcategory, tripoint pos, int subtile, int rota,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles, int &height_3d );
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                  const std::string &subcategory, tripoint pos, int subtile, int rota,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
         bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
                              int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
