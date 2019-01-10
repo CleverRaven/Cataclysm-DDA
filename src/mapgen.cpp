@@ -6771,6 +6771,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }

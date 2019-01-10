@@ -1579,7 +1579,14 @@ void talk_function::remove_overseer( npc &p )
 
     add_msg( _( "%s has abandoned the camp." ), p.name );
     p.companion_mission_role_id.clear();
-    stop_guard(p);
+
+    std::set<tripoint>::iterator it;
+    it = g->u.camps.find( p.global_omt_location() );
+    if( it != g->u.camps.end() ) {
+        g->u.camps.erase( it );
+    }
+
+    stop_guard( p );
 }
 
 void parse_tags( std::string &phrase, const player &u, const player &me )
@@ -2361,11 +2368,17 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_member( "u_has_trait_flag" ) ) {
         std::string trait_flag_to_check = jo.get_string( "u_has_trait_flag" );
         condition = [trait_flag_to_check]( const dialogue & d ) {
-            return d.beta->has_trait_flag( trait_flag_to_check );
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+                return d.alpha->crossed_threshold();
+            }
+            return d.alpha->has_trait_flag( trait_flag_to_check );
         };
     } else if( jo.has_member( "npc_has_trait_flag" ) ) {
         std::string trait_flag_to_check = jo.get_string( "npc_has_trait_flag" );
         condition = [trait_flag_to_check]( const dialogue & d ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+                return d.beta->crossed_threshold();
+            }
             return d.beta->has_trait_flag( trait_flag_to_check );
         };
     } else if( jo.has_member( "npc_has_class" ) ) {
@@ -2498,7 +2511,7 @@ conditional_t::conditional_t( JsonObject jo )
                 "has_available_mission", "has_many_available_missions",
                 "npc_available", "npc_following",
                 "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
-                "is_day", "is_outside"
+                "is_day", "is_outside", "u_has_camp"
             }
         };
         bool found_sub_member = false;
@@ -2579,6 +2592,10 @@ conditional_t::conditional_t( const std::string &type )
         condition = []( const dialogue &d ) {
             const tripoint pos = g->m.getabs( d.beta->pos() );
             return !g->m.has_flag( TFLAG_INDOORS, pos );
+        };
+    } else if( type == "u_has_camp" ) {
+        condition = []( const dialogue & ) {
+            return !g->u.camps.empty();
         };
     } else {
         condition = []( const dialogue & ) {
@@ -2759,7 +2776,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.alpha->crossed_threshold() ) {
+                return yes( d );
+            } else if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
                 return yes( d );
             }
             return no( d );
@@ -2769,7 +2788,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.beta->crossed_threshold() ) {
+                return yes( d );
+            } else if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
                 return yes( d );
             }
             return no( d );

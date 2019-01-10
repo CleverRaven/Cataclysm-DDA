@@ -104,6 +104,10 @@ TEST_CASE( "npc_talk_test" )
     REQUIRE( d.responses.size() == 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
+    for( trait_id tr : g->u.get_mutations() ) {
+        g->u.unset_mutation( tr );
+    }
+
     d.add_topic( "TALK_TEST_WEARING_AND_TRAIT" );
     d.gen_responses( d.topic_stack.back() );
     REQUIRE( d.responses.size() == 1 );
