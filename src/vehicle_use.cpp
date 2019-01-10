@@ -1022,7 +1022,7 @@ void vehicle::operate_planter()
                     //then don't put the item there.
                     break;
                 } else if( g->m.ter( loc ) == t_dirtmound ) {
-                    g->m.furn_set( loc, f_plant_seed );
+                    g->m.set( loc, t_dirt, f_plant_seed );
                 } else if( !g->m.has_flag( "DIGGABLE", loc ) ) {
                     //If it isn't diggable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );

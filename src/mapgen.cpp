@@ -6771,6 +6771,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }
@@ -7089,7 +7090,7 @@ void map::rotate( int turns )
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
     // @todo: This radius can be smaller - how small?
-    const int radius = int( MAPSIZE / 2 ) + 3;
+    const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
                                          abs_sub.z, radius );

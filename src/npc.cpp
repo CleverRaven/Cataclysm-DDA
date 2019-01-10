@@ -299,7 +299,7 @@ void npc::randomize( const npc_class_id &type )
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
         myclass = npc_class_id::NULL_ID();
-    } else if( type.is_null() && !one_in( 5 ) ) {
+    } else if( type.is_null() ) {
         myclass = npc_class::random_common();
     } else {
         myclass = type;
@@ -389,9 +389,9 @@ void npc::randomize( const npc_class_id &type )
         hp_cur[i] = hp_max[i];
     }
 
-    starting_weapon( type );
-    starting_clothes( *this, type, male );
-    starting_inv( *this, type );
+    starting_weapon( myclass );
+    starting_clothes( *this, myclass, male );
+    starting_inv( *this, myclass );
     has_new_items = true;
 
     my_mutations.clear();
@@ -694,11 +694,24 @@ item random_item_from( const npc_class_id &type, const std::string &what )
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
 item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
+    item result;
+    //Check if class has gendered clothing
+    //Then check if it has an ungendered version
+    //Only if all that fails, grab from the default class.
     if( male ) {
-        return random_item_from( type, what + "_male", "npc_" + what + "_male" );
+        result = random_item_from( type, what + "_male", "null" );
     } else {
-        return random_item_from( type, what + "_female", "npc_" + what + "_female" );
+        result = random_item_from( type, what + "_female", "null" );
     }
+    if( result.is_null() ) {
+        if( male ) {
+            result = random_item_from( type, what, "npc_" + what + "_male" );
+        } else {
+            result = random_item_from( type, what, "npc_" + what + "_female" );
+        }
+    }
+
+    return result;
 }
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male )
@@ -710,13 +723,22 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     } else {
         ret.push_back( get_clothing_item( type, "pants", male ) );
         ret.push_back( get_clothing_item( type, "shirt", male ) );
+        ret.push_back( get_clothing_item( type, "underwear_top", male ) );
+        ret.push_back( get_clothing_item( type, "underwear_bottom", male ) );
+        ret.push_back( get_clothing_item( type, "underwear_feet", male ) );
+        ret.push_back( get_clothing_item( type, "shoes", male ) );
         ret.push_back( random_item_from( type, "gloves" ) );
         ret.push_back( random_item_from( type, "coat" ) );
-        ret.push_back( random_item_from( type, "shoes" ) );
+        ret.push_back( random_item_from( type, "vest" ) );
         ret.push_back( random_item_from( type, "masks" ) );
         // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
         ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
         ret.push_back( random_item_from( type, "hat" ) );
+        ret.push_back( random_item_from( type, "scarf" ) );
+        ret.push_back( random_item_from( type, "storage" ) );
+        ret.push_back( random_item_from( type, "holster" ) );
+        ret.push_back( random_item_from( type, "belt" ) );
+        ret.push_back( random_item_from( type, "wrist" ) );
         ret.push_back( random_item_from( type, "extra" ) );
     }
 

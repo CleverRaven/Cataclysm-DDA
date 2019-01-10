@@ -9539,7 +9539,7 @@ void player::do_read( item &book )
 
         if( book_fun_for( book, *learner ) != 0 ) {
             //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, 0, book_fun_for( book, *learner ) * 5, 6_minutes, 3_minutes, true,
+            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book, *learner ) * 15, 6_minutes, 3_minutes, true,
                 book.type );
         }
 

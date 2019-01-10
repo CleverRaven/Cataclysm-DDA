@@ -6007,8 +6007,14 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_evac_center",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "evac_center_1",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194412,
     "color": "dark_gray"
@@ -6016,7 +6022,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_2",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194417,
     "color": "dark_gray"
@@ -6024,7 +6030,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_3",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194417,
     "color": "dark_gray"
@@ -6032,7 +6038,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_4",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194417,
     "color": "dark_gray"
@@ -6040,7 +6046,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_5",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194411,
     "color": "dark_gray"
@@ -6048,7 +6054,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_6",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194424,
     "color": "dark_gray"
@@ -6056,7 +6062,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_7",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6064,7 +6070,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_8",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6072,7 +6078,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_9",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6080,7 +6086,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_10",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194424,
     "color": "dark_gray"
@@ -6088,7 +6094,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_11",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194424,
     "color": "dark_gray"
@@ -6096,7 +6102,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_12",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6104,7 +6110,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_13",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6112,7 +6118,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_14",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6120,7 +6126,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_15",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194424,
     "color": "dark_gray"
@@ -6128,7 +6134,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_16",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194424,
     "color": "dark_gray"
@@ -6136,7 +6142,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_17",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6144,7 +6150,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_18",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6152,7 +6158,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_19",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "refugee center",
     "sym": 4194414,
     "color": "white"
@@ -6160,7 +6166,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_20",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194424,
     "color": "dark_gray"
@@ -6168,7 +6174,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_21",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194413,
     "color": "dark_gray"
@@ -6176,7 +6182,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_22",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194417,
     "color": "dark_gray"
@@ -6184,7 +6190,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_23",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194423,
     "color": "dark_gray"
@@ -6192,7 +6198,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_24",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194417,
     "color": "dark_gray"
@@ -6200,7 +6206,7 @@
   {
     "type": "overmap_terrain",
     "id": "evac_center_25",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_evac_center",
     "name": "road",
     "sym": 4194410,
     "color": "dark_gray"
