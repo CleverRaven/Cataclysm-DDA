@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_type",
+    "id": "player_has_met",
+    "//": "Use this flag to indicate if the player has met this NPC before.",
+    "name": [ "You've met before" ],
+    "desc": [ "AI tag: You've met this NPC before.  If you have this effect it's a bug." ]
+  }
+]
