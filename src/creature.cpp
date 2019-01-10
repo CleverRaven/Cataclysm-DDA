@@ -1430,14 +1430,14 @@ void Creature::draw( const catacurses::window &w, int origin_x, int origin_y, bo
     draw( w, tripoint( origin_x, origin_y, posz() ), inverted );
 }
 
- void Creature::draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const
+void Creature::draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const
 {
     if( is_draw_tiles_mode() ) {
         return;
     }
 
-    int draw_x = getmaxx( w ) / 2 + posx() - p.x;
-    int draw_y = getmaxy( w ) / 2 + posy() - p.y;
+    int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
+    int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
     if( inverted ) {
         mvwputch_inv( w, draw_y, draw_x, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
