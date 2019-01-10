@@ -713,8 +713,8 @@ void player::complete_craft()
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                if( comp.type->get_item_type_string() == "FOOD" && !comp.type->comestible->cooks_like.empty()) {
-                    comp = item(comp.type->comestible->cooks_like, comp.birthday(), comp.charges );
+                if( comp.is_comestible() && !comp.type->comestible->cooks_like.empty() ) {
+                    comp = item( comp.type->comestible->cooks_like, comp.birthday(), comp.charges );
                 }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
