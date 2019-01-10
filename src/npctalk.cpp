@@ -1838,7 +1838,7 @@ talk_trial::talk_trial( JsonObject jo )
         difficulty = jo.get_int( "difficulty" );
     }
     if( jo.has_array( "mod" ) ) {
-        JsonArray ja = jo.get_array( "mod " );
+        JsonArray ja = jo.get_array( "mod" );
         while( ja.has_more() ) {
             JsonArray jmod = ja.next_array();
             trial_mod this_modifier;
