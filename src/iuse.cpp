@@ -2304,7 +2304,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    return this->crowbar(p, it, false, pnt);
+    return this->crowbar( p, it, false, pnt );
 }
 
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
