@@ -177,7 +177,7 @@
     "material": "wheat",
     "volume": 1,
     "cooks_like": "oatmeal_cooked",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 16,
     "fun": -2
   },
