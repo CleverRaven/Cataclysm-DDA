@@ -3907,7 +3907,7 @@ map_stack map::i_at( const int x, const int y )
     return map_stack{ &current_submap->itm[l.x][l.y], tripoint( x, y, abs_sub.z ), this };
 }
 
-std::list<item>::iterator map::i_rem( const point location, std::list<item>::iterator it )
+std::list<item>::iterator map::i_rem( const point &location, std::list<item>::iterator it )
 {
     return i_rem( tripoint( location, abs_sub.z ), it );
 }

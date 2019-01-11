@@ -845,7 +845,7 @@ class map
         // Items: 2D
         map_stack i_at( int x, int y );
         void i_clear( const int x, const int y );
-        std::list<item>::iterator i_rem( const point location, std::list<item>::iterator it );
+        std::list<item>::iterator i_rem( const point &location, std::list<item>::iterator it );
         int i_rem( const int x, const int y, const int index );
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
@@ -993,7 +993,7 @@ class map
         const std::vector<tripoint> &trap_locations( trap_id t ) const;
 
         //Spawns byproducts from items destroyed in fire.
-        void create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass );
+        void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp
@@ -1245,12 +1245,12 @@ class map
          * Inverse of @ref getabs
          */
         point getlocal( const int x, const int y ) const;
-        point getlocal( const point p ) const {
+        point getlocal( const point &p ) const {
             return getlocal( p.x, p.y );
         }
         tripoint getlocal( const tripoint &p ) const;
         bool inbounds( const int x, const int y ) const;
-        bool inbounds( const point &x ) const;
+        bool inbounds( const point &p ) const;
         bool inbounds( const int x, const int y, const int z ) const;
         bool inbounds( const tripoint &p ) const;
 

@@ -7311,7 +7311,7 @@ cata::optional<tripoint> game::look_around()
 }
 
 look_around_result game::look_around( catacurses::window w_info, tripoint &center,
-                                      const tripoint start_point, bool has_first_point, bool select_zone, bool peeking )
+                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`

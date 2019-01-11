@@ -15,7 +15,7 @@
  */
 bool init_sound( void );
 void shutdown_sound( void );
-void play_music( std::string playlist );
+void play_music( const std::string &playlist );
 void update_music_volume( void );
 void load_soundset( void );
 
@@ -26,7 +26,7 @@ inline bool init_sound( void )
     return false;
 }
 inline void shutdown_sound( void ) { }
-inline void play_music( std::string playlist )
+inline void play_music( const std::string &playlist )
 {
     ( void )playlist;
 }

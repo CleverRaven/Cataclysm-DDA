@@ -578,7 +578,7 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-int corpse_damage_effect( int weight, std::string entry_type, int damage_level )
+int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     float slight_damage = 0.9;
     float damage = 0.75;
@@ -2821,7 +2821,7 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {

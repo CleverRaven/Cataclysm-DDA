@@ -163,7 +163,7 @@ void musicFinished()
     play_music_file( next.file, next.volume );
 }
 
-void play_music( std::string playlist )
+void play_music( const std::string &playlist )
 {
     const auto iter = playlists.find( playlist );
     if( iter == playlists.end() ) {

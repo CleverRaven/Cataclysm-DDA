@@ -225,7 +225,7 @@ class overmapbuffer
         std::vector<tripoint> find_all( const tripoint &origin, const std::string &type,
                                         int dist, bool must_be_seen, bool allow_subtype_matches = false,
                                         bool existing_overmaps_only = false,
-                                        cata::optional<overmap_special_id> om_special = cata::nullopt );
+                                        const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /**
          * Returns a random point of specific terrain type among those found in certain search radius.
@@ -248,7 +248,7 @@ class overmapbuffer
         tripoint find_random( const tripoint &origin, const std::string &type,
                               int dist, bool must_be_seen, bool allow_subtype_matches = false,
                               bool existing_overmaps_only = false,
-                              cata::optional<overmap_special_id> om_special = cata::nullopt );
+                              const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /**
          * Mark a square area around center on Z-level z
@@ -286,7 +286,7 @@ class overmapbuffer
         tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
                                bool must_be_seen, bool allow_subtype_matches = false,
                                bool existing_overmaps_only = false,
-                               cata::optional<overmap_special_id> om_special = cata::nullopt );
+                               const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /* These 4 functions return the overmap that contains the given
          * overmap terrain coordinate.
@@ -449,7 +449,7 @@ class overmapbuffer
         bool is_findable_location( const tripoint &location, const std::string &type, bool must_be_seen,
                                    bool allow_subtype_matches = false,
                                    bool existing_overmaps_only = false,
-                                   cata::optional<overmap_special_id> om_special = cata::nullopt );
+                                   const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
         /**

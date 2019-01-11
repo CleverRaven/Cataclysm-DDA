@@ -572,7 +572,7 @@ class game
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
         look_around_result look_around( catacurses::window w_info, tripoint &center,
-                                        tripoint start_point, bool has_first_point, bool select_zone, bool peeking );
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,

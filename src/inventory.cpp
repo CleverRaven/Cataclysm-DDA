@@ -195,7 +195,7 @@ void inventory::clear()
     binned = false;
 }
 
-void inventory::push_back( const std::list<item> newits )
+void inventory::push_back( const std::list<item> &newits )
 {
     for( const auto &newit : newits ) {
         add_item( newit, true );
