@@ -252,7 +252,7 @@
       "ALCMET",
       "LIGHT_BONES",
       "CHITIN",
-	  "ELECTRORECEPTORS"
+      "ELECTRORECEPTORS"
     ],
     "flags": [ "LONE_START" ]
   },
