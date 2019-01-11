@@ -1912,12 +1912,12 @@
     "base_mods": {
       "vomit_tick": [ 10 ],
       "health_chance": [ 1500 ],
-      "health_min": [ 1 ],
+      "health_min": [ 1 ]
     },
     "scaling_mods": {
       "health_min": [ -1.5 ],
       "health_min_val": [ -2 ],
-      "vomit_tick": [ 20 ],
+      "vomit_tick": [ 20 ]
     }
   },
     {
