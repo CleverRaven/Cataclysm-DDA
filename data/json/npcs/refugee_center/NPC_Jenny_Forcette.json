@@ -180,7 +180,7 @@
     "item": "engine_electric",
     "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
     "dialogue": {
-      "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.",
+      "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.  I can't, like, pay you or anything though, you know that right?",
       "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
       "accepted": "Great!  Bring it to me when you find one.",
       "rejected": "Oh well.  Thanks for offering anyway.",
