@@ -5915,6 +5915,7 @@ bool pet_menu( monster *z )
         attach_bag,
         drop_all,
         give_items,
+        play_with_pet,
         pheromone,
         milk,
         rope
@@ -5937,6 +5938,10 @@ bool pet_menu( monster *z )
         amenu.addentry( drop_all, true, 'd', _( "Drop all items" ) );
     } else {
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag" ) );
+    }
+
+    if( z->has_flag( MF_BIRDFOOD ) || z->has_flag( MF_CATFOOD ) || z->has_flag( MF_DOGFOOD ) ) {
+        amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name.c_str() );
     }
 
     if( z->has_effect( effect_tied ) ) {
@@ -6105,6 +6110,12 @@ bool pet_menu( monster *z )
         }
 
         return false;
+    }
+
+    if( play_with_pet == choice && query_yn( _( "Spend a few minutes to play with your %s?"), pet_name.c_str() ) ) {
+        g->u.add_morale( MORALE_PLAYWITHPET, 5, 10, 180_minutes, 5_minutes );
+        add_msg( m_good, _( "Playing with your %s has lifted your spirits a bit." ), pet_name.c_str() );
+
     }
 
     if( pheromone == choice && query_yn( _( "Really kill the zombie slave?" ) ) ) {
