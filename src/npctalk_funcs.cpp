@@ -409,7 +409,7 @@ void talk_function::buy_shave( npc &p )
 void talk_function::morale_chat( npc &p )
 {
     g->u.add_morale( MORALE_CHAT, 5, 5, 360_minutes, 3_minutes );
-    add_msg( m_good, _( "That was a pleasant conversation with %s ..." ), p.disp_name() );
+    add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
 }
 
 void talk_function::buy_10_logs( npc &p )
