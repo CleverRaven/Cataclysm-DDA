@@ -9708,17 +9708,34 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = stack->front();
 
-        if( !candidate.is_book() ) {
-            continue;
-        }
-        // NPCs don't need to identify books
-        if( is_player() && !items_identified.count( candidate.typeId() ) ) {
-            continue;
-        }
+        if( candidate.is_book() ) {
+            // NPCs don't need to identify books
+            if( is_player() && !items_identified.count( candidate.typeId() ) ) {
+                continue;
+            }
 
-        for( const auto &elem : candidate.type->book->recipes ) {
-            if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
-                res.include( elem.recipe, elem.skill_level );
+            for( const auto &elem : candidate.type->book->recipes ) {
+                if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+                    res.include( elem.recipe, elem.skill_level );
+                }
+	    }
+        } else if( candidate.has_var( "EIPC_RECIPES" ) ) {
+	    // See einkpc_download_memory_card() in iuse.cpp where this is set.
+            const std::string recipes = candidate.get_var( "EIPC_RECIPES" );
+            // Capture the index one past the delimiter, i.e. start of target string.
+	    size_t first_string_index = recipes.find_first_of( ',' ) + 1;
+	    while( first_string_index != std::string::npos ) {
+                size_t next_string_index = recipes.find_first_of( ',', first_string_index );
+		if( next_string_index == std::string::npos ) {
+                    break;
+                }
+                std::string new_recipe = recipes.substr( first_string_index,
+                                                         next_string_index - first_string_index );
+                const recipe *r = &recipe_id( new_recipe ).obj();
+		if( get_skill_level( r->skill_used ) >= r->difficulty ) {
+                    res.include( r, r->difficulty );
+                }
+                first_string_index = next_string_index + 1;
             }
         }
     }
