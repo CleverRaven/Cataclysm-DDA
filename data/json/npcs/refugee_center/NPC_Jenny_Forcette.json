@@ -205,7 +205,7 @@
       "rejected": "Oh well.  Thanks for offering anyway.",
       "advice": "It needs to be a good strong tank, like a big propane tank or something... you could look at fuel storage tanks and things, as long as they're durable enough.  Heck, if you get some sheet metal you could probably even weld a good one together.",
       "inquire": "Any sign of a tank I can use?",
-      "success": "Hey, this is perfect, \"tanks\" a bunch.  Okay, I'm sorry for that.",
+      "success": "Hey, this is perfect, \"tanks\" a bunch.  Okay, I'm sorry for that.  Anyway, now that I've got the parts, I might be able to build a proof of concept.  First I gotta get this thing up and running, and argue with the bean counters about letting me draw power to run it.",
       "success_lie": "Huh.  This isn't going to work like I thought.  Back to the drawing board I guess.",
       "failure": "No worries.  Let me know if you want to try again."
     }
