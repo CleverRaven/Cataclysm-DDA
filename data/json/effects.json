@@ -1394,14 +1394,6 @@
     },
     {
         "type": "effect_type",
-        "id": "stemcell_treatment",
-        "name": ["Stem cell treatment"],
-        "desc": ["Your insides are shifting in strange ways as the treatment takes effect."],
-        "apply_message": "You receive a pureed bone & enamel injection into your eyeball.",
-        "rating": "bad"
-    },
-    {
-        "type": "effect_type",
         "id": "valium",
         "removes_effects": ["shakes"],
         "base_mods": {
