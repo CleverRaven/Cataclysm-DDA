@@ -321,11 +321,6 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_MORALE",
-    "responses": [ { "text": "This is a test for adding morale", "topic": "TALK_DONE", "effect": [ "morale_chat" ] } ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_TEST_EFFECTS",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
