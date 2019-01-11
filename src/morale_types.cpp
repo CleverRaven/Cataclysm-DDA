@@ -70,7 +70,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_haircut" ),
             morale_type( "morale_shave" ),
-            morale_type( "morale_chat"),
+            morale_type( "morale_chat" ),
 
             morale_type( "morale_vomited" ),
 
