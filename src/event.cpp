@@ -319,7 +319,7 @@ void event_manager::add( const event_type type, const time_point &when, const in
 }
 
 void event_manager::add( const event_type type, const time_point &when, const int faction_id,
-                         const tripoint where )
+                         const tripoint &where )
 {
     events.emplace_back( type, when, faction_id, where );
 }

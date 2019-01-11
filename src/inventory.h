@@ -100,7 +100,7 @@ class inventory : public visitable<inventory>
 
         void unsort(); // flags the inventory as unsorted
         void clear();
-        void push_back( std::list<item> newits );
+        void push_back( const std::list<item> &newits );
         // returns a reference to the added item
         item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true );
         void add_item_keep_invlet( item newit );

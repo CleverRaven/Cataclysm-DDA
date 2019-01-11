@@ -1909,7 +1909,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     const cata::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
-    if( dest_ ) {
+    if( !dest_ ) {
         return 0;
     }
     tripoint dest = *dest_;

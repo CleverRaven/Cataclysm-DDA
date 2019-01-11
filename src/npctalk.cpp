@@ -2029,7 +2029,7 @@ void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr,
     set_effect_consequence( npctalk_setter, con );
 }
 
-void talk_effect_t::set_effect( talk_effect_fun_t fun )
+void talk_effect_t::set_effect( const talk_effect_fun_t &fun )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, dialogue_consequence::none );

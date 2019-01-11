@@ -1647,7 +1647,7 @@ void basecamp::start_farm_op( npc &p, const std::string &dir, const tripoint &om
     }
 }
 
-bool basecamp::start_garage_chop( npc &p, const std::string dir, const tripoint &omt_tgt )
+bool basecamp::start_garage_chop( npc &p, const std::string &dir, const tripoint &omt_tgt )
 {
     editmap edit;
     vehicle *car = edit.mapgen_veh_query( omt_tgt );

@@ -131,7 +131,7 @@ struct talk_effect_t {
           * Sets an effect and consequence based on function pointer.
           */
         void set_effect( talkfunction_ptr effect );
-        void set_effect( talk_effect_fun_t effect );
+        void set_effect( const talk_effect_fun_t &effect );
         /**
           * Sets an effect to a function object and consequence to explicitly given one.
           */
