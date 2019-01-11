@@ -84,6 +84,9 @@ void companion_mission( npc & );
 std::shared_ptr<npc> individual_mission( npc &p, const std::string &desc, const std::string &id,
         bool group = false, const std::vector<item *> &equipment = {},
         const std::string &skill_tested = "", int skill_level = 0 );
+std::shared_ptr<npc> individual_mission( const tripoint &omt_pos, const std::string &cmri,
+        const std::string &desc, const std::string &miss_id, bool group = false,
+        const std::vector<item *> &equipment = {}, const std::string &skill_tested = "", int skill_level = 0 );
 
 ///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
 std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
@@ -131,12 +134,14 @@ std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
 /// Returns npcs that have the given companion mission.
 std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id,
                                bool contains = false );
+std::vector<std::shared_ptr<npc>> companion_list( const tripoint omt_pos, const std::string &id,
+                               const std::string mission_id, bool contains = false );
 std::vector<std::shared_ptr<npc>> companion_sort( std::vector<std::shared_ptr<npc>> available,
                                const std::string &skill_tested = "" );
 std::vector<comp_rank> companion_rank( const std::vector<std::shared_ptr<npc>> &available,
                                        bool adj = true );
 std::shared_ptr<npc> companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
-std::shared_ptr<npc> companion_choose_return( const tripoint omt_pos, const std::string cmri,
+std::shared_ptr<npc> companion_choose_return( const tripoint &omt_pos, const std::string &cmri,
         const std::string &id, const time_point &deadline );
 std::shared_ptr<npc> companion_choose_return( const npc &p, const std::string &id,
         const time_point &deadline );

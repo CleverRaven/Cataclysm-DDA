@@ -119,7 +119,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```none``` None
 - ```aggie_plant``` Harvest plants.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
-- ```bulletin_board``` Create a home camp; currently not implemented.
+- ```bulletin_board``` Create a home camp.
 - ```cardreader``` Use the cardreader with a valid card, or attempt to hack.
 - ```chainfence``` Hop over the chain fence.
 - ```controls_gate``` Controls the attached gate.
