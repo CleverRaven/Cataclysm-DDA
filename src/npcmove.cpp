@@ -3247,7 +3247,9 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
     };
 
     // Don't wake player up with non-serious complaints
-    const bool do_complain = ( rules.allow_complain && !g->u.in_sleep_state() ) || force;
+    // Stop complaining while asleep
+    const bool do_complain = force || ( rules.allow_complain && !g->u.in_sleep_state() &&
+                                        !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
         say( speech );
