@@ -1124,7 +1124,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( vp.part_index() );
         } else {
-            if( origin == mirror_pos && veh->camera_on ) {
+            if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
                 cam_control = vp.part_index();
             }
         }
