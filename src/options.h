@@ -116,6 +116,15 @@ class options_manager
                 std::string getPrerequisite() const;
                 bool hasPrerequisite() const;
 
+                enum COPT_VALUE_TYPE {
+                    CVT_UNKNOWN = 0,
+                    CVT_BOOL = 1,
+                    CVT_STRING = 2,
+                    CVT_FLOAT = 3,
+                    CVT_INT = 4,
+                    CVT_VOID = 5
+                };
+
             private:
                 std::string sName;
                 std::string sPage;
@@ -131,6 +140,8 @@ class options_manager
 
                 copt_hide_t hide;
                 int iSortPos;
+
+                COPT_VALUE_TYPE eType;
 
                 //sType == "string"
                 std::string sSet;
