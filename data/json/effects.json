@@ -1905,7 +1905,7 @@
   {
     "type": "effect_type",
     "id": "tummy_tablet",
-    "name": [ "Soothed Stomach." ],
+    "name": [ "Soothed stomach." ],
     "desc": [ "You are under the effects of a stomach soother." ],
     "int_add_val": 1,
     "max_intensity": 3,
@@ -1913,14 +1913,11 @@
       "vomit_tick": [ 10 ],
       "health_chance": [ 1500 ],
       "health_min": [ 1 ],
-      "fatigue_amount": [ 50 ]
     },
     "scaling_mods": {
-      "fatigue_amount": [ 75 ],
       "health_min": [ -1.5 ],
       "health_min_val": [ -2 ],
       "vomit_tick": [ 20 ],
-      "stamina_min": [ -0.5 ]
     }
   },
     {
