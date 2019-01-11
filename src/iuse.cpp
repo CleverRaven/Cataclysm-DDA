@@ -2406,7 +2406,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     }
 
     // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
-    difficulty -= (pry_level - pry_quality);
+    difficulty -= ( pry_level - pry_quality );
 
     if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
         p->add_msg_if_player( m_good, succ_action );
