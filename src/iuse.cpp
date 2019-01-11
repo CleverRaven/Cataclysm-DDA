@@ -2401,7 +2401,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
     if( pry_level < pry_quality ) {
-        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your current equipment" ) );
+        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s" ), it->tname() );
         return 0;
     }
 
