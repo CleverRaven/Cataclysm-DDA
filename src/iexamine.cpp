@@ -752,33 +752,37 @@ void iexamine::rubble(player &p, const tripoint &examp)
 /**
  * Try to pry crate open with crowbar.
  */
-void iexamine::crate(player &p, const tripoint &examp)
+void iexamine::crate( player &p, const tripoint &examp )
 {
-    // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+    // PRY 1 is sufficient for popping open a nailed-shut crate.
+    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+
     if( !has_prying_tool ) {
-        add_msg( m_info, _("If only you had a crowbar...") );
+        add_msg( m_info, _("If only you had something to pry with...") );
         return;
     }
 
     // Ask if there's something possibly more interesting than this crate here
     // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
-    std::string xname = g->m.furnname(examp);
-    if( ( g->m.veh_at( examp ) ||
-          !g->m.tr_at( examp ).is_null() ||
-          g->critter_at( examp ) != nullptr ) &&
-          !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
+    std::string xname = g->m.furnname( examp );
+    const auto is_vehicle = g->m.veh_at( examp );
+    const auto is_trap = !g->m.tr_at( examp ).is_null();
+    const auto is_critter = g->critter_at( examp ) != nullptr;
+    const auto query = query_yn( _( "Pry that %s?" ), xname );
+
+    // If there's a vehicle, trap or critter and the user answers NO, fail out.
+    if ( (is_vehicle || is_trap || is_critter) && !query ) {
         none( p, examp );
         return;
     }
 
     // HACK ALERT: player::items_with returns const item* vector and so can't be used
-    // so we'll be making a fake crowbar here
+    // so we'll be making a fake hammer here
     // Not a problem for now, but if crowbar iuse-s ever get different, this will need a fix
-    item fakecrow( "crowbar", 0 );
+    item fakehammer( "hammer", 0 );
 
     iuse dummy;
-    dummy.crowbar( &p, &fakecrow, false, examp );
+    dummy.crowbar( &p, &fakehammer, false, examp );
 }
 
 /**
@@ -1133,18 +1137,12 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
 }
 
 /**
- * Checks that player is outside and has crowbar then calls iuse.crowbar.
+ * Checks PC has a crowbar then calls iuse.crowbar.
  */
 void iexamine::locked_object( player &p, const tripoint &examp) {
-    // Print ordinary examine message if inside (where you can open doors/windows anyway)
-    if (!g->m.is_outside(p.pos())) {
-        none(p, examp);
-        return;
-    }
-
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 2 );
     if ( !has_prying_tool ) {
-        add_msg(m_info, _("If only you had a crowbar..."));
+        add_msg( m_info, _("If only you had something to pry with...") );
         return;
     }
 
