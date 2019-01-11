@@ -899,7 +899,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration dur, body_part bp, bool permanent, int intensity, bool force )
+                               const time_duration &dur, body_part bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;

@@ -703,7 +703,7 @@ void advanced_inv_area::init()
         {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage}
     };
     auto ter_check = [this]
-        (const ter_id id) {
+        (const ter_id &id) {
             return g->m.ter(this->pos) == id;
         };
     if(std::any_of(ter_water.begin(), ter_water.end(), ter_check)) {

@@ -221,7 +221,7 @@ struct mission_type {
     /**
      * Get the mission_type object of the given id. Returns null if the input is invalid!
      */
-    static const mission_type *get( mission_type_id id );
+    static const mission_type *get( const mission_type_id &id );
     /**
      * Converts the legacy int id to a string_id.
      */

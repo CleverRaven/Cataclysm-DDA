@@ -861,7 +861,7 @@ std::shared_ptr<npc> overmapbuffer::find_npc( int id )
     return nullptr;
 }
 
-void overmapbuffer::insert_npc( const std::shared_ptr<npc> who )
+void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
 {
     assert( who );
     const tripoint npc_omt_pos = who->global_omt_location();
@@ -1237,7 +1237,7 @@ bool overmapbuffer::place_special( const overmap_special &special, const tripoin
     return placed;
 }
 
-bool overmapbuffer::place_special( const overmap_special_id special_id, const tripoint &center,
+bool overmapbuffer::place_special( const overmap_special_id &special_id, const tripoint &center,
                                    int radius )
 {
     // First find the requested special. If it doesn't exist, we're done here.

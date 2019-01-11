@@ -81,7 +81,7 @@ static tripoint random_house_in_closest_city()
     return random_house_in_city( cref );
 }
 
-static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_rad, mission *miss )
+static tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss )
 {
     tripoint testpoint = tripoint( origin );
     // Get the surface locations for labs and for spaces above hidden lab stairs.
@@ -1772,7 +1772,7 @@ const tripoint reveal_destination( const std::string &type )
     return overmap::invalid_tripoint;
 }
 
-void reveal_route( mission *miss, const tripoint destination )
+void reveal_route( mission *miss, const tripoint &destination )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {

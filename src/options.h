@@ -238,7 +238,7 @@ class options_manager
         //add int map option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const std::map<int, std::string> mIntValuesIn, int iInitialIn,
+                  const std::map<int, std::string> &mIntValuesIn, int iInitialIn,
                   int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add float option

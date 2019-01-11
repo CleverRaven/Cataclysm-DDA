@@ -3912,7 +3912,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     // the behavior of the previous forest mapgen when fading forest terrains
     // into each other and non-forest terrains.
 
-    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id ot ) {
+    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id &ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
         if( biome == dat.region.forest_composition.biomes.end() ) {
             // If there is no defined biome for this oter, use 0. It's possible
@@ -4315,16 +4315,16 @@ void mremove_trap( map *m, int x, int y )
     m->remove_trap( actual_location );
 }
 
-void mtrap_set( map *m, int x, int y, trap_id t )
+void mtrap_set( map *m, int x, int y, trap_id type )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->trap_set( actual_location, t );
+    m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_id t, int density )
+void madd_field( map *m, int x, int y, field_id type, int density )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->add_field( actual_location, t, density, 0 );
+    m->add_field( actual_location, type, density, 0 );
 }
 
 bool is_suitable_for_stairs( const map *const m, const tripoint &p )
