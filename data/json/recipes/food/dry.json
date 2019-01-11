@@ -182,6 +182,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
+    "charges": 1,
     "time": 18000,
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
