@@ -2447,7 +2447,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 void Character::empty_traits()
 {
     for( auto &mut : my_mutations ) {
-        mutation_loss_effect( mut.first );
+        toggle_trait( mut.first );
     }
     my_traits.clear();
     my_mutations.clear();
@@ -2621,6 +2621,7 @@ void reset_scenario( player &u, const scenario *scen )
     g->scen = scen;
     u.prof = &default_prof.obj();
     u.empty_traits();
+    u.recalc_hp();
     u.empty_skills();
     u.add_traits();
 }
