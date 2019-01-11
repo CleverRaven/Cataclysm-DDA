@@ -1813,6 +1813,12 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             int mov_part = split_parts[ new_part ];
             point cur_mount = parts[ mov_part ].mount;
             point new_mount = cur_mount;
+            if( !split_mounts.empty() ) {
+                new_mount = split_mounts[ new_part ];
+            } else {
+                new_mount -= mnt_offset;
+            }
+
             player *passenger = nullptr;
             // Unboard any entities standing on any transferred part
             if( part_flag( mov_part, "BOARDABLE" ) ) {
@@ -1823,10 +1829,8 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             }
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( parts[ mov_part ] );
-            if( !split_mounts.empty() ) {
-                new_mount = split_mounts[ new_part ];
-                new_vehicle->parts.back().mount = new_mount;
-            }
+            new_vehicle->parts.back().mount = new_mount;
+
             // remove labels associated with the mov_part
             const auto iter = labels.find( label( cur_mount ) );
             if( iter != labels.end() ) {
@@ -1840,7 +1844,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 new_zones.emplace( new_mount, lz_iter->second );
                 loot_zones.erase( lz_iter );
             }
-            // remove the passenger from the old new vehicle
+            // remove the passenger from the old vehicle
             if( passenger ) {
                 parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
                 parts[ mov_part ].passenger_id = 0;
@@ -1858,16 +1862,16 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->loot_zones = new_zones;
         }
 
-        if( !split_mounts.empty() ) {
+        if( split_mounts.empty() ) {
+            new_vehicle->refresh();
+        } else {
             // include refresh
             new_vehicle->shift_parts( point_zero - mnt_offset );
-        } else {
-            new_vehicle->refresh();
         }
 
         // update the precalc points
-        new_vehicle->precalc_mounts( 1,
-                                     new_vehicle->skidding ? new_vehicle->turn_dir : new_vehicle->face.dir(),
+        new_vehicle->precalc_mounts( 1, new_vehicle->skidding ?
+                                     new_vehicle->turn_dir : new_vehicle->face.dir(),
                                      new_vehicle->pivot_point() );
         if( !passengers.empty() ) {
             new_vehicle->relocate_passengers( passengers );
@@ -4725,7 +4729,6 @@ void vehicle::shift_parts( const point &delta )
 
     pivot_anchor[0] -= delta;
     refresh();
-
     //Need to also update the map after this
     g->m.reset_vehicle_cache( smz );
 }
