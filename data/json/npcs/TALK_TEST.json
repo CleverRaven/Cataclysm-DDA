@@ -321,7 +321,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_FRIEND",
+    "id": "TALK_MORALE",
     "responses": [ { "text": "This is a test for adding morale", "topic": "TALK_DONE", "effect": [ "morale_chat" ] } ]
   },
   {
