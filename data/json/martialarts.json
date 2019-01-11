@@ -1012,7 +1012,7 @@
         "type" : "martial_art",
         "id" : "style_sojutsu",
         "name" : "Sōjutsu",
-        "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear. Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.",
+        "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
