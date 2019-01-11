@@ -181,7 +181,7 @@
     "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
     "dialogue": {
       "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.",
-      "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.",
+      "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
       "accepted": "Great!  Bring it to me when you find one.",
       "rejected": "Oh well.  Thanks for offering anyway.",
       "advice": "A lot of electric cars and bikes use these kind of motors.  So do some bigger robots.",
@@ -200,7 +200,7 @@
     "//": "followup: MISSION_REFUGEE_Jenny_GET_RIFLES",
     "dialogue": {
       "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
-      "offer": "I can get started building the compressor, but I need a large metal tank to store compressed air centrally.  About 60 litres should do...",
+      "offer": "I can get started building the compressor, but I need a large metal tank to store compressed air centrally.  About 60 liters should do...",
       "accepted": "Great!  Bring it to me when you find one.",
       "rejected": "Oh well.  Thanks for offering anyway.",
       "advice": "It needs to be a good strong tank, like a big propane tank or something... you could look at fuel storage tanks and things, as long as they're durable enough.  Heck, if you get some sheet metal you could probably even weld a good one together.",
