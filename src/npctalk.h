@@ -31,6 +31,7 @@ void bionic_remove( npc & );
 
 void buy_haircut( npc & );
 void buy_shave( npc & );
+void morale_chat( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void give_equipment( npc & );

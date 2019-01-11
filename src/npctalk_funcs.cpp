@@ -406,6 +406,13 @@ void talk_function::buy_shave( npc &p )
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
 }
 
+void talk_function::morale_chat( npc &p )
+{
+    g->u.add_morale( MORALE_CHAT, 5, 5, 360_minutes, 3_minutes );
+    g->u.activity.str_values.push_back( p.name );
+    add_msg( m_good, _( "That was a pleasant conversation with %s ..." ), p.name );
+}
+
 void talk_function::buy_10_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
