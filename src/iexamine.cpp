@@ -758,7 +758,7 @@ void iexamine::crate( player &p, const tripoint &examp )
     const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
 
     if( !has_prying_tool ) {
-        add_msg( m_info, _("If only you had something to pry with...") );
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
