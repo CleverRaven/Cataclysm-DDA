@@ -1380,17 +1380,21 @@ void game::calc_driving_offset( vehicle *veh )
     const int light_sight_range = u.sight_range( g_light_level );
     int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
-    // velocity at or below this results in no offset at all
-    static const float min_offset_vel = 10 * 100;
-    // velocity at or above this results in maximal offset
-    static const float max_offset_vel = 70 * 100;
     // The maximal offset will leave at least this many tiles
     // between the PC and the edge of the main window.
     static const int border_range = 2;
+    point max_offset( ( getmaxx( w_terrain ) + 1 ) / 2 - border_range - 1,
+                      ( getmaxy( w_terrain ) + 1 ) / 2 - border_range - 1 );
+
+    // velocity at or below this results in no offset at all
+    static const float min_offset_vel = 1 * vehicles::vmiph_per_tile;
+    // velocity at or above this results in maximal offset
+    static const float max_offset_vel = std::min( max_offset.y, max_offset.x ) *
+                                        vehicles::vmiph_per_tile;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if( !veh->skidding && std::abs( veh->cruise_velocity - veh->velocity ) < 14 * 100 &&
-        veh->player_in_control( u ) ) {
+    if( !veh->skidding && veh->player_in_control( u ) &&
+        std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
@@ -1416,8 +1420,6 @@ void game::calc_driving_offset( vehicle *veh )
         offset.x /= std::fabs( offset.y );
         offset.y = offset.y > 0 ? +1 : -1;
     }
-    point max_offset( ( getmaxx( w_terrain ) + 1 ) / 2 - border_range - 1,
-                      ( getmaxy( w_terrain ) + 1 ) / 2 - border_range - 1 );
     offset.x *= rel_offset;
     offset.y *= rel_offset;
     offset.x *= max_offset.x;
