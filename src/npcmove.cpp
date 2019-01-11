@@ -3216,6 +3216,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
         snip = is_enemy() ? "<kill_player_h>" : "";
+    } else if( type == "speech_noise" ) {
+        snip = "<speech_warning>";
     } else if( type == "combat_noise" ) {
         snip = "<combat_noise_warning>";
     } else if( type == "movement_noise" ) {
@@ -3224,7 +3226,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         return;
     }
     const std::string warning_name = "warning_" + type + name;
-    const std::string speech = name.empty() ? snip : string_format( _( "%s %s<punc>" ), snip, name );
+    const std::string speech = name.empty() ? snip :
+                               string_format( _( "%s %s<punc>" ), snip, name );
     complain_about( warning_name, d, speech, is_enemy() );
 }
 

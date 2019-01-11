@@ -243,12 +243,15 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
-    if( priority == 7 || sees( spos ) ) {
+    if( sees( spos ) ) {
         return;
     }
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
+    case 7: //
+        warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
+        break;
     case 6: // combat noise is only worth comment if we're not fighting
         // TODO: Brave NPCs should be less jumpy
         if( ai_cache.total_danger < 1.0f ) {
@@ -258,7 +261,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
         if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
             // replace with warn_about when that merges
-            warn_about( "footsteps", rng( 1, 10 ) * 1_minutes, description );
+            warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         }
         break;
     default:
