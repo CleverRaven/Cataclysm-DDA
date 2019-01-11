@@ -63,6 +63,7 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "map_extras.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -2981,7 +2982,8 @@ void game::debug()
         _( "Test trait group" ),                // 32
         _( "Show debug message" ),              // 33
         _( "Crash game (test crash handling)" ),// 34
-        _( "Quit to Main Menu" ),               // 35
+        _( "Spawn Map Extra" ),                 // 35
+        _( "Quit to Main Menu" ),               // 36
     } );
     refresh_all();
     switch( action ) {
@@ -3337,7 +3339,32 @@ void game::debug()
         case 34:
             std::raise( SIGSEGV );
             break;
-        case 35:
+        case 35: {
+            oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
+
+            map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+            uilist mx_menu;
+            std::vector<std::string> mx_str;
+            for( auto &extra : ex.values ) {
+                mx_menu.addentry( -1, true, -1, extra.obj );
+                mx_str.push_back( extra.obj );
+            }
+            mx_menu.query( false );
+            int mx_choice = mx_menu.ret;
+            if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
+                auto func = MapExtras::get_function( mx_str[ mx_choice ] );
+                if( func != nullptr ) {
+                    const tripoint where( ui::omap::choose_point() );
+                    if( where != overmap::invalid_tripoint ) {
+                        tinymap mx_map;
+                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
+                        func( mx_map, where );
+                    }
+                }
+            }
+            break;
+        }
+        case 36:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
