@@ -680,7 +680,9 @@ void vehicle::backfire( const int e ) const
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     //~ backfire sound
-    sounds::ambient_sound( pos, 40 + power / 10000, _( "BANG!" ) );
+    sounds::ambient_sound( pos, 40 + power / 10000, sounds::sound_t::movement,
+                           string_format( _( "a loud BANG! from the %s" ),
+                                          parts[ engines[ e ] ].name() ) );
 }
 
 const vpart_info &vehicle::part_info( int index, bool include_removed ) const
@@ -3103,7 +3105,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             lvl++;
         }
     }
-    sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
+    sounds::ambient_sound( global_pos3(), noise, sounds::sound_t::movement, sound_msgs[lvl] );
 }
 
 float vehicle::wheel_area() const

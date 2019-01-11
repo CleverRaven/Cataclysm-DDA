@@ -774,32 +774,37 @@ bool vehicle::start_engine( const int e )
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
 
+    const tripoint pos = global_part_pos3( engines[e] );
     if( einfo.engine_backfire_threshold() ) {
-        if( ( 1 - dmg ) < einfo.engine_backfire_threshold() && one_in( einfo.engine_backfire_freq() ) ) {
+        if( ( 1 - dmg ) < einfo.engine_backfire_threshold() &&
+            one_in( einfo.engine_backfire_freq() ) ) {
             backfire( e );
         } else {
-            const tripoint pos = global_part_pos3( engines[e] );
-            sounds::ambient_sound( pos, start_moves / 10, "Bang!" );
+            sounds::ambient_sound( pos, start_moves / 10, sounds::sound_t::movement,
+                                   string_format( _( "the %s bang as it starts" ), eng.name() ) );
         }
     }
 
     // Immobilizers need removing before the vehicle can be started
     if( eng.faults().count( fault_immobiliser ) ) {
-        add_msg( _( "The %s makes a long beeping sound." ), eng.name() );
+        sounds::ambient_sound( pos, 5, sounds::sound_t::alarm,
+                               string_format( _( "the %s making a long beep" ), eng.name() ) );
         return false;
     }
 
     // Engine with starter motors can fail on both battery and starter motor
     if( eng.faults_potential().count( fault_starter ) ) {
         if( eng.faults().count( fault_starter ) ) {
-            add_msg( _( "The %s makes a single clicking sound." ), eng.name() );
+            sounds::ambient_sound( pos, 2, sounds::sound_t::alarm,
+                                   string_format( _( "the %s clicking once" ), eng.name() ) );
             return false;
         }
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    TICKS_TO_SECONDS( start_moves ) );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
-            add_msg( _( "The %s makes a rapid clicking sound." ), eng.name() );
+            sounds::ambient_sound( pos, 2, sounds::sound_t::alarm,
+                                   string_format( _( "the %s rapidly clicking" ), eng.name() ) );
             return false;
         }
     }
@@ -812,7 +817,8 @@ bool vehicle::start_engine( const int e )
 
     // Damaged engines have a chance of failing to start
     if( x_in_y( dmg * 100, 120 ) ) {
-        add_msg( _( "The %s makes a terrible clanking sound." ), eng.name() );
+        sounds::ambient_sound( pos, 2, sounds::sound_t::movement,
+                               string_format( _( "the %s clanking and grinding" ), eng.name() ) );
         return false;
     }
 
