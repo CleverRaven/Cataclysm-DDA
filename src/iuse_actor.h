@@ -645,7 +645,7 @@ class musical_instrument_actor : public iuse_actor
         /**
          * Display description once per this duration (@ref calendar::once_every).
          */
-        time_duration description_frequency = 0;
+        time_duration description_frequency = 0_turns;
 
         musical_instrument_actor( const std::string &type = "musical_instrument" ) : iuse_actor( type ) {}
 

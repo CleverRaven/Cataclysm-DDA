@@ -1033,13 +1033,13 @@ void vehicle::operate_planter()
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ) );
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
-                    i->set_age( 0 );
+                    i->set_age( 0_turns );
                     g->m.add_item( loc, *i );
                     v.erase( i );
                 } else {
                     item tmp = *i;
                     tmp.charges = 1;
-                    tmp.set_age( 0 );
+                    tmp.set_age( 0_turns );
                     g->m.add_item( loc, tmp );
                     i->charges--;
                 }
@@ -1237,7 +1237,7 @@ void vehicle::use_washing_machine( int p )
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
-            n.set_age( 0 );
+            n.set_age( 0_turns );
         }
 
         if( fuel_left( "water" ) >= 24 ) {

@@ -2075,7 +2075,7 @@ bool holster_actor::can_holster( const item &obj ) const
     if( obj.volume() > max_volume || obj.volume() < min_volume ) {
         return false;
     }
-    if( max_weight > 0 && obj.weight() > max_weight ) {
+    if( max_weight > 0_gram && obj.weight() > max_weight ) {
         return false;
     }
     if( obj.active ) {
@@ -2107,7 +2107,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-    if( max_weight > 0 && obj.weight() > max_weight ) {
+    if( max_weight > 0_gram && obj.weight() > max_weight ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too heavy to fit in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
@@ -2209,7 +2209,7 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        iteminfo::is_decimal,
                        convert_volume( max_volume.value() ) );
 
-    if( max_weight > 0 ) {
+    if( max_weight > 0_gram ) {
         dump.emplace_back( "TOOL", "Max item weight: ",
                            string_format( _( "<num> %s" ), weight_units() ),
                            iteminfo::is_decimal,
@@ -3558,7 +3558,7 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
         return ret_val<bool>::make_failure( _( "It's not a gun." ) );
     }
 
-    if( target.type->gun->barrel_length <= 0 ) {
+    if( target.type->gun->barrel_length <= 0_ml ) {
         return ret_val<bool>::make_failure( _( "The barrel is too short." ) );
     }
 

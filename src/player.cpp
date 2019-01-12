@@ -6392,7 +6392,7 @@ void player::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, calendar::turn );
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
                                              dummy_nausea.get_int_dur_factor() ) );
     }

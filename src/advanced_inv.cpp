@@ -252,7 +252,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                   format_volume( squares[pane.get_area()].volume ).c_str(),
                                   volume_units_abbr() );
         } else {
-            units::volume maxvolume = 0;
+            units::volume maxvolume = 0_ml;
             auto &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && s.get_container( pane.in_vehicle() ) != nullptr ) {
                 maxvolume = s.get_container( pane.in_vehicle() )->get_container_capacity();
@@ -594,8 +594,8 @@ void advanced_inv_area::init()
     pos = g->u.pos() + off;
     veh = nullptr;
     vstor = -1;
-    volume = 0; // must update in main function
-    weight = 0; // must update in main function
+    volume = 0_ml;   // must update in main function
+    weight = 0_gram; // must update in main function
     switch( id ) {
         case AIM_INVENTORY:
         case AIM_WORN:
@@ -887,8 +887,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         bool vehicle_override )
 {
     assert( square.id != AIM_ALL );
-    square.volume = 0;
-    square.weight = 0;
+    square.volume = 0_ml;
+    square.weight = 0_gram;
     if( !square.canputitems() ) {
         return;
     }
@@ -984,8 +984,8 @@ void advanced_inventory::recalc_pane( side p )
         auto &alls = squares[AIM_ALL];
         auto &there = panes[-p + 1];
         auto &other = squares[there.get_area()];
-        alls.volume = 0;
-        alls.weight = 0;
+        alls.volume = 0_ml;
+        alls.weight = 0_gram;
         for( auto &s : squares ) {
             // All the surrounding squares, nothing else
             if( s.id < AIM_SOUTHWEST || s.id > AIM_NORTHEAST ) {
@@ -2183,7 +2183,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
         const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
                                        units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
-        if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
+        if( unitweight > 0_gram && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!" ) );

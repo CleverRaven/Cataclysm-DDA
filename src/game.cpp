@@ -6023,7 +6023,7 @@ bool pet_menu( monster *z )
 
     if( attach_bag == choice ) {
         int pos = g->inv_for_filter( _( "Bag item" ), []( const item & it ) {
-            return it.is_armor() && it.get_storage() > 0;
+            return it.is_armor() && it.get_storage() > 0_ml;
         } );
 
         if( pos == INT_MIN ) {
@@ -6086,12 +6086,12 @@ bool pet_menu( monster *z )
             }
         }
 
-        if( max_weight <= 0 ) {
+        if( max_weight <= 0_gram ) {
             add_msg( _( "%1$s is overburdened. You can't transfer your %2$s." ),
                      pet_name.c_str(), it.tname( 1 ).c_str() );
             return true;
         }
-        if( max_cap <= 0 ) {
+        if( max_cap <= 0_ml ) {
             add_msg( _( "There's no room in your %1$s's %2$s for that, it's too bulky!" ),
                      pet_name.c_str(), it.tname( 1 ).c_str() );
             return true;
@@ -6301,7 +6301,7 @@ const std::string get_fire_fuel_string( const tripoint &examp )
             // half-life inclusion
             int mod = 5 - g->u.get_skill_level( skill_survival );
             mod = std::max( mod, 0 );
-            if( fire_age >= 0 ) {
+            if( fire_age >= 0_turns ) {
                 if( mod >= 4 ) { // = survival level 0-1
                     ss << string_format( _( "It's going to go out soon without extra fuel." ) );
                     return ss.str();
@@ -11008,7 +11008,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
-    units::mass furniture_contents_weight = 0;
+    units::mass furniture_contents_weight = 0_gram;
     for( auto &contained_item : m.i_at( fpos ) ) {
         furniture_contents_weight += contained_item.weight();
     }

@@ -101,7 +101,7 @@ struct advanced_inv_area {
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
                        std::string shortname ) : id( id ), hscreenx( hscreenx ),
         hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ), pos( 0, 0, 0 ),
-        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0 ), weight( 0 ),
+        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ), weight( 0_gram ),
         max_size( 0 ) {
     }
 

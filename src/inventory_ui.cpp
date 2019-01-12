@@ -1983,5 +1983,5 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_carried_with_tweaks( { dropping } ),
                u.weight_capacity(),
                u.volume_carried_with_tweaks( { dropping } ),
-               u.volume_capacity_reduced_by( 0, dropping ) );
+               u.volume_capacity_reduced_by( 0_ml, dropping ) );
 }

@@ -600,9 +600,9 @@ item inventory::remove_item( const int position )
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
 {
     std::list<item> result;
-    units::volume volume_dropped = 0;
+    units::volume volume_dropped = 0_ml;
     while( volume_dropped < volume ) {
-        units::volume cumulative_volume = 0;
+        units::volume cumulative_volume = 0_ml;
         auto chosen_stack = items.begin();
         auto chosen_item = chosen_stack->begin();
         for( auto stack = items.begin(); stack != items.end(); ++stack ) {
@@ -870,7 +870,7 @@ void inventory::rust_iron_items()
 
 units::mass inventory::weight() const
 {
-    units::mass ret = 0;
+    units::mass ret = 0_gram;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.weight();
@@ -933,7 +933,7 @@ units::mass inventory::weight_without( const std::map<const item *, int> &withou
 
 units::volume inventory::volume() const
 {
-    units::volume ret = 0;
+    units::volume ret = 0_ml;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.volume();

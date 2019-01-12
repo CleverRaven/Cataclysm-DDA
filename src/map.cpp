@@ -93,7 +93,7 @@ void map_stack::insert_at( std::list<item>::iterator index,
 units::volume map_stack::max_volume() const
 {
     if( !myorigin->inbounds( location ) ) {
-        return 0;
+        return 0_ml;
     } else if( myorigin->has_furn( location ) ) {
         return myorigin->furn( location ).obj().max_volume;
     }
@@ -4389,7 +4389,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
-            if( time_left <= 0 ) {
+            if( time_left <= 0_turns ) {
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
                 cur_veh.parts[part].enabled = false;
@@ -6592,7 +6592,7 @@ void map::fill_funnels( const tripoint &p, const time_point &since )
         return;
     }
     auto items = i_at( p );
-    units::volume maxvolume = 0;
+    units::volume maxvolume = 0_ml;
     auto biggest_container = items.end();
     for( auto candidate = items.begin(); candidate != items.end(); ++candidate ) {
         if( candidate->is_funnel_container( maxvolume ) ) {
@@ -6681,7 +6681,7 @@ void map::restock_fruits( const tripoint &p, const time_duration &time_since_las
 
 void map::produce_sap( const tripoint &p, const time_duration &time_since_last_actualize )
 {
-    if( time_since_last_actualize <= 0 ) {
+    if( time_since_last_actualize <= 0_turns ) {
         return;
     }
 
@@ -6698,7 +6698,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     const time_duration turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
 
     // How long of this time_since_last_actualize have we been in the producing period (late winter, early spring)?
-    time_duration time_producing = 0;
+    time_duration time_producing = 0_turns;
 
     if( time_since_last_actualize >= calendar::year_length() ) {
         time_producing = producing_length;

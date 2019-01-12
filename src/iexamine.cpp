@@ -1754,7 +1754,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().set_age( 0 );
+    used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
     g->m.set( examp, t_dirt, f_plant_seed );
     p.moves -= 500;
@@ -2059,7 +2059,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     for( const item &i : items ) {
         total_volume += i.volume();
     }
@@ -2115,7 +2115,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     add_msg( _("There's a charcoal kiln there.") );
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items[0].age();
-    if( time_left > 0 ) {
+    if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
@@ -2130,7 +2130,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         return;
     }
 
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
@@ -2266,7 +2266,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
     }
     if (vat_full || ferment) {
-        g->m.i_at( examp ).front().set_age( 0 );
+        g->m.i_at( examp ).front().set_age( 0_turns );
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -2357,7 +2357,7 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
     if( furn.id == "f_standing_tank" )  { return units::from_liter( 300 ); }
     else if( furn.id == "f_wood_keg" )  { return units::from_liter( 125 ); }
     //add additional cases above
-    else                                { return 0; }
+    else                                { return 0_ml; }
 }
 
 /**
@@ -2365,7 +2365,7 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
  */
 bool iexamine::has_keg( const tripoint &pos )
 {
-    return get_keg_capacity( pos ) > 0;
+    return get_keg_capacity( pos ) > 0_ml;
 }
 
 void iexamine::keg(player &p, const tripoint &examp)
@@ -2531,7 +2531,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
-    if( keg_cap <= 0 ) {
+    if( keg_cap <= 0_ml ) {
         return false;
     }
     const auto keg_name = g->m.name( pos );
@@ -2824,7 +2824,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
 
     // check inputs and tally total mass
     auto inputs = g->m.i_at( examp );
-    units::mass sum_weight = 0;
+    units::mass sum_weight = 0_gram;
     auto ca = m.compact_accepts();
     std::set<material_id> accepts( ca.begin(), ca.end() );
     accepts.insert( m.id );
@@ -3822,7 +3822,7 @@ void smoker_activate(player &p, const tripoint &examp)
     bool food_present = false;
     bool charcoal_present = false;
     auto items = g->m.i_at( examp );
-    units::volume food_volume = 0;
+    units::volume food_volume = 0_ml;
     item *charcoal = nullptr;
 
     for( size_t i = 0; i < items.size(); i++ ) {
@@ -4126,10 +4126,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 
     bool rem_f_opt = false;
     std::stringstream pop;
-    time_duration time_left = 0;
+    time_duration time_left = 0_turns;
     int hours_left = 0;
     int minutes_left = 0;
-    units::volume f_volume = 0;
+    units::volume f_volume = 0_ml;
     bool f_check = false;
 
     for( size_t i = 0; i < items_here.size(); i++ ) {
@@ -4145,7 +4145,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         }
     }
 
-    const bool empty = f_volume == 0;
+    const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto has_coal_in_inventory = p.charges_of( "charcoal" ) > 0;
@@ -4202,7 +4202,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         {
             if ( active ) {
                 pop << "<color_green>" << _( "There's a smoking rack here.  It is lit and smoking." ) << "</color>" << "\n";
-                if( time_left > 0 ) {
+                if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
                         pop << string_format( ngettext( "It will finish smoking in about %d hour.",
                                 "It will finish smoking in about %d hours.",

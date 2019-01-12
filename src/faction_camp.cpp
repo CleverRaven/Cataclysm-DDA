@@ -1546,7 +1546,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                                 seed_inv.push_back( tmp_seed );
                             }
                         }
-                        used_seed.front().set_age( 0 );
+                        used_seed.front().set_age( 0_turns );
                         farm_map.add_item_or_charges( pos, used_seed.front() );
                         farm_map.set( pos, t_dirt, f_plant_seed );
                     }
@@ -2529,10 +2529,10 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, b
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
-    units::mass harvested_m = 0;
-    units::volume harvested_v = 0;
-    units::mass total_m = 0;
-    units::volume total_v = 0;
+    units::mass harvested_m = 0_gram;
+    units::volume harvested_v = 0_ml;
+    units::mass total_m = 0_gram;
+    units::volume total_v = 0_ml;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
@@ -2749,8 +2749,8 @@ int om_carry_weight_to_trips( units::mass mass, units::volume volume,
 
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
 {
-    units::mass total_m = 0;
-    units::volume total_v = 0;
+    units::mass total_m = 0_gram;
+    units::volume total_v = 0_ml;
     for( auto &i : itms ) {
         total_m += i->weight( true );
         total_v += i->volume( true );

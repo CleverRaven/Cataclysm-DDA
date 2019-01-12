@@ -1099,8 +1099,8 @@ void Pickup::pick_up( const tripoint &p, int min )
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                units::mass weight_picked_up = 0;
-                units::volume volume_picked_up = 0;
+                units::mass weight_picked_up = 0_gram;
+                units::volume volume_picked_up = 0_ml;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
                         item temp = stacked_here[i].begin()->_item;

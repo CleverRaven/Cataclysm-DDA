@@ -1716,7 +1716,7 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
     if( skip_spaces() ) {
         error( "invalid time duration string: empty string" );
     }
-    time_duration result = 0;
+    time_duration result = 0_turns;
     do {
         int sign_value = +1;
         if( s[i] == '-' ) {

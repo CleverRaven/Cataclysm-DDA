@@ -726,7 +726,7 @@ class item : public visitable<item>
          * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
          * the item is rotten.
          */
-        time_duration rot = 0;
+        time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
         time_point last_rot_check = calendar::time_of_cataclysm;
 

@@ -2056,7 +2056,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         if( dam > 0 ) {
             apply_damage( nullptr, bp_torso, dam );
         } else {
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
@@ -2507,7 +2507,7 @@ void monster::on_load()
     // Possible TODO: Integrate monster upgrade
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
-    if( dt <= 0 ) {
+    if( dt <= 0_turns ) {
         return;
     }
 

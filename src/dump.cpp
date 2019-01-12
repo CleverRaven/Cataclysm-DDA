@@ -204,7 +204,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
                 dump( test_npcs[ "S1" ], gun );
 
-                if( gun.type->gun->barrel_length > 0 ) {
+                if( gun.type->gun->barrel_length > 0_ml ) {
                     gun.emplace_back( "barrel_small" );
                     dump( test_npcs[ "S1" ], gun );
                 }

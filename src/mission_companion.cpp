@@ -957,7 +957,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                 } else {
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
-                used_seed.front().set_age( 0 );
+                used_seed.front().set_age( 0_turns );
                 bay.add_item_or_charges( x, y, used_seed.front() );
                 bay.set( x, y, t_dirt, f_plant_seed );
                 limiting_number--;

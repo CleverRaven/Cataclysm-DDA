@@ -144,7 +144,7 @@ bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
         color_manager &color_list = get_all_colors();
         int i = 0;
         time_duration scent_age = calendar::turn - possible_scent.creation_time;
-        while( i < num_colors && scent_age > 0 ) {
+        while( i < num_colors && scent_age > 0_turns ) {
             i++;
             scent_age /= 10;
         }
