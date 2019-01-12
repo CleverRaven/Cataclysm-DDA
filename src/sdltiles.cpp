@@ -348,11 +348,31 @@ void WinCreate()
     format.reset( SDL_AllocFormat( wformat ) );
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
-    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
+    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" ) || get_option<std::string>( "RENDERER" ).empty();
+    int renderer_id = -1;
+    std::string renderer_name;
+    if( software_renderer )
+    {
+       renderer_name = "software";
+    } else {
+       renderer_name = get_option<std::string>( "RENDERER" );
+    }
+
+    const int numRenderDrivers = SDL_GetNumRenderDrivers();
+    for( int i = 0; i < numRenderDrivers; i++ ) {
+        SDL_RendererInfo ri;
+        SDL_GetRenderDriverInfo( i, &ri );
+        if( renderer_name == ri.name ) {
+            renderer_id = i;
+            DebugLog( D_INFO, DC_ALL ) << "Active renderer: " << renderer_id << "/" << ri.name;
+            break;
+        }
+    }
+
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_ACCELERATED |
+        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
         if( printErrorIf( !renderer, "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
