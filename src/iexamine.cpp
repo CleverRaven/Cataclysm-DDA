@@ -3585,8 +3585,7 @@ player &best_installer( player &p, player &null_player, int difficulty )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
-                         skill_electronics,
-                         true );
+                         skill_electronics );
 
     std::vector< std::pair<float, long>> ally_skills;
     ally_skills.reserve( g->allies().size() );
@@ -3598,8 +3597,7 @@ player &best_installer( player &p, player &null_player, int difficulty )
         ally_skill.second = i;
         ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
                            skill_computer,
-                           skill_electronics,
-                           true );
+                           skill_electronics );
         ally_skills.push_back( ally_skill );
     }
     std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, long> &lhs,
