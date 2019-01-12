@@ -1130,8 +1130,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         }
     }
 
-    for( size_t i = 0; i < mirrors.size(); i++ ) {
-        const int &mirror = mirrors[i];
+    for( int mirror : mirrors ) {
         bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work

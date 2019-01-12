@@ -1838,8 +1838,8 @@ void monster::process_turn()
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
-                for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
-                    if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                for( const auto &item : items ) {
+                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
                         break;

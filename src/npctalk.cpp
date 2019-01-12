@@ -263,7 +263,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         break;
     default:
         break;
-    };
+    }
 }
 
 void npc_chatbin::check_missions()

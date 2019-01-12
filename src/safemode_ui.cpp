@@ -561,8 +561,8 @@ void safemode::add_rules( std::vector<rules_class> &rules_in )
             }
         } else {
             //exclude monsters from the existing mapping
-            for( auto iter = safemode_rules.begin(); iter != safemode_rules.end(); ++iter ) {
-                set_rule( rule, iter->first, RULE_WHITELISTED );
+            for( const auto &safemode_rule : safemode_rules ) {
+                set_rule( rule, safemode_rule.first, RULE_WHITELISTED );
             }
         }
     }

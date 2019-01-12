@@ -12,9 +12,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-snake_game::snake_game()
-{
-}
+snake_game::snake_game() = default;
 
 void snake_game::print_score( const catacurses::window &w_snake, int iScore )
 {

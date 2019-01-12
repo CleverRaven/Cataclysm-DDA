@@ -3,7 +3,9 @@
 #include "sdlsound.h"
 
 #include <algorithm>
+#include <chrono>
 #include <map>
+#include <random>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -73,7 +75,7 @@ static inline bool check_sound( const int volume = 1 )
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
-bool init_sound( void )
+bool init_sound()
 {
     int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
@@ -101,7 +103,7 @@ bool init_sound( void )
 
     return sound_init_success;
 }
-void shutdown_sound( void )
+void shutdown_sound()
 {
     // De-allocate all loaded sound.
     sfx_resources.resource.clear();
@@ -183,7 +185,9 @@ void play_music( const std::string &playlist )
         playlist_indexes.push_back( i );
     }
     if( list.shuffle ) {
-        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
+        static auto eng = std::default_random_engine(
+                              std::chrono::system_clock::now().time_since_epoch().count() );
+        std::shuffle( playlist_indexes.begin(), playlist_indexes.end(), eng );
     }
 
     current_playlist = playlist;
@@ -207,7 +211,7 @@ void update_music_volume()
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
 // that is created when loading of a sound effect resource fails. Does not own
 // memory. Mix_FreeChunk will free the SDL_malloc'd Mix_Chunk pointer.
-static Mix_Chunk *make_null_chunk( void )
+static Mix_Chunk *make_null_chunk()
 {
     static Mix_Chunk null_chunk = { 0, nullptr, 0, 0 };
     // SDL_malloc to match up with Mix_FreeChunk's SDL_free call
@@ -414,7 +418,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     }
     const sound_effect &selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );;
+    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     Mix_PlayChannel( -1, effect_to_play, 0 );
@@ -434,7 +438,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     }
     const sound_effect &selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );;
+    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
     Mix_VolumeChunk( shifted_effect,
@@ -458,7 +462,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     }
     const sound_effect &selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );;
+    Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
