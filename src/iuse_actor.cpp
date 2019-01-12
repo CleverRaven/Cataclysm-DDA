@@ -2132,7 +2132,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname().c_str(), holster.tname().c_str() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, draw_cost, false );
+    p.store( holster, obj, false, draw_cost );
     return true;
 }
 
