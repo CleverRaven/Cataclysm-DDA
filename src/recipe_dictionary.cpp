@@ -120,7 +120,6 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
-
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {
@@ -168,6 +167,32 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     } );
 
     return res;
+}
+
+recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
+{
+    for( const auto elem : recipes ) {
+        include( elem, src.get_custom_difficulty( elem ) );
+    }
+}
+
+recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+{
+    return recipe_subset( *this, search( txt, key ) );
+}
+recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
+{
+    std::vector<const recipe *> intersection_result;
+    std::set_intersection( this->begin(), this->end(), subset.begin(), subset.end(),
+                           std::back_inserter( intersection_result ) );
+    return recipe_subset( *this, intersection_result );
+}
+recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
+{
+    std::vector<const recipe *> difference_result;
+    std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(),
+                         std::back_inserter( difference_result ) );
+    return recipe_subset( *this, difference_result );
 }
 
 std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const
