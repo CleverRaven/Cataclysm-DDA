@@ -1021,6 +1021,11 @@ class player : public Character
         void drop( int pos, const tripoint &where );
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
 
+        /** So far only called by unload() from game.cpp */
+        bool add_or_drop_with_msg( item &it, const bool unloading = false );
+
+        bool unload( item &it );
+
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded

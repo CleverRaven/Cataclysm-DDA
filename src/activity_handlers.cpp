@@ -147,7 +147,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
-    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish },
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -2818,6 +2819,39 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You give your hair a trim." ) );
     p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    act->set_to_null();
+}
+
+void activity_handlers::unload_mag_finish( player_activity *act, player *p )
+{
+    long qty = 0;
+    item &it = *act->targets[ 0 ];
+
+    // remove the ammo leads in the belt
+    it.contents.erase( std::remove_if( it.contents.begin(),
+    it.contents.end(), [&]( item & e ) {
+        if( !p->add_or_drop_with_msg( e, true ) ) {
+            return false;
+        }
+        qty += e.charges;
+        return true;
+    } ), it.contents.end() );
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            p->add_or_drop_with_msg( link, true );
+        }
+        add_msg( _( "You disassemble your %s." ), it.tname().c_str() );
+    } else {
+        add_msg( _( "You unload your %s." ), it.tname().c_str() );
+    }
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        act->targets[ 0 ].remove_item();
+    }
+
     act->set_to_null();
 }
 
