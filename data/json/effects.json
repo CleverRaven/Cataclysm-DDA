@@ -1905,7 +1905,7 @@
   {
     "type": "effect_type",
     "id": "tummy_tablet",
-    "name": [ "Soothed stomach." ],
+    "name": [ "Soothed stomach" ],
     "desc": [ "You are under the effects of a stomach soother." ],
     "int_add_val": 1,
     "max_intensity": 3,
