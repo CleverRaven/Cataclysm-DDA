@@ -3912,7 +3912,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     // the behavior of the previous forest mapgen when fading forest terrains
     // into each other and non-forest terrains.
 
-    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id &ot ) {
+    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
         if( biome == dat.region.forest_composition.biomes.end() ) {
             // If there is no defined biome for this oter, use 0. It's possible
