@@ -92,6 +92,11 @@ class texture
         }
 };
 
+extern SDL_Texture_Ptr alt_rect_tex;
+extern bool alt_rect_tex_enabled;
+extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                           Uint32 r, Uint32 g, Uint32 b );
+
 struct pixel {
     int r;
     int g;
@@ -640,6 +645,9 @@ class cata_tiles
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
         SDL_Texture_Ptr main_minimap_tex;
+        // SDL_RenderFillRect replacement handler
+        void handle_draw_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                               Uint32 r, Uint32 g, Uint32 b );
 };
 
 #endif

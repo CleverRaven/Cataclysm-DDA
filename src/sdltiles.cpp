@@ -78,6 +78,10 @@ static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
 
+// used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
+SDL_Texture_Ptr alt_rect_tex = NULL;
+bool alt_rect_tex_enabled = false;
+
 /**
  * A class that draws a single character on screen.
  */
@@ -206,6 +210,51 @@ extern catacurses::window w_hit_animation; //this window overlays w_terrain whic
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
+void generate_alt_rect_texture()
+{
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
+#else
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
+#endif
+
+    SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
+    if( alt_surf ) {
+        FillRect( alt_surf, NULL, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+
+        alt_rect_tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
+        alt_surf.reset();
+
+        // Test to make sure color modulation is supported by renderer
+        alt_rect_tex_enabled = !SetTextureColorMod( alt_rect_tex, 0, 0, 0 );
+        if( !alt_rect_tex_enabled ) {
+            alt_rect_tex.reset();
+        }
+        DebugLog( D_INFO, DC_ALL ) << "generate_alt_rect_texture() = " << ( alt_rect_tex_enabled ? "FAIL" : "SUCCESS" ) << ". alt_rect_tex_enabled = " << alt_rect_tex_enabled;
+    } else {
+        DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
+    }
+}
+
+void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, unsigned char color )
+{
+    SetTextureColorMod( alt_rect_tex, windowsPalette[color].r, windowsPalette[color].g,
+                        windowsPalette[color].b );
+    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+}
+
+void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                    Uint32 r, Uint32 g, Uint32 b )
+{
+    SetTextureColorMod( alt_rect_tex, r, g, b );
+    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+}
 
 static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
 {
@@ -383,7 +432,9 @@ void WinCreate()
             renderer.reset();
         }
     }
+    
     if( software_renderer ) {
+        alt_rect_tex_enabled = false;
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
@@ -432,6 +483,14 @@ void WinCreate()
 
     // Set up audio mixer.
     init_sound();
+
+    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
+                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
+    //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
+    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) ) {
+        generate_alt_rect_texture();
+    }
+
 }
 
 void WinDestroy()
@@ -445,6 +504,8 @@ void WinDestroy()
 
     if(joystick) {
         SDL_JoystickClose(joystick);
+        alt_rect_tex.reset();
+
         joystick = 0;
     }
     format.reset();
@@ -453,9 +514,16 @@ void WinDestroy()
     ::window.reset();
 }
 
-inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 );
-    RenderFillRect( renderer, &rect );
+inline void FillRectDIB( SDL_Rect &rect, unsigned char color )
+{
+    if( alt_rect_tex_enabled ) {
+        draw_alt_rect( renderer, rect, windowsPalette[color].r, windowsPalette[color].g,
+                       windowsPalette[color].b );
+    } else {
+        SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
+                            windowsPalette[color].b, 255 );
+        RenderFillRect( renderer, &rect );
+    }
 }
 
 //The following 3 methods use mem functions for fast drawing

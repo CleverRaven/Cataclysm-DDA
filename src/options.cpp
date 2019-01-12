@@ -1567,6 +1567,11 @@ void options_manager::add_options_graphics()
 
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 
+    add( "USE_COLOR_MODULATED_TEXTURES", "graphics", translate_marker( "Use color modulated textures" ),
+         translate_marker( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
+         false, COPT_CURSES_HIDE
+       );
+
     add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
          translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
          //~ Do not scale the game image to the window size.
