@@ -117,7 +117,7 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -153,9 +153,9 @@ public:
     BitmapFont( int w, int h, const std::string &typeface_path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
+    void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
     std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
