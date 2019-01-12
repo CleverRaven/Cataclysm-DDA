@@ -614,7 +614,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
     const auto spread_gas = [this, &get_neighbors](
                                 field_entry & cur, const tripoint & p, field_id curtype,
-    int percent_spread, const time_duration &outdoor_age_speedup ) {
+    int percent_spread, const time_duration & outdoor_age_speedup ) {
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );

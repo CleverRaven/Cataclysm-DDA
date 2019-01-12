@@ -1846,7 +1846,7 @@ class item : public visitable<item>
         time_duration age() const;
         void set_age( const time_duration &age );
         time_point birthday() const;
-        void set_birthday(const time_point &bday );
+        void set_birthday( const time_point &bday );
 
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
