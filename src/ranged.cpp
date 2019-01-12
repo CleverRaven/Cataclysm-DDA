@@ -657,11 +657,9 @@ static void do_aim( player &p, const item &relevant )
     if (aim_amount == 0 && i == 0) {
         //player presses aiming key despite having full steadiness, he wants to skip turns
         p.mod_moves( - max_moves );
-        debugmsg (string_format("full cost %s", max_moves));
     } else {
         //spend only part of the max move cost if we reached full steadiness already
         p.mod_moves( -i );
-        debugmsg (string_format("partial cost %s", i));
     }
 }
 
