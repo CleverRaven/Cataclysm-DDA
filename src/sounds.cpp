@@ -1,5 +1,9 @@
 #include "sounds.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -19,10 +23,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <chrono>
-#include <cmath>
 
 #ifdef SDL_SOUND
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -57,6 +57,7 @@ static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 
 struct sound_event {
     int volume;
+    sounds::sound_t category;
     std::string description;
     bool ambient;
     bool footstep;
@@ -83,26 +84,31 @@ static std::unordered_map<tripoint, sound_event> sound_markers;
 
 void sounds::ambient_sound( const tripoint &p, int vol, const std::string &description )
 {
-    sound( p, vol, description, true );
+    sound( p, vol, sounds::sound_t::background, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient,
-                    const std::string &id, const std::string &variant )
+void sounds::sound( const tripoint &p, int vol, sound_t category, std::string description,
+                    bool ambient, const std::string &id, const std::string &variant )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
         debugmsg( "negative sound volume %d", vol );
         return;
     }
+    // Description is not an optional parameter
+    if( description.empty() ) {
+        debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
+    }
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
-    sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event {vol, description, ambient, false, id, variant} ) );
+    sounds_since_last_turn.emplace_back( std::make_pair( p,
+                                         sound_event {vol, category, description, ambient,
+                                                 false, id, variant} ) );
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
-    sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event {volume, "", false, true, "", ""} ) );
+    sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
+                                         sound_t::movement, "footsteps", false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -126,7 +132,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     const int num_seed_clusters = std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
                                             static_cast<size_t>( log( recent_sounds.size() ) ) );
     const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
-    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE * SEEX, MAPSIZE * SEEY );
+    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE_X, MAPSIZE_Y );
     // Randomly choose cluster seeds.
     for( size_t i = recent_sounds.size(); i > stopping_point; i-- ) {
         size_t index = rng( 0, i - 1 );
@@ -229,6 +235,15 @@ void sounds::process_sounds()
     recent_sounds.clear();
 }
 
+// skip most movement sounds
+bool describe_sound( sounds::sound_t category )
+{
+    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ) {
+        return true;
+    }
+    return one_in( 5 );
+}
+
 void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
@@ -272,14 +287,13 @@ void sounds::process_sound_markers( player *p )
             p->add_effect( effect_deaf, deafness_duration );
             if( p->is_deaf() && !is_deaf ) {
                 is_deaf = true;
-                sfx::do_hearing_loss( to_turns<int>( deafness_duration ) );
                 continue;
             }
         }
 
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
-        const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) * volume_multiplier ) -
-                                 distance_to_sound;
+        const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
+                                 volume_multiplier ) - distance_to_sound;
 
         if( heard_volume <= 0 && pos != p->pos() ) {
             continue;
@@ -308,25 +322,33 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        const std::string &description = sound.description;
+        const std::string &description = sound.description.empty() ? "a noise" : sound.description;
+        if( p->is_npc() ) {
+            npc *guy = dynamic_cast<npc *>( p );
+            guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
+            continue;
+        }
+
+        // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
             if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
-                const std::string query = description.empty()
-                                          ? _( "Heard a noise!" )
-                                          : string_format( _( "Heard %s!" ), description.c_str() );
-
+                const std::string query = string_format( _( "Heard %s!" ), description );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
         }
 
-        if( !description.empty() ) {
-            // If it came from us, don't print a direction
-            if( pos == p->pos() ) {
-                add_msg( _( "You hear %s" ), description.c_str() );
+        // skip most movement sounds and our own sounds
+        if( pos != p->pos() && describe_sound( sound.category ) ) {
+            game_message_type severity = m_info;
+            if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
+                severity = m_warning;
+            }
+            // if we can see it, don't print a direction
+            if( p->sees( pos ) ) {
+                add_msg( severity, _( "You hear %1$s" ), description );
             } else {
-                // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
-                add_msg( m_warning, _( "From the %1$s you hear %2$s" ), direction.c_str(), description.c_str() );
+                add_msg( severity, _( "From the %1$s you hear %2$s" ), direction, description );
             }
         }
 
@@ -338,14 +360,14 @@ void sounds::process_sound_markers( player *p )
             const bool trying_to_sleep = p->in_sleep_state();
             if( p->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
                 if( slept_through ) {
-                    p->add_msg_if_player( _( "Your alarm clock finally wakes you up." ) );
+                    add_msg( _( "Your alarm clock finally wakes you up." ) );
                 } else if( !trying_to_sleep ) {
-                    p->add_msg_if_player( _( "Your alarm clock wakes you up." ) );
+                    add_msg( _( "Your alarm clock wakes you up." ) );
                 } else {
-                    p->add_msg_if_player( _( "Your alarm clock goes off and you haven't slept a wink." ) );
+                    add_msg( _( "Your alarm clock goes off and you haven't slept a wink." ) );
                     p->activity.set_to_null();
                 }
-                p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
+                add_msg( _( "You turn off your alarm-clock." ) );
             }
             p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
@@ -388,7 +410,9 @@ void sounds::process_sound_markers( player *p )
             sound_markers.emplace( random_entry( unseen_points ), sound );
         }
     }
-    sounds_since_last_turn.clear();
+    if( p->is_player() ) {
+        sounds_since_last_turn.clear();
+    }
 }
 
 void sounds::reset_sounds()
@@ -598,14 +622,14 @@ void sfx::do_ambient()
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
 // vehicle turrets) or a NPC.
-void sfx::generate_gun_sound( const player &p, const item &firing )
+void sfx::generate_gun_sound( const player &source_arg, const item &firing )
 {
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
-    const tripoint source = p.pos();
+    const tripoint source = source_arg.pos();
     int heard_volume = get_heard_volume( source );
     if( heard_volume <= 30 ) {
         heard_volume = 30;
@@ -1083,6 +1107,7 @@ void sfx::do_obstacle()
 /** Dummy implementations for builds without sound */
 /*@{*/
 void sfx::load_sound_effects( JsonObject & ) { }
+void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }

@@ -1,5 +1,13 @@
 #include "item.h"
 
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <iomanip>
+#include <iterator>
+#include <set>
+#include <sstream>
+
 #include "advanced_inv.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -52,14 +60,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <iomanip>
-#include <iterator>
-#include <set>
-#include <sstream>
-
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
 const skill_id skill_survival( "survival" );
@@ -85,6 +85,9 @@ const efftype_id effect_weed_high( "weed_high" );
 
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
+
+const trait_id trait_small2( "SMALL2" );
+const trait_id trait_small_ok( "SMALL_OK" );
 
 const std::string &rad_badge_color( const int rad )
 {
@@ -148,6 +151,11 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         } else {
             charges = type->charges_default();
         }
+    }
+
+    if( has_flag( "NANOFAB_TEMPLATE" ) ) {
+        itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
+        set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
     }
 
     if( type->gun ) {
@@ -1483,8 +1491,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             temp1.str( "" );
             temp1 << _( "<bold>Mods:</bold> " );
+
+            std::map<gunmod_location, int> mod_locations = get_mod_locations();
+
             int iternum = 0;
-            for( auto &elem : gun.valid_mod_locations ) {
+            for( auto &elem : mod_locations ) {
                 if( iternum != 0 ) {
                     temp1 << "; ";
                 }
@@ -1566,7 +1577,27 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "GUNMOD", _( "Minimum strength required modifier: " ),
                                       mod.min_str_required_mod ) );
         }
+        if( !mod.add_mod.empty() && parts->test( iteminfo_parts::GUNMOD_ADD_MOD ) ) {
+            insert_separation_line();
 
+            temp1.str( "" );
+            temp1 << _( "<bold>Adds mod locations: </bold> " );
+
+            std::map<gunmod_location, int> mod_locations = mod.add_mod;
+
+            int iternum = 0;
+            for( auto &elem : mod_locations ) {
+                if( iternum != 0 ) {
+                    temp1 << "; ";
+                }
+                temp1 << "<bold>" << elem.second << "</bold> " << elem.first.name();
+                iternum++;
+            }
+            temp1 << ".";
+            info.push_back( iteminfo( "GUNMOD", temp1.str() ) );
+        }
+
+        insert_separation_line();
         temp1.str( "" );
         temp1 << _( "Used on: " ) << enumerate_as_string( mod.usable.begin(),
         mod.usable.end(), []( const gun_type_type & used_on ) {
@@ -1582,6 +1613,20 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::GUNMOD_LOCATION ) ) {
             info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
+        }
+        if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
+            temp1.str( "" );
+            temp1 << _( "<bold>Incompatible with mod location: </bold> " );
+            int iternum = 0;
+            for( auto black : mod.blacklist_mod ) {
+                if( iternum != 0 ) {
+                    temp1 << ", ";
+                }
+                temp1 << black.name();
+                iternum++;
+            }
+            temp1 << ".";
+            info.push_back( iteminfo( "GUNMOD", temp1.str() ) );
         }
 
     }
@@ -1681,7 +1726,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         insert_separation_line();
 
         if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
-            int encumbrance = get_encumber();
+            int encumbrance = get_encumber( g->u );
             std::string format;
             if( has_flag( "FIT" ) ) {
                 format = _( "<num> <info>(fits)</info>" );
@@ -1692,7 +1737,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                       encumbrance ) );
             if( !type->rigid ) {
-                const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
+                const auto encumbrance_when_full =
+                    get_encumber_when_containing( g->u, get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
                                           iteminfo::no_newline | iteminfo::lower_is_better,
                                           encumbrance_when_full ) );
@@ -1784,10 +1830,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "Requires <info>intelligence of</info> <num> to easily read." ),
                                           iteminfo::lower_is_better, book.intel ) );
             }
-            if( g->u.book_fun_for( *this ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
+            if( g->u.book_fun_for( *this, g->u ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          iteminfo::show_plus, g->u.book_fun_for( *this ) ) );
+                                          iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
             }
             if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
                 auto fmt = ngettext(
@@ -2134,7 +2180,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>can be refitted</info>." ) ) );
             }
-            if( little && get_encumber() ) {
+            if( little && get_encumber( g->u ) ) {
                 if( !has_flag( "UNDERSIZE" ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "* These clothes are <bad>too large</bad> but <info>can be undersized</info>." ) ) );
@@ -2427,14 +2473,33 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     return format_item_info( info, {} );
 }
 
+std::map<gunmod_location, int> item::get_mod_locations() const
+{
+    std::map<gunmod_location, int> mod_locations = type->gun->valid_mod_locations;
+
+    for( const auto mod : gunmods() ) {
+        if( !mod->type->gunmod->add_mod.empty() ) {
+            std::map<gunmod_location, int> add_locations = mod->type->gunmod->add_mod;
+
+            for( auto it = add_locations.begin(); it != add_locations.end(); ++it ) {
+                mod_locations[it->first] += it->second;
+            }
+        }
+    }
+
+    return mod_locations;
+}
+
 int item::get_free_mod_locations( const gunmod_location &location ) const
 {
     if( !is_gun() ) {
         return 0;
     }
-    const islot_gun &gt = *type->gun;
-    const auto loc = gt.valid_mod_locations.find( location );
-    if( loc == gt.valid_mod_locations.end() ) {
+
+    std::map<gunmod_location, int> mod_locations = get_mod_locations();
+
+    const auto loc = mod_locations.find( location );
+    if( loc == mod_locations.end() ) {
         return 0;
     }
     int result = loc->second;
@@ -2846,7 +2911,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                        g->u.has_trait( trait_id( "SMALL_OK" ) );
     const bool fits = has_flag( "FIT" );
     const bool undersize = has_flag( "UNDERSIZE" );
-    if( get_encumber() ) {
+    if( get_encumber( g->u ) ) {
         if( small && !undersize ) {
             ret << _( " (oversize)" );
         } else if( !small && undersize ) {
@@ -2863,6 +2928,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
     }
+
+    if( has_var( "NANOFAB_ITEM_ID" ) ) {
+        ret << string_format( " (%s)", nname( get_var( "NANOFAB_ITEM_ID" ) ) );
+    }
+
     if( has_flag( "RADIO_MOD" ) ) {
         ret << _( " (radio:" );
         if( has_flag( "RADIOSIGNAL_1" ) ) {
@@ -3045,38 +3115,15 @@ units::mass item::weight( bool include_contents ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
-        switch( corpse->size ) {
-            case MS_TINY:
-                ret =   1000_gram;
-                break;
-            case MS_SMALL:
-                ret =  40750_gram;
-                break;
-            case MS_MEDIUM:
-                ret =  81500_gram;
-                break;
-            case MS_LARGE:
-                ret = 120000_gram;
-                break;
-            case MS_HUGE:
-                ret = 200000_gram;
-                break;
-        }
-        if( made_of( material_id( "veggy" ) ) ) {
-            ret /= 3;
-        }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) ||
-            made_of( material_id( "bone" ) ) ) {
-            ret /= 8;
-        } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ||
-                   made_of( material_id( "stone" ) ) ) {
-            ret *= 7;
-        }
+        ret = corpse->weight;
         if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
             ret *= 0.75;
         }
         if( has_flag( "QUARTERED" ) ) {
             ret /= 4;
+        }
+        if( has_flag( "GIBBED" ) ) {
+            ret *= 0.85;
         }
 
     } else if( magazine_integral() && !is_magazine() ) {
@@ -3112,36 +3159,22 @@ units::mass item::weight( bool include_contents ) const
     return ret;
 }
 
-units::volume item::corpse_volume( m_size corpse_size ) const
+units::volume item::corpse_volume( const mtype *corpse ) const
 {
-    if( !has_flag( "QUARTERED" ) ) {
-        switch( corpse_size ) {
-            case MS_TINY:
-                return    750_ml;
-            case MS_SMALL:
-                return  30000_ml;
-            case MS_MEDIUM:
-                return  62500_ml;
-            case MS_LARGE:
-                return  92500_ml;
-            case MS_HUGE:
-                return 875000_ml;
-        }
-    } else {
-        switch( corpse_size ) {
-            case MS_TINY:
-                return    750_ml; // no quartering
-            case MS_SMALL:
-                return   7500_ml;
-            case MS_MEDIUM:
-                return  15625_ml;
-            case MS_LARGE:
-                return  23125_ml;
-            case MS_HUGE:
-                return 218750_ml;
-        }
+    units::volume corpse_volume = corpse->volume;
+    if( has_flag( "QUARTERED" ) ) {
+        corpse_volume /= 4;
     }
-    debugmsg( "unknown monster size for corpse" );
+    if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
+        corpse_volume *= 0.75;
+    }
+    if( has_flag( "GIBBED" ) ) {
+        corpse_volume *= 0.85;
+    }
+    if( corpse_volume > 0 ) {
+        return corpse_volume;
+    }
+    debugmsg( "invalid monster volume for corpse" );
     return 0;
 }
 
@@ -3150,9 +3183,8 @@ units::volume item::base_volume() const
     if( is_null() ) {
         return 0;
     }
-
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse );
     }
 
     if( count_by_charges() ) {
@@ -3173,7 +3205,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse );
     }
 
     const int local_volume = get_var( "volume", -1 );
@@ -3535,9 +3567,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->type->comestible ) {
-        if( subject->type->category->id() == "food" ) {
+        if( subject->get_category().id() == "food" ) {
             return bottom - 3;
-        } else if( subject->type->category->id() == "drugs" ) {
+        } else if( subject->get_category().id() == "drugs" ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -3634,16 +3666,17 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber() const
+int item::get_encumber( const Character &p ) const
 {
     units::volume contents_volume( 0 );
     for( const auto &e : contents ) {
         contents_volume += e.volume();
     }
-    return get_encumber_when_containing( contents_volume );
+    return get_encumber_when_containing( p, contents_volume );
 }
 
-int item::get_encumber_when_containing( const units::volume &contents_volume ) const
+int item::get_encumber_when_containing(
+    const Character &p, const units::volume &contents_volume ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
@@ -3662,11 +3695,12 @@ int item::get_encumber_when_containing( const units::volume &contents_volume ) c
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    const bool tiniest = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                         g->u.has_trait( trait_id( "SMALL_OK" ) );
-    if( !has_flag( "UNDERSIZE" ) && tiniest ) {
+    const bool tiniest = p.has_trait( trait_small2 ) ||
+                         p.has_trait( trait_small_ok );
+    const bool is_undersize = has_flag( "UNDERSIZE" );
+    if( !is_undersize && tiniest ) {
         encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
-    } else if( !tiniest && has_flag( "UNDERSIZE" ) ) {
+    } else if( is_undersize && !tiniest ) {
         encumber *= 3; // normal humans have a HARD time wearing undersized clothing
     }
 
@@ -4403,7 +4437,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return type->category->id() == "maps";
+    return get_category().id() == "maps";
 }
 
 bool item::is_container() const
@@ -5277,14 +5311,15 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( gunmod_find( mod.typeId() ) ) {
         return ret_val<bool>::make_failure( _( "already has a %s" ), mod.tname( 1 ).c_str() );
 
-    } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
+    } else if( !get_mod_locations().count( mod.type->gunmod->location ) ) {
         return ret_val<bool>::make_failure( _( "doesn't have a slot for this mod" ) );
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name().c_str() );
 
-    } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
+    } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
+               !mod.type->gunmod->usable.count( typeId() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
     } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
@@ -5312,6 +5347,13 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
                && ( ammo_remaining() > 0 || magazine_current() ) ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
+    }
+
+    for( auto slot : mod.type->gunmod->blacklist_mod ) {
+        if( get_mod_locations().count( slot ) ) {
+            return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
+                                                slot.name().c_str() );
+        }
     }
 
     return ret_val<bool>::make_success();
@@ -5347,8 +5389,15 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
-                                                 m.second.qty(), m.second.flags() } );
+                //checks for melee gunmod, points to gunmod
+                if( m.first == "REACH" ) {
+                    res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
+                                                     m.second.qty(), m.second.flags() } );
+                    //otherwise points to the parent gun, not the gunmod
+                } else {
+                    res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( this ),
+                                                     m.second.qty(), m.second.flags() } );
+                }
             }
         }
     }
@@ -6977,6 +7026,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             ++it;
         }
     }
+
     if( activate ) {
         return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
     }

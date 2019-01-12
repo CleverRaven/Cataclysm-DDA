@@ -1,5 +1,9 @@
 #include "monster.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -29,10 +33,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
@@ -545,6 +545,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
 
+    if( debug_mode ) {
+        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+    }
+
     std::string effects = get_effect_status();
     long long used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
@@ -566,16 +570,35 @@ std::string monster::extended_description() const
 {
     std::ostringstream ss;
     const auto att = get_attitude();
-    std::string att_colored = get_tag_from_color( att.second ) + att.first;
+    std::string att_colored = colorize( att.first, att.second );
+    std::string difficulty_str;
+    if( debug_mode ) {
+        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+    } else {
+        if( type->difficulty < 3 ) {
+            difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
+        } else if( type->difficulty < 10 ) {
+            difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
+        } else if( type->difficulty < 20 ) {
+            difficulty_str = _( "<color_light_red>Dangerous.</color>" );
+        } else if( type->difficulty < 30 ) {
+            difficulty_str = _( "<color_red>Very dangerous.</color>" );
+        } else if( type->difficulty < 50 ) {
+            difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
+        } else {
+            difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
+        }
+    }
 
-    ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
+    ss << string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
+                         difficulty_str ) << std::endl;
     if( !get_effect_status().empty() ) {
         ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
     }
 
     ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
-    ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
+    ss << colorize( hp_bar.first, hp_bar.second ) << std::endl;
 
     ss << "--" << std::endl;
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
@@ -1809,7 +1832,7 @@ void monster::process_turn()
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
-                sounds::sound( pos(), 5, _( "hummmmm." ) );
+                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ) );
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
@@ -1818,7 +1841,7 @@ void monster::process_turn()
                 for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
                     if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
-                        sounds::sound( pos(), 30, _( "fwoosh!" ) );
+                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
                         break;
                     }
                 }
@@ -1843,8 +1866,8 @@ void monster::process_turn()
             }
             if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
                 g->lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 300, _( "BOOOOOOOM!!!" ) );
-                sounds::sound( pos(), 20, _( "vrrrRRRUUMMMMMMMM!" ) );
+                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ) );
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name().c_str() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -1852,7 +1875,7 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 20, _( "VMMMMMMMMM!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ) );
             }
         }
     }
@@ -1924,8 +1947,8 @@ void monster::die( Creature *nkiller )
         const point abssub = ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
-            for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
-                for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
+            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
+                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
                     std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y,
                                                      g->get_levz() + z );
                     for( auto &mgp : groups ) {

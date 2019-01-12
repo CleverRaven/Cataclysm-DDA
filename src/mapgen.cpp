@@ -1,5 +1,10 @@
 #include "mapgen.h"
 
+#include <algorithm>
+#include <cassert>
+#include <list>
+#include <sstream>
+
 #include "ammo.h"
 #include "catalua.h"
 #include "computer.h"
@@ -37,11 +42,6 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-
-#include <algorithm>
-#include <cassert>
-#include <list>
-#include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -101,14 +101,10 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
 void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
-
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id t );
 
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
@@ -457,8 +453,8 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
     : jdata( std::move( s ) )
     , do_format( false )
     , is_ready( false )
-    , mapgensize_x( 24 )
-    , mapgensize_y( 24 )
+    , mapgensize_x( SEEX * 2 )
+    , mapgensize_y( SEEY * 2 )
     , x_offset( 0 )
     , y_offset( 0 )
     , objects( 0, 0, mapgensize_x, mapgensize_y )
@@ -3114,7 +3110,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                             ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
                             ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                            for( int i = 0; i <= 23; i++ ) {
+                            for( int i = 0; i < SEEX * 2; i++ ) {
                                 ter_set( 23, i, rw_type );
                                 furn_set( 23, i, f_null );
                                 i_clear( tripoint( 23, i, get_abs_sub().z ) );
@@ -3642,7 +3638,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                     ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
                     ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                    for( int i = 0; i <= 23; i++ ) {
+                    for( int i = 0; i < SEEX * 2; i++ ) {
                         ter_set( 23, i, rw_type );
                         furn_set( 23, i, f_null );
                         i_clear( tripoint( 23, i, get_abs_sub().z ) );
@@ -5262,8 +5258,8 @@ ___DEEE|.R.|...,,...|sss\n",
             add_spawn( mon_hazmatbot, 1, 10, 5 );
         }
         //lazy radiation mapping
-        for( int x = 0; x <= 23; x++ ) {
-            for( int y = 0; y <= 23; y++ ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            for( int y = 0; y < SEEY * 2; y++ ) {
                 adjust_radiation( x, y, rng( 10, 30 ) );
             }
         }
@@ -5332,8 +5328,8 @@ ___DEEE|.R.|...,,...|sss\n",
                 add_spawn( mon_hazmatbot, 1, 23, 18 );
             }
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5405,8 +5401,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             place_items( "office", 85,  11,  3, 13,  3, false, 0 );
             place_items( "office", 85,  17,  3, 19,  3, false, 0 );
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5470,8 +5466,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                 add_spawn( mon_hazmatbot, 1, 11, 16 );
             }
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5537,8 +5533,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                             f_null,     f_null,                 f_null,    f_null,               f_null,
                                             f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                             f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-        for( int i = 0; i <= 23; i++ ) {
-            for( int j = 0; j <= 23; j++ ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
                 if( this->ter( i, j ) == t_rock_floor ) {
                     if( one_in( 250 ) ) {
                         add_item( i, j, item::make_corpse() );
@@ -5562,6 +5558,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     }
                     place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                     place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                    if( one_in( 40 ) ) {
+                        spawn_item( i, j, "nanomaterial", 1, 5 );
+                    }
                     if( one_in( 5 ) ) {
                         if( one_in( 10 ) ) {
                             add_spawn( mon_zombie_child, 1, i, j );
@@ -5625,8 +5624,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                                 f_null,     f_null,                 f_null,    f_null,               f_null,
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( i, j ) == f_rack ) {
                         place_items( "mechanics", 60,  i,  j, i,  j, false, 0 );
                     }
@@ -5653,6 +5652,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5712,8 +5714,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                                 f_null,     f_null,                 f_null,    f_null,               f_null,
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->ter( i, j ) == t_rock_floor ) {
                         if( one_in( 250 ) ) {
                             add_item( i, j, item::make_corpse() );
@@ -5737,6 +5739,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 20 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5796,8 +5801,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
             spawn_item( 3, 16, "sarcophagus_access_code" );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( i, j ) == f_locker ) {
                         place_items( "cleaning", 60,  i,  j, i,  j, false, 0 );
                     }
@@ -5830,6 +5835,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -6759,6 +6767,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }
@@ -7077,7 +7086,7 @@ void map::rotate( int turns )
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
     // @todo: This radius can be smaller - how small?
-    const int radius = int( MAPSIZE / 2 ) + 3;
+    const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
                                          abs_sub.z, radius );

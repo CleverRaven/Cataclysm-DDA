@@ -1,5 +1,7 @@
 #include "mutation.h"
 
+#include <algorithm>
+
 #include "action.h"
 #include "field.h"
 #include "game.h"
@@ -13,8 +15,6 @@
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <algorithm>
 
 const efftype_id effect_stunned( "stunned" );
 

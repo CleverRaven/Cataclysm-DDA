@@ -2,6 +2,14 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -10,14 +18,6 @@
 #include "lightmap.h"
 #include "shadowcasting.h"
 #include "string_id.h"
-
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <set>
-#include <utility>
-#include <vector>
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -64,6 +64,7 @@ struct mapgendata;
 class map_cursor;
 class Character;
 class item_location;
+class zone_data;
 struct trap;
 struct oter_t;
 enum direction : unsigned;
@@ -133,11 +134,11 @@ class map_stack : public item_stack
 
 struct visibility_variables {
     bool variables_set; // Is this struct initialized for current z-level
+    bool u_sight_impaired;
+    bool u_is_boomered;
     // cached values for map visibility calculations
     int g_light_level;
     int u_clairvoyance;
-    bool u_sight_impaired;
-    bool u_is_boomered;
     float vision_threshold;
 };
 
@@ -175,22 +176,23 @@ struct level_cache {
     bool outside_cache_dirty;
     bool floor_cache_dirty;
 
-    four_quadrants lm[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float sm[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
+    float sm[MAPSIZE_X][MAPSIZE_Y];
     // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
     // This is only valid for the duration of generate_lightmap
-    float light_source_buffer[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    bool outside_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+    bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
+    bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
+    float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    float seen_cache[MAPSIZE_X][MAPSIZE_Y];
+    float camera_cache[MAPSIZE_X][MAPSIZE_Y];
+    lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
 
     bool veh_in_active_range;
-    bool veh_exists_at[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
+    std::set<vehicle *> zone_vehicles;
 };
 
 /**
@@ -490,6 +492,11 @@ class map
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( submap *const to, const int zlev );
+        //Returns true if vehicle zones are dirty and need to be recached
+        bool check_vehicle_zones( const int zlev );
+        std::vector<zone_data *> get_vehicle_zones( const int zlev );
+        void register_vehicle_zone( vehicle *, const int zlev );
+        bool deregister_vehicle_zone( zone_data &zone );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
@@ -523,14 +530,6 @@ class map
         // Returns the wheel area of the vehicle multiplied by traction of the surface
         // TODO: Remove the ugly sinking vehicle hack
         float vehicle_wheel_traction( const vehicle &veh ) const;
-
-        // Like traction, except for water
-        // TODO: Actually implement (this is a stub)
-        // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
-        float vehicle_buoyancy( const vehicle &veh ) const;
-
-        // Returns if the vehicle should fall down a z-level
-        bool vehicle_falling( vehicle &veh );
 
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
@@ -584,6 +583,13 @@ class map
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
         ter_id ter( const tripoint &p ) const;
+
+        // Return a bitfield of the adjacent tiles which connect to the given
+        // connect_group.  From least-significant bit the order is south, east,
+        // west, north (because that's what cata_tiles expects).
+        // Based on a combination of visibility and memory, not simply the true
+        // terrain.
+        uint8_t get_known_connections( const tripoint &p, int connect_group ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -839,7 +845,7 @@ class map
         // Items: 2D
         map_stack i_at( int x, int y );
         void i_clear( const int x, const int y );
-        std::list<item>::iterator i_rem( const point location, std::list<item>::iterator it );
+        std::list<item>::iterator i_rem( const point &location, std::list<item>::iterator it );
         int i_rem( const int x, const int y, const int index );
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
@@ -987,7 +993,7 @@ class map
         const std::vector<tripoint> &trap_locations( trap_id t ) const;
 
         //Spawns byproducts from items destroyed in fire.
-        void create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass );
+        void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp
@@ -1097,8 +1103,8 @@ class map
          * Build the map of scent-resistant tiles.
          * Should be way faster than if done in `game.cpp` using public map functions.
          */
-        void scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPSIZE> &blocks_scent,
-                             std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPSIZE> &reduces_scent,
+        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
+                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
                              int minx, int miny, int maxx, int maxy );
 
         // Computers
@@ -1182,7 +1188,7 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                   fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] );
+                                   fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -1239,12 +1245,12 @@ class map
          * Inverse of @ref getabs
          */
         point getlocal( const int x, const int y ) const;
-        point getlocal( const point p ) const {
+        point getlocal( const point &p ) const {
             return getlocal( p.x, p.y );
         }
         tripoint getlocal( const tripoint &p ) const;
         bool inbounds( const int x, const int y ) const;
-        bool inbounds( const point &x ) const;
+        bool inbounds( const point &p ) const;
         bool inbounds( const int x, const int y, const int z ) const;
         bool inbounds( const tripoint &p ) const;
 
@@ -1472,7 +1478,7 @@ class map
         // Handle just cardinal directions and 45 deg angles.
         void apply_directional_light( const tripoint &p, int direction, float luminance );
         void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
-        void apply_light_ray( bool lit[MAPSIZE * SEEX][MAPSIZE * SEEY],
+        void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
                                    std::list<item>::iterator end );

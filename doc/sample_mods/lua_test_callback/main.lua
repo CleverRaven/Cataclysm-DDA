@@ -1,6 +1,6 @@
 local MOD = {
   id = "lua_test_callback",
-  version = "2018-09-11"
+  version = "2019-01-06"
 }
 mods[MOD.id] = MOD
 
@@ -13,7 +13,7 @@ MOD.MessageWithLog = function(s)
     end
 end
 
-MOD.on_game_loaded = function() 
+MOD.on_game_loaded = function()
   MOD.DisplayCallbackMessages("on_game_loaded")
 end
 
@@ -101,7 +101,23 @@ MOD.on_player_mission_finished = function(player_id, mission_id)
   MOD.DisplayCallbackMessages("on_player_mission_finished", player_id, mission_id)
 end
 
-MOD.on_mapgen_finished = function(mapgen_type, mapgen_id, mapgen_coord) 
+MOD.on_activity_call_do_turn_started = function(act_id, player_id)
+  MOD.DisplayCallbackMessages("on_activity_call_do_turn_started", act_id, player_id)
+end
+
+MOD.on_activity_call_do_turn_finished = function(act_id, player_id)
+  MOD.DisplayCallbackMessages("on_activity_call_do_turn_finished", act_id, player_id)
+end
+
+MOD.on_activity_call_finish_started = function(act_id, player_id)
+  MOD.DisplayCallbackMessages("on_activity_call_finish_started", act_id, player_id)
+end
+
+MOD.on_activity_call_finish_finished = function(act_id, player_id)
+  MOD.DisplayCallbackMessages("on_activity_call_finish_finished", act_id, player_id)
+end
+
+MOD.on_mapgen_finished = function(mapgen_type, mapgen_id, mapgen_coord)
   MOD.DisplayCallbackMessages("on_mapgen_finished", mapgen_type, mapgen_id, mapgen_coord)
 end
 

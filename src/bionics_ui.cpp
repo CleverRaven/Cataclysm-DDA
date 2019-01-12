@@ -1,15 +1,15 @@
-#include "bionics.h"
+#include "player.h" // IWYU pragma: associated
 
+#include <algorithm> //std::min
+#include <sstream>
+
+#include "bionics.h"
 #include "catacharset.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm> //std::min
-#include <sstream>
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -56,8 +56,9 @@ void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_
 {
     werase( window );
 
-    const int pwr_str_pos = right_print( window, 0, 1, c_white, string_format( _( "Power: %i/%i" ),
-                                         p->power_level, p->max_power_level ) );
+    const int pwr_str_pos = right_print( window, 0, 1, c_white,
+                                         string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
+                                                 p->power_level, p->max_power_level ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );

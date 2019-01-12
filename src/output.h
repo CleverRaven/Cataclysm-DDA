@@ -2,15 +2,15 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"
 #include "color.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <sstream>
-#include <string>
-#include <vector>
 
 struct input_event;
 struct iteminfo;
@@ -138,8 +138,6 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = fa
  * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
-
-std::string tag_colored_string( const std::string &s, nc_color color );
 
 /*@{*/
 /**
@@ -761,10 +759,6 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
-
-void play_music( std::string playlist );
-
-void update_music_volume();
 
 /**
  * Make changes made to the display visible to the user immediately.

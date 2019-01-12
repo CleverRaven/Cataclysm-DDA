@@ -1,5 +1,8 @@
 #include "skill.h"
 
+#include <algorithm>
+#include <iterator>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
@@ -7,9 +10,6 @@
 #include "recipe.h"
 #include "rng.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <iterator>
 
 // TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;

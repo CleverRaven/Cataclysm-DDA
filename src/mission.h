@@ -2,15 +2,15 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include "calendar.h"
-#include "enums.h"
-#include "npc_favor.h"
-
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "enums.h"
+#include "npc_favor.h"
 
 class player;
 class mission;
@@ -81,8 +81,7 @@ struct mission_place {
 struct mission_start_t {
     void set_reveal( const std::string &terrain );
     void set_reveal_any( JsonArray &ja );
-    void set_target_om( JsonObject &jo, bool random );
-    void set_target_om_or_create( JsonObject &jo );
+    void set_assign_mission_target( JsonObject &jo );
     void load( JsonObject &jo );
     void apply( mission *miss ) const;
     std::vector<std::function<void( mission *miss )>> start_funcs;
@@ -322,7 +321,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
-        void set_target( const tripoint &target );
+        void set_target( const tripoint &p );
         /*@}*/
 
         /** Assigns the mission to the player. */

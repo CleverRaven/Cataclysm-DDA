@@ -1,5 +1,7 @@
 #include "ballistics.h"
 
+#include <algorithm>
+
 #include "creature.h"
 #include "dispersion.h"
 #include "explosion.h"
@@ -17,8 +19,6 @@
 #include "trap.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -44,7 +44,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
-        sounds::sound( pt, 16, _( "glass breaking!" ) );
+        sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ) );
         return;
     }
 
@@ -92,9 +92,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         if( effects.count( "HEAVY_HIT" ) ) {
             if( g->m.has_flag( "LIQUID", pt ) ) {
-                sounds::sound( pt, 10, _( "splash!" ) );
+                sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ) );
             } else {
-                sounds::sound( pt, 8, _( "thud." ) );
+                sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ) );
             }
             const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {

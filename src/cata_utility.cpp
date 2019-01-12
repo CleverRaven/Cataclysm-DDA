@@ -1,5 +1,10 @@
 #include "cata_utility.h"
 
+#include <algorithm>
+#include <cmath>
+#include <locale>
+#include <string>
+
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
@@ -11,11 +16,6 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
-
-#include <algorithm>
-#include <cmath>
-#include <locale>
-#include <string>
 
 static double pow10( unsigned int n )
 {
@@ -209,7 +209,7 @@ double convert_velocity( int velocity, const units_type vel_units )
                 break;
         }
     } else if( type == "t/t" ) {
-        ret /= 10;
+        ret /= 4;
     }
 
     return ret;

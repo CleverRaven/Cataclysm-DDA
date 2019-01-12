@@ -1,5 +1,8 @@
 #include "bionics.h"
 
+#include <algorithm> //std::min
+#include <sstream>
+
 #include "action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
@@ -30,9 +33,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm> //std::min
-#include <sstream>
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -213,7 +213,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
+        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ) );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
             g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
@@ -398,7 +398,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_hydraulics" ) {
         add_msg( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
         //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
         for( auto it = g->m.i_at( pos() ).begin();
@@ -715,7 +715,7 @@ void player::process_bionic( int b )
         }
     } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
@@ -1373,6 +1373,11 @@ bool player::remove_random_bionic()
     return numb;
 }
 
+void player::clear_bionics()
+{
+    my_bionics->clear();
+}
+
 void reset_bionics()
 {
     bionics.clear();
@@ -1498,14 +1503,14 @@ void finalize_bionics()
     }
 }
 
-int bionic::get_quality( const quality_id &q ) const
+int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
     if( i.fake_item.empty() ) {
         return INT_MIN;
     }
 
-    return item( i.fake_item ).get_quality( q );
+    return item( i.fake_item ).get_quality( quality );
 }
 
 void bionic::serialize( JsonOut &json ) const

@@ -2,12 +2,12 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "requirements.h"
-#include "string_id.h"
-
 #include <map>
 #include <set>
 #include <vector>
+
+#include "requirements.h"
+#include "string_id.h"
 
 class recipe_dictionary;
 class Skill;
@@ -98,6 +98,10 @@ class recipe
         int batch_time( int batch, float multiplier, size_t assistants ) const;
 
         bool has_flag( const std::string &flag_name ) const;
+
+        bool is_reversible() const {
+            return reversible;
+        }
 
         void load( JsonObject &jo, const std::string &src );
         void finalize();

@@ -1,5 +1,8 @@
 #include "effect.h"
 
+#include <map>
+#include <sstream>
+
 #include "debug.h"
 #include "json.h"
 #include "messages.h"
@@ -7,9 +10,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-
-#include <map>
-#include <sstream>
 
 namespace
 {
@@ -195,10 +195,10 @@ static void extract_effect( JsonObject &j,
     }
 }
 
-bool effect_type::load_mod_data( JsonObject &jsobj, const std::string &member )
+bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
 {
-    if( jsobj.has_object( member ) ) {
-        JsonObject j = jsobj.get_object( member );
+    if( jo.has_object( member ) ) {
+        JsonObject j = jo.get_object( member );
 
         // Stats first
         //                          json field                  type key    arg key

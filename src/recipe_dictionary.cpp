@@ -1,5 +1,7 @@
 #include "recipe_dictionary.h"
 
+#include <algorithm>
+
 #include "cata_utility.h"
 #include "crafting.h"
 #include "generic_factory.h"
@@ -10,8 +12,6 @@
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
-
-#include <algorithm>
 
 recipe_dictionary recipe_dict;
 
@@ -240,25 +240,25 @@ void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
 }
 
 recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
-                                 std::map<recipe_id, recipe> &dest )
+                                 std::map<recipe_id, recipe> &out )
 {
     recipe r;
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
-        if( !dest.count( base ) ) {
+        if( !out.count( base ) ) {
             deferred.emplace_back( jo.str(), src );
             return null_recipe;
         }
-        r = dest[ base ];
+        r = out[ base ];
     }
 
     r.load( jo, src );
 
-    dest[ r.ident() ] = std::move( r );
+    out[ r.ident() ] = std::move( r );
 
-    return dest[ r.ident() ];
+    return out[ r.ident() ];
 }
 
 size_t recipe_dictionary::size() const
@@ -320,7 +320,7 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.reversible && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
+        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
             recipe_dict.uncraft[ recipe_id( r.result() ) ] = r;
         }
     }

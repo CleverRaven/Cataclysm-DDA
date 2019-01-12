@@ -1,10 +1,10 @@
 #include "item_stack.h"
 
-#include "item.h"
-#include "units.h"
-
 #include <algorithm>
 #include <list>
+
+#include "item.h"
+#include "units.h"
 
 size_t item_stack::size() const
 {

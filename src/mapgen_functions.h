@@ -2,11 +2,11 @@
 #ifndef MAPGEN_FUNCTIONS_H
 #define MAPGEN_FUNCTIONS_H
 
+#include <string>
+
 #include "enums.h"
 #include "int_id.h"
 #include "weighted_list.h"
-
-#include <string>
 
 class time_point;
 struct ter_t;

@@ -2,11 +2,12 @@
 #ifndef IUSE_H
 #define IUSE_H
 
-#include "enums.h"
-
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "enums.h"
+#include "units.h"
 
 class item;
 class player;
@@ -220,6 +221,14 @@ class iuse
         static int handle_ground_graffiti( player &p, item *it, const std::string &prefix );
 
 };
+
+// Helper for clothes washing
+struct washing_requirements {
+    int water;
+    int cleanser;
+    int time;
+};
+washing_requirements washing_requirements_for_volume( units::volume );
 
 typedef int ( iuse::*use_function_pointer )( player *, item *, bool, const tripoint & );
 

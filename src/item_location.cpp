@@ -1,5 +1,9 @@
 #include "item_location.h"
 
+#include <climits>
+#include <list>
+#include <algorithm>
+
 #include "character.h"
 #include "debug.h"
 #include "enums.h"
@@ -17,10 +21,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <climits>
-#include <list>
-#include <algorithm>
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -406,7 +406,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             vpart_position part_pos( cur.veh, cur.part );
             std::string res;
             if( auto label = part_pos.get_label() ) {
-                res = tag_colored_string( *label, c_light_blue ) + " ";
+                res = colorize( *label, c_light_blue ) + " ";
             }
             if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
                 res += cargo_part->part().name();

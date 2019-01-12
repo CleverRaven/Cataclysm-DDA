@@ -1,5 +1,15 @@
 #include "output.h"
 
+#include <algorithm>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -14,16 +24,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "units.h"
-
-#include <algorithm>
-#include <cstdarg>
-#include <cstdlib>
-#include <cstring>
-#include <map>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
@@ -119,14 +119,6 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
         }
     }
     return lines;
-}
-
-std::string tag_colored_string( const std::string &s, nc_color color )
-{
-    // @todo: Make this tag generation a function, put it in good place
-    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
-    std::string color_tag_close = "</color>";
-    return color_tag_open + s + color_tag_close;
 }
 
 std::vector<std::string> split_by_color( const std::string &s )
@@ -2011,14 +2003,14 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
     }
 
     for( auto it = pattern.begin(); it != pattern.end(); ++it ) {
-        if( it == pattern.begin() && *it != "" ) {
+        if( it == pattern.begin() && !it->empty() ) {
             if( text.length() < it->length() ||
                 ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
                 return false;
             }
 
             text = text.substr( it->length(), text.length() - it->length() );
-        } else if( it == pattern.end() - 1 && *it != "" ) {
+        } else if( it == pattern.end() - 1 && !it->empty() ) {
             if( text.length() < it->length() ||
                 ci_find_substr( text.substr( text.length() - it->length(),
                                              it->length() ), *it ) == -1 ) {
@@ -2150,14 +2142,6 @@ int get_terminal_height()
 bool is_draw_tiles_mode()
 {
     return false;
-}
-
-void play_music( std::string )
-{
-}
-
-void update_music_volume()
-{
 }
 
 void refresh_display()

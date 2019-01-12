@@ -1,4 +1,8 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <set>
+#include <sstream>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -15,11 +19,8 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 
-#include <algorithm>
-#include <set>
-#include <sstream>
-
 static const std::string part_location_structure( "structure" );
+static const itype_id fuel_type_muscle( "muscle" );
 
 const std::string vehicle::disp_name() const
 {
@@ -321,12 +322,15 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     }
     if( !fullsize ) {
         for( size_t e = 0; e < engines.size(); e++ ) {
-            if( is_engine_on( e ) ) {
+            // if only one display, print the first engine that's on and consumes power
+            if( is_engine_on( e ) &&
+                !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
                 print_fuel_indicator( win, y, x, parts[ engines [ e ] ].fuel_current(), verbose,
                                       desc );
                 return;
             }
         }
+        // or print the first fuel if no engines
         print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
         return;
     }
@@ -399,7 +403,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
             rate = consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
         } else if( fuel_type == itype_id( "battery" ) ) {
-            rate = power_to_energy_bat( total_epower_w(), 3600 );
+            rate = power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 3600 );
             units = _( "kJ" );
         }
         if( rate != 0 ) {
