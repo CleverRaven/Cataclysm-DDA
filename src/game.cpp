@@ -8252,7 +8252,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
-        draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
+        draw_custom_border( w_item_info, bDrawLeft, 1, 0, 1, LINE_XOXO, LINE_XOXO, 1, 1 );
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
@@ -10576,9 +10576,9 @@ bool game::walk_move( const tripoint &dest_loc )
     if( u.is_hauling() ) {
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the source is inside a vehicle (not supported)
-        u.activity.values.push_back( false );
+        u.activity.values.push_back( 0 );
         // Whether the destination is inside a vehicle (not supported)
-        u.activity.values.push_back( false );
+        u.activity.values.push_back( 0 );
         // Source relative to the player
         u.activity.placement = u.pos() - dest_loc;
         // Destination relative to the player

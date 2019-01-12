@@ -431,7 +431,7 @@ void player_morale::display( double focus_gain )
             const morale_mult mult = get_temper_mult();
 
             int line = 0;
-            for( size_t i = offset; i < static_cast<unsigned int>( rows_total ); ++i ) {
+            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
                 const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
 

@@ -3115,12 +3115,12 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_pa
     SDL_SetColorKey( asciiload.get(),SDL_TRUE,key );
     SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), true );
+    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();
 
     for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), true );
+        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
     }
 
     for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {

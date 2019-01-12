@@ -160,7 +160,7 @@ std::vector<item> item::magazine_convert()
     // normalize the base item and mark it as converted
     charges = 0;
     curammo = nullptr;
-    set_var( "magazine_converted", true );
+    set_var( "magazine_converted", 1 );
 
     return res;
 }

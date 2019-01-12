@@ -182,7 +182,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
     }
 
     if( ( type->gun || type->tool ) && !magazine_integral() ) {
-        set_var( "magazine_converted", true );
+        set_var( "magazine_converted", 1 );
     }
 
     if( !type->snippet_category.empty() ) {
