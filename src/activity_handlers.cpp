@@ -129,6 +129,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
@@ -2509,6 +2510,13 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
+void activity_handlers::socialize_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "%s finishes chatting with you..." ), act->str_values[0].c_str() );
+    add_msg( m_good, _( "That was a pleasant conversation with %s..." ), act->str_values[0].c_str() );
     act->set_to_null();
 }
 

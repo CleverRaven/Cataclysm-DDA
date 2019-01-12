@@ -415,10 +415,9 @@ void talk_function::morale_chat( npc &p )
 void talk_function::morale_chat_activity( npc &p )
 {
     g->u.add_morale( MORALE_CHAT, 5, 5, 360_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), 20 );
-    p.add_effect( effect_asked_to_train, 6_hours );
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 20 );
     g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
+    //p.add_effect( effect_asked_to_socialize, 6_hours );
 }
 
 void talk_function::buy_10_logs( npc &p )
