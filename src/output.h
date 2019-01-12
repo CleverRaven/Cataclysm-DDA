@@ -333,6 +333,8 @@ inline bool query_int( int &result, const char *const msg, Args &&... args )
 
 std::vector<std::string> get_hotkeys( const std::string &s );
 
+std::string highlight_hotkeys(input_context ctxt, std::string message, std::string action);
+
 /**
  * @name Popup windows
  *

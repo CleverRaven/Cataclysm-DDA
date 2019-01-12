@@ -800,43 +800,47 @@
     "type": "keybinding",
     "id": "AIM",
     "name": "Aim",
-    "bindings": [ { "input_method": "keyboard", "key": "." }, { "input_method": "keyboard", "key": "5" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "AIMED_SHOT",
-    "name": "Aimed Shot",
-    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "CAREFUL_SHOT",
-    "name": "Careful Shot",
-    "bindings": [ { "input_method": "keyboard", "key": "c" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "PRECISE_SHOT",
-    "name": "Precise Shot",
-    "bindings": [ { "input_method": "keyboard", "key": "p" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "SWITCH_AIM",
-    "name": "Switch Aiming Mode",
-    "bindings": [ { "input_method": "keyboard", "key": "m" } ]
+    "bindings": [ 
+      { "input_method": "keyboard", "key": "S" }, 
+      { "input_method": "keyboard", "key": "s" },
+      { "input_method": "keyboard", "key": "." },
+      { "input_method": "keyboard", "key": "5" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "SWITCH_AMMO",
     "name": "Switch ammo",
-    "bindings": [ { "input_method": "keyboard", "key": "o" } ]
+    "bindings": [ 
+      { "input_method": "keyboard", "key": "R" }, 
+      { "input_method": "keyboard", "key": "r" } 
+    ]
   },
   {
     "type": "keybinding",
     "id": "SWITCH_MODE",
-    "name": "Switch Firing Mode",
-    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+    "name": "Switch firing mode",
+    "bindings": [ 
+      { "input_method": "keyboard", "key": "C" }, 
+      { "input_method": "keyboard", "key": "c" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_TARGET_ORDER",
+    "name": "Switch target order",
+    "bindings": [ 
+      { "input_method": "keyboard", "key": "O" }, 
+      { "input_method": "keyboard", "key": "o" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TARGET_UI_HELP",
+    "name": "Show targeting UI help",
+    "bindings": [ 
+      { "input_method": "keyboard", "key": "F1" }
+    ]
   },
   {
     "type": "keybinding",

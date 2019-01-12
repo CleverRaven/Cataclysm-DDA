@@ -403,6 +403,7 @@ classes = {
             { name = "no_resume", rval = "bool", args = { } },
             { name = "rooted", rval = "bool", args = { } },
             { name = "suspendable", rval = "bool", args = { } },
+            { name = "atomic", rval = "bool", args = { } },
             { name = "stop_phrase", rval = "string", args = { } },
         }
     },

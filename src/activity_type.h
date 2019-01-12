@@ -31,6 +31,7 @@ class activity_type
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
+        bool atomic_ = false;
         bool refuel_fires = false;
 
     public:
@@ -51,6 +52,9 @@ class activity_type
         }
         bool no_resume() const {
             return no_resume_;
+        }
+        bool atomic() const {
+            return atomic_;
         }
         /**
          * If true, player will refuel one adjacent fire if there is firewood spot adjacent.

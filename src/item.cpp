@@ -1324,19 +1324,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::no_flags,
                                g->u.aim_per_move( *mod, MAX_RECOIL ) );
             for( const aim_type &type : g->u.get_aim_types( *mod ) ) {
-                // Nameless aim levels don't get an entry.
-                if( type.name.empty() ) {
-                    continue;
+                if( !type.name.empty() ) {
+                    info.emplace_back( "GUN", _( type.name.c_str() ) );
+                    int max_dispersion = g->u.get_weapon_dispersion( *mod ).max();
+                    int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
+                    info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
+                                    _( "<num>" ), iteminfo::no_flags, range );
+                    int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
+                    info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> seconds" ),
+                                    iteminfo::is_decimal | iteminfo::lower_is_better,
+                                    TICKS_TO_SECONDS( aim_mv ) );
                 }
-                info.emplace_back( "GUN", _( type.name.c_str() ) );
-                int max_dispersion = g->u.get_weapon_dispersion( *mod ).max();
-                int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
-                info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
-                                   _( "<num>" ), iteminfo::no_flags, range );
-                int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
-                info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> seconds" ),
-                                   iteminfo::is_decimal | iteminfo::lower_is_better,
-                                   TICKS_TO_SECONDS( aim_mv ) );
             }
         }
 

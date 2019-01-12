@@ -74,6 +74,11 @@ std::string player_activity::get_stop_phrase() const
     return type->stop_phrase();
 }
 
+bool player_activity::atomic() const
+{
+    return type->atomic();
+}
+
 int player_activity::get_value( size_t index, int def ) const
 {
     return ( index < values.size() ) ? values[index] : def;

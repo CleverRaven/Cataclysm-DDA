@@ -622,6 +622,25 @@ std::vector<std::string> get_hotkeys( const std::string &s )
     return hotkeys;
 }
 
+std::string highlight_hotkeys(input_context ctxt, std::string message, std::string action) 
+{
+    std::vector<char> keys = ctxt.keys_bound_to(action);
+    for( const char item : keys ) {
+        std::string::size_type index = message.find(item);
+        if(index != std::string::npos) {
+            message.insert(index + 1, "</color>");
+            message.insert(index, "<color_yellow>");
+            return message;
+        }
+    }
+    if (keys.size() > 0) {
+        message.append(" (<color_yellow>");
+        message.push_back(keys[0]);
+        message.append("</color>)");
+    }
+    return message;
+}
+
 long popup( const std::string &text, PopupFlags flags )
 {
     query_popup pop;

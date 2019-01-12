@@ -1744,7 +1744,8 @@ bool cancel_auto_move( player &p, const std::string &text )
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
-    if( cancel_auto_move( u, text ) || !u.activity || u.activity.is_distraction_ignored( type ) ) {
+    if( cancel_auto_move( u, text ) || !u.activity || u.activity.is_distraction_ignored( type ) 
+            || u.activity.atomic()) {
         return false;
     }
 
@@ -2001,35 +2002,37 @@ std::list<std::string> game::get_npc_kill()
 
 void game::handle_key_blocking_activity()
 {
-    // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
-    if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-        u.activity.moves_left > 0 &&
-        !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
-        Creature *hostile_critter = is_hostile_very_close();
-        if( hostile_critter != nullptr ) {
-            if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "You see %s approaching!" ),
-                                                         hostile_critter->disp_name().c_str() ) ) ) {
-                return;
-            }
-        }
-    }
+    if ( u.activity && u.activity.moves_left > 0) {
+        //never interrupt aiming, it's a quick activity
+        if ( !u.has_activity ( activity_id( "ACT_AIM" ))) {
 
-    if( u.activity && u.activity.moves_left > 0 ) {
-        input_context ctxt = get_default_mode_input_context();
-        const std::string action = ctxt.handle_input( 0 );
-        if( action == "pause" ) {
-            cancel_activity_query( _( "Confirm:" ) );
-        } else if( action == "player_data" ) {
-            u.disp_info();
-            refresh_all();
-        } else if( action == "messages" ) {
-            Messages::display_messages();
-            refresh_all();
-        } else if( action == "help" ) {
-            get_help().display_help();
-            refresh_all();
+            // If player is performing a task and a monster is dangerously close, warn them
+            // regardless of previous safemode warnings
+            if( !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
+                Creature *hostile_critter = is_hostile_very_close();
+                if( hostile_critter != nullptr ) {
+                    if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                        string_format( _( "You see %s approaching!" ),
+                                                                hostile_critter->disp_name().c_str() ) ) ) {
+                        return;
+                    }
+                }
+            }
+
+            input_context ctxt = get_default_mode_input_context();
+            const std::string action = ctxt.handle_input( 0 );
+            if( action == "pause" ) {
+                cancel_activity_query( _( "Confirm:" ) );
+            } else if( action == "player_data" ) {
+                u.disp_info();
+                refresh_all();
+            } else if( action == "messages" ) {
+                Messages::display_messages();
+                refresh_all();
+            } else if( action == "help" ) {
+                get_help().display_help();
+                refresh_all();
+            }
         }
     }
 }

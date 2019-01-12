@@ -1750,7 +1750,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz( w, line++, column, c_white, _( "NPC: %s" ), name.c_str() );
-    if( is_armed() ) {
+    if( line < last_line && is_armed() ) {
         trim_and_print( w, line++, column, iWidth, c_red, _( "Wielding a %s" ), weapon.tname().c_str() );
     }
 
@@ -1774,7 +1774,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
-    if( !worn_str.empty() ) {
+    if( line < last_line && !worn_str.empty() ) {
         std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
         enumerate_print( wearing, c_blue );
     }
@@ -1783,7 +1783,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
 
     const auto trait_str = visible_mutations( visibility_cap );
-    if( !trait_str.empty() ) {
+    if( line < last_line && !trait_str.empty() ) {
         std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
         enumerate_print( mutations, c_green );
     }

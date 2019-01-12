@@ -271,6 +271,7 @@
     "id": "ACT_AIM",
     "type": "activity_type",
     "stop_phrase": "Stop aiming?",
+    "atomic": true,
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
