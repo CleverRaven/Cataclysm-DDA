@@ -414,8 +414,8 @@ void talk_function::morale_chat( npc &p )
 
 void talk_function::morale_chat_activity( npc &p )
 {
-    g->u.add_morale( MORALE_CHAT, 5, 5, 360_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 20 );
+    time_duration time = 20_turns;
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), to_moves<int>( time ));
     g->u.activity.str_values.push_back( p.name );
     //p.add_effect( effect_asked_to_socialize, 6_hours );
 }
