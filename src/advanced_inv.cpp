@@ -231,12 +231,12 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string volume_carried = format_volume( g->u.volume_carried() );
         std::string volume_capacity = format_volume( g->u.volume_capacity() );
         // align right, so calculate formatted head length
-        const std::string head = string_format( "%.1f/%.1f %s  %s/%s %s",
+        const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                                 weight_carried, weight_capacity, weight_units(),
                                                 volume_carried.c_str(),
                                                 volume_capacity.c_str(),
                                                 volume_units_abbr() );
-        const int hrightcol = columns - 1 - head.length();
+        const int hrightcol = columns - 1 - formatted_head.length();
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, 4, hrightcol, color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
@@ -244,9 +244,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         wprintz( window, color, volume_carried.c_str() );
         wprintz( window, c_light_gray, "/%s %s", volume_capacity.c_str(), volume_units_abbr() );
     } else { //print square's current and total weight + volume
-        std::string head;
+        std::string formatted_head;
         if( pane.get_area() == AIM_ALL ) {
-            head = string_format( "%3.1f %s  %s %s",
+            formatted_head = string_format( "%3.1f %s  %s %s",
                                   convert_weight( squares[pane.get_area()].weight ),
                                   weight_units(),
                                   format_volume( squares[pane.get_area()].volume ).c_str(),
@@ -261,14 +261,14 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %s  %s/%s %s",
+            formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                   convert_weight( s.weight ),
                                   weight_units(),
                                   format_volume( s.volume ).c_str(),
                                   format_volume( maxvolume ).c_str(),
                                   volume_units_abbr() );
         }
-        mvwprintz( window, 4, columns - 1 - head.length(), norm, head );
+        mvwprintz( window, 4, columns - 1 - formatted_head.length(), norm, formatted_head );
     }
 
     //print header row and determine max item name length
@@ -2085,31 +2085,31 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    item &src = src_container.contents.front();
+    item &src_contents = src_container.contents.front();
 
-    if( !src.made_of( LIQUID ) ) {
+    if( !src_contents.made_of( LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
         return false;
     }
 
     std::string err;
     // @todo: Allow buckets here, but require them to be on the ground or wielded
-    const long amount = dest_container.get_remaining_capacity_for_liquid( src, false, &err );
+    const long amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
     if( !err.empty() ) {
         popup( err.c_str() );
         return false;
     }
     if( src_container.is_non_resealable_container() ) {
-        if( src.charges > amount ) {
+        if( src_contents.charges > amount ) {
             popup( _( "You can't partially unload liquids from unsealable container." ) );
             return false;
         }
         src_container.on_contents_changed();
     }
-    dest_container.fill_with( src, amount );
+    dest_container.fill_with( src_contents, amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
-    if( src.charges <= 0 ) {
+    if( src_contents.charges <= 0 ) {
         src_container.contents.clear();
     }
 
