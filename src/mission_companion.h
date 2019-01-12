@@ -84,7 +84,8 @@ void companion_mission( npc & );
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
-std::shared_ptr<npc> individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
+std::shared_ptr<npc> individual_mission( npc &p, const std::string &desc,
+        const std::string &miss_id,
         bool group = false, const std::vector<item *> &equipment = {},
         const std::string &skill_tested = "", int skill_level = 0 );
 
