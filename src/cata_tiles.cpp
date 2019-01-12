@@ -1419,9 +1419,9 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     previous_submap_view = tripoint_min;
 
     //allocate the textures for the texture pool
-    for( int i = 0; i < static_cast<int>( tex_pool.texture_pool.size() ); i++ ) {
-        tex_pool.texture_pool[i] = create_minimap_cache_texture( minimap_tile_size.x * SEEX,
-                                   minimap_tile_size.y * SEEY );
+    for( auto &i : tex_pool.texture_pool ) {
+        i = create_minimap_cache_texture( minimap_tile_size.x * SEEX,
+                                          minimap_tile_size.y * SEEY );
     }
 }
 

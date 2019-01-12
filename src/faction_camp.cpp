@@ -1443,11 +1443,11 @@ void basecamp::craft_construction( npc &p, const std::string &cur_id, const std:
                                    const std::string &type, const std::string &miss_id )
 {
     std::map<std::string, std::string> recipes = recipe_deck( type );
-    for( auto it = recipes.begin(); it != recipes.end(); ++it ) {
-        if( cur_id != cur_dir + it->first ) {
+    for( auto &r : recipes ) {
+        if( cur_id != cur_dir + r.first ) {
             continue;
         }
-        const recipe &making = recipe_id( it->second ).obj();
+        const recipe &making = recipe_id( r.second ).obj();
         inventory total_inv = g->u.crafting_inventory();
 
         if( !making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
@@ -1816,9 +1816,9 @@ bool basecamp::menial_return( npc &p )
     tripoint p_ammo = sort_points[ static_cast<size_t>( sort_pt_ids::ammo ) ];
 
     //This prevents the loop from getting stuck on the piles in the open
-    for( size_t spi = 0; spi < sort_points.size() ; spi++ ) {
-        if( g->m.furn( sort_points[ spi ] ) == f_null ) {
-            g->m.furn_set( sort_points[ spi ], f_ash );
+    for( tripoint &sort_point : sort_points ) {
+        if( g->m.furn( sort_point ) == f_null ) {
+            g->m.furn_set( sort_point, f_ash );
         }
     }
     for( const tripoint &tmp : g->m.points_in_radius( g->u.pos(), 72 ) ) {
@@ -1860,9 +1860,9 @@ bool basecamp::menial_return( npc &p )
         g->m.i_clear( tmp );
     }
     //Undo our hack!
-    for( size_t spi = 0; spi < sort_points.size() ; spi++ ) {
-        if( g->m.furn( sort_points[ spi ] ) == f_ash ) {
-            g->m.furn_set( sort_points[ spi ], f_null );
+    for( tripoint &sort_point : sort_points ) {
+        if( g->m.furn( sort_point ) == f_ash ) {
+            g->m.furn_set( sort_point, f_null );
         }
     }
     return true;
@@ -3139,11 +3139,11 @@ std::string camp_car_description( vehicle *car )
     }
     std::map<itype_id, long> fuels = car->fuels_left();
     entry += _( "----  Fuel Storage & Battery   ----\n" );
-    for( std::map<itype_id, long>::iterator it = fuels.begin(); it != fuels.end(); ++it ) {
-        std::string fuel_entry = string_format( "%d/%d", car->fuel_left( it->first ),
-                                                car->fuel_capacity( it->first ) );
-        entry += string_format( ">%s:%*s\n", item( it->first ).tname(),
-                                33 - item( it->first ).tname().length(), fuel_entry );
+    for( auto &fuel : fuels ) {
+        std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
+                                                car->fuel_capacity( fuel.first ) );
+        entry += string_format( ">%s:%*s\n", item( fuel.first ).tname(),
+                                33 - item( fuel.first ).tname().length(), fuel_entry );
     }
     for( auto &pt : car->parts ) {
         if( pt.is_battery() ) {

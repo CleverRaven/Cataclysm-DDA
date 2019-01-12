@@ -2889,12 +2889,12 @@ void basecamp::serialize( JsonOut &json ) const
     json.end_array();
     json.member( "expansions" );
     json.start_array();
-    for( auto it = expansions.begin(); it != expansions.end(); ++it ) {
+    for( const auto &expansion : expansions ) {
         json.start_object();
-        json.member( "dir", it->first );
-        json.member( "type", it->second.type );
-        json.member( "cur_level", it->second.cur_level );
-        json.member( "pos", it->second.pos );
+        json.member( "dir", expansion.first );
+        json.member( "type", expansion.second.type );
+        json.member( "cur_level", expansion.second.cur_level );
+        json.member( "pos", expansion.second.pos );
         json.end_object();
     }
     json.end_array();

@@ -108,8 +108,8 @@ invslice inventory::slice()
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
-    for( auto iter = items.cbegin(); iter != items.cend(); ++iter ) {
-        stacks.push_back( &*iter );
+    for( const auto &item : items ) {
+        stacks.push_back( &item );
     }
     return stacks;
 }
@@ -309,9 +309,8 @@ void inventory::restack( player &p )
         const int ipos = p.invlet_to_position( topmost.invlet );
         if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
             assign_empty_invlet( topmost, p );
-            for( std::list<item>::iterator stack_iter = stack.begin();
-                 stack_iter != stack.end(); ++stack_iter ) {
-                stack_iter->invlet = topmost.invlet;
+            for( auto &stack_iter : stack ) {
+                stack_iter.invlet = topmost.invlet;
             }
         }
 

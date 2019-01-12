@@ -666,8 +666,8 @@ bool vehicle::is_alternator_on( const int a ) const
 bool vehicle::has_security_working() const
 {
     bool found_security = false;
-    for( size_t s = 0; s < speciality.size(); s++ ) {
-        if( part_flag( speciality[ s ], "SECURITY" ) && parts[ speciality[ s ] ].is_available() ) {
+    for( int s : speciality ) {
+        if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
             found_security = true;
             break;
         }

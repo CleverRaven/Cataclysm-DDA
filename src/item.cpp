@@ -2489,8 +2489,8 @@ std::map<gunmod_location, int> item::get_mod_locations() const
         if( !mod->type->gunmod->add_mod.empty() ) {
             std::map<gunmod_location, int> add_locations = mod->type->gunmod->add_mod;
 
-            for( auto it = add_locations.begin(); it != add_locations.end(); ++it ) {
-                mod_locations[it->first] += it->second;
+            for( auto &add_location : add_locations ) {
+                mod_locations[add_location.first] += add_location.second;
             }
         }
     }

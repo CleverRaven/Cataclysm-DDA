@@ -1954,17 +1954,16 @@ bool advanced_inventory::query_destination( aim_location &def )
         for( int i = AIM_SOUTHWEST; i <= AIM_NORTHEAST; i++ ) {
             ordered_locs.push_back( screen_relative_location( static_cast <aim_location>( i ) ) );
         }
-        for( std::vector <aim_location>::iterator iter = ordered_locs.begin(); iter != ordered_locs.end();
-             ++iter ) {
-            auto &s = squares[*iter];
+        for( auto &ordered_loc : ordered_locs ) {
+            auto &s = squares[ordered_loc];
             const int size = s.get_item_count();
             std::string prefix = string_format( "%2d/%d", size, MAX_ITEM_IN_SQUARE );
             if( size >= MAX_ITEM_IN_SQUARE ) {
                 prefix += _( " (FULL)" );
             }
-            menu.addentry( *iter,
+            menu.addentry( ordered_loc,
                            ( s.canputitems() && s.id != panes[src].get_area() ),
-                           get_location_key( *iter ),
+                           get_location_key( ordered_loc ),
                            prefix + " " + s.name + " " + ( s.veh != nullptr ? s.veh->name : "" ) );
         }
     }

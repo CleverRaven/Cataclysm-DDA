@@ -1081,8 +1081,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if( cur.getFieldAge() < -500_minutes ) {
                                     maximum_density = 3;
                                 } else {
-                                    for( size_t i = 0; i < neighs.size(); i++ ) {
-                                        if( neighs[i].get_field().findField( fd_fire ) != nullptr ) {
+                                    for( auto &neigh : neighs ) {
+                                        if( neigh.get_field().findField( fd_fire ) != nullptr ) {
                                             adjacent_fires++;
                                         }
                                     }
@@ -1682,8 +1682,8 @@ void map::player_in_field( player &u )
     // Iterate through all field effects on this tile.
     // Do not remove the field with removeField, instead set it's density to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it ) {
-        field_entry &cur = field_list_it->second;
+    for( auto &field_list_it : curfield ) {
+        field_entry &cur = field_list_it.second;
         if( !cur.isAlive() ) {
             continue;
         }
@@ -2162,8 +2162,8 @@ void map::monster_in_field( monster &z )
     // Iterate through all field effects on this tile.
     // Do not remove the field with removeField, instead set it's density to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it ) {
-        field_entry &cur = field_list_it->second;
+    for( auto &field_list_it : curfield ) {
+        field_entry &cur = field_list_it.second;
         if( !cur.isAlive() ) {
             continue;
         }

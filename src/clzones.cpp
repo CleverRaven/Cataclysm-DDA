@@ -822,8 +822,8 @@ void zone_manager::zone_edited( zone_data &zone )
 {
     if( zone.get_is_vehicle() ) {
         //Check if this zone has already been stored
-        for( auto it = changed_vzones.begin(); it != changed_vzones.end(); ++it ) {
-            if( &zone == it->second ) {
+        for( auto &changed_vzone : changed_vzones ) {
+            if( &zone == changed_vzone.second ) {
                 return;
             }
         }
