@@ -2446,6 +2446,9 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 
 void Character::empty_traits()
 {
+    for( auto &mut : my_mutations ) {
+        on_mutation_loss( mut.first );
+    }
     my_traits.clear();
     my_mutations.clear();
 }
