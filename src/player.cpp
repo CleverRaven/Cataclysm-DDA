@@ -2921,7 +2921,7 @@ void player::shout( std::string msg )
         base = 15;
         shout_multiplier = 3;
         if ( msg.empty() ) {
-            msg = is_player() ? _("yourself scream loudly!") : _("a loud scream!");
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
         }
     }
 
@@ -2929,12 +2929,12 @@ void player::shout( std::string msg )
         shout_multiplier = 4;
         base = 20;
         if ( msg.empty() ) {
-            msg = is_player() ? _("yourself let out a piercing howl!") : _("a piercing howl!");
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
         }
     }
 
     if ( msg.empty() ) {
-        msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -2949,7 +2949,7 @@ void player::shout( std::string msg )
 
     if ( noise <= base ) {
         std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter(dampened_shout), tolower );
+        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
         noise = std::max( minimum_noise, noise );
         msg = std::move( dampened_shout );
     }
@@ -2960,15 +2960,17 @@ void player::shout( std::string msg )
             mod_stat( "oxygen", -noise );
         }
 
-        noise = std::max(minimum_noise, noise / 2);
+        noise = std::max( minimum_noise, noise / 2 );
     }
 
+    // TODO: indistinct noise descriptions should be handled in the sounds code
     if( noise <= minimum_noise ) {
-        add_msg( m_warning, _( "The sound of your voice is almost completely muffled!" ) );
-        msg.clear();
+        add_msg_if_player( m_warning,
+                           _( "The sound of your voice is almost completely muffled!" ) );
+        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
     } else if( noise * 2 <= noise + penalty ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
-        add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
     sounds::sound( pos(), noise, sounds::sound_t::speech, msg );

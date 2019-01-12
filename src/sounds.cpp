@@ -82,9 +82,10 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
-void sounds::ambient_sound( const tripoint &p, int vol, const std::string &description )
+void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
+                            const std::string &description )
 {
-    sound( p, vol, sounds::sound_t::background, description, true );
+    sound( p, vol, category, description, true );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, std::string description,
@@ -323,7 +324,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
-        if( p->is_npc() ) {
+        if( p->is_npc() && !sound.ambient ) {
             npc *guy = dynamic_cast<npc *>( p );
             guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
             continue;

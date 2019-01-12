@@ -3216,6 +3216,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
         snip = is_enemy() ? "<kill_player_h>" : "";
+    } else if( type == "speech_noise" ) {
+        snip = "<speech_warning>";
     } else if( type == "combat_noise" ) {
         snip = "<combat_noise_warning>";
     } else if( type == "movement_noise" ) {
@@ -3224,7 +3226,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         return;
     }
     const std::string warning_name = "warning_" + type + name;
-    const std::string speech = name.empty() ? snip : string_format( _( "%s %s<punc>" ), snip, name );
+    const std::string speech = name.empty() ? snip :
+                               string_format( _( "%s %s<punc>" ), snip, name );
     complain_about( warning_name, d, speech, is_enemy() );
 }
 
@@ -3247,7 +3250,9 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
     };
 
     // Don't wake player up with non-serious complaints
-    const bool do_complain = ( rules.allow_complain && !g->u.in_sleep_state() ) || force;
+    // Stop complaining while asleep
+    const bool do_complain = force || ( rules.allow_complain && !g->u.in_sleep_state() &&
+                                        !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
         say( speech );
