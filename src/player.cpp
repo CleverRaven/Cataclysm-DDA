@@ -85,6 +85,8 @@
 #include <sstream>
 #include <limits>
 
+constexpr double SQRT_2 = 1.41421356237309504880;
+
 const double MAX_RECOIL = 3000;
 
 const mtype_id mon_player_blob( "mon_player_blob" );
@@ -1867,7 +1869,7 @@ int player::run_cost( int base_cost, bool diag ) const
     movecost /= stamina_modifier;
 
     if( diag ) {
-        movecost *= 1.4142;
+        movecost *= SQRT_2;
     }
 
     return int( movecost );
