@@ -1315,7 +1315,12 @@
   "using": [ [ "soldering_standard", 14 ] ],
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
-    [ [ "m4a1", 1 ] ],
+    [
+      [ "m4a1", 1 ],
+      [ "sig552", 1 ],
+      [ "h&k416a5", 1 ],
+      [ "m27iar", 1 ]
+    ],
     [ [ "processor", 2 ] ],
     [ [ "RAM", 2 ] ],
     [
