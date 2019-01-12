@@ -16,13 +16,30 @@
   {
     "id": "TALK_FRIEND",
     "type": "talk_topic",
-    "responses": [ { "text": "Relax and chat with me for a while...", "topic": "TALK_FRIEND_CHAT", "effect": "morale_chat_activity" } ]
+    "responses": [ { "text": "Relax and chat with me for a while...", "topic": "TALK_FRIEND_CHAT" } ]
   },
   {
     "id": "TALK_FRIEND_CHAT",
     "type": "talk_topic",
-    "dynamic_line": [ "Ok, so, how's it going?..." ],
-    "responses": [ { "text": "Oh you know...", "topic": "TALK_DONE" } ]
+    "dynamic_line": "Ok, so, how's it going?",
+    "responses": [
+      {
+        "text": "Oh you know, not bad, not bad...",
+        "topic": "TALK_DONE",
+        "condition": "at_safe_space",
+        "effect": "morale_chat_activity",
+        "switch": true
+      },
+      {
+        "text": "Okay.  Lead the way.",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "default": true,
+        "effect": "lead_to_safety"
+      },
+      { "text": "No, we'll be okay here.", "topic": "morale_chat_activity", "switch": true, "default": true },
+      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+    ]
   },
   {
     "id": "TALK_SHELTER_PLANS",
