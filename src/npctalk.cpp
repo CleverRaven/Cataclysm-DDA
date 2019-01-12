@@ -2190,6 +2190,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( buy_haircut ),
             WRAP( buy_shave ),
             WRAP( morale_chat ),
+            WRAP( morale_chat_activity ),
             WRAP( buy_10_logs ),
             WRAP( buy_100_logs ),
             WRAP( bionic_install ),

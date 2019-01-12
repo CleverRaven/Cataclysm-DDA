@@ -14,6 +14,17 @@
     ]
   },
   {
+    "id": "TALK_FRIEND",
+    "type": "talk_topic",
+    "responses": [ { "text": "Relax and chat with me for a while...", "topic": "TALK_FRIEND_CHAT", "effect": "morale_chat_activity" } ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": [ "Ok, so, how's it going?..." ],
+    "responses": [ { "text": "Oh you know...", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "TALK_SHELTER_PLANS",
     "type": "talk_topic",
     "dynamic_line": [
