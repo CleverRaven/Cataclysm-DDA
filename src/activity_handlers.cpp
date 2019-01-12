@@ -670,7 +670,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
                                   entry.base_num.first );
         }
-        const itype *drop = NULL;
+        const itype *drop = nullptr;
         if( entry.type != "bionic_group" ) {
             drop = item::find_type( entry.drop );
         }

@@ -2548,7 +2548,7 @@ player *vehicle::get_passenger( int p ) const
     if( p >= 0 && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
         return g->critter_by_id<player>( parts[p].passenger_id );
     }
-    return 0;
+    return nullptr;
 }
 
 tripoint vehicle::global_pos3() const
