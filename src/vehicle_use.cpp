@@ -347,7 +347,6 @@ void vehicle::control_engines()
 int vehicle::select_engine()
 {
     uilist tmenu;
-    std::string name;
     tmenu.text = _( "Toggle which?" );
     int i = 0;
     for( size_t x = 0; x < engines.size(); x++ ) {
