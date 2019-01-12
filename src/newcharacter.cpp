@@ -2620,6 +2620,7 @@ void reset_scenario( player &u, const scenario *scen )
     u.per_max = 8;
     g->scen = scen;
     u.prof = &default_prof.obj();
+    /// check for HP-modifying traits and toggle them
     if( u.has_trait( trait_id( "FLIMSY" ) ) ) {
       u.toggle_trait( trait_id( "FLIMSY" ) );
     }
