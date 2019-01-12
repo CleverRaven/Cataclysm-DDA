@@ -2621,10 +2621,13 @@ void reset_scenario( player &u, const scenario *scen )
     g->scen = scen;
     u.prof = &default_prof.obj();
     if( u.has_trait( trait_id( "FLIMSY" ) ) ) {
-      u.toggle_trait( trait_id("FLIMSY" ) );
+      u.toggle_trait( trait_id( "FLIMSY" ) );
     }
     if( u.has_trait( trait_id( "FLIMSY2" ) ) ) {
-      u.toggle_trait( trait_id("FLIMSY2" ) );
+      u.toggle_trait( trait_id( "FLIMSY2" ) );
+    }
+    if( u.has_trait( trait_id( "TOUGH" ) ) ) {
+      u.toggle_trait( trait_id( "TOUGH" ) );
     }
     u.empty_traits();
     u.recalc_hp();
