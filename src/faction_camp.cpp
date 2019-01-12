@@ -1960,7 +1960,7 @@ void basecamp::fortifications_return( npc &p )
                 if( om_i == "forest_thick" ) {
                     om_i = "forest";
                 }
-                edit.mapgen_set( om_i, pt, false );
+                edit.mapgen_set( om_i, pt, 0, false );
             }
         }
         //Add fences
