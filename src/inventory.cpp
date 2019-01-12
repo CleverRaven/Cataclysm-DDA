@@ -236,31 +236,33 @@ char inventory::find_usable_cached_invlet( const std::string &item_type )
     return 0;
 }
 
-item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet )
+item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
 
-    // See if we can't stack this item.
-    for( auto &elem : items ) {
-        std::list<item>::iterator it_ref = elem.begin();
-        if( it_ref->stacks_with( newit ) ) {
-            if( it_ref->merge_charges( newit ) ) {
-                return *it_ref;
-            }
-            if( it_ref->invlet == '\0' ) {
-                if( !keep_invlet ) {
-                    update_invlet( newit, assign_invlet );
+    if( should_stack ) {
+        // See if we can't stack this item.
+        for( auto &elem : items ) {
+            std::list<item>::iterator it_ref = elem.begin();
+            if( it_ref->stacks_with( newit ) ) {
+                if( it_ref->merge_charges( newit ) ) {
+                    return *it_ref;
                 }
-                update_cache_with_item( newit );
-                it_ref->invlet = newit.invlet;
-            } else {
-                newit.invlet = it_ref->invlet;
+                if( it_ref->invlet == '\0' ) {
+                    if( !keep_invlet ) {
+                        update_invlet( newit, assign_invlet );
+                    }
+                    update_cache_with_item( newit );
+                    it_ref->invlet = newit.invlet;
+                } else {
+                    newit.invlet = it_ref->invlet;
+                }
+                elem.push_back( newit );
+                return elem.back();
+            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
+                // If keep_invlet is true, we'll be forcing other items out of their current invlet.
+                assign_empty_invlet( *it_ref, g->u );
             }
-            elem.push_back( newit );
-            return elem.back();
-        } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
-            // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-            assign_empty_invlet( *it_ref, g->u );
         }
     }
 

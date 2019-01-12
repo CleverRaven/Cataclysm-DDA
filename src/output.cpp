@@ -761,9 +761,9 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     }
 
     starty += fold_and_print( win, starty, 1, len, c_white,
-                              _( "Search [c]ategory, [m]aterial, or [q]uality:" ) );
+                              _( "Search [c]ategory, [m]aterial, [q]uality or [d]isassembled components:" ) );
     //~ An example of how to filter items based on category or material.
-    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron,q:hammering" ) );
+    fold_and_print( win, starty, 1, len, c_white, _( "Examples: c:food,m:iron,q:hammering,d:pipe" ) );
     wrefresh( win );
 }
 
