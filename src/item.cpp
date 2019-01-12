@@ -6254,14 +6254,14 @@ const item_category &item::get_category() const
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
-                    flags f, double Value )
+                    flags Flags, double Value )
 {
     sType = Type;
     sName = replace_colors( Name );
     sFmt = replace_colors( Fmt );
-    is_int = !( f & is_decimal );
+    is_int = !( Flags & is_decimal );
     dValue = Value;
-    bShowPlus = static_cast<bool>( f & show_plus );
+    bShowPlus = static_cast<bool>( Flags & show_plus );
     std::stringstream convert;
     if( bShowPlus ) {
         convert << std::showpos;
@@ -6273,9 +6273,9 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     }
     convert << std::fixed << Value;
     sValue = convert.str();
-    bNewLine = !( f & no_newline );
-    bLowerIsBetter = static_cast<bool>( f & lower_is_better );
-    bDrawName = !( f & no_name );
+    bNewLine = !( Flags & no_newline );
+    bLowerIsBetter = static_cast<bool>( Flags & lower_is_better );
+    bDrawName = !( Flags & no_name );
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value )

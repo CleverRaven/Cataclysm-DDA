@@ -2672,7 +2672,7 @@ body_part Character::get_random_body_part( bool main ) const
     return random_body_part( main );
 }
 
-std::vector<body_part> Character::get_all_body_parts( bool main ) const
+std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 {
     // @todo: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
@@ -2701,7 +2701,7 @@ std::vector<body_part> Character::get_all_body_parts( bool main ) const
         }
     };
 
-    return main ? main_bps : all_bps;
+    return only_main ? main_bps : all_bps;
 }
 
 std::string Character::extended_description() const

@@ -152,11 +152,11 @@ struct iteminfo {
          *  @param Type The item type of the item this iteminfo belongs to.
          *  @param Name The name of the property this iteminfo describes.
          *  @param Fmt Formatting text desired between item name and value
-         *  @param flags Additional flags to customize this entry
+         *  @param Flags Additional flags to customize this entry
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999 );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
