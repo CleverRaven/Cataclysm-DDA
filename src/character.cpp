@@ -2109,7 +2109,7 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto color_name = []( const nc_color col ) {
+    const auto color_name = []( const nc_color &col ) {
         return get_all_colors().get_name( col );
     };
 

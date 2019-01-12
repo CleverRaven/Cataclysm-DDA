@@ -874,7 +874,7 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     g->m.furn_set( pos, f_null );
 }
 
-static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id id )
+static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id &id )
 {
     const itype_id &iid = id->deployed_item;
     if( item::type_is_defined( iid ) ) {

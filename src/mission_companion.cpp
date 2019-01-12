@@ -1891,7 +1891,7 @@ std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const
 }
 
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> talk_function::loot_building( const tripoint site )
+std::vector<item *> talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
     std::vector<item *> items_found;

@@ -627,7 +627,7 @@ void player::reset_stats()
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
-    const auto set_fake_effect_dur = [this]( const efftype_id &type, const time_duration dur ) {
+    const auto set_fake_effect_dur = [this]( const efftype_id &type, const time_duration &dur ) {
         effect &eff = get_effect( type );
         if( eff.get_duration() == dur ) {
             return;
@@ -6685,7 +6685,7 @@ int player::get_morale_level() const
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        const time_duration duration, const time_duration decay_start,
+                        const time_duration &duration, const time_duration &decay_start,
                         bool capped, const itype* item_type)
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );

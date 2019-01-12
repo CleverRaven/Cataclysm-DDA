@@ -7374,7 +7374,7 @@ time_duration item::age() const
     return calendar::turn - birthday();
 }
 
-void item::set_age( const time_duration age )
+void item::set_age( const time_duration &age )
 {
     set_birthday( time_point( calendar::turn ) - age );
 }
@@ -7384,7 +7384,7 @@ time_point item::birthday() const
     return bday;
 }
 
-void item::set_birthday( const time_point bday )
+void item::set_birthday( const time_point &bday )
 {
     this->bday = bday;
 }

@@ -297,8 +297,8 @@ int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-static constexpr time_duration alc_strength( const int strength, const time_duration weak,
-        const time_duration medium, const time_duration strong )
+static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
+        const time_duration &medium, const time_duration &strong )
 {
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }

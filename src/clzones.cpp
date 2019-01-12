@@ -308,7 +308,7 @@ bool zone_data::set_type()
     return false;
 }
 
-void zone_data::set_position( const std::pair<tripoint, tripoint> position,
+void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
                               const bool manual )
 {
     if( is_vehicle && manual ) {

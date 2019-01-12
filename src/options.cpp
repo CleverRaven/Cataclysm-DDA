@@ -281,7 +281,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 //add int map option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           const std::map<int, std::string> mIntValuesIn, int iInitialIn,
+                           const std::map<int, std::string> &mIntValuesIn, int iInitialIn,
                            int iDefaultIn, copt_hide_t opt_hide )
 {
     cOpt thisOpt;

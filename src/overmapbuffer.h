@@ -201,7 +201,7 @@ class overmapbuffer
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.
          */
-        void insert_npc( std::shared_ptr<npc> who );
+        void insert_npc( const std::shared_ptr<npc> &who );
 
         /**
          * Find all places with the specific overmap terrain type.
@@ -430,7 +430,7 @@ class overmapbuffer
          * @param radius Used in conjunction with center. Absolute overmap terrain units.
          * @returns True if the special was placed, else false.
          */
-        bool place_special( const overmap_special_id special_id, const tripoint &center, int radius );
+        bool place_special( const overmap_special_id &special_id, const tripoint &center, int radius );
 
     private:
         /**
