@@ -77,7 +77,7 @@ class selection_column_preset: public inventory_selector_preset
     public:
         selection_column_preset() {}
 
-        virtual std::string get_caption( const inventory_entry &entry ) const override {
+        std::string get_caption( const inventory_entry &entry ) const override {
             std::ostringstream res;
             const size_t available_count = entry.get_available_count();
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
@@ -101,7 +101,7 @@ class selection_column_preset: public inventory_selector_preset
             return res.str();
         }
 
-        virtual nc_color get_color( const inventory_entry &entry ) const override {
+        nc_color get_color( const inventory_entry &entry ) const override {
             if( &*entry.location == &g->u.weapon ) {
                 return c_light_blue;
             } else if( g->u.is_worn( *entry.location ) ) {

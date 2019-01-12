@@ -148,7 +148,7 @@ class Character : public Creature, public visitable<Character>
         field_id bloodType() const override;
         field_id gibType() const override;
         bool is_warm() const override;
-        virtual const std::string &symbol() const override;
+        const std::string &symbol() const override;
 
         // Character stats
         // TODO: Make those protected
@@ -698,7 +698,7 @@ class Character : public Creature, public visitable<Character>
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
 
-        virtual std::string extended_description() const override;
+        std::string extended_description() const override;
 
         // In newcharacter.cpp
         void empty_skills();
