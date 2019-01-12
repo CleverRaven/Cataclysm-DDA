@@ -2446,9 +2446,6 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 
 void Character::empty_traits()
 {
-    for( auto &mut : my_mutations ) {
-        mutation_loss_effect( mut.first );
-    }
     my_traits.clear();
     my_mutations.clear();
 }
@@ -2620,15 +2617,10 @@ void reset_scenario( player &u, const scenario *scen )
     u.per_max = 8;
     g->scen = scen;
     u.prof = &default_prof.obj();
-    /// check for HP-modifying traits and toggle them
-    if( u.has_trait( trait_id( "FLIMSY" ) ) ) {
-      u.toggle_trait( trait_id( "FLIMSY" ) );
-    }
-    if( u.has_trait( trait_id( "FLIMSY2" ) ) ) {
-      u.toggle_trait( trait_id( "FLIMSY2" ) );
-    }
-    if( u.has_trait( trait_id( "TOUGH" ) ) ) {
-      u.toggle_trait( trait_id( "TOUGH" ) );
+    for( auto &t : u.get_mutations() ) {
+        if( t.obj().hp_modifier != 0 ) {
+            u.toggle_trait( t );
+        }
     }
     u.empty_traits();
     u.recalc_hp();
