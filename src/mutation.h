@@ -2,6 +2,12 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -9,12 +15,6 @@
 #include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
-
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <utility>
-#include <vector>
 
 class nc_color;
 class JsonObject;
@@ -95,6 +95,8 @@ struct mutation_branch {
         bool profession;
         //True if the mutation is obtained through the debug menu
         bool debug;
+        // True if the mutation should be displayed in the `@` menu
+        bool player_display = true;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;

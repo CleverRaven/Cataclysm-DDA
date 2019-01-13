@@ -1,5 +1,10 @@
 #include "item_factory.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <sstream>
+
 #include "addiction.h"
 #include "ammo.h"
 #include "artifact.h"
@@ -25,11 +30,6 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <sstream>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -1705,6 +1705,15 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
     assign( jo, "min_str_required_mod", slot.min_str_required_mod );
+    if( jo.has_array( "add_mod" ) ) {
+        slot.add_mod.clear();
+        JsonArray jarr = jo.get_array( "add_mod" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.add_mod.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
+        }
+    }
+    assign( jo, "blacklist_mod", slot.blacklist_mod );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )

@@ -116,6 +116,7 @@
       [ "hotdogs_frozen", 6 ],
       [ "sausage", 4 ],
       [ "sweet_sausage", 2 ],
+      [ "bratwurst_sausage", 4 ],
       [ "meat_salted", 2 ],
       [ "meat_canned", 2 ],
       [ "offal_canned", 2 ],
