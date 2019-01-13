@@ -2,15 +2,15 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"
 #include "color.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <sstream>
-#include <string>
-#include <vector>
 
 struct input_event;
 struct iteminfo;
@@ -759,10 +759,6 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
-
-void play_music( std::string playlist );
-
-void update_music_volume();
 
 /**
  * Make changes made to the display visible to the user immediately.

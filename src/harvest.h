@@ -2,11 +2,11 @@
 #ifndef HARVEST_H
 #define HARVEST_H
 
-#include "string_id.h"
-
 #include <list>
 #include <map>
 #include <set>
+
+#include "string_id.h"
 
 typedef std::string itype_id;
 class JsonObject;
@@ -23,6 +23,8 @@ struct harvest_entry {
     std::pair<float, float> scale_num = { 0.0f, 0.0f };
 
     int max = 1000;
+    std::string type = "null";
+    float mass_ratio = 0.00f;
 
     static harvest_entry load( JsonObject &jo, const std::string &src );
 };

@@ -3,6 +3,7 @@
 #define MATTACK_COMMON_H
 
 #include <memory>
+#include <string>
 
 class JsonObject;
 class monster;

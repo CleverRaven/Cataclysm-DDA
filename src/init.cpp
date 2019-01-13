@@ -1,5 +1,11 @@
 #include "init.h"
 
+#include <cassert>
+#include <fstream>
+#include <sstream> // for throwing errors
+#include <string>
+#include <vector>
+
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
@@ -57,12 +63,6 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-
-#include <cassert>
-#include <fstream>
-#include <sstream> // for throwing errors
-#include <string>
-#include <vector>
 
 #if defined(TILES)
 void load_tileset();
@@ -325,6 +325,7 @@ void DynamicDataLoader::initialize()
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
     add( "sound_effect", &sfx::load_sound_effects );
+    add( "sound_effect_preload", &sfx::load_sound_effect_preload );
     add( "playlist", &sfx::load_playlist );
 
     add( "gate", &gates::load );
@@ -484,8 +485,6 @@ void DynamicDataLoader::unload_data()
     // TODO:
     //    Name::clear();
 }
-
-extern void calculate_mapgen_weights();
 
 void DynamicDataLoader::finalize_loaded_data()
 {

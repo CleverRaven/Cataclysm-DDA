@@ -4,6 +4,12 @@
  * Who knows
  */
 
+#include <cstring>
+#include <ctime>
+#include <iostream>
+#include <locale>
+#include <map>
+
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -17,12 +23,6 @@
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
-
-#include <cstring>
-#include <ctime>
-#include <iostream>
-#include <locale>
-#include <map>
 #if (!(defined _WIN32 || defined WINDOWS))
 #include <signal.h>
 #endif

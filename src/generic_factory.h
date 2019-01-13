@@ -2,6 +2,12 @@
 #ifndef GENERIC_FACTORY_H
 #define GENERIC_FACTORY_H
 
+#include <algorithm>
+#include <bitset>
+#include <set>
+#include <unordered_map>
+#include <vector>
+
 #include "assign.h"
 #include "debug.h"
 #include "init.h"
@@ -10,12 +16,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
-
-#include <algorithm>
-#include <bitset>
-#include <set>
-#include <unordered_map>
-#include <vector>
 
 /**
 A generic class to store objects identified by a `string_id`.

@@ -2,14 +2,14 @@
 #ifndef MONGROUP_H
 #define MONGROUP_H
 
+#include <map>
+#include <set>
+#include <vector>
+
 #include "calendar.h"
 #include "enums.h"
 #include "monster.h"
 #include "string_id.h"
-
-#include <map>
-#include <set>
-#include <vector>
 
 // from overmap.h
 class overmap;

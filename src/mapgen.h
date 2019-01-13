@@ -2,12 +2,12 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-#include "int_id.h"
-
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "int_id.h"
 
 class time_point;
 struct ter_t;
@@ -146,7 +146,7 @@ struct jmapgen_setmap {
 class jmapgen_piece
 {
     protected:
-        jmapgen_piece() { }
+        jmapgen_piece() = default;
     public:
         /** Place something on the map from mapgendata dat, at (x,y). mon_density */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
