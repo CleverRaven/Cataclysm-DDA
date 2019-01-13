@@ -400,8 +400,7 @@ void WinCreate()
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" ) || get_option<std::string>( "RENDERER" ).empty();
     int renderer_id = -1;
     std::string renderer_name;
-    if( software_renderer )
-    {
+    if( software_renderer ) {
        renderer_name = "software";
     } else {
        renderer_name = get_option<std::string>( "RENDERER" );

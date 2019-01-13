@@ -26,7 +26,6 @@
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
 #include "path_info.h"
@@ -3197,6 +3196,32 @@ inline void cata_tiles::handle_draw_rect( const SDL_Renderer_Ptr &renderer, cons
         SetRenderDrawColor( renderer, r, g, b, 255 );
         RenderFillRect( renderer, &rect );
     }
+}
+
+std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
+{
+    std::vector<options_manager::id_and_option> renderer_names;
+    std::vector<options_manager::id_and_option> default_renderer_names = {
+#if (defined TILES)
+#   if (defined _WIN32 || defined WINDOWS)
+        { "direct3d", translate_marker( "direct3d" ) },
+#   endif
+        { "opengl", translate_marker( "opengl" ) },
+        { "opengles2", translate_marker( "opengles2" ) },
+#endif
+        { "software", translate_marker( "software" ) }
+    };
+
+    int numRenderDrivers = SDL_GetNumRenderDrivers();
+    DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
+    for( int ii = 0; ii < numRenderDrivers; ii++ ) {
+        SDL_RendererInfo ri;
+        SDL_GetRenderDriverInfo( ii, &ri );
+        DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
+        renderer_names.emplace_back( ri.name, ri.name );
+    }
+
+    return renderer_names.empty() ? default_renderer_names : renderer_names;
 }
 
 #endif // SDL_TILES

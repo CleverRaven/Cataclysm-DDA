@@ -21,11 +21,6 @@
 
 #ifdef TILES
 #include "cata_tiles.h"
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
 #endif // TILES
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
@@ -887,32 +882,6 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
-std::vector<options_manager::id_and_option> options_manager::build_renderer_list()
-{
-    std::vector<id_and_option> renderer_names;
-
-#ifdef TILES
-    int numRenderDrivers = SDL_GetNumRenderDrivers();
-    DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
-    for( int ii = 0; ii < numRenderDrivers; ii++ ) {
-        SDL_RendererInfo ri;
-        SDL_GetRenderDriverInfo( ii, &ri );
-        DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
-        renderer_names.emplace_back( ri.name, ri.name );
-    }
-#endif
-
-    if( renderer_names.empty() ) {
-#if (defined _WIN32 || defined WINDOWS )
-        renderer_names.emplace_back( "direct3d", translate_marker( "direct3d" ) );
-#endif
-        renderer_names.emplace_back( "opengl", translate_marker( "opengl" ) );
-        renderer_names.emplace_back( "opengles2", translate_marker( "opengles2" ) );
-        renderer_names.emplace_back( "software", translate_marker( "software" ) );
-    }
-    return renderer_names;
-}
-
 #ifdef __ANDROID__
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
@@ -1547,8 +1516,14 @@ void options_manager::add_options_graphics()
 
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
          translate_marker( "Set which renderer to use.  Requires restart." ),
-         build_renderer_list(), "opengl", COPT_CURSES_HIDE
-       );
+#if (defined TILES)
+         // No renderer selection in non-TILES mode
+         cata_tiles::build_renderer_list(),
+#else
+    {   { "software", translate_marker( "software" ) }
+    },
+#endif
+         "software", COPT_NO_HIDE );
 
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
