@@ -19,7 +19,6 @@
 #include "player.h"
 #include "pldata.h"
 #include "requirements.h"
-#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather_gen.h"
@@ -46,6 +45,7 @@
 #include "overmap.h"
 #include "overmap_ui.h" // IWYU pragma: keep
 #include "requirements.h" // IWYU pragma: keep
+#include "rng.h" // IWYU pragma: keep
 #include "string_input_popup.h"
 #include "trap.h" // IWYU pragma: keep
 #include "ui.h"
