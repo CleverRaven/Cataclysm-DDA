@@ -2,10 +2,10 @@
 #ifndef GAME_INVENTORY_H
 #define GAME_INVENTORY_H
 
+#include <list>
+
 #include "enums.h"
 #include "inventory_ui.h"
-
-#include <list>
 
 namespace cata
 {

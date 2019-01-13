@@ -2514,5 +2514,18 @@
     ],
     "pre_special" : "check_empty",
     "post_terrain": "t_junk_floor"
+  },
+  {
+    "type" : "construction",
+    "description" : "Build Pillow Fort",
+    "category" : "CONSTRUCT",
+    "required_skills" : [ [ "fabrication", 0 ] ],
+    "time" : 15,
+    "components" : [
+      [ [ "pillow", 19 ],[ "down_pillow", 19 ] ],
+      [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
+    ],
+    "pre_terrain" : "t_floor",
+    "post_terrain" : "f_pillow_fort"
   }
 ]

@@ -1,5 +1,8 @@
 #include "craft_command.h"
 
+#include <sstream>
+#include <algorithm>
+
 #include "debug.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -11,9 +14,6 @@
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
-
-#include <sstream>
-#include <algorithm>
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

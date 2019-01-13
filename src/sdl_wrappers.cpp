@@ -2,9 +2,9 @@
 
 #include "sdl_wrappers.h"
 
-#include "debug.h"
-
 #include <cassert>
+
+#include "debug.h"
 
 #ifdef TILES
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

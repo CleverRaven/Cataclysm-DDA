@@ -1173,6 +1173,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "standard_template_construct",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "nanofabricator template",
+    "category": "spare_parts",
+    "description": "A state-of-the-art optical storage system.  This small slate of transparent glass holds, inscribed as a miniature pattern, the instructions required to create an item through a nanofabricator.",
+    "price": 150000,
+    "price_postapoc": 15000,
+    "material": [ "steel", "plastic" ],
+    "weight": 317,
+    "volume": 1,
+    "to_hit": -1,
+    "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",
@@ -1195,7 +1211,7 @@
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 70,
+    "weight": 110,
     "volume": 1
   },
   {
@@ -2837,5 +2853,33 @@
     "material": "steel",
     "symbol": "}",
     "color": "light_cyan"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hard_steel_armor",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "hard steel plate",
+    "description": "An armor plating made of a very thick steel, specifically engineered for use in a bullet resistant vest.",
+    "price": 10000,
+    "material": "hardsteel",
+    "weight": 1500,
+    "volume": 2,
+    "bashing": 6
+  },
+  {
+    "type": "GENERIC",
+    "id": "steel_armor",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "steel plate",
+    "description": "A steel armor plate, specifically engineered for use in a bullet resistant vest.",
+    "price": 9000,
+    "material": "steel",
+    "weight": 1000,
+    "volume": 2,
+    "bashing": 5
   }
 ]

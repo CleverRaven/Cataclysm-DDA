@@ -1,3 +1,9 @@
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
 #include "game.h"
@@ -6,13 +12,8 @@
 #include "item.h"
 #include "line.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 namespace
 {

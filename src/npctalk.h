@@ -4,6 +4,15 @@
 
 #include <string>
 
+#include "string_id.h"
+
+class martialart;
+using matype_id = string_id<martialart>;
+class npc;
+class Skill;
+using skill_id = string_id<Skill>;
+class time_duration;
+
 namespace talk_function
 {
 void nothing( npc & );
@@ -22,6 +31,7 @@ void bionic_remove( npc & );
 
 void buy_haircut( npc & );
 void buy_shave( npc & );
+void morale_chat( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void give_equipment( npc & );
