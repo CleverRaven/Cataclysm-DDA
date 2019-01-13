@@ -681,7 +681,7 @@ int inventory::position_by_item( const item *it ) const
     return INT_MIN;
 }
 
-int inventory::position_by_type( const itype_id &type )
+int inventory::position_by_type( const itype_id &type ) const
 {
     int i = 0;
     for( auto &elem : items ) {
