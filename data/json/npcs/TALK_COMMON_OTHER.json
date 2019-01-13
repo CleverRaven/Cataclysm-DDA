@@ -16,7 +16,13 @@
   {
     "id": "TALK_FRIEND",
     "type": "talk_topic",
-    "responses": [ { "text": "Relax and chat with me for a while...", "topic": "TALK_FRIEND_CHAT" } ]
+    "responses": [
+      {
+        "text": "Relax and chat with me for a while...",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      }
+    ]
   },
   {
     "id": "TALK_FRIEND_CHAT",
@@ -26,19 +32,9 @@
       {
         "text": "Oh you know, not bad, not bad...",
         "topic": "TALK_DONE",
-        "condition": "at_safe_space",
-        "effect": "morale_chat_activity",
-        "switch": true
-      },
-      {
-        "text": "Okay.  Lead the way.",
-        "topic": "TALK_DONE",
         "switch": true,
-        "default": true,
-        "effect": "lead_to_safety"
-      },
-      { "text": "No, we'll be okay here.", "topic": "morale_chat_activity", "switch": true, "default": true },
-      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
     ]
   },
   {
