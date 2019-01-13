@@ -2,11 +2,11 @@
 #ifndef TRAIT_GROUP_H
 #define TRAIT_GROUP_H
 
-#include "mutation.h"
-#include "string_id.h"
-
 #include <memory>
 #include <vector>
+
+#include "mutation.h"
+#include "string_id.h"
 
 class JsonObject;
 class JsonIn;

@@ -13,7 +13,6 @@ option(LUA          "Lua support (required for some mods)."					"OFF")
 option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )
 option(SOUND        "Support for in-game sounds & music."					"OFF")
-option(RELEASE      "Disable debug. Use it for user-ready buils."				"OFF")
 option(BACKTRACE    "Support for printing stack backtraces on crash"			"ON" )
 option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
@@ -28,7 +27,6 @@ include(CTest)
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-IF (RELEASE)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
@@ -38,11 +36,14 @@ MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
 MESSAGE("                               --= Dark Days Ahead =--")
 MESSAGE("\n * http://en.cataclysmdda.com/\n")
-ENDIF (RELEASE)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
 MESSAGE(STATUS "Build realm is                : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+
+IF(NOT CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE Debug)
+ENDIF(NOT CMAKE_BUILD_TYPE)
 
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
@@ -176,7 +177,20 @@ IF(TILES)
 ENDIF(TILES)
 
 # Set build types and display info
-IF(RELEASE)
+IF(CMAKE_BUILD_TYPE STREQUAL Debug)
+	MESSAGE("\n")
+	MESSAGE(STATUS "Build ${PROJECT} in development mode --\n")
+	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
+	SET(CMAKE_VERBOSE_MAKEFILE ON)
+	# Since CataclusmDDA does not respect PREFIX for development builds
+	# and has funny path handlers, we should create resulting Binaries
+	# in the source redectory
+	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+		${CMAKE_SOURCE_DIR}
+		CACHE PATH "Single Directory for all Executables."
+	)
+	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
+ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
 	MESSAGE(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -187,55 +201,12 @@ IF(RELEASE)
 	MESSAGE(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
 	MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
-	SET(CMAKE_BUILD_TYPE RELEASE)
 	ADD_DEFINITIONS(-DRELEASE)
-	# FIXME: Removed -Werror for a while. Currently it is broken in upstream.
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os")
-	IF(NOT MSVC)
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11 -MMD")
-	ELSE()
-		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-			add_definitions(-D_AMD64_)
-		else()
-			add_definitions(-D_X86_)
-		endif()
-	ENDIF()
-	IF(MINGW)
-		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
-		ADD_DEFINITIONS(-D__NO_INLINE__)
-	ENDIF(MINGW)
     # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
     IF (PREFIX AND NOT WIN32)
 	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
-ELSE (RELEASE)
-	MESSAGE("\n")
-	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
-	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
-	SET(CMAKE_BUILD_TYPE DEBUG)
-	IF(NOT WIN32)
-		# Reduce objects and binary size to avoid 'file too big' error
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_DEBUG")
-	ENDIF(NOT WIN32)
-	IF(NOT MSVC)
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11 -MMD")
-	ELSE()
-		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-			add_definitions(-D_AMD64_)
-		else()
-			add_definitions(-D_X86_)
-		endif()
-	ENDIF()
-	SET(CMAKE_VERBOSE_MAKEFILE ON)
-	# Since CataclusmDDA does not respect PREFIX for development builds
-	# and has funny path handlers, we should create resulting Binaries
-	# in the source redectory
-	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-		${CMAKE_SOURCE_DIR}
-		CACHE PATH "Single Directory for all Executables."
-	)
-	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
-ENDIF (RELEASE)
+ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
 	MESSAGE(STATUS "LUA                           : ${LUA}")
 IF (LUA)
@@ -246,7 +217,6 @@ ENDIF (LUA)
 	MESSAGE(STATUS "TILES                         : ${TILES}")
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
-	MESSAGE(STATUS "RELEASE                       : ${RELEASE}")
 	MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
 	MESSAGE(STATUS "LOCALIZE                      : ${LOCALIZE}")
 	MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
@@ -255,6 +225,16 @@ ENDIF (LUA)
 
 	MESSAGE(STATUS "See INSTALL file for details and more info --\n")
 
+IF(MSVC)
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+		add_definitions(-D_AMD64_)
+	else()
+		add_definitions(-D_X86_)
+	endif()
+ELSE()
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11")
+	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g -D_GLIBCXX_DEBUG")
+ENDIF()
 
 # Force out-of-source build
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})

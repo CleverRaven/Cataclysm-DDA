@@ -1,10 +1,10 @@
 #include "emit.h"
 
+#include <map>
+
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
-
-#include <map>
 
 static std::map<emit_id, emit> emits_all;
 
