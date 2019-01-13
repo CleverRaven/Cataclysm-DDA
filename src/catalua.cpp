@@ -1,5 +1,7 @@
 #include "catalua.h"
 
+#include <memory>
+
 #include "action.h"
 #include "debug.h"
 #include "game.h"
@@ -22,8 +24,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather_gen.h"
-
-#include <memory>
 
 #ifdef LUA
 

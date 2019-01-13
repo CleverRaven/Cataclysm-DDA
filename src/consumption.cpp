@@ -1,3 +1,8 @@
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -12,14 +17,10 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <string>
 
 namespace
 {
@@ -163,7 +164,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     float fun_max = fun < 0 ? fun * 6 : fun * 3;
     if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
         if( fun > 0 ) {
-            fun *= 3;
+            fun *= 2;
         } else {
             fun = 1;
             fun_max = 5;

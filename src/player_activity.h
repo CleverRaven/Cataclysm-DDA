@@ -2,13 +2,13 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include "enums.h"
-#include "item_location.h"
-#include "string_id.h"
-
 #include <climits>
 #include <set>
 #include <vector>
+
+#include "enums.h"
+#include "item_location.h"
+#include "string_id.h"
 
 class player;
 class Character;

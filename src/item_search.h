@@ -2,11 +2,11 @@
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
 
-#include "output.h"
-
 #include <algorithm>
 #include <functional>
 #include <string>
+
+#include "output.h"
 
 /**
  * Get a function that returns true if the value matches the query.

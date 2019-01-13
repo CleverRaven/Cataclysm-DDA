@@ -2,8 +2,6 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include "itype.h"
-
 #include <functional>
 #include <list>
 #include <map>
@@ -11,6 +9,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "itype.h"
 
 bool item_is_blacklisted( const std::string &id );
 

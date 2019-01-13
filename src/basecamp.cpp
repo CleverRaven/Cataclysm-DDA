@@ -1,5 +1,12 @@
 #include "basecamp.h"
 
+#include <algorithm>
+#include <array>
+#include <sstream>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -17,15 +24,7 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "skill.h"
-
 #include "faction_camp.h"
-
-#include <algorithm>
-#include <array>
-#include <sstream>
-#include <map>
-#include <string>
-#include <vector>
 
 static const std::string base_dir = "[B]";
 static const std::string prefix = "faction_base_";
