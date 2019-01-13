@@ -988,7 +988,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fchicken",
-    "name": "deep fried chicken",
+    "name": "deep-fried chicken",
     "weight": 238,
     "color": "red",
     "spoils_in": "1 day",
@@ -997,7 +997,7 @@
     "symbol": "%",
     "healthy": -1,
     "calories": 130,
-    "description": "A handful of deep fried chicken.  So bad it's good.",
+    "description": "Chicken cooked while submerged in oil.  It's greasy and delicious.",
     "price": 550,
     "material": [ "flesh", "junk" ],
     "volume": 1,
