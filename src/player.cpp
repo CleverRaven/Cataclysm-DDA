@@ -9896,18 +9896,9 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = stack->front();
 
-        if( !candidate.is_book() ) {
-            continue;
-        }
-        // NPCs don't need to identify books
-        if( is_player() && !items_identified.count( candidate.typeId() ) ) {
-            continue;
-        }
-
-        for( const auto &elem : candidate.type->book->recipes ) {
-            if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
-                res.include( elem.recipe, elem.skill_level );
-            }
+        for( std::pair<const recipe *, int> recipe_entry :
+               candidate.get_available_recipes( *this ) ) {
+            res.include( recipe_entry.first, recipe_entry.second );
         }
     }
 

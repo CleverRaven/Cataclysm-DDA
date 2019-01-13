@@ -5739,13 +5739,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             amenu.addentry( ei_music, false, 'm', _( "No music on device" ) );
         }
 
-        if( !it->get_var( "RECIPE" ).empty() ) {
-            const item dummy( it->get_var( "RECIPE" ), 0 );
-            amenu.addentry( ei_invalid, false, -1, _( "Recipe: %s" ), dummy.tname().c_str() );
-        }
-
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
-            amenu.addentry( ei_recipe, true, 'r', _( "View recipe on E-ink screen" ) );
+            amenu.addentry( ei_recipe, true, 'r', _( "View recipes on E-ink screen" ) );
         }
 
         if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
@@ -5842,7 +5837,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             uilist rmenu;
 
-            rmenu.text = _( "Choose recipe to view:" );
+            rmenu.text = _( "List recipes:" );
 
             std::vector<recipe_id> candidate_recipes;
             std::istringstream f( it->get_var( "EIPC_RECIPES" ) );
@@ -5863,22 +5858,6 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             }
 
             rmenu.query();
-
-            const int rchoice = rmenu.ret;
-            if( rchoice < 0 ) {
-                return it->type->charges_to_use();
-            } else {
-                it->item_tags.insert( "HAS_RECIPE" );
-                const auto rec_id = candidate_recipes[rchoice];
-                it->set_var( "RECIPE", rec_id.str() );
-
-                const auto &recipe = *rec_id;
-                if( recipe ) {
-                    p->add_msg_if_player( m_info,
-                                          _( "You change the e-ink screen to show a recipe for %s." ),
-                                          recipe.result_name() );
-                }
-            }
 
             return it->type->charges_to_use();
         }
