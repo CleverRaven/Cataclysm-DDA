@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"

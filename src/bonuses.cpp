@@ -1,14 +1,14 @@
 #include "bonuses.h"
 
+#include <sstream>
+#include <string>
+#include <utility>
+
 #include "character.h"
 #include "damage.h"
 #include "json.h"
 #include "output.h"
 #include "translations.h"
-
-#include <sstream>
-#include <string>
-#include <utility>
 
 bool needs_damage_type( affected_stat as )
 {
@@ -90,9 +90,7 @@ std::string string_from_scaling_stat( const scaling_stat &s )
     return iter != scaling_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
 }
 
-bonus_container::bonus_container()
-{
-}
+bonus_container::bonus_container() = default;
 
 void effect_scaling::load( JsonArray &jarr )
 {

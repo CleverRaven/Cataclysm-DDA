@@ -223,7 +223,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ] ],
-      [ [ "meat", 1 ], [ "rehydrated_meat", 1 ], [ "dry_meat", 1 ], [ "can_chicken", 2 ], [ "meat_canned", 1 ], [ "fish", 1 ], [ "dry_fish", 1 ], [ "rehydrated_fish", 1 ], [ "fish_canned", 1 ], [ "can_salmon", 2 ], [ "can_tuna", 2 ], [ "bacon", 2 ], [ "can_spam", 1 ], [ "sausage", 1 ] ],
+      [ [ "meat", 1 ], [ "rehydrated_meat", 1 ], [ "dry_meat", 1 ], [ "can_chicken", 2 ], [ "meat_canned", 1 ], [ "fish", 1 ], [ "dry_fish", 1 ], [ "rehydrated_fish", 1 ], [ "fish_canned", 1 ], [ "can_salmon", 2 ], [ "can_tuna", 2 ], [ "bacon", 2 ], [ "can_spam", 1 ], [ "sausage", 1 ], [ "bratwurst_sausage", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]

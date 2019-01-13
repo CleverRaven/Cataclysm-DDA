@@ -472,6 +472,12 @@
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   },
   {
+    "id": "NANOFAB_TEMPLATE",
+    "type": "json_flag",
+    "context": [ "generic", "TOOL" ],
+    "info": "This item contains a nanofabricator recipe."
+  },
+  {
     "id": "BIONIC_FAULTY",
     "type": "json_flag",
     "context": [ "BIONIC" ],

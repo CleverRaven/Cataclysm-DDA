@@ -1,15 +1,15 @@
 #include "artifact.h"
 
+#include <array>
+#include <cmath>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "item_factory.h"
 #include "json.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <array>
-#include <cmath>
-#include <sstream>
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -1095,9 +1095,9 @@ std::string artifact_name( const std::string &type )
 
 /* Json Loading and saving */
 
-void load_artifacts( const std::string &artfilename )
+void load_artifacts( const std::string &path )
 {
-    read_from_file_optional_json( artfilename, []( JsonIn & artifact_json ) {
+    read_from_file_optional_json( path, []( JsonIn & artifact_json ) {
         artifact_json.start_array();
         while( !artifact_json.end_array() ) {
             JsonObject jo = artifact_json.get_object();

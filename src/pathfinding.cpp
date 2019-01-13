@@ -1,5 +1,9 @@
 #include "pathfinding.h"
 
+#include <algorithm>
+#include <queue>
+#include <set>
+
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -14,10 +18,6 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#include <algorithm>
-#include <queue>
-#include <set>
-
 enum astar_state {
     ASL_NONE,
     ASL_OPEN,
@@ -27,16 +27,16 @@ enum astar_state {
 // Turns two indexed to a 2D array into an index to equivalent 1D array
 constexpr int flat_index( const int x, const int y )
 {
-    return ( x * MAPSIZE * SEEY ) + y;
+    return ( x * MAPSIZE_Y ) + y;
 }
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
 struct path_data_layer {
     // State is accessed way more often than all other values here
-    std::array< astar_state, SEEX *MAPSIZE *SEEY *MAPSIZE > state;
-    std::array< int, SEEX *MAPSIZE *SEEY *MAPSIZE > score;
-    std::array< int, SEEX *MAPSIZE *SEEY *MAPSIZE > gscore;
-    std::array< tripoint, SEEX *MAPSIZE *SEEY *MAPSIZE > parent;
+    std::array< astar_state, MAPSIZE_X *MAPSIZE_Y > state;
+    std::array< int, MAPSIZE_X *MAPSIZE_Y > score;
+    std::array< int, MAPSIZE_X *MAPSIZE_Y > gscore;
+    std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
 
     void init( const int minx, const int miny, const int maxx, const int maxy ) {
         for( int x = minx; x <= maxx; x++ ) {

@@ -223,6 +223,22 @@
     "no_resume": true
   },
   {
+    "id": "ACT_HARVEST_PLOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop harvesting plots?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_FERTILIZE_PLOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop fertilizing plots?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_ADV_INVENTORY",
     "type": "activity_type",
     "stop_phrase": "Stop interacting with inventory?",
@@ -411,5 +427,12 @@
     "rooted": true,
     "based_on": "speed",
     "suspendable": false
+  },
+  {
+    "id": "ACT_UNLOAD_MAG",
+    "type": "activity_type",
+    "stop_phrase": "Stop unloading?",
+    "suspendable": false,
+    "based_on": "speed"
   }
 ]

@@ -1,5 +1,8 @@
 #include "auto_pickup.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -17,9 +20,6 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <sstream>
 
 auto_pickup &get_auto_pickup()
 {

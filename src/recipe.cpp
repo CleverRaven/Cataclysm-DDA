@@ -1,5 +1,9 @@
 #include "recipe.h"
 
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+
 #include "calendar.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -9,10 +13,6 @@
 #include "skill.h"
 #include "uistate.h"
 #include "string_formatter.h"
-
-#include <algorithm>
-#include <cmath>
-#include <numeric>
 
 struct oter_t;
 using oter_str_id = string_id<oter_t>;

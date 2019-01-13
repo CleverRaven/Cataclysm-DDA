@@ -2,16 +2,16 @@
 #ifndef OVERMAPBUFFER_H
 #define OVERMAPBUFFER_H
 
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <vector>
+
 #include "enums.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "string_id.h"
-
-#include <memory>
-#include <set>
-#include <unordered_map>
-#include <vector>
 
 struct mongroup;
 class monster;
@@ -201,7 +201,7 @@ class overmapbuffer
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.
          */
-        void insert_npc( std::shared_ptr<npc> who );
+        void insert_npc( const std::shared_ptr<npc> &who );
 
         /**
          * Find all places with the specific overmap terrain type.
@@ -225,7 +225,7 @@ class overmapbuffer
         std::vector<tripoint> find_all( const tripoint &origin, const std::string &type,
                                         int dist, bool must_be_seen, bool allow_subtype_matches = false,
                                         bool existing_overmaps_only = false,
-                                        cata::optional<overmap_special_id> om_special = cata::nullopt );
+                                        const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /**
          * Returns a random point of specific terrain type among those found in certain search radius.
@@ -248,7 +248,7 @@ class overmapbuffer
         tripoint find_random( const tripoint &origin, const std::string &type,
                               int dist, bool must_be_seen, bool allow_subtype_matches = false,
                               bool existing_overmaps_only = false,
-                              cata::optional<overmap_special_id> om_special = cata::nullopt );
+                              const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /**
          * Mark a square area around center on Z-level z
@@ -286,7 +286,7 @@ class overmapbuffer
         tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
                                bool must_be_seen, bool allow_subtype_matches = false,
                                bool existing_overmaps_only = false,
-                               cata::optional<overmap_special_id> om_special = cata::nullopt );
+                               const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /* These 4 functions return the overmap that contains the given
          * overmap terrain coordinate.
@@ -430,7 +430,7 @@ class overmapbuffer
          * @param radius Used in conjunction with center. Absolute overmap terrain units.
          * @returns True if the special was placed, else false.
          */
-        bool place_special( const overmap_special_id special_id, const tripoint &center, int radius );
+        bool place_special( const overmap_special_id &special_id, const tripoint &center, int radius );
 
     private:
         /**
@@ -449,7 +449,7 @@ class overmapbuffer
         bool is_findable_location( const tripoint &location, const std::string &type, bool must_be_seen,
                                    bool allow_subtype_matches = false,
                                    bool existing_overmaps_only = false,
-                                   cata::optional<overmap_special_id> om_special = cata::nullopt );
+                                   const cata::optional<overmap_special_id> &om_special = cata::nullopt );
 
         std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
         /**
@@ -497,6 +497,7 @@ class overmapbuffer
         /**
          * Retrieve overmaps that overlap the bounding box defined by the location and radius.
          * The location is in absolute submap coordinates, the radius is in the same system.
+         * The overmaps are returned sorted by distance from the provided location (closest first).
          */
         std::vector<overmap *> get_overmaps_near( const point &location, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );

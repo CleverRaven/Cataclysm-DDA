@@ -6,7 +6,6 @@
     "description": "A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "default_faction": "frog",
     "species": [ "AMPHIBIAN" ],
-    "diff": 12,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 70,
@@ -22,11 +21,12 @@
     "melee_cut": 1,
     "dodge": 2,
     "armor_bash": 4,
+    "harvest": "animal_large_noskin",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "BONES", "FAT" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
     "id": "mon_gator",
@@ -36,7 +36,6 @@
     "default_faction": "gator",
     "categories": [ "WILDLIFE" ],
     "species": [ "REPTILE" ],
-    "diff": 22,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 90,
@@ -55,6 +54,7 @@
     "armor_cut": 8,
     "vision_day": 3,
     "vision_night": 35,
+    "harvest": "animal_large_noskin",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -73,20 +73,7 @@
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "ANIMAL",
-      "BLEED",
-      "ATTACKMON",
-      "BONES",
-      "LEATHER",
-      "SWIMS"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -113,12 +100,13 @@
     "dodge": 1,
     "vision_day": 30,
     "vision_night": 5,
+    "harvest": "mammal_tiny",
     "special_attacks": [ [ "RATTLE", 6 ] ],
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -128,7 +116,7 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "REPTILE" ],
-    "diff": 8,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 48,
@@ -147,6 +135,7 @@
     "armor_cut": 4,
     "vision_day": 30,
     "vision_night": 5,
+    "harvest": "animal_large_noskin",
     "special_attacks": [
       [ "RATTLE", 6 ],
       {
@@ -160,7 +149,7 @@
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
   {
     "id": "mon_sewer_snake",
@@ -186,8 +175,9 @@
     "dodge": 1,
     "vision_day": 1,
     "vision_night": 30,
+    "harvest": "animal_large_noskin",
     "path_settings": { "max_dist": 5 },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
   }
 ]
