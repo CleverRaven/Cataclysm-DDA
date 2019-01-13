@@ -2,12 +2,12 @@
 #ifndef BASECAMP_H
 #define BASECAMP_H
 
-#include "enums.h"
-
 #include <memory>
 #include <vector>
 #include <map>
 #include <string>
+
+#include "enums.h"
 
 class JsonIn;
 class JsonOut;
@@ -113,7 +113,7 @@ class basecamp
         void start_fortifications( std::string &bldg_exp, npc &p );
         void start_combat_mission( const std::string &miss, npc &p );
         /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( npc &p, const std::string dir, const tripoint &omt_tgt );
+        bool start_garage_chop( npc &p, const std::string &dir, const tripoint &omt_tgt );
         void start_farm_op( npc &p, const std::string &dir, const tripoint &omt_tgt, farm_ops op );
 
         // mission return functions

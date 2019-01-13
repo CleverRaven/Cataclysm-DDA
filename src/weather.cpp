@@ -1,5 +1,9 @@
 #include "weather.h"
 
+#include <cmath>
+#include <sstream>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -17,10 +21,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather_gen.h"
-
-#include <cmath>
-#include <sstream>
-#include <vector>
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
@@ -70,26 +70,24 @@ void weather_effect::glare()
 }
 ////// food vs weather
 
-int get_hourly_rotpoints_at_temp( int temp );
-
 time_duration get_rot_since( const time_point &start, const time_point &end,
-                             const tripoint &location )
+                             const tripoint &pos )
 {
     time_duration ret = 0;
     const auto &wgen = g->get_cur_weather_gen();
     /* Hoisting loop invariants */
-    const auto location_temp = g->get_temperature( location );
-    const auto local = g->m.getlocal( location );
+    const auto location_temp = g->get_temperature( pos );
+    const auto local = g->m.getlocal( pos );
     const auto local_mod = g->new_game ? 0 : g->m.temperature( local );
     const auto seed = g->get_seed();
 
     const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
     for( time_point i = start; i < end; i += 1_hours ) {
-        w_point w = wgen.get_weather( location, i, seed );
+        w_point w = wgen.get_weather( pos, i, seed );
 
         //Use weather if above ground, use map temp if below
-        double temperature = ( location.z >= 0 ? w.temperature : location_temp ) + local_mod;
+        double temperature = ( pos.z >= 0 ? w.temperature : location_temp ) + local_mod;
         // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
         // If not: use calculated temperature
         temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
@@ -162,14 +160,14 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
-                                     const time_point &end, const tripoint &location )
+                                     const time_point &end, const tripoint &pos )
 {
     if( start > end || !tr.is_funnel() ) {
         return;
     }
 
     it.set_birthday( end ); // bday == last fill check
-    auto data = sum_conditions( start, end, location );
+    auto data = sum_conditions( start, end, pos );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {

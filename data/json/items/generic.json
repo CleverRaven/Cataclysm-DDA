@@ -1211,7 +1211,7 @@
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 70,
+    "weight": 110,
     "volume": 1
   },
   {
@@ -2853,5 +2853,33 @@
     "material": "steel",
     "symbol": "}",
     "color": "light_cyan"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hard_steel_armor",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "hard steel plate",
+    "description": "An armor plating made of a very thick steel, specifically engineered for use in a bullet resistant vest.",
+    "price": 10000,
+    "material": "hardsteel",
+    "weight": 1500,
+    "volume": 2,
+    "bashing": 6
+  },
+  {
+    "type": "GENERIC",
+    "id": "steel_armor",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "steel plate",
+    "description": "A steel armor plate, specifically engineered for use in a bullet resistant vest.",
+    "price": 9000,
+    "material": "steel",
+    "weight": 1000,
+    "volume": 2,
+    "bashing": 5
   }
 ]

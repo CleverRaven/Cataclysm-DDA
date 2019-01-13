@@ -2,6 +2,13 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
+#include <memory>
+#include <map>
+#include <set>
+#include <vector>
+#include <string>
+#include <unordered_map>
+
 #include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
@@ -10,13 +17,6 @@
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
-
-#include <memory>
-#include <map>
-#include <set>
-#include <vector>
-#include <string>
-#include <unordered_map>
 
 class cata_tiles;
 class Creature;
@@ -405,15 +405,15 @@ class cata_tiles
         const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
         bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
-        bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                  const std::string &subcategory, tripoint pos, int subtile, int rota,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles, int &height_3d );
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                  const std::string &subcategory, tripoint pos, int subtile, int rota,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
         bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
                              int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -432,7 +432,7 @@ class cata_tiles
         void get_tile_values( const int t, const int *tn, int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
-        void get_rotation_and_subtile( const char val, const int num_connects, int &rota, int &subtype );
+        void get_rotation_and_subtile( const char val, int &rota, int &subtype );
 
         /** Drawing Layers */
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
