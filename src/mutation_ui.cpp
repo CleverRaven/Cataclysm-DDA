@@ -1,16 +1,16 @@
-#include "mutation.h"
+#include "player.h" // IWYU pragma: associated
 
+#include <algorithm> //std::min
+#include <sstream>
+
+#include "mutation.h"
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm> //std::min
-#include <sstream>
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper

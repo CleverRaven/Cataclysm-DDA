@@ -1,5 +1,7 @@
 #include "ballistics.h"
 
+#include <algorithm>
+
 #include "creature.h"
 #include "dispersion.h"
 #include "explosion.h"
@@ -17,8 +19,6 @@
 #include "trap.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
 
 const efftype_id effect_bounced( "bounced" );
 

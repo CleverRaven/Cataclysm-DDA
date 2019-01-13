@@ -1,4 +1,4 @@
-#include "player.h"
+#include "player.h" // IWYU pragma: associated
 
 #include "effect.h"
 #include "field.h"

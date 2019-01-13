@@ -6,9 +6,9 @@
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <cstdio>
 #include <fcntl.h>
 #include <unistd.h>
+#include <cstdio>
 #endif // __linux__
 
 #include <cstdlib>

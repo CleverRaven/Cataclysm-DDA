@@ -96,6 +96,7 @@
     "description": "Nothing tastier than something that's deep-fried!",
     "material": [ "flesh", "wheat" ],
     "color": "brown",
+    "spoils_in": "1 days",
     "volume": 1,
     "flag": [ "EATEN_HOT" ],
     "calories": 310
