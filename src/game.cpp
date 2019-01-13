@@ -63,6 +63,7 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "map_extras.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -203,7 +204,6 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_BURROW( "BURROW" );
 
-void advanced_inv(); // player_activity.cpp
 void intro();
 
 #ifdef __ANDROID__
@@ -851,8 +851,8 @@ bool game::start_game()
     }
     tripoint lev = omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
-    lev.x -= MAPSIZE / 2;
-    lev.y -= MAPSIZE / 2;
+    lev.x -= HALF_MAPSIZE;
+    lev.y -= HALF_MAPSIZE;
     load_map( lev );
 
     m.build_map_cache( get_levz() );
@@ -973,7 +973,7 @@ bool game::start_game()
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    const int radius = int( MAPSIZE / 2 ) - 1;
+    const int radius = HALF_MAPSIZE - 1;
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
@@ -1059,6 +1059,7 @@ void game::create_starting_npcs()
     //This sets the NPC mission. This NPC remains in the starting location.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
+    tmp->toggle_trait( trait_id( "NPC_STARTING_NPC" ) );
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
@@ -1379,17 +1380,21 @@ void game::calc_driving_offset( vehicle *veh )
     const int light_sight_range = u.sight_range( g_light_level );
     int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
-    // velocity at or below this results in no offset at all
-    static const float min_offset_vel = 10 * 100;
-    // velocity at or above this results in maximal offset
-    static const float max_offset_vel = 70 * 100;
     // The maximal offset will leave at least this many tiles
     // between the PC and the edge of the main window.
     static const int border_range = 2;
+    point max_offset( ( getmaxx( w_terrain ) + 1 ) / 2 - border_range - 1,
+                      ( getmaxy( w_terrain ) + 1 ) / 2 - border_range - 1 );
+
+    // velocity at or below this results in no offset at all
+    static const float min_offset_vel = 1 * vehicles::vmiph_per_tile;
+    // velocity at or above this results in maximal offset
+    static const float max_offset_vel = std::min( max_offset.y, max_offset.x ) *
+                                        vehicles::vmiph_per_tile;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if( !veh->skidding && std::abs( veh->cruise_velocity - veh->velocity ) < 14 * 100 &&
-        veh->player_in_control( u ) ) {
+    if( !veh->skidding && veh->player_in_control( u ) &&
+        std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
@@ -1415,8 +1420,6 @@ void game::calc_driving_offset( vehicle *veh )
         offset.x /= std::fabs( offset.y );
         offset.y = offset.y > 0 ? +1 : -1;
     }
-    point max_offset( ( getmaxx( w_terrain ) + 1 ) / 2 - border_range - 1,
-                      ( getmaxy( w_terrain ) + 1 ) / 2 - border_range - 1 );
     offset.x *= rel_offset;
     offset.y *= rel_offset;
     offset.x *= max_offset.x;
@@ -2981,7 +2984,8 @@ void game::debug()
         _( "Test trait group" ),                // 32
         _( "Show debug message" ),              // 33
         _( "Crash game (test crash handling)" ),// 34
-        _( "Quit to Main Menu" ),               // 35
+        _( "Spawn Map Extra" ),                 // 35
+        _( "Quit to Main Menu" ),               // 36
     } );
     refresh_all();
     switch( action ) {
@@ -3288,7 +3292,7 @@ void game::debug()
             }
 
             auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
-            if( rt.size() > 0 ) {
+            if( !rt.empty() ) {
                 u.set_destination( rt );
             } else {
                 popup( "Couldn't find path" );
@@ -3337,7 +3341,32 @@ void game::debug()
         case 34:
             std::raise( SIGSEGV );
             break;
-        case 35:
+        case 35: {
+            oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
+
+            map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+            uilist mx_menu;
+            std::vector<std::string> mx_str;
+            for( auto &extra : ex.values ) {
+                mx_menu.addentry( -1, true, -1, extra.obj );
+                mx_str.push_back( extra.obj );
+            }
+            mx_menu.query( false );
+            int mx_choice = mx_menu.ret;
+            if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
+                auto func = MapExtras::get_function( mx_str[ mx_choice ] );
+                if( func != nullptr ) {
+                    const tripoint where( ui::omap::choose_point() );
+                    if( where != overmap::invalid_tripoint ) {
+                        tinymap mx_map;
+                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
+                        func( mx_map, where );
+                    }
+                }
+            }
+            break;
+        }
+        case 36:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
@@ -7310,7 +7339,7 @@ cata::optional<tripoint> game::look_around()
 }
 
 look_around_result game::look_around( catacurses::window w_info, tripoint &center,
-                                      const tripoint start_point, bool has_first_point, bool select_zone, bool peeking )
+                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
@@ -9812,7 +9841,7 @@ void game::unload( int pos )
         item_loc = item_location( u, it );
     }
 
-    if( unload( *it ) ) {
+    if( u.unload( *it ) ) {
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
             item_loc.remove_item();
         }
@@ -9835,193 +9864,9 @@ void game::mend( int pos )
     }
 }
 
-bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
-{
-    if( it.made_of( LIQUID ) ) {
-        g->consume_liquid( it, 1 );
-        return it.charges <= 0;
-    }
-    it.charges = u.i_add_to_container( it, unloading );
-    if( it.is_ammo() && it.charges == 0 ) {
-        return true;
-    } else if( !u.can_pickVolume( it ) ) {
-        put_into_vehicle_or_drop( u, item_drop_reason::too_large, { it } );
-    } else if( !u.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        put_into_vehicle_or_drop( u, item_drop_reason::too_heavy, { it } );
-    } else {
-        auto &ni = u.i_add( it );
-        add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
-        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
-    }
-    return true;
-}
-
 bool game::unload( item &it )
 {
-    // Unload a container consuming moves per item successfully removed
-    if( it.is_container() || it.is_bandolier() ) {
-        if( it.contents.empty() ) {
-            add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
-            return false;
-        }
-        if( !it.can_unload_liquid() ) {
-            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
-            return false;
-        }
-
-        bool changed = false;
-        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
-        &changed]( item & e ) {
-            long old_charges = e.charges;
-            const bool consumed = add_or_drop_with_msg( u, e, true );
-            changed = changed || consumed || e.charges != old_charges;
-            if( consumed ) {
-                u.mod_moves( -u.item_handling_cost( e ) );
-            }
-            return consumed;
-        } ), it.contents.end() );
-        if( changed ) {
-            it.on_contents_changed();
-        }
-        return true;
-    }
-
-    // If item can be unloaded more than once (currently only guns) prompt user to choose
-    std::vector<std::string> msgs( 1, it.tname() );
-    std::vector<item *> opts( 1, &it );
-
-    for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
-            msgs.emplace_back( e->tname() );
-            opts.emplace_back( e );
-        }
-    }
-
-    item *target = nullptr;
-    if( opts.size() > 1 ) {
-        const int ret = uilist( _( "Unload what?" ), msgs );
-        if( ret >= 0 ) {
-            target = opts[ret];
-        }
-    } else {
-        target = &it;
-    }
-
-    if( target == nullptr ) {
-        return false;
-    }
-
-    // Next check for any reasons why the item cannot be unloaded
-    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
-        add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
-        return false;
-    }
-
-    if( target->has_flag( "NO_UNLOAD" ) ) {
-        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
-            add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname().c_str() );
-        } else {
-            add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
-        }
-        return false;
-    }
-
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
-        if( target->is_tool() ) {
-            add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
-        } else {
-            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname().c_str() );
-        }
-        return false;
-    }
-
-    target->casings_handle( [&]( item & e ) {
-        return u.i_add_or_drop( e );
-    } );
-
-    if( target->is_magazine() ) {
-        // Remove all contained ammo consuming half as much time as required to load the magazine
-        long qty = 0;
-        target->contents.erase( std::remove_if( target->contents.begin(),
-        target->contents.end(), [&]( item & e ) {
-            int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
-            if( !add_or_drop_with_msg( u, e, true ) ) {
-                return false;
-            }
-            qty += e.charges;
-            u.moves -= mv;
-            return true;
-        } ), target->contents.end() );
-
-        if( target->is_ammo_belt() ) {
-            if( target->type->magazine->linkage ) {
-                item link( *target->type->magazine->linkage, calendar::turn, qty );
-                add_or_drop_with_msg( u, link, true );
-            }
-            add_msg( _( "You disassemble your %s." ), target->tname().c_str() );
-        } else {
-            add_msg( _( "You unload your %s." ), target->tname().c_str() );
-        }
-        return true;
-
-    } else if( target->magazine_current() ) {
-        if( !add_or_drop_with_msg( u, *target->magazine_current(), true ) ) {
-            return false;
-        }
-        // Eject magazine consuming half as much time as required to insert it
-        u.moves -= u.item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
-
-        target->contents.erase( std::remove_if( target->contents.begin(),
-        target->contents.end(), [&target]( const item & e ) {
-            return target->magazine_current() == &e;
-        } ) );
-
-    } else if( target->ammo_remaining() ) {
-        long qty = target->ammo_remaining();
-
-        if( target->ammo_type() == ammotype( "plutonium" ) ) {
-            qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
-            if( qty > 0 ) {
-                add_msg( _( "You recover %i unused plutonium." ), qty );
-            } else {
-                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                return false;
-            }
-        }
-
-        // Construct a new ammo item and try to drop it
-        item ammo( target->ammo_current(), calendar::turn, qty );
-
-        if( ammo.made_of_from_type( LIQUID ) ) {
-            if( !add_or_drop_with_msg( u, ammo ) ) {
-                qty -= ammo.charges; // only handled part (or none) of the liquid
-            }
-            if( qty <= 0 ) {
-                return false; // no liquid was moved
-            }
-
-        } else if( !add_or_drop_with_msg( u, ammo, qty > 1 ) ) {
-            return false;
-        }
-
-        // If successful remove appropriate qty of ammo consuming half as much time as required to load it
-        u.moves -= u.item_reload_cost( *target, ammo, qty ) / 2;
-
-        if( target->ammo_type() == ammotype( "plutonium" ) ) {
-            qty *= PLUTONIUM_CHARGES;
-        }
-
-        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
-    }
-
-    // Turn off any active tools
-    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( u, *target, u.pos() );
-    }
-
-    add_msg( _( "You unload your %s." ), target->tname().c_str() );
-    return true;
+    return u.unload( it );
 }
 
 void game::wield( int pos )
@@ -11046,7 +10891,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     }
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    const tripoint map_om_pos( om_dest.x * 2 - MAPSIZE / 2, om_dest.y * 2 - MAPSIZE / 2, om_dest.z );
+    const tripoint map_om_pos( om_dest.x * 2 - HALF_MAPSIZE, om_dest.y * 2 - HALF_MAPSIZE, om_dest.z );
     const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
 
     load_map( map_om_pos );
@@ -12048,19 +11893,19 @@ void game::update_map( int &x, int &y )
     int shiftx = 0;
     int shifty = 0;
 
-    while( x < SEEX * int( MAPSIZE / 2 ) ) {
+    while( x < HALF_MAPSIZE_X ) {
         x += SEEX;
         shiftx--;
     }
-    while( x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) ) {
+    while( x >= HALF_MAPSIZE_X + SEEX ) {
         x -= SEEX;
         shiftx++;
     }
-    while( y < SEEY * int( MAPSIZE / 2 ) ) {
+    while( y < HALF_MAPSIZE_Y ) {
         y += SEEY;
         shifty--;
     }
-    while( y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+    while( y >= HALF_MAPSIZE_Y + SEEY ) {
         y -= SEEY;
         shifty++;
     }
@@ -13222,7 +13067,7 @@ int game::get_levz() const
 overmap &game::get_cur_om() const
 {
     // The player is located in the middle submap of the map.
-    const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
+    const tripoint sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }

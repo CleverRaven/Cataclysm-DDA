@@ -19,9 +19,6 @@
 #include "pimpl.h"
 #include "posix_time.h"
 
-extern const int savegame_version;
-extern int save_loading_version;
-
 extern bool test_mode;
 
 // The reference to the one and only game instance.
@@ -131,9 +128,9 @@ enum liquid_dest : int {
 
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
+    tripoint pos;
     item_location item_loc;
     vehicle *veh = nullptr;
-    tripoint pos;
 };
 
 enum peek_act : int {
@@ -575,7 +572,7 @@ class game
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
         look_around_result look_around( catacurses::window w_info, tripoint &center,
-                                        tripoint start_point, bool has_first_point, bool select_zone, bool peeking );
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
@@ -821,7 +818,7 @@ class game
                         bool ignore_player );
 
         // Animation related functions
-        void draw_explosion( const tripoint &p, int radius, nc_color col );
+        void draw_explosion( const tripoint &p, int radius, const nc_color &col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );

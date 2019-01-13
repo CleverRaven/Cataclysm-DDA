@@ -795,7 +795,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 }
 
 static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon,
-                      const double target_size, tripoint pos, double predicted_recoil )
+                      const double target_size, const tripoint &pos, double predicted_recoil )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -1502,7 +1502,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_fire( const Character &p, const itype &firingt )
+int time_to_fire( const Character &p, const itype &firing )
 {
     struct time_info_t {
         int min_time;  // absolute floor on the time taken to fire.
@@ -1521,7 +1521,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun->skill_used;
+    const skill_id &skill_used = firing.gun->skill_used;
     const auto it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };

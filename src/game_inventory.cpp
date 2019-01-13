@@ -306,15 +306,18 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         disassemble_inventory_preset( const player &p, const inventory &inv ) :
             pickup_inventory_preset( p ), p( p ), inv( inv ) {
 
+            check_components = true;
+
             append_cell( [ this ]( const item_location & loc ) {
                 const auto &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
                     return std::string();
                 }
-                const auto components = req.get_components();
+                const item *i = loc.get_item();
+                const auto components = i->get_uncraft_components();
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
-                    return comps.front().to_string();
+                    return comps.to_string();
                 } );
             }, _( "YIELD" ) );
 

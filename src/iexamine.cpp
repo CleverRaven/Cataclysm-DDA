@@ -829,8 +829,8 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         g->m.unboard_vehicle( p.pos() );
     }
     p.setpos( examp );
-    if( examp.x < SEEX * int( MAPSIZE / 2 ) || examp.y < SEEY * int( MAPSIZE / 2 ) ||
-        examp.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examp.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+    if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
+        examp.x >= HALF_MAPSIZE_X + SEEX || examp.y >= HALF_MAPSIZE_Y + SEEY ) {
         if( p.is_player() ) {
             g->update_map( p );
         }
@@ -874,7 +874,7 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     g->m.furn_set( pos, f_null );
 }
 
-static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id id )
+static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id &id )
 {
     const itype_id &iid = id->deployed_item;
     if( item::type_is_defined( iid ) ) {
@@ -3561,7 +3561,7 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
-player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_patient,
+player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
                          bool &adjacent_couch )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {

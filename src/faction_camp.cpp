@@ -151,7 +151,7 @@ void om_range_mark( const tripoint &origin, int range, bool add_notes = true,
                     const std::string &message = "Y;X: MAX RANGE" );
 void om_line_mark( const tripoint &origin, const tripoint &dest, bool add_notes = true,
                    const std::string &message = "R;X: PATH" );
-std::vector<tripoint> om_companion_path( const tripoint &start, int range = 90,
+std::vector<tripoint> om_companion_path( const tripoint &start, int range_start = 90,
         bool bounce = true );
 /**
  * Can be used to calculate total trip time for an NPC mission or just the traveling portion.
@@ -181,15 +181,16 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 std::string om_upgrade_description( const std::string &bldg );
 /// Returns the description of a camp crafting options. converts fire charges to charcoal,
 /// allows dark crafting
-std::string om_craft_description( const std::string &bldg );
+std::string om_craft_description( const std::string &itm );
 /// Provides a "guess" for some of the things your gatherers will return with to upgrade the camp
 std::string om_gathering_description( npc &p, const std::string &bldg );
 /// Returns a string for the number of plants that are harvestable, plots ready to plany, and
 /// ground that needs tilling
-std::string camp_farm_description( const tripoint &omt_pos, size_t &plots, farm_ops operation );
+std::string camp_farm_description( const tripoint &omt_pos, size_t &plots_count,
+                                   farm_ops operation );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
-std::string camp_farm_act( const tripoint &omt_tgt, size_t &plots, farm_ops op );
+std::string camp_farm_act( const tripoint &omt_pos, size_t &plots_count, farm_ops operation );
 
 /**
  * spawn items or corpses based on search attempts
@@ -300,6 +301,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     if( !bcp ) {
         return;
     }
+    g->u.camps.insert( bcp->camp_pos() );
 
     const std::string camp_ctr = "camp";
     const std::string base_dir = "[B]";
@@ -1645,7 +1647,7 @@ void basecamp::start_farm_op( npc &p, const std::string &dir, const tripoint &om
     }
 }
 
-bool basecamp::start_garage_chop( npc &p, const std::string dir, const tripoint &omt_tgt )
+bool basecamp::start_garage_chop( npc &p, const std::string &dir, const tripoint &omt_tgt )
 {
     editmap edit;
     vehicle *car = edit.mapgen_veh_query( omt_tgt );
@@ -3100,20 +3102,21 @@ std::string om_gathering_description( npc &p, const std::string &bldg )
     return output;
 }
 
-std::string camp_farm_description( const tripoint &omt_tgt, size_t &plots_cnt, farm_ops op )
+std::string camp_farm_description( const tripoint &omt_pos, size_t &plots_count,
+                                   farm_ops operation )
 {
-    std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
+    std::pair<size_t, std::string> farm_data = farm_action( omt_pos, operation );
     std::string entry;
-    plots_cnt = farm_data.first;
-    switch( op ) {
+    plots_count = farm_data.first;
+    switch( operation ) {
         case farm_ops::harvest:
-            entry += _( "Harvestable: " ) + to_string( plots_cnt ) + " \n" + farm_data.second;
+            entry += _( "Harvestable: " ) + to_string( plots_count ) + " \n" + farm_data.second;
             break;
         case farm_ops::plant:
-            entry += _( "Ready for Planting: " ) + to_string( plots_cnt ) + " \n";
+            entry += _( "Ready for Planting: " ) + to_string( plots_count ) + " \n";
             break;
         case farm_ops::plow:
-            entry += _( "Needs Plowing: " ) + to_string( plots_cnt ) + " \n";
+            entry += _( "Needs Plowing: " ) + to_string( plots_count ) + " \n";
             break;
         default:
             debugmsg( "Farm operations called with no operation" );

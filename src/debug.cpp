@@ -292,9 +292,7 @@ static std::ostream nullStream( &nullBuf );
 
 static DebugFile debugFile;
 
-DebugFile::DebugFile()
-{
-}
+DebugFile::DebugFile() = default;
 
 DebugFile::~DebugFile()
 {

@@ -16,6 +16,7 @@
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
+#include "requirements.h"
 
 namespace cata
 {
@@ -46,6 +47,7 @@ using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class npc;
+class recipe;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
@@ -431,7 +433,7 @@ class item : public visitable<item>
          */
         int price( bool practical ) const;
 
-        bool stacks_with( const item &rhs ) const;
+        bool stacks_with( const item &rhs, bool check_components = false ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -841,6 +843,11 @@ class item : public visitable<item>
          */
         bool made_of( phase_id phase ) const;
         bool made_of_from_type( phase_id phase ) const;
+        /**
+         * Returns a list of components used to craft this item or the default
+         * components if it wasn't player-crafted.
+         */
+        std::vector<item_comp> get_uncraft_components() const;
         /**
          * Whether the items is conductive.
          */
@@ -1493,6 +1500,10 @@ class item : public visitable<item>
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
         void mark_chapter_as_read( const player &u );
+        /**
+         * Enumerates recipes available from this book and the skill level required to use them.
+         */
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
         /*@}*/
 
         /**
@@ -1838,9 +1849,9 @@ class item : public visitable<item>
         time_point bday;
     public:
         time_duration age() const;
-        void set_age( time_duration age );
+        void set_age( const time_duration &age );
         time_point birthday() const;
-        void set_birthday( time_point bday );
+        void set_birthday( const time_point &bday );
 
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency

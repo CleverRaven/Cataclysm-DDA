@@ -28,7 +28,7 @@ void set_standard_filenames();
  * found.
  */
 std::string find_translated_file( const std::string &pathid, const std::string &extension,
-                                  const std::string &defaultid );
+                                  const std::string &fallbackid );
 }
 
 #endif

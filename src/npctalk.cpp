@@ -96,7 +96,7 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-int topic_category( const talk_topic &topic );
+int topic_category( const talk_topic &the_topic );
 
 const talk_topic &special_talk( char ch );
 
@@ -243,12 +243,15 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
-    if( priority == 7 || sees( spos ) ) {
+    if( sees( spos ) ) {
         return;
     }
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
+    case 7: //
+        warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
+        break;
     case 6: // combat noise is only worth comment if we're not fighting
         // TODO: Brave NPCs should be less jumpy
         if( ai_cache.total_danger < 1.0f ) {
@@ -258,12 +261,12 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
         if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
             // replace with warn_about when that merges
-            warn_about( "footsteps", rng( 1, 10 ) * 1_minutes, description );
+            warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         }
         break;
     default:
         break;
-    };
+    }
 }
 
 void npc_chatbin::check_missions()
@@ -477,6 +480,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return _( "Bye." );
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
+    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
+        return _( "Pleasure doing business!" );
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
         if( p->has_effect( effect_asked_for_item ) ) {
             return _( "You just asked me for stuff; ask later." );
@@ -1577,7 +1582,14 @@ void talk_function::remove_overseer( npc &p )
 
     add_msg( _( "%s has abandoned the camp." ), p.name );
     p.companion_mission_role_id.clear();
-    stop_guard(p);
+
+    std::set<tripoint>::iterator it;
+    it = g->u.camps.find( p.global_omt_location() );
+    if( it != g->u.camps.end() ) {
+        g->u.camps.erase( it );
+    }
+
+    stop_guard( p );
 }
 
 void parse_tags( std::string &phrase, const player &u, const player &me )
@@ -1836,7 +1848,7 @@ talk_trial::talk_trial( JsonObject jo )
         difficulty = jo.get_int( "difficulty" );
     }
     if( jo.has_array( "mod" ) ) {
-        JsonArray ja = jo.get_array( "mod " );
+        JsonArray ja = jo.get_array( "mod" );
         while( ja.has_more() ) {
             JsonArray jmod = ja.next_array();
             trial_mod this_modifier;
@@ -1961,16 +1973,16 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue &d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item( item_name, calendar::turn );
-        for( int i = 0; i < count; i++ ) {
-            int item_at = u.inv.position_by_type( item_name );
-            if( item_at == INT_MIN ) {
-                popup( _( "You don't have a %1$s!" ), old_item.tname() );
-                return;
-            }
-            old_item = u.i_rem( item_at );
-            p.i_add( old_item );
+        item old_item( item_name );
+        if( u.has_charges( item_name, count ) ) {
+            u.use_charges( item_name, count );
+        } else if( u.has_amount( item_name, count ) ) {
+            u.use_amount( item_name, count );
+        } else {
+            popup( _( "You don't have a %1$s!" ), old_item.tname() );
+            return;
         }
+
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "You give %1$s a %2$s" ), p.name, old_item.tname() );
@@ -2020,7 +2032,7 @@ void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr,
     set_effect_consequence( npctalk_setter, con );
 }
 
-void talk_effect_t::set_effect( talk_effect_fun_t fun )
+void talk_effect_t::set_effect( const talk_effect_fun_t &fun )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, dialogue_consequence::none );
@@ -2177,6 +2189,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( give_all_aid ),
             WRAP( buy_haircut ),
             WRAP( buy_shave ),
+            WRAP( morale_chat ),
             WRAP( buy_10_logs ),
             WRAP( buy_100_logs ),
             WRAP( bionic_install ),
@@ -2359,11 +2372,17 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_member( "u_has_trait_flag" ) ) {
         std::string trait_flag_to_check = jo.get_string( "u_has_trait_flag" );
         condition = [trait_flag_to_check]( const dialogue & d ) {
-            return d.beta->has_trait_flag( trait_flag_to_check );
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+                return d.alpha->crossed_threshold();
+            }
+            return d.alpha->has_trait_flag( trait_flag_to_check );
         };
     } else if( jo.has_member( "npc_has_trait_flag" ) ) {
         std::string trait_flag_to_check = jo.get_string( "npc_has_trait_flag" );
         condition = [trait_flag_to_check]( const dialogue & d ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+                return d.beta->crossed_threshold();
+            }
             return d.beta->has_trait_flag( trait_flag_to_check );
         };
     } else if( jo.has_member( "npc_has_class" ) ) {
@@ -2409,8 +2428,7 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_string( "u_has_item" ) ) {
         const std::string item_id = jo.get_string( "u_has_item" );
         condition = [item_id]( const dialogue & d ) {
-            return d.alpha->inv.position_by_type( item_id ) != INT_MIN ||
-                   d.alpha->inv.has_charges( item_id, 1 );
+            return d.alpha->charges_of( item_id ) > 0 || d.alpha->has_amount( item_id, 1 );
         };
     } else if( jo.has_member( "u_has_items" ) ) {
         JsonObject has_items = jo.get_object( "u_has_items" );
@@ -2422,15 +2440,8 @@ conditional_t::conditional_t( JsonObject jo )
             const std::string item_id = has_items.get_string( "item" );
             int count = has_items.get_int( "count" );
             condition = [item_id, count]( const dialogue & d ) {
-                if( d.alpha->inv.has_charges( item_id, count ) ) {
-                    return true;
-                }
-                int item_at = d.alpha->inv.position_by_type( item_id );
-                if( item_at == INT_MIN ) {
-                    return false;
-                }
-                const item &actual_item = d.alpha->i_at( item_at );
-                return actual_item.count() >= count;
+                return d.alpha->has_charges( item_id, count ) ||
+                       d.alpha->has_amount( item_id, count );
             };
         }
     } else if( jo.has_string( "npc_has_effect" ) ) {
@@ -2504,7 +2515,7 @@ conditional_t::conditional_t( JsonObject jo )
                 "has_available_mission", "has_many_available_missions",
                 "npc_available", "npc_following",
                 "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
-                "is_day", "is_outside"
+                "is_day", "is_outside", "u_has_camp"
             }
         };
         bool found_sub_member = false;
@@ -2585,6 +2596,10 @@ conditional_t::conditional_t( const std::string &type )
         condition = []( const dialogue &d ) {
             const tripoint pos = g->m.getabs( d.beta->pos() );
             return !g->m.has_flag( TFLAG_INDOORS, pos );
+        };
+    } else if( type == "u_has_camp" ) {
+        condition = []( const dialogue & ) {
+            return !g->u.camps.empty();
         };
     } else {
         condition = []( const dialogue & ) {
@@ -2690,8 +2705,8 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [item_id, yes, no]( const dialogue & d ) {
-            const bool has_it = d.alpha->inv.position_by_type( item_id ) != INT_MIN ||
-                                d.alpha->inv.has_charges( item_id, 1 );
+            const bool has_it = d.alpha->has_charges( item_id, 1 ) ||
+                                d.alpha->has_amount( item_id, 1 );
             return ( has_it ? yes : no )( d );
         };
     } else if( jo.has_member( "npc_has_effect" ) ) {
@@ -2765,7 +2780,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.alpha->crossed_threshold() ) {
+                return yes( d );
+            } else if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
                 return yes( d );
             }
             return no( d );
@@ -2775,7 +2792,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
+            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.beta->crossed_threshold() ) {
+                return yes( d );
+            } else if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
                 return yes( d );
             }
             return no( d );

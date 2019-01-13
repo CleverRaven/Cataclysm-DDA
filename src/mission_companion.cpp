@@ -78,11 +78,9 @@ void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
-void camp_missions( mission_data &mission_key, npc &p );
 bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
 }
 
 void talk_function::companion_mission( npc &p )
@@ -1763,7 +1761,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<std::sha
     int max_combat = 0;
     int max_survival = 0;
     int max_industry = 0;
-    for( auto e : available ) {
+    for( const auto &e : available ) {
         comp_rank r;
         r.combat = companion_combat_rank( *e );
         r.survival = companion_survival_rank( *e );
@@ -1893,7 +1891,7 @@ std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const
 }
 
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> talk_function::loot_building( const tripoint site )
+std::vector<item *> talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
     std::vector<item *> items_found;

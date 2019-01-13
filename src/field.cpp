@@ -476,7 +476,7 @@ field_id field_from_ident( const std::string &field_ident )
     return fd_null;
 }
 
-void map::create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass )
+void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
@@ -611,7 +611,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
     const auto spread_gas = [this, &get_neighbors](
                                 field_entry & cur, const tripoint & p, field_id curtype,
-    int percent_spread, const time_duration outdoor_age_speedup ) {
+    int percent_spread, const time_duration & outdoor_age_speedup ) {
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -2485,7 +2485,7 @@ int field_entry::setFieldDensity( const int new_density )
     return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
 }
 
-time_duration field_entry::setFieldAge( const time_duration new_age )
+time_duration field_entry::setFieldAge( const time_duration &new_age )
 {
     return age = new_age;
 }
@@ -2532,7 +2532,7 @@ If you wish to modify an already existing field use findField and modify the res
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
 bool field::addField( const field_id field_to_add, const int new_density,
-                      const time_duration new_age )
+                      const time_duration &new_age )
 {
     auto it = field_list.find( field_to_add );
     if( fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority ) {
@@ -2644,7 +2644,7 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
     }
 }
 
-void map::propagate_field( const tripoint &center, field_id fid, int amount,
+void map::propagate_field( const tripoint &center, const field_id type, int amount,
                            int max_density )
 {
     using gas_blast = std::pair<float, tripoint>;
@@ -2652,7 +2652,7 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
     std::set<tripoint> closed;
     open.push( { 0.0f, center } );
 
-    const bool not_gas = fieldlist[ fid ].phase != GAS;
+    const bool not_gas = fieldlist[ type ].phase != GAS;
 
     while( amount > 0 && !open.empty() ) {
         if( closed.count( open.top().second ) ) {
@@ -2663,9 +2663,9 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
         // All points with equal gas density should propagate at the same time
         std::list<gas_blast> gas_front;
         gas_front.push_back( open.top() );
-        int cur_intensity = get_field_strength( open.top().second, fid );
+        int cur_intensity = get_field_strength( open.top().second, type );
         open.pop();
-        while( !open.empty() && get_field_strength( open.top().second, fid ) == cur_intensity ) {
+        while( !open.empty() && get_field_strength( open.top().second, type ) == cur_intensity ) {
             if( closed.count( open.top().second ) == 0 ) {
                 gas_front.push_back( open.top() );
             }
@@ -2678,10 +2678,10 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
         while( amount > 0 && !gas_front.empty() ) {
             auto gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
-            int cur_strength = get_field_strength( gp.second, fid );
+            int cur_strength = get_field_strength( gp.second, type );
             if( cur_strength < max_density ) {
                 int bonus = std::min( max_density - cur_strength, increment );
-                adjust_field_strength( gp.second, fid, bonus );
+                adjust_field_strength( gp.second, type, bonus );
                 amount -= bonus;
             } else {
                 amount--;

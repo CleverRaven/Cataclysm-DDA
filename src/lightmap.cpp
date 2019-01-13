@@ -1131,14 +1131,13 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( vp.part_index() );
         } else {
-            if( origin == mirror_pos && veh->camera_on ) {
+            if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
                 cam_control = vp.part_index();
             }
         }
     }
 
-    for( size_t i = 0; i < mirrors.size(); i++ ) {
-        const int &mirror = mirrors[i];
+    for( int mirror : mirrors ) {
         bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work

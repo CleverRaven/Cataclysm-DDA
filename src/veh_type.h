@@ -160,13 +160,13 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (TODO: units?) when delivering max @ref power
+         * Energy consumed by engines and motors (watts) when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
         int energy_consumption = 0;
 
         /**
-         * For engines and motors this is maximum output (TODO: units?)
+         * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
         int power = 0;

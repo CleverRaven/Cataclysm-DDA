@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "action.h"
+#include "advanced_inv.h"
 #include "catalua.h"
 #include "clzones.h"
 #include "construction.h"
@@ -146,7 +147,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
-    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish },
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -577,7 +579,7 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-int corpse_damage_effect( int weight, std::string entry_type, int damage_level )
+int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     float slight_damage = 0.9;
     float damage = 0.75;
@@ -820,10 +822,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
             }
         }
-        item ruined_parts( "ruined_chunks", bday,
-                           monster_weight_remaining / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) );
-        ruined_parts.set_mtype( &mt );
-        g->m.add_item_or_charges( p.pos(), ruined_parts );
+        const int item_charges = monster_weight_remaining / to_gram( (
+                                     item::find_type( "ruined_chunks" ) )->weight );
+        if( item_charges > 0 ) {
+            item ruined_parts( "ruined_chunks", bday, item_charges );
+            ruined_parts.set_mtype( &mt );
+            g->m.add_item_or_charges( p.pos(), ruined_parts );
+        }
     }
 
     if( action == DISSECT ) {
@@ -1120,18 +1125,18 @@ void serialize_liquid_target( player_activity &act, const monster &mon )
     act.coords.push_back( mon.pos() );
 }
 
-void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
+void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 {
-    player_activity &act = *act_;
+    player_activity &act_ref = *act;
     try {
         // 1. Gather the source item.
         vehicle *source_veh = nullptr;
-        const tripoint source_pos = act.coords.at( 0 );
+        const tripoint source_pos = act_ref.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
         std::list<item>::iterator on_ground;
         monster *source_mon = nullptr;
         item liquid;
-        const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
+        const auto source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
         int part_num = -1;
         long veh_charges = 0;
         switch( source_type ) {
@@ -1140,20 +1145,20 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
                 }
-                deserialize( liquid, act.str_values.at( 0 ) );
-                part_num = static_cast<int>( act.values.at( 1 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                part_num = static_cast<int>( act_ref.values.at( 1 ) );
                 veh_charges = liquid.charges;
                 break;
             case LST_INFINITE_MAP:
-                deserialize( liquid, act.str_values.at( 0 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = item::INFINITE_CHARGES;
                 break;
             case LST_MAP_ITEM:
-                if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
+                if( static_cast<size_t>( act_ref.values.at( 1 ) ) >= source_stack.size() ) {
                     throw std::runtime_error( "could not find source item on ground for liquid transfer" );
                 }
                 on_ground = source_stack.begin();
-                std::advance( on_ground, act.values.at( 1 ) );
+                std::advance( on_ground, act_ref.values.at( 1 ) );
                 liquid = *on_ground;
                 break;
             case LST_MONSTER:
@@ -1161,9 +1166,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 source_mon = dynamic_cast<monster *>( c );
                 if( source_mon == nullptr ) {
                     debugmsg( "could not find source creature for liquid transfer" );
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
-                deserialize( liquid, act.str_values.at( 0 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = 1;
                 break;
         }
@@ -1174,22 +1179,22 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const long original_charges = liquid.charges;
 
         // 2. Transfer charges.
-        switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
+        switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
-                if( const optional_vpart_position vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
+                if( const optional_vpart_position vp = g->m.veh_at( act_ref.coords.at( 1 ) ) ) {
                     p->pour_into( vp->vehicle(), liquid );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
             case LTT_CONTAINER:
-                p->pour_into( p->i_at( act.values.at( 3 ) ), liquid );
+                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), liquid );
                 break;
             case LTT_MAP:
-                if( iexamine::has_keg( act.coords.at( 1 ) ) ) {
-                    iexamine::pour_into_keg( act.coords.at( 1 ), liquid );
+                if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
+                    iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
                 } else {
-                    g->m.add_item_or_charges( act.coords.at( 1 ), liquid );
+                    g->m.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
                     p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
                     liquid.charges = 0;
                 }
@@ -1202,7 +1207,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const long removed_charges = original_charges - liquid.charges;
         if( removed_charges == 0 ) {
             // Nothing has been transferred, target must be full.
-            act.set_to_null();
+            act_ref.set_to_null();
             return;
         }
 
@@ -1217,15 +1222,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                     // many charges are actually left for the next time we come
                     // around this loop.
                     if( !liquid.charges ) {
-                        act.set_to_null();
+                        act_ref.set_to_null();
                     } else {
-                        act.str_values.at( 0 ) = serialize( liquid );
+                        act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
                     source_veh->drain( liquid.typeId(), removed_charges );
                 }
                 if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
             case LST_MAP_ITEM:
@@ -1240,7 +1245,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ).c_str() );
                     }
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
             case LST_INFINITE_MAP:
@@ -1249,19 +1254,19 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             case LST_MONSTER:
                 // liquid source charges handled in monexamine::milk_source
                 if( liquid.charges == 0 ) {
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
         }
 
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
-            act.set_to_null();
+            act_ref.set_to_null();
         }
 
     } catch( const std::runtime_error &err ) {
         debugmsg( "error in activity data: \"%s\"", err.what() );
-        act.set_to_null();
+        act_ref.set_to_null();
         return;
     }
 }
@@ -1458,11 +1463,11 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::hotwire_finish( player_activity *act, player *pl )
+void activity_handlers::hotwire_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                           pl->posz() ) ) ) {
+                                           p->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
         if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
@@ -1763,7 +1768,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
             sfx::play_variant_sound( "reload", reloadable.typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume,
-                                   reloadable.type->gun->reload_noise );
+                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise );
         }
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
@@ -1842,11 +1847,11 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     return;
 }
 
-void activity_handlers::vehicle_finish( player_activity *act, player *pl )
+void activity_handlers::vehicle_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
     const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                       pl->posz() ) );
+                                       p->posz() ) );
     veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -2820,7 +2825,40 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+void activity_handlers::unload_mag_finish( player_activity *act, player *p )
+{
+    long qty = 0;
+    item &it = *act->targets[ 0 ];
+
+    // remove the ammo leads in the belt
+    it.contents.erase( std::remove_if( it.contents.begin(),
+    it.contents.end(), [&]( item & e ) {
+        if( !p->add_or_drop_with_msg( e, true ) ) {
+            return false;
+        }
+        qty += e.charges;
+        return true;
+    } ), it.contents.end() );
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            p->add_or_drop_with_msg( link, true );
+        }
+        add_msg( _( "You disassemble your %s." ), it.tname().c_str() );
+    } else {
+        add_msg( _( "You unload your %s." ), it.tname().c_str() );
+    }
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        act->targets[ 0 ].remove_item();
+    }
+
+    act->set_to_null();
+}
+
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {
@@ -2943,7 +2981,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         }
     };
 
-    auto have_fertilizer = [&]( void ) {
+    auto have_fertilizer = [&]() {
         return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
     };
 

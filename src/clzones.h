@@ -167,9 +167,9 @@ class zone_data
 
         bool set_name(); // returns true if name is changed
         bool set_type(); // returns true if type is changed
-        void set_position( const std::pair<tripoint, tripoint> position, const bool manual = true );
-        void set_enabled( const bool enabled );
-        void set_is_vehicle( const bool is_vehicle );
+        void set_position( const std::pair<tripoint, tripoint> &position, const bool manual = true );
+        void set_enabled( const bool enabled_arg );
+        void set_is_vehicle( const bool is_vehicle_arg );
 
         std::string get_name() const {
             return name;

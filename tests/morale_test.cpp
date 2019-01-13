@@ -107,8 +107,8 @@ TEST_CASE( "player_morale" )
 
     GIVEN( "OPTIMISTIC trait" ) {
         m.on_mutation_gain( trait_id( "OPTIMISTIC" ) );
-        CHECK( m.has( MORALE_PERM_OPTIMIST ) == 4 );
-        CHECK( m.get_level() == 5 );
+        CHECK( m.has( MORALE_PERM_OPTIMIST ) == 9 );
+        CHECK( m.get_level() == 10 );
 
         WHEN( "lost the trait" ) {
             m.on_mutation_loss( trait_id( "OPTIMISTIC" ) );
@@ -119,8 +119,8 @@ TEST_CASE( "player_morale" )
 
     GIVEN( "BADTEMPER trait" ) {
         m.on_mutation_gain( trait_id( "BADTEMPER" ) );
-        CHECK( m.has( MORALE_PERM_BADTEMPER ) == -4 );
-        CHECK( m.get_level() == -5 );
+        CHECK( m.has( MORALE_PERM_BADTEMPER ) == -9 );
+        CHECK( m.get_level() == -10 );
 
         WHEN( "lost the trait" ) {
             m.on_mutation_loss( trait_id( "BADTEMPER" ) );

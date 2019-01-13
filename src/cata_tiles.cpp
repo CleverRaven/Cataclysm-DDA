@@ -59,8 +59,8 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int fontwidth, fontheight;
-extern bool tile_iso;
+extern int fontwidth;
+extern int fontheight;
 
 SDL_Color cursesColorToSDL( const nc_color &color );
 ///@throws std::exception upon errors.
@@ -1629,7 +1629,7 @@ void cata_tiles::get_window_tile_counts( const int width, const int height, int 
                static_cast<double>( height ) / tile_height );
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
+bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,
                                       lit_level ll, bool apply_night_vision_goggles )
 {
     int nullint = 0;
@@ -1638,7 +1638,7 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                      const std::string &subcategory, tripoint pos,
+                                      const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles )
 {
@@ -1647,7 +1647,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                                             ll, apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
+bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,
                                       lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
     return cata_tiles::draw_from_id_string( std::move( id ), C_NONE, empty_string, pos, subtile, rota,
@@ -1765,7 +1765,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                      const std::string &subcategory, tripoint pos,
+                                      const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d )
 {
@@ -1835,7 +1835,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 col = t.color;
             }
         } else if( category == C_ITEM ) {
-            const auto tmp = item( id, 0 );
+            item tmp;
+            if( 0 == id.compare( 0, 7, "corpse_" ) ) {
+                tmp = item( "corpse", 0 );
+            } else {
+                tmp = item( id, 0 );
+            }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
         }
@@ -2267,7 +2272,9 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
     }
 
     const std::string &tname = t.obj().id.str();
-    g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
+    if( !g->m.check_and_set_seen_cache( p ) ) {
+        g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
+    }
 
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2311,7 +2318,9 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     // get the name of this furniture piece
     const std::string &f_name = f_id.obj().id.str();
-    g->u.memorize_tile( g->m.getabs( p ), f_name, subtile, rotation );
+    if( !g->m.check_and_set_seen_cache( p ) ) {
+        g->u.memorize_tile( g->m.getabs( p ), f_name, subtile, rotation );
+    }
 
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
                                     nv_goggles_activated, height_3d );
@@ -2339,7 +2348,9 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
     int rotation = 0;
     get_tile_values( tr.loadid, neighborhood, subtile, rotation );
 
-    g->u.memorize_tile( g->m.getabs( p ), tr.id.str(), subtile, rotation );
+    if( !g->m.check_and_set_seen_cache( p ) ) {
+        g->u.memorize_tile( g->m.getabs( p ), tr.id.str(), subtile, rotation );
+    }
 
     return draw_from_id_string( tr.id.str(), C_TRAP, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2481,7 +2492,9 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
     if( !veh->forward_velocity() ) {
-        g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
+        if( !g->m.check_and_set_seen_cache( p ) ) {
+            g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
+        }
     }
 
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,

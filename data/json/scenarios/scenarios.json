@@ -251,7 +251,8 @@
       "CHAOTIC",
       "ALCMET",
       "LIGHT_BONES",
-      "CHITIN"
+      "CHITIN",
+      "ELECTRORECEPTORS"
     ],
     "flags": [ "LONE_START" ]
   },

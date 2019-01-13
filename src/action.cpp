@@ -23,8 +23,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-extern bool tile_iso;
-
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
 

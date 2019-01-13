@@ -75,7 +75,7 @@ static const trait_id trait_THORNS( "THORNS" );
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
 int  stumble( player &u, const item &weap );
-std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
+std::string melee_message( const ma_technique &tec, player &p, const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.

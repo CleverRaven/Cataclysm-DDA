@@ -1948,7 +1948,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         p.add_msg_player_or_npc( m_bad,
                                  _( "You stop playing your %s" ),
                                  _( "<npcname> stops playing their %s" ),
-                                 it.display_name().c_str() );
+                                 it.display_name() );
         it.active = false;
         return 0;
     }
@@ -1956,7 +1956,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
     if( !t && it.active ) {
         p.add_msg_player_or_npc( _( "You stop playing your %s" ),
                                  _( "<npcname> stops playing their %s" ),
-                                 it.display_name().c_str() );
+                                 it.display_name() );
         it.active = false;
         return 0;
     }
@@ -1968,7 +1968,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         p.add_msg_player_or_npc( m_bad,
                                  _( "You need to hold or wear %s to play it" ),
                                  _( "<npcname> needs to hold or wear %s to play it" ),
-                                 it.display_name().c_str() );
+                                 it.display_name() );
         it.active = false;
         return 0;
     }
@@ -1978,7 +1978,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         p.add_msg_player_or_npc( m_bad,
                                  _( "You feel too weak to play your %s" ),
                                  _( "<npcname> feels too weak to play their %s" ),
-                                 it.display_name().c_str() );
+                                 it.display_name() );
         it.active = false;
         return 0;
     }
@@ -1988,7 +1988,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         p.add_msg_player_or_npc( m_good,
                                  _( "You start playing your %s" ),
                                  _( "<npcname> starts playing their %s" ),
-                                 it.display_name().c_str() );
+                                 it.display_name() );
         it.active = true;
     }
 
@@ -2002,23 +2002,28 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
         if( !player_descriptions.empty() && p.is_player() ) {
-            desc = _( random_entry( player_descriptions ).c_str() );
+            desc = _( random_entry( player_descriptions ) );
         } else if( !npc_descriptions.empty() && p.is_npc() ) {
-            desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ).c_str(),
-                                  random_entry( npc_descriptions ).c_str() );
+            desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
+                                  random_entry( npc_descriptions ) );
         }
     } else if( morale_effect < 0 && calendar::once_every( 10_turns ) ) {
         // No musical skills = possible morale penalty
         if( p.is_player() ) {
             desc = _( "You produce an annoying sound" );
         } else {
-            desc = string_format( _( "%s produces an annoying sound" ), p.disp_name( false ).c_str() );
+            desc = string_format( _( "%s produces an annoying sound" ), p.disp_name( false ) );
         }
     }
 
-    sounds::ambient_sound( p.pos(), volume, desc );
+
+    sounds::ambient_sound( p.pos(), volume, sounds::sound_t::music, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
+        // Sound code doesn't describe noises at the player position
+        if( p.is_player() && desc != "music" ) {
+            add_msg( m_info, desc );
+        }
         p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
         p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
