@@ -1473,40 +1473,6 @@
     "use_action": "HOTPLATE"
   },
   {
-    "id": "chemistry_set",
-    "type": "TOOL",
-    "name": "chemistry set",
-    "description": "This is a chemistry set stored in a box.  The contents include glass containers, hoses, metal wire, a hotplate, and safety glasses.  It might be used to craft some chemistry projects if you're so inclined.",
-    "weight": 5200,
-    "volume": 18,
-    "price": 20000,
-    "to_hit": -5,
-    "material": [ "glass", "cotton" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "sub": "hotplate",
-    "max_charges": 200,
-    "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE"
-  },
-  {
-    "id": "chemistry_set_basic",
-    "type": "TOOL",
-    "category": "tools",
-    "name": "basic chemistry set",
-    "description": "This is a basic chemistry set which includes glass containers, hoses and safety glasses.  It might be used to craft some chemistry projects if you're so inclined, but you'll need a source of heat.",
-    "weight": 1884,
-    "volume": 11,
-    "price": 3200,
-    "to_hit": -5,
-    "material": [ "glass", "cotton" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ]
-  },
-  {
     "id": "chipper",
     "type": "TOOL",
     "name": "paint chipper",
@@ -7248,7 +7214,7 @@
     "use_action": {
       "target": "tool_black_powder_charge_act",
       "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
-      "target_charges": 5,
+      "target_charges": 20,
       "active": true,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -7486,7 +7452,7 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ],
-      [ "BUTCHER", 12 ]
+      [ "BUTCHER", 11 ]
     ],
     "use_action": [ "HAMMER" ]
   },

@@ -1,19 +1,20 @@
+#include "translations.h"
+
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
 #include <cstdlib>
+
 #define __STRICT_ANSI__
 #endif
 
-#include "translations.h"
+#include <algorithm>
+#include <set>
+#include <string>
 
 #include "cata_utility.h"
 #include "json.h"
 #include "name.h"
 #include "path_info.h"
-
-#include <algorithm>
-#include <set>
-#include <string>
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -26,6 +27,7 @@ static void reload_names()
 
 #ifdef LOCALIZE
 #include <cstdlib> // for getenv()/setenv()/putenv()
+
 #include "options.h"
 #include "debug.h"
 #include "ui.h"

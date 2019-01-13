@@ -1,7 +1,9 @@
-#include "output.h"
 #include "rng.h"
 
 #include <chrono>
+
+#include "output.h"
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdlib>
@@ -66,13 +68,13 @@ int divide_roll_remainder( double dividend, double divisor )
 
 // http://www.cse.yorku.ca/~oz/hash.html
 // for world seeding.
-int djb2_hash( const unsigned char *str )
+int djb2_hash( const unsigned char *input )
 {
     unsigned long hash = 5381;
-    unsigned char c = *str++;
+    unsigned char c = *input++;
     while( c != '\0' ) {
         hash = ( ( hash << 5 ) + hash ) + c; /* hash * 33 + c */
-        c = *str++;
+        c = *input++;
     }
     return hash;
 }

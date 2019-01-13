@@ -1,5 +1,10 @@
 #include "overmapbuffer.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cstdlib>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -16,11 +21,6 @@
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "vehicle.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
-#include <sstream>
 
 overmapbuffer overmap_buffer;
 
@@ -712,7 +712,7 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id, co
 
 bool overmapbuffer::is_findable_location( const tripoint &location, const std::string &type,
         bool must_be_seen, bool allow_subtype_matches,
-        bool existing_overmaps_only, cata::optional<overmap_special_id> om_special )
+        bool existing_overmaps_only, const cata::optional<overmap_special_id> &om_special )
 {
     if( existing_overmaps_only ) {
         const bool type_matches = allow_subtype_matches
@@ -758,7 +758,7 @@ bool overmapbuffer::is_findable_location( const tripoint &location, const std::s
 tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string &type,
                                       int const radius, bool must_be_seen, bool allow_subtype_matches,
                                       bool existing_overmaps_only,
-                                      cata::optional<overmap_special_id> om_special )
+                                      const cata::optional<overmap_special_id> &om_special )
 {
     // Check the origin before searching adjacent tiles!
     if( is_findable_location( origin, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
@@ -824,7 +824,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
 std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin, const std::string &type,
         int dist, bool must_be_seen, bool allow_subtype_matches,
         bool existing_overmaps_only,
-        cata::optional<overmap_special_id> om_special )
+        const cata::optional<overmap_special_id> &om_special )
 {
     std::vector<tripoint> result;
     // dist == 0 means search a whole overmap diameter.
@@ -844,7 +844,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin, const std
 tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &type,
                                      int dist, bool must_be_seen, bool allow_subtype_matches,
                                      bool existing_overmaps_only,
-                                     cata::optional<overmap_special_id> om_special )
+                                     const cata::optional<overmap_special_id> &om_special )
 {
     return random_entry( find_all( origin, type, dist, must_be_seen, allow_subtype_matches,
                                    existing_overmaps_only,
@@ -861,7 +861,7 @@ std::shared_ptr<npc> overmapbuffer::find_npc( int id )
     return nullptr;
 }
 
-void overmapbuffer::insert_npc( const std::shared_ptr<npc> who )
+void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
 {
     assert( who );
     const tripoint npc_omt_pos = who->global_omt_location();
@@ -909,6 +909,15 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &locatio
             }
         }
     }
+
+    // Sort the resulting overmaps so that the closest ones are first.
+    const tripoint center = sm_to_om_copy( location );
+    std::sort( result.begin(), result.end(), [&center]( const overmap * lhs,
+    const overmap * rhs ) {
+        const tripoint lhs_pos( lhs->pos(), 0 );
+        const tripoint rhs_pos( rhs->pos(), 0 );
+        return trig_dist( center, lhs_pos ) < trig_dist( center, rhs_pos );
+    } );
 
     return result;
 }
@@ -1228,7 +1237,7 @@ bool overmapbuffer::place_special( const overmap_special &special, const tripoin
     return placed;
 }
 
-bool overmapbuffer::place_special( const overmap_special_id special_id, const tripoint &center,
+bool overmapbuffer::place_special( const overmap_special_id &special_id, const tripoint &center,
                                    int radius )
 {
     // First find the requested special. If it doesn't exist, we're done here.

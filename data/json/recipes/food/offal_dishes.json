@@ -17,24 +17,32 @@
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "lung_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [ [ [ "lung", 1 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "kidney_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [ [ [ "kidney", 1 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "sweetbread_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [ [ [ "sweetbread", 1 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "liver_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [ [ [ "liver", 1 ] ] ]
   },
   {

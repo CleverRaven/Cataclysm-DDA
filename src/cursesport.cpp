@@ -1,13 +1,13 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
 
+#include <stdexcept>
+
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
-
-#include <stdexcept>
 
 /**
  * Whoever cares, btw. not my base design, but this is how it works:

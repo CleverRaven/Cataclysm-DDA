@@ -80,6 +80,14 @@
   },
   {
     "type": "recipe",
+    "result": "meat_scrap_cooked",
+    "copy-from": "meat_cooked",
+    "time": 750,
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "meat_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "sweetbread_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -662,6 +670,31 @@
   },
   {
     "type": "recipe",
+    "result": "bratwurst_sausage",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "meat", 2 ], [ "rehydrated_meat", 4 ], [ "meat_canned", 4 ], [ "can_chicken", 4 ] ],
+      [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [
+        [ "salt", 10 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_italian", 10 ],
+        [ "wild_herbs", 10 ],
+        [ "seasoning_salt", 10 ],
+        [ "pepper", 10 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "sausage_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -683,6 +716,19 @@
         [ "pepper", 10 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": 15000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "sausage_raw", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -769,6 +815,19 @@
         [ "pepper", 10 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "mannwurst_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": 15000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mannwurst_raw", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -2135,6 +2194,8 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
         [ "powder_eggs", 10 ],
         [ "eggs_bird", 2, "LIST" ],
@@ -2217,6 +2278,8 @@
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
         [ "irradiated_onion", 1 ],
         [ "onion", 1 ]
@@ -2241,6 +2304,24 @@
       [ [ "chocolate", 1 ] ],
       [ [ "powder_eggs", 10 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "weed", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "brownie",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 3 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "chocolate", 1 ] ],
+      [ [ "powder_eggs", 10 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ]
     ]
   },
   {
@@ -2514,6 +2595,8 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
         [ "powder_eggs", 10 ],
         [ "eggs_bird", 2, "LIST" ],
@@ -2629,6 +2712,8 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
         [ "powder_eggs", 10 ],
         [ "eggs_bird", 2, "LIST" ],
@@ -2728,6 +2813,8 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
         [ "powder_eggs", 10 ],
         [ "eggs_bird", 2, "LIST" ],
@@ -3231,6 +3318,8 @@
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "jerky", 3 ],
         [ "salted_fish", 2 ],
         [ "meat_pickled", 1 ],
@@ -3270,6 +3359,8 @@
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "jerky", 3 ],
         [ "salted_fish", 2 ],
         [ "meat_pickled", 1 ],
@@ -4206,6 +4297,8 @@
         [ "can_salmon", 2 ],
         [ "can_tuna", 2 ],
         [ "sausage", 4 ],
+        [ "sausage_cooked", 4 ],
+        [ "bratwurst_sausage", 4 ],
         [ "bacon", 4 ],
         [ "powder_eggs", 20 ],
         [ "eggs_bird", 4, "LIST" ],
@@ -5075,7 +5168,9 @@
         [ "hfleshbologna", 2 ],
         [ "rehydrated_hflesh", 2 ],
         [ "human_pickled", 2 ],
-        [ "mannwurst", 1 ]
+        [ "mannwurst", 1 ],
+        [ "mannwurst_cooked", 1 ],
+        [ "mann_bratwurst", 1 ]
       ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2 ] ],
@@ -5157,6 +5252,8 @@
         [ "fish_smoked", 1 ],
         [ "meat_smoked", 1 ],
         [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
         [ "can_herring", 1 ],
         [ "can_chicken", 1 ],
         [ "can_salmon", 1 ],
@@ -5406,6 +5503,8 @@
     "components": [
       [
         [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
         [ "meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "dry_meat", 1 ],
@@ -5429,7 +5528,15 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "mannwurst", 1 ], [ "human_flesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "dry_hflesh", 1 ], [ "human_canned", 1 ] ],
+      [
+        [ "mannwurst", 1 ],
+        [ "mannwurst_cooked", 1 ],
+        [ "mann_bratwurst", 1 ],
+        [ "human_flesh", 1 ],
+        [ "rehydrated_hflesh", 1 ],
+        [ "dry_hflesh", 1 ],
+        [ "human_canned", 1 ]
+      ],
       [ [ "tallow", 1 ], [ "lard", 1 ] ],
       [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
@@ -5446,7 +5553,11 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "sausage", 2 ] ], [ [ "curry_powder", 20 ] ], [ [ "ketchup", 4 ] ] ]
+    "components": [
+      [ [ "sausage", 2 ], [ "sausage_cooked", 2 ], [ "bratwurst_sausage", 2 ] ],
+      [ [ "curry_powder", 20 ] ],
+      [ [ "ketchup", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -5477,7 +5588,11 @@
     "book_learn": [ [ "cookbook_human", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "mannwurst", 2 ] ], [ [ "curry_powder", 20 ] ], [ [ "ketchup", 4 ] ] ]
+    "components": [
+      [ [ "mannwurst", 2 ], [ "mannwurst_cooked", 2 ], [ "mann_bratwurst", 2 ] ],
+      [ [ "curry_powder", 20 ] ],
+      [ [ "ketchup", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -5597,6 +5712,8 @@
         [ "bacon", 2 ],
         [ "fried_spam", 2 ],
         [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
         [ "meat_smoked", 1 ]
       ]
     ]
@@ -6321,6 +6438,8 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "sausage", 2 ],
+        [ "sausage_cooked", 2 ],
+        [ "bratwurst_sausage", 2 ],
         [ "bacon", 2 ],
         [ "powder_eggs", 10 ],
         [ "eggs_bird", 2, "LIST" ],
@@ -7878,6 +7997,8 @@
         [ "can_salmon", 12 ],
         [ "can_tuna", 12 ],
         [ "sausage", 24 ],
+        [ "sausage_cooked", 24 ],
+        [ "bratwurst_sausage", 24 ],
         [ "bacon", 24 ],
         [ "powder_eggs", 120 ],
         [ "eggs_bird", 24, "LIST" ],

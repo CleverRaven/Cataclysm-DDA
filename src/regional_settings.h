@@ -2,16 +2,16 @@
 #ifndef REGIONAL_SETTINGS_H
 #define REGIONAL_SETTINGS_H
 
-#include "mapdata.h"
-#include "omdata.h"
-#include "weather_gen.h"
-#include "weighted_list.h"
-
 #include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "mapdata.h"
+#include "omdata.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 
@@ -31,10 +31,15 @@ class building_bin
 };
 
 struct city_settings {
-    int shop_radius =
-        80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-    int park_radius =
-        130; // in theory, adjusting these can make a town with a few shops and a lot of parks + houses......by increasing shop_radius
+    // About the average US city non-residential, non-park land usage
+    int shop_radius = 30;
+    int shop_sigma = 20;
+
+    // Set the same as shop radius, let parks bleed through via normal rolls
+    int park_radius = shop_radius;
+    // We'll spread this out to the rest of the town.
+    int park_sigma = 100 - park_radius;
+
     int house_basement_chance = 5; // one_in(n) chance a house has a basement
     building_bin houses;
     building_bin basements;

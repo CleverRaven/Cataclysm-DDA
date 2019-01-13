@@ -1,5 +1,8 @@
 #include "main_menu.h"
 
+#include <algorithm>
+#include <cmath>
+
 #include "auto_pickup.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -17,13 +20,11 @@
 #include "path_info.h"
 #include "player.h"
 #include "safemode_ui.h"
+#include "sdlsound.h"
 #include "sounds.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "worldfactory.h"
-
-#include <algorithm>
-#include <cmath>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

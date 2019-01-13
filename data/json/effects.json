@@ -1902,6 +1902,24 @@
             "per_mod": [2]
         }
     },
+  {
+    "type": "effect_type",
+    "id": "tummy_tablet",
+    "name": [ "Soothed stomach" ],
+    "desc": [ "You are under the effects of a stomach soother." ],
+    "int_add_val": 1,
+    "max_intensity": 3,
+    "base_mods": {
+      "vomit_tick": [ 10 ],
+      "health_chance": [ 1500 ],
+      "health_min": [ 1 ]
+    },
+    "scaling_mods": {
+      "health_min": [ -1.5 ],
+      "health_min_val": [ -2 ],
+      "vomit_tick": [ 20 ]
+    }
+  },
     {
         "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
         "type": "effect_type",

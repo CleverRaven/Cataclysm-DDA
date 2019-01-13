@@ -1,4 +1,8 @@
-#include "npc.h"
+#include "npctalk.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+#include <vector>
 
 #include "basecamp.h"
 #include "bionics.h"
@@ -10,7 +14,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "npctalk.h"
+#include "npc.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
@@ -21,10 +25,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -404,6 +404,12 @@ void talk_function::buy_shave( npc &p )
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
+}
+
+void talk_function::morale_chat( npc &p )
+{
+    g->u.add_morale( MORALE_CHAT, 5, 5, 360_minutes, 3_minutes );
+    add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
 }
 
 void talk_function::buy_10_logs( npc &p )
