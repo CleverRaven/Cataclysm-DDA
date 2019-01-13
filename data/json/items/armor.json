@@ -516,7 +516,29 @@
     "warmth": 40,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "armor_nomad_light",
+    "type": "ARMOR",
+    "name": "light nomad gear",
+    "description": "A light makeshift outfit made from pre-cataclysm clothing designed for long summer travels.  It offers less storage space and armor compared to regular nomad gear.",
+    "weight": 3200,
+    "volume": 26,
+    "price": 29500,
+    "to_hit": -4,
+    "material": [ "cotton" ],
+    "looks_like": "armor_nomad",
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 16,
+    "storage": 50,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "armor_plarmor",
@@ -3158,7 +3180,6 @@
     "coverage": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {

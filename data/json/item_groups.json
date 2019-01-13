@@ -467,6 +467,7 @@
       ["toastem2", 30],
       ["toastem3", 35],
       ["toasterpastryfrozen", 20],
+      ["brownie", 30],
       ["cooking_oil", 20],
       ["fruit_leather", 15],
       ["sugar", 40],
@@ -2977,20 +2978,26 @@
     "type" : "item_group",
     "id" : "female_underwear_top",
     "items":[
-      ["bra", 90]
+      ["bra", 70],
+      ["sports_bra", 50],
+      ["bikini_top", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "female_underwear_bottom",
     "items":[
       ["panties", 70],
-      ["boy_shorts", 50]
+      ["boy_shorts", 50],
+      ["bikini_bottom", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "male_underwear_top",
     "items":[
-      ["undershirt", 30]
+      ["undershirt", 50],
+      ["long_undertop", 20],
+      ["under_armor", 20],
+      ["tank_top", 50]
     ]
   },{
     "type" : "item_group",
@@ -2998,7 +3005,9 @@
     "items":[
       ["boxer_shorts", 70],
       ["briefs", 30],
-      ["boxer_briefs", 50]
+      ["boxer_briefs", 50],
+      ["long_underpants", 20],
+      ["under_armor_shorts", 20]
     ]
   },{
     "type" : "item_group",
@@ -4129,6 +4138,7 @@
       ["maltballs", 60],
       ["chocolate", 100],
       ["cookies", 60],
+      ["brownie", 60],
       ["candy", 100],
       ["candy2", 100],
       ["candy3", 100],
@@ -4338,6 +4348,8 @@
     "items":[
       ["purifier", 12],
       ["plut_cell", 10],
+      ["standard_template_construct", 5],
+      ["nanomaterial", 5],
       ["ftk93", 1],
       ["canister_goo", 8],
       ["UPS_off", 5],
@@ -5629,6 +5641,7 @@
       ["eink_tablet_pc", 15],
       ["mobile_memory_card", 40],
       ["mobile_memory_card_science", 10],
+      ["standard_template_construct", 5],
       ["camera", 15],
       ["camera_pro", 5],
       ["lighter", 50],
@@ -6828,6 +6841,7 @@
       ["eink_tablet_pc", 1],
       ["mobile_memory_card", 8],
       ["mobile_memory_card_science", 1],
+      ["standard_template_construct", 8],
       ["id_military", 3],
       ["militarymap", 3],
       ["pistol_bayonet", 4],
@@ -7493,6 +7507,7 @@
       ["eink_tablet_pc", 20],
       ["mobile_memory_card", 50],
       ["mobile_memory_card_science", 5],
+      ["standard_template_construct", 5],
       ["camera", 3],
       ["thermometer", 3],
       ["hygrometer", 3],
@@ -9249,6 +9264,7 @@
       ["chips2",      27],
       ["chips3",      26],
       ["cookies",     25],
+      ["brownie",     25],
       ["coffee_raw",  90],
       ["ceramic_cup", 10],
       ["ceramic_plate",10],
@@ -9282,6 +9298,7 @@
       ["candy",              30],
       ["chips",              30],
       ["cookies",            45],
+      ["brownie",            45],
       ["restaurantmap",       5],
       ["touristmap",          5],
       ["fried_seeds",         5],

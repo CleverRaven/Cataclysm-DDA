@@ -6,7 +6,6 @@
     "description": "This monster exists only for testing purposes.",
     "default_faction": "",
     "species": [ "ZOMBIE" ],
-    "diff": 100,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 10000,
@@ -18,6 +17,7 @@
     "morale": 100,
     "melee_cut": 0,
     "vision_day": 1,
+    "harvest": "exempt",
     "death_function": [ "MELT" ],
     "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
@@ -29,7 +29,6 @@
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
     "species": [ "NETHER" ],
-    "diff": 11,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 200,
@@ -51,6 +50,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
+    "harvest": "bird_large",
     "flags": [
       "HEARS",
       "KEENNOSE",
@@ -59,9 +59,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "BONES",
-      "FEATHER",
-      "FAT",
       "SWIMS",
       "SUNDEATH"
     ]
@@ -73,7 +70,7 @@
     "description": "A blood red, gigantic razorclaw.  Its sword like pincers serve as the keepers of the nest.",
     "default_faction": "razorclaw",
     "species": [ "MUTANT" ],
-    "diff": 50,
+    "diff": 2,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 120,
@@ -92,12 +89,13 @@
     "armor_cut": 30,
     "vision_day": 30,
     "vision_night": 20,
+    "harvest": "shellfish",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2", "QUEEN" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2", "QUEEN" ]
   },
   {
     "id": "mon_amigara_horror",
@@ -106,7 +104,7 @@
     "description": "A hellish, vaguely humanoid horror, two stories tall.  Its face is grotesquely stretched out, its limbs deformed to unrecognizable outgrowths.",
     "default_faction": "mutant",
     "species": [ "HORROR" ],
-    "diff": 30,
+    "diff": 5,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 250,
@@ -121,6 +119,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "human",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": [ "AMIGARA", "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
@@ -133,7 +132,6 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "diff": 4,
     "volume": "750 ml",
     "weight": 1000,
     "hp": 10,
@@ -148,12 +146,13 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 8,
+    "harvest": "mammal_tiny",
     "vision_day": 20,
     "vision_night": 20,
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "BONES", "LEATHER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_beekeeper",
@@ -162,7 +161,6 @@
     "description": "A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 4,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 70,
@@ -178,6 +176,7 @@
     "melee_cut": 2,
     "armor_bash": 6,
     "armor_cut": 8,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": {
       "subtype": "collection",
@@ -196,7 +195,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -209,7 +207,7 @@
     "description": "This is some form of unnatural changeling creature; its appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Naked and trembling, it almost seems pitiful but for the way that its unearthly presence makes the hair on the back of your neck stand up in nameless horror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 5,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -223,9 +221,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 1,
+    "harvest": "human",
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN", "BONES" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
   {
     "id": "mon_blob",
@@ -234,7 +233,7 @@
     "description": "A black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
-    "diff": 19,
+    "diff": 1,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -251,6 +250,7 @@
     "armor_bash": 12,
     "armor_stab": 14,
     "armor_acid": 15,
+    "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 30 ] ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
@@ -262,7 +262,7 @@
     "description": "A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other blobs seem to swarm around it.",
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
-    "diff": 40,
+    "diff": 5,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 400,
@@ -277,6 +277,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "armor_bash": 12,
+    "harvest": "exempt",
     "special_attacks": [ [ "CALLBLOBS", 0 ] ],
     "death_function": [ "BRAINBLOB" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN" ]
@@ -288,7 +289,7 @@
     "description": "A large black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
-    "diff": 10,
+    "diff": 1,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 160,
@@ -306,6 +307,7 @@
     "armor_cut": 4,
     "armor_stab": 20,
     "armor_acid": 20,
+    "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 20 ] ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
@@ -317,7 +319,7 @@
     "description": "A small black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "species": [ "NETHER", "BLOB" ],
-    "diff": 2,
+    "diff": 1,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 40,
@@ -334,6 +336,7 @@
     "armor_bash": 6,
     "armor_stab": 10,
     "armor_acid": 10,
+    "harvest": "exempt",
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
@@ -356,10 +359,11 @@
     "melee_dice": 1,
     "melee_dice_sides": 5,
     "melee_cut": 2,
+    "harvest": "zombie",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_boomer",
@@ -368,7 +372,7 @@
     "description": "A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 8,
+    "diff": 5,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 40,
@@ -383,6 +387,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "vision_night": 3,
+    "harvest": "exempt",
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER" ],
@@ -399,8 +404,6 @@
       "NO_BREATHE",
       "REVIVES",
       "BILE_BLOOD",
-      "BONES",
-      "FAT",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "FILTHY"
@@ -413,7 +416,7 @@
     "description": "A rotund and bloated human body with pasty, fungus-ridden flesh.  Its mouth drips with a frothing gray sludge.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 7,
+    "diff": 5,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 30,
@@ -430,6 +433,7 @@
     "armor_bash": 2,
     "vision_day": 30,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "FUNGUS", 100 ], [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "FUNGUS", "NORMAL" ],
@@ -444,8 +448,6 @@
       "GROUP_BASH",
       "POISON",
       "NO_BREATHE",
-      "BONES",
-      "FAT",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -457,7 +459,7 @@
     "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed...",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 15,
+    "diff": 5,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 110,
@@ -474,6 +476,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER_GLOW" ],
@@ -489,8 +492,6 @@
       "NO_BREATHE",
       "REVIVES",
       "BILE_BLOOD",
-      "BONES",
-      "FAT",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "FILTHY"
@@ -503,7 +504,6 @@
     "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernable exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -511,6 +511,7 @@
     "symbol": "o",
     "color": "pink",
     "melee_cut": 0,
+    "harvest": "exempt",
     "special_attacks": [ [ "BREATHE", 8 ] ],
     "death_function": [ "MELT" ],
     "flags": [ "IMMOBILE", "NOGIB" ]
@@ -522,7 +523,6 @@
     "description": "A weird mass of immobile pink goo.  It seems to breathe.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -530,6 +530,7 @@
     "symbol": "O",
     "color": "pink",
     "melee_cut": 0,
+    "harvest": "exempt",
     "special_attacks": [ [ "BREATHE", 8 ] ],
     "death_function": [ "KILL_BREATHERS" ],
     "flags": [ "ACIDPROOF", "ACID_BLOOD", "IMMOBILE" ]
@@ -541,7 +542,6 @@
     "description": "A robot body with the head of a human.  All kinds of electronic wires and devices are implanted in its head.  Patches of skin look diseased or rotting.  This cyborg moves erratically and has a confused and deranged look in its eyes.",
     "default_faction": "science",
     "species": [ "ROBOT" ],
-    "diff": 4,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 60,
@@ -583,7 +583,6 @@
     "description": "Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
-    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -602,10 +601,11 @@
     "armor_cut": 6,
     "vision_day": 50,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "LONGSWIPE", 8 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 21 } ] } ],
     "death_drops": { "groups": [ [ "vault_wanderer", 1 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_chickenbot",
@@ -614,7 +614,7 @@
     "description": "The Northrup ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
-    "diff": 32,
+    "diff": 20,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 90,
@@ -646,7 +646,6 @@
     "description": "The C.H.U.D. or Cannibalistic Humanoid Underground Dweller.  A human being turned pale and mad from years of underground isolation.",
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
-    "diff": 8,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 60,
@@ -661,6 +660,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "dodge": 3,
+    "harvest": "human",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": {
@@ -668,7 +668,7 @@
       "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 5 ], [ "dresser", 10 ], [ "ammo", 18 ] ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "FILTHY" ]
   },
   {
     "id": "mon_copbot",
@@ -677,7 +677,7 @@
     "description": "One of the many models of armored law enforcement robots employed shortly before the collapse of civilization.  Solar powered like many other robots, it maintains its programmed pursuit of law and order, propelled on a trio of omni wheels.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
-    "diff": 12,
+    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -708,7 +708,6 @@
     "description": "A conglomeration of human parts fused together in a horrible mishmash of function, slowly dragging its eldritch body across the ground.",
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
-    "diff": 16,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 180,
@@ -724,9 +723,10 @@
     "melee_cut": 0,
     "dodge": 1,
     "armor_bash": 8,
+    "harvest": "zombie_leather",
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
   },
   {
     "id": "mon_dark_wyrm",
@@ -735,7 +735,6 @@
     "description": "A huge mutated worm found deep underground.  It has a gaping round mouth lined with dagger-like teeth, and its flesh is slick with bubbling blue slime.",
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
-    "diff": 20,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 120,
@@ -751,6 +750,7 @@
     "melee_cut": 4,
     "dodge": 4,
     "armor_bash": 6,
+    "harvest": "arachnid_acid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ]
   },
@@ -761,7 +761,7 @@
     "description": "A gigantic shadow, chaotically changing in shape and volume , two piercing orbs of light dominate what can only be described as its head.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 50,
+    "diff": 2,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 800,
@@ -779,6 +779,7 @@
     "armor_cut": 8,
     "vision_day": 50,
     "luminance": 6,
+    "harvest": "exempt",
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": [ "DARKMAN" ],
     "flags": [
@@ -801,7 +802,6 @@
     "description": "A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
     "default_faction": "cult",
     "species": [ "ZOMBIE" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -816,10 +816,11 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
+    "harvest": "zombie_leather",
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "LEATHER", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_dog_skeleton",
@@ -828,7 +829,6 @@
     "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 12,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 12,
@@ -847,9 +847,10 @@
     "armor_stab": 30,
     "armor_acid": 3,
     "vision_night": 3,
+    "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL", "SPLATTER" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "BONES", "FILTHY" ]
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_dog_thing",
@@ -858,7 +859,6 @@
     "description": "A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
     "default_faction": "mutant",
     "species": [ "NETHER" ],
-    "diff": 5,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 25,
@@ -873,9 +873,10 @@
     "melee_dice_sides": 3,
     "melee_cut": 3,
     "dodge": 3,
+    "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
     "death_function": [ "THING" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_dog_zombie_cop",
@@ -885,7 +886,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE" ],
-    "diff": 12,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 42,
@@ -904,6 +904,7 @@
     "armor_cut": 6,
     "vision_day": 50,
     "vision_night": 4,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
     "death_function": [ "NORMAL" ],
@@ -917,8 +918,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "FUR",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -930,7 +929,6 @@
     "description": "Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime dribbling ulcers.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 12,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 24,
@@ -947,9 +945,10 @@
     "dodge": 1,
     "vision_day": 30,
     "vision_night": 4,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_eyebot",
@@ -983,7 +982,6 @@
     "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -1003,6 +1001,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "luminance": 8,
+    "harvest": "zombie",
     "death_drops": {
       "subtype": "collection",
       "groups": [
@@ -1012,7 +1011,7 @@
     },
     "death_function": [ "FIREBALL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "BLEED", "PUSH_MON", "DRIPS_NAPALM", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BLEED", "PUSH_MON", "DRIPS_NAPALM", "FILTHY" ]
   },
   {
     "id": "mon_flaming_eye",
@@ -1021,7 +1020,7 @@
     "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat and trails a set of flailing black tendrils as it slowly drifts about; its unearthly presence filling you with dread at the prospect of falling under its baleful gaze.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 27,
+    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 300,
@@ -1036,9 +1035,10 @@
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
+    "harvest": "meatslug",
     "special_attacks": [ [ "STARE", 12 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "FAT" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
   },
   {
     "id": "mon_flesh_angel",
@@ -1047,7 +1047,7 @@
     "description": "A tall and slender man lacking skin and any normalcy of countenance.  Wings of muscle curl forth from its back and a third eye dominates the forehead.",
     "default_faction": "cult",
     "species": [ "ZOMBIE" ],
-    "diff": 20,
+    "diff": 5,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 200,
@@ -1062,10 +1062,11 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "zombie",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_flying_polyp",
@@ -1074,7 +1075,7 @@
     "description": "A half polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises which send cold shivers of primal terror down your spine",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 42,
+    "diff": 20,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 350,
@@ -1090,6 +1091,7 @@
     "melee_cut": 6,
     "dodge": 7,
     "armor_bash": 8,
+    "harvest": "exempt",
     "death_function": [ "MELT" ],
     "flags": [
       "SMELLS",
@@ -1112,7 +1114,7 @@
     "description": "A broad fungus, looking much like a glowing blue sunflower.  It appears to emit finer spores than the typical fungal emission.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 18,
+    "diff": 20,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 30,
@@ -1126,6 +1128,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "luminance": 40,
+    "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS_HAZE", 25 ] ],
     "death_function": [ "FUNGUS" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE" ]
@@ -1137,7 +1140,7 @@
     "description": "Looking at first glance like a dull gray privet, this \"hedge\" is really a mass of barbed fungal tendrils, defending the fungal tower.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 25,
+    "diff": 5,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 40,
@@ -1153,6 +1156,7 @@
     "melee_cut": 4,
     "armor_bash": 10,
     "armor_cut": 10,
+    "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS_BRISTLE", 10 ] ],
     "death_function": [ "DISINTEGRATE" ],
     "flags": [ "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE" ]
@@ -1164,7 +1168,7 @@
     "description": "A long and delicate-looking tendril with a sharp tip.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 18,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 30,
@@ -1181,6 +1185,7 @@
     "dodge": 4,
     "armor_bash": 10,
     "armor_cut": 4,
+    "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS_INJECT", 10 ] ],
     "death_function": [ "FUNGUS" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
@@ -1192,7 +1197,7 @@
     "description": "A veritable wall of fungus, grown as a natural defense by the fungal spire.  New spores erupt from the surface every few seconds.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 6,
+    "diff": 2,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 10,
@@ -1205,6 +1210,7 @@
     "melee_cut": 0,
     "armor_bash": 10,
     "armor_cut": 10,
+    "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS", 10 ] ],
     "death_function": [ "DISINTEGRATE" ],
     "flags": [ "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE" ]
@@ -1217,7 +1223,7 @@
     "description": "A pale white fungus, one meaty gray stalk supporting a bloom at the top.  Spores are periodically expelled from its gills, and a few tendrils extend from the base, allowing mobility and some basic means of defense.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 12,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -1232,6 +1238,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "armor_bash": 4,
+    "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
@@ -1243,7 +1250,7 @@
     "description": "An enormous fungal spire, towering over the ground.  It pulsates slowly, continuously growing new defenses.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 40,
+    "diff": 2,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 300,
@@ -1268,7 +1275,7 @@
     "description": "An immense fungal blossom, towering over its surroundings.  It pulses with a soft blue glow, continuously pumping its spores into the air.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 40,
+    "diff": 10,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 300,
@@ -1294,7 +1301,7 @@
     "description": "An enormous fungal tower.  On closer inspection, its cap is supported by LOTS of fungal tendrils of various thicknesses, emerging from yet more bristling tendrils at ground level.  Between this redundancy and their noticeable movement creating frequent gaps, it's tough to get a solid shot on the thing.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 40,
+    "diff": 5,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 300,
@@ -1324,7 +1331,7 @@
     "description": "A fungal stalk several feet in height.  Two vicious looking tendrils extend from its thorned and leathery exterior, and it moves about faster than the larger fungaloids.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 6,
+    "diff": 2,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 70,
@@ -1341,6 +1348,7 @@
     "dodge": 1,
     "armor_bash": 4,
     "armor_cut": 4,
+    "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS_GROWTH", 100 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "POISON", "NO_BREATHE", "NOHEAD" ]
@@ -1352,7 +1360,7 @@
     "description": "A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
     "default_faction": "blob",
     "species": [ "NETHER" ],
-    "diff": 20,
+    "diff": 2,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 200,
@@ -1366,6 +1374,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "armor_bash": 10,
+    "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 4 ] ],
     "death_function": [ "MELT" ],
     "flags": [ "SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB" ]
@@ -1387,6 +1396,7 @@
     "melee_cut": 0,
     "armor_bash": 2,
     "armor_cut": 2,
+    "harvest": "exempt",
     "special_attacks": [ [ "GENERATOR", 1 ] ],
     "death_function": [ "GAMEOVER" ],
     "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE" ]
@@ -1398,7 +1408,6 @@
     "description": "A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
     "default_faction": "crayfish",
     "species": [ "MUTANT" ],
-    "diff": 9,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 50,
@@ -1413,10 +1422,11 @@
     "melee_cut": 5,
     "dodge": 2,
     "armor_cut": 8,
+    "harvest": "shellfish",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "FAT", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_gozu",
@@ -1425,7 +1435,7 @@
     "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body.  Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  Its mere presence fills you with an unfathomable dread.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 20,
+    "diff": 5,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 400,
@@ -1441,6 +1451,7 @@
     "melee_cut": 0,
     "dodge": 4,
     "vision_day": 30,
+    "harvest": "gozu",
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [
@@ -1452,10 +1463,7 @@
       "GROUP_BASH",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
-      "FUR",
       "NO_BREATHE",
-      "BONES",
-      "FAT",
       "PATH_AVOID_DANGER_1"
     ]
   },
@@ -1466,7 +1474,6 @@
     "description": "A monstrous beast the size of a semi truck with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
     "default_faction": "worm",
     "species": [ "WORM" ],
-    "diff": 25,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 210,
@@ -1482,8 +1489,9 @@
     "melee_cut": 6,
     "armor_bash": 12,
     "armor_cut": 8,
+    "harvest": "meatslug",
     "death_function": [ "WORM" ],
-    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM", "LEATHER", "FAT" ]
+    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM" ]
   },
   {
     "id": "mon_gracke",
@@ -1492,7 +1500,7 @@
     "description": "This is some form of eldritch monstrosity; an uncouth black being with smooth, oily, skin and unpleasant horns that curve inward toward each other.  Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws.  Gazing upon its disturbing form fills you with an unspeakable terror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 15,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -1506,8 +1514,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 4,
+    "harvest": "mammal_leather",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_halfworm",
@@ -1516,7 +1525,6 @@
     "description": "A squiggling severed portion of a wounded giant worm.",
     "default_faction": "worm",
     "species": [ "WORM" ],
-    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 20,
@@ -1531,8 +1539,9 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "armor_bash": 2,
+    "harvest": "meatslug",
     "death_function": [ "NORMAL" ],
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM", "LEATHER" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
   },
   {
     "id": "mon_hallu_mom",
@@ -1552,6 +1561,7 @@
     "morale": 100,
     "melee_skill": 3,
     "melee_cut": 0,
+    "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
     "death_function": [ "DISAPPEAR" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS", "GUILT" ]
@@ -1574,6 +1584,7 @@
     "morale": 100,
     "melee_skill": 1,
     "melee_cut": 0,
+    "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
     "death_function": [ "DISAPPEAR" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
@@ -1585,7 +1596,6 @@
     "description": "The Ford Sanitron, a utility robot designed for cleaning up waste material in hazardous conditions.",
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
-    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -1609,7 +1619,6 @@
     "description": "A dog's body with a mass of ropey, black tentacles reaching out from its head.",
     "default_faction": "mutant",
     "species": [ "NETHER" ],
-    "diff": 14,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -1624,6 +1633,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "dodge": 4,
+    "harvest": "exempt",
     "special_attacks": [ [ "TENTACLE", 5 ] ],
     "death_function": [ "THING" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
@@ -1645,6 +1655,7 @@
     "morale": 2,
     "luminance": 16,
     "dodge": 6,
+    "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": [ "DISAPPEAR" ],
@@ -1658,7 +1669,6 @@
     "description": "A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
     "default_faction": "cult",
     "species": [ "ZOMBIE" ],
-    "diff": 13,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -1675,8 +1685,9 @@
     "dodge": 6,
     "armor_bash": 4,
     "armor_cut": 2,
+    "harvest": "human",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS", "LEATHER", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS", "FILTHY" ]
   },
   {
     "id": "mon_human_snail",
@@ -1685,7 +1696,7 @@
     "description": "An enormous fleshy snail, with an oddly human face.  Eyestalks protrude from where the eyes should be.",
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
-    "diff": 10,
+    "diff": 5,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 80,
@@ -1700,6 +1711,7 @@
     "melee_cut": 0,
     "armor_bash": 6,
     "armor_cut": 12,
+    "harvest": "human",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
@@ -1712,7 +1724,6 @@
     "description": "This is some sort of great viperine creature, possessed of a curiously distorted head and massive clawed appendages.  It partially supports itself with the aid of black rubbery wings of monstrous dimensions.  Its form writhes and changes before your eyes, filling you with unnameable horror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 28,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 280,
@@ -1726,6 +1737,7 @@
     "melee_dice_sides": 12,
     "melee_cut": 6,
     "dodge": 8,
+    "harvest": "exempt",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "death_function": [ "MELT" ],
     "flags": [
@@ -1749,7 +1761,6 @@
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
-    "diff": 8,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 90,
@@ -1768,10 +1779,11 @@
     "armor_cut": 4,
     "vision_day": 50,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 20 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_irradiated_wanderer_2",
@@ -1780,7 +1792,6 @@
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
-    "diff": 12,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 90,
@@ -1800,10 +1811,11 @@
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 8,
+    "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 15 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_irradiated_wanderer_3",
@@ -1812,7 +1824,6 @@
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
-    "diff": 15,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -1832,10 +1843,11 @@
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 16,
+    "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 10 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_irradiated_wanderer_4",
@@ -1844,7 +1856,6 @@
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "species": [ "ABERRATION" ],
-    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -1864,10 +1875,11 @@
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 32,
+    "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_jabberwock",
@@ -1876,7 +1888,6 @@
     "description": "A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.",
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],
-    "diff": 50,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 400,
@@ -1907,11 +1918,7 @@
       "BASHES",
       "DESTROYS",
       "ATTACKMON",
-      "LEATHER",
-      "BONES",
-      "POISON",
-      "BONES",
-      "FAT"
+      "POISON"
     ]
   },
   {
@@ -1921,7 +1928,6 @@
     "description": "This is some form of otherworldly hound.  Lean and hungry looking, its twisted red flesh is stretched tightly across its misshapen, angular frame.  Loping grotesquely along, its unusually long neck stretches forward, its skull-like head near the ground as it sniffs out its prey.  Its foulness partially veiled by some arcane force, it seems to almost flicker in and out of your perceptions in a fashion that awakens ancient nameless terrors in the back of your mind",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 6,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 30,
@@ -1938,9 +1944,10 @@
     "dodge": 8,
     "armor_cut": 5,
     "vision_day": 50,
+    "harvest": "exempt",
     "path_settings": { "max_dist": 10 },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "BONES", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ]
   },
   {
     "id": "mon_mi_go",
@@ -1949,7 +1956,6 @@
     "description": "This is an alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and simply gazing upon the unnatural beast fills you with primordial dread.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 26,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 210,
@@ -1967,6 +1973,7 @@
     "armor_bash": 4,
     "armor_cut": 12,
     "vision_day": 50,
+    "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [
       [ "PARROT", 0 ],
@@ -1982,7 +1989,6 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "FAT",
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS"
     ]
@@ -1994,7 +2000,6 @@
     "description": "A snake-like, segmented robot built to tunnel into the ground and detonate landmines.",
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
-    "diff": 4,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -2020,7 +2025,6 @@
     "description": "A relatively humanoid mutant with purple hair and a grapefruit-sized bloodshot eye.",
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
-    "diff": 18,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -2035,12 +2039,13 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 5,
+    "harvest": "human",
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN" ]
   },
   {
     "id": "mon_player_blob",
@@ -2049,7 +2054,7 @@
     "description": "A familiar-looking blob of goo.  It sprouts the occasional eyestalk.",
     "default_faction": "player",
     "species": [ "MUTANT" ],
-    "diff": 19,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 40,
@@ -2066,6 +2071,7 @@
     "dodge": 1,
     "armor_bash": 12,
     "vision_night": 5,
+    "harvest": "exempt",
     "special_attacks": [ [ "SLIMESPRING", 15 ] ],
     "death_function": [ "ACID" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
@@ -2077,7 +2083,6 @@
     "description": "A man-sized crustacean clad in an iron-like chitin, capable of emitting the most horrible of shrieks.  Often spotted near shipwrecks or other dark damp places, which it uses as nesting grounds.",
     "default_faction": "razorclaw",
     "species": [ "MUTANT" ],
-    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -2096,12 +2101,13 @@
     "armor_cut": 18,
     "vision_day": 30,
     "vision_night": 15,
+    "harvest": "shellfish",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_riotbot",
@@ -2110,7 +2116,7 @@
     "description": "Nonviolent riot-control bot.  Designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding flash and a low-powered stungun for self-defense--in addition to its supply of electronic handcuffs.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
-    "diff": 11,
+    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -2139,7 +2145,7 @@
     "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 14,
+    "diff": 2,
     "volume": "750 ml",
     "weight": 1000,
     "hp": 60,
@@ -2154,6 +2160,7 @@
     "melee_cut": 0,
     "dodge": 4,
     "vision_day": 50,
+    "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": [ "MELT" ],
@@ -2183,7 +2190,6 @@
     "description": "This is an animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 6,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 40,
@@ -2198,9 +2204,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 4,
     "dodge": 1,
+    "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "LEATHER", "PLASTIC", "SUNDEATH", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "SUNDEATH", "NOGIB" ]
   },
   {
     "id": "mon_shia",
@@ -2210,7 +2217,6 @@
     "description": "Living in the woods, \nkilling for sport, \neating all the bodies, \nactual cannibal Shia LaBeouf.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 16,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 50,
@@ -2227,6 +2233,7 @@
     "dodge": 4,
     "vision_day": 30,
     "vision_night": 10,
+    "harvest": "human",
     "special_attacks": [ [ "BRANDISH", 10 ] ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
@@ -2238,7 +2245,6 @@
       "WARM",
       "BASHES",
       "POISON",
-      "BONES",
       "BLEED",
       "NO_BREATHE",
       "PATH_AVOID_DANGER_2",
@@ -2253,7 +2259,6 @@
     "description": "A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 20,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 400,
@@ -2269,6 +2274,7 @@
     "melee_cut": 6,
     "armor_bash": 10,
     "armor_cut": 30,
+    "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
@@ -2294,7 +2300,6 @@
     "description": "A monstrous overgrowth of ossified tissue has replaced this zombie's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the air around it.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 8,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 30,
@@ -2314,11 +2319,12 @@
     "armor_acid": 3,
     "vision_day": 30,
     "vision_night": 3,
+    "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
-    "death_function": [ "NORMAL", "SPLATTER" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_skitterbot",
@@ -2327,7 +2333,7 @@
     "description": "A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
-    "diff": 12,
+    "diff": 2,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 40,
@@ -2354,7 +2360,7 @@
     "description": "A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground.  Eye stalks occasionally push their way out of the oily mass and look around.",
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
-    "diff": 13,
+    "diff": 2,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 300,
@@ -2372,6 +2378,7 @@
     "armor_bash": 4,
     "vision_day": 10,
     "vision_night": 30,
+    "harvest": "exempt",
     "death_function": [ "MELT" ],
     "flags": [
       "NOHEAD",
@@ -2394,7 +2401,7 @@
     "description": "A mutated leopard slug, as wide as a golf cart.  Venom dripping from its fanged maw, it slithers ahead slowly, leaving a trail of glistening slime.",
     "default_faction": "slug",
     "species": [ "MOLLUSK" ],
-    "diff": 16,
+    "diff": 5,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 190,
@@ -2411,10 +2418,11 @@
     "armor_bash": 8,
     "armor_cut": 2,
     "vision_day": 30,
+    "harvest": "meatslug",
     "special_attacks": [ [ "ACID", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "FAT", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_spore",
@@ -2435,6 +2443,7 @@
     "morale": 75,
     "melee_cut": 0,
     "dodge": 2,
+    "harvest": "exempt",
     "special_attacks": [ [ "PLANT", 100 ] ],
     "death_function": [ "DISINTEGRATE" ],
     "upgrades": { "half_life": 10, "into": "mon_fungaloid" },
@@ -2447,7 +2456,7 @@
     "description": "The Northrup Beagle is a refrigerator-sized urban warfare UGV.  Sporting an anti-tank missile launcher, 40mm grenade launcher, and numerous anti-infantry weapons, it's designed for high-risk urban fighting.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
-    "diff": 52,
+    "diff": 30,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 240,
@@ -2478,7 +2487,6 @@
     "description": "An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
     "default_faction": "mutant",
     "species": [ "NETHER" ],
-    "diff": 30,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 160,
@@ -2494,6 +2502,7 @@
     "melee_cut": 0,
     "dodge": 2,
     "armor_bash": 8,
+    "harvest": "exempt",
     "special_attacks": [ [ "TENTACLE", 5 ] ],
     "death_function": [ "MELT" ],
     "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
@@ -2505,7 +2514,7 @@
     "description": "The Honda Regnal, a tall robot walking on three spidery legs.  For weapons, it has a trio of spiked retractable cables and a flamethrower mounted on its head.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
-    "diff": 26,
+    "diff": 20,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 80,
@@ -2534,7 +2543,7 @@
     "description": "Three high-powered searchlights with automated search AI and mounting, continually seeking targets.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
-    "diff": 20,
+    "diff": 2,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 30,
@@ -2561,7 +2570,6 @@
     "description": "A human body, but with its limbs, neck, and hair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
     "default_faction": "mutant",
     "species": [ "HORROR" ],
-    "diff": 12,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 70,
@@ -2576,8 +2584,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 6,
+    "harvest": "human",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "LEATHER", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
   },
   {
     "id": "mon_vortex",
@@ -2587,7 +2596,7 @@
     "description": "A twisting spot in the air, with some kind of morphing mass at its center.",
     "default_faction": "vortex",
     "species": [ "UNKNOWN" ],
-    "diff": 1,
+    "diff": 2,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 20,
@@ -2598,6 +2607,7 @@
     "aggression": 100,
     "morale": 100,
     "melee_cut": 0,
+    "harvest": "exempt",
     "death_function": [ "MELT" ],
     "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB" ]
   },
@@ -2608,7 +2618,6 @@
     "description": "An enormous, mutated creature that might once have been a nightcrawler.  It possesses a large fanged mouth and a long slender body that comes up to your shoulder, with even more surely hiding underground.",
     "default_faction": "worm",
     "species": [ "WORM" ],
-    "diff": 10,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 50,
@@ -2623,8 +2632,9 @@
     "melee_dice_sides": 6,
     "melee_cut": 3,
     "armor_bash": 2,
+    "harvest": "meatslug",
     "death_function": [ "WORM" ],
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM", "LEATHER" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
   },
   {
     "id": "mon_yugg",
@@ -2633,7 +2643,7 @@
     "description": "This is a huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.  The mere sight of its putrid whitish visage is enough to loose prehistoric terrors within the darkest recesses of your mind.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
-    "diff": 32,
+    "diff": 10,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 320,
@@ -2649,9 +2659,10 @@
     "melee_cut": 8,
     "dodge": 1,
     "armor_bash": 6,
+    "harvest": "meatslug",
     "special_attacks": [ [ "GENE_STING", 20 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS", "FAT" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ]
   },
   {
     "id": "mon_zolf",
@@ -2660,7 +2671,6 @@
     "description": "A zombified wolf.  Its mouth oozes with a black substance, coating the vicious-looking white fangs.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 13,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 48,
@@ -2676,6 +2686,7 @@
     "melee_cut": 4,
     "dodge": 2,
     "vision_night": 5,
+    "harvest": "zombie_fur",
     "special_attacks": [ [ "HOWL", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
@@ -2691,8 +2702,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "FUR",
-      "BONES",
       "FILTHY"
     ]
   },
@@ -2703,7 +2712,6 @@
     "description": "This black bear's eyes ooze with dark, oily fluid, and its flesh is torn and scarred.  It shuffles as it walks.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 12,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 180,
@@ -2722,6 +2730,7 @@
     "armor_cut": 2,
     "vision_day": 30,
     "vision_night": 5,
+    "harvest": "zombie_fur",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
@@ -2735,9 +2744,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "FUR",
-      "BONES",
-      "FAT",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -2750,7 +2756,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -2765,6 +2770,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -2782,7 +2788,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -2810,6 +2815,7 @@
     "melee_cut": 0,
     "dodge": 1,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
@@ -2828,7 +2834,6 @@
       "ACID_BLOOD",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -2841,7 +2846,7 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 25,
+    "diff": 5,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -2861,10 +2866,11 @@
     "armor_fire": 20,
     "vision_day": 30,
     "vision_night": 3,
+    "harvest": "zombie",
     "death_drops": "mon_zombie_armored_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_bio_op",
@@ -2873,7 +2879,7 @@
     "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 25,
+    "diff": 5,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -2894,6 +2900,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 4,
+    "harvest": "CBM_OP",
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
@@ -2907,11 +2914,9 @@
       "GROUP_BASH",
       "POISON",
       "BLEED",
-      "CBM_OP",
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "FILTHY"
     ]
   },
@@ -2922,7 +2927,6 @@
     "description": "A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 15,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -2941,6 +2945,7 @@
     "armor_cut": 2,
     "vision_day": 15,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [
       {
         "type": "bite",
@@ -2970,7 +2975,6 @@
       "GRABS",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -2982,7 +2986,7 @@
     "description": "Its entire body bulges with distended muscles and swollen, festering wounds.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 20,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -2999,6 +3003,7 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "vision_night": 4,
+    "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3015,7 +3020,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3027,7 +3031,7 @@
     "description": "A slab of festering muscle the size of a well-toned bodybuilder.  Seems eager to strangle the life from you.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 24,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 280,
@@ -3046,6 +3050,7 @@
     "armor_cut": 14,
     "armor_stab": 8,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 30 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3061,7 +3066,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3073,7 +3077,7 @@
     "description": "Somehow this brute hides in the dark like some kind of boogeyman.  Very agile for such a large zombie.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 24,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 200,
@@ -3092,6 +3096,7 @@
     "armor_cut": 5,
     "vision_day": 5,
     "vision_night": 40,
+    "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 40 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3107,7 +3112,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "NIGHT_INVISIBILITY",
       "FILTHY"
@@ -3120,7 +3124,7 @@
     "description": "A huge beast covered in visible scarring from what you can only guess was 'research'.  Being near it, you can hear a slight humming, like that of an electrical transformer.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 22,
+    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 275,
@@ -3139,6 +3143,7 @@
     "armor_cut": 8,
     "vision_night": 3,
     "luminance": 16,
+    "harvest": "CBM_SUBS",
     "special_attacks": [ [ "SHOCKSTORM", 15 ], [ "SMASH", 30 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
@@ -3153,10 +3158,8 @@
       "GROUP_BASH",
       "POISON",
       "ELECTRIC",
-      "CBM_SUBS",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "FILTHY"
     ]
   },
@@ -3167,7 +3170,7 @@
     "description": "This once-human is visible only as a glowing white silhouette that you have to squint to see, cloaked in a crackling field of lightning that pulses like a beating heart.  It walks slowly and deliberately, the thunderstorm surrounding it eagerly jumping to anything conductive within its grasp.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 50,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 200,
@@ -3183,6 +3186,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "vision_night": 3,
     "luminance": 16,
+    "harvest": "CBM_SUBS",
     "emit_fields": [ "emit_shock_cloud" ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
@@ -3193,10 +3197,8 @@
       "WARM",
       "POISON",
       "ELECTRIC",
-      "CBM_SUBS",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "ELECTRIC_FIELD",
       "FILTHY"
     ]
@@ -3209,7 +3211,6 @@
     "default_faction": "cop_zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -3228,6 +3229,7 @@
     "armor_stab": 6,
     "vision_day": 30,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3244,7 +3246,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3256,7 +3257,7 @@
     "description": "This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 25,
+    "diff": 15,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 140,
@@ -3275,6 +3276,7 @@
     "armor_stab": 12,
     "vision_night": 3,
     "luminance": 0,
+    "harvest": "zombie",
     "special_attacks": [
       {
         "type": "gun",
@@ -3307,7 +3309,6 @@
       "ACID_BLOOD",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3320,7 +3321,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 1,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 60,
@@ -3335,6 +3335,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "vision_day": 10,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3351,7 +3352,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "FILTHY"
     ]
   },
@@ -3362,7 +3362,6 @@
     "description": "The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!\n\nThe dancer doesn't even notice you, it seems like something nearby is controlling it.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 50,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 10000,
@@ -3379,10 +3378,11 @@
     "armor_cut": 8,
     "vision_day": 50,
     "vision_night": 3,
+    "harvest": "zombie_leather",
     "special_attacks": [ [ "DANCE", 30 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "REGENERATES_50", "BONES", "POISON", "FAT", "FILTHY" ]
+    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "REGENERATES_50", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_dog",
@@ -3392,7 +3392,6 @@
     "description": "The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 12,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 36,
@@ -3408,9 +3407,10 @@
     "melee_cut": 2,
     "dodge": 1,
     "vision_night": 4,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_electric",
@@ -3419,7 +3419,7 @@
     "description": "A human body with pale blue flesh, crackling with electrical energy.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 12,
+    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 85,
@@ -3436,6 +3436,7 @@
     "melee_cut": 0,
     "dodge": 2,
     "luminance": 8,
+    "harvest": "CBM_CIV",
     "special_attacks": [ [ "SHOCKSTORM", 25 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
@@ -3451,10 +3452,8 @@
       "GROUP_BASH",
       "POISON",
       "ELECTRIC",
-      "CBM_CIV",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3467,7 +3466,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 95,
@@ -3484,6 +3482,7 @@
     "armor_bash": 5,
     "armor_cut": 3,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75, "//": "Fat zombies have stronger jaws" }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3501,8 +3500,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
-      "FAT",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3514,7 +3511,6 @@
     "description": "Charred zombie with bony plates, spikes and protrusions.  Moves stiffly, but swiftly.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -3534,11 +3530,12 @@
     "armor_fire": 12,
     "vision_day": 10,
     "vision_night": 8,
+    "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 8, "into": "mon_zombie_brute" },
-    "flags": [ "SEES", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
     "id": "mon_zombie_fireman",
@@ -3548,7 +3545,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -3567,6 +3563,7 @@
     "armor_acid": 3,
     "armor_fire": 10,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_drops": "mon_zombie_fireman_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3583,7 +3580,6 @@
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3595,7 +3591,7 @@
     "description": "Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
-    "diff": 6,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 60,
@@ -3612,11 +3608,12 @@
     "armor_bash": 3,
     "vision_day": 5,
     "vision_night": 5,
+    "harvest": "zombie",
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_gasbag",
@@ -3625,7 +3622,7 @@
     "description": "With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 8,
+    "diff": 5,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 15,
@@ -3640,11 +3637,12 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "vision_night": 3,
+    "harvest": "exempt",
     "emit_fields": [ "emit_toxic_leak" ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_grabber",
@@ -3653,7 +3651,6 @@
     "description": "A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 8,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 95,
@@ -3670,6 +3667,7 @@
     "dodge": 1,
     "vision_day": 30,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3688,7 +3686,6 @@
       "GRABS",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3700,7 +3697,6 @@
     "description": "An undead humanoid, its elongated arms drag along the ground as it moves.  It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 15,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 110,
@@ -3717,6 +3713,7 @@
     "dodge": 2,
     "vision_day": 30,
     "vision_night": 5,
+    "harvest": "zombie",
     "special_attacks": [ [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 3 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3733,7 +3730,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3746,7 +3742,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -3763,6 +3758,7 @@
     "armor_bash": 5,
     "armor_cut": 4,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_drops": "mon_zombie_hazmat_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3779,7 +3775,6 @@
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3791,7 +3786,6 @@
     "description": "Black hollow eyes survey the surroundings as the zombie stretches and bends in ways that whoever the original body belonged to never could.  The only thing that seems solid, on this flexible black-veined body, is the rows of sharp black teeth.  You get the feeling that the only human thing remaining is the skin, worn as one would wear clothes.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -3811,6 +3805,7 @@
     "armor_stab": 10,
     "vision_day": 30,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "STRETCH_BITE", 10 ], [ "STRETCH_ATTACK", 5 ] ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "FILTHY" ]
@@ -3822,7 +3817,7 @@
     "description": "A human body now swollen to the size of six men, with arms as wide as a trash can.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 50,
+    "diff": 5,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 480,
@@ -3840,6 +3835,7 @@
     "armor_cut": 12,
     "vision_day": 50,
     "vision_night": 4,
+    "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
@@ -3853,11 +3849,8 @@
       "DESTROYS",
       "POISON",
       "ATTACKMON",
-      "LEATHER",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
-      "FAT",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -3869,7 +3862,6 @@
     "description": "This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 6,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 90,
@@ -3885,6 +3877,7 @@
     "melee_cut": 2,
     "dodge": 3,
     "vision_night": 5,
+    "harvest": "zombie",
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
       { "type": "leap", "cooldown": 5, "max_range": 5 },
@@ -3898,7 +3891,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into": "mon_zombie_predator" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_jackson",
@@ -3907,7 +3900,6 @@
     "description": "And though you fight to stay alive, \nYour body starts to shiver. \nFor no mere mortal can resist, \nThe evil of the thriller.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 100,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -3926,10 +3918,11 @@
     "armor_cut": 2,
     "vision_day": 50,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "JACKSON", 0 ] ],
     "death_drops": "jackson_drops",
     "death_function": [ "JACKSON" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "BASHES", "BLEED", "NO_BREATHE", "BONES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "BASHES", "BLEED", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_mancroc",
@@ -3938,7 +3931,6 @@
     "description": "With a crocodile-like snout and rows of protruding teeth, this swimwear-clad zombie lurks in the water.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 16,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -3957,6 +3949,7 @@
     "armor_cut": 10,
     "vision_day": 25,
     "vision_night": 5,
+    "harvest": "zombie",
     "special_attacks": [
       {
         "type": "bite",
@@ -3986,7 +3979,6 @@
       "GRABS",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "SWIMS",
       "FILTHY"
@@ -3999,7 +3991,7 @@
     "description": "Once human, its features have tightened, its lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath its large, piercing eyes.  It stands tall and its movements are fluid and tightly controlled.  A feeling of danger permeates the air around it, and the light that falls on it seems somehow harsher and more glaring.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 16,
+    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 180,
@@ -4018,6 +4010,7 @@
     "armor_cut": 2,
     "vision_day": 50,
     "vision_night": 5,
+    "harvest": "zombie",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "UPGRADE", 10 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
@@ -4033,7 +4026,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS",
       "FILTHY"
@@ -4046,7 +4038,7 @@
     "description": "A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes.  It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 16,
+    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -4063,6 +4055,7 @@
     "dodge": 2,
     "vision_day": 50,
     "vision_night": 5,
+    "harvest": "zombie",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "RESURRECT", 0 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
@@ -4079,7 +4072,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
       "FILTHY"
@@ -4092,7 +4084,6 @@
     "description": "A zombified omnivore descended from the wild boar.  Now it's got black goo all over it, instead of mud.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 9,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 55,
@@ -4108,6 +4099,7 @@
     "melee_cut": 4,
     "dodge": 1,
     "vision_day": 50,
+    "harvest": "zombie_leather",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "bite", "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
@@ -4125,9 +4117,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
-      "LEATHER",
-      "FAT",
       "FILTHY"
     ],
     "//": "1d8->2d5, minor bonus over 1d9"
@@ -4139,7 +4128,6 @@
     "description": "With its joints in odd places and angles, this humanoid creature prowls across the landscape with surprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 50,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 90,
@@ -4158,6 +4146,7 @@
     "armor_cut": 5,
     "vision_day": 45,
     "vision_night": 15,
+    "harvest": "zombie",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
@@ -4178,7 +4167,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_rot",
@@ -4188,7 +4177,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 55,
@@ -4203,6 +4191,7 @@
     "melee_dice_sides": 2,
     "melee_cut": 0,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 3, "no_infection_chance": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4219,7 +4208,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -4231,7 +4219,6 @@
     "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 4,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 70,
@@ -4247,6 +4234,7 @@
     "melee_cut": 1,
     "dodge": 1,
     "vision_night": 3,
+    "harvest": "zombie",
     "path_settings": { "max_dist": 4 },
     "special_attacks": [
       [ "scratch", 10 ],
@@ -4260,7 +4248,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 10, "into": "mon_zombie_hunter" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_scientist",
@@ -4269,7 +4257,7 @@
     "description": "Apart from the jet black eyes it would be easy to believe this scientist was still alive.  Clad in a tattered lab coat, it looks to have some measure of situational awareness and resourcefulness.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -4286,6 +4274,7 @@
     "dodge": 1,
     "vision_day": 50,
     "vision_night": 3,
+    "harvest": "CBM_SCI",
     "starting_ammo": { "bot_manhack": 3 },
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "SCIENCE", 20 ], [ "scratch", 20 ] ],
@@ -4301,11 +4290,9 @@
       "BASHES",
       "POISON",
       "BLEED",
-      "CBM_SCI",
       "ACIDPROOF",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS",
@@ -4319,7 +4306,6 @@
     "description": "Heavily burned zombie that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 1,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 40,
@@ -4339,10 +4325,11 @@
     "armor_fire": 10,
     "vision_day": 10,
     "vision_night": 5,
+    "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
     "id": "mon_zombie_screecher",
@@ -4351,7 +4338,7 @@
     "description": "A thin corpse, its chest is swollen in what appears to be preparation.  A thick black ooze drips from its open mouth.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 15,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 85,
@@ -4368,11 +4355,12 @@
     "dodge": 2,
     "vision_day": 50,
     "vision_night": 8,
+    "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_shady",
@@ -4382,7 +4370,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 80,
@@ -4398,6 +4385,7 @@
     "melee_cut": 0,
     "vision_day": 3,
     "vision_night": 40,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4414,7 +4402,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "NIGHT_INVISIBILITY",
       "FILTHY"
@@ -4427,7 +4414,7 @@
     "description": "An elongated human body with a swollen chest and a gaping hole where its jaw used to be.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 8,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 60,
@@ -4444,6 +4431,7 @@
     "dodge": 1,
     "vision_day": 50,
     "vision_night": 4,
+    "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK", 10 ], [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4460,7 +4448,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -4472,7 +4459,6 @@
     "description": "A blackened and twisted naked human body, strips of flesh hang from its body, and it emits a constant haze of thick black smoke.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 75,
@@ -4490,6 +4476,7 @@
     "armor_fire": 5,
     "vision_day": 50,
     "vision_night": 3,
+    "harvest": "exempt",
     "emit_fields": [ "emit_smoke_stream" ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "SMOKEBURST" ],
@@ -4505,7 +4492,6 @@
       "HARDTOSHOOT",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -4518,7 +4504,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 20,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -4537,6 +4522,7 @@
     "armor_cut": 25,
     "vision_day": 30,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4552,7 +4538,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -4565,7 +4550,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 5,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 90,
@@ -4584,6 +4568,7 @@
     "armor_cut": 5,
     "vision_day": 35,
     "vision_night": 5,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_military_pilot_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4599,7 +4584,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "NOHEAD",
       "FILTHY"
@@ -4612,7 +4596,7 @@
     "description": "A hunched human body with its eyes pushed up into its forehead and drooping cheeks, most of its face is occupied by a puckered mouth.  Its stomach is swollen and nearly translucent, with a sickly yellow tint.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 9,
+    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 70,
@@ -4628,6 +4612,7 @@
     "melee_cut": 0,
     "dodge": 1,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ [ "ACID", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
@@ -4646,7 +4631,6 @@
       "ACID_BLOOD",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -4658,7 +4642,6 @@
     "description": "Still wearing the tattered remnants of improvised armor and weaponry, it is plain to see that this zombie was once a survivor like you.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 8,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 120,
@@ -4678,6 +4661,7 @@
     "armor_acid": 4,
     "vision_day": 50,
     "vision_night": 3,
+    "harvest": "zombie",
     "path_settings": { "max_dist": 3 },
     "special_attacks": [
       [ "SHRIEK", 20 ],
@@ -4688,7 +4672,7 @@
     "death_drops": "mon_zombie_survivor_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_swimmer",
@@ -4697,7 +4681,6 @@
     "description": "A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 10,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 70,
@@ -4713,6 +4696,7 @@
     "melee_cut": 2,
     "dodge": 2,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4731,7 +4715,6 @@
       "BLEED",
       "SWIMS",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -4743,7 +4726,7 @@
     "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 6,
+    "diff": 2,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 85,
@@ -4762,10 +4745,11 @@
     "armor_cut": 2,
     "vision_day": 15,
     "vision_night": 2,
+    "harvest": "CBM_TECH",
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CBM_TECH", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_tough",
@@ -4775,7 +4759,6 @@
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 3,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -4793,6 +4776,7 @@
     "armor_bash": 2,
     "armor_cut": 1,
     "vision_night": 3,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4810,7 +4794,6 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "FILTHY"
     ]
@@ -4822,7 +4805,6 @@
     "description": "This formerly-majestic moose has succumbed to the infection which is killing the world.  Shiny green blowflies swarm the vast suppurated patches of purulent flesh where its skin has sloughed away, and its remaining fur is black and matted with necrotic discharge.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 14,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 210,
@@ -4840,10 +4822,11 @@
     "armor_cut": 4,
     "vision_day": 30,
     "vision_night": 5,
+    "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FAT", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zougar",
@@ -4852,7 +4835,6 @@
     "description": "An otherwise normal-looking cougar, except that its hind legs are swollen, and its eyes bulge with black goo.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 13,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 65,
@@ -4870,11 +4852,12 @@
     "armor_bash": 1,
     "vision_day": 30,
     "vision_night": 10,
+    "harvest": "zombie_fur",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_skeleton_hulk",
@@ -4883,7 +4866,7 @@
     "description": "This hideous golem of plated bones and misshapen flesh drags its heavy, pointed limbs behind it like an unwanted burden.  Formerly soft and vulnerable, bones grew around its form to protect it - only, they kept growing.  And growing.  And growing.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
-    "diff": 50,
+    "diff": 5,
     "volume": "875000 ml",
     "weight": 200000,
     "hp": 480,
@@ -4901,10 +4884,11 @@
     "armor_cut": 45,
     "vision_day": 50,
     "vision_night": 4,
+    "harvest": "mr_bones",
     "special_attacks": [ [ "SMASH", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ],
     { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] } ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "death_function": [ "NORMAL", "SPLATTER" ],
+    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
@@ -4918,7 +4902,6 @@
       "ATTACKMON",
       "NO_BREATHE",
       "REVIVES",
-      "BONES",
       "PUSH_MON",
       "HARDTOSHOOT",
       "FILTHY"

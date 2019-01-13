@@ -1,5 +1,10 @@
-#include "catch/catch.hpp"
+#include <set>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -8,12 +13,6 @@
 #include "profession.h"
 #include "scenario.h"
 #include "string_id.h"
-
-#include <set>
-#include <sstream>
-#include <string>
-#include <unordered_map>
-#include <vector>
 
 std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
@@ -142,18 +141,18 @@ TEST_CASE( "starting_items" )
                     }
 
                     for( const item &it : items ) {
-                        bool is_food =  !it.is_seed() && it.is_food() &&
-                                        !g->u.can_eat( it ).success() && control.can_eat( it ).success();
-                        bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
+                        const bool is_food =  !it.is_seed() && it.is_food() &&
+                                              !g->u.can_eat( it ).success() && control.can_eat( it ).success();
+                        const bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
                             failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
                         }
 
-                        bool is_holster = it.is_armor() && it.type->get_use( "holster" );
+                        const bool is_holster = it.is_armor() && it.type->get_use( "holster" );
                         if( is_holster ) {
                             const item &holstered_it = it.get_contained();
-                            bool empty_holster = holstered_it.is_null();
+                            const bool empty_holster = holstered_it.is_null();
                             if( !empty_holster && !it.can_holster( holstered_it, true ) ) {
                                 failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
                             }

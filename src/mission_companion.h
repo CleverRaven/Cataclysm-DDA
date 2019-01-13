@@ -2,14 +2,14 @@
 #ifndef MISSION_COMPANION_H
 #define MISSION_COMPANION_H
 
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "game.h"
 #include "map.h"
 #include "npc.h"
 #include "output.h"
-
-#include <memory>
-#include <string>
-#include <vector>
 
 class martialart;
 class JsonObject;
@@ -144,6 +144,6 @@ std::shared_ptr<npc> companion_choose_return( const npc &p, const std::string &i
 //Return NPC to your party
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> loot_building( const tripoint site );
+std::vector<item *> loot_building( const tripoint &site );
 }
 #endif

@@ -1,11 +1,11 @@
 #include "ammo.h"
 
+#include <unordered_map>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "translations.h"
-
-#include <unordered_map>
 
 namespace
 {

@@ -1,5 +1,8 @@
 #include "construction.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "action.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -29,9 +32,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <sstream>
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
@@ -80,7 +80,7 @@ void failure_deconstruct( const tripoint & );
 static bool can_construct( const std::string &desc );
 static bool can_construct( const construction &con );
 static bool player_can_build( player &p, const inventory &inv, const construction &con );
-static bool player_can_build( player &p, const inventory &pinv, const std::string &desc );
+static bool player_can_build( player &p, const inventory &inv, const std::string &desc );
 static void place_construction( const std::string &desc );
 
 std::vector<construction> constructions;
@@ -317,6 +317,7 @@ void construction_menu()
                 filter = uistate.construction_filter;
             }
         }
+        isnew = false;
         // Erase existing tab selection & list of constructions
         mvwhline( w_con, 1, 1, ' ', w_list_width );
         werase( w_list );
@@ -682,12 +683,12 @@ void construction_menu()
     g->refresh_all();
 }
 
-bool player_can_build( player &p, const inventory &pinv, const std::string &desc )
+bool player_can_build( player &p, const inventory &inv, const std::string &desc )
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
-        if( player_can_build( p, pinv, *con ) ) {
+        if( player_can_build( p, inv, *con ) ) {
             return true;
         }
     }
@@ -702,7 +703,7 @@ bool character_has_skill_for( const Character &c, const construction &con )
     } );
 }
 
-bool player_can_build( player &p, const inventory &pinv, const construction &con )
+bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -711,7 +712,7 @@ bool player_can_build( player &p, const inventory &pinv, const construction &con
     if( !character_has_skill_for( p, con ) ) {
         return false;
     }
-    return con.requirements->can_make_with_inventory( pinv );
+    return con.requirements->can_make_with_inventory( inv );
 }
 
 bool can_construct( const std::string &desc )

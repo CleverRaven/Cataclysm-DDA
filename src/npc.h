@@ -2,17 +2,17 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "calendar.h"
-#include "faction.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player.h"
-
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "faction.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
 
 class JsonObject;
 class JsonIn;
@@ -500,7 +500,6 @@ class npc : public player
         // Display
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
-        std::string short_description() const;
         std::string opinion_text() const;
 
         // Goal / mission functions

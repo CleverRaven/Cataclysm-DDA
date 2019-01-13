@@ -1,4 +1,7 @@
-#include "monstergenerator.h"
+#include "mattack_common.h" // IWYU pragma: associated
+#include "monstergenerator.h" // IWYU pragma: associated
+
+#include <algorithm>
 
 #include "catacharset.h"
 #include "color.h"
@@ -20,8 +23,6 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-
-#include <algorithm>
 
 extern bool test_mode;
 
@@ -571,7 +572,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
-    assign( jo, "diff", difficulty, strict, 0 );
+    assign( jo, "diff", difficulty_base, strict, 0 );
     assign( jo, "hp", hp, strict, 1 );
     assign( jo, "speed", speed, strict, 0 );
     assign( jo, "aggression", agro, strict, -100, 100 );
@@ -605,8 +606,9 @@ void mtype::load( JsonObject &jo, const std::string &src )
         melee_damage = load_damage_instance( jo );
     }
 
+    int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
-        int bonus_cut = jo.get_int( "melee_cut" );
+        bonus_cut = jo.get_int( "melee_cut" );
         melee_damage.add_damage( DT_CUT, bonus_cut );
     }
 
@@ -725,6 +727,11 @@ void mtype::load( JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
     }
+    difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
+                 ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
+                 ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
+    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) / 10 ) * 0.01 +
+                  ( vision_day + 2 * vision_night ) * 0.01;
 }
 
 void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
@@ -948,6 +955,9 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
+        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+            debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
+        }
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );

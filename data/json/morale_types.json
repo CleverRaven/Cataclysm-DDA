@@ -10,6 +10,11 @@
     "text": "Enjoyed a hot meal"
   },
   {
+    "id": "morale_chat",
+    "type": "morale_type",
+    "text": "Enjoyed a conversation"
+  },
+  {
     "id": "morale_music",
     "type": "morale_type",
     "text": "Music"
