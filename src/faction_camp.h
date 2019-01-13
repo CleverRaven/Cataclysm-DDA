@@ -5,12 +5,17 @@
 #include <string>
 #include <vector>
 
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 class martialart;
 class JsonObject;
 class mission;
 class time_point;
 class npc;
 class item;
+struct point;
 struct tripoint;
 struct comp_rank;
 struct mission_entry;
@@ -53,7 +58,7 @@ void recover_camp( npc & );
 void remove_overseer( npc & );
 
 void draw_camp_tabs( const catacurses::window &win, camp_tab_mode cur_tab,
-                     std::vector<std::vector<mission_entry>> &mission_key_vectors );
+                     std::vector<std::vector<mission_entry>> &entries );
 std::string name_mission_tabs( npc &p, const std::string &id, const std::string &cur_title,
                                camp_tab_mode cur_tab );
 

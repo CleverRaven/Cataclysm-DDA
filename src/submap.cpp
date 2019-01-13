@@ -1,10 +1,10 @@
 #include "submap.h"
 
+#include <memory>
+
 #include "mapdata.h"
 #include "trap.h"
 #include "vehicle.h"
-
-#include <memory>
 
 submap::submap()
 {
@@ -49,7 +49,7 @@ static cosmetic_find_result make_result( bool b, int ndx )
     return result;
 }
 static cosmetic_find_result find_cosmetic(
-    const std::vector<submap::cosmetic_t> &cosmetics, const point p, const std::string &type )
+    const std::vector<submap::cosmetic_t> &cosmetics, const point &p, const std::string &type )
 {
     for( size_t i = 0; i < cosmetics.size(); ++i ) {
         if( cosmetics[i].pos == p && cosmetics[i].type == type ) {

@@ -1,5 +1,9 @@
 #include "martialarts.h"
 
+#include <algorithm>
+#include <map>
+#include <string>
+
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -12,10 +16,6 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <map>
-#include <string>
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );

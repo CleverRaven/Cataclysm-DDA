@@ -141,18 +141,18 @@ Available units:
 - "turns", "turn", "t" - one turn,
 
 Examples:
-- " +1 day -23 hours 50m " (1*24*60 - 23*60 + 50 == 110 minutes)
+- " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
 - "1 turn 1 minutes 9 turns" (2 minutes because 10 turns are 1 minute)
 
 ### All Files
 
-```JSON
+```C++
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
 
 Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context, by writing it like:
 
-```JSON
+```C++
 "name": { "ctxt": "foo", "str": "bar" }
 ```
 
@@ -173,7 +173,7 @@ Currently, only effect names, item action names, and item category names support
 | canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics   | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 
-```JSON
+```C++
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
@@ -198,7 +198,7 @@ Bionics effects are defined in the code and new effects cannot be created throug
 | category   | Mutation category needed to dream.
 | strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+).
 
-```JSON
+```C++
 {
     "messages" : [
         "You have a strange dream about birds.",
@@ -220,7 +220,7 @@ The syntax listed here is still valid.
 | items      | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group.
 | groups     | ??
 
-```JSON
+```C++
 {
     "id":"forest",
     "items":[
@@ -251,7 +251,7 @@ The syntax listed here is still valid.
 | `fire_resist`    | Ability of a material to resist fire.
 | `density`        | Density of a material.
 
-```JSON
+```C++
 {
     "ident"         : "hflesh",
     "name"          : "Human Flesh",
@@ -287,7 +287,7 @@ The syntax listed here is still valid.
 | `pack_size`  | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions` | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
 
-```JSON
+```C++
 {
     "name" : "GROUP_ANT",
     "default" : "mon_ant",
@@ -310,7 +310,7 @@ The syntax listed here is still valid.
 | `neutral`       | Always be neutral towards this faction.
 | `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
 
-```JSON
+```C++
 {
     "name"         : "cult",
     "base_faction" : "zombie",
@@ -326,7 +326,7 @@ See MONSTERS.md
 
 ### Names
 
-```JSON
+```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
@@ -335,7 +335,7 @@ See MONSTERS.md
 
 Professions are specified as JSON object with "type" member set to "profession":
 
-```JSON
+```C++
 {
     "type": "profession",
     "ident": "hunter",
@@ -356,7 +356,7 @@ The in-game description.
 (string or object with members "male" and "female")
 
 The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
-```JSON
+```C++
 "name": {
     "male": "Groom",
     "female": "Bride"
@@ -376,14 +376,14 @@ List of starting addictions. Each entry in the list should be an object with the
 - "intensity": intensity (integer) of the addiction.
 
 Example:
-```JSON
+```C++
 "addictions": [
     { "type": "nicotine", "intensity": 10 }
 ]
 ```
 
 Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:addictions" and "remove:addictions", removing requires only the addiction type. Example:
-```JSON
+```C++
 {
     "type": "profession",
     "ident": "hunter",
@@ -406,14 +406,14 @@ List of starting skills. Each entry in the list should be an object with the fol
 - "level": level (integer) of the skill. This is added to the skill level that can be chosen in the character creation.
 
 Example:
-```JSON
+```C++
 "skills": [
     { "name": "archery", "level": 2 }
 ]
 ```
 
 Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
-```JSON
+```C++
 {
     "type": "profession",
     "ident": "hunter",
@@ -434,7 +434,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 Items the player starts with when selecting this profession. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids, or pairs of item ids and snippet ids. Item ids may appear multiple times, in which case the item is created multiple times. The syntax for each of the three lists is identical.
 
 Example:
-```JSON
+```C++
 "items": {
     "both": [
         "pants",
@@ -458,7 +458,7 @@ Mods can modify the lists of existing professions. This requires the "edit-mode"
 
 Example for mods:
 
-```JSON
+```C++
 {
     "type": "profession",
     "ident": "hunter",
@@ -504,7 +504,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
 
-```JSON
+```C++
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
@@ -561,7 +561,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ## Skills
 
-```JSON
+```C++
 "ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
@@ -570,7 +570,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Traits/Mutations
 
-```JSON
+```C++
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
@@ -585,6 +585,8 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "valid": false,      // Can be mutated ingame (default: true)
 "purifiable": false, //Sets if the mutation be purified (default: true)
 "profession": true, //Trait is a starting profession special trait. (default: false)
+"debug": false,     //Trait is for debug purposes (default: false)
+"player_display": true, //Trait is displayed in the `@` player display menu
 "initial_ma_styles" : [ "style_centipede", "style_venom_snake" ], //List of starting martial arts types. One of the list is selectable at start. Only works at character creation.
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
@@ -634,7 +636,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ### Vehicle Groups
 
 
-```JSON
+```C++
 "id":"city_parked",            // Unique ID. Must be one continuous word, use underscores if necessary
 "vehicles":[                 // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
   ["suv", 600],           //    X is the value linked to the specific vehicle and T is the total of all
@@ -648,7 +650,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 Vehicle components when installed on a vehicle.
 
-```JSON
+```C++
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
@@ -693,7 +695,7 @@ Vehicle components when installed on a vehicle.
 
 ### Part Resistance
 
-```JSON
+```C++
 "all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
 "physical" : 10,     // Initial value for bash, cut and stab
 "non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
@@ -708,7 +710,7 @@ Vehicle components when installed on a vehicle.
 ```
 
 ### Vehicle Placement
-```JSON
+```C++
 "id":"road_straight_wrecks",  // Unique ID. Must be one continuous word, use underscores if necessary
 "locations":[ {               // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
   "x" : [0,19],               // The x placement. Can be a single value or a range of possibilities.
@@ -719,7 +721,7 @@ Vehicle components when installed on a vehicle.
 
 ### Vehicle Spawn
 
-```JSON
+```C++
 "id":"default_city",            // Unique ID. Must be one continuous word, use underscores if necessary
 "spawn_types":[ {       // List of spawntypes. When this vehicle_spawn is applied, it will choose from one of the spawntypes randomly, based on the weight.
   "description" : "Clear section of road",           //    A description of this spawntype
@@ -740,7 +742,7 @@ Vehicle components when installed on a vehicle.
 ### Vehicles
 See also VEHICLE_JSON.md
 
-```JSON
+```C++
 "id": "shopping_cart",                     // Internally-used name.
 "name": "Shopping Cart",                   // Display name, subject to i18n.
 "blueprint": "#",                          // Preview of vehicle - ignored by the code, so use only as documentation
@@ -758,7 +760,7 @@ See also VEHICLE_JSON.md
 
 ### Generic Items
 
-```JSON
+```C++
 "type" : "GENERIC",               // Defines this as some generic item
 "id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
@@ -802,7 +804,7 @@ See also VEHICLE_JSON.md
 
 ### Ammo
 
-```JSON
+```C++
 "type" : "AMMO",      // Defines this as ammo
 ...                   // same entries as above for the generic item.
                       // additional some ammo specific entries:
@@ -820,7 +822,7 @@ See also VEHICLE_JSON.md
 
 ### Magazine
 
-```JSON
+```C++
 "type": "MAGAZINE",   // Defines this as a MAGAZINE
 ...                   // same entries as above for the generic item.
                       // additional some magazine specific entries:
@@ -837,7 +839,7 @@ See also VEHICLE_JSON.md
 
 Armor can be defined like this:
 
-```JSON
+```C++
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
@@ -851,7 +853,7 @@ Armor can be defined like this:
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
-```JSON
+```C++
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
@@ -870,7 +872,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 
 Books can be defined like this:
 
-```JSON
+```C++
 "type" : "BOOK",      // Defines this as a BOOK
 ...                   // same entries as above for the generic item.
                       // additional some book specific entries:
@@ -883,7 +885,7 @@ Books can be defined like this:
 "required_level" : 2  // Minimum skill level required to learn
 ```
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
-```JSON
+```C++
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "book_data" : {       // additionally the same book data like above
@@ -918,7 +920,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 
 CBMs can be defined like this:
 
-```JSON
+```C++
 "type" : "BIONIC_ITEM",         // Defines this as a CBM
 ...                             // same entries as above for the generic item.
                                 // additional some CBM specific entries:
@@ -929,7 +931,7 @@ CBMs can be defined like this:
 
 ### Comestibles
 
-```JSON
+```C++
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
                             // additional some comestible specific entries:
@@ -952,7 +954,7 @@ CBMs can be defined like this:
 
 ### Containers
 
-```JSON
+```C++
 "type": "CONTAINER",  // Defines this as a container
 ...                   // same data as for the generic item (see above).
 "contains": 200,      // How much volume this container can hold
@@ -961,7 +963,7 @@ CBMs can be defined like this:
 "preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
 Alternately, every item can be used as container:
-```JSON
+```C++
 "type": "ARMOR",      // Any type is allowed here
 ...                   // same data as for the type
 "container_data" : {  // The container specific data goes here.
@@ -973,7 +975,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 
 ### Melee
 
-```JSON
+```C++
 "id": "hatchet",       // Unique ID. Must be one continuous word, use underscores if necessary
 "symbol": ";",         // ASCII character used in-game
 "color": "light_gray", // ASCII character color
@@ -993,7 +995,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 
 Guns can be defined like this:
 
-```JSON
+```C++
 "type": "GUN",        // Defines this as a GUN
 ...                   // same entries as above for the generic item.
                       // additional some gun specific entries:
@@ -1031,7 +1033,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 
 Gun mods can be defined like this:
 
-```JSON
+```C++
 "type": "GUNMOD",              // Defines this as a GUNMOD
 ...                            // Same entries as above for the generic item.
                                // Additionally some gunmod specific entries:
@@ -1053,7 +1055,7 @@ Gun mods can be defined like this:
 
 ### Tools
 
-```JSON
+```C++
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "TOOL",       // Defines this as a TOOL
 "symbol": "/",        // ASCII character used in-game
@@ -1083,7 +1085,7 @@ Gun mods can be defined like this:
 
 Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
 
-```JSON
+```C++
 "seed_data" : {
     "fruits": "weed", // The item id of the fruits that this seed will produce.
     "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
@@ -1100,7 +1102,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
 
 Every item type can have optional artifact properties (which makes it an artifact):
 
-```JSON
+```C++
 "artifact_data" : {
     "charge_type": "ARTC_PAIN",
     "effects_carried": ["AEP_INT_DOWN"],
@@ -1116,7 +1118,7 @@ Every item type can have optional brewing data, if the item has brewing data, it
 
 Currently only vats can only accept and produce liquid items.
 
-```JSON
+```C++
 "brewable" : {
     "time": 3600, // A time duration: how long the fermentation will take.
     "result": "beer" // The id of the result of the fermentation.
@@ -1244,7 +1246,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 
 Every item type can have software data, it does not have any behavior:
 
-```JSON
+```C++
 "software_data" : {
     "type": "USELESS", // unused
     "power" : 91 // unused
@@ -1257,7 +1259,7 @@ Every item type can have fuel data that determines how much horse power it produ
 
 If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
 
-```JSON
+```C++
 "fuel" : {
     energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
                                  // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
@@ -1279,7 +1281,7 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 
-```JSON
+```C++
 "use_action": {
     "type": "transform",  // The type of method, in this case one that transforms the item.
     "target": "gasoline_lantern_on", // The item to transform to.
@@ -1498,7 +1500,7 @@ Any item with a "snippet_category" entry will have random descriptions, based on
 "snippet_category": "newspaper",
 ```
 The item descriptions are taken from snippets, which can be specified like this (the value of category must match the snippet_category in the item definition):
-```JSON
+```C++
 {
     "type" : "snippet",
     "category" : "newspaper",
@@ -1507,7 +1509,7 @@ The item descriptions are taken from snippets, which can be specified like this 
 }
 ```
 or several snippets at once:
-```JSON
+```C++
 {
     "type" : "snippet",
     "category" : "newspaper",
@@ -1533,7 +1535,7 @@ The format also support snippet ids like above.
 
 ### Harvest
 
-```JSON
+```C++
 {
     "id": "jabberwock",
     "type": "harvest",
@@ -1599,7 +1601,7 @@ Acceptable values are as follows:
 
 ### Furniture
 
-```JSON
+```C++
 {
     "type": "furniture",
     "id": "f_toilet",
@@ -1642,7 +1644,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 ### Terrain
 
-```JSON
+```C++
 {
     "type": "terrain",
     "id": "t_spiked_pit",
@@ -1778,7 +1780,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 Defines the various things that happen when the player or something else bashes terrain or furniture.
 
-```JSON
+```C++
 {
     "str_min": 80,
     "str_max": 180,
@@ -1830,7 +1832,7 @@ TODO
 
 #### `map_deconstruct_info`
 
-```JSON
+```C++
 {
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
@@ -1850,7 +1852,7 @@ The terrain / furniture that will be set after the original has been deconstruct
 
 Scenarios are specified as JSON object with `type` member set to `scenario`.
 
-```JSON
+```C++
 {
     "type": "scenario",
     "ident": "schools_out",
@@ -1872,7 +1874,7 @@ The in-game description.
 (string or object with members "male" and "female")
 
 The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
-```JSON
+```C++
 "name": {
     "male": "Runaway groom",
     "female": "Runaway bride"
@@ -1890,7 +1892,7 @@ Point cost of scenario. Positive values cost points and negative values grant po
 Items the player starts with when selecting this scenario. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids. Ids may appear multiple times, in which case the item is created multiple times.
 
 Example:
-```JSON
+```C++
 "items": {
     "both": [
         "pants",
@@ -1906,7 +1908,7 @@ This gives the player pants, two rocks and (depending on the gender) briefs or p
 Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and "remove:both" / "remove:male" / "remove:female".
 
 Example for mods:
-```JSON
+```C++
 {
     "type": "scenario",
     "ident": "schools_out",
@@ -1962,7 +1964,7 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 # Starting locations
 
 Starting locations are specified as JSON object with "type" member set to "start_location":
-```JSON
+```C++
 {
     "type": "start_location",
     "ident": "field",
@@ -1994,7 +1996,7 @@ Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: do
 ### `tile_config`
 Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:
 
-```JSON
+```C++
   {                                             // whole file is a single object
     "tile_info": [                              // tile_info is mandatory
       {
@@ -2097,7 +2099,7 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
 The file `mutation_ordering.json` defines the order that visual mutation overlays are rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
 
 Example:
-```JSON
+```C++
 [
     {
         "type" : "overlay_order",
@@ -2136,7 +2138,7 @@ The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 bei
 MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`.
 
 Example:
-```JSON
+```C++
 [
     {
     "type": "mod_tileset",

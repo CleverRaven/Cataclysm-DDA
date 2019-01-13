@@ -68,7 +68,6 @@
     },
     "om_terrain": "communitygarden",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {

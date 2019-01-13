@@ -1,5 +1,9 @@
 #include "gates.h"
 
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
@@ -11,10 +15,6 @@
 #include "player.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 // Gates namespace
 

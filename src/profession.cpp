@@ -1,5 +1,9 @@
 #include "profession.h"
 
+#include <cmath>
+#include <iterator>
+#include <map>
+
 #include "addiction.h"
 #include "debug.h"
 #include "generic_factory.h"
@@ -10,10 +14,6 @@
 #include "pldata.h"
 #include "text_snippets.h"
 #include "translations.h"
-
-#include <cmath>
-#include <iterator>
-#include <map>
 
 namespace
 {
