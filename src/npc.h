@@ -2,17 +2,17 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "calendar.h"
-#include "faction.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player.h"
-
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "faction.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
 
 class JsonObject;
 class JsonIn;

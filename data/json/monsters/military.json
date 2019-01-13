@@ -6,7 +6,7 @@
     "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
-    "diff": 14,
+    "diff": 20,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 30,

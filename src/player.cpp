@@ -1,6 +1,10 @@
 #include "player.h"
 
+#include <iterator>
+#include <map>
+
 #include "action.h"
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -21,6 +25,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "map.h"
@@ -64,9 +69,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
-
-#include <iterator>
-#include <map>
 
 #ifdef TILES
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -571,7 +573,7 @@ std::string player::disp_name( bool possessive ) const
 {
     if( !possessive ) {
         if( is_player() ) {
-            return _( "you" );
+            return pgettext( "not possessive", "you" );
         }
         return name;
     } else {
@@ -625,7 +627,7 @@ void player::reset_stats()
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
-    const auto set_fake_effect_dur = [this]( const efftype_id &type, const time_duration dur ) {
+    const auto set_fake_effect_dur = [this]( const efftype_id &type, const time_duration &dur ) {
         effect &eff = get_effect( type );
         if( eff.get_duration() == dur ) {
             return;
@@ -2244,7 +2246,7 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     } else {
         memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << eol;
     }
-    memorial_file << string_format( _( "Power: %d/%d" ), power_level,  max_power_level ) << eol;
+    memorial_file << string_format( _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ), power_level,  max_power_level ) << eol;
     memorial_file << eol;
 
     //Equipment
@@ -2919,7 +2921,7 @@ void player::shout( std::string msg )
         base = 15;
         shout_multiplier = 3;
         if ( msg.empty() ) {
-            msg = is_player() ? _("yourself scream loudly!") : _("a loud scream!");
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
         }
     }
 
@@ -2927,12 +2929,12 @@ void player::shout( std::string msg )
         shout_multiplier = 4;
         base = 20;
         if ( msg.empty() ) {
-            msg = is_player() ? _("yourself let out a piercing howl!") : _("a piercing howl!");
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
         }
     }
 
     if ( msg.empty() ) {
-        msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -2947,7 +2949,7 @@ void player::shout( std::string msg )
 
     if ( noise <= base ) {
         std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter(dampened_shout), tolower );
+        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
         noise = std::max( minimum_noise, noise );
         msg = std::move( dampened_shout );
     }
@@ -2958,15 +2960,17 @@ void player::shout( std::string msg )
             mod_stat( "oxygen", -noise );
         }
 
-        noise = std::max(minimum_noise, noise / 2);
+        noise = std::max( minimum_noise, noise / 2 );
     }
 
+    // TODO: indistinct noise descriptions should be handled in the sounds code
     if( noise <= minimum_noise ) {
-        add_msg( m_warning, _( "The sound of your voice is almost completely muffled!" ) );
-        msg.clear();
+        add_msg_if_player( m_warning,
+                           _( "The sound of your voice is almost completely muffled!" ) );
+        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
     } else if( noise * 2 <= noise + penalty ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
-        add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
     sounds::sound( pos(), noise, sounds::sound_t::speech, msg );
@@ -3083,25 +3087,6 @@ int player::talk_skill() const
 
     /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
-    if (has_trait( trait_SAPIOVORE )) {
-        ret -= 20; // Friendly conversation with your prey? unlikely
-    } else if (has_trait( trait_UGLY )) {
-        ret -= 3;
-    } else if (has_trait( trait_DEFORMED )) {
-        ret -= 6;
-    } else if (has_trait( trait_DEFORMED2 )) {
-        ret -= 12;
-    } else if (has_trait( trait_DEFORMED3 )) {
-        ret -= 18;
-    } else if (has_trait( trait_PRETTY )) {
-        ret += 1;
-    } else if (has_trait( trait_BEAUTIFUL )) {
-        ret += 2;
-    } else if (has_trait( trait_BEAUTIFUL2 )) {
-        ret += 4;
-    } else if (has_trait( trait_BEAUTIFUL3 )) {
-        ret += 6;
-    }
     return ret;
 }
 
@@ -3117,17 +3102,7 @@ int player::intimidation() const
         weapon.damage_melee( DT_STAB ) >= 12 ) {
         ret += 5;
     }
-    if (has_trait( trait_SAPIOVORE )) {
-        ret += 5; // Scaring one's prey, on the other claw...
-    } else if (has_trait( trait_DEFORMED2 )) {
-        ret += 3;
-    } else if (has_trait( trait_DEFORMED3 )) {
-        ret += 6;
-    } else if (has_trait( trait_PRETTY )) {
-        ret -= 1;
-    } else if (has_trait( trait_BEAUTIFUL ) || has_trait( trait_BEAUTIFUL2 ) || has_trait( trait_BEAUTIFUL3 )) {
-        ret -= 4;
-    }
+
     if (stim > 20) {
         ret += 2;
     }
@@ -6710,7 +6685,7 @@ int player::get_morale_level() const
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        const time_duration duration, const time_duration decay_start,
+                        const time_duration &duration, const time_duration &decay_start,
                         bool capped, const itype* item_type)
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
@@ -8557,6 +8532,190 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
     }
 }
 
+bool player::add_or_drop_with_msg( item &it, const bool unloading )
+{
+    if( it.made_of( LIQUID ) ) {
+        g->consume_liquid( it, 1 );
+        return it.charges <= 0;
+    }
+    it.charges = this->i_add_to_container( it, unloading );
+    if( it.is_ammo() && it.charges == 0 ) {
+        return true;
+    } else if( !this->can_pickVolume( it ) ) {
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
+    } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
+    } else {
+        auto &ni = this->i_add( it );
+        add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
+        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
+    }
+    return true;
+}
+
+bool player::unload(item &it) 
+{
+    // Unload a container consuming moves per item successfully removed
+    if( it.is_container() || it.is_bandolier() ) {
+        if( it.contents.empty() ) {
+            add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
+            return false;
+        }
+        if( !it.can_unload_liquid() ) {
+            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
+            return false;
+        }
+
+        bool changed = false;
+        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
+        &changed]( item & e ) {
+            long old_charges = e.charges;
+            const bool consumed = this->add_or_drop_with_msg( e, true );
+            changed = changed || consumed || e.charges != old_charges;
+            if( consumed ) {
+                this->mod_moves( -this->item_handling_cost( e ) );
+            }
+            return consumed;
+        } ), it.contents.end() );
+        if( changed ) {
+            it.on_contents_changed();
+        }
+        return true;
+    }
+
+    // If item can be unloaded more than once (currently only guns) prompt user to choose
+    std::vector<std::string> msgs( 1, it.tname() );
+    std::vector<item *> opts( 1, &it );
+
+    for( auto e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+            msgs.emplace_back( e->tname() );
+            opts.emplace_back( e );
+        }
+    }
+
+    item *target = nullptr;
+    if( opts.size() > 1 ) {
+        const int ret = uilist( _( "Unload what?" ), msgs );
+        if( ret >= 0 ) {
+            target = opts[ret];
+        }
+    } else {
+        target = &it;
+    }
+
+    if( target == nullptr ) {
+        return false;
+    }
+
+    // Next check for any reasons why the item cannot be unloaded
+    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
+        add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
+        return false;
+    }
+
+    if( target->has_flag( "NO_UNLOAD" ) ) {
+        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+            add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname().c_str() );
+        } else {
+            add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
+        }
+        return false;
+    }
+
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+        if( target->is_tool() ) {
+            add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
+        } else {
+            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname().c_str() );
+        }
+        return false;
+    }
+
+    target->casings_handle( [&]( item & e ) {
+        return this->i_add_or_drop( e );
+    } );
+
+    if( target->is_magazine() ) {
+        player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
+        g->u.assign_activity( unload_mag_act );
+        g->u.activity.targets.emplace_back( item_location(*this, target) );
+
+        // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
+        int mv = 0;
+        for( auto iter = target->contents.begin(); iter != target->contents.end(); ++iter ) {
+            mv += this->item_reload_cost( it, *iter, iter->charges ) / 2; 
+        }
+        g->u.activity.moves_left += mv;
+
+        // I think this means if unload is not done on ammo-belt, it takes as long as it takes to reload a mag.
+        if( !it.is_ammo_belt() ) {
+            g->u.activity.moves_left += mv;
+        }
+        g->u.activity.auto_resume = true;
+
+        return true;
+
+    } else if( target->magazine_current() ) {
+        if( !this->add_or_drop_with_msg( *target->magazine_current(), true ) ) {
+            return false;
+        }
+        // Eject magazine consuming half as much time as required to insert it
+        this->moves -= this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
+
+        target->contents.erase( std::remove_if( target->contents.begin(),
+        target->contents.end(), [&target]( const item & e ) {
+            return target->magazine_current() == &e;
+        } ) );
+
+    } else if( target->ammo_remaining() ) {
+        long qty = target->ammo_remaining();
+
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+            qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
+            if( qty > 0 ) {
+                add_msg( _( "You recover %i unused plutonium." ), qty );
+            } else {
+                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
+                return false;
+            }
+        }
+
+        // Construct a new ammo item and try to drop it
+        item ammo( target->ammo_current(), calendar::turn, qty );
+
+        if( ammo.made_of_from_type( LIQUID ) ) {
+            if( !this->add_or_drop_with_msg( ammo ) ) {
+                qty -= ammo.charges; // only handled part (or none) of the liquid
+            }
+            if( qty <= 0 ) {
+                return false; // no liquid was moved
+            }
+
+        } else if( !this->add_or_drop_with_msg( ammo, qty > 1 ) ) {
+            return false;
+        }
+
+        // If successful remove appropriate qty of ammo consuming half as much time as required to load it
+        this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
+
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+            qty *= PLUTONIUM_CHARGES;
+        }
+
+        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
+    }
+
+    // Turn off any active tools
+    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
+        target->type->invoke( *this, *target, this->pos() );
+    }
+
+    add_msg( _( "You unload your %s." ), target->tname().c_str() );
+    return true;
+}
+
 void player::use_wielded() {
     use(-1);
 }
@@ -8908,8 +9067,31 @@ bool player::gunmod_remove( item &gun, item& mod )
         } );
     }
 
+    const itype *modtype = mod.type;
+
     i_add_or_drop( mod );
     gun.contents.erase( iter );
+
+    //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
+    if( !modtype->gunmod->add_mod.empty() ) {
+        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
+        for( auto slot : mod_locations ) {
+            int free_slots = gun.get_free_mod_locations( slot.first );
+
+            for( auto the_mod : gun.gunmods() ) {
+                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
+                    gunmod_remove( gun, *the_mod );
+                    free_slots++;
+                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
+                           mod_locations.end() ) {
+                    gunmod_remove( gun, *the_mod );
+                }
+            }
+        }
+    }
+
+    //~ %1$s - gunmod, %2$s - gun.
+    add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ).c_str(), gun.tname().c_str() );
 
     return true;
 }
@@ -9184,26 +9366,36 @@ bool player::fun_to_read( const item &book ) const
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
-        return book_fun_for( book ) > 0;
+        return book_fun_for( book, *this ) > 0;
     }
 }
 
-int player::book_fun_for(const item &book) const
+int player::book_fun_for( const item &book, const player &p ) const
 {
+    int fun_bonus = book.type->book->fun;
     if( !book.is_book() ) {
         debugmsg( "called player::book_fun_for with non-book" );
         return 0;
     }
+
     if( has_trait( trait_LOVES_BOOKS ) ) {
-        return ( book.type->book->fun + 1 );
-    } else if ( has_trait( trait_HATES_BOOKS ) ) {
-        if( ( book.type->book->fun > 0 ) ) {
-            return 0;
+        fun_bonus++;
+    } else if( has_trait( trait_HATES_BOOKS ) ) {
+        if( book.type->book->fun > 0 ) {
+            fun_bonus = 0;
         } else {
-            return ( book.type->book->fun - 1 );
+            fun_bonus--;
         }
     }
-    return book.type->book->fun;
+    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+    if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
+          p.has_trait( trait_SAPIOVORE ) ) &&
+        book.typeId() == "cookbook_human" ) {
+        fun_bonus = abs( fun_bonus );
+    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        fun_bonus = abs( fun_bonus * 3 );
+    }
+    return fun_bonus;
 }
 
 /**
@@ -9449,16 +9641,9 @@ bool player::read( int inventory_position, const bool continuous )
         apply_morale.insert( elem.first );
     }
     for( player *elem : apply_morale ) {
-        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-        if( ( elem->has_trait( trait_CANNIBAL ) || elem->has_trait( trait_PSYCHOPATH ) ||
-              elem->has_trait( trait_SAPIOVORE ) ) &&
-            it.typeId() == "cookbook_human" ) {
-            elem->add_morale( MORALE_BOOK, 0, 75, decay_start + 3_minutes, decay_start, false, it.type );
-        } else if( elem->has_trait( trait_SPIRITUAL ) && it.has_flag( "INSPIRATIONAL" ) ) {
-            elem->add_morale( MORALE_BOOK, 0, 90, decay_start + 6_minutes, decay_start, false, it.type );
-        } else {
-            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, decay_start + 3_minutes, decay_start, false, it.type );
-        }
+        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
+        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 3_minutes,
+                          decay_start, false, it.type );
     }
 
     return true;
@@ -9490,8 +9675,9 @@ void player::do_read( item &book )
         if (reading->intel != 0) {
             add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
         }
-        if (book_fun_for( book ) != 0) {
-            add_msg(m_info, _("Reading this book affects your morale by %d"), book_fun_for( book ) );
+        //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
+        if( book_fun_for( book, *this ) != 0 ) {
+            add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
         }
         add_msg(m_info, ngettext("A chapter of this book takes %d minute to read.",
                          "A chapter of this book takes %d minutes to read.", reading->time),
@@ -9539,36 +9725,10 @@ void player::do_read( item &book )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( book_fun_for( book ) != 0 ) {
-            int fun_bonus = 0;
-            const int chapters = book.get_chapters();
-            const int remain = book.get_remaining_chapters( *this );
-            if( chapters > 0 && remain == 0 ) {
-                //Book is out of chapters -> re-reading old book, less fun
-                if( learner->is_player() ) {
-                    // This goes in the front because "It isn't as much fun for Jim and you"
-                    // sounds weird compared to "It isn't as much fun for you and Jim"
-                    out_of_chapters.push_front( learner->disp_name() );
-                } else {
-                    out_of_chapters.push_back( learner->disp_name() );
-                }
-                //50% penalty
-                fun_bonus = ( book_fun_for( book ) * 5 ) / 2;
-            } else {
-                fun_bonus = book_fun_for( book ) * 5;
-            }
-            // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-            if( ( learner->has_trait( trait_CANNIBAL ) || learner->has_trait( trait_PSYCHOPATH ) ||
-                  learner->has_trait( trait_SAPIOVORE ) ) &&
-                book.typeId() == "cookbook_human" ) {
-                fun_bonus = 25;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 6_minutes, 3_minutes, true, book.type );
-            } else if( learner->has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-                fun_bonus = 15;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 9_minutes, 9_minutes, true, book.type );
-            } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, book_fun_for( book ) * 15, 6_minutes, 3_minutes, true, book.type );
-            }
+        if( book_fun_for( book, *learner ) != 0 ) {
+            //Fun bonus is no longer calculated here.
+            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book, *learner ) * 15, 6_minutes, 3_minutes, true,
+                book.type );
         }
 
         book.mark_chapter_as_read( *learner );
@@ -10973,7 +11133,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     }
 }
 
-bool player::has_activity(const activity_id type) const
+bool player::has_activity(const activity_id &type) const
 {
     return activity.id() == type;
 }
@@ -11601,14 +11761,20 @@ long player::get_memorized_symbol( const tripoint &p ) const
 
 size_t player::max_memorized_tiles() const
 {
-    if( has_active_bionic( bio_memory ) ) {
-        return SEEX * SEEY * 20000; // 5000 overmap tiles
-    } else if( has_trait( trait_FORGETFUL ) ) {
-        return SEEX * SEEY * 200; // 50 overmap tiles
-    } else if( has_trait( trait_GOODMEMORY ) ) {
-        return SEEX * SEEY * 800; // 200 overmap tiles
+    // Only check traits once a turn since this is called a huge number of times.
+    if( current_map_memory_turn != calendar::turn ) {
+        current_map_memory_turn = calendar::turn;
+        if( has_active_bionic( bio_memory ) ) {
+            current_map_memory_capacity = SEEX * SEEY * 20000; // 5000 overmap tiles
+        } else if( has_trait( trait_FORGETFUL ) ) {
+            current_map_memory_capacity = SEEX * SEEY * 200; // 50 overmap tiles
+        } else if( has_trait( trait_GOODMEMORY ) ) {
+            current_map_memory_capacity = SEEX * SEEY * 800; // 200 overmap tiles
+        } else {
+            current_map_memory_capacity = SEEX * SEEY * 400; // 100 overmap tiles
+        }
     }
-    return SEEX * SEEY * 400; // 100 overmap tiles
+    return current_map_memory_capacity;
 }
 
 bool player::sees( const tripoint &t, bool ) const
@@ -11906,11 +12072,11 @@ void player::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
     bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
-    int finX = rng( 1, 22);
-    int finY = rng( 1, 22);
+    int finX = rng( 1, SEEX * 2 - 2 );
+    int finY = rng( 1, SEEX * 2 - 2 );
     if( bay.furn( finX, finY) != furn_str_id( "f_null" ) ){
-        for (int x = 0; x < 23; x++){
-            for (int y = 0; y < 23; y++){
+        for (int x = 0; x < SEEX * 2 - 1; x++){
+            for (int y = 0; y < SEEY * 2 - 1; y++){
                 if ( bay.furn(x,y) == furn_str_id( "f_null" ) ){
                     finX = x;
                     finY = y;
