@@ -146,6 +146,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish }
 };
@@ -2804,6 +2805,13 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
+    act->set_to_null();
+}
+
+void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
+{
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ), act->str_values[0].c_str() );
     act->set_to_null();
 }
 

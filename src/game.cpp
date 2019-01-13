@@ -6113,10 +6113,7 @@ bool pet_menu( monster *z )
     }
 
     if( play_with_pet == choice && query_yn( _( "Spend a few minutes to play with your %s?"), pet_name.c_str() ) ) {
-        g->u.add_morale( MORALE_PLAYWITHPET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
-
-        g->u.moves -= rng( 50, 125 ) * 100;
-        add_msg( m_good, _( "Playing with your %s has lifted your spirits a bit." ), pet_name.c_str() );
+        g->u.assign_activity( activity_id( "ACT_PLAY_WITH_PET" ), rng( 50, 125 ) * 100 );
 
     }
 
