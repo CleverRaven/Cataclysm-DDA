@@ -802,6 +802,7 @@
             "walker", 
             "walking corpse", 
             "<swear> <zombie>", 
+            "undead",
             "living dead" 
         ]
     },{
@@ -811,7 +812,7 @@
             "zombies", 
             "Z", 
             "Z's",
-            "dead", 
+            "undead", 
             "<swear> <zombies>", 
             "living dead" 
         ]

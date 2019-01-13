@@ -1,0 +1,57 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_1",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Please, help me.  I need food.  Aren't you their sheriff?  Can't you help me?",
+      "no": "Please, help me.  I need food."
+    },
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_1_INTRO" },
+      { "text": "Get away from me.", "topic": "TALK_DONE" },
+      { "text": "...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_1_INTRO",
+    "dynamic_line": "They won't let me in.  They say they're too full.  I'm allowed to camp out here as long as I keep it clean and don't make a fuss, but I'm so hungry.",
+    "responses": [
+      { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
+      { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
+      { "text": "What did you do before the cataclysm?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
+      { "text": "I'm sorry, I can't help you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_1_LEAVE",
+    "dynamic_line": "Where else?  I can't fight those things out there.  I'm in terrible physical condition, don't have any useful skills, and I'm terrified of <zombies> and violence.  How am I supposed to find a safe place?",
+    "responses": [
+      { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
+      { "text": "What did you do before the cataclysm?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
+      { "text": "I'm sorry, I can't help you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_1_SCAVENGE",
+    "dynamic_line": "Out there?  That's suicide!  People that go out there don't come back, people who can hold their own... unlike me.  I'd rather take my chances begging for scraps and waiting for someone in the center to die and make room for me, thanks.",
+    "responses": [
+      { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
+      { "text": "What did you do before the cataclysm?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
+      { "text": "I'm sorry, I can't help you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_1_EXPERTISE",
+    "dynamic_line": "I was a high school math teacher.  It was a good job, I loved it.  Funny enough, it's not super applicable after the end of the world.  I mean, at some point people are going to need a teacher again, but right now they just want food, shelter, and clothing.",
+    "responses": [
+      { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
+      { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
+      { "text": "I'm sorry, I can't help you.", "topic": "TALK_DONE" }
+    ]
+  }
+]
