@@ -1,4 +1,6 @@
-#include "player.h"
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
 
 #include "addiction.h"
 #include "bionics.h"
@@ -13,8 +15,6 @@
 #include "string_formatter.h"
 #include "units.h"
 #include "weather.h"
-
-#include <algorithm>
 
 const skill_id skill_swimming( "swimming" );
 
@@ -317,7 +317,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
 
-    std::vector<trait_id> traitslist = get_mutations();
+    std::vector<trait_id> traitslist = get_mutations( false );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
 
     std::vector<bionic> bionicslist = *my_bionics;

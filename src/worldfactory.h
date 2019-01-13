@@ -2,15 +2,15 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include "options.h"
-#include "pimpl.h"
-#include "string_id.h"
-
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <memory>
 #include <vector>
+
+#include "options.h"
+#include "pimpl.h"
+#include "string_id.h"
 
 class JsonIn;
 class JsonObject;
@@ -125,7 +125,7 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
+        static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
     private:
@@ -141,7 +141,7 @@ class worldfactory
                             const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 
-        WORLDPTR add_world( std::unique_ptr<WORLD> world );
+        WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
 
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;

@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -12,8 +13,6 @@
 #include "cata_utility.h"
 #include "options.h"
 #include "test_statistics.h"
-
-#include <sstream>
 
 typedef statistics<long> efficiency_stat;
 
@@ -94,27 +93,27 @@ bool test_drag( const vproto_id &veh_id,
                 const double expected_c_air = 0, const double expected_c_rr = 0,
                 const double expected_c_water = 0,
                 const int expected_safe = 0, const int expected_max = 0,
-                bool test_results = false )
+                const bool test_results = false )
 {
     vehicle *veh_ptr = setup_drag_test( veh_id );
     if( veh_ptr == nullptr ) {
         return false;
     }
 
-    double c_air = veh_ptr->coeff_air_drag();
-    double c_rolling = veh_ptr->coeff_rolling_drag();
-    double c_water = veh_ptr->coeff_water_drag();
-    int safe_v = veh_ptr->safe_ground_velocity( false );
-    int max_v = veh_ptr->max_ground_velocity( false );
+    const double c_air = veh_ptr->coeff_air_drag();
+    const double c_rolling = veh_ptr->coeff_rolling_drag();
+    const double c_water = veh_ptr->coeff_water_drag();
+    const int safe_v = veh_ptr->safe_ground_velocity( false );
+    const int max_v = veh_ptr->max_ground_velocity( false );
 
-    const auto d_in_bounds = [&]( double expected, double value ) {
+    const auto d_in_bounds = [&]( const double expected, double value ) {
         double expected_high = expected * 1.05;
         double expected_low = expected * 0.95;
         CHECK( value >= expected_low );
         CHECK( value <= expected_high );
         return ( value >= expected_low ) && ( value <= expected_high );
     };
-    const auto i_in_bounds = [&]( int expected, int value ) {
+    const auto i_in_bounds = [&]( const int expected, int value ) {
         int expected_high = expected * 1.05;
         int expected_low = expected * 0.95;
         CHECK( value >= expected_low );

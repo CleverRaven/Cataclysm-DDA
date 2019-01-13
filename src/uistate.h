@@ -2,13 +2,13 @@
 #ifndef UISTATE_H
 #define UISTATE_H
 
-#include "enums.h"
-#include "omdata.h"
-
 #include <list>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "enums.h"
+#include "omdata.h"
 
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;

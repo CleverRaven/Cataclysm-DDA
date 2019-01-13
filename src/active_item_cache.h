@@ -2,10 +2,10 @@
 #ifndef ACTIVE_ITEM_CACHE_H
 #define ACTIVE_ITEM_CACHE_H
 
-#include "enums.h"
-
 #include <list>
 #include <unordered_map>
+
+#include "enums.h"
 
 class item;
 

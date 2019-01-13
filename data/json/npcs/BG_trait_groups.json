@@ -8,9 +8,13 @@
       { "trait": "BGSS_Confused_1" },
       { "trait": "BGSS_No_Past_1" },
       { "trait": "BGSS_No_Past_2" },
+      { "trait": "BGSS_No_Past_3" },
+      { "trait": "BGSS_No_Past_4" },
+      { "trait": "BGSS_No_Past_5" },
       { "trait": "BGSS_Religious_1" },
       { "trait": "BGSS_Religious_2" },
-      { "trait": "BGSS_Dreamer" }
+      { "trait": "BGSS_Dreamer" },
+      { "trait": "BGSS_Wedding_1" }
     ]
   },
   {

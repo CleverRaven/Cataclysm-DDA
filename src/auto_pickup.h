@@ -2,14 +2,14 @@
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 
-#include "enums.h"
-#include "material.h"
-
 #include <array>
 #include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "enums.h"
+#include "material.h"
 
 class JsonOut;
 class JsonIn;
@@ -18,7 +18,7 @@ class item;
 class auto_pickup
 {
     private:
-        void test_pattern( const int iCurrentPage, const int iCurrentLine );
+        void test_pattern( const int iTab, const int iRow );
         void load( const bool bCharacter );
         bool save( const bool bCharacter );
         bool load_legacy( const bool bCharacter );

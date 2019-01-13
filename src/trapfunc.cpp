@@ -1,4 +1,4 @@
-#include "trap.h"
+#include "trap.h" // IWYU pragma: associated
 
 #include "debug.h"
 #include "event.h"
@@ -1068,8 +1068,8 @@ void trapfunc::temple_flood( Creature *c, const tripoint &p )
         tripoint tmp = p;
         int &i = tmp.x;
         int &j = tmp.y;
-        for( i = 0; i < SEEX * MAPSIZE; i++ ) {
-            for( j = 0; j < SEEY * MAPSIZE; j++ ) {
+        for( i = 0; i < MAPSIZE_X; i++ ) {
+            for( j = 0; j < MAPSIZE_Y; j++ ) {
                 if( g->m.tr_at( tmp ).loadid == tr_temple_flood ) {
                     g->m.remove_trap( tmp );
                 }
@@ -1088,8 +1088,8 @@ void trapfunc::temple_toggle( Creature *c, const tripoint &p )
         tripoint tmp = p;
         int &i = tmp.x;
         int &j = tmp.y;
-        for( i = 0; i < SEEX * MAPSIZE; i++ ) {
-            for( j = 0; j < SEEY * MAPSIZE; j++ ) {
+        for( i = 0; i < MAPSIZE_X; i++ ) {
+            for( j = 0; j < MAPSIZE_Y; j++ ) {
                 if( type == t_floor_red ) {
                     if( g->m.ter( tmp ) == t_rock_green ) {
                         g->m.ter_set( tmp, t_floor_green );
