@@ -1352,6 +1352,7 @@ class vehicle
 
         // Honk the vehicle's horn, if there are any
         void honk_horn();
+        void reload_seeds( const tripoint &pos );
         void beeper_sound();
         void play_music();
         void play_chimes();
