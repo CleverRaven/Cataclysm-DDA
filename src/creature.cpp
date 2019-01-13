@@ -1,5 +1,9 @@
 #include "creature.h"
 
+#include <algorithm>
+#include <cmath>
+#include <map>
+
 #include "item.h"
 #include "anatomy.h"
 #include "debug.h"
@@ -18,10 +22,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <cmath>
-#include <map>
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -899,7 +899,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration dur, body_part bp, bool permanent, int intensity, bool force )
+                               const time_duration &dur, body_part bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
@@ -1425,19 +1425,19 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, int player_x, int player_y, bool inverted ) const
+void Creature::draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const
 {
-    draw( w, tripoint( player_x, player_y, posz() ), inverted );
+    draw( w, tripoint( origin_x, origin_y, posz() ), inverted );
 }
 
-void Creature::draw( const catacurses::window &w, const tripoint &p, bool inverted ) const
+void Creature::draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const
 {
     if( is_draw_tiles_mode() ) {
         return;
     }
 
-    int draw_x = getmaxx( w ) / 2 + posx() - p.x;
-    int draw_y = getmaxy( w ) / 2 + posy() - p.y;
+    int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
+    int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
     if( inverted ) {
         mvwputch_inv( w, draw_y, draw_x, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {

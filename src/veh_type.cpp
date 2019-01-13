@@ -1,5 +1,10 @@
 #include "veh_type.h"
 
+#include <numeric>
+#include <sstream>
+#include <unordered_map>
+#include <unordered_set>
+
 #include "ammo.h"
 #include "character.h"
 #include "color.h"
@@ -16,11 +21,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-
-#include <numeric>
-#include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -52,6 +52,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "EVENTURN", VPFLAG_EVENTURN },
     { "ODDTURN", VPFLAG_ODDTURN },
     { "CONE_LIGHT", VPFLAG_CONE_LIGHT },
+    { "WIDE_CONE_LIGHT", VPFLAG_WIDE_CONE_LIGHT },
+    { "HALF_CIRCLE_LIGHT", VPFLAG_HALF_CIRCLE_LIGHT },
     { "CIRCLE_LIGHT", VPFLAG_CIRCLE_LIGHT },
     { "BOARDABLE", VPFLAG_BOARDABLE },
     { "AISLE", VPFLAG_AISLE },

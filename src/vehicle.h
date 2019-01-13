@@ -2,6 +2,12 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include <array>
+#include <list>
+#include <map>
+#include <stack>
+#include <vector>
+
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "clzones.h"
@@ -14,12 +20,6 @@
 #include "tileray.h"
 #include "ui.h"
 #include "units.h"
-
-#include <array>
-#include <list>
-#include <map>
-#include <stack>
-#include <vector>
 
 class nc_color;
 class map;
@@ -138,7 +138,7 @@ struct vehicle_part {
 
         vehicle_part(); /** DefaultConstructible */
 
-        vehicle_part( const vpart_id &vp, point dp, item &&it );
+        vehicle_part( const vpart_id &vp, const point &dp, item &&it );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -569,7 +569,7 @@ struct label : public point {
 class vehicle
 {
     private:
-        bool has_structural_part( point dp ) const;
+        bool has_structural_part( const point &dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
@@ -710,20 +710,20 @@ class vehicle
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
         // check if certain part can be mounted at certain position (not accounting frame direction)
-        bool can_mount( point dp, const vpart_id &id ) const;
+        bool can_mount( const point &dp, const vpart_id &id ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
         bool can_unmount( int p, std::string &reason ) const;
 
         // install a new part to vehicle
-        int install_part( point dp, const vpart_id &id, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, bool force = false );
 
         // Install a copy of the given part, skips possibility check
-        int install_part( point dp, const vehicle_part &part );
+        int install_part( const point &dp, const vehicle_part &part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( point dp, const vpart_id &id, item &&obj, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -877,7 +877,7 @@ class vehicle
 
         // Given a part and a flag, returns the indices of all continiguously adjacent parts
         // with the same flag on the X and Y Axis
-        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string flag );
+        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
 
         // returns true if given flag is present for given part index
         bool part_flag( int p, const std::string &f ) const;
@@ -899,8 +899,8 @@ class vehicle
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
-        int part_at( point dp ) const;
-        int part_displayed_at( point dp ) const;
+        int part_at( const point &dp ) const;
+        int part_displayed_at( const point &dp ) const;
         int roof_at_part( int p ) const;
 
         // Given a part, finds its index in the vehicle
@@ -1077,9 +1077,8 @@ class vehicle
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
-         * @param boat If true, calculates the area under "wheels" that allow swimming.
          */
-        float wheel_area( bool boat ) const;
+        float wheel_area() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
@@ -1143,10 +1142,10 @@ class vehicle
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
 
-        // Calculate if it can move using its wheels or boat parts configuration
-        bool sufficient_wheel_config( bool floating ) const;
-        bool balanced_wheel_config( bool floating ) const;
-        bool valid_wheel_config( bool floating ) const;
+        // Calculate if it can move using its wheels
+        bool sufficient_wheel_config() const;
+        bool balanced_wheel_config() const;
+        bool valid_wheel_config() const;
 
         // return the relative effectiveness of the steering (1.0 is normal)
         // <0 means there is no steering installed at all.
@@ -1260,7 +1259,7 @@ class vehicle
         void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
 
         //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
-        void shift_parts( point delta );
+        void shift_parts( const point &delta );
         bool shift_if_needed();
 
         void shed_loose_parts();
@@ -1414,6 +1413,8 @@ class vehicle
         void on_move();
         // move the vehicle on the map
         bool act_on_map();
+        // check if the vehicle should be falling or is in water
+        void check_falling_or_floating();
 
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
@@ -1552,7 +1553,7 @@ class vehicle
         // "inside" flags are outdated and need refreshing
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
-        bool falling                    = false;
+        bool is_falling                 = false;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
@@ -1600,13 +1601,13 @@ class vehicle
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
 
-        mutable double coefficient_air_resistance;
-        mutable double coefficient_rolling_resistance;
-        mutable double coefficient_water_resistance;
-        mutable double draft_m;
-        mutable double hull_height;
+        mutable double coefficient_air_resistance = 1;
+        mutable double coefficient_rolling_resistance = 1;
+        mutable double coefficient_water_resistance = 1;
+        mutable double draft_m = 1;
+        mutable double hull_height = 0.3;
         // is the vehicle currently mostly in water
-        mutable bool is_floating;
+        mutable bool is_floating = false;
 };
 
 #endif
