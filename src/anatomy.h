@@ -2,10 +2,10 @@
 #ifndef ANATOMY_H
 #define ANATOMY_H
 
+#include <vector>
+
 #include "bodypart.h"
 #include "string_id.h"
-
-#include <vector>
 
 class anatomy;
 using anatomy_id = string_id<anatomy>;

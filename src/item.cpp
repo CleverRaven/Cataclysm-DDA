@@ -1,5 +1,13 @@
 #include "item.h"
 
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <iomanip>
+#include <iterator>
+#include <set>
+#include <sstream>
+
 #include "advanced_inv.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -51,14 +59,6 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <iomanip>
-#include <iterator>
-#include <set>
-#include <sstream>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -539,7 +539,7 @@ long item::charges_per_volume( const units::volume &vol ) const
            : vol / volume();
 }
 
-bool item::stacks_with( const item &rhs ) const
+bool item::stacks_with( const item &rhs, bool check_components ) const
 {
     if( type != rhs.type ) {
         return false;
@@ -596,6 +596,14 @@ bool item::stacks_with( const item &rhs ) const
     }
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
+    }
+    if( check_components ) {
+        //Only check if at least one item isn't using the default recipe
+        if( !components.empty() || !rhs.components.empty() ) {
+            if( get_uncraft_components() != rhs.get_uncraft_components() ) {
+                return false;
+            }
+        }
     }
     if( contents.size() != rhs.contents.size() ) {
         return false;
@@ -1618,7 +1626,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             temp1.str( "" );
             temp1 << _( "<bold>Incompatible with mod location: </bold> " );
             int iternum = 0;
-            for( auto black : mod.blacklist_mod ) {
+            for( const auto &black : mod.blacklist_mod ) {
                 if( iternum != 0 ) {
                     temp1 << ", ";
                 }
@@ -1830,10 +1838,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "Requires <info>intelligence of</info> <num> to easily read." ),
                                           iteminfo::lower_is_better, book.intel ) );
             }
-            if( g->u.book_fun_for( *this ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
+            if( g->u.book_fun_for( *this, g->u ) != 0 && parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          iteminfo::show_plus, g->u.book_fun_for( *this ) ) );
+                                          iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
             }
             if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
                 auto fmt = ngettext(
@@ -5318,7 +5326,8 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name().c_str() );
 
-    } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
+    } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
+               !mod.type->gunmod->usable.count( typeId() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
     } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
@@ -5348,7 +5357,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
     }
 
-    for( auto slot : mod.type->gunmod->blacklist_mod ) {
+    for( const auto &slot : mod.type->gunmod->blacklist_mod ) {
         if( get_mod_locations().count( slot ) ) {
             return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
                                                 slot.name().c_str() );
@@ -5388,8 +5397,15 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
-                                                 m.second.qty(), m.second.flags() } );
+                //checks for melee gunmod, points to gunmod
+                if( m.first == "REACH" ) {
+                    res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
+                                                     m.second.qty(), m.second.flags() } );
+                    //otherwise points to the parent gun, not the gunmod
+                } else {
+                    res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( this ),
+                                                     m.second.qty(), m.second.flags() } );
+                }
             }
         }
     }
@@ -7358,7 +7374,7 @@ time_duration item::age() const
     return calendar::turn - birthday();
 }
 
-void item::set_age( const time_duration age )
+void item::set_age( const time_duration &age )
 {
     set_birthday( time_point( calendar::turn ) - age );
 }
@@ -7368,7 +7384,7 @@ time_point item::birthday() const
     return bday;
 }
 
-void item::set_birthday( const time_point bday )
+void item::set_birthday( const time_point &bday )
 {
     this->bday = bday;
 }
@@ -7392,4 +7408,23 @@ int item::get_min_str() const
     } else {
         return type->min_str;
     }
+}
+
+std::vector<item_comp> item::get_uncraft_components() const
+{
+    std::vector<item_comp> ret;
+    if( components.empty() ) {
+        //If item wasn't crafted with specific components use default recipe
+        auto recipe = recipe_dictionary::get_uncraft(
+                          typeId() ).disassembly_requirements().get_components();
+        for( auto &component : recipe ) {
+            ret.push_back( component.front() );
+        }
+    } else {
+        //Make a new vector of components from the registered components
+        for( auto &component : components ) {
+            ret.push_back( item_comp( component.typeId(), component.count() ) );
+        }
+    }
+    return ret;
 }

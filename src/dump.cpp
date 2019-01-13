@@ -1,6 +1,11 @@
+#include "game.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+
 #include "ammo.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "game.h"
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
@@ -12,10 +17,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <iostream>
-#include <iterator>
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -277,7 +278,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.coeff_rolling_drag() ) );
             r.push_back( to_string( veh_fueled.static_drag( false ) ) );
             r.push_back( to_string( static_cast<int>( 50 *
-                                    veh_fueled.k_traction( veh_fueled.wheel_area( false ) ) ) ) );
+                                    veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {

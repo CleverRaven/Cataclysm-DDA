@@ -1,4 +1,8 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <set>
+#include <sstream>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -14,10 +18,6 @@
 #include "translations.h"
 #include "veh_type.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <set>
-#include <sstream>
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -403,7 +403,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
             rate = consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
         } else if( fuel_type == itype_id( "battery" ) ) {
-            rate = power_to_energy_bat( total_epower_w(), 3600 );
+            rate = power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 3600 );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

@@ -1,12 +1,6 @@
 #include "debug.h"
 
-#include "cursesdef.h"
-#include "filesystem.h"
-#include "get_version.h"
-#include "input.h"
-#include "output.h"
-#include "path_info.h"
-
+#include <sys/stat.h>
 #include <algorithm>
 #include <cassert>
 #include <cstdarg>
@@ -18,7 +12,13 @@
 #include <iomanip>
 #include <iosfwd>
 #include <streambuf>
-#include <sys/stat.h>
+
+#include "cursesdef.h"
+#include "filesystem.h"
+#include "get_version.h"
+#include "input.h"
+#include "output.h"
+#include "path_info.h"
 
 #ifndef _MSC_VER
 #include <sys/time.h>
@@ -26,12 +26,15 @@
 
 #ifdef BACKTRACE
 #if defined _WIN32 || defined _WIN64
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
+#endif
+
 #include <dbghelp.h>
 #else
-#include <cstdlib>
 #include <execinfo.h>
 #include <unistd.h>
+#include <cstdlib>
 #endif
 #endif
 
@@ -289,9 +292,7 @@ static std::ostream nullStream( &nullBuf );
 
 static DebugFile debugFile;
 
-DebugFile::DebugFile()
-{
-}
+DebugFile::DebugFile() = default;
 
 DebugFile::~DebugFile()
 {
