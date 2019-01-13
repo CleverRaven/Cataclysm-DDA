@@ -357,6 +357,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "directed_floodlight",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "mechanics",
+  "skills_required": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 1,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
+  "components": [
+    [ [ "amplifier", 4 ] ],
+    [
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
+    ],
+    [
+      [ "lightstrip_dead", 4 ],
+      [ "light_bulb", 4 ]
+    ],
+    [ [ "cable", 10 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "car_headlight",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -378,6 +402,30 @@
       [ "light_bulb", 2 ]
     ],
     [ [ "cable", 10 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "car_wide_headlight",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "mechanics",
+  "skills_required": [ "electronics", 1 ],
+  "difficulty": 2,
+  "reversible": true,
+  "decomp_learn": 1,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
+  "time": 14000,
+  "components": [
+    [ [ "amplifier", 3 ] ],
+    [
+      [ "plastic_chunk", 3 ],
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "lightstrip_dead", 3 ],
+      [ "light_bulb", 3 ]
+    ],
+    [ [ "cable", 12 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1400,7 +1448,7 @@
   ],
   "components": [
     [ [ "e_scrap", 1 ] ],
-    [ [ "scrap", 3 ] ],
+    [ [ "scrap", 1 ] ],
     [ [ "cable", 3 ] ]
   ]
 },{
@@ -1422,7 +1470,7 @@
   ],
   "components": [
     [ [ "plastic_chunk", 1 ] ],
-    [ [ "scrap", 1 ] ],
+    [ [ "scrap", 3 ] ],
     [ [ "cable", 3 ] ]
   ]
 },{

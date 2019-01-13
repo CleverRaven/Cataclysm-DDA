@@ -2,11 +2,11 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "optional.h"
-
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "optional.h"
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;

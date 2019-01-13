@@ -2,10 +2,10 @@
 #ifndef VPART_POSITION_H
 #define VPART_POSITION_H
 
-#include "optional.h"
-
 #include <functional>
 #include <string>
+
+#include "optional.h"
 
 class vehicle;
 enum vpart_bitflags : int;

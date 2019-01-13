@@ -1,11 +1,11 @@
 #include "itype.h"
 
+#include <stdexcept>
+
 #include "debug.h"
 #include "output.h"
 #include "player.h"
 #include "translations.h"
-
-#include <stdexcept>
 
 std::string gunmod_location::name() const
 {

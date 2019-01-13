@@ -1,5 +1,9 @@
 #include "action.h"
 
+#include <algorithm>
+#include <istream>
+#include <iterator>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -18,12 +22,6 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <istream>
-#include <iterator>
-
-extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );

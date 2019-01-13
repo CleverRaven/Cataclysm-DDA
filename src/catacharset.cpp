@@ -1,12 +1,12 @@
 #include "catacharset.h"
 
-#include "cursesdef.h"
-#include "options.h"
-#include "wcwidth.h"
-
 #include <cstdlib>
 #include <cstring>
 #include <array>
+
+#include "cursesdef.h"
+#include "options.h"
+#include "wcwidth.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #include "platform_win.h"
