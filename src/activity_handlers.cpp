@@ -818,10 +818,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
             }
         }
-        item ruined_parts( "ruined_chunks", bday,
-                           monster_weight_remaining / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) );
-        ruined_parts.set_mtype( &mt );
-        g->m.add_item_or_charges( p.pos(), ruined_parts );
+        const int item_charges = monster_weight_remaining / to_gram( (
+                                     item::find_type( "ruined_chunks" ) )->weight );
+        if( item_charges > 0 ) {
+            item ruined_parts( "ruined_chunks", bday, item_charges );
+            ruined_parts.set_mtype( &mt );
+            g->m.add_item_or_charges( p.pos(), ruined_parts );
+        }
     }
 
     if( action == DISSECT ) {
