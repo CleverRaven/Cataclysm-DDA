@@ -117,7 +117,8 @@
     "id": "ACT_SOCIALIZE",
     "type": "activity_type",
     "stop_phrase": "Stop socializing?",
-    "based_on": "time"
+    "based_on": "time",
+    "rooted": true
   },
   {
     "id": "ACT_WAIT_WEATHER",
