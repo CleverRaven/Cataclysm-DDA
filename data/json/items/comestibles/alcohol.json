@@ -2,8 +2,8 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_riesling",
-    "name": "riesling",
-    "name_plural": "riesling",
+    "name": "Riesling",
+    "name_plural": "Riesling",
     "weight": 50,
     "color": "white",
     "addiction_type": "alcohol",
@@ -29,8 +29,8 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_chardonnay",
-    "name": "chardonnay",
-    "name_plural": "chardonnay",
+    "name": "Chardonnay",
+    "name_plural": "Chardonnay",
     "weight": 50,
     "color": "white",
     "addiction_type": "alcohol",
@@ -56,8 +56,8 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_cabernet",
-    "name": "cabernet sauvignon",
-    "name_plural": "cabernet sauvignon",
+    "name": "Cabernet Sauvignon",
+    "name_plural": "Cabernet Sauvignon",
     "weight": 50,
     "color": "red",
     "addiction_type": "alcohol",
