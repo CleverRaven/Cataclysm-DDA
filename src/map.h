@@ -260,7 +260,7 @@ class map
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
 
-        void set_memory_seen_cache_dirty( const tripoint p ) {
+        void set_memory_seen_cache_dirty( const tripoint &p ) {
             get_cache( p.z ).map_memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] = false;
         }
 
