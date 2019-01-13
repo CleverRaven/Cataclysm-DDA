@@ -76,6 +76,7 @@
           [ "boots_winter", "boots_fur" ],
           [ "cloak_wool", "cloak_leather" ],
           [ "gloves_wool", "gloves_leather" ],
+          [ "socks_wool", "socks" ],
           [ "kilt", "kilt_leather" ],
           [ "mask_ski", "balclava" ]
         ]
@@ -142,6 +143,42 @@
       { "item": "cookbook_human", "bonus": [ [ "CANNIBAL" ] ] },
       { "item": "teleumbrella", "bonus": [ [ "ALBINO" ] ] }
     ]
+  },
+  {
+    "type": "profession",
+    "ident": "vagabond",
+    "name": "Vagabond",
+    "description": "Circumstances left you wandering, with no home, no family, no friends.  But the world you knew is gone, and maybe your experiences relying on yourself to survive could be useful in this new one.",
+    "points": 2,
+    "skills": [
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "tailor" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "cooking" }
+    ],
+    "items": {
+      "both": [
+        "jeans",
+        "tshirt",
+        "gloves_light",
+        "hat_ball",
+        "duffelbag",
+        "backpack",
+        "long_underpants",
+        "boots",
+        "socks_wool",
+        "socks",
+        "hoodie",
+        "folding_poncho_on",
+        "knit_scarf",
+        "jug_plastic",
+        "can_beans",
+        "pockknife",
+        "matches"
+      ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",

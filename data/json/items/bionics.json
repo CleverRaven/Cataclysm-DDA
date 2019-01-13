@@ -854,7 +854,7 @@
   },
   {
     "id": "bio_weight",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Titanium Skeletal Bracing CBM",
     "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing you to carry more weight.",

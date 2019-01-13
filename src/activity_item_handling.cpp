@@ -1,4 +1,9 @@
-#include "activity_handlers.h"
+#include "activity_handlers.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <list>
+#include <vector>
 
 #include "action.h"
 #include "clzones.h"
@@ -28,11 +33,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <cassert>
-#include <list>
-#include <vector>
 
 void cancel_aim_processing();
 
@@ -1020,6 +1020,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             return;
                         }
                         move_item( *it, it->count(), src_loc, dest_loc, src_veh, src_part );
+                        break;
                     }
                 }
                 if( p.moves <= 0 ) {

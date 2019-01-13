@@ -1,4 +1,4 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
 
 #include "debug.h"
 #include "game.h"

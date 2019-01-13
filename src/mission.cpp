@@ -1,5 +1,9 @@
 #include "mission.h"
 
+#include <algorithm>
+#include <memory>
+#include <unordered_map>
+
 #include "debug.h"
 #include "game.h"
 #include "io.h"
@@ -12,10 +16,6 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <memory>
-#include <unordered_map>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -432,9 +432,9 @@ int mission::get_npc_id() const
     return npc_id;
 }
 
-void mission::set_target( const tripoint &new_target )
+void mission::set_target( const tripoint &p )
 {
-    target = new_target;
+    target = p;
 }
 
 bool mission::is_assigned() const
