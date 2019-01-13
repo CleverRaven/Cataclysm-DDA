@@ -1,5 +1,8 @@
 #include "iuse_software.h"
 
+#include <map>
+#include <string>
+
 #include "cursesdef.h"
 #include "iuse_software_kitten.h"
 #include "iuse_software_lightson.h"
@@ -9,9 +12,6 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <map>
-#include <string>
 
 bool play_videogame( const std::string &function_name,
                      std::map<std::string, std::string> &game_data,

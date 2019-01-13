@@ -1,5 +1,9 @@
 #include "monattack.h"
 
+#include <algorithm>
+#include <cmath>
+#include <map>
+
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
@@ -33,10 +37,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
-
-#include <algorithm>
-#include <cmath>
-#include <map>
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -240,18 +240,18 @@ bool mattack::eat_food( monster *z )
             continue;
         }
         auto items = g->m.i_at( p );
-        for( auto i = items.begin(); i != items.end(); i++ ) {
+        for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !i->is_food() || i->type->comestible->fun < -20 ) {
+            if( !item.is_food() || item.type->comestible->fun < -20 ) {
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_egg != i->type->get_id() ) {
+            if( z->type->baby_egg != item.type->get_id() ) {
                 long consumed = 1;
-                if( i->count_by_charges() ) {
-                    g->m.use_charges( p, 0, i->type->get_id(), consumed );
+                if( item.count_by_charges() ) {
+                    g->m.use_charges( p, 0, item.type->get_id(), consumed );
                 } else {
-                    g->m.use_amount( p, 0, i->type->get_id(), consumed );
+                    g->m.use_amount( p, 0, item.type->get_id(), consumed );
                 }
                 return true;
             }
@@ -1164,13 +1164,15 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             if( !critial_fail && ( is_trivial || dodge_skill > rng( 0, att_rad_dodge_diff ) ) ) {
                 target->add_msg_player_or_npc( _( "You dodge the beam!" ),
                                                _( "<npcname> dodges the beam!" ) );
-            } else if( g->u.is_rad_immune() ) {
-                target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
-            } else if( one_in( att_rad_mutate_chance ) ) {
-                foe->mutate();
             } else {
-                target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
-                foe->radiation += rng( att_rad_dose_min, att_rad_dose_max );
+                bool rad_proof = !foe->irradiate( rng( att_rad_dose_min, att_rad_dose_max ) );
+                if( rad_proof ) {
+                    target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
+                } else if( one_in( att_rad_mutate_chance ) ) {
+                    foe->mutate();
+                } else {
+                    target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
+                }
             }
         }
         break;
@@ -2464,8 +2466,8 @@ bool mattack::ranged_pull( monster *z )
                 g->m.unboard_vehicle( foe->pos() );
             }
 
-            if( target->is_player() && ( pt.x < SEEX * int( MAPSIZE / 2 ) || pt.y < SEEY * int( MAPSIZE / 2 ) ||
-                                         pt.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || pt.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) ) {
+            if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
+                                         pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
                 g->update_map( pt.x, pt.y );
             }
         }
@@ -2569,9 +2571,9 @@ bool mattack::grab_drag( monster *z )
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
             return false;
         }
-        if( target->is_player() && ( zpt.x < SEEX * int( MAPSIZE / 2 ) ||
-                                     zpt.y < SEEY * int( MAPSIZE / 2 ) ||
-                                     zpt.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || zpt.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) ) {
+        if( target->is_player() && ( zpt.x < HALF_MAPSIZE_X ||
+                                     zpt.y < HALF_MAPSIZE_Y ||
+                                     zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
             g->update_map( zpt.x, zpt.y );
         }
         if( foe != nullptr ) {

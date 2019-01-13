@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "cata_utility.h"
 #include "units.h"
 

@@ -98,16 +98,16 @@
 #if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && defined(_M_IX86)
 #   define _X86_
 #endif
-#include <cstdio>
-#include <cstdarg>
 #include <windef.h>
 #include <WinBase.h>
-#include <cwchar>
-#include <cstring>
-#include <cstdlib>
 #include <malloc.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <cstdio>
+#include <cstdarg>
+#include <cwchar>
+#include <cstring>
+#include <cstdlib>
 #include <cerrno>
 
 #if defined(_WIN32) || defined(WINDOWS)

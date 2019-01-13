@@ -2,11 +2,11 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include "requirements.h"
-#include "string_id.h"
-
 #include <list>
 #include <vector>
+
+#include "requirements.h"
+#include "string_id.h"
 
 class inventory;
 class item;

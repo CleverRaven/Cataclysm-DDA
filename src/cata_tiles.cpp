@@ -1,6 +1,12 @@
 #if (defined TILES)
 #include "cata_tiles.h"
 
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <cstdlib>
+#include <fstream>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
@@ -37,12 +43,6 @@
 #include "weather.h"
 #include "weighted_list.h"
 
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <cstdlib>
-#include <fstream>
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
@@ -59,8 +59,8 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int fontwidth, fontheight;
-extern bool tile_iso;
+extern int fontwidth;
+extern int fontheight;
 
 SDL_Color cursesColorToSDL( const nc_color &color );
 ///@throws std::exception upon errors.
@@ -1138,8 +1138,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     }
 
     //Memorize everything the character just saw even if it wasn't displayed.
-    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
-        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+    for( int y = 0; y < MAPSIZE_Y; y++ ) {
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
             //just finished o_x,o_y through sx+o_x,sy+o_y so skip them
             if( x >= o_x && x < sx + o_x &&
                 y >= o_y && y < sy + o_y ) {
@@ -1153,9 +1153,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                     continue;
                 }
                 //iso_mode does weird things to x and y... replicate that
-                //The MAPSIZE*SEEX/2 offset is to keep the rectangle in the upper right quadrant.
-                p.x = ( x - y - MAPSIZE * SEEX / 2 + MAPSIZE * SEEY / 2 ) / 2 + MAPSIZE * SEEX / 2;
-                p.y = ( y + x - MAPSIZE * SEEY / 2 - MAPSIZE * SEEX / 2 ) / 2 + MAPSIZE * SEEY / 2;
+                //The MAPSIZE_X/2 offset is to keep the rectangle in the upper right quadrant.
+                p.x = ( x - y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
+                p.y = ( y + x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
                 //Check if we're in previously done iso_mode space
                 if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o_x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o_x &&
                     p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o_y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o_y ) {
@@ -1388,8 +1388,8 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_prep = true;
     minimap_min.x = 0;
     minimap_min.y = 0;
-    minimap_max.x = MAPSIZE * SEEX;
-    minimap_max.y = MAPSIZE * SEEY;
+    minimap_max.x = MAPSIZE_X;
+    minimap_max.y = MAPSIZE_Y;
     minimap_tiles_range.x = ( MAPSIZE - 2 ) * SEEX;
     minimap_tiles_range.y = ( MAPSIZE - 2 ) * SEEY;
     minimap_tile_size.x = std::max( width / minimap_tiles_range.x, 1 );
@@ -1463,8 +1463,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
     const int brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
     //check all of exposed submaps (MAPSIZE*MAPSIZE submaps) and apply new color changes to the cache
-    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
-        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+    for( int y = 0; y < MAPSIZE_Y; y++ ) {
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
             tripoint p( x, y, center.z );
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
@@ -1629,7 +1629,7 @@ void cata_tiles::get_window_tile_counts( const int width, const int height, int 
                static_cast<double>( height ) / tile_height );
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
+bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,
                                       lit_level ll, bool apply_night_vision_goggles )
 {
     int nullint = 0;
@@ -1638,7 +1638,7 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                      const std::string &subcategory, tripoint pos,
+                                      const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles )
 {
@@ -1647,7 +1647,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                                             ll, apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
+bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,
                                       lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
     return cata_tiles::draw_from_id_string( std::move( id ), C_NONE, empty_string, pos, subtile, rota,
@@ -1765,7 +1765,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                      const std::string &subcategory, tripoint pos,
+                                      const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d )
 {
@@ -1835,7 +1835,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 col = t.color;
             }
         } else if( category == C_ITEM ) {
-            const auto tmp = item( id, 0 );
+            item tmp;
+            if( 0 == id.compare( 0, 7, "corpse_" ) ) {
+                tmp = item( "corpse", 0 );
+            } else {
+                tmp = item( id, 0 );
+            }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
         }
@@ -2976,95 +2981,91 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 
     bool connects[4];
     char val = 0;
-    int num_connects = 0;
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
         connects[i] = ( neighborhood[i] == tid );
 
         if( connects[i] ) {
-            ++num_connects;
             val += 1 << i;
         }
     }
 
-    get_rotation_and_subtile( val, num_connects, rota, subtile );
+    get_rotation_and_subtile( val, rota, subtile );
 }
-void cata_tiles::get_rotation_and_subtile( const char val, const int num_connects, int &rotation,
-        int &subtile )
+
+void cata_tiles::get_rotation_and_subtile( const char val, int &rotation, int &subtile )
 {
-    switch( num_connects ) {
+    switch( val ) {
+        // no connections
         case 0:
-            rotation = 0;
             subtile = unconnected;
+            rotation = 0;
+            break;
+        // all connections
+        case 15:
+            subtile = center;
+            rotation = 0;
+            break;
+        // end pieces
+        case 8:
+            subtile = end_piece;
+            rotation = 2;
             break;
         case 4:
-            rotation = 0;
-            subtile = center;
-            break;
-        case 1: // all end pieces
             subtile = end_piece;
-            switch( val ) {
-                case 8:
-                    rotation = 2;
-                    break;
-                case 4:
-                    rotation = 3;
-                    break;
-                case 2:
-                    rotation = 1;
-                    break;
-                case 1:
-                    rotation = 0;
-                    break;
-            }
+            rotation = 3;
             break;
         case 2:
-            switch( val ) {
-                // edges
-                case 9:
-                    subtile = edge;
-                    rotation = 0;
-                    break;
-                case 6:
-                    subtile = edge;
-                    rotation = 1;
-                    break;
-                // corners
-                case 12:
-                    subtile = corner;
-                    rotation = 2;
-                    break;
-                case 10:
-                    subtile = corner;
-                    rotation = 1;
-                    break;
-                case 3:
-                    subtile = corner;
-                    rotation = 0;
-                    break;
-                case 5:
-                    subtile = corner;
-                    rotation = 3;
-                    break;
-            }
+            subtile = end_piece;
+            rotation = 1;
             break;
-        case 3: // all t_connections
+        case 1:
+            subtile = end_piece;
+            rotation = 0;
+            break;
+        // edges
+        case 9:
+            subtile = edge;
+            rotation = 0;
+            break;
+        case 6:
+            subtile = edge;
+            rotation = 1;
+            break;
+        // corners
+        case 12:
+            subtile = corner;
+            rotation = 2;
+            break;
+        case 10:
+            subtile = corner;
+            rotation = 1;
+            break;
+        case 3:
+            subtile = corner;
+            rotation = 0;
+            break;
+        case 5:
+            subtile = corner;
+            rotation = 3;
+            break;
+        // all t_connections
+        case 14:
             subtile = t_connection;
-            switch( val ) {
-                case 14:
-                    rotation = 2;
-                    break;
-                case 11:
-                    rotation = 1;
-                    break;
-                case 7:
-                    rotation = 0;
-                    break;
-                case 13:
-                    rotation = 3;
-                    break;
-            }
+            rotation = 2;
+            break;
+        case 11:
+            subtile = t_connection;
+            rotation = 1;
+            break;
+        case 7:
+            subtile = t_connection;
+            rotation = 0;
+            break;
+        case 13:
+            subtile = t_connection;
+            rotation = 3;
             break;
     }
 }
@@ -3072,38 +3073,21 @@ void cata_tiles::get_rotation_and_subtile( const char val, const int num_connect
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                      int connect_group )
 {
-    const bool connects[4] = {
-        g->m.ter( tripoint( p.x, p.y + 1, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x + 1, p.y, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x - 1, p.y, p.z ) ).obj().connects_to( connect_group ),
-        g->m.ter( tripoint( p.x, p.y - 1, p.z ) ).obj().connects_to( connect_group )
-    };
-    char val = 0;
-    int num_connects = 0;
-
-    // populate connection information
-    for( int i = 0; i < 4; ++i ) {
-        if( connects[i] ) {
-            ++num_connects;
-            val += 1 << i;
-        }
-    }
-    get_rotation_and_subtile( val, num_connects, rotation, subtile );
+    uint8_t connections = g->m.get_known_connections( p, connect_group );
+    get_rotation_and_subtile( connections, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int &rotation )
 {
     bool connects[4];
-    int num_connects = 0;
     char val = 0;
     for( int i = 0; i < 4; ++i ) {
         connects[i] = ( tn[i] == t );
         if( connects[i] ) {
-            ++num_connects;
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile( val, num_connects, rotation, subtile );
+    get_rotation_and_subtile( val, rotation, subtile );
 }
 
 void cata_tiles::do_tile_loading_report()

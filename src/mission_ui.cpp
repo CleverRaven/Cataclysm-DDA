@@ -1,16 +1,16 @@
-#include "mission.h"
-
-#include "calendar.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "game.h"
-#include "input.h"
-#include "output.h"
-#include "player.h"
-#include "npc.h"
+#include "game.h" // IWYU pragma: associated
 
 #include <map>
 #include <string>
 #include <vector>
+
+#include "mission.h"
+#include "calendar.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "input.h"
+#include "output.h"
+#include "player.h"
+#include "npc.h"
 
 void game::list_missions()
 {
@@ -103,7 +103,7 @@ void game::list_missions()
         if( selection < umissions.size() ) {
             const auto miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
-            std::string for_npc = "";
+            std::string for_npc;
             if( miss->get_npc_id() >= 0 ) {
                 npc *guy = g->find_npc( miss->get_npc_id() );
                 if( guy ) {

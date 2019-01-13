@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "crafting.h"
 #include "game.h"
 #include "itype.h"
@@ -205,17 +204,17 @@ static void test_craft( const recipe_id &rid, const std::vector<item> tools,
     clear_player();
     clear_map();
 
-    tripoint test_origin( 60, 60, 0 );
+    const tripoint test_origin( 60, 60, 0 );
     g->u.setpos( test_origin );
-    item backpack( "backpack" );
+    const item backpack( "backpack" );
     g->u.wear( g->u.i_add( backpack ), false );
-    for( item gear : tools ) {
+    for( const item gear : tools ) {
         g->u.i_add( gear );
     }
 
     const recipe &r = rid.obj();
 
-    requirement_data reqs = r.requirements();
+    const requirement_data &reqs = r.requirements();
     inventory crafting_inv = g->u.crafting_inventory();
     bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory() );
     CHECK( can_craft == expect_craftable );
