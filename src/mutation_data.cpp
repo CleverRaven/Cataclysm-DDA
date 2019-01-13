@@ -1,4 +1,9 @@
-#include "mutation.h"
+#include "mutation.h" // IWYU pragma: associated
+
+#include <map>
+#include <set>
+#include <sstream>
+#include <vector>
 
 #include "bodypart.h"
 #include "color.h"
@@ -8,11 +13,6 @@
 #include "pldata.h" // traits
 #include "trait_group.h"
 #include "translations.h"
-
-#include <map>
-#include <set>
-#include <sstream>
-#include <vector>
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
 typedef std::set<trait_id> TraitSet;
@@ -282,6 +282,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.threshold = jsobj.get_bool( "threshold", false );
     new_mut.profession = jsobj.get_bool( "profession", false );
     new_mut.debug = jsobj.get_bool( "debug", false );
+    new_mut.player_display = jsobj.get_bool( "player_display", true );
 
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {

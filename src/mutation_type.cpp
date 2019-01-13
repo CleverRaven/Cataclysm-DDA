@@ -1,4 +1,4 @@
-#include "mutation.h"
+#include "mutation.h" // IWYU pragma: associated
 
 #include "json.h"
 

@@ -2,17 +2,17 @@
 #ifndef ASSIGN_H
 #define ASSIGN_H
 
-#include "color.h"
-#include "debug.h"
-#include "json.h"
-#include "units.h"
-
 #include <algorithm>
 #include <map>
 #include <set>
 #include <sstream>
 #include <string>
 #include <vector>
+
+#include "color.h"
+#include "debug.h"
+#include "json.h"
+#include "units.h"
 
 namespace cata
 {

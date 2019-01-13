@@ -2,13 +2,6 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "game_constants.h"
-#include "monster.h"
-#include "omdata.h"
-#include "overmap_types.h"
-#include "regional_settings.h"
-#include "weighted_list.h"
-
 #include <algorithm>
 #include <array>
 #include <functional>
@@ -18,6 +11,13 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "game_constants.h"
+#include "monster.h"
+#include "omdata.h"
+#include "overmap_types.h"
+#include "regional_settings.h"
+#include "weighted_list.h"
 
 class input_context;
 class JsonObject;

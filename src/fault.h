@@ -2,9 +2,9 @@
 #ifndef FAULT_H
 #define FAULT_H
 
-#include "string_id.h"
-
 #include <map>
+
+#include "string_id.h"
 
 class JsonObject;
 

@@ -1,5 +1,7 @@
 #include "mutation.h"
 
+#include <algorithm>
+
 #include "action.h"
 #include "field.h"
 #include "game.h"
@@ -13,8 +15,6 @@
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <algorithm>
 
 const efftype_id effect_stunned( "stunned" );
 
@@ -759,8 +759,7 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
-    for( size_t i = 0; i < same_type.size(); ++i ) {
-        trait_id consider = same_type[i];
+    for( const auto &consider : same_type ) {
         if( std::find( all_prereqs.begin(), all_prereqs.end(), consider ) == all_prereqs.end() ) {
             cancel.push_back( consider );
         }
@@ -928,8 +927,8 @@ bool player::mutate_towards( const trait_id &mut )
         mutation_effect( mut );
         mutation_replaced = true;
     }
-    for( size_t i = 0; i < canceltrait.size(); i++ ) {
-        const auto &cancel_mdata = canceltrait[i].obj();
+    for( const auto &i : canceltrait ) {
+        const auto &cancel_mdata = i.obj();
         if( mdata.mixed_effect || cancel_mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( mdata.points < cancel_mdata.points ) {
@@ -949,8 +948,8 @@ bool player::mutate_towards( const trait_id &mut )
         add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                           pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
                           cancel_mdata.name(), mdata.name() );
-        unset_mutation( canceltrait[i] );
-        mutation_loss_effect( canceltrait[i] );
+        unset_mutation( i );
+        mutation_loss_effect( i );
         mutation_effect( mut );
         mutation_replaced = true;
     }

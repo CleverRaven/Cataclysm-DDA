@@ -1,5 +1,14 @@
 #include "veh_interact.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <functional>
+#include <iterator>
+#include <list>
+#include <numeric>
+#include <string>
+
 #include "action.h"
 #include "activity_handlers.h"
 #include "cata_utility.h"
@@ -28,15 +37,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <functional>
-#include <iterator>
-#include <list>
-#include <numeric>
-#include <string>
 
 static inline const std::string status_color( bool status )
 {
@@ -755,6 +755,7 @@ bool veh_interact::do_install( std::string &msg )
     tab_filters[2] = [&](const vpart_info *p) { auto &part = *p;
                                                    return part.has_flag(VPFLAG_LIGHT) || // Light
                                                    part.has_flag(VPFLAG_CONE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_WIDE_CONE_LIGHT) ||
                                                    part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
                                                    part.has_flag(VPFLAG_DOME_LIGHT) ||
                                                    part.has_flag(VPFLAG_AISLE_LIGHT) ||
@@ -1632,7 +1633,7 @@ bool veh_interact::do_tirechange( std::string &msg )
             return false;
 
         case LACK_TOOLS:
-	    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
             msg = string_format( _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
                                     "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
                                  status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
@@ -1965,13 +1966,13 @@ void veh_interact::display_veh ()
 static std::string wheel_state_description( const vehicle &veh )
 {
     bool is_boat = !veh.floating.empty();
-    bool is_land = !veh.wheelcache.empty();
+    bool is_land = !veh.wheelcache.empty() || !is_boat;
 
-    bool suf_land = veh.sufficient_wheel_config( false );
-    bool bal_land = veh.balanced_wheel_config( false );
+    bool suf_land = veh.sufficient_wheel_config();
+    bool bal_land = veh.balanced_wheel_config();
 
-    bool suf_boat = veh.sufficient_wheel_config( true );
-    bool bal_boat = veh.balanced_wheel_config( true );
+    bool suf_boat = veh.can_float();
+
     float steer = veh.steering_effectiveness();
 
     std::string wheel_status;
@@ -1994,21 +1995,19 @@ static std::string wheel_state_description( const vehicle &veh )
     std::string boat_status;
     if( !suf_boat ) {
         boat_status = _( "<color_light_red>leaks</color>" );
-    } else if( !bal_boat ) {
-        boat_status = _( "<color_light_red>unbalanced</color>" );
     } else {
         boat_status = _( "<color_blue>swims</color>" );
     }
 
     if( is_boat && is_land ) {
-        return string_format( _( "Wheels/boat: %s/%s" ), wheel_status.c_str(), boat_status.c_str() );
+        return string_format( _( "Wheels/boat: %s/%s" ), wheel_status, boat_status );
     }
 
     if( is_boat ) {
-        return string_format( _( "Boat: %s" ), boat_status.c_str() );
+        return string_format( _( "Boat: %s" ), boat_status );
     }
 
-    return string_format( _( "Wheels: %s" ), wheel_status.c_str() );
+    return string_format( _( "Wheels: %s" ), wheel_status );
 }
 
 /**
@@ -2049,13 +2048,14 @@ void veh_interact::display_stats() const
     }
 
     bool is_boat = !veh->floating.empty();
+    bool is_ground = !veh->wheelcache.empty() || !is_boat;
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
     };
 
     int i = 0;
-    if( !is_boat ) {
+    if( is_ground ) {
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                         vel_to_int( veh->safe_ground_velocity( false ) ),
@@ -2152,7 +2152,7 @@ void veh_interact::display_stats() const
     }
     i += 1;
 
-    if( !is_boat ) {
+    if( is_ground ) {
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                        _( "Rolling drag:   <color_light_blue>%5.2f</color>"),
                        veh->coeff_rolling_drag() );
@@ -2166,8 +2166,7 @@ void veh_interact::display_stats() const
 
     fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
-                    static_cast<int>( veh->k_traction( veh->wheel_area( is_boat ) *
-                    0.5f ) * 100 ) );
+                    static_cast<int>( veh->k_traction( veh->wheel_area() * 0.5f ) * 100 ) );
     i += 1;
 
     if( is_boat ) {
@@ -2371,7 +2370,8 @@ void veh_interact::display_details( const vpart_info *part )
             label = small_mode ? _( "NoisRed" ) : _( "Noise Reduction" );
         } else if( part->has_flag( VPFLAG_EXTENDS_VISION ) ) {
             label = _( "Range" );
-        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) ||
+        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) || 
+                   part->has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                    part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
                    part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||
                    part->has_flag( VPFLAG_ODDTURN ) || part->has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
@@ -2707,13 +2707,17 @@ void veh_interact::complete_vehicle()
         // Need to call coord_translate() directly since it's a new part.
         const point q = veh->coord_translate( point( dx, dy ) );
 
-        if ( vpinfo.has_flag("CONE_LIGHT") ) {
+        if ( vpinfo.has_flag( VPFLAG_CONE_LIGHT ) ||
+             vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
+             vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
             g->u.view_offset.x = veh->global_pos3().x + q.x - g->u.posx();
             g->u.view_offset.y = veh->global_pos3().y + q.y - g->u.posy();
-            popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
+
+            bool is_overheadlight = vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT );
+            popup( _("Choose a facing direction for the new %s.  Press space to continue."), is_overheadlight ? "overhead light" : "headlight");
             const cata::optional<tripoint> headlight_target = g->look_around();
             // Restore previous view offsets.
             g->u.view_offset.x = px;

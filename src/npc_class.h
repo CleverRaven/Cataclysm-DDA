@@ -2,11 +2,11 @@
 #ifndef NPC_CLASS_H
 #define NPC_CLASS_H
 
-#include "string_id.h"
-
 #include <functional>
 #include <map>
 #include <vector>
+
+#include "string_id.h"
 
 class JsonObject;
 
@@ -48,7 +48,7 @@ class distribution
 
         static distribution constant( float val );
         static distribution rng_roll( int from, int to );
-        static distribution dice_roll( int sides, int sizes );
+        static distribution dice_roll( int sides, int size );
         static distribution one_in( float in );
 };
 

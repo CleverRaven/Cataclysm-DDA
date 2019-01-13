@@ -1,5 +1,9 @@
 #include "item_location.h"
 
+#include <climits>
+#include <list>
+#include <algorithm>
+
 #include "character.h"
 #include "debug.h"
 #include "enums.h"
@@ -17,10 +21,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <climits>
-#include <list>
-#include <algorithm>
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -124,6 +124,11 @@ class item_location::impl
         mutable int idx = -1;
         //Only used for stacked cash card currently, needed to be able to process a stack of different items
         mutable std::list<item> *whatstart = nullptr;
+
+    public:
+        //Flag that controls whether functions like obtain() should stack the obtained item
+        //with similar existing items in the inventory or create a new stack for the item
+        bool should_stack = true;
 };
 
 class item_location::impl::nowhere : public item_location::impl
@@ -183,9 +188,9 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();
                 return inv;
             }
@@ -297,9 +302,9 @@ class item_location::impl::item_on_person : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();  // This also takes off the item from whoever wears it.
                 return inv;
             }
@@ -424,9 +429,9 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();
                 return inv;
             }
@@ -615,4 +620,9 @@ item_location item_location::clone() const
     item_location res;
     res.ptr = ptr;
     return res;
+}
+
+void item_location::set_should_stack( bool should_stack ) const
+{
+    ptr->should_stack = should_stack;
 }

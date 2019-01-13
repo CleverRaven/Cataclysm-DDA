@@ -1,4 +1,6 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
+
+#include <stdio.h>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -24,8 +26,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <stdio.h>
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -81,7 +81,7 @@ static tripoint random_house_in_closest_city()
     return random_house_in_city( cref );
 }
 
-static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_rad, mission *miss )
+static tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss )
 {
     tripoint testpoint = tripoint( origin );
     // Get the surface locations for labs and for spaces above hidden lab stairs.
@@ -391,6 +391,7 @@ void mission_start::place_bandit_cabin( mission *miss )
     t.overmap_terrain_subtype = "bandit_cabin";
     t.overmap_special = overmap_special_id( "bandit_cabin" );
     t.mission_pointer = miss;
+    t.search_range = OMAPX * 5;
     t.reveal_radius = 1;
 
     const cata::optional<tripoint> target_pos = assign_mission_target( t );
@@ -445,6 +446,7 @@ void mission_start::place_bandit_camp( mission *miss )
     t.overmap_terrain_subtype = "bandit_camp_1";
     t.overmap_special = overmap_special_id( "bandit_camp" );
     t.mission_pointer = miss;
+    t.search_range = OMAPX * 5;
     t.reveal_radius = 1;
 
     const cata::optional<tripoint> target_pos = assign_mission_target( t );
@@ -1770,7 +1772,7 @@ const tripoint reveal_destination( const std::string &type )
     return overmap::invalid_tripoint;
 }
 
-void reveal_route( mission *miss, const tripoint destination )
+void reveal_route( mission *miss, const tripoint &destination )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {

@@ -453,7 +453,7 @@
     "autolearn": true,
     "components": [
       [ [ "modularvest", 1 ] ],
-      [ [ "hard_plate", 2 ] ]
+      [ [ "hard_steel_armor", 8 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -485,7 +485,7 @@
     "autolearn": true,
     "components": [
       [ [ "modularvest", 1 ] ],
-      [ [ "steel_plate", 2 ] ]
+      [ [ "steel_armor", 8 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -501,7 +501,7 @@
     "autolearn": true,
     "components": [
       [ [ "modularvest", 1 ] ],
-      [ [ "alloy_plate", 2 ], [ "alloy_sheet", 8 ] ]
+      [ [ "alloy_sheet", 8 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
