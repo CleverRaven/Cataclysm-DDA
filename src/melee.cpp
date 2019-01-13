@@ -1,5 +1,9 @@
 #include "melee.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "field.h"
@@ -21,10 +25,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -75,7 +75,7 @@ static const trait_id trait_THORNS( "THORNS" );
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
 int  stumble( player &u, const item &weap );
-std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
+std::string melee_message( const ma_technique &tec, player &p, const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.
@@ -513,6 +513,8 @@ void player::reach_attack( const tripoint &p )
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? critter->get_size() : 2;
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
 
     int move_cost = attack_speed( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
@@ -962,13 +964,13 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip normal techniques if looking for a dodge counter
-        if( dodge_counter && !tec.dodge_counter ) {
+        // skip dodge counter techniques
+        if( ( dodge_counter && !tec.dodge_counter ) || ( !dodge_counter && tec.dodge_counter ) ) {
             continue;
         }
 
-        // skip normal techniques if looking for a block counter
-        if( block_counter && !tec.block_counter ) {
+        // skip block counter techniques
+        if( ( block_counter && !tec.block_counter ) || ( !block_counter && tec.block_counter ) ) {
             continue;
         }
 
@@ -1785,9 +1787,9 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
-            message = tec.npc_message;
+            message = _( tec.npc_message.c_str() );
         } else {
-            message = tec.player_message;
+            message = _( tec.player_message.c_str() );
         }
         if( !message.empty() ) {
             return message;

@@ -2,15 +2,15 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include "calendar.h"
-#include "enums.h"
-#include "npc_favor.h"
-
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "enums.h"
+#include "npc_favor.h"
 
 class player;
 class mission;
@@ -221,7 +221,7 @@ struct mission_type {
     /**
      * Get the mission_type object of the given id. Returns null if the input is invalid!
      */
-    static const mission_type *get( mission_type_id id );
+    static const mission_type *get( const mission_type_id &id );
     /**
      * Converts the legacy int id to a string_id.
      */
@@ -321,7 +321,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
-        void set_target( const tripoint &target );
+        void set_target( const tripoint &p );
         /*@}*/
 
         /** Assigns the mission to the player. */

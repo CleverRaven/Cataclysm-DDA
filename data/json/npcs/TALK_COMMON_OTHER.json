@@ -46,25 +46,29 @@
     },
     "responses": [
       {
+        "switch": true,
         "text": "Understood.  I'll get those antibiotics.",
         "topic": "TALK_NONE",
         "condition": { "npc_has_effect": "infected" }
       },
       {
+        "switch": true,
         "text": "Right, right, I'll ask later.",
         "topic": "TALK_NONE",
         "condition": { "npc_has_effect": "asked_to_follow" }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "I can keep you safe.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "value": -1, "anger": 1 } }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "You can keep me safe.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": {
           "type": "PERSUADE",
           "difficulty": 0,
@@ -74,15 +78,17 @@
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "We're friends, aren't we?",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 2, "anger": -1 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 1, "fear": -2, "value": -1, "anger": 1 } }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "I'll kill you if you don't.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
@@ -206,14 +212,21 @@
     "type": "talk_topic",
     "dynamic_line": "Alright, let's begin.",
     "responses": [
-      { "text": "Sounds good.", "topic": "TALK_DONE", "condition": "at_safe_space", "effect": "start_training" },
+      {
+        "text": "Sounds good.",
+        "topic": "TALK_DONE",
+        "condition": "at_safe_space",
+        "effect": "start_training",
+        "switch": true
+      },
       {
         "text": "Okay.  Lead the way.",
         "topic": "TALK_DONE",
-        "condition": { "not": "at_safe_space" },
+        "switch": true,
+        "default": true,
         "effect": "lead_to_safety"
       },
-      { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_FORCE", "condition": { "not": "at_safe_space" } },
+      { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_FORCE", "switch": true, "default": true },
       { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
     ]
   },

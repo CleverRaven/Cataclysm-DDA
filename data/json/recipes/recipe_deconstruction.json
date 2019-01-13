@@ -1532,6 +1532,13 @@
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
+    "result": "stick_fiber",
+    "type": "uncraft",
+    "time": 60000,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plant_fibre", 80 ] ] ]
+  },
+  {
     "result": "ref_lighter",
     "type": "uncraft",
     "time": 100,

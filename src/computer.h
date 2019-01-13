@@ -2,11 +2,11 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "calendar.h"
-#include "cursesdef.h"
-
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "cursesdef.h"
 
 class game;
 class player;
@@ -106,7 +106,7 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &name, int Security );
+        computer( const std::string &new_name, int new_security );
         computer( const computer &rhs );
         ~computer();
 

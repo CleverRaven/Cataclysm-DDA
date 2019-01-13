@@ -2,11 +2,11 @@
 #ifndef MAP_MEMORY_H
 #define MAP_MEMORY_H
 
-#include "enums.h"
-
 #include <list>
 #include <string>
 #include <unordered_map>
+
+#include "enums.h"
 
 class JsonOut;
 class JsonObject;
