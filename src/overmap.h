@@ -2,13 +2,6 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "game_constants.h"
-#include "monster.h"
-#include "omdata.h"
-#include "overmap_types.h"
-#include "regional_settings.h"
-#include "weighted_list.h"
-
 #include <algorithm>
 #include <array>
 #include <functional>
@@ -18,6 +11,13 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "game_constants.h"
+#include "monster.h"
+#include "omdata.h"
+#include "overmap_types.h"
+#include "regional_settings.h"
+#include "weighted_list.h"
 
 class input_context;
 class JsonObject;
@@ -340,7 +340,7 @@ class overmap
         void place_building( const tripoint &p, om_direction::type dir, const city &town );
 
         void build_city_street( const overmap_connection &connection, const point &p, int cs,
-                                om_direction::type dir, const city &town );
+                                om_direction::type dir, const city &town, int block_width = 2 );
         bool build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points,
                         const std::string &prefix, int train_odds );
         void build_anthill( int x, int y, int z, int s );

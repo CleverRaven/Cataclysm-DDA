@@ -2,6 +2,13 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <vector>
+
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -11,16 +18,6 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "posix_time.h"
-
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <unordered_map>
-#include <vector>
-
-extern const int savegame_version;
-extern int save_loading_version;
 
 extern bool test_mode;
 
@@ -131,9 +128,9 @@ enum liquid_dest : int {
 
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
+    tripoint pos;
     item_location item_loc;
     vehicle *veh = nullptr;
-    tripoint pos;
 };
 
 enum peek_act : int {
@@ -575,10 +572,15 @@ class game
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
         look_around_result look_around( catacurses::window w_info, tripoint &center,
-                                        tripoint start_point, bool has_first_point, bool select_zone, bool peeking );
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+                                      int &line, int last_line, const visibility_variables &cache );
+
+        // Shared method to print "look around" info
+        void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+                                  const std::string &area_name, int column,
                                   int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
 
         /** Long description of (visible) things at tile. */
@@ -816,7 +818,7 @@ class game
                         bool ignore_player );
 
         // Animation related functions
-        void draw_explosion( const tripoint &p, int radius, nc_color col );
+        void draw_explosion( const tripoint &p, int radius, const nc_color &col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
@@ -981,7 +983,8 @@ class game
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                 int &line );
-        void print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
+                                 const std::string &area_name, int column,
                                  int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                               int &line );

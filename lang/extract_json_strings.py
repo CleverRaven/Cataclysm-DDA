@@ -906,6 +906,12 @@ def extract(item, infilename):
     if "stop_phrase" in item:
        writestr(outfile, item["stop_phrase"], **kwargs)
        wrote = True
+    if "special_attacks" in item:
+        special_attacks = item["special_attacks"]
+        for special_attack in special_attacks:
+            if "description" in special_attack:
+                writestr(outfile, special_attack["description"], **kwargs)
+                wrote = True
     if not wrote:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))

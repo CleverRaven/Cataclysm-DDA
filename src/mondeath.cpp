@@ -1,5 +1,9 @@
 #include "mondeath.h"
 
+#include <algorithm>
+#include <cmath>
+#include <vector>
+
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -20,10 +24,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cmath>
-#include <vector>
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -97,11 +97,13 @@ void mdeath::normal( monster &z )
     }
 }
 
-void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int distance,
+void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
                      int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
     pile_size = std::max( pile_size, 1 );
+    // can't have more items in a pile than total items
+    pile_size = std::min( chunk_amt, pile_size );
     distance = abs( distance );
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
@@ -178,13 +180,13 @@ void mdeath::splatter( monster &z )
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
         int gib_distance = round( rng( 2, 4 ) );
-        for( const auto entry : *z.type->harvest ) {
+        for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
-                scatter_chunks( entry.drop, ( entry.mass_ratio / overflow_ratio / 10 * to_gram(
-                                                  z.get_weight() ) ) / to_gram( ( item::find_type( entry.drop ) )->weight ), z, gib_distance,
-                                to_gram( ( item::find_type( entry.drop ) )->weight ) / ( gib_distance - 1 ) );
+                const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * to_gram(
+                                          z.get_weight() ) / to_gram( ( item::find_type( entry.drop ) )->weight );
+                scatter_chunks( entry.drop, chunk_amt, z, gib_distance, chunk_amt / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
             }
         }
@@ -198,6 +200,7 @@ void mdeath::splatter( monster &z )
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( "GIBBED" );
+        corpse.active = false;
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }

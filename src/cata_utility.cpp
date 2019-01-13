@@ -1,5 +1,10 @@
 #include "cata_utility.h"
 
+#include <algorithm>
+#include <cmath>
+#include <locale>
+#include <string>
+
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
@@ -11,11 +16,6 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
-
-#include <algorithm>
-#include <cmath>
-#include <locale>
-#include <string>
 
 static double pow10( unsigned int n )
 {

@@ -1,5 +1,9 @@
 #include "sidebar.h"
 
+#include <cmath>
+#include <cstdlib>
+#include <string>
+
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -17,10 +21,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <cmath>
-#include <cstdlib>
-#include <string>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -133,7 +133,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         wmove( w_HP, i * dy + hpy, hpx );
 
         static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
-        const nc_color color ) {
+        const nc_color & color ) {
             while( num-- > 0 ) {
                 wprintz( w, color, sym.c_str() );
             }
