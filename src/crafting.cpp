@@ -1177,6 +1177,8 @@ bool player::disassemble()
         return false;
     }
 
+    loc.set_should_stack( false );
+
     return disassemble( loc.obtain( *this ) );
 }
 
@@ -1199,10 +1201,10 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
-        const auto components( r.disassembly_requirements().get_components() );
         std::ostringstream list;
+        const auto components = obj.get_uncraft_components();
         for( const auto &component : components ) {
-            list << "- " << component.front().to_string() << std::endl;
+            list << "- " << component.to_string() << std::endl;
         }
 
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {

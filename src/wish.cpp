@@ -352,7 +352,7 @@ class wish_monster_callback: public uilist_callback
         }
 };
 
-void debug_menu::wishmonster( const cata::optional<tripoint> p )
+void debug_menu::wishmonster( const cata::optional<tripoint> &p )
 {
     std::vector<const mtype *> mtypes;
 

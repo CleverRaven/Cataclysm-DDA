@@ -144,6 +144,6 @@ std::shared_ptr<npc> companion_choose_return( const npc &p, const std::string &i
 //Return NPC to your party
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> loot_building( const tripoint site );
+std::vector<item *> loot_building( const tripoint &site );
 }
 #endif

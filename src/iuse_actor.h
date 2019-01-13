@@ -201,7 +201,7 @@ struct effect_data {
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration &dur, body_part nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 

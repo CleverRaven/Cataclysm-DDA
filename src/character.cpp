@@ -731,12 +731,12 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
     return charges;
 }
 
-item &Character::i_add( item it )
+item &Character::i_add( item it, bool should_stack )
 {
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
-    if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
+    if( it.is_food() || it.is_ammo() || it.is_gun() || it.is_armor() ||
         it.is_book() || it.is_tool() || it.is_melee() || it.is_food_container() ) {
         inv.unsort();
     }
@@ -752,7 +752,7 @@ item &Character::i_add( item it )
         }
     }
 
-    auto &item_in_inv = inv.add_item( it, keep_invlet );
+    auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     return item_in_inv;
 }
@@ -2109,7 +2109,7 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto color_name = []( const nc_color col ) {
+    const auto color_name = []( const nc_color &col ) {
         return get_all_colors().get_name( col );
     };
 

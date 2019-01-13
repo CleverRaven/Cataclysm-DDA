@@ -11,7 +11,7 @@
 
 class player;
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 
 enum butcher_type : int {
@@ -42,12 +42,6 @@ enum class item_drop_reason {
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
                                const tripoint &where );
-
-// advanced_inv.cpp
-void advanced_inv();
-
-// veh_interact.cpp
-void complete_vehicle();
 
 namespace activity_handlers
 {
@@ -137,6 +131,7 @@ void dig_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
+void unload_mag_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

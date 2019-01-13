@@ -4,6 +4,7 @@
 #include <map>
 
 #include "action.h"
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "ammo.h"
 #include "bionics.h"
@@ -24,6 +25,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "map.h"
@@ -571,7 +573,7 @@ std::string player::disp_name( bool possessive ) const
 {
     if( !possessive ) {
         if( is_player() ) {
-            return _( "you" );
+            return pgettext( "not possessive", "you" );
         }
         return name;
     } else {
@@ -625,7 +627,7 @@ void player::reset_stats()
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
-    const auto set_fake_effect_dur = [this]( const efftype_id &type, const time_duration dur ) {
+    const auto set_fake_effect_dur = [this]( const efftype_id &type, const time_duration &dur ) {
         effect &eff = get_effect( type );
         if( eff.get_duration() == dur ) {
             return;
@@ -2919,7 +2921,7 @@ void player::shout( std::string msg )
         base = 15;
         shout_multiplier = 3;
         if ( msg.empty() ) {
-            msg = is_player() ? _("yourself scream loudly!") : _("a loud scream!");
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
         }
     }
 
@@ -2927,12 +2929,12 @@ void player::shout( std::string msg )
         shout_multiplier = 4;
         base = 20;
         if ( msg.empty() ) {
-            msg = is_player() ? _("yourself let out a piercing howl!") : _("a piercing howl!");
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
         }
     }
 
     if ( msg.empty() ) {
-        msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -2947,7 +2949,7 @@ void player::shout( std::string msg )
 
     if ( noise <= base ) {
         std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter(dampened_shout), tolower );
+        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
         noise = std::max( minimum_noise, noise );
         msg = std::move( dampened_shout );
     }
@@ -2958,15 +2960,17 @@ void player::shout( std::string msg )
             mod_stat( "oxygen", -noise );
         }
 
-        noise = std::max(minimum_noise, noise / 2);
+        noise = std::max( minimum_noise, noise / 2 );
     }
 
+    // TODO: indistinct noise descriptions should be handled in the sounds code
     if( noise <= minimum_noise ) {
-        add_msg( m_warning, _( "The sound of your voice is almost completely muffled!" ) );
-        msg.clear();
+        add_msg_if_player( m_warning,
+                           _( "The sound of your voice is almost completely muffled!" ) );
+        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
     } else if( noise * 2 <= noise + penalty ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
-        add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
     sounds::sound( pos(), noise, sounds::sound_t::speech, msg );
@@ -6681,7 +6685,7 @@ int player::get_morale_level() const
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        const time_duration duration, const time_duration decay_start,
+                        const time_duration &duration, const time_duration &decay_start,
                         bool capped, const itype* item_type)
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
@@ -8528,6 +8532,190 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
     }
 }
 
+bool player::add_or_drop_with_msg( item &it, const bool unloading )
+{
+    if( it.made_of( LIQUID ) ) {
+        g->consume_liquid( it, 1 );
+        return it.charges <= 0;
+    }
+    it.charges = this->i_add_to_container( it, unloading );
+    if( it.is_ammo() && it.charges == 0 ) {
+        return true;
+    } else if( !this->can_pickVolume( it ) ) {
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
+    } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
+    } else {
+        auto &ni = this->i_add( it );
+        add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
+        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname().c_str() );
+    }
+    return true;
+}
+
+bool player::unload(item &it) 
+{
+    // Unload a container consuming moves per item successfully removed
+    if( it.is_container() || it.is_bandolier() ) {
+        if( it.contents.empty() ) {
+            add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
+            return false;
+        }
+        if( !it.can_unload_liquid() ) {
+            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
+            return false;
+        }
+
+        bool changed = false;
+        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
+        &changed]( item & e ) {
+            long old_charges = e.charges;
+            const bool consumed = this->add_or_drop_with_msg( e, true );
+            changed = changed || consumed || e.charges != old_charges;
+            if( consumed ) {
+                this->mod_moves( -this->item_handling_cost( e ) );
+            }
+            return consumed;
+        } ), it.contents.end() );
+        if( changed ) {
+            it.on_contents_changed();
+        }
+        return true;
+    }
+
+    // If item can be unloaded more than once (currently only guns) prompt user to choose
+    std::vector<std::string> msgs( 1, it.tname() );
+    std::vector<item *> opts( 1, &it );
+
+    for( auto e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+            msgs.emplace_back( e->tname() );
+            opts.emplace_back( e );
+        }
+    }
+
+    item *target = nullptr;
+    if( opts.size() > 1 ) {
+        const int ret = uilist( _( "Unload what?" ), msgs );
+        if( ret >= 0 ) {
+            target = opts[ret];
+        }
+    } else {
+        target = &it;
+    }
+
+    if( target == nullptr ) {
+        return false;
+    }
+
+    // Next check for any reasons why the item cannot be unloaded
+    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
+        add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
+        return false;
+    }
+
+    if( target->has_flag( "NO_UNLOAD" ) ) {
+        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+            add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname().c_str() );
+        } else {
+            add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
+        }
+        return false;
+    }
+
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+        if( target->is_tool() ) {
+            add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
+        } else {
+            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname().c_str() );
+        }
+        return false;
+    }
+
+    target->casings_handle( [&]( item & e ) {
+        return this->i_add_or_drop( e );
+    } );
+
+    if( target->is_magazine() ) {
+        player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
+        g->u.assign_activity( unload_mag_act );
+        g->u.activity.targets.emplace_back( item_location(*this, target) );
+
+        // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
+        int mv = 0;
+        for( auto iter = target->contents.begin(); iter != target->contents.end(); ++iter ) {
+            mv += this->item_reload_cost( it, *iter, iter->charges ) / 2; 
+        }
+        g->u.activity.moves_left += mv;
+
+        // I think this means if unload is not done on ammo-belt, it takes as long as it takes to reload a mag.
+        if( !it.is_ammo_belt() ) {
+            g->u.activity.moves_left += mv;
+        }
+        g->u.activity.auto_resume = true;
+
+        return true;
+
+    } else if( target->magazine_current() ) {
+        if( !this->add_or_drop_with_msg( *target->magazine_current(), true ) ) {
+            return false;
+        }
+        // Eject magazine consuming half as much time as required to insert it
+        this->moves -= this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
+
+        target->contents.erase( std::remove_if( target->contents.begin(),
+        target->contents.end(), [&target]( const item & e ) {
+            return target->magazine_current() == &e;
+        } ) );
+
+    } else if( target->ammo_remaining() ) {
+        long qty = target->ammo_remaining();
+
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+            qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
+            if( qty > 0 ) {
+                add_msg( _( "You recover %i unused plutonium." ), qty );
+            } else {
+                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
+                return false;
+            }
+        }
+
+        // Construct a new ammo item and try to drop it
+        item ammo( target->ammo_current(), calendar::turn, qty );
+
+        if( ammo.made_of_from_type( LIQUID ) ) {
+            if( !this->add_or_drop_with_msg( ammo ) ) {
+                qty -= ammo.charges; // only handled part (or none) of the liquid
+            }
+            if( qty <= 0 ) {
+                return false; // no liquid was moved
+            }
+
+        } else if( !this->add_or_drop_with_msg( ammo, qty > 1 ) ) {
+            return false;
+        }
+
+        // If successful remove appropriate qty of ammo consuming half as much time as required to load it
+        this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
+
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+            qty *= PLUTONIUM_CHARGES;
+        }
+
+        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
+    }
+
+    // Turn off any active tools
+    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
+        target->type->invoke( *this, *target, this->pos() );
+    }
+
+    add_msg( _( "You unload your %s." ), target->tname().c_str() );
+    return true;
+}
+
 void player::use_wielded() {
     use(-1);
 }
@@ -9539,7 +9727,7 @@ void player::do_read( item &book )
 
         if( book_fun_for( book, *learner ) != 0 ) {
             //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, 0, book_fun_for( book, *learner ) * 5, 6_minutes, 3_minutes, true,
+            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book, *learner ) * 15, 6_minutes, 3_minutes, true,
                 book.type );
         }
 
@@ -10945,7 +11133,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     }
 }
 
-bool player::has_activity(const activity_id type) const
+bool player::has_activity(const activity_id &type) const
 {
     return activity.id() == type;
 }
@@ -11884,11 +12072,11 @@ void player::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
     bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
-    int finX = rng( 1, 22);
-    int finY = rng( 1, 22);
+    int finX = rng( 1, SEEX * 2 - 2 );
+    int finY = rng( 1, SEEX * 2 - 2 );
     if( bay.furn( finX, finY) != furn_str_id( "f_null" ) ){
-        for (int x = 0; x < 23; x++){
-            for (int y = 0; y < 23; y++){
+        for (int x = 0; x < SEEX * 2 - 1; x++){
+            for (int y = 0; y < SEEY * 2 - 1; y++){
                 if ( bay.furn(x,y) == furn_str_id( "f_null" ) ){
                     finX = x;
                     finY = y;

@@ -104,6 +104,10 @@ TEST_CASE( "npc_talk_test" )
     REQUIRE( d.responses.size() == 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
+    for( trait_id tr : g->u.get_mutations() ) {
+        g->u.unset_mutation( tr );
+    }
+
     d.add_topic( "TALK_TEST_WEARING_AND_TRAIT" );
     d.gen_responses( d.topic_stack.back() );
     REQUIRE( d.responses.size() == 1 );
@@ -277,6 +281,32 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a is night test response." );
     calendar::turn = old_calendar;
 
+    d.add_topic( "TALK_TEST_SWITCH" );
+    g->u.cash = 1000;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch 1 test response." );
+    CHECK( d.responses[2].text == "This is another basic test response." );
+    g->u.cash = 100;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch 2 test response." );
+    CHECK( d.responses[2].text == "This is another basic test response." );
+    g->u.cash = 10;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch default 1 test response." );
+    CHECK( d.responses[2].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[3].text == "This is another basic test response." );
+    g->u.cash = 0;
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[2].text == "This is another basic test response." );
 
     d.add_topic( "TALK_TEST_OR" );
     g->u.cash = 0;
@@ -320,26 +350,18 @@ TEST_CASE( "npc_talk_test" )
     REQUIRE( d.responses.size() == 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
-    const auto has_beer_bottle = [&]() {
-        const int bottle_pos = g->u.inv.position_by_type( itype_id( "bottle_glass" ) );
-        if( bottle_pos == INT_MIN ) {
-            return false;
-        }
-        item &bottle = g->u.inv.find_item( bottle_pos );
-        if( bottle.is_container_empty() ) {
-            return false;
-        }
-        const item &beer = bottle.get_contained();
-        return beer.typeId() == itype_id( "beer" ) && beer.charges == 2;
+    const auto has_item = [&]( const std::string & id, int count ) {
+        return g->u.has_charges( itype_id( id ), count ) ||
+               g->u.has_amount( itype_id( id ), count );
     };
-    const auto has_plastic_bottle = [&]() {
-        return g->u.inv.position_by_type( itype_id( "bottle_plastic" ) ) != INT_MIN;
+    const auto has_beer_bottle = [&]() {
+        return has_item( "bottle_glass", 1 ) && has_item( "beer", 2 );
     };
     g->u.cash = 1000;
     g->u.int_cur = 8;
     d.add_topic( "TALK_TEST_EFFECTS" );
     d.gen_responses( d.topic_stack.back() );
-    REQUIRE( d.responses.size() == 9 );
+    REQUIRE( d.responses.size() == 10 );
     REQUIRE( !g->u.has_effect( effect_infection ) );
     talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
@@ -364,10 +386,10 @@ TEST_CASE( "npc_talk_test" )
     effects.apply( d );
     CHECK( g->u.cash == 500 );
     CHECK( has_beer_bottle() );
-    REQUIRE( !has_plastic_bottle() );
+    REQUIRE( !has_item( "bottle_plastic", 1 ) );
     effects = d.responses[6].success;
     effects.apply( d );
-    CHECK( has_plastic_bottle() );
+    CHECK( has_item( "bottle_plastic", 1 ) );
     CHECK( g->u.cash == 500 );
     effects = d.responses[7].success;
     effects.apply( d );
@@ -395,4 +417,15 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a u_has_item beer test response." );
     CHECK( d.responses[2].text == "This is a u_has_item bottle_glass test response." );
     CHECK( d.responses[3].text == "This is a u_has_items beer test response." );
+
+    d.add_topic( "TALK_TEST_EFFECTS" );
+    d.gen_responses( d.topic_stack.back() );
+    REQUIRE( d.responses.size() == 10 );
+    REQUIRE( has_item( "bottle_plastic", 1 ) );
+    REQUIRE( has_beer_bottle() );
+    REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( "bottle_glass" ) ) ) );
+    effects = d.responses[9].success;
+    effects.apply( d );
+    CHECK( !has_item( "bottle_plastic", 1 ) );
+    CHECK( !has_item( "beer", 1 ) );
 }

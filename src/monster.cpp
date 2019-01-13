@@ -1838,8 +1838,8 @@ void monster::process_turn()
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
-                for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
-                    if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                for( const auto &item : items ) {
+                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
                         break;
@@ -1947,8 +1947,8 @@ void monster::die( Creature *nkiller )
         const point abssub = ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
-            for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
-                for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
+            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
+                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
                     std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y,
                                                      g->get_levz() + z );
                     for( auto &mgp : groups ) {

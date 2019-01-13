@@ -432,9 +432,9 @@ int mission::get_npc_id() const
     return npc_id;
 }
 
-void mission::set_target( const tripoint &new_target )
+void mission::set_target( const tripoint &p )
 {
-    target = new_target;
+    target = p;
 }
 
 bool mission::is_assigned() const

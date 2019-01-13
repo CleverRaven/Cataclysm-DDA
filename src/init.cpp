@@ -486,8 +486,6 @@ void DynamicDataLoader::unload_data()
     //    Name::clear();
 }
 
-extern void calculate_mapgen_weights();
-
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything

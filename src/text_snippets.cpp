@@ -11,7 +11,7 @@ static const std::string null_string;
 
 snippet_library SNIPPET;
 
-snippet_library::snippet_library() {}
+snippet_library::snippet_library() = default;
 
 void snippet_library::load_snippet( JsonObject &jsobj )
 {

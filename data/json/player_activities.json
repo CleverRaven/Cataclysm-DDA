@@ -427,5 +427,12 @@
     "rooted": true,
     "based_on": "speed",
     "suspendable": false
+  },
+  {
+    "id": "ACT_UNLOAD_MAG",
+    "type": "activity_type",
+    "stop_phrase": "Stop unloading?",
+    "suspendable": false,
+    "based_on": "speed"
   }
 ]

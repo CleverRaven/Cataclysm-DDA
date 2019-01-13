@@ -297,8 +297,8 @@ int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-static constexpr time_duration alc_strength( const int strength, const time_duration weak,
-        const time_duration medium, const time_duration strong )
+static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
+        const time_duration &medium, const time_duration &strong )
 {
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }
@@ -1909,7 +1909,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     const cata::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
-    if( dest_ ) {
+    if( !dest_ ) {
         return 0;
     }
     tripoint dest = *dest_;
@@ -2149,7 +2149,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             messtream << string_format( _( "radio: %s" ), segments[index].c_str() );
             message = messtream.str();
         }
-        sounds::ambient_sound( pos, 6, message );
+        sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
     } else { // Activated
         int ch = 1;
         if( it->ammo_remaining() > 0 ) {
@@ -2208,7 +2208,7 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
         //~ the sound of a noise emitter when turned on
-        sounds::ambient_sound( pos, 30, _( "KXSHHHHRRCRKLKKK!" ) );
+        sounds::ambient_sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ) );
     } else { // Turning it off
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( "noise_emitter" ).active = false;
@@ -2713,7 +2713,7 @@ int toolweapon_on( player &p, item &it, const bool t,
             p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), tname );
             it.convert( off_type ).active = false;
         } else if( one_in( sound_chance ) ) {
-            sounds::ambient_sound( p.pos(), volume, sound );
+            sounds::ambient_sound( p.pos(), volume, sounds::sound_t::activity, sound );
         }
     } else { // Toggling
         if( it.typeId() == "chainsaw_on" ) {
@@ -3626,15 +3626,15 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
         const std::string music = get_music_description();
         if( !music.empty() ) {
             sound = music;
-            if( p.pos() == source && volume == 0 && p.can_hear( source, volume ) ) {
-                // in-ear music, such as mp3 player
-                p.add_msg_if_player( _( "You listen to %s" ), music.c_str() );
+            // descriptions aren't printed for sounds at our position
+            if( p.pos() == source && p.can_hear( source, volume ) ) {
+                p.add_msg_if_player( _( "You listen to %s" ), music );
             }
         }
     }
     // do not process mp3 player
     if( volume != 0 ) {
-        sounds::ambient_sound( source, volume, sound );
+        sounds::ambient_sound( source, volume, sounds::sound_t::music, sound );
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1_turns );
@@ -5098,7 +5098,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::ambient_sound( p->pos(), speech.volume, speech.text );
+    sounds::ambient_sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text );
 
     return it->type->charges_to_use();
 }

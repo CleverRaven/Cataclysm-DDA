@@ -321,7 +321,9 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            std::random_shuffle( tiles.begin(), tiles.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( tiles.begin(), tiles.end(), eng );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {
@@ -442,8 +444,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    fragment_cloud obstacle_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
-    fragment_cloud visited_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
+    fragment_cloud obstacle_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
+    fragment_cloud visited_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
 
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().

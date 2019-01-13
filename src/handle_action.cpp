@@ -3,6 +3,7 @@
 #include <chrono>
 
 #include "action.h"
+#include "advanced_inv.h"
 #include "auto_pickup.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -44,8 +45,6 @@
 #include "worldfactory.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-void advanced_inv();
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -134,8 +133,8 @@ input_context game::get_player_input( std::string &action )
         if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
-            iEndX = MAPSIZE * SEEX;
-            iEndY = MAPSIZE * SEEY;
+            iEndX = MAPSIZE_X;
+            iEndY = MAPSIZE_Y;
             offset_x = 0;
             offset_y = 0;
         }

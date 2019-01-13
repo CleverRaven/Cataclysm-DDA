@@ -414,10 +414,10 @@ std::string to_string( const time_duration &d )
     return to_string_clipped( d );
 }
 
-std::string to_string_approx( const time_duration &d_, const bool verbose )
+std::string to_string_approx( const time_duration &dur, const bool verbose )
 {
-    time_duration d = d_;
-    const auto make_result = [verbose]( const time_duration d, const char *verbose_str,
+    time_duration d = dur;
+    const auto make_result = [verbose]( const time_duration & d, const char *verbose_str,
     const char *short_str ) {
         return string_format( verbose ? verbose_str : short_str, to_string_clipped( d ) );
     };

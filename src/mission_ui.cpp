@@ -103,7 +103,7 @@ void game::list_missions()
         if( selection < umissions.size() ) {
             const auto miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
-            std::string for_npc = "";
+            std::string for_npc;
             if( miss->get_npc_id() >= 0 ) {
                 npc *guy = g->find_npc( miss->get_npc_id() );
                 if( guy ) {

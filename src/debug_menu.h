@@ -21,7 +21,7 @@ void teleport_overmap();
 
 void character_edit_menu();
 void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
-void wishmonster( const cata::optional<tripoint> p );
+void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );
 void mutation_wish();

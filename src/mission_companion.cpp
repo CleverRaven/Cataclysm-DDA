@@ -78,11 +78,9 @@ void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
-void camp_missions( mission_data &mission_key, npc &p );
 bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
 }
 
 void talk_function::companion_mission( npc &p )
@@ -921,8 +919,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20, false );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.ter( x, y ) == t_dirtmound ) {
                 empty_plots++;
             }
@@ -950,8 +948,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     //Plant the actual seeds
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.ter( x, y ) == t_dirtmound && limiting_number > 0 ) {
                 std::list<item> used_seed;
                 if( item::count_by_charges( seed_id ) ) {
@@ -983,8 +981,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
                 const item &seed = bay.i_at( x, y )[0];
                 if( seed.is_seed() ) {
@@ -1025,8 +1023,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
                 const item &seed = bay.i_at( x, y )[0];
                 if( seed.is_seed() ) {
@@ -1763,7 +1761,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<std::sha
     int max_combat = 0;
     int max_survival = 0;
     int max_industry = 0;
-    for( auto e : available ) {
+    for( const auto &e : available ) {
         comp_rank r;
         r.combat = companion_combat_rank( *e );
         r.survival = companion_survival_rank( *e );
@@ -1893,14 +1891,14 @@ std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const
 }
 
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> talk_function::loot_building( const tripoint site )
+std::vector<item *> talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
     std::vector<item *> items_found;
     tripoint p;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             p.x = x;
             p.y = y;
             p.z = site.z;

@@ -1633,7 +1633,7 @@ bool veh_interact::do_tirechange( std::string &msg )
             return false;
 
         case LACK_TOOLS:
-	    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
             msg = string_format( _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
                                     "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
                                  status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),

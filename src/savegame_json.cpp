@@ -569,6 +569,15 @@ void player::load( JsonObject &data )
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
+
+    JsonArray basecamps = data.get_array( "camps" );
+    camps.clear();
+    while( basecamps.has_more() ) {
+        JsonObject bcdata = basecamps.next_object();
+        tripoint bcpt;
+        bcdata.read( "pos", bcpt );
+        camps.insert( bcpt );
+    }
 }
 
 /*
@@ -662,6 +671,15 @@ void player::store( JsonOut &json ) const
     }
 
     json.member( "ammo_location", ammo_location );
+
+    json.member( "camps" );
+    json.start_array();
+    for( const tripoint &bcpt : camps ) {
+        json.start_object();
+        json.member( "pos", bcpt );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

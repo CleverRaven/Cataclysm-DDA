@@ -539,7 +539,7 @@ long item::charges_per_volume( const units::volume &vol ) const
            : vol / volume();
 }
 
-bool item::stacks_with( const item &rhs ) const
+bool item::stacks_with( const item &rhs, bool check_components ) const
 {
     if( type != rhs.type ) {
         return false;
@@ -596,6 +596,14 @@ bool item::stacks_with( const item &rhs ) const
     }
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
+    }
+    if( check_components ) {
+        //Only check if at least one item isn't using the default recipe
+        if( !components.empty() || !rhs.components.empty() ) {
+            if( get_uncraft_components() != rhs.get_uncraft_components() ) {
+                return false;
+            }
+        }
     }
     if( contents.size() != rhs.contents.size() ) {
         return false;
@@ -1618,7 +1626,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             temp1.str( "" );
             temp1 << _( "<bold>Incompatible with mod location: </bold> " );
             int iternum = 0;
-            for( auto black : mod.blacklist_mod ) {
+            for( const auto &black : mod.blacklist_mod ) {
                 if( iternum != 0 ) {
                     temp1 << ", ";
                 }
@@ -5349,7 +5357,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
     }
 
-    for( auto slot : mod.type->gunmod->blacklist_mod ) {
+    for( const auto &slot : mod.type->gunmod->blacklist_mod ) {
         if( get_mod_locations().count( slot ) ) {
             return ret_val<bool>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
                                                 slot.name().c_str() );
@@ -7366,7 +7374,7 @@ time_duration item::age() const
     return calendar::turn - birthday();
 }
 
-void item::set_age( const time_duration age )
+void item::set_age( const time_duration &age )
 {
     set_birthday( time_point( calendar::turn ) - age );
 }
@@ -7376,7 +7384,7 @@ time_point item::birthday() const
     return bday;
 }
 
-void item::set_birthday( const time_point bday )
+void item::set_birthday( const time_point &bday )
 {
     this->bday = bday;
 }
@@ -7400,4 +7408,23 @@ int item::get_min_str() const
     } else {
         return type->min_str;
     }
+}
+
+std::vector<item_comp> item::get_uncraft_components() const
+{
+    std::vector<item_comp> ret;
+    if( components.empty() ) {
+        //If item wasn't crafted with specific components use default recipe
+        auto recipe = recipe_dictionary::get_uncraft(
+                          typeId() ).disassembly_requirements().get_components();
+        for( auto &component : recipe ) {
+            ret.push_back( component.front() );
+        }
+    } else {
+        //Make a new vector of components from the registered components
+        for( auto &component : components ) {
+            ret.push_back( item_comp( component.typeId(), component.count() ) );
+        }
+    }
+    return ret;
 }
