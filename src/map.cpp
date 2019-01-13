@@ -1221,6 +1221,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
     }
+    set_memory_seen_cache_dirty( p );
 
     // @todo: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -1465,6 +1466,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         // It's a set, not a flag
         support_cache_dirty.insert( p );
     }
+    set_memory_seen_cache_dirty( p );
 
     // @todo: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -5815,7 +5817,9 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         }
     }
 
-    g->u.memorize_symbol( getabs( p ), memory_sym );
+    if( !check_and_set_seen_cache( p ) ) {
+        g->u.memorize_symbol( getabs( p ), memory_sym );
+    }
 
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
@@ -6204,6 +6208,31 @@ void map::shift_traps( const tripoint &shift )
     }
 }
 
+void shift_map_memory_seen_cache(
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
+    const int sx, const int sy )
+{
+    // sx shifts by SEEX rows, sy shifts by SEEX columns.
+    int shift_amount = ( sx * SEEX ) + ( sy * MAPSIZE_Y * SEEX );
+    if( shift_amount > 0 ) {
+        map_memory_seen_cache >>= static_cast<size_t>( shift_amount );
+    } else if( shift_amount < 0 ) {
+        map_memory_seen_cache <<= static_cast<size_t>( -shift_amount );
+    }
+    // Shifting in the y direction shifted in 0 values, no no additional clearing is necessary, but
+    // a shift in the x direction makes values "wrap" to the next row, and they need to be zeroed.
+    if( sx == 0 ) {
+        return;
+    }
+    const size_t x_offset = ( sx > 0 ) ? MAPSIZE_X - SEEX : 0;
+    for( size_t y = 0; y < MAPSIZE_X; ++y ) {
+        size_t y_offset = y * MAPSIZE_X;
+        for( size_t x = 0; x < SEEX; ++x ) {
+            map_memory_seen_cache.reset( y_offset + x_offset + x );
+        }
+    }
+}
+
 void map::shift( const int sx, const int sy )
 {
     // Special case of 0-shift; refresh the map
@@ -6243,6 +6272,7 @@ void map::shift( const int sx, const int sy )
         // Clear vehicle list and rebuild after shift
         clear_vehicle_cache( gridz );
         clear_vehicle_list( gridz );
+        shift_map_memory_seen_cache( get_cache( gridz ).map_memory_seen_cache, sx, sy );
         if( sx >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sy >= 0 ) {
