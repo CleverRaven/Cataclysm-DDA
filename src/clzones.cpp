@@ -157,7 +157,7 @@ plot_options::query_seed_result plot_options::query_seed()
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
-        const auto new_seed = std::get<0>( seed_entry );
+        const auto &new_seed = std::get<0>( seed_entry );
         std::string new_mark;
 
         item it = item( itype_id( new_seed ) );

@@ -364,7 +364,8 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
     Uint32 s_in = s->alen / 4;
     Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
     float pitch_real = static_cast<float>( s_out ) / static_cast<float>( s_in );
-    Uint32 i, j;
+    Uint32 i;
+    Uint32 j;
     result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
     result->allocated = 1;
     result->alen = s_out * 4;

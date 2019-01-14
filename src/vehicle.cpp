@@ -906,9 +906,8 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     // Security system must be installed on controls
     if( part.has_flag( "ON_CONTROLS" ) ) {
         bool anchor_found = false;
-        for( std::vector<int>::const_iterator it = parts_in_square.begin();
-             it != parts_in_square.end(); ++it ) {
-            if( part_info( *it ).has_flag( "CONTROLS" ) ) {
+        for( auto it : parts_in_square ) {
+            if( part_info( it ).has_flag( "CONTROLS" ) ) {
                 anchor_found = true;
             }
         }
@@ -921,9 +920,8 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     // TODO: do this automatically using "location":"on_mountpoint"
     if( part.has_flag( "CARGO_LOCKING" ) ) {
         bool anchor_found = false;
-        for( std::vector<int>::const_iterator it = parts_in_square.begin();
-             it != parts_in_square.end(); ++it ) {
-            if( part_info( *it ).has_flag( "LOCKABLE_CARGO" ) ) {
+        for( auto it : parts_in_square ) {
+            if( part_info( it ).has_flag( "LOCKABLE_CARGO" ) ) {
                 anchor_found = true;
             }
         }

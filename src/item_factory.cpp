@@ -1163,7 +1163,7 @@ Item_spawn_data *Item_factory::get_group( const Item_tag &group_tag )
     if( group_iter != m_template_groups.end() ) {
         return group_iter->second.get();
     }
-    return NULL;
+    return nullptr;
 }
 
 ///////////////////////

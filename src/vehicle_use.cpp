@@ -923,11 +923,8 @@ void vehicle::reload_seeds( const tripoint &pos )
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
-        const char *msg = nullptr;
         int amount = 0;
-        std::string popupmsg;
-        msg = _( "Move how many? [Have %d] (0 to cancel)" );
-        popupmsg = string_format( msg, count );
+        const std::string popupmsg = string_format( _( "Move how many? [Have %d] (0 to cancel)" ), count );
 
         amount = string_input_popup()
                  .title( popupmsg )
@@ -944,7 +941,7 @@ void vehicle::reload_seeds( const tripoint &pos )
             } else {
                 used_seed = p.use_amount( seed_id, actual_amount );
             }
-            used_seed.front().set_age( 0 );
+            used_seed.front().set_age( 0_turns );
             //place seeds into the planter
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, used_seed, pos );
         }

@@ -1725,7 +1725,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
     smenu.text = _( "Use which seed?" );
     int count = 0;
     for( const auto &entry : seed_entries ) {
-        auto seed_name = std::get<1>( entry );
+        const std::string &seed_name = std::get<1>( entry );
         int seed_count = std::get<2>( entry );
 
         std::string format = seed_count > 0 ? "%s (%d)" : "%s";
@@ -2843,7 +2843,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
         }
         sum_weight += input.weight();
     }
-    if( sum_weight <= 0 ) {
+    if( sum_weight <= 0_gram ) {
         //~ %1$s: desired compactor output material
         add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
                  m.name().c_str() );
@@ -2947,7 +2947,7 @@ void iexamine::water_source(player &p, const tripoint &examp)
 const itype * furn_t::crafting_pseudo_item_type() const
 {
     if (crafting_pseudo_item.empty()) {
-        return NULL;
+        return nullptr;
     }
     return item::find_type( crafting_pseudo_item );
 }

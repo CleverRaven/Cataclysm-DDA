@@ -242,9 +242,6 @@ static const trait_id trait_BADCARDIO( "BADCARDIO" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BARK( "BARK" );
-static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
-static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
-static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANINE_EARS( "CANINE_EARS" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -272,9 +269,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEFORMED( "DEFORMED" );
-static const trait_id trait_DEFORMED2( "DEFORMED2" );
-static const trait_id trait_DEFORMED3( "DEFORMED3" );
 static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
@@ -365,7 +359,6 @@ static const trait_id trait_PONDEROUS3( "PONDEROUS3" );
 static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
-static const trait_id trait_PRETTY( "PRETTY" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -411,7 +404,6 @@ static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
-static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
@@ -8646,8 +8638,8 @@ bool player::unload(item &it)
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
-        for( auto iter = target->contents.begin(); iter != target->contents.end(); ++iter ) {
-            mv += this->item_reload_cost( it, *iter, iter->charges ) / 2; 
+        for( auto &content : target->contents ) {
+            mv += this->item_reload_cost(it, content, content.charges) / 2;
         }
         g->u.activity.moves_left += mv;
 

@@ -7005,7 +7005,7 @@ void game::zones_manager()
                     break;
                 }
 
-                const auto id = maybe_id.value();
+                const zone_type_id &id = maybe_id.value();
                 auto options = zone_options::create( id );
 
                 if( !options->query_at_creation() ) {
@@ -7020,7 +7020,7 @@ void game::zones_manager()
                 if( !maybe_name.has_value() ) {
                     break;
                 }
-                const auto name = maybe_name.value();
+                const itype_id &name = maybe_name.value();
 
                 const auto position = query_position();
                 if( !position ) {
