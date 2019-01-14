@@ -36,7 +36,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | monsters.json               | monster descriptions, mostly zombies
 | morale_types.json           | morale modifier messages
 | mutation_category.json      | messages for mutation categories
-| mutation_ordering.json      | draw order for mutation overlays in tiles mode
+| mutation_ordering.json      | draw order for mutation and CBM overlays in tiles mode
 | mutations.json              | traits/mutations
 | names.json                  | names used for NPC/player name generation
 | overmap_connections.json    | connections for roads and tunnels in the overmap
@@ -2089,6 +2089,10 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
       {
         "id" : [ "PLANTSKIN", "BARK" ],             // mutation name, in a string or array of strings
         "order" : 3500                              // order is applied to all items in the array
+      },
+      {
+        "id" : "bio_armor_torso",                   // Overlay order of bionics is controlled in the same way
+        "order" : 500
       }
     ]
   }
@@ -2096,7 +2100,7 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
 
 # Mutation overlay ordering
 
-The file `mutation_ordering.json` defines the order that visual mutation overlays are rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
+The file `mutation_ordering.json` defines the order that visual mutation and bionic overlays are rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
 
 Example:
 ```C++
@@ -2117,6 +2121,9 @@ Example:
         },{
             "id" : [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
             "order" : 8500
+        },{
+            "id" : [ "bio_armor_arms", "bio_armor_legs", "bio_armor_torso", "bio_armor_head", "bio_armor_eyes" ],
+            "order" : 500
         }
         ]
     }
