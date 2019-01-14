@@ -172,7 +172,9 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
-               ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ) {
+               ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
+               ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
+               !(abs( pos() - critter.posx()) <= 1 && abs( pos() - critter.posy()) <= 1 && abs(pos() - critter.posz()) <= 1) ) {
         return false;
     }
 
