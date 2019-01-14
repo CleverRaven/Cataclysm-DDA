@@ -261,7 +261,10 @@ class map
         /*@}*/
 
         void set_memory_seen_cache_dirty( const tripoint &p ) {
-            get_cache( p.z ).map_memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] = false;
+            const int offset = p.x + ( p.y * MAPSIZE_Y );
+            if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
+                get_cache( p.z ).map_memory_seen_cache.reset( offset );
+            }
         }
 
         bool check_and_set_seen_cache( const tripoint &p ) const {
