@@ -160,7 +160,7 @@ std::vector<item> item::magazine_convert()
     // normalize the base item and mark it as converted
     charges = 0;
     curammo = nullptr;
-    set_var( "magazine_converted", true );
+    set_var( "magazine_converted", 1 );
 
     return res;
 }
@@ -1716,7 +1716,7 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
     if( skip_spaces() ) {
         error( "invalid time duration string: empty string" );
     }
-    time_duration result = 0;
+    time_duration result = 0_turns;
     do {
         int sign_value = +1;
         if( s[i] == '-' ) {
@@ -2889,12 +2889,12 @@ void basecamp::serialize( JsonOut &json ) const
     json.end_array();
     json.member( "expansions" );
     json.start_array();
-    for( auto it = expansions.begin(); it != expansions.end(); ++it ) {
+    for( const auto &expansion : expansions ) {
         json.start_object();
-        json.member( "dir", it->first );
-        json.member( "type", it->second.type );
-        json.member( "cur_level", it->second.cur_level );
-        json.member( "pos", it->second.pos );
+        json.member( "dir", expansion.first );
+        json.member( "type", expansion.second.type );
+        json.member( "cur_level", expansion.second.cur_level );
+        json.member( "pos", expansion.second.pos );
         json.end_object();
     }
     json.end_array();

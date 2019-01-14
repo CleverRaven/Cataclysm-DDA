@@ -228,7 +228,7 @@ double convert_weight( const units::mass &weight )
 
 double convert_volume( int volume )
 {
-    return convert_volume( volume, NULL );
+    return convert_volume( volume, nullptr );
 }
 
 double convert_volume( int volume, int *out_scale )
@@ -264,7 +264,7 @@ double temp_to_kelvin( double fahrenheit )
 
 double clamp_to_width( double value, int width, int &scale )
 {
-    return clamp_to_width( value, width, scale, NULL );
+    return clamp_to_width( value, width, scale, nullptr );
 }
 
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )

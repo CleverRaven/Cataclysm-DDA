@@ -153,11 +153,11 @@ struct iteminfo {
          *  @param Type The item type of the item this iteminfo belongs to.
          *  @param Name The name of the property this iteminfo describes.
          *  @param Fmt Formatting text desired between item name and value
-         *  @param flags Additional flags to customize this entry
+         *  @param Flags Additional flags to customize this entry
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999 );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
@@ -727,7 +727,7 @@ class item : public visitable<item>
          * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
          * the item is rotten.
          */
-        time_duration rot = 0;
+        time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
         time_point last_rot_check = calendar::time_of_cataclysm;
 

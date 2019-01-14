@@ -3142,7 +3142,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             reason << std::endl;
             reason << string_format( _( "I have no space to store it." ) );
             reason << std::endl;
-            if( free_space > 0 ) {
+            if( free_space > 0_ml ) {
                 reason << string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {

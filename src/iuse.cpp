@@ -1818,7 +1818,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         it->active = true;
-        it->set_age( 0 );
+        it->set_age( 0_turns );
         g->m.add_item_or_charges( pnt, *it );
         p->i_rem( it );
         p->add_msg_if_player( m_info,
@@ -3293,7 +3293,7 @@ int iuse::firecracker_pack( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
     it->convert( "firecracker_pack_act" );
     it->charges = 26;
-    it->set_age( 0 );
+    it->set_age( 0_turns );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
 }
@@ -7643,7 +7643,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items
     ) {
-        units::volume total_volume = 0;
+        units::volume total_volume = 0_ml;
         for( const auto &p : items ) {
             total_volume += p.first->volume() * p.second;
         }
@@ -7676,7 +7676,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     }
 
     // Determine if we have enough water and cleanser for all the items.
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     for( std::pair<int, int> pair : to_clean ) {
         item i = p->i_at( pair.first );
         if( pair.first == INT_MIN ) {

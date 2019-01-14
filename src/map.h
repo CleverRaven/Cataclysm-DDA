@@ -1063,7 +1063,7 @@ class map
         /**
          * Set age of field entry at point.
          * @param p Location of field
-         * @param t ID of field
+         * @param type ID of field
          * @param age New age of specified field
          * @param isoffset If true, the given age value is added to the existing value,
          * if false, the existing age is ignored and overridden.
@@ -1075,7 +1075,7 @@ class map
          * Set density of field entry at point, creating if not present,
          * removing if density becomes 0.
          * @param p Location of field
-         * @param t ID of field
+         * @param type ID of field
          * @param str New strength of field
          * @param isoffset If true, the given str value is added to the existing value,
          * if false, the existing density is ignored and overridden.

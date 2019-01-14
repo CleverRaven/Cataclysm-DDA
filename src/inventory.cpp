@@ -108,8 +108,8 @@ invslice inventory::slice()
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
-    for( auto iter = items.cbegin(); iter != items.cend(); ++iter ) {
-        stacks.push_back( &*iter );
+    for( const auto &item : items ) {
+        stacks.push_back( &item );
     }
     return stacks;
 }
@@ -309,9 +309,8 @@ void inventory::restack( player &p )
         const int ipos = p.invlet_to_position( topmost.invlet );
         if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
             assign_empty_invlet( topmost, p );
-            for( std::list<item>::iterator stack_iter = stack.begin();
-                 stack_iter != stack.end(); ++stack_iter ) {
-                stack_iter->invlet = topmost.invlet;
+            for( auto &stack_iter : stack ) {
+                stack_iter.invlet = topmost.invlet;
             }
         }
 
@@ -600,9 +599,9 @@ item inventory::remove_item( const int position )
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
 {
     std::list<item> result;
-    units::volume volume_dropped = 0;
+    units::volume volume_dropped = 0_ml;
     while( volume_dropped < volume ) {
-        units::volume cumulative_volume = 0;
+        units::volume cumulative_volume = 0_ml;
         auto chosen_stack = items.begin();
         auto chosen_item = chosen_stack->begin();
         for( auto stack = items.begin(); stack != items.end(); ++stack ) {
@@ -870,7 +869,7 @@ void inventory::rust_iron_items()
 
 units::mass inventory::weight() const
 {
-    units::mass ret = 0;
+    units::mass ret = 0_gram;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.weight();
@@ -933,7 +932,7 @@ units::mass inventory::weight_without( const std::map<const item *, int> &withou
 
 units::volume inventory::volume() const
 {
-    units::volume ret = 0;
+    units::volume ret = 0_ml;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.volume();

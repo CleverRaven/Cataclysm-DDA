@@ -341,7 +341,7 @@ std::vector<std::string> get_files_from_path( const std::string &pattern,
  *  Find directories which containing pattern.
  *  @param pattern Search pattern.
  *  @param root_path Search root.
- *  @param recurse Be recurse or not.
+ *  @param recursive_search Be recurse or not.
  *  @return vector or directories without pattern filename at end.
  */
 std::vector<std::string> get_directories_with( const std::string &pattern,

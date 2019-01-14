@@ -789,7 +789,7 @@ class game
              * These are helper functions for transfer liquid, for times when you just want to
              * get the target of the transfer, or know the target and just want to transfer the
              * liquid. They take the same arguments as handle_liquid, plus
-             * @param liquid_target structure containing information about the target
+             * @param target structure containing information about the target
              */
         bool get_liquid_target( item &liquid, item *const source, const int radius,
                                 const tripoint *source_pos, const vehicle *const source_veh,

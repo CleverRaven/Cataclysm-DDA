@@ -418,11 +418,11 @@ long unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &
         return 0;
     }
 
-    for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
+    for( const auto &tool : tools_needed ) {
         // Amount == -1 means need one, but don't consume it.
-        if( !p.has_amount( tool->first, 1 ) ) {
+        if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_if_player( _( "You need %s to do it!" ),
-                                 item::nname( tool->first ).c_str() );
+                                 item::nname( tool.first ).c_str() );
             return 0;
         }
     }
@@ -553,24 +553,23 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         need_these.erase( "syringe" ); // no need for a syringe with bionics like these!
     }
     // Check prerequisites first.
-    for( auto tool = need_these.cbegin(); tool != need_these.cend(); ++tool ) {
+    for( const auto &tool : need_these ) {
         // Amount == -1 means need one, but don't consume it.
-        if( !p.has_amount( tool->first, 1 ) ) {
+        if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
                                      _( "I need a %1$s to consume %2$s!" ),
-                                     item::nname( tool->first ).c_str(),
+                                     item::nname( tool.first ).c_str(),
                                      it.type_name( 1 ).c_str() );
             return -1;
         }
     }
-    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
-         ++consumable ) {
+    for( const auto &consumable : charges_needed ) {
         // Amount == -1 means need one, but don't consume it.
-        if( !p.has_charges( consumable->first, ( consumable->second == -1 ) ?
-                            1 : consumable->second ) ) {
+        if( !p.has_charges( consumable.first, ( consumable.second == -1 ) ?
+                            1 : consumable.second ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
                                      _( "I need a %1$s to consume %2$s!" ),
-                                     item::nname( consumable->first ).c_str(),
+                                     item::nname( consumable.first ).c_str(),
                                      it.type_name( 1 ).c_str() );
             return -1;
         }
@@ -585,14 +584,14 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
         p.add_effect( eff.id, dur, eff.bp, eff.permanent );
     }
-    for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
-        p.mod_stat( stat->first, stat->second );
+    for( const auto &stat_adjustment : stat_adjustments ) {
+        p.mod_stat( stat_adjustment.first, stat_adjustment.second );
     }
-    for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
-        const field_id fid = field_from_ident( field->first );
+    for( const auto &field : fields_produced ) {
+        const field_id fid = field_from_ident( field.first );
         for( int i = 0; i < 3; i++ ) {
             g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid,
-                            field->second );
+                            field.second );
         }
     }
 
@@ -606,10 +605,9 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     // Output message.
     p.add_msg_if_player( _( activation_message.c_str() ), it.type_name( 1 ) );
     // Consume charges.
-    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
-         ++consumable ) {
-        if( consumable->second != -1 ) {
-            p.use_charges( consumable->first, consumable->second );
+    for( const auto &consumable : charges_needed ) {
+        if( consumable.second != -1 ) {
+            p.use_charges( consumable.first, consumable.second );
         }
     }
 
@@ -2075,7 +2073,7 @@ bool holster_actor::can_holster( const item &obj ) const
     if( obj.volume() > max_volume || obj.volume() < min_volume ) {
         return false;
     }
-    if( max_weight > 0 && obj.weight() > max_weight ) {
+    if( max_weight > 0_gram && obj.weight() > max_weight ) {
         return false;
     }
     if( obj.active ) {
@@ -2107,7 +2105,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-    if( max_weight > 0 && obj.weight() > max_weight ) {
+    if( max_weight > 0_gram && obj.weight() > max_weight ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too heavy to fit in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
@@ -2132,7 +2130,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname().c_str(), holster.tname().c_str() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, draw_cost, false );
+    p.store( holster, obj, false, draw_cost );
     return true;
 }
 
@@ -2209,7 +2207,7 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        iteminfo::is_decimal,
                        convert_volume( max_volume.value() ) );
 
-    if( max_weight > 0 ) {
+    if( max_weight > 0_gram ) {
         dump.emplace_back( "TOOL", "Max item weight: ",
                            string_format( _( "<num> %s" ), weight_units() ),
                            iteminfo::is_decimal,
@@ -3558,7 +3556,7 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
         return ret_val<bool>::make_failure( _( "It's not a gun." ) );
     }
 
-    if( target.type->gun->barrel_length <= 0 ) {
+    if( target.type->gun->barrel_length <= 0_ml ) {
         return ret_val<bool>::make_failure( _( "The barrel is too short." ) );
     }
 

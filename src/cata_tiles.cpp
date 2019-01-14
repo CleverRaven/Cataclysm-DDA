@@ -432,7 +432,7 @@ void tileset_loader::load_tileset( std::string img_path )
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
         const Uint32 key = SDL_MapRGB( tile_atlas->format, 0, 0, 0 );
         throwErrorIf( SDL_SetColorKey( tile_atlas.get(), SDL_TRUE, key ) != 0, "SDL_SetColorKey failed" );
-        throwErrorIf( SDL_SetSurfaceRLE( tile_atlas.get(), true ), "SDL_SetSurfaceRLE failed" );
+        throwErrorIf( SDL_SetSurfaceRLE( tile_atlas.get(), 1 ), "SDL_SetSurfaceRLE failed" );
     }
 
     SDL_RendererInfo info;
@@ -1419,9 +1419,9 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     previous_submap_view = tripoint_min;
 
     //allocate the textures for the texture pool
-    for( int i = 0; i < static_cast<int>( tex_pool.texture_pool.size() ); i++ ) {
-        tex_pool.texture_pool[i] = create_minimap_cache_texture( minimap_tile_size.x * SEEX,
-                                   minimap_tile_size.y * SEEY );
+    for( auto &i : tex_pool.texture_pool ) {
+        i = create_minimap_cache_texture( minimap_tile_size.x * SEEX,
+                                          minimap_tile_size.y * SEEY );
     }
 }
 

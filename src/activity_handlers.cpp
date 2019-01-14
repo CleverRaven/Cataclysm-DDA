@@ -670,7 +670,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
                                   entry.base_num.first );
         }
-        const itype *drop = NULL;
+        const itype *drop = nullptr;
         if( entry.type != "bionic_group" ) {
             drop = item::find_type( entry.drop );
         }
@@ -1514,9 +1514,9 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         return;
     }
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            item_location item_loc( map_cursor( p->pos() ), &*it );
+    for( auto &item : items ) {
+        if( actor->valid_to_cut_up( item ) ) {
+            item_location item_loc( map_cursor( p->pos() ), &item );
             actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
@@ -1533,9 +1533,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( it->display_name() == corpse_name ) {
-            body = &*it;
+    for( auto &item : items ) {
+        if( item.display_name() == corpse_name ) {
+            body = &item;
         }
     }
 

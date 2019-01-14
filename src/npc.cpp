@@ -1416,7 +1416,7 @@ void npc::shop_restock()
     units::volume total_space = volume_capacity();
     std::list<item> ret;
 
-    while( total_space > 0 && !one_in( 50 ) ) {
+    while( total_space > 0_ml && !one_in( 50 ) ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             ret.push_back( tmpit );
@@ -2077,7 +2077,7 @@ void npc::on_load()
         update_body( cur, cur + 1_turns );
     }
 
-    if( dt > 0 ) {
+    if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
         process_active_items();
