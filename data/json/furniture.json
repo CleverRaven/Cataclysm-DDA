@@ -3363,7 +3363,7 @@
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ] },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "REDUCE_SCENT", "EASY_DECONSTRUCT", "BASHABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "REDUCE_SCENT", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE" ],
     "bash": {
       "str_min": 1,
       "str_max": 1,
