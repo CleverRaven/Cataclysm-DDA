@@ -340,7 +340,6 @@
       ["gum", 30],
       ["caff_gum", 3],
       ["flask_hip", 5],
-      ["sm_extinguisher", 10],
       ["atomic_light", 1],
       ["atomic_lamp", 1],
       ["dog_whistle", 5],
@@ -2733,7 +2732,8 @@
       ["clogs", 1],
       ["leathersandals", 10],
       ["rollerskates", 1],
-      ["roller_blades", 5]
+      ["roller_blades", 5],
+      ["mocassins", 20]
     ]
   },{
     "type" : "item_group",
@@ -2781,7 +2781,8 @@
       ["postman_shirt", 5],
       ["halter_top", 50],
       ["linuxtshirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["poncho", 20]
     ]
   },{
     "type" : "item_group",
@@ -9905,6 +9906,30 @@
     "items": [
       { "item": "ceramic_shard", "prob": 65, "count-min": 2, "count-max": 5 },
       { "item": "plastic_chunk", "prob": 100, "count-min": 2, "count-max": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "phones",
+    "items": [ 
+      { "item": "cell_phone", "prob": 50, "charges-min": 0, "charges-max": 15 },
+      { "item": "smart_phone", "prob": 50, "charges-min": 0, "charges-max": 15 } 
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "common_gloves",
+    "items": [
+      { "item": "gloves_light", "prob": 15 },
+      { "item": "gloves_leather", "prob": 15 },
+      { "item": "gloves_golf", "prob": 15 },
+      { "item": "gloves_wool", "prob": 15 },
+      { "item": "gloves_winter", "prob": 10 },
+      { "item": "gloves_fingerless", "prob": 15 },
+      { "item": "gloves_liner", "prob": 15 },
+      { "item": "mittens", "prob": 5 },
+      { "item": "thermal_gloves", "prob": 2 }
     ]
   }
 ]
