@@ -2811,7 +2811,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
 void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
 {
     p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
-    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ), act->str_values[0].c_str() );
+    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                          act->str_values[0].c_str() );
     act->set_to_null();
 }
 
