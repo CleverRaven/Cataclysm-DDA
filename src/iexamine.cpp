@@ -1725,7 +1725,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
     smenu.text = _( "Use which seed?" );
     int count = 0;
     for( const auto &entry : seed_entries ) {
-        auto seed_name = std::get<1>( entry );
+        const std::string &seed_name = std::get<1>( entry );
         int seed_count = std::get<2>( entry );
 
         std::string format = seed_count > 0 ? "%s (%d)" : "%s";

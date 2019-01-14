@@ -1121,7 +1121,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                         mvwprintz( w_editor, 2, 1, c_light_blue, "                         " );
                         mvwprintz( w_editor, 2, 1, c_light_blue, uistate.place_special->id.c_str() );
                     }
-                    const std::string rotation = om_direction::name( uistate.omedit_rotation );
+                    const std::string &rotation = om_direction::name( uistate.omedit_rotation );
 
                     mvwprintz( w_editor, 3, 1, c_light_gray, "                         " );
                     mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation.c_str(),
