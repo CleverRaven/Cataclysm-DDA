@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "coordinate_conversions.h"
+#include "activity_handlers.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -31,6 +32,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "string_input_popup.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -347,7 +349,6 @@ void vehicle::control_engines()
 int vehicle::select_engine()
 {
     uilist tmenu;
-    std::string name;
     tmenu.text = _( "Toggle which?" );
     int i = 0;
     for( size_t x = 0; x < engines.size(); x++ ) {
@@ -907,6 +908,46 @@ void vehicle::honk_horn()
     }
 }
 
+void vehicle::reload_seeds( const tripoint &pos )
+{
+    player &p = g->u;
+
+    std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
+        return itm.is_seed();
+    } );
+
+    auto seed_entries = iexamine::get_seed_entries( seed_inv );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), "No seed", 0 ) );
+
+    int seed_index = iexamine::query_seed( seed_entries );
+
+    if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
+        const int count = std::get<2>( seed_entries[seed_index] );
+        int amount = 0;
+        const std::string popupmsg = string_format( _( "Move how many? [Have %d] (0 to cancel)" ), count );
+
+        amount = string_input_popup()
+                 .title( popupmsg )
+                 .width( 5 )
+                 .only_digits( true )
+                 .query_int();
+
+        if( amount > 0 ) {
+            int actual_amount = std::min( amount, count );
+            itype_id seed_id = std::get<0>( seed_entries[seed_index] );
+            std::list<item> used_seed;
+            if( item::count_by_charges( seed_id ) ) {
+                used_seed = p.use_charges( seed_id, actual_amount );
+            } else {
+                used_seed = p.use_amount( seed_id, actual_amount );
+            }
+            used_seed.front().set_age( 0_turns );
+            //place seeds into the planter
+            put_into_vehicle_or_drop( p, item_drop_reason::deliberate, used_seed, pos );
+        }
+    }
+}
+
 void vehicle::beeper_sound()
 {
     // No power = no sound
@@ -1034,13 +1075,13 @@ void vehicle::operate_planter()
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ) );
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
-                    i->set_age( 0 );
+                    i->set_age( 0_turns );
                     g->m.add_item( loc, *i );
                     v.erase( i );
                 } else {
                     item tmp = *i;
                     tmp.charges = 1;
-                    tmp.set_age( 0 );
+                    tmp.set_age( 0_turns );
                     g->m.add_item( loc, tmp );
                     i->charges--;
                 }
@@ -1238,7 +1279,7 @@ void vehicle::use_washing_machine( int p )
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
-            n.set_age( 0 );
+            n.set_age( 0_turns );
         }
 
         if( fuel_left( "water" ) >= 24 ) {

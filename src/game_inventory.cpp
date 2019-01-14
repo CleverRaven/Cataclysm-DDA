@@ -149,7 +149,7 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return loc->get_storage() > 0 ? string_format( "<%s>%s</color>", color,
+                return loc->get_storage() > 0_ml ? string_format( "<%s>%s</color>", color,
                         format_volume( loc->get_storage() ) ) : std::string();
             }, _( "STORAGE" ) );
 
@@ -380,7 +380,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
-                if( spoils > 0 ) {
+                if( spoils > 0_turns ) {
                     return to_string_clipped( spoils );
                 }
                 //~ Used for permafood shelf life in the Eat menu
@@ -390,7 +390,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
-                    if( item.spoils > 0 ) {
+                    if( item.spoils > 0_turns ) {
                         return get_freshness( loc );
                     }
                     return std::string( "---" );
@@ -401,7 +401,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
-                    if( item.spoils > 0 ) {
+                    if( item.spoils > 0_turns ) {
                         if( !get_comestible_item( loc ).rotten() ) {
                             return get_time_left_rounded( loc );
                         }

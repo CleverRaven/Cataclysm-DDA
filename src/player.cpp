@@ -85,6 +85,8 @@
 #include <sstream>
 #include <limits>
 
+constexpr double SQRT_2 = 1.41421356237309504880;
+
 const double MAX_RECOIL = 3000;
 
 const mtype_id mon_player_blob( "mon_player_blob" );
@@ -240,9 +242,6 @@ static const trait_id trait_BADCARDIO( "BADCARDIO" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BARK( "BARK" );
-static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
-static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
-static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANINE_EARS( "CANINE_EARS" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -270,9 +269,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEFORMED( "DEFORMED" );
-static const trait_id trait_DEFORMED2( "DEFORMED2" );
-static const trait_id trait_DEFORMED3( "DEFORMED3" );
 static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
@@ -363,7 +359,6 @@ static const trait_id trait_PONDEROUS3( "PONDEROUS3" );
 static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
-static const trait_id trait_PRETTY( "PRETTY" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -409,7 +404,6 @@ static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
-static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
@@ -1867,7 +1861,7 @@ int player::run_cost( int base_cost, bool diag ) const
     movecost /= stamina_modifier;
 
     if( diag ) {
-        movecost *= 1.4142;
+        movecost *= SQRT_2;
     }
 
     return int( movecost );
@@ -6390,7 +6384,7 @@ void player::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, calendar::turn );
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
                                              dummy_nausea.get_int_dur_factor() ) );
     }
@@ -8644,8 +8638,8 @@ bool player::unload(item &it)
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
-        for( auto iter = target->contents.begin(); iter != target->contents.end(); ++iter ) {
-            mv += this->item_reload_cost( it, *iter, iter->charges ) / 2; 
+        for( auto &content : target->contents ) {
+            mv += this->item_reload_cost(it, content, content.charges) / 2;
         }
         g->u.activity.moves_left += mv;
 
@@ -9896,18 +9890,9 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = stack->front();
 
-        if( !candidate.is_book() ) {
-            continue;
-        }
-        // NPCs don't need to identify books
-        if( is_player() && !items_identified.count( candidate.typeId() ) ) {
-            continue;
-        }
-
-        for( const auto &elem : candidate.type->book->recipes ) {
-            if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
-                res.include( elem.recipe, elem.skill_level );
-            }
+        for( std::pair<const recipe *, int> recipe_entry :
+               candidate.get_available_recipes( *this ) ) {
+            res.include( recipe_entry.first, recipe_entry.second );
         }
     }
 

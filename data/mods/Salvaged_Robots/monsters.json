@@ -818,6 +818,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "luminance": 100,
     "starting_ammo": { "762_51": 100 },
+    "revert_to_itype": "bot_milbot_308",
     "special_attacks": [
       {
         "type": "gun",

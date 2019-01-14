@@ -1,6 +1,6 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -265,7 +265,7 @@ void mission_start::infect_npc( mission *miss )
         debugmsg( "couldn't find an NPC!" );
         return;
     }
-    p->add_effect( effect_infection, 1_turns, num_bp, true, true );
+    p->add_effect( effect_infection, 1_turns, num_bp, true, 1 );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";

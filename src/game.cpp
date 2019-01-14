@@ -6023,7 +6023,7 @@ bool pet_menu( monster *z )
 
     if( attach_bag == choice ) {
         int pos = g->inv_for_filter( _( "Bag item" ), []( const item & it ) {
-            return it.is_armor() && it.get_storage() > 0;
+            return it.is_armor() && it.get_storage() > 0_ml;
         } );
 
         if( pos == INT_MIN ) {
@@ -6086,12 +6086,12 @@ bool pet_menu( monster *z )
             }
         }
 
-        if( max_weight <= 0 ) {
+        if( max_weight <= 0_gram ) {
             add_msg( _( "%1$s is overburdened. You can't transfer your %2$s." ),
                      pet_name.c_str(), it.tname( 1 ).c_str() );
             return true;
         }
-        if( max_cap <= 0 ) {
+        if( max_cap <= 0_ml ) {
             add_msg( _( "There's no room in your %1$s's %2$s for that, it's too bulky!" ),
                      pet_name.c_str(), it.tname( 1 ).c_str() );
             return true;
@@ -6301,7 +6301,7 @@ const std::string get_fire_fuel_string( const tripoint &examp )
             // half-life inclusion
             int mod = 5 - g->u.get_skill_level( skill_survival );
             mod = std::max( mod, 0 );
-            if( fire_age >= 0 ) {
+            if( fire_age >= 0_turns ) {
                 if( mod >= 4 ) { // = survival level 0-1
                     ss << string_format( _( "It's going to go out soon without extra fuel." ) );
                     return ss.str();
@@ -7005,7 +7005,7 @@ void game::zones_manager()
                     break;
                 }
 
-                const auto id = maybe_id.value();
+                const zone_type_id &id = maybe_id.value();
                 auto options = zone_options::create( id );
 
                 if( !options->query_at_creation() ) {
@@ -7020,7 +7020,7 @@ void game::zones_manager()
                 if( !maybe_name.has_value() ) {
                     break;
                 }
-                const auto name = maybe_name.value();
+                const itype_id &name = maybe_name.value();
 
                 const auto position = query_position();
                 if( !position ) {
@@ -8252,7 +8252,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
-        draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
+        draw_custom_border( w_item_info, bDrawLeft, 1, 0, 1, LINE_XOXO, LINE_XOXO, 1, 1 );
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
@@ -10576,9 +10576,9 @@ bool game::walk_move( const tripoint &dest_loc )
     if( u.is_hauling() ) {
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the source is inside a vehicle (not supported)
-        u.activity.values.push_back( false );
+        u.activity.values.push_back( 0 );
         // Whether the destination is inside a vehicle (not supported)
-        u.activity.values.push_back( false );
+        u.activity.values.push_back( 0 );
         // Source relative to the player
         u.activity.placement = u.pos() - dest_loc;
         // Destination relative to the player
@@ -11008,7 +11008,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
-    units::mass furniture_contents_weight = 0;
+    units::mass furniture_contents_weight = 0_gram;
     for( auto &contained_item : m.i_at( fpos ) ) {
         furniture_contents_weight += contained_item.weight();
     }

@@ -1868,8 +1868,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             }
 
             destsm->delete_vehicles();
-            for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                vehicle *veh1 = srcsm->vehicles[i];
+            for( auto veh1 : srcsm->vehicles ) { // copy vehicles to real map
                 veh1->smx = target_sub.x + x;
                 veh1->smy = target_sub.y + y;
                 veh1->smz = target.z;
@@ -1880,8 +1879,8 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             g->m.update_vehicle_list( destsm, target.z );
 
             int spawns_todo = 0;
-            for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                destsm->spawns.push_back( srcsm->spawns[i] );
+            for( const auto &spawn : srcsm->spawns ) { // copy spawns
+                destsm->spawns.push_back( spawn );
                 spawns_todo++;
             }
 
@@ -1951,8 +1950,8 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
-                possible_vehicles.push_back( destsm->vehicles[z] );
+            for( auto vehicle : destsm->vehicles ) {
+                possible_vehicles.push_back( vehicle );
             }
         }
     }
@@ -1997,9 +1996,9 @@ bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
-                if( destsm->vehicles[z] == car_target ) {
-                    auto veh = destsm->vehicles[z];
+            for( auto &z : destsm->vehicles ) {
+                if( z == car_target ) {
+                    auto veh = z;
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( veh );
                     g->m.clear_vehicle_cache( omt_tgt.z );
                     g->m.reset_vehicle_cache( omt_tgt.z );

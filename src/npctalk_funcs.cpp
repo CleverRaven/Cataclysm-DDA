@@ -272,7 +272,6 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    item tmp;
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( auto &bio : all_bio ) {
@@ -281,7 +280,7 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
-                    tmp = item( bio.id.str(), 0 );
+                    item tmp = item( bio.id.str(), 0 );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
@@ -348,9 +347,8 @@ void talk_function::give_equipment( npc &p )
 void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
-    body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
-        bp_healed = player::hp_to_bp( hp_part( i ) );
+        const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
         g->u.heal( hp_part( i ), 5 * rng( 2, 5 ) );
         if( g->u.has_effect( effect_bite, bp_healed ) ) {
             g->u.remove_effect( effect_bite, bp_healed );
@@ -370,11 +368,10 @@ void talk_function::give_all_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
-    body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                bp_healed = player::hp_to_bp( hp_part( i ) );
+                const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
                 guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );

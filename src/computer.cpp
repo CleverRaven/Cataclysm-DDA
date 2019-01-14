@@ -402,13 +402,12 @@ void computer::activate_function( computer_action action )
                                     bool found_item = false;
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( x1, y1 );
-                                    for( auto candidate = candidates.begin();
-                                         candidate != candidates.end(); ++candidate ) {
-                                        long capa = candidate->get_remaining_capacity_for_liquid( sewage );
+                                    for( auto &candidate : candidates ) {
+                                        long capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
                                             continue;
                                         }
-                                        item &elem = *candidate;
+                                        item &elem = candidate;
                                         capa = std::min( sewage.charges, capa );
                                         if( elem.contents.empty() ) {
                                             elem.put_in( sewage );

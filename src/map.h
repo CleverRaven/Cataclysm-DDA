@@ -3,6 +3,7 @@
 #define MAP_H
 
 #include <array>
+#include <bitset>
 #include <list>
 #include <map>
 #include <memory>
@@ -187,6 +188,7 @@ struct level_cache {
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
 
     bool veh_in_active_range;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
@@ -257,6 +259,20 @@ class map
 
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
+
+        void set_memory_seen_cache_dirty( const tripoint p ) {
+            get_cache( p.z ).map_memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] = false;
+        }
+
+        bool check_and_set_seen_cache( const tripoint &p ) const {
+            std::bitset<SEEX *MAPSIZE *SEEY *MAPSIZE> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            if( !memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] ) {
+                memory_seen_cache.set( static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) );
+                return true;
+            }
+            return false;
+        }
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -505,8 +521,6 @@ class map
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
         bool vehproceed();
-        // Actually moves a vehicle
-        bool vehact( vehicle &veh );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -1047,7 +1061,7 @@ class map
         /**
          * Set age of field entry at point.
          * @param p Location of field
-         * @param t ID of field
+         * @param type ID of field
          * @param age New age of specified field
          * @param isoffset If true, the given age value is added to the existing value,
          * if false, the existing age is ignored and overridden.
@@ -1059,7 +1073,7 @@ class map
          * Set density of field entry at point, creating if not present,
          * removing if density becomes 0.
          * @param p Location of field
-         * @param t ID of field
+         * @param type ID of field
          * @param str New strength of field
          * @param isoffset If true, the given str value is added to the existing value,
          * if false, the existing density is ignored and overridden.
@@ -1565,7 +1579,7 @@ class map
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
 
         // Note: no bounds check
-        level_cache &get_cache( int zlev ) {
+        level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }
 
