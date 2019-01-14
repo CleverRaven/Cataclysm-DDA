@@ -770,7 +770,7 @@ void iexamine::crate( player &p, const tripoint &examp )
     const auto is_critter = g->critter_at( examp ) != nullptr;
 
     // If there's a vehicle, trap or critter and the user answers NO, fail out.
-    if ( (is_vehicle || is_trap || is_critter) && !query_yn(_("Pry that %s?"), xname)) {
+    if ( (is_vehicle || is_trap || is_critter) && !query_yn( _( "Pry that %s?" ), xname ) ) {
         none( p, examp );
         return;
     }
