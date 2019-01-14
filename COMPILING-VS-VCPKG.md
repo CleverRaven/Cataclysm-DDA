@@ -34,7 +34,7 @@ vcpkg integrate install
 #### install 64 bit dependencies:
 
 ```cmd
-vcpkg --triplet x64-windows install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
+vcpkg --triplet x64-windows install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua pdcurses
 ```
 
 or (if you want to build statically linked executable)
@@ -44,10 +44,10 @@ vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf g
 ```
 
 
-#### install32 bit dependencies:
+#### install 32 bit dependencies:
 
 ```cmd
-vcpkg --triplet x86-windows install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
+vcpkg --triplet x86-windows install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua pdcurses
 ```
 
 or (if you want to build statically linked executable)
@@ -55,6 +55,8 @@ or (if you want to build statically linked executable)
 ```cmd
 vcpkg --triplet x86-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
 ```
+
+**Note:** PDCurses only supports dynamic CRT linkage.
 
 #### upgrade all dependencies:
 
@@ -73,6 +75,6 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ```
 
-2. Open one of provided solutions (`msvc-full-features\Cataclysm-vcpkg.sln` for dynamically linked executable or `msvc-full-features\Cataclysm-vcpkg-static.sln` for statically linked executable) in `Visual Studio`, select configuration (`Release` or `Debug`) an platform (`x64` or `x86`) and build it.
+2. Open one of provided solutions (`msvc-full-features\Cataclysm-vcpkg.sln` for dynamically linked executable with SDL, `msvc-full-features\Cataclysm-vcpkg-static.sln` for statically linked executablewith SDL or `msvc-full-features\Cataclysm-vcpkg-pdcurses.sln` for dynamically linked executable with PDCurses) in `Visual Studio`, select configuration (`Release` or `Debug`) an platform (`x64` or `x86`) and build it.
 
 **Note**: This will compile release version with Lua, Sound, Tiles and Localization support (language files won't be automatically compiled).

@@ -421,7 +421,7 @@ void game::init_ui( const bool resized )
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     // First get TERMX, TERMY
-#if (defined TILES || defined _WIN32 || defined __WIN32__)
+#if (defined TILES || ((defined _WIN32 || defined __WIN32__) && !defined USE_PDCURSES))
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 

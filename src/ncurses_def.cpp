@@ -1,4 +1,4 @@
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined TILES || ((defined _WIN32 || defined WINDOWS) && !defined USE_PDCURSES))
 
 // input.h must be include *before* the ncurses header. The later has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
@@ -199,9 +199,13 @@ catacurses::window catacurses::stdscr;
 
 void catacurses::resizeterm()
 {
+#if !defined USE_PDCURSES
     const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
     const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
     if( ::is_term_resized( new_x, new_y ) ) {
+#else
+    if( ::is_termresized() ) {
+#endif
         game_ui::init_ui();
     }
 }
@@ -224,7 +228,9 @@ void catacurses::init_interface()
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
+#if !defined USE_PDCURSES
     set_escdelay( 10 ); // Make Escape actually responsive
+#endif
     start_color(); //@todo: error checking
     init_colors();
 }

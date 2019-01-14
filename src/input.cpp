@@ -1217,7 +1217,7 @@ void input_manager::wait_for_any_key()
     }
 }
 
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined TILES || ((defined _WIN32 || defined WINDOWS) && !defined USE_PDCURSES))
 // Also specify that we don't have a gamepad plugged in.
 bool gamepad_available()
 {

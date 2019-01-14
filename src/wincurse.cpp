@@ -1,4 +1,4 @@
-#if ((!defined TILES) && (defined _WIN32 || defined WINDOWS))
+#if ((!defined TILES) && (defined _WIN32 || defined WINDOWS) && !defined USE_PDCURSES)
 #define UNICODE 1
 #define _UNICODE 1
 

@@ -2240,7 +2240,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         wrefresh( w_options_header );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || ((defined _WIN32 || defined WINDOWS) && !defined USE_PDCURSES))
         if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X" ) {
             int new_terminal_x = 0;
             int new_window_width = 0;
@@ -2463,7 +2463,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         }
     }
 
-#if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
+#if !defined(__ANDROID__) && (defined TILES || ((defined _WIN32 || defined WINDOWS) && !defined USE_PDCURSES))
     if( terminal_size_changed ) {
         handle_resize( projected_window_width(), projected_window_height() );
     }

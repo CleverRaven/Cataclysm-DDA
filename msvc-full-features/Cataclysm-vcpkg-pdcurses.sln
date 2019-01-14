@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4B08C64-DD27-4C51-B8DE-AD55250AFFC9}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg-pdcurses", "Cataclysm-vcpkg-pdcurses.vcxproj", "{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Debug|x64.ActiveCfg = Debug|x64
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Debug|x64.Build.0 = Debug|x64
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Release|x64.ActiveCfg = Release|x64
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Release|x64.Build.0 = Release|x64
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Debug|x86.ActiveCfg = Debug|Win32
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Debug|x86.Build.0 = Debug|Win32
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Release|x86.ActiveCfg = Release|Win32
+		{B25F9B38-B3DB-4A15-9EF8-E1AB776CD1E3}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D2CC8F1-FC83-4F05-94B2-B8A59F68775B}
+	EndGlobalSection
+EndGlobal
