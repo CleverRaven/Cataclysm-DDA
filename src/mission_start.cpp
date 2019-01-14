@@ -1,6 +1,6 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
