@@ -874,7 +874,7 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
 }
 
 bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
-                               int skill_level )
+                               int skill_level, int autodoc_software_assist_level )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
@@ -977,7 +977,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
-bool player::install_bionics( const itype &type, player &installer, bool autodoc, int skill_level )
+bool player::install_bionics( const itype &type, player &installer, bool autodoc, int skill_level, int autodoc_software_assist_level)
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );

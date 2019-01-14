@@ -138,5 +138,12 @@
     "info": "Enables sleep deprivation mechanics. If true, stimulants will only help you so far, and you might have to enforce proper sleep hygiene for a while.",
     "stype": "bool",
     "value": false
-  }
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "AUTODOC_SOFTWARE_ASSIST_BONUS",
+    "info": "Bonus from Autodoc software. More is better",
+    "stype": "int",
+    "value": 5
+  },
 ]

@@ -3669,8 +3669,25 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     }
 
+    int autodoc_software_assist_level = 1;
+    std::string version_string = "1.0 \'Basic Edition\'";
+    std::vector<const item *> s_filter = p.crafting_inventory().items_with([](const item & it) {
+        return it.has_flag("AUTODOC_SOFTWARE");
+    });
+    for (const item *software_item : s_filter) {
+        
+        if (software_item->has_flag("AUTODOC_SOFTWARE_2") && autodoc_software_assist_level <2 ) {
+            autodoc_software_assist_level = 2;
+            version_string = "2.0 \'Deep Surgical Edition\' (external drive)";
+        }
+        else if (software_item->has_flag("AUTODOC_SOFTWARE_3") && autodoc_software_assist_level < 3) {
+            autodoc_software_assist_level = 3;
+            version_string = "3.0 \'Military Edition\' (external drive)";
+        }
+    }
+
     uilist amenu;
-    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.text = string_format(_( "Autodoc Mk. XI.  Status: Online.  Version: %s .  Please choose operation." ));
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
 

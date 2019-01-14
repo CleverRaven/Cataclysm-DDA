@@ -311,12 +311,12 @@ class player : public Character
                                       int skill_level = -1 );
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
-                              int skill_level = -1 );
+                              int skill_level = -1, int autodoc_software_assist_level = -1 );
         void bionics_install_failure( player &installer, int difficulty, int success,
                                       float adjusted_skill );
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
-                               int skill_level = -1 );
+                               int skill_level = -1, int autodoc_software_assist_level = -1 );
         void bionics_uninstall_failure( player &installer );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
