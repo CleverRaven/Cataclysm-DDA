@@ -1,5 +1,9 @@
 #include "computer.h"
 
+#include <algorithm>
+#include <sstream>
+#include <string>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "event.h"
@@ -26,10 +30,6 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <sstream>
-#include <string>
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
@@ -92,9 +92,9 @@ void computer::add_option( const computer_option &opt )
 }
 
 void computer::add_option( const std::string &opt_name, computer_action action,
-                           int Security )
+                           int security )
 {
-    add_option( computer_option( opt_name, action, Security ) );
+    add_option( computer_option( opt_name, action, security ) );
 }
 
 void computer::add_failure( const computer_failure &failure )
@@ -393,8 +393,8 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_SAMPLE:
             g->u.moves -= 30;
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         for( int x1 = x - 1; x1 <= x + 1; x1++ ) {
                             for( int y1 = y - 1; y1 <= y + 1; y1++ ) {
@@ -402,13 +402,12 @@ void computer::activate_function( computer_action action )
                                     bool found_item = false;
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( x1, y1 );
-                                    for( auto candidate = candidates.begin();
-                                         candidate != candidates.end(); ++candidate ) {
-                                        long capa = candidate->get_remaining_capacity_for_liquid( sewage );
+                                    for( auto &candidate : candidates ) {
+                                        long capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
                                             continue;
                                         }
-                                        item &elem = *candidate;
+                                        item &elem = candidate;
                                         capa = std::min( sewage.charges, capa );
                                         if( elem.contents.empty() ) {
                                             elem.put_in( sewage );
@@ -451,8 +450,8 @@ void computer::activate_function( computer_action action )
         case COMPACT_TERMINATE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Terminated subspace specimens." ),
                                    pgettext( "memorial_female", "Terminated subspace specimens." ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->u.posz() );
                     monster *const mon = g->critter_at<monster>( p );
                     if( mon &&
@@ -473,8 +472,8 @@ void computer::activate_function( computer_action action )
             tripoint tmp = g->u.pos();
             int &i = tmp.x;
             int &j = tmp.y;
-            for( i = 0; i < SEEX * MAPSIZE; i++ ) {
-                for( j = 0; j < SEEY * MAPSIZE; j++ ) {
+            for( i = 0; i < MAPSIZE_X; i++ ) {
+                for( j = 0; j < MAPSIZE_Y; j++ ) {
                     int numtowers = 0;
                     tripoint tmp2 = tmp;
                     int &xt = tmp2.x;
@@ -664,8 +663,8 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             std::vector<std::string> names;
             int more = 0;
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     for( auto &elem : g->m.i_at( x, y ) ) {
                         if( elem.is_bionic() ) {
                             if( static_cast<int>( names.size() ) < TERMY - 8 ) {
@@ -697,8 +696,8 @@ void computer::activate_function( computer_action action )
         break;
 
         case COMPACT_ELEVATOR_ON:
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_elevator_control_off ) {
                         g->m.ter_set( x, y, t_elevator_control );
                     }
@@ -1190,8 +1189,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             print_line( _( "Backup Generator Power Failing" ) );
             print_line( _( "Evacuate Immediately" ) );
             add_msg( m_warning, _( "Evacuate Immediately!" ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->get_levz() );
                     if( g->m.ter( x, y ) == t_elevator || g->m.ter( x, y ) == t_vat ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
@@ -1222,8 +1221,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 reset_terminal();
                 print_line(
                     _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
-                for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                    for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+                for( int x = 0; x < MAPSIZE_X; x++ ) {
+                    for( int y = 0; y < MAPSIZE_Y; y++ ) {
                         if( g->m.ter( x, y ) == t_elevator_control_off ) {
                             g->m.ter_set( x, y, t_elevator_control );
 
@@ -1265,8 +1264,8 @@ void computer::activate_failure( computer_failure_type fail )
             if( found_tile ) {
                 break;
             }
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.has_flag( "CONSOLE", x, y ) ) {
                         g->m.ter_set( x, y, t_console_broken );
                         add_msg( m_bad, _( "The console shuts down." ) );
@@ -1332,8 +1331,8 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_PUMP_EXPLODE:
             add_msg( m_warning, _( "The pump explodes!" ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         tripoint p( x, y, g->get_levz() );
                         g->m.make_rubble( p );
@@ -1345,8 +1344,8 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_PUMP_LEAK:
             add_msg( m_warning, _( "Sewage leaks!" ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         point p( x, y );
                         int leak_size = rng( 4, 10 );
@@ -1380,9 +1379,9 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_AMIGARA:
             g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
             g->u.add_effect( effect_amigara, 2_minutes );
-            g->explosion( tripoint( rng( 0, SEEX * MAPSIZE ), rng( 0, SEEY * MAPSIZE ), g->get_levz() ), 10,
+            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
                           0.7, false, 10 );
-            g->explosion( tripoint( rng( 0, SEEX * MAPSIZE ), rng( 0, SEEY * MAPSIZE ), g->get_levz() ), 10,
+            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
                           0.7, false, 10 );
             remove_option( COMPACT_AMIGARA_START );
             break;
@@ -1412,8 +1411,8 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_DESTROY_DATA:
             print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     if( g->m.ter( x, y ) == t_floor_blue ) {
                         if( g->m.i_at( x, y ).empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );
@@ -1487,10 +1486,10 @@ TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_tar
 }
 
 template<typename ...Args>
-bool computer::query_bool( const char *const mes, Args &&... args )
+bool computer::query_bool( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
 #ifdef __ANDROID__
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1507,19 +1506,19 @@ bool computer::query_bool( const char *const mes, Args &&... args )
 }
 
 template<typename ...Args>
-bool computer::query_any( const char *const mes, Args &&... args )
+bool computer::query_any( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s", formatted_text .c_str() );
     inp_mngr.wait_for_any_key();
     return true;
 }
 
 template<typename ...Args>
-char computer::query_ynq( const char *const mes, Args &&... args )
+char computer::query_ynq( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
 #ifdef __ANDROID__
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1536,30 +1535,30 @@ char computer::query_ynq( const char *const mes, Args &&... args )
 }
 
 template<typename ...Args>
-void computer::print_line( const char *const mes, Args &&... args )
+void computer::print_line( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_green, text );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    wprintz( w_terminal, c_green, formatted_text );
     print_newline();
     wrefresh( w_terminal );
 }
 
 template<typename ...Args>
-void computer::print_error( const char *const mes, Args &&... args )
+void computer::print_error( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_red, text );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    wprintz( w_terminal, c_red, formatted_text );
     print_newline();
     wrefresh( w_terminal );
 }
 
 template<typename ...Args>
-void computer::print_text( const char *const mes, Args &&... args )
+void computer::print_text( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
+    const std::string formated_text = string_format( text, std::forward<Args>( args )... );
     int y = getcury( w_terminal );
     int w = getmaxx( w_terminal ) - 2;
-    fold_and_print( w_terminal, y, 1, w, c_green, text );
+    fold_and_print( w_terminal, y, 1, w, c_green, formated_text );
     print_newline();
     print_newline();
     wrefresh( w_terminal );

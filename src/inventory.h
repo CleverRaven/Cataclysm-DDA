@@ -2,15 +2,16 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "enums.h"
-#include "item.h"
-#include "visitable.h"
-
+#include <array>
 #include <list>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include "enums.h"
+#include "item.h"
+#include "visitable.h"
 
 class map;
 class npc;
@@ -50,6 +51,27 @@ class invlet_wrapper : private std::string
 
 const extern invlet_wrapper inv_chars;
 
+// For each item id, store a set of "favorite" inventory letters.
+// This class maintains a bidirectional mapping between invlet letters and item ids.
+// Each invlet has at most one id and each id has any number of invlets.
+class invlet_favorites
+{
+    public:
+        invlet_favorites() = default;
+        invlet_favorites( const std::unordered_map<itype_id, std::string> & );
+
+        void set( char invlet, const itype_id & );
+        void erase( char invlet );
+        bool contains( char invlet, const itype_id & ) const;
+        std::string invlets_for( const itype_id & ) const;
+
+        // For serialization only
+        const std::unordered_map<itype_id, std::string> &get_invlets_by_id() const;
+    private:
+        std::unordered_map<itype_id, std::string> invlets_by_id;
+        std::array<itype_id, 256> ids_by_invlet;
+};
+
 class inventory : public visitable<inventory>
 {
     public:
@@ -78,9 +100,10 @@ class inventory : public visitable<inventory>
 
         void unsort(); // flags the inventory as unsorted
         void clear();
-        void push_back( std::list<item> newits );
+        void push_back( const std::list<item> &newits );
         // returns a reference to the added item
-        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true );
+        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
+                        bool should_stack = true );
         void add_item_keep_invlet( item newit );
         void push_back( item newit );
 
@@ -118,7 +141,8 @@ class inventory : public visitable<inventory>
          * the container. All items that are part of the same stack have the same item position.
          */
         int position_by_item( const item *it ) const;
-        int position_by_type( const itype_id &type );
+        int position_by_type( const itype_id &type ) const;
+
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position( char invlet ) const;
@@ -180,8 +204,7 @@ class inventory : public visitable<inventory>
         void copy_invlet_of( const inventory &other );
 
     private:
-        // For each item ID, store a set of "favorite" inventory letters.
-        std::map<std::string, std::vector<char> > invlet_cache;
+        invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;

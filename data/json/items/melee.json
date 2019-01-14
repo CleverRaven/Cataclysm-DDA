@@ -1230,7 +1230,7 @@
     "color": "white",
     "name": "rock in a sock",
     "name_plural": "rocks in socks",
-    "description": "A sock with a rock tied into the end of it.  A true weapon of desperation.",
+    "description": "A pair of nested socks filled with a stone.  A true weapon of despair.",
     "price": 1000,
     "price_postapoc": 300,
     "material": [ "cotton", "stone" ],

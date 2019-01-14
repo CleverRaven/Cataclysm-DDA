@@ -1,5 +1,9 @@
 #include "character.h"
 
+#include <algorithm>
+#include <numeric>
+#include <sstream>
+
 #include "activity_handlers.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -26,10 +30,6 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-
-#include <algorithm>
-#include <numeric>
-#include <sstream>
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -731,12 +731,12 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
     return charges;
 }
 
-item &Character::i_add( item it )
+item &Character::i_add( item it, bool should_stack )
 {
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
-    if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
+    if( it.is_food() || it.is_ammo() || it.is_gun() || it.is_armor() ||
         it.is_book() || it.is_tool() || it.is_melee() || it.is_food_container() ) {
         inv.unsort();
     }
@@ -752,7 +752,7 @@ item &Character::i_add( item it )
         }
     }
 
-    auto &item_in_inv = inv.add_item( it, keep_invlet );
+    auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     return item_in_inv;
 }
@@ -1024,7 +1024,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     const std::map<const item *, int> empty;
     const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
 
-    units::mass ret = 0;
+    units::mass ret = 0_gram;
     if( !without.count( &weapon ) ) {
         ret += weapon.weight();
     }
@@ -1088,15 +1088,15 @@ units::mass Character::weight_capacity() const
     if( has_bionic( bionic_id( "bio_weight" ) ) ) {
         ret += 20_kilogram;
     }
-    if( ret < 0 ) {
-        ret = 0;
+    if( ret < 0_gram ) {
+        ret = 0_gram;
     }
     return ret;
 }
 
 units::volume Character::volume_capacity() const
 {
-    return volume_capacity_reduced_by( 0 );
+    return volume_capacity_reduced_by( 0_ml );
 }
 
 units::volume Character::volume_capacity_reduced_by(
@@ -1501,8 +1501,8 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &ne
 
 units::mass Character::get_weight() const
 {
-    units::mass ret = 0;
-    units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), units::mass( 0 ),
+    units::mass ret = 0_gram;
+    units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), 0_gram,
                      []( units::mass sum, const item &itm ) {
                         return sum + itm.weight();
                      } );
@@ -2109,7 +2109,7 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto color_name = []( const nc_color col ) {
+    const auto color_name = []( const nc_color &col ) {
         return get_all_colors().get_name( col );
     };
 
@@ -2672,7 +2672,7 @@ body_part Character::get_random_body_part( bool main ) const
     return random_body_part( main );
 }
 
-std::vector<body_part> Character::get_all_body_parts( bool main ) const
+std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 {
     // @todo: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
@@ -2701,7 +2701,7 @@ std::vector<body_part> Character::get_all_body_parts( bool main ) const
         }
     };
 
-    return main ? main_bps : all_bps;
+    return only_main ? main_bps : all_bps;
 }
 
 std::string Character::extended_description() const

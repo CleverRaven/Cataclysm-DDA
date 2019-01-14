@@ -1,5 +1,11 @@
 #include "mapgen_functions.h"
 
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <iterator>
+#include <random>
+
 #include "computer.h"
 #include "debug.h"
 #include "field.h"
@@ -17,12 +23,6 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <array>
-#include <chrono>
-#include <iterator>
-#include <random>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -476,8 +476,8 @@ void mapgen_hive( map *m, oter_id, mapgendata dat, const time_point &turn, float
                 m->ter_set( i + 1, j + 2, t_floor_wax );
 
                 // Up to two of these get skipped; an entrance to the cell
-                int skip1 = rng( 0, 23 );
-                int skip2 = rng( 0, 23 );
+                int skip1 = rng( 0, SEEX * 2 - 1 );
+                int skip2 = rng( 0, SEEY * 2 - 1 );
 
                 m->ter_set( i - 1, j - 4, t_wax );
                 m->ter_set( i, j - 4, t_wax );
@@ -1944,9 +1944,9 @@ void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, cons
     int north_edge = rng( 16, 18 );
     int east_edge = rng( 4, 8 );
 
-    for( int x = north_edge; x < 24; x++ ) {
+    for( int x = north_edge; x < SEEX * 2; x++ ) {
         for( int y = 0; y < east_edge; y++ ) {
-            int circle_edge = ( ( 24 - x ) * ( 24 - x ) ) + ( y * y );
+            int circle_edge = ( ( SEEX * 2 - x ) * ( SEEX * 2 - x ) ) + ( y * y );
             if( circle_edge <= 8 ) {
                 m->ter_set( x, y, grass_or_dirt() );
             }
@@ -1975,7 +1975,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
     ( void )dat;
     fill_background( m, t_water_dp );
 
-    for( int x = 0; x <= 24; x++ ) {
+    for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), x, 0, x, ground_edge );
@@ -2001,7 +2001,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
     ( void )dat;
     fill_background( m, t_water_dp );
     // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
-    for( int x = 0; x < 24; x++ ) {
+    for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), x, 0, x, ground_edge );
@@ -2010,10 +2010,10 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         }
         line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
     }
-    for( int y = 0; y < 24; y++ ) {
+    for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
-        line( m, grass_or_dirt(), ground_edge, y, 23, y );
+        line( m, grass_or_dirt(), ground_edge, y, SEEX * 2 - 1, y );
         if( one_in( 100 ) ) {
             m->ter_set( --ground_edge, y, clay_or_sand() );
         }
@@ -3120,8 +3120,8 @@ void mapgen_police( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     m->place_items( "cop_gear",  70, 20,  8, 20, 11,    false, turn );
     m->place_items( "cop_evidence", 60,  1, 15,  4, 15,    false, turn );
 
-    for( int i = 0; i <= 23; i++ ) {
-        for( int j = 0; j <= 23; j++ ) {
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             if( m->ter( i, j ) == t_floor && one_in( 80 ) ) {
                 m->spawn_item( i, j, "badge_deputy" );
             }
@@ -3912,7 +3912,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     // the behavior of the previous forest mapgen when fading forest terrains
     // into each other and non-forest terrains.
 
-    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id ot ) {
+    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
         if( biome == dat.region.forest_composition.biomes.end() ) {
             // If there is no defined biome for this oter, use 0. It's possible
@@ -4315,16 +4315,16 @@ void mremove_trap( map *m, int x, int y )
     m->remove_trap( actual_location );
 }
 
-void mtrap_set( map *m, int x, int y, trap_id t )
+void mtrap_set( map *m, int x, int y, trap_id type )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->trap_set( actual_location, t );
+    m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_id t, int density )
+void madd_field( map *m, int x, int y, field_id type, int density )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->add_field( actual_location, t, density, 0 );
+    m->add_field( actual_location, type, density, 0_turns );
 }
 
 bool is_suitable_for_stairs( const map *const m, const tripoint &p )

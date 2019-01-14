@@ -1,5 +1,13 @@
 #include "editmap.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "artifact.h"
 #include "auto_pickup.h"
 #include "calendar.h"
@@ -31,14 +39,6 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <cstring>
-#include <fstream>
-#include <map>
-#include <string>
-#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 #define maplim 132
@@ -226,7 +226,7 @@ editmap::editmap()
 
 editmap::~editmap() = default;
 
-void editmap_hilight::draw( editmap &hm, bool update )
+void editmap_hilight::draw( editmap &em, bool update )
 {
     cur_blink++;
     if( cur_blink >= static_cast<int>( blink_interval.size() ) ) {
@@ -258,7 +258,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
                 if( blink_interval[ cur_blink ] ) {
                     t_col = getbg( t_col );
                 }
-                tripoint scrpos = hm.pos2screen( p );
+                tripoint scrpos = em.pos2screen( p );
                 mvwputch( g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym );
             }
         }
@@ -447,7 +447,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     */
     bool draw_itm = true;
     bool game_map = ( m == &g->m || w == g->w_terrain );
-    const int msize = SEEX * MAPSIZE;
+    const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
@@ -1625,10 +1625,10 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
     int ret = 0;
 
     hilights["mapgentgt"].points.clear();
-    hilights["mapgentgt"].points[tripoint( target.x - 12, target.y - 12, target.z )] = 1;
-    hilights["mapgentgt"].points[tripoint( target.x + 13, target.y + 13, target.z )] = 1;
-    hilights["mapgentgt"].points[tripoint( target.x - 12, target.y + 13, target.z )] = 1;
-    hilights["mapgentgt"].points[tripoint( target.x + 13, target.y - 12, target.z )] = 1;
+    hilights["mapgentgt"].points[tripoint( target.x - SEEX, target.y - SEEY, target.z )] = 1;
+    hilights["mapgentgt"].points[tripoint( target.x + SEEX + 1, target.y + SEEY + 1, target.z )] = 1;
+    hilights["mapgentgt"].points[tripoint( target.x - SEEX, target.y + SEEY + 1, target.z )] = 1;
+    hilights["mapgentgt"].points[tripoint( target.x + SEEX + 1, target.y - SEEY, target.z )] = 1;
 
     update_view( true );
 
@@ -1643,8 +1643,8 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
     tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
 
-    tripoint pofs = pos2screen( { target.x - 11, target.y - 11, target.z } );
-    catacurses::window w_preview = catacurses::newwin( 24, 24, pofs.y, pofs.x );
+    tripoint pofs = pos2screen( { target.x - SEEX + 1, target.y - SEEY + 1, target.z } );
+    catacurses::window w_preview = catacurses::newwin( SEEX * 2, SEEY * 2, pofs.y, pofs.x );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1681,10 +1681,10 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
             hilights["mapgentgt"].draw( *this, true );
             wrefresh( g->w_terrain );
             tmpmap.reset_vehicle_cache( target.z );
-            for( int x = 0; x < 24; x++ ) {
-                for( int y = 0; y < 24; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     tmpmap.drawsq( w_preview, g->u, tripoint( x, y, target.z ),
-                                   false, true, tripoint( 12, 12, target.z ), false, true );
+                                   false, true, tripoint( SEEX, SEEY, target.z ), false, true );
                 }
             }
             wrefresh( w_preview );
@@ -1707,7 +1707,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
                 showpreview = true;
             } else if( gpmenu.ret == 2 ) {
 
-                point target_sub( target.x / 12, target.y / 12 );
+                point target_sub( target.x / SEEX, target.y / SEEY );
                 g->m.clear_vehicle_cache( target.z );
 
                 std::string s;
@@ -1748,8 +1748,8 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
                             spawns_todo++;
                         }
 
-                        for( int sx = 0; sx < 12; sx++ ) {  // copy fields
-                            for( int sy = 0; sy < 12; sy++ ) {
+                        for( int sx = 0; sx < SEEX; sx++ ) {  // copy fields
+                            for( int sy = 0; sy < SEEY; sy++ ) {
                                 destsm->fld[sx][sy] = srcsm->fld[sx][sy];
                             }
                         }
@@ -1852,7 +1852,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
 
     tinymap tmpmap;
     tmpmap.generate( omt_tgt.x * 2, omt_tgt.y * 2, target.z, calendar::turn );
-    point target_sub( target.x / 12, target.y / 12 );
+    point target_sub( target.x / SEEX, target.y / SEEY );
 
     g->m.clear_vehicle_cache( target.z );
     for( int x = 0; x < 2; x++ ) {
@@ -1868,8 +1868,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             }
 
             destsm->delete_vehicles();
-            for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                vehicle *veh1 = srcsm->vehicles[i];
+            for( auto veh1 : srcsm->vehicles ) { // copy vehicles to real map
                 veh1->smx = target_sub.x + x;
                 veh1->smy = target_sub.y + y;
                 veh1->smz = target.z;
@@ -1880,8 +1879,8 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             g->m.update_vehicle_list( destsm, target.z );
 
             int spawns_todo = 0;
-            for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                destsm->spawns.push_back( srcsm->spawns[i] );
+            for( const auto &spawn : srcsm->spawns ) { // copy spawns
+                destsm->spawns.push_back( spawn );
                 spawns_todo++;
             }
 
@@ -1951,8 +1950,8 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
-                possible_vehicles.push_back( destsm->vehicles[z] );
+            for( auto vehicle : destsm->vehicles ) {
+                possible_vehicles.push_back( vehicle );
             }
         }
     }
@@ -1997,9 +1996,9 @@ bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
-                if( destsm->vehicles[z] == car_target ) {
-                    auto veh = destsm->vehicles[z];
+            for( auto &z : destsm->vehicles ) {
+                if( z == car_target ) {
+                    auto veh = z;
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( veh );
                     g->m.clear_vehicle_cache( omt_tgt.z );
                     g->m.reset_vehicle_cache( omt_tgt.z );
@@ -2037,13 +2036,14 @@ int editmap::mapgen_retarget()
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            tripoint ptarget = tripoint( target.x + ( vec->x * 24 ), target.y + ( vec->y * 24 ), target.z );
-            if( pinbounds( ptarget ) && inbounds( ptarget.x + 24, ptarget.y + 24, ptarget.z ) ) {
+            tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
+                                         target.z );
+            if( pinbounds( ptarget ) && inbounds( ptarget.x + SEEX * 2, ptarget.y + SEEY * 2, ptarget.z ) ) {
                 target = ptarget;
 
                 target_list.clear();
-                for( int x = target.x - 11; x < target.x + 13; x++ ) {
-                    for( int y = target.y - 11; y < target.y + 13; y++ ) {
+                for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {
+                    for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                         target_list.push_back( tripoint( x, y, target.z ) );
                     }
                 }
@@ -2107,17 +2107,17 @@ int editmap::edit_mapgen()
                         "Mapgen stamp" ) );
         tc.fromabs( g->m.getabs( target.x, target.y ) );
         point omt_lpos = g->m.getlocal( tc.begin_om_pos() );
-        tripoint om_ltarget = tripoint( omt_lpos.x + 11, omt_lpos.y + 11, target.z );
+        tripoint om_ltarget = tripoint( omt_lpos.x + SEEX - 1, omt_lpos.y + SEEY - 1, target.z );
 
         if( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
             target = om_ltarget;
             tc.fromabs( g->m.getabs( target.x, target.y ) );
         }
         target_list.clear();
-        for( int x = target.x - 11; x < target.x + 13; x++ ) {
-            for( int y = target.y - 11; y < target.y + 13; y++ ) {
-                if( x == target.x - 11 || x == target.x + 12 ||
-                    y == target.y - 11 || y == target.y + 12 ) {
+        for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {
+            for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
+                if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
+                    y == target.y - SEEY + 1 || y == target.y + SEEY ) {
                     target_list.push_back( tripoint( x, y, target.z ) );
                 }
             }

@@ -358,7 +358,7 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1, 0_turns );
                 }
             }
         }
@@ -381,7 +381,7 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {p->x + ( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x + ( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1, 0_turns );
                 }
             }
         }
@@ -454,7 +454,7 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
                     m.add_field( {x + ( j * x_offset ), y + ( j * y_offset ), abs_sub.z},
-                                 fd_blood, 1, 0 );
+                                 fd_blood, 1, 0_turns );
                 }
             }
             if( a_has_drugs && num_drugs > 0 ) {
@@ -496,7 +496,7 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
                     m.add_field( {x + ( j * x_offset ), y + ( j * y_offset ), abs_sub.z},
-                                 fd_blood, 1, 0 );
+                                 fd_blood, 1, 0_turns );
                 }
                 if( !a_has_drugs && num_drugs > 0 ) {
                     int drugs_placed = rng( 2, 6 );
@@ -654,7 +654,7 @@ void mx_portal_in( map &m, const tripoint &abs_sub )
         }
     };
     int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
-    m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0 );
+    m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0_turns );
     fungal_effects fe( *g, m );
     for( int i = x - 5; i <= x + 5; i++ ) {
         for( int j = y - 5; j <= y + 5; j++ ) {
@@ -702,7 +702,7 @@ void mx_spider( map &m, const tripoint &abs_sub )
             bool should_web_tree = m.has_flag_ter( "TREE", location ) && !one_in( 4 );
 
             if( should_web_flat || should_web_shrub || should_web_tree ) {
-                m.add_field( location, fd_web, rng( 1, 3 ), 0 );
+                m.add_field( location, fd_web, rng( 1, 3 ), 0_turns );
             }
         }
     }

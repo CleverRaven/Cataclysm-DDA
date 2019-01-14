@@ -516,7 +516,29 @@
     "warmth": 40,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "armor_nomad_light",
+    "type": "ARMOR",
+    "name": "light nomad gear",
+    "description": "A light makeshift outfit made from pre-cataclysm clothing designed for long summer travels.  It offers less storage space and armor compared to regular nomad gear.",
+    "weight": 3200,
+    "volume": 26,
+    "price": 29500,
+    "to_hit": -4,
+    "material": [ "cotton" ],
+    "looks_like": "armor_nomad",
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 16,
+    "storage": 50,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "armor_plarmor",
@@ -1936,6 +1958,25 @@
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
   },
   {
+    "id": "coat_gut",
+    "type": "ARMOR",
+    "name": "gutskin parka",
+    "description": "An intricately sewn coat of treated and split intestines, prized for its light weight and waterproofness among the indigenous peoples of the arctic.",
+    "weight": 200,
+    "volume": 5,
+    "price": 13000,
+    "material": [ "flesh" ],
+    "symbol": "[",
+    "color": "gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 95,
+    "encumbrance": 12,
+    "warmth": 10,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+  },
+  {
     "id": "coat_winter",
     "type": "ARMOR",
     "name": "winter coat",
@@ -3158,7 +3199,6 @@
     "coverage": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
@@ -5035,7 +5075,7 @@
     "storage": 2,
     "warmth": 25,
     "material_thickness": 1,
-    "flags": [ "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "jacket_flannel",

@@ -1,5 +1,7 @@
 #include "trap.h"
 
+#include <vector>
+
 #include "debug.h"
 #include "generic_factory.h"
 #include "int_id.h"
@@ -10,8 +12,6 @@
 #include "player.h"
 #include "string_id.h"
 #include "translations.h"
-
-#include <vector>
 
 namespace
 {

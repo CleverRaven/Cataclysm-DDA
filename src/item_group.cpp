@@ -1,5 +1,9 @@
 #include "item_group.h"
 
+#include <algorithm>
+#include <cassert>
+#include <map>
+
 #include "ammo.h"
 #include "debug.h"
 #include "item.h"
@@ -7,10 +11,6 @@
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
-
-#include <algorithm>
-#include <cassert>
-#include <map>
 
 static const std::string null_item_id( "null" );
 
@@ -207,7 +207,7 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-        if( ammo.get() == nullptr ) {
+        if( ammo == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( new_item.ammo_type() ) {
                 new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
@@ -235,7 +235,7 @@ void Item_modifier::modify( item &new_item ) const
         }
 
         if( spawn_ammo ) {
-            if( ammo.get() ) {
+            if( ammo ) {
                 const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
             } else {
@@ -244,7 +244,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( container.get() != nullptr ) {
+    if( container != nullptr ) {
         item cont = container->create_single( new_item.birthday() );
         if( !cont.is_null() ) {
             if( new_item.made_of( LIQUID ) ) {
@@ -260,7 +260,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( contents.get() != nullptr ) {
+    if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
     }
@@ -272,10 +272,10 @@ void Item_modifier::modify( item &new_item ) const
 
 void Item_modifier::check_consistency() const
 {
-    if( ammo.get() != nullptr ) {
+    if( ammo != nullptr ) {
         ammo->check_consistency();
     }
-    if( container.get() != nullptr ) {
+    if( container != nullptr ) {
         container->check_consistency();
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
@@ -288,12 +288,12 @@ void Item_modifier::check_consistency() const
 
 bool Item_modifier::remove_item( const Item_tag &itemid )
 {
-    if( ammo.get() != nullptr ) {
+    if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
             ammo.reset();
         }
     }
-    if( container.get() != nullptr ) {
+    if( container != nullptr ) {
         if( container->remove_item( itemid ) ) {
             container.reset();
             return true;

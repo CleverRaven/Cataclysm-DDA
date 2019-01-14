@@ -1,69 +1,58 @@
 [
   {
-    "id": "s_antique",
-    "type": "overmap_terrain",
-    "name": "antique store",
-    "sym": 65,
-    "color": "brown",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "mapgen": [
-      {
-        "method": "json",
-        "weight": 500,
-        "object": {
-          "fill_ter": "t_floor",
-          "rows": [
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "FFFFFFFFFFFFFFFFFFFFFFFF",
-            "FFFFFFFFFFFFFFFFFFFFFFFF",
-            "|--OOOOOO--++--OOOOOO--|",
-            "|l                    l|",
-            "|l                    l|",
-            "|l  llllll    llllll  l|",
-            "|l                    l|",
-            "|l                    l|",
-            "|l  llllll    llllll  l|",
-            "|l                    l|",
-            "|l                    l|",
-            "|      ##TTTTTT##      |",
-            "|              L#      |",
-            "|----------------------|",
-            "........................",
-            "........................",
-            "........................",
-            "........................",
-            "........................"
-          ],
-          "terrain": {
-            " ": "t_floor",
-            "+": "t_door_glass_c",
-            ",": "t_pavement_y",
-            "-": "t_wall",
-            ".": "t_grass",
-            "F": "t_sidewalk",
-            "O": "t_window",
-            "_": "t_pavement",
-            "|": "t_wall"
-          },
-          "furniture": { "#": "f_counter", "T": "f_displaycase", "l": "f_bookcase", "L": "f_stool" },
-          "place_items": [
-            { "item": "antique", "x": [ 4, 9 ], "y": [ 10, 10 ], "chance": 70 },
-            { "item": "antique", "x": [ 14, 19 ], "y": [ 10, 10 ], "chance": 70 },
-            { "item": "antique", "x": [ 4, 9 ], "y": [ 13, 13 ], "chance": 70 },
-            { "item": "antique", "x": [ 14, 19 ], "y": [ 13, 13 ], "chance": 70 },
-            { "item": "antique", "x": [ 1, 1 ], "y": [ 8, 15 ], "chance": 70 },
-            { "item": "antique", "x": [ 22, 22 ], "y": [ 8, 15 ], "chance": 70 },
-            { "item": "antique_rare", "x": [ 9, 14 ], "y": [ 16, 16 ], "chance": 65 }
-          ]
-        }
-      }
-    ],
-    "flags": [ "SIDEWALK" ]
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_antique" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "|--OOOOOO--++--OOOOOO--|",
+        "|l                    l|",
+        "|l                    l|",
+        "|l  llllll    llllll  l|",
+        "|l                    l|",
+        "|l                    l|",
+        "|l  llllll    llllll  l|",
+        "|l                    l|",
+        "|l                    l|",
+        "|      ##TTTTTT##      |",
+        "|              L#      |",
+        "|----------------------|",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "+": "t_door_glass_c",
+        ",": "t_pavement_y",
+        "-": "t_wall",
+        ".": "t_grass",
+        "F": "t_sidewalk",
+        "O": "t_window",
+        "_": "t_pavement",
+        "|": "t_wall"
+      },
+      "furniture": { "#": "f_counter", "T": "f_displaycase", "l": "f_bookcase", "L": "f_stool" },
+      "place_items": [
+        { "item": "antique", "x": [ 4, 9 ], "y": [ 10, 10 ], "chance": 70 },
+        { "item": "antique", "x": [ 14, 19 ], "y": [ 10, 10 ], "chance": 70 },
+        { "item": "antique", "x": [ 4, 9 ], "y": [ 13, 13 ], "chance": 70 },
+        { "item": "antique", "x": [ 14, 19 ], "y": [ 13, 13 ], "chance": 70 },
+        { "item": "antique", "x": [ 1, 1 ], "y": [ 8, 15 ], "chance": 70 },
+        { "item": "antique", "x": [ 22, 22 ], "y": [ 8, 15 ], "chance": 70 },
+        { "item": "antique_rare", "x": [ 9, 14 ], "y": [ 16, 16 ], "chance": 65 }
+      ]
+    }
   }
 ]

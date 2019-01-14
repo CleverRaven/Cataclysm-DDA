@@ -1,5 +1,9 @@
 #include "pickup.h"
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "auto_pickup.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -23,10 +27,6 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#include <map>
-#include <string>
-#include <vector>
-
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;
 
@@ -40,7 +40,7 @@ typedef enum {
     DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
 } interact_results;
 
-static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpos,
+static interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         int veh_root_part );
 
 static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
@@ -98,11 +98,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_monster_capture = ( monster_capture_part >= 0 );
     const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH", true );
     const bool has_bike_rack = ( bike_rack_part >= 0 );
+    const bool has_planter = veh->avail_part_with_feature( veh_root_part, "PLANTER", true ) >= 0 ||
+                             veh->avail_part_with_feature( veh_root_part, "ADVANCED_PLANTER", true ) >= 0;
 
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK
+        USE_BIKE_RACK, RELOAD_PLANTER
     };
     uilist selectmenu;
 
@@ -173,6 +175,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     }
     if( has_bike_rack ) {
         selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
+    }
+
+    if( has_planter ) {
+        selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
     }
 
     int choice;
@@ -320,6 +326,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case GET_ITEMS:
             return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
+
+        case RELOAD_PLANTER:
+            veh->reload_seeds( pos );
+            return DONE;
     }
 
     return DONE;
@@ -623,16 +633,16 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
 }
 
 // Pick up items at (pos).
-void Pickup::pick_up( const tripoint &pos, int min )
+void Pickup::pick_up( const tripoint &p, int min )
 {
     int cargo_part = -1;
 
-    const optional_vpart_position vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( p );
     vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        switch( interact_with_vehicle( veh, pos, vp ? vp->part_index() : -1 ) ) {
+        switch( interact_with_vehicle( veh, p, vp ? vp->part_index() : -1 ) ) {
             case DONE:
                 return;
             case ITEMS_FROM_CARGO: {
@@ -643,7 +653,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             break;
             case ITEMS_FROM_GROUND:
                 // Nothing to change, default is to pick from ground anyway.
-                if( g->m.has_flag( "SEALED", pos ) ) {
+                if( g->m.has_flag( "SEALED", p ) ) {
                     return;
                 }
 
@@ -652,13 +662,13 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     if( !from_vehicle ) {
-        bool isEmpty = ( g->m.i_at( pos ).empty() );
+        bool isEmpty = ( g->m.i_at( p ).empty() );
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but water.
-        if( ( !isEmpty ) && g->m.furn( pos ) == f_toilet ) {
+        if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
-            for( const item &maybe_water : g->m.i_at( pos ) ) {
+            for( const item &maybe_water : g->m.i_at( p ) ) {
                 if( maybe_water.typeId() != "water" ) {
                     isEmpty = false;
                     break;
@@ -678,29 +688,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
         here.resize( vehitems.size() );
         std::copy( vehitems.begin(), vehitems.end(), here.begin() );
     } else {
-        auto mapitems = g->m.i_at( pos );
+        auto mapitems = g->m.i_at( p );
         here.resize( mapitems.size() );
         std::copy( mapitems.begin(), mapitems.end(), here.begin() );
     }
 
     if( min == -1 ) {
         // Recursively pick up adjacent items if that option is on.
-        if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == pos ) {
+        if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == p ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
             for( auto &elem : adjacentDir ) {
 
                 tripoint apos = tripoint( direction_XY( elem ), 0 );
-                apos += pos;
+                apos += p;
 
                 pick_up( apos, min );
             }
         }
 
         // Bail out if this square cannot be auto-picked-up
-        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), pos ) ) {
+        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( g->m.has_flag( "SEALED", pos ) ) {
+        } else if( g->m.has_flag( "SEALED", p ) ) {
             return;
         }
     }
@@ -708,7 +718,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-        g->u.activity.placement = pos - g->u.pos();
+        g->u.activity.placement = p - g->u.pos();
         g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
         g->u.activity.values.push_back( 0 );
@@ -983,7 +993,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
             }
-            draw_custom_border( w_item_info, false );
+            draw_custom_border( w_item_info, 0 );
             mvwprintw( w_item_info, 0, 2, "< " );
             trim_and_print( w_item_info, 0, 4, itemsW - 8, c_white, "%s >",
                             selected_item.display_name().c_str() );
@@ -1099,8 +1109,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                units::mass weight_picked_up = 0;
-                units::volume volume_picked_up = 0;
+                units::mass weight_picked_up = 0_gram;
+                units::volume volume_picked_up = 0_ml;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
                         item temp = stacked_here[i].begin()->_item;
@@ -1156,7 +1166,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-    g->u.activity.placement = pos - g->u.pos();
+    g->u.activity.placement = p - g->u.pos();
     g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.

@@ -1,5 +1,7 @@
 #include "mapdata.h"
 
+#include <unordered_map>
+
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
@@ -12,8 +14,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <unordered_map>
 
 namespace
 {
