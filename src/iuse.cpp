@@ -2304,7 +2304,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    return this->crowbar(p, it, false, pnt);
+    return this->crowbar( p, it, false, pnt );
 }
 
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
@@ -2401,12 +2401,12 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
     if( pry_level < pry_quality ) {
-        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your current equipment" ) );
+        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ), it->tname() );
         return 0;
     }
 
     // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
-    difficulty -= (pry_level - pry_quality);
+    difficulty -= ( pry_level - pry_quality );
 
     if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
         p->add_msg_if_player( m_good, succ_action );
