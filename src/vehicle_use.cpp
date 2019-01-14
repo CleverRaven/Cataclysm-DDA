@@ -1191,7 +1191,7 @@ void vehicle::open( int part_index )
 }
 
 /**
- * Opens an openable part at the specified index. If it's a multipart, opens
+ * Closes an openable part at the specified index. If it's a multipart, opens
  * all attached parts as well.
  * @param part_index The index in the parts list of the part to open.
  */
@@ -1223,8 +1223,14 @@ void vehicle::open_all_at( int p )
     }
 }
 
+
+/**
+ * Opens or closes an openable part at the specified index based on the @opening value passed.
+ * If it's a multipart, opens or closes all attached parts as well.
+ * @param part_index The index in the parts list of the part to open.
+ */
 void vehicle::open_or_close( const int part_index, const bool opening )
-{ 
+{
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
 
