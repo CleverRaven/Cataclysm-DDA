@@ -8638,8 +8638,8 @@ bool player::unload(item &it)
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
-        for( auto iter = target->contents.begin(); iter != target->contents.end(); ++iter ) {
-            mv += this->item_reload_cost( it, *iter, iter->charges ) / 2; 
+        for( auto &content : target->contents ) {
+            mv += this->item_reload_cost(it, content, content.charges) / 2;
         }
         g->u.activity.moves_left += mv;
 
