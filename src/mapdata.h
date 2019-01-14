@@ -127,7 +127,7 @@ struct map_deconstruct_info {
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
  *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
+ * To add a new ter_bitflag, add below and add to ter_bitflags_map in mapdata.cpp
  * Order does not matter.
  */
 enum ter_bitflags : int {
@@ -165,6 +165,7 @@ enum ter_bitflags : int {
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP,
+    TFLAG_HIDE_PLACE,
 
     NUM_TERFLAGS
 };
