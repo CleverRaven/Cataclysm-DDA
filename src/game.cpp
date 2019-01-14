@@ -6114,6 +6114,7 @@ bool pet_menu( monster *z )
 
     if( play_with_pet == choice && query_yn( _( "Spend a few minutes to play with your %s?"), pet_name.c_str() ) ) {
         g->u.assign_activity( activity_id( "ACT_PLAY_WITH_PET" ), rng( 50, 125 ) * 100 );
+        g->u.activity.str_values.push_back( pet_name );
 
     }
 
