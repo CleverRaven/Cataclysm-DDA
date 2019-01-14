@@ -2843,7 +2843,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
         }
         sum_weight += input.weight();
     }
-    if( sum_weight <= 0 ) {
+    if( sum_weight <= 0_gram ) {
         //~ %1$s: desired compactor output material
         add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
                  m.name().c_str() );

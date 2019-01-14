@@ -944,7 +944,7 @@ void vehicle::reload_seeds( const tripoint &pos )
             } else {
                 used_seed = p.use_amount( seed_id, actual_amount );
             }
-            used_seed.front().set_age( 0 );
+            used_seed.front().set_age( 0_turns );
             //place seeds into the planter
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, used_seed, pos );
         }
