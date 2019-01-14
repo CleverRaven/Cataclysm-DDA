@@ -100,10 +100,6 @@ void mission_end::evac_construct_5( mission *miss )
         return;
     }
 
-    int starting_x;
-    int starting_y;
-    char dir;
-
     //coords are for evac_center_19_north. will be rotated/reflected for other tile orientations
     int x_coords[18] = {
         1, 1, 1, 2, 2, 2, //first table
