@@ -5973,7 +5973,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   },
   {
     "id": "scissors",
