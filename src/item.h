@@ -750,7 +750,7 @@ class item : public visitable<item>
 
         /** Sets the item to new temperature and energy based new specific energy (J/g)*/
         void set_item_specific_energy( const float specific_energy );
-		
+
         /** Calculates item energy (J) from temperature (K)*/
         float get_energy_from_temperature( const float new_temperature );
 

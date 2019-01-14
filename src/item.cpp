@@ -1001,8 +1001,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
-				}
-				if( is_food() || is_food_container() ) {
+                }
+                if( is_food() || is_food_container() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                               food->temperature ) );
                     info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
@@ -5990,24 +5990,26 @@ void item::set_item_specific_energy( const float new_specific_energy )
     const int latent_heat = type->comestible->lat_heat; // J/kg
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
-                                           freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_specific_energy = completely_frozen_specific_energy + 
-                                           latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
+            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
+    const float completely_liquid_specific_energy = completely_frozen_specific_energy +
+            latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
     float new_item_temperature;
-	float freeze_percentage = 1;
+    float freeze_percentage = 1;
 
     if( new_specific_energy > completely_liquid_specific_energy ) {
         // Item is liquid
-        new_item_temperature = freezing_temperature + ( new_specific_energy - completely_liquid_specific_energy ) /
+        new_item_temperature = freezing_temperature + ( new_specific_energy -
+                               completely_liquid_specific_energy ) /
                                ( specific_heat_liquid );
-		freeze_percentage = 0;
+        freeze_percentage = 0;
     } else if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
         new_item_temperature = new_specific_energy / ( specific_heat_solid );
     } else {
         // Item is partially solid
         new_item_temperature = freezing_temperature;
-		freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) / ( completely_liquid_specific_energy - completely_frozen_specific_energy );
+        freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
+                            ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
 
     // Apply temperature tags tags
@@ -6076,7 +6078,7 @@ void item::set_item_temperature( float new_temperature )
 
     float new_specific_energy = get_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
-	
+
     temperature = static_cast<int>( 100000 * new_temperature + 0.5 );
     specific_energy = static_cast<int>( 100000 * new_specific_energy / mass + 0.5 );
 
@@ -6139,7 +6141,8 @@ void item::fill_with( item &liquid, long amount )
         item &cts = contents.front();
         const float lhs_energy = cts.get_item_thermal_energy();
         const float rhs_energy = liquid.get_item_thermal_energy();
-        const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram( cts.weight() ) + to_gram( liquid.weight() ) ) ;
+        const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
+                cts.weight() ) + to_gram( liquid.weight() ) ) ;
         cts.set_item_specific_energy( combined_specific_energy );
         //use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
@@ -6549,7 +6552,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 // This may happen rarely with very small items
                 // Just set the item to enviroment temperature
                 set_item_temperature( env_temperature );
-				return;
+                return;
             }
         }
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
@@ -6577,7 +6580,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 // This may happen rarely with very small items
                 // Just set the item to enviroment temperature
                 set_item_temperature( env_temperature );
-				return;
+                return;
             }
         }
     } else {
