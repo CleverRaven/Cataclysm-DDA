@@ -105,6 +105,7 @@ struct map_deconstruct_info {
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
+ * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
