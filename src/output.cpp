@@ -205,7 +205,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
 
             if( iLength > width ) {
                 sTempText = sTempText.substr( 0, cursorx_to_position( sTempText.c_str(),
-                                              iTempLen - ( iLength - width ) - 1, NULL, -1 ) ) + "\u2026";
+                                              iTempLen - ( iLength - width ) - 1, nullptr, -1 ) ) + "\u2026";
             }
 
             sText += sColor + sTempText;
@@ -2086,7 +2086,7 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
 */
 std::string format_volume( const units::volume &volume )
 {
-    return format_volume( volume, 0, NULL, NULL );
+    return format_volume( volume, 0, nullptr, nullptr);
 }
 
 /**

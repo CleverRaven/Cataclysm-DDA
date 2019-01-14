@@ -1109,7 +1109,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 do {
                     // overmap::draw will handle actually showing the preview
                     draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-                          fast_scroll, NULL, draw_data_t() );
+                          fast_scroll, nullptr, draw_data_t() );
 
                     draw_border( w_editor );
                     if( terrain ) {
