@@ -736,7 +736,7 @@ void player::complete_craft()
             // as well.  This isn't a big deal because they don't care about
             // temperature (yet?) and it's actually more costly to check for
             // is_food() than just reset the timer.
-            newit.set_temperature( 293.15 );
+            newit.set_item_temperature( 293.15 );
             newit.reset_temp_check();
         }
 
@@ -753,7 +753,7 @@ void player::complete_craft()
             if( should_heat ) {
                 bp.heat_up();
             } else {
-                bp.set_temperature( 293.15 );
+                bp.set_item_temperature( 293.15 );
                 bp.reset_temp_check();
             }
             finalize_crafted_item( bp );
