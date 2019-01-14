@@ -8016,7 +8016,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   },
   {
     "id": "zweifire_off",
