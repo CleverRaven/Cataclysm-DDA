@@ -281,7 +281,8 @@ const int EVAC_CENTER_SIZE = 5;
 
 void mission_start::place_zombie_bay( mission *miss )
 {
-    tripoint site = mission_util::target_om_ter_random( "evac_center_9", 1, miss, false, EVAC_CENTER_SIZE );
+    tripoint site = mission_util::target_om_ter_random( "evac_center_9", 1, miss, false,
+                    EVAC_CENTER_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
     bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, _( "Sean McLaughlin" ) );
@@ -369,7 +370,8 @@ void mission_start::place_bandit_cabin( mission *miss )
 
 void mission_start::place_informant( mission *miss )
 {
-    tripoint site = mission_util::target_om_ter_random( "evac_center_19", 1, miss, false, EVAC_CENTER_SIZE );
+    tripoint site = mission_util::target_om_ter_random( "evac_center_19", 1, miss, false,
+                    EVAC_CENTER_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
     miss->target_npc_id = bay.place_npc( SEEX, SEEY, string_id<npc_template>( "evac_guard3" ) );
@@ -1839,7 +1841,8 @@ void mission_start::create_hidden_lab_console( mission *miss )
     // Pick a hidden lab entrance.
     tripoint loc = g->u.global_omt_location();
     loc.z = -1;
-    tripoint place = mission_util::target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc );
+    tripoint place = mission_util::target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false,
+                     0, loc );
     place.z = -2;  // then go down 1 z-level to place consoles.
 
     create_lab_consoles( miss, place, "lab", 3, "Workstation", "Download Encryption Routines" );

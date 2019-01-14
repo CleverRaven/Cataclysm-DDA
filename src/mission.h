@@ -173,7 +173,7 @@ struct mission_end { // These functions are run when a mission ends
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
     static void heal_infection( mission * );
-    static void evac_construct_5(mission *); // place can food in evac storage room
+    static void evac_construct_5( mission * ); // place can food in evac storage room
 };
 
 struct mission_fail {
@@ -182,8 +182,10 @@ struct mission_fail {
 };
 
 struct mission_util {
-    static tripoint target_om_ter(const std::string &omter, int reveal_rad, mission *miss, bool must_see, int target_z = 0);
-    static tripoint target_om_ter_random(const std::string &omter, int reveal_rad, mission *miss,  bool must_see, int range, tripoint loc = overmap::invalid_tripoint);
+    static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
+                                   bool must_see, int target_z = 0 );
+    static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
+                                          bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
 };
 
 struct mission_type {
