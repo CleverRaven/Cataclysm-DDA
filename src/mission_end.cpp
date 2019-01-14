@@ -82,19 +82,15 @@ void mission_end::evac_construct_5( mission *miss )
     char direction;
     if( overmap_buffer.find_closest( site, "evac_center_19_north", 1,
                                      true ) != overmap::invalid_tripoint ) {
-        //dbg(D_ERROR) << "NORTH SITE FOUND"; //TODO: delete debug
         direction = 'N';
     } else if( overmap_buffer.find_closest( site, "evac_center_19_east", 1,
                                             true ) != overmap::invalid_tripoint ) {
-        //dbg(D_ERROR) << "EAST SITE FOUND"; //TODO: delete debug
         direction = 'E';
     } else if( overmap_buffer.find_closest( site, "evac_center_19_south", 1,
                                             true ) != overmap::invalid_tripoint ) {
-        //dbg(D_ERROR) << "SOUTH SITE FOUND"; //TODO: delete debug
         direction = 'S';
     } else if( overmap_buffer.find_closest( site, "evac_center_19_west", 1,
                                             true ) != overmap::invalid_tripoint ) {
-        //dbg(D_ERROR) << "WEST SITE FOUND"; //TODO: delete debug
         direction = 'W';
     } else {
         return;
