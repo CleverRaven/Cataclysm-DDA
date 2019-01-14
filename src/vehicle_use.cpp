@@ -925,9 +925,7 @@ void vehicle::reload_seeds( const tripoint &pos )
         const int count = std::get<2>( seed_entries[seed_index] );
         const char *msg = nullptr;
         int amount = 0;
-        std::string popupmsg;
-        msg = _( "Move how many? [Have %d] (0 to cancel)" );
-        popupmsg = string_format( msg, count );
+        const std::string popupmsg = string_format( _( "Move how many? [Have %d] (0 to cancel)" ), count );
 
         amount = string_input_popup()
                  .title( popupmsg )

@@ -1621,9 +1621,8 @@ void basecamp::start_farm_op( npc &p, const std::string &dir, const tripoint &om
                 popup( _( "You have no additional seeds to give your companions..." ) );
                 return;
             }
-            std::vector<item *> plant_these;
-            plant_these = talk_function::individual_mission_give_equipment( seed_inv,
-                          _( "Which seeds do you wish to have planted?" ) );
+            std::vector<item *> plant_these = talk_function::individual_mission_give_equipment( seed_inv,
+                                              _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
             for( item *seeds : plant_these ) {
                 seed_cnt += seeds->count();
