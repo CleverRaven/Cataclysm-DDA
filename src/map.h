@@ -521,8 +521,6 @@ class map
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
         bool vehproceed();
-        // Actually moves a vehicle
-        bool vehact( vehicle &veh );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
