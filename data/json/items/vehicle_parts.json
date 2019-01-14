@@ -489,7 +489,7 @@
         "id" : "wind_turbine",
         "name" : "wind turbine",
         "description" : "A small turbine that can convert wind into electric power.",
-        "weight" : 30000,
+        "weight" : 50000,
         "to_hit" : -4,
         "color" : "yellow",
         "symbol" : "T",
