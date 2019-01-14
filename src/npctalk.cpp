@@ -2117,16 +2117,29 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_companion_mission( role_id );
     } else if( jo.has_string( "u_add_effect" ) ) {
         std::string new_effect = jo.get_string( "u_add_effect" );
-        if( jo.has_string( "duration" ) && jo.get_string( "duration" ) == "PERMANENT" ) {
-            subeffect_fun.set_u_add_permanent_effect( new_effect );
+        if( jo.has_string( "duration" ) ) {
+            const std::string dur_string = jo.get_string( "duration" );
+            if( dur_string == "PERMANENT" ) {
+                subeffect_fun.set_u_add_permanent_effect( new_effect );
+            } else {
+                int duration = std::stoi( dur_string );
+                subeffect_fun.set_u_add_effect( new_effect, time_duration::from_turns( duration ) );
+            }
         } else {
             subeffect_fun.set_u_add_effect( new_effect,
                           time_duration::from_turns( jo.get_int( "duration" ) ) );
         }
     } else if( jo.has_string( "npc_add_effect" ) ) {
         std::string new_effect = jo.get_string( "npc_add_effect" );
-        if( jo.has_string( "duration" ) && jo.get_string( "duration" ) == "PERMANENT" ) {
-            subeffect_fun.set_npc_add_permanent_effect( new_effect );
+        if( jo.has_string( "duration" ) ) {
+            const std::string dur_string = jo.get_string( "duration" );
+            if( dur_string == "PERMANENT" ) {
+                subeffect_fun.set_npc_add_permanent_effect( new_effect );
+            } else {
+                int duration = std::stoi( dur_string );
+                subeffect_fun.set_npc_add_effect( new_effect,
+                                                  time_duration::from_turns( duration ) );
+            }
         } else {
             subeffect_fun.set_npc_add_effect( new_effect,
                           time_duration::from_turns( jo.get_int( "duration" ) ) );

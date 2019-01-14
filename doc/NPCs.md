@@ -451,7 +451,7 @@ player_weapon_drop | Makes your character drop their weapon.
 
 Effect | Description
 ---|---
-u_add_effect: effect_string, (*optional* duration: duration_string)<br/>npc_add_effect: effect_string, (*optional* duration: duration_string) | Your character or the NPC will gain the effect for `duration_string` turns.
+u_add_effect: effect_string, (*one of* duration: duration_string, duration: duration_int)<br/>npc_add_effect: effect_string, (*one of* duration: duration_string, duration: duration_int) | Your character or the NPC will gain the effect for `duration_string` or `duration_int` turns.  If `duration_string` is "PERMANENT", the effect will be added permanently.
 u_add_trait: trait_string<br/>npc_add_trait: trait_string | Your character or the NPC will gain the trait.
 
 #### Trade / Items
@@ -506,6 +506,7 @@ deny_follow<br/>deny_lead<br/>deny_train<br/>deny_personal_info | Sets the appro
 { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ] }
 { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" },
 { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } }
+{ "text": "Do you like it?", "topic": "TALK_CAMP_OVERSEER", "effect": [ { "u_add_effect": "concerned", "duration": 600 }, { "npc_add_effect": "touched", "duration": "3600" }, { "u_add_effect": "empathetic", "duration": "PERMANENT" } ] }
 ```
 
 ---
