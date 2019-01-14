@@ -124,8 +124,8 @@
       "fields": { "l": { "field": "fd_nuke_gas", "density": 1, "age": 0 }, "L": { "field": "fd_nuke_gas", "density": 1, "age": 0 } },
       "computers": {
         "p": {
-          "name": "Mr. Stem Cell",
-          "options": [ { "name": "Stem Cell Treatment", "action": "stemcell_treatment" } ],
+          "name": "Bonesetting Treatment",
+          "options": [ { "name": "Bonesetting Treatment", "action": "bonesetting" } ],
           "failures": [ { "action": "alarm" } ]
         }
       }
