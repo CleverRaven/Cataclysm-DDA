@@ -2086,7 +2086,7 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
 */
 std::string format_volume( const units::volume &volume )
 {
-    return format_volume( volume, 0, nullptr, nullptr);
+    return format_volume( volume, 0, nullptr, nullptr );
 }
 
 /**
