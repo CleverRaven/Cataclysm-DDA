@@ -5940,8 +5940,7 @@ bool pet_menu( monster *z )
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag" ) );
     }
 
-    if( z->has_flag( MF_BIRDFOOD ) || z->has_flag( MF_CATFOOD ) || z->has_flag( MF_DOGFOOD ) )
-    {
+    if( z->has_flag( MF_BIRDFOOD ) || z->has_flag( MF_CATFOOD ) || z->has_flag( MF_DOGFOOD ) ) {
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name.c_str() );
     }
 
@@ -6114,8 +6113,7 @@ bool pet_menu( monster *z )
     }
 
     if( play_with_pet == choice &&
-        query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name.c_str() ) )
-    {
+        query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name.c_str() ) ) {
         g->u.assign_activity( activity_id( "ACT_PLAY_WITH_PET" ), rng( 50, 125 ) * 100 );
         g->u.activity.str_values.push_back( pet_name );
 
