@@ -4115,6 +4115,13 @@
       [
         [ "sweet_fruit_like", 2, "LIST" ],
         [ "bum_wine", 14 ],
+        [ "fruit_wine", 14 ],
+        [ "dandelion_wine", 14 ],
+        [ "pine_wine", 14 ],
+        [ "wine_noir", 10 ],
+        [ "wine_cabernet", 10 ],
+        [ "wine_chardonnay", 10 ],
+        [ "wine_riesling", 10 ],
         [ "coconut", 2 ],
         [ "coffee_syrup", 5 ],
         [ "cola", 6 ],
@@ -6989,7 +6996,7 @@
     "time": 3000,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_noir", 2 ] ], [ [ "cola", 1 ] ] ]
+    "components": [ [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_chardonnay", 2 ], [ "wine_noir", 2 ] ], [ [ "cola", 1 ] ] ]
   },
   {
     "type": "recipe",
