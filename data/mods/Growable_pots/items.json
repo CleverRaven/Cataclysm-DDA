@@ -299,7 +299,7 @@
     "id": "gp_barley_ready",
     "name": "Garden pot (ripe barley)",
     "name_plural": "Garden pots (ripe barley)",
-    "description": "This is a garden pot containing a ready to harvest barley. Disassemble for harvest.",
+    "description": "This is a garden pot containing a ready to harvest barley.  Disassemble for harvest.",
     "weight": 480,
     "symbol": ")",
     "color": "brown",
