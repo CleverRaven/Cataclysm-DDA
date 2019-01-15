@@ -1069,7 +1069,7 @@ void spawn_spores( const player &p )
         if( g->m.impassable( dest ) ) {
             continue;
         }
-        float dist = trig_dist( dest, p.pos() );
+        float dist = rl_dist( dest, p.pos() );
         if( x_in_y( 1, dist ) ) {
             fe.marlossify( dest );
         }
