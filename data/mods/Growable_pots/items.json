@@ -131,7 +131,7 @@
     "id": "gp_hops_ready",
     "name": "Garden pot (ripe hops)",
     "name_plural": "Garden pots (ripe hops)",
-    "description": "This is a garden pot containing a ready to harvest hops. Disassemble for harvest.",
+    "description": "This is a garden pot containing a ready to harvest hops.  Disassemble for harvest.",
     "weight": 480,
     "symbol": ")",
     "color": "brown",
