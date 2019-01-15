@@ -1967,7 +1967,7 @@
     "price": 13000,
     "material": [ "flesh" ],
     "symbol": "[",
-    "color": "gray",
+    "color": "light_gray",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 12,
