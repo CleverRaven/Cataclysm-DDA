@@ -102,18 +102,24 @@ void scent_map::set( const tripoint &p, int value )
 bool scent_map::inbounds( const tripoint &p ) const
 {
     // This weird long check here is a hack around the fact that scentmap is 2D
-    // A z-level can access scentmap if it is within 1 flying z-level move from player's z-level
+    // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
 
-    const tripoint scent_map_boundary_min( 0, 0, p.z - 1 );
-    const tripoint scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y, p.z + 1 );
-    const tripoint scent_map_clearance_min( tripoint_zero );
-    const tripoint scent_map_clearance_max( 1, 1, 0 );
+    const bool scent_map_z_level_inbounds = ( p.z == gm.get_levz() ) ||
+                                            ( std::abs( p.z - gm.get_levz() ) == SCENT_MAP_Z_REACH &&
+                                                    gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) );
+    if( !scent_map_z_level_inbounds ) {
+        return false;
+    };
+    const point scent_map_boundary_min( point_zero );
+    const point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
+    const point scent_map_clearance_min( point_zero );
+    const point scent_map_clearance_max( 1, 1 );
 
-    const box scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
-    const box scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
+    const rectangle scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
+    const rectangle scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
 
-    return generic_inbounds( p, scent_map_boundaries, scent_map_clearance );
+    return generic_inbounds( { p.x, p.y }, scent_map_boundaries, scent_map_clearance );
 }
 
 void scent_map::update( const tripoint &center, map &m )
