@@ -1500,7 +1500,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
-        return farm_ter->has_flag( "UNPLOWED" );
+        return farm_ter->has_flag( "PLOWABLE" );
     };
 
     std::set<std::string> plant_names;

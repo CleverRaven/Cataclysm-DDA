@@ -94,6 +94,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```PERMEABLE``` Permeable for gases.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
+- ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP``` Can be used to move up a z-level
 - ```RAMP_END```
 - ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
@@ -111,7 +112,6 @@ List of known flags, used in both terrain.json and furniture.json
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
-- ```UNPLOWED``` Terrain is unplowed.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 
