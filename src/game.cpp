@@ -1620,7 +1620,7 @@ bool game::do_turn()
 
         const bool in_bubble_z = m.has_zlevels() || sm_loc.z == get_levz();
         for( auto &veh : sm->vehicles ) {
-            veh->idle( in_bubble_z && m.inbounds( in_reality.x, in_reality.y ) );
+            veh->idle( in_bubble_z && m.inbounds( in_reality ) );
         }
     }
     m.process_fields();
@@ -4249,10 +4249,11 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
     // rather than just somewhere in the vicinity.
 
     std::unordered_set<tripoint> visited;
-    const int min_x = fish_pos.x - distance;
-    const int max_x = fish_pos.x + distance;
-    const int min_y = fish_pos.y - distance;
-    const int max_y = fish_pos.y + distance;
+
+    const tripoint fishing_boundary_min( fish_pos.x - distance, fish_pos.y - distance, fish_pos.z );
+    const tripoint fishing_boundary_max( fish_pos.x + distance, fish_pos.y + distance, fish_pos.z );
+
+    const box fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
 
     const auto get_fishable_terrain = [&]( tripoint starting_point,
     std::unordered_set<tripoint> &fishable_terrain ) {
@@ -4268,9 +4269,7 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
             }
 
             // This point is out of bounds, so bail.
-            bool in_bounds = current_point.x >= min_x && current_point.x <= max_x && current_point.y >= min_y &&
-                             current_point.y <= max_y;
-            if( !in_bounds ) {
+            if( !generic_inbounds( current_point, fishing_boundaries ) ) {
                 continue;
             }
 

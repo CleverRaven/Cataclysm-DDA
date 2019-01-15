@@ -47,9 +47,6 @@ const efftype_id effect_webbed( "webbed" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 
-#define INBOUNDS(x, y) \
-    (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
-
 /** ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}, phase_id (of matter), accelerated_decay (decay outside of reality bubble) **/
 const std::array<field_t, num_fields> fieldlist = { {
         {

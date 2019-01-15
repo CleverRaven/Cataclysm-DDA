@@ -906,7 +906,7 @@ void overmap::init_layers()
 
 oter_id &overmap::ter( const int x, const int y, const int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return ot_null;
     }
 
@@ -920,7 +920,7 @@ oter_id &overmap::ter( const tripoint &p )
 
 const oter_id overmap::get_ter( const int x, const int y, const int z ) const
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return ot_null;
     }
 
@@ -934,7 +934,7 @@ const oter_id overmap::get_ter( const tripoint &p ) const
 
 bool &overmap::seen( int x, int y, int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -943,7 +943,7 @@ bool &overmap::seen( int x, int y, int z )
 
 bool &overmap::explored( int x, int y, int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -952,7 +952,7 @@ bool &overmap::explored( int x, int y, int z )
 
 bool overmap::is_explored( const int x, const int y, const int z ) const
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return false;
     }
     return layer[z + OVERMAP_DEPTH].explored[x][y];
@@ -1085,16 +1085,17 @@ std::vector<point> overmap::find_notes( const int z, const std::string &text )
     return note_locations;
 }
 
-bool overmap::inbounds( const tripoint &loc, int clearance )
+bool overmap::inbounds( const tripoint &p, int clearance )
 {
-    return ( loc.x >= clearance && loc.x < OMAPX - clearance &&
-             loc.y >= clearance && loc.y < OMAPY - clearance &&
-             loc.z >= -OVERMAP_DEPTH && loc.z <= OVERMAP_HEIGHT );
-}
+    const tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    const tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT );
+    const tripoint overmap_clearance_min( 0 + clearance, 0 + clearance, 0 );
+    const tripoint overmap_clearance_max( 1 + clearance, 1 + clearance, 0 );
 
-bool overmap::inbounds( int x, int y, int z, int clearance )
-{
-    return inbounds( tripoint( x, y, z ), clearance );
+    const box overmap_boundaries( overmap_boundary_min, overmap_boundary_max );
+    const box overmap_clearance( overmap_clearance_min, overmap_clearance_max );
+
+    return generic_inbounds( p, overmap_boundaries, overmap_clearance );
 }
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
@@ -1975,9 +1976,7 @@ void overmap::place_forest_trails()
             }
 
             // This point is out of bounds, so bail.
-            bool in_bounds = current_point.x >= 0 && current_point.x < OMAPX && current_point.y >= 0 &&
-                             current_point.y < OMAPY;
-            if( !in_bounds ) {
+            if( !inbounds( current_point, 1 ) ) {
                 continue;
             }
 
@@ -2242,7 +2241,7 @@ void overmap::place_river( point pa, point pb )
         for( int i = -1; i <= 1; i++ ) {
             for( int j = -1; j <= 1; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
-                if( inbounds( x + j, y + i, 0, 1 ) ||
+                if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
                     ter( x + j, y + i, 0 ) = oter_id( "river_center" );
