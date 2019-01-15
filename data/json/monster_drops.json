@@ -110,6 +110,7 @@
           { "item": "cigar", "prob": 10 },
           { "item": "handrolled_cig", "prob": 10 },
           { "item": "nic_gum", "prob": 20 },
+          { "item": "ecig", "prob": 15 },
           { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
           { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 },
           {
@@ -119,7 +120,6 @@
             ],
             "prob": 10
           },
-          { "collection": [ { "item": "ecig" }, { "item": "nicotine_liquid" } ], "prob": 15 },
           { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 },
           { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 }
         ],
