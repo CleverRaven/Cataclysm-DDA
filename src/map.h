@@ -260,12 +260,15 @@ class map
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
 
-        void set_memory_seen_cache_dirty( const tripoint p ) {
-            get_cache( p.z ).map_memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] = false;
+        void set_memory_seen_cache_dirty( const tripoint &p ) {
+            const int offset = p.x + ( p.y * MAPSIZE_Y );
+            if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
+                get_cache( p.z ).map_memory_seen_cache.reset( offset );
+            }
         }
 
         bool check_and_set_seen_cache( const tripoint &p ) const {
-            std::bitset<SEEX *MAPSIZE *SEEY *MAPSIZE> &memory_seen_cache =
+            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
             if( !memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] ) {
                 memory_seen_cache.set( static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) );
