@@ -142,7 +142,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
         return nullptr;
     }
 
-    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
+    return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
 bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
