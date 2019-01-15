@@ -8658,6 +8658,25 @@
       ["diamond", 75]
     ]
   },{
+    "type" : "item_group",
+    "id" : "jewelry_accessories",
+    "items":[
+      ["ring", 30],
+      ["gold_ear", 30],
+      ["gold_bracelet", 30],
+      ["gold_dental_grill", 10],
+      ["silver_ear", 40],
+      ["necklace", 40],
+      ["silver_bracelet", 40],
+      ["diamond_ring", 10],
+      ["diamond_dental_grill", 5],
+      ["brooch", 30],
+      ["copper_ear", 50],
+      ["tieclip", 35],
+      ["pearl_collar", 30],
+      ["holy_symbol", 20]
+    ]
+  },{
 "type" : "item_group",
 "id" : "antique",
         "items" : [

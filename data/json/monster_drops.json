@@ -32,7 +32,8 @@
       { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "hatstore_accessories", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "clothing_glasses", "damage": [ 1, 4 ], "prob": 20 }
+      { "group": "clothing_glasses", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "jewelry_accessories", "prob": 15 }
     ]
   },
   {
