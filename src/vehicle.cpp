@@ -3143,6 +3143,7 @@ struct drag_column {
     int shield = minrow;
     int turret = minrow;
     int panel = minrow;
+    int windmill = minrow;
     int last = maxrow;
 };
 
@@ -3157,6 +3158,7 @@ double vehicle::coeff_air_drag() const
     constexpr double aisle_height = 0.6;
     constexpr double fullboard_height = 0.5;
     constexpr double roof_height = 0.1;
+    constexpr double windmill_height = 0.7;
 
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
     int min_x = 0;
@@ -3221,6 +3223,7 @@ double vehicle::coeff_air_drag() const
                          !pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
+            d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
                          pa.info().has_flag( "HALF_BOARD" ) );
@@ -3250,6 +3253,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c -= ( dc.last == min_x ) ? c_air_mod : 0;
         // turrets severely worsen air drag
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
+        // having a windmill is terrible for your drag
+        c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
         c_air_drag = std::max( c_air_drag, c_air_drag_c );
         // vehicles are 1.4m tall
         double c_height = base_height;
@@ -3263,6 +3268,8 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.turret > minrow ) ? 2 * roof_height : 0;
         // solar panels are better than turrets or floodlights, though
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
+        // windmills are tall, too
+        c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
         height = std::max( height, c_height );
     }
     constexpr double air_density = 1.29; // kg/m^3
