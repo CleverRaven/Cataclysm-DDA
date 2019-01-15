@@ -214,18 +214,7 @@
     "autolearn": true,
     "components": [
       [ [ "water", 7 ], [ "water_clean", 7 ] ],
-      [
-        [ "juice", 14 ],
-        [ "apple_cider", 7 ],
-        [ "fruit_wine", 21 ],
-        [ "bum_wine", 21 ],
-        [ "dandelion_wine", 21 ],
-        [ "pine_wine", 21 ],
-        [ "wine_riesling", 15 ],
-        [ "wine_chardonnay", 15 ],
-        [ "wine_cabernet", 15 ],
-        [ "wine_noir", 15 ]
-      ]
+      [ [ "juice", 14 ], [ "apple_cider", 7 ], [ "cheap_wine", 21, "LIST" ], [ "worthy_wine", 15, "LIST" ] ]
     ]
   }
 ]
