@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "enums.h"
+#include "io_tags.h"
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
@@ -90,11 +91,6 @@ struct light_emission {
     short direction;
 };
 extern light_emission nolight;
-
-namespace io
-{
-struct object_archive_tag;
-}
 
 /**
  *  Value and metadata for one property of an item
