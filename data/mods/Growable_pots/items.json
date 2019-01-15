@@ -64,7 +64,7 @@
     "id": "gp_wheat",
     "name": "Garden pot (growing wheat)",
     "name_plural": "Garden pot (growing wheat)",
-    "description": "This is a garden pot growing wheat. When ripe you need to activate to prepare for harvest.",
+    "description": "This is a garden pot growing wheat.  When ripe you need to activate to prepare for harvest.",
     "weight": 480,
     "symbol": ")",
     "color": "brown",
