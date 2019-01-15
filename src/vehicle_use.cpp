@@ -1231,11 +1231,11 @@ void vehicle::open_all_at( int p )
  */
 void vehicle::open_or_close( const int part_index, const bool opening )
 {
-    insides_dirty = true;
-    g->m.set_transparency_cache_dirty( smz );
-
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
+   
+    insides_dirty = true;
+    g->m.set_transparency_cache_dirty( smz );
 
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
