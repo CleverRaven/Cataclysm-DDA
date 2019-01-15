@@ -2157,7 +2157,7 @@ void overmap::place_forest_trailheads()
                 if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
                     one_in( settings.forest_trail.trailhead_chance ) ) {
                     oter_potential_trailhead = oter_id( "trailhead_west" );
-                    road_points.emplace_back( i, j - 2 );
+                    road_points.emplace_back( i - 2, j );
                 }
             } else if( oter == "forest_trail_end_east" ) {
                 oter_id &oter_potential_trailhead = ter( i + 1, j, 0 );
@@ -2165,7 +2165,7 @@ void overmap::place_forest_trailheads()
                 if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
                     one_in( settings.forest_trail.trailhead_chance ) ) {
                     oter_potential_trailhead = oter_id( "trailhead_east" );
-                    road_points.emplace_back( i, j + 2 );
+                    road_points.emplace_back( i + 2, j );
                 }
             } else {
                 continue;
