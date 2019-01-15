@@ -54,8 +54,6 @@ jobs:
       addons: &gcc
         apt:
           packages: ["wine"]
-          sources:
-            - sourceline 'deb [arch=amd64] http://mirror.mxe.cc/repos/apt xenial main'
 
     # Windows Tiles
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
