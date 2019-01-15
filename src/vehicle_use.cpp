@@ -1233,7 +1233,6 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 {
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
-   
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
 
