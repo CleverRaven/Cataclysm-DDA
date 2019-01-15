@@ -100,11 +100,15 @@
           { "item": "cigar", "prob": 10 },
           { "item": "handrolled_cig", "prob": 10 },
           { "item": "nic_gum", "prob": 20 },
+          { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
+          { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 },
           {
-            "collection": [ { "item": "joint", "prob": 80 }, { "item": "weed", "prob": 10 }, { "item": "rolling_paper", "prob": 10 } ],
+            "collection": [
+              { "item": "tobacco" },
+              { "distribution": [ { "item": "rolling_paper", "prob": 80 }, { "item": "pipe_tobacco", "prob": 20 } ] }
+            ],
             "prob": 10
           },
-          { "collection": [ { "item": "pipe_tobacco" }, { "item": "tobacco" } ], "prob": 5 },
           { "collection": [ { "item": "ecig" }, { "item": "nicotine_liquid" } ], "prob": 15 },
           { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 },
           { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 }
