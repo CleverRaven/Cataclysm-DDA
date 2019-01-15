@@ -111,15 +111,15 @@ bool scent_map::inbounds( const tripoint &p ) const
     if( !scent_map_z_level_inbounds ) {
         return false;
     };
-    const tripoint scent_map_boundary_min( 0, 0, p.z - SCENT_MAP_Z_REACH );
-    const tripoint scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y, p.z + SCENT_MAP_Z_REACH );
-    const tripoint scent_map_clearance_min( tripoint_zero );
-    const tripoint scent_map_clearance_max( 1, 1, 0 );
+    const point scent_map_boundary_min( point_zero );
+    const point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
+    const point scent_map_clearance_min( point_zero );
+    const point scent_map_clearance_max( 1, 1 );
 
-    const box scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
-    const box scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
+    const rectangle scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
+    const rectangle scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
 
-    return generic_inbounds( p, scent_map_boundaries, scent_map_clearance );
+    return generic_inbounds( { p.x, p.y }, scent_map_boundaries, scent_map_clearance );
 }
 
 void scent_map::update( const tripoint &center, map &m )
