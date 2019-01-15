@@ -11161,11 +11161,12 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
     } );
 }
 
+// mytest return weapon name to display in sidebar
 std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
-        std::stringstream str;
-        str << weapon.type_name();
+        std::string str;
+        str = weapon.type_name();
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
@@ -11176,37 +11177,38 @@ std::string player::weapname() const
         } );
 
         if( base || aux ) {
-            str << " (";
+            str += " (";
             if( base ) {
-                str << weapon.ammo_remaining();
+                str += std::to_string( weapon.ammo_remaining() );
                 if( weapon.magazine_integral() ) {
-                    str << "/" << weapon.ammo_capacity();
+                    str += "/" + std::to_string( weapon.ammo_capacity() );
                 }
             } else {
-                str << "---";
+                str += "---";
             }
-            str << ")";
+            str += ")";
 
             for( auto e : mods ) {
                 if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                    str << " (" << e->ammo_remaining();
+                    str += " (" + std::to_string( e->ammo_remaining() );
                     if( e->magazine_integral() ) {
-                        str << "/" << e->ammo_capacity();
+                        str += "/" + std::to_string( e->ammo_capacity() );
                     }
-                    str << ")";
+                    str += ")";
                 }
             }
         }
-        return str.str();
+        return "Weapon  : " + str;
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
+        return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
+                              weapon.contents.front().charges );
 
     } else if( !is_armed() ) {
-        return _( "fists" );
+        return _( "Weapon  : fists" );
 
     } else {
-        return weapon.tname();
+        return "Weapon  : " + weapon.tname();
     }
 }
 

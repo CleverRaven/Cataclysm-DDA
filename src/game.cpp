@@ -663,6 +663,10 @@ void game::init_ui( const bool resized )
         w_messages = w_messages_long;
     }
 
+    w_location_wider = w_location_wider_ptr = catacurses::newwin( locH, locW + 10, _y + locY,
+                       _x + locX - 7 );
+    werase( w_location_wider );
+
     w_location = w_location_ptr = catacurses::newwin( locH, locW, _y + locY, _x + locX );
     werase( w_location );
 
@@ -869,7 +873,7 @@ bool game::start_game()
     u.stamina = u.get_stamina_max();
     temperature = SPRING_TEMPERATURE;
     update_weather();
-    u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
+    u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
 
     //Reset character safe mode/pickup rules
@@ -3263,7 +3267,8 @@ void game::debug()
                         set_turn( calendar::turn.years(), to_turns<int>( calendar::year_length() ), _( "Set year to?" ) );
                         break;
                     case 1:
-                        set_turn( int( season_of_year( calendar::turn ) ), to_turns<int>( calendar::turn.season_length() ),
+                        set_turn( int( season_of_year( calendar::turn ) ),
+                                  to_turns<int>( calendar::turn.season_length() ),
                                   _( "Set season to? (0 = spring)" ) );
                         break;
                     case 2:
@@ -3317,7 +3322,8 @@ void game::debug()
             int draw_counter = 0;
             while( true ) {
                 end_tick = std::chrono::steady_clock::now();
-                difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick - start_tick ).count();
+                difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick -
+                             start_tick ).count();
                 if( difference >= 5000 ) {
                     break;
                 }
@@ -3653,10 +3659,13 @@ void game::draw_sidebar()
     if( sideStyle ) {
         werase( w_status2 );
     }
-    u.disp_status( w_status, w_status2 );
 
+    // sidestyle ? narrow = 1 : wider = 0
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
-    wmove( time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41 );
+    const catacurses::window &s_window = sideStyle ?  w_location : w_location_wider;
+    werase( s_window );
+    u.disp_status( w_status, w_status2 );
+    wmove( time_window, 1, sideStyle ? 15 : 43 );
     if( u.has_watch() ) {
         wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( get_levz() >= 0 ) {
@@ -3705,21 +3714,22 @@ void game::draw_sidebar()
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
-
-    werase( w_location );
-    mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(),
-               getmaxx( w_location ) ) );
+    wrefresh( s_window );
+    mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
+    wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
 
     if( get_levz() < 0 ) {
-        mvwprintz( w_location, 1, 0, c_light_gray, _( "Underground" ) );
+        mvwprintz( s_window, 1, 0, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w_location, 1, 0, c_light_gray, _( "Weather:" ) );
-        wprintz( w_location, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
+        mvwprintz( s_window, 1, 0, c_light_gray, _( "Weather :" ) );
+        wprintz( s_window, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        mvwprintz( w_location, 1, 19, c_light_gray, _( "Temperature:" ) );
-        wprintz( w_location, c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str() );
+        mvwprintz( sideStyle ? w_status2 : s_window,
+                   sideStyle ? 1 : 2, sideStyle ? 32 : 43, c_light_gray, _( "Temp :" ) );
+        wprintz( sideStyle ? w_status2 : s_window,
+                 c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str() );
     }
 
     //moon phase display
@@ -3733,34 +3743,48 @@ void game::draw_sidebar()
         sPhase.insert( 5 - ( ( iPhase < 4 ) ? iPhase + 1 : 5 ),
                        "<color_" + string_from_color( i_black ) + ">" );
     }
-
-    trim_and_print( w_location, 2, 0, 10, c_white, _( "Moon %s" ), sPhase.c_str() );
+    int x = sideStyle ?  32 : 43;
+    int y = sideStyle ?  1 : 0;
+    mvwprintz( s_window, y, x, c_light_gray, "Moon : " );
+    trim_and_print( s_window, y, x + 7, 11, c_white, sPhase.c_str() );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w_location, 2, 22, c_light_gray, "%s ", _( "Lighting:" ) );
-    wprintz( w_location, ll.second, ll.first.c_str() );
+    mvwprintz( s_window, 2, 0, c_light_gray, "%s ", _( "Lighting:" ) );
+    wprintz( s_window, ll.second, ll.first.c_str() );
 
-    wrefresh( w_location );
+    // display player noise in sidebar
+    x = sideStyle ?  32 : 43;
+    y = sideStyle ?  2 : 1;
+    if( u.is_deaf() ) {
+        mvwprintz( s_window, y, x, c_red, _( "Deaf!" ) );
+    } else {
+        mvwprintz( s_window, y, x, c_light_gray, "%s ", _( "Sound: " ) );
+        mvwprintz( s_window, y, x + 7, c_yellow,  std::to_string( u.volume ) );
+        wrefresh( s_window );
+    }
+    u.volume = 0;
 
     //Safemode coloring
     catacurses::window day_window = sideStyle ? w_status2 : w_status;
-    mvwprintz( day_window, 0, sideStyle ? 0 : 41, c_white, _( "%s, day %d" ),
+    mvwprintz( time_window, 1, 0, c_white, _( "%s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
+
     if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
         int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-        wmove( w_status, sideStyle ? 4 : 1, getmaxx( w_status ) - 4 );
+        wmove( sideStyle ? w_status : w_HP, sideStyle ? 4 : 21, sideStyle ? getmaxx( w_status ) - 4 : 0 );
         const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
         for( int i = 0; i < 4; i++ ) {
             nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
-            wprintz( w_status, c, letters[i].c_str() );
+            wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
         }
     }
     wrefresh( w_status );
     if( sideStyle ) {
         wrefresh( w_status2 );
     }
-
+    wrefresh( w_HP );
+    wrefresh( s_window );
     draw_minimap();
     draw_pixel_minimap();
     draw_sidebar_messages();
@@ -4122,7 +4146,9 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             if( overmap_buffer.get_horde_size( omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE ) {
-                const tripoint cur_pos {omx, omy, get_levz()};
+                const tripoint cur_pos {
+                    omx, omy, get_levz()
+                };
                 if( overmap_buffer.seen( omx, omy, get_levz() )
                     && g->u.overmap_los( cur_pos, sight_points ) ) {
                     mvwputch( w_minimap, j + 3, i + 3, c_green,
@@ -4483,7 +4509,7 @@ int game::mon_info( const catacurses::window &w )
         if( safe_mode == SAFE_MODE_ON ) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if( get_option<bool>( "AUTOSAFEMODE" ) && newseen == 0 ) {  // Auto-safe mode
+    } else if( get_option<bool>( "AUTOSAFEMODE" ) && newseen == 0 ) { // Auto-safe mode
         turnssincelastmon++;
         if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
             set_safe_mode( SAFE_MODE_ON );
@@ -6827,7 +6853,8 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
     mvwputch( w_border, 0, 0, c_light_gray, LINE_OXXO ); // |^
     mvwputch( w_border, 0, width - 1, c_light_gray, LINE_OOXX ); // ^|
 
-    mvwputch( w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray, LINE_XXXO ); // |-
+    mvwputch( w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray,
+              LINE_XXXO ); // |-
     mvwputch( w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, c_light_gray,
               LINE_XOXX ); // -|
 
@@ -10432,8 +10459,8 @@ bool game::walk_move( const tripoint &dest_loc )
     const optional_vpart_position vp_here = m.veh_at( u.pos() );
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
 
-    bool pushing = false;  // moving -into- grabbed tile; skip check for move_cost > 0
-    bool pulling = false;  // moving -away- from grabbed tile; check for move_cost > 0
+    bool pushing = false; // moving -into- grabbed tile; skip check for move_cost > 0
+    bool pulling = false; // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
     bool grabbed = u.get_grab_type() != OBJECT_NONE;
@@ -11060,7 +11087,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
-    if( src_items > 0 ) {   // and the stuff inside.
+    if( src_items > 0 ) { // and the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
             std::list<item> temp;
@@ -11205,7 +11232,8 @@ void game::plswim( const tripoint &p )
     body_part_set drenchFlags{ {
             bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
             bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
-        } };
+        }
+    };
 
     if( u.is_underwater() ) {
         drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
@@ -12065,7 +12093,9 @@ void game::update_stair_monsters()
         int mposx = stairx[si];
         int mposy = stairy[si];
         monster &critter = coming_to_stairs[i];
-        const tripoint dest{mposx, mposy, g->get_levz()};
+        const tripoint dest {
+            mposx, mposy, g->get_levz()
+        };
 
         // We might be not be visible.
         if( ( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
@@ -12440,7 +12470,7 @@ void game::quicksave()
     add_msg( m_info, _( "Saving game, this may take a while" ) );
     popup_nowait( _( "Saving game, this may take a while" ) );
 
-    time_t now = time( nullptr );  //timestamp for start of saving procedure
+    time_t now = time( nullptr ); //timestamp for start of saving procedure
 
     //perform save
     save();
