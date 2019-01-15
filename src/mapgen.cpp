@@ -1392,9 +1392,9 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t mapsize_y )
-    : offset_x( off_x )
-    , offset_y( off_y )
+jmapgen_objects::jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_y )
+    : offset_x( offset_x )
+    , offset_y( offset_y )
     , mapgensize_x( mapsize_x )
     , mapgensize_y( mapsize_y )
 {}

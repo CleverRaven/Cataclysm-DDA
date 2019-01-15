@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "id": "sporeos",
     "name": "SpOreos",
-    "color": "gray",
+    "color": "dark_gray",
     "spoils_in": 0,
     "symbol": "%",
     "quench": 25,

@@ -222,7 +222,7 @@ class Creature
          * Does not call @ref check_dead_state.
          * @param source The attacking creature, can be null.
          * @param bp The attacked body part
-         * @param d The damage dealt
+         * @param dam The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
                 const damage_instance &dam );
@@ -409,9 +409,9 @@ class Creature
         virtual body_part get_random_body_part( bool main = false ) const = 0;
         /**
          * Returns body parts in order in which they should be displayed.
-         * @param main If true, only displays parts that can have hit points
+         * @param only_main If true, only displays parts that can have hit points
          */
-        virtual std::vector<body_part> get_all_body_parts( bool main = false ) const = 0;
+        virtual std::vector<body_part> get_all_body_parts( bool only_main = false ) const = 0;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
