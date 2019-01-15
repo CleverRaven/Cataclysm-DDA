@@ -4114,14 +4114,8 @@
     "components": [
       [
         [ "sweet_fruit_like", 2, "LIST" ],
-        [ "bum_wine", 14 ],
-        [ "fruit_wine", 14 ],
-        [ "dandelion_wine", 14 ],
-        [ "pine_wine", 14 ],
-        [ "wine_noir", 10 ],
-        [ "wine_cabernet", 10 ],
-        [ "wine_chardonnay", 10 ],
-        [ "wine_riesling", 10 ],
+        [ "cheap_wine", 14, "LIST" ],
+        [ "worthy_wine", 10, "LIST" ],
         [ "coconut", 2 ],
         [ "coffee_syrup", 5 ],
         [ "cola", 6 ],
