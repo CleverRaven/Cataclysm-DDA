@@ -51,7 +51,6 @@ jobs:
       # MXE variants using alternate repository http://mirror.mxe.cc/repos/apt
       # GCC MinGW
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      if: type = disabled
       addons: &gcc
         apt:
           packages: ["wine"]
