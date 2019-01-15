@@ -442,7 +442,7 @@
     "id": "gp_cucumber",
     "name": "Garden pot (growing cucumber)",
     "name_plural": "Garden pot (growing cucumber)",
-    "description": "This is a garden pot growing cucumber. When ripe you need to activate to prepare for harvest.",
+    "description": "This is a garden pot growing cucumber.  When ripe you need to activate to prepare for harvest.",
     "weight": 480,
     "symbol": ")",
     "color": "brown",
