@@ -709,13 +709,23 @@
     },
     {
       "type": "snippet",
+      "category": "<speech_warning>",
+      "text": [
+        "Quiet down over there!",
+        "Did you hear someone talking?",
+        "Who said that?",
+        "Who's there?"
+      ]
+    },
+    {
+      "type": "snippet",
       "category": "<combat_noise_warning>",
       "text": [
         "That sounds bad.",
         "Be alert, something is up!",
         "Did you hear that?",
         "What's that noise?",
-        "Who's there?"
+        "Is something over there?"
       ]
     },
     {
@@ -724,9 +734,9 @@
       "text": [
         "I hear something moving - sounded like",
         "What's that sound?  I heard",
-        "Who's there?  I heard",
+        "What's there?  I heard",
         "Did you hear that?  Sounded like",
-        "Who is making that sound?  I can hear the"
+        "What is making that sound?  I can hear the"
       ]
     },
     {
@@ -792,6 +802,7 @@
             "walker", 
             "walking corpse", 
             "<swear> <zombie>", 
+            "undead",
             "living dead" 
         ]
     },{
@@ -801,7 +812,7 @@
             "zombies", 
             "Z", 
             "Z's",
-            "dead", 
+            "undead", 
             "<swear> <zombies>", 
             "living dead" 
         ]

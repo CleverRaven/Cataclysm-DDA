@@ -1,5 +1,10 @@
 #include "ranged.h"
 
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -26,11 +31,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -295,6 +295,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // apply delayed recoil
     recoil += delay;
+    // Reset aim for bows and other reload-and-shoot weapons.
+    if( gun.has_flag( "RELOAD_AND_SHOOT" ) ) {
+        recoil = MAX_RECOIL;
+    }
     // Cap
     recoil = std::min( MAX_RECOIL, recoil );
 
@@ -527,6 +531,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         // Pure grindy practice - cap gain at lvl 2
         practice( skill_used, 5, 2 );
     }
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
 
     return dealt_attack;
 }
@@ -789,7 +795,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 }
 
 static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon,
-                      const double target_size, tripoint pos, double predicted_recoil )
+                      const double target_size, const tripoint &pos, double predicted_recoil )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -946,20 +952,33 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     auto update_targets = [&]( int range, std::vector<Creature *> &targets, int &idx, tripoint & dst ) {
         targets = pc.get_targetable_creatures( range );
 
+        // Convert and check last_target_pos is a valid aim point
+        cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
+        if( pc.last_target_pos ) {
+            local_last_tgt_pos = g->m.getlocal( *pc.last_target_pos );
+            if( rl_dist( src, *local_last_tgt_pos ) > range ) {
+                local_last_tgt_pos = cata::nullopt;
+            }
+        }
+
         targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
             return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
         } ), targets.end() );
 
         if( targets.empty() ) {
             idx = -1;
-            if( pc.last_target_pos ) {
-                dst = *pc.last_target_pos;
 
+            if( pc.last_target_pos ) {
+
+                if( local_last_tgt_pos ) {
+                    dst = *local_last_tgt_pos;
+                }
                 if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock().get() ) ) &&
                     pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
                     //We lost our target. Stop auto aiming.
                     pc.cancel_activity();
                 }
+
             } else {
                 auto adjacent = closest_tripoints_first( range, dst );
                 const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
@@ -987,7 +1006,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             pc.last_target_pos = cata::nullopt;
         } else {
             idx = 0;
-            dst = pc.last_target_pos ? *pc.last_target_pos : targets[ 0 ]->pos();
+            dst = local_last_tgt_pos ? *local_last_tgt_pos : targets[ 0 ]->pos();
             pc.last_target.reset();
         }
     };
@@ -1074,7 +1093,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const auto set_last_target = [&pc]( const tripoint & dst ) {
-        pc.last_target_pos = dst;
+        pc.last_target_pos = g->m.getabs( dst );
         if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
             pc.last_target = g->shared_from( *critter_ptr );
         } else {
@@ -1263,13 +1282,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // by a direction key, or by the previous value.
         if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
             targ = *mouse_pos;
-            if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
-                // Snap to target doesn't currently work with tiles.
-                targ.x += dst.x - src.x;
-                targ.y += dst.y - src.y;
-            }
             targ.x -= dst.x;
             targ.y -= dst.y;
+            targ.z -= dst.z;
         } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             targ.x = vec->x;
             targ.y = vec->y;
@@ -1359,7 +1374,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             recoil_pc = pc.recoil;
             recoil_pos = dst;
-            int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
                 if( action == it->action ) {
@@ -1370,7 +1384,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 debugmsg( "Could not find a valid aim_type for %s", action.c_str() );
                 aim_mode = aim_types.begin();
             }
-            aim_threshold = it->threshold;
+            int aim_threshold = it->threshold;
             set_last_target( dst );
             do {
                 do_aim( pc, *relevant );
@@ -1487,7 +1501,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_fire( const Character &p, const itype &firingt )
+int time_to_fire( const Character &p, const itype &firing )
 {
     struct time_info_t {
         int min_time;  // absolute floor on the time taken to fire.
@@ -1506,7 +1520,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun->skill_used;
+    const skill_id &skill_used = firing.gun->skill_used;
     const auto it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };

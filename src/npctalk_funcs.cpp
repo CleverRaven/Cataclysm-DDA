@@ -1,4 +1,8 @@
-#include "npc.h"
+#include "npctalk.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+#include <vector>
 
 #include "basecamp.h"
 #include "bionics.h"
@@ -10,7 +14,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "npctalk.h"
+#include "npc.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
@@ -21,10 +25,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -272,7 +272,6 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    item tmp;
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( auto &bio : all_bio ) {
@@ -281,7 +280,7 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
-                    tmp = item( bio.id.str(), 0 );
+                    item tmp = item( bio.id.str(), 0 );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
@@ -348,9 +347,8 @@ void talk_function::give_equipment( npc &p )
 void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
-    body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
-        bp_healed = player::hp_to_bp( hp_part( i ) );
+        const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
         g->u.heal( hp_part( i ), 5 * rng( 2, 5 ) );
         if( g->u.has_effect( effect_bite, bp_healed ) ) {
             g->u.remove_effect( effect_bite, bp_healed );
@@ -370,11 +368,10 @@ void talk_function::give_all_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
-    body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                bp_healed = player::hp_to_bp( hp_part( i ) );
+                const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
                 guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );
@@ -404,6 +401,20 @@ void talk_function::buy_shave( npc &p )
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
+}
+
+void talk_function::morale_chat( npc &p )
+{
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
+}
+
+void talk_function::morale_chat_activity( npc &p )
+{
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    g->u.activity.str_values.push_back( p.name );
+    add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
 void talk_function::buy_10_logs( npc &p )

@@ -1,4 +1,9 @@
-#include "npc.h"
+#include "npc.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <memory>
+#include <numeric>
+#include <sstream>
 
 #include "ammo.h"
 #include "cata_algo.h"
@@ -31,11 +36,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <memory>
-#include <numeric>
-#include <sstream>
 
 // @todo: Get rid of this include
 
@@ -238,7 +238,8 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
-            if( critter.type->difficulty > 10 && ( is_enemy() || !critter.friendly ) ) {
+            if( critter.type->difficulty > ( 8 + personality.bravery + rng( 0, 5 ) ) &&
+                ( is_enemy() || !critter.friendly ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname() );
             }
         }
@@ -1902,7 +1903,7 @@ void npc::find_item()
 
     const bool whitelisting = has_item_whitelist();
 
-    if( volume_allowed <= 0 || weight_allowed <= 0 ) {
+    if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         return;
     }
 
@@ -2295,7 +2296,7 @@ bool npc::find_corpse_to_pulp()
             if( it.can_revive() ) {
                 // If the first encountered corpse bleeds something dangerous then
                 // it is not safe to bash.
-                if( is_dangerous_field( field_entry( it.get_mtype()->bloodType(), 1, 0 ) ) ) {
+                if( is_dangerous_field( field_entry( it.get_mtype()->bloodType(), 1, 0_turns ) ) ) {
                     return nullptr;
                 }
 
@@ -2440,10 +2441,11 @@ bool npc::wield_better_weapon()
 bool npc::scan_new_items()
 {
     add_msg( m_debug, "%s scanning new items", name.c_str() );
-    if( !wield_better_weapon() ) {
+    if( wield_better_weapon() ) {
+        return true;
+    } else {
         // Stop "having new items" when you no longer do anything with them
         has_new_items = false;
-        return true;
     }
 
     return false;
@@ -2934,8 +2936,8 @@ void npc::look_for_player( player &sought )
         path.clear();
     }
     std::vector<point> possibilities;
-    for (int x = 1; x < SEEX * MAPSIZE; x += 11) { // 1, 12, 23, 34
-        for (int y = 1; y < SEEY * MAPSIZE; y += 11) {
+    for (int x = 1; x < MAPSIZE_X; x += 11) { // 1, 12, 23, 34
+        for (int y = 1; y < MAPSIZE_Y; y += 11) {
             if( sees( x, y ) ) {
                 possibilities.push_back(point(x, y));
             }
@@ -3214,6 +3216,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
         snip = is_enemy() ? "<kill_player_h>" : "";
+    } else if( type == "speech_noise" ) {
+        snip = "<speech_warning>";
     } else if( type == "combat_noise" ) {
         snip = "<combat_noise_warning>";
     } else if( type == "movement_noise" ) {
@@ -3222,7 +3226,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         return;
     }
     const std::string warning_name = "warning_" + type + name;
-    const std::string speech = name == "" ? snip : string_format( _( "%s %s<punc>" ), snip, name );
+    const std::string speech = name.empty() ? snip :
+                               string_format( _( "%s %s<punc>" ), snip, name );
     complain_about( warning_name, d, speech, is_enemy() );
 }
 
@@ -3245,7 +3250,9 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
     };
 
     // Don't wake player up with non-serious complaints
-    const bool do_complain = ( rules.allow_complain && !g->u.in_sleep_state() ) || force;
+    // Stop complaining while asleep
+    const bool do_complain = force || ( rules.allow_complain && !g->u.in_sleep_state() &&
+                                        !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
         say( speech );

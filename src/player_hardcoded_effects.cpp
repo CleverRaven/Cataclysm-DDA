@@ -1,4 +1,4 @@
-#include "player.h"
+#include "player.h" // IWYU pragma: associated
 
 #include "effect.h"
 #include "field.h"
@@ -967,7 +967,7 @@ void player::hardcoded_effects( effect &it )
                                    body_part_name( bp ).c_str() );
                 add_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
-                it.set_duration( 0 );
+                it.set_duration( 0_turns );
                 recovered = true;
             }
         }
@@ -997,7 +997,7 @@ void player::hardcoded_effects( effect &it )
         if( can_sleep() ) {
             fall_asleep();
             // Set ourselves up for removal
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         }
         if( dur == 1_turns && !sleeping ) {
             add_msg_if_player( _( "You try to sleep, but can't..." ) );
@@ -1118,7 +1118,7 @@ void player::hardcoded_effects( effect &it )
                             one_in( get_fatigue() / 2 ) ) ) {
                         add_msg_if_player( _( "It's too bright to sleep." ) );
                         // Set ourselves up for removal
-                        it.set_duration( 0 );
+                        it.set_duration( 0_turns );
                         woke_up = true;
                     }
                     // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
@@ -1127,14 +1127,14 @@ void player::hardcoded_effects( effect &it )
                             one_in( get_fatigue() / 2 ) ) ) {
                         add_msg_if_player( _( "It's too bright to sleep." ) );
                         // Set ourselves up for removal
-                        it.set_duration( 0 );
+                        it.set_duration( 0_turns );
                         woke_up = true;
                     }
                 } else if( tirednessVal < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                            one_in( get_fatigue() / 2 ) ) ) {
                     add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
-                    it.set_duration( 0 );
+                    it.set_duration( 0_turns );
                     woke_up = true;
                 }
             } else if( has_active_mutation( trait_id( "SEESLEEP" ) ) ) {
@@ -1142,7 +1142,7 @@ void player::hardcoded_effects( effect &it )
                 if( hostile_critter != nullptr ) {
                     add_msg_if_player( _( "You see %s approaching!" ),
                                        hostile_critter->disp_name().c_str() );
-                    it.set_duration( 0 );
+                    it.set_duration( 0_turns );
                     woke_up = true;
                 }
             }
@@ -1161,7 +1161,7 @@ void player::hardcoded_effects( effect &it )
                         one_in( temp_cur[bp] + 5000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
-                        it.set_duration( 0 );
+                        it.set_duration( 0_turns );
                         woke_up = true;
                         break;
                     }
@@ -1173,7 +1173,7 @@ void player::hardcoded_effects( effect &it )
                         one_in( 15000 - temp_cur[bp] ) ) {
                         add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                         // Set ourselves up for removal
-                        it.set_duration( 0 );
+                        it.set_duration( 0_turns );
                         woke_up = true;
                         break;
                     }
@@ -1199,7 +1199,7 @@ void player::hardcoded_effects( effect &it )
                         }
                     }
                 }
-                it.set_duration( 0 );
+                it.set_duration( 0_turns );
                 woke_up = true;
             }
         }
@@ -1218,7 +1218,7 @@ void player::hardcoded_effects( effect &it )
                 } else {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
                 }
-                get_effect( effect_slept_through_alarm ).set_duration( 0 );
+                get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
             }
         }
     } else if( id == effect_alarm_clock ) {
@@ -1272,7 +1272,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_mending ) {
         // @todo: Remove this and encapsulate hp_cur instead
         if( hp_cur[bp_to_hp( bp )] > 0 ) {
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         }
     } else if( id == effect_disabled ) {
         // @todo: Remove this and encapsulate hp_cur instead

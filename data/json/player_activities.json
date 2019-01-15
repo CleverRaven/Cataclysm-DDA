@@ -114,6 +114,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_SOCIALIZE",
+    "type": "activity_type",
+    "stop_phrase": "Stop socializing?",
+    "based_on": "time",
+    "rooted": true
+  },
+  {
     "id": "ACT_WAIT_WEATHER",
     "type": "activity_type",
     "stop_phrase": "Stop waiting?",
@@ -218,6 +225,22 @@
     "id": "ACT_PLANT_PLOT",
     "type": "activity_type",
     "stop_phrase": "Stop planting seeds?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_HARVEST_PLOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop harvesting plots?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_FERTILIZE_PLOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop fertilizing plots?",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -411,5 +434,12 @@
     "rooted": true,
     "based_on": "speed",
     "suspendable": false
+  },
+  {
+    "id": "ACT_UNLOAD_MAG",
+    "type": "activity_type",
+    "stop_phrase": "Stop unloading?",
+    "suspendable": false,
+    "based_on": "speed"
   }
 ]

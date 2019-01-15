@@ -1,4 +1,17 @@
-#include "overmap.h"
+#include "omdata.h" // IWYU pragma: associated
+#include "overmap.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <numeric>
+#include <ostream>
+#include <queue>
+#include <random>
+#include <vector>
 
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -29,18 +42,6 @@
 #include "simple_pathfinding.h"
 #include "translations.h"
 
-#include <algorithm>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <numeric>
-#include <ostream>
-#include <queue>
-#include <random>
-#include <vector>
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define BUILDINGCHANCE 4
@@ -56,7 +57,6 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
-#include "omdata.h"
 ////////////////
 oter_id  ot_null,
          ot_crater,
@@ -906,7 +906,7 @@ void overmap::init_layers()
 
 oter_id &overmap::ter( const int x, const int y, const int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return ot_null;
     }
 
@@ -920,7 +920,7 @@ oter_id &overmap::ter( const tripoint &p )
 
 const oter_id overmap::get_ter( const int x, const int y, const int z ) const
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return ot_null;
     }
 
@@ -934,7 +934,7 @@ const oter_id overmap::get_ter( const tripoint &p ) const
 
 bool &overmap::seen( int x, int y, int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -943,7 +943,7 @@ bool &overmap::seen( int x, int y, int z )
 
 bool &overmap::explored( int x, int y, int z )
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -952,7 +952,7 @@ bool &overmap::explored( int x, int y, int z )
 
 bool overmap::is_explored( const int x, const int y, const int z ) const
 {
-    if( !inbounds( x, y, z ) ) {
+    if( !inbounds( tripoint( x, y, z ) ) ) {
         return false;
     }
     return layer[z + OVERMAP_DEPTH].explored[x][y];
@@ -1085,16 +1085,17 @@ std::vector<point> overmap::find_notes( const int z, const std::string &text )
     return note_locations;
 }
 
-bool overmap::inbounds( const tripoint &loc, int clearance )
+bool overmap::inbounds( const tripoint &p, int clearance )
 {
-    return ( loc.x >= clearance && loc.x < OMAPX - clearance &&
-             loc.y >= clearance && loc.y < OMAPY - clearance &&
-             loc.z >= -OVERMAP_DEPTH && loc.z <= OVERMAP_HEIGHT );
-}
+    const tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    const tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT );
+    const tripoint overmap_clearance_min( 0 + clearance, 0 + clearance, 0 );
+    const tripoint overmap_clearance_max( 1 + clearance, 1 + clearance, 0 );
 
-bool overmap::inbounds( int x, int y, int z, int clearance )
-{
-    return inbounds( tripoint( x, y, z ), clearance );
+    const box overmap_boundaries( overmap_boundary_min, overmap_boundary_max );
+    const box overmap_clearance( overmap_clearance_min, overmap_clearance_max );
+
+    return generic_inbounds( p, overmap_boundaries, overmap_clearance );
 }
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
@@ -1975,9 +1976,7 @@ void overmap::place_forest_trails()
             }
 
             // This point is out of bounds, so bail.
-            bool in_bounds = current_point.x >= 0 && current_point.x < OMAPX && current_point.y >= 0 &&
-                             current_point.y < OMAPY;
-            if( !in_bounds ) {
+            if( !inbounds( current_point, 1 ) ) {
                 continue;
             }
 
@@ -2242,7 +2241,7 @@ void overmap::place_river( point pa, point pb )
         for( int i = -1; i <= 1; i++ ) {
             for( int j = -1; j <= 1; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
-                if( inbounds( x + j, y + i, 0, 1 ) ||
+                if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
                     ter( x + j, y + i, 0 ) = oter_id( "river_center" );
@@ -2332,9 +2331,23 @@ void overmap::place_cities()
 
 overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
 {
-    if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
+    int shop_radius = settings.city_spec.shop_radius;
+    int park_radius = settings.city_spec.park_radius;
+
+    int shop_sigma = settings.city_spec.shop_sigma;
+    int park_sigma = settings.city_spec.park_sigma;
+
+    //Normally distribute shops and parks
+    //Clamp at 1/2 radius to prevent houses from spawning in the city center.
+    //Parks are nearly guaranteed to have a non-zero chance of spawning anywhere in the city.
+    int shop_normal = std::max( static_cast<int>( normal_roll( shop_radius, shop_sigma ) ),
+                                shop_radius );
+    int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
+                                park_radius );
+
+    if( shop_normal > town_dist ) {
         return settings.city_spec.pick_shop();
-    } else if( rng( 0, 99 ) > settings.city_spec.park_radius * town_dist ) {
+    } else if( park_normal > town_dist ) {
         return settings.city_spec.pick_park();
     } else {
         return settings.city_spec.pick_house();
@@ -2346,8 +2359,8 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     const tripoint building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
 
-    const int town_dist = trig_dist( building_pos.x, building_pos.y, town.pos.x,
-                                     town.pos.y ) / std::max( town.size, 1 );
+    const int town_dist = ( trig_dist( building_pos.x, building_pos.y, town.pos.x,
+                                       town.pos.y ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
@@ -2498,7 +2511,9 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         }
     }
     if( generate_stairs && !generated_lab.empty() ) {
-        std::random_shuffle( generated_lab.begin(), generated_lab.end() );
+        static auto eng = std::default_random_engine(
+                              std::chrono::system_clock::now().time_since_epoch().count() );
+        std::shuffle( generated_lab.begin(), generated_lab.end(), eng );
 
         // we want a spot where labs are above, but we'll settle for the last element if necessary.
         point p;
@@ -3308,7 +3323,9 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
         }
     }
     // Pick first valid rotation at random.
-    std::random_shuffle( first, last );
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( first, last, eng );
     const auto rotation = std::find_if( first, last, [&]( om_direction::type elem ) {
         return can_place_special( special, p, elem, must_be_unexplored );
     } );
@@ -3425,7 +3442,9 @@ om_special_sectors get_sectors( const int sector_width )
             res.emplace_back( x, y );
         }
     }
-    std::random_shuffle( res.begin(), res.end() );
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( res.begin(), res.end(), eng );
     return { res, sector_width };
 }
 
@@ -3439,7 +3458,9 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
     const tripoint p( rng( x, x + sector_width - 1 ), rng( y, y + sector_width - 1 ), 0 );
     const city &nearest_city = get_nearest_city( p );
 
-    std::random_shuffle( enabled_specials.begin(), enabled_specials.end() );
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( enabled_specials.begin(), enabled_specials.end(), eng );
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ++iter ) {
         const auto &special = *iter->special_details;
         // If we haven't finished placing minimum instances of all specials,
@@ -3473,7 +3494,9 @@ void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
                                    om_special_sectors &sectors, const bool place_optional, const bool must_be_unexplored )
 {
     // Walk over sectors in random order, to minimize "clumping".
-    std::random_shuffle( sectors.sectors.begin(), sectors.sectors.end() );
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( sectors.sectors.begin(), sectors.sectors.end(), eng );
     for( auto it = sectors.sectors.begin(); it != sectors.sectors.end(); ) {
         const size_t attempts = 10;
         bool placed = false;
@@ -3560,7 +3583,9 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             }
         }
         if( !nearest_candidates.empty() ) {
-            std::random_shuffle( nearest_candidates.begin(), nearest_candidates.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( nearest_candidates.begin(), nearest_candidates.end(), eng );
             point new_om_addr = nearest_candidates.front();
             overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, custom_overmap_specials );
         } else {

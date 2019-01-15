@@ -1,3 +1,10 @@
+#include "faction_camp.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <string>
+#include <vector>
+
 #include "ammo.h"
 #include "bionics.h"
 #include "catacharset.h"
@@ -37,14 +44,7 @@
 #include "vehicle.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include "faction_camp.h"
 #include "basecamp.h"
-
-#include <algorithm>
-#include <cassert>
-#include <string>
-#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -151,7 +151,7 @@ void om_range_mark( const tripoint &origin, int range, bool add_notes = true,
                     const std::string &message = "Y;X: MAX RANGE" );
 void om_line_mark( const tripoint &origin, const tripoint &dest, bool add_notes = true,
                    const std::string &message = "R;X: PATH" );
-std::vector<tripoint> om_companion_path( const tripoint &start, int range = 90,
+std::vector<tripoint> om_companion_path( const tripoint &start, int range_start = 90,
         bool bounce = true );
 /**
  * Can be used to calculate total trip time for an NPC mission or just the traveling portion.
@@ -181,15 +181,16 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 std::string om_upgrade_description( const std::string &bldg );
 /// Returns the description of a camp crafting options. converts fire charges to charcoal,
 /// allows dark crafting
-std::string om_craft_description( const std::string &bldg );
+std::string om_craft_description( const std::string &itm );
 /// Provides a "guess" for some of the things your gatherers will return with to upgrade the camp
 std::string om_gathering_description( npc &p, const std::string &bldg );
 /// Returns a string for the number of plants that are harvestable, plots ready to plany, and
 /// ground that needs tilling
-std::string camp_farm_description( const tripoint &omt_pos, size_t &plots, farm_ops operation );
+std::string camp_farm_description( const tripoint &omt_pos, size_t &plots_count,
+                                   farm_ops operation );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
-std::string camp_farm_act( const tripoint &omt_tgt, size_t &plots, farm_ops op );
+std::string camp_farm_act( const tripoint &omt_pos, size_t &plots_count, farm_ops operation );
 
 /**
  * spawn items or corpses based on search attempts
@@ -300,6 +301,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     if( !bcp ) {
         return;
     }
+    g->u.camps.insert( bcp->camp_pos() );
 
     const std::string camp_ctr = "camp";
     const std::string base_dir = "[B]";
@@ -1118,7 +1120,7 @@ void basecamp::start_upgrade( npc &p, const std::string &bldg, const std::string
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( &making, 1, true );
+            g->u.consume_components_for_craft( making, 1, true );
             g->u.invalidate_crafting_inventory();
         }
     } else {
@@ -1403,7 +1405,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, npc &p )
                                       _( "begins constructing fortifications..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( &making, ( fortify_om.size() * 2 ) - 2, true );
+            g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true );
             g->u.invalidate_crafting_inventory();
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
@@ -1441,11 +1443,11 @@ void basecamp::craft_construction( npc &p, const std::string &cur_id, const std:
                                    const std::string &type, const std::string &miss_id )
 {
     std::map<std::string, std::string> recipes = recipe_deck( type );
-    for( auto it = recipes.begin(); it != recipes.end(); ++it ) {
-        if( cur_id != cur_dir + it->first ) {
+    for( auto &r : recipes ) {
+        if( cur_id != cur_dir + r.first ) {
             continue;
         }
-        const recipe &making = recipe_id( it->second ).obj();
+        const recipe &making = recipe_id( r.second ).obj();
         inventory total_inv = g->u.crafting_inventory();
 
         if( !making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
@@ -1473,7 +1475,7 @@ void basecamp::craft_construction( npc &p, const std::string &cur_id, const std:
                                       _( "begins to work..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( &making, batch_size, true );
+            g->u.consume_components_for_craft( making, batch_size, true );
             g->u.invalidate_crafting_inventory();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
@@ -1544,7 +1546,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                                 seed_inv.push_back( tmp_seed );
                             }
                         }
-                        used_seed.front().set_age( 0 );
+                        used_seed.front().set_age( 0_turns );
                         farm_map.add_item_or_charges( pos, used_seed.front() );
                         farm_map.set( pos, t_dirt, f_plant_seed );
                     }
@@ -1619,9 +1621,8 @@ void basecamp::start_farm_op( npc &p, const std::string &dir, const tripoint &om
                 popup( _( "You have no additional seeds to give your companions..." ) );
                 return;
             }
-            std::vector<item *> plant_these;
-            plant_these = talk_function::individual_mission_give_equipment( seed_inv,
-                          _( "Which seeds do you wish to have planted?" ) );
+            std::vector<item *> plant_these = talk_function::individual_mission_give_equipment( seed_inv,
+                                              _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
             for( item *seeds : plant_these ) {
                 seed_cnt += seeds->count();
@@ -1645,7 +1646,7 @@ void basecamp::start_farm_op( npc &p, const std::string &dir, const tripoint &om
     }
 }
 
-bool basecamp::start_garage_chop( npc &p, const std::string dir, const tripoint &omt_tgt )
+bool basecamp::start_garage_chop( npc &p, const std::string &dir, const tripoint &omt_tgt )
 {
     editmap edit;
     vehicle *car = edit.mapgen_veh_query( omt_tgt );
@@ -1814,9 +1815,9 @@ bool basecamp::menial_return( npc &p )
     tripoint p_ammo = sort_points[ static_cast<size_t>( sort_pt_ids::ammo ) ];
 
     //This prevents the loop from getting stuck on the piles in the open
-    for( size_t spi = 0; spi < sort_points.size() ; spi++ ) {
-        if( g->m.furn( sort_points[ spi ] ) == f_null ) {
-            g->m.furn_set( sort_points[ spi ], f_ash );
+    for( tripoint &sort_point : sort_points ) {
+        if( g->m.furn( sort_point ) == f_null ) {
+            g->m.furn_set( sort_point, f_ash );
         }
     }
     for( const tripoint &tmp : g->m.points_in_radius( g->u.pos(), 72 ) ) {
@@ -1858,9 +1859,9 @@ bool basecamp::menial_return( npc &p )
         g->m.i_clear( tmp );
     }
     //Undo our hack!
-    for( size_t spi = 0; spi < sort_points.size() ; spi++ ) {
-        if( g->m.furn( sort_points[ spi ] ) == f_ash ) {
-            g->m.furn_set( sort_points[ spi ], f_null );
+    for( tripoint &sort_point : sort_points ) {
+        if( g->m.furn( sort_point ) == f_ash ) {
+            g->m.furn_set( sort_point, f_null );
         }
     }
     return true;
@@ -1958,7 +1959,7 @@ void basecamp::fortifications_return( npc &p )
                 if( om_i == "forest_thick" ) {
                     om_i = "forest";
                 }
-                edit.mapgen_set( om_i, pt, false );
+                edit.mapgen_set( om_i, pt, 0, false );
             }
         }
         //Add fences
@@ -2527,10 +2528,10 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, b
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
-    units::mass harvested_m = 0;
-    units::volume harvested_v = 0;
-    units::mass total_m = 0;
-    units::volume total_v = 0;
+    units::mass harvested_m = 0_gram;
+    units::volume harvested_v = 0_ml;
+    units::mass total_m = 0_gram;
+    units::volume total_v = 0_ml;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
@@ -2747,8 +2748,8 @@ int om_carry_weight_to_trips( units::mass mass, units::volume volume,
 
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
 {
-    units::mass total_m = 0;
-    units::volume total_v = 0;
+    units::mass total_m = 0_gram;
+    units::volume total_v = 0_ml;
     for( auto &i : itms ) {
         total_m += i->weight( true );
         total_v += i->volume( true );
@@ -2916,7 +2917,7 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 {
     std::string entry = " \n";
     //A square is roughly 3 m
-    int dist_m = distance * 24 * 3;
+    int dist_m = distance * SEEX * 2 * 3;
     if( dist_m > 1000 ) {
         entry += string_format( _( ">Distance:%15.2f (km)\n" ), dist_m / 1000.0 );
         entry += string_format( _( ">One Way: %15d (trips)\n" ), trips );
@@ -3100,20 +3101,21 @@ std::string om_gathering_description( npc &p, const std::string &bldg )
     return output;
 }
 
-std::string camp_farm_description( const tripoint &omt_tgt, size_t &plots_cnt, farm_ops op )
+std::string camp_farm_description( const tripoint &omt_pos, size_t &plots_count,
+                                   farm_ops operation )
 {
-    std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
+    std::pair<size_t, std::string> farm_data = farm_action( omt_pos, operation );
     std::string entry;
-    plots_cnt = farm_data.first;
-    switch( op ) {
+    plots_count = farm_data.first;
+    switch( operation ) {
         case farm_ops::harvest:
-            entry += _( "Harvestable: " ) + to_string( plots_cnt ) + " \n" + farm_data.second;
+            entry += _( "Harvestable: " ) + to_string( plots_count ) + " \n" + farm_data.second;
             break;
         case farm_ops::plant:
-            entry += _( "Ready for Planting: " ) + to_string( plots_cnt ) + " \n";
+            entry += _( "Ready for Planting: " ) + to_string( plots_count ) + " \n";
             break;
         case farm_ops::plow:
-            entry += _( "Needs Plowing: " ) + to_string( plots_cnt ) + " \n";
+            entry += _( "Needs Plowing: " ) + to_string( plots_count ) + " \n";
             break;
         default:
             debugmsg( "Farm operations called with no operation" );
@@ -3136,11 +3138,11 @@ std::string camp_car_description( vehicle *car )
     }
     std::map<itype_id, long> fuels = car->fuels_left();
     entry += _( "----  Fuel Storage & Battery   ----\n" );
-    for( std::map<itype_id, long>::iterator it = fuels.begin(); it != fuels.end(); ++it ) {
-        std::string fuel_entry = string_format( "%d/%d", car->fuel_left( it->first ),
-                                                car->fuel_capacity( it->first ) );
-        entry += string_format( ">%s:%*s\n", item( it->first ).tname(),
-                                33 - item( it->first ).tname().length(), fuel_entry );
+    for( auto &fuel : fuels ) {
+        std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
+                                                car->fuel_capacity( fuel.first ) );
+        entry += string_format( ">%s:%*s\n", item( fuel.first ).tname(),
+                                33 - item( fuel.first ).tname().length(), fuel_entry );
     }
     for( auto &pt : car->parts ) {
         if( pt.is_battery() ) {

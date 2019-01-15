@@ -1,5 +1,8 @@
 #include "field.h"
 
+#include <algorithm>
+#include <queue>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -25,9 +28,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-#include <algorithm>
-#include <queue>
-
 const species_id FUNGUS( "FUNGUS" );
 
 const efftype_id effect_badpoison( "badpoison" );
@@ -46,9 +46,7 @@ const efftype_id effect_webbed( "webbed" );
 
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
-
-#define INBOUNDS(x, y) \
-    (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
 
 /** ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}, phase_id (of matter), accelerated_decay (decay outside of reality bubble) **/
 const std::array<field_t, num_fields> fieldlist = { {
@@ -479,7 +477,7 @@ field_id field_from_ident( const std::string &field_ident )
     return fd_null;
 }
 
-void map::create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass )
+void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
@@ -614,7 +612,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
     const auto spread_gas = [this, &get_neighbors](
                                 field_entry & cur, const tripoint & p, field_id curtype,
-    int percent_spread, const time_duration outdoor_age_speedup ) {
+    int percent_spread, const time_duration & outdoor_age_speedup ) {
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -1081,8 +1079,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if( cur.getFieldAge() < -500_minutes ) {
                                     maximum_density = 3;
                                 } else {
-                                    for( size_t i = 0; i < neighs.size(); i++ ) {
-                                        if( neighs[i].get_field().findField( fd_fire ) != nullptr ) {
+                                    for( auto &neigh : neighs ) {
+                                        if( neigh.get_field().findField( fd_fire ) != nullptr ) {
                                             adjacent_fires++;
                                         }
                                     }
@@ -1682,8 +1680,8 @@ void map::player_in_field( player &u )
     // Iterate through all field effects on this tile.
     // Do not remove the field with removeField, instead set it's density to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it ) {
-        field_entry &cur = field_list_it->second;
+    for( auto &field_list_it : curfield ) {
+        field_entry &cur = field_list_it.second;
         if( !cur.isAlive() ) {
             continue;
         }
@@ -1802,9 +1800,8 @@ void map::player_in_field( player &u )
                 break;
 
             case fd_fire:
-                if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing( "rm13_armor_on" ) ||
-                    u.has_trait( trait_M_SKIN2 ) ) {
-                    //heatsink, suit, or internal restructuring prevents ALL fire damage.
+                if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
+                    //heatsink or suit prevents ALL fire damage.
                     break;
                 }
                 //Burn the player. Less so if you are in a car or ON a car.
@@ -1961,24 +1958,27 @@ void map::player_in_field( player &u )
             }
             break;
 
-            case fd_nuke_gas:
+            case fd_nuke_gas: {
                 // Get irradiated by the nuclear fallout.
                 // Changed to min of density, not 0.
-                u.radiation += rng( cur.getFieldDensity(),
-                                    cur.getFieldDensity() * ( cur.getFieldDensity() + 1 ) );
-                if( cur.getFieldDensity() == 3 ) {
+                float rads = rng( cur.getFieldDensity(),
+                                  cur.getFieldDensity() * ( cur.getFieldDensity() + 1 ) );
+                bool rad_proof = !u.irradiate( rads );
+                //TODO: Reduce damage for rad resistant?
+                if( cur.getFieldDensity() == 3 && !rad_proof ) {
                     u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
                     u.hurtall( rng( 1, 3 ), nullptr );
                 }
-                break;
+            }
+            break;
 
             case fd_flame_burst:
                 //A burst of flame? Only hits the legs and torso.
                 if( inside ) {
                     break;    //fireballs can't touch you inside a car.
                 }
-                if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) && !u.is_wearing( "rm13_armor_on" ) &&
-                    !u.has_trait( trait_M_SKIN2 ) ) { //heatsink, suit, or Mycus fireproofing stops fire.
+                if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) &&
+                    !u.is_wearing( "rm13_armor_on" ) ) { //heatsink or suit stops fire.
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
                     u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
@@ -2090,7 +2090,9 @@ void map::player_in_field( player &u )
 
             case fd_incendiary:
                 // Mysterious incendiary substance melts you horribly.
-                if( u.has_trait( trait_M_SKIN2 ) || cur.getFieldDensity() == 1 ) {
+                if( u.has_trait( trait_M_SKIN2 ) ||
+                    u.has_trait( trait_M_SKIN3 ) ||
+                    cur.getFieldDensity() == 1 ) {
                     u.add_msg_player_or_npc( m_bad, _( "The incendiary burns you!" ),
                                              _( "The incendiary burns <npcname>!" ) );
                     u.hurtall( rng( 1, 3 ), nullptr );
@@ -2159,8 +2161,8 @@ void map::monster_in_field( monster &z )
     // Iterate through all field effects on this tile.
     // Do not remove the field with removeField, instead set it's density to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it ) {
-        field_entry &cur = field_list_it->second;
+    for( auto &field_list_it : curfield ) {
+        field_entry &cur = field_list_it.second;
         if( !cur.isAlive() ) {
             continue;
         }
@@ -2485,7 +2487,7 @@ int field_entry::setFieldDensity( const int new_density )
     return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
 }
 
-time_duration field_entry::setFieldAge( const time_duration new_age )
+time_duration field_entry::setFieldAge( const time_duration &new_age )
 {
     return age = new_age;
 }
@@ -2532,7 +2534,7 @@ If you wish to modify an already existing field use findField and modify the res
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
 bool field::addField( const field_id field_to_add, const int new_density,
-                      const time_duration new_age )
+                      const time_duration &new_age )
 {
     auto it = field_list.find( field_to_add );
     if( fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority ) {
@@ -2644,7 +2646,7 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
     }
 }
 
-void map::propagate_field( const tripoint &center, field_id fid, int amount,
+void map::propagate_field( const tripoint &center, const field_id type, int amount,
                            int max_density )
 {
     using gas_blast = std::pair<float, tripoint>;
@@ -2652,7 +2654,7 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
     std::set<tripoint> closed;
     open.push( { 0.0f, center } );
 
-    const bool not_gas = fieldlist[ fid ].phase != GAS;
+    const bool not_gas = fieldlist[ type ].phase != GAS;
 
     while( amount > 0 && !open.empty() ) {
         if( closed.count( open.top().second ) ) {
@@ -2663,9 +2665,9 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
         // All points with equal gas density should propagate at the same time
         std::list<gas_blast> gas_front;
         gas_front.push_back( open.top() );
-        int cur_intensity = get_field_strength( open.top().second, fid );
+        int cur_intensity = get_field_strength( open.top().second, type );
         open.pop();
-        while( !open.empty() && get_field_strength( open.top().second, fid ) == cur_intensity ) {
+        while( !open.empty() && get_field_strength( open.top().second, type ) == cur_intensity ) {
             if( closed.count( open.top().second ) == 0 ) {
                 gas_front.push_back( open.top() );
             }
@@ -2678,10 +2680,10 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
         while( amount > 0 && !gas_front.empty() ) {
             auto gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
-            int cur_strength = get_field_strength( gp.second, fid );
+            int cur_strength = get_field_strength( gp.second, type );
             if( cur_strength < max_density ) {
                 int bonus = std::min( max_density - cur_strength, increment );
-                adjust_field_strength( gp.second, fid, bonus );
+                adjust_field_strength( gp.second, type, bonus );
                 amount -= bonus;
             } else {
                 amount--;

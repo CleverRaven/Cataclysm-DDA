@@ -1,5 +1,13 @@
 #include "iuse.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <set>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
+
 #include "action.h"
 #include "artifact.h"
 #include "calendar.h"
@@ -50,14 +58,6 @@
 #include "vpart_range.h"
 #include "veh_type.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cmath>
-#include <cstdlib>
-#include <set>
-#include <sstream>
-#include <stdexcept>
-#include <vector>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -293,12 +293,12 @@ int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname().c_str() );
     p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
-    p->radiation += 8;
+    p->irradiate( 8, true );
     return it->type->charges_to_use();
 }
 
-static constexpr time_duration alc_strength( const int strength, const time_duration weak,
-        const time_duration medium, const time_duration strong )
+static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
+        const time_duration &medium, const time_duration &strong )
 {
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }
@@ -1818,7 +1818,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         it->active = true;
-        it->set_age( 0 );
+        it->set_age( 0_turns );
         g->m.add_item_or_charges( pnt, *it );
         p->i_rem( it );
         p->add_msg_if_player( m_info,
@@ -1909,7 +1909,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     const cata::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
-    if( dest_ ) {
+    if( !dest_ ) {
         return 0;
     }
     tripoint dest = *dest_;
@@ -2149,7 +2149,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             messtream << string_format( _( "radio: %s" ), segments[index].c_str() );
             message = messtream.str();
         }
-        sounds::ambient_sound( pos, 6, message );
+        sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
     } else { // Activated
         int ch = 1;
         if( it->ammo_remaining() > 0 ) {
@@ -2208,7 +2208,7 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
         //~ the sound of a noise emitter when turned on
-        sounds::ambient_sound( pos, 30, _( "KXSHHHHRRCRKLKKK!" ) );
+        sounds::ambient_sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ) );
     } else { // Turning it off
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( "noise_emitter" ).active = false;
@@ -2713,7 +2713,7 @@ int toolweapon_on( player &p, item &it, const bool t,
             p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), tname );
             it.convert( off_type ).active = false;
         } else if( one_in( sound_chance ) ) {
-            sounds::ambient_sound( p.pos(), volume, sound );
+            sounds::ambient_sound( p.pos(), volume, sounds::sound_t::activity, sound );
         }
     } else { // Toggling
         if( it.typeId() == "chainsaw_on" ) {
@@ -3293,7 +3293,7 @@ int iuse::firecracker_pack( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
     it->convert( "firecracker_pack_act" );
     it->charges = 26;
-    it->set_age( 0 );
+    it->set_age( 0_turns );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
 }
@@ -3626,15 +3626,15 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
         const std::string music = get_music_description();
         if( !music.empty() ) {
             sound = music;
-            if( p.pos() == source && volume == 0 && p.can_hear( source, volume ) ) {
-                // in-ear music, such as mp3 player
-                p.add_msg_if_player( _( "You listen to %s" ), music.c_str() );
+            // descriptions aren't printed for sounds at our position
+            if( p.pos() == source && p.can_hear( source, volume ) ) {
+                p.add_msg_if_player( _( "You listen to %s" ), music );
             }
         }
     }
     // do not process mp3 player
     if( volume != 0 ) {
-        sounds::ambient_sound( source, volume, sound );
+        sounds::ambient_sound( source, volume, sounds::sound_t::music, sound );
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1_turns );
@@ -5098,7 +5098,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::ambient_sound( p->pos(), speech.volume, speech.text );
+    sounds::ambient_sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text );
 
     return it->type->charges_to_use();
 }
@@ -5585,7 +5585,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         if( !candidates.empty() ) {
 
             const recipe *r = random_entry( candidates );
-            const recipe_id rident = r->ident();
+            const recipe_id &rident = r->ident();
 
             const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
             if( old_recipes.empty() ) {
@@ -5739,13 +5739,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             amenu.addentry( ei_music, false, 'm', _( "No music on device" ) );
         }
 
-        if( !it->get_var( "RECIPE" ).empty() ) {
-            const item dummy( it->get_var( "RECIPE" ), 0 );
-            amenu.addentry( ei_invalid, false, -1, _( "Recipe: %s" ), dummy.tname().c_str() );
-        }
-
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
-            amenu.addentry( ei_recipe, true, 'r', _( "View recipe on E-ink screen" ) );
+            amenu.addentry( ei_recipe, true, 'r', _( "View recipes on E-ink screen" ) );
         }
 
         if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
@@ -5842,7 +5837,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             uilist rmenu;
 
-            rmenu.text = _( "Choose recipe to view:" );
+            rmenu.text = _( "List recipes:" );
 
             std::vector<recipe_id> candidate_recipes;
             std::istringstream f( it->get_var( "EIPC_RECIPES" ) );
@@ -5863,22 +5858,6 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             }
 
             rmenu.query();
-
-            const int rchoice = rmenu.ret;
-            if( rchoice < 0 ) {
-                return it->type->charges_to_use();
-            } else {
-                it->item_tags.insert( "HAS_RECIPE" );
-                const auto rec_id = candidate_recipes[rchoice];
-                it->set_var( "RECIPE", rec_id.str() );
-
-                const auto &recipe = *rec_id;
-                if( recipe ) {
-                    p->add_msg_if_player( m_info,
-                                          _( "You change the e-ink screen to show a recipe for %s." ),
-                                          recipe.result_name() );
-                }
-            }
 
             return it->type->charges_to_use();
         }
@@ -6061,14 +6040,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return 0;
         }
         const tripoint aim_point = *aim_point_;
-
-        if( aim_point == p->pos() ) {
-            p->add_msg_if_player( _( "You decide not to flash yourself." ) );
-            return 0;
-        }
-
         const monster *const sel_mon = g->critter_at<monster>( aim_point, true );
-        const npc *const sel_npc = g->critter_at<npc>( aim_point );
+        const player *const sel_npc = g->critter_at<player>( aim_point );
 
         if( !g->critter_at( aim_point ) ) {
             p->add_msg_if_player( _( "There's nothing particularly interesting there." ) );
@@ -6084,7 +6057,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         for( auto &i : trajectory ) {
 
             monster *const mon = g->critter_at<monster>( i, true );
-            npc *const guy = g->critter_at<npc>( i );
+            player *const guy = g->critter_at<player>( i );
             if( mon || guy ) {
                 int dist = rl_dist( p->pos(), i );
 
@@ -6174,13 +6147,16 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     return it->type->charges_to_use();
 
                 } else if( guy ) {
-                    if( dist < 4 && one_in( dist + 2 ) ) {
+                    const bool selfie = guy == p;
+                    if( !selfie && dist < 4 && one_in( dist + 2 ) ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name.c_str() );
                         guy->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
 
                     if( sel_npc == guy ) {
-                        if( p->is_blind() ) {
+                        if( selfie ) {
+                            p->add_msg_if_player( _( "You took a selfie." ) );
+                        } else if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), guy->name.c_str() );
                         } else {
                             //~ 1s - thing being photographed, 2s - photo quality (adjective).
@@ -6207,7 +6183,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     std::string timestamp = to_string( time_point( calendar::turn ) );
                     //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
                     npc_photo.description = string_format( _( "This is a photo of %1$s. It was taken on %2$s." ),
-                                                           npc_photo.name, timestamp );
+                                                           "<color_light_blue>" + npc_photo.name + "</color>",
+                                                           "<color_light_blue>" + timestamp + "</color>" );
                     npc_photo.description += "\n\n" + guy->short_description();
 
                     npc_photos.push_back( npc_photo );
@@ -6281,7 +6258,12 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             debugmsg( "Error NPC photos: %s", e.c_str() );
         }
         for( auto npc_photo : npc_photos ) {
-            std::string menu_str = npc_photo.name;
+            std::string menu_str;
+            if( npc_photo.name == p->name ) {
+                menu_str = _( "You" );
+            } else {
+                menu_str = npc_photo.name;
+            }
             descriptions.push_back( npc_photo.description );
 
             menu_str += " [" + photo_quality_name( npc_photo.quality ) + "]";
@@ -7661,7 +7643,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items
     ) {
-        units::volume total_volume = 0;
+        units::volume total_volume = 0_ml;
         for( const auto &p : items ) {
             total_volume += p.first->volume() * p.second;
         }
@@ -7694,7 +7676,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     }
 
     // Determine if we have enough water and cleanser for all the items.
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     for( std::pair<int, int> pair : to_clean ) {
         item i = p->i_at( pair.first );
         if( pair.first == INT_MIN ) {
@@ -7795,16 +7777,14 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    int pos = p->inv.position_by_item( it );
+    int pos = p->get_item_position( it );
+
     // Giving player::disassemble INT_MIN is actually a special case to
-    // disassemble all, but position_by_item returns INT_MIN if it's not
-    // actually in our inventory.  If the item was on the floor, it will be
-    // picked up and put into inventory before this point, so the only time we
-    // can get INT_MIN here is if we're wielding it.
-    if( pos == INT_MIN ) {
-        pos = -1;
+    // disassemble all, but get_item_position returns INT_MIN if it's not
+    // actually in our inventory/worn/wielded. Skip this nonsensical case.
+    if( pos != INT_MIN ) {
+        p->disassemble( *it, pos, false, false );
     }
-    p->disassemble( *it, pos, false, false );
     return 0;
 }
 

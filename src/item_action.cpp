@@ -1,5 +1,9 @@
 #include "item_action.h"
 
+#include <algorithm>
+#include <iterator>
+#include <sstream>
+
 #include "action.h"
 #include "debug.h"
 #include "game.h"
@@ -15,10 +19,6 @@
 #include "ret_val.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <algorithm>
-#include <iterator>
-#include <sstream>
 
 static item_action nullaction;
 static const std::string errstring( "ERROR" );
@@ -44,7 +44,7 @@ class actmenu_cb : public uilist_callback
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
                   uilist * /*menu*/ ) override {
-            const std::string action = ctxt.input_to_action( event );
+            const std::string &action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
             auto itemless_action = am.find( action );

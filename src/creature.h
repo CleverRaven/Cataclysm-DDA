@@ -2,16 +2,16 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "bodypart.h"
-#include "pimpl.h"
-#include "string_formatter.h"
-#include "string_id.h"
-
 #include <climits>
 #include <map>
 #include <set>
 #include <unordered_map>
 #include <vector>
+
+#include "bodypart.h"
+#include "pimpl.h"
+#include "string_formatter.h"
+#include "string_id.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -204,8 +204,8 @@ class Creature
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
-        virtual void deal_melee_hit( Creature *source, int hit_spread, bool crit,
-                                     const damage_instance &d, dealt_damage_instance &dealt_dam );
+        virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                                     const damage_instance &dam, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
@@ -222,10 +222,10 @@ class Creature
          * Does not call @ref check_dead_state.
          * @param source The attacking creature, can be null.
          * @param bp The attacked body part
-         * @param d The damage dealt
+         * @param dam The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
-                const damage_instance &d );
+                const damage_instance &dam );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
@@ -305,7 +305,8 @@ class Creature
         virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                                  bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength, time_duration dur,
+        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+                             const time_duration &dur,
                              body_part bp = num_bp, bool permanent = false, int intensity = 1,
                              bool force = false );
         /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
@@ -408,9 +409,9 @@ class Creature
         virtual body_part get_random_body_part( bool main = false ) const = 0;
         /**
          * Returns body parts in order in which they should be displayed.
-         * @param main If true, only displays parts that can have hit points
+         * @param only_main If true, only displays parts that can have hit points
          */
-        virtual std::vector<body_part> get_all_body_parts( bool main = false ) const = 0;
+        virtual std::vector<body_part> get_all_body_parts( bool only_main = false ) const = 0;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -476,8 +477,8 @@ class Creature
         int moves;
         bool underwater;
 
-        void draw( const catacurses::window &w, int plx, int ply, bool inv ) const;
-        void draw( const catacurses::window &w, const tripoint &plp, bool inv ) const;
+        void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
+        void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

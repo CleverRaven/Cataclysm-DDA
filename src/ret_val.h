@@ -2,10 +2,10 @@
 #ifndef RET_VAL_H
 #define RET_VAL_H
 
-#include "string_formatter.h"
-
 #include <string>
 #include <type_traits>
+
+#include "string_formatter.h"
 
 /**
  * The class represents a composite return value of an arbitrary function (result).

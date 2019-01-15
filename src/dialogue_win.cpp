@@ -1,15 +1,15 @@
 #include "dialogue_win.h"
 
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "map.h"
 #include "output.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 void dialogue_window::open_dialogue( bool text_only )
 {
