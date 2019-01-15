@@ -44,7 +44,7 @@
       { "group": "bags", "damage": [ 1, 4 ] },
       { "group": "default_zombie_items_pockets" },
       { "group": "homebooks", "prob": 30 },
-      { "group": "alcohol", "prob": 10 },
+      { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 25 },
       { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
