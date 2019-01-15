@@ -92,7 +92,8 @@ bool leap_actor::call( monster &z ) const
         if( cur_dist > best ) {
             continue;
         }
-        if( (trigdist ? trig_dist( z.pos(), dest ) : square_dist( z.pos(), dest ) ) < min_range ) {
+        if( ( trigdist ? trig_dist( z.pos(), dest ) : square_dist( z.pos(), dest ) ) <
+            min_range ) {
             continue;
         }
         bool blocked_path = false;
