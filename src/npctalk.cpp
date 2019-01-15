@@ -407,11 +407,13 @@ void npc::talk_to_u( bool text_only )
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
         g->u.cancel_activity();
 
-        // Don't query if we're training the player
-    } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) ||
-               g->u.activity.index != getID() ) {
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                            string_format( _( "%s talked to you." ), name ) );
+        // don't query certain activities that are started from dialogue
+      } else if((g->u.activity.id() == activity_id( "ACT_TRAIN")) ||
+               ((g->u.activity.id() == activity_id( "ACT_WAIT_NPC")) ||
+               ((g->u.activity.id() == activity_id( "ACT_SOCIALIZE")) ||
+               ((g->u.activity.index == getID() ))))) {
+          return;
+    g->cancel_activity_or_ignore_query( distraction_type::talked_to, string_format( _( "%s talked to you." ), name ) );
     }
 }
 
@@ -2190,6 +2192,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( buy_haircut ),
             WRAP( buy_shave ),
             WRAP( morale_chat ),
+            WRAP( morale_chat_activity ),
             WRAP( buy_10_logs ),
             WRAP( buy_100_logs ),
             WRAP( bionic_install ),

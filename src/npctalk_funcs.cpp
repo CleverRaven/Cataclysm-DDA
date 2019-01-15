@@ -405,8 +405,16 @@ void talk_function::buy_shave( npc &p )
 
 void talk_function::morale_chat( npc &p )
 {
-    g->u.add_morale( MORALE_CHAT, 5, 5, 360_minutes, 3_minutes );
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
     add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
+}
+
+void talk_function::morale_chat_activity( npc &p )
+{
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    g->u.activity.str_values.push_back( p.name );
+    add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
 void talk_function::buy_10_logs( npc &p )
