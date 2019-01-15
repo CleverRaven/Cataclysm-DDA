@@ -176,7 +176,7 @@ bool Creature::sees( const Creature &critter ) const
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                !( abs( posx() - critter.posx() ) <= 1 && abs( posy() - critter.posy() ) <= 1 && abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
-    }
+           }
 
     return sees( critter.pos(), critter.is_player() );
 }
