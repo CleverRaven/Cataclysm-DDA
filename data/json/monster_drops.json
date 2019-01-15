@@ -55,12 +55,7 @@
       { "item": "thermos", "prob": 10 },
       { "item": "spray_can", "prob": 10 },
       {
-        "distribution": [
-          { "item": "roadmap" },
-          { "item": "trailmap" },
-          { "item": "touristmap" },
-          { "item": "restaurantmap" }
-        ],
+        "distribution": [ { "item": "roadmap" }, { "item": "trailmap" }, { "item": "touristmap" }, { "item": "restaurantmap" } ],
         "prob": 5
       },
       {
@@ -129,7 +124,7 @@
         "distribution": [ { "item": "lighter", "prob": 40 }, { "item": "ref_lighter", "prob": 40 }, { "item": "matches", "prob": 20 } ],
         "prob": 30
       },
-      { "distribution": [ { "item": "gum", "prob": 30 }, { "item": "caff_gum", "prob": 30 } ] },
+      { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
       { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
       { "item": "portable_game", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges-min": 0, "charges-max": 50 },
