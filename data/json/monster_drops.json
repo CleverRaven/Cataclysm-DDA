@@ -55,6 +55,15 @@
       { "item": "spray_can", "prob": 10 },
       {
         "distribution": [
+          { "item": "roadmap" },
+          { "item": "trailmap" },
+          { "item": "touristmap" },
+          { "item": "restaurantmap" }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [
           { "group": "tools_carpentry", "prob": 33 },
           { "group": "tools_home", "prob": 33 },
           { "group": "tools_electronics", "prob": 33 }
