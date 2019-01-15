@@ -2168,7 +2168,7 @@ void overmap::place_forest_trailheads()
             } else if( oter == "forest_trail_end_west" ) {
                 try_place_trailhead( tripoint( i - 1, j, 0 ), tripoint( i - 2, j, 0 ), "_west" );
             } else if( oter == "forest_trail_end_east" ) {
-                try_place_trailhead( tripoint( i + 1, j, 0 ), tripoint( i + 2, j, 0 ), "_west" );
+                try_place_trailhead( tripoint( i + 1, j, 0 ), tripoint( i + 2, j, 0 ), "_east" );
             } else {
                 continue;
             }
