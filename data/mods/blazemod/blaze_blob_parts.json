@@ -1675,7 +1675,7 @@
     "breaks_into": [ { "item": "queengrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "razorqueen",

@@ -1958,6 +1958,25 @@
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
   },
   {
+    "id": "coat_gut",
+    "type": "ARMOR",
+    "name": "gutskin parka",
+    "description": "An intricately sewn coat of treated and split intestines, prized for its light weight and waterproofness among the indigenous peoples of the arctic.",
+    "weight": 200,
+    "volume": 5,
+    "price": 13000,
+    "material": [ "flesh" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 95,
+    "encumbrance": 12,
+    "warmth": 10,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+  },
+  {
     "id": "coat_winter",
     "type": "ARMOR",
     "name": "winter coat",
@@ -5056,7 +5075,7 @@
     "storage": 2,
     "warmth": 25,
     "material_thickness": 1,
-    "flags": [ "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "jacket_flannel",
