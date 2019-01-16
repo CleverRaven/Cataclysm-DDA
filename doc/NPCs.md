@@ -268,7 +268,7 @@ The dynamic line is chosen based on the specified number of days have elapsed si
 
 ```C++
 {
-    "days_since_cataclysm": "30",
+    "days_since_cataclysm": 30,
     "yes": "Things are really getting bad!",
     "no": "I'm sure the government will restore services soon."
 }
