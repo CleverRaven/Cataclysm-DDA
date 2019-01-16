@@ -5165,7 +5165,7 @@ void player::suffer()
     }
 
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) && !wearing_shoes ) {
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
         if (one_in(100)) {
             add_msg_if_player(m_good, _("This soil is delicious!"));
             if (get_hunger() > -20) {
@@ -7280,7 +7280,7 @@ void player::rooted_message() const
 {
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        g->m.has_flag("DIGGABLE", pos()) &&
+        g->m.has_flag("PLOWABLE", pos()) &&
         !wearing_shoes ) {
         add_msg(m_info, _("You sink your roots into the soil."));
     }
@@ -7292,7 +7292,7 @@ void player::rooted()
 {
     double shoe_factor = footwear_factor();
     if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )) &&
-        g->m.has_flag("DIGGABLE", pos()) && shoe_factor != 1.0 ) {
+        g->m.has_flag("PLOWABLE", pos()) && shoe_factor != 1.0 ) {
         if( one_in(20.0 / (1.0 - shoe_factor)) ) {
             if (get_hunger() > -20) {
                 mod_hunger(-1);

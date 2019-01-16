@@ -1502,6 +1502,9 @@ std::string map::features( const tripoint &p )
     if( has_flag( "DIGGABLE", p ) ) {
         ret << _( "Diggable. " );
     }
+    if( has_flag( "PLOWABLE", p ) ) {
+        ret << _( "Plowable. " );
+    }
     if( has_flag( "ROUGH", p ) ) {
         ret << _( "Rough. " );
     }
