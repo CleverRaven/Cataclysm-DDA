@@ -31,12 +31,9 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
+
 #ifdef TILES
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#      include <SDL2/SDL_version.h>
-#   else
-#      include <SDL_version.h>
-#   endif
+#include "sdl_wrappers.h"
 #endif
 
 #ifdef __ANDROID__
