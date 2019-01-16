@@ -1069,7 +1069,7 @@ void spawn_spores( const player &p )
         if( g->m.impassable( dest ) ) {
             continue;
         }
-        float dist = trig_dist( dest, p.pos() );
+        float dist = rl_dist( dest, p.pos() );
         if( x_in_y( 1, dist ) ) {
             fe.marlossify( dest );
         }
@@ -1818,7 +1818,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         it->active = true;
-        it->set_age( 0 );
+        it->set_age( 0_turns );
         g->m.add_item_or_charges( pnt, *it );
         p->i_rem( it );
         p->add_msg_if_player( m_info,
@@ -3293,7 +3293,7 @@ int iuse::firecracker_pack( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
     it->convert( "firecracker_pack_act" );
     it->charges = 26;
-    it->set_age( 0 );
+    it->set_age( 0_turns );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
 }
@@ -5585,7 +5585,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         if( !candidates.empty() ) {
 
             const recipe *r = random_entry( candidates );
-            const recipe_id rident = r->ident();
+            const recipe_id &rident = r->ident();
 
             const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
             if( old_recipes.empty() ) {
@@ -5739,13 +5739,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             amenu.addentry( ei_music, false, 'm', _( "No music on device" ) );
         }
 
-        if( !it->get_var( "RECIPE" ).empty() ) {
-            const item dummy( it->get_var( "RECIPE" ), 0 );
-            amenu.addentry( ei_invalid, false, -1, _( "Recipe: %s" ), dummy.tname().c_str() );
-        }
-
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
-            amenu.addentry( ei_recipe, true, 'r', _( "View recipe on E-ink screen" ) );
+            amenu.addentry( ei_recipe, true, 'r', _( "View recipes on E-ink screen" ) );
         }
 
         if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
@@ -5842,7 +5837,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             uilist rmenu;
 
-            rmenu.text = _( "Choose recipe to view:" );
+            rmenu.text = _( "List recipes:" );
 
             std::vector<recipe_id> candidate_recipes;
             std::istringstream f( it->get_var( "EIPC_RECIPES" ) );
@@ -5863,22 +5858,6 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             }
 
             rmenu.query();
-
-            const int rchoice = rmenu.ret;
-            if( rchoice < 0 ) {
-                return it->type->charges_to_use();
-            } else {
-                it->item_tags.insert( "HAS_RECIPE" );
-                const auto rec_id = candidate_recipes[rchoice];
-                it->set_var( "RECIPE", rec_id.str() );
-
-                const auto &recipe = *rec_id;
-                if( recipe ) {
-                    p->add_msg_if_player( m_info,
-                                          _( "You change the e-ink screen to show a recipe for %s." ),
-                                          recipe.result_name() );
-                }
-            }
 
             return it->type->charges_to_use();
         }
@@ -7664,7 +7643,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items
     ) {
-        units::volume total_volume = 0;
+        units::volume total_volume = 0_ml;
         for( const auto &p : items ) {
             total_volume += p.first->volume() * p.second;
         }
@@ -7697,7 +7676,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     }
 
     // Determine if we have enough water and cleanser for all the items.
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     for( std::pair<int, int> pair : to_clean ) {
         item i = p->i_at( pair.first );
         if( pair.first == INT_MIN ) {
@@ -7798,16 +7777,14 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    int pos = p->inv.position_by_item( it );
+    int pos = p->get_item_position( it );
+
     // Giving player::disassemble INT_MIN is actually a special case to
-    // disassemble all, but position_by_item returns INT_MIN if it's not
-    // actually in our inventory.  If the item was on the floor, it will be
-    // picked up and put into inventory before this point, so the only time we
-    // can get INT_MIN here is if we're wielding it.
-    if( pos == INT_MIN ) {
-        pos = -1;
+    // disassemble all, but get_item_position returns INT_MIN if it's not
+    // actually in our inventory/worn/wielded. Skip this nonsensical case.
+    if( pos != INT_MIN ) {
+        p->disassemble( *it, pos, false, false );
     }
-    p->disassemble( *it, pos, false, false );
     return 0;
 }
 

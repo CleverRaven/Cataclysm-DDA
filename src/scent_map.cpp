@@ -72,19 +72,13 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
     }
 }
 
-static bool in_bounds( int x, int y )
-{
-    return x >= 0 && x < MAPSIZE_X && y >= 0 && y < MAPSIZE_Y;
-}
-
 void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 {
     scent_array<int> new_scent;
     for( size_t x = 0; x < MAPSIZE_X; ++x ) {
         for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
-            new_scent[x][y] = in_bounds( x + sm_shift_x, y + sm_shift_y ) ?
-                              grscent[ x + sm_shift_x ][ y + sm_shift_y ] :
-                              0;
+            const point p( x + sm_shift_x, y + sm_shift_y );
+            new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
         }
     }
     grscent = new_scent;
@@ -92,7 +86,7 @@ void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 
 int scent_map::get( const tripoint &p ) const
 {
-    if( in_bounds( p.x, p.y ) && grscent[p.x][p.y] > 0 && inbounds( p ) ) {
+    if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
         return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
     }
     return 0;
@@ -108,11 +102,24 @@ void scent_map::set( const tripoint &p, int value )
 bool scent_map::inbounds( const tripoint &p ) const
 {
     // This weird long check here is a hack around the fact that scentmap is 2D
-    // A z-level can access scentmap if it is within 1 flying z-level move from player's z-level
+    // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
-    return p.x >= 0 && p.x < MAPSIZE_X && p.y >= 0 && p.y < MAPSIZE_Y &&
-           ( p.z == gm.get_levz() || ( std::abs( p.z - gm.get_levz() ) == 1 &&
-                                       gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) ) );
+
+    const bool scent_map_z_level_inbounds = ( p.z == gm.get_levz() ) ||
+                                            ( std::abs( p.z - gm.get_levz() ) == SCENT_MAP_Z_REACH &&
+                                                    gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) );
+    if( !scent_map_z_level_inbounds ) {
+        return false;
+    };
+    const point scent_map_boundary_min( point_zero );
+    const point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
+    const point scent_map_clearance_min( point_zero );
+    const point scent_map_clearance_max( 1, 1 );
+
+    const rectangle scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
+    const rectangle scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
+
+    return generic_inbounds( { p.x, p.y }, scent_map_boundaries, scent_map_clearance );
 }
 
 void scent_map::update( const tripoint &center, map &m )

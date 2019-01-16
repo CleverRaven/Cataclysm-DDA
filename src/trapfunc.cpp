@@ -37,7 +37,7 @@ static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
-    units::volume corpse_volume = 0;
+    units::volume corpse_volume = 0_ml;
     for( auto &pit_content : g->m.i_at( p ) ) {
         if( pit_content.is_corpse() ) {
             corpse_volume += pit_content.volume();

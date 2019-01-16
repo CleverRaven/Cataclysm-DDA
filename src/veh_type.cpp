@@ -328,7 +328,7 @@ void vpart_info::finalize()
             e.second.name_ = _( e.second.name_.c_str() );
         }
 
-        if( e.second.folded_volume > 0 ) {
+        if( e.second.folded_volume > 0_ml ) {
             e.second.set_flag( "FOLDABLE" );
         }
 
@@ -507,16 +507,16 @@ void vpart_info::check()
         if( part.dmg_mod < 0 ) {
             debugmsg( "vehicle part %s has negative damage modifier", part.id.c_str() );
         }
-        if( part.folded_volume < 0 ) {
+        if( part.folded_volume < 0_ml ) {
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
+        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
         }
-        if( part.size < 0 ) {
+        if( part.size < 0_ml ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
         if( !item::type_is_defined( part.item ) ) {
