@@ -195,12 +195,12 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         }
     }
     // display stamina, if we are not in a vehicle
-    if( wide && !p.in_vehicle ) {
+    if( wide ) {
         wmove( w_HP, 7 * dy, 0 );
         wprintz( w_HP, c_light_gray, _( "STA   " ) );
         print_stamina_bar( p, w_HP );
     }
-    if( !wide && !p.in_vehicle ) {
+    if( !wide ) {
         wmove( w_HP, 12, hpx );
         wprintz( w_HP, c_light_gray, _( "STA:" ) );
         wmove( w_HP, 13, hpx );
@@ -530,19 +530,21 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         const int wy = 0;
         const int dx = 0;
         const int dy = sideStyle ?  1 :  8;
-
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 0 ) : 17,
                    sideStyle ? ( wx + dx * 0 ) - 1 : wx + dx * 0, stat_color( get_str_bonus() ),
-                   _( "Str  %d" ), str_cur );
+                   _( "Str  %02d" ), str_cur );
+
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 1 ) : 18,
                    sideStyle ? ( wx + dx * 1 ) - 1 : wx + dx * 1, stat_color( get_dex_bonus() ),
-                   _( "Dex  %d" ), dex_cur );
+                   _( "Dex  %02d" ), dex_cur );
+
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 2 ) : 19,
                    sideStyle ? ( wx + dx * 2 ) - 1 : wx + dx * 2, stat_color( get_int_bonus() ),
-                   _( "Int  %d" ), int_cur );
+                   _( "Int  %02d" ), int_cur );
+
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 3 ) : 20,
                    sideStyle ? ( wx + dx * 3 ) - 1 : wx + dx * 3, stat_color( get_per_bonus() ),
-                   _( "Per  %d" ), per_cur );
+                   _( "Per  %02d" ), per_cur );
 
         const int spdx = sideStyle ?  0 : getmaxx( w ) - 12;
         const int spdy = sideStyle ?  5 : wy + dy * 4;
@@ -588,8 +590,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             }
 
             // calc number of digits in powerlevel int
-            int digits = this->power_level;
-            int offset = digits > 0 ? ( int ) log10( ( double ) digits ) + 1 : 1;
+            int offset = get_int_digits( this->power_level );
 
             wmove( sideStyle ? w : g->w_HP,
                    sideStyle ? spdy - 1 : 21,
@@ -600,5 +601,13 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         wrefresh( sideStyle ? w : g->w_HP );
     }
+}
+
+int get_int_digits( const int &digits )
+{
+    // calc number of digits in an int
+    // digits = this->power_level;
+    int offset = digits > 0 ? ( int ) log10( ( double ) digits ) + 1 : 1;
+    return offset;
 }
 
