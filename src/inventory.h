@@ -141,7 +141,7 @@ class inventory : public visitable<inventory>
          * the container. All items that are part of the same stack have the same item position.
          */
         int position_by_item( const item *it ) const;
-        int position_by_type( const itype_id &type );
+        int position_by_type( const itype_id &type ) const;
 
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */

@@ -154,7 +154,7 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     }
 
     bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
-    age = 0; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
+    age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
 time_duration player_morale::morale_point::pick_time( const time_duration current_time,
@@ -431,7 +431,7 @@ void player_morale::display( double focus_gain )
             const morale_mult mult = get_temper_mult();
 
             int line = 0;
-            for( size_t i = offset; i < static_cast<unsigned int>( rows_total ); ++i ) {
+            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
                 const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
 

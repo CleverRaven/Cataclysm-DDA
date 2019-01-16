@@ -73,7 +73,7 @@ void weather_effect::glare()
 time_duration get_rot_since( const time_point &start, const time_point &end,
                              const tripoint &pos )
 {
-    time_duration ret = 0;
+    time_duration ret = 0_turns;
     const auto &wgen = g->get_cur_weather_gen();
     /* Hoisting loop invariants */
     const auto location_temp = g->get_temperature( pos );
@@ -130,7 +130,7 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
 weather_sum sum_conditions( const time_point &start, const time_point &end,
                             const tripoint &location )
 {
-    time_duration tick_size = 0;
+    time_duration tick_size = 0_turns;
     weather_sum data;
 
     const auto wgen = g->get_cur_weather_gen();
@@ -299,7 +299,7 @@ void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
     // Give each funnel on the map a chance to collect the rain.
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
-        units::volume maxcontains = 0;
+        units::volume maxcontains = 0_ml;
         if( one_in( turns_per_charge ) ) { // @todo: fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
@@ -316,7 +316,7 @@ void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
 
             if( container != items.end() ) {
                 container->add_rain_to_container( acid, 1 );
-                container->set_age( 0 );
+                container->set_age( 0_turns );
             }
         }
     }

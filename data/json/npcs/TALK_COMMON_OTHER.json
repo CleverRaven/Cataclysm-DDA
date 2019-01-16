@@ -14,6 +14,30 @@
     ]
   },
   {
+    "id": "TALK_FRIEND",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Relax and chat with me for a while...",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": "Ok, so, how's it going?",
+    "responses": [
+      {
+        "text": "Oh you know, not bad, not bad...",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
+  },
+  {
     "id": "TALK_SHELTER_PLANS",
     "type": "talk_topic",
     "dynamic_line": [

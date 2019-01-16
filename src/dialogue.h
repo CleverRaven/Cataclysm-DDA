@@ -312,7 +312,6 @@ struct conditional_t {
         conditional_t() = default;
         conditional_t( const std::string &type );
         conditional_t( JsonObject jo );
-        static conditional_t from_member( JsonObject &jo, const std::string &member_name );
 
         bool operator()( const dialogue &d ) const {
             if( !condition ) {

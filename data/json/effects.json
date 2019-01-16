@@ -59,6 +59,13 @@
         "desc": ["AI tag for asking to NPCs to train you.  This is a bug if you have it."]
     },
     {
+      "type": "effect_type",
+      "id": "asked_to_socialize",
+      "name": [ "Asked to socialize" ],
+      "desc": ["AI tag: for having recently asked an NPC to socialize.  This is a bug if you have it."
+      ]
+    },
+    {
         "type": "effect_type",
         "id": "asked_personal_info",
         "name": ["Asked Info"],

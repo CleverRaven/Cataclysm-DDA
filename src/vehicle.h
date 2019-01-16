@@ -838,12 +838,12 @@ class vehicle
          *  Get all enabled, available, unbroken vehicle parts at specified position
          *  @param pos position to check
          *  @param flag if set only flags with this part will be considered
-         *  @param conditions enum to include unabled, unavailable, and broken parts
+         *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
-                const part_status_flag e );
+                const part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
-                const std::string &flag, const part_status_flag e ) const;
+                const std::string &flag, const part_status_flag condition ) const;
 
         /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
         bool can_enable( const vehicle_part &pt, bool alert = false ) const;
@@ -1243,7 +1243,7 @@ class vehicle
         void gain_moves();
 
         // reduces velocity to 0
-        void stop();
+        void stop( bool update_cache = true );
 
         void refresh_insides();
 
@@ -1352,6 +1352,7 @@ class vehicle
 
         // Honk the vehicle's horn, if there are any
         void honk_horn();
+        void reload_seeds( const tripoint &pos );
         void beeper_sound();
         void play_music();
         void play_chimes();
