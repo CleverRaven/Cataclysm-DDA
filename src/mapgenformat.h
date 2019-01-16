@@ -40,8 +40,8 @@ class format_effect
         std::vector<ID> determiners;
 
     public:
-        format_effect( std::string characters,
-                       std::vector<ID> determiners );
+        format_effect( std::string chars,
+                       std::vector<ID> dets );
 
         ID translate( char c ) const;
 };

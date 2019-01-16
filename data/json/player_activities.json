@@ -114,6 +114,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_SOCIALIZE",
+    "type": "activity_type",
+    "stop_phrase": "Stop socializing?",
+    "based_on": "time",
+    "rooted": true
+  },
+  {
     "id": "ACT_WAIT_WEATHER",
     "type": "activity_type",
     "stop_phrase": "Stop waiting?",
@@ -418,6 +425,12 @@
     "id": "ACT_HAIRCUT",
     "type": "activity_type",
     "stop_phrase": "Stop cutting your hair?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_PLAY_WITH_PET",
+    "type": "activity_type",
+    "stop_phrase": "Stop playing with your pet?",
     "based_on": "speed"
   },
   {
