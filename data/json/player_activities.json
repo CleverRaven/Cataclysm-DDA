@@ -428,6 +428,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_PLAY_WITH_PET",
+    "type": "activity_type",
+    "stop_phrase": "Stop playing with your pet?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_TRY_SLEEP",
     "type": "activity_type",
     "stop_phrase": "Stop trying to fall asleep?",
