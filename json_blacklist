@@ -30,11 +30,6 @@ data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
 data/json/items/chemicals_and_resources.json
-data/json/items/comestibles/brewing.json
-data/json/items/comestibles/carnivore.json
-data/json/items/comestibles/med.json
-data/json/items/comestibles/mutagen.json
-data/json/items/comestibles/protein.json
 data/json/items/containers.json
 data/json/items/fake.json
 data/json/items/generic/ammolink.json
