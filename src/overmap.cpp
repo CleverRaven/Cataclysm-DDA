@@ -1554,11 +1554,13 @@ bool overmap::generate_sub( const int z )
     create_train_depots( oter_id( "central_lab_train_depot" ), central_lab_train_points );
 
     for( auto &i : cities ) {
-        if( one_in( 3 ) ) {
+        // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
+        if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_CHUD" ),
                                      i.pos.x * 2, i.pos.y * 2, z, i.size, i.size * 20 ) );
         }
-        if( !one_in( 8 ) ) {
+        // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
+        if( z == -1 && !one_in( 8 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_SEWER" ),
                                      i.pos.x * 2, i.pos.y * 2, z, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
