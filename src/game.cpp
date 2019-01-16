@@ -7454,21 +7454,26 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 wprintz( w_info, c_white, title_suffix );
 
                 nc_color clr = c_white;
-                std::string colored_key = string_format( "<color_light_green>%s</color>",
-                                          ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
-                print_colored_text( w_info, getmaxy( w_info ) - 2, 2, clr, clr,
-                                    string_format( _( "Press %s to view extended description" ),
-                                                   colored_key.c_str() ) );
-                colored_key = string_format( "<color_light_green>%s</color>",
-                                             ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
-                print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr,
-                                    string_format( _( "Press %s to list items and monsters" ),
-                                                   colored_key.c_str() ) );
+                static const std::string greenFmt = "<color_light_green>%s</color>";
+                std::string colored_key;
+
+                colored_key = string_format( greenFmt, ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
+                std::string view_detail = string_format(
+                                              _( "Press %s to view extended description" ), colored_key );
+
+                colored_key = string_format( greenFmt, ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
+                std::string list_things = string_format(
+                                              _( "Press %s to list items and monsters" ), colored_key );
+
+                colored_key = string_format( greenFmt, ctxt.get_desc( "throw_blind", 1 ).c_str() );
+                std::string blind_throw = string_format(
+                                              _( "Press %s to blind throw" ), colored_key );
+
+                print_colored_text( w_info, getmaxy( w_info ) - 2, 2, clr, clr, view_detail );
+                print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr, list_things );
+
                 if( peeking ) {
-                    colored_key = string_format( "<color_light_green>%s</color>", ctxt.get_desc( "throw_blind",
-                                                 1 ).c_str() );
-                    print_colored_text( w_info, getmaxy( w_info ) - 3, 2, clr, clr,
-                                        string_format( _( "Press %s to blind throw" ), colored_key.c_str() ) );
+                    print_colored_text( w_info, getmaxy( w_info ) - 3, 2, clr, clr, blind_throw );
                 }
 
                 int first_line = 1;
