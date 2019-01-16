@@ -182,7 +182,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
     }
 
     if( ( type->gun || type->tool ) && !magazine_integral() ) {
-        set_var( "magazine_converted", true );
+        set_var( "magazine_converted", 1 );
     }
 
     if( !type->snippet_category.empty() ) {
@@ -531,7 +531,7 @@ item item::in_container( const itype_id &cont ) const
 
 long item::charges_per_volume( const units::volume &vol ) const
 {
-    if( type->volume == 0 ) {
+    if( type->volume == 0_ml ) {
         return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
     }
     // Type cast to prevent integer overflow with large volume containers like the cargo dimension
@@ -1967,7 +1967,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         const auto &dis = recipe_dictionary::get_uncraft( typeId() );
         const auto &req = dis.disassembly_requirements();
         if( !req.is_empty() && parts->test( iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE ) ) {
-            const auto components = req.get_components();
+            const auto &components = req.get_components();
             const std::string components_list = enumerate_as_string( components.begin(), components.end(),
             []( const std::vector<item_comp> &comps ) {
                 return comps.front().to_string();
@@ -2489,8 +2489,8 @@ std::map<gunmod_location, int> item::get_mod_locations() const
         if( !mod->type->gunmod->add_mod.empty() ) {
             std::map<gunmod_location, int> add_locations = mod->type->gunmod->add_mod;
 
-            for( auto it = add_locations.begin(); it != add_locations.end(); ++it ) {
-                mod_locations[it->first] += it->second;
+            for( auto &add_location : add_locations ) {
+                mod_locations[add_location.first] += add_location.second;
             }
         }
     }
@@ -3106,12 +3106,12 @@ int item::price( bool practical ) const
 units::mass item::weight( bool include_contents ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0_gram;
     }
 
     // Items that don't drop aren't really there, they're items just for ease of implementation
     if( has_flag( "NO_DROP" ) ) {
-        return 0;
+        return 0_gram;
     }
 
     units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
@@ -3179,17 +3179,17 @@ units::volume item::corpse_volume( const mtype *corpse ) const
     if( has_flag( "GIBBED" ) ) {
         corpse_volume *= 0.85;
     }
-    if( corpse_volume > 0 ) {
+    if( corpse_volume > 0_ml ) {
         return corpse_volume;
     }
     debugmsg( "invalid monster volume for corpse" );
-    return 0;
+    return 0_ml;
 }
 
 units::volume item::base_volume() const
 {
     if( is_null() ) {
-        return 0;
+        return 0_ml;
     }
     if( is_corpse() ) {
         return corpse_volume( corpse );
@@ -3209,7 +3209,7 @@ units::volume item::base_volume() const
 units::volume item::volume( bool integral ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0_ml;
     }
 
     if( is_corpse() ) {
@@ -3243,7 +3243,7 @@ units::volume item::volume( bool integral ) const
 
     // Some magazines sit (partly) flush with the item so add less extra volume
     if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() - type->magazine_well, units::volume( 0 ) );
+        ret += std::max( magazine_current()->volume() - type->magazine_well, 0_ml );
     }
 
     if( is_gun() ) {
@@ -3537,7 +3537,7 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    return is_food() && type->comestible->spoils != 0;
+    return is_food() && type->comestible->spoils != 0_turns;
 }
 
 double item::get_relative_rot() const
@@ -3636,7 +3636,7 @@ units::volume item::get_storage() const
 {
     auto t = find_armor_data();
     if( t == nullptr ) {
-        return 0;
+        return 0_ml;
     }
 
     return t->storage;
@@ -3676,7 +3676,7 @@ bool item::is_power_armor() const
 
 int item::get_encumber( const Character &p ) const
 {
-    units::volume contents_volume( 0 );
+    units::volume contents_volume( 0_ml );
     for( const auto &e : contents ) {
         contents_volume += e.volume();
     }
@@ -4762,6 +4762,42 @@ void item::mark_chapter_as_read( const player &u )
     set_var( var, remain );
 }
 
+std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u ) const
+{
+    std::vector<std::pair<const recipe *, int>> recipe_entries;
+    if( is_book() ) {
+        // NPCs don't need to identify books
+        if( u.is_player() && !u.has_identified( typeId() ) ) {
+            return recipe_entries;
+        }
+
+        for( const auto &elem : type->book->recipes ) {
+            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+                recipe_entries.push_back( std::make_pair( elem.recipe, elem.skill_level ) );
+            }
+        }
+    } else if( has_var( "EIPC_RECIPES" ) ) {
+        // See einkpc_download_memory_card() in iuse.cpp where this is set.
+        const std::string recipes = get_var( "EIPC_RECIPES" );
+        // Capture the index one past the delimiter, i.e. start of target string.
+        size_t first_string_index = recipes.find_first_of( ',' ) + 1;
+        while( first_string_index != std::string::npos ) {
+            size_t next_string_index = recipes.find_first_of( ',', first_string_index );
+            if( next_string_index == std::string::npos ) {
+                break;
+            }
+            std::string new_recipe = recipes.substr( first_string_index,
+                                     next_string_index - first_string_index );
+            const recipe *r = &recipe_id( new_recipe ).obj();
+            if( u.get_skill_level( r->skill_used ) >= r->difficulty ) {
+                recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
+            }
+            first_string_index = next_string_index + 1;
+        }
+    }
+    return recipe_entries;
+}
+
 const material_type &item::get_random_material() const
 {
     return random_entry( made_of(), material_id::NULL_ID() ).obj();
@@ -4837,7 +4873,7 @@ skill_id item::melee_skill() const
 
     for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
         auto val = damage_melee( static_cast<damage_type>( idx ) );
-        auto sk  = skill_by_dt( static_cast<damage_type>( idx ) );
+        const skill_id &sk  = skill_by_dt( static_cast<damage_type>( idx ) );
         if( val > hi && sk ) {
             hi = val;
             res = sk;
@@ -5816,7 +5852,7 @@ bool item::burn( fire_data &frd )
             !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
             corpse = &get_mtype()->burn_into.obj();
             // Delay rezing
-            set_age( 0 );
+            set_age( 0_turns );
             burnt = 0;
             return false;
         }
@@ -5845,7 +5881,7 @@ bool item::flammable( int threshold ) const
     }
 
     int flammability = 0;
-    units::volume volume_per_turn = 0;
+    units::volume volume_per_turn = 0_ml;
     for( const auto &m : mats ) {
         const auto &bd = m->burn_data( 1 );
         if( bd.immune ) {
@@ -5863,7 +5899,7 @@ bool item::flammable( int threshold ) const
 
     volume_per_turn /= mats.size();
     units::volume vol = base_volume();
-    if( volume_per_turn > 0 && volume_per_turn < vol ) {
+    if( volume_per_turn > 0_ml && volume_per_turn < vol ) {
         flammability = flammability * volume_per_turn / vol;
     } else {
         // If it burns well, it provides a bonus here
@@ -5919,7 +5955,7 @@ int item::getlight_emit() const
 units::volume item::get_container_capacity() const
 {
     if( !is_container() ) {
-        return 0;
+        return 0_ml;
     }
     return type->container->contains;
 }
@@ -5999,7 +6035,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
 
     if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
         const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
-                                               units::volume( 0 ) );
+                                               0_ml );
 
         res = std::min( liquid.charges_per_volume( volume_to_expand ), res );
 
@@ -6254,14 +6290,14 @@ const item_category &item::get_category() const
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
-                    flags f, double Value )
+                    flags Flags, double Value )
 {
     sType = Type;
     sName = replace_colors( Name );
     sFmt = replace_colors( Fmt );
-    is_int = !( f & is_decimal );
+    is_int = !( Flags & is_decimal );
     dValue = Value;
-    bShowPlus = static_cast<bool>( f & show_plus );
+    bShowPlus = static_cast<bool>( Flags & show_plus );
     std::stringstream convert;
     if( bShowPlus ) {
         convert << std::showpos;
@@ -6273,9 +6309,9 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     }
     convert << std::fixed << Value;
     sValue = convert.str();
-    bNewLine = !( f & no_newline );
-    bLowerIsBetter = static_cast<bool>( f & lower_is_better );
-    bDrawName = !( f & no_name );
+    bNewLine = !( Flags & no_newline );
+    bLowerIsBetter = static_cast<bool>( Flags & lower_is_better );
+    bDrawName = !( Flags & no_name );
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value )
@@ -7162,7 +7198,7 @@ bool item::is_seed() const
 time_duration item::get_plant_epoch() const
 {
     if( !type->seed ) {
-        return 0;
+        return 0_turns;
     }
     // Growing times have been based around real world season length rather than
     // the default in-game season length to give

@@ -142,7 +142,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
         return nullptr;
     }
 
-    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
+    return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
 bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
@@ -3931,7 +3931,7 @@ bool mattack::parrot( monster *z )
         return false;
     } else if( one_in( 20 ) ) {
         z->moves -= 100;  // It takes a while
-        const SpeechBubble speech = get_speech( z->type->id.str() );
+        const SpeechBubble &speech = get_speech( z->type->id.str() );
         sounds::sound( z->pos(), speech.volume, sounds::sound_t::speech, speech.text );
         return true;
     }
