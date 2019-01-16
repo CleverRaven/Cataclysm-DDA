@@ -98,11 +98,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_monster_capture = ( monster_capture_part >= 0 );
     const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH", true );
     const bool has_bike_rack = ( bike_rack_part >= 0 );
+    const bool has_planter = veh->avail_part_with_feature( veh_root_part, "PLANTER", true ) >= 0 ||
+                             veh->avail_part_with_feature( veh_root_part, "ADVANCED_PLANTER", true ) >= 0;
 
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK
+        USE_BIKE_RACK, RELOAD_PLANTER
     };
     uilist selectmenu;
 
@@ -173,6 +175,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     }
     if( has_bike_rack ) {
         selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
+    }
+
+    if( has_planter ) {
+        selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
     }
 
     int choice;
@@ -320,6 +326,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case GET_ITEMS:
             return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
+
+        case RELOAD_PLANTER:
+            veh->reload_seeds( pos );
+            return DONE;
     }
 
     return DONE;
@@ -983,7 +993,7 @@ void Pickup::pick_up( const tripoint &p, int min )
 
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
             }
-            draw_custom_border( w_item_info, false );
+            draw_custom_border( w_item_info, 0 );
             mvwprintw( w_item_info, 0, 2, "< " );
             trim_and_print( w_item_info, 0, 4, itemsW - 8, c_white, "%s >",
                             selected_item.display_name().c_str() );
@@ -1099,8 +1109,8 @@ void Pickup::pick_up( const tripoint &p, int min )
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                units::mass weight_picked_up = 0;
-                units::volume volume_picked_up = 0;
+                units::mass weight_picked_up = 0_gram;
+                units::volume volume_picked_up = 0_ml;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
                         item temp = stacked_here[i].begin()->_item;
