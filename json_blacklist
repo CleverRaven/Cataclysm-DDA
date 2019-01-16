@@ -165,7 +165,6 @@ data/json/npcs/hints.json
 data/json/npcs/items_generic.json
 data/json/npcs/missiondef.json
 data/json/npcs/NC_ARSONIST.json
-data/json/npcs/NC_BARTENDER.json
 data/json/npcs/NC_BOUNTY_HUNTER.json
 data/json/npcs/NC_COWBOY.json
 data/json/npcs/NC_DEBUG.json
@@ -207,11 +206,8 @@ data/json/recipes/armor/other.json
 data/json/recipes/armor/storage.json
 data/json/recipes/armor/suit.json
 data/json/recipes/armor/torso.json
-data/json/recipes/chem/fuel.json
 data/json/recipes/electronics/parts.json
 data/json/recipes/electronics/toolmod.json
-data/json/recipes/food/brewing.json
-data/json/recipes/food/distill.json
 data/json/recipes/food/dry.json
 data/json/recipes/food/pasta.json
 data/json/recipes/other/containers.json
