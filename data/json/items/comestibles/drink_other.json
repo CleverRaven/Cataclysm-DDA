@@ -52,7 +52,7 @@
     "color": "white",
     "name": "mayonnaise",
     "name_plural": "mayonnaise",
-"description": "A gloppy mix of egg, oil, and salt that is traditionally used to moisten sandwiches.",
+    "description": "A gloppy mix of egg, oil, and salt that is traditionally used to moisten sandwiches.",
     "price": 187,
     "material": [ "junk", "egg" ],
     "weight": 15,
