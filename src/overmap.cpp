@@ -1554,11 +1554,13 @@ bool overmap::generate_sub( const int z )
     create_train_depots( oter_id( "central_lab_train_depot" ), central_lab_train_points );
 
     for( auto &i : cities ) {
-        if( one_in( 3 ) ) {
+        // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
+        if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_CHUD" ),
                                      i.pos.x * 2, i.pos.y * 2, z, i.size, i.size * 20 ) );
         }
-        if( !one_in( 8 ) ) {
+        // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
+        if( z == -1 && !one_in( 8 ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_SEWER" ),
                                      i.pos.x * 2, i.pos.y * 2, z, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
@@ -2118,64 +2120,69 @@ void overmap::place_forest_trailheads()
         return;
     }
 
-    // Add the roads out of the overmap to our collection, which
-    // we'll then use to connect our trailheads to the rest of the
-    // road network.
+    // Add the roads out of the overmap and cities to our collection, which
+    // we'll then use to connect our trailheads to the rest of the road network.
     std::vector<point> road_points;
+    road_points.reserve( roads_out.size() + cities.size() );
     for( const auto &elem : roads_out ) {
+        road_points.emplace_back( elem.pos );
+    }
+    for( const auto &elem : cities ) {
         road_points.emplace_back( elem.pos.x, elem.pos.y );
     }
 
     // Trailheads may be placed if all of the following are true:
     // 1. we're at a forest_trail_end_north/south/west/east,
     // 2. the next two overmap terrains continuing in the direction
-    //     of the trail are fields
-    // 3. rng rolls a success for our trailhead_chance from the configuration
+    //    of the trail are fields
+    // 3. we're within trailhead_road_distance from an existing road
+    // 4. rng rolls a success for our trailhead_chance from the configuration
+
+    const auto trailhead_close_to_road = [&]( const tripoint trailhead ) {
+        bool close = false;
+        for( point nearby_point : closest_points_first( settings.forest_trail.trailhead_road_distance,
+                point( trailhead.x, trailhead.y ) ) ) {
+            if( check_ot_subtype( "road", nearby_point.x, nearby_point.y, 0 ) ) {
+                close = true;
+            }
+        }
+        return close;
+    };
+
+    const auto try_place_trailhead = [&]( const tripoint trailhead, const tripoint road,
+    const std::string suffix ) {
+        oter_id &oter_potential_trailhead = ter( trailhead );
+        oter_id &oter_potential_road = ter( road );
+        if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
+            one_in( settings.forest_trail.trailhead_chance ) && trailhead_close_to_road( trailhead ) ) {
+            oter_potential_trailhead = oter_id( "trailhead" + suffix );
+            road_points.emplace_back( road.x, road.y );
+        }
+    };
 
     for( int i = 2; i < OMAPX - 2; i++ ) {
         for( int j = 2; j < OMAPY - 2; j++ ) {
             oter_id oter = ter( i, j, 0 );
             if( oter == "forest_trail_end_north" ) {
-                oter_id &oter_potential_trailhead = ter( i, j - 1, 0 );
-                oter_id &oter_potential_road = ter( i, j - 2, 0 );
-                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
-                    one_in( settings.forest_trail.trailhead_chance ) ) {
-                    oter_potential_trailhead = oter_id( "trailhead_north" );
-                    road_points.emplace_back( i, j - 2 );
-                }
+                try_place_trailhead( tripoint( i, j - 1, 0 ), tripoint( i, j - 2, 0 ), "_north" );
             } else if( oter == "forest_trail_end_south" ) {
-                oter_id &oter_potential_trailhead = ter( i, j + 1, 0 );
-                oter_id &oter_potential_road = ter( i, j + 2, 0 );
-                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
-                    one_in( settings.forest_trail.trailhead_chance ) ) {
-                    oter_potential_trailhead = oter_id( "trailhead_south" );
-                    road_points.emplace_back( i, j + 2 );
-                }
+                try_place_trailhead( tripoint( i, j + 1, 0 ), tripoint( i, j + 2, 0 ), "_south" );
             } else if( oter == "forest_trail_end_west" ) {
-                oter_id &oter_potential_trailhead = ter( i - 1, j, 0 );
-                oter_id &oter_potential_road = ter( i - 2, j, 0 );
-                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
-                    one_in( settings.forest_trail.trailhead_chance ) ) {
-                    oter_potential_trailhead = oter_id( "trailhead_west" );
-                    road_points.emplace_back( i, j - 2 );
-                }
+                try_place_trailhead( tripoint( i - 1, j, 0 ), tripoint( i - 2, j, 0 ), "_west" );
             } else if( oter == "forest_trail_end_east" ) {
-                oter_id &oter_potential_trailhead = ter( i + 1, j, 0 );
-                oter_id &oter_potential_road = ter( i + 2, j, 0 );
-                if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
-                    one_in( settings.forest_trail.trailhead_chance ) ) {
-                    oter_potential_trailhead = oter_id( "trailhead_east" );
-                    road_points.emplace_back( i, j + 2 );
-                }
+                try_place_trailhead( tripoint( i + 1, j, 0 ), tripoint( i + 2, j, 0 ), "_east" );
             } else {
                 continue;
             }
         }
     }
 
-    // Connect our road points with local_road connections.
-    const string_id<overmap_connection> local_road( "local_road" );
-    connect_closest_points( road_points, 0, *local_road );
+    // If we actually added some trailheads...
+    if( road_points.size() > roads_out.size() ) {
+        // ...then connect our road points with local_road connections.
+        const string_id<overmap_connection> local_road( "local_road" );
+        connect_closest_points( road_points, 0, *local_road );
+    }
 }
 
 void overmap::place_river( point pa, point pb )
