@@ -405,7 +405,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         hydration_string = _( "Dehydrated" );
     } else if( get_thirst() > 80 ) {
         hydration_color = c_yellow;
-        hydration_string = _( "Very Thirsty" );
+        hydration_string = _( "Very thirsty" );
     } else if( get_thirst() > 40 ) {
         hydration_color = c_yellow;
         hydration_string = _( "Thirsty" );
