@@ -595,7 +595,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                    sideStyle ? spdy - 1 : 21,
                    sideStyle ? ( wx + dx * 4 + 6 ) - offset : 7 - offset );
 
-            wprintz( sideStyle ? w : g->w_HP, c_light_gray, "%-3d", this->power_level );
+            wprintz( sideStyle ? w : g->w_HP, color, "%-3d", this->power_level );
         }
 
         wrefresh( sideStyle ? w : g->w_HP );
