@@ -10,7 +10,7 @@ fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
 if [ -n "${MXE_TARGET}" ]; then
-  echo "deb http://mirror.mxe.cc/repos/apt/debian xenial main" \
+  echo "deb http://mirror.mxe.cc/repos/apt/debian wheezy main" \
     | sudo tee /etc/apt/sources.list.d/mxeapt.list
   travis_retry sudo apt-key adv --keyserver x-hkp://keyserver.ubuntu.com:80 \
     --recv-keys D43A795B73B16ABE9643FE1AFD8FFF16DB45C6AB
