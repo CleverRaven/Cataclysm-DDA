@@ -16,6 +16,7 @@
 #include "io_tags.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "units.h"
 #include "visitable.h"
 #include "requirements.h"
 
@@ -31,15 +32,6 @@ class JsonOut;
 class iteminfo_query;
 template<typename T>
 class ret_val;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-} // namespace units
 class gun_type_type;
 class gunmod_location;
 class game;
