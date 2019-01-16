@@ -1903,7 +1903,7 @@ void npc::find_item()
 
     const bool whitelisting = has_item_whitelist();
 
-    if( volume_allowed <= 0 || weight_allowed <= 0 ) {
+    if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         return;
     }
 
@@ -2296,7 +2296,7 @@ bool npc::find_corpse_to_pulp()
             if( it.can_revive() ) {
                 // If the first encountered corpse bleeds something dangerous then
                 // it is not safe to bash.
-                if( is_dangerous_field( field_entry( it.get_mtype()->bloodType(), 1, 0 ) ) ) {
+                if( is_dangerous_field( field_entry( it.get_mtype()->bloodType(), 1, 0_turns ) ) ) {
                     return nullptr;
                 }
 

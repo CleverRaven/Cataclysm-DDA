@@ -47,6 +47,7 @@ using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class npc;
+class recipe;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
@@ -152,11 +153,11 @@ struct iteminfo {
          *  @param Type The item type of the item this iteminfo belongs to.
          *  @param Name The name of the property this iteminfo describes.
          *  @param Fmt Formatting text desired between item name and value
-         *  @param flags Additional flags to customize this entry
+         *  @param Flags Additional flags to customize this entry
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999 );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
@@ -726,7 +727,7 @@ class item : public visitable<item>
          * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
          * the item is rotten.
          */
-        time_duration rot = 0;
+        time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
         time_point last_rot_check = calendar::time_of_cataclysm;
 
@@ -1499,6 +1500,10 @@ class item : public visitable<item>
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
         void mark_chapter_as_read( const player &u );
+        /**
+         * Enumerates recipes available from this book and the skill level required to use them.
+         */
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
         /*@}*/
 
         /**
@@ -1846,7 +1851,7 @@ class item : public visitable<item>
         time_duration age() const;
         void set_age( const time_duration &age );
         time_point birthday() const;
-        void set_birthday(const time_point &bday );
+        void set_birthday( const time_point &bday );
 
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency

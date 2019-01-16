@@ -1,0 +1,27 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3",
+    "dynamic_line": "Don't bother with these assholes.",
+    "//": "STUB FILE: not all text implemented yet.  TK: different greetings; topics FOOD, EXPERTISE, JOIN",
+    "responses": [
+      { "text": "What's up?", "topic": "TALK_REFUGEE_BEGGAR_3_COMPLAIN" },
+      { "text": "Ok... see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3_COMPLAIN",
+    "dynamic_line": "They're 'too full'.  Won't share fuck-all.",
+    "responses": [
+      { "text": "Why are you living here then?", "topic": "TALK_REFUGEE_BEGGAR_3_COMPLAIN2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3_COMPLAIN2",
+    "dynamic_line": "Even without them helping, it's the safest place to squat.  As long as we keep it clean up here and don't cause sanitation problems, they don't mind us sitting around the entryway.  So kind and generous of them, to let us sit here and slowly starve.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  }
+]

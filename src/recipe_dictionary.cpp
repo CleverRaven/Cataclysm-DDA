@@ -356,7 +356,7 @@ void recipe_dictionary::finalize()
         const recipe_id rid = recipe_id( id );
 
         // books that don't already have an uncrafting recipe
-        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0 ) {
+        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / units::from_milliliter( 12.5 );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;

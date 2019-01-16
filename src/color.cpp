@@ -44,9 +44,7 @@ void color_manager::finalize()
         }
     };
 
-    for( size_t i = 0; i < color_array.size(); i++ ) {
-        color_struct &entry = color_array[i];
-
+    for( auto &entry : color_array ) {
         entry.invert = get( entry.invert_id );
 
         if( !entry.name_custom.empty() ) {
@@ -67,8 +65,7 @@ void color_manager::finalize()
     }
 
     // Highlights in a next run, to make sure custom colors are set
-    for( size_t i = 0; i < color_array.size(); i++ ) {
-        color_struct &entry = color_array[i];
+    for( auto &entry : color_array ) {
         const std::string my_name = get_name( entry.color );
         const std::string root = my_name.substr( 2, my_name.length() - 2 );
         const size_t underscore_num = std::count( root.begin(), root.end(), '_' ) -
@@ -115,10 +112,10 @@ color_id color_manager::color_to_id( const nc_color &color ) const
     }
 
     // Optimally this shouldn't happen, but allow for now
-    for( size_t i = 0; i < color_array.size(); i++ ) {
-        if( color_array[i].color == color ) {
+    for( const auto &entry : color_array ) {
+        if( entry.color == color ) {
             debugmsg( "Couldn't find color %d", color.operator int() );
-            return color_array[i].col_id;
+            return entry.col_id;
         }
     }
 
@@ -552,13 +549,13 @@ nc_color color_from_string( const std::string &color )
     }
 
     const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
-    for( int i = 0; i < 2; ++i ) {
+    for( const auto &i : pSearch ) {
         size_t pos = 0;
-        while( ( pos = new_color.find( pSearch[i].second, pos ) ) != std::string::npos ) {
-            new_color.replace( pos, pSearch[i].second.length(), pSearch[i].first );
-            pos += pSearch[i].first.length();
+        while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
+            new_color.replace( pos, i.second.length(), i.first );
+            pos += i.first.length();
             DebugLog( D_WARNING, DC_ALL ) << "Deprecated foreground color suffix was used: (" <<
-                                          pSearch[i].second << ") in (" << color << ").  Please update mod that uses that.";
+                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
         }
     }
 
@@ -597,13 +594,13 @@ nc_color bgcolor_from_string( const std::string &color )
     std::string new_color = "i_" + color;
 
     const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
-    for( int i = 0; i < 2; ++i ) {
+    for( const auto &i : pSearch ) {
         size_t pos = 0;
-        while( ( pos = new_color.find( pSearch[i].second, pos ) ) != std::string::npos ) {
-            new_color.replace( pos, pSearch[i].second.length(), pSearch[i].first );
-            pos += pSearch[i].first.length();
+        while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
+            new_color.replace( pos, i.second.length(), i.first );
+            pos += i.first.length();
             DebugLog( D_WARNING, DC_ALL ) << "Deprecated background color suffix was used: (" <<
-                                          pSearch[i].second << ") in (" << color << ").  Please update mod that uses that.";
+                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
         }
     }
 

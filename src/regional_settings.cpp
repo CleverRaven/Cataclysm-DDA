@@ -205,6 +205,8 @@ void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_t
                                     forest_trail_settings.random_point_size_scalar, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_chance",
                                     forest_trail_settings.trailhead_chance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_road_distance",
+                                    forest_trail_settings.trailhead_road_distance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
                                     forest_trail_settings.trail_center_variance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",

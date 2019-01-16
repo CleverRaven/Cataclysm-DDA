@@ -405,7 +405,7 @@ std::string to_string( const time_duration &d )
         divider = 24_hours;
     }
 
-    if( d % divider != 0 ) {
+    if( d % divider != 0_turns ) {
         //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
         return string_format( _( "%1$s and %2$s" ),
                               to_string_clipped( d ),
@@ -417,7 +417,7 @@ std::string to_string( const time_duration &d )
 std::string to_string_approx( const time_duration &dur, const bool verbose )
 {
     time_duration d = dur;
-    const auto make_result = [verbose]( const time_duration &d, const char *verbose_str,
+    const auto make_result = [verbose]( const time_duration & d, const char *verbose_str,
     const char *short_str ) {
         return string_format( verbose ? verbose_str : short_str, to_string_clipped( d ) );
     };
@@ -433,7 +433,7 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
         vicinity = 5_minutes;
     } // Minutes and seconds can be estimated precisely.
 
-    if( divider != 0 ) {
+    if( divider != 0_turns ) {
         const time_duration remainder = d % divider;
 
         if( remainder >= divider - vicinity ) {
