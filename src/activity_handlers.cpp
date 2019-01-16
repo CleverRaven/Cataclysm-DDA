@@ -129,6 +129,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
@@ -146,6 +147,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
@@ -670,7 +672,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
                                   entry.base_num.first );
         }
-        const itype *drop = NULL;
+        const itype *drop = nullptr;
         if( entry.type != "bionic_group" ) {
             drop = item::find_type( entry.drop );
         }
@@ -822,10 +824,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
             }
         }
-        item ruined_parts( "ruined_chunks", bday,
-                           monster_weight_remaining / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) );
-        ruined_parts.set_mtype( &mt );
-        g->m.add_item_or_charges( p.pos(), ruined_parts );
+        const int item_charges = monster_weight_remaining / to_gram( (
+                                     item::find_type( "ruined_chunks" ) )->weight );
+        if( item_charges > 0 ) {
+            item ruined_parts( "ruined_chunks", bday, item_charges );
+            ruined_parts.set_mtype( &mt );
+            g->m.add_item_or_charges( p.pos(), ruined_parts );
+        }
     }
 
     if( action == DISSECT ) {
@@ -1511,9 +1516,9 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         return;
     }
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            item_location item_loc( map_cursor( p->pos() ), &*it );
+    for( auto &item : items ) {
+        if( actor->valid_to_cut_up( item ) ) {
+            item_location item_loc( map_cursor( p->pos() ), &item );
             actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
@@ -1530,9 +1535,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( it->display_name() == corpse_name ) {
-            body = &*it;
+    for( auto &item : items ) {
+        if( item.display_name() == corpse_name ) {
+            body = &item;
         }
     }
 
@@ -2512,6 +2517,12 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::socialize_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
@@ -2805,6 +2816,14 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
+    act->set_to_null();
+}
+
+void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
+{
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                          act->str_values[0].c_str() );
     act->set_to_null();
 }
 

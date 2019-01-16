@@ -14,6 +14,65 @@
     ]
   },
   {
+    "id": "TALK_FRIEND",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Relax and chat with me for a while...",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      { "u_has_item": "beer", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "european_pilsner", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "india_pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      {
+        "is_season": "summer",
+        "yes": "Yeah, this summer heat is hitting me hard, let's take a quick break, how goes it <name_g>?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "is_season": "winter",
+        "yes": "OK, maybe it'll stop me from freezing in this weather, what's up?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "is_day": "Well, it's the time of day for a quick break surely!  How are you holding up?",
+        "is_night": "Man it's dark out isn't it? what's up?"
+      },
+      {
+        "npc_has_effect": "infected",
+        "yes": "Well, I'm feeling pretty sick... are you doing OK though?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "u_has_mission": true,
+        "many": "Definitely, by the way, thanks for helping me so much with my tasks!  Anyway, you coping OK, <name_g>? ",
+        "one": "OK, let's take a moment, oh, and thanks for helping me with that thing, so... what's up?",
+        "none": "<neutralchitchat>"
+      },
+      {
+        "days_since_cataclysm": 30,
+        "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
+        "no": "<neutralchitchat>"
+      }
+    ],
+    "responses": [
+      {
+        "text": "Oh you know, not bad, not bad...",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
+  },
+  {
     "id": "TALK_SHELTER_PLANS",
     "type": "talk_topic",
     "dynamic_line": [

@@ -141,7 +141,7 @@ class basecamp
         * @param p NPC companion
         * @param task
         * @param omt_trg the overmap pos3 of the farm_ops
-        * @param ops whether to plow, plant, or harvest
+        * @param op whether to plow, plant, or harvest
         */
         bool farm_return( npc &p, const std::string &task, const tripoint &omt_trg, farm_ops op );
         void fortifications_return( npc &p );

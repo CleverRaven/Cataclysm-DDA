@@ -66,7 +66,7 @@ extern recipe_dictionary recipe_dict;
 class recipe_subset
 {
     public:
-        recipe_subset( void ) = default;
+        recipe_subset() = default;
         recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes );
         /**
          * Include a recipe to the subset.

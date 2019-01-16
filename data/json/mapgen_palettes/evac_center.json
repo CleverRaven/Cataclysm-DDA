@@ -6,7 +6,7 @@
       " ": "t_floor",
       "#": "t_brick_wall",
       "%": "t_shrub",
-      "+": "t_door_c",
+      "+": "t_rdoor_c",
       ",": "t_pavement_y",
       ".": [
         "t_grass",
@@ -41,9 +41,10 @@
         "t_shrub"
       ],
       "0": "t_door_locked_interior",
-      "1": "t_window_boarded",
+      "1": "t_reinforced_glass_shutter",
       "2": "t_utility_light",
       "6": "t_console_broken",
+      "!": "t_fence_barbed",
       "=": "t_door_metal_locked",
       ">": "t_stairs_down",
       "E": "t_elevator",
@@ -61,6 +62,7 @@
       "@": "f_bed",
       "D": "f_trashcan",
       "L": "f_locker",
+      "p": "f_pillow_fort",
       "P": "f_indoor_plant",
       "S": "f_sink",
       "U": "f_statue",

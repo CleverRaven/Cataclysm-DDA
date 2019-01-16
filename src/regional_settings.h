@@ -152,6 +152,7 @@ struct forest_trail_settings {
     int random_point_max = 50;
     int random_point_size_scalar = 100;
     int trailhead_chance = 1;
+    int trailhead_road_distance = 6;
     int trail_center_variance = 3;
     int trail_width_offset_min = 1;
     int trail_width_offset_max = 3;

@@ -178,8 +178,6 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     // eliminates 'uninitialized variable' warning
     size_t newsel = 0;
     size_t oldsel = 0;
-    mod_id selstring;
-    mod_id modstring;
     int selshift = 0;
 
     // shift up (towards 0)
@@ -200,8 +198,8 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         return;
     }
 
-    modstring = active_list[newsel];
-    selstring = active_list[oldsel];
+    mod_id modstring = active_list[newsel];
+    mod_id selstring = active_list[oldsel];
 
     // we can shift!
     // switch values!

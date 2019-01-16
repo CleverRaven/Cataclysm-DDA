@@ -178,10 +178,10 @@ class vpart_info
         itype_id default_ammo = "null";
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0;
+        units::volume folded_volume = 0_ml;
 
         /** Cargo location volume */
-        units::volume size = 0;
+        units::volume size = 0_ml;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
