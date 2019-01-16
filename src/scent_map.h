@@ -9,6 +9,8 @@
 #include "game_constants.h"
 #include "optional.h"
 
+static constexpr int SCENT_MAP_Z_REACH = 1;
+
 class map;
 class game;
 namespace catacurses
