@@ -1514,26 +1514,25 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+#ifndef __ANDROID__
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
          translate_marker( "Set which renderer to use.  Requires restart." ),
-#if (defined TILES)
+#   ifndef TILES
          // No renderer selection in non-TILES mode
-         cata_tiles::build_renderer_list(),
-#else
     {   { "software", translate_marker( "software" ) }
     },
-#endif
-         "software", COPT_NO_HIDE );
-
+#   else
+         cata_tiles::build_renderer_list(),
+#   endif
+    "software", COPT_CURSES_HIDE );
+#else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
-#ifdef __ANDROID__
          android_get_default_setting( "Software rendering", false ),
          COPT_CURSES_HIDE // take default setting from pre-game settings screen - important as both software + hardware rendering have issues with specific devices
-#else
          false, COPT_CURSES_HIDE
-#endif
        );
+#endif
 
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
          translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),

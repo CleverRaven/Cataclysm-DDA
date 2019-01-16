@@ -397,7 +397,7 @@ void WinCreate()
     format.reset( SDL_AllocFormat( wformat ) );
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
-    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" ) || get_option<std::string>( "RENDERER" ).empty();
+    bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
     int renderer_id = -1;
     std::string renderer_name;
     if( software_renderer ) {
