@@ -93,7 +93,7 @@
     "color": "yellow",
     "name": "mustard",
     "name_plural": "mustard",
-"description": "A condiment made from the seeds of a mustard plant (/Brassica/ or /Sinapis/), vinegar, salt, and spices.",
+    "description": "A condiment made from the seeds of a mustard plant (/Brassica/ or /Sinapis/), vinegar, salt, and spices.",
     "price": 50,
     "material": "junk",
     "weight": 5,
