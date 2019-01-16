@@ -117,7 +117,7 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -153,9 +153,9 @@ public:
     BitmapFont( int w, int h, const std::string &typeface_path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
+    void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
     std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
@@ -3115,12 +3115,12 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_pa
     SDL_SetColorKey( asciiload.get(),SDL_TRUE,key );
     SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), true );
+    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();
 
     for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), true );
+        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
     }
 
     for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {

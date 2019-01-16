@@ -41,7 +41,7 @@ struct MonsterGroupEntry {
     time_duration starts;
     time_duration ends;
     bool lasts_forever() const {
-        return ( ends <= 0 );
+        return ( ends <= 0_turns );
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
@@ -77,7 +77,7 @@ struct MonsterGroup {
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
     mongroup_id new_monster_group;
-    time_duration monster_group_time = 0;
+    time_duration monster_group_time = 0_turns;
     bool is_safe; /// Used for @ref mongroup::is_safe()
     int freq_total; // Default 1000 unless specified - max number to roll for spawns
 };

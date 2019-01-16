@@ -20,10 +20,16 @@
 #include "vpart_reference.h"
 #include "weather.h"
 
-#define INBOUNDS(x, y) \
-    (x >= 0 && x < MAPSIZE_X && y >= 0 && y < MAPSIZE_Y)
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
+
+static constexpr point lightmap_boundary_min( point_zero );
+static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
+static constexpr point lightmap_clearance_min( point_zero );
+static constexpr point lightmap_clearance_max( 1, 1 );
+
+const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
+const rectangle lightmap_clearance( lightmap_clearance_min, lightmap_clearance_max );
 
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_haslight( "haslight" );
@@ -230,9 +236,10 @@ void map::generate_lightmap( const int zlev )
                     if( !outside_cache[p.x][p.y] ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
-                            if( INBOUNDS( p.x + dir_x[i], p.y + dir_y[i] ) &&
-                                outside_cache[p.x + dir_x[i]][p.y + dir_y[i]] ) {
-
+                            if( generic_inbounds( { p.x + dir_x[i], p.y + dir_y[i] },
+                                                  lightmap_boundaries, lightmap_clearance
+                                                ) && outside_cache[p.x + dir_x[i]][p.y + dir_y[i]]
+                              ) {
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
                                     lm[p.x][p.y][quadrant::default_] = natural_light;
                                     apply_directional_light( p, dir_d[i], natural_light );
@@ -517,7 +524,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             const int neighbour_x = p.x + oq.offset.x;
             const int neighbour_y = p.y + oq.offset.y;
 
-            if( !INBOUNDS( neighbour_x, neighbour_y ) ) {
+            if( !generic_inbounds( { neighbour_x, neighbour_y }, lightmap_boundaries, lightmap_clearance ) ) {
                 continue;
             }
             if( is_opaque( neighbour_x, neighbour_y ) ) {
@@ -1379,7 +1386,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             t += ay;
 
             // TODO: clamp coordinates to map bounds before this method is called.
-            if( INBOUNDS( x, y ) ) {
+            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
@@ -1411,7 +1418,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             y += dy;
             t += ax;
 
-            if( INBOUNDS( x, y ) ) {
+            if( generic_inbounds( { x, y }, lightmap_boundaries, lightmap_clearance ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
