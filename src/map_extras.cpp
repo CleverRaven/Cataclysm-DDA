@@ -1,5 +1,6 @@
 #include "map_extras.h"
 
+#include "cellular_automata.h"
 #include "debug.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -813,72 +814,14 @@ void mx_clearcut( map &m, const tripoint &abs_sub )
 
 void mx_pond( map &m, const tripoint &abs_sub )
 {
-    // This map extra creates small ponds using a simple cellular automata.
+    // This map extra creates small ponds using a simple cellular automaton.
 
-    // Basic rules are as follows:
-    // - 55% of cells start alive
-    // - 5 iterations
-    // - Dead cells with > 4 neighbors become alive
-    // - Alive cells with > 3 neighbors stay alive
-    // - The rest die
     constexpr int width = SEEX * 2;
     constexpr int height = SEEY * 2;
-    std::vector<std::vector<int>> current( width, std::vector<int>( height, 0 ) );
-    std::vector<std::vector<int>> next( width, std::vector<int>( height, 0 ) );
 
-    const auto neighbor_count = []( const std::vector<std::vector<int>> &cells, const int x,
-    const int y ) {
-        // Calculate the number of alive neighbors by looking at the Moore neighborhood (9 adjacent cells).
-        int neighbors = 0;
-        for( int ni = -1; ni <= 1; ni++ ) {
-            for( int nj = -1; nj <= 1; nj++ ) {
-                neighbors += cells[x + ni][y + nj];
-            }
-        }
-        // Because we included ourself in the loop above, subtract ourselves back out.
-        neighbors -= cells[x][y];
-
-        return neighbors;
-    };
-
-    // Initialize our initial set of cells.
-    for( int i = 0; i < width; i++ ) {
-        for( int j = 0; j < height; j++ ) {
-            current[i][j] = x_in_y( 55, 100 );
-        }
-    }
-
-    for( int iteration = 0; iteration < 5; iteration++ ) {
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
-                // Skip the edges--no need to complicate this with more complex neighbor
-                // calculations, just keep them constant.
-                if( i == 0 || i == width - 1 || j == 0 || j == height - 1 ) {
-                    next[i][j] = 0;
-                    continue;
-                }
-
-                // Count our neighors.
-                const int neighbors = neighbor_count( current, i, j );
-
-                // Dead and > 4 neighbors, so become alive.
-                if( ( current[i][j] == 0 ) && ( neighbors > 4 ) ) {
-                    next[i][j] = 1;
-                }
-                // Alive and > 3 neighbors, so stay alive.
-                else if( ( current[i][j] == 1 ) && ( neighbors > 3 ) ) {
-                    next[i][j] = 1;
-                }
-                // Else, die.
-                else {
-                    next[i][j] = 0;
-                }
-            }
-        }
-
-        // Swap our current and next vectors and repeat.
-        std::swap( current, next );
-    }
+    // Generate the cells for our lake.
+    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
+                                            height, 55, 5, 4, 3 );
 
     // Loop through and turn every live cell into water.
     // Do a roll for our three possible lake types:
@@ -900,7 +843,7 @@ void mx_pond( map &m, const tripoint &abs_sub )
                         m.ter_set( location, t_water_dp );
                         break;
                     case 3:
-                        const int neighbors = neighbor_count( current, i, j );
+                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, i, j );
                         if( neighbors == 8 ) {
                             m.ter_set( location, t_water_dp );
                         } else {
