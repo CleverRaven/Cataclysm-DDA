@@ -8,7 +8,7 @@
       {
         "text": "How did you get out?",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", -1 ], [ "TRUST", -1 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ] ] },
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
@@ -25,7 +25,7 @@
       {
         "text": "How did you get out?",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", -1 ], [ "TRUST", -1 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ] ] },
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
