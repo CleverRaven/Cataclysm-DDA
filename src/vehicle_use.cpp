@@ -1187,9 +1187,9 @@ void vehicle::open( int part_index )
 }
 
 /**
- * Opens an openable part at the specified index. If it's a multipart, opens
+ * Closes an openable part at the specified index. If it's a multipart, closes
  * all attached parts as well.
- * @param part_index The index in the parts list of the part to open.
+ * @param part_index The index in the parts list of the part to close.
  */
 void vehicle::close( int part_index )
 {
@@ -1219,40 +1219,26 @@ void vehicle::open_all_at( int p )
     }
 }
 
+
+/**
+ * Opens or closes an openable part at the specified index based on the @opening value passed.
+ * If it's a multipart, opens or closes all attached parts as well.
+ * @param part_index The index in the parts list of the part to open or close.
+ */
 void vehicle::open_or_close( const int part_index, const bool opening )
 {
+    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
 
-    if( !part_info( part_index ).has_flag( "MULTISQUARE" ) ) {
-        return;
-    }
-
-    const point origin = parts[part_index].mount;
-    /* Find all other closed parts with the same ID in adjacent squares.
-     * This is a tighter restriction than just looking for other Multisquare
-     * Openable parts, and stops trunks from opening side doors and the like. */
-    // FIXME let's not recursively call get_all_parts
-    for( const vpart_reference &vp : get_all_parts() ) {
-        const size_t next_index = vp.part_index();
-        if( vp.part().removed ) {
-            continue;
-        }
-
-        //Look for parts 1 square off in any cardinal direction
-        const int dx = vp.mount().x - origin.x;
-        const int dy = vp.mount().y - origin.y;
-        const int delta = dx * dx + dy * dy;
-
-        const bool is_near = ( delta == 1 );
-        const bool is_id = part_info( next_index ).get_id() == part_info( part_index ).get_id();
-        const bool do_next = !!vp.part().open ^ opening;
-
-        if( is_near && is_id && do_next ) {
-            open_or_close( next_index, opening );
+    for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
+        for( auto const &partID : vec ) {
+            parts[partID].open = opening;
         }
     }
+
+    coeff_air_changed = true;
 }
 
 void vehicle::use_washing_machine( int p )
