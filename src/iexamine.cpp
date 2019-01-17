@@ -803,7 +803,7 @@ void iexamine::crate( player &p, const tripoint &examp )
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
-    auto charges_used = dummy.crowbar( &p, &temporary_item, false, examp );
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
