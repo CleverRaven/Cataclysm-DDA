@@ -46,15 +46,11 @@
       },
       {
         "text": "Good point, let's find a more appropriate place.",
-        "topic": "TALK_NONE",
-        "switch": true,
-        "default": true
+        "topic": "TALK_NONE"
       },
       {
         "text": "You're right.  Forget I said anything, let's get moving.",
-        "topic": "TALK_DONE",
-        "switch": true,
-        "default": true
+        "topic": "TALK_DONE"
       }
     ]
   },
