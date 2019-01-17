@@ -75,12 +75,12 @@
     "responses": [
       {
         "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
         "topic": "TALK_FRIEND"
       },
       {
         "text": "I'll get back to you on that.",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
         "topic": "TALK_DONE"
       }
     ]
@@ -92,12 +92,12 @@
     "responses": [
       {
         "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
         "topic": "TALK_FRIEND"
       },
       {
         "text": "I'll get back to you on that.",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
         "topic": "TALK_DONE"
       }
     ]
@@ -110,7 +110,7 @@
     "responses": [
       {
         "text": "You owe me a story.",
-        "effect": { "npc_add_effect": "BGSS_Merc_haswhisky", "duration": "permanent" },
+        "effect": { "npc_add_effect": "BGSS_Merc_haswhisky", "duration": "PERMANENT" },
         "topic": "BGSS_SCAVENGER_MERC_1_STORY3"
       }
     ]
