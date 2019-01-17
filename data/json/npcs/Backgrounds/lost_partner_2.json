@@ -17,7 +17,7 @@
         "condition": {
           "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
         },
-        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "VALUE", 1 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 2 ], [ "VALUE", 3 ] ] },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
         "failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" }
       },
@@ -26,7 +26,7 @@
         "condition": {
           "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
         },
-        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "FEAR", 1 ] ] },
+        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ], [ "ANGER", -2 ] ] },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
         "failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" }
       },
