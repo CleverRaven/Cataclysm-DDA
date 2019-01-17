@@ -21,9 +21,7 @@
 
 mapbuffer MAPBUFFER;
 
-mapbuffer::mapbuffer()
-{
-}
+mapbuffer::mapbuffer() = default;
 
 mapbuffer::~mapbuffer()
 {

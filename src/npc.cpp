@@ -61,18 +61,10 @@ const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
 
-static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
-static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
-static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_DEFORMED2( "DEFORMED2" );
-static const trait_id trait_DEFORMED3( "DEFORMED3" );
-static const trait_id trait_DEFORMED( "DEFORMED" );
-static const trait_id trait_PRETTY( "PRETTY" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
-static const trait_id trait_UGLY( "UGLY" );
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
@@ -754,19 +746,19 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
 }
 
-void starting_inv( npc &me, const npc_class_id &type )
+void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
-    me.inv.clear();
+    who.inv.clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        me.inv += item_group::items_from( type->carry_override );
+        who.inv += item_group::items_from( type->carry_override );
         return;
     }
 
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
-    if( me.weapon.is_gun() ) {
-        item ammo( me.weapon.ammo_type()->default_ammotype() );
+    if( who.weapon.is_gun() ) {
+        item ammo( who.weapon.ammo_type()->default_ammotype() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -780,7 +772,7 @@ void starting_inv( npc &me, const npc_class_id &type )
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while( qty-- != 0 && me.can_pickVolume( ammo ) ) {
+        while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
             // @todo: give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -800,7 +792,7 @@ void starting_inv( npc &me, const npc_class_id &type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me.can_pickVolume( tmp ) ) {
+            if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
@@ -810,7 +802,7 @@ void starting_inv( npc &me, const npc_class_id &type )
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
-    me.inv += res;
+    who.inv += res;
 }
 
 void npc::spawn_at_sm( int x, int y, int z )
@@ -1416,7 +1408,7 @@ void npc::shop_restock()
     units::volume total_space = volume_capacity();
     std::list<item> ret;
 
-    while( total_space > 0 && !one_in( 50 ) ) {
+    while( total_space > 0_ml && !one_in( 50 ) ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             ret.push_back( tmpit );
@@ -2077,7 +2069,7 @@ void npc::on_load()
         update_body( cur, cur + 1_turns );
     }
 
-    if( dt > 0 ) {
+    if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
         process_active_items();

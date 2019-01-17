@@ -1021,6 +1021,11 @@ class player : public Character
         void drop( int pos, const tripoint &where );
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
 
+        /** So far only called by unload() from game.cpp */
+        bool add_or_drop_with_msg( item &it, const bool unloading = false );
+
+        bool unload( item &it );
+
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded
@@ -1200,12 +1205,14 @@ class player : public Character
                               const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
-        bool has_activity( const activity_id type ) const;
+        bool has_activity( const activity_id &type ) const;
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
-                         time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
+        void add_morale( morale_type type, int bonus, int max_bonus = 0,
+                         const time_duration &duration = 6_minutes,
+                         const time_duration &decay_start = 3_minutes, bool capped = false,
+                         const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;

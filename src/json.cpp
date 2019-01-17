@@ -927,7 +927,7 @@ std::string JsonIn::get_member_name()
 
 std::string JsonIn::get_string()
 {
-    std::string s = "";
+    std::string s;
     char ch;
     bool backslash = false;
     char unihex[5] = "0000";

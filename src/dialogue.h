@@ -131,7 +131,7 @@ struct talk_effect_t {
           * Sets an effect and consequence based on function pointer.
           */
         void set_effect( talkfunction_ptr effect );
-        void set_effect( talk_effect_fun_t effect );
+        void set_effect( const talk_effect_fun_t &effect );
         /**
           * Sets an effect to a function object and consequence to explicitly given one.
           */
@@ -312,7 +312,6 @@ struct conditional_t {
         conditional_t() = default;
         conditional_t( const std::string &type );
         conditional_t( JsonObject jo );
-        static conditional_t from_member( JsonObject &jo, const std::string &member_name );
 
         bool operator()( const dialogue &d ) const {
             if( !condition ) {
