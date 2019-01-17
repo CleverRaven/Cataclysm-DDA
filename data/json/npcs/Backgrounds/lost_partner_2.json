@@ -2,7 +2,11 @@
   {
     "id": "BGSS_LOST_PARTNER_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Just another <shitty> tale of love and loss.  Not something I like to tell.",
+    "dynamic_line": {
+      "npc_has_effect": "player_BGSS_SAIDNO",
+      "yes": "I said, I don't wanna talk about it.  How are you not understanding this?",
+      "no": "Just another <shitty> tale of love and loss.  Not something I like to tell."
+    },
     "responses": [
       {
         "text": "It might help to get it off your chest.",
