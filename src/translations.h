@@ -33,7 +33,9 @@
 #endif
 #endif
 
+// IWYU pragma: begin_exports
 #include <libintl.h>
+// IWYU pragma: end_exports
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))

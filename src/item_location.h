@@ -5,6 +5,8 @@
 #include <list>
 #include <memory>
 
+#include "map_selector.h"
+
 struct tripoint;
 class item;
 class Character;

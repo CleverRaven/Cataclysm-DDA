@@ -179,6 +179,10 @@ The "???" is the issue number. This automatically closes the issue when the PR i
 
 See https://help.github.com/articles/closing-issues-using-keywords/ for more.
 
+## Tooling support
+
+Various tools are available to help you keep your contributions conforming to the appropriate style.  See [the relevant docs](../doc/DEVELOPER_TOOLING.md) for more details.
+
 ## Advanced Techniques
 
 These guidelines aren't essential, but they can make keeping things in order much easier.

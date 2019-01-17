@@ -8,6 +8,7 @@
 
 #include "calendar.h"
 #include "enums.h"
+#include "io_tags.h"
 #include "monster.h"
 #include "string_id.h"
 
@@ -25,11 +26,6 @@ using mtype_id = string_id<mtype>;
 struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
-
-namespace io
-{
-struct object_archive_tag;
-}
 
 struct MonsterGroupEntry {
     mtype_id name;
