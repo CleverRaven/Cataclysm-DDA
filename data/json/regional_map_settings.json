@@ -403,7 +403,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "forest_thick": {
@@ -427,7 +428,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "forest_water": {
@@ -449,7 +451,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "field": {
