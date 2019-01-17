@@ -12123,16 +12123,14 @@ std::vector<std::string> player::get_overlay_ids() const
 
     // then get mutations
     for( auto &mutation : get_mutations() ) {
-        auto it = base_mutation_overlay_ordering.find( mutation );
-        auto it2 = tileset_mutation_overlay_ordering.find( mutation );
-        int value = 9999;
-        if( it != base_mutation_overlay_ordering.end() ) {
-            value = it->second;
-        }
-        if( it2 != tileset_mutation_overlay_ordering.end() ) {
-            value = it2->second;
-        }
+        auto value = get_overlay_order_of_mutation( mutation.str());
         mutation_sorting.insert( std::pair<int, std::string>( value, mutation.str() ) );
+    }
+
+    // then get bionics
+    for( const bionic &bio : *my_bionics ) {
+        auto value = get_overlay_order_of_mutation( bio.id.str() );
+        mutation_sorting.insert( std::pair<int, std::string>( value, bio.id.str() ) );
     }
 
     for( auto &mutorder : mutation_sorting ) {
