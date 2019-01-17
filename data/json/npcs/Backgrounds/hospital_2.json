@@ -17,7 +17,7 @@
         "condition": {
           "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
         },
-        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", -2 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", 2 ], [ "VALUE", 3 ] ] },
         "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
         "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
       },
@@ -26,7 +26,7 @@
         "condition": {
           "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
         },
-        "trial": { "type": "INTIMIDATE", "difficulty": 40, "mod": [ [ "BRAVERY", -2 ] ] },
+        "trial": { "type": "INTIMIDATE", "difficulty": 40, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ], [ "ANGER", -2 ] ] },
         "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
         "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
       },
