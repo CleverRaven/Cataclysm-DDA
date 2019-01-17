@@ -2389,24 +2389,26 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
-    /** @EFFECT_STR increases chance of crowbar prying success */
-
     // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
-    // & a claw hammer. 
+    // & a claw hammer.
     // The iexamine function for crate supplies a hammer object.
     // So this stops the player (A)ctivating a Hammer with a Crowbar in their backpack
     // then managing to open a door.
     const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
     if( pry_level < pry_quality ) {
-        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ), it->tname() );
+        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
+                              it->tname() );
+        p->mod_moves( 10 ); // spend a few moves trying it.
         return 0;
     }
 
     // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
     difficulty -= ( pry_level - pry_quality );
+
+    /** @EFFECT_STR speeds up crowbar prying attempts */
+    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
+    /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
         p->add_msg_if_player( m_good, succ_action );
