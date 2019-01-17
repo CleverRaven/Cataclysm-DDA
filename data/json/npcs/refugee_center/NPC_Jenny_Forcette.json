@@ -16,7 +16,7 @@
     "traits": [ { "trait": "PACIFIST" }, { "trait": "Exp_MechEng2" } ],
     "skills": [
       { "skill": "mechanics", "bonus": { "rng": [ 5, 7 ] } },
-      { "skill": "computers", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 2, 5 ] } },
       { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "fabrication", "bonus": { "rng": [ 2, 6 ] } }
     ]
@@ -28,7 +28,7 @@
     "entries": [
       { "item": "linuxtshirt" },
       { "item": "jeans" },
-      { "item": "hoody" },
+      { "item": "hoodie" },
       { "item": "sports_bra" },
       { "item": "panties" },
       { "item": "socks" },
@@ -58,7 +58,8 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_JENNY_1",
-    "faction": "free_merchants"
+    "faction": "free_merchants",    
+    "mission_offered" : "MISSION_REFUGEE_Jenny_GET_MOTOR"
   },
   {
     "type": "talk_topic",
@@ -70,30 +71,48 @@
     },
     "responses": [
       {
-        "text": "What are you doing on that computer?",
-        "condition": { "days_since_cataclysm": 60 },
-        "npc_add_effect": "player_has_met",
+        "text": "Nice meeting you.  What are you doing on that computer?",
+        "condition": { "and": [ { "days_since_cataclysm": 60 }, { "not": { "npc_has_effect": "player_has_met" } } ] },
+        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
         "topic": "TALK_REFUGEE_JENNY_Project1_developed",
         "switch": true
       },
       {
-        "text": "What are you doing on that computer?",
-        "condition": { "days_since_cataclysm": 30 },
-        "npc_add_effect": "player_has_met",
+        "text": "Hi, Jenny.  What are you doing on that computer?",
+        "condition": { "days_since_cataclysm": 60 },
+        "topic": "TALK_REFUGEE_JENNY_Project1_developed",
+        "switch": true
+      },
+      {
+        "text": "Nice meeting you.  What are you doing on that computer?",
+        "condition": { "and": [ { "days_since_cataclysm": 30 }, { "not": { "npc_has_effect": "player_has_met" } } ] },
+        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
         "topic": "TALK_REFUGEE_JENNY_Project1_early",
         "switch": true
       },
       {
-        "text": "What are you doing on that computer?",
-        "npc_add_effect": "player_has_met",
+        "text": "Hi, Jenny.  What are you doing on that computer?",
+        "condition": { "days_since_cataclysm": 30 },
+        "topic": "TALK_REFUGEE_JENNY_Project1_early",
+        "switch": true
+      },
+      {
+        "text": "Nice meeting you.  What are you doing on that computer?",
+        "condition": { "not": { "npc_has_effect": "player_has_met" } },
+        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
         "topic": "TALK_REFUGEE_JENNY_Project1_veryearly",
-        "switch": true,
-        "default": true
+        "switch": true
+      },
+      {
+        "text": "Hi, Jenny.  What are you doing on that computer?",
+        "condition": { "npc_has_effect": "player_has_met" },
+        "topic": "TALK_REFUGEE_JENNY_Project1_veryearly",
+        "switch": true
       },
       {
         "text": "Nice meeting you.  I'd best get going, though.",
         "condition": { "not": { "npc_has_effect": "player_has_met" } },
-        "npc_add_effect": "player_has_met",
+        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
         "topic": "TALK_DONE"
       },
       {
@@ -158,7 +177,7 @@
     "id": "TALK_REFUGEE_JENNY_Project2_developed",
     "dynamic_line": "They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need.",
     "responses": [
-      { "text": "Is there some way I can help you get the stuff you need?", "topic": "TALK_MISSION_INQUIRE" },
+      { "text": "Is there some way I can help you get the stuff you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_mid" },
       { "text": "Sounds interesting, talk to you later.", "topic": "TALK_DONE" }
     ]
@@ -176,9 +195,12 @@
     "id": "MISSION_REFUGEE_Jenny_GET_MOTOR",
     "type": "mission_definition",
     "name": "Bring Jenny a motor for her compressor.",
+    "difficulty": 1,
+    "value": 0,
     "goal": "MGOAL_FIND_ITEM",
-    "item": "engine_electric",
+    "item": "motor",
     "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.  I can't, like, pay you or anything though, you know that right?",
       "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
@@ -195,6 +217,8 @@
     "id": "MISSION_REFUGEE_Jenny_GET_TANK",
     "type": "mission_definition",
     "name": "Bring Jenny a tank for her compressor.",
+    "difficulty": 1,
+    "value": 0,
     "goal": "MGOAL_FIND_ITEM",
     "item": "metal_tank",
     "//": "followup: MISSION_REFUGEE_Jenny_GET_RIFLES",
