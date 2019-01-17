@@ -762,26 +762,48 @@ void iexamine::crate( player &p, const tripoint &examp )
         return;
     }
 
-    // Ask if there's something possibly more interesting than this crate here
-    // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
-    std::string xname = g->m.furnname( examp );
-    const auto is_vehicle = g->m.veh_at( examp );
-    const auto is_trap = !g->m.tr_at( examp ).is_null();
-    const auto is_critter = g->critter_at( examp ) != nullptr;
+    uilist selection_menu;
+    selection_menu.text = ( string_format( _( "The %s is closed tightly.." ),
+                                           g->m.furnname( examp ) ) );
 
-    // If there's a vehicle, trap or critter and the user answers NO, fail out.
-    if ( (is_vehicle || is_trap || is_critter) && !query_yn( _( "Pry that %s?" ), xname ) ) {
+    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        return it.has_quality( quality_id( "PRY" ), 1 );
+    } );
+
+    iuse dummy;
+
+    if( prying_items.size() == 1 ) {
+        item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
+        dummy.crowbar( &p, &temporary_item, false, examp );
+    }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
+        return  a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone." ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
+    }
+
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
         none( p, examp );
         return;
     }
 
-    // HACK ALERT: player::items_with returns const item* vector and so can't be used
-    // so we'll be making a fake hammer here
-    // Not a problem for now, but if crowbar iuse-s ever get different, this will need a fix
-    item fakehammer( "hammer", 0 );
+    auto selected_tool = prying_items[index - 1];
+    item temporary_item( selected_tool->type );
 
-    iuse dummy;
-    dummy.crowbar( &p, &fakehammer, false, examp );
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    auto charges_used = dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
@@ -1138,18 +1160,53 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
 /**
  * Checks PC has a crowbar then calls iuse.crowbar.
  */
-void iexamine::locked_object( player &p, const tripoint &examp) {
+void iexamine::locked_object( player &p, const tripoint &examp )
+{
     const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 2 );
-    if ( !has_prying_tool ) {
-        add_msg( m_info, _("If only you had something to pry with...") );
+    if( !has_prying_tool ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
-    // See crate prying for why a dummy item is used
-    item fakecrow( "crowbar", 0 );
+    uilist selection_menu;
+
+    selection_menu.text = ( string_format( _( "The %s is locked..." ), g->m.tername( examp ) ) );
+
+    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        return it.has_quality( quality_id( "PRY" ), 2 );
+    } );
 
     iuse dummy;
-    dummy.crowbar( &p, &fakecrow, false, examp );
+    if( prying_items.size() == 1 ) {
+        item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
+        dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
+    }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> int {
+        return  a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone." ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
+                                 iter->tname() ) );
+    }
+
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
+        none( p, examp );
+        return;
+    }
+
+    item temporary_item( prying_items[index - 1]->type );
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
