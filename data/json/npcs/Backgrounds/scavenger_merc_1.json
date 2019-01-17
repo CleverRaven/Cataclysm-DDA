@@ -38,35 +38,86 @@
     ]
   },
   {
-    "id": "BGSS_SCAVENGER_MERC_1_STORY2_BADGERME",
+    "id": "BGSS_SCAVENGER_MERC_1_FUCKOFF",
     "type": "talk_topic",
     "dynamic_line": "No dice.  You asked me to come along.  This is what you get.  If you don't like it, I'll take my fee and go back to the center.  Ain't hard to find contracts.",
-    "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "20000" },
+    "opinion": { "fear": -1 },
     "responses": [
-      { "text": "Fine, then.  Let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Have it your way.", "topic": "TALK_DONE" }
+      {
+        "text": "Fine, then.  Let's talk about something else.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
+        "topic": "TALK_FRIEND"
+      },
+      {
+        "text": "Have it your way.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
-    "id": "BGSS_SCAVENGER_MERC_1_STORY2_NICETRY",
+    "id": "BGSS_SCAVENGER_MERC_1_NICETRY",
+    "type": "talk_topic",
+    "dynamic_line": "I respect where you're coming from, but no.  Not interested.  If you don't like it, I can find another boss easy enough.",
+    "responses": [
+      {
+        "text": "Fine, then.  Let's talk about something else.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
+        "topic": "TALK_FRIEND"
+      },
+      {
+        "text": "Have it your way.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_SCAVENGER_MERC_1_STORY2_BADGERME",
     "type": "talk_topic",
     "dynamic_line": "<swear!>, you're just gonna keep badgering me about this forever, aintcha.  Fine.  Bring me a bottle of single malt, we share a drink, I tell you the story.",
-    "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
     "responses": [
       {
         "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
         "topic": "TALK_FRIEND"
       },
-      { "text": "I'll get back to you on that.", "topic": "TALK_DONE" }
+      {
+        "text": "I'll get back to you on that.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_SCAVENGER_MERC_1_STORY2_OKAY",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, okay.  I can respect that.  How about this: bring me a bottle of single malt, we share a drink, I tell you the story.",
+    "responses": [
+      {
+        "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
+        "topic": "TALK_FRIEND"
+      },
+      {
+        "text": "I'll get back to you on that.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "permanent" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
     "id": "BGSS_SCAVENGER_MERC_1_STORY2",
     "type": "talk_topic",
     "dynamic_line": "Oh, yeah, this is a good choice.  Hold on to it for me, let's have a drink later.  Right now we're practically swimming in good whisky, but some day the last bottle will get drunk.  It's gonna be a long time before any of us is brewing nice scotch, and we ain't never gettin' peat from Islay ever again.  Makes me shed a tear just thinking about it.",
-    "effect": { "npc_add_effect": "BGSS_Merc_haswhisky", "duration": "permanent" },
     "opinion": { "trust": 1, "value": 1 },
-    "responses": [ { "text": "You owe me a story.", "topic": "BGSS_SCAVENGER_MERC_1_STORY3" } ]
+    "responses": [
+      {
+        "text": "You owe me a story.",
+        "effect": { "npc_add_effect": "BGSS_Merc_haswhisky", "duration": "permanent" },
+        "topic": "BGSS_SCAVENGER_MERC_1_STORY3"
+      }
+    ]
   },
   {
     "id": "BGSS_SCAVENGER_MERC_1_STORY3",
