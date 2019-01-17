@@ -2961,7 +2961,7 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
     auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
                g->m.ter( tile ) == t_dirtmound;
     };
 
