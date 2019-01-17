@@ -18,7 +18,7 @@
         "condition": "at_safe_space",
         "switch": true,
         "effect": { "npc_add_trait": "BGSS_Confused_1" },
-        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story."
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
         "//": "This is a stand-in for some kind of better system to add a random trait."
       },
       {
@@ -45,7 +45,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "switch": true,
         "effect": { "npc_add_trait": "BGSS_No_Past_1" },
-        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story."
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
         "//": "This is a stand-in for some kind of better system to add a random trait."
       },
       {
