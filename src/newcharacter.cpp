@@ -2620,7 +2620,13 @@ void reset_scenario( player &u, const scenario *scen )
     u.per_max = 8;
     g->scen = scen;
     u.prof = &default_prof.obj();
+    for( auto &t : u.get_mutations() ) {
+        if( t.obj().hp_modifier != 0 ) {
+            u.toggle_trait( t );
+        }
+    }
     u.empty_traits();
+    u.recalc_hp();
     u.empty_skills();
     u.add_traits();
 }

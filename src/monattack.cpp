@@ -142,7 +142,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
         return nullptr;
     }
 
-    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
+    return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
 bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
@@ -240,18 +240,18 @@ bool mattack::eat_food( monster *z )
             continue;
         }
         auto items = g->m.i_at( p );
-        for( auto i = items.begin(); i != items.end(); i++ ) {
+        for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !i->is_food() || i->type->comestible->fun < -20 ) {
+            if( !item.is_food() || item.type->comestible->fun < -20 ) {
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_egg != i->type->get_id() ) {
+            if( z->type->baby_egg != item.type->get_id() ) {
                 long consumed = 1;
-                if( i->count_by_charges() ) {
-                    g->m.use_charges( p, 0, i->type->get_id(), consumed );
+                if( item.count_by_charges() ) {
+                    g->m.use_charges( p, 0, item.type->get_id(), consumed );
                 } else {
-                    g->m.use_amount( p, 0, i->type->get_id(), consumed );
+                    g->m.use_amount( p, 0, item.type->get_id(), consumed );
                 }
                 return true;
             }
@@ -3931,7 +3931,7 @@ bool mattack::parrot( monster *z )
         return false;
     } else if( one_in( 20 ) ) {
         z->moves -= 100;  // It takes a while
-        const SpeechBubble speech = get_speech( z->type->id.str() );
+        const SpeechBubble &speech = get_speech( z->type->id.str() );
         sounds::sound( z->pos(), speech.volume, sounds::sound_t::speech, speech.text );
         return true;
     }

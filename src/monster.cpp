@@ -1838,8 +1838,8 @@ void monster::process_turn()
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
-                for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
-                    if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                for( const auto &item : items ) {
+                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
                         break;
@@ -2056,7 +2056,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         if( dam > 0 ) {
             apply_damage( nullptr, bp_torso, dam );
         } else {
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
@@ -2507,7 +2507,7 @@ void monster::on_load()
     // Possible TODO: Integrate monster upgrade
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
-    if( dt <= 0 ) {
+    if( dt <= 0_turns ) {
         return;
     }
 

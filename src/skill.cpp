@@ -179,7 +179,7 @@ bool SkillLevel::isRusting() const
 bool SkillLevel::rust( bool charged_bio_mem )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0 || delta % rustRate( _level ) != 0 ) {
+    if( _level <= 0 || delta <= 0_turns || delta % rustRate( _level ) != 0_turns ) {
         return false;
     }
 

@@ -140,7 +140,7 @@ struct islot_comestible {
     int nutr = 0;
 
     /** Time until becomes rotten at standard temperature, or zero if never spoils */
-    time_duration spoils = 0;
+    time_duration spoils = 0_turns;
 
     /** addiction potential */
     int addict = 0;
@@ -184,14 +184,14 @@ struct islot_brewable {
     std::vector<std::string> results;
 
     /** How long for this brew to ferment. */
-    time_duration time = 0;
+    time_duration time = 0_turns;
 };
 
 struct islot_container {
     /**
      * Inner volume of the container.
      */
-    units::volume contains = 0;
+    units::volume contains = 0_ml;
     /**
      * Can be resealed.
      */
@@ -249,7 +249,7 @@ struct islot_armor {
     /**
      * How much storage this items provides when worn.
      */
-    units::volume storage = 0;
+    units::volume storage = 0_ml;
     /**
      * Whether this is a power armor item.
      */
@@ -442,7 +442,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    units::volume barrel_length = 0;
+    units::volume barrel_length = 0_ml;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -649,7 +649,7 @@ struct islot_seed {
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
-    time_duration grow = 0;
+    time_duration grow = 0_turns;
     /**
      * Amount of harvested charges of fruits is divided by this number.
      */
@@ -671,7 +671,7 @@ struct islot_seed {
      */
     std::vector<std::string> byproducts;
 
-    islot_seed() { }
+    islot_seed() = default;
 };
 
 struct islot_artifact {
@@ -792,14 +792,14 @@ struct itype {
         /**@{*/
 
         /** Weight of item ( or each stack member ) */
-        units::mass weight = 0;
+        units::mass weight = 0_gram;
 
         /**
          * Space occupied by items of this type
          * CAUTION: value given is for a default-sized stack. Avoid using where @ref stackable items may be encountered; see @ref item::volume instead.
          * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
          */
-        units::volume volume = 0;
+        units::volume volume = 0_ml;
         /**
          * Space consumed when integrated as part of another item (defaults to volume)
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
@@ -847,7 +847,7 @@ struct itype {
         std::map< ammotype, itype_id > magazine_default;
 
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
-        units::volume magazine_well = 0;
+        units::volume magazine_well = 0_ml;
 
         layer_level layer;
 

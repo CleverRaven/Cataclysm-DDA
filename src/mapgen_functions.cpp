@@ -258,7 +258,7 @@ ter_id grass_or_dirt()
 
 ter_id clay_or_sand()
 {
-    if( one_in( 4 ) ) {
+    if( one_in( 16 ) ) {
         return t_sand;
     }
     return t_clay;
@@ -1950,7 +1950,7 @@ void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, cons
             if( circle_edge <= 8 ) {
                 m->ter_set( x, y, grass_or_dirt() );
             }
-            if( circle_edge == 9 && one_in( 100 ) ) {
+            if( circle_edge == 9 && one_in( 25 ) ) {
                 m->ter_set( x, y, clay_or_sand() );
             } else if( circle_edge <= 36 ) {
                 m->ter_set( x, y, t_water_sh );
@@ -1979,7 +1979,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), x, 0, x, ground_edge );
-        if( one_in( 100 ) ) {
+        if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
         line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
@@ -2005,7 +2005,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), x, 0, x, ground_edge );
-        if( one_in( 100 ) ) {
+        if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
         line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
@@ -2014,7 +2014,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
         line( m, grass_or_dirt(), ground_edge, y, SEEX * 2 - 1, y );
-        if( one_in( 100 ) ) {
+        if( one_in( 25 ) ) {
             m->ter_set( --ground_edge, y, clay_or_sand() );
         }
         line( m, t_water_sh, shallow_edge, y, --ground_edge, y );
@@ -3912,7 +3912,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     // the behavior of the previous forest mapgen when fading forest terrains
     // into each other and non-forest terrains.
 
-    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id ot ) {
+    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
         if( biome == dat.region.forest_composition.biomes.end() ) {
             // If there is no defined biome for this oter, use 0. It's possible
@@ -4315,16 +4315,16 @@ void mremove_trap( map *m, int x, int y )
     m->remove_trap( actual_location );
 }
 
-void mtrap_set( map *m, int x, int y, trap_id t )
+void mtrap_set( map *m, int x, int y, trap_id type )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->trap_set( actual_location, t );
+    m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_id t, int density )
+void madd_field( map *m, int x, int y, field_id type, int density )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->add_field( actual_location, t, density, 0 );
+    m->add_field( actual_location, type, density, 0_turns );
 }
 
 bool is_suitable_for_stairs( const map *const m, const tripoint &p )

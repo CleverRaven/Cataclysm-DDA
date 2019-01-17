@@ -321,7 +321,9 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            std::random_shuffle( tiles.begin(), tiles.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( tiles.begin(), tiles.end(), eng );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {

@@ -268,7 +268,7 @@ The dynamic line is chosen based on the specified number of days have elapsed si
 
 ```C++
 {
-    "days_since_cataclysm": "30",
+    "days_since_cataclysm": 30,
     "yes": "Things are really getting bad!",
     "no": "I'm sure the government will restore services soon."
 }
@@ -487,6 +487,9 @@ Gives your character a haircut morale boost for 12 hours.
 
 #### buy_shave
 Gives your character a shave morale boost for 6 hours.
+
+### morale_chat
+Gives your character a pleasant conversation morale boost for 6 hours
 
 #### buy_10_logs
 Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
@@ -768,4 +771,3 @@ npc_service cash available.  Useful to check if the player character can hire an
 
 
 ```
-

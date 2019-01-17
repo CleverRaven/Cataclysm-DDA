@@ -46,7 +46,7 @@ void sound( const tripoint &p, int vol, sound_t category, std::string descriptio
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
-void ambient_sound( const tripoint &p, int vol, const std::string &description );
+void ambient_sound( const tripoint &p, int vol, sound_t category, const std::string &description );
 /** Creates a list of coordinates at which to draw footsteps. */
 void add_footstep( const tripoint &p, int volume, int distance, monster *source );
 

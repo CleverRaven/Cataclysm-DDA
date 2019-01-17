@@ -251,10 +251,9 @@ class uistatedata
 
             auto inhist = jo.get_object( "input_history" );
             std::set<std::string> inhist_members = inhist.get_member_names();
-            for( std::set<std::string>::iterator it = inhist_members.begin();
-                 it != inhist_members.end(); ++it ) {
-                auto ja = inhist.get_array( *it );
-                std::vector<std::string> &v = gethistory( *it );
+            for( const auto &inhist_member : inhist_members ) {
+                auto ja = inhist.get_array( inhist_member );
+                std::vector<std::string> &v = gethistory( inhist_member );
                 v.clear();
                 while( ja.has_more() ) {
                     v.push_back( ja.next_string() );

@@ -422,7 +422,7 @@ mission_type_id mission_type::from_legacy( int old_id )
     return mission_type_id( "MISSION_NULL" );
 }
 
-const mission_type *mission_type::get( const mission_type_id id )
+const mission_type *mission_type::get( const mission_type_id &id )
 {
     if( id.is_null() ) {
         return nullptr;

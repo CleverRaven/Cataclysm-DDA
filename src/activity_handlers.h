@@ -11,7 +11,7 @@
 
 class player;
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 
 enum butcher_type : int {
@@ -112,6 +112,7 @@ void read_finish( player_activity *act, player *p );
 void wait_finish( player_activity *act, player *p );
 void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
+void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
 void craft_finish( player_activity *act, player *p );
 void longcraft_finish( player_activity *act, player *p );
@@ -129,8 +130,10 @@ void chop_logs_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
 void dig_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
+void play_with_pet_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
+void unload_mag_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

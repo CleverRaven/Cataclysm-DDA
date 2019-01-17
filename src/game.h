@@ -572,7 +572,7 @@ class game
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
         look_around_result look_around( catacurses::window w_info, tripoint &center,
-                                        tripoint start_point, bool has_first_point, bool select_zone, bool peeking );
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
@@ -669,6 +669,7 @@ class game
         catacurses::window w_HP_ptr;
         catacurses::window w_messages_short_ptr;
         catacurses::window w_messages_long_ptr;
+        catacurses::window w_location_wider_ptr;
         catacurses::window w_location_ptr;
         catacurses::window w_status_ptr;
         catacurses::window w_status2_ptr;
@@ -684,6 +685,7 @@ class game
         catacurses::window w_messages;
         catacurses::window w_messages_short;
         catacurses::window w_messages_long;
+        catacurses::window w_location_wider;
         catacurses::window w_location;
         catacurses::window w_status;
         catacurses::window w_status2;
@@ -789,7 +791,7 @@ class game
              * These are helper functions for transfer liquid, for times when you just want to
              * get the target of the transfer, or know the target and just want to transfer the
              * liquid. They take the same arguments as handle_liquid, plus
-             * @param liquid_target structure containing information about the target
+             * @param target structure containing information about the target
              */
         bool get_liquid_target( item &liquid, item *const source, const int radius,
                                 const tripoint *source_pos, const vehicle *const source_veh,
@@ -818,7 +820,7 @@ class game
                         bool ignore_player );
 
         // Animation related functions
-        void draw_explosion( const tripoint &p, int radius, nc_color col );
+        void draw_explosion( const tripoint &p, int radius, const nc_color &col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );

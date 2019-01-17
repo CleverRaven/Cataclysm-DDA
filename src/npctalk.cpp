@@ -243,12 +243,15 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
-    if( priority == 7 || sees( spos ) ) {
+    if( sees( spos ) ) {
         return;
     }
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
+    case 7: //
+        warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
+        break;
     case 6: // combat noise is only worth comment if we're not fighting
         // TODO: Brave NPCs should be less jumpy
         if( ai_cache.total_danger < 1.0f ) {
@@ -258,12 +261,12 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
         if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
             // replace with warn_about when that merges
-            warn_about( "footsteps", rng( 1, 10 ) * 1_minutes, description );
+            warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         }
         break;
     default:
         break;
-    };
+    }
 }
 
 void npc_chatbin::check_missions()
@@ -404,11 +407,13 @@ void npc::talk_to_u( bool text_only )
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
         g->u.cancel_activity();
 
-        // Don't query if we're training the player
-    } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) ||
-               g->u.activity.index != getID() ) {
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                            string_format( _( "%s talked to you." ), name ) );
+        // don't query certain activities that are started from dialogue
+      } else if((g->u.activity.id() == activity_id( "ACT_TRAIN")) ||
+               ((g->u.activity.id() == activity_id( "ACT_WAIT_NPC")) ||
+               ((g->u.activity.id() == activity_id( "ACT_SOCIALIZE")) ||
+               ((g->u.activity.index == getID() ))))) {
+          return;
+    g->cancel_activity_or_ignore_query( distraction_type::talked_to, string_format( _( "%s talked to you." ), name ) );
     }
 }
 
@@ -2029,7 +2034,7 @@ void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr,
     set_effect_consequence( npctalk_setter, con );
 }
 
-void talk_effect_t::set_effect( talk_effect_fun_t fun )
+void talk_effect_t::set_effect( const talk_effect_fun_t &fun )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, dialogue_consequence::none );
@@ -2186,6 +2191,8 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( give_all_aid ),
             WRAP( buy_haircut ),
             WRAP( buy_shave ),
+            WRAP( morale_chat ),
+            WRAP( morale_chat_activity ),
             WRAP( buy_10_logs ),
             WRAP( buy_100_logs ),
             WRAP( bionic_install ),
@@ -3138,7 +3145,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             reason << std::endl;
             reason << string_format( _( "I have no space to store it." ) );
             reason << std::endl;
-            if( free_space > 0 ) {
+            if( free_space > 0_ml ) {
                 reason << string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {

@@ -56,6 +56,12 @@ struct component {
     component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
         type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
     void check_consistency( const std::string &display_name ) const;
+    int operator==( const component &rhs ) const {
+        return type == rhs.type && count == rhs.count;
+    }
+    int operator!=( const component &rhs ) const {
+        return !( *this == rhs );
+    }
 };
 
 struct tool_comp : public component {
@@ -88,7 +94,7 @@ struct quality_requirement {
     mutable available_status available = a_false;
     bool requirement = false; // Currently unused, but here for consistency and templates
 
-    quality_requirement() { }
+    quality_requirement() = default;
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 

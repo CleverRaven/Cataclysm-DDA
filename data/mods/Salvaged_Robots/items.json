@@ -147,7 +147,7 @@
     "volume": 220,
     "bashing": 8,
     "to_hit": -3,
-    "ammo_type": "battery",
+    "ammo": "battery",
     "initial_charges": 0,
     "max_charges": 500,
     "qualities": [
@@ -734,6 +734,22 @@
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "bot_milbot_308",
+    "type": "TOOL",
+    "copy-from": "bot_milbot_base",
+    "name": "inactive military robot",
+    "description": "An unpowered military robot fitted with an integrated 7.62 firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_milbot_308",
+      "difficulty": 0,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
   },
   {
     "id": "bot_milbot_gaurdian",

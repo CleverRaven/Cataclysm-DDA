@@ -236,8 +236,8 @@ void mapgen_tutorial( map *m, oter_id terrain_type, mapgendata dat, const time_p
 
 // Temporary wrappers
 void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id t );
-void madd_field( map *m, int x, int y, field_id t, int density );
+void mtrap_set( map *m, int x, int y, trap_id type );
+void madd_field( map *m, int x, int y, field_id type, int density );
 
 void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 

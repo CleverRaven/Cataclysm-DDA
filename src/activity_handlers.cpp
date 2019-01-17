@@ -129,6 +129,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
@@ -146,8 +147,10 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
-    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish },
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -578,7 +581,7 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-int corpse_damage_effect( int weight, std::string entry_type, int damage_level )
+int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     float slight_damage = 0.9;
     float damage = 0.75;
@@ -669,7 +672,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
                                   entry.base_num.first );
         }
-        const itype *drop = NULL;
+        const itype *drop = nullptr;
         if( entry.type != "bionic_group" ) {
             drop = item::find_type( entry.drop );
         }
@@ -821,10 +824,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
             }
         }
-        item ruined_parts( "ruined_chunks", bday,
-                           monster_weight_remaining / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) );
-        ruined_parts.set_mtype( &mt );
-        g->m.add_item_or_charges( p.pos(), ruined_parts );
+        const int item_charges = monster_weight_remaining / to_gram( (
+                                     item::find_type( "ruined_chunks" ) )->weight );
+        if( item_charges > 0 ) {
+            item ruined_parts( "ruined_chunks", bday, item_charges );
+            ruined_parts.set_mtype( &mt );
+            g->m.add_item_or_charges( p.pos(), ruined_parts );
+        }
     }
 
     if( action == DISSECT ) {
@@ -1510,9 +1516,9 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         return;
     }
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            item_location item_loc( map_cursor( p->pos() ), &*it );
+    for( auto &item : items ) {
+        if( actor->valid_to_cut_up( item ) ) {
+            item_location item_loc( map_cursor( p->pos() ), &item );
             actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
@@ -1529,9 +1535,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( it->display_name() == corpse_name ) {
-            body = &*it;
+    for( auto &item : items ) {
+        if( item.display_name() == corpse_name ) {
+            body = &item;
         }
     }
 
@@ -1764,7 +1770,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
             sfx::play_variant_sound( "reload", reloadable.typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume,
-                                   reloadable.type->gun->reload_noise );
+                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise );
         }
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
@@ -2511,6 +2517,12 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::socialize_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
@@ -2807,6 +2819,14 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
+{
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                          act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::shaving_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You open up your kit and shave." ) );
@@ -2821,7 +2841,40 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+void activity_handlers::unload_mag_finish( player_activity *act, player *p )
+{
+    long qty = 0;
+    item &it = *act->targets[ 0 ];
+
+    // remove the ammo leads in the belt
+    it.contents.erase( std::remove_if( it.contents.begin(),
+    it.contents.end(), [&]( item & e ) {
+        if( !p->add_or_drop_with_msg( e, true ) ) {
+            return false;
+        }
+        qty += e.charges;
+        return true;
+    } ), it.contents.end() );
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            p->add_or_drop_with_msg( link, true );
+        }
+        add_msg( _( "You disassemble your %s." ), it.tname().c_str() );
+    } else {
+        add_msg( _( "You unload your %s." ), it.tname().c_str() );
+    }
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        act->targets[ 0 ].remove_item();
+    }
+
+    act->set_to_null();
+}
+
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {
@@ -2908,7 +2961,7 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
     auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
                g->m.ter( tile ) == t_dirtmound;
     };
 
@@ -2944,7 +2997,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         }
     };
 
-    auto have_fertilizer = [&]( void ) {
+    auto have_fertilizer = [&]() {
         return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
     };
 
