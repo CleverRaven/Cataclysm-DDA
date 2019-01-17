@@ -350,7 +350,7 @@
     "time": 600,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "raw_leather", 1 ], [ "raw_hleather", 1 ], [ "raw_fur", 1 ] ] ],
+    "components": [ [ [ "raw_leather", 50 ], [ "raw_hleather", 50 ], [ "raw_fur", 50 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -362,7 +362,7 @@
     "time": 600,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "raw_tainted_leather", 1 ], [ "raw_tainted_fur", 1 ] ] ],
+    "components": [ [ [ "raw_tainted_leather", 50 ], [ "raw_tainted_fur", 50 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

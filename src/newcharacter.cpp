@@ -1,3 +1,5 @@
+#include "player.h" // IWYU pragma: associated
+
 #include "addiction.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -14,7 +16,6 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
@@ -703,11 +704,10 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, const input_co
                              Compare sorter )
 {
     const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
-    const auto sort_help = string_format( _( "(Press <color_light_green>%s</color> to change)" ),
-                                          ctxt.get_desc( "SORT" ).c_str() );
-    wprintz( w_sorting, COL_HEADER, _( "Sort by:" ) );
-    wprintz( w_sorting, c_light_gray, " %s", sort_order );
-    fold_and_print( w_sorting, 0, 16, ( TERMX / 2 ), c_light_gray, sort_help );
+    const auto sort_text = string_format(
+                               _( "<color_white>Sort by: </color>%1$s (Press <color_light_green>%2$s</color> to change)" ),
+                               sort_order, ctxt.get_desc( "SORT" ).c_str() );
+    fold_and_print( w_sorting, 0, 0, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
 tab_direction set_points( const catacurses::window &w, player &, points_left &points )
@@ -2433,11 +2433,13 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations() const
+std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
     for( auto &t : my_mutations ) {
-        result.push_back( t.first );
+        if( include_hidden || t.first.obj().player_display ) {
+            result.push_back( t.first );
+        }
     }
     return result;
 }
@@ -2618,7 +2620,13 @@ void reset_scenario( player &u, const scenario *scen )
     u.per_max = 8;
     g->scen = scen;
     u.prof = &default_prof.obj();
+    for( auto &t : u.get_mutations() ) {
+        if( t.obj().hp_modifier != 0 ) {
+            u.toggle_trait( t );
+        }
+    }
     u.empty_traits();
+    u.recalc_hp();
     u.empty_skills();
     u.add_traits();
 }

@@ -1,5 +1,7 @@
 #include "game_inventory.h"
 
+#include <functional>
+
 #include "game.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -12,8 +14,6 @@
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "string_formatter.h"
-
-#include <functional>
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
@@ -149,7 +149,7 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return loc->get_storage() > 0 ? string_format( "<%s>%s</color>", color,
+                return loc->get_storage() > 0_ml ? string_format( "<%s>%s</color>", color,
                         format_volume( loc->get_storage() ) ) : std::string();
             }, _( "STORAGE" ) );
 
@@ -306,15 +306,18 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         disassemble_inventory_preset( const player &p, const inventory &inv ) :
             pickup_inventory_preset( p ), p( p ), inv( inv ) {
 
+            check_components = true;
+
             append_cell( [ this ]( const item_location & loc ) {
                 const auto &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
                     return std::string();
                 }
-                const auto components = req.get_components();
+                const item *i = loc.get_item();
+                const auto components = i->get_uncraft_components();
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
-                    return comps.front().to_string();
+                    return comps.to_string();
                 } );
             }, _( "YIELD" ) );
 
@@ -377,7 +380,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
-                if( spoils > 0 ) {
+                if( spoils > 0_turns ) {
                     return to_string_clipped( spoils );
                 }
                 //~ Used for permafood shelf life in the Eat menu
@@ -387,7 +390,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
-                    if( item.spoils > 0 ) {
+                    if( item.spoils > 0_turns ) {
                         return get_freshness( loc );
                     }
                     return std::string( "---" );
@@ -398,7 +401,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
-                    if( item.spoils > 0 ) {
+                    if( item.spoils > 0_turns ) {
                         if( !get_comestible_item( loc ).rotten() ) {
                             return get_time_left_rounded( loc );
                         }
@@ -731,7 +734,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( p.book_fun_for( *loc ) );
+                return good_bad_none( p.book_fun_for( *loc, p ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {

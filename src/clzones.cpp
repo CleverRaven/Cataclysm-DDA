@@ -157,7 +157,7 @@ plot_options::query_seed_result plot_options::query_seed()
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
-        const auto new_seed = std::get<0>( seed_entry );
+        const auto &new_seed = std::get<0>( seed_entry );
         std::string new_mark;
 
         item it = item( itype_id( new_seed ) );
@@ -308,7 +308,7 @@ bool zone_data::set_type()
     return false;
 }
 
-void zone_data::set_position( const std::pair<tripoint, tripoint> position,
+void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
                               const bool manual )
 {
     if( is_vehicle && manual ) {
@@ -321,15 +321,15 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> position,
     zone_manager::get_manager().cache_data();
 }
 
-void zone_data::set_enabled( const bool _enabled )
+void zone_data::set_enabled( const bool enabled_arg )
 {
     zone_manager::get_manager().zone_edited( *this );
-    enabled = _enabled;
+    enabled = enabled_arg;
 }
 
-void zone_data::set_is_vehicle( const bool _is_vehicle )
+void zone_data::set_is_vehicle( const bool is_vehicle_arg )
 {
-    is_vehicle = _is_vehicle;
+    is_vehicle = is_vehicle_arg;
 }
 
 tripoint zone_data::get_center_point() const
@@ -822,8 +822,8 @@ void zone_manager::zone_edited( zone_data &zone )
 {
     if( zone.get_is_vehicle() ) {
         //Check if this zone has already been stored
-        for( auto it = changed_vzones.begin(); it != changed_vzones.end(); ++it ) {
-            if( &zone == it->second ) {
+        for( auto &changed_vzone : changed_vzones ) {
+            if( &zone == changed_vzone.second ) {
                 return;
             }
         }

@@ -2,13 +2,13 @@
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
 
-#include "dialogue_win.h"
-#include "npc.h"
-#include "npc_class.h"
-
 #include <functional>
 #include <string>
 #include <vector>
+
+#include "dialogue_win.h"
+#include "npc.h"
+#include "npc_class.h"
 
 class JsonObject;
 class mission;
@@ -99,6 +99,7 @@ struct talk_effect_fun_t {
         void set_u_buy_item( const std::string &new_trait, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
+        void set_u_sell_item( const std::string &new_trait, int cost, int count );
         void set_npc_change_faction( const std::string &faction_name );
         void set_change_faction_rep( int amount );
         void operator()( const dialogue &d ) const {
@@ -130,7 +131,7 @@ struct talk_effect_t {
           * Sets an effect and consequence based on function pointer.
           */
         void set_effect( talkfunction_ptr effect );
-        void set_effect( talk_effect_fun_t effect );
+        void set_effect( const talk_effect_fun_t &effect );
         /**
           * Sets an effect to a function object and consequence to explicitly given one.
           */
@@ -311,7 +312,6 @@ struct conditional_t {
         conditional_t() = default;
         conditional_t( const std::string &type );
         conditional_t( JsonObject jo );
-        static conditional_t from_member( JsonObject &jo, const std::string &member_name );
 
         bool operator()( const dialogue &d ) const {
             if( !condition ) {
@@ -330,6 +330,8 @@ class json_talk_response
     private:
         talk_response actual_response;
         std::function<bool( const dialogue & )> condition;
+        bool is_switch = false;
+        bool is_default = false;
 
         void load_condition( JsonObject &jo );
         bool test_condition( const dialogue &d ) const;
@@ -340,7 +342,7 @@ class json_talk_response
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
          */
-        void gen_responses( dialogue &d ) const;
+        bool gen_responses( dialogue &d, bool switch_done ) const;
 };
 
 /**

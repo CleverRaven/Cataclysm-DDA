@@ -2,16 +2,16 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include "cursesdef.h"
-#include "enums.h"
-#include "units.h"
-
 #include <array>
 #include <functional>
 #include <list>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "cursesdef.h"
+#include "enums.h"
+#include "units.h"
 
 class uilist;
 class vehicle;
@@ -54,6 +54,8 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
         return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
     }
 };
+
+void advanced_inv();
 
 /**
  * Cancels ongoing move all action.
@@ -99,7 +101,7 @@ struct advanced_inv_area {
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
                        std::string shortname ) : id( id ), hscreenx( hscreenx ),
         hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ), pos( 0, 0, 0 ),
-        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0 ), weight( 0 ),
+        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ), weight( 0_gram ),
         max_size( 0 ) {
     }
 
@@ -210,12 +212,12 @@ struct advanced_inv_listitem {
                            aim_location area, bool from_vehicle );
     /**
      * Create a normal item entry.
-     * @param items The list of item pointers.
+     * @param list The list of item pointers.
      * @param index The index
      * @param area The source area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem( const std::list<item *> &items, int index,
+    advanced_inv_listitem( const std::list<item *> &list, int index,
                            aim_location area, bool from_vehicle );
 };
 
@@ -451,10 +453,10 @@ class advanced_inventory
         int remove_item( advanced_inv_listitem &sitem, int count = 1 );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src Source container
-         * @param dest Destination container
+         * @param src_container Source container
+         * @param dest_container Destination container
          */
-        bool move_content( item &src, item &dest );
+        bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

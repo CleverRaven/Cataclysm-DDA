@@ -2,10 +2,10 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
-#include "int_id.h"
-
 #include <string>
 #include <vector>
+
+#include "int_id.h"
 
 struct ter_t;
 using ter_id = int_id<ter_t>;
@@ -40,8 +40,8 @@ class format_effect
         std::vector<ID> determiners;
 
     public:
-        format_effect( std::string characters,
-                       std::vector<ID> determiners );
+        format_effect( std::string chars,
+                       std::vector<ID> dets );
 
         ID translate( char c ) const;
 };

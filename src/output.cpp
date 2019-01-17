@@ -1,5 +1,15 @@
 #include "output.h"
 
+#include <algorithm>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -14,16 +24,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "units.h"
-
-#include <algorithm>
-#include <cstdarg>
-#include <cstdlib>
-#include <cstring>
-#include <map>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
@@ -143,9 +143,9 @@ std::string remove_color_tags( const std::string &s )
     size_t next_pos = 0;
 
     if( tag_positions.size() > 1 ) {
-        for( size_t i = 0; i < tag_positions.size(); ++i ) {
-            ret += s.substr( next_pos, tag_positions[i] - next_pos );
-            next_pos = s.find( ">", tag_positions[i], 1 ) + 1;
+        for( size_t tag_position : tag_positions ) {
+            ret += s.substr( next_pos, tag_position - next_pos );
+            next_pos = s.find( ">", tag_position, 1 ) + 1;
         }
 
         ret += s.substr( next_pos, std::string::npos );
@@ -205,7 +205,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
 
             if( iLength > width ) {
                 sTempText = sTempText.substr( 0, cursorx_to_position( sTempText.c_str(),
-                                              iTempLen - ( iLength - width ) - 1, NULL, -1 ) ) + "\u2026";
+                                              iTempLen - ( iLength - width ) - 1, nullptr, -1 ) ) + "\u2026";
             }
 
             sText += sColor + sTempText;
@@ -761,9 +761,9 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     }
 
     starty += fold_and_print( win, starty, 1, len, c_white,
-                              _( "Search [c]ategory, [m]aterial, or [q]uality:" ) );
+                              _( "Search [c]ategory, [m]aterial, [q]uality or [d]isassembled components:" ) );
     //~ An example of how to filter items based on category or material.
-    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron,q:hammering" ) );
+    fold_and_print( win, starty, 1, len, c_white, _( "Examples: c:food,m:iron,q:hammering,d:pipe" ) );
     wrefresh( win );
 }
 
@@ -773,24 +773,24 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     std::ostringstream buffer;
     bool bIsNewLine = true;
 
-    for( size_t i = 0; i < vItemDisplay.size(); i++ ) {
-        if( vItemDisplay[i].sType == "DESCRIPTION" ) {
+    for( const auto &i : vItemDisplay ) {
+        if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer << "\n";
             }
-            if( vItemDisplay[i].bDrawName ) {
-                buffer << vItemDisplay[i].sName;
+            if( i.bDrawName ) {
+                buffer << i.sName;
             }
             // Always end with a linebreak for sType == "DESCRIPTION"
             buffer << "\n";
             bIsNewLine = true;
         } else {
-            if( vItemDisplay[i].bDrawName ) {
-                buffer << vItemDisplay[i].sName;
+            if( i.bDrawName ) {
+                buffer << i.sName;
             }
 
-            std::string sFmt = vItemDisplay[i].sFmt;
+            std::string sFmt = i.sFmt;
             std::string sPost;
 
             //A bit tricky, find %d and split the string
@@ -802,22 +802,22 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 buffer << sFmt;
             }
 
-            if( vItemDisplay[i].sValue != "-999" ) {
+            if( i.sValue != "-999" ) {
                 nc_color thisColor = c_yellow;
                 for( auto &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
-                        if( vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType ) {
-                            if( vItemDisplay[i].dValue > k.dValue - .1 &&
-                                vItemDisplay[i].dValue < k.dValue + .1 ) {
+                        if( i.sName == k.sName && i.sType == k.sType ) {
+                            if( i.dValue > k.dValue - .1 &&
+                                i.dValue < k.dValue + .1 ) {
                                 thisColor = c_light_gray;
-                            } else if( vItemDisplay[i].dValue > k.dValue ) {
-                                if( vItemDisplay[i].bLowerIsBetter ) {
+                            } else if( i.dValue > k.dValue ) {
+                                if( i.bLowerIsBetter ) {
                                     thisColor = c_light_red;
                                 } else {
                                     thisColor = c_light_green;
                                 }
-                            } else if( vItemDisplay[i].dValue < k.dValue ) {
-                                if( vItemDisplay[i].bLowerIsBetter ) {
+                            } else if( i.dValue < k.dValue ) {
+                                if( i.bLowerIsBetter ) {
                                     thisColor = c_light_green;
                                 } else {
                                     thisColor = c_light_red;
@@ -828,13 +828,13 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << "<color_" << string_from_color( thisColor ) << ">"
-                       << vItemDisplay[i].sValue
+                       << i.sValue
                        << "</color>";
             }
             buffer << sPost;
 
             // Set bIsNewLine in case the next line should always start in a new line
-            if( ( bIsNewLine = vItemDisplay[i].bNewLine ) ) {
+            if( ( bIsNewLine = i.bNewLine ) ) {
                 buffer << "\n";
             }
         }
@@ -1805,10 +1805,10 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
                        p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
-            for( std::vector<cSCT>::iterator iter = vSCT.begin(); iter != vSCT.end(); ++iter ) {
-                if( iter->getDirecton() == p_oDir && ( iter->getStep() + iter->getStepOffset() ) == iCurStep ) {
+            for( auto &iter : vSCT ) {
+                if( iter.getDirecton() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
-                    iter->advanceStepOffset();
+                    iter.advanceStepOffset();
                 }
             }
             vSCT.insert( vSCT.begin(), cSCT( p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,
@@ -2003,14 +2003,14 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
     }
 
     for( auto it = pattern.begin(); it != pattern.end(); ++it ) {
-        if( it == pattern.begin() && *it != "" ) {
+        if( it == pattern.begin() && !it->empty() ) {
             if( text.length() < it->length() ||
                 ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
                 return false;
             }
 
             text = text.substr( it->length(), text.length() - it->length() );
-        } else if( it == pattern.end() - 1 && *it != "" ) {
+        } else if( it == pattern.end() - 1 && !it->empty() ) {
             if( text.length() < it->length() ||
                 ci_find_substr( text.substr( text.length() - it->length(),
                                              it->length() ), *it ) == -1 ) {
@@ -2086,7 +2086,7 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
 */
 std::string format_volume( const units::volume &volume )
 {
-    return format_volume( volume, 0, NULL, NULL );
+    return format_volume( volume, 0, nullptr, nullptr );
 }
 
 /**

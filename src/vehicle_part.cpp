@@ -1,4 +1,9 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <set>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -15,11 +20,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <set>
-
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
 /*-----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ static const itype_id fuel_type_battery( "battery" );
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj )
+vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part

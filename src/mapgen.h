@@ -2,12 +2,12 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-#include "int_id.h"
-
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "int_id.h"
 
 class time_point;
 struct ter_t;
@@ -50,7 +50,7 @@ class mapgen_function_builtin : public virtual mapgen_function
         mapgen_function_builtin( building_gen_pointer ptr, int w = 1000 ) : mapgen_function( w ),
             fptr( ptr ) {
         }
-        void generate( map *m, const oter_id &o, const mapgendata &mgd, const time_point &i,
+        void generate( map *m, const oter_id &terrain_type, const mapgendata &mgd, const time_point &t,
                        float d ) override;
 };
 
@@ -68,12 +68,12 @@ struct jmapgen_int {
     /**
      * Throws as usually if the json is invalid or missing.
      */
-    jmapgen_int( JsonObject &jso, const std::string &key );
+    jmapgen_int( JsonObject &jo, const std::string &tag );
     /**
      * Throws is the json is malformed (e.g. a string not an integer, but does not throw
      * if the member is just missing (the default values are used instead).
      */
-    jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
+    jmapgen_int( JsonObject &jo, const std::string &tag, short def_val, short def_valmax );
 
     int get() const;
 };
@@ -146,7 +146,7 @@ struct jmapgen_setmap {
 class jmapgen_piece
 {
     protected:
-        jmapgen_piece() { }
+        jmapgen_piece() = default;
     public:
         /** Place something on the map from mapgendata dat, at (x,y). mon_density */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -163,7 +163,7 @@ class jmapgen_place
         jmapgen_place() : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 ) { }
         jmapgen_place( const int a, const int b ) : x( a ), y( b ), repeat( 1, 1 ) { }
         jmapgen_place( JsonObject &jsi );
-        void offset( const int x, const int y );
+        void offset( const int x_offset, const int y_offset );
         jmapgen_int x;
         jmapgen_int y;
         jmapgen_int repeat;
@@ -191,7 +191,7 @@ class mapgen_palette
          * Load (append to format_placings) the places that should be put there.
          * member_name is the name of an optional object / array in the json object jsi.
          */
-        void load_place_mapings( JsonObject &jsi, const std::string &member_name,
+        void load_place_mapings( JsonObject &jo, const std::string &member_name,
                                  placing_map &format_placings );
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
@@ -222,7 +222,7 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( int offset_x, int offset_y, size_t size_x, size_t size_y );
+        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_x_y );
 
         bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
@@ -348,7 +348,7 @@ std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const st
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
  */
-void load_mapgen( JsonObject &jio );
+void load_mapgen( JsonObject &jo );
 void reset_mapgens();
 /*
  * stores function ref and/or required data

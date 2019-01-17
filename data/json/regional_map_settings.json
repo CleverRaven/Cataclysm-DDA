@@ -376,6 +376,7 @@
       "random_point_max": 50,
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
+      "trailhead_road_distance": 6,
       "trail_center_variance": 3,
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
@@ -402,7 +403,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "forest_thick": {
@@ -426,7 +428,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "forest_water": {
@@ -448,7 +451,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "field": {
@@ -521,8 +525,10 @@
     "swamp_spread_chance": 8500,
     "city": {
       "type": "town",
-      "shop_radius": 80,
-      "park_radius": 90,
+      "shop_radius": 30,
+      "shop_sigma": 50,
+      "park_radius": 20,
+      "park_sigma": 80,
       "house_basement_chance": 5,
       "houses": {
         "house_two_story_basement": 1,

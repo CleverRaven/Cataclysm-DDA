@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "map.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -47,7 +46,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
 {
-    point origin = point( 0, 0 );
+    const point origin = point( 0, 0 );
 
     overmap_special mandatory;
     overmap_special optional;
@@ -83,7 +82,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
     bool found_optional = false;
     for( int x = 0; x < 180; ++x ) {
         for( int y = 0; y < 180; ++y ) {
-            auto t = test_overmap->get_ter( x, y, 0 );
+            const oter_id t = test_overmap->get_ter( x, y, 0 );
             if( t->id == "cabin" ) {
                 found_optional = true;
             }

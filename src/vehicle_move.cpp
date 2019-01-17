@@ -1,4 +1,11 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <set>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -15,13 +22,6 @@
 #include "trap.h"
 #include "veh_type.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <cmath>
-#include <cstdlib>
-#include <set>
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -279,13 +279,19 @@ void vehicle::turn( int deg )
     turn_dir = 15 * ( ( turn_dir * 2 + 15 ) / 30 );
 }
 
-void vehicle::stop()
+void vehicle::stop( bool update_cache )
 {
     velocity = 0;
     skidding = false;
     move = face;
     last_turn = 0;
     of_turn_carry = 0;
+    if( !update_cache ) {
+        return;
+    }
+    for( const tripoint &p : get_points() ) {
+        g->m.set_memory_seen_cache_dirty( p );
+    }
 }
 
 bool vehicle::collision( std::vector<veh_collision> &colls,
@@ -1002,7 +1008,7 @@ bool vehicle::act_on_map()
     if( !g->m.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
-        stop();
+        stop( false );
         of_turn = 0;
         is_falling = false;
         return true;

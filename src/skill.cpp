@@ -1,5 +1,8 @@
 #include "skill.h"
 
+#include <algorithm>
+#include <iterator>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
@@ -7,9 +10,6 @@
 #include "recipe.h"
 #include "rng.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <iterator>
 
 // TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
@@ -179,7 +179,7 @@ bool SkillLevel::isRusting() const
 bool SkillLevel::rust( bool charged_bio_mem )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0 || delta % rustRate( _level ) != 0 ) {
+    if( _level <= 0 || delta <= 0_turns || delta % rustRate( _level ) != 0_turns ) {
         return false;
     }
 
