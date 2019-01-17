@@ -512,6 +512,7 @@
     "name": "Survivor",
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_visible": false,
     "valid": false,
     "purifiable": false
   }
