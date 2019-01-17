@@ -1167,3 +1167,4 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_pond``` ... A small pond.
+- ```mx_clay_deposit``` ... A small surface clay deposit.
