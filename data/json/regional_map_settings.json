@@ -376,6 +376,7 @@
       "random_point_max": 50,
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
+      "trailhead_road_distance": 6,
       "trail_center_variance": 3,
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
@@ -402,7 +403,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "forest_thick": {
@@ -426,7 +428,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "forest_water": {
@@ -448,7 +451,8 @@
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125
+          "mx_pond": 125,
+          "mx_clay_deposit": 125
         }
       },
       "field": {

@@ -1,6 +1,6 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -514,7 +514,7 @@ void mission_start::kill_horde_master( mission *miss )
     tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
     tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
 
-    if( overmap::inbounds( SEEX, SEEY, 0, 1 ) ) {
+    if( overmap::inbounds( tripoint( SEEX, SEEY, 0 ), 1 ) ) {
         for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
             for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
                 tile.add_spawn( mon_zombie, rng( 3, 10 ), x, y );

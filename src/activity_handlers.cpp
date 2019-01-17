@@ -129,6 +129,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
@@ -146,6 +147,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
@@ -2515,6 +2517,12 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::socialize_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
@@ -2811,6 +2819,14 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
+{
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                          act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::shaving_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You open up your kit and shave." ) );
@@ -2945,7 +2961,7 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
     auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
                g->m.ter( tile ) == t_dirtmound;
     };
 

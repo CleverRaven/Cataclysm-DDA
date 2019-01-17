@@ -55,6 +55,18 @@
     ]
   },
   {
+    "id": "cheap_wine",
+    "type": "requirement",
+    "//": "Cheap and improvised wines.",
+    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ] ] ]
+  },
+  {
+    "id": "worthy_wine",
+    "type": "requirement",
+    "//": "More expensive wines.",
+    "components": [ [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ] ] ]
+  },
+  {
     "id": "hard_liquor_chem",
     "type": "requirement",
     "//": "Hard liquor and ethanol - Must be diluted. Added for ease of use",

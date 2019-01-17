@@ -1967,7 +1967,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         const auto &dis = recipe_dictionary::get_uncraft( typeId() );
         const auto &req = dis.disassembly_requirements();
         if( !req.is_empty() && parts->test( iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE ) ) {
-            const auto components = req.get_components();
+            const auto &components = req.get_components();
             const std::string components_list = enumerate_as_string( components.begin(), components.end(),
             []( const std::vector<item_comp> &comps ) {
                 return comps.front().to_string();
@@ -4873,7 +4873,7 @@ skill_id item::melee_skill() const
 
     for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
         auto val = damage_melee( static_cast<damage_type>( idx ) );
-        auto sk  = skill_by_dt( static_cast<damage_type>( idx ) );
+        const skill_id &sk  = skill_by_dt( static_cast<damage_type>( idx ) );
         if( val > hi && sk ) {
             hi = val;
             res = sk;

@@ -377,7 +377,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 void auto_pickup::test_pattern( const int iTab, const int iRow )
 {
     std::vector<std::string> vMatchingItems;
-    std::string sItemName;
 
     if( vRules[iTab][iRow].sRule.empty() ) {
         return;
@@ -386,7 +385,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     //Loop through all itemfactory items
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( const itype *e : item_controller->all() ) {
-        sItemName = e->nname( 1 );
+        const std::string sItemName = e->nname( 1 );
         if( !check_special_rule( e->materials, vRules[iTab][iRow].sRule ) &&
             !wildcard_match( sItemName, vRules[iTab][iRow].sRule ) ) {
             continue;

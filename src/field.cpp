@@ -46,9 +46,7 @@ const efftype_id effect_webbed( "webbed" );
 
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
-
-#define INBOUNDS(x, y) \
-    (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
 
 /** ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}, phase_id (of matter), accelerated_decay (decay outside of reality bubble) **/
 const std::array<field_t, num_fields> fieldlist = { {
@@ -1802,9 +1800,8 @@ void map::player_in_field( player &u )
                 break;
 
             case fd_fire:
-                if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing( "rm13_armor_on" ) ||
-                    u.has_trait( trait_M_SKIN2 ) ) {
-                    //heatsink, suit, or internal restructuring prevents ALL fire damage.
+                if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
+                    //heatsink or suit prevents ALL fire damage.
                     break;
                 }
                 //Burn the player. Less so if you are in a car or ON a car.
@@ -1980,8 +1977,8 @@ void map::player_in_field( player &u )
                 if( inside ) {
                     break;    //fireballs can't touch you inside a car.
                 }
-                if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) && !u.is_wearing( "rm13_armor_on" ) &&
-                    !u.has_trait( trait_M_SKIN2 ) ) { //heatsink, suit, or Mycus fireproofing stops fire.
+                if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) &&
+                    !u.is_wearing( "rm13_armor_on" ) ) { //heatsink or suit stops fire.
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
                     u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
@@ -2093,7 +2090,9 @@ void map::player_in_field( player &u )
 
             case fd_incendiary:
                 // Mysterious incendiary substance melts you horribly.
-                if( u.has_trait( trait_M_SKIN2 ) || cur.getFieldDensity() == 1 ) {
+                if( u.has_trait( trait_M_SKIN2 ) ||
+                    u.has_trait( trait_M_SKIN3 ) ||
+                    cur.getFieldDensity() == 1 ) {
                     u.add_msg_player_or_npc( m_bad, _( "The incendiary burns you!" ),
                                              _( "The incendiary burns <npcname>!" ) );
                     u.hurtall( rng( 1, 3 ), nullptr );

@@ -19,6 +19,7 @@
 const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
@@ -409,7 +410,7 @@ void player::activate_mutation( const trait_id &mut )
                     }
                     const tripoint pnt = *pnt_;
 
-                    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
+                    if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
                         g->m.ter( pnt ) != t_dirtmound ) {
                         add_msg_if_player( _( "You churn up the earth here." ) );
                         moves = -300;
@@ -542,6 +543,10 @@ void player::mutate()
         force_bad = false;
         force_good = true;
     }
+    if( has_trait( trait_CHAOTIC_BAD ) ) {
+        force_bad = true;
+        force_good = false;
+    }
 
     // Determine the highest mutation category
     std::string cat = get_highest_category();
@@ -636,7 +641,8 @@ void player::mutate()
     do {
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with empty category
-        if( !first_pass ) {
+        // CHAOTIC_BAD lets the game pull from any category by default
+        if( !first_pass || has_trait( trait_CHAOTIC_BAD ) ) {
             cat.clear();
         }
 

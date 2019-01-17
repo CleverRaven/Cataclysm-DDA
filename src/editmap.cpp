@@ -41,19 +41,18 @@
 #include "vpart_position.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-#define maplim 132
-#define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
+
+static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
+static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT );
+static constexpr tripoint editmap_clearance_min( tripoint_zero );
+static constexpr tripoint editmap_clearance_max( 1, 1, 0 );
+
+static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
+static constexpr box editmap_clearance( editmap_clearance_min, editmap_clearance_max );
 
 static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
 static const trap_id undefined_trap_id( -1 );
-
-bool inbounds( const int x, const int y, const int z )
-{
-    return x >= 0 && x < maplim &&
-           y >= 0 && y < maplim &&
-           z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
-}
 
 std::vector<std::string> fld_string( const std::string &str, int width )
 {
@@ -1416,9 +1415,10 @@ tripoint editmap::recalc_target( shapetype shape )
             int radius = rl_dist( origin, target );
             for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
                 for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                    if( rl_dist( {x, y, z}, origin ) <= radius ) {
-                        if( inbounds( x, y, z ) ) {
-                            target_list.push_back( tripoint( x, y, z ) );
+                    const tripoint p( x, y, z );
+                    if( rl_dist( p, origin ) <= radius ) {
+                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                            target_list.push_back( p );
                         }
                     }
                 }
@@ -1448,8 +1448,9 @@ tripoint editmap::recalc_target( shapetype shape )
             for( int x = sx; x <= ex; x++ ) {
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
-                        if( inbounds( x, y, z ) ) {
-                            target_list.push_back( tripoint( x, y, z ) );
+                        const tripoint p( x, y, z );
+                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                            target_list.push_back( p );
                         }
                     }
                 }
@@ -1488,8 +1489,8 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     tripoint mp;
     bool move_origin = ( moveorigin == 1 ? true : ( moveorigin == 0 ? false : moveall ) );
     if( eget_direction( mp, action ) ) {
-        target.x = limited_shift( target.x, mp.x, 0, maplim );
-        target.y = limited_shift( target.y, mp.y, 0, maplim );
+        target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
+        target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
         target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
         if( move_origin ) {
             origin += mp;
@@ -2038,12 +2039,14 @@ int editmap::mapgen_retarget()
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
                                          target.z );
-            if( pinbounds( ptarget ) && inbounds( ptarget.x + SEEX * 2, ptarget.y + SEEY * 2, ptarget.z ) ) {
+            if( generic_inbounds( ptarget, editmap_boundaries, editmap_clearance ) &&
+                generic_inbounds( { ptarget.x + SEEX, ptarget.y + SEEY, ptarget.z },
+                                  editmap_boundaries, editmap_clearance ) ) {
                 target = ptarget;
 
                 target_list.clear();
-                for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {
-                    for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
+                for( int x = target.x - SEEX - 1; x < target.x + SEEX + 1; x++ ) {
+                    for( int y = target.y - SEEY - 1; y < target.y + SEEY + 1; y++ ) {
                         target_list.push_back( tripoint( x, y, target.z ) );
                     }
                 }

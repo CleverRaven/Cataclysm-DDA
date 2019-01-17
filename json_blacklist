@@ -1,12 +1,3 @@
-data/fontdata.json
-data/json/bionics.json
-data/json/construction.json
-data/json/doll_speech.json
-data/json/dreams.json
-data/json/effects.json
-data/json/gates.json
-data/json/health_msgs.json
-data/json/item_actions.json
 data/json/itemgroups/ammo.json
 data/json/itemgroups/books.json
 data/json/itemgroups/clothing.json
@@ -30,11 +21,6 @@ data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
 data/json/items/chemicals_and_resources.json
-data/json/items/comestibles/brewing.json
-data/json/items/comestibles/carnivore.json
-data/json/items/comestibles/med.json
-data/json/items/comestibles/mutagen.json
-data/json/items/comestibles/protein.json
 data/json/items/containers.json
 data/json/items/fake.json
 data/json/items/generic/ammolink.json
@@ -174,7 +160,6 @@ data/json/npcs/hints.json
 data/json/npcs/items_generic.json
 data/json/npcs/missiondef.json
 data/json/npcs/NC_ARSONIST.json
-data/json/npcs/NC_BARTENDER.json
 data/json/npcs/NC_BOUNTY_HUNTER.json
 data/json/npcs/NC_COWBOY.json
 data/json/npcs/NC_DEBUG.json
@@ -216,11 +201,8 @@ data/json/recipes/armor/other.json
 data/json/recipes/armor/storage.json
 data/json/recipes/armor/suit.json
 data/json/recipes/armor/torso.json
-data/json/recipes/chem/fuel.json
 data/json/recipes/electronics/parts.json
 data/json/recipes/electronics/toolmod.json
-data/json/recipes/food/brewing.json
-data/json/recipes/food/distill.json
 data/json/recipes/food/dry.json
 data/json/recipes/food/pasta.json
 data/json/recipes/other/containers.json

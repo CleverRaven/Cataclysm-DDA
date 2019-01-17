@@ -1069,7 +1069,7 @@ void spawn_spores( const player &p )
         if( g->m.impassable( dest ) ) {
             continue;
         }
-        float dist = trig_dist( dest, p.pos() );
+        float dist = rl_dist( dest, p.pos() );
         if( x_in_y( 1, dist ) ) {
             fe.marlossify( dest );
         }
@@ -2464,7 +2464,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
+    if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
         p->add_msg_if_player( _( "You churn up the earth here." ) );
         p->mod_moves( -300 );
         g->m.ter_set( pnt, t_dirtmound );
@@ -5585,7 +5585,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         if( !candidates.empty() ) {
 
             const recipe *r = random_entry( candidates );
-            const recipe_id rident = r->ident();
+            const recipe_id &rident = r->ident();
 
             const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
             if( old_recipes.empty() ) {

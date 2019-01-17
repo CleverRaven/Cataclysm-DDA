@@ -780,7 +780,6 @@ void player::serialize( JsonOut &json ) const
 void player::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    JsonArray parray;
 
     load( data );
 
@@ -932,7 +931,7 @@ void player::deserialize( JsonIn &jsin )
     }
     data.read( "show_map_memory", show_map_memory );
 
-    parray = data.get_array( "assigned_invlet" );
+    JsonArray parray = data.get_array( "assigned_invlet" );
     while( parray.has_more() ) {
         JsonArray pair = parray.next_array();
         inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] = pair.get_string( 1 );

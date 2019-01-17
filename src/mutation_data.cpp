@@ -245,7 +245,6 @@ void mutation_branch::load( JsonObject &jsobj )
     const trait_id id( jsobj.get_string( "id" ) );
     mutation_branch &new_mut = mutation_data[id];
 
-    JsonArray jsarr;
     new_mut.raw_name = jsobj.get_string( "name" );
     new_mut.raw_desc = jsobj.get_string( "description" );
     new_mut.points = jsobj.get_int( "points" );
@@ -341,7 +340,8 @@ void mutation_branch::load( JsonObject &jsobj )
     }
     new_mut.flags = jsobj.get_tags( "flags" );
     new_mut.types = jsobj.get_tags( "types" );
-    jsarr = jsobj.get_array( "category" );
+
+    JsonArray jsarr = jsobj.get_array( "category" );
     while( jsarr.has_more() ) {
         std::string s = jsarr.next_string();
         new_mut.category.push_back( s );

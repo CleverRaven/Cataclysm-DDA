@@ -2430,8 +2430,7 @@ bool Character::is_immune_field( const field_id fid ) const
             return has_trait( trait_id( "WEB_WALKER" ) );
         case fd_fire:
         case fd_flame_burst:
-            return has_trait( trait_id( "M_SKIN2" ) ) || has_active_bionic( bionic_id( "bio_heatsink" ) ) ||
-                   is_wearing( "rm13_armor_on" );
+            return has_active_bionic( bionic_id( "bio_heatsink" ) ) || is_wearing( "rm13_armor_on" );
         default:
             // Suppress warning
             break;
