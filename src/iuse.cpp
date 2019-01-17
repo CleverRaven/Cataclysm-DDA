@@ -2464,7 +2464,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
+    if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
         p->add_msg_if_player( _( "You churn up the earth here." ) );
         p->mod_moves( -300 );
         g->m.ter_set( pnt, t_dirtmound );

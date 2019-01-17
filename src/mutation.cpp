@@ -409,7 +409,7 @@ void player::activate_mutation( const trait_id &mut )
                     }
                     const tripoint pnt = *pnt_;
 
-                    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
+                    if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
                         g->m.ter( pnt ) != t_dirtmound ) {
                         add_msg_if_player( _( "You churn up the earth here." ) );
                         moves = -300;
