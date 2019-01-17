@@ -58,8 +58,8 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_JENNY_1",
-    "faction": "free_merchants",    
-    "mission_offered" : "MISSION_REFUGEE_Jenny_GET_MOTOR"
+    "faction": "free_merchants",
+    "mission_offered": "MISSION_REFUGEE_Jenny_GET_MOTOR"
   },
   {
     "type": "talk_topic",
