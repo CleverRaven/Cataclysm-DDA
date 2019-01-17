@@ -1,5 +1,8 @@
 #include "ui.h"
 
+#include <algorithm>
+#include <iterator>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -9,12 +12,10 @@
 #include "player.h"
 #include "string_input_popup.h"
 
-#include <algorithm>
-#include <iterator>
-
 #ifdef __ANDROID__
-#include "options.h"
 #include <SDL_keyboard.h>
+
+#include "options.h"
 #endif
 
 /**
@@ -23,12 +24,12 @@
 */
 
 ////////////////////////////////////
-int getfoldedwidth (const std::vector<std::string> &foldedstring)
+int getfoldedwidth( const std::vector<std::string> &foldedstring )
 {
     int ret = 0;
-    for (auto &i : foldedstring) {
-        int width = utf8_width(i);
-        if ( width > ret ) {
+    for( auto &i : foldedstring ) {
+        int width = utf8_width( i );
+        if( width > ret ) {
             ret = width;
         }
     }
@@ -83,8 +84,8 @@ uilist::uilist( int startx, int width, int starty, const std::string &msg,
     w_y = starty;
     w_width = width;
     text = msg;
-    for( auto it = opts.begin(); it != opts.end(); ++it ) {
-        entries.emplace_back( *it );
+    for( const auto &opt : opts ) {
+        entries.emplace_back( opt );
     }
     query();
 }
@@ -97,8 +98,8 @@ uilist::uilist( int startx, int width, int starty, const std::string &msg,
     w_y = starty;
     w_width = width;
     text = msg;
-    for( auto it = opts.begin(); it != opts.end(); ++it ) {
-        entries.emplace_back( *it );
+    for( auto opt : opts ) {
+        entries.emplace_back( opt );
     }
     query();
 }
@@ -182,9 +183,9 @@ void uilist::filterlist()
     int num_entries = entries.size();
     bool nocase = filtering_nocase; // @todo: && is_all_lc( filter )
     std::string fstr;
-    fstr.reserve(filter.size());
-    if ( nocase ) {
-        transform( filter.begin(), filter.end(), std::back_inserter(fstr), tolower );
+    fstr.reserve( filter.size() );
+    if( nocase ) {
+        transform( filter.begin(), filter.end(), std::back_inserter( fstr ), tolower );
     } else {
         fstr = filter;
     }
@@ -193,11 +194,11 @@ void uilist::filterlist()
     int f = 0;
     for( int i = 0; i < num_entries; i++ ) {
         if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
-            lcmatch(entries[i].txt, fstr ) ) {
+            lcmatch( entries[i].txt, fstr ) ) {
             fentries.push_back( i );
-            if ( i == selected ) {
+            if( i == selected ) {
                 fselected = f;
-            } else if ( i > selected && fselected == -1 ) {
+            } else if( i > selected && fselected == -1 ) {
                 // Past the previously selected entry, which has been filtered out,
                 // choose another nearby entry instead.
                 fselected = f;
@@ -205,21 +206,21 @@ void uilist::filterlist()
             f++;
         }
     }
-    if ( fselected == -1 ) {
+    if( fselected == -1 ) {
         fselected = 0;
         vshift = 0;
-        if ( fentries.empty() ) {
+        if( fentries.empty() ) {
             selected = -1;
         } else {
             selected = fentries [ 0 ];
         }
-    } else if (fselected < static_cast<int>( fentries.size() )) {
+    } else if( fselected < static_cast<int>( fentries.size() ) ) {
         selected = fentries[fselected];
     } else {
         fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
-    if (static_cast<int>( fentries.size() ) <= vmax) {
+    if( static_cast<int>( fentries.size() ) <= vmax ) {
         vshift = 0;
     }
 }
@@ -230,8 +231,8 @@ void uilist::filterlist()
 std::string uilist::inputfilter()
 {
     std::string identifier; // @todo: uilist.filter_identifier ?
-    mvwprintz(window, w_height - 1, 2, border_color, "< ");
-    mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
+    mvwprintz( window, w_height - 1, 2, border_color, "< " );
+    mvwprintz( window, w_height - 1, w_width - 3, border_color, " >" );
     /*
     //debatable merit
         std::string origfilter = filter;
@@ -241,9 +242,9 @@ std::string uilist::inputfilter()
     */
     string_input_popup popup;
     popup.text( filter )
-         .max_length( 256 )
-         .window( window, 4, w_height - 1, w_width - 4 )
-         .identifier( identifier );
+    .max_length( 256 )
+    .window( window, 4, w_height - 1, w_width - 4 )
+    .identifier( identifier );
     input_event event;
 #ifdef __ANDROID__
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -255,15 +256,15 @@ std::string uilist::inputfilter()
         filter = popup.query_string( false );
         event = popup.context().get_raw_input();
         // key = filter_input->keypress;
-        if ( event.get_first_input() != KEY_ESCAPE ) {
+        if( event.get_first_input() != KEY_ESCAPE ) {
             if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
                 filterlist();
             }
             show();
         }
-    } while(event.get_first_input() != '\n' && event.get_first_input() != KEY_ESCAPE);
+    } while( event.get_first_input() != '\n' && event.get_first_input() != KEY_ESCAPE );
 
-    if ( event.get_first_input() == KEY_ESCAPE ) {
+    if( event.get_first_input() == KEY_ESCAPE ) {
         /*
         //perhaps as an option
                 filter = origfilter;
@@ -274,11 +275,11 @@ std::string uilist::inputfilter()
         filterlist();
     }
 
-    wattron(window, border_color);
+    wattron( window, border_color );
     for( int i = 1; i < w_width - 1; i++ ) {
-        mvwaddch(window, w_height - 1, i, LINE_OXOX);
+        mvwaddch( window, w_height - 1, i, LINE_OXOX );
     }
-    wattroff(window, border_color);
+    wattroff( window, border_color );
 
     return filter;
 }
@@ -327,26 +328,27 @@ static int find_minimum_fold_width( const std::string &str, int max_lines,
  */
 void uilist::setup()
 {
-    bool w_auto = (w_width == -1 || w_width == -2 );
-    bool w_autofold = ( w_width == -2);
+    bool w_auto = ( w_width == -1 || w_width == -2 );
+    bool w_autofold = ( w_width == -2 );
 
     // Space for a line between text and entries. Only needed if there is actually text.
     const int text_separator_line = text.empty() ? 0 : 1;
-    if ( w_auto ) {
+    if( w_auto ) {
         w_width = 4;
-        if ( !title.empty() ) {
+        if( !title.empty() ) {
             w_width = title.size() + 5;
         }
     }
 
-    bool h_auto = (w_height == -1);
-    if ( h_auto ) {
+    bool h_auto = ( w_height == -1 );
+    if( h_auto ) {
         w_height = 4;
     }
 
-    if ( desc_enabled && !(w_auto && h_auto) ) {
+    if( desc_enabled && !( w_auto && h_auto ) ) {
         desc_enabled = false; // give up
-        debugmsg( "desc_enabled without w_auto and h_auto (h: %d, w: %d)", static_cast<int>( h_auto ), static_cast<int>( w_auto ) );
+        debugmsg( "desc_enabled without w_auto and h_auto (h: %d, w: %d)", static_cast<int>( h_auto ),
+                  static_cast<int>( w_auto ) );
     }
 
     max_entry_len = 0;
@@ -354,44 +356,44 @@ void uilist::setup()
     std::vector<int> autoassign;
     int pad = pad_left + pad_right + 2;
     int descwidth_final = 0; // for description width guard
-    for ( size_t i = 0; i < entries.size(); i++ ) {
-        int txtwidth = utf8_width( remove_color_tags(entries[i].txt) );
-        int ctxtwidth = utf8_width( remove_color_tags(entries[i].ctxt) );
-        if ( txtwidth > max_entry_len ) {
+    for( size_t i = 0; i < entries.size(); i++ ) {
+        int txtwidth = utf8_width( remove_color_tags( entries[i].txt ) );
+        int ctxtwidth = utf8_width( remove_color_tags( entries[i].ctxt ) );
+        if( txtwidth > max_entry_len ) {
             max_entry_len = txtwidth;
         }
-        if ( ctxtwidth > max_column_len ) {
+        if( ctxtwidth > max_column_len ) {
             max_column_len = ctxtwidth;
         }
-        int clen = (ctxtwidth > 0) ? ctxtwidth + 2: 0;
-        if(entries[ i ].enabled) {
+        int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
+        if( entries[ i ].enabled ) {
             if( entries[ i ].hotkey > 0 ) {
                 keymap[ entries[ i ].hotkey ] = i;
-            } else if ( entries[ i ].hotkey == -1 && i < 100 ) {
-                autoassign.push_back(i);
+            } else if( entries[ i ].hotkey == -1 && i < 100 ) {
+                autoassign.push_back( i );
             }
-            if ( entries[ i ].retval == -1 ) {
+            if( entries[ i ].retval == -1 ) {
                 entries[ i ].retval = i;
             }
-            if ( w_auto && w_width < txtwidth + pad + 4 + clen ) {
+            if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
                 w_width = txtwidth + pad + 4 + clen;
             }
         } else {
-            if ( w_auto && w_width < txtwidth + pad + 4 + clen ) {
+            if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
                 w_width = txtwidth + pad + 4 + clen;    // @todo: or +5 if header
             }
         }
-        if ( desc_enabled ) {
+        if( desc_enabled ) {
             const int min_width = std::min( TERMX, std::max( w_width, descwidth_final ) ) - 4;
             const int max_width = TERMX - 4;
             int descwidth = find_minimum_fold_width( entries[i].desc, desc_lines,
-                                                     min_width, max_width );
+                            min_width, max_width );
             descwidth += 4; // 2x border + 2x ' ' pad
-            if ( descwidth_final < descwidth ) {
+            if( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
             }
         }
-        if ( entries[ i ].text_color == c_red_red ) {
+        if( entries[ i ].text_color == c_red_red ) {
             entries[ i ].text_color = text_color;
         }
         fentries.push_back( i );
@@ -410,51 +412,51 @@ void uilist::setup()
         }
     }
 
-    if (desc_enabled) {
-        if (descwidth_final > TERMX) {
+    if( desc_enabled ) {
+        if( descwidth_final > TERMX ) {
             desc_enabled = false; // give up
-            debugmsg("description would exceed terminal width (%d vs %d available)", descwidth_final, TERMX);
-        } else if (descwidth_final > w_width) {
+            debugmsg( "description would exceed terminal width (%d vs %d available)", descwidth_final, TERMX );
+        } else if( descwidth_final > w_width ) {
             w_width = descwidth_final;
         }
 
     }
 
-    if(!text.empty() ) {
-        int twidth = utf8_width( remove_color_tags(text) );
+    if( !text.empty() ) {
+        int twidth = utf8_width( remove_color_tags( text ) );
         bool formattxt = true;
         int realtextwidth = 0;
-        if ( textwidth == -1 ) {
-            if ( w_autofold || !w_auto ) {
+        if( textwidth == -1 ) {
+            if( w_autofold || !w_auto ) {
                 realtextwidth = w_width - 4;
             } else {
                 realtextwidth = twidth;
-                if ( twidth + 4 > w_width ) {
-                    if ( realtextwidth + 4 > TERMX ) {
+                if( twidth + 4 > w_width ) {
+                    if( realtextwidth + 4 > TERMX ) {
                         realtextwidth = TERMX - 4;
                     }
-                    textformatted = foldstring(text, realtextwidth);
+                    textformatted = foldstring( text, realtextwidth );
                     formattxt = false;
                     realtextwidth = 10;
-                    for (auto &l : textformatted) {
+                    for( auto &l : textformatted ) {
                         const int w = utf8_width( remove_color_tags( l ) );
-                        if ( w > realtextwidth ) {
+                        if( w > realtextwidth ) {
                             realtextwidth = w;
                         }
                     }
-                    if ( realtextwidth + 4 > w_width ) {
+                    if( realtextwidth + 4 > w_width ) {
                         w_width = realtextwidth + 4;
                     }
                 }
             }
-        } else if ( textwidth != -1 ) {
+        } else if( textwidth != -1 ) {
             realtextwidth = textwidth;
             if( realtextwidth + 4 > w_width ) {
                 w_width = realtextwidth + 4;
             }
         }
-        if ( formattxt ) {
-            textformatted = foldstring(text, realtextwidth);
+        if( formattxt ) {
+            textformatted = foldstring( text, realtextwidth );
         }
     }
 
@@ -481,11 +483,11 @@ void uilist::setup()
         additional_lines += desc_lines + 1; // add one for description separator line
     }
 
-    if (h_auto) {
+    if( h_auto ) {
         w_height = vmax + additional_lines;
     }
 
-    if ( w_height > TERMY ) {
+    if( w_height > TERMY ) {
         w_height = TERMY;
     }
 
@@ -503,30 +505,34 @@ void uilist::setup()
         }
     }
 
-    if (w_x == -1) {
-        w_x = int((TERMX - w_width) / 2);
+    if( w_x == -1 ) {
+        w_x = int( ( TERMX - w_width ) / 2 );
     }
-    if (w_y == -1) {
-        w_y = int((TERMY - w_height) / 2);
+    if( w_y == -1 ) {
+        w_y = int( ( TERMY - w_height ) / 2 );
     }
 
-    if ( scrollbar_side == -1 ) {
+    if( scrollbar_side == -1 ) {
         scrollbar_side = ( pad_left > 0 ? 1 : 0 );
     }
-    if ( static_cast<int>( entries.size() ) <= vmax ) {
+    if( static_cast<int>( entries.size() ) <= vmax ) {
         scrollbar_auto = false;
     }
     window = catacurses::newwin( w_height, w_width, w_y, w_x );
+    if( !window ) {
+        debugmsg( "Window not created; probably trying to use uilist in test mode." );
+        abort();
+    }
 
     fselected = selected;
-    if(fselected < 0) {
+    if( fselected < 0 ) {
         fselected = selected = 0;
-    } else if(fselected >= static_cast<int>(entries.size())) {
-        fselected = selected = static_cast<int>(entries.size()) - 1;
+    } else if( fselected >= static_cast<int>( entries.size() ) ) {
+        fselected = selected = static_cast<int>( entries.size() ) - 1;
     }
-    if(!entries.empty() && !entries[fselected].enabled) {
-        for(size_t i = 0; i < entries.size(); ++i) {
-            if(entries[i].enabled) {
+    if( !entries.empty() && !entries[fselected].enabled ) {
+        for( size_t i = 0; i < entries.size(); ++i ) {
+            if( entries[i].enabled ) {
                 fselected = selected = i;
                 break;
             }
@@ -537,7 +543,7 @@ void uilist::setup()
 
 void uilist::apply_scrollbar()
 {
-    if ( !scrollbar_auto ) {
+    if( !scrollbar_auto ) {
         return;
     }
 
@@ -568,38 +574,38 @@ void uilist::apply_scrollbar()
  */
 void uilist::show()
 {
-    if (!started) {
+    if( !started ) {
         setup();
     }
 
-    werase(window);
-    draw_border(window, border_color);
+    werase( window );
+    draw_border( window, border_color );
     if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
+        mvwprintz( window, 0, 1, border_color, "< " );
         wprintz( window, title_color, title );
-        wprintz(window, border_color, " >");
+        wprintz( window, border_color, " >" );
     }
 
-    std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
+    std::string padspaces = std::string( w_width - 2 - pad_left - pad_right, ' ' );
     const int text_lines = textformatted.size();
     int estart = 1;
     if( !textformatted.empty() ) {
-        for ( int i = 0; i < text_lines; i++ ) {
+        for( int i = 0; i < text_lines; i++ ) {
             trim_and_print( window, 1 + i, 2, getmaxx( window ) - 4, text_color, textformatted[i] );
         }
 
-        mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
-        for ( int i = 1; i < w_width - 1; ++i) {
-            mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
+        mvwputch( window, text_lines + 1, 0, border_color, LINE_XXXO );
+        for( int i = 1; i < w_width - 1; ++i ) {
+            mvwputch( window, text_lines + 1, i, border_color, LINE_OXOX );
         }
-        mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
+        mvwputch( window, text_lines + 1, w_width - 1, border_color, LINE_XOXX );
         estart += text_lines + 1; // +1 for the horizontal line.
     }
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
-    for ( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
-        if ( fei < static_cast<int>( fentries.size() ) ) {
+    for( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
+        if( fei < static_cast<int>( fentries.size() ) ) {
             int ei = fentries [ fei ];
             nc_color co = ( ei == selected ?
                             hilight_color :
@@ -608,7 +614,7 @@ void uilist::show()
                               disabled_color )
                           );
 
-            if ( hilight_full ) {
+            if( hilight_full ) {
                 mvwprintz( window, estart + si, pad_left + 1, co, padspaces );
             }
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
@@ -621,61 +627,63 @@ void uilist::show()
                 // activate the highlighting, it is used to override previous text there, but in both
                 // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
-                const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) : entries[ ei ].txt );
+                const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
+                                                 entries[ ei ].txt );
                 trim_and_print( window, estart + si, pad_left + 4,
                                 max_entry_len, co, "%s", entry.c_str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
-                    const auto centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) : entries[ ei ].ctxt );
+                    const auto centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
+                                                      entries[ ei ].ctxt );
                     trim_and_print( window, estart + si, getmaxx( window ) - max_column_len - 2,
                                     max_column_len, co, "%s", centry.c_str() );
                 }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;
-            if ( !menu_entry_extra_text.txt.empty() ) {
+            if( !menu_entry_extra_text.txt.empty() ) {
                 mvwprintz( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
                            menu_entry_extra_text.color, menu_entry_extra_text.txt );
             }
-            if ( menu_entry_extra_text.sym != 0 ) {
-                mvwputch ( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
-                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
+            if( menu_entry_extra_text.sym != 0 ) {
+                mvwputch( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                          menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
-            if ( callback != nullptr && ei == selected ) {
-                callback->select(ei, this);
+            if( callback != nullptr && ei == selected ) {
+                callback->select( ei, this );
             }
         } else {
             mvwprintz( window, estart + si, pad_left + 1, c_light_gray, padspaces );
         }
     }
 
-    if ( desc_enabled ) {
+    if( desc_enabled ) {
         // draw border
-        mvwputch(window, w_height - desc_lines - 2, 0, border_color, LINE_XXXO);
-        for ( int i = 1; i < w_width - 1; ++i) {
-            mvwputch(window, w_height - desc_lines - 2, i, border_color, LINE_OXOX);
+        mvwputch( window, w_height - desc_lines - 2, 0, border_color, LINE_XXXO );
+        for( int i = 1; i < w_width - 1; ++i ) {
+            mvwputch( window, w_height - desc_lines - 2, i, border_color, LINE_OXOX );
         }
-        mvwputch(window, w_height - desc_lines - 2, w_width - 1, border_color, LINE_XOXX);
+        mvwputch( window, w_height - desc_lines - 2, w_width - 1, border_color, LINE_XOXX );
 
         // clear previous desc the ugly way
-        for ( int y = desc_lines + 1; y > 1; --y ) {
-            for ( int x = 2; x < w_width - 2; ++x) {
-                mvwputch(window, w_height - y, x, text_color, " ");
+        for( int y = desc_lines + 1; y > 1; --y ) {
+            for( int x = 2; x < w_width - 2; ++x ) {
+                mvwputch( window, w_height - y, x, text_color, " " );
             }
         }
 
-        if( static_cast<size_t>( selected ) < entries.size() ){
+        if( static_cast<size_t>( selected ) < entries.size() ) {
             fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
                             entries[selected].desc );
         }
     }
 
-    if ( !filter.empty() ) {
+    if( !filter.empty() ) {
         mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
 
-    this->refresh(true);
+    this->refresh( true );
 }
 
 /**
@@ -683,9 +691,9 @@ void uilist::show()
  */
 void uilist::refresh( bool refresh_callback )
 {
-    wrefresh(window);
-    if ( refresh_callback && callback != nullptr ) {
-        callback->refresh(this);
+    wrefresh( window );
+    if( refresh_callback && callback != nullptr ) {
+        callback->refresh( this );
     }
 }
 
@@ -694,17 +702,17 @@ void uilist::refresh( bool refresh_callback )
  */
 void uilist::redraw( bool redraw_callback )
 {
-    draw_border(window, border_color);
+    draw_border( window, border_color );
     if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
+        mvwprintz( window, 0, 1, border_color, "< " );
         wprintz( window, title_color, title );
-        wprintz(window, border_color, " >");
+        wprintz( window, border_color, " >" );
     }
-    if ( !filter.empty() ) {
-        mvwprintz(window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+    if( !filter.empty() ) {
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
-    (void)redraw_callback; // TODO
+    ( void )redraw_callback; // TODO
     /*
     // pending tests on if this is needed
         if ( redraw_callback && callback != NULL ) {
@@ -718,7 +726,7 @@ int uilist::scroll_amount_from_key( const int key )
     if( key == KEY_UP ) {
         return -1;
     } else if( key == KEY_PPAGE ) {
-        return (-vmax + 1);
+        return ( -vmax + 1 );
     } else if( key == KEY_DOWN ) {
         return 1;
     } else if( key == KEY_NPAGE ) {
@@ -733,7 +741,7 @@ int uilist::scroll_amount_from_action( const std::string &action )
     if( action == "UP" ) {
         return -1;
     } else if( action == "PAGE_UP" ) {
-        return (-vmax + 1);
+        return ( -vmax + 1 );
     } else if( action == "SCROLL_UP" ) {
         return -3;
     } else if( action == "DOWN" ) {
@@ -752,7 +760,7 @@ int uilist::scroll_amount_from_action( const std::string &action )
  */
 bool uilist::scrollby( const int scrollby )
 {
-    if ( scrollby == 0 ) {
+    if( scrollby == 0 ) {
         return false;
     }
 
@@ -760,15 +768,15 @@ bool uilist::scrollby( const int scrollby )
     bool backwards = ( scrollby < 0 );
 
     fselected += scrollby;
-    if ( ! looparound ) {
-        if ( backwards && fselected < 0 ) {
+    if( ! looparound ) {
+        if( backwards && fselected < 0 ) {
             fselected = 0;
-        } else if ( fselected >= static_cast<int>( fentries.size() ) ) {
+        } else if( fselected >= static_cast<int>( fentries.size() ) ) {
             fselected = fentries.size() - 1;
         }
     }
 
-    if ( backwards ) {
+    if( backwards ) {
         if( fselected < 0 ) {
             fselected = fentries.size() - 1;
         }
@@ -808,7 +816,7 @@ bool uilist::scrollby( const int scrollby )
 void uilist::query( bool loop, int timeout )
 {
     keypress = 0;
-    if ( entries.empty() ) {
+    if( entries.empty() ) {
         ret = UILIST_ERROR;
         return;
     }
@@ -827,7 +835,7 @@ void uilist::query( bool loop, int timeout )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    for ( const auto &additional_action : additional_actions ) {
+    for( const auto &additional_action : additional_actions ) {
         ctxt.register_action( additional_action.first, additional_action.second );
     }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
@@ -835,9 +843,10 @@ void uilist::query( bool loop, int timeout )
     show();
 
 #ifdef __ANDROID__
-    for (const auto& entry : entries) {
-        if (entry.hotkey > 0 && entry.enabled)
-            ctxt.register_manual_key(entry.hotkey, entry.txt);
+    for( const auto &entry : entries ) {
+        if( entry.hotkey > 0 && entry.enabled ) {
+            ctxt.register_manual_key( entry.hotkey, entry.txt );
+        }
     }
 #endif
 
@@ -849,9 +858,9 @@ void uilist::query( bool loop, int timeout )
 
         if( scrollby( scroll_amount_from_action( action ) ) ) {
             /* nothing */
-        } else if ( action == "HELP_KEYBINDINGS" ) {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             /* nothing, handled by input_context */
-        } else if ( filtering && action == "FILTER" ) {
+        } else if( filtering && action == "FILTER" ) {
             inputfilter();
         } else if( iter != keymap.end() ) {
             selected = iter->second;
@@ -860,7 +869,7 @@ void uilist::query( bool loop, int timeout )
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
             }
-        } else if ( !fentries.empty() && action == "CONFIRM" ) {
+        } else if( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
@@ -911,7 +920,8 @@ void uilist::addentry_desc( int r, bool e, int k, const std::string &str, const 
     entries.emplace_back( r, e, k, str, desc );
 }
 
-void uilist::addentry_col( int r, bool e, int k, const std::string &str, const std::string &column, const std::string &desc )
+void uilist::addentry_col( int r, bool e, int k, const std::string &str, const std::string &column,
+                           const std::string &desc )
 {
     entries.emplace_back( r, e, k, str, desc, column );
 }
@@ -927,11 +937,13 @@ pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
     last_view = g->u.view_offset;
 }
 
-void pointmenu_cb::select( int /*num*/, uilist * /*menu*/ ) {
+void pointmenu_cb::select( int /*num*/, uilist * /*menu*/ )
+{
     g->u.view_offset = last_view;
 }
 
-void pointmenu_cb::refresh( uilist *menu ) {
+void pointmenu_cb::refresh( uilist *menu )
+{
     if( last == menu->selected ) {
         return;
     }
@@ -949,7 +961,7 @@ void pointmenu_cb::refresh( uilist *menu ) {
     const tripoint &center = points[menu->selected];
     g->u.view_offset = center - g->u.pos();
     g->u.view_offset.z = 0; // TODO: Remove this line when it's safe
-    g->draw_trail_to_square( g->u.view_offset, true);
+    g->draw_trail_to_square( g->u.view_offset, true );
     menu->redraw( false );
     menu->show();
 }

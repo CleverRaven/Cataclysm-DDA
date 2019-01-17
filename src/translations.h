@@ -2,9 +2,9 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
-#include "optional.h"
-
 #include <string>
+
+#include "optional.h"
 
 #ifndef translate_marker
 /**
@@ -45,6 +45,11 @@ const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 inline const char *_( const char *msg )
 {
     return ( msg[0] == '\0' ) ? msg : gettext( msg );
+}
+const char *_( const std::string &msg );
+inline const char *_( const std::string &msg )
+{
+    return _( msg.c_str() );
 }
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );

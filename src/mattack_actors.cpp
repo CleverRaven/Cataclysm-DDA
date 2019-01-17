@@ -66,7 +66,7 @@ bool leap_actor::call( monster &z ) const
 
     std::vector<tripoint> options;
     tripoint target = z.move_target();
-    float best_float = trig_dist( z.pos(), target );
+    float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         return false;
     }
@@ -92,7 +92,8 @@ bool leap_actor::call( monster &z ) const
         if( cur_dist > best ) {
             continue;
         }
-        if( trig_dist( z.pos(), dest ) < min_range ) {
+        if( ( trigdist ? trig_dist( z.pos(), dest ) : square_dist( z.pos(), dest ) ) <
+            min_range ) {
             continue;
         }
         bool blocked_path = false;

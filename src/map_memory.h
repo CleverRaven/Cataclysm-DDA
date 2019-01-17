@@ -2,11 +2,11 @@
 #ifndef MAP_MEMORY_H
 #define MAP_MEMORY_H
 
-#include "enums.h"
-
 #include <list>
 #include <string>
 #include <unordered_map>
+
+#include "enums.h"
 
 class JsonOut;
 class JsonObject;
@@ -48,10 +48,10 @@ class map_memory
         void memorize_tile( int limit, const tripoint &pos, const std::string &ter,
                             const int subtile, const int rotation );
         /** Returns last stored map tile in given location */
-        memorized_terrain_tile get_tile( const tripoint &p ) const;
+        memorized_terrain_tile get_tile( const tripoint &pos ) const;
 
         void memorize_symbol( int limit, const tripoint &pos, const long symbol );
-        long get_symbol( const tripoint &p ) const;
+        long get_symbol( const tripoint &pos ) const;
     private:
         lru_cache<memorized_terrain_tile> tile_cache;
         lru_cache<long> symbol_cache;

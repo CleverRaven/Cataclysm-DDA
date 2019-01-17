@@ -1,5 +1,9 @@
 #include "melee.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "field.h"
@@ -21,10 +25,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -75,7 +75,7 @@ static const trait_id trait_THORNS( "THORNS" );
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
 int  stumble( player &u, const item &weap );
-std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
+std::string melee_message( const ma_technique &tec, player &p, const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.

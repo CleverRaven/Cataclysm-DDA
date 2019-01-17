@@ -1,15 +1,15 @@
 #include "regional_settings.h"
 
+#include <algorithm>
+#include <map>
+#include <string>
+#include <utility>
+
 #include "debug.h"
 #include "json.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
-
-#include <algorithm>
-#include <map>
-#include <string>
-#include <utility>
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
@@ -205,6 +205,8 @@ void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_t
                                     forest_trail_settings.random_point_size_scalar, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_chance",
                                     forest_trail_settings.trailhead_chance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_road_distance",
+                                    forest_trail_settings.trailhead_road_distance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
                                     forest_trail_settings.trail_center_variance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",
@@ -387,8 +389,14 @@ void load_region_settings( JsonObject &jo )
         if( ! cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
             jo.throw_error( "city: shop_radius required for default" );
         }
+        if( !cjo.read( "shop_sigma", new_region.city_spec.shop_sigma ) && strict ) {
+            jo.throw_error( "city: shop_sigma required for default" );
+        }
         if( ! cjo.read( "park_radius", new_region.city_spec.park_radius ) && strict ) {
             jo.throw_error( "city: park_radius required for default" );
+        }
+        if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
+            jo.throw_error( "city: park_sigma required for default" );
         }
         if( ! cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
             jo.throw_error( "city: house_basement_chance required for default" );
@@ -573,7 +581,9 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     JsonObject cityjo = jo.get_object( "city" );
 
     cityjo.read( "shop_radius", region.city_spec.shop_radius );
+    cityjo.read( "shop_sigma", region.city_spec.shop_sigma );
     cityjo.read( "park_radius", region.city_spec.park_radius );
+    cityjo.read( "park_sigma", region.city_spec.park_sigma );
     cityjo.read( "house_basement_chance", region.city_spec.house_basement_chance );
 
     const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {

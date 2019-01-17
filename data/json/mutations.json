@@ -188,6 +188,9 @@
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["TOUGH2"],
+        "social_modifiers" : {
+            "intimidate" : 2
+        },
         "hp_modifier" : 0.2
     },{
         "type" : "mutation",
@@ -199,6 +202,9 @@
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH"],
         "changes_to" : ["TOUGH3"],
+        "social_modifiers" : {
+            "intimidate" : 3
+        },
         "hp_modifier" : 0.3
     },{
         "type" : "mutation",
@@ -209,6 +215,9 @@
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH2"],
+        "social_modifiers" : {
+            "intimidate" : 4
+        },
         "hp_modifier" : 0.4
     },{
         "type" : "mutation",
@@ -297,6 +306,9 @@
         "points" : 1,
         "description" : "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
         "starting_trait" : true,
+        "social_modifiers" : {
+            "persuade" : 5
+        },
         "valid" : false
     },{
         "type" : "mutation",
@@ -401,6 +413,9 @@
         "name" : "Inconspicuous",
         "points" : 1,
         "description" : "While sleeping or staying still, it is less likely that monsters will wander close to you.",
+        "social_modifiers" : {
+            "lie" : 2
+        },
         "valid" : false
     },{
         "type" : "mutation",
@@ -473,6 +488,9 @@
         "description" : "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
         "starting_trait" : true,
         "valid" : false,
+        "social_modifiers" : {
+            "intimidate" : 5
+        },
         "cancels" : ["PACIFIST"],
         "flags" : ["CANNIBAL"]
     },{
@@ -516,9 +534,9 @@
         "id": "MARTIAL_ARTS5",
         "name": "Melee Weapon Training",
         "points": 3,
-        "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat or Niten Ichi-Ryu.",
+        "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat, Niten Ichi-Ryu, or Sōjutsu.",
         "starting_trait" : true,
-        "initial_ma_styles" : [ "style_eskrima", "style_fencing", "style_silat", "style_niten" ],
+        "initial_ma_styles" : [ "style_eskrima", "style_fencing", "style_silat", "style_niten", "style_sojutsu" ],
         "valid" : false
     },{
         "type" : "mutation",
@@ -644,6 +662,9 @@
         "name" : "Asthmatic",
         "points" : -4,
         "description" : "You will occasionally need to use an inhaler, or else suffer severe physical limitations.  However, you are guaranteed to start with an inhaler.",
+        "social_modifiers" : {
+            "intimidate" : -2
+        },
         "starting_trait" : true,
         "valid" : false
     },{
@@ -810,6 +831,9 @@
         "points" : -2,
         "description" : "Your head can't take much abuse.  Its maximum HP is 20% lower than usual.",
         "starting_trait" : true,
+        "social_modifiers" : {
+            "intimidate" : -2
+        },
         "category" : ["BIRD", "RAPTOR"],
         "cancels" : ["TOUGH"]
     },{
@@ -818,6 +842,9 @@
         "name" : "Forgetful",
         "points" : -3,
         "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
+        "social_modifiers" : {
+            "lie" : -5
+        },
         "starting_trait" : true,
         "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT"],
         "cancels" : ["GOODMEMORY"]
@@ -952,6 +979,9 @@
         "points" : -4,
         "description" : "You don't like thinking about violence.  Your combat skills advance much slower than usual, and you feel more guilt about killing.",
         "starting_trait" : true,
+        "social_modifiers" : {
+            "intimidate" : -10
+        },
         "valid" : false,
         "cancels" : ["PSYCHOPATH", "PRED1", "PRED2", "PRED3", "PRED4"]
     },{
@@ -1027,6 +1057,9 @@
         "description" : "Your body can't take much abuse.  Its maximum HP is 25% lower than usual and you heal slightly slower.  Stacks with Glass Jaw.",
         "starting_trait" : true,
         "valid" : false,
+        "social_modifiers" : {
+            "intimidate" : -2
+        },
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "category" : ["MOUSE"],
         "changes_to" : ["FLIMSY2"],
@@ -1039,6 +1072,9 @@
         "description" : "Your body breaks very easily.  Its maximum HP is 50% lower than usual and you heal slower.  Stacks with Glass Jaw.",
         "starting_trait" : true,
         "valid" : false,
+        "social_modifiers" : {
+            "intimidate" : -3
+        },
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY"],
         "changes_to" : ["FLIMSY3"],
@@ -1051,6 +1087,9 @@
         "description" : "Your body is extremely fragile.  Its maximum HP is 75% lower than usual and you heal much slower.  Stacks with Glass Jaw.",
         "starting_trait" : true,
         "valid" : false,
+        "social_modifiers" : {
+            "intimidate" : -4
+        },
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY2"],
         "hp_modifier" : -0.75
@@ -1122,9 +1161,9 @@
         "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "category" : ["ELFA"],
         "social_modifiers" : {
-            "lie" : 10,
-            "persuade" : 20,
-            "intimidate" : 10
+            "lie" : 5,
+            "persuade" : 5,
+            "intimidate" : -5
         }
     },{
         "type" : "mutation",
@@ -1157,6 +1196,10 @@
         "visibility" : 2,
         "ugliness" : 1,
         "description" : "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
+        "social_modifiers" : {
+            "lie" : 2,
+            "persuade" : 2
+        },
         "leads_to" : ["FEL_NV"],
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "category" : ["FELINE", "BEAST"]
@@ -1209,6 +1252,10 @@
         "visibility" : 2,
         "ugliness" : 1,
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
+        "social_modifiers" : {
+            "persuade" : -1,
+            "intimidate" : 1
+        },
         "leads_to" : ["LIZ_IR"],
         "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "COMPOUND_EYES"],
         "category" : ["LIZARD", "RAPTOR"]
@@ -2826,6 +2873,9 @@
         "name" : "Resilient",
         "points" : 2,
         "description" : "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points.  Stacks with Tough, etc.",
+        "social_modifiers" : {
+            "intimidate" : 2
+        },
         "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
@@ -2838,6 +2888,9 @@
         "name" : "Solidly Built",
         "points" : 3,
         "description" : "Not much scares you.  You get a 30% bonus to all hit points.  Stacks with Tough, etc.",
+        "social_modifiers" : {
+            "intimidate" : 3
+        },
         "valid" : false,
         "prereqs" : ["MUT_TOUGH"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL"],
@@ -2851,6 +2904,9 @@
         "name" : "TAAANK",
         "points" : 4,
         "description" : "You can simply take the punishment from lesser beings and keep going.  You get a 40% bonus to all hit points.  Stacks with Tough, etc.",
+        "social_modifiers" : {
+            "intimidate" : 4
+        },
         "valid" : false,
         "prereqs" : ["MUT_TOUGH2"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
@@ -2970,6 +3026,9 @@
         "name" : "Hunter",
         "points" : 3,
         "description" : "Your brain has a lot more in common with predatory animal than a human, making it easier to control misplaced reactions to death of your prey.  Additionally, combat skills, which you use to hunt, are easier to learn and maintain.",
+        "social_modifiers" : {
+            "intimidate" : 3
+        },
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED1"],
@@ -2983,6 +3042,9 @@
         "name" : "Predator",
         "points" : 3,
         "description" : "You consider yourself something other than human and no longer empathize with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
+        "social_modifiers" : {
+            "intimidate" : 4
+        },
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
@@ -3001,6 +3063,9 @@
         "name" : "Apex Predator",
         "points" : 2,
         "description" : "Your mind and brain have adapted to your new place in the world: as one on top the food chain.  You can effortlessly master and maintain combat skills, but your critical thinking has atrophied further.",
+        "social_modifiers" : {
+            "intimidate" : 5
+        },
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
@@ -3017,6 +3082,11 @@
         "name" : "Sapiovore",
         "points" : 1,
         "description" : "The hairless apes are as good eating as any other meat.",
+        "social_modifiers" : {
+            "persuade": -20,
+            "lie": -20,
+            "intimidate" : 6
+        },
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE"],
@@ -3808,8 +3878,8 @@
         "category" : ["INSECT"],
         "restricts_gear" : [ "TORSO" ],
         "social_modifiers" : {
-            "lie" : 10,
-            "persuade" : 15,
+            "lie" : 15,
+            "persuade" : 5,
             "intimidate" : -20
         }
     },{
@@ -4764,8 +4834,9 @@
         "changes_to" : ["SNARL"],
         "category" : ["RAT", "URSINE", "LUPINE"],
         "social_modifiers" : {
-            "persuade" : -25,
-            "intimidate" : 15
+            "persuade" : -20,
+            "lie" : -10,
+            "intimidate" : 10
         }
     },{
         "type" : "mutation",
@@ -4778,7 +4849,8 @@
         "category" : ["BEAST", "CHIMERA", "FELINE", "LUPINE"],
         "social_modifiers" : {
             "persuade" : -60,
-            "intimidate" : 30
+            "lie" : -40,
+            "intimidate" : 20
         }
     },{
         "type" : "mutation",
@@ -4789,8 +4861,9 @@
         "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
         "category": ["LIZARD", "RAPTOR"],
         "social_modifiers" : {
-            "persuade" : -25,
-            "intimidate" : 15
+            "persuade" : -20,
+            "lie" : -10,
+            "intimidate" : 10
         }
     },{
         "type" : "mutation",
@@ -5399,7 +5472,7 @@
         "category" : ["FISH"],
         "threshreq" : ["THRESH_FISH"],
         "social_modifiers" : {
-            "intimidate" : 15
+            "intimidate" : 5
         },
         "attacks" : {
             "attack_text_u" : "You tear into %s with your teeth",
@@ -5538,6 +5611,7 @@
         "name" : "Carries Brandy",
         "points" : 0,
         "description" : "This Bartender now carries brandy!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5546,6 +5620,7 @@
         "name" : "Carries Rum",
         "points" : 0,
         "description" : "This Bartender now carries rum!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5554,6 +5629,7 @@
         "name" : "Carries Whiskey",
         "points" : 0,
         "description" : "This Bartender now carries whiskey!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5562,6 +5638,7 @@
         "name" : "Has Level 1 Companion Missions",
         "points" : 0,
         "description" : "New mission options have become available!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5570,6 +5647,7 @@
         "name" : "Has Level 1 Construction Built",
         "points" : 0,
         "description" : "New options may have become available!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
     },{
@@ -5578,9 +5656,31 @@
         "name" : "Has Level 2 Construction Built",
         "points" : 0,
         "description" : "New options may have become available!",
+        "player_display": false,
         "valid": false,
         "purifiable": false
-    },{
+    },
+  {
+    "type": "mutation",
+    "id": "NPC_STARTING_NPC",
+    "name": "Starting NPC",
+    "points": 0,
+    "description": "Marker for starting NPCs",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_STATIC_NPC",
+    "name": "Static NPC",
+    "points": 0,
+    "description": "Marker for static NPCs",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
         "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
@@ -5699,6 +5799,7 @@
         "points" : 0,
         "valid" : false,
         "description" : "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
+        "player_display": false,
         "threshold" : true
     },{
         "type" : "mutation",
@@ -5707,6 +5808,7 @@
         "points" : 0,
         "valid" : false,
         "description" : "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
+        "player_display": false,
         "threshold" : true
     }
 ]

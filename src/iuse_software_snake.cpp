@@ -1,5 +1,9 @@
 #include "iuse_software_snake.h"
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"  // utf8_width()
 #include "cursesdef.h"
 #include "input.h"
@@ -8,13 +12,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#include <map>
-#include <string>
-#include <vector>
-
-snake_game::snake_game()
-{
-}
+snake_game::snake_game() = default;
 
 void snake_game::print_score( const catacurses::window &w_snake, int iScore )
 {

@@ -1,5 +1,7 @@
 #include "catalua.h"
 
+#include <memory>
+
 #include "action.h"
 #include "debug.h"
 #include "game.h"
@@ -22,8 +24,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather_gen.h"
-
-#include <memory>
 
 #ifdef LUA
 
@@ -1064,7 +1064,7 @@ monster *create_monster( const mtype_id &mon_type, const tripoint &p )
 {
     monster new_monster( mon_type, p );
     if( !g->add_zombie( new_monster ) ) {
-        return NULL;
+        return nullptr;
     } else {
         return g->critter_at<monster>( p );
     }
@@ -1311,7 +1311,7 @@ static const struct luaL_Reg global_funcs [] = {
     {"dofile", game_dofile},
     {"get_monster_types", game_get_monster_types},
     {"get_item_groups", game_get_item_groups},
-    {NULL, NULL}
+    {nullptr, nullptr}
 };
 
 // Lua initialization.
@@ -1342,7 +1342,7 @@ void game::init_lua()
     for( auto x = global_funcs; x->name != nullptr; ++x ) {
         lib_funcs.push_back( *x );
     }
-    lib_funcs.push_back( luaL_Reg { NULL, NULL } );
+    lib_funcs.push_back( luaL_Reg { nullptr, nullptr } );
     luaL_newmetatable( lua_state, "game" );
     lua_pushvalue( lua_state, -1 );
     luaL_setfuncs( lua_state, &lib_funcs.front(), 0 );

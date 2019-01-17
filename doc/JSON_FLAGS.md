@@ -94,6 +94,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```PERMEABLE``` Permeable for gases.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
+- ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP``` Can be used to move up a z-level
 - ```RAMP_END```
 - ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
@@ -506,6 +507,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FRIDGE``` Can refrigerate items.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FUNNEL```
+- ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.
@@ -557,6 +559,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
 - ```WELDRIG``` Acts as a welder for crafting.
+- ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
 - ```WINDOW``` Can see through this part and can install curtains over it.

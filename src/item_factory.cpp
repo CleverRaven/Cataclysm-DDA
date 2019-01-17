@@ -1,5 +1,10 @@
 #include "item_factory.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <sstream>
+
 #include "addiction.h"
 #include "ammo.h"
 #include "artifact.h"
@@ -25,11 +30,6 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <sstream>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -167,7 +167,7 @@ void Item_factory::finalize_pre( itype &obj )
         obj.price_post = obj.price;
     }
     // use base volume if integral volume unspecified
-    if( obj.integral_volume < 0 ) {
+    if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
     }
     // for ammo and comestibles stack size defaults to count of initial charges
@@ -184,7 +184,7 @@ void Item_factory::finalize_pre( itype &obj )
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
-    if( obj.volume <= 0 ) {
+    if( obj.volume <= 0_ml ) {
         obj.volume = units::from_milliliter( 1 );
     }
     for( const auto &tag : obj.item_tags ) {
@@ -811,10 +811,10 @@ void Item_factory::check_definitions() const
             msg << "undefined category " << type->category_force << "\n";
         }
 
-        if( type->weight < 0 ) {
+        if( type->weight < 0_gram ) {
             msg << "negative weight" << "\n";
         }
-        if( type->volume < 0 ) {
+        if( type->volume < 0_ml ) {
             msg << "negative volume" << "\n";
         }
         if( type->price < 0 ) {
@@ -952,7 +952,7 @@ void Item_factory::check_definitions() const
                     msg << "specified magazine but none provided for default ammo type" << "\n";
                 }
             }
-            if( type->gun->barrel_length < 0 ) {
+            if( type->gun->barrel_length < 0_ml ) {
                 msg << "gun barrel length cannot be negative" << "\n";
             }
 
@@ -1077,7 +1077,7 @@ void Item_factory::check_definitions() const
                 msg << string_format( "Resealable container unseals_into %s",
                                       type->container->unseals_into.c_str() ) << "\n";
             }
-            if( type->container->contains <= 0 ) {
+            if( type->container->contains <= 0_ml ) {
                 msg << string_format( "\"contains\" (%d) must be >0", type->container->contains.value() ) << "\n";
             }
             if( !has_template( type->container->unseals_into ) ) {
@@ -1163,7 +1163,7 @@ Item_spawn_data *Item_factory::get_group( const Item_tag &group_tag )
     if( group_iter != m_template_groups.end() ) {
         return group_iter->second.get();
     }
-    return NULL;
+    return nullptr;
 }
 
 ///////////////////////
@@ -1388,7 +1388,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
-    assign( jo, "barrel_length", slot.barrel_length, strict, 0 );
+    assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
@@ -1434,7 +1434,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
-    assign( jo, "storage", slot.storage, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
@@ -1705,6 +1705,15 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
     assign( jo, "min_str_required_mod", slot.min_str_required_mod );
+    if( jo.has_array( "add_mod" ) ) {
+        slot.add_mod.clear();
+        JsonArray jarr = jo.get_array( "add_mod" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.add_mod.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
+        }
+    }
+    assign( jo, "blacklist_mod", slot.blacklist_mod );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
@@ -1862,7 +1871,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     bool strict = src == "dda";
 
     assign( jo, "category", def.category_force, strict );
-    assign( jo, "weight", def.weight, strict, 0 );
+    assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );

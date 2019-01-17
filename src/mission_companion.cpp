@@ -1,5 +1,9 @@
 #include "mission_companion.h"
 
+#include <algorithm>
+#include <cassert>
+#include <vector>
+
 #include "bionics.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
@@ -23,10 +27,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-
-#include <algorithm>
-#include <cassert>
-#include <vector>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -78,11 +78,9 @@ void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
-void camp_missions( mission_data &mission_key, npc &p );
 bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
                               const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
 }
 
 void talk_function::companion_mission( npc &p )
@@ -128,14 +126,13 @@ void talk_function::companion_mission( npc &p )
 
 void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
                            "Assigning one of your allies to patrol the surrounding wilderness "
                            "and isolated buildings presents the opportunity to build survival "
                            "skills while engaging in relatively safe combat against isolated "
                            "creatures." );
     mission_key.add( "Assign Scavenging Patrol", _( "Assign Scavenging Patrol" ), entry );
-    npc_list = companion_list( p, "_scavenging_patrol" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_scavenging_patrol" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -149,15 +146,13 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
 
 void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
-    std::string entry;
-    entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
-               "Scavenging raids target formerly populated areas to loot as many valuable items as "
-               "possible before being surrounded by the undead.  Combat is to be expected and "
-               "assistance from the rest of the party can't be guaranteed.  The rewards are "
-               "greater and there is a chance of the companion bringing back items." );
+    std::string entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+                           "Scavenging raids target formerly populated areas to loot as many valuable items as "
+                           "possible before being surrounded by the undead.  Combat is to be expected and "
+                           "assistance from the rest of the party can't be guaranteed.  The rewards are "
+                           "greater and there is a chance of the companion bringing back items." );
     mission_key.add( "Assign Scavenging Raid", _( "Assign Scavenging Raid" ), entry );
-    npc_list = companion_list( p, "_scavenging_raid" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_scavenging_raid" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -171,13 +166,12 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 
 void talk_function::commune_menial( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
                            "Assigning one of your allies to menial labor is a safe way to teach "
                            "them basic skills and build reputation with the outpost.  Don't expect "
                            "much of a reward though." );
     mission_key.add( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
-    npc_list = companion_list( p, "_labor" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_labor" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -192,13 +186,12 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
 
 void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
                            "Carpentry work requires more skill than menial labor while offering "
                            "modestly improved pay.  It is unlikely that your companions will face "
                            "combat but there are hazards working on makeshift buildings." );
     mission_key.add( "Assign Ally to Carpentry Work", _( "Assign Ally to Carpentry Work" ), entry );
-    npc_list = companion_list( p, "_carpenter" );
+    std::vector<std::shared_ptr<npc>>  npc_list = companion_list( p, "_carpenter" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -282,7 +275,6 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 
 void talk_function::commune_forage( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \n"
                            "Foraging for food involves dispatching a companion to search the "
                            "surrounding wilderness for wild edibles.  Combat will be avoided but "
@@ -291,7 +283,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
                            "hauls." );
     mission_key.add( "Assign Ally to Forage for Food", _( "Assign Ally to Forage for Food" ),
                      entry );
-    npc_list = companion_list( p, "_forage" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_forage" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -305,7 +297,6 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
 
 void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                            "Adding companions to the caravan team increases the likelihood of "
                            "success.  By nature, caravans are extremely tempting targets for "
@@ -316,7 +307,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                            "Center as part of a tax and in exchange for skilled labor." );
     mission_key.add( "Caravan Commune-Refugee Center", _( "Caravan Commune-Refugee Center" ),
                      entry );
-    npc_list = companion_list( p, "_commune_refugee_caravan" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_commune_refugee_caravan" );
     std::vector<std::shared_ptr<npc>> npc_list_aux;
     if( !npc_list.empty() ) {
         entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
@@ -921,8 +912,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20, false );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.ter( x, y ) == t_dirtmound ) {
                 empty_plots++;
             }
@@ -950,8 +941,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     //Plant the actual seeds
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.ter( x, y ) == t_dirtmound && limiting_number > 0 ) {
                 std::list<item> used_seed;
                 if( item::count_by_charges( seed_id ) ) {
@@ -959,7 +950,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                 } else {
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
-                used_seed.front().set_age( 0 );
+                used_seed.front().set_age( 0_turns );
                 bay.add_item_or_charges( x, y, used_seed.front() );
                 bay.set( x, y, t_dirt, f_plant_seed );
                 limiting_number--;
@@ -978,19 +969,18 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20, false );
     tinymap bay;
     item tmp;
-    bool check;
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
                 const item &seed = bay.i_at( x, y )[0];
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
                     tmp = item( seed_data.fruit_id, calendar::turn );
-                    check = false;
+                    bool check = false;
                     for( const std::string &elem : plant_names ) {
                         if( elem == tmp.type_name( 3 ) ) {
                             check = true;
@@ -1025,8 +1015,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
                 const item &seed = bay.i_at( x, y )[0];
                 if( seed.is_seed() ) {
@@ -1763,7 +1753,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<std::sha
     int max_combat = 0;
     int max_survival = 0;
     int max_industry = 0;
-    for( auto e : available ) {
+    for( const auto &e : available ) {
         comp_rank r;
         r.combat = companion_combat_rank( *e );
         r.survival = companion_survival_rank( *e );
@@ -1893,14 +1883,14 @@ std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const
 }
 
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> talk_function::loot_building( const tripoint site )
+std::vector<item *> talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
     std::vector<item *> items_found;
     tripoint p;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    for( int x = 0; x < 23; x++ ) {
-        for( int y = 0; y < 23; y++ ) {
+    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
+        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             p.x = x;
             p.y = y;
             p.z = site.z;

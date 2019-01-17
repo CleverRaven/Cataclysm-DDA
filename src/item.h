@@ -2,6 +2,13 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <climits>
+#include <list>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -9,13 +16,7 @@
 #include "item_location.h"
 #include "string_id.h"
 #include "visitable.h"
-
-#include <climits>
-#include <list>
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
+#include "requirements.h"
 
 namespace cata
 {
@@ -46,6 +47,7 @@ using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class npc;
+class recipe;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
@@ -151,11 +153,11 @@ struct iteminfo {
          *  @param Type The item type of the item this iteminfo belongs to.
          *  @param Name The name of the property this iteminfo describes.
          *  @param Fmt Formatting text desired between item name and value
-         *  @param flags Additional flags to customize this entry
+         *  @param Flags Additional flags to customize this entry
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999 );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
@@ -431,7 +433,7 @@ class item : public visitable<item>
          */
         int price( bool practical ) const;
 
-        bool stacks_with( const item &rhs ) const;
+        bool stacks_with( const item &rhs, bool check_components = false ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -725,7 +727,7 @@ class item : public visitable<item>
          * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
          * the item is rotten.
          */
-        time_duration rot = 0;
+        time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
         time_point last_rot_check = calendar::time_of_cataclysm;
 
@@ -841,6 +843,11 @@ class item : public visitable<item>
          */
         bool made_of( phase_id phase ) const;
         bool made_of_from_type( phase_id phase ) const;
+        /**
+         * Returns a list of components used to craft this item or the default
+         * components if it wasn't player-crafted.
+         */
+        std::vector<item_comp> get_uncraft_components() const;
         /**
          * Whether the items is conductive.
          */
@@ -1493,6 +1500,10 @@ class item : public visitable<item>
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
         void mark_chapter_as_read( const player &u );
+        /**
+         * Enumerates recipes available from this book and the skill level required to use them.
+         */
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
         /*@}*/
 
         /**
@@ -1704,6 +1715,8 @@ class item : public visitable<item>
         /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
         gun_type_type gun_type() const;
 
+        /** Get mod locations, including those added by other mods */
+        std::map<gunmod_location, int> get_mod_locations() const;
         /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.
@@ -1836,9 +1849,9 @@ class item : public visitable<item>
         time_point bday;
     public:
         time_duration age() const;
-        void set_age( time_duration age );
+        void set_age( const time_duration &age );
         time_point birthday() const;
-        void set_birthday( time_point bday );
+        void set_birthday( const time_point &bday );
 
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency

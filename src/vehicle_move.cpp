@@ -1,4 +1,11 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <set>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -15,13 +22,6 @@
 #include "trap.h"
 #include "veh_type.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <cmath>
-#include <cstdlib>
-#include <set>
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -66,11 +66,10 @@ int vehicle::slowdown( int at_velocity ) const
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
-    bool is_floating = !floating.empty();
     if( is_floating ) {
         // same with water resistance
         f_total_drag += coeff_water_drag() * mps * mps;
-    } else if( !falling ) {
+    } else if( !is_falling ) {
         // slowdown due to rolling resistance is proportional to speed
         double f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
         // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
@@ -86,7 +85,7 @@ int vehicle::slowdown( int at_velocity ) const
     add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
              name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
-    if( !( falling || is_floating ) ) {
+    if( !( is_falling || is_floating ) ) {
         slowdown += static_drag();
     }
 
@@ -105,15 +104,20 @@ void vehicle::thrust( int thd )
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( !valid_wheel_config( !floating.empty() ) && velocity == 0 ) {
-        if( pl_ctrl ) {
-            if( floating.empty() ) {
-                add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
-            } else {
+    if( is_floating ) {
+        if( !can_float() ) {
+            if( pl_ctrl ) {
                 add_msg( _( "The %s is too leaky!" ), name );
             }
+            return;
         }
-        return;
+    } else {
+        if( !valid_wheel_config() ) {
+            if( pl_ctrl ) {
+                add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
+            }
+            return;
+        }
     }
 
     // Accelerate (true) or brake (false)
@@ -132,7 +136,7 @@ void vehicle::thrust( int thd )
         }
         return;
     }
-    int max_vel = max_velocity() * traction;
+    int max_vel = traction * max_velocity();
 
     // Get braking power
     int brk = std::max( 1000, abs( max_vel ) * 3 / 10 );
@@ -188,7 +192,7 @@ void vehicle::thrust( int thd )
         consume_fuel( load, 1 );
 
         //break the engines a bit, if going too fast.
-        int strn = static_cast<int>( ( strain() * strain() * 100 ) );
+        int strn = static_cast<int>( strain() * strain() * 100 );
         for( size_t e = 0; e < engines.size(); e++ ) {
             do_engine_damage( e, strn );
         }
@@ -275,13 +279,19 @@ void vehicle::turn( int deg )
     turn_dir = 15 * ( ( turn_dir * 2 + 15 ) / 30 );
 }
 
-void vehicle::stop()
+void vehicle::stop( bool update_cache )
 {
     velocity = 0;
     skidding = false;
     move = face;
     last_turn = 0;
     of_turn_carry = 0;
+    if( !update_cache ) {
+        return;
+    }
+    for( const tripoint &p : get_points() ) {
+        g->m.set_memory_seen_cache_dirty( p );
+    }
 }
 
 bool vehicle::collision( std::vector<veh_collision> &colls,
@@ -800,7 +810,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     } else if( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_glass_pit ) {
         part_damage = 500;
     } else if( t == tr_ledge ) {
-        falling = true;
+        is_falling = true;
         // Don't print message
         return;
     } else if( t == tr_lava ) {
@@ -899,7 +909,7 @@ void vehicle::pldrive( int x, int y )
     }
 
     // @todo: Actually check if we're on land on water (or disable water-skidding)
-    if( skidding && ( valid_wheel_config( false ) || valid_wheel_config( true ) ) ) {
+    if( skidding && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
@@ -998,45 +1008,15 @@ bool vehicle::act_on_map()
     if( !g->m.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
-        stop();
+        stop( false );
         of_turn = 0;
-        falling = false;
+        is_falling = false;
         return true;
     }
 
-    // It needs to fall when it has no support OR was falling before
-    //  so that vertical collisions happen.
-    const bool should_fall = falling || ( vertical_velocity != 0 || g->m.vehicle_falling( *this ) );
     const bool pl_ctrl = player_in_control( g->u );
-
-    // TODO: Saner diagonal movement, so that you can jump off cliffs properly
-    // The ratio of vertical to horizontal movement should be vertical_velocity/velocity
-    //  for as long as of_turn doesn't run out.
-    if( should_fall ) {
-        const float g = 9.8f; // 9.8 m/s^2
-        // Convert from 100*mph to m/s
-        const float old_vel = vmiph_to_mps( vertical_velocity );
-        // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
-        // Note: That drops the sign
-        const float new_vel = -sqrt( 2 * tile_height * g + old_vel * old_vel );
-        vertical_velocity = mps_to_vmiph( new_vel );
-        falling = true;
-    } else {
-        // Not actually falling, was just marked for fall test
-        falling = false;
-    }
-
-    // Low enough for bicycles to go in reverse.
-    if( !should_fall && abs( velocity ) < 20 ) {
-        stop();
-        of_turn -= .321f;
-        return true;
-    }
-
-    const float wheel_traction_area = g->m.vehicle_wheel_traction( *this );
-    const float traction = k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( wheel_traction_area < 0 ) {
+    if( is_floating && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
         if( pl_ctrl ) {
             unboard_all();
@@ -1049,17 +1029,48 @@ bool vehicle::act_on_map()
         // Destroy vehicle (sank to nowhere)
         g->m.destroy_vehicle( this );
         return true;
-    } else if( traction < 0.001f ) {
+    }
+
+    // It needs to fall when it has no support OR was falling before
+    //  so that vertical collisions happen.
+    const bool should_fall = is_falling || vertical_velocity != 0;
+
+    // TODO: Saner diagonal movement, so that you can jump off cliffs properly
+    // The ratio of vertical to horizontal movement should be vertical_velocity/velocity
+    //  for as long as of_turn doesn't run out.
+    if( should_fall ) {
+        const float g = 9.8f; // 9.8 m/s^2
+        // Convert from 100*mph to m/s
+        const float old_vel = vmiph_to_mps( vertical_velocity );
+        // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
+        // Note: That drops the sign
+        const float new_vel = -sqrt( 2 * tile_height * g + old_vel * old_vel );
+        vertical_velocity = mps_to_vmiph( new_vel );
+        is_falling = true;
+    } else {
+        // Not actually falling, was just marked for fall test
+        is_falling = false;
+    }
+
+    // Low enough for bicycles to go in reverse.
+    if( !should_fall && abs( velocity ) < 20 ) {
+        stop();
+        of_turn -= .321f;
+        return true;
+    }
+
+    const float wheel_traction_area = g->m.vehicle_wheel_traction( *this );
+    const float traction = k_traction( wheel_traction_area );
+    if( traction < 0.001f ) {
         of_turn = 0;
         if( !should_fall ) {
             stop();
-            // TODO: Remove this hack
-            // TODO: Amphibious vehicles
             if( floating.empty() ) {
                 add_msg( m_info, _( "Your %s can't move on this terrain." ), name );
             } else {
                 add_msg( m_info, _( "Your %s is beached." ), name );
             }
+            return true;
         }
     }
     const float turn_cost = vehicles::vmiph_per_tile / std::max<float>( 0.0001f, abs( velocity ) );
@@ -1096,7 +1107,7 @@ bool vehicle::act_on_map()
 
         // Eventually send it skidding if no control
         // But not if it's remotely controlled
-        if( !controlled && !pl_ctrl ) {
+        if( !controlled && !pl_ctrl && !is_floating ) {
             skidding = true;
         }
     }
@@ -1148,67 +1159,56 @@ bool vehicle::act_on_map()
     return true;
 }
 
-bool map::vehicle_falling( vehicle &veh )
+void vehicle::check_falling_or_floating()
 {
-    if( !zlevels ) {
-        return false;
-    }
-
     // TODO: Make the vehicle "slide" towards its center of weight
     //  when it's not properly supported
-    const auto &pts = veh.get_points( true );
+    const auto &pts = get_points( true );
     if( pts.empty() ) {
         // Dirty vehicle with no parts
-        return false;
+        is_falling = false;
+        is_floating = false;
+        return;
     }
 
+    is_falling = g->m.has_zlevels();
+
+    size_t water_tiles = 0;
     for( const tripoint &p : pts ) {
-        if( has_floor( p ) ) {
-            return false;
+        if( is_falling ) {
+            tripoint below( p.x, p.y, p.z - 1 );
+            is_falling &= !g->m.has_floor( p ) && ( p.z > -OVERMAP_DEPTH ) &&
+                          !g->m.supports_above( below );
         }
-
-        tripoint below( p.x, p.y, p.z - 1 );
-        if( p.z <= -OVERMAP_DEPTH || supports_above( below ) ) {
-            return false;
-        }
+        water_tiles += g->m.has_flag( "SWIMMABLE", p ) ? 1 : 0;
     }
-
-    return true;
+    // floating if 2/3rds of the vehicle is in water
+    is_floating = 3 * water_tiles > 2 * pts.size();
 }
 
 float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
-    const tripoint pt = veh.global_pos3();
-    // TODO: Remove this and allow amphibious vehicles
-    if( !veh.floating.empty() ) {
-        return vehicle_buoyancy( veh );
+    if( veh.is_in_water() ) {
+        return veh.can_float() ? 1.0f : -1.0f;
     }
 
-    // Sink in water?
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size();
     if( num_wheels == 0 ) {
         // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
-        return 1.0f;
+        return 0.0f;
     }
 
-    int submerged_wheels = 0;
     float traction_wheel_area = 0.0f;
-    for( int w = 0; w < num_wheels; w++ ) {
-        const int p = wheel_indices[w];
-        const tripoint pp = pt + veh.parts[p].precalc[0];
-
+    for( int p : wheel_indices ) {
+        const tripoint &pp = veh.global_part_pos3( p );
         const float wheel_area = veh.parts[ p ].wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
-        if( tr.has_flag( TFLAG_DEEP_WATER ) ) {
-            submerged_wheels++;
-            // No traction from wheel in water
-            continue;
-        } else if( tr.has_flag( TFLAG_NO_FLOOR ) ) {
-            // Ditto for air, but with no submerging
+        if( tr.has_flag( TFLAG_DEEP_WATER ) || tr.has_flag( TFLAG_NO_FLOOR ) ) {
+            // No traction from wheel in water or air
             continue;
         }
 
@@ -1227,11 +1227,6 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
         }
 
         traction_wheel_area += 2 * wheel_area / move_mod;
-    }
-
-    // Submerged wheels threshold is 2/3.
-    if( num_wheels > 0 && submerged_wheels * 3 > num_wheels * 2 ) {
-        return -1;
     }
 
     return traction_wheel_area;
