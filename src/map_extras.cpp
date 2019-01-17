@@ -858,6 +858,49 @@ void mx_pond( map &m, const tripoint &abs_sub )
     m.place_spawns( GROUP_FISH, 1, 0, 0, width, height, 0.15f );
 }
 
+void mx_clay_deposit( map &m, const tripoint &abs_sub )
+{
+    // This map extra creates small clay deposits using a simple cellular automaton.
+
+    constexpr int width = SEEX * 2;
+    constexpr int height = SEEY * 2;
+
+    for( int tries = 0; tries < 5; tries++ ) {
+        // Generate the cells for our clay deposit.
+        std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
+                                                height, 35, 5, 4, 3 );
+
+        // With our settings for the CA, it's sometimes possible to get a bad generation with not enough
+        // alive cells (or even 0).
+        int alive_count = 0;
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++ ) {
+                alive_count += current[i][j];
+            }
+        }
+
+        // If we have fewer than 4 alive cells, lets try again.
+        if( alive_count < 4 ) {
+            continue;
+        }
+
+        // Loop through and turn every live cell into clay.
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++ ) {
+                if( current[i][j] == 1 ) {
+                    const tripoint location( i, j, abs_sub.z );
+                    m.furn_set( location, f_null );
+                    m.ter_set( location, t_clay );
+                }
+            }
+        }
+
+        // If we got here, it meant we had a successful try and can just break out of
+        // our retry loop.
+        break;
+    }
+}
+
 typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
@@ -881,6 +924,7 @@ FunctionMap builtin_functions = {
     { "mx_shrubbery", mx_shrubbery },
     { "mx_clearcut", mx_clearcut },
     { "mx_pond", mx_pond },
+    { "mx_clay_deposit", mx_clay_deposit },
 };
 
 map_special_pointer get_function( const std::string &name )
