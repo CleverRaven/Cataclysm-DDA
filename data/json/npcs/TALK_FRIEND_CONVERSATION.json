@@ -48,25 +48,14 @@
         "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
         "//": "This is a stand-in for some kind of better system to add a random trait."
       },
-      {
-        "text": "Good point, let's find a more appropriate place.",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "You're right.  Forget I said anything, let's get moving.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Good point, let's find a more appropriate place.", "topic": "TALK_NONE" },
+      { "text": "You're right.  Forget I said anything, let's get moving.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_FRIEND_CONVERSATION",
     "type": "talk_topic",
     "dynamic_line": "What did you want to talk about?",
-    "responses": [
-      {
-        "text": "Actually, never mind.",
-        "topic": "TALK_NONE"
-      }
-    ]
+    "responses": [ { "text": "Actually, never mind.", "topic": "TALK_NONE" } ]
   }
 ]
