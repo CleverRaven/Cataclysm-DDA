@@ -9,31 +9,38 @@
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
         "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "VALUE", 1 ] ] },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
-        "failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" }
+        "failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" },
+        "switch": true
       },
       {
         "text": "Suck it up.  If we're going to work together I need to know you.",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
         "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "FEAR", 1 ] ] },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
-        "failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" }
+        "failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" },
+        "switch": true
       },
-      { "text": "Never mind.  Sorry I brought it up.", "topic": "TALK_FRIEND" }
+      { "text": "Never mind.  Sorry I brought it up.", "switch": true, "default": true, "topic": "TALK_FRIEND" }
     ]
   },
   {
     "id": "BGSS_LOST_PARTNER_2_NOTYET",
     "type": "talk_topic",
     "dynamic_line": "I appreciate the sentiment, but I don't think it would.  Drop it.",
-    "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "7000" },
-    "responses": [ { "text": "OK.", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "OK.", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 }, "topic": "TALK_FRIEND" },
+      {
+        "text": "<end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 },
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BGSS_LOST_PARTNER_2_FUCKOFF",
     "type": "talk_topic",
     "dynamic_line": "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us.",
-    "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000" },
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "...", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_LOST_PARTNER_2_STORY2",
