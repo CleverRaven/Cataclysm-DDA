@@ -10,7 +10,7 @@ fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
 if [ -n "${MXE_TARGET}" ]; then
-    sudo add-apt-repository 'deb [arch=amd64] https://mirror.mxe.cc/repos/apt trusty main'
+    sudo add-apt-repository 'deb [arch=amd64] https://mirror.mxe.cc/repos/apt xenial main'
     travis_retry sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 84C7C89FC632241A6999ED0A580873F586B72ED9
   # We need to treat apt-get update warnings as errors for which the exit code
   # is not sufficient.  The following workaround inspired by
