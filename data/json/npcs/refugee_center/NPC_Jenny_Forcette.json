@@ -221,6 +221,7 @@
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
     "item": "metal_tank",
+    "origins": [ "ORIGIN_SECONDARY" ],
     "//": "followup: MISSION_REFUGEE_Jenny_GET_RIFLES",
     "dialogue": {
       "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
