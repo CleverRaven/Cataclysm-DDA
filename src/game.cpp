@@ -6521,12 +6521,23 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
 {
+    std::vector<std::string> temp, text;
+
     auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     switch( visibility ) {
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
             const Creature *creature = critter_at( lp, true );
-            print_terrain_info( lp, w_look, area_name, column, line );
+
+            temp = terrain_info( lp, w_look, area_name, column );
+            std::copy( temp.begin(), temp.end(), std::back_inserter( text ) );
+            //test
+            for (auto& str : text)  {
+                print_colored_text( w_look, line, column, c_white, c_white, str );
+                line++;
+            }
+            //end test
+
             print_fields_info( lp, w_look, column, line );
             print_trap_info( lp, w_look, column, line );
             print_creature_info( creature, w_look, column, line );
@@ -6607,39 +6618,54 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
     line += 2;
 }
 
-void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
-                               const std::string &area_name, int column,
-                               int &line )
+std::vector<std::string> game::terrain_info( const tripoint &lp, const catacurses::window &w_look,
+        const std::string &area_name, int column )
 {
+    std::string tempStr;
+    std::vector<std::string> tempVec;
+    std::vector<std::string> lines;
+
     const int max_width = getmaxx( w_look ) - column - 1;
-    int lines;
-    std::string tile = m.tername( lp );
-    tile = "(" + area_name + ") " + tile;
+    std::string tile_str = "(" + area_name + ") " + m.tername( lp );
+
     if( m.has_furn( lp ) ) {
-        tile += "; " + m.furnname( lp );
+        tile_str += "; " + m.furnname( lp );
     }
 
     if( m.impassable( lp ) ) {
-        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Impassable" ),
-                                tile.c_str() );
+        //store tile info
+        tempStr = string_format( _( "%s; Impassable" ), tile_str );
+        tempVec = foldstring( colorize( tempStr, c_light_gray ), max_width, '\n' );
+        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
     } else {
-        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Movement cost %d" ),
-                                tile.c_str(), m.move_cost( lp ) * 50 );
+        //store tile info and movement cost
+        int moveCost = m.move_cost( lp ) * 50;
+        tempStr = string_format( _( "%s; Movement cost %d" ), tile_str, moveCost );
+        tempVec = foldstring( colorize( tempStr, c_light_gray ), max_width, '\n' );
 
-        const auto ll = get_light_level( std::max( 1.0,
-                                         LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-        mvwprintw( w_look, ++lines, column, _( "Lighting: " ) );
-        wprintz( w_look, ll.second, ll.first.c_str() );
+        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
+        //store light info
+        const auto light_level = get_light_level( std::max( 1.0,
+                                 LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
+
+        tempStr =  _( "Lighting: " ) + colorize( light_level.first, light_level.second );
+        tempVec = foldstring( tempStr, max_width, '\n' );
+
+        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
     }
-
+    //store signage
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, ++lines, column, max_width, c_dark_gray,
-                        u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
+        if( u.has_trait( trait_ILLITERATE ) ) {
+            tempStr = _( "Sign: ???" );
+        } else        {
+            tempStr = string_format( _( "Sign: %s" ), signage );
+        }
+        lines.push_back( trim( colorize( tempStr, c_dark_gray ) ) );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
-        // Print info about stuff below
+        // Store info about stuff below
         tripoint below( lp.x, lp.y, lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
@@ -6647,19 +6673,18 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
 
         if( !m.has_floor_or_support( lp ) ) {
-            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; No support" ),
-                            tile_below.c_str() );
-        } else {
-            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; Walkable" ),
-                            tile_below.c_str() );
-        }
-    }
+            tempStr = string_format( _( "Below: %s; No support" ), tile_below );
+            tempVec = foldstring( colorize( tempStr, c_dark_gray ), max_width, '\n' );
 
-    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_dark_gray,
-                                       m.features( lp ) );
-    if( line < lines ) {
-        line = lines + map_features - 1;
+        } else {
+            tempStr = string_format( _( "Below: %s; Walkable" ), tile_below );
+            tempVec = foldstring( colorize( tempStr, c_dark_gray ), max_width, '\n' );
+        }
+        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
     }
+    //store features
+    lines.push_back( colorize( m.features( lp ), c_dark_gray ) );
+    return lines;
 }
 
 void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -7457,15 +7482,15 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 static const std::string greenFmt = "<color_light_green>%s</color>";
                 std::string colored_key;
 
-                colored_key = string_format( greenFmt, ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
+                colored_key = string_format( greenFmt, ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ) );
                 std::string view_detail = string_format(
                                               _( "Press %s to view extended description" ), colored_key );
 
-                colored_key = string_format( greenFmt, ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
+                colored_key = string_format( greenFmt, ctxt.get_desc( "LIST_ITEMS", 1 ) );
                 std::string list_things = string_format(
                                               _( "Press %s to list items and monsters" ), colored_key );
 
-                colored_key = string_format( greenFmt, ctxt.get_desc( "throw_blind", 1 ).c_str() );
+                colored_key = string_format( greenFmt, ctxt.get_desc( "throw_blind", 1 ) );
                 std::string blind_throw = string_format(
                                               _( "Press %s to blind throw" ), colored_key );
 

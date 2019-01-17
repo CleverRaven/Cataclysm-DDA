@@ -982,12 +982,11 @@ class game
         void plthrow( int pos = INT_MIN,
                       const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt ); // Throw an item  't'
 
-        // Internal methods to show "look around" info
+        // Internal methods to retrieve "look around" info
         void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                 int &line );
-        void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
-                                 const std::string &area_name, int column,
-                                 int &line );
+        std::vector<std::string> terrain_info( const tripoint &lp, const catacurses::window &w_look,
+                                 const std::string &area_name, int column );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                               int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
