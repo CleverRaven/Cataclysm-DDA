@@ -1305,7 +1305,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
 int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
 {
-    // player &u = *d.alpha;
+    player &u = *d.alpha;
     npc &p = *d.beta;
     int modifier = 0;
     if( attribute == "ANGER" ) {
@@ -1326,6 +1326,12 @@ int parse_mod( const dialogue &d, const std::string &attribute, const int factor
         modifier = p.personality.bravery;
     } else if( attribute == "COLLECTOR" ) {
         modifier = p.personality.collector;
+    } else if( attribute == "MISSIONS" ) {
+        modifier = p.assigned_missions_value() / OWED_VAL;
+    } else if( attribute == "U_INTIMIDATE" ) {
+        modifier = u.intimidation();
+    } else if( attribute == "NPC_INTIMIDATE" ) {
+        modifier = p.intimidation();
     }
     modifier *= factor;
     return modifier;
@@ -2086,6 +2092,20 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
         effect( d );
     }
     d.beta->op_of_u += opinion;
+    mission *miss = d.beta->chatbin.mission_selected;
+    if( miss && ( mission_opinion.trust || mission_opinion.fear ||
+        mission_opinion.value || mission_opinion.anger ) ) {
+        int m_value = cash_to_favor( *d.beta, miss->get_value() );
+        npc_opinion mod = npc_opinion( mission_opinion.trust ?
+                                       m_value / mission_opinion.trust : 0,
+                                       mission_opinion.fear ?
+                                       m_value / mission_opinion.fear : 0,
+                                       mission_opinion.value ?
+                                       m_value / mission_opinion.value : 0,
+                                       mission_opinion.anger ?
+                                       m_value / mission_opinion.anger : 0, 0 );
+        d.beta->op_of_u += mod;
+    }
     if( d.beta->turned_hostile() ) {
         d.beta->make_angry();
         return talk_topic( "TALK_DONE" );
@@ -2117,6 +2137,11 @@ talk_effect_t::talk_effect_t( JsonObject jo )
         JsonIn *ji = jo.get_raw( "opinion" );
         // Same format as when saving a game (-:
         opinion.deserialize( *ji );
+    }
+    if( jo.has_member( "mission_opinion" ) ) {
+        JsonIn *ji = jo.get_raw( "mission_opinion" );
+        // Same format as when saving a game (-:
+        mission_opinion.deserialize( *ji );
     }
 }
 

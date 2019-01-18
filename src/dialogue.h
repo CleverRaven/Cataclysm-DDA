@@ -118,9 +118,15 @@ struct talk_effect_fun_t {
  */
 struct talk_effect_t {
         /**
-          * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+          * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u)
+          * will change.
           */
         npc_opinion opinion;
+        /**
+          * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u)
+          * will change.  These values are divisors of the mission value.
+          */
+        npc_opinion mission_opinion;
         /**
           * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
           */

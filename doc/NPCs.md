@@ -539,6 +539,9 @@ trust, value, fear, and anger are optional keywords inside the opinion object. E
 { "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
 ```
+
+#### mission_opinion: { }
+trust, value, fear, and anger are optional keywords inside the opinion object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value of the current mission divided by the value of the keyword.
 ---
 
 ### response conditions
