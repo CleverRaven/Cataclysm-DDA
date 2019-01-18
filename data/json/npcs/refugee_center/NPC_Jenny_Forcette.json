@@ -62,62 +62,70 @@
     "mission_offered": "MISSION_REFUGEE_Jenny_GET_MOTOR"
   },
   {
+    "type": "effect_type",
+    "id": "u_met_Jenny_Forcette",
+    "//": "Use this flag to indicate if the player has met this NPC before.",
+    "player_visible": false,
+    "name": [ "Met NPC Jenny Forcette" ],
+    "desc": [ "AI tag: You've met this NPC before.  You're not supposed to be able to see this." ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_1",
     "dynamic_line": {
-      "npc_has_effect": "player_has_met",
+      "u_has_effect": "u_met_Jenny_Forcette",
       "yes": [ "Hello again.", "Nice to see you again.", "What's up?" ],
       "no": "Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette."
     },
     "responses": [
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
-        "condition": { "and": [ { "days_since_cataclysm": 60 }, { "not": { "npc_has_effect": "player_has_met" } } ] },
-        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
+        "condition": { "and": [ { "days_since_cataclysm": 60 }, { "not": { "u_has_effect": "u_met_Jenny_Forcette" } } ] },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
         "topic": "TALK_REFUGEE_JENNY_Project1_developed",
         "switch": true
       },
       {
-        "text": "Hi, Jenny.  What are you doing on that computer?",
+        "text": "Hi, Jenny.  What are you up to these days?",
         "condition": { "days_since_cataclysm": 60 },
         "topic": "TALK_REFUGEE_JENNY_Project1_developed",
         "switch": true
       },
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
-        "condition": { "and": [ { "days_since_cataclysm": 30 }, { "not": { "npc_has_effect": "player_has_met" } } ] },
-        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
+        "condition": { "and": [ { "days_since_cataclysm": 30 }, { "not": { "u_has_effect": "u_met_Jenny_Forcette" } } ] },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
         "topic": "TALK_REFUGEE_JENNY_Project1_early",
         "switch": true
       },
       {
-        "text": "Hi, Jenny.  What are you doing on that computer?",
+        "text": "Hi, Jenny.  What are you up to these days?",
         "condition": { "days_since_cataclysm": 30 },
         "topic": "TALK_REFUGEE_JENNY_Project1_early",
         "switch": true
       },
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
-        "condition": { "not": { "npc_has_effect": "player_has_met" } },
-        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
+        "condition": { "not": { "u_has_effect": "u_met_Jenny_Forcette" } },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
         "topic": "TALK_REFUGEE_JENNY_Project1_veryearly",
         "switch": true
       },
       {
-        "text": "Hi, Jenny.  What are you doing on that computer?",
-        "condition": { "npc_has_effect": "player_has_met" },
+        "text": "Hi, Jenny.  What are you up to these days?",
+        "condition": { "u_has_effect": "u_met_Jenny_Forcette" },
         "topic": "TALK_REFUGEE_JENNY_Project1_veryearly",
         "switch": true
       },
       {
         "text": "Nice meeting you.  I'd best get going, though.",
-        "condition": { "not": { "npc_has_effect": "player_has_met" } },
-        "effect": { "npc_add_effect": "player_has_met", "duration": "PERMANENT" },
+        "condition": { "not": { "u_has_effect": "u_met_Jenny_Forcette" } },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
         "topic": "TALK_DONE"
       },
       {
         "text": "Sorry Jenny, I can't stay to chat.",
-        "condition": { "npc_has_effect": "player_has_met" },
+        "condition": { "u_has_effect": "u_met_Jenny_Forcette" },
         "topic": "TALK_DONE"
       }
     ]
@@ -249,7 +257,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees2_Friends",
-    "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.",
+    "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Her husband, Pedro, is still pretty shellshocked.  He doesn't talk much.  I like him though, when he opens up he's just hilarious.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.  She's a great artist, and she's full of crazy ideas.  I guess I like her because of all of us, she seems to have the most hope that there's a future to be had.",
     "responses": [
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko" },
