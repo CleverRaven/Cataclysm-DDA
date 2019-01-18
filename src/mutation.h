@@ -156,6 +156,9 @@ struct mutation_branch {
     public:
         std::string spawn_item_message() const;
 
+        /** The gun, if any, spawned and fired by the mutation */
+        itype_id gun_mutation;
+
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
 

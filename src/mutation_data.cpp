@@ -268,6 +268,10 @@ void mutation_branch::load( JsonObject &jsobj )
         new_mut.spawn_item = spawn_item.get_string( "type", "" );
         new_mut.raw_spawn_item_message = spawn_item.get_string( "message", "" );
     }
+    if( jsobj.has_object( "gun_mutation" ) ) {
+        JsonObject gun_mutation = jsobj.get_object("gun_mutation");
+        new_mut.gun_mutation = gun_mutation.get_string("type");
+    }
     for( auto &s : jsobj.get_string_array( "initial_ma_styles" ) ) {
         new_mut.initial_ma_styles.push_back( matype_id( s ) );
     }
