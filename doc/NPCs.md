@@ -545,10 +545,9 @@ The NPC will train your character in a skill or martial art.
 #### companion_mission: role_string
 The NPC will offer you a list of missions for your allied NPCs, depending on the NPC's role.
 
-#### u_add_effect: effect_string, duration: duration_integer or PERMANENT
-#### npc_add_effect: effect_string, duration: duration_integer or PERMANENT
-Your character or the NPC will gain the effect for `duration_integer` turns.
-NOTE: `duration_integer` should not be enclosed in quotation marks.
+#### u_add_effect: effect_string, (optional duration: duration_string)
+#### npc_add_effect: effect_string, (optional duration: duration_string)
+Your character or the NPC will gain the effect for `duration_string` turns.
 
 #### u_add_trait: trait_string
 #### npc_add_trait: trait_string
