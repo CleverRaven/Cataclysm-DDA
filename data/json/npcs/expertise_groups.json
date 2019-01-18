@@ -1,7 +1,7 @@
 [
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Agriculture_Any",
     "subtype": "distribution",
     "//": "This is something people tend to think they know more about than they do, and also something seen as survival important. Likelihood of fakes increased.",
@@ -15,14 +15,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Agriculture_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Agriculture1", "prob": 70 }, { "trait": "Exp_Agriculture2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Biochemistry_Any",
     "subtype": "distribution",
     "traits": [
@@ -35,14 +35,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Biochemistry_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Biochemistry1", "prob": 70 }, { "trait": "Exp_Biochemistry2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Biology_Any",
     "subtype": "distribution",
     "//": "People with this expertise might claim to have a different one, in this case Medicine, under the belief it's more valuable.",
@@ -56,21 +56,21 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Biology_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Biology1", "prob": 70 }, { "trait": "Exp_Biology2", "prob": 30 } ]
   },
   {
     "//": "This trait group is for survivors with the Biology expertise who might think they should pretend to have something more survivable.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Biology1_Faker",
     "subtype": "collection",
     "traits": [ { "trait": "Exp_Biology1", "prob": 100 }, { "group": "Exp_Biology_Medicine_Faker", "prob": 30 } ]
   },
   {
     "//": "This trait group is for survivors with a weird expertise who might think they should pretend to have something more survivable.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Biology2_Faker",
     "subtype": "collection",
     "traits": [ { "trait": "Exp_Biology2", "prob": 100 }, { "group": "Exp_Biology_Medicine_Faker", "prob": 30 } ]
@@ -78,7 +78,7 @@
   {
     "//": "Choose if your biologist really does know a bit about medicine or if they're trying to get you to like them more",
     "//": "Probability is skewed a bit here because it's far more likely they'll claim to be a doctor (exp2) than a nurse/med student",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Biology_Medicine_Faker",
     "subtype": "distribution",
     "traits": [
@@ -89,7 +89,7 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Bookkeeping_Any",
     "subtype": "distribution",
     "traits": [
@@ -102,28 +102,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Bookkeeping_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Bookkeeping1", "prob": 70 }, { "trait": "Exp_Bookkeeping2", "prob": 30 } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
-    "id": "Exp_Bookkeeping_Nofake",
-    "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Bookkeeping1" }, { "trait": "Exp_Bookkeeping1" }, { "trait": "Exp_Bookkeeping2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_Any",
-    "id": "Exp_Bookkeeping_Any",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Bookkeeping_Nofake" }, { "group": "Exp_Bookkeeping_Any" } ]
-  },
-  {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Botany_Any",
     "subtype": "distribution",
     "//": "This is a very esoteric expertise that people are unlikely to claim expertise in without background knowledge.",
@@ -138,35 +124,35 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Botany_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Botany1", "prob": 70 }, { "trait": "Exp_Botany2", "prob": 30 } ]
   },
   {
     "//": "This trait group is for survivors with the Botany expertise who might think they should pretend to have something more survivable.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Botany1_Faker",
     "subtype": "collection",
     "traits": [ { "trait": "Exp_Botany1", "prob": 100 }, { "group": "Exp_Botany_Agriculture_Faker", "prob": 30 } ]
   },
   {
     "//": "This trait group is for survivors with a weird expertise who might think they should pretend to have something more survivable.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Botany2_Faker",
     "subtype": "collection",
     "traits": [ { "trait": "Exp_Botany2", "prob": 100 }, { "group": "Exp_Botany_Agriculture_Faker", "prob": 30 } ]
   },
   {
     "//": "Choose if your botanist really does know a bit about farming or if they're trying to get you to like them more",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Botany_Agriculture_Faker",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture0Fake1" } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Chemistry_Any",
     "subtype": "distribution",
     "traits": [
@@ -179,14 +165,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Chemistry_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Chemistry1", "prob": 70 }, { "trait": "Exp_Chemistry2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Culinary_Any",
     "subtype": "distribution",
     "traits": [
@@ -199,14 +185,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Culinary_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Culinary1", "prob": 70 }, { "trait": "Exp_Culinary2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Electrical_Any",
     "subtype": "distribution",
     "traits": [
@@ -219,14 +205,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Electrical_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Eng_Electrical1", "prob": 70 }, { "trait": "Exp_Eng_Electrical2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Mechanical_Any",
     "subtype": "distribution",
     "traits": [
@@ -239,14 +225,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Mechanical_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Eng_Mechanical1", "prob": 70 }, { "trait": "Exp_Eng_Mechanical2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Software_Any",
     "subtype": "distribution",
     "//": "It's really, really unlikely for anyone without previous training to pretend they're a software engineer after the apocalypse.",
@@ -261,14 +247,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Software_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Eng_Software1", "prob": 70 }, { "trait": "Exp_Eng_Software2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Structural_Any",
     "subtype": "distribution",
     "traits": [
@@ -281,14 +267,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Eng_Structural_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Eng_Structural1", "prob": 70 }, { "trait": "Exp_Eng_Structural2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Entomology_Any",
     "subtype": "distribution",
     "//": "It's really, really unlikely for anyone without previous training to pretend they're an expert in this after the apocalypse.",
@@ -303,14 +289,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Entomology_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Entomology1", "prob": 70 }, { "trait": "Exp_Entomology2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Geology_Any",
     "subtype": "distribution",
     "//": "It's really, really unlikely for anyone without previous training to pretend they're an expert in this after the apocalypse.",
@@ -325,14 +311,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Geology_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Geology1", "prob": 70 }, { "trait": "Exp_Geology2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Medicine_Any",
     "subtype": "distribution",
     "//": "This is an area people are very very likely to claim expertise in falsely due to its perception of high value",
@@ -346,14 +332,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Medicine_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Medicine1", "prob": 70 }, { "trait": "Exp_Medicine2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Mycology_Any",
     "subtype": "distribution",
     "//": "It's really, really unlikely for anyone without previous training to pretend they're an expert in this after the apocalypse.",
@@ -368,14 +354,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Mycology_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Mycology1", "prob": 70 }, { "trait": "Exp_Mycology2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Physics_Any",
     "subtype": "distribution",
     "traits": [
@@ -388,14 +374,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Physics_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Physics1", "prob": 70 }, { "trait": "Exp_Physics2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Psychology_Any",
     "subtype": "distribution",
     "traits": [
@@ -408,14 +394,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Psychology_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Psychology1", "prob": 70 }, { "trait": "Exp_Psychology2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Sanitation_Any",
     "subtype": "distribution",
     "traits": [
@@ -428,14 +414,14 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Sanitation_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Sanitation1", "prob": 70 }, { "trait": "Exp_Sanitation2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Teaching_Any",
     "subtype": "distribution",
     "traits": [
@@ -448,7 +434,7 @@
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Exp_Teaching_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Teaching1", "prob": 70 }, { "trait": "Exp_Teaching2", "prob": 30 } ]
@@ -457,7 +443,7 @@
     "//": "This group holds all the general non-science, non-engineering traits that professionals might have.",
     "//": "NPCs getting this group still don't have a huge chance of getting any particular profession. This is just for random rolls of the dice.",
     "//": "In the future, this might include some non-expertise 'job' flags that just enrich dialogue.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Expertise_Professional_Random",
     "subtype": "collection",
     "traits": [
@@ -473,7 +459,7 @@
     "//": "This group holds all the science traits. The chance of just running into a trained scientist at random is quite low.",
     "//": "Note that many scientists have some instruction training or at least *think* they can teach, so the chances of running into a teacher or fake teacher are a bit higher.",
     "//": "Medicine training is a bit more common than pure sciences, but it's also something people are more likely to try to fake to make themselves seem more valuable.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Expertise_Science_Random",
     "subtype": "collection",
     "traits": [
@@ -491,7 +477,7 @@
   },
   {
     "//": "This group holds all the engineering traits.",
-    "type": "trait_Any",
+    "type": "trait_group",
     "id": "Expertise_Engineer_Random",
     "subtype": "collection",
     "traits": [
@@ -502,8 +488,8 @@
     ]
   },
   {
-    "//": "This trait group guarantees one randomly selected science expertise of level 1 or 2. It's basically for members of the scientist class.",
-    "type": "trait_Any",
+    "//": "This trait group guarantees one randomly selected science expertise of level 1 or 2.",
+    "type": "trait_group",
     "id": "Expertise_Science_Given",
     "subtype": "distribution",
     "traits": [
