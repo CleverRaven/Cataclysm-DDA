@@ -135,7 +135,19 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Personal1_veryearly",
     "dynamic_line": "Living here?  Yeah, I guess I live here now.  It's... it's weird.  We're crowded into this tiny space, I don't know these people, but we're sharing bathrooms and we've all been through the same stuff.  It's not great.  At night we can hear the <zombies> outside, and we all just lie there awake, thinking the same things but too scared to talk about it.",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1_veryearly" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees1_veryearly",
+    "dynamic_line": "I don't know the other folks very well yet.  There's Boris, Garry, and Stan, they seem to keep to each other.  They've gone through something, but I haven't pried.  Dana and her husband lost their baby, that was a big deal right when they arrived.  There's that counsellor lady with the unusual name, she's nice enough.  Fatima just showed up a little while ago, but I've been trying to get to know her better, I think we've at least got our professional stuff in common a bit.  I haven't really spoken much to anyone else.",
+    "responses": [
+      { "text": "What was that you said about living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_veryearly" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -144,6 +156,7 @@
     "responses": [
       { "text": "What are you planning?", "topic": "TALK_REFUGEE_JENNY_Project2_early" },
       { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1_early" },
       { "text": "Good luck with that.  I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -153,6 +166,7 @@
     "dynamic_line": "Well, these things are a standard .30 calibre.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
     "responses": [
       { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1_early" },
       { "text": "Good luck with that.  I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -160,7 +174,52 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Personal1_early",
     "dynamic_line": "It's been over a month now, so I guess I'm starting to get used to it.  Things were pretty rough after Sean died, but it wasn't our first big loss and it won't be the last I guess.  I've made a couple friends, and in a weird way we're all like family.  We were all hoping they'd let us downstairs sooner than this though.  We're never quite sure if there's going to be enough food to go around.  I'm really hoping I can lose myself in this project.  Still haven't had a good night's sleep since <the_cataclysm>.",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "What was it you said you were planning?", "topic": "TALK_REFUGEE_JENNY_Project1_early" },
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1_early" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees1_early",
+    "dynamic_line": "Well, there's a bunch of us.  We're starting to form a bit of a community.  Fatima and I work together a fair bit, and I've been hanging out with Dana, Draco, and Aleesha quite a lot.  I don't know the Borichenko bunch, the Singhs, Vanessa, Uyen, or Rhyzaea quite as well, but we've talked enough.  What did you want to know?",
+    "responses": [
+      { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima_early" },
+      { "text": "What has made you friends with Dana, Draco, and Aleesha?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Friends_early" },
+      { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko_early" },
+      { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh_early" },
+      { "text": "Can you tell me about the others?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Others_early" },
+      { "text": "What was it you said you were planning?", "topic": "TALK_REFUGEE_JENNY_Project1_early" },
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees2_Fatima_early",
+    "dynamic_line": "Fatima's a sweety, but she's a total dork.  I know, I know, it's backwards for the engineer to call the heavy duty mechanic a nerd, but hey.  I call it like it is.  She and I have been doing some odd jobs around the upstairs here, fixing up old machinery and things.",
+    "responses": [
+      { "text": "What was it you said about the whole group, again?", "topic": "TALK_REFUGEE_JENNY_Refugees1_early" },
+      { "text": "What has made you friends with Dana, Draco, and Aleesha?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Friends_early" },
+      { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko_early" },
+      { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh_early" },
+      { "text": "Can you tell me about the others?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Others_early" },
+      { "text": "What was it you said you were planning?", "topic": "TALK_REFUGEE_JENNY_Project1_early" },
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Refugees2_Friends_early",
+    "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.",
+    "responses": [
+      { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima_early" },
+      { "text": "What was it you said about the whole group, again?", "topic": "TALK_REFUGEE_JENNY_Refugees1_early" },
+      { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko_early" },
+      { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh_early" },
+      { "text": "Can you tell me about the others?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Others_early" },
+      { "text": "What was it you said you were planning?", "topic": "TALK_REFUGEE_JENNY_Project1_early" },
+      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
