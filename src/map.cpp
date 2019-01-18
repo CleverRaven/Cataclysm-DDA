@@ -1321,14 +1321,18 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
     bool is_transparent =
         ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
-    auto const is_memorized =
-    [&]( const tripoint & q ) {
-#ifdef TILES
-        return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
-#else
-        return g->u.get_memorized_symbol( getabs( q ) );
-#endif
-    };
+    std::function<bool( const tripoint & )> is_memorized;
+    if( use_tiles ) {
+        is_memorized =
+        [&]( const tripoint & q ) {
+            return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
+        };
+    } else {
+        is_memorized =
+        [&]( const tripoint & q ) {
+            return g->u.get_memorized_symbol( getabs( q ) );
+        };
+    }
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
