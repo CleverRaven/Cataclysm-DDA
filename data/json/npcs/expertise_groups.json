@@ -176,19 +176,9 @@
     "id": "Exp_Culinary_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Culinary1", "prob": 30 },
-      { "trait": "Exp_Culinary1Fake2", "prob": 30 },
-      { "trait": "Exp_Culinary2", "prob": 20 },
-      { "trait": "Exp_Culinary0Fake1", "prob": 15 },
-      { "trait": "Exp_Culinary0Fake2", "prob": 5 }
+      { "trait": "Exp_Culinary1", "prob": 60 },
+      { "trait": "Exp_Culinary0Fake1", "prob": 15 }
     ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_group",
-    "id": "Exp_Culinary_Nofake",
-    "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Culinary1", "prob": 70 }, { "trait": "Exp_Culinary2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -405,19 +395,9 @@
     "id": "Exp_Sanitation_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Sanitation1", "prob": 30 },
-      { "trait": "Exp_Sanitation1Fake2", "prob": 30 },
-      { "trait": "Exp_Sanitation2", "prob": 20 },
-      { "trait": "Exp_Sanitation0Fake1", "prob": 15 },
-      { "trait": "Exp_Sanitation0Fake2", "prob": 5 }
+      { "trait": "Exp_Sanitation1", "prob": 60 },
+      { "trait": "Exp_Sanitation0Fake1", "prob": 15 }
     ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
-    "type": "trait_group",
-    "id": "Exp_Sanitation_Nofake",
-    "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Sanitation1", "prob": 70 }, { "trait": "Exp_Sanitation2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
