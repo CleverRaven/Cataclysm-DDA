@@ -10,10 +10,8 @@ fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
 if [ -n "${MXE_TARGET}" ]; then
-  echo "deb http://pkg.mxe.cc/repos/apt/debian wheezy main" \
-    | sudo tee /etc/apt/sources.list.d/mxeapt.list
-  travis_retry sudo apt-key adv --keyserver x-hkp://keyserver.ubuntu.com:80 \
-    --recv-keys D43A795B73B16ABE9643FE1AFD8FFF16DB45C6AB
+    sudo add-apt-repository 'deb [arch=amd64] https://mirror.mxe.cc/repos/apt xenial main'
+    travis_retry sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 84C7C89FC632241A6999ED0A580873F586B72ED9
   # We need to treat apt-get update warnings as errors for which the exit code
   # is not sufficient.  The following workaround inspired by
   # https://unix.stackexchange.com/questions/175146/apt-get-update-exit-status/

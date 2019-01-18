@@ -727,6 +727,16 @@ npc_service cash available.  Useful to check if the player character can hire an
   "condition": { "npc_has_effect": "infected" }
 },
 {
+  "text": "I'm sorry for offending you.  I predict you will feel better in exactly one hour.",
+  "topic": "TALK_NONE",
+  "effect": { "npc_add_effect": "deeply_offended", "duration": 600 }
+},
+{
+  "text": "Nice to meet you too.",
+  "topic": "TALK_NONE",
+  "effect": { "u_add_effect": "has_met_example_NPC", "duration": "PERMANENT" }
+},
+{
   "text": "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!",
   "topic": "TALK_EVAC_MERCHANT_NO",
   "condition": { "u_has_intelligence": 11 }

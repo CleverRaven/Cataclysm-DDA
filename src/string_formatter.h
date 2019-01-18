@@ -7,7 +7,8 @@
 #include <typeinfo>
 #include <utility>
 
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
 //@todo: replace with std::optional
 #include "optional.h"
 
