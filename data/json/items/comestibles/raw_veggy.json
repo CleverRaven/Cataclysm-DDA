@@ -420,7 +420,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -2,
-    "calories": 9162,
+    "calories": 162,
     "description": "Mildly toxic and not very tasty raw.  When cooked, it is delicious.",
     "price": 90,
     "material": "veggy",
