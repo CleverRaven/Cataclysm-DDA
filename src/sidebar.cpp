@@ -581,17 +581,16 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             wprintz( sideStyle ? w : g->w_HP, c_light_gray, " --   " );
         } else {
             nc_color color = c_red;
-            if( this->power_level == this->max_power_level ) {
-                color = c_blue;
-            } else if( this->power_level >= this->max_power_level * .5 ) {
-                color = c_light_blue;
-            } else if( this->power_level > 0 ) {
+            if( this->power_level >= this->max_power_level / 2 ) {
+                color = c_green;
+            } else if( this->power_level >= this->max_power_level / 3 ) {
                 color = c_yellow;
+            } else if( this->power_level >= this->max_power_level / 4 ) {
+                color = c_red;
             }
 
             // calc number of digits in powerlevel int
             int offset = get_int_digits( this->power_level );
-
             wmove( sideStyle ? w : g->w_HP,
                    sideStyle ? spdy - 1 : 21,
                    sideStyle ? ( wx + dx * 4 + 6 ) - offset : 7 - offset );
