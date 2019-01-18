@@ -163,6 +163,13 @@ struct talk_response {
      * displayed.
      */
     std::string text;
+    /*
+     * Optional responses from a true/false test that defaults to true.
+     */
+    std::string truetext;
+    std::string falsetext;
+    std::function<bool( const dialogue & )> truefalse_condition;
+
     talk_trial trial;
     /**
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
@@ -297,6 +304,9 @@ struct dynamic_line_t {
         }
 };
 
+// the truly awful declaration for the conditional_t loading helper_function
+void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
+                              bool default_val );
 /**
  * A condition for a response spoken by the player.
  * This struct only adds the constructors which will load the data from json

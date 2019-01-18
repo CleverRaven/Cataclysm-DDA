@@ -378,6 +378,20 @@ The player will always have the option to return to a previous topic or end the 
 will otherwise have the option to give a $500, $50, or $5 bribe if they have the funds.  If they
 don't have at least $50, they will also have the option to provide some other bribe.
 
+### truefalsetext
+The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
+
+```C++
+{
+    "truefalsetext": {
+        "condition": { "u_has_cash": 800 },
+        "true": "I may have the money, I'm not giving you any.",
+        "false": "I don't have that money."
+    },
+    "topic": "TALK_WONT_PAY"
+}
+```
+
 ### text
 Will be shown to the user, no further meaning.
 

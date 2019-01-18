@@ -763,7 +763,10 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
                                        const bool first )
 {
     talk_response result = talk_response();
-    result.text = text;
+    result.truetext = text;
+    result.truefalse_condition = []( const dialogue & ) {
+       return true;
+    };
     result.success.next_topic = talk_topic( r );
     if( first ) {
         responses.insert( responses.begin(), result );
@@ -1677,6 +1680,7 @@ void dialogue::add_topic( const talk_topic &topic )
 talk_data talk_response::create_option_line( const dialogue &d, const char letter )
 {
     std::string ftext;
+    text = truefalse_condition( d ) ? truetext : falsetext;
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
         ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ),
                                letter,                         // option letter
@@ -1821,7 +1825,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     talk_response chosen = responses[ch];
     std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   chosen.text );
+                                   response_lines[ch].second.substr( 3 ) );
     d_win.add_to_history( response_printed );
 
     if( chosen.mission_selected != nullptr ) {
@@ -2302,7 +2306,17 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "failure" ) ) {
         failure = talk_effect_t( jo.get_object( "failure" ) );
     }
-    text = _( jo.get_string( "text" ) );
+    if( jo.has_member( "truefalsetext" ) ) {
+        JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
+        read_dialogue_condition( truefalse_jo, truefalse_condition, true );
+        truetext = _( truefalse_jo.get_string( "true" ) );
+        falsetext = _( truefalse_jo.get_string( "false" ) );
+    } else {
+        truetext = _( jo.get_string( "text" ) );
+        truefalse_condition = []( const dialogue & ) {
+           return true;
+        };
+    }
     // TODO: mission_selected
     // TODO: skill
     // TODO: style
@@ -2312,6 +2326,33 @@ json_talk_response::json_talk_response( JsonObject jo )
     : actual_response( jo )
 {
     load_condition( jo );
+}
+
+void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
+                              bool default_val )
+{
+    const auto null_function = [default_val]( const dialogue & ) {
+        return default_val;
+    };
+
+    static const std::string member_name( "condition" );
+    if( !jo.has_member( member_name ) ) {
+         condition = null_function;
+    } else if( jo.has_string( member_name ) ) {
+        const std::string type = jo.get_string( member_name );
+        conditional_t sub_condition( type );
+        condition = [sub_condition]( const dialogue & d ) {
+            return sub_condition( d );
+        };
+    } else if( jo.has_object( member_name ) ) {
+        const JsonObject con_obj = jo.get_object( member_name );
+        conditional_t sub_condition( con_obj );
+        condition = [sub_condition]( const dialogue & d ) {
+            return sub_condition( d );
+        };
+    } else {
+        jo.throw_error( "invalid condition syntax", member_name );
+    }
 }
 
 conditional_t::conditional_t( JsonObject jo )
@@ -2641,25 +2682,7 @@ void json_talk_response::load_condition( JsonObject &jo )
 {
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
-    static const std::string member_name( "condition" );
-    if( !jo.has_member( member_name ) ) {
-        // Leave condition unset, defaults to true.
-        return;
-    } else if( jo.has_string( member_name ) ) {
-        const std::string type = jo.get_string( member_name );
-        conditional_t sub_condition( type );
-        condition = [sub_condition]( const dialogue & d ) {
-            return sub_condition( d );
-        };
-    } else if( jo.has_object( member_name ) ) {
-        const JsonObject con_obj = jo.get_object( member_name );
-        conditional_t sub_condition( con_obj );
-        condition = [sub_condition]( const dialogue & d ) {
-            return sub_condition( d );
-        };
-    } else {
-        jo.throw_error( "invalid condition syntax", member_name );
-    }
+    read_dialogue_condition( jo, condition, true );
 }
 
 bool json_talk_response::test_condition( const dialogue &d ) const
