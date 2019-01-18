@@ -21,8 +21,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include <iostream>
-#include <stdio.h>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -195,7 +193,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             wprintz( w_HP, p.limb_color( part[i], true, true, true ), ":" );
         }
     }
-    // display stamina, if we are not in a vehicle
+    // display stamina
     if( wide ) {
         wmove( w_HP, 7 * dy, 0 );
         wprintz( w_HP, c_light_gray, _( "STA   " ) );
@@ -619,15 +617,12 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             std::string power_value = std::to_string( display_power ) + unit;
             wprintz( sideStyle ? w : g->w_HP, color, power_value );
         }
-
         wrefresh( sideStyle ? w : g->w_HP );
     }
 }
 
 int get_int_digits( const int &digits )
 {
-    // calc number of digits in an int
-    // digits = this->power_level;
     int offset = digits > 0 ? ( int ) log10( ( double ) digits ) + 1 : 1;
     return offset;
 }
