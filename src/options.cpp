@@ -1539,7 +1539,9 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
+#ifdef __ANDROID__
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
+#endif
 
     add( "USE_COLOR_MODULATED_TEXTURES", "graphics", translate_marker( "Use color modulated textures" ),
          translate_marker( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
