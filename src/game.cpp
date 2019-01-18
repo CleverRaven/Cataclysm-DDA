@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <algorithm>
+#include <utility>
 #include <cassert>
 #include <chrono>
 #include <cmath>
@@ -6515,13 +6516,11 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
-                                const std::string &area_name, int column,
-                                int &line,
-                                const int last_line, bool draw_terrain_indicators,
-                                const visibility_variables &cache )
+void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                int &line, const int last_line, bool draw_terrain_indicators, const visibility_variables &cache )
 {
-    std::vector<std::string> temp, text;
+    std::vector<std::string> text;
+    const int max_width = getmaxx( w_look ) - column - 1;
 
     auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     switch( visibility ) {
@@ -6529,18 +6528,13 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             const optional_vpart_position vp = m.veh_at( lp );
             const Creature *creature = critter_at( lp, true );
 
-            temp = terrain_info( lp, w_look, area_name, column );
-            std::copy( temp.begin(), temp.end(), std::back_inserter( text ) );
-            //test
-            for (auto& str : text)  {
-                print_colored_text( w_look, line, column, c_white, c_white, str );
-                line++;
-            }
-            //end test
+            //form to print a line
+            //print_colored_text( w_look, line++, column, c_dark_gray, c_dark_gray, str );
+            terrain_info( text, lp, max_width );
+            fields_info( text, lp, max_width );
+            trap_info( text, lp, max_width );
+            creature_info( text, creature, max_width );
 
-            print_fields_info( lp, w_look, column, line );
-            print_trap_info( lp, w_look, column, line );
-            print_creature_info( creature, w_look, column, line );
             print_vehicle_info( veh_pointer_or_null( vp ), vp ? vp->part_index() : -1, w_look, column, line,
                                 last_line );
             print_items_info( lp, w_look, column, line, last_line );
@@ -6618,41 +6612,37 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
     line += 2;
 }
 
-std::vector<std::string> game::terrain_info( const tripoint &lp, const catacurses::window &w_look,
-        const std::string &area_name, int column )
+void game::terrain_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
 {
     std::string tempStr;
-    std::vector<std::string> tempVec;
-    std::vector<std::string> lines;
 
-    const int max_width = getmaxx( w_look ) - column - 1;
+    // get global area info according to look_around caret position
+    const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
+    const std::string area_name = cur_ter_m->get_name();
     std::string tile_str = "(" + area_name + ") " + m.tername( lp );
 
     if( m.has_furn( lp ) ) {
         tile_str += "; " + m.furnname( lp );
     }
 
+    //store movement cost or impassable state
     if( m.impassable( lp ) ) {
-        //store tile info
         tempStr = string_format( _( "%s; Impassable" ), tile_str );
-        tempVec = foldstring( colorize( tempStr, c_light_gray ), max_width, '\n' );
-        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
     } else {
-        //store tile info and movement cost
         int moveCost = m.move_cost( lp ) * 50;
         tempStr = string_format( _( "%s; Movement cost %d" ), tile_str, moveCost );
-        tempVec = foldstring( colorize( tempStr, c_light_gray ), max_width, '\n' );
+    }
+    foldstring( info, colorize( tempStr, c_light_gray ), max_width, '\n' );
 
-        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
-        //store light info
+    //store light info
+    if( !m.impassable( lp ) ) {
         const auto light_level = get_light_level( std::max( 1.0,
                                  LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
 
-        tempStr =  _( "Lighting: " ) + colorize( light_level.first, light_level.second );
-        tempVec = foldstring( tempStr, max_width, '\n' );
-
-        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
+        tempStr = _( "Lighting: " ) + colorize( light_level.first, light_level.second );
+        foldstring( info, tempStr, max_width, '\n' );
     }
+
     //store signage
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
@@ -6661,11 +6651,11 @@ std::vector<std::string> game::terrain_info( const tripoint &lp, const catacurse
         } else        {
             tempStr = string_format( _( "Sign: %s" ), signage );
         }
-        lines.push_back( trim( colorize( tempStr, c_dark_gray ) ) );
+        info.push_back( trim_to_width( colorize( tempStr, c_dark_gray ), max_width ) );
     }
 
+    // Store info about stuff below
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
-        // Store info about stuff below
         tripoint below( lp.x, lp.y, lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
@@ -6674,51 +6664,107 @@ std::vector<std::string> game::terrain_info( const tripoint &lp, const catacurse
 
         if( !m.has_floor_or_support( lp ) ) {
             tempStr = string_format( _( "Below: %s; No support" ), tile_below );
-            tempVec = foldstring( colorize( tempStr, c_dark_gray ), max_width, '\n' );
-
         } else {
             tempStr = string_format( _( "Below: %s; Walkable" ), tile_below );
-            tempVec = foldstring( colorize( tempStr, c_dark_gray ), max_width, '\n' );
         }
-        std::copy( tempVec.begin(), tempVec.end(), std::back_inserter( lines ) );
+        foldstring( info, colorize( tempStr, c_dark_gray ), max_width, '\n' );
     }
+
     //store features
-    lines.push_back( colorize( m.features( lp ), c_dark_gray ) );
-    return lines;
+    info.push_back( colorize( m.features( lp ), c_dark_gray ) );
 }
 
-void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
-                              int &line )
+void game::fields_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
 {
+    std::string tempStr;
+
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
                                       m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
-            const int max_width = getmaxx( w_look ) - column - 2;
-            int lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
-                                        get_fire_fuel_string( lp ) ) - 1;
-            line += lines;
+            tempStr = colorize( get_fire_fuel_string( lp ), cur.color() );
         } else {
-            mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
+            tempStr = colorize( cur.name(), cur.color() );
         }
+        foldstring( info, tempStr, max_width, '\n' );
     }
 }
 
-void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
-                            int &line )
+void game::trap_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
 {
-    const trap &tr = m.tr_at( lp );
-    if( tr.can_see( lp, u ) ) {
-        mvwprintz( w_look, ++line, column, tr.color, tr.name() );
+    const trap &trap = m.tr_at( lp );
+    if( trap.can_see( lp, u ) ) {
+        std::string str = colorize( trap.name(), trap.color );
+        foldstring( info, str, max_width, '\n' );
     }
 }
 
-void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
-                                const int column, int &line )
+void game::creature_info( std::vector<std::string> &info, const Creature *creature,
+                          const int max_width )
 {
     if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
-        line = creature->print_info( w_look, ++line, 6, column );
+        std::string tempStr;
+
+        //name
+        tempStr = creature->get_name() + " ";
+        foldstring( info, colorize( tempStr, c_white ), max_width, '\n' );
+
+        //monster info
+        auto *mon = dynamic_cast<const monster *>( creature );
+        if( mon != nullptr ) {
+            //attitude
+            const auto att = mon->get_attitude();
+            foldstring( info, colorize( att.first, att.second ), max_width, '\n' );
+            //difficulty
+            if( debug_mode ) {
+                tempStr = _( " Difficulty " ) + to_string( mon->type->difficulty );
+                foldstring( info, colorize( tempStr, c_light_gray ), max_width, '\n' );
+            }
+            //effects
+            std::string effects = mon->get_effect_status();
+            info.push_back(trim_to_width(colorize(effects, h_white), max_width));
+            //Health
+            nc_color col;
+            int cur_hp = mon->get_hp();
+            int max_hp = mon->get_hp_max();
+            if (cur_hp >= max_hp) {
+                tempStr = _("It is uninjured.");
+                col = c_green;
+            }
+            else if (cur_hp >= max_hp * 0.8) {
+                tempStr = _("It is lightly injured.");
+                col = c_light_green;
+            }
+            else if (cur_hp >= max_hp * 0.6) {
+                tempStr = _("It is moderately injured.");
+                col = c_yellow;
+            }
+            else if (cur_hp >= max_hp * 0.3) {
+                tempStr = _("It is heavily injured.");
+                col = c_yellow;
+            }
+            else if (cur_hp >= max_hp * 0.1) {
+                tempStr = _("It is severely injured.");
+                col = c_light_red;
+            }
+            else {
+                tempStr = _("It is nearly dead!");
+                col = c_red;
+            }
+            info.push_back(trim_to_width(colorize(tempStr, col), max_width));
+
+
+            // std::vector<std::string> text = foldstring(type->get_description(), getmaxx(w) - 1 - column);
+            // int numlines = text.size();
+            // for (int i = 0; i < numlines && vStart <= vEnd; i++) {
+            //     mvwprintz(w, vStart++, column, c_white, text[i]);
+            // }
+        }
+        //npc info
+
+        //player info
+
     }
 }
 
@@ -7370,18 +7416,6 @@ void game::zones_manager()
     refresh_all();
 }
 
-void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
-                                    int &first_line, const int last_line,
-                                    const visibility_variables &cache )
-{
-    // get global area info according to look_around caret position
-    const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
-    // we only need the area name and then pass it to print_all_tile_info() function below
-    const std::string area_name = cur_ter_m->get_name();
-    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, !is_draw_tiles_mode(),
-                         cache );
-}
-
 cata::optional<tripoint> game::look_around()
 {
     tripoint center = u.pos() + u.view_offset;
@@ -7503,7 +7537,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
                 int first_line = 1;
                 const int last_line = getmaxy( w_messages ) - 2;
-                pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
+                print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
                 if( fast_scroll ) {
                     //~ "Fast Scroll" mark below the top right corner of the info window
                     right_print( w_info, 1, 0, c_light_green, _( "F" ) );

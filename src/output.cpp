@@ -58,12 +58,12 @@ extern bool use_tiles;
 extern bool test_mode;
 
 // utf8 version
-std::vector<std::string> foldstring( std::string str, int width, const char split )
+void foldstring( std::vector<std::string> &dest, std::string str, int width,
+                 const char split = ' ' )
 {
-    std::vector<std::string> lines;
     if( width < 1 ) {
-        lines.push_back( str );
-        return lines;
+        dest.push_back( str );
+        return;
     }
     std::stringstream sstr( str );
     std::string strline;
@@ -72,7 +72,7 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
         if( strline.empty() ) {
             // Special case empty lines as std::getline() sets failbit immediately
             // if the line is empty.
-            lines.emplace_back();
+            dest.emplace_back();
         } else {
             std::string wrapped = word_rewrap( strline, width, split );
             std::stringstream swrapped( wrapped );
@@ -114,10 +114,16 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
                     wline = swline.str();
                 }
                 // The resulting line can be printed independently and have the correct color
-                lines.emplace_back( wline );
+                dest.emplace_back( wline );
             }
         }
     }
+}
+
+std::vector<std::string> foldstring( std::string str, int width, const char split )
+{
+    std::vector<std::string> lines;
+    foldstring( lines, str, width, split );
     return lines;
 }
 
@@ -176,51 +182,58 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
     }
 }
 
-void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
-                     nc_color base_color, const std::string &text )
+std::string trim_to_width( const std::string &text, int width)
 {
     std::string sText;
-    if( utf8_width( remove_color_tags( text ) ) > width ) {
+    if (utf8_width(remove_color_tags(text)) > width) {
 
         int iLength = 0;
         std::string sTempText;
         std::string sColor;
 
-        const auto color_segments = split_by_color( text );
-        for( const std::string &seg : color_segments ) {
+        const auto color_segments = split_by_color(text);
+        for (const std::string &seg : color_segments) {
             sColor.clear();
 
-            if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {
-                sTempText = rm_prefix( seg );
+            if (!seg.empty() && (seg.substr(0, 7) == "<color_" || seg.substr(0, 7) == "</color")) {
+                sTempText = rm_prefix(seg);
 
-                if( seg.substr( 0, 7 ) == "<color_" ) {
-                    sColor = seg.substr( 0, seg.find( '>' ) + 1 );
+                if (seg.substr(0, 7) == "<color_") {
+                    sColor = seg.substr(0, seg.find('>') + 1);
                 }
-            } else {
+            }
+            else {
                 sTempText = seg;
             }
 
-            const int iTempLen = utf8_width( sTempText );
+            const int iTempLen = utf8_width(sTempText);
             iLength += iTempLen;
 
-            if( iLength > width ) {
-                sTempText = sTempText.substr( 0, cursorx_to_position( sTempText.c_str(),
-                                              iTempLen - ( iLength - width ) - 1, nullptr, -1 ) ) + "\u2026";
+            if (iLength > width) {
+                sTempText = sTempText.substr(0, cursorx_to_position(sTempText.c_str(),
+                    iTempLen - (iLength - width) - 1, nullptr, -1)) + "\u2026";
             }
 
             sText += sColor + sTempText;
-            if( !sColor.empty() ) {
+            if (!sColor.empty()) {
                 sText += "</color>";
             }
 
-            if( iLength > width ) {
+            if (iLength > width) {
                 break;
             }
         }
-    } else {
+    }
+    else {
         sText = text;
     }
+    return sText;
+}
 
+void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
+                     nc_color base_color, const std::string &text )
+{
+    std::string sText = trim_to_width(text, width);
     print_colored_text( w, begin_y, begin_x, base_color, base_color, sText );
 }
 
