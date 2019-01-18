@@ -28,6 +28,7 @@ enum talk_trial_type : unsigned char {
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
     TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    TALK_TRIAL_CONDITION, // Some other condition
     NUM_TALK_TRIALS
 };
 
@@ -52,6 +53,7 @@ using trial_mod = std::pair<std::string, int>;
 struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
+    std::function<bool( const dialogue & )> condition;
 
     int calc_chance( const dialogue &d ) const;
     /**
@@ -184,7 +186,7 @@ struct talk_response {
     talk_data create_option_line( const dialogue &d, char letter );
     std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
-    talk_response() = default;
+    talk_response();
     talk_response( JsonObject );
 };
 
