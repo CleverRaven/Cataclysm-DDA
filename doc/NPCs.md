@@ -500,7 +500,7 @@ Conditions can be a simple string with no other values, a key and an int, a key 
 
 The following keys and simple strings are available:
 
-### Boolean logic
+#### Boolean logic
 
 Condition | Type | Description
 --- | --- | ---
@@ -508,7 +508,7 @@ Condition | Type | Description
 "or" | array | `true` if every condition in the array is true. Can be used to create complex condition tests, like `"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
 "not" | object | `true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as<br/>`"[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"`
 
-### Player conditions
+#### Player conditions
 
 Condition | Type | Description
 --- | --- | ---
@@ -529,7 +529,7 @@ Condition | Type | Description
 "u_has_weapon" | simple string | `true` if the player character is wielding a weapon.
 "u_has_camp" | simple string | `true` is the player has one or more active base camps.
 
-### Player-NPC conditions
+#### Player-NPC conditions
 
 Condition | Type | Description
 --- | --- | ---
@@ -543,7 +543,7 @@ Condition | Type | Description
 "npc_allies" | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 "npc_following" | simple string | `true` if the NPC is following the player character.
 
-### NPC conditions
+#### NPC conditions
 
 Condition | Type | Description
 --- | --- | ---
@@ -556,7 +556,7 @@ Condition | Type | Description
 "npc_role_nearby" | string | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
 "npc_has_weapon" | simple string | `true` if the NPC is wielding a weapon.
 
-### Environment
+#### Environment
 
 Condition | Type | Description
 --- | --- | ---
