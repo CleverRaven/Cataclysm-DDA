@@ -270,7 +270,8 @@ void mutation_branch::load( JsonObject &jsobj )
     }
     if( jsobj.has_object( "gun_mutation" ) ) {
         JsonObject gun_mutation = jsobj.get_object("gun_mutation");
-        new_mut.gun_mutation = gun_mutation.get_string("type");
+        new_mut.gun_mutation = gun_mutation.get_string("type", "" );
+        new_mut.raw_gun_mutation_message = gun_mutation.get_string( "message", "");
     }
     for( auto &s : jsobj.get_string_array( "initial_ma_styles" ) ) {
         new_mut.initial_ma_styles.push_back( matype_id( s ) );
@@ -419,6 +420,11 @@ void mutation_branch::load( JsonObject &jsobj )
 std::string mutation_branch::spawn_item_message() const
 {
     return _( raw_spawn_item_message.c_str() );
+}
+
+std::string mutation_branch::gun_mutation_message() const
+{
+    return _( raw_gun_mutation_message.c_str() );
 }
 
 std::string mutation_branch::name() const

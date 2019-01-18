@@ -1920,7 +1920,7 @@
       "active": true,
       "cost": 10,
       "hunger": true,
-      "gun_mutation": { "type": "mut_spikes" },
+      "gun_mutation": { "type": "mut_spikes", "message": "You fire off some quills." },
       "prereqs" : ["QUILLS"]
     },{
         "type" : "mutation",
