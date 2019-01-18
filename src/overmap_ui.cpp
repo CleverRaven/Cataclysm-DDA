@@ -616,7 +616,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     if( !note_text.empty() ) {
         const size_t pos = std::get<2>( get_note_display_info( note_text ) );
         if( pos != std::string::npos ) {
-            corner_text.emplace_back( std::get<1>( get_note_display_info( note_text ) ), note_text.substr( pos ) );
+            corner_text.emplace_back( std::get<1>( get_note_display_info( note_text ) ),
+                                      note_text.substr( pos ) );
         }
     }
 
