@@ -500,128 +500,48 @@ Conditions can be a simple string with no other values, a key and an int, a key 
 
 The following keys and simple strings are available:
 
-#### "and" (array)
-`true` if every condition in the array is true. Can be used to create complex condition tests, like `"[INTELLIGENCE 10+][PERCEPTION 12+] Your jacket is torn. Did you leave that scrap of fabric behind?"`
-
-#### "or" (array)
-`true` if every condition in the array is true. Can be used to create complex condition tests, like
-`"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
-
-#### "not" (object)
-`true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as `"[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"`
-
-#### "u_has_any_trait" (array)
-`true` if the player character has any trait or mutation in the array. Used to check multiple traits.
-
-#### "npc_has_any_trait" (array)
-`true` if the NPC has any trait or mutation in the array. Used to check multiple traits.
-
-#### "u_any_trait" (string)
-`true` if the player character has a specific trait.  A simpler version of `u_has_any_trait` that only checks for one trait.
-
-#### "npc_has_trait" (string)
-`true` if the NPC has a specific trait. A simpler version of `npc_has_any_trait` that only checks for one trait.
-
-#### "u_any_trait_flag" (string)
-`true` if the player character has any traits with the specific trait flag.  A more robust version of `u_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player has crossed a mutation threshold.
-
-#### "npc_has_trait_flag" (string)
-`true` if the NPC has any traits with the specific trait flag. A more robust version of `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the NPC has crossed a mutation threshold.
-
-#### "npc_has_class" (array)
-`true` if the NPC is a member of an NPC class.
-
-#### "u_has_strength" (int)
-`true` if the player character's strength is at least the value of `u_has_strength`.
-
-#### "u_has_dexterity" (int)
-`true` if the player character's dexterity is at least the value of `u_has_dexterity`.
-
-#### "u_has_intelligence" (int)
-`true` if the player character's intelligence is at least the value of `u_has_intelligence`.
-
-#### "u_has_perception" (int)
-`true` if the player character's perception is at least the value of `u_has_perception`.
-
-#### "u_has_item" (string)
-`true` if the player character has something with `u_has_item`'s `item_id` in their inventory.
-
-#### "u_has_items" (dictionary)
-`u_has_items` must be a dictionary with an `item` string and a `count` int.
-`true` if the player character has at least `count` charges or counts of `item` in their inventory.
-
-#### "u_at_om_location" (string)
-`true` if the player character is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player is standing on a faction camp overmap tile.
-
-#### "npc_has_effect" (string)
-`true` if the NPC is under the effect with npc_has_effect's `effect_id`.
-
-#### "u_has_effect" (string)
-`true` if the player character is under the effect with u_has_effect's `effect_id`.
-
-#### "u_has_mission" (string)
-`true` if the mission is assigned to the player character.
-
-#### "npc_allies" (int)
-`true` if the player character has at least `npc_allies` number of NPC allies.
-
-#### "npc_service" (int)
-`true` if the NPC does not have the "currently_busy" effect and the player character has at least
-npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
-
-#### "u_has_cash" (int)
-`true` if the player character has at least `u_has_cash` cash available.  Used to check if the PC can buy something.
-
-#### "npc_role_nearby" (string)
-`true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
-
-#### "days_since_cataclysm" (int)
-`true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
-
-#### "is_season" (string)
-`true` if the current season matches `is_season`, which must be one of "spring", "summer", "autumn", or "winter".
-
-#### "has_assigned_mission" (simple string)
-`true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job..."
-
-#### "has_many_assigned_missions" (simple string)
-`true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the "TALK_MISSION_LIST_ASSIGNED" topic.
-
-#### "has_no_available_mission" (simple string)
-`true` if the NPC has no jobs available for the player character.
-
-#### "has_available_mission" (simple string)
-`true` if the NPC has one job available for the player character.
-
-#### "has_many_available_missions" (simple string)
-`true` if the NPC has several jobs available for the player character.
-
-#### "npc_available" (simple string)
-`true` if the NPC does not have effect "currently_busy".
-
-#### "npc_following" (simple string)
-`true` if the NPC is following the player character.
-
-#### "at_safe_space" (simple string)
-`true` if the NPC's current overmap location passes the is_safe() test.
-
-#### "u_can_stow_weapon" (simple string)
-`true` if the player character is wielding a weapon and has enough space to put it away.
-
-#### "u_has_weapon" (simple string)
-`true` if the player character is wielding a weapon.
-
-#### "npc_has_weapon" (simple string)
-`true` if the NPC is wielding a weapon.
-
-#### "is_day" (simple string)
-`true` if it is currently daytime.
-
-#### "is_outside (simple string)
-`true` if the NPC is on a tile without a roof.
-
-#### "u_has_camp" (simple string)
-`true` is the player has one or more active base camps.
+Condition | Description
+--- | ---
+"and" (array) | `true` if every condition in the array is true. Can be used to create complex condition tests, like `"[INTELLIGENCE 10+][PERCEPTION 12+] Your jacket is torn. Did you leave that scrap of fabric behind?"`
+"or" (array) | `true` if every condition in the array is true. Can be used to create complex condition tests, like `"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
+"not" (object) | `true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as<br/>`"[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"`
+"u_has_any_trait" (array) | `true` if the player character has any trait or mutation in the array. Used to check multiple traits.
+"npc_has_any_trait" (array) | `true` if the NPC has any trait or mutation in the array. Used to check multiple traits.
+"u_any_trait" (string) | `true` if the player character has a specific trait.  A simpler version of `u_has_any_trait` that only checks for one trait.
+"npc_has_trait" (string) | `true` if the NPC has a specific trait. A simpler version of `npc_has_any_trait` that only checks for one trait.
+"u_any_trait_flag" (string) | `true` if the player character has any traits with the specific trait flag.  A more robust version of `u_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player has crossed a mutation threshold.
+"npc_has_trait_flag" (string) | `true` if the NPC has any traits with the specific trait flag. A more robust version of `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the NPC has crossed a mutation threshold.
+"npc_has_class" (array) | `true` if the NPC is a member of an NPC class.
+"u_has_strength" (int) | `true` if the player character's strength is at least the value of `u_has_strength`.
+"u_has_dexterity" (int) | `true` if the player character's dexterity is at least the value of `u_has_dexterity`.
+"u_has_intelligence" (int) | `true` if the player character's intelligence is at least the value of `u_has_intelligence`.
+"u_has_perception" (int) | `true` if the player character's perception is at least the value of `u_has_perception`.
+"u_has_item" (string) | `true` if the player character has something with `u_has_item`'s `item_id` in their inventory.
+"u_has_items" (dictionary) | `u_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character has at least `count` charges or counts of `item` in their inventory.
+"u_at_om_location" (string) | `true` if the player character is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player is standing on a faction camp overmap tile.
+"npc_has_effect" (string) | `true` if the NPC is under the effect with npc_has_effect's `effect_id`.
+"u_has_effect" (string) | `true` if the player character is under the effect with u_has_effect's `effect_id`.
+"u_has_mission" (string) | `true` if the mission is assigned to the player character.
+"npc_allies" (int) | `true` if the player character has at least `npc_allies` number of NPC allies.
+"npc_service" (int) | `true` if the NPC does not have the "currently_busy" effect and the player character has at least.<br/>npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
+"u_has_cash" (int) | `true` if the player character has at least `u_has_cash` cash available.  Used to check if the PC can buy something.
+"npc_role_nearby" (string) | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
+"days_since_cataclysm" (int) | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
+"is_season" (string) | `true` if the current season matches `is_season`, which must be one of "spring", "summer", "autumn", or "winter".
+"has_assigned_mission" (simple string) | `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job...".
+"has_many_assigned_missions" (simple string) | `true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the "TALK_MISSION_LIST_ASSIGNED" topic.
+"has_no_available_mission" (simple string) | `true` if the NPC has no jobs available for the player character.
+"has_available_mission" (simple string) | `true` if the NPC has one job available for the player character.
+"has_many_available_missions" (simple string) | `true` if the NPC has several jobs available for the player character.
+"npc_available" (simple string) | `true` if the NPC does not have effect "currently_busy".
+"npc_following" (simple string) | `true` if the NPC is following the player character.
+"at_safe_space" (simple string) | `true` if the NPC's current overmap location passes the is_safe() test.
+"u_can_stow_weapon" (simple string) | `true` if the player character is wielding a weapon and has enough space to put it away.
+"u_has_weapon" (simple string) | `true` if the player character is wielding a weapon.
+"npc_has_weapon" (simple string) | `true` if the NPC is wielding a weapon.
+"is_day" (simple string) | `true` if it is currently daytime.
+"is_outside" (simple string) | `true` if the NPC is on a tile without a roof.
+"u_has_camp" (simple string) | `true` is the player has one or more active base camps.
 
 #### Sample responses with conditions
 ```C++
