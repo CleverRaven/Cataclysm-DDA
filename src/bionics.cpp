@@ -33,6 +33,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_gen.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -502,6 +503,9 @@ bool player::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower ) + player_local_temp ).c_str() );
+        add_msg_if_player( m_info, _( "Wind is coming from angle of : %s." ),
+                           print_winddirection( weatherPoint.winddirection ).c_str() );
+
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )

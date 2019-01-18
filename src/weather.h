@@ -136,6 +136,7 @@ std::string weather_forecast( const point &abs_sm_pos );
 std::string print_temperature( double fahrenheit, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
+std::string print_winddirection( int winddirection );
 
 int get_local_windchill( double temperature, double humidity, double windpower );
 int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );

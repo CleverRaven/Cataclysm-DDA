@@ -2,6 +2,7 @@
 #ifndef WEATHER_GEN_H
 #define WEATHER_GEN_H
 
+#include "calendar.h"
 struct point;
 struct tripoint;
 class time_point;
@@ -13,6 +14,7 @@ struct w_point {
     double humidity;
     double pressure;
     double windpower;
+    int winddirection;
     bool   acidic;
 };
 
@@ -34,6 +36,7 @@ class weather_generator
         w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
         weather_type get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
         weather_type get_weather_conditions( const w_point & ) const;
+        int get_wind_direction( const season_type &season, double windnoise ) const;
         int get_water_temperature() const;
         void test_weather() const;
 

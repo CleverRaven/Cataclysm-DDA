@@ -4,9 +4,10 @@
 #include <cstdlib>
 #include <fstream>
 
-#include "calendar.h"
 #include "enums.h"
 #include "json.h"
+#include "messages.h"
+#include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
 
@@ -39,14 +40,16 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
-    double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
+    double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 5 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
+    double M( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
+    double D( raw_noise_4d( x, y, z, modSEED ) * 99.99 );
     double W;
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
-
+    const season_type season = season_of_year( now );
     // Temperature variation
     const double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
     const double current_t( base_temperature +
@@ -77,13 +80,13 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, 1020 - static_cast<int>( P ) );
-
+    W = std::max(0, static_cast<int>(2.7  /pow( ( ( P / 33.86 ) / 29.97), rng( 10, 150 ) ) + (seasonal_variation * rng(2, 4)) * M));
+    int WD = get_wind_direction( season, D );
+    void test_weather();
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-
-    return w_point {T, H, P, W, acid};
+    return w_point {T, H, P, W, WD, acid};
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -139,6 +142,52 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
+int weather_generator::get_wind_direction( const season_type &season, double windnoise ) const
+{
+    std::map<int, int> wind_map;
+    //assign chance to angle direction
+    if( season == SPRING ) {
+        wind_map[7] = 0;
+        wind_map[17] = 45;
+        wind_map[36] = 90;
+        wind_map[47] = 135;
+        wind_map[56] = 180;
+        wind_map[68] = 225;
+        wind_map[84] = 270;
+        wind_map[100] = 315;
+    } else if( season == SUMMER ) {
+        wind_map[6] = 0;
+        wind_map[16] = 45;
+        wind_map[32] = 90;
+        wind_map[46] = 135;
+        wind_map[59] = 180;
+        wind_map[78] = 225;
+        wind_map[92] = 270;
+        wind_map[100] = 315;
+    } else if( season == AUTUMN ) {
+        wind_map[10] = 0;
+        wind_map[22] = 45;
+        wind_map[34] = 90;
+        wind_map[42] = 135;
+        wind_map[51] = 180;
+        wind_map[68] = 225;
+        wind_map[83] = 270;
+        wind_map[100] = 315;
+    } else if( season == WINTER ) {
+        wind_map[10] = 0;
+        wind_map[14] = 45;
+        wind_map[18] = 90;
+        wind_map[22] = 135;
+        wind_map[30] = 180;
+        wind_map[46] = 225;
+        wind_map[71] = 270;
+        wind_map[100] = 315;
+    }
+    auto it = wind_map.lower_bound( windnoise );
+    int dirchoice = it->second;
+    return dirchoice;
+}
+
 int weather_generator::get_water_temperature() const
 {
     /**
@@ -180,10 +229,10 @@ void weather_generator::test_weather() const
 
     const time_point begin = calendar::turn;
     const time_point end = begin + 2 * calendar::year_length();
-    for( time_point i = begin; i < end; i += 200_turns ) {
+    for( time_point i = begin; i < end; i += 600_turns ) {
         //@todo: a new random value for each call to get_weather? Is this really intended?
         w_point w = get_weather( tripoint_zero, to_turn<int>( i ), rand() );
-        testfile << to_turn<int>( i ) << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
+        testfile << to_turn<int>( i ) << ";" << w.pressure << ";" << w.windpower << ";" << w.winddirection <<
                  std::endl;
     }
 }
