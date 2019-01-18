@@ -22,6 +22,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include <iostream>
+#include <stdio.h>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -591,11 +592,32 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
             // calc number of digits in powerlevel int
             int offset = get_int_digits( this->power_level );
+
+            // case power_level > 999 display 1k instead
+            int display_power = this->power_level;
+            std::string unit = "";
+            if( this->power_level > 999 ) {
+                switch( offset ) {
+                    case 4:
+                        display_power /= 1000;
+                        unit = "k";
+                        offset = 2;
+                        break;
+                    case 5:
+                        display_power /= 1000;
+                        unit = "k";
+                        offset = 0;
+                        break;
+                }
+            } else {
+                unit = "";
+            }
+
             wmove( sideStyle ? w : g->w_HP,
                    sideStyle ? spdy - 1 : 21,
                    sideStyle ? ( wx + dx * 4 + 6 ) - offset : 7 - offset );
-
-            wprintz( sideStyle ? w : g->w_HP, color, "%-3d", this->power_level );
+            std::string power_value = std::to_string( display_power ) + unit;
+            wprintz( sideStyle ? w : g->w_HP, color, power_value );
         }
 
         wrefresh( sideStyle ? w : g->w_HP );

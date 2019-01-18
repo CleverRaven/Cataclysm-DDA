@@ -1278,11 +1278,11 @@ void player::add_bionic( const bionic_id &b )
     int pow_up = bionics[b].capacity;
     int temp_pow_up = 0;
 
-    // cap max_power_level to 999
-    if( !( max_power_level >= 999 ) ) {
-        if( max_power_level + pow_up > 999 ) {
-            temp_pow_up = 999 - max_power_level;
-            max_power_level = 999;
+    // cap max_power_level to 50k
+    if( !( max_power_level >= 50000 ) ) {
+        if( max_power_level + pow_up > 50000 ) {
+            temp_pow_up = 50000 - max_power_level;
+            max_power_level = 50000;
         } else {
             max_power_level += pow_up;
             temp_pow_up = pow_up;
