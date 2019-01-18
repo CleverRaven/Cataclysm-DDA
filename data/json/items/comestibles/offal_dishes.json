@@ -98,6 +98,7 @@
     "color": "brown",
     "spoils_in": "1 days",
     "volume": 1,
+    "weight": 283,
     "flag": [ "EATEN_HOT" ],
     "calories": 310
   },
@@ -133,6 +134,7 @@
     "material": [ "flesh", "wheat" ],
     "color": "brown",
     "volume": 1,
+    "weight": 400,
     "flag": [ "EATEN_HOT" ],
     "calories": 285,
     "charges": 3,
@@ -151,6 +153,7 @@
     "material": [ "flesh", "wheat", "veggy" ],
     "color": "yellow",
     "volume": 1,
+    "weight": 160,
     "charges": 3,
     "flag": [ "EATEN_HOT" ],
     "calories": 301,
