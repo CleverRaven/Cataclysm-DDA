@@ -64,10 +64,7 @@
   {
     "type": "effect_type",
     "id": "u_met_Jenny_Forcette",
-    "//": "Use this flag to indicate if the player has met this NPC before.",
-    "player_visible": false,
-    "name": [ "Met NPC Jenny Forcette" ],
-    "desc": [ "AI tag: You've met this NPC before.  You're not supposed to be able to see this." ]
+    "//": "Use this flag to indicate if the player has met this NPC before."
   },
   {
     "type": "talk_topic",
