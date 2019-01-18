@@ -1276,22 +1276,11 @@ void player::add_bionic( const bionic_id &b )
     }
 
     int pow_up = bionics[b].capacity;
-    int temp_pow_up = 0;
-
-    // cap max_power_level to 50k
-    if( !( max_power_level >= 50000 ) ) {
-        if( max_power_level + pow_up > 50000 ) {
-            temp_pow_up = 50000 - max_power_level;
-            max_power_level = 50000;
-        } else {
-            max_power_level += pow_up;
-            temp_pow_up = pow_up;
-        }
-        if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
-            add_msg_if_player( m_good, _( "Increased storage capacity by %i." ), temp_pow_up );
-            // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
-            return;
-        }
+    max_power_level += pow_up;
+    if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
+        add_msg_if_player( m_good, _( "Increased storage capacity by %i." ), pow_up );
+        // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
+        return;
     }
 
     my_bionics->push_back( bionic( b, get_free_invlet( *this ) ) );
