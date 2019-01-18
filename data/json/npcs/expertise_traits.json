@@ -1018,31 +1018,6 @@
     "points": 0,
     "description": "This survivor has some formal training in geology, but not much experience.",
     "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Geology0Fake1",
-    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
-    "name": "Geology Training",
-    "points": 0,
-    "description": "This survivor has some formal training in geology, but not much experience.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "Exp_Geology2",
-    "name": "Geology Expert",
-    "points": 0,
-
-  {
-    "type": "mutation",
-    "id": "Exp_Geology1",
-    "name": "Geology Training",
-    "points": 0,
-    "description": "This survivor has some formal training in geology, but not much experience.",
-    "valid": false,
     "purifiable": false,
     "player_visible": false,
     "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Geology" ]
