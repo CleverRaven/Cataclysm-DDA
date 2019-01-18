@@ -425,6 +425,8 @@ This is an optional condition which can be used to prevent the response under ce
 ### response effect
 The `effect` function can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
+#### Missions
+
 Effect | Description
 ---|---
 assign_mission | Assigns a previously selected mission to your character.
@@ -432,7 +434,42 @@ mission_success | Resolves the current mission successfully.
 mission_failure | Resolves the current mission as a failure.
 clear_mission | Clears the mission from the your character's assigned missions.
 mission_reward | Gives the player the mission's reward.
+
+#### Stats / Morale
+
+Effect | Description
+---|---
+give_aid | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
+give_aid_all | Performs give_aid on each of your character's NPC allies in range.
+buy_haircut | Gives your character a haircut morale boost for 12 hours.
+buy_shave | Gives your character a shave morale boost for 6 hours.
+morale_chat | Gives your character a pleasant conversation morale boost for 6 hours.
+player_weapon_away | Makes your character put away (unwield) their weapon.
+player_weapon_drop | Makes your character drop their weapon.
+
+#### Character effects / Mutations
+
+Effect | Description
+---|---
+u_add_effect: effect_string, (*optional* duration: duration_string)<br/>npc_add_effect: effect_string, (*optional* duration: duration_string) | Your character or the NPC will gain the effect for `duration_string` turns.
+u_add_trait: trait_string<br/>npc_add_trait: trait_string | Your character or the NPC will gain the trait.
+
+#### Trade / Items
+
+Effect | Description
+---|---
 start_trade | Opens the trade screen and allows trading with the NPC.
+buy_10_logs | Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
+buy_100_logs | Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
+give_equipment | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
+u_buy_item: item_string, (*optional* cost: cost_num, *optional* count: count_num, *optional* container: container_string) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.<br/>If cost isn't present, the NPC gives your character the item at no charge.
+u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_num) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
+u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
+
+#### Behaviour / AI
+
+Effect | Description
+---|---
 assign_base | Assigns the NPC to a base camp at the player's current position.
 assign_guard | Makes the NPC into a guard, which will defend the current location.
 stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).
@@ -443,36 +480,26 @@ wake_up | Wakes up sleeping, but not sedated, NPCs.
 reveal_stats | Reveals the NPC's stats, based on the player's skill at assessing them.
 end_conversation | Ends the conversation and makes the NPC ignore you from now on.
 insult_combat | Ends the conversation and makes the NPC hostile, adds a message that character starts a fight with the NPC.
-give_equipment | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
-give_aid | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
-give_aid_all | Performs give_aid on each of your character's NPC allies in range.
-buy_haircut | Gives your character a haircut morale boost for 12 hours.
-buy_shave | Gives your character a shave morale boost for 6 hours.
-morale_chat | Gives your character a pleasant conversation morale boost for 6 hours.
-buy_10_logs | Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
-buy_100_logs | Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
-bionic_install | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
-bionic_remove | The NPC removes a bionic from your character, using very high skill , and charging you according to the operation's difficulty.
 hostile | Make the NPC hostile and end the conversation.
 flee | Makes the NPC flee from your character.
 leave | Makes the NPC not follow your character anymore.
 follow | Makes the NPC follow your character.
-deny_follow<br/>deny_lead<br/>deny_train<br/>deny_personal_info | Sets the appropriate effect on the NPC for a few hours.<br/>These are *deprecated* in favor of the more flexible `npc_add_effect` described below.
 drop_weapon | Make the NPC drop their weapon.
-player_weapon_away | Makes your character put away (unwield) their weapon.
-player_weapon_drop | Makes your character drop their weapon.
 stranger_neutral | Changes the NPC's attitude to neutral.
 start_mugging | The NPC will approach your character and steal from your character, attacking if your character resists.
 lead_to_safety | The NPC will gain the LEAD attitude and give your character the mission of reaching safety.
 start_training | The NPC will train your character in a skill or martial art.
 companion_mission: role_string | The NPC will offer you a list of missions for your allied NPCs, depending on the NPC's role.
-u_add_effect: effect_string, (*optional* duration: duration_string)<br/>npc_add_effect: effect_string, (*optional* duration: duration_string) | Your character or the NPC will gain the effect for `duration_string` turns.
-u_add_trait: trait_string<br/>npc_add_trait: trait_string | Your character or the NPC will gain the trait.
-u_buy_item: item_string, (*optional* cost: cost_num, *optional* count: count_num, *optional* container: container_string) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.<br/>If cost isn't present, the NPC gives your character the item at no charge.
-u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_num) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
-u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
+bionic_install | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
+bionic_remove | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
 npc_faction_change: faction_string | Change the NPC's faction membership to `faction_string`.
 u_faction_rep: rep_num | Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
+
+#### Deprecated
+
+Effect | Description
+---|---
+deny_follow<br/>deny_lead<br/>deny_train<br/>deny_personal_info | Sets the appropriate effect on the NPC for a few hours.<br/>These are *deprecated* in favor of the more flexible `npc_add_effect` described above.
 
 #### Sample effects
 ```
