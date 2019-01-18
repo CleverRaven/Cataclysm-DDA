@@ -4,9 +4,11 @@
     "id": "Exp_Agriculture1",
     "name": "Agriculture Training",
     "points": 0,
-    "description": "This survivor has some formal training in agriculture, but not much experience.",
+    "description": "This survivor has some formal training in Agriculture, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Agriculture" ]
   },
   {
     "type": "mutation",
@@ -14,18 +16,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Agriculture Training",
     "points": 0,
-    "description": "This survivor has some formal training in agriculture, but not much experience.",
+    "description": "This survivor has some formal training in Agriculture, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Agriculture", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Agriculture2",
     "name": "Agriculture Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in agriculture.",
+    "description": "This survivor has extensive experience in Agriculture, like an old professional farmer.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Agriculture" ]
   },
   {
     "type": "mutation",
@@ -33,9 +39,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Agriculture Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in agriculture.",
+    "description": "This survivor has extensive experience in Agriculture, like an old professional farmer.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Agriculture" ]
   },
   {
     "type": "mutation",
@@ -43,24 +51,24 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Agriculture Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in agriculture.",
+    "description": "This survivor has extensive experience in Agriculture, like an old professional farmer.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Agriculture", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Agriculture_Any",
     "subtype": "distribution",
+    "//": "This is something people tend to think they know more about than they do, and also something seen as survival important. Likelihood of fakes increased.",
     "traits": [
-      { "trait": "Exp_Agriculture1" },
-      { "trait": "Exp_Agriculture1" },
-      { "trait": "Exp_Agriculture0Fake1" },
-      { "trait": "Exp_Agriculture2" },
-      { "trait": "Exp_Agriculture2" },
-      { "trait": "Exp_Agriculture1Fake2" },
-      { "trait": "Exp_Agriculture1Fake2" },
-      { "trait": "Exp_Agriculture0Fake2" }
+      { "trait": "Exp_Agriculture1", "prob": 30 },
+      { "trait": "Exp_Agriculture1Fake2", "prob": 40 },
+      { "trait": "Exp_Agriculture2", "prob": 20 },
+      { "trait": "Exp_Agriculture0Fake1", "prob": 25 },
+      { "trait": "Exp_Agriculture0Fake2", "prob": 10}
     ]
   },
   {
@@ -68,14 +76,18 @@
     "type": "trait_group",
     "id": "Exp_Agriculture_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture2" } ]
+    "traits": [ { "trait": "Exp_Agriculture1", "prob": 70 }, { "trait": "Exp_Agriculture2", "prob": 30 } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Agriculture_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Agriculture_Nofake" }, { "group": "Exp_Agriculture_Any" } ]
+    "type": "mutation",
+    "id": "Exp_Biochemistry1",
+    "name": "Biochemistry Training",
+    "points": 0,
+    "description": "This survivor has some formal training in Biochemistry, but not much experience.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "actual_expert": 1 }, { "claimed_expert": 1 }, "exp_Biochemistry" ]
   },
   {
     "type": "mutation",
@@ -84,7 +96,9 @@
     "points": 0,
     "description": "This survivor has some formal training in biochemistry, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Biochemistry" ]
   },
   {
     "type": "mutation",
@@ -94,7 +108,9 @@
     "points": 0,
     "description": "This survivor has some formal training in biochemistry, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Biochemistry", "Exp_Fake" ]
   },
   {
     "type": "mutation",
@@ -103,7 +119,9 @@
     "points": 0,
     "description": "This survivor has extensive experience in biochemistry, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Biochemistry" ]
   },
   {
     "type": "mutation",
@@ -113,7 +131,9 @@
     "points": 0,
     "description": "This survivor has extensive experience in biochemistry, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Biochemistry" ]
   },
   {
     "type": "mutation",
@@ -123,7 +143,9 @@
     "points": 0,
     "description": "This survivor has extensive experience in biochemistry, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Biochemistry", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -131,14 +153,11 @@
     "id": "Exp_Biochemistry_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Biochemistry1" },
-      { "trait": "Exp_Biochemistry1" },
-      { "trait": "Exp_Biochemistry0Fake1" },
-      { "trait": "Exp_Biochemistry2" },
-      { "trait": "Exp_Biochemistry2" },
-      { "trait": "Exp_Biochemistry1Fake2" },
-      { "trait": "Exp_Biochemistry1Fake2" },
-      { "trait": "Exp_Biochemistry0Fake2" }
+      { "trait": "Exp_Biochemistry1", "prob": 30 },
+      { "trait": "Exp_Biochemistry1Fake2", "prob": 30 },
+      { "trait": "Exp_Biochemistry2", "prob": 20 },
+      { "trait": "Exp_Biochemistry0Fake1", "prob": 15 },
+      { "trait": "Exp_Biochemistry0Fake2", "prob": 5 }
     ]
   },
   {
@@ -146,23 +165,18 @@
     "type": "trait_group",
     "id": "Exp_Biochemistry_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Biochemistry1" }, { "trait": "Exp_Biochemistry1" }, { "trait": "Exp_Biochemistry2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Biochemistry_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Biochemistry_Nofake" }, { "group": "Exp_Biochemistry_Any" } ]
+    "traits": [ { "trait": "Exp_Biochemistry1", "prob": 70 }, { "trait": "Exp_Biochemistry2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Biology1",
     "name": "Biology Training",
     "points": 0,
-    "description": "This survivor has some formal training in general biology, but not much experience.",
+    "description": "This survivor has some formal training in biology, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Biology" ]
   },
   {
     "type": "mutation",
@@ -170,18 +184,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Biology Training",
     "points": 0,
-    "description": "This survivor has some formal training in general biology, but not much experience.",
+    "description": "This survivor has some formal training in biology, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Biology", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Biology2",
     "name": "Biology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in general biology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in biology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Biology" ]
   },
   {
     "type": "mutation",
@@ -189,9 +207,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Biology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in general biology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in biology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Biology" ]
   },
   {
     "type": "mutation",
@@ -199,24 +219,24 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Biology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in general biology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in biology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Biology", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Biology_Any",
     "subtype": "distribution",
+    "//": "People with this expertise might claim to have a different one, in this case Medicine, under the belief it's more valuable.",
     "traits": [
-      { "trait": "Exp_Biology1" },
-      { "trait": "Exp_Biology1" },
-      { "trait": "Exp_Biology0Fake1" },
-      { "trait": "Exp_Biology2" },
-      { "trait": "Exp_Biology2" },
-      { "trait": "Exp_Biology1Fake2" },
-      { "trait": "Exp_Biology1Fake2" },
-      { "trait": "Exp_Biology0Fake2" }
+      { "group": "Exp_Biology1_Faker", "prob": 30 },
+      { "trait": "Exp_Biology1Fake2", "prob": 30 },
+      { "group": "Exp_Biology2_Faker", "prob": 20 },
+      { "trait": "Exp_Biology0Fake1", "prob": 15 },
+      { "trait": "Exp_Biology0Fake2", "prob": 5 }
     ]
   },
   {
@@ -224,23 +244,40 @@
     "type": "trait_group",
     "id": "Exp_Biology_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Biology1" }, { "trait": "Exp_Biology1" }, { "trait": "Exp_Biology2" } ]
+    "traits": [ { "trait": "Exp_Biology1", "prob": 70 }, { "trait": "Exp_Biology2", "prob": 30 } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group is for survivors with the Biology expertise who might think they should pretend to have something more survivable.",
     "type": "trait_group",
-    "id": "Exp_Biology_Group",
+    "id": "Exp_Biology1_Faker",
+    "subtype": "collection",
+    "traits": [ { "trait": "Exp_Biology1", "prob": 100 }, { "group": "Exp_Biology_Medicine_Faker", "prob": 30 } ]
+  },
+  {
+    "//": "This trait group is for survivors with a weird expertise who might think they should pretend to have something more survivable.",
+    "type": "trait_group",
+    "id": "Exp_Biology2_Faker",
+    "subtype": "collection",
+    "traits": [ { "trait": "Exp_Biology2", "prob": 100 }, { "group": "Exp_Biology_Medicine_Faker", "prob": 30 } ]
+  },
+  {
+    "//": "Choose if your biologist really does know a bit about medicine or if they're trying to get you to like them more",
+    "//": "Probability is skewed a bit here because it's far more likely they'll claim to be a doctor (exp2) than a nurse/med student",
+    "type": "trait_group",
+    "id": "Exp_Biology_Medicine_Faker",
     "subtype": "distribution",
-    "traits": [ { "group": "Exp_Biology_Nofake" }, { "group": "Exp_Biology_Any" } ]
+    "traits": [ { "trait": "Exp_Medicine1", "prob": 50 }, { "trait": "Exp_Medicine0Fake1", "prob": 10 }, { "trait": "Exp_Medicine0Fake2", "prob": 40 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Bookkeeping1",
     "name": "Bookkeeping Training",
     "points": 0,
-    "description": "This survivor has some formal training in bookkeeping, but not much experience.",
+    "description": "This survivor has some formal training in Bookkeeping, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Bookkeeping" ]
   },
   {
     "type": "mutation",
@@ -248,18 +285,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Bookkeeping Training",
     "points": 0,
-    "description": "This survivor has some formal training in bookkeeping, but not much experience.",
+    "description": "This survivor has some formal training in Bookkeeping, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Bookkeeping", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Bookkeeping2",
     "name": "Bookkeeping Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in bookkeeping.",
+    "description": "This survivor has extensive experience in Bookkeeping, more at the chartered accountant level.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Bookkeeping" ]
   },
   {
     "type": "mutation",
@@ -267,9 +308,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Bookkeeping Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in bookkeeping.",
+    "description": "This survivor has extensive experience in Bookkeeping, more at the chartered accountant level.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Bookkeeping" ]
   },
   {
     "type": "mutation",
@@ -277,9 +320,11 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Bookkeeping Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in bookkeeping.",
+    "description": "This survivor has extensive experience in Bookkeeping, more at the chartered accountant level.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Bookkeeping", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -287,15 +332,19 @@
     "id": "Exp_Bookkeeping_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Bookkeeping1" },
-      { "trait": "Exp_Bookkeeping1" },
-      { "trait": "Exp_Bookkeeping0Fake1" },
-      { "trait": "Exp_Bookkeeping2" },
-      { "trait": "Exp_Bookkeeping2" },
-      { "trait": "Exp_Bookkeeping1Fake2" },
-      { "trait": "Exp_Bookkeeping1Fake2" },
-      { "trait": "Exp_Bookkeeping0Fake2" }
+      { "trait": "Exp_Bookkeeping1", "prob": 30 },
+      { "trait": "Exp_Bookkeeping1Fake2", "prob": 30 },
+      { "trait": "Exp_Bookkeeping2", "prob": 20 },
+      { "trait": "Exp_Bookkeeping0Fake1", "prob": 15 },
+      { "trait": "Exp_Bookkeeping0Fake2", "prob": 5 }
     ]
+  },
+  {
+    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
+    "type": "trait_group",
+    "id": "Exp_Bookkeeping_Nofake",
+    "subtype": "distribution",
+    "traits": [ { "trait": "Exp_Bookkeeping1", "prob": 70 }, { "trait": "Exp_Bookkeeping2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
@@ -316,9 +365,11 @@
     "id": "Exp_Botany1",
     "name": "Botany Training",
     "points": 0,
-    "description": "This survivor has some formal training in botany, but not much experience.",
+    "description": "This survivor has some formal training in Botany, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Botany" ]
   },
   {
     "type": "mutation",
@@ -326,18 +377,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Botany Training",
     "points": 0,
-    "description": "This survivor has some formal training in botany, but not much experience.",
+    "description": "This survivor has some formal training in Botany, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Botany", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Botany2",
     "name": "Botany Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in botany, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Botany, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Botany" ]
   },
   {
     "type": "mutation",
@@ -345,9 +400,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Botany Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in botany, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Botany, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Botany" ]
   },
   {
     "type": "mutation",
@@ -355,24 +412,25 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Botany Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in botany, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Botany, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Botany", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Botany_Any",
     "subtype": "distribution",
+    "//": "This is a very esoteric expertise that people are unlikely to claim expertise in without background knowledge.",
+    "//": "However, they are a bit more likely to claim expertise in related fields perceived as valuable.",
     "traits": [
-      { "trait": "Exp_Botany1" },
-      { "trait": "Exp_Botany1" },
-      { "trait": "Exp_Botany0Fake1" },
-      { "trait": "Exp_Botany2" },
-      { "trait": "Exp_Botany2" },
-      { "trait": "Exp_Botany1Fake2" },
-      { "trait": "Exp_Botany1Fake2" },
-      { "trait": "Exp_Botany0Fake2" }
+      { "group": "Exp_Botany1_Faker", "prob": 30 },
+      { "trait": "Exp_Botany1Fake2", "prob": 30 },
+      { "group": "Exp_Botany2_Faker", "prob": 20 },
+      { "trait": "Exp_Botany0Fake1", "prob": 5 },
+      { "trait": "Exp_Botany0Fake2", "prob": 1 }
     ]
   },
   {
@@ -380,23 +438,39 @@
     "type": "trait_group",
     "id": "Exp_Botany_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Botany1" }, { "trait": "Exp_Botany1" }, { "trait": "Exp_Botany2" } ]
+    "traits": [ { "trait": "Exp_Botany1", "prob": 70 }, { "trait": "Exp_Botany2", "prob": 30 } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group is for survivors with the Botany expertise who might think they should pretend to have something more survivable.",
     "type": "trait_group",
-    "id": "Exp_Botany_Group",
+    "id": "Exp_Botany1_Faker",
+    "subtype": "collection",
+    "traits": [ { "trait": "Exp_Botany1", "prob": 100 }, { "group": "Exp_Botany_Agriculture_Faker", "prob": 30 } ]
+  },
+  {
+    "//": "This trait group is for survivors with a weird expertise who might think they should pretend to have something more survivable.",
+    "type": "trait_group",
+    "id": "Exp_Botany2_Faker",
+    "subtype": "collection",
+    "traits": [ { "trait": "Exp_Botany2", "prob": 100 }, { "group": "Exp_Botany_Agriculture_Faker", "prob": 30 } ]
+  },
+  {
+    "//": "Choose if your botanist really does know a bit about farming or if they're trying to get you to like them more",
+    "type": "trait_group",
+    "id": "Exp_Botany_Agriculture_Faker",
     "subtype": "distribution",
-    "traits": [ { "group": "Exp_Botany_Nofake" }, { "group": "Exp_Botany_Any" } ]
+    "traits": [ { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture0Fake1" } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Chemistry1",
     "name": "Chemistry Training",
     "points": 0,
-    "description": "This survivor has some formal training in inorganic chemistry, but not much experience.",
+    "description": "This survivor has some formal training in Chemistry, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Chemistry" ]
   },
   {
     "type": "mutation",
@@ -404,18 +478,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Chemistry Training",
     "points": 0,
-    "description": "This survivor has some formal training in inorganic chemistry, but not much experience.",
+    "description": "This survivor has some formal training in Chemistry, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Chemistry", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Chemistry2",
     "name": "Chemistry Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in inorganic chemistry, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Chemistry, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Chemistry" ]
   },
   {
     "type": "mutation",
@@ -423,9 +501,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Chemistry Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in inorganic chemistry, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Chemistry, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Chemistry" ]
   },
   {
     "type": "mutation",
@@ -433,9 +513,11 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Chemistry Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in inorganic chemistry, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Chemistry, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Chemistry", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -443,14 +525,11 @@
     "id": "Exp_Chemistry_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Chemistry1" },
-      { "trait": "Exp_Chemistry1" },
-      { "trait": "Exp_Chemistry0Fake1" },
-      { "trait": "Exp_Chemistry2" },
-      { "trait": "Exp_Chemistry2" },
-      { "trait": "Exp_Chemistry1Fake2" },
-      { "trait": "Exp_Chemistry1Fake2" },
-      { "trait": "Exp_Chemistry0Fake2" }
+      { "trait": "Exp_Chemistry1", "prob": 30 },
+      { "trait": "Exp_Chemistry1Fake2", "prob": 30 },
+      { "trait": "Exp_Chemistry2", "prob": 20 },
+      { "trait": "Exp_Chemistry0Fake1", "prob": 15 },
+      { "trait": "Exp_Chemistry0Fake2", "prob": 5 }
     ]
   },
   {
@@ -458,23 +537,18 @@
     "type": "trait_group",
     "id": "Exp_Chemistry_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Chemistry1" }, { "trait": "Exp_Chemistry1" }, { "trait": "Exp_Chemistry2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Chemistry_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Chemistry_Nofake" }, { "group": "Exp_Chemistry_Any" } ]
+    "traits": [ { "trait": "Exp_Chemistry1", "prob": 70 }, { "trait": "Exp_Chemistry2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Culinary1",
     "name": "Culinary Training",
     "points": 0,
-    "description": "This survivor has some formal training in culinary arts, but not much experience.",
+    "description": "This survivor has some formal training in Culinary arts, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Culinary" ]
   },
   {
     "type": "mutation",
@@ -482,18 +556,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Culinary Training",
     "points": 0,
-    "description": "This survivor has some formal training in culinary arts, but not much experience.",
+    "description": "This survivor has some formal training in Culinary arts, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Culinary", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Culinary2",
     "name": "Culinary Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
+    "description": "This survivor has extensive experience in Culinary arts, a professional chef or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Culinary" ]
   },
   {
     "type": "mutation",
@@ -501,9 +579,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Culinary Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
+    "description": "This survivor has extensive experience in Culinary arts, a professional chef or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Culinary" ]
   },
   {
     "type": "mutation",
@@ -511,9 +591,11 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Culinary Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in culinary arts, a professional chef or equivalent.",
+    "description": "This survivor has extensive experience in Culinary arts, a professional chef or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Culinary", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -521,14 +603,11 @@
     "id": "Exp_Culinary_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Culinary1" },
-      { "trait": "Exp_Culinary1" },
-      { "trait": "Exp_Culinary0Fake1" },
-      { "trait": "Exp_Culinary2" },
-      { "trait": "Exp_Culinary2" },
-      { "trait": "Exp_Culinary1Fake2" },
-      { "trait": "Exp_Culinary1Fake2" },
-      { "trait": "Exp_Culinary0Fake2" }
+      { "trait": "Exp_Culinary1", "prob": 30 },
+      { "trait": "Exp_Culinary1Fake2", "prob": 30 },
+      { "trait": "Exp_Culinary2", "prob": 20 },
+      { "trait": "Exp_Culinary0Fake1", "prob": 15 },
+      { "trait": "Exp_Culinary0Fake2", "prob": 5 }
     ]
   },
   {
@@ -536,23 +615,18 @@
     "type": "trait_group",
     "id": "Exp_Culinary_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Culinary1" }, { "trait": "Exp_Culinary1" }, { "trait": "Exp_Culinary2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Culinary_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Culinary_Nofake" }, { "group": "Exp_Culinary_Any" } ]
+    "traits": [ { "trait": "Exp_Culinary1", "prob": 70 }, { "trait": "Exp_Culinary2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Electrical1",
     "name": "Electrical Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in electrical engineering, but not much experience.",
+    "description": "This survivor has some formal training in Electrical Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Eng_Electrical" ]
   },
   {
     "type": "mutation",
@@ -560,18 +634,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Electrical Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in electrical engineering, but not much experience.",
+    "description": "This survivor has some formal training in Electrical Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Eng_Electrical", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Electrical2",
     "name": "Electrical Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in electrical engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Electrical Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Eng_Electrical" ]
   },
   {
     "type": "mutation",
@@ -579,9 +657,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Electrical Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in electrical engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Electrical Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Eng_Electrical" ]
   },
   {
     "type": "mutation",
@@ -589,9 +669,11 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Electrical Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in electrical engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Electrical Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Electrical", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -599,14 +681,11 @@
     "id": "Exp_Eng_Electrical_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Eng_Electrical1" },
-      { "trait": "Exp_Eng_Electrical1" },
-      { "trait": "Exp_Eng_Electrical0Fake1" },
-      { "trait": "Exp_Eng_Electrical2" },
-      { "trait": "Exp_Eng_Electrical2" },
-      { "trait": "Exp_Eng_Electrical1Fake2" },
-      { "trait": "Exp_Eng_Electrical1Fake2" },
-      { "trait": "Exp_Eng_Electrical0Fake2" }
+      { "trait": "Exp_Eng_Electrical1", "prob": 30 },
+      { "trait": "Exp_Eng_Electrical1Fake2", "prob": 30 },
+      { "trait": "Exp_Eng_Electrical2", "prob": 20 },
+      { "trait": "Exp_Eng_Electrical0Fake1", "prob": 15 },
+      { "trait": "Exp_Eng_Electrical0Fake2", "prob": 5 }
     ]
   },
   {
@@ -614,23 +693,18 @@
     "type": "trait_group",
     "id": "Exp_Eng_Electrical_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Eng_Electrical1" }, { "trait": "Exp_Eng_Electrical1" }, { "trait": "Exp_Eng_Electrical2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Eng_Electrical_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Eng_Electrical_Nofake" }, { "group": "Exp_Eng_Electrical_Any" } ]
+    "traits": [ { "trait": "Exp_Eng_Electrical1", "prob": 70 }, { "trait": "Exp_Eng_Electrical2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Mechanical1",
     "name": "Mechanical Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in mechanical engineering, but not much experience.",
+    "description": "This survivor has some formal training in Mechanical Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Eng_Mechanical" ]
   },
   {
     "type": "mutation",
@@ -638,18 +712,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Mechanical Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in mechanical engineering, but not much experience.",
+    "description": "This survivor has some formal training in Mechanical Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Eng_Mechanical", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Mechanical2",
     "name": "Mechanical Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in mechanical engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Mechanical Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Eng_Mechanical" ]
   },
   {
     "type": "mutation",
@@ -657,9 +735,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Mechanical Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in mechanical engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Mechanical Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Eng_Mechanical" ]
   },
   {
     "type": "mutation",
@@ -667,9 +747,11 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Mechanical Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in mechanical engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Mechanical Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Mechanical", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -677,14 +759,11 @@
     "id": "Exp_Eng_Mechanical_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Eng_Mechanical1" },
-      { "trait": "Exp_Eng_Mechanical1" },
-      { "trait": "Exp_Eng_Mechanical0Fake1" },
-      { "trait": "Exp_Eng_Mechanical2" },
-      { "trait": "Exp_Eng_Mechanical2" },
-      { "trait": "Exp_Eng_Mechanical1Fake2" },
-      { "trait": "Exp_Eng_Mechanical1Fake2" },
-      { "trait": "Exp_Eng_Mechanical0Fake2" }
+      { "trait": "Exp_Eng_Mechanical1", "prob": 30 },
+      { "trait": "Exp_Eng_Mechanical1Fake2", "prob": 30 },
+      { "trait": "Exp_Eng_Mechanical2", "prob": 20 },
+      { "trait": "Exp_Eng_Mechanical0Fake1", "prob": 15 },
+      { "trait": "Exp_Eng_Mechanical0Fake2", "prob": 5 }
     ]
   },
   {
@@ -692,23 +771,18 @@
     "type": "trait_group",
     "id": "Exp_Eng_Mechanical_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Eng_Mechanical1" }, { "trait": "Exp_Eng_Mechanical1" }, { "trait": "Exp_Eng_Mechanical2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Eng_Electrical_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Eng_Mechanical_Nofake" }, { "group": "Exp_Eng_Mechanical_Any" } ]
+    "traits": [ { "trait": "Exp_Eng_Mechanical1", "prob": 70 }, { "trait": "Exp_Eng_Mechanical2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Software1",
     "name": "Software Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in software engineering, but not much experience.",
+    "description": "This survivor has some formal training in Software Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Eng_Software" ]
   },
   {
     "type": "mutation",
@@ -716,18 +790,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Software Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in software engineering, but not much experience.",
+    "description": "This survivor has some formal training in Software Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Eng_Software", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Software2",
     "name": "Software Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in software engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Software Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Eng_Software" ]
   },
   {
     "type": "mutation",
@@ -735,9 +813,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Software Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in software engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Software Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Eng_Software" ]
   },
   {
     "type": "mutation",
@@ -745,24 +825,25 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Software Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in software engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Software Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Software", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Software_Any",
     "subtype": "distribution",
+    "//": "It's really, really unlikely for anyone without previous training to pretend they're a software engineer after the apocalypse.",
+    "//": "It's still pretty common for people to inflate their experience though, because people just do that a lot.",
     "traits": [
-      { "trait": "Exp_Eng_Software1" },
-      { "trait": "Exp_Eng_Software1" },
-      { "trait": "Exp_Eng_Software0Fake1" },
-      { "trait": "Exp_Eng_Software2" },
-      { "trait": "Exp_Eng_Software2" },
-      { "trait": "Exp_Eng_Software1Fake2" },
-      { "trait": "Exp_Eng_Software1Fake2" },
-      { "trait": "Exp_Eng_Software0Fake2" }
+      { "trait": "Exp_Eng_Software1", "prob": 35 },
+      { "trait": "Exp_Eng_Software1Fake2", "prob": 25 },
+      { "trait": "Exp_Eng_Software2", "prob": 20 },
+      { "trait": "Exp_Eng_Software0Fake1", "prob": 2 },
+      { "trait": "Exp_Eng_Software0Fake2", "prob": 1 }
     ]
   },
   {
@@ -770,23 +851,18 @@
     "type": "trait_group",
     "id": "Exp_Eng_Software_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Eng_Software1" }, { "trait": "Exp_Eng_Software1" }, { "trait": "Exp_Eng_Software2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Eng_Software_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Eng_Software_Nofake" }, { "group": "Exp_Eng_Software_Any" } ]
+    "traits": [ { "trait": "Exp_Eng_Software1", "prob": 70 }, { "trait": "Exp_Eng_Software2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Structural1",
     "name": "Structural Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in structural engineering, but not much experience.",
+    "description": "This survivor has some formal training in Structural Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Eng_Structural" ]
   },
   {
     "type": "mutation",
@@ -794,18 +870,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Structural Engineering Training",
     "points": 0,
-    "description": "This survivor has some formal training in structural engineering, but not much experience.",
+    "description": "This survivor has some formal training in Structural Engineering, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Eng_Structural", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Eng_Structural2",
     "name": "Structural Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in structural engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Structural Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Eng_Structural" ]
   },
   {
     "type": "mutation",
@@ -813,9 +893,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Structural Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in structural engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Structural Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Eng_Structural" ]
   },
   {
     "type": "mutation",
@@ -823,9 +905,11 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Structural Engineering Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in structural engineering: an EngD, extensive field experience, or equivalent.",
+    "description": "This survivor has extensive experience in Structural Engineering: an EngD, extensive field experience, or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Structural", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -833,14 +917,11 @@
     "id": "Exp_Eng_Structural_Any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "Exp_Eng_Structural1" },
-      { "trait": "Exp_Eng_Structural1" },
-      { "trait": "Exp_Eng_Structural0Fake1" },
-      { "trait": "Exp_Eng_Structural2" },
-      { "trait": "Exp_Eng_Structural2" },
-      { "trait": "Exp_Eng_Structural1Fake2" },
-      { "trait": "Exp_Eng_Structural1Fake2" },
-      { "trait": "Exp_Eng_Structural0Fake2" }
+      { "trait": "Exp_Eng_Structural1", "prob": 30 },
+      { "trait": "Exp_Eng_Structural1Fake2", "prob": 30 },
+      { "trait": "Exp_Eng_Structural2", "prob": 20 },
+      { "trait": "Exp_Eng_Structural0Fake1", "prob": 15 },
+      { "trait": "Exp_Eng_Structural0Fake2", "prob": 5 }
     ]
   },
   {
@@ -848,23 +929,18 @@
     "type": "trait_group",
     "id": "Exp_Eng_Structural_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Eng_Structural1" }, { "trait": "Exp_Eng_Structural1" }, { "trait": "Exp_Eng_Structural2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Eng_Structural_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Eng_Structural_Nofake" }, { "group": "Exp_Eng_Structural_Any" } ]
+    "traits": [ { "trait": "Exp_Eng_Structural1", "prob": 70 }, { "trait": "Exp_Eng_Structural2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Entomology1",
     "name": "Entomology Training",
     "points": 0,
-    "description": "This survivor has some formal training in entomology, but not much experience.",
+    "description": "This survivor has some formal training in Entomology, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Entomology" ]
   },
   {
     "type": "mutation",
@@ -872,18 +948,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Entomology Training",
     "points": 0,
-    "description": "This survivor has some formal training in entomology, but not much experience.",
+    "description": "This survivor has some formal training in Entomology, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Entomology", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Entomology2",
     "name": "Entomology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in entomology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Entomology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Entomology" ]
   },
   {
     "type": "mutation",
@@ -891,9 +971,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Entomology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in entomology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Entomology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Entomology" ]
   },
   {
     "type": "mutation",
@@ -901,24 +983,26 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Entomology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in entomology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Entomology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Entomology", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Entomology_Any",
     "subtype": "distribution",
+    "//": "It's really, really unlikely for anyone without previous training to pretend they're an expert in this after the apocalypse.",
+    "//": "It's still pretty common for people to inflate their experience though, because people just do that a lot.",
     "traits": [
-      { "trait": "Exp_Entomology1" },
-      { "trait": "Exp_Entomology1" },
-      { "trait": "Exp_Entomology0Fake1" },
-      { "trait": "Exp_Entomology2" },
-      { "trait": "Exp_Entomology2" },
-      { "trait": "Exp_Entomology1Fake2" },
-      { "trait": "Exp_Entomology1Fake2" },
-      { "trait": "Exp_Entomology0Fake2" }
+      { "trait": "Exp_Entomology1", "prob": 35 },
+      { "trait": "Exp_Entomology1Fake2", "prob": 25 },
+      { "trait": "Exp_Entomology2", "prob": 20 },
+      { "trait": "Exp_Entomology0Fake1", "prob": 5 },
+      { "trait": "Exp_Entomology0Fake2", "prob": 2 }
+
     ]
   },
   {
@@ -926,14 +1010,7 @@
     "type": "trait_group",
     "id": "Exp_Entomology_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Entomology1" }, { "trait": "Exp_Entomology1" }, { "trait": "Exp_Entomology2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Entomology_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Entomology_Nofake" }, { "group": "Exp_Entomology_Any" } ]
+    "traits": [ { "trait": "Exp_Entomology1", "prob": 70 }, { "trait": "Exp_Entomology2", "prob": 30 } ]
   },
   {
     "type": "mutation",
@@ -959,9 +1036,40 @@
     "id": "Exp_Geology2",
     "name": "Geology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in geology, a PhD or equivalent.",
+
+  {
+    "type": "mutation",
+    "id": "Exp_Geology1",
+    "name": "Geology Training",
+    "points": 0,
+    "description": "This survivor has some formal training in Geology, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Geology" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Geology0Fake1",
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
+    "name": "Geology Training",
+    "points": 0,
+    "description": "This survivor has some formal training in Geology, but not much experience.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Geology", "Exp_Fake" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Geology2",
+    "name": "Geology Expert",
+    "points": 0,
+    "description": "This survivor has extensive experience in Geology, a PhD or equivalent.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Geology" ]
   },
   {
     "type": "mutation",
@@ -969,9 +1077,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Geology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in geology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Geology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Geology" ]
   },
   {
     "type": "mutation",
@@ -979,24 +1089,25 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Geology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in geology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Geology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Geology", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Geology_Any",
     "subtype": "distribution",
+    "//": "It's really, really unlikely for anyone without previous training to pretend they're an expert in this after the apocalypse.",
+    "//": "It's still pretty common for people to inflate their experience though, because people just do that a lot.",
     "traits": [
-      { "trait": "Exp_Geology1" },
-      { "trait": "Exp_Geology1" },
-      { "trait": "Exp_Geology0Fake1" },
-      { "trait": "Exp_Geology2" },
-      { "trait": "Exp_Geology2" },
-      { "trait": "Exp_Geology1Fake2" },
-      { "trait": "Exp_Geology1Fake2" },
-      { "trait": "Exp_Geology0Fake2" }
+      { "trait": "Exp_Geology1", "prob": 35 },
+      { "trait": "Exp_Geology1Fake2", "prob": 25 },
+      { "trait": "Exp_Geology2", "prob": 20 },
+      { "trait": "Exp_Geology0Fake1", "prob": 5 },
+      { "trait": "Exp_Geology0Fake2", "prob": 2 }
     ]
   },
   {
@@ -1004,23 +1115,18 @@
     "type": "trait_group",
     "id": "Exp_Geology_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Geology1" }, { "trait": "Exp_Geology1" }, { "trait": "Exp_Geology2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Geology_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Geology_Nofake" }, { "group": "Exp_Geology_Any" } ]
+    "traits": [ { "trait": "Exp_Geology1", "prob": 70 }, { "trait": "Exp_Geology2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Medicine1",
     "name": "Medicine Training",
     "points": 0,
-    "description": "This survivor has some formal training in medicine, but not much experience.",
+    "description": "This survivor has some formal training in Medicine, but not at the MD level.  This applies to medical students and residents but also nurses and other associated personnel.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Medicine" ]
   },
   {
     "type": "mutation",
@@ -1028,18 +1134,22 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Medicine Training",
     "points": 0,
-    "description": "This survivor has some formal training in medicine, but not much experience.",
+    "description": "This survivor has some formal training in Medicine, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Medicine", "Exp_Fake" ]
   },
   {
     "type": "mutation",
     "id": "Exp_Medicine2",
     "name": "Medicine Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in medicine, an MD or equivalent.",
+    "description": "This survivor has extensive experience in Medicine, an MD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Medicine" ]
   },
   {
     "type": "mutation",
@@ -1047,9 +1157,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Medicine Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in medicine, an MD or equivalent.",
+    "description": "This survivor has extensive experience in Medicine, an MD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Medicine" ]
   },
   {
     "type": "mutation",
@@ -1057,24 +1169,24 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Medicine Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in medicine, an MD or equivalent.",
+    "description": "This survivor has extensive experience in Medicine, an MD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Medicine", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Medicine_Any",
     "subtype": "distribution",
+    "//": "This is an area people are very very likely to claim expertise in falsely due to its perception of high value",
     "traits": [
-      { "trait": "Exp_Medicine1" },
-      { "trait": "Exp_Medicine1" },
-      { "trait": "Exp_Medicine0Fake1" },
-      { "trait": "Exp_Medicine2" },
-      { "trait": "Exp_Medicine2" },
-      { "trait": "Exp_Medicine1Fake2" },
-      { "trait": "Exp_Medicine1Fake2" },
-      { "trait": "Exp_Medicine0Fake2" }
+      { "trait": "Exp_Medicine1", "prob": 25 },
+      { "trait": "Exp_Medicine1Fake2", "prob": 35 },
+      { "trait": "Exp_Medicine2", "prob": 20 },
+      { "trait": "Exp_Medicine0Fake1", "prob": 20 },
+      { "trait": "Exp_Medicine0Fake2", "prob": 10 }
     ]
   },
   {
@@ -1082,21 +1194,14 @@
     "type": "trait_group",
     "id": "Exp_Medicine_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Medicine1" }, { "trait": "Exp_Medicine1" }, { "trait": "Exp_Medicine2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Medicine_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Medicine_Nofake" }, { "group": "Exp_Medicine_Any" } ]
+    "traits": [ { "trait": "Exp_Medicine1", "prob": 70 }, { "trait": "Exp_Medicine2", "prob": 30 } ]
   },
   {
     "type": "mutation",
     "id": "Exp_Mycology1",
     "name": "Mycology Training",
     "points": 0,
-    "description": "This survivor has some formal training in mycology, but not much experience.",
+    "description": "This survivor has some formal training in Mycology, but not much experience.",
     "valid": false,
     "purifiable": false
   },
@@ -1106,7 +1211,7 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Mycology Training",
     "points": 0,
-    "description": "This survivor has some formal training in mycology, but not much experience.",
+    "description": "This survivor has some formal training in Mycology, but not much experience.",
     "valid": false,
     "purifiable": false
   },
@@ -1115,9 +1220,40 @@
     "id": "Exp_Mycology2",
     "name": "Mycology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in mycology, a PhD or equivalent.",
+
+  {
+    "type": "mutation",
+    "id": "Exp_Mycology1",
+    "name": "Mycology Training",
+    "points": 0,
+    "description": "This survivor has some formal training in Mycology, but not much experience.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 1 }, "Exp_Mycology" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Mycology0Fake1",
+    "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
+    "name": "Mycology Training",
+    "points": 0,
+    "description": "This survivor has some formal training in Mycology, but not much experience.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 1 }, "Exp_Mycology", "Exp_Fake" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Mycology2",
+    "name": "Mycology Expert",
+    "points": 0,
+    "description": "This survivor has extensive experience in Mycology, a PhD or equivalent.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 2 }, { "Claimed_Expert": 2 }, "Exp_Mycology" ]
   },
   {
     "type": "mutation",
@@ -1125,9 +1261,11 @@
     "//": "A fake! This survivor will pretend to know more about this subject than they do.",
     "name": "Mycology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in mycology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Mycology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Actual_Expert": 1 }, { "Claimed_Expert": 2 }, "Exp_Mycology" ]
   },
   {
     "type": "mutation",
@@ -1135,24 +1273,25 @@
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
     "name": "Mycology Expert",
     "points": 0,
-    "description": "This survivor has extensive experience in mycology, a PhD or equivalent.",
+    "description": "This survivor has extensive experience in Mycology, a PhD or equivalent.",
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Mycology", "Exp_Fake"  ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
     "id": "Exp_Mycology_Any",
     "subtype": "distribution",
+    "//": "It's really, really unlikely for anyone without previous training to pretend they're an expert in this after the apocalypse.",
+    "//": "It's still pretty common for people to inflate their experience though, because people just do that a lot.",
     "traits": [
-      { "trait": "Exp_Mycology1" },
-      { "trait": "Exp_Mycology1" },
-      { "trait": "Exp_Mycology0Fake1" },
-      { "trait": "Exp_Mycology2" },
-      { "trait": "Exp_Mycology2" },
-      { "trait": "Exp_Mycology1Fake2" },
-      { "trait": "Exp_Mycology1Fake2" },
-      { "trait": "Exp_Mycology0Fake2" }
+      { "trait": "Exp_Mycology1", "prob": 35 },
+      { "trait": "Exp_Mycology1Fake2", "prob": 25 },
+      { "trait": "Exp_Mycology2", "prob": 20 },
+      { "trait": "Exp_Mycology0Fake1", "prob": 5 },
+      { "trait": "Exp_Mycology0Fake2", "prob": 2 }
     ]
   },
   {
@@ -1160,14 +1299,7 @@
     "type": "trait_group",
     "id": "Exp_Mycology_Nofake",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Mycology1" }, { "trait": "Exp_Mycology1" }, { "trait": "Exp_Mycology2" } ]
-  },
-  {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
-    "type": "trait_group",
-    "id": "Exp_Mycology_Group",
-    "subtype": "distribution",
-    "traits": [ { "group": "Exp_Mycology_Nofake" }, { "group": "Exp_Mycology_Any" } ]
+    "traits": [ { "trait": "Exp_Mycology1", "prob": 70 }, { "trait": "Exp_Mycology2", "prob": 30 } ]
   },
   {
     "type": "mutation",
