@@ -457,7 +457,7 @@ hostile | Make the NPC hostile and end the conversation.
 flee | Makes the NPC flee from your character.
 leave | Makes the NPC not follow your character anymore.
 follow | Makes the NPC follow your character.
-deny_follow<br/>deny_lead<br/>deny_train<br/>deny_personal_info | Sets the appropriate effect on the NPC for a few hours.<br/>These are <span style="color:#ff6666;">deprecated</span> in favor of the more flexible `npc_add_effect` described below.
+deny_follow<br/>deny_lead<br/>deny_train<br/>deny_personal_info | Sets the appropriate effect on the NPC for a few hours.<br/>These are *deprecated* in favor of the more flexible `npc_add_effect` described below.
 drop_weapon | Make the NPC drop their weapon.
 player_weapon_away | Makes your character put away (unwield) their weapon.
 player_weapon_drop | Makes your character drop their weapon.
