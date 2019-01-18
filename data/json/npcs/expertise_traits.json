@@ -1,3 +1,4 @@
+[
   {
     "type": "mutation",
     "id": "Exp_Agriculture1",
@@ -54,9 +55,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Agriculture", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Agriculture", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Biochemistry1",
@@ -124,9 +124,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Biochemistry", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Biochemistry", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Biology1",
@@ -183,9 +182,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Biology", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Biology", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Bookkeeping1",
@@ -242,9 +240,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Bookkeeping", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Bookkeeping", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Botany1",
@@ -301,9 +298,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Botany", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Botany", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Chemistry1",
@@ -360,9 +356,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Chemistry", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Chemistry", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Culinary1",
@@ -419,9 +414,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Culinary", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Culinary", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Eng_Electrical1",
@@ -478,9 +472,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Electrical", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Electrical", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Eng_Mechanical1",
@@ -537,9 +530,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Mechanical", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Mechanical", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Eng_Software1",
@@ -596,9 +588,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Software", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Software", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Eng_Structural1",
@@ -655,9 +646,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Structural", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Eng_Structural", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Entomology1",
@@ -714,9 +704,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Entomology", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Entomology", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Geology1",
@@ -736,12 +725,6 @@
     "valid": false,
     "purifiable": false
   },
-  {
-    "type": "mutation",
-    "id": "Exp_Geology2",
-    "name": "Geology Expert",
-    "points": 0,
-
   {
     "type": "mutation",
     "id": "Exp_Geology1",
@@ -798,9 +781,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Geology", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Geology", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Medicine1",
@@ -857,9 +839,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Medicine", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Medicine", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Mycology1",
@@ -879,12 +860,6 @@
     "valid": false,
     "purifiable": false
   },
-  {
-    "type": "mutation",
-    "id": "Exp_Mycology2",
-    "name": "Mycology Expert",
-    "points": 0,
-
   {
     "type": "mutation",
     "id": "Exp_Mycology1",
@@ -941,9 +916,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Mycology", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Mycology", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Physics1",
@@ -1000,7 +974,7 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Physics", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Physics", "Exp_Fake" ]
   },
   {
     "type": "mutation",
@@ -1058,9 +1032,8 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Psychology", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Psychology", "Exp_Fake" ]
   },
-
   {
     "type": "mutation",
     "id": "Exp_Sanitation1",
@@ -1117,7 +1090,7 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Sanitation", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Sanitation", "Exp_Fake" ]
   },
   {
     "type": "mutation",
@@ -1175,6 +1148,6 @@
     "valid": false,
     "purifiable": false,
     "player_visible": false,
-    "flags": [ { "Claimed_Expert": 2 }, "Exp_Teaching", "Exp_Fake"  ]
+    "flags": [ { "Claimed_Expert": 2 }, "Exp_Teaching", "Exp_Fake" ]
   }
 ]
