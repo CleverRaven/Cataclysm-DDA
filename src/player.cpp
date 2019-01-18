@@ -11109,8 +11109,6 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    activity.allow_distractions();
-
     if( activity.rooted() ) {
         rooted_message();
     }
