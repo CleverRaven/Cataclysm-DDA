@@ -52,7 +52,7 @@
     "description": "Nothing tastier than something that's deep-fried!",
     "material": [ "flesh", "wheat", "milk" ],
     "color": "brown",
-    "weight": 558,
+    "weight": 58,
     "volume": 1,
     "charges": 3,
     "spoils_in": "3 days",
