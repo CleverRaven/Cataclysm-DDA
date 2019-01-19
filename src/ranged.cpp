@@ -187,9 +187,39 @@ bool player::handle_gun_damage( item &it )
             it.inc_damage();
         }
         return false;
-    }
-    return true;
-}
+      } else if( it.has_flag( "CONSUMABLE" ) ) {
+
+         const int uncork =  ( ( 5 *it.ammo_data()->ammo->loudness )+it.ammo_data()->ammo->recoil ) ;
+         const int uncork2 =  ( ( uncork*uncork*0.05 ) ) ;
+         for( auto mod : it.gunmods() ) {
+           const int multi =  mod->type->gunmod->consume_multiplier ;
+           const int modconsume = mod->type->gunmod->consume_chance ;
+                 if ( mod->has_flag( "CONSUMABLE" )  &&  ( it.ammo_type() == ammotype( "22" ) ) && one_in( modconsume ) ) {
+            if( mod->mod_damage( 1000 * multi ) ) {
+ add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
+                        _( "<npcname>'s attached %s is destroyed by their shot!" ),
+                                mod->tname().c_str() );
+                                i_rem(mod);
+         }  else if ( ( it.has_flag( "CONSUMABLE" ) ) &&  ( mod->damage() < mod->max_damage() ) ) {
+ add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
+                              _( "<npcname>'s %s is damaged by their shot!" ),
+                                mod->tname().c_str() );
+         } }
+         else {
+            if( mod->mod_damage( uncork2 ) ) {
+ add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
+                        _( "<npcname>'s attached %s is destroyed by their shot!" ),
+                                mod->tname().c_str() );
+
+                                i_rem(mod);
+         } else if( mod->has_flag( "CONSUMABLE" )  &&  ( mod->damage() < mod->max_damage() ) ) {
+ add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
+                              _( "<npcname>'s %s is damaged by their shot!" ),
+                                mod->tname().c_str() );
+         } }   } }
+
+     return true;
+ }
 
 int player::fire_gun( const tripoint &target, int shots )
 {
