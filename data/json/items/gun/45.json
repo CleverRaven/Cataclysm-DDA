@@ -52,22 +52,6 @@
     ]
   },
   {
-    "id": "l_mp_45",
-    "copy-from": "l_mp_9mm",
-    "type": "GUN",
-    "name": "L39B-45",
-    "description": "After the success of the 9x19mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.  Come with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
-    "ammo": "45"
-  },
-  {
-    "id": "l_sp_45",
-    "copy-from": "l_sp_9mm",
-    "type": "GUN",
-    "name": "L39-45",
-    "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.  Comes with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
-    "ammo": "45"
-  },
-  {
     "id": "m1911",
     "copy-from": "pistol_base",
     "type": "GUN",
