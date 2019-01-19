@@ -1180,7 +1180,7 @@ void vehicle::check_falling_or_floating()
             is_falling &= !g->m.has_floor( p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
-        water_tiles += g->m.has_flag( "SWIMMABLE", p ) ? 1 : 0;
+        water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
     }
     // floating if 2/3rds of the vehicle is in water
     is_floating = 3 * water_tiles > 2 * pts.size();
