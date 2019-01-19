@@ -1373,44 +1373,10 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-std::vector<item *> activity_handlers::find_items( player *p, items_location loc )
-{
-    int veggy_chance = rng( 1, 100 );
-    std::vector<item *> dropped;
-    // Survival gives a bigger boost, and Perception is leveled a bit.
-    // Both survival and perception affect time to forage
-    ///\EFFECT_SURVIVAL increases forage success chance
-
-    ///\EFFECT_PER slightly increases forage success chance
-    if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
-        dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
-        for( const auto &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
-        }
-    }
-    // 10% to drop a item/items from this group.
-    if( one_in( 10 ) ) {
-        const auto trash = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
-        for( const auto &it : trash ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
-            if( it->typeId() == "mushroom" ) {
-                if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_POISON" );
-                    it->poison = rng( 2, 7 );
-                    break;
-                } else if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_HALLU" );
-                    break;
-                }
-            }
-        }
-        dropped.insert( dropped.end(), trash.begin(), trash.end() );
-    }
-    return dropped;
-}
-
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
+    int veggy_chance = rng( 1, 100 );
+    bool found_something = false;
 
     items_location loc;
     ter_str_id next_ter;
@@ -1436,9 +1402,38 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     g->m.ter_set( act->placement, next_ter );
 
-    const auto dropped = activity_handlers::find_items( p, loc );
+    // Survival gives a bigger boost, and Perception is leveled a bit.
+    // Both survival and perception affect time to forage
+    ///\EFFECT_SURVIVAL increases forage success chance
 
-    if( dropped.empty() ) {
+    ///\EFFECT_PER slightly increases forage success chance
+    if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
+        const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
+        for( const auto &it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
+            found_something = true;
+        }
+    }
+    // 10% to drop a item/items from this group.
+    if( one_in( 10 ) ) {
+        const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
+        for( const auto &it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
+            found_something = true;
+            if( it->typeId() == "mushroom" ) {
+                if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_POISON" );
+                    it->poison = rng( 2, 7 );
+                    break;
+                } else if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_HALLU" );
+                    break;
+                }
+            }
+        }
+    }
+
+    if( !found_something ) {
         add_msg( _( "You didn't find anything." ) );
     }
 
