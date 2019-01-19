@@ -577,7 +577,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( sideStyle ? w : g->w_HP, c_white, _( "Pwr " ) );
 
         if( this->max_power_level == 0 ) {
-            wprintz( sideStyle ? w : g->w_HP, c_light_gray, " --   " );
+            wprintz( sideStyle ? w : g->w_HP, c_light_gray, " --" );
         } else {
             nc_color color = c_red;
             if( this->power_level >= this->max_power_level / 2 ) {
