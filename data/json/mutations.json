@@ -1916,7 +1916,7 @@
         "points" : 2,
         "visibility" : 2,
         "ugliness" : 3,
-        "description" : "Some of the quills on your arms have become quite loose.  By contracting your muscles, you can fire off these quills as projectiles.",
+        "description" : "Some of the quills on your arms have become quite loose.  By flinging your arms, you can fire off these quills as projectiles.",
         "active": true,
         "cost": 10,
         "hunger": true,
