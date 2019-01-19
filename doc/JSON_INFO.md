@@ -2067,6 +2067,14 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
               { "weight":1, "sprite":3621},
               { "weight":1, "sprite":3622}
             ]
+          },
+          {
+            "id": [
+              "overlay_mutation_GOURMAND",        // character overlay for mutation
+              "overlay_mutation_male_GOURMAND",   // overlay for specified gender
+              "overlay_mutation_active_GOURMAND"  // overlay for activated mutation
+            ],
+            "fg": 4040
           }
         ]
       },
