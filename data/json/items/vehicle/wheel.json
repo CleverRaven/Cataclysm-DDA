@@ -64,8 +64,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
-    "diameter": 10,
-    "width": 2
+    "diameter": 27,
+    "width": 3
   },
   {
     "id": "wheel_caster",
@@ -116,7 +116,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
-    "diameter": 11,
+    "diameter": 16,
     "width": 4
   },
   {
@@ -134,7 +134,7 @@
     "symbol": "m",
     "color": "light_gray",
     "diameter": 60,
-    "width": 60
+    "width": 30
   },
   {
     "id": "wheel_small",

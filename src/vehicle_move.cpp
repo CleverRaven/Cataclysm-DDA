@@ -1203,7 +1203,7 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
         const tripoint &pp = veh.global_part_pos3( p );
-        const float wheel_area = veh.parts[ p ].wheel_area();
+        const int wheel_area = veh.parts[ p ].wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -1219,14 +1219,13 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
             return 0.0f;
         }
 
-        if( !tr.has_flag( "FLAT" ) ) {
-            // Wheels aren't as good as legs on rough terrain
-            move_mod += 4;
-        } else if( !tr.has_flag( "ROAD" ) ) {
-            move_mod += 2;
+        for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
+            if( !tr.has_flag( terrain_mod.first ) ) {
+                move_mod += terrain_mod.second;
+                break;
+            }
         }
-
-        traction_wheel_area += 2 * wheel_area / move_mod;
+        traction_wheel_area += 2.0 * wheel_area / move_mod;
     }
 
     return traction_wheel_area;
