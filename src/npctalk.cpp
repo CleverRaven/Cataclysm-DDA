@@ -515,7 +515,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // TODO: this ignores the z-component
         const tripoint player_pos = p->global_omt_location();
         int dist = rl_dist( player_pos, p->goal );
-        std::ostringstream response;
+        std::string response;
         dist *= 100;
         if( dist >= 1300 ) {
             int miles = dist / 25; // *100, e.g. quarter mile is "25"
@@ -524,12 +524,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             if( fullmiles <= 0 ) {
                 fullmiles = 0;
             }
-            response << string_format( _( "%d.%d miles." ), fullmiles, miles );
+            response = string_format( _( "%d.%d miles." ), fullmiles, miles );
         } else {
-            response << string_format( ngettext( "%d foot.", "%d feet.", dist ), dist );
+            response = string_format( ngettext( "%d foot.", "%d feet.", dist ), dist );
         }
-        return response.str();
-
+        return response;
     } else if( topic == "TALK_FRIEND" ) {
         return _( "What is it?" );
 
@@ -621,30 +620,30 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             ability = 100;
         }
 
-        std::stringstream info;
-        info << "&";
+        std::string info = "&";
         int str_range = int( 100 / ability );
         int str_min = int( p->str_max / str_range ) * str_range;
-        info << string_format( _( "Str %d - %d" ), str_min, str_min + str_range );
+        info += string_format( _( "Str %d - %d" ), str_min, str_min + str_range );
 
         if( ability >= 40 ) {
             int dex_range = int( 160 / ability );
             int dex_min = int( p->dex_max / dex_range ) * dex_range;
-            info << "  " << string_format( _( "Dex %d - %d" ), dex_min, dex_min + dex_range );
+            info += string_format( _( "  Dex %d - %d" ), dex_min, dex_min + dex_range );
         }
 
         if( ability >= 50 ) {
             int int_range = int( 200 / ability );
             int int_min = int( p->int_max / int_range ) * int_range;
-            info << "  " << string_format( _( "Int %d - %d" ), int_min, int_min + int_range );
+            info += string_format( _( "  Int %d - %d" ), int_min, int_min + int_range );
         }
 
         if( ability >= 60 ) {
             int per_range = int( 240 / ability );
             int per_min = int( p->per_max / per_range ) * per_range;
-            info << "  " << string_format( _( "Per %d - %d" ), per_min, per_min + per_range );
+            info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
         }
 
+        needs_rates rates = p->calc_needs_rates();
         if( ability >= 100 - ( p->get_fatigue() / 10 ) ) {
             std::string how_tired;
             if( p->get_fatigue() > EXHAUSTED ) {
@@ -655,23 +654,37 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 how_tired = _( "Tired" );
             } else {
                 how_tired = _( "Not tired" );
+                if( ability >= 100 ) {
+                     time_duration sleep_at = 5_minutes * ( TIRED - p->get_fatigue() ) /
+                                              rates.fatigue;
+                     how_tired += _( ".  Will need sleep in " ) + to_string_approx( sleep_at );
+                }
             }
-
-            info << std::endl << how_tired;
+            info += "\n" + how_tired;
         }
-
-        return info.str();
-
+        if( ability >= 100 ) {
+            if( p->get_thirst() < 100 ) {
+                time_duration thirst_at = 5_minutes * ( 100 - p->get_thirst() ) / rates.thirst;
+                if( thirst_at > 1_hours ) {
+                    info += _( "\nWill need water in " ) + to_string_approx( thirst_at );
+                }
+            } else {
+                info += _( "\nThirsty" );
+            }
+            if( p->get_hunger() < 100 ) {
+                time_duration hunger_at = 5_minutes * ( 100 - p->get_hunger() ) / rates.hunger;
+                if( hunger_at > 1_hours ) {
+                    info += _( "\nWill need food in " ) + to_string_approx( hunger_at );
+                }
+            } else {
+                info += _( "\nHungry" );
+            }
+        }
+        return info;
     } else if( topic == "TALK_LOOK_AT" ) {
-        std::stringstream look;
-        look << "&" << p->short_description();
-        return look.str();
-
+        return "&" + p->short_description();
     } else if( topic == "TALK_OPINION" ) {
-        std::stringstream opinion;
-        opinion << "&" << p->opinion_text();
-        return opinion.str();
-
+        return "&" + p->opinion_text();
     } else if( topic == "TALK_WAKE_UP" ) {
         if( p->has_effect( effect_sleep ) ) {
             if( p->get_fatigue() > EXHAUSTED ) {
