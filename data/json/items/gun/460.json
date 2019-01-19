@@ -1,11 +1,22 @@
 [
   {
-    "id": "l_sp_460",
+    "id": "l_sp_45",
     "copy-from": "l_sp_9mm",
     "type": "GUN",
     "name": "L39-460",
     "description": "Developed as a testament to the L39 family of pistols' strength, this hefty pistol chambers powerful .460 Rowland.  In addition to the heavy slide and L39 standard sighting package, this pistol sports a large compensator.  Notably, normal .45ACP can also be fired through the weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 90000,
+    "ammo": "460",
+    "relative": { "durability": -1 },
+    "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+  },
+  {
+    "id": "l_mp_45",
+    "copy-from": "l_mp_9mm",
+    "type": "GUN",
+    "name": "L39B-45",
+    "description": "After the success of their 9x19mm machine pistol, Leadworks LLC developed the L39B-460 from their .460 Rowland semi-autos, intending them to be used with .45ACP.  Because it shares most of its parts with the L39-460, this variant retains the ability to fire fearsome .460 Rowland, though users are strongly advised not to do so during automatic fire.  Comes with built in red dot, recoil compensator and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "460",
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
@@ -42,7 +53,7 @@
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
-    "description": "The Leadworks Long Ranger was designed to give Enforcer users (or anyone using .460/.45 caliber cartridges) a little extra reach while using the same ammunition.  Loaded with powerful .460 Rowland ammunition, this rifle offered a competitive replacement to the AR-15 in poltically restrictive climates, but was met with disgust from lever action purists because of its synthetic furniture and built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "The Leadworks Long Ranger was designed to give Enforcer users (or anyone using .460/.45 caliber cartridges) a little extra reach while using the same ammunition.  Loaded with powerful .460 Rowland ammunition, this rifle offers a competitive replacement to the AR-15 in politically restrictive climates, but was met with disgust from lever action purists because of its synthetic furniture and built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 4175,
     "volume": 13,
     "price": 90000,

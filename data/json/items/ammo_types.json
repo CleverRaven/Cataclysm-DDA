@@ -111,7 +111,7 @@
         "type" : "ammunition_type",
         "id" : "460",
         "name" : ".460",
-        "default" : "460_rowland"
+        "default" : "45_acp"
     },
     {
         "type" : "ammunition_type",

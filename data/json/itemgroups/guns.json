@@ -27,7 +27,6 @@
       [ "l_enforcer_45", 25 ],
       [ "l_lookout_9mm", 20 ],
       [ "l_sp_45", 35 ],
-      [ "l_sp_460", 25 ],
       [ "l_sp_9mm", 60 ],
       [ "ruger_lcr_22", 35 ],
       [ "ruger_redhawk", 25 ],
@@ -47,7 +46,6 @@
     "items": [
       [ "hk_ucp", 100 ],
       [ "l_mp_45", 70 ],
-      [ "l_sp_460", 15 ],
       [ "l_mp_9mm", 100 ],
       [ "needlepistol", 45 ],
       [ "rm103a_pistol", 35 ]
