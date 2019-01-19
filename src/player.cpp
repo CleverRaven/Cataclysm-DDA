@@ -12125,6 +12125,8 @@ std::vector<std::string> player::get_overlay_ids() const
 {
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
+    int order;
+    std::string overlay_id;
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -12132,15 +12134,17 @@ std::vector<std::string> player::get_overlay_ids() const
     }
 
     // then get mutations
-    for( auto &mutation : get_mutations() ) {
-        auto value = get_overlay_order_of_mutation( mutation.str());
-        mutation_sorting.insert( std::pair<int, std::string>( value, mutation.str() ) );
+    for( const auto &mut : my_mutations ) {
+        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }
 
     // then get bionics
     for( const bionic &bio : *my_bionics ) {
-        auto value = get_overlay_order_of_mutation( bio.id.str() );
-        mutation_sorting.insert( std::pair<int, std::string>( value, bio.id.str() ) );
+        overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }
 
     for( auto &mutorder : mutation_sorting ) {
