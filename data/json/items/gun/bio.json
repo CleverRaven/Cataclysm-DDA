@@ -87,9 +87,9 @@
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
-    "id": "mut_spikes",
+    "id": "mut_quills",
     "type": "GUN",
-    "name": "Spikes",
+    "name": "Fireable quills",
     "description": "this a pseudo item",
     "volume": 12,
     "price": 0,
@@ -98,7 +98,7 @@
     "color": "magenta",
     "skill": "shotgun",
     "range": 4,
-    "ranged_damage": 5,
+    "ranged_damage": 6,
     "dispersion": 600,
     "durability": 10,
     "loudness": 5,

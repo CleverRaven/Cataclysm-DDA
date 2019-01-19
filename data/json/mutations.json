@@ -1910,18 +1910,18 @@
         "description" : "Your body is covered with large quills.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive significant damage.",
         "prereqs" : ["SPINES"]
     },{
-      "type" : "mutation",
-      "id" : "SPIKES",
-      "name" : "Spikes",
-      "points" : 3,
-      "visibility" : 2,
-      "ugliness" : 3,
-      "description" : "Some of the quills on your arms have become quite loose.  By contracting the muscles on your arms, you can fire off your quills as projectiles.",
-      "active": true,
-      "cost": 10,
-      "hunger": true,
-      "gun_mutation": { "type": "mut_spikes", "message": "You fire off some quills." },
-      "prereqs" : ["QUILLS"]
+        "type" : "mutation",
+        "id" : "PROJECT_QUILLS",
+        "name": "Fireable quills",
+        "points" : 2,
+        "visibility" : 2,
+        "ugliness" : 3,
+        "description" : "Some of the quills on your arms have become quite loose.  By contracting your muscles, you can fire off these quills as projectiles.",
+        "active": true,
+        "cost": 10,
+        "hunger": true,
+        "gun_mutation": { "type": "mut_quills", "message": "You fire off some of your quills." },
+        "prereqs" : ["QUILLS"]
     },{
         "type" : "mutation",
         "id" : "PLANTSKIN",
