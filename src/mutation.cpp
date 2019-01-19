@@ -491,7 +491,7 @@ void player::activate_mutation( const trait_id &mut )
         tdata.powered = false;
         return;
     } else if ( !mdata.gun_mutation.empty() ) {
-        item mut_gun( mdata.gun_mutation );
+        mut_gun = item ( mdata.gun_mutation );
         add_msg_if_player( mdata.gun_mutation_message() );
         g->refresh_all();
         g->plfire(mut_gun);
