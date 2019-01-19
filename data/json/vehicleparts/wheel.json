@@ -72,6 +72,23 @@
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
+    "id": "wheel_slick",
+    "copy-from": "wheel",
+    "type": "vehicle_part",
+    "name": "racing slick",
+    "item": "wheel_slick",
+    "wheel_type": "racing",
+    "contact_area": 180
+  },
+  {
+    "id": "wheel_slick_steerable",
+    "copy-from": "wheel_slick",
+    "type": "vehicle_part",
+    "name": "racing slick (steerable)",
+    "item": "wheel_slick",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
     "id": "wheel_armor",
     "type": "vehicle_part",
     "name": "armored wheel",
@@ -153,6 +170,22 @@
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
+    "id": "wheel_bicycle_or",
+    "copy-from": "wheel_bicycle",
+    "type": "vehicle_part",
+    "name": "off-road bicycle wheel",
+    "item": "wheel_bicycle_or",
+    "wheel_area": 36,
+    "wheel_type": "off-road"
+  },
+  {
+    "id": "wheel_bicycle_or_steerable",
+    "copy-from": "wheel_bicycle_or",
+    "type": "vehicle_part",
+    "name": "off-road bicycle wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
     "id": "wheel_caster",
     "type": "vehicle_part",
     "name": "casters",
@@ -204,6 +237,22 @@
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
     "name": "motorbike wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_motorbike_or",
+    "copy-from": "wheel_motorbike",
+    "type": "vehicle_part",
+    "name": "off-road motorbike wheel",
+    "item": "wheel_motorbike_or",
+    "contact_area": 60,
+    "wheel_type": "off-road"
+  },
+  {
+    "id": "wheel_motorbike_or_steerable",
+    "copy-from": "wheel_motorbike_or",
+    "type": "vehicle_part",
+    "name": "off-road motorbike wheel (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -309,6 +358,22 @@
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
     "name": "wide wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_wide_or",
+    "copy-from": "wheel_wide",
+    "type": "vehicle_part",
+    "name": "off-road wide wheel",
+    "item": "wheel_wide_or",
+    "wheel_type": "off-road",
+    "contact_area": 320
+  },
+  {
+    "id": "wheel_wide_or_steerable",
+    "copy-from": "wheel_wide_or",
+    "type": "vehicle_part",
+    "name": "off-road wide wheel (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
