@@ -1,4 +1,4 @@
-#if (defined TILES)
+// #if (defined TILES)
 #include "cata_tiles.h"
 
 #include <algorithm>
@@ -15,6 +15,7 @@
 #include "debug.h"
 #include "field.h"
 #include "game.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -1944,7 +1945,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
 
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
     if( !display_tile.rotates ) {
-        rota = 0;
+        //rota = 0;
     }
 
     // translate from player-relative to screen relative tile position
@@ -2132,6 +2133,9 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
 #endif
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 90, NULL, SDL_FLIP_NONE );
                 break;
+            case 4: // flip horizontaly
+                ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL,
+                                                  static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
         }
     } else { // don't rotate, same as case 0 above
         ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
@@ -2555,8 +2559,13 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
             ent_subcategory = m->type->species.begin()->str();
         }
         const int subtile = corner;
-        return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
-                                    0, ll, false, height_3d );
+        if( m->facing == "left" ) {
+            return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
+                                        4, ll, false, height_3d );
+        } else {
+            return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
+                                        0, ll, false, height_3d );
+        }
     }
     const player *pl = dynamic_cast<const player *>( &critter );
     if( pl != nullptr ) {
@@ -2579,7 +2588,13 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     // first draw the character itself(i guess this means a tileset that
     // takes this seriously needs a naked sprite)
     int prev_height_3d = height_3d;
-    draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
+
+    // flip entity horizontaly
+    if( pl.facing == "left" ) {
+        draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
+    } else {
+        draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
+    }
 
     // next up, draw all the overlays
     std::vector<std::string> overlays = pl.get_overlay_ids();
@@ -3195,4 +3210,4 @@ void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
         return v->id;
     }, label, prefix );
 }
-#endif // SDL_TILES
+// #endif // SDL_TILES

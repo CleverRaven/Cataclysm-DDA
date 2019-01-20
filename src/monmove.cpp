@@ -607,6 +607,12 @@ void monster::move()
         destination.z = posz();
     }
 
+    if( destination.x < pos().x ) {
+        facing = "left";
+    } else {
+        facing = "right";
+    }
+
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
     const bool can_climb = has_flag( MF_CLIMBS );

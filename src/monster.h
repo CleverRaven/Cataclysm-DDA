@@ -87,7 +87,7 @@ class monster : public Creature
         bool is_monster() const override {
             return true;
         }
-
+        std::string facing = "";
         void poly( const mtype_id &id );
         bool can_upgrade();
         void hasten_upgrade();

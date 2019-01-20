@@ -828,6 +828,16 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+    // const std::string direction = direction_name( direction_from( pos().x, pos().y, pos().z ) );
+    // left=260  right=261
+    //    std::cout << "dest=" << inp_mngr.get_previously_pressed_key() << "\n";
+    //    fflush( stdout );
+    if ( inp_mngr.get_previously_pressed_key() == 260 ) {
+        facing = "left";
+    }
+    if ( inp_mngr.get_previously_pressed_key() == 261 ) {
+        facing = "right";
+    }
 }
 
 void player::action_taken()
@@ -11508,7 +11518,6 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
@@ -12206,7 +12215,6 @@ float player::speed_rating() const
     if( move_mode != "run" ) {
         ret *= 1.0f + (static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ));
     }
-
     return ret;
 }
 
