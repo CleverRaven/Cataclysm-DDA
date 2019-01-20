@@ -3107,14 +3107,26 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     sounds::ambient_sound( global_pos3(), noise, sounds::sound_t::movement, sound_msgs[lvl] );
 }
 
-float vehicle::wheel_area() const
+int vehicle::wheel_area() const
 {
-    float total_area = 0.0f;
-    for( auto &wheel_index : wheelcache ) {
-        total_area += parts[ wheel_index ].base.wheel_area();
+    int total_area = 0;
+    for( const int &wheel_index : wheelcache ) {
+        total_area += parts[ wheel_index ].wheel_area();
     }
 
     return total_area;
+}
+
+float vehicle::average_or_rating() const
+{
+    if( wheelcache.empty() ) {
+        return 0.0f;
+    }
+    float total_rating = 0;
+    for( const int &wheel_index : wheelcache ) {
+        total_rating += part_info( wheel_index ).wheel_or_rating();
+    }
+    return total_rating / wheelcache.size();
 }
 
 static double tile_to_width( int tiles )
@@ -3401,6 +3413,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );
+
     // For now make it easy until it gets properly balanced: add a low cap of 0.1
     return std::max( 0.1f, traction );
 }
@@ -4478,13 +4491,13 @@ void vehicle::refresh_pivot() const
         const auto &wheel = parts[p];
 
         // @todo: load on tire?
-        float contact_area = wheel.wheel_area();
+        int contact_area = wheel.wheel_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
         if( wheel.is_broken() ) {
             // broken wheels don't roll on either axis
-            weight_i = contact_area * 2;
-            weight_p = contact_area * 2;
+            weight_i = contact_area * 2.0;
+            weight_p = contact_area * 2.0;
         } else if( wheel.info().has_flag( "STEERABLE" ) ) {
             // Unbroken steerable wheels can handle motion on both axes
             // (but roll a little more easily inline)

@@ -367,7 +367,7 @@ bool vehicle_part::fault_set( const fault_id &f )
 
 int vehicle_part::wheel_area() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
+    return info().wheel_area();
 }
 
 /** Get wheel diameter (inches) or return 0 if part is not wheel */

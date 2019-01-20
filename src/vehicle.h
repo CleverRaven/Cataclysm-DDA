@@ -1078,7 +1078,9 @@ class vehicle
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
          */
-        float wheel_area() const;
+        int wheel_area() const;
+        // average off-road rating for displaying off-road perfomance
+        float average_or_rating() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
