@@ -2983,7 +2983,7 @@ void game::debug()
         _( "Set automove route" ),              // 27
         _( "Show mutation category levels" ),   // 28
         _( "Overmap editor" ),                  // 29
-        _( "Draw benchmark (5 seconds)" ),      // 30
+        _( "Draw benchmark (X seconds)" ),      // 30
         _( "Teleport - Adjacent overmap" ),     // 31
         _( "Test trait group" ),                // 32
         _( "Show debug message" ),              // 33
@@ -3315,23 +3315,12 @@ void game::debug()
             break;
 
         case 30: {
-            // call the draw procedure as many times as possible in 5 seconds
-            auto start_tick = std::chrono::steady_clock::now();
-            auto end_tick = std::chrono::steady_clock::now();
-            long difference = 0;
-            int draw_counter = 0;
-            while( true ) {
-                end_tick = std::chrono::steady_clock::now();
-                difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick -
-                             start_tick ).count();
-                if( difference >= 5000 ) {
-                    break;
-                }
-                draw();
-                draw_counter++;
-            }
-            add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-                     difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
+            const int ms = string_input_popup()
+                           .title( _( "Enter benchmark length (in milliseconds):" ) )
+                           .width( 20 )
+                           .text( "5000" )
+                           .query_int();
+            debug_menu::draw_benchmark( ms );
         }
         break;
 
