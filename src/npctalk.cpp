@@ -192,14 +192,19 @@ void game::chat()
     int yell_sentence = 0;
     int yell_guard = -1;
     int yell_follow = -1;
+    int yell_awake = -1;
+    int yell_sleep = -1;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
     if( !followers.empty() ) {
-        nmenu.addentry( yell_guard = i++, true, 'c', _( "Tell all your allies to guard" ) );
+        nmenu.addentry( yell_guard = i++, true, 'g', _( "Tell all your allies to guard" ) );
+        nmenu.addentry( yell_awake = i++, true, 'w', _( "Tell all your allies to stay awake" ) );
+        nmenu.addentry( yell_sleep = i++, true, 's',
+                        _( "Tell all your allies to relax and sleep when tired" ) );
     }
     if( !guards.empty() ) {
-        nmenu.addentry( yell_follow = i++, true, 'd', _( "Tell all your allies to follow" ) );
+        nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
     }
 
     nmenu.query();
@@ -225,6 +230,16 @@ void game::chat()
            talk_function::assign_guard( *p );
         }
         u.shout( _( "Guard here!" ) );
+    } else if( nmenu.ret == yell_awake ) {
+        for( npc *p: followers ) {
+           talk_function::wake_up( *p );
+        }
+        u.shout( _( "Stay awake!" ) );
+    } else if( nmenu.ret == yell_sleep ) {
+        for( npc *p: followers ) {
+           p->rules.allow_sleep = true;
+        }
+        u.shout( _( "We're safe!  Take a nap if you're tired." ) );
     } else if( nmenu.ret == yell_follow ) {
         for( npc *p: guards ) {
            talk_function::stop_guard( *p );
