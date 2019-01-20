@@ -77,7 +77,7 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Some aliases to help with gen_responses
 #define RESPONSE(txt)      ret.push_back(talk_response());\
-    ret.back().text = txt
+    ret.back().truetext = txt
 
 #define TRIAL(tr, diff) ret.back().trial.type = tr;\
     ret.back().trial.difficulty = diff
@@ -108,7 +108,7 @@ void bulk_trade_accept( npc &, const itype_id &it );
 const std::string &talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
-            "", _( "LIE" ), _( "PERSUADE" ), _( "INTIMIDATE" )
+            "", _( "LIE" ), _( "PERSUADE" ), _( "INTIMIDATE" ), ""
         }
     };
     if( static_cast<size_t>( type ) >= texts.size() ) {
@@ -763,7 +763,10 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
                                        const bool first )
 {
     talk_response result = talk_response();
-    result.text = text;
+    result.truetext = text;
+    result.truefalse_condition = []( const dialogue & ) {
+       return true;
+    };
     result.success.next_topic = talk_topic( r );
     if( first ) {
         responses.insert( responses.begin(), result );
@@ -1339,7 +1342,6 @@ int talk_trial::calc_chance( const dialogue &d ) const
     npc &p = *d.beta;
     int chance = difficulty;
     switch( type ) {
-        case TALK_TRIAL_NONE:
         case NUM_TALK_TRIALS:
             dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
             break;
@@ -1387,6 +1389,12 @@ int talk_trial::calc_chance( const dialogue &d ) const
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
                 chance += 20;
             }
+            break;
+        case TALK_TRIAL_NONE:
+            chance = 100;
+            break;
+         case TALK_TRIAL_CONDITION:
+            chance = condition( d ) ? 100 : 0;
             break;
     }
     for( auto this_mod: modifiers ) {
@@ -1677,18 +1685,17 @@ void dialogue::add_topic( const talk_topic &topic )
 talk_data talk_response::create_option_line( const dialogue &d, const char letter )
 {
     std::string ftext;
-    if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
-        ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ),
-                               letter,                         // option letter
-                               trial.name(),     // trial type
-                               trial.calc_chance( d ), // trial % chance
-                               text                // response
-                             );
-    } else { // regular dialogue
-        ftext = string_format( pgettext( "talk option", "%1$c: %2$s" ),
-                               letter,          // option letter
-                               text // response
-                             );
+    text = truefalse_condition( d ) ? truetext : falsetext;
+     // dialogue w/ a % chance to work
+    if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
+        // regular dialogue
+        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated response text
+        ftext = string_format( pgettext( "talk option", "%1$c: %2$s" ), letter, text );
+    } else {
+         // dialogue w/ a % chance to work
+        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated trial type, %3$d is a number, and %4$s is the translated response text
+        ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ), letter,
+                               trial.name(), trial.calc_chance( d ), text );
     }
     parse_tags( ftext, *d.alpha, *d.beta );
 
@@ -1821,7 +1828,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     talk_response chosen = responses[ch];
     std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   chosen.text );
+                                   response_lines[ch].second.substr( 3 ) );
     d_win.add_to_history( response_printed );
 
     if( chosen.mission_selected != nullptr ) {
@@ -1850,7 +1857,8 @@ talk_trial::talk_trial( JsonObject jo )
             WRAP( NONE ),
             WRAP( LIE ),
             WRAP( PERSUADE ),
-            WRAP( INTIMIDATE )
+            WRAP( INTIMIDATE ),
+            WRAP( CONDITION )
 #undef WRAP
         }
     };
@@ -1859,9 +1867,12 @@ talk_trial::talk_trial( JsonObject jo )
         jo.throw_error( "invalid talk trial type", "type" );
     }
     type = iter->second;
-    if( type != TALK_TRIAL_NONE ) {
+    if( !( type == TALK_TRIAL_NONE || type == TALK_TRIAL_CONDITION )  ) {
         difficulty = jo.get_int( "difficulty" );
     }
+
+    read_dialogue_condition( jo, condition, false );
+
     if( jo.has_array( "mod" ) ) {
         JsonArray ja = jo.get_array( "mod" );
         while( ja.has_more() ) {
@@ -2121,7 +2132,7 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             const std::string dur_string = jo.get_string( "duration" );
             if( dur_string == "PERMANENT" ) {
                 subeffect_fun.set_u_add_permanent_effect( new_effect );
-            } else {
+            } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
                 int duration = std::stoi( dur_string );
                 subeffect_fun.set_u_add_effect( new_effect, time_duration::from_turns( duration ) );
             }
@@ -2135,7 +2146,7 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             const std::string dur_string = jo.get_string( "duration" );
             if( dur_string == "PERMANENT" ) {
                 subeffect_fun.set_npc_add_permanent_effect( new_effect );
-            } else {
+            } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
                 int duration = std::stoi( dur_string );
                 subeffect_fun.set_npc_add_effect( new_effect,
                                                   time_duration::from_turns( duration ) );
@@ -2282,6 +2293,16 @@ void talk_effect_t::load_effect( JsonObject &jo )
     }
 }
 
+talk_response::talk_response()
+{
+    truefalse_condition = []( const dialogue & ) {
+       return true;
+    };
+    mission_selected = nullptr;
+    skill = skill_id::NULL_ID();
+    style = matype_id::NULL_ID();
+}
+
 talk_response::talk_response( JsonObject jo )
 {
     if( jo.has_member( "trial" ) ) {
@@ -2302,7 +2323,17 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "failure" ) ) {
         failure = talk_effect_t( jo.get_object( "failure" ) );
     }
-    text = _( jo.get_string( "text" ) );
+    if( jo.has_member( "truefalsetext" ) ) {
+        JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
+        read_dialogue_condition( truefalse_jo, truefalse_condition, true );
+        truetext = _( truefalse_jo.get_string( "true" ) );
+        falsetext = _( truefalse_jo.get_string( "false" ) );
+    } else {
+        truetext = _( jo.get_string( "text" ) );
+        truefalse_condition = []( const dialogue & ) {
+           return true;
+        };
+    }
     // TODO: mission_selected
     // TODO: skill
     // TODO: style
@@ -2312,6 +2343,33 @@ json_talk_response::json_talk_response( JsonObject jo )
     : actual_response( jo )
 {
     load_condition( jo );
+}
+
+void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
+                              bool default_val )
+{
+    const auto null_function = [default_val]( const dialogue & ) {
+        return default_val;
+    };
+
+    static const std::string member_name( "condition" );
+    if( !jo.has_member( member_name ) ) {
+         condition = null_function;
+    } else if( jo.has_string( member_name ) ) {
+        const std::string type = jo.get_string( member_name );
+        conditional_t sub_condition( type );
+        condition = [sub_condition]( const dialogue & d ) {
+            return sub_condition( d );
+        };
+    } else if( jo.has_object( member_name ) ) {
+        const JsonObject con_obj = jo.get_object( member_name );
+        conditional_t sub_condition( con_obj );
+        condition = [sub_condition]( const dialogue & d ) {
+            return sub_condition( d );
+        };
+    } else {
+        jo.throw_error( "invalid condition syntax", member_name );
+    }
 }
 
 conditional_t::conditional_t( JsonObject jo )
@@ -2641,25 +2699,7 @@ void json_talk_response::load_condition( JsonObject &jo )
 {
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
-    static const std::string member_name( "condition" );
-    if( !jo.has_member( member_name ) ) {
-        // Leave condition unset, defaults to true.
-        return;
-    } else if( jo.has_string( member_name ) ) {
-        const std::string type = jo.get_string( member_name );
-        conditional_t sub_condition( type );
-        condition = [sub_condition]( const dialogue & d ) {
-            return sub_condition( d );
-        };
-    } else if( jo.has_object( member_name ) ) {
-        const JsonObject con_obj = jo.get_object( member_name );
-        conditional_t sub_condition( con_obj );
-        condition = [sub_condition]( const dialogue & d ) {
-            return sub_condition( d );
-        };
-    } else {
-        jo.throw_error( "invalid condition syntax", member_name );
-    }
+    read_dialogue_condition( jo, condition, true );
 }
 
 bool json_talk_response::test_condition( const dialogue &d ) const
