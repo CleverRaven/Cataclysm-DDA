@@ -308,6 +308,7 @@
         "topic": "BGSS_LAB_1_STORY1",
         "condition": { "npc_has_trait": "BGSS_Lab_1" },
         "switch": true
+      },
       {
         "text": "How did you come to be a merc working for the Free Merchants, anyway?",
         "//": "This is a unique background story that should not be given out randomly.",
