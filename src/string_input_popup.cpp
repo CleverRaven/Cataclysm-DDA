@@ -166,12 +166,11 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     }
 
     if( hist.size() >= _hist_max_size ) {
-
         hist.erase( hist.begin(), hist.begin() + ( hist.size() - _hist_max_size ) );
     }
 
     if( up ) {
-        if( _hist_str_ind >= hist.size() ) {
+        if( _hist_str_ind >= static_cast<int>( hist.size() ) ) {
             return;
         } else {
             if( _hist_str_ind == 0 ) {
