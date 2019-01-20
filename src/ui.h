@@ -152,6 +152,7 @@ class uilist_callback
 /**
  * uilist: scrolling vertical list menu
  */
+
 class ui_element;
 class ui_element_input;
 

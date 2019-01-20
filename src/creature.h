@@ -12,6 +12,7 @@
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "units.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -48,15 +49,6 @@ struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-}
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel

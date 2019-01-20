@@ -13,8 +13,10 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "enums.h"
+#include "io_tags.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "units.h"
 #include "visitable.h"
 #include "requirements.h"
 
@@ -30,15 +32,6 @@ class JsonOut;
 class iteminfo_query;
 template<typename T>
 class ret_val;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-} // namespace units
 class gun_type_type;
 class gunmod_location;
 class game;
@@ -90,11 +83,6 @@ struct light_emission {
     short direction;
 };
 extern light_emission nolight;
-
-namespace io
-{
-struct object_archive_tag;
-}
 
 /**
  *  Value and metadata for one property of an item

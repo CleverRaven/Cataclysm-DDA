@@ -312,13 +312,15 @@
         "text": "How did you come to be a merc working for the Free Merchants, anyway?",
         "//": "This is a unique background story that should not be given out randomly.",
         "topic": "BGSS_SCAVENGER_MERC_1_STORY1",
-        "condition": { "and": [ { "npc_has_trait": "BGSS_Scavenger_Merc_1" }, { "not": { "npc_has_effect": "BGSS_Merc_haswhisky" } } ] }
+        "condition": { "and": [ { "npc_has_trait": "BGSS_Scavenger_Merc_1" }, { "not": { "npc_has_effect": "BGSS_Merc_haswhisky" } } ] },
+        "switch": true
       },
       {
         "text": "So, you got your whisky.  Tell me that story.",
         "//": "This is a unique background story that should not be given out randomly.",
         "topic": "BGSS_SCAVENGER_MERC_1_STORY3",
-        "condition": { "and": [ { "npc_has_trait": "BGSS_Scavenger_Merc_1" }, { "npc_has_effect": "BGSS_Merc_haswhisky" } ] }
+        "condition": { "and": [ { "npc_has_trait": "BGSS_Scavenger_Merc_1" }, { "npc_has_effect": "BGSS_Merc_haswhisky" } ] },
+        "switch": true
       }
     ]
   },
