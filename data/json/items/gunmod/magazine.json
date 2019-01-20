@@ -17,7 +17,7 @@
     "install_time": 60000,
     "magazine_adaptor": [
       [ "9mm", [ "lw21mag" ] ],
-      [ "45", [ "lw12mag" ] ],
+      [ "460", [ "lw12mag" ] ],
       [ "223", [ "lw223mag", "lw223bigmag" ] ]
     ],
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
