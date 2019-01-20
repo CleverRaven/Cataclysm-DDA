@@ -1241,6 +1241,32 @@
   },
   {
     "type": "vehicle_part",
+    "id": "wind_turbine",
+    "name": "wind turbine",
+    "symbol": "T",
+    "color": "yellow",
+    "broken_symbol": "X",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 15,
+    "description": "A small wind turbine. Will slowly recharge the vehicle's electrical power when exposed to the wind.",
+    "epower": 17,
+    "item": "wind_turbine",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "time": 15000, "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WIND_TURBINE"],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "name": "reinforced solar panel",

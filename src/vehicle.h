@@ -1455,6 +1455,7 @@ class vehicle
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
+        std::vector<int> wind_turbines;     // List of wind turbine indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
