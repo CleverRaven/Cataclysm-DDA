@@ -140,6 +140,15 @@
     "volume": "3ml"
   },
   {
+    "id": "460_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".460 rowland casing",
+    "description": "An empty casing from a .460 Rowland round. It looks deceptively like a .45ACP casing.",
+    "weight": 4,
+    "volume": "6ml"
+  },
+  {
     "id": "5x50_hull",
     "copy-from": "casing",
     "type": "GENERIC",

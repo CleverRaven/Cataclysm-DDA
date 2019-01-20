@@ -1932,7 +1932,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
     "use_action": "CROWBAR",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
@@ -2570,7 +2570,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 1 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
@@ -3490,7 +3490,7 @@
     "id": "hammer",
     "type": "TOOL",
     "name": "hammer",
-    "description": "This is a demagnetized steel hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
+    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "weight": 566,
     "volume": 2,
     "price": 700,
@@ -3499,7 +3499,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": "HAMMER",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
@@ -3694,7 +3694,7 @@
     "id": "iceaxe",
     "type": "TOOL",
     "name": "ice axe",
-    "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough, so you can use it to pry open closed doors or lift manhole covers.",
+    "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough to pry open closed doors or lift manhole covers.",
     "weight": 500,
     "volume": 3,
     "price": 5000,
@@ -4403,7 +4403,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
     "use_action": "CROWBAR",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
