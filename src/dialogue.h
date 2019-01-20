@@ -104,6 +104,7 @@ struct talk_effect_fun_t {
         void set_u_sell_item( const std::string &new_trait, int cost, int count );
         void set_npc_change_faction( const std::string &faction_name );
         void set_change_faction_rep( int amount );
+        void set_add_debt( const std::vector<trial_mod> debt_modifiers );
         void operator()( const dialogue &d ) const {
             if( !function ) {
                 return;
