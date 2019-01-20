@@ -1,8 +1,12 @@
 #include "weather_gen.h"
 
+#include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
+#include <random>
 
 #include "enums.h"
 #include "json.h"
@@ -19,16 +23,18 @@ constexpr double tau = 2 * PI;
 } //namespace
 
 weather_generator::weather_generator() = default;
+int weather_generator::current_winddir = 1000;
+int weather_generator::winddir_target = 1000;
 
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
     const double x( location.x /
-                    2000.0 ); // Integer x position / widening factor of the Perlin function.
+                    5000.0 ); // Integer x position / widening factor of the Perlin function.
     const double y( location.y /
-                    2000.0 ); // Integer y position / widening factor of the Perlin function.
+                    5000.0 ); // Integer y position / widening factor of the Perlin function.
     const double z( to_turn<int>( t + calendar::season_length() ) /
-                    2000.0 ); // Integer turn / widening factor of the Perlin function.
+                    20000.0 ); // Integer turn / widening factor of the Perlin function.
 
     const double dayFraction = time_past_midnight( t ) / 1_days;
 
@@ -40,11 +46,9 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
-    double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 5 );
+    double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
-    double M( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
-    double D( raw_noise_4d( x, y, z, modSEED ) * 99.99 );
-    double W;
+    double W( raw_noise_4d( x, y, z / 20, modSEED ) * 20.0 );
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
@@ -80,13 +84,35 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max(0, static_cast<int>(2.7  /pow( ( ( P / 33.86 ) / 29.97), rng( 10, 150 ) ) + (seasonal_variation * rng(2, 4)) * M));
-    int WD = get_wind_direction( season, D );
-    void test_weather();
+    W = std::max( 0, static_cast<int>( 2.7  / pow( ( ( P / 33.86 ) / 29.97 ), rng( 20,
+                                       70 ) ) + ( seasonal_variation * rng( 2, 4 ) ) * W ) );
+    // Wind direction
+    if( current_winddir == winddir_target ) {
+        bool changetarget = one_in(10);
+        if(changetarget == true) {
+            winddir_target = get_wind_direction( season );
+            winddir_target = convert_winddir( winddir_target );
+        }
+    }
+    if( current_winddir == 1000 ) {
+        current_winddir = get_wind_direction( season );
+        current_winddir = convert_winddir( current_winddir );
+        winddir_target = get_wind_direction( season );
+        winddir_target = convert_winddir( winddir_target );
+    } else {
+        if( current_winddir < winddir_target ) {
+            bool changetarget = one_in(10);
+            if( changetarget == true ) {
+                current_winddir += 1;
+            }
+        } else if( current_winddir > winddir_target ) {
+            current_winddir -= 1;
+      }
+    }
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-    return w_point {T, H, P, W, WD, acid};
+    return w_point {T, H, P, W, current_winddir, acid};
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -142,50 +168,33 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
-int weather_generator::get_wind_direction( const season_type &season, double windnoise ) const
+int weather_generator::get_wind_direction( const season_type season ) const
 {
-    std::map<int, int> wind_map;
+    unsigned dirseed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine wind_dir_gen (dirseed);
     //assign chance to angle direction
     if( season == SPRING ) {
-        wind_map[7] = 0;
-        wind_map[17] = 45;
-        wind_map[36] = 90;
-        wind_map[47] = 135;
-        wind_map[56] = 180;
-        wind_map[68] = 225;
-        wind_map[84] = 270;
-        wind_map[100] = 315;
+        std::discrete_distribution<int> distribution {3,3,5,8,11,10,5,2,5,6,6,5,8,10,8,6};
+        return distribution(wind_dir_gen);
     } else if( season == SUMMER ) {
-        wind_map[6] = 0;
-        wind_map[16] = 45;
-        wind_map[32] = 90;
-        wind_map[46] = 135;
-        wind_map[59] = 180;
-        wind_map[78] = 225;
-        wind_map[92] = 270;
-        wind_map[100] = 315;
+        std::discrete_distribution<int> distribution {3,4,4,8,8,9,8,3,7,8,10,7,7,7,5,3};
+        return distribution(wind_dir_gen);
     } else if( season == AUTUMN ) {
-        wind_map[10] = 0;
-        wind_map[22] = 45;
-        wind_map[34] = 90;
-        wind_map[42] = 135;
-        wind_map[51] = 180;
-        wind_map[68] = 225;
-        wind_map[83] = 270;
-        wind_map[100] = 315;
+        std::discrete_distribution<int> distribution {4,6,6,7,6,5,4,3,5,6,8,8,10,10,8,5};
+        return distribution(wind_dir_gen);
     } else if( season == WINTER ) {
-        wind_map[10] = 0;
-        wind_map[14] = 45;
-        wind_map[18] = 90;
-        wind_map[22] = 135;
-        wind_map[30] = 180;
-        wind_map[46] = 225;
-        wind_map[71] = 270;
-        wind_map[100] = 315;
+        std::discrete_distribution<int> distribution {5,3,2,3,2,2,2,2,4,6,10,8,12,19,13,9};
+        return distribution(wind_dir_gen);
+    } else {
+        return 0;
     }
-    auto it = wind_map.lower_bound( windnoise );
-    int dirchoice = it->second;
-    return dirchoice;
+}
+
+int weather_generator::convert_winddir( const int inputdir ) const
+{
+    float finputdir = inputdir * 22.5;
+    return static_cast<int>(finputdir);
+
 }
 
 int weather_generator::get_water_temperature() const
@@ -228,12 +237,11 @@ void weather_generator::test_weather() const
     testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
     const time_point begin = calendar::turn;
-    const time_point end = begin + 2 * calendar::year_length();
-    for( time_point i = begin; i < end; i += 600_turns ) {
+    const time_point end = begin + 2 * calendar::season_length();
+    for( time_point i = begin; i < end; i += 200_turns ) {
         //@todo: a new random value for each call to get_weather? Is this really intended?
-        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), rand() );
-        testfile << to_turn<int>( i ) << ";" << w.pressure << ";" << w.windpower << ";" << w.winddirection <<
-                 std::endl;
+        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
+        testfile << to_turn<int>( i ) << ";" << w.pressure << ";" << w.windpower << ";" << w.winddirection << std::endl;
     }
 }
 
