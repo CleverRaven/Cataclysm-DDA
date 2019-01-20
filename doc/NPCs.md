@@ -256,6 +256,32 @@ The dynamic line is chosen based on whether the NPC is currently is under the ef
 }
 ```
 
+#### Based on the NPC's current needs
+The dynamic line is chosed based on the NPC's current hunger, thirst, or fatigue.  `level` or `amount` is required: `amount` is an integer, and `level` is one of the four defined fatigue levels "TIRED", "DEAD_TIRED", "EXHAUSTED", or "MASSIVE_FATIGUE".  The line from `yes` will be shown if the NPC's need is at least that amount, and otherwise the line from `no`.
+
+```C++
+{
+    "and" [
+        {
+            "npc_need": "hunger",
+            "amount": 100,
+            "yes": "I'm hungry!  "
+        },
+        {
+            "npc_need": "thirst",
+            "amount": 100,
+            "yes": "I need a drink!  "
+        },
+        {
+            "npc_need": "fatigue",
+            "level": "TIRED",
+            "yes": "I could use a nap.",
+            "no": "I'm otherwise good."
+        }
+    ]
+}
+```
+
 #### Based on whether the NPC has missions available
 The dynamic line is chosen based on whether the NPC has any missions to give out.  All entries are optional.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
 
