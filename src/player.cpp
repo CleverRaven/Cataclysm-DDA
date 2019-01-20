@@ -828,10 +828,6 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
-    // const std::string direction = direction_name( direction_from( pos().x, pos().y, pos().z ) );
-    // left=260  right=261
-    //    std::cout << "dest=" << inp_mngr.get_previously_pressed_key() << "\n";
-    //    fflush( stdout );
     if ( inp_mngr.get_previously_pressed_key() == 260 ) {
         facing = "left";
     }
