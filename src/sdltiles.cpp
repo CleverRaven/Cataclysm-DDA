@@ -1,10 +1,27 @@
 #if (defined TILES)
+
+#include "cursesdef.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cstring>
+#include <fstream>
+#include <limits>
+#include <memory>
+#include <stdexcept>
+#include <vector>
+
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL_image.h>
+#else
+#   include <SDL_image.h>
+#endif
+
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
-#include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -25,27 +42,14 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_image.h>
-#else
-#   include <SDL_image.h>
-#endif
-
-#include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
-
 #ifdef __linux__
 #   include <cstdlib> // getenv()/setenv()
 #endif
 
 #if (defined _WIN32 || defined WINDOWS)
-#   include "platform_win.h"
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#endif
 #   include <shlwapi.h>
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
@@ -53,13 +57,14 @@
 #endif
 
 #ifdef __ANDROID__
+#include <jni.h>
+
 #include "worldfactory.h"
 #include "action.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "inventory.h"
-#include <jni.h>
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -72,7 +77,6 @@ std::unique_ptr<cata_tiles> tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
-extern bool tile_iso;
 
 /**
  * A class that draws a single character on screen.
@@ -91,8 +95,8 @@ public:
      */
     virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
-    bool draw_window( const catacurses::window &win );
-    bool draw_window( const catacurses::window &win, int offsetx, int offsety );
+    bool draw_window( const catacurses::window &w );
+    bool draw_window( const catacurses::window &w, int offsetx, int offsety );
 
     static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, bool fontblending);
 public:
@@ -113,7 +117,7 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -146,12 +150,12 @@ protected:
  */
 class BitmapFont : public Font {
 public:
-    BitmapFont( int w, int h, const std::string &path );
+    BitmapFont( int w, int h, const std::string &typeface_path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
+    void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
     std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
@@ -768,8 +772,8 @@ void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, 
 
 void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
-    for( unsigned int i = 0; i < framebuffer.size(); i++ ) {
-        std::fill_n( framebuffer[i].chars.begin(), framebuffer[i].chars.size(), cursecell( "" ) );
+    for( auto &i : framebuffer ) {
+        std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
     }
 }
 
@@ -984,12 +988,12 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     }
 }
 
-bool Font::draw_window( const catacurses::window &win )
+bool Font::draw_window( const catacurses::window &w )
 {
-    cata_cursesport::WINDOW *const w = win.get<cata_cursesport::WINDOW>();
+    cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( win, w->x * ::fontwidth, w->y * ::fontheight );
+    return draw_window( w, win->x * ::fontwidth, win->y * ::fontheight );
 }
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
@@ -3098,11 +3102,11 @@ int get_terminal_height() {
     return TERMINAL_HEIGHT;
 }
 
-BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
+BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_path )
 : Font( w, h )
 {
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
-    SDL_Surface_Ptr asciiload = load_image( typeface.c_str() );
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "]." ;
+    SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
     assert( asciiload );
     if (asciiload->w * asciiload->h < (fontwidth * fontheight * 256)) {
         throw std::runtime_error("bitmap for font is to small");
@@ -3111,12 +3115,12 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
     SDL_SetColorKey( asciiload.get(),SDL_TRUE,key );
     SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), true );
+    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();
 
     for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), true );
+        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
     }
 
     for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {

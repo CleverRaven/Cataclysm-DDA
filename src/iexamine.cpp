@@ -1,5 +1,9 @@
 #include "iexamine.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "ammo.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -41,10 +45,6 @@
 #include "units.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -829,8 +829,8 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         g->m.unboard_vehicle( p.pos() );
     }
     p.setpos( examp );
-    if( examp.x < SEEX * int( MAPSIZE / 2 ) || examp.y < SEEY * int( MAPSIZE / 2 ) ||
-        examp.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examp.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+    if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
+        examp.x >= HALF_MAPSIZE_X + SEEX || examp.y >= HALF_MAPSIZE_Y + SEEY ) {
         if( p.is_player() ) {
             g->update_map( p );
         }
@@ -874,7 +874,7 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     g->m.furn_set( pos, f_null );
 }
 
-static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id id )
+static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id &id )
 {
     const itype_id &iid = id->deployed_item;
     if( item::type_is_defined( iid ) ) {
@@ -1210,8 +1210,8 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
         int tries = 0;
         tripoint monp = examp;
         do {
-            monp.x = rng(0, SEEX * MAPSIZE);
-            monp.y = rng(0, SEEY * MAPSIZE);
+            monp.x = rng(0, MAPSIZE_X);
+            monp.y = rng(0, MAPSIZE_Y);
             tries++;
         } while (tries < 10 && !g->is_empty( monp ) &&
                     rl_dist( p.pos(), monp ) <= 2);
@@ -1292,7 +1292,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     tripoint tmp;
     tmp.z = examp.z;
     for (tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
-        for (tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++) {
+        for (tmp.x = 0; tmp.x < MAPSIZE_X; tmp.x++) {
             if ( terid == t_switch_rg ) {
                 if (g->m.ter(tmp) == t_rock_red) {
                     g->m.ter_set(tmp, t_floor_red);
@@ -1725,7 +1725,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
     smenu.text = _( "Use which seed?" );
     int count = 0;
     for( const auto &entry : seed_entries ) {
-        auto seed_name = std::get<1>( entry );
+        const std::string &seed_name = std::get<1>( entry );
         int seed_count = std::get<2>( entry );
 
         std::string format = seed_count > 0 ? "%s (%d)" : "%s";
@@ -1754,7 +1754,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().set_age( 0 );
+    used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
     g->m.set( examp, t_dirt, f_plant_seed );
     p.moves -= 500;
@@ -1852,6 +1852,142 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
+/**
+ * Actual harvesting of selected plant
+ */
+void iexamine::harvest_plant(player &p, const tripoint &examp)
+{
+    if( g->m.i_at( examp ).empty() ) {
+        g->m.i_clear( examp );
+        g->m.furn_set( examp, f_null );
+        debugmsg( "Missing seed in plant furniture!" );
+        return;
+    }
+    const item &seed = g->m.i_at( examp ).front();
+    if( !seed.is_seed() ) {
+        debugmsg( "The seed item %s is not a seed!", seed.tname().c_str() );
+        return;
+    }
+
+    const std::string &seedType = seed.typeId();
+    if (seedType == "fungal_seeds") {
+        fungus(p, examp);
+        g->m.i_clear(examp);
+    } else if (seedType == "marloss_seed") {
+        fungus(p, examp);
+        g->m.i_clear(examp);
+        if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
+            g->m.ter_set(examp, t_marloss);
+            add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
+        } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
+                    one_in(2)) ) {
+            g->summon_mon( mon_fungal_blossom, examp );
+            add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
+        } else if ( (p.has_trait(trait_THRESH_MYCUS)) || one_in(4)) {
+            g->m.furn_set(examp, f_flower_marloss);
+            add_msg(m_info, _("The seed blossoms rather rapidly..."));
+        } else {
+            g->m.furn_set(examp, f_flower_fungal);
+            add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
+        }
+    } else { // Generic seed, use the seed item data
+        const itype &type = *seed.type;
+        g->m.i_clear(examp);
+        g->m.furn_set(examp, f_null);
+
+        int skillLevel = p.get_skill_level( skill_survival );
+        ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+        int plantCount = rng(skillLevel / 2, skillLevel);
+        if (plantCount >= 12) {
+            plantCount = 12;
+        } else if( plantCount <= 0 ) {
+            plantCount = 1;
+        }
+        const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+        for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+            g->m.add_item_or_charges( examp, i );
+        }
+        p.moves -= 500;
+    }
+}
+
+std::string iexamine::fertilize_failure_reason(player &p, const tripoint &tile, const itype_id &fertilizer)
+{
+    if (!g->m.has_flag_furn( "PLANT", tile)) {
+        return _("Tile isn't a plant");
+    }
+    if (g->m.i_at(tile).size() > 1) {
+        return _("Tile is already fertilized");
+    }
+    if (!p.has_charges( fertilizer, 1)) {
+        return string_format(_("Tried to fertilize with %s, but player doesn't have any."), fertilizer.c_str());
+    }
+
+    return std::string();
+}
+
+void iexamine::fertilize_plant(player &p, const tripoint &tile, const itype_id &fertilizer)
+{
+    std::string reason = fertilize_failure_reason(p, tile, fertilizer);
+    if (!reason.empty()) {
+        debugmsg(reason);
+        return;
+    }
+
+    std::list<item> planted = p.use_charges( fertilizer, 1 );
+
+    // Reduce the amount of time it takes until the next stage of the plant by
+    // 20% of a seasons length. (default 2.8 days).
+    const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+
+    item &seed = g->m.i_at( tile ).front();
+    //@todo: item should probably clamp the value on its own
+    seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const auto old_furn = g->m.furn( tile );
+    g->m.furn_set( tile, f_null );
+    g->m.spawn_item( tile, "fertilizer", 1, 1, calendar::turn );
+    g->m.furn_set( tile, old_furn );
+    p.mod_moves( -500 );
+
+    add_msg( m_info, _("You fertilize the %s with the %s."), seed.get_plant_name().c_str(), planted.front().tname().c_str());
+}
+
+itype_id iexamine::choose_fertilizer(player &p, const std::string &pname, bool ask_player)
+{
+    std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
+    if( f_inv.empty() ) {
+        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
+        return itype_id();
+    }
+
+    std::vector<itype_id> f_types;
+    std::vector<std::string> f_names;
+    for( auto &f : f_inv ) {
+        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+            f_types.push_back( f->typeId() );
+            f_names.push_back( f->tname() );
+        }
+    }
+
+    if (ask_player && !query_yn(_("Fertilize the %s"), pname.c_str() )) {
+        return itype_id();
+    }
+
+    // Choose fertilizer from list
+    int f_index = 0;
+    if (f_types.size() > 1) {
+        f_index = uilist( _( "Use which fertilizer?" ), f_names );
+    }
+    if (f_index < 0) {
+        return itype_id();
+    }
+
+    return f_types[f_index];
+
+}
 void iexamine::aggie_plant(player &p, const tripoint &examp)
 {
     if( g->m.i_at( examp ).empty() ) {
@@ -1869,95 +2005,16 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
     const std::string pname = seed.get_plant_name();
 
     if (g->m.furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
-        const std::string &seedType = seed.typeId();
-        if (seedType == "fungal_seeds") {
-            fungus(p, examp);
-            g->m.i_clear(examp);
-        } else if (seedType == "marloss_seed") {
-            fungus(p, examp);
-            g->m.i_clear(examp);
-            if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
-                g->m.ter_set(examp, t_marloss);
-                add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
-            } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
-                one_in(2)) ) {
-                g->summon_mon( mon_fungal_blossom, examp );
-                add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
-            } else if ( (p.has_trait(trait_THRESH_MYCUS)) || one_in(4)) {
-                g->m.furn_set(examp, f_flower_marloss);
-                add_msg(m_info, _("The seed blossoms rather rapidly..."));
-            } else {
-                g->m.furn_set(examp, f_flower_fungal);
-                add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
-            }
-        } else { // Generic seed, use the seed item data
-            const itype &type = *seed.type;
-            g->m.i_clear(examp);
-            g->m.furn_set(examp, f_null);
-
-            int skillLevel = p.get_skill_level( skill_survival );
-            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-            int plantCount = rng(skillLevel / 2, skillLevel);
-            if (plantCount >= 12) {
-                plantCount = 12;
-            } else if( plantCount <= 0 ) {
-                plantCount = 1;
-            }
-            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-            for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
-                g->m.add_item_or_charges( examp, i );
-            }
-            p.moves -= 500;
-        }
+        harvest_plant(p, examp);
     } else if (g->m.furn(examp) != f_plant_harvest) {
         if (g->m.i_at(examp).size() > 1) {
             add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
             return;
         }
-        std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
-        if( f_inv.empty() ) {
-        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
-        return;
-        }
-        if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
-        std::vector<itype_id> f_types;
-        std::vector<std::string> f_names;
-            for( auto &f : f_inv ) {
-                if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
-                    f_types.push_back( f->typeId() );
-                    f_names.push_back( f->tname() );
-                }
-            }
-            // Choose fertilizer from list
-            int f_index = 0;
-            if (f_types.size() > 1) {
-                f_index = uilist( _( "Use which fertilizer?" ), f_names );
-            }
-            if (f_index < 0) {
-                return;
-            }
-            std::list<item> planted = p.use_charges( f_types[f_index], 1 );
-            if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
-                if (p.weapon.charges > 1) {
-                    p.weapon.charges--;
-                } else {
-                    p.remove_weapon();
-                }
-            }
-            // Reduce the amount of time it takes until the next stage of the plant by
-            // 20% of a seasons length. (default 2.8 days).
-            const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+        itype_id fertilizer = choose_fertilizer(p, pname, true /*ask player for confirmation */);
 
-            item &seed = g->m.i_at( examp ).front();
-            //@todo: item should probably clamp the value on its own
-            seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
-            // The plant furniture has the NOITEM token which prevents adding items on that square,
-            // spawned items are moved to an adjacent field instead, but the fertilizer token
-            // must be on the square of the plant, therefore this hack:
-            const auto old_furn = g->m.furn( examp );
-            g->m.furn_set( examp, f_null );
-            g->m.spawn_item( examp, "fertilizer", 1, 1, calendar::turn );
-            g->m.furn_set( examp, old_furn );
+        if (!fertilizer.empty()) {
+            fertilize_plant( p, examp, fertilizer );
         }
     }
 }
@@ -2002,7 +2059,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     for( const item &i : items ) {
         total_volume += i.volume();
     }
@@ -2058,7 +2115,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     add_msg( _("There's a charcoal kiln there.") );
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items[0].age();
-    if( time_left > 0 ) {
+    if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
@@ -2073,7 +2130,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         return;
     }
 
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
@@ -2209,7 +2266,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
     }
     if (vat_full || ferment) {
-        g->m.i_at( examp ).front().set_age( 0 );
+        g->m.i_at( examp ).front().set_age( 0_turns );
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -2300,7 +2357,7 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
     if( furn.id == "f_standing_tank" )  { return units::from_liter( 300 ); }
     else if( furn.id == "f_wood_keg" )  { return units::from_liter( 125 ); }
     //add additional cases above
-    else                                { return 0; }
+    else                                { return 0_ml; }
 }
 
 /**
@@ -2308,7 +2365,7 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
  */
 bool iexamine::has_keg( const tripoint &pos )
 {
-    return get_keg_capacity( pos ) > 0;
+    return get_keg_capacity( pos ) > 0_ml;
 }
 
 void iexamine::keg(player &p, const tripoint &examp)
@@ -2474,7 +2531,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
-    if( keg_cap <= 0 ) {
+    if( keg_cap <= 0_ml ) {
         return false;
     }
     const auto keg_name = g->m.name( pos );
@@ -2767,26 +2824,26 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
 
     // check inputs and tally total mass
     auto inputs = g->m.i_at( examp );
-    units::mass sum_weight = 0;
+    units::mass sum_weight = 0_gram;
     auto ca = m.compact_accepts();
     std::set<material_id> accepts( ca.begin(), ca.end() );
     accepts.insert( m.id );
-    for( auto it = inputs.begin(); it != inputs.end(); ++it ) {
-        if( !it->only_made_of( accepts ) ) {
+    for( auto &input : inputs ) {
+        if( !input.only_made_of( accepts ) ) {
             //~ %1$s: an item in the compactor , %2$s: desired compactor output material
             add_msg( _( "You realize this isn't going to work because %1$s is not made purely of %2$s." ),
-                     it->tname().c_str(), m.name().c_str() );
+                     input.tname().c_str(), m.name().c_str() );
             return;
         }
-        if( it->is_container() && !it->is_container_empty() ) {
+        if( input.is_container() && !input.is_container_empty() ) {
             //~ %1$s: an item in the compactor
             add_msg( _( "You realize this isn't going to work because %1$s has not been emptied of its contents." ),
-                     it->tname().c_str() );
+                     input.tname().c_str() );
             return;
         }
-        sum_weight += it->weight();
+        sum_weight += input.weight();
     }
-    if( sum_weight <= 0 ) {
+    if( sum_weight <= 0_gram ) {
         //~ %1$s: desired compactor output material
         add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
                  m.name().c_str() );
@@ -2890,7 +2947,7 @@ void iexamine::water_source(player &p, const tripoint &examp)
 const itype * furn_t::crafting_pseudo_item_type() const
 {
     if (crafting_pseudo_item.empty()) {
-        return NULL;
+        return nullptr;
     }
     return item::find_type( crafting_pseudo_item );
 }
@@ -3075,7 +3132,7 @@ static cata::optional<tripoint> getNearFilledGasTank(const tripoint &center, lon
     int distance = INT_MAX;
     gas_units = 0;
 
-    for( const tripoint &tmp : g->m.points_in_radius( center, 24 ) ) {
+    for( const tripoint &tmp : g->m.points_in_radius( center, SEEX * 2 ) ) {
         if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
             continue;
         }
@@ -3504,7 +3561,7 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
-player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_patient,
+player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
                          bool &adjacent_couch )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
@@ -3528,8 +3585,7 @@ player &best_installer( player &p, player &null_player, int difficulty )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
-                         skill_electronics,
-                         true );
+                         skill_electronics );
 
     std::vector< std::pair<float, long>> ally_skills;
     ally_skills.reserve( g->allies().size() );
@@ -3541,8 +3597,7 @@ player &best_installer( player &p, player &null_player, int difficulty )
         ally_skill.second = i;
         ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
                            skill_computer,
-                           skill_electronics,
-                           true );
+                           skill_electronics );
         ally_skills.push_back( ally_skill );
     }
     std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, long> &lhs,
@@ -3767,7 +3822,7 @@ void smoker_activate(player &p, const tripoint &examp)
     bool food_present = false;
     bool charcoal_present = false;
     auto items = g->m.i_at( examp );
-    units::volume food_volume = 0;
+    units::volume food_volume = 0_ml;
     item *charcoal = nullptr;
 
     for( size_t i = 0; i < items.size(); i++ ) {
@@ -4071,10 +4126,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 
     bool rem_f_opt = false;
     std::stringstream pop;
-    time_duration time_left = 0;
+    time_duration time_left = 0_turns;
     int hours_left = 0;
     int minutes_left = 0;
-    units::volume f_volume = 0;
+    units::volume f_volume = 0_ml;
     bool f_check = false;
 
     for( size_t i = 0; i < items_here.size(); i++ ) {
@@ -4090,7 +4145,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         }
     }
 
-    const bool empty = f_volume == 0;
+    const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto has_coal_in_inventory = p.charges_of( "charcoal" ) > 0;
@@ -4147,7 +4202,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         {
             if ( active ) {
                 pop << "<color_green>" << _( "There's a smoking rack here.  It is lit and smoking." ) << "</color>" << "\n";
-                if( time_left > 0 ) {
+                if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
                         pop << string_format( ngettext( "It will finish smoking in about %d hour.",
                                 "It will finish smoking in about %d hours.",

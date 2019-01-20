@@ -1,5 +1,11 @@
 #include "init.h"
 
+#include <cassert>
+#include <fstream>
+#include <sstream> // for throwing errors
+#include <string>
+#include <vector>
+
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
@@ -57,12 +63,6 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-
-#include <cassert>
-#include <fstream>
-#include <sstream> // for throwing errors
-#include <string>
-#include <vector>
 
 #if defined(TILES)
 void load_tileset();
@@ -485,8 +485,6 @@ void DynamicDataLoader::unload_data()
     // TODO:
     //    Name::clear();
 }
-
-extern void calculate_mapgen_weights();
 
 void DynamicDataLoader::finalize_loaded_data()
 {

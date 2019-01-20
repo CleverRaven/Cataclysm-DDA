@@ -2,14 +2,6 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "calendar.h"
-#include "color.h"
-#include "damage.h"
-#include "enums.h"
-#include "optional.h"
-#include "string_id.h"
-#include "units.h"
-
 #include <array>
 #include <bitset>
 #include <map>
@@ -18,6 +10,14 @@
 #include <set>
 #include <utility>
 #include <vector>
+
+#include "calendar.h"
+#include "color.h"
+#include "damage.h"
+#include "enums.h"
+#include "optional.h"
+#include "string_id.h"
+#include "units.h"
 
 using itype_id = std::string;
 
@@ -160,13 +160,13 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (TODO: units?) when delivering max @ref power
+         * Energy consumed by engines and motors (watts) when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
         int energy_consumption = 0;
 
         /**
-         * For engines and motors this is maximum output (TODO: units?)
+         * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
         int power = 0;
@@ -178,10 +178,10 @@ class vpart_info
         itype_id default_ammo = "null";
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0;
+        units::volume folded_volume = 0_ml;
 
         /** Cargo location volume */
-        units::volume size = 0;
+        units::volume size = 0_ml;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;

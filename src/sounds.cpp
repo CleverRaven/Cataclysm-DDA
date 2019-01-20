@@ -1,5 +1,9 @@
 #include "sounds.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -19,10 +23,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <chrono>
-#include <cmath>
 
 #ifdef SDL_SOUND
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -82,9 +82,10 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
-void sounds::ambient_sound( const tripoint &p, int vol, const std::string &description )
+void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
+                            const std::string &description )
 {
-    sound( p, vol, sounds::sound_t::background, description, true );
+    sound( p, vol, category, description, true );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, std::string description,
@@ -132,7 +133,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     const int num_seed_clusters = std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
                                             static_cast<size_t>( log( recent_sounds.size() ) ) );
     const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
-    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE * SEEX, MAPSIZE * SEEY );
+    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE_X, MAPSIZE_Y );
     // Randomly choose cluster seeds.
     for( size_t i = recent_sounds.size(); i > stopping_point; i-- ) {
         size_t index = rng( 0, i - 1 );
@@ -323,7 +324,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
-        if( p->is_npc() ) {
+        if( p->is_npc() && !sound.ambient ) {
             npc *guy = dynamic_cast<npc *>( p );
             guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
             continue;
@@ -622,14 +623,14 @@ void sfx::do_ambient()
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
 // vehicle turrets) or a NPC.
-void sfx::generate_gun_sound( const player &p, const item &firing )
+void sfx::generate_gun_sound( const player &source_arg, const item &firing )
 {
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
-    const tripoint source = p.pos();
+    const tripoint source = source_arg.pos();
     int heard_volume = get_heard_volume( source );
     if( heard_volume <= 30 ) {
         heard_volume = 30;

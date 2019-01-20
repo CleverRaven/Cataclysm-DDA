@@ -1,3 +1,9 @@
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
 #include "game.h"
@@ -6,13 +12,8 @@
 #include "item.h"
 #include "line.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 namespace
 {
@@ -539,13 +540,13 @@ void player::sort_armor()
                 mvwprintz( w_sort_left, drawindex + 1, 0, c_yellow, ">>" );
             }
 
-            std::string name = tmp_worn[itemindex]->tname();
+            std::string worn_armor_name = tmp_worn[itemindex]->tname();
             item_penalties const penalties =
                 get_item_penalties( tmp_worn[itemindex], *this, tabindex );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
-                            penalties.color_for_stacking_badness(), name );
+                            penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
                          format_volume( tmp_worn[itemindex]->get_storage() ) );
         }

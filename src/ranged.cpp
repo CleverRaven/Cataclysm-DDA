@@ -1,5 +1,10 @@
 #include "ranged.h"
 
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -27,11 +32,6 @@
 #include "vpart_position.h"
 #include "trap.h"
 #include "cursesdef.h"
-
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -296,6 +296,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // apply delayed recoil
     recoil += delay;
+    // Reset aim for bows and other reload-and-shoot weapons.
+    if( gun.has_flag( "RELOAD_AND_SHOOT" ) ) {
+        recoil = MAX_RECOIL;
+    }
     // Cap
     recoil = std::min( MAX_RECOIL, recoil );
 
@@ -819,8 +823,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     return line_number;
 }
 
-static int draw_fire_aim( const player &p, const catacurses::window &w, int line_number, item *weapon,
-                      tripoint pos, const double target_size, double recoil )
+static int draw_weapon_aim( const player &p, const catacurses::window &w, int line_number, item *weapon,
+                      const double target_size, const tripoint &pos, double predicted_recoil )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -839,7 +843,7 @@ static int draw_fire_aim( const player &p, const catacurses::window &w, int line
     const double range = rl_dist( p.pos(), pos );
     return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, *weapon, dispersion,
                                 confidence_config,
-                                range, target_size, recoil );
+                                range, target_size, predicted_recoil );
 }
 
 static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number,
@@ -1126,7 +1130,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             line_number = draw_creature_details( w_target, range, src, dst, critter, line_number );
         }
         if( mode == TARGET_MODE_FIRE ) {
-            line_number = draw_fire_aim( pc, w_target, line_number, relevant, dst, target_size, pc.recoil );
+            line_number = draw_weapon_aim( pc, w_target, line_number, relevant, target_size, dst, pc.recoil );
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
         } else if( mode == TARGET_MODE_THROW ) {
@@ -1150,6 +1154,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             targ = *mouse_pos;
             targ.x -= snap_to_target ? src.x : dst.x;
             targ.y -= snap_to_target ? src.y : dst.y;
+            targ.z -= dst.z;
         } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             //direction key
             targ.x = vec->x;
@@ -1338,7 +1343,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_fire( const Character &p, const itype &firingt )
+int time_to_fire( const Character &p, const itype &firing )
 {
     struct time_info_t {
         int min_time;  // absolute floor on the time taken to fire.
@@ -1357,7 +1362,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun->skill_used;
+    const skill_id &skill_used = firing.gun->skill_used;
     const auto it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };

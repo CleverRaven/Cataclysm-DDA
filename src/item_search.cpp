@@ -43,6 +43,16 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 return item_filter_from_string( pair.first )( i )
                        && item_filter_from_string( pair.second )( i );
             };
+        case 'd'://disassembled components
+            return [filter]( const item & i ) {
+                const auto &components = i.get_uncraft_components();
+                for( auto &component : components ) {
+                    if( lcmatch( component.to_string(), filter ) ) {
+                        return true;
+                    }
+                }
+                return false;
+            };
         default://by name
             return [filter]( const item & a ) {
                 return lcmatch( a.tname(), filter );

@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <string>
 
+#include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
@@ -14,8 +15,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <string>
 
 void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
@@ -42,7 +41,7 @@ npc create_model()
     npc model_npc;
     model_npc.normalize();
     model_npc.randomize( NC_NONE );
-    for( trait_id tr : model_npc.get_mutations() ) {
+    for( const trait_id &tr : model_npc.get_mutations() ) {
         model_npc.unset_mutation( tr );
     }
     model_npc.set_hunger( 0 );
@@ -165,7 +164,7 @@ TEST_CASE( "snippet-tag-test" )
         const auto ids = SNIPPET.all_ids_from_category( tag );
         std::set<std::string> valid_snippets;
         for( int id : ids ) {
-            const auto snip = SNIPPET.get( id );
+            const auto &snip = SNIPPET.get( id );
             valid_snippets.insert( snip );
         }
 
@@ -255,6 +254,7 @@ static void check_npc_movement( const tripoint &origin )
             switch( setup[y][x] ) {
                 case 'W':
                 case 'M':
+                    CAPTURE( setup[y][x] );
                     tripoint p = origin + point( x, y );
                     npc *guy = g->critter_at<npc>( p );
                     CHECK( guy != nullptr );
@@ -352,6 +352,10 @@ TEST_CASE( "npc-movement" )
                 guy->normalize();
                 guy->randomize();
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
+                // Set the shopkeep mission; this means that
+                // the NPC deems themselves to be guarding and stops them
+                // wandering off in search of distant ammo caches, etc.
+                guy->mission = NPC_MISSION_SHOPKEEP;
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );
@@ -396,7 +400,7 @@ TEST_CASE( "npc-movement" )
     }
 
     SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
-        tripoint origin = g->u.pos();
+        const tripoint origin = g->u.pos();
 
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
@@ -436,9 +440,9 @@ TEST_CASE( "npc_can_target_player" )
     }
     g->unload_npcs();
 
-    const auto spawn_npc = []( int x, int y, const std::string & npc_class ) {
+    const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
-        int model_id = g->m.place_npc( 10, 10, test_guy, true );
+        const int model_id = g->m.place_npc( 10, 10, test_guy, true );
         g->load_npcs();
 
         npc *guy = g->find_npc( model_id );

@@ -33,7 +33,7 @@ void lru_cache<T>::insert( int limit, const tripoint &pos, const T &t )
 template<typename T>
 void lru_cache<T>::trim( int limit )
 {
-    while( ordered_list.size() > static_cast<size_t>( limit ) ) {
+    while( map.size() > static_cast<size_t>( limit ) ) {
         map.erase( ordered_list.front().first );
         ordered_list.pop_front();
     }

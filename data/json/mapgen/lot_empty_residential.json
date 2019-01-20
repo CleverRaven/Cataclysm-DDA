@@ -72,7 +72,6 @@
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -141,7 +140,6 @@
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -179,7 +177,6 @@
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -225,7 +222,6 @@
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {

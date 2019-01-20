@@ -1,5 +1,8 @@
 #include "effect.h"
 
+#include <map>
+#include <sstream>
+
 #include "debug.h"
 #include "json.h"
 #include "messages.h"
@@ -7,9 +10,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-
-#include <map>
-#include <sstream>
 
 namespace
 {
@@ -195,10 +195,10 @@ static void extract_effect( JsonObject &j,
     }
 }
 
-bool effect_type::load_mod_data( JsonObject &jsobj, const std::string &member )
+bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
 {
-    if( jsobj.has_object( member ) ) {
-        JsonObject j = jsobj.get_object( member );
+    if( jo.has_object( member ) ) {
+        JsonObject j = jo.get_object( member );
 
         // Stats first
         //                          json field                  type key    arg key
@@ -712,7 +712,7 @@ time_duration effect::get_max_duration() const
 {
     return eff_type->max_duration;
 }
-void effect::set_duration( const time_duration dur, bool alert )
+void effect::set_duration( const time_duration &dur, bool alert )
 {
     duration = dur;
     // Cap to max_duration if it exists
@@ -728,7 +728,7 @@ void effect::set_duration( const time_duration dur, bool alert )
 
     add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), to_turns<int>( duration ) );
 }
-void effect::mod_duration( const time_duration dur, bool alert )
+void effect::mod_duration( const time_duration &dur, bool alert )
 {
     set_duration( duration + dur, alert );
 }
@@ -1082,7 +1082,8 @@ bool effect::activated( const time_point &when, std::string arg, int val, bool r
     // mod multiplies the overall percentage chances
 
     // has to be an && here to avoid undefined behavior of turn % 0
-    if( tick > 0 && ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0 ) {
+    if( tick > 0 &&
+        ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0_turns ) {
         if( bot_base != 0 && bot_scale != 0 ) {
             if( bot_base + bot_scale == 0 ) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"

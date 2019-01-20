@@ -1,5 +1,9 @@
 #include "start_location.h"
 
+#include <algorithm>
+#include <chrono>
+#include <random>
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
@@ -14,8 +18,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-
-#include <algorithm>
 
 const efftype_id effect_bleed( "bleed" );
 
@@ -235,7 +237,7 @@ void start_location::prepare_map( const tripoint &omtstart ) const
  */
 int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                    const int bash_str, const int attempt,
-                   int ( &checked )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+                   int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -245,7 +247,7 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // Vector that will be used as a stack
     std::vector<tripoint> st;
-    st.reserve( MAPSIZE * SEEX * MAPSIZE * SEEY );
+    st.reserve( MAPSIZE_X * MAPSIZE_Y );
     st.push_back( p );
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
@@ -270,8 +272,8 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         st.pop_back();
 
         checked[cur.x][cur.y] = attempt;
-        if( cur.x == 0 || cur.x == SEEX * MAPSIZE - 1 ||
-            cur.y == 0 || cur.y == SEEY * MAPSIZE - 1 ||
+        if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
+            cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
             m.has_flag( "GOES_UP", cur ) ) {
             return INT_MAX;
         }
@@ -294,8 +296,8 @@ void start_location::place_player( player &u ) const
     // Need the "real" map with it's inside/outside cache and the like.
     map &m = g->m;
     // Start us off somewhere in the center of the map
-    u.setx( SEEX * int( MAPSIZE / 2 ) );
-    u.sety( SEEY * int( MAPSIZE / 2 ) );
+    u.setx( HALF_MAPSIZE_X );
+    u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -308,8 +310,8 @@ void start_location::place_player( player &u ) const
     int best_rate = 0;
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    int checked[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    std::fill_n( &checked[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
+    int checked[MAPSIZE_X][MAPSIZE_Y];
+    std::fill_n( &checked[0][0], MAPSIZE_X * MAPSIZE_Y, 0 );
 
     bool found_good_spot = false;
     // Try some random points at start
@@ -328,8 +330,8 @@ void start_location::place_player( player &u ) const
     };
 
     while( !found_good_spot && tries < 100 ) {
-        tripoint rand_point( ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 - 1 ),
-                             ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 - 1 ),
+        tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
+                             HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
                              u.posz() );
         check_spot( rand_point );
     }
@@ -339,8 +341,8 @@ void start_location::place_player( player &u ) const
         tripoint tmp = u.pos();
         int &x = tmp.x;
         int &y = tmp.y;
-        for( x = 0; x < SEEX * MAPSIZE; x++ ) {
-            for( y = 0; y < SEEY * MAPSIZE; y++ ) {
+        for( x = 0; x < MAPSIZE_X; x++ ) {
+            for( y = 0; y < MAPSIZE_Y; y++ ) {
                 check_spot( tmp );
             }
         }
@@ -358,8 +360,8 @@ void start_location::burn( const tripoint &omtstart,
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const int ux = g->u.posx() % ( SEEX * int( MAPSIZE / 2 ) );
-    const int uy = g->u.posy() % ( SEEY * int( MAPSIZE / 2 ) );
+    const int ux = g->u.posx() % HALF_MAPSIZE_X;
+    const int uy = g->u.posy() % HALF_MAPSIZE_Y;
     std::vector<tripoint> valid;
     tripoint p = player_location;
     int &x = p.x;
@@ -376,7 +378,9 @@ void start_location::burn( const tripoint &omtstart,
             }
         }
     }
-    random_shuffle( valid.begin(), valid.end() );
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( valid.begin(), valid.end(), eng );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
         m.add_field( valid[i], fd_fire, 3 );
     }

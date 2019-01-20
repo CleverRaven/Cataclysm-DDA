@@ -1,15 +1,15 @@
 #include "anatomy.h"
 
+#include <array>
+#include <cmath>
+#include <numeric>
+
 #include "cata_utility.h"
 #include "generic_factory.h"
 #include "messages.h"
 #include "output.h"
 #include "rng.h"
 #include "weighted_list.h"
-
-#include <array>
-#include <cmath>
-#include <numeric>
 
 anatomy_id human_anatomy( "human_anatomy" );
 

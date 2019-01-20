@@ -2,10 +2,10 @@
 #ifndef SOUNDS_H
 #define SOUNDS_H
 
-#include "enums.h" // For point
-
 #include <string>
 #include <vector>
+
+#include "enums.h" // For point
 
 class monster;
 class player;
@@ -46,7 +46,7 @@ void sound( const tripoint &p, int vol, sound_t category, std::string descriptio
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
-void ambient_sound( const tripoint &p, int vol, const std::string &description );
+void ambient_sound( const tripoint &p, int vol, sound_t category, const std::string &description );
 /** Creates a list of coordinates at which to draw footsteps. */
 void add_footstep( const tripoint &p, int volume, int distance, monster *source );
 
@@ -81,7 +81,7 @@ void play_variant_sound( const std::string &id, const std::string &variant, int 
 void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                  int channel,
                                  int duration );
-void generate_gun_sound( const player &source, const item &firing );
+void generate_gun_sound( const player &source_arg, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );

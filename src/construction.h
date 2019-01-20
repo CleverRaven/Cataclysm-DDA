@@ -2,13 +2,13 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include "optional.h"
-#include "string_id.h"
-
 #include <functional>
 #include <map>
 #include <set>
 #include <vector>
+
+#include "optional.h"
+#include "string_id.h"
 
 namespace catacurses
 {
@@ -63,7 +63,7 @@ struct construction {
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
-void load_construction( JsonObject &jsobj );
+void load_construction( JsonObject &jo );
 void reset_constructions();
 void construction_menu();
 void complete_construction();

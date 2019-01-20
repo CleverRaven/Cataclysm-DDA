@@ -231,12 +231,12 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string volume_carried = format_volume( g->u.volume_carried() );
         std::string volume_capacity = format_volume( g->u.volume_capacity() );
         // align right, so calculate formatted head length
-        const std::string head = string_format( "%.1f/%.1f %s  %s/%s %s",
+        const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                                 weight_carried, weight_capacity, weight_units(),
                                                 volume_carried.c_str(),
                                                 volume_capacity.c_str(),
                                                 volume_units_abbr() );
-        const int hrightcol = columns - 1 - head.length();
+        const int hrightcol = columns - 1 - formatted_head.length();
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, 4, hrightcol, color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
@@ -244,15 +244,15 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         wprintz( window, color, volume_carried.c_str() );
         wprintz( window, c_light_gray, "/%s %s", volume_capacity.c_str(), volume_units_abbr() );
     } else { //print square's current and total weight + volume
-        std::string head;
+        std::string formatted_head;
         if( pane.get_area() == AIM_ALL ) {
-            head = string_format( "%3.1f %s  %s %s",
+            formatted_head = string_format( "%3.1f %s  %s %s",
                                   convert_weight( squares[pane.get_area()].weight ),
                                   weight_units(),
                                   format_volume( squares[pane.get_area()].volume ).c_str(),
                                   volume_units_abbr() );
         } else {
-            units::volume maxvolume = 0;
+            units::volume maxvolume = 0_ml;
             auto &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && s.get_container( pane.in_vehicle() ) != nullptr ) {
                 maxvolume = s.get_container( pane.in_vehicle() )->get_container_capacity();
@@ -261,14 +261,14 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %s  %s/%s %s",
+            formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                   convert_weight( s.weight ),
                                   weight_units(),
                                   format_volume( s.volume ).c_str(),
                                   format_volume( maxvolume ).c_str(),
                                   volume_units_abbr() );
         }
-        mvwprintz( window, 4, columns - 1 - head.length(), norm, head );
+        mvwprintz( window, 4, columns - 1 - formatted_head.length(), norm, formatted_head );
     }
 
     //print header row and determine max item name length
@@ -594,8 +594,8 @@ void advanced_inv_area::init()
     pos = g->u.pos() + off;
     veh = nullptr;
     vstor = -1;
-    volume = 0; // must update in main function
-    weight = 0; // must update in main function
+    volume = 0_ml;   // must update in main function
+    weight = 0_gram; // must update in main function
     switch( id ) {
         case AIM_INVENTORY:
         case AIM_WORN:
@@ -703,7 +703,7 @@ void advanced_inv_area::init()
         {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage}
     };
     auto ter_check = [this]
-        (const ter_id id) {
+        (const ter_id &id) {
             return g->m.ter(this->pos) == id;
         };
     if(std::any_of(ter_water.begin(), ter_water.end(), ter_check)) {
@@ -755,9 +755,9 @@ void advanced_inventory::init()
 }
 
 advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int count,
-        aim_location _area, bool from_veh )
+        aim_location area, bool from_vehicle )
     : idx( index )
-    , area( _area )
+    , area( area )
     , id( an_item->typeId() )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
@@ -766,16 +766,16 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
     , cat( &an_item->get_category() )
-    , from_vehicle( from_veh )
+    , from_vehicle( from_vehicle )
 {
     items.push_back( an_item );
     assert( stacks >= 1 );
 }
 
 advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int index,
-        aim_location loc, bool veh ) :
+        aim_location area, bool from_vehicle ) :
     idx( index ),
-    area( loc ),
+    area( area ),
     id( list.front()->typeId() ),
     items( list ),
     name( list.front()->tname( list.size() ) ),
@@ -785,7 +785,7 @@ advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int
     volume( list.front()->volume() * stacks ),
     weight( list.front()->weight() * stacks ),
     cat( &list.front()->get_category() ),
-    from_vehicle( veh )
+    from_vehicle( from_vehicle )
 {
     assert( stacks >= 1 );
 }
@@ -800,14 +800,14 @@ advanced_inv_listitem::advanced_inv_listitem()
 {
 }
 
-advanced_inv_listitem::advanced_inv_listitem( const item_category *category )
+advanced_inv_listitem::advanced_inv_listitem( const item_category *cat )
     : idx()
     , area()
     , id( "null" )
-    , name( category->name() )
+    , name( cat->name() )
     , autopickup()
     , stacks()
-    , cat( category )
+    , cat( cat )
 {
 }
 
@@ -887,8 +887,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         bool vehicle_override )
 {
     assert( square.id != AIM_ALL );
-    square.volume = 0;
-    square.weight = 0;
+    square.volume = 0_ml;
+    square.weight = 0_gram;
     if( !square.canputitems() ) {
         return;
     }
@@ -984,8 +984,8 @@ void advanced_inventory::recalc_pane( side p )
         auto &alls = squares[AIM_ALL];
         auto &there = panes[-p + 1];
         auto &other = squares[there.get_area()];
-        alls.volume = 0;
-        alls.weight = 0;
+        alls.volume = 0_ml;
+        alls.weight = 0_gram;
         for( auto &s : squares ) {
             // All the surrounding squares, nothing else
             if( s.id < AIM_SOUTHWEST || s.id > AIM_NORTHEAST ) {
@@ -1954,17 +1954,16 @@ bool advanced_inventory::query_destination( aim_location &def )
         for( int i = AIM_SOUTHWEST; i <= AIM_NORTHEAST; i++ ) {
             ordered_locs.push_back( screen_relative_location( static_cast <aim_location>( i ) ) );
         }
-        for( std::vector <aim_location>::iterator iter = ordered_locs.begin(); iter != ordered_locs.end();
-             ++iter ) {
-            auto &s = squares[*iter];
+        for( auto &ordered_loc : ordered_locs ) {
+            auto &s = squares[ordered_loc];
             const int size = s.get_item_count();
             std::string prefix = string_format( "%2d/%d", size, MAX_ITEM_IN_SQUARE );
             if( size >= MAX_ITEM_IN_SQUARE ) {
                 prefix += _( " (FULL)" );
             }
-            menu.addentry( *iter,
+            menu.addentry( ordered_loc,
                            ( s.canputitems() && s.id != panes[src].get_area() ),
-                           get_location_key( *iter ),
+                           get_location_key( ordered_loc ),
                            prefix + " " + s.name + " " + ( s.veh != nullptr ? s.veh->name : "" ) );
         }
     }
@@ -2085,31 +2084,31 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    item &src = src_container.contents.front();
+    item &src_contents = src_container.contents.front();
 
-    if( !src.made_of( LIQUID ) ) {
+    if( !src_contents.made_of( LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
         return false;
     }
 
     std::string err;
     // @todo: Allow buckets here, but require them to be on the ground or wielded
-    const long amount = dest_container.get_remaining_capacity_for_liquid( src, false, &err );
+    const long amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
     if( !err.empty() ) {
         popup( err.c_str() );
         return false;
     }
     if( src_container.is_non_resealable_container() ) {
-        if( src.charges > amount ) {
+        if( src_contents.charges > amount ) {
             popup( _( "You can't partially unload liquids from unsealable container." ) );
             return false;
         }
         src_container.on_contents_changed();
     }
-    dest_container.fill_with( src, amount );
+    dest_container.fill_with( src_contents, amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
-    if( src.charges <= 0 ) {
+    if( src_contents.charges <= 0 ) {
         src_container.contents.clear();
     }
 
@@ -2183,7 +2182,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
         const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
                                        units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
-        if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
+        if( unitweight > 0_gram && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!" ) );

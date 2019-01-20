@@ -2,6 +2,10 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
+#include <list>
+#include <memory>
+#include <vector>
+
 #include "active_item_cache.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -11,10 +15,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "string_id.h"
-
-#include <list>
-#include <memory>
-#include <vector>
 
 class map;
 class vehicle;
@@ -233,7 +233,7 @@ struct maptile {
             return sm->fld[x][y].findField( field_to_find );
         }
 
-        bool add_field( const field_id field_to_add, const int new_density, const time_duration new_age ) {
+        bool add_field( const field_id field_to_add, const int new_density, const time_duration &new_age ) {
             const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
             if( ret ) {
                 sm->field_count++;

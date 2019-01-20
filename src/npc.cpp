@@ -61,18 +61,10 @@ const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
 
-static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
-static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
-static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_DEFORMED2( "DEFORMED2" );
-static const trait_id trait_DEFORMED3( "DEFORMED3" );
-static const trait_id trait_DEFORMED( "DEFORMED" );
-static const trait_id trait_PRETTY( "PRETTY" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
-static const trait_id trait_UGLY( "UGLY" );
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
@@ -299,7 +291,7 @@ void npc::randomize( const npc_class_id &type )
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
         myclass = npc_class_id::NULL_ID();
-    } else if( type.is_null() && !one_in( 5 ) ) {
+    } else if( type.is_null() ) {
         myclass = npc_class::random_common();
     } else {
         myclass = type;
@@ -389,9 +381,9 @@ void npc::randomize( const npc_class_id &type )
         hp_cur[i] = hp_max[i];
     }
 
-    starting_weapon( type );
-    starting_clothes( *this, type, male );
-    starting_inv( *this, type );
+    starting_weapon( myclass );
+    starting_clothes( *this, myclass, male );
+    starting_inv( *this, myclass );
     has_new_items = true;
 
     my_mutations.clear();
@@ -694,11 +686,24 @@ item random_item_from( const npc_class_id &type, const std::string &what )
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
 item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
+    item result;
+    //Check if class has gendered clothing
+    //Then check if it has an ungendered version
+    //Only if all that fails, grab from the default class.
     if( male ) {
-        return random_item_from( type, what + "_male", "npc_" + what + "_male" );
+        result = random_item_from( type, what + "_male", "null" );
     } else {
-        return random_item_from( type, what + "_female", "npc_" + what + "_female" );
+        result = random_item_from( type, what + "_female", "null" );
     }
+    if( result.is_null() ) {
+        if( male ) {
+            result = random_item_from( type, what, "npc_" + what + "_male" );
+        } else {
+            result = random_item_from( type, what, "npc_" + what + "_female" );
+        }
+    }
+
+    return result;
 }
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male )
@@ -710,13 +715,22 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     } else {
         ret.push_back( get_clothing_item( type, "pants", male ) );
         ret.push_back( get_clothing_item( type, "shirt", male ) );
+        ret.push_back( get_clothing_item( type, "underwear_top", male ) );
+        ret.push_back( get_clothing_item( type, "underwear_bottom", male ) );
+        ret.push_back( get_clothing_item( type, "underwear_feet", male ) );
+        ret.push_back( get_clothing_item( type, "shoes", male ) );
         ret.push_back( random_item_from( type, "gloves" ) );
         ret.push_back( random_item_from( type, "coat" ) );
-        ret.push_back( random_item_from( type, "shoes" ) );
+        ret.push_back( random_item_from( type, "vest" ) );
         ret.push_back( random_item_from( type, "masks" ) );
         // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
         ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
         ret.push_back( random_item_from( type, "hat" ) );
+        ret.push_back( random_item_from( type, "scarf" ) );
+        ret.push_back( random_item_from( type, "storage" ) );
+        ret.push_back( random_item_from( type, "holster" ) );
+        ret.push_back( random_item_from( type, "belt" ) );
+        ret.push_back( random_item_from( type, "wrist" ) );
         ret.push_back( random_item_from( type, "extra" ) );
     }
 
@@ -732,19 +746,19 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
 }
 
-void starting_inv( npc &me, const npc_class_id &type )
+void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
-    me.inv.clear();
+    who.inv.clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        me.inv += item_group::items_from( type->carry_override );
+        who.inv += item_group::items_from( type->carry_override );
         return;
     }
 
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
-    if( me.weapon.is_gun() ) {
-        item ammo( me.weapon.ammo_type()->default_ammotype() );
+    if( who.weapon.is_gun() ) {
+        item ammo( who.weapon.ammo_type()->default_ammotype() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -758,7 +772,7 @@ void starting_inv( npc &me, const npc_class_id &type )
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while( qty-- != 0 && me.can_pickVolume( ammo ) ) {
+        while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
             // @todo: give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -778,7 +792,7 @@ void starting_inv( npc &me, const npc_class_id &type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me.can_pickVolume( tmp ) ) {
+            if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
@@ -788,7 +802,7 @@ void starting_inv( npc &me, const npc_class_id &type )
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
-    me.inv += res;
+    who.inv += res;
 }
 
 void npc::spawn_at_sm( int x, int y, int z )
@@ -1067,28 +1081,16 @@ void npc::form_opinion( const player &u )
     if( u.has_trait( trait_SAPIOVORE ) ) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
-
-    if( u.has_trait( trait_PRETTY ) ) {
-        op_of_u.fear += 1;
-    } else if( u.has_trait( trait_BEAUTIFUL ) ) {
-        op_of_u.fear += 2;
-    } else if( u.has_trait( trait_BEAUTIFUL2 ) ) {
-        op_of_u.fear += 3;
-    } else if( u.has_trait( trait_BEAUTIFUL3 ) ) {
-        op_of_u.fear += 4;
-    } else if( u.has_trait( trait_UGLY ) ) {
-        op_of_u.fear -= 1;
-    } else if( u.has_trait( trait_DEFORMED ) ) {
-        op_of_u.fear += 3;
-    } else if( u.has_trait( trait_DEFORMED2 ) ) {
-        op_of_u.fear += 6;
-    } else if( u.has_trait( trait_DEFORMED3 ) ) {
-        op_of_u.fear += 9;
-    }
-
     if( u.has_trait( trait_TERRIFYING ) ) {
         op_of_u.fear += 6;
     }
+
+    int u_ugly = 0;
+    for( trait_id &mut : u.get_mutations() ) {
+        u_ugly += mut.obj().ugliness;
+    }
+    op_of_u.fear += u_ugly / 2;
+    op_of_u.trust -= u_ugly / 3;
 
     if( u.stim > 20 ) {
         op_of_u.fear++;
@@ -1123,24 +1125,6 @@ void npc::form_opinion( const player &u )
     }
     if( u.get_painkiller() > 30 ) {
         op_of_u.trust -= 1;
-    }
-
-    if( u.has_trait( trait_PRETTY ) ) {
-        op_of_u.trust += 1;
-    } else if( u.has_trait( trait_BEAUTIFUL ) ) {
-        op_of_u.trust += 3;
-    } else if( u.has_trait( trait_BEAUTIFUL2 ) ) {
-        op_of_u.trust += 5;
-    } else if( u.has_trait( trait_BEAUTIFUL3 ) ) {
-        op_of_u.trust += 7;
-    } else if( u.has_trait( trait_UGLY ) ) {
-        op_of_u.trust -= 1;
-    } else if( u.has_trait( trait_DEFORMED ) ) {
-        op_of_u.trust -= 3;
-    } else if( u.has_trait( trait_DEFORMED2 ) ) {
-        op_of_u.trust -= 6;
-    } else if( u.has_trait( trait_DEFORMED3 ) ) {
-        op_of_u.trust -= 9;
     }
 
     if( op_of_u.trust > 0 ) {
@@ -1424,7 +1408,7 @@ void npc::shop_restock()
     units::volume total_space = volume_capacity();
     std::list<item> ret;
 
-    while( total_space > 0 && !one_in( 50 ) ) {
+    while( total_space > 0_ml && !one_in( 50 ) ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             ret.push_back( tmpit );
@@ -2085,7 +2069,7 @@ void npc::on_load()
         update_body( cur, cur + 1_turns );
     }
 
-    if( dt > 0 ) {
+    if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
         process_active_items();

@@ -2,11 +2,11 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "optional.h"
-
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "optional.h"
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
@@ -220,7 +220,7 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( const int ammo, const int mag );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;
@@ -263,7 +263,7 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;

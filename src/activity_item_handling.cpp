@@ -1,4 +1,9 @@
-#include "activity_handlers.h"
+#include "activity_handlers.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <list>
+#include <vector>
 
 #include "action.h"
 #include "clzones.h"
@@ -28,11 +33,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <cassert>
-#include <list>
-#include <vector>
 
 void cancel_aim_processing();
 
@@ -176,8 +176,7 @@ void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<it
 
 void stash_on_pet( const std::list<item> &items, monster &pet )
 {
-    units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
-                                     pet.inv.front().get_storage();
+    units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
     units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
@@ -399,7 +398,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 
-    units::volume storage_loss = 0;                        // Cumulatively increases
+    units::volume storage_loss = 0_ml;                     // Cumulatively increases
     units::volume remaining_storage = p.volume_capacity(); // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
@@ -469,7 +468,7 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
     }
     // Avoid tumbling to the ground. Unload cleanly.
     const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
-    if( excessive_volume > 0 ) {
+    if( excessive_volume > 0_ml ) {
         const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
@@ -504,7 +503,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
 
     for( const act_item &filthy_item : items ) {
         total_volume += filthy_item.it->volume();
