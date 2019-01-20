@@ -1732,6 +1732,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
 
     std::string looks_like;
     std::string over_type;
+
     if( overlay.substr( 0, 5 ) == "worn_" ) {
         looks_like = overlay.substr( 5 );
         over_type = "worn_";
@@ -1752,6 +1753,10 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
             break;
+        }
+        if( looks_like.substr( 0, 16 ) == "mutation_active_" ) {
+            looks_like = "mutation_" + looks_like.substr( 16 );
+            continue;
         }
         if( !item::type_is_defined( looks_like ) ) {
             break;

@@ -20911,6 +20911,22 @@
         {
           "id": "overlay_male_mutation_bio_deformity",
           "fg": 2746
+        },
+        {
+          "id": "overlay_male_mutation_active_CLAWS_RETRACT",
+          "fg": 2747
+        },
+        {
+          "id": "overlay_male_mutation_CLAWS_RETRACT",
+          "fg": 2748
+        },
+        {
+          "id": "overlay_mutation_active_CLAWS_RETRACT",
+          "fg": 2749
+        },
+        {
+          "id": "overlay_mutation_CLAWS_RETRACT",
+          "fg": 2750
         }
       ]
     },
