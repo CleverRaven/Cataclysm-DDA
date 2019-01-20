@@ -132,7 +132,10 @@
     "mod_targets": [ "shotgun" ],
     "damage_modifier": -4,
     "handling_modifier": 2,
-    "loudness_modifier": -30
+    "consume_chance": 5000,
+    "consume_multiplier": 100,
+    "loudness_modifier": -30,
+    "flags": [ "CONSUMABLE" ]
   },
   {
     "id": "suppressor",
@@ -151,6 +154,7 @@
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "install_time": 200,
     "handling_modifier": 2,
+    "consume_multiplier": 50,
     "loudness_modifier": -50
   },
   {
@@ -167,6 +171,8 @@
     "location": "muzzle",
     "mod_targets": [ "pistol", "smg" ],
     "install_time": 200,
+    "consume_chance": 7000,
+    "consume_multiplier": 40,
     "handling_modifier": 1,
     "loudness_modifier": -30
   }

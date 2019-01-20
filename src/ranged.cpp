@@ -187,37 +187,37 @@ bool player::handle_gun_damage( item &it )
             it.inc_damage();
         }
         return false;
-      } else if( it.has_flag( "CONSUMABLE" ) ) {
 
-         const int uncork =  ( ( 5 *it.ammo_data()->ammo->loudness )+it.ammo_data()->ammo->recoil ) ;
-         const int uncork2 =  ( ( uncork*uncork*0.05 ) ) ;
-         for( auto mod : it.gunmods() ) {
-           const int multi =  mod->type->gunmod->consume_multiplier ;
-           const int modconsume = mod->type->gunmod->consume_chance ;
-                 if ( mod->has_flag( "CONSUMABLE" )  &&  ( it.ammo_type() == ammotype( "22" ) ) && one_in( modconsume ) ) {
-            if( mod->mod_damage( 1000 * multi ) ) {
- add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
-                        _( "<npcname>'s attached %s is destroyed by their shot!" ),
-                                mod->tname().c_str() );
-                                i_rem(mod);
-         }  else if ( ( it.has_flag( "CONSUMABLE" ) ) &&  ( mod->damage() < mod->max_damage() ) ) {
- add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
-                              _( "<npcname>'s %s is damaged by their shot!" ),
-                                mod->tname().c_str() );
-         } }
-         else {
-            if( mod->mod_damage( uncork2 ) ) {
- add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
-                        _( "<npcname>'s attached %s is destroyed by their shot!" ),
-                                mod->tname().c_str() );
+} else if( it.has_flag( "CONSUMABLE" ) )
+{
+    int uncork =  ( ( 10 *it.ammo_data()->ammo->loudness )+(it.ammo_data()->ammo->recoil /2) )/100 ;
+    uncork =  ( ( uncork*uncork*uncork*6.5 ) ) ;
 
-                                i_rem(mod);
-         } else if( mod->has_flag( "CONSUMABLE" )  &&  ( mod->damage() < mod->max_damage() ) ) {
- add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
-                              _( "<npcname>'s %s is damaged by their shot!" ),
-                                mod->tname().c_str() );
-         } }   } }
-
+    for( auto mod : it.gunmods() ) {
+        if ( mod->has_flag( "CONSUMABLE" ) ) {
+            int dmgamt =  uncork / ( mod->type->gunmod->consume_divisor ) ;
+            int modconsume = mod->type->gunmod->consume_chance ;
+            if ( dmgamt < 1000 ) {
+                dmgamt = rng ( dmgamt, 1600 );
+            }
+            if ( dmgamt < 600 ) {
+                dmgamt =0 ;
+            }
+            if( one_in( modconsume ) ) {
+                if( mod->mod_damage( dmgamt ) ) {
+                    add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
+                                           _( "<npcname>'s attached %s is destroyed by their shot!" ),
+                                           mod->tname().c_str() );
+                    i_rem(mod);
+                } else if( mod->has_flag( "CONSUMABLE" )  ) {
+                    add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
+                                           _( "<npcname>'s %s is damaged by their shot!" ),
+                                           mod->tname().c_str() );
+                }
+            }
+        }
+    }
+}
      return true;
  }
 
