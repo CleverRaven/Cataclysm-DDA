@@ -1,10 +1,10 @@
 #include "item_stack.h"
 
-#include "item.h"
-#include "units.h"
-
 #include <algorithm>
 #include <list>
+
+#include "item.h"
+#include "units.h"
 
 size_t item_stack::size() const
 {
@@ -76,7 +76,7 @@ item &item_stack::operator[]( size_t index )
 
 units::volume item_stack::stored_volume() const
 {
-    units::volume ret = 0;
+    units::volume ret = 0_ml;
     for( const item &it : *mystack ) {
         ret += it.volume();
     }

@@ -1,14 +1,14 @@
 #include "player_helpers.h"
 
+#include <list>
+
 #include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
 #include "player.h"
 
-#include <list>
-
-int get_remaining_charges( std::string tool_id )
+int get_remaining_charges( const std::string &tool_id )
 {
     const inventory crafting_inv = g->u.crafting_inventory();
     std::vector<const item *> items =
@@ -31,13 +31,15 @@ void clear_player()
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
-    for( trait_id tr : dummy.get_mutations() ) {
+    for( const trait_id &tr : dummy.get_mutations() ) {
         dummy.unset_mutation( tr );
     }
     // Prevent spilling, but don't cause encumbrance
     if( !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
+
+    dummy.clear_bionics();
 
     // Make stats nominal.
     dummy.str_cur = 8;

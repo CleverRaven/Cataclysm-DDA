@@ -1,7 +1,7 @@
 #include "filesystem.h"
 
-#include "debug.h"
-
+// FILE I/O
+#include <sys/stat.h>
 #include <algorithm>
 #include <cerrno>
 #include <cstddef>
@@ -10,13 +10,14 @@
 #include <deque>
 #include <fstream>
 #include <string>
-// FILE I/O
-#include <sys/stat.h>
 #include <vector>
 
+#include "debug.h"
+
 #ifdef _MSC_VER
-#   include "wdirent.h"
 #   include <direct.h>
+
+#   include "wdirent.h"
 #else
 #   include <dirent.h>
 #   include <unistd.h>
@@ -267,7 +268,7 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
 // Return every file at root_path matching predicate.
 //
 // If root_path is empty, search the current working directory.
-// If recurse is true, search breadth-first into the directory hierarchy.
+// If recursive_search is true, search breadth-first into the directory hierarchy.
 //
 // Results are ordered depth-first with directories searched in lexically order. Furthermore,
 // regular files at each level are also ordered lexically by file name.
@@ -275,7 +276,8 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
 // Files ending in ~ are excluded.
 //--------------------------------------------------------------------------------------------------
 template <typename Predicate>
-std::vector<std::string> find_file_if_bfs( const std::string &root_path, const bool recurse,
+std::vector<std::string> find_file_if_bfs( const std::string &root_path,
+        const bool recursive_search,
         Predicate predicate )
 {
     std::deque<std::string>  directories {!root_path.empty() ? root_path : "."};
@@ -301,9 +303,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path, const b
                 return;
             }
 
-            // add sub directories to recurse if requested
+            // add sub directories to recursive_search if requested
             const auto is_dir = is_directory( entry, full_path );
-            if( recurse && is_dir ) {
+            if( recursive_search && is_dir ) {
                 directories.emplace_back( full_path );
             }
 
@@ -328,9 +330,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path, const b
 
 //--------------------------------------------------------------------------------------------------
 std::vector<std::string> get_files_from_path( const std::string &pattern,
-        const std::string &root_path, const bool recurse, const bool match_extension )
+        const std::string &root_path, const bool recursive_search, const bool match_extension )
 {
-    return find_file_if_bfs( root_path, recurse, [&]( const dirent & entry, bool ) {
+    return find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
         return name_contains( entry, pattern, match_extension );
     } );
 }
@@ -339,17 +341,17 @@ std::vector<std::string> get_files_from_path( const std::string &pattern,
  *  Find directories which containing pattern.
  *  @param pattern Search pattern.
  *  @param root_path Search root.
- *  @param recurse Be recurse or not.
+ *  @param recursive_search Be recurse or not.
  *  @return vector or directories without pattern filename at end.
  */
 std::vector<std::string> get_directories_with( const std::string &pattern,
-        const std::string &root_path, const bool recurse )
+        const std::string &root_path, const bool recursive_search )
 {
     if( pattern.empty() ) {
         return std::vector<std::string>();
     }
 
-    auto files = find_file_if_bfs( root_path, recurse, [&]( const dirent & entry, bool ) {
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
         return name_contains( entry, pattern, true );
     } );
 
@@ -367,11 +369,11 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
  *  Find directories which containing pattern.
  *  @param patterns Search patterns.
  *  @param root_path Search root.
- *  @param recurse Be recurse or not.
+ *  @param recursive_search Be recurse or not.
  *  @return vector or directories without pattern filename at end.
  */
 std::vector<std::string> get_directories_with( const std::vector<std::string> &patterns,
-        const std::string &root_path, const bool recurse )
+        const std::string &root_path, const bool recursive_search )
 {
     if( patterns.empty() ) {
         return std::vector<std::string>();
@@ -380,7 +382,7 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
     const auto ext_beg = std::begin( patterns );
     const auto ext_end = std::end( patterns );
 
-    auto files = find_file_if_bfs( root_path, recurse, [&]( const dirent & entry, bool ) {
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
         return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
             return name_contains( entry, ext, true );
         } );

@@ -11,11 +11,19 @@ function run_tests
 
 if [ -n "$CMAKE" ]
 then
+    if [ "$RELEASE" = "1" ]
+    then
+        build_type=MinSizeRel
+    else
+        build_type=Debug
+    fi
+
     mkdir build
     cd build
     cmake \
         -DBACKTRACE=ON \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
         ..

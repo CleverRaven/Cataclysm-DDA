@@ -2,11 +2,11 @@
 #ifndef PROFESSION_H
 #define PROFESSION_H
 
-#include "string_id.h"
-
 #include <list>
 #include <set>
 #include <vector>
+
+#include "string_id.h"
 
 template<typename T>
 class generic_factory;
@@ -79,7 +79,7 @@ class profession
         //these three aren't meant for external use, but had to be made public regardless
         profession();
 
-        static void load_profession( JsonObject &obj, const std::string &src );
+        static void load_profession( JsonObject &jo, const std::string &src );
         static void load_item_substitutions( JsonObject &jo );
 
         // these should be the only ways used to get at professions

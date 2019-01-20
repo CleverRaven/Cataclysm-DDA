@@ -144,7 +144,7 @@ bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
         color_manager &color_list = get_all_colors();
         int i = 0;
         time_duration scent_age = calendar::turn - possible_scent.creation_time;
-        while( i < num_colors && scent_age > 0 ) {
+        while( i < num_colors && scent_age > 0_turns ) {
             i++;
             scent_age /= 10;
         }
@@ -1109,7 +1109,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 do {
                     // overmap::draw will handle actually showing the preview
                     draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-                          fast_scroll, NULL, draw_data_t() );
+                          fast_scroll, nullptr, draw_data_t() );
 
                     draw_border( w_editor );
                     if( terrain ) {
@@ -1121,7 +1121,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                         mvwprintz( w_editor, 2, 1, c_light_blue, "                         " );
                         mvwprintz( w_editor, 2, 1, c_light_blue, uistate.place_special->id.c_str() );
                     }
-                    const std::string rotation = om_direction::name( uistate.omedit_rotation );
+                    const std::string &rotation = om_direction::name( uistate.omedit_rotation );
 
                     mvwprintz( w_editor, 3, 1, c_light_gray, "                         " );
                     mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation.c_str(),

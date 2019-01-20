@@ -3544,7 +3544,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
+      [ [ "raw_leather", 50 ], [ "raw_tainted_leather", 50 ], [ "raw_hleather", 50 ] ]
     ]
   },
   {
@@ -3597,7 +3597,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
+    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 50 ], [ "raw_tainted_fur", 50 ] ] ]
   },
   {
     "type": "recipe",

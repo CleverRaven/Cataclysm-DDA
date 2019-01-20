@@ -2308,6 +2308,24 @@
   },
   {
     "type": "recipe",
+    "result": "brownie",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 3 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "chocolate", 1 ] ],
+      [ [ "powder_eggs", 10 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "flatbread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -4096,7 +4114,6 @@
     "components": [
       [
         [ "sweet_fruit_like", 2, "LIST" ],
-        [ "bum_wine", 14 ],
         [ "coconut", 2 ],
         [ "coffee_syrup", 5 ],
         [ "cola", 6 ],
@@ -6971,7 +6988,7 @@
     "time": 3000,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_noir", 2 ] ], [ [ "cola", 1 ] ] ]
+    "components": [ [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_chardonnay", 2 ], [ "wine_noir", 2 ] ], [ [ "cola", 1 ] ] ]
   },
   {
     "type": "recipe",

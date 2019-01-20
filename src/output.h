@@ -2,15 +2,15 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"
 #include "color.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <sstream>
-#include <string>
-#include <vector>
 
 struct input_event;
 struct iteminfo;

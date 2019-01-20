@@ -2,6 +2,12 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <bitset>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
 #include "bodypart.h"
 #include "calendar.h"
 #include "creature.h"
@@ -10,12 +16,6 @@
 #include "pldata.h"
 #include "rng.h"
 #include "visitable.h"
-
-#include <bitset>
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
 class Skill;
 struct pathfinding_settings;
@@ -148,7 +148,7 @@ class Character : public Creature, public visitable<Character>
         field_id bloodType() const override;
         field_id gibType() const override;
         bool is_warm() const override;
-        virtual const std::string &symbol() const override;
+        const std::string &symbol() const override;
 
         // Character stats
         // TODO: Make those protected
@@ -270,7 +270,7 @@ class Character : public Creature, public visitable<Character>
         /** Picks a random body part, adjusting for mutations, broken body parts etc. */
         body_part get_random_body_part( bool main ) const override;
         /** Returns all body parts this character has, in order they should be displayed. */
-        std::vector<body_part> get_all_body_parts( bool main = false ) const override;
+        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
 
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
@@ -418,7 +418,7 @@ class Character : public Creature, public visitable<Character>
         // @todo: Cache this, it's kinda expensive to compute
         resistances mutation_armor( body_part bp ) const;
         float mutation_armor( body_part bp, damage_type dt ) const;
-        float mutation_armor( body_part bp, const damage_unit &dt ) const;
+        float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
@@ -488,7 +488,7 @@ class Character : public Creature, public visitable<Character>
          * @return Remaining charges which could not be stored in a container.
          */
         long int i_add_to_container( const item &it, const bool unloading );
-        item &i_add( item it );
+        item &i_add( item it, bool should_stack = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -698,7 +698,7 @@ class Character : public Creature, public visitable<Character>
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
 
-        virtual std::string extended_description() const override;
+        std::string extended_description() const override;
 
         // In newcharacter.cpp
         void empty_skills();
@@ -707,7 +707,7 @@ class Character : public Creature, public visitable<Character>
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations() const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
@@ -746,6 +746,8 @@ class Character : public Creature, public visitable<Character>
         Character &operator=( const Character & ) = delete;
         Character &operator=( Character && );
         struct trait_data {
+            /** Whether the mutation is activated. */
+            bool powered = false;
             /** Key to select the mutation in the UI. */
             char key = ' ';
             /**
@@ -754,8 +756,6 @@ class Character : public Creature, public visitable<Character>
              * is reset to @ref mutation_branch::cooldown.
              */
             int charge = 0;
-            /** Whether the mutation is activated. */
-            bool powered = false;
             void serialize( JsonOut &json ) const;
             void deserialize( JsonIn &jsin );
         };

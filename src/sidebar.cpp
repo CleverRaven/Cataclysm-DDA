@@ -1,5 +1,9 @@
 #include "sidebar.h"
 
+#include <cmath>
+#include <cstdlib>
+#include <string>
+
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -17,10 +21,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <cmath>
-#include <cstdlib>
-#include <string>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -133,7 +133,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         wmove( w_HP, i * dy + hpy, hpx );
 
         static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
-        const nc_color color ) {
+        const nc_color & color ) {
             while( num-- > 0 ) {
                 wprintz( w, color, sym.c_str() );
             }
@@ -283,14 +283,14 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 {
     bool sideStyle = use_narrow_sidebar();
     const catacurses::window &weapwin = sideStyle ? w2 : w;
-
     {
-        const int y = sideStyle ? 1 : 0;
+        // sidebar display currently used weapon.
+        const int y = 0;
         const int wn = getmaxx( weapwin );
         trim_and_print( weapwin, y, 0, wn, c_light_gray, print_gun_mode( *this ) );
     }
 
-    // Print currently used style or weapon mode.
+    // Print in sidebar currently used martial style.
     std::string style;
     const auto &cur_style = style_selected.obj();
     if( !weapon.is_gun() ) {
@@ -305,28 +305,39 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     if( !style.empty() ) {
         const auto style_color = is_armed() ? c_red : c_blue;
-        const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
-        mvwprintz( weapwin, 1, x, style_color, style );
+        const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : ( getmaxx( weapwin ) - 12 );
+        mvwprintz( weapwin, 0, x, style_color, style );
     }
 
-    wmove( w, sideStyle ? 1 : 2, 0 );
+    std::string hunger_string = "";
+    nc_color hunger_color = c_yellow;
     if( get_hunger() >= 300 && get_starvation() > 2500 ) {
-        wprintz( w, c_red,    _( "Starving!" ) );
+        hunger_color = c_red;
+        hunger_string = _( "Starving!" );
     } else if( get_hunger() >= 300 && get_starvation() > 1100 ) {
-        wprintz( w, c_light_red,  _( "Near starving" ) );
+        hunger_color = c_light_red;
+        hunger_string = _( "Near starving" );
     } else if( get_hunger() > 250 ) {
-        wprintz( w, c_light_red,  _( "Famished" ) );
+        hunger_color = c_light_red;
+        hunger_string = _( "Famished" );
     } else if( get_hunger() > 100 ) {
-        wprintz( w, c_yellow, _( "Very hungry" ) );
+        hunger_color = c_yellow;
+        hunger_string = _( "Very hungry" );
     } else if( get_hunger() > 40 ) {
-        wprintz( w, c_yellow, _( "Hungry" ) );
+        hunger_color = c_yellow;
+        hunger_string = _( "Hungry" );
     } else if( get_hunger() < -60 ) {
-        wprintz( w, c_green,  _( "Engorged" ) );
+        hunger_color = c_green;
+        hunger_string = _( "Engorged" );
     } else if( get_hunger() < -20 ) {
-        wprintz( w, c_green,  _( "Sated" ) );
+        hunger_color = c_green;
+        hunger_string = _( "Sated" );
     } else if( get_hunger() < 0 ) {
-        wprintz( w, c_green,  _( "Full" ) );
+        hunger_color = c_green;
+        hunger_string = _( "Full" );
     }
+    mvwprintz( sideStyle ? w : g->w_location_wider,
+               sideStyle ? 1 : 2, sideStyle ? 0 : 22, hunger_color, hunger_string );
 
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -366,7 +377,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
-    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
+    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 22 );
     if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
         wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
     } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
@@ -384,33 +395,35 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_blue,  _( "Freezing!%s" ), temp_message );
     }
 
-    const int x = 32;
-    const int y = sideStyle ?  0 :  1;
-    if( is_deaf() ) {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
-    } else {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound %d" ), volume );
-    }
-    volume = 0;
-
-    wmove( w, 2, sideStyle ? 0 : 15 );
+    std::string hydration_string = "";
+    nc_color hydration_color = c_yellow;
     if( get_thirst() > 520 ) {
-        wprintz( w, c_light_red,  _( "Parched" ) );
+        hydration_color = c_light_red;
+        hydration_string = _( "Parched" );
     } else if( get_thirst() > 240 ) {
-        wprintz( w, c_light_red,  _( "Dehydrated" ) );
+        hydration_color = c_light_red;
+        hydration_string = _( "Dehydrated" );
     } else if( get_thirst() > 80 ) {
-        wprintz( w, c_yellow, _( "Very thirsty" ) );
+        hydration_color = c_yellow;
+        hydration_string = _( "Very thirsty" );
     } else if( get_thirst() > 40 ) {
-        wprintz( w, c_yellow, _( "Thirsty" ) );
+        hydration_color = c_yellow;
+        hydration_string = _( "Thirsty" );
     } else if( get_thirst() < -60 ) {
-        wprintz( w, c_green,  _( "Turgid" ) );
+        hydration_color = c_green;
+        hydration_string = _( "Turgid" );
     } else if( get_thirst() < -20 ) {
-        wprintz( w, c_green,  _( "Hydrated" ) );
+        hydration_color = c_green;
+        hydration_string = _( "Hydrated" );
     } else if( get_thirst() < 0 ) {
-        wprintz( w, c_green,  _( "Slaked" ) );
+        hydration_color = c_green;
+        hydration_string = _( "Slaked" );
     }
+    mvwprintz( sideStyle ? w : g->w_location_wider,
+               sideStyle ? 2 : 1, sideStyle ? 0 : 22, hydration_color, hydration_string );
+    wrefresh( sideStyle ? w : g->w_location_wider );
 
-    wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 30 );
+    wmove( w, sideStyle ? 3 : 2, 0 );
     if( get_fatigue() > EXHAUSTED ) {
         wprintz( w, c_red,    _( "Exhausted" ) );
     } else if( get_fatigue() > DEAD_TIRED ) {
@@ -419,7 +432,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( w, c_yellow, _( "Tired" ) );
     }
 
-    wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 41 );
+    wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 43 );
     wprintz( w, c_white, _( "Focus" ) );
     nc_color col_xp = c_dark_gray;
     if( focus_pool >= 100 ) {
@@ -459,7 +472,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         fc = face_bird;
     }
 
-    mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 9, col_morale,
+    mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 0, col_morale,
                morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();
@@ -529,18 +542,28 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             print_stamina_bar( *this, w );
         }
     } else {  // Not in vehicle
-        const int wx = sideStyle ? 18 : 12;
-        const int wy = sideStyle ?  0 :  3;
-        const int dx = sideStyle ?  0 :  7;
-        const int dy = sideStyle ?  1 :  0;
-        mvwprintz( w, wy + dy * 0, wx + dx * 0, stat_color( get_str_bonus() ), _( "Str %d" ), str_cur );
-        mvwprintz( w, wy + dy * 1, wx + dx * 1, stat_color( get_dex_bonus() ), _( "Dex %d" ), dex_cur );
-        mvwprintz( w, wy + dy * 2, wx + dx * 2, stat_color( get_int_bonus() ), _( "Int %d" ), int_cur );
-        mvwprintz( w, wy + dy * 3, wx + dx * 3, stat_color( get_per_bonus() ), _( "Per %d" ), per_cur );
+        const int wx = sideStyle ? 18 :  0;
+        const int wy = 0;
+        const int dx = 0;
+        const int dy = sideStyle ?  1 :  8;
 
-        const int spdx = sideStyle ?  0 : wx + dx * 4 + 1;
+        mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 0 ) : 17,
+                   wx + dx * 0, stat_color( get_str_bonus() ),
+                   _( "Str %d" ), str_cur );
+        mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 1 ) : 18,
+                   wx + dx * 1, stat_color( get_dex_bonus() ),
+                   _( "Dex %d" ), dex_cur );
+        mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 2 ) : 19,
+                   wx + dx * 2, stat_color( get_int_bonus() ),
+                   _( "Int %d" ), int_cur );
+        mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 3 ) : 20,
+                   wx + dx * 3, stat_color( get_per_bonus() ),
+                   _( "Per %d" ), per_cur );
+
+        const int spdx = sideStyle ?  0 : getmaxx( w ) - 12;
         const int spdy = sideStyle ?  5 : wy + dy * 4;
-        mvwprintz( w, spdy, spdx, stat_color( get_speed_bonus() ), _( "Spd %d" ), get_speed() );
+        mvwprintz( w, sideStyle ? spdy : 3, sideStyle ? spdx : 43,
+                   stat_color( get_speed_bonus() ), _( "Spd %d" ), get_speed() );
 
         nc_color col_time = c_white;
         if( this->weight_carried() > this->weight_capacity() ) {
@@ -564,6 +587,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
             print_stamina_bar( *this, w );
         }
+        wrefresh( sideStyle ? w : g->w_HP );
     }
 }
 

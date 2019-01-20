@@ -1,13 +1,13 @@
 #include "calendar.h"
 
+#include <array>
+#include <cmath>
+#include <limits>
+
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <array>
-#include <cmath>
-#include <limits>
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -405,7 +405,7 @@ std::string to_string( const time_duration &d )
         divider = 24_hours;
     }
 
-    if( d % divider != 0 ) {
+    if( d % divider != 0_turns ) {
         //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
         return string_format( _( "%1$s and %2$s" ),
                               to_string_clipped( d ),
@@ -414,10 +414,10 @@ std::string to_string( const time_duration &d )
     return to_string_clipped( d );
 }
 
-std::string to_string_approx( const time_duration &d_, const bool verbose )
+std::string to_string_approx( const time_duration &dur, const bool verbose )
 {
-    time_duration d = d_;
-    const auto make_result = [verbose]( const time_duration d, const char *verbose_str,
+    time_duration d = dur;
+    const auto make_result = [verbose]( const time_duration & d, const char *verbose_str,
     const char *short_str ) {
         return string_format( verbose ? verbose_str : short_str, to_string_clipped( d ) );
     };
@@ -433,7 +433,7 @@ std::string to_string_approx( const time_duration &d_, const bool verbose )
         vicinity = 5_minutes;
     } // Minutes and seconds can be estimated precisely.
 
-    if( divider != 0 ) {
+    if( divider != 0_turns ) {
         const time_duration remainder = d % divider;
 
         if( remainder >= divider - vicinity ) {
