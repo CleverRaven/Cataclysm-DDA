@@ -106,7 +106,10 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
                 current_winddir += 1;
             }
         } else if( current_winddir > winddir_target ) {
-            current_winddir -= 1;
+            bool changetarget = one_in(10);
+            if( changetarget == true ) {
+                current_winddir -= 1;
+            }
       }
     }
     // Acid rains
