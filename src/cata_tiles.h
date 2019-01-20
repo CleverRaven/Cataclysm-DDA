@@ -5,14 +5,15 @@
 #include <memory>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 #include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
 #include "line.h"
+#include "options.h"
 #include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
@@ -91,6 +92,11 @@ class texture
                                      flip );
         }
 };
+
+extern SDL_Texture_Ptr alt_rect_tex;
+extern bool alt_rect_tex_enabled;
+extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                           Uint32 r, Uint32 g, Uint32 b );
 
 struct pixel {
     int r;
@@ -525,6 +531,7 @@ class cata_tiles
         }
         void do_tile_loading_report();
         point player_to_screen( int x, int y ) const;
+        static std::vector<options_manager::id_and_option> build_renderer_list();
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, const std::string &label,
@@ -640,6 +647,9 @@ class cata_tiles
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
         SDL_Texture_Ptr main_minimap_tex;
+        // SDL_RenderFillRect replacement handler
+        void handle_draw_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                               Uint32 r, Uint32 g, Uint32 b );
 };
 
 #endif

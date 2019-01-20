@@ -47,6 +47,7 @@ class string_input_popup
         std::string _text;
         std::string _description;
         std::string _identifier;
+        std::string _session_str_entered;
         nc_color _title_color = c_light_red;
         nc_color _desc_color = c_green;
         nc_color _string_color = c_magenta;
@@ -55,10 +56,14 @@ class string_input_popup
         int _width = 0;
         int _max_length = -1;
         bool _only_digits = false;
+        bool _hist_use_uilist = true;
         int _startx = 0;
         int _starty = 0;
         int _endx = 0;
         int _position = -1;
+        int _hist_str_ind = 0;
+        //Counts only when @_hist_use_uilist is false
+        const size_t _hist_max_size = 100;
 
         catacurses::window w;
 
@@ -73,6 +78,7 @@ class string_input_popup
 
         void show_history( utf8_wrapper &ret );
         void add_to_history( const std::string &value ) const;
+        void update_input_history( utf8_wrapper &ret, bool up );
         void draw( const utf8_wrapper &ret, const utf8_wrapper &edit, int shift ) const;
 
     public:
@@ -137,6 +143,15 @@ class string_input_popup
          */
         string_input_popup &only_digits( bool value ) {
             _only_digits = value;
+            return *this;
+        }
+        /**
+         * Make any difference only if @identifier is used.
+         * If true, create UiList window with query history, otherwise use arrow keys at string input to move through history.
+         * Default is true.
+         */
+        string_input_popup &hist_use_uilist( bool value ) {
+            _hist_use_uilist = value;
             return *this;
         }
         /**

@@ -28,6 +28,7 @@ struct bionic;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+struct dealt_projectile_attack;
 class dispersion_sources;
 class monster;
 class game;
@@ -142,6 +143,13 @@ struct stat_mod {
     int speed = 0;
 };
 
+struct needs_rates {
+    float thirst;
+    float hunger;
+    float fatigue;
+    float recovery;
+};
+
 class player : public Character
 {
     public:
@@ -249,6 +257,7 @@ class player : public Character
         void update_body( const time_point &from, const time_point &to );
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
+        needs_rates calc_needs_rates();
 
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );

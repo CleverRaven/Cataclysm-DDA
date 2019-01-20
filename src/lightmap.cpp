@@ -4,7 +4,7 @@
 #include <cmath>
 #include <cstring>
 
-#include "fragment_cloud.h"
+#include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"

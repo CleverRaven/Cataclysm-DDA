@@ -1,6 +1,7 @@
 #include "debug_menu.h"
 
 #include <algorithm>
+#include <chrono>
 #include <vector>
 
 #include "action.h"
@@ -11,6 +12,7 @@
 #include "morale_types.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
@@ -605,6 +607,36 @@ void mission_debug::edit_mission( mission &m )
             remove_mission( m );
             break;
     }
+}
+
+void draw_benchmark( const int max_difference )
+{
+    // call the draw procedure as many times as possible in max_difference milliseconds
+    auto start_tick = std::chrono::steady_clock::now();
+    auto end_tick = std::chrono::steady_clock::now();
+    long difference = 0;
+    int draw_counter = 0;
+    while( true ) {
+        end_tick = std::chrono::steady_clock::now();
+        difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick - start_tick ).count();
+        if( difference >= max_difference ) {
+            break;
+        }
+        g->draw();
+        draw_counter++;
+    }
+
+    DebugLog( D_INFO, DC_ALL ) << "Draw benchmark:\n" <<
+                               "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
+                               "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
+                               get_option<bool>( "USE_TILES" ) << " | " <<
+                               get_option<std::string>( "RENDERER" ) << " | " <<
+                               get_option<bool>( "FRAMEBUFFER_ACCEL" ) << " | " <<
+                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
+                               int( 1000.0 * draw_counter / ( double )difference ) << " |\n";
+
+    add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
+             difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
 }
 
 }
