@@ -2768,7 +2768,28 @@ dynamic_line_t::dynamic_line_t( const std::string &line )
 
 dynamic_line_t::dynamic_line_t( JsonObject jo )
 {
-    if( jo.has_member( "u_male" ) && jo.has_member( "u_female" ) ) {
+    if( jo.has_member( "and" ) ) {
+        std::vector<dynamic_line_t> lines;
+        JsonArray ja = jo.get_array( "and" );
+        while( ja.has_more() ) {
+            if( ja.test_string() ) {
+                lines.emplace_back( ja.next_string() );
+            } else if( ja.test_array() ) {
+                lines.emplace_back( ja.next_array() );
+            } else if( ja.test_object() ) {
+                lines.emplace_back( ja.next_object() );
+            } else {
+                ja.throw_error( "invalid format: must be string, array or object" );
+            }
+        }
+        function = [lines]( const dialogue & d ) {
+            std::string all_lines;
+            for( const dynamic_line_t &line: lines ) {
+                all_lines += line( d );
+            }
+            return all_lines;
+        };
+    } else if( jo.has_member( "u_male" ) && jo.has_member( "u_female" ) ) {
         const dynamic_line_t u_male = from_member( jo, "u_male" );
         const dynamic_line_t u_female = from_member( jo, "u_female" );
         function = [u_male, u_female]( const dialogue & d ) {

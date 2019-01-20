@@ -88,6 +88,23 @@ A complex `dynamic_line` usually contains several `dynamic_line` entry and some 
 
 In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional lines do not have to be defined, but the NPC should always have something to say.  Entries are always parsed as `dynamic_line` and can be nested.
 
+#### Several lines joined together
+The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
+```C++
+{
+    "and": [
+        {
+            "npc_male": "I'm a man.",
+            "npc_female": "I'm a woman."
+        },
+        "  ",
+        {
+            "u_male": "You're a man.",
+            "u_female": "You're a woman."
+        }
+    ]
+}
+```
 #### Based on the gender of the NPC / NPC
 The dynamic line is chosen based on the gender of the NPC.  Both entries must exist.
 
