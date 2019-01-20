@@ -763,8 +763,8 @@ void iexamine::crate( player &p, const tripoint &examp )
     }
 
     uilist selection_menu;
-    selection_menu.text = ( string_format( _( "The %s is closed tightly.." ),
-                                           g->m.furnname( examp ) ) );
+    selection_menu.text = string_format( _( "The %s is closed tightly." ),
+                                           g->m.furnname( examp ) );
 
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         return it.has_quality( quality_id( "PRY" ), 1 );
@@ -780,12 +780,12 @@ void iexamine::crate( player &p, const tripoint &examp )
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return  a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
     // Then display the items
     int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone." ) );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
     for( auto iter : prying_items ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
     }
@@ -1170,7 +1170,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     uilist selection_menu;
 
-    selection_menu.text = ( string_format( _( "The %s is locked..." ), g->m.tername( examp ) ) );
+    selection_menu.text = string_format( _( "The %s is locked..." ), g->m.tername( examp ) );
 
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         return it.has_quality( quality_id( "PRY" ), 2 );
@@ -1186,12 +1186,12 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> int {
-        return  a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
     // Then display the items
     int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone." ) );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
     for( auto iter : prying_items ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
                                  iter->tname() ) );
