@@ -1002,7 +1002,7 @@ class game
         * @max_width above that width, strings will be trimmed or folded
         */
         size_t terrain_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
-        size_t fields_info( std::vector<std::string> &info, const tripoint &lp);
+        size_t fields_info( std::vector<std::string> &info, const tripoint &lp );
         size_t trap_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
         size_t creature_info( std::vector<std::string> &info, const Creature *creature,
                               const int max_width );
