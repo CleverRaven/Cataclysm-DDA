@@ -15,6 +15,7 @@ struct w_point {
     double pressure;
     double windpower;
     int winddirection;
+    std::string dirstring;
     bool   acidic;
 };
 
@@ -40,6 +41,8 @@ class weather_generator
         weather_type get_weather_conditions( const w_point & ) const;
         int get_wind_direction( const season_type ) const;
         int convert_winddir( const int ) const;
+        int get_angle_distance( int, int ) const;
+        std::string get_dirstring( int ) const;
         int get_water_temperature() const;
         void test_weather() const;
 

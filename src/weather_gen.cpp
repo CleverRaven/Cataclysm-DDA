@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
+#include <string>
 
 #include "enums.h"
 #include "json.h"
@@ -48,7 +49,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
     double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
-    double W( raw_noise_4d( x, y, z / 20, modSEED ) * 20.0 );
+    double W( raw_noise_4d( x, y, z / 20, modSEED ) * 10.0 );
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
@@ -84,38 +85,51 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, static_cast<int>( 2.7  / pow( ( ( P / 33.86 ) / 29.97 ), rng( 20,
-                                       70 ) ) + ( seasonal_variation * rng( 2, 4 ) ) * W ) );
+    W = std::max( 0, static_cast<int>( 3.0  / pow( ( ( P / 33.86 ) / 29.97 ), rng( 8,
+                                       51 ) ) + ( seasonal_variation * rng( 2, 4 ) ) * W ) );
     // Wind direction
-    if( current_winddir == winddir_target ) {
-        bool changetarget = one_in(10);
+    // if wind direction has teached target direction...
+    int difference = get_angle_distance( winddir_target, current_winddir );
+    if( difference < 10 && difference > -10 ) {
+        bool changetarget = one_in(2);
         if(changetarget == true) {
             winddir_target = get_wind_direction( season );
             winddir_target = convert_winddir( winddir_target );
         }
     }
+    // initial static variable
     if( current_winddir == 1000 ) {
         current_winddir = get_wind_direction( season );
         current_winddir = convert_winddir( current_winddir );
         winddir_target = get_wind_direction( season );
         winddir_target = convert_winddir( winddir_target );
     } else {
-        if( current_winddir < winddir_target ) {
-            bool changetarget = one_in(10);
-            if( changetarget == true ) {
-                current_winddir += 1;
+        /// change wind direction towards target direction
+        if( difference <= 0 ) {
+            bool changedir = one_in(5);
+            if( changedir == true ) {
+                //when wind strength is low, wind direction is more variable
+                current_winddir -= std::max(1, (int)(W + 0.5)) + rng(1, 5);
+            if ( current_winddir < 0 ) {
+                current_winddir = 360 + current_winddir;
+                }
             }
-        } else if( current_winddir > winddir_target ) {
-            bool changetarget = one_in(10);
-            if( changetarget == true ) {
-                current_winddir -= 1;
+        } else if( difference > 0 ) {
+            bool changedir = one_in(5);
+            if( changedir == true ) {
+                //when wind strength is low, wind direction is more variable
+                current_winddir += std::max(1, (int)(W + 0.5)) + rng(1, 2);
+            if ( current_winddir > 359 ) {
+                current_winddir = 0 + ( current_winddir - 360 );
+                }
             }
       }
     }
+    std::string dirstring = get_dirstring( current_winddir );
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-    return w_point {T, H, P, W, current_winddir, acid};
+    return w_point {T, H, P, W, current_winddir, dirstring, acid};
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -195,6 +209,7 @@ int weather_generator::get_wind_direction( const season_type season ) const
 
 int weather_generator::convert_winddir( const int inputdir ) const
 {
+    //convert from discrete distribution output to angle
     float finputdir = inputdir * 22.5;
     return static_cast<int>(finputdir);
 
@@ -228,6 +243,46 @@ int weather_generator::get_water_temperature() const
     return water_temperature;
 }
 
+int weather_generator::get_angle_distance( int target, int current ) const
+{   //distance between current angle and target angle, wrapping from 359 to 0
+    int phi = ((current-target) % 360) + 360;
+    int sign = -1;
+    int result;
+    if(!(phi >= 0 && phi <= 180) || (phi <= -180 && phi >= -360)) {
+        sign = 1;
+    }
+    if( phi > 180 ) {
+        result = 360 - phi;
+    } else {
+        result = phi;
+    }
+    return ( result * sign );
+}
+
+std::string weather_generator::get_dirstring( int angle ) const
+{   //convert angle to cardinal directions
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ("North");
+    } else if( dirangle <= 68 && dirangle > 23) {
+        dirstring = ("North-East");
+    } else if( dirangle <= 113 && dirangle > 68) {
+        dirstring = ("East");
+    } else if( dirangle <= 158 && dirangle > 113) {
+        dirstring = ("South-East");
+    } else if( dirangle <= 203 && dirangle > 158) {
+        dirstring = ("South");
+    } else if( dirangle <= 248 && dirangle > 203) {
+        dirstring = ("South-West");
+    } else if( dirangle <= 293 && dirangle > 248) {
+        dirstring = ("West");
+    } else if( dirangle <= 338 && dirangle > 293) {
+        dirstring = ("North-West");
+    }
+    return dirstring;
+}
+
 void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
@@ -241,10 +296,10 @@ void weather_generator::test_weather() const
 
     const time_point begin = calendar::turn;
     const time_point end = begin + 2 * calendar::season_length();
-    for( time_point i = begin; i < end; i += 200_turns ) {
+    for( time_point i = begin; i < end; i += 600_turns ) {
         //@todo: a new random value for each call to get_weather? Is this really intended?
-        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
-        testfile << to_turn<int>( i ) << ";" << w.pressure << ";" << w.windpower << ";" << w.winddirection << std::endl;
+        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 5000 );
+        testfile << to_turn<int>( i ) << ";" << w.windpower << ";" << w.dirstring  << std::endl;
     }
 }
 

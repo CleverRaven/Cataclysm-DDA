@@ -493,7 +493,7 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
-                           print_humidity(
+                             print_humidity(
                                get_local_humidity( weatherPoint.humidity, g->weather,
                                        g->is_sheltered( g->u.pos() ) ) ).c_str() );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
@@ -505,8 +505,7 @@ bool player::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower ) + player_local_temp ).c_str() );
-        add_msg_if_player( m_info, _( "Wind is coming from angle of : %s." ),
-                           print_winddirection( weatherPoint.winddirection ).c_str() );
+        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
 
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
