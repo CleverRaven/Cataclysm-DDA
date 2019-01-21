@@ -1,4 +1,4 @@
-// #if (defined TILES)
+#if (defined TILES)
 #include "cata_tiles.h"
 
 #include <algorithm>
@@ -3213,4 +3213,4 @@ void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
         return v->id;
     }, label, prefix );
 }
-// #endif // SDL_TILES
+#endif // SDL_TILES
