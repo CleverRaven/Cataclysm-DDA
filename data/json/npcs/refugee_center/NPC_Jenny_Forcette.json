@@ -191,7 +191,18 @@
     "dynamic_line": "About a month ago, I got a mold for making high-calibre air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!",
     "responses": [
       { "text": "Tell me more about those turrets.", "topic": "TALK_REFUGEE_JENNY_Project2_developed" },
-      { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_mid" },
+      {
+        "text": "What's it like living here?",
+        "condition": { "days_since_cataclysm": 120 },
+        "topic": "TALK_REFUGEE_JENNY_Personal1_late",
+        "switch": true
+      },
+      {
+        "text": "What's it like living here?",
+        "condition": { "days_since_cataclysm": 60 },
+        "topic": "TALK_REFUGEE_JENNY_Personal1_mid",
+        "switch": true
+      },
       { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1" },
       { "text": "Sounds interesting, talk to you later.", "topic": "TALK_DONE" }
     ]
@@ -219,12 +230,40 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_Personal1_late",
+    "dynamic_line": "It's getting bad.  We've been stuck in here for months, nothing changing, nothing improving.  We can't go outside, we don't have enough to eat, and we didn't choose to be with each other.  I don't know how long we can stay like this before somebody snaps.",
+    "responses": [
+      { "text": "Tell me more about those turrets.", "topic": "TALK_REFUGEE_JENNY_Project2_developed" },
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees1",
     "dynamic_line": {
       "days_since_cataclysm": 90,
       "yes": "For better or worse, we're a community now.  Fatima and I work together a fair bit, and I consider Dana, Draco, and Aleesha my friends, and so of course I've gotten to know Dana's husband Pedro too.  The Borichenkos are their own sweet brand of messed up, like all of us.  The Singhs have each other, and keep mostly to themselves.  Vanessa and I don't see eye to eye, but I'm still glad she's here.  Uyen and Rhyzaea are always bickering about leadership decisions, as if they made those kind of calls.  What did you want to know?",
       "no": "Well, there's a bunch of us.  We're starting to form a bit of a community.  Fatima and I work together a fair bit, and I've been hanging out with Dana, Draco, and Aleesha quite a lot.  I don't know the Borichenko bunch, the Singhs, Vanessa, Uyen, or Rhyzaea quite as well, but we've talked enough.  What did you want to know?"
     },
+    "responses": [
+      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
+      { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
+      {
+        "text": "What has made you friends with Dana, Draco, and Aleesha?",
+        "topic": "TALK_REFUGEE_JENNY_Refugees2_Friends"
+      },
+      { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko" },
+      { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh" },
+      { "text": "Can you tell me about the others?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Others" },
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_FreeMerchants",
+    "dynamic_line": "They run this place, and they don't run a charity.  We get paid for working around the place, maintaining it, what have you, and we trade cash for food.  The thing is, supply and demand and all... there's a lot more cash than food around.  It's easier to buy a laptop than a piece of beef jerky, and there's no sign of that getting better.  The balance is way off right now, a hard day of work barely gets you enough to fill your belly.  I shouldn't bitch too much though.  I don't know much better way to run it, although rumour is that the folks living downstairs have it a lot easier than we do.  I try not to think too much on that.",
     "responses": [
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       {
@@ -243,7 +282,11 @@
     "id": "TALK_REFUGEE_JENNY_Refugees2_Fatima",
     "dynamic_line": "Fatima's a sweety, but she's a total dork.  I know, I know, it's backwards for the engineer to call the heavy duty mechanic a nerd, but hey.  I call it like it is.  She and I have been doing some odd jobs around the upstairs here, fixing up old machinery and things.",
     "responses": [
-      { "text": "What has made you friends with Dana, Draco, and Aleesha?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Friends" },
+      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
+      {
+        "text": "What has made you friends with Dana, Draco, and Aleesha?",
+        "topic": "TALK_REFUGEE_JENNY_Refugees2_Friends"
+      },
       { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko" },
       { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh" },
       { "text": "Can you tell me about the others?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Others" },
@@ -256,6 +299,7 @@
     "id": "TALK_REFUGEE_JENNY_Refugees2_Friends",
     "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Her husband, Pedro, is still pretty shellshocked.  He doesn't talk much.  I like him though, when he opens up he's just hilarious.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.  She's a great artist, and she's full of crazy ideas.  I guess I like her because of all of us, she seems to have the most hope that there's a future to be had.",
     "responses": [
+      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko" },
       { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh" },
@@ -273,6 +317,7 @@
       "no": "Boris and Garry are married, I guess.  They kinda keep to themselves, they seem a bit standoffish if you ask me.  Stan is Boris's brother, I think, but I'm not totally sure.  He seems nice enough, but he's a man of few words.  I can't get a good bead on them.  I've learned not to pry too much though."
     },
     "responses": [
+      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       {
         "text": "What has made you friends with Dana, Draco, and Aleesha?",
@@ -293,6 +338,7 @@
       "no": "I really can't get a bead on them.  They never really talk to anyone outside of their little family group, they just sit in their own spot and speak Punjabi.  They always seem nice, and they do their share, they just don't have any social connection."
     },
     "responses": [
+      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       {
         "text": "What has made you friends with Dana, Draco, and Aleesha?",
@@ -313,6 +359,7 @@
       "no": "Vanessa... well, she's nice, I guess.  I gotta say, she kinda drives me nuts, but we're in this together so I try not to be too harsh.  Uyen and Rhyzaea both seem to want to run the show here, but I try to stay out of those politics and just focus on building stuff.  I don't see much good coming of it.  Alonso is fine, he's clearly interested in me, and also in every other single woman here.  Not my thing, in a group this small.  John is a walking stereotype, I imagine there must be more depth to him, but I haven't seen it yet."
     },
     "responses": [
+      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       {
         "text": "What has made you friends with Dana, Draco, and Aleesha?",
