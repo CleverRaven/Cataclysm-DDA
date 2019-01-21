@@ -2559,6 +2559,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
             ent_subcategory = m->type->species.begin()->str();
         }
         const int subtile = corner;
+        // depending on the toggle flip sprite left or right
         if( m->facing == "left" ) {
             return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
                                         4, ll, false, height_3d );
@@ -2589,7 +2590,7 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     // takes this seriously needs a naked sprite)
     int prev_height_3d = height_3d;
 
-    // flip entity horizontaly
+    // depending on the toggle flip sprite left or right
     if( pl.facing == "left" ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
     } else {
