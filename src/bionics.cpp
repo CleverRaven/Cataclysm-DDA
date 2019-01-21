@@ -76,10 +76,10 @@ const efftype_id effect_weed_high( "weed_high" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 
-static const trait_id trait_THRESH_MEDICAL("THRESH_MEDICAL");
-static const trait_id trait_MASOCHIST("MASOCHIST");
-static const trait_id trait_MASOCHIST_MED("MASOCHIST_MED");
-static const trait_id trait_CENOBITE("CENOBITE");
+static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
 
 namespace
 {
