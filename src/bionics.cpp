@@ -1550,7 +1550,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
     if( anesthetic ) {
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
-                               _( "You feel calm and even excited, as operation starts." ) );
+                               _( "You feel excited, as operation starts." ) );
         }
 
         add_msg_if_player( m_mixed,
@@ -1561,7 +1561,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
-                               _( "You feel calm and even excited, as the Autodoc slices painlessly into you.  You pass out when the blades reach your line of sight." ) );
+                               _( "You feel excited, as the Autodoc slices painlessly into you.  You pass out when the blades reach your line of sight." ) );
         } else {
             add_msg_if_player( m_mixed,
                                _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
