@@ -7701,8 +7701,9 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             curr_line = draw_look_around_text( w_info, text, curr_line, last_line );
 
             if( static_cast<int>( text.size() ) > last_line ) {
+                clr = c_yellow;
                 message = "There are more things here...";
-                print_colored_text( w_info, curr_line, 1, c_yellow, c_yellow, message );
+                print_colored_text( w_info, curr_line, 1, clr, clr, message );
             }
 
             draw_terrain_indicators( lp, !is_draw_tiles_mode() );
