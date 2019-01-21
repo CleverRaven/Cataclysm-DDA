@@ -7653,7 +7653,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             //lines reserved for the bottom overlay messages
             int reserved_lines = peeking ? 5 : 4;
             int lines_required = static_cast<int>( text.size() ) + reserved_lines;
-            const int required_height = std::max( lines_required, 7 );
+            const int required_height = std::max( lines_required, 11 );
             const int available_height = TERMY - lookY;
             const int lookHeight = std::min( required_height, available_height );
 
