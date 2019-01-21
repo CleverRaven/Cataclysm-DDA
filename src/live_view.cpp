@@ -42,9 +42,10 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     curr_line = g->draw_look_around_text( win, text, curr_line, line_limit );
     g->draw_terrain_indicators( mouse_position, !is_draw_tiles_mode() );
 
+    nc_color clr = c_yellow;
     if( text.size() > line_limit ) {
         std::string message = "There are more things here...";
-        print_colored_text( win, curr_line, 1, c_yellow, c_yellow, message );
+        print_colored_text( win, curr_line, 1, clr, clr, message );
         curr_line++;
     }
 
@@ -64,12 +65,13 @@ int live_view::draw( const catacurses::window &win, const int max_height )
 
     draw_border( win );
 
+    clr = c_white;
     static const std::string pre = "< ", mid = _( "Mouse View" ), post = " >";
     static const std::string raw_title = pre + mid + post;
-    static auto title = colorize( pre, c_white ) + colorize( mid, c_green ) + colorize( post, c_white );
+    static auto title = colorize( pre, clr ) + colorize( mid, c_green ) + colorize( post, clr );
     int start_pos = center_text_pos( raw_title, 0, getmaxx( win ) - 1 );
 
-    print_colored_text( win, 0, start_pos, c_white, c_white, title );
+    print_colored_text( win, 0, start_pos, clr, clr, title );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
