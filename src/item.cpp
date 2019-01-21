@@ -1008,11 +1008,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
                                               food->specific_energy ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "", iteminfo::lower_is_better,
-                                              1000 * food->type->comestible->spec_heat_liquid ) );
+                                              1000 * food->get_specific_heat_liquid() ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "", iteminfo::lower_is_better,
-                                              1000 * food->type->comestible->spec_heat_solid ) );
+                                              1000 * food->get_specific_heat_solid() ) );
                     info.push_back( iteminfo( "BASE", _( "latent heat: " ), "", iteminfo::lower_is_better,
-                                              food->type->comestible->lat_heat ) );
+                                              food->get_latent_heat() ) );
                 }
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
@@ -3923,9 +3923,9 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
 
 float item::get_specific_heat_solid() const
 {
-    float specific_heat_solid = 2.108;
+    float specific_heat_solid = 0;
     if( is_null() ) {
-        return specific_heat_solid;
+        return 2.108;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -3935,6 +3935,8 @@ float item::get_specific_heat_solid() const
         }
         // Average based on number of materials.
         specific_heat_solid /= mat_types.size();
+    } else {
+        return 2.108;
     }
 
     return specific_heat_solid;
@@ -3942,9 +3944,9 @@ float item::get_specific_heat_solid() const
 
 float item::get_specific_heat_liquid() const
 {
-    float specific_heat_liquid = 2.108;
+    float specific_heat_liquid = 0;
     if( is_null() ) {
-        return specific_heat_liquid;
+        return 4.186;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -3954,6 +3956,8 @@ float item::get_specific_heat_liquid() const
         }
         // Average based on number of materials.
         specific_heat_liquid /= mat_types.size();
+    } else {
+        return 4.186;
     }
 
     return specific_heat_liquid;
@@ -3961,9 +3965,9 @@ float item::get_specific_heat_liquid() const
 
 float item::get_latent_heat() const
 {
-    float latent_heat = 2.108;
+    float latent_heat = 0;
     if( is_null() ) {
-        return latent_heat;
+        return 333;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -3973,6 +3977,8 @@ float item::get_latent_heat() const
         }
         // Average based on number of materials.
         latent_heat /= mat_types.size();
+    } else {
+        return 333;
     }
 
     return latent_heat;
@@ -6042,9 +6048,9 @@ bool item::allow_crafting_component() const
 
 void item::set_item_specific_energy( const float new_specific_energy )
 {
-    const int specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
-    const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
-    const int latent_heat = type->comestible->lat_heat; // J/kg
+    const int specific_heat_liquid = get_specific_heat_liquid(); // J/g K
+    const int specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const int latent_heat = get_latent_heat(); // J/kg
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -6105,9 +6111,9 @@ void item::set_item_specific_energy( const float new_specific_energy )
 
 float item::get_specific_energy_from_temperature( const float new_temperature )
 {
-    const int specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
-    const int specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
-    const int latent_heat = type->comestible->lat_heat; // J/kg
+    const int specific_heat_liquid = get_specific_heat_liquid(); // J/g K
+    const int specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const int latent_heat = get_latent_heat(); // J/kg
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float completely_frozen_energy = specific_heat_solid *
                                            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -6128,8 +6134,8 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
 void item::set_item_temperature( float new_temperature )
 {
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
-    const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
-    const float latent_heat = type->comestible->lat_heat; // J/kg
+    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const float latent_heat = get_latent_heat(); // J/kg
 
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
