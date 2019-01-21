@@ -608,9 +608,9 @@ void monster::move()
     }
     // toggle facing direction for sdl flip
     if( destination.x < pos().x ) {
-        facing = "left";
+        facing = FD_LEFT;
     } else {
-        facing = "right";
+        facing = FD_RIGHT;
     }
 
     tripoint next_step;

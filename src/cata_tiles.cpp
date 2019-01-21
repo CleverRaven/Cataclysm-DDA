@@ -1943,11 +1943,6 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         }
     }
 
-    // make sure we aren't going to rotate the tile if it shouldn't be rotated
-    if( !display_tile.rotates ) {
-        //rota = 0;
-    }
-
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.x, pos.y );
 
@@ -2560,10 +2555,10 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         const int subtile = corner;
         // depending on the toggle flip sprite left or right
-        if( m->facing == "left" ) {
+        if( m->facing == FD_LEFT ) {
             return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
                                         4, ll, false, height_3d );
-        } else {
+        } else if( m->facing == FD_RIGHT ) {
             return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
                                         0, ll, false, height_3d );
         }
@@ -2591,9 +2586,9 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     int prev_height_3d = height_3d;
 
     // depending on the toggle flip sprite left or right
-    if( pl.facing == "left" ) {
+    if( pl.facing == FD_LEFT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
-    } else {
+    } else if( pl.facing == FD_RIGHT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
     }
 

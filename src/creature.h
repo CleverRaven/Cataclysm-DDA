@@ -66,6 +66,12 @@ enum m_size : int {
     MS_HUGE     // TAAAANK
 };
 
+enum FacingDirection {
+    FD_NONE = 0,
+    FD_LEFT = 1,
+    FD_RIGHT = 2
+};
+
 class Creature
 {
     public:
@@ -87,7 +93,8 @@ class Creature
         virtual bool is_monster() const {
             return false;
         }
-
+        /** return the direction the creature is facing, for sdl horizontal flip **/
+        FacingDirection facing = FD_RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */

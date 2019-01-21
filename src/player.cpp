@@ -828,12 +828,11 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
-    // toggle facing direction for sdl flip
-    if ( inp_mngr.get_previously_pressed_key() == 260 ) {
-        facing = "left";
+    if( inp_mngr.get_previously_pressed_key() == 260 ) {
+        facing = FD_LEFT;
     }
-    if ( inp_mngr.get_previously_pressed_key() == 261 ) {
-        facing = "right";
+    else if( inp_mngr.get_previously_pressed_key() == 261 ) {
+        facing = FD_RIGHT;
     }
 }
 
