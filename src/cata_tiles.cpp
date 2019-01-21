@@ -1,4 +1,4 @@
-#if (defined TILES)
+// #if (defined TILES)
 #include "cata_tiles.h"
 
 #include <algorithm>
@@ -1942,7 +1942,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                        category, subcategory, pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
         }
     }
-
+    // make sure we aren't going to rotate the tile if it shouldn't be rotated
+    if( !display_tile.rotates && !( category == C_NONE ) && !( category == C_MONSTER ) ) {
+        rota = 0;
+    }
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.x, pos.y );
 
@@ -3210,4 +3213,4 @@ void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
         return v->id;
     }, label, prefix );
 }
-#endif // SDL_TILES
+// #endif // SDL_TILES
