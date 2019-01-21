@@ -6516,77 +6516,87 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
-                                int &line, const int last_line, bool draw_terrain_indicators, const visibility_variables &cache )
+std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
 {
+    std::string separator;
     std::vector<std::string> text;
-    const int max_width = getmaxx( w_look ) - column - 1;
+    const int max_width = getmaxx( w_messages ) - 2;
+    const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
     auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
-    switch( visibility ) {
-        case VIS_CLEAR: {
-            const optional_vpart_position vp = m.veh_at( lp );
+    if( visibility == VIS_CLEAR ) {
+
+        const optional_vpart_position vp = m.veh_at( lp );
+        const Creature *creature = critter_at( lp, true );
+
+        terrain_info( text, lp, max_width );
+        fields_info( text, lp, max_width );
+        trap_info( text, lp, max_width );
+
+        if( creature ) {
+            text.push_back( separator );
+            creature_info( text, creature, max_width );
+        }
+
+        if( vp ) {
+            text.push_back( separator );
+            vehicle_info( text, &vp->vehicle(), vp->part_index(), max_width );
+        }
+
+        if( m.sees_some_items( lp, u ) ) {
+            text.push_back( separator );
+            items_info( text, lp, max_width );
+        }
+
+        graffiti_info( text, lp, max_width );
+    } else    {
+        visibility_info( text, visibility, max_width );
+    }
+    sound_info( text, lp, max_width );
+
+    return text;
+}
+
+int game::draw_look_around_text( const catacurses::window &w_info,
+                                 const std::vector<std::string> &text,
+                                 int curr_line, int last_line )
+{
+    for( auto &str : text ) {
+        if( curr_line < last_line ) {
+            print_colored_text( w_info, curr_line, 1, c_dark_gray, c_dark_gray, str );
+            curr_line++;
+        }
+    }
+    return curr_line;
+}
+
+void game::draw_terrain_indicators( const tripoint &lp, bool draw )
+{
+    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    if( draw ) {
+
+        auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+
+        if( visibility == VIS_CLEAR ) {
             const Creature *creature = critter_at( lp, true );
 
-            //form to print a line
-            //print_colored_text( w_look, line++, column, c_dark_gray, c_dark_gray, str );
-            terrain_info( text, lp, max_width );
-            fields_info( text, lp, max_width );
-            trap_info( text, lp, max_width );
-            creature_info( text, creature, max_width );
-
-            print_vehicle_info( veh_pointer_or_null( vp ), vp ? vp->part_index() : -1, w_look, column, line,
-                                last_line );
-            print_items_info( lp, w_look, column, line, last_line );
-            print_graffiti_info( lp, w_look, column, line, last_line );
-
-            if( draw_terrain_indicators ) {
-                if( creature != nullptr && u.sees( *creature ) ) {
-                    creature->draw( w_terrain, lp, true );
-                } else {
-                    m.drawsq( w_terrain, u, lp, true, true, lp );
-                }
+            if( creature != nullptr && u.sees( *creature ) ) {
+                creature->draw( w_terrain, lp, true );
+            } else {
+                m.drawsq( w_terrain, u, lp, true, true, lp );
             }
-        }
-        break;
-        case VIS_BOOMER:
-        case VIS_BOOMER_DARK:
-        case VIS_DARK:
-        case VIS_LIT:
-        case VIS_HIDDEN:
-            print_visibility_info( w_look, column, line, visibility );
-
-            if( draw_terrain_indicators ) {
-                print_visibility_indicator( visibility );
-            }
-            break;
-    }
-
-    auto this_sound = sounds::sound_at( lp );
-    if( !this_sound.empty() ) {
-        mvwprintw( w_look, ++line, 1, _( "You heard %s from here." ), this_sound.c_str() );
-    } else {
-        // Check other z-levels
-        tripoint tmp = lp;
-        for( tmp.z = -OVERMAP_DEPTH; tmp.z <= OVERMAP_HEIGHT; tmp.z++ ) {
-            if( tmp.z == lp.z ) {
-                continue;
-            }
-
-            auto zlev_sound = sounds::sound_at( tmp );
-            if( !zlev_sound.empty() ) {
-                mvwprintw( w_look, ++line, 1, tmp.z > lp.z ?
-                           _( "You heard %s from above." ) : _( "You heard %s from below." ),
-                           zlev_sound.c_str() );
-            }
+        } else {
+            print_visibility_indicator( visibility );
         }
     }
 }
 
-void game::print_visibility_info( const catacurses::window &w_look, int column, int &line,
-                                  visibility_type visibility )
+size_t game::visibility_info( std::vector<std::string> &info, visibility_type visibility,
+                              const int max_width )
 {
-    const char *visibility_message = nullptr;
+    size_t old_size = info.size();
+    std::string visibility_message;
+
     switch( visibility ) {
         case VIS_CLEAR:
             visibility_message = _( "Clearly visible." );
@@ -6606,14 +6616,18 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
         case VIS_HIDDEN:
             visibility_message = _( "Unseen." );
             break;
+        default: {
+            return info.size() - old_size;
+        }
     }
+    foldstring( info, visibility_message, max_width );
 
-    mvwprintw( w_look, column, line, visibility_message );
-    line += 2;
+    return info.size() - old_size;
 }
 
-void game::terrain_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
+size_t game::terrain_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
 {
+    size_t old_size = info.size();
     std::string tempStr;
 
     // get global area info according to look_around caret position
@@ -6632,7 +6646,7 @@ void game::terrain_info( std::vector<std::string> &info, const tripoint &lp, con
         int moveCost = m.move_cost( lp ) * 50;
         tempStr = string_format( _( "%s; Movement cost %d" ), tile_str, moveCost );
     }
-    foldstring( info, colorize( tempStr, c_light_gray ), max_width, '\n' );
+    foldstring( info, colorize( tempStr, c_light_gray ), max_width );
 
     //store light info
     if( !m.impassable( lp ) ) {
@@ -6640,7 +6654,7 @@ void game::terrain_info( std::vector<std::string> &info, const tripoint &lp, con
                                  LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
 
         tempStr = _( "Lighting: " ) + colorize( light_level.first, light_level.second );
-        foldstring( info, tempStr, max_width, '\n' );
+        foldstring( info, tempStr, max_width );
     }
 
     //store signage
@@ -6667,114 +6681,233 @@ void game::terrain_info( std::vector<std::string> &info, const tripoint &lp, con
         } else {
             tempStr = string_format( _( "Below: %s; Walkable" ), tile_below );
         }
-        foldstring( info, colorize( tempStr, c_dark_gray ), max_width, '\n' );
+        foldstring( info, colorize( tempStr, c_dark_gray ), max_width );
     }
 
     //store features
     info.push_back( colorize( m.features( lp ), c_dark_gray ) );
+
+    return info.size() - old_size;
 }
 
-void game::fields_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
+size_t game::fields_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
 {
-    std::string tempStr;
+    size_t old_size = info.size();
 
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
                                       m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
-            tempStr = colorize( get_fire_fuel_string( lp ), cur.color() );
+            info.push_back( colorize( get_fire_fuel_string( lp ), cur.color() ) );
         } else {
-            tempStr = colorize( cur.name(), cur.color() );
+            if( !cur.name().empty() ) { //sometimes the field return no name, possible bug?
+                info.push_back( colorize( cur.name(), cur.color() ) );
+            }
         }
-        foldstring( info, tempStr, max_width, '\n' );
     }
+
+    return info.size() - old_size;
 }
 
-void game::trap_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
+size_t game::trap_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
 {
+    size_t old_size = info.size();
     const trap &trap = m.tr_at( lp );
+
     if( trap.can_see( lp, u ) ) {
         std::string str = colorize( trap.name(), trap.color );
-        foldstring( info, str, max_width, '\n' );
+        foldstring( info, str, max_width );
     }
+
+    return info.size() - old_size;
 }
 
-void game::creature_info( std::vector<std::string> &info, const Creature *creature,
-                          const int max_width )
+size_t game::creature_info( std::vector<std::string> &info, const Creature *creature,
+                            const int max_width )
 {
+    size_t old_size = info.size();
+
     if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
         std::string tempStr;
 
-        //name
-        tempStr = creature->get_name() + " ";
-        foldstring( info, colorize( tempStr, c_white ), max_width, '\n' );
-
-        //monster info
+        //MONSTER INFO
         auto *mon = dynamic_cast<const monster *>( creature );
-        if( mon != nullptr ) {
+        if( mon ) {
+            //name
+            tempStr = mon->get_name() + " ";
+            foldstring( info, colorize( tempStr, c_white ), max_width );
             //attitude
             const auto att = mon->get_attitude();
-            foldstring( info, colorize( att.first, att.second ), max_width, '\n' );
+            if( tempStr.size() + att.first.size() < max_width ) {
+                info.back().append( colorize( att.first, att.second ) );
+            } else {
+                info.push_back( colorize( att.first, att.second ) );
+            }
             //difficulty
             if( debug_mode ) {
                 tempStr = _( " Difficulty " ) + to_string( mon->type->difficulty );
-                foldstring( info, colorize( tempStr, c_light_gray ), max_width, '\n' );
+                foldstring( info, colorize( tempStr, c_light_gray ), max_width );
             }
             //effects
             std::string effects = mon->get_effect_status();
-            info.push_back(trim_to_width(colorize(effects, h_white), max_width));
+            if( !effects.empty() ) {
+                info.push_back( trim_to_width( colorize( effects, h_white ), max_width ) );
+            }
             //Health
             nc_color col;
             int cur_hp = mon->get_hp();
             int max_hp = mon->get_hp_max();
-            if (cur_hp >= max_hp) {
-                tempStr = _("It is uninjured.");
+            if( cur_hp >= max_hp ) {
+                tempStr = _( "It is uninjured." );
                 col = c_green;
-            }
-            else if (cur_hp >= max_hp * 0.8) {
-                tempStr = _("It is lightly injured.");
+            } else if( cur_hp >= max_hp * 0.8 ) {
+                tempStr = _( "It is lightly injured." );
                 col = c_light_green;
-            }
-            else if (cur_hp >= max_hp * 0.6) {
-                tempStr = _("It is moderately injured.");
+            } else if( cur_hp >= max_hp * 0.6 ) {
+                tempStr = _( "It is moderately injured." );
                 col = c_yellow;
-            }
-            else if (cur_hp >= max_hp * 0.3) {
-                tempStr = _("It is heavily injured.");
+            } else if( cur_hp >= max_hp * 0.3 ) {
+                tempStr = _( "It is heavily injured." );
                 col = c_yellow;
-            }
-            else if (cur_hp >= max_hp * 0.1) {
-                tempStr = _("It is severely injured.");
+            } else if( cur_hp >= max_hp * 0.1 ) {
+                tempStr = _( "It is severely injured." );
                 col = c_light_red;
-            }
-            else {
-                tempStr = _("It is nearly dead!");
+            } else {
+                tempStr = _( "It is nearly dead!" );
                 col = c_red;
             }
-            info.push_back(trim_to_width(colorize(tempStr, col), max_width));
+            info.push_back( trim_to_width( colorize( tempStr, col ), max_width ) );
+            //description
+            foldstring( info, colorize( mon->type->get_description(), c_white ), max_width );
 
-
-            // std::vector<std::string> text = foldstring(type->get_description(), getmaxx(w) - 1 - column);
-            // int numlines = text.size();
-            // for (int i = 0; i < numlines && vStart <= vEnd; i++) {
-            //     mvwprintz(w, vStart++, column, c_white, text[i]);
-            // }
+            return info.size() - old_size;
         }
-        //npc info
+        //NPC INFO
+        auto *npc_ = dynamic_cast<const npc *>( creature );
+        if( npc_ ) {
+            //name
+            tempStr = string_format( _( "NPC: %s" ), npc_->name );
+            info.push_back( trim_to_width( colorize( tempStr, c_white ), max_width ) );
+            //wielding
+            if( npc_->is_armed() ) {
+                tempStr = string_format( _( "Wielding a %s" ), npc_->weapon.tname() );
+                info.push_back( trim_to_width( colorize( tempStr, c_red ), max_width ) );
+            }
+            //wearing
+            std::string wornStr;
+            for( auto &it : npc_->worn ) {
+                wornStr += it.tname() + ", ";
+            }
+            if( wornStr.size() > 1 ) {
+                wornStr.resize( wornStr.size() - 2 ); // remove the last ", "
+            }
+            if( !wornStr.empty() ) {
+                tempStr = _( "Wearing: " ) + remove_color_tags( wornStr );
+                foldstring( info, colorize( tempStr, c_blue ), max_width );
+            }
+            //mutations
+            const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), npc_->pos() );
+            const auto trait_str = npc_->visible_mutations( visibility_cap );
+            if( !trait_str.empty() ) {
+                tempStr = _( "Traits: " ) + remove_color_tags( trait_str );
+                foldstring( info, colorize( tempStr, c_green ), max_width );
+            }
 
-        //player info
-
+            return info.size() - old_size;
+        }
+        //PLAYER INFO
+        auto *you = dynamic_cast<const player *>( creature );
+        if( you == &u ) {
+            info.push_back( trim_to_width( string_format( _( "You (%s)" ), you->name ), max_width ) );
+        }
     }
+
+    return info.size() - old_size;
 }
 
-void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
-                               const int column, int &line, const int last_line )
+size_t game::vehicle_info( std::vector<std::string> &info, const vehicle *veh, int veh_part,
+                           const int max_width )
 {
+    size_t old_size = info.size();
+
     if( veh ) {
-        mvwprintw( w_look, ++line, column, _( "There is a %s there. Parts:" ), veh->name.c_str() );
-        line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
+        //brief description
+        foldstring( info, string_format( _( "There is a %s there. Parts:" ), veh->name ), max_width );
+
+        //boundary check
+        if( veh_part < 0 || veh_part >= static_cast<int>( veh->parts.size() ) ) {
+            return 0;
+        }
+
+        std::vector<int> parts_id_list = veh->parts_at_relative( veh->parts[veh_part].mount, true );
+
+        for( int id : parts_id_list ) {
+            const vehicle_part &vp = veh->parts[id];
+            //name
+            std::string partname = vp.name();
+            //fuel content
+            if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
+                partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
+            }
+            //cargo
+            if( veh->part_flag( id, "CARGO" ) ) {
+                //~ used/total volume of a cargo vehicle part
+                partname += string_format( _( " (vol: %s/%s %s)" ),
+                                           format_volume( veh->stored_volume( id ) ),
+                                           format_volume( veh->max_volume( id ) ),
+                                           volume_units_abbr() );
+            }
+            //armor
+            std::string left_sym, right_sym;
+            if( veh->part_flag( id, "ARMOR" ) ) {
+                left_sym = "(";
+                right_sym = ")";
+            } else if( veh->part_info( id ).location == "structure" ) {
+                //the hardcoded "structure" above is dependend on the
+                //static const 'part_location_structure' defined in vehicle.cpp,
+                //so if that string changes, this won't work.
+                //@Todo: add a getter method to vehicle.h for 'part_location_structure' string
+                left_sym = "[";
+                right_sym = "]";
+            } else {
+                left_sym = "-";
+                right_sym = "-";
+            }
+
+            nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.get_base().damage_color();
+            left_sym = colorize( left_sym, c_light_gray );
+            right_sym = colorize( right_sym, c_light_gray );
+            partname = colorize( partname, col_cond );
+            partname = trim_to_width( ( left_sym + partname + right_sym ), max_width );
+
+            //Covered or not?
+            if( id == parts_id_list[0] ) {
+                bool isInside = vpart_position( const_cast<vehicle &>( *veh ), id ).is_inside();
+                std::string desc = isInside ? _( "Interior" ) : _( "Exterior" );
+
+                int start_pos = max_width - utf8_width( desc );
+                int naked_size = remove_color_tags( partname ).size();
+                if( naked_size > start_pos ) {
+                    partname = trim_to_width( partname, start_pos );
+                } else {
+                    partname += std::string( ( start_pos - naked_size ), ' ' );
+                }
+                partname += colorize( desc, c_light_gray );
+            }
+            info.push_back( partname );
+        }
+
+        //the label for this location
+        const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *veh ),
+                veh_part ).get_label();
+        if( label ) {
+            foldstring( info, colorize( string_format( "Label: %s", label->c_str() ), c_light_red ),
+                        max_width );
+        }
     }
+
+    return info.size() - old_size;
 }
 
 void game::print_visibility_indicator( visibility_type visibility )
@@ -6807,55 +6940,77 @@ void game::print_visibility_indicator( visibility_type visibility )
     mvwputch( w_terrain, POSY, POSX, visibility_indicator_color, visibility_indicator );
 }
 
-void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
-                             int &line,
-                             const int last_line )
+size_t game::items_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
 {
+    size_t old_size = info.size();
+
     if( !m.sees_some_items( lp, u ) ) {
-        return;
+        return 0;
     } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
-        mvwprintw( w_look, ++line, column, _( "You cannot see what is inside of it." ) );
+        foldstring( info, _( "You cannot see what is inside of it." ), max_width );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
-        mvwprintz( w_look, ++line, column, c_yellow,
-                   _( "There's something there, but you can't see what it is." ) );
-        return;
+        foldstring( info, colorize( _( "There's something there, but you can't see what it is." ),
+                                    c_yellow ), max_width );
     } else {
         std::map<std::string, int> item_names;
         for( auto &item : m.i_at( lp ) ) {
             ++item_names[item.tname()];
         }
 
-        const int max_width = getmaxx( w_look ) - column - 1;
+        std::string tmpStr;
         for( const auto &it : item_names ) {
-            if( line >= last_line - 2 ) {
-                mvwprintz( w_look, ++line, column, c_yellow, _( "More items here..." ) );
-                break;
+            if( it.second > 1 ) {
+                tmpStr = string_format( pgettext( "%s is the name of the item. %d is the quantity of that item.",
+                                                  "%s [%d]" ),
+                                        it.first, it.second );
+            } else {
+                tmpStr = it.first;
+            }
+            info.push_back( trim_to_width( colorize( tmpStr, c_white ), max_width ) );
+        }
+    }
+
+    return info.size() - old_size;
+}
+
+size_t game::graffiti_info( std::vector<std::string> &info, const tripoint &lp,
+                            const int max_width )
+{
+    size_t old_size = info.size();
+
+    if( m.has_graffiti_at( lp ) ) {
+        std::string graffiti_str = colorize( string_format( _( "Graffiti: %s" ), m.graffiti_at( lp ) ),
+                                             c_light_gray );
+        foldstring( info, graffiti_str, max_width );
+    }
+
+    return info.size() - old_size;
+}
+
+size_t game::sound_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
+{
+    size_t old_size = info.size();
+    auto this_sound = sounds::sound_at( lp );
+
+    if( !this_sound.empty() ) {
+        foldstring( info, string_format( _( "You heard %s from here." ), this_sound ), max_width );
+    } else {
+        // Check other z-levels
+        tripoint tmp = lp;
+        for( tmp.z = -OVERMAP_DEPTH; tmp.z <= OVERMAP_HEIGHT; tmp.z++ ) {
+            if( tmp.z == lp.z ) {
+                continue;
             }
 
-            if( it.second > 1 ) {
-                trim_and_print( w_look, ++line, column, max_width, c_white,
-                                pgettext( "%s is the name of the item. %d is the quantity of that item.", "%s [%d]" ),
-                                it.first.c_str(), it.second );
-            } else {
-                trim_and_print( w_look, ++line, column, max_width, c_white, it.first );
+            auto zlev_sound = sounds::sound_at( tmp );
+            if( !zlev_sound.empty() ) {
+                std::string msg = tmp.z > lp.z ? _( "You heard %s from above." ) : _( "You heard %s from below." );
+                foldstring( info, string_format( msg, zlev_sound ), max_width );
             }
         }
     }
-}
 
-void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_look,
-                                const int column, int &line,
-                                const int last_line )
-{
-    if( line > last_line ) {
-        return;
-    }
-
-    const int max_width = getmaxx( w_look ) - column - 2;
-    if( m.has_graffiti_at( lp ) ) {
-        fold_and_print( w_look, ++line, column, max_width, c_light_gray, _( "Graffiti: %s" ),
-                        m.graffiti_at( lp ).c_str() );
-    }
+    return info.size() - old_size;
 }
 
 void game::get_lookaround_dimensions( int &lookWidth, int &begin_y, int &begin_x ) const
@@ -7455,12 +7610,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     int lookX = 0;
     get_lookaround_dimensions( lookWidth, lookY, lookX );
 
-    bool bNewWindow = false;
-    if( !w_info ) {
-        w_info = catacurses::newwin( getmaxy( w_messages ), lookWidth, lookY, lookX );
-        bNewWindow = true;
-    }
-
     dbg( D_PEDANTIC_INFO ) << ": calling handle_input()";
 
     std::string action;
@@ -7491,7 +7640,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     const int old_levz = get_levz();
 
     m.update_visibility_cache( old_levz );
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
     bool blink = true;
     bool action_unprocessed = false;
@@ -7499,52 +7647,72 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     look_around_result result;
     do {
         if( redraw ) {
-            if( bNewWindow ) {
-                werase( w_info );
-                draw_border( w_info );
 
-                static const char *title_prefix = "< ";
-                static const char *title = _( "Look Around" );
-                static const char *title_suffix = " >";
-                static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
-                const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w_info ) - 1 );
-                mvwprintz( w_info, 0, start_pos, c_white, title_prefix );
-                wprintz( w_info, c_green, title );
-                wprintz( w_info, c_white, title_suffix );
+            std::vector<std::string> text = get_full_look_around_text( lp );
 
-                nc_color clr = c_white;
-                static const std::string greenFmt = "<color_light_green>%s</color>";
-                std::string colored_key;
+            //lines reserved for the bottom overlay messages
+            int reserved_lines = peeking ? 5 : 4;
+            int lines_required = static_cast<int>( text.size() ) + reserved_lines;
+            const int required_height = std::max( lines_required, 7 );
+            const int available_height = TERMY - lookY;
+            const int lookHeight = std::min( required_height, available_height );
 
-                colored_key = string_format( greenFmt, ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ) );
-                std::string view_detail = string_format(
-                                              _( "Press %s to view extended description" ), colored_key );
+            //resize window to text
+            w_info = catacurses::newwin( lookHeight, lookWidth, lookY, lookX );
+            werase( w_info );
 
-                colored_key = string_format( greenFmt, ctxt.get_desc( "LIST_ITEMS", 1 ) );
-                std::string list_things = string_format(
-                                              _( "Press %s to list items and monsters" ), colored_key );
+            //add window overlay elements
+            draw_border( w_info );
+            refresh_all();
 
-                colored_key = string_format( greenFmt, ctxt.get_desc( "throw_blind", 1 ) );
-                std::string blind_throw = string_format(
-                                              _( "Press %s to blind throw" ), colored_key );
+            nc_color clr = c_white;
+            static const std::string pre =  "< ", mid =  _( "Look Around" ), post = " >";
+            static const std::string raw_title = pre + mid + post;
+            static auto title = colorize( pre, clr ) + colorize( mid, c_green )  + colorize( post, clr );
+            int start_pos = center_text_pos( raw_title, 0, lookWidth - 1 );
 
-                print_colored_text( w_info, getmaxy( w_info ) - 2, 2, clr, clr, view_detail );
-                print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr, list_things );
+            print_colored_text( w_info, 0, start_pos, clr, clr, title );
 
-                if( peeking ) {
-                    print_colored_text( w_info, getmaxy( w_info ) - 3, 2, clr, clr, blind_throw );
-                }
+            std::string message, colored_key;
+            static const std::string greenFmt = colorize( "%s", c_light_green );
 
-                int first_line = 1;
-                const int last_line = getmaxy( w_messages ) - 2;
-                print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
-                if( fast_scroll ) {
-                    //~ "Fast Scroll" mark below the top right corner of the info window
-                    right_print( w_info, 1, 0, c_light_green, _( "F" ) );
-                }
+            message = _( "Press %s to view extended description" );
+            colored_key = string_format( greenFmt, ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ) );
+            std::string view_detail = string_format( message, colored_key );
 
-                wrefresh( w_info );
+            message = _( "Press %s to list items and monsters" );
+            colored_key = string_format( greenFmt, ctxt.get_desc( "LIST_ITEMS", 1 ) );
+            std::string list_things = string_format( message, colored_key );
+
+            message = _( "Press %s to blind throw" );
+            colored_key = string_format( greenFmt, ctxt.get_desc( "throw_blind", 1 ) );
+            std::string blind_throw = string_format( message, colored_key );
+
+            int curr_line = 1;
+            int last_line = 1 + lookHeight - reserved_lines;
+
+            if( peeking ) {
+                print_colored_text( w_info, lookHeight - 3, 2, clr, clr, blind_throw );
             }
+            print_colored_text( w_info, lookHeight - 2, 2, clr, clr, view_detail );
+            print_colored_text( w_info, lookHeight - 1, 2, clr, clr, list_things );
+
+            curr_line = draw_look_around_text( w_info, text, curr_line, last_line );
+
+            if( text.size() > last_line ) {
+                message = "There are more things here...";
+                print_colored_text( w_info, curr_line, 1, c_yellow, c_yellow, message );
+            }
+
+            draw_terrain_indicators( lp, !is_draw_tiles_mode() );
+
+            if( fast_scroll ) {
+                //~ "Fast Scroll" mark below the top right corner of the info window
+                right_print( w_info, 1, 0, c_light_green, _( "F" ) );
+            }
+
+            wrefresh( w_info );
+
 
             draw_ter( center, true );
 
@@ -7690,9 +7858,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     ctxt.reset_timeout();
 
-    if( bNewWindow ) {
-        w_info = catacurses::window();
-    }
     reenter_fullscreen();
     bVMonsterLookFire = true;
 
@@ -7777,7 +7942,8 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 }
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height,
+                                  bool bRadiusSort )
 {
     const int width = use_narrow_sidebar() ? 45 : 55;
     for( int i = 1; i < TERMX; i++ ) {
@@ -8712,7 +8878,8 @@ extern void serialize_liquid_source( player_activity &act, const vehicle &veh, c
                                      const item &liquid );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos,
                                      const item &liquid );
-extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
+extern void serialize_liquid_source( player_activity &act, const monster &mon,
+                                     const item &liquid );
 
 extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
 extern void serialize_liquid_target( player_activity &act, int container_item_pos );
@@ -11782,7 +11949,8 @@ void game::vertical_move( int movez, bool force )
     m.creature_on_trap( u, !force );
 }
 
-cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
+cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after,
+        bool &rope_ladder )
 {
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( u.posx(), u.posy() ) );

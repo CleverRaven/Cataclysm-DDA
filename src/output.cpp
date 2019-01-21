@@ -59,7 +59,7 @@ extern bool test_mode;
 
 // utf8 version
 void foldstring( std::vector<std::string> &dest, std::string str, int width,
-                 const char split = ' ' )
+                 const char split )
 {
     if( width < 1 ) {
         dest.push_back( str );

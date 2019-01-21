@@ -574,9 +574,26 @@ class game
         look_around_result look_around( catacurses::window w_info, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
-        // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
-                                  int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
+        //
+
+        /**
+        * Attach together all the text for the look around window
+        * @param lp the point for which to retrieve informations
+        * @return a vector with the strings that will appear in the Look Around window
+        */
+        std::vector<std::string> get_full_look_around_text( const tripoint &lp );
+        /**
+        * draws the vector of string returned by get_full_look_around_text()
+        * @param w_info window in which the text will be displayed
+        * @param text the text to display inside the window
+        * @param curr_line first line in which to draw
+        * @param last_line one past the end. This line will not be written
+        * @return the number of the line after the last written one
+        */
+        int draw_look_around_text( const catacurses::window &w_info, const std::vector<std::string> &text,
+                                   int curr_line, int last_line );
+        void draw_terrain_indicators( const tripoint &lp, bool draw );
+
 
         /** Long description of (visible) things at tile. */
         void extended_description( const tripoint &p );
@@ -980,20 +997,24 @@ class game
         /**
         * Internal methods that produce the text for the Look Around window.
         * Append the generated strings into the passed 'info' vector.
+        * @param info the vector in which the data will be stored
+        * @param lp the location point from which to retrieve informations
+        * @max_width above that width, strings will be trimmed or folded
         */
-        void terrain_info( std::vector<std::string>& info, const tripoint &lp, const int max_width );
-        void fields_info(std::vector<std::string>& info, const tripoint &lp, const int max_width );
-        void trap_info(std::vector<std::string>& info, const tripoint &lp, const int max_width);
-        void creature_info(std::vector<std::string>& info, const Creature *creature, const int max_width);
-        void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
-                                 int column, int &line, int last_line );
-        void print_visibility_info( const catacurses::window &w_look, int column, int &line,
-                                    visibility_type visibility );
+        size_t terrain_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
+        size_t fields_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
+        size_t trap_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
+        size_t creature_info( std::vector<std::string> &info, const Creature *creature,
+                              const int max_width );
+        size_t vehicle_info( std::vector<std::string> &info, const vehicle *veh, int veh_part,
+                             const int max_width );
+        size_t visibility_info( std::vector<std::string> &info, visibility_type visibility,
+                                const int max_width );
+        size_t items_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
+        size_t graffiti_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
+        size_t sound_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
+
         void print_visibility_indicator( visibility_type visibility );
-        void print_items_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
-                               int last_line );
-        void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
-                                  int &line, int last_line );
         void get_lookaround_dimensions( int &lookWidth, int &begin_y, int &begin_x ) const;
 
         input_context get_player_input( std::string &action );

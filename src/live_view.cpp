@@ -36,11 +36,19 @@ int live_view::draw( const catacurses::window &win, const int max_height )
 
     // -1 for border. -1 because getmaxy() actually returns height, not y position.
     const int line_limit = max_height - 2;
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
-    int line_out = START_LINE;
-    g->print_all_tile_info( mouse_position, win, 1, line_out, line_limit, !is_draw_tiles_mode(), cache );
+    int curr_line = START_LINE;
 
-    const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
+    auto text = g->get_full_look_around_text( mouse_position );
+    curr_line = g->draw_look_around_text( win, text, curr_line, line_limit );
+    g->draw_terrain_indicators( mouse_position, !is_draw_tiles_mode() );
+   
+    if (text.size() > line_limit) {
+        std::string message = "There are more things here...";
+        print_colored_text( win, curr_line, 1, c_yellow, c_yellow, message);
+        curr_line++;
+    }
+
+    const int live_view_box_height = std::min( max_height, std::max( curr_line + 1, MIN_BOX_HEIGHT ) );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must
@@ -55,14 +63,13 @@ int live_view::draw( const catacurses::window &win, const int max_height )
 #endif
 
     draw_border( win );
-    static const char *title_prefix = "< ";
-    static const char *title = _( "Mouse View" );
-    static const char *title_suffix = " >";
-    static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
-    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( win ) - 1 );
-    mvwprintz( win, 0, start_pos, c_white, title_prefix );
-    wprintz( win, c_green, title );
-    wprintz( win, c_white, title_suffix );
+
+    static const std::string pre = "< ", mid = _( "Mouse View" ), post = " >";
+    static const std::string raw_title = pre + mid + post;
+    static auto title = colorize( pre, c_white ) + colorize( mid, c_green ) + colorize( post, c_white );
+    int start_pos = center_text_pos( raw_title, 0, getmaxx( win ) - 1 );
+
+    print_colored_text( win, 0, start_pos, c_white, c_white, title );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
