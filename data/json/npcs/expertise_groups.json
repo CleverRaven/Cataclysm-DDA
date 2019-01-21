@@ -1,4 +1,123 @@
 [
+
+  {
+    "//": "This group holds all the general non-science, non-engineering traits that professionals might have.",
+    "//": "NPCs getting this group still don't have a huge chance of getting any particular profession. This is just for random rolls of the dice.",
+    "//": "In the future, this might include some non-expertise 'job' flags that just enrich dialogue.",
+    "type": "trait_group",
+    "id": "Expertise_Professional_Random",
+    "subtype": "collection",
+    "traits": [
+      { "group": "Exp_Agriculture_Any", "prob": 5 },
+      { "group": "Exp_Bookkeeping_Any", "prob": 5 },
+      { "group": "Exp_Culinary_Any", "prob": 5 },
+      { "group": "Exp_Psychology_Any", "prob": 2 },
+      { "group": "Exp_Sanitation_Any", "prob": 2 },
+      { "group": "Exp_Teaching_Any", "prob": 5 },
+      { "group": "Expertise_Job_History_Random", "prob": 50 },
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Expertise_Job_History_Random",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "Exp_Arborist", "prob": 2 },
+      { "trait": "Exp_Baker", "prob": 4 },
+      { "trait": "Exp_Banker", "prob": 4 },
+      { "trait": "Exp_Brewer", "prob": 2 },
+      { "trait": "Exp_Carpenter", "prob": 4 },
+      { "trait": "Exp_Drycleaner", "prob": 3 },
+      { "trait": "Exp_Electrician", "prob": 3 },
+      { "trait": "Exp_Engraver", "prob": 1 },
+      { "trait": "Exp_HumanResources", "prob": 4 },
+      { "trait": "Exp_InsuranceBroker", "prob": 4 },
+      { "trait": "Exp_Interpreter", "prob": 1 },
+      { "trait": "Exp_Jeweler", "prob": 2 },
+      { "trait": "Exp_Journalist", "prob": 2 },
+      { "trait": "Exp_Landscaper", "prob": 4 },
+      { "trait": "Exp_Librarian", "prob": 3 },
+      { "trait": "Exp_Locksmith", "prob": 1 },
+      { "trait": "Exp_Masseuse", "prob": 2 },
+      { "trait": "Exp_MaintenanceWorker", "prob": 3 },
+      { "trait": "Exp_Mechanic", "prob": 4 },
+      { "trait": "Exp_MuseumGuide", "prob": 1 },
+      { "trait": "Exp_OfficeWorker", "prob": 4 },
+      { "trait": "Exp_Paralegal", "prob": 2 },
+      { "trait": "Exp_Photographer", "prob": 2 },
+      { "trait": "Exp_Plumber", "prob": 4 },
+      { "trait": "Exp_Programmer", "prob": 2 },
+      { "trait": "Exp_RadiologyTechnician", "prob": 1 },
+      { "trait": "Exp_Receptionist", "prob": 2 },
+      { "trait": "Exp_Retailer", "prob": 5 },
+      { "trait": "Exp_SecurityGuard", "prob": 3 },
+      { "trait": "Exp_Stonemason", "prob": 2 },
+      { "trait": "Exp_Sysadmin", "prob": 3 },
+      { "trait": "Exp_TaxiDriver", "prob": 2 },
+      { "trait": "Exp_Telemarketer", "prob": 3 },
+      { "trait": "Exp_TourGuide", "prob": 1 },
+      { "trait": "Exp_TruckDriver", "prob": 3 },
+      { "trait": "Exp_Upholsterer", "prob": 2 },
+      { "trait": "Exp_Welder", "prob": 4 },
+      { "trait": "Exp_Zookeeper", "prob": 1 },
+    ]
+  },
+  {
+    "//": "This group holds all the science traits. The chance of just running into a trained scientist at random is quite low.",
+    "//": "Note that many scientists have some instruction training or at least *think* they can teach, so the chances of running into a teacher or fake teacher are a bit higher.",
+    "//": "Medicine training is a bit more common than pure sciences, but it's also something people are more likely to try to fake to make themselves seem more valuable.",
+    "type": "trait_group",
+    "id": "Expertise_Science_Random",
+    "subtype": "collection",
+    "traits": [
+      { "group": "Exp_Biochemistry_Any", "prob": 10 },
+      { "group": "Exp_Biology_Any", "prob": 10 },
+      { "group": "Exp_Botany_Any", "prob": 5 },
+      { "group": "Exp_Chemistry_Any", "prob": 10 },
+      { "group": "Exp_Entomology_Any", "prob": 3 },
+      { "group": "Exp_Geology_Any", "prob": 7 },
+      { "group": "Exp_Medicine_Any", "prob": 10 },
+      { "group": "Exp_Mycology_Any", "prob": 5 },
+      { "group": "Exp_Physics_Any", "prob": 10 },
+      { "group": "Exp_Teaching_Any", "prob": 15 }
+    ]
+  },
+  {
+    "//": "This group holds all the engineering traits.",
+    "type": "trait_group",
+    "id": "Expertise_Engineer_Random",
+    "subtype": "collection",
+    "traits": [
+      { "group": "Exp_Eng_Electrical_Any", "prob": 15 },
+      { "group": "Exp_Eng_Mechanical_Any", "prob": 20 },
+      { "group": "Exp_Eng_Software_Any", "prob": 15 },
+      { "group": "Exp_Eng_Structural_Any", "prob": 15 }
+    ]
+  },
+  {
+    "//": "This trait group guarantees one randomly selected science expertise of level 1 or 2.",
+    "type": "trait_group",
+    "id": "Expertise_Science_Given",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Exp_Biochemistry_Nofake", "prob": 20 },
+      { "trait": "Exp_Biochemistry1fake2", "prob": 10 },
+      { "group": "Exp_Botany_Nofake", "prob": 10 },
+      { "trait": "Exp_Botany1fake2", "prob": 5 },
+      { "group": "Exp_Chemistry_Nofake", "prob": 20 },
+      { "trait": "Exp_Chemistry1fake2", "prob": 10 },
+      { "group": "Exp_Entomology_Nofake", "prob": 10 },
+      { "trait": "Exp_Entomology1fake2", "prob": 5 },
+      { "group": "Exp_Geology_Nofake", "prob": 14 },
+      { "trait": "Exp_Geology1fake2", "prob": 7 },
+      { "group": "Exp_Mycology_Nofake", "prob": 10 },
+      { "trait": "Exp_Mycology1fake2", "prob": 5 },
+      { "group": "Exp_Physics_Nofake", "prob": 20 },
+      { "trait": "Exp_Physics1fake2", "prob": 10 },
+      { "group": "Exp_Biology_Nofake", "prob": 20 },
+      { "trait": "Exp_Biology 1fake2", "prob": 10 }
+    ]
+  },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
     "type": "trait_group",
@@ -391,7 +510,20 @@
     "type": "trait_group",
     "id": "Exp_Sanitation_Any",
     "subtype": "distribution",
-    "traits": [ { "trait": "Exp_Sanitation1", "prob": 60 }, { "trait": "Exp_Sanitation0Fake1", "prob": 15 } ]
+    "traits": [
+      { "trait": "Exp_Sanitation1", "prob": 30 },
+      { "trait": "Exp_Sanitation1Fake2", "prob": 30 },
+      { "trait": "Exp_Sanitation2", "prob": 20 },
+      { "trait": "Exp_Sanitation0Fake1", "prob": 15 },
+      { "trait": "Exp_Sanitation0Fake2", "prob": 5 }
+    ]
+  },
+  {
+    "//": "This trait group guarantees one of the associated traits - valid traits only, no fakes.",
+    "type": "trait_group",
+    "id": "Exp_Sanitation_Nofake",
+    "subtype": "distribution",
+    "traits": [ { "trait": "Exp_Sanitation1", "prob": 70 }, { "trait": "Exp_Sanitation2", "prob": 30 } ]
   },
   {
     "//": "This trait group guarantees one of the associated traits - any trait, including fakes.",
@@ -412,77 +544,5 @@
     "id": "Exp_Teaching_Nofake",
     "subtype": "distribution",
     "traits": [ { "trait": "Exp_Teaching1", "prob": 70 }, { "trait": "Exp_Teaching2", "prob": 30 } ]
-  },
-  {
-    "//": "This group holds all the general non-science, non-engineering traits that professionals might have.",
-    "//": "NPCs getting this group still don't have a huge chance of getting any particular profession. This is just for random rolls of the dice.",
-    "//": "In the future, this might include some non-expertise 'job' flags that just enrich dialogue.",
-    "type": "trait_group",
-    "id": "Expertise_Professional_Random",
-    "subtype": "collection",
-    "traits": [
-      { "group": "Exp_Agriculture_Any", "prob": 10 },
-      { "group": "Exp_Bookkeeping_Any", "prob": 10 },
-      { "group": "Exp_Culinary_Any", "prob": 15 },
-      { "group": "Exp_Psychology_Any", "prob": 5 },
-      { "group": "Exp_Sanitation_Any", "prob": 7 },
-      { "group": "Exp_Teaching_Any", "prob": 10 }
-    ]
-  },
-  {
-    "//": "This group holds all the science traits. The chance of just running into a trained scientist at random is quite low.",
-    "//": "Note that many scientists have some instruction training or at least *think* they can teach, so the chances of running into a teacher or fake teacher are a bit higher.",
-    "//": "Medicine training is a bit more common than pure sciences, but it's also something people are more likely to try to fake to make themselves seem more valuable.",
-    "type": "trait_group",
-    "id": "Expertise_Science_Random",
-    "subtype": "collection",
-    "traits": [
-      { "group": "Exp_Biochemistry_Any", "prob": 10 },
-      { "group": "Exp_Biology_Any", "prob": 10 },
-      { "group": "Exp_Botany_Any", "prob": 5 },
-      { "group": "Exp_Chemistry_Any", "prob": 10 },
-      { "group": "Exp_Entomology_Any", "prob": 3 },
-      { "group": "Exp_Geology_Any", "prob": 7 },
-      { "group": "Exp_Medicine_Any", "prob": 10 },
-      { "group": "Exp_Mycology_Any", "prob": 5 },
-      { "group": "Exp_Physics_Any", "prob": 10 },
-      { "group": "Exp_Teaching_Any", "prob": 15 }
-    ]
-  },
-  {
-    "//": "This group holds all the engineering traits.",
-    "type": "trait_group",
-    "id": "Expertise_Engineer_Random",
-    "subtype": "collection",
-    "traits": [
-      { "group": "Exp_Eng_Electrical_Any", "prob": 15 },
-      { "group": "Exp_Eng_Mechanical_Any", "prob": 20 },
-      { "group": "Exp_Eng_Software_Any", "prob": 15 },
-      { "group": "Exp_Eng_Structural_Any", "prob": 15 }
-    ]
-  },
-  {
-    "//": "This trait group guarantees one randomly selected science expertise of level 1 or 2.",
-    "type": "trait_group",
-    "id": "Expertise_Science_Given",
-    "subtype": "distribution",
-    "traits": [
-      { "group": "Exp_Biochemistry_Nofake", "prob": 20 },
-      { "trait": "Exp_Biochemistry1fake2", "prob": 10 },
-      { "group": "Exp_Botany_Nofake", "prob": 10 },
-      { "trait": "Exp_Botany1fake2", "prob": 5 },
-      { "group": "Exp_Chemistry_Nofake", "prob": 20 },
-      { "trait": "Exp_Chemistry1fake2", "prob": 10 },
-      { "group": "Exp_Entomology_Nofake", "prob": 10 },
-      { "trait": "Exp_Entomology1fake2", "prob": 5 },
-      { "group": "Exp_Geology_Nofake", "prob": 14 },
-      { "trait": "Exp_Geology1fake2", "prob": 7 },
-      { "group": "Exp_Mycology_Nofake", "prob": 10 },
-      { "trait": "Exp_Mycology1fake2", "prob": 5 },
-      { "group": "Exp_Physics_Nofake", "prob": 20 },
-      { "trait": "Exp_Physics1fake2", "prob": 10 },
-      { "group": "Exp_Biology_Nofake", "prob": 20 },
-      { "trait": "Exp_Biology 1fake2", "prob": 10 }
-    ]
   }
 ]
