@@ -63,6 +63,10 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
+    optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
+    optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
+    optional( jsobj, was_loaded, "latent_heat", _latent_heat );
+
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
     optional( jsobj, was_loaded, "edible", _edible, false );
@@ -227,6 +231,21 @@ int material_type::fire_resist() const
 int material_type::chip_resist() const
 {
     return _chip_resist;
+}
+
+float material_type::specific_heat_liquid() const
+{
+    return _specific_heat_liquid;
+}
+
+float material_type::specific_heat_solid() const
+{
+    return _specific_heat_solid;
+}
+
+float material_type::latent_heat() const
+{
+    return _latent_heat;
 }
 
 int material_type::density() const

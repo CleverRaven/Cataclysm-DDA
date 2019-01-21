@@ -3921,6 +3921,63 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
     return lround( resist );
 }
 
+float item::get_specific_heat_solid() const
+{
+    float specific_heat_solid = 2.108;
+    if( is_null() ) {
+        return specific_heat_solid;
+    }
+
+    const std::vector<const material_type *> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( auto mat : mat_types ) {
+            specific_heat_solid += mat->specific_heat_solid();
+        }
+        // Average based on number of materials.
+        specific_heat_solid /= mat_types.size();
+    }
+
+    return specific_heat_solid;
+}
+
+float item::get_specific_heat_liquid() const
+{
+    float specific_heat_liquid = 2.108;
+    if( is_null() ) {
+        return specific_heat_liquid;
+    }
+
+    const std::vector<const material_type *> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( auto mat : mat_types ) {
+            specific_heat_liquid += mat->specific_heat_liquid();
+        }
+        // Average based on number of materials.
+        specific_heat_liquid /= mat_types.size();
+    }
+
+    return specific_heat_liquid;
+}
+
+float item::get_latent_heat() const
+{
+    float latent_heat = 2.108;
+    if( is_null() ) {
+        return latent_heat;
+    }
+
+    const std::vector<const material_type *> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( auto mat : mat_types ) {
+            latent_heat += mat->latent_heat();
+        }
+        // Average based on number of materials.
+        latent_heat /= mat_types.size();
+    }
+
+    return latent_heat;
+}
+
 int item::fire_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
@@ -6489,6 +6546,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float old_temperature = 0.00001 * temperature;
     const float temperature_difference =  env_temperature - old_temperature;
 
+
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {
         return;
@@ -6507,13 +6565,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // temperature = item temperature (10e-5 K). Stored in the item
     const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
+    const float specific_heat_liquid = get_specific_heat_liquid();
+    const float specific_heat_solid = get_specific_heat_solid();
+    const float latent_heat = get_latent_heat();
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
-    const float specific_heat_liquid = type->comestible->spec_heat_liquid; // J/g K
-    const float specific_heat_solid = type->comestible->spec_heat_solid; // J/g K
-    const float latent_heat = type->comestible->lat_heat; // J/kg
-    //const float surface_area = pow( 0.000001 * to_milliliter( volume() ), 2 / 3 ); // m^2
-    float freeze_percentage = 0;
-
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
@@ -6521,6 +6576,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 
     float new_specific_energy;
     float new_item_temperature;
+    float freeze_percentage = 0;
     int extra_time;
 
     // Temperature calculations based on Newton's law of cooling.
