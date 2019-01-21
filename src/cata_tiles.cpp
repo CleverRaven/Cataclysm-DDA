@@ -2598,7 +2598,11 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
         std::string draw_id = overlay;
         if( find_overlay_looks_like( pl.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
-            draw_from_id_string( draw_id, C_NONE, "", p, corner, 0, ll, false, overlay_height_3d );
+            if( pl.facing == FD_LEFT ) {
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, 4, ll, false, overlay_height_3d );
+            } else if( pl.facing == FD_RIGHT ) {
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, 0, ll, false, overlay_height_3d );
+            }
             // the tallest height-having overlay is the one that counts
             height_3d = std::max( height_3d, overlay_height_3d );
         }
