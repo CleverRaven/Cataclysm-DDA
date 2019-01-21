@@ -153,7 +153,8 @@ std::string remove_color_tags( const std::string &text );
  * The functions handles @ref color_tags. Color tags are added to the resulting lines so each
  * line can be independently printed. 'dest' may contain empty strings.
  */
-void foldstring(std::vector<std::string>& dest, std::string str, int width, const char split = ' ');
+void foldstring( std::vector<std::string> &dest, std::string str, int width,
+                 const char split = ' ' );
 /**
  * Is implemented in terms of the foldstring taking a vector<string>& as destination.
  * It does the same steps except it always start with an empty vector<string>.
@@ -262,7 +263,7 @@ inline int fold_and_print_from( const catacurses::window &w, const int begin_y, 
  */
 void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
                      nc_color base_color, const std::string &mes );
-std::string trim_to_width(const std::string &text, int width);
+std::string trim_to_width( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const int begin_y, const int begin_x,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )

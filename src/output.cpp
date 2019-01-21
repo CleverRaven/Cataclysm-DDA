@@ -182,49 +182,47 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
     }
 }
 
-std::string trim_to_width( const std::string &text, int width)
+std::string trim_to_width( const std::string &text, int width )
 {
     std::string sText;
-    if (utf8_width(remove_color_tags(text)) > width) {
+    if( utf8_width( remove_color_tags( text ) ) > width ) {
 
         int iLength = 0;
         std::string sTempText;
         std::string sColor;
 
-        const auto color_segments = split_by_color(text);
-        for (const std::string &seg : color_segments) {
+        const auto color_segments = split_by_color( text );
+        for( const std::string &seg : color_segments ) {
             sColor.clear();
 
-            if (!seg.empty() && (seg.substr(0, 7) == "<color_" || seg.substr(0, 7) == "</color")) {
-                sTempText = rm_prefix(seg);
+            if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {
+                sTempText = rm_prefix( seg );
 
-                if (seg.substr(0, 7) == "<color_") {
-                    sColor = seg.substr(0, seg.find('>') + 1);
+                if( seg.substr( 0, 7 ) == "<color_" ) {
+                    sColor = seg.substr( 0, seg.find( '>' ) + 1 );
                 }
-            }
-            else {
+            } else {
                 sTempText = seg;
             }
 
-            const int iTempLen = utf8_width(sTempText);
+            const int iTempLen = utf8_width( sTempText );
             iLength += iTempLen;
 
-            if (iLength > width) {
-                sTempText = sTempText.substr(0, cursorx_to_position(sTempText.c_str(),
-                    iTempLen - (iLength - width) - 1, nullptr, -1)) + "\u2026";
+            if( iLength > width ) {
+                sTempText = sTempText.substr( 0, cursorx_to_position( sTempText.c_str(),
+                                              iTempLen - ( iLength - width ) - 1, nullptr, -1 ) ) + "\u2026";
             }
 
             sText += sColor + sTempText;
-            if (!sColor.empty()) {
+            if( !sColor.empty() ) {
                 sText += "</color>";
             }
 
-            if (iLength > width) {
+            if( iLength > width ) {
                 break;
             }
         }
-    }
-    else {
+    } else {
         sText = text;
     }
     return sText;
@@ -233,7 +231,7 @@ std::string trim_to_width( const std::string &text, int width)
 void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
                      nc_color base_color, const std::string &text )
 {
-    std::string sText = trim_to_width(text, width);
+    std::string sText = trim_to_width( text, width );
     print_colored_text( w, begin_y, begin_x, base_color, base_color, sText );
 }
 
