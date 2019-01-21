@@ -37,6 +37,7 @@
 #endif
 
 #ifdef __ANDROID__
+#include <unistd.h>
 #include <SDL_system.h>
 #include <SDL_filesystem.h>
 #include <SDL_keyboard.h>
