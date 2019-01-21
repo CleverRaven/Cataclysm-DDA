@@ -1,10 +1,27 @@
 #if (defined TILES)
+
+#include "cursesdef.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cstring>
+#include <fstream>
+#include <limits>
+#include <memory>
+#include <stdexcept>
+#include <vector>
+
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL_image.h>
+#else
+#   include <SDL_image.h>
+#endif
+
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
-#include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -25,27 +42,14 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_image.h>
-#else
-#   include <SDL_image.h>
-#endif
-
-#include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
-
 #ifdef __linux__
 #   include <cstdlib> // getenv()/setenv()
 #endif
 
 #if (defined _WIN32 || defined WINDOWS)
-#   include "platform_win.h"
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#endif
 #   include <shlwapi.h>
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
@@ -53,13 +57,14 @@
 #endif
 
 #ifdef __ANDROID__
+#include <jni.h>
+
 #include "worldfactory.h"
 #include "action.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "inventory.h"
-#include <jni.h>
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -72,7 +77,10 @@ std::unique_ptr<cata_tiles> tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
-extern bool tile_iso;
+
+// used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
+SDL_Texture_Ptr alt_rect_tex = NULL;
+bool alt_rect_tex_enabled = false;
 
 /**
  * A class that draws a single character on screen.
@@ -91,8 +99,8 @@ public:
      */
     virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
-    bool draw_window( const catacurses::window &win );
-    bool draw_window( const catacurses::window &win, int offsetx, int offsety );
+    bool draw_window( const catacurses::window &w );
+    bool draw_window( const catacurses::window &w, int offsetx, int offsety );
 
     static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, bool fontblending);
 public:
@@ -113,7 +121,7 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -146,12 +154,12 @@ protected:
  */
 class BitmapFont : public Font {
 public:
-    BitmapFont( int w, int h, const std::string &path );
+    BitmapFont( int w, int h, const std::string &typeface_path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
+    void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
     std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
@@ -202,6 +210,51 @@ extern catacurses::window w_hit_animation; //this window overlays w_terrain whic
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
+void generate_alt_rect_texture()
+{
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
+#else
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
+#endif
+
+    SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
+    if( alt_surf ) {
+        FillRect( alt_surf, NULL, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+
+        alt_rect_tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
+        alt_surf.reset();
+
+        // Test to make sure color modulation is supported by renderer
+        alt_rect_tex_enabled = !SetTextureColorMod( alt_rect_tex, 0, 0, 0 );
+        if( !alt_rect_tex_enabled ) {
+            alt_rect_tex.reset();
+        }
+        DebugLog( D_INFO, DC_ALL ) << "generate_alt_rect_texture() = " << ( alt_rect_tex_enabled ? "FAIL" : "SUCCESS" ) << ". alt_rect_tex_enabled = " << alt_rect_tex_enabled;
+    } else {
+        DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
+    }
+}
+
+void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, unsigned char color )
+{
+    SetTextureColorMod( alt_rect_tex, windowsPalette[color].r, windowsPalette[color].g,
+                        windowsPalette[color].b );
+    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+}
+
+void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                    Uint32 r, Uint32 g, Uint32 b )
+{
+    SetTextureColorMod( alt_rect_tex, r, g, b );
+    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+}
 
 static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
 {
@@ -344,11 +397,30 @@ void WinCreate()
     format.reset( SDL_AllocFormat( wformat ) );
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
-    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
+    bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
+    int renderer_id = -1;
+    std::string renderer_name;
+    if( software_renderer ) {
+       renderer_name = "software";
+    } else {
+       renderer_name = get_option<std::string>( "RENDERER" );
+    }
+
+    const int numRenderDrivers = SDL_GetNumRenderDrivers();
+    for( int i = 0; i < numRenderDrivers; i++ ) {
+        SDL_RendererInfo ri;
+        SDL_GetRenderDriverInfo( i, &ri );
+        if( renderer_name == ri.name ) {
+            renderer_id = i;
+            DebugLog( D_INFO, DC_ALL ) << "Active renderer: " << renderer_id << "/" << ri.name;
+            break;
+        }
+    }
+
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_ACCELERATED |
+        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
         if( printErrorIf( !renderer, "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
@@ -359,7 +431,9 @@ void WinCreate()
             renderer.reset();
         }
     }
+    
     if( software_renderer ) {
+        alt_rect_tex_enabled = false;
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
@@ -408,6 +482,14 @@ void WinCreate()
 
     // Set up audio mixer.
     init_sound();
+
+    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
+                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
+    //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
+    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) ) {
+        generate_alt_rect_texture();
+    }
+
 }
 
 void WinDestroy()
@@ -421,6 +503,8 @@ void WinDestroy()
 
     if(joystick) {
         SDL_JoystickClose(joystick);
+        alt_rect_tex.reset();
+
         joystick = 0;
     }
     format.reset();
@@ -429,9 +513,16 @@ void WinDestroy()
     ::window.reset();
 }
 
-inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 );
-    RenderFillRect( renderer, &rect );
+inline void FillRectDIB( SDL_Rect &rect, unsigned char color )
+{
+    if( alt_rect_tex_enabled ) {
+        draw_alt_rect( renderer, rect, windowsPalette[color].r, windowsPalette[color].g,
+                       windowsPalette[color].b );
+    } else {
+        SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
+                            windowsPalette[color].b, 255 );
+        RenderFillRect( renderer, &rect );
+    }
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -768,8 +859,8 @@ void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, 
 
 void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
-    for( unsigned int i = 0; i < framebuffer.size(); i++ ) {
-        std::fill_n( framebuffer[i].chars.begin(), framebuffer[i].chars.size(), cursecell( "" ) );
+    for( auto &i : framebuffer ) {
+        std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
     }
 }
 
@@ -984,12 +1075,12 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     }
 }
 
-bool Font::draw_window( const catacurses::window &win )
+bool Font::draw_window( const catacurses::window &w )
 {
-    cata_cursesport::WINDOW *const w = win.get<cata_cursesport::WINDOW>();
+    cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( win, w->x * ::fontwidth, w->y * ::fontheight );
+    return draw_window( w, win->x * ::fontwidth, win->y * ::fontheight );
 }
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
@@ -3098,11 +3189,11 @@ int get_terminal_height() {
     return TERMINAL_HEIGHT;
 }
 
-BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
+BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_path )
 : Font( w, h )
 {
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
-    SDL_Surface_Ptr asciiload = load_image( typeface.c_str() );
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "]." ;
+    SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
     assert( asciiload );
     if (asciiload->w * asciiload->h < (fontwidth * fontheight * 256)) {
         throw std::runtime_error("bitmap for font is to small");
@@ -3111,12 +3202,12 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
     SDL_SetColorKey( asciiload.get(),SDL_TRUE,key );
     SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), true );
+    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();
 
     for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), true );
+        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
     }
 
     for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {

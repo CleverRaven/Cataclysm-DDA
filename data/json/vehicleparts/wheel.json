@@ -13,6 +13,8 @@
     "damage_modifier": 70,
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
     "rolling_resistance": 0.375,
+    "wheel_type": "rigid",
+    "contact_area": 80,
     "flags": [ "WHEEL" ]
   },
   {
@@ -35,6 +37,8 @@
     ],
     "rolling_resistance": 0.125,
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "STEERABLE" ],
+    "wheel_type": "rigid",
+    "contact_area": 400,
     "damage_reduction": { "all": 10000 }
   },
   {
@@ -56,6 +60,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 1,
+    "wheel_type": "standard",
+    "contact_area": 153,
     "flags": [ "WHEEL" ]
   },
   {
@@ -63,6 +69,23 @@
     "copy-from": "wheel",
     "type": "vehicle_part",
     "name": "wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_slick",
+    "copy-from": "wheel",
+    "type": "vehicle_part",
+    "name": "racing slick",
+    "item": "wheel_slick",
+    "wheel_type": "racing",
+    "contact_area": 180
+  },
+  {
+    "id": "wheel_slick_steerable",
+    "copy-from": "wheel_slick",
+    "type": "vehicle_part",
+    "name": "racing slick (steerable)",
+    "item": "wheel_slick",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -84,6 +107,8 @@
       { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.6,
+    "wheel_type": "standard",
+    "contact_area": 480,
     "flags": [ "WHEEL" ]
   },
   {
@@ -109,6 +134,8 @@
     "folded_volume": 9,
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "rolling_resistance": 1.62,
+    "wheel_type": "off-road",
+    "contact_area": 30,
     "flags": [ "WHEEL", "STABLE", "TOOL_WRENCH", "STEERABLE", "FOLDABLE" ]
   },
   {
@@ -131,6 +158,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 0.45,
+    "wheel_type": "standard",
+    "contact_area": 40,
     "flags": [ "WHEEL", "FOLDABLE", "TOOL_WRENCH" ]
   },
   {
@@ -138,6 +167,22 @@
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
     "name": "bicycle wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_bicycle_or",
+    "copy-from": "wheel_bicycle",
+    "type": "vehicle_part",
+    "name": "off-road bicycle wheel",
+    "item": "wheel_bicycle_or",
+    "wheel_area": 36,
+    "wheel_type": "off-road"
+  },
+  {
+    "id": "wheel_bicycle_or_steerable",
+    "copy-from": "wheel_bicycle_or",
+    "type": "vehicle_part",
+    "name": "off-road bicycle wheel (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -160,6 +205,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 29,
+    "wheel_type": "rigid",
+    "contact_area": 4,
     "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
   },
   {
@@ -181,6 +228,8 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "rolling_resistance": 1.9,
+    "wheel_type": "standard",
+    "contact_area": 66,
     "flags": [ "WHEEL" ]
   },
   {
@@ -188,6 +237,22 @@
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
     "name": "motorbike wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_motorbike_or",
+    "copy-from": "wheel_motorbike",
+    "type": "vehicle_part",
+    "name": "off-road motorbike wheel",
+    "item": "wheel_motorbike_or",
+    "contact_area": 60,
+    "wheel_type": "off-road"
+  },
+  {
+    "id": "wheel_motorbike_or_steerable",
+    "copy-from": "wheel_motorbike_or",
+    "type": "vehicle_part",
+    "name": "off-road motorbike wheel (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -206,6 +271,8 @@
     "folded_volume": 9,
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "rolling_resistance": 1.5,
+    "wheel_type": "racing",
+    "contact_area": 30,
     "flags": [ "WHEEL", "NO_JACK", "FOLDABLE" ]
   },
   {
@@ -235,6 +302,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 0.45,
+    "wheel_type": "standard",
+    "contact_area": 20,
     "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
   },
   {
@@ -257,6 +326,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 1.95,
+    "wheel_type": "racing",
+    "contact_area": 40,
     "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
   },
   {
@@ -278,6 +349,8 @@
       { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.575,
+    "wheel_type": "standard",
+    "contact_area": 360,
     "flags": [ "WHEEL" ]
   },
   {
@@ -285,6 +358,22 @@
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
     "name": "wide wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_wide_or",
+    "copy-from": "wheel_wide",
+    "type": "vehicle_part",
+    "name": "off-road wide wheel",
+    "item": "wheel_wide_or",
+    "wheel_type": "off-road",
+    "contact_area": 320
+  },
+  {
+    "id": "wheel_wide_or_steerable",
+    "copy-from": "wheel_wide_or",
+    "type": "vehicle_part",
+    "name": "off-road wide wheel (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -307,6 +396,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,
+    "wheel_type": "rigid",
+    "contact_area": 60,
     "flags": [ "WHEEL" ]
   },
   {

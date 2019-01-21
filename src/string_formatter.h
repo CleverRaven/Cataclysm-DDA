@@ -2,14 +2,15 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-//@todo: replace with std::optional
-#include "optional.h"
-
 #include <string>
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
+
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
+//@todo: replace with std::optional
+#include "optional.h"
 
 namespace cata
 {

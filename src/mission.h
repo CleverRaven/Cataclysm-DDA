@@ -2,15 +2,15 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include "calendar.h"
-#include "enums.h"
-#include "npc_favor.h"
-
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "enums.h"
+#include "npc_favor.h"
 
 class player;
 class mission;
@@ -110,14 +110,8 @@ struct mission_start {
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
-    static void reveal_lab_black_box( mission * ); // Reveal the nearest lab and give black box
-    static void open_sarcophagus( mission * );   // Reveal the sarcophagus and give access code
-    static void reveal_hospital( mission * );    // Reveal the nearest hospital
     static void find_safety( mission * );        // Goal is set to non-spawn area
-    static void point_prison( mission * );       // Point to prison entrance
-    static void point_cabin_strange( mission * ); // Point to strange cabin location
     static void recruit_tracker( mission * );    // Recruit a tracker to help you
-    static void radio_repeater( mission * );     // Gives you the plans for the radio repeater mod
     static void start_commune( mission * );      // Focus on starting the ranch commune
     static void ranch_construct_1( mission * );  // Encloses barn
     static void ranch_construct_2( mission * );  // Adds makeshift beds to the barn, 1 NPC
@@ -155,10 +149,6 @@ struct mission_start {
     static void ranch_bartender_3( mission * );  // Expand Bar
     static void ranch_bartender_4( mission * );  // Expand Bar
     static void place_book( mission * );         // Place a book to retrieve
-    static void reveal_weather_station( mission * ); // Find weather logs
-    static void reveal_office_tower( mission * ); // Find corporate accounts
-    static void reveal_doctors_office( mission * ); // Find patient records
-    static void reveal_cathedral( mission * );   // Find relic
     static void reveal_refugee_center( mission * ); // Find refugee center
     static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
@@ -221,7 +211,7 @@ struct mission_type {
     /**
      * Get the mission_type object of the given id. Returns null if the input is invalid!
      */
-    static const mission_type *get( mission_type_id id );
+    static const mission_type *get( const mission_type_id &id );
     /**
      * Converts the legacy int id to a string_id.
      */
@@ -321,7 +311,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
-        void set_target( const tripoint &target );
+        void set_target( const tripoint &p );
         /*@}*/
 
         /** Assigns the mission to the player. */

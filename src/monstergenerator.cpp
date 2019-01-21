@@ -1,4 +1,7 @@
-#include "monstergenerator.h"
+#include "mattack_common.h" // IWYU pragma: associated
+#include "monstergenerator.h" // IWYU pragma: associated
+
+#include <algorithm>
 
 #include "catacharset.h"
 #include "color.h"
@@ -20,8 +23,6 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-
-#include <algorithm>
 
 extern bool test_mode;
 

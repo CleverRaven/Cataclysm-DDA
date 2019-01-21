@@ -2035,15 +2035,6 @@
           "fg": 265
         },
         {
-          "id": "armor_nomad",
-          "fg": 266
-        },
-        {
-          "id": "overlay_worn_armor_nomad",
-          "fg": 266,
-          "rotates": false
-        },
-        {
           "id": "armor_plate",
           "fg": 267,
           "rotates": false
@@ -2051,12 +2042,6 @@
         {
           "id": "armor_lightplate",
           "fg": 267,
-          "rotates": false
-        },
-        {
-          "id": "armor_samurai",
-          "fg": 268,
-          "bg": 957,
           "rotates": false
         },
         {
@@ -3187,11 +3172,6 @@
         {
           "id": "helmet_xlsurvivor",
           "fg": 426
-        },
-        {
-          "id": "helmet_kabuto",
-          "fg": 427,
-          "bg": 957
         },
         {
           "id": "helmet_larmor",
@@ -4990,16 +4970,7 @@
           "id": "overlay_worn_helmet_motor",
           "fg": 645,
           "rotates": false
-        },
-        {
-          "id": "overlay_worn_helmet_nomad",
-          "fg": 646,
-          "rotates": false
-        },
-        {
-          "id": "helmet_nomad",
-          "fg": 646
-        },
+        },   
         {
           "id": "overlay_worn_helmet_plate",
           "fg": 647,
@@ -9755,7 +9726,7 @@
           "rotates": false
         },
         {
-          "id": "sausage",
+          "id": ["sausage", "mannwurst"],
           "fg": 1325,
           "bg": 957,
           "rotates": false
@@ -14109,6 +14080,12 @@
           "bg": 962,
           "rotates": false
         },
+		        {
+          "id": "manual_sojutsu",
+          "fg": 1798,
+          "bg": 962,
+          "rotates": false
+        },
         {
           "id": "manual_pistol",
           "fg": 1045,
@@ -14996,7 +14973,7 @@
         {
           "id": "mon_ant_larva",
           "fg": 2313,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -15152,13 +15129,13 @@
         {
           "id": "mon_creeper_hub",
           "fg": 2388,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },
         {
           "id": "mon_creeper_vine",
           "fg": 2390,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -15260,13 +15237,13 @@
         {
           "id": "mon_frog_giant",
           "fg": 2465,
-          "bg": 967,
+          "bg": 5237,
           "rotates": false
         },
         {
           "id": "mon_fungal_fighter",
           "fg": 2473,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -15308,13 +15285,13 @@
         {
           "id": "mon_generator",
           "fg": 2490,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
           "id": "mon_giant_crayfish",
           "fg": 2493,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -15338,7 +15315,7 @@
         {
           "id": "mon_halfworm",
           "fg": 2501,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -15416,7 +15393,7 @@
         {
           "id": ["mon_laserturret", "mon_advturret_laser"],
           "fg": 2526,
-          "bg": 967,
+          "bg": 5239,
           "rotates": false
         },
         {
@@ -15464,7 +15441,7 @@
         {
           "id": "mon_rabbit",
           "fg": 2569,
-          "bg": 967,
+          "bg": 5235,
           "rotates": false
         },
         {
@@ -15482,7 +15459,7 @@
         {
           "id": "mon_rattlesnake",
           "fg": 2571,
-          "bg": 967,
+          "bg": 5235,
           "rotates": false
         },
         {
@@ -15497,15 +15474,9 @@
           "rotates": false
         },
         {
-          "id": "mon_sewer_rat",
-          "fg": 2581,
-          "bg": 967,
-          "rotates": false
-        },
-        {
           "id": "mon_sewer_snake",
           "fg": 2582,
-          "bg": 967,
+          "bg": 5235,
           "rotates": false
         },
         {
@@ -15535,13 +15506,13 @@
         {
           "id": "mon_sludge_crawler",
           "fg": 2595,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
           "id": "mon_slug_giant",
           "fg": 2598,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -15611,15 +15582,9 @@
           "rotates": false
         },
         {
-          "id": "mon_squirrel",
-          "fg": 2625,
-          "bg": 967,
-          "rotates": false
-        },
-        {
           "id": "mon_squirrel_red",
           "fg": 2625,
-          "bg": 967,
+		  "bg": 5240,
           "rotates": false
         },
         {
@@ -15655,7 +15620,7 @@
         {
           "id": "mon_triffid_young",
           "fg": 2640,
-          "bg": 967,
+          "bg": 5235,
           "rotates": false
         },
         {
@@ -15673,13 +15638,13 @@
         {
           "id": ["mon_turret", "mon_turret_9mm"],
           "fg": 2643,
-          "bg": 967,
+          "bg": 5239,
           "rotates": false
         },
         {
           "id": ["mon_turret_rifle", "mon_milturret_556"],
           "fg": 2644,
-          "bg": 967,
+          "bg": 5239,
           "rotates": false
         },
         {
@@ -16313,7 +16278,7 @@
         {
           "id": "mon_zombie_sproglodyte",
           "fg": 2759,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -16325,7 +16290,7 @@
         {
           "id": "mon_zombie_creepy",
           "fg": 2698,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -16343,7 +16308,7 @@
         {
           "id": "mon_rattlesnake_giant",
           "fg": 2572,
-          "bg": 967,
+          "bg": 5236,
           "rotates": false
         },
         {
@@ -20290,7 +20255,7 @@
           ]
         },
         {
-          "id": ["vp_floodlight", "vp_xfloodlight"],
+          "id": ["vp_floodlight", "vp_xfloodlight", "vp_directed_floodlight"],
           "fg": 4021,
           "bg": 1005,
           "rotates": true,
@@ -23361,10 +23326,6 @@
           "fg": 1216
         },
         {
-          "id": "bologna",
-          "fg": 1218
-        },
-        {
           "id": "inj_vitb",
           "fg": 1224
         },
@@ -23537,14 +23498,6 @@
         {
           "id": "frozen_burrito",
           "fg": 1252
-        },
-        {
-          "id": "hfleshbologna",
-          "fg": 1253
-        },
-        {
-          "id": ["mannwurstgravy", "mannwurst_raw"],
-          "fg": 1253
         },
         {
           "id": "mycus_fruit",
@@ -26464,17 +26417,17 @@
           "rotates": false
         },
         {
-          "id": "floodlight",
+          "id": ["floodlight", "directed_floodlight"],
           "fg": 1739,
           "rotates": false
         },
         {
-          "id": "headlight_reinforced",
+          "id": ["headlight_reinforced", "wide_headlight_reinforced", "car_wide_headlight"],
           "fg": 1739,
           "rotates": false
         },
         {
-          "id": ["car_headlight", "vp_headlight", "vp_headlight_reinforced"],
+          "id": ["car_headlight", "vp_headlight", "vp_headlight_reinforced", "vp_wide_headlight_reinforced", "vp_wide_headlight"],
           "fg": 1739
         },
         {
@@ -28246,6 +28199,11 @@
           "fg": 0,
           "rotates": false
         },
+				{
+          "id": "fake_firestarter",
+          "fg": 0,
+          "rotates": false
+        },
 		{
           "id": "molded_shovel",
           "fg": 4358,
@@ -28357,8 +28315,9 @@
           "rotates": false
         },
 				{
-          "id": "f_piano",
+          "id": "mon_squirrel",
           "fg": 4368,
+		  "bg": 5240,
           "rotates": false
         },
 						{
@@ -29935,7 +29894,7 @@
 		{
           "id": "mon_plague_nymph",
           "fg": 4626,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },			
 		{
@@ -29947,7 +29906,7 @@
 		{
           "id": "mon_triffid_sprig",
           "fg": 4628,
-		  "bg": 967,
+		  "bg": 5235,
           "rotates": false
         },		
 		{
@@ -30835,7 +30794,7 @@
 		{
           "id": "mon_locust_nymph",
           "fg": 4797,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },	
 		{
@@ -31308,7 +31267,7 @@
 		{
           "id": "mon_weasel",
           "fg": 2375,
-          "bg": 967,
+          "bg": 5235,
           "rotates": false
         },        
 		{
@@ -31338,7 +31297,7 @@
 		{
           "id": "mon_otter",
           "fg": 4879,
-          "bg": 967,
+          "bg": 5239,
           "rotates": false
         },          
 		{
@@ -31854,7 +31813,7 @@
 		{
           "id": ["mon_turret_bmg", "mon_milturret_50bmg"],
           "fg": 4953,
-		  "bg": 967,
+		  "bg": 5239,
           "rotates": false
         },	
 		{
@@ -33404,12 +33363,6 @@
 		{
           "id": "maid_point",
           "bg": 978,
-          "rotates": false
-        },
-		{
-          "id": "atlatl",
-          "fg": 1986,
-		  "bg": 967,
           "rotates": false
         },	
 		{
@@ -36448,7 +36401,7 @@
         {
           "id": "mon_ant_larva_pk",
           "fg": 2314,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },
         {
@@ -36484,6 +36437,7 @@
         {
           "id": "mon_ant_soldier_pk_weak",
           "fg": 2322,
+		  "bg": 967,
           "rotates": false
         },
         {
@@ -36572,7 +36526,7 @@
         {
           "id": "mon_bee_larvae",
           "fg": 2342,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },
         {
@@ -36620,7 +36574,7 @@
         {
           "id": "mon_blob_small",
           "fg": 2353,
-		  "bg": 967,
+		  "bg": 22476,
           "rotates": false
         },
         {
@@ -36756,12 +36710,8 @@
         {
           "id": "mon_dermatik_larva",
           "fg": 2404,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
-        },
-        {
-          "id": "mon_wasp_larvae",
-          "fg": 2404
         },
         {
           "id": "mon_dionaea",
@@ -37042,6 +36992,7 @@
 		{
           "id": "mon_zombie_child_fungus",
           "fg": 4233,
+		  "bg": 967,
           "rotates": false
         },
 		{
@@ -37052,21 +37003,25 @@
 		{
           "id": "mon_ant_acid_larva",
           "fg": 4235,
+		  "bg": 0,
           "rotates": false
         },
 		{
           "id": "mon_ant_acid",
           "fg": 4236,
+		  "bg": 967,
           "rotates": false
         },
 		{
           "id": "mon_ant_acid_queen",
           "fg": 4237,
+		  "bg": 967,
           "rotates": false
         },
 		{
           "id": "mon_ant_acid_soldier",
           "fg": 4238,
+		  "bg": 967,
           "rotates": false
         },
 		{
@@ -37122,6 +37077,7 @@
         {
           "id": "mon_frog",
           "fg": 2464,
+		  "bg": 5238,
           "rotates": false
         },
         {
@@ -37187,7 +37143,7 @@
         {
           "id": "mon_gator",
           "fg": 2488,
-		  "bg": 967,
+		  "bg": 5236,
           "rotates": false
         },
         {
@@ -37199,7 +37155,7 @@
         {
           "id": "mon_giant_cockroach_nymph",
           "fg": 2492,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },
         {
@@ -37417,7 +37373,7 @@
         {
           "id": "mon_opossum",
           "fg": 2558,
-		  "bg": 967,
+		  "bg": 5235,
           "rotates": false
         },
         {
@@ -37493,6 +37449,7 @@
         {
           "id": "mon_black_rat",
           "fg": 2581,
+		  "bg": 967,
           "rotates": false
         },
         {
@@ -37514,7 +37471,7 @@
         {
           "id": "mon_shadow_snake",
           "fg": 2584,
-		  "bg": 967,
+		  "bg": 5235,
           "rotates": false
         },
         {
@@ -37688,15 +37645,16 @@
           "id": "!mon_turret_bmg",
           "fg": 2644
         },
-        {
+		        {
           "id": "mon_turret_shockcannon",
           "fg": 2646,
+		  "bg": 5239,
           "rotates": false
         },
 		        {
           "id": "bot_turret_shockcannon",
           "fg": 2646,
-		  "bg": 967,
+		  "bg": 5239,
           "rotates": false
         },
         {
@@ -40217,21 +40175,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_battleaxe",
-          "fg": 3640,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_battleaxe_inferior",
-          "fg": 3640,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_battleaxe_fake",
-          "fg": 3640,
-          "rotates": false
-        },
-        {
           "id": "overlay_wielded_banjo",
           "fg": 3641,
           "rotates": false
@@ -41948,7 +41891,7 @@
         },
         {
           "id": "tr_ledge",
-          "fg": 3929
+          "fg": 0
         },
         {
           "id": "tr_rollmat",
@@ -47205,6 +47148,12 @@
           "fg": 5422,
           "rotates": false
         },
+		        {
+          "id": "mon_flying_polyp",
+          "fg": 5423,
+		  "bg": 0,
+          "rotates": false
+        },
 		{
           "id": "mon_nakedmolerat_giant",
           "fg": 5424,
@@ -47248,6 +47197,31 @@
 		{ "id": "mon_albino_penguin", "fg": 5432, "rotates": false },
 		{ "id": "corpse_mon_albino_penguin", "fg": 5433, "rotates": false },
 		{ "id": "mon_boomer_huge", "fg": 5434, "rotates": false },
+		{ "id": "mon_amigara_horror", "fg": 5435, "rotates": false },
+		{ "id": "corpse_mon_amigara_horror", "fg": 5436, "rotates": false },
+		{ "id": "mon_darkman", "fg": 5437, "rotates": false },
+		        {
+          "id": "mon_flesh_angel",
+          "fg": 5438,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_flesh_angel",
+          "fg": 5439,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "mon_yugg",
+          "fg": 5440,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_yugg",
+          "fg": 5441,
+          "rotates": false
+        },
         {
           "id": "mon_oni",
           "fg": 5449,
@@ -47266,12 +47240,13 @@
         {
           "id": "mon_turret_searchlight",
           "fg": 5456,
+		  "bg": 0,
           "rotates": false
         },
         {
           "id": "mon_blob_brain",
           "fg": 5457,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },        
         {
@@ -47279,11 +47254,6 @@
           "fg": 5461,
           "rotates": false
         }, 
-		{
-          "id": "mon_yugg",
-          "fg": 5462,
-          "rotates": false
-        },
 		{
           "id": "mon_kappabot",
           "fg": 5442,
@@ -48849,7 +48819,48 @@
             ],
           "bg": 967,
           "rotates": false
+        },
+		{
+          "id": "mon_shadow",
+          "fg": [
+            { "weight":1, "sprite":2583},
+			{ "weight":1, "sprite":12100},
+			{ "weight":1, "sprite":12101},
+			{ "weight":1, "sprite":12102},
+			{ "weight":1, "sprite":12103},		
+			{ "weight":1, "sprite":12104},
+			{ "weight":1, "sprite":12105},
+			{ "weight":1, "sprite":12106},
+			{ "weight":1, "sprite":12107},
+			{ "weight":1, "sprite":12108},
+			{ "weight":1, "sprite":12109},
+			{ "weight":1, "sprite":12110},		
+			{ "weight":1, "sprite":12111},
+			{ "weight":1, "sprite":12112},
+			{ "weight":1, "sprite":12113},
+			{ "weight":1, "sprite":12114},
+			{ "weight":1, "sprite":12115},
+			{ "weight":1, "sprite":12116},
+			{ "weight":1, "sprite":12117},
+			{ "weight":1, "sprite":12118},		
+			{ "weight":1, "sprite":12119},
+			{ "weight":1, "sprite":12120},
+			{ "weight":1, "sprite":12121},
+			{ "weight":1, "sprite":12122},
+			{ "weight":1, "sprite":12123},
+			{ "weight":1, "sprite":12124},
+			{ "weight":1, "sprite":12125},		
+			{ "weight":1, "sprite":12126},
+			{ "weight":1, "sprite":12127},
+			{ "weight":1, "sprite":12128},
+			{ "weight":1, "sprite":12129},
+			{ "weight":1, "sprite":12130},
+			{ "weight":1, "sprite":12131}
+            ],
+          "bg": 0,
+          "rotates": false
         }
+		
   ]
   },
   	{
@@ -52276,6 +52287,269 @@
             }
 			],
 			"rotates": false
+			},
+		{
+          "id": "t_trunk",
+          "fg": 17582,
+		  "bg": 1012,
+		  "multitile": true,
+          "additional_tiles": [            
+		  {
+              "id": "corner",
+              "fg": [17583, 17584, 17585, 17586],
+			  "bg": 1012
+            },
+					  {
+              "id": "t_connection",
+              "fg": [17584, 17585, 17584, 17585],
+			  "bg": 1012
+            },
+            {
+              "id": "edge",
+              "fg": [17581, 17582],
+			  "bg": 1012
+            },
+            {
+              "id": "end_piece",
+              "fg": [17583, 17584, 17585, 17586],
+			  "bg": 1012
+            },
+            {
+              "id": "unconnected",
+              "fg": [
+            { "weight":1, "sprite":17587},
+            { "weight":1, "sprite":27676},
+            { "weight":1, "sprite":27677},
+            { "weight":1, "sprite":27678},
+            { "weight":1, "sprite":27679},
+            { "weight":1, "sprite":27680},
+            { "weight":1, "sprite":27681},
+            { "weight":1, "sprite":27682},
+            { "weight":1, "sprite":27683}
+            ],
+			  "bg": 1012
+            }
+			],
+			"rotates": false
+			},
+		{
+          "id": "t_trunk_season_winter",
+          "fg": 17582,
+		  "bg": 992,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "edge",
+              "fg": [17581, 17582],
+			  "bg": 992
+            },
+            {
+              "id": "end_piece",
+              "fg": [17583, 17584, 17585, 17586],
+			  "bg": 992
+            },
+            {
+              "id": "unconnected",
+              "fg": [
+            { "weight":1, "sprite":17587},
+            { "weight":1, "sprite":27676},
+            { "weight":1, "sprite":27677},
+            { "weight":1, "sprite":27678},
+            { "weight":1, "sprite":27679},
+            { "weight":1, "sprite":27680},
+            { "weight":1, "sprite":27681},
+            { "weight":1, "sprite":27682},
+            { "weight":1, "sprite":27683}
+            ],
+			  "bg": 992
+            }
+			],
+			"rotates": false
+			},
+			{
+          "id": "f_pillow_fort",
+          "fg": 17588,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 17588
+            },
+            {
+              "id": "corner",
+              "fg": [17589, 17590, 17591, 17592]
+            },
+            {
+              "id": "t_connection",
+              "fg": [17593, 17594, 17595, 17596]
+            },
+            {
+              "id": "edge",
+              "fg": [17597, 17598]
+            },
+            {
+              "id": "end_piece",
+              "fg": [17599, 17600, 17601, 17602]
+            },
+            {
+              "id": "unconnected",
+              "fg": 17603
+            }
+			],
+			"rotates": false
+			},
+			{
+          "id": "t_junk_wall",
+          "fg": 17604,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 17604,
+			  "bg": 23384
+            },
+            {
+              "id": "corner",
+              "fg": [17605, 17606, 17607, 17608],
+			  "bg": 23384
+            },
+            {
+              "id": "t_connection",
+              "fg": [17609, 17610, 17611, 17612],
+			  "bg": 23384
+            },
+            {
+              "id": "edge",
+              "fg": [17613, 17614],
+			  "bg": 23384
+            },
+            {
+              "id": "end_piece",
+              "fg": [17615, 17616, 17617, 17618],
+			  "bg": 23384
+            },
+            {
+              "id": "unconnected",
+              "fg": 17619,
+			  "bg": 23384
+            }
+			],
+			"rotates": false
+			}
+			,
+			{
+          "id": "t_junk_palisade",
+          "fg": 17620,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 17620,
+			  "bg": 23384
+            },
+            {
+              "id": "corner",
+              "fg": [17621, 17622, 17623, 17624],
+			  "bg": 23384
+            },
+            {
+              "id": "t_connection",
+              "fg": [17625, 17626, 17627, 17628],
+			  "bg": 23384
+            },
+            {
+              "id": "edge",
+              "fg": [17629, 17630],
+			  "bg": 23384
+            },
+            {
+              "id": "end_piece",
+              "fg": [17631, 17632, 17633, 17634],
+			  "bg": 23384
+            },
+            {
+              "id": "unconnected",
+              "fg": 17635,
+			  "bg": 23384
+            }
+			],
+			"rotates": false
+			},
+			{
+          "id": "t_nanofab_body",
+          "fg": 17636,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 17636,
+			  "bg": 23383
+            },
+            {
+              "id": "corner",
+              "fg": [17637, 17638, 17639, 17640],
+			  "bg": 23383
+            },
+            {
+              "id": "t_connection",
+              "fg": [17641, 17642, 17643, 17644],
+			  "bg": 23383
+            },
+            {
+              "id": "edge",
+              "fg": [17645, 17646],
+			  "bg": 23383
+            },
+            {
+              "id": "end_piece",
+              "fg": [17647, 17648, 17649, 17650],
+			  "bg": 23383
+            },
+            {
+              "id": "unconnected",
+              "fg": 17651,
+			  "bg": 23383
+            }
+			],
+			"rotates": false
+			},
+			{
+          "id": ["t_open_air", "t_open_air_rooved"],
+          "fg": 17652,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 17652,
+			  "bg": 23383
+            },
+            {
+              "id": "corner",
+              "fg": [17653, 17654, 17655, 17656],
+			  "bg": 23383
+            },
+            {
+              "id": "t_connection",
+              "fg": [17657, 17658, 17659, 17660],
+			  "bg": 23383
+            },
+            {
+              "id": "edge",
+              "fg": [17661, 17662],
+			  "bg": 23383
+            },
+            {
+              "id": "end_piece",
+              "fg": [17663, 17664, 17665, 17666],
+			  "bg": 23383
+            },
+            {
+              "id": "unconnected",
+              "fg": 17667,
+			  "bg": 23383
+            }
+			],
+			"rotates": false
 			}
   ]
   },
@@ -54589,59 +54863,67 @@
 		{
           "id": "mon_turret_shot",
           "fg": 22753,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "broken_turret_shot",
           "fg": 22754,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": "bot_turret_shot",
           "fg": 22755,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "mon_turret_teargas",
           "fg": 22756,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "broken_turret_teargas",
           "fg": 22757,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": "bot_turret_teargas",
           "fg": 22758,
+		  "bg": 5239,
 		  "rotates": true
         },				
 		{
           "id": "mon_turret_beanbag",
           "fg": 22759,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "broken_turret_beanbag",
           "fg": 22760,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": "bot_turret_beanbag",
           "fg": 22761,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": ["broken_turret_rifle", "broken_milturret_556"],
           "fg": 22762,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": ["bot_rifleturret", "bot_milturret_556"],
           "fg": 22763,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54652,43 +54934,49 @@
 		{
           "id": "mon_milturret_308",
           "fg": 22765,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "broken_milturret_308",
           "fg": 22766,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": "bot_milturret_308",
           "fg": 22767,
+		  "bg": 5239,
 		  "rotates": true
         },				
 		{
           "id": ["broken_turret_bmg", "broken_milturret_50bmg"],
           "fg": 22768,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": ["bot_antimateriel", "bot_milturret_50bmg"],
           "fg": 22769,
+		  "bg": 5239,
 		  "rotates": true
         },				
 		{
           "id": "mon_milturret_8x40mm",
           "fg": 22770,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "broken_milturret_8x40mm",
           "fg": 22771,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": "bot_milturret_8x40mm",
           "fg": 22772,
+		  "bg": 5239,
 		  "rotates": true
         },	
 		{
@@ -54704,39 +54992,44 @@
 		{
           "id": "mon_milturret_needle",
           "fg": 22775,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "broken_milturret_needle",
           "fg": 22776,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": "bot_milturret_needle",
           "fg": 22777,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "mon_milturret_40mm",
           "fg": 22778,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "broken_milturret_40mm",
           "fg": 22779,
+		  "bg": 5239,
 		  "rotates": true
         },			
 		{
           "id": "bot_milturret_40mm",
           "fg": 22780,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
           "id": "mon_milturret_flame",
           "fg": 22781,
-		  "bg": 967,
+          "bg": 5239,
+		  
 		  "rotates": true
         },
 		{
@@ -54762,7 +55055,7 @@
 		{
           "id": "mon_advturret_acid",
           "fg": 22786,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54778,7 +55071,7 @@
 		{
           "id": "mon_advturret_plasma",
           "fg": 22789,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54794,7 +55087,7 @@
 		{
           "id": "mon_advturret_rail",
           "fg": 22792,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54810,7 +55103,7 @@
 		{
           "id": "mon_advturret_lightning",
           "fg": 22795,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54826,7 +55119,7 @@
 		{
           "id": "mon_advturret_emp",
           "fg": 22798,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54842,7 +55135,7 @@
 		{
           "id": "mon_turret_disarmed",
           "fg": 22801,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54858,7 +55151,7 @@
 		{
           "id": "mon_milturret_disarmed",
           "fg": 22803,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54874,7 +55167,7 @@
 		{
           "id": "mon_advturret_disarmed",
           "fg": 22805,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -54890,7 +55183,7 @@
 		{
           "id": "mon_turret_water",
           "fg": 22807,
-		  "bg": 967,
+		  "bg": 5239,
 		  "rotates": true
         },
 		{
@@ -57475,7 +57768,7 @@
           "rotates": false
         },
 		{
-          "id": "corpse_mon_sewer_rat",
+          "id": "corpse_mon_black_rat",
           "fg": 23317,
           "rotates": false
         },
@@ -57570,7 +57863,7 @@
           "rotates": false
         },
 		{
-          "id": "corpse_mon_zombie_soldier",
+          "id": ["corpse_mon_zombie_soldier", "corpse_mon_zombie_grenadier", "corpse_mon_zombie_grenadier_elite"],
           "fg": 23336,
           "rotates": false
         },
@@ -57774,12 +58067,1099 @@
           "bg": 0,
           "rotates": false
         },
+		        {
+          "id": "corpse_mon_zombie_necro",
+          "fg": 23367,
+          "rotates": false
+        },
+				        {
+          "id": "corpse_mon_cat",
+          "fg": 23368,
+          "rotates": false
+        },
+		        {
+          "id": "corpse_mon_fox_red",
+          "fg": 23369,
+          "rotates": false
+        },
+		 {
+          "id": "corpse_mon_fox_gray",
+          "fg": 23370,
+          "rotates": false
+        },
+				 {
+          "id": "corpse_mon_zombie_nullfield",
+          "fg": 23371,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_giant_cockroach",
+          "fg": 23372,
+          "rotates": false
+        }, 
+		{
+          "id": "corpse_mon_pregnant_giant_cockroach",
+          "fg": 23373,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_giant_cockroach_nymph",
+          "fg": 23374,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_zombie_brute_grappler",
+          "fg": 23375,
+          "rotates": false
+        },		
+		        {
+          "id": "corpse_mon_zombie_biter",
+          "fg": 23376,
+          "bg": 0,
+          "rotates": false
+        },
+						{
+          "id": "corpse_mon_squirrel_red",
+          "fg": 23377,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_squirrel",
+          "fg": 23378,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_moose",
+          "fg": 23379,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_razorclaw",
+          "fg": 23380,
+          "bg": 0
+        },
+				        {
+          "id": "corpse_mon_alpha_razorclaw",
+          "fg": 23381,
+          "bg": 0
+        },
+		{
+          "id": "corpse_mon_blank",
+          "fg": 23382,
+          "bg": 0
+        },
+				{
+          "id": "t_metal_floor",
+          "fg": 23383,
+          "bg": 0
+        },
+		{
+          "id": "t_junk_floor",
+          "fg": 23384,
+          "bg": 0
+        },
+				{
+          "id": "t_nanofab",
+          "fg": 23385,
+          "bg": 0
+        },
+		{
+          "id": "chem_formaldehyde",
+          "fg": 23386,
+          "bg": 0
+        },
+				{
+          "id": "chem_methanol",
+          "fg": 23387,
+          "bg": 0
+        },
+		{
+          "id": "fluid_preserved_brain",
+          "fg": 23388,
+          "bg": 0
+        },
+				{
+          "id": "human_brain_embalmed",
+          "fg": 23389,
+          "bg": 0
+        },{
+          "id": "meat_scrap",
+          "fg": 23390,
+          "bg": 0
+        },
+		{
+          "id": "meat_scrap_cooked",
+          "fg": 23391,
+          "bg": 0
+        },
+				{
+          "id": "nanomaterial",
+          "fg": 23392,
+          "bg": 0
+        },
+		{
+          "id": "standard_template_construct",
+          "fg": 23393,
+          "bg": 0
+        },
+		{
+          "id": "ruined_chunks",
+          "fg": 23394,
+          "bg": 0
+        },
+		{
+          "id": "steel_grille",
+          "fg": 23395,
+          "bg": 0
+        },
+		{
+          "id": "platinum_grille",
+          "fg": 23396,
+          "bg": 0
+        },
+				{
+          "id": "platinum_small",
+          "fg": 23397,
+          "bg": 0
+        },
+		{
+          "id": "pressure_cooker",
+          "fg": 23398,
+          "bg": 0
+        },	
+		{
+          "id": "stick_fiber",
+          "fg": 23399,
+          "bg": 0
+        },
+        {
+          "id": "overlay_wielded_battleaxe",
+          "fg": 23400,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_battleaxe_inferior",
+          "fg": 23401,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_battleaxe_fake",
+          "fg": 23401,
+          "rotates": false
+        },
+		        {
+          "id": "mon_sewer_rat",
+          "fg": 23402,
+          "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "mon_muskrat",
+          "fg": 23403,
+          "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_sewer_rat",
+          "fg": 23404,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_muskrat",
+          "fg": 23405,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_bat",
+          "fg": 23406,
+          "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": "corpse_mon_blood_sacrifice",
+          "fg": 23407,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_boomer_fungus",
+          "fg": 23408,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_broken_cyborg",
+          "fg": 23409,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_chud",
+          "fg": 23410,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_crawler",
+          "fg": 23411,
+          "bg": 0,
+          "rotates": false
+        },
+						{
+          "id": "corpse_mon_dark_wyrm",
+          "fg": 23412,
+          "bg": 0,
+          "rotates": false
+        },      
+		{
+          "id": "helmet_kabuto",
+          "fg": 23413,
+          "bg": 0
+        }, 
+		{
+          "id": "armor_samurai",
+          "fg": 23414,
+          "bg": 957,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dementia",
+          "fg": 23415,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_zombie_flamer",
+          "fg": 23416,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_flaming_eye",
+          "fg": 23417,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_fungaloid_young",
+          "fg": 23418,
+          "bg": 0,
+          "rotates": false
+        }, 
+		{
+          "id": "corpse_mon_giant_crayfish",
+          "fg": 23419,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_gozu",
+          "fg": 23420,
+          "bg": 0,
+          "rotates": false
+        },
+						{
+          "id": "corpse_mon_halfworm",
+          "fg": 23421,
+          "bg": 0,
+          "rotates": false
+        },
+								{
+          "id": "corpse_mon_homunculus",
+          "fg": 23422,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_human_snail",
+          "fg": 23423,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_one_eye",
+          "fg": 23424,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_slug_giant",
+          "fg": 23425,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_twisted_body",
+          "fg": 23426,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_zolf",
+          "fg": 23427,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_zombear",
+          "fg": 23428,
+          "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": "corpse_mon_zombie_armored",
+          "fg": 23429,
+          "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_zombie_bio_op",
+          "fg": 23430,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_zombie_brute_ninja",
+          "fg": 23431,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_zombie_corrosive",
+          "fg": 23432,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_biollante_sprout",
+          "fg": 23433,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_biollante_sprig",
+          "fg": 23434,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_biollante_sprig",
+          "fg": 23434,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_bear_cub",
+          "fg": 23435,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_zombie_fiend",
+          "fg": 23436,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_zombie_fungus",
+          "fg": 23437,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_zombie_pig",
+          "fg": 23438,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_zombie_scorched",
+          "fg": 23439,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": ["mannwurstgravy", "sausagegravy"],
+          "fg": 23440,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": ["sausage_raw", "mannwurst_raw"],
+          "fg": 23441,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": ["sausage_cooked", "mannwurst_cooked"],
+          "fg": 23442,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": ["bratwurst_sausage", "mann_bratwurst"],
+          "fg": 23443,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": ["dias"],
+          "fg": 23444,
+          "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": ["bologna", "hfleshbologna"],
+          "fg": 23445
+        },
+		        {
+          "id": "mon_wasp_larvae",
+          "fg": 23446,	
+		  "bg": 0,
+          "rotates": false 
+        },
+		{
+          "id": "analytical_set_basic",
+          "fg": 23447,	
+		  "bg": 0,
+          "rotates": false 
+        },  
+		{
+          "id": "armor_nomad",
+          "fg": 266
+        },
+        {
+          "id": "overlay_worn_armor_nomad",
+          "fg": 23448,
+          "rotates": false
+        },	
+		{
+          "id": "helmet_nomad",
+          "fg": 646
+        },
+        {
+          "id": "overlay_worn_helmet_nomad",
+          "fg": 23449,
+          "rotates": false
+        },
+		{
+          "id": "armor_nomad_light",
+          "fg": 23450
+        },
+        {
+          "id": "overlay_worn_armor_nomad_light",
+          "fg": 23451,
+          "rotates": false
+        },     
+		{
+          "id": "balance_small",
+          "fg": 23452,
+          "rotates": false
+        },
+				{
+          "id": "brownie",
+          "fg": 23453,
+          "rotates": false
+        },
+		{
+          "id": "cuvettes",
+          "fg": 23454,
+          "rotates": false
+        },	
+		{
+          "id": "glass_prism",
+          "fg": 23455,
+          "rotates": false
+        },
+				{
+          "id": "glass_tube_small",
+          "fg": 23456,
+          "rotates": false
+        },
+		{
+          "id": "hard_steel_armor",
+          "fg": 23457,
+          "rotates": false
+        },	
+		{
+          "id": "light_detector",
+          "fg": 23458,
+          "rotates": false
+        },
+		{
+          "id": "llink",
+          "fg": 23459,
+          "rotates": false
+        },	
+		{
+          "id": "melting_point",
+          "fg": 23460,
+          "rotates": false
+        },	
+		{
+          "id": "offset_sight_rail",
+          "fg": 23461,
+          "rotates": false
+        },	
+		{
+          "id": "ph_meter",
+          "fg": 23462,
+          "rotates": false
+        },	
+		{
+          "id": "spectrophotometer",
+          "fg": 23463,
+          "rotates": false
+        },
+				{
+          "id": "steel_armor",
+          "fg": 23464,
+          "rotates": false
+        },
+						{
+          "id": "corpse_mon_zoose",
+          "fg": 23465,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_zombie_military_pilot",
+          "fg": 23466,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_zougar",
+          "fg": 23467,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_chicken",
+          "fg": 23468,
+		  "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_skittering_plague",
+          "fg": 23469,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_plague_nymph",
+          "fg": 23470,
+		  "bg": 0,
+          "rotates": false
+        },			
+		{
+          "id": "corpse_mon_plague_vector",
+          "fg": 23469,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_bee",
+          "fg": 23469,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_wasp",
+          "fg": 23469,
+		  "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_jumping",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "!corpse_mon_spider_jumping_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "!corpse_mon_spider_trapdoor",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "!corpse_mon_spider_trapdoor_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_web",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_web_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": "corpse_mon_spider_web_s",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_widow",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_widow_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": "corpse_mon_spider_widow_giant_s",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_wolf",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_wolf_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	 
+		{
+          "id": "corpse_mon_centipede_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": "corpse_mon_dragonfly_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dermatik",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },		
+				{
+          "id": "corpse_mon_dermatik_larva",
+          "fg": 23470,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_fly",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_mosquito_giant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },    
+		{
+          "id": "corpse_mon_ant",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_ant_fungus",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_ant_larva",
+          "fg": 23470,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_ant_queen",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_ant_soldier",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_ant_acid",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_ant_larva_acid",
+          "fg": 23470,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_ant_acid_queen",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_ant_acid_soldier",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_locust",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },					
+		{
+          "id": "corpse_mon_locust_nymph",
+          "fg": 23470,
+          "bg": 0,
+          "rotates": false
+        },	
+				{
+          "id": "corpse_mon_biollante",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_triffid_sprig",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_triffid_young",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_triffid",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_triffid_queen",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_triffid_heart",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_vinebeast",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_fungal_fighter",
+          "fg": 23469,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_zombie_child_fungus",
+          "fg": 23471,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_zombie_waif",
+          "fg": 23472,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_zombie_sproglodyte",
+          "fg": 23473,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_zombie_creepy",
+          "fg": 23474,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_zombie_child_scorched",
+          "fg": 23475,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_fungal_fighter",
+          "fg": 23476,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_vinebeast",
+          "fg": 23477,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_triffid_queen",
+          "fg": 23478,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_triffid",
+          "fg": 23479,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_triffid_young",
+          "fg": 23480,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_triffid_sprig",
+          "fg": 23481,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_biollante",
+          "fg": 23482,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_sewer_snake",
+          "fg": 23483,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_rattlesnake_giant",
+          "fg": 23484,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_rattlesnake",
+          "fg": 23485,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_gator",
+          "fg": 23486,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_frog_giant",
+          "fg": 23487,
+          "bg": 0,
+          "rotates": false
+        },		
+				{
+          "id": "corpse_mon_frog",
+          "fg": 23488,
+          "bg": 0,
+          "rotates": false
+        },	
+						{
+          "id": "corpse_mon_wolf",
+          "fg": 23489,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_weasel",
+          "fg": 23490,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_sheep",
+          "fg": 23491,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_sheep_lamb",
+          "fg": 23492,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_raccoon",
+          "fg": 23493,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "coat_gut",
+          "fg": 23494,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_coat_gut",
+          "fg": 23495,
+          "bg": 0,
+          "rotates": false
+        },			
+		{
+          "id": "helmet_szyszak",
+          "fg": 23496,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "wings_ornamental",
+          "fg": 23497,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_rabbit",
+          "fg": 23498,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_pig",
+          "fg": 23499,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_pig_piglet",
+          "fg": 23500,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_otter",
+          "fg": 23501,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_opossum",
+          "fg": 23502,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_mink",
+          "fg": 23503,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_lemming",
+          "fg": 23504,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_horse",
+          "fg": 23505,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_hare",
+          "fg": 23506,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_groundhog",
+          "fg": 23507,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_grouse",
+          "fg": 23508,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_crow",
+          "fg": 23509,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_duck",
+          "fg": 23510,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_goose_canadian",
+          "fg": 23511,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_turkey",
+          "fg": 23512,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_pheasant",
+          "fg": 23513,
+          "bg": 0,
+          "rotates": false
+        },
 		{
           "id": "atlatl",
           "fg": 1986,
 		  "bg": 0,
           "rotates": false 
-        }			
+        }		
 	]
 	},
 	{
@@ -57827,25 +59207,25 @@
           "rotates": false
         },
 		{
-          "id": "t_tree_harvested_season_spring", 
+          "id": ["t_tree_harvested_season_spring", "t_tree_oak_harvested_season_spring"],
           "fg": 32769,
 		  "bg": 32977,
           "rotates": false
         },			
 		{
-          "id": ["t_tree_harvested_season_summer", "t_tree_harvested"], 
+          "id": ["t_tree_harvested_season_summer", "t_tree_harvested", "t_tree_oak_harvested_season_summer", "t_tree_oak_harvested"], 
           "fg": 32770,
 		  "bg": 32977,
           "rotates": false
         },			
 		{
-          "id": "t_tree_harvested_season_autumn", 
+          "id": ["t_tree_harvested_season_autumn", "t_tree_oak_harvested_season_autumn"],
           "fg": 32771,
 		  "bg": 32977,
           "rotates": false
         },			
 		{
-          "id": "t_tree_harvested_season_winter", 
+          "id": ["t_tree_harvested_season_winter", "t_tree_oak_harvested_season_winter"],
           "fg": 32772,
 		  "bg": 32978,
           "rotates": false
@@ -59158,7 +60538,15 @@
           "id": "overlay_worn_firehelmet",
           "fg": 33170,
           "rotates": false
-        }
+        },
+		{
+          "id": "overlay_worn_helmet_kabuto",
+          "fg": 33171,
+          "rotates": false
+        },
+		{ "id": "overlay_mutation_HORNS_POINTED", "fg": 33172, "rotates": false },
+		{ "id": "overlay_worn_helmet_szyszak", "fg": 33173, "rotates": false },
+		{ "id": "overlay_worn_wings_ornamental", "fg": 33174, "rotates": false }
 	]
 	}
   ]

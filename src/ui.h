@@ -2,15 +2,15 @@
 #ifndef UI_H
 #define UI_H
 
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "string_formatter.h"
-
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "string_formatter.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -152,6 +152,7 @@ class uilist_callback
 /**
  * uilist: scrolling vertical list menu
  */
+
 class ui_element;
 class ui_element_input;
 

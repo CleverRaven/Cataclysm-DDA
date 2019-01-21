@@ -1345,7 +1345,7 @@ classes = {
             { name = "i_rem", rval = nil, args = { "tripoint", "item" } },
             { name = "impassable", rval = "bool", args = { "tripoint" } },
             { name = "impassable_ter_furn", rval = "bool", args = { "tripoint" } },
-            { name = "inbounds", rval = "bool", args = { "int", "int", "int" } },
+            { name = "inbounds", rval = "bool", args = { "point" } },
             { name = "inbounds", rval = "bool", args = { "tripoint" } },
             { name = "is_bashable", rval = "bool", args = { "tripoint" }, optional_args = { "bool" } },
             { name = "is_bashable_furn", rval = "bool", args = { "tripoint" } },

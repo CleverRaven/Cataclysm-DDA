@@ -2,27 +2,21 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"
 #include "color.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <sstream>
-#include <string>
-#include <vector>
+#include "units.h"
 
 struct input_event;
 struct iteminfo;
 enum direction : unsigned;
 class input_context;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-} // namespace units
 namespace catacurses
 {
 class window;

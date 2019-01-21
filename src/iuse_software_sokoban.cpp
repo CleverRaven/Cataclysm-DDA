@@ -1,5 +1,7 @@
 #include "iuse_software_sokoban.h"
 
+#include <sstream>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
@@ -10,11 +12,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#include <sstream>
-
-sokoban_game::sokoban_game()
-{
-}
+sokoban_game::sokoban_game() = default;
 
 void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore, int iMoves )
 {

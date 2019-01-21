@@ -2,6 +2,10 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
+#include <map>
+#include <sstream>
+#include <vector>
+
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
@@ -9,10 +13,6 @@
 #include "player_activity.h"
 #include "requirements.h"
 #include "string_id.h"
-
-#include <map>
-#include <sstream>
-#include <vector>
 
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
@@ -143,7 +143,7 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &w );
+        size_t display_esc( const catacurses::window &win );
 
         /**
          * Display overview of parts, optionally with interactive selection of one part
