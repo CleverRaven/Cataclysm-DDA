@@ -268,13 +268,13 @@
     "symbol": "%",
     "quench": -3,
     "healthy": 1,
-    "calories": 26,
+    "calories": 4,
     "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
     "price": 50,
     "charges": 6,
     "stack_size": 6,
     "material": "garlic",
-    "volume": 1,
+    "volume": "150 ml",
     "fun": -3,
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
   },
@@ -391,14 +391,15 @@
     "copy-from": "seed",
     "name": "raw beans",
     "name_plural": "raw beans",
-    "weight": 210,
+    "weight": 194,
     "symbol": "%",
     "healthy": -2,
-    "calories": 122,
+    "calories": 56,
     "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
     "price": 90,
     "fun": -1,
     "flags": [ "SMOKABLE" ],
+    "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -685,29 +686,23 @@
     "comestible_type": "FOOD",
     "addiction_type": "caffeine",
     "addiction_potential": 1,
+    "calories": 549,
     "volume": 1,
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
     "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 40,
-    "weight": 1
+    "weight": 106
   },
   {
     "type": "COMESTIBLE",
     "id": "roasted_coffee_bean",
+    "copy-from": "coffee_bean",
     "category": "other",
     "container": "bag_plastic",
-    "price": 50,
-    "material": "veggy",
     "name": "roasted coffee beans",
     "name_plural": "roasted coffee beans",
-    "symbol": ".",
-    "color": "brown",
     "description": "Some roasted coffee beans, can be ground into powder.",
-    "comestible_type": "FOOD",
     "addiction_type": "caffeine",
-    "addiction_potential": 1,
-    "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
-    "stack_size": 40,
-    "weight": 1
+    "flags": [ "EDIBLE_FROZEN" ]
   }
 ]

@@ -28,6 +28,7 @@ enum talk_trial_type : unsigned char {
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
     TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    TALK_TRIAL_CONDITION, // Some other condition
     NUM_TALK_TRIALS
 };
 
@@ -52,6 +53,7 @@ using trial_mod = std::pair<std::string, int>;
 struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
+    std::function<bool( const dialogue & )> condition;
 
     int calc_chance( const dialogue &d ) const;
     /**
@@ -163,6 +165,13 @@ struct talk_response {
      * displayed.
      */
     std::string text;
+    /*
+     * Optional responses from a true/false test that defaults to true.
+     */
+    std::string truetext;
+    std::string falsetext;
+    std::function<bool( const dialogue & )> truefalse_condition;
+
     talk_trial trial;
     /**
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
@@ -177,7 +186,7 @@ struct talk_response {
     talk_data create_option_line( const dialogue &d, char letter );
     std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
-    talk_response() = default;
+    talk_response();
     talk_response( JsonObject );
 };
 
@@ -297,6 +306,9 @@ struct dynamic_line_t {
         }
 };
 
+// the truly awful declaration for the conditional_t loading helper_function
+void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
+                              bool default_val );
 /**
  * A condition for a response spoken by the player.
  * This struct only adds the constructors which will load the data from json

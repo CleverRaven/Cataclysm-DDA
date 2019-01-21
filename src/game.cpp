@@ -1785,7 +1785,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     }
     if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
-        for( auto activity : u.backlog ) {
+        for( auto &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
     }
@@ -2983,7 +2983,7 @@ void game::debug()
         _( "Set automove route" ),              // 27
         _( "Show mutation category levels" ),   // 28
         _( "Overmap editor" ),                  // 29
-        _( "Draw benchmark (5 seconds)" ),      // 30
+        _( "Draw benchmark (X seconds)" ),      // 30
         _( "Teleport - Adjacent overmap" ),     // 31
         _( "Test trait group" ),                // 32
         _( "Show debug message" ),              // 33
@@ -3315,23 +3315,12 @@ void game::debug()
             break;
 
         case 30: {
-            // call the draw procedure as many times as possible in 5 seconds
-            auto start_tick = std::chrono::steady_clock::now();
-            auto end_tick = std::chrono::steady_clock::now();
-            long difference = 0;
-            int draw_counter = 0;
-            while( true ) {
-                end_tick = std::chrono::steady_clock::now();
-                difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick -
-                             start_tick ).count();
-                if( difference >= 5000 ) {
-                    break;
-                }
-                draw();
-                draw_counter++;
-            }
-            add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-                     difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
+            const int ms = string_input_popup()
+                           .title( _( "Enter benchmark length (in milliseconds):" ) )
+                           .width( 20 )
+                           .text( "5000" )
+                           .query_int();
+            debug_menu::draw_benchmark( ms );
         }
         break;
 
@@ -3770,13 +3759,16 @@ void game::draw_sidebar()
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
 
-    if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-        wmove( sideStyle ? w_status : w_HP, sideStyle ? 4 : 21, sideStyle ? getmaxx( w_status ) - 4 : 0 );
-        const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
-        for( int i = 0; i < 4; i++ ) {
-            nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
-            wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
+    // don't display SAFE mode in vehicle, doesn't apply.
+    if( !u.in_vehicle ) {
+        if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
+            int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
+            wmove( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23, sideStyle ? getmaxx( w_status ) - 4 : 0 );
+            const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
+            for( int i = 0; i < 4; i++ ) {
+                nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
+                wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
+            }
         }
     }
     wrefresh( w_status );
@@ -9155,10 +9147,6 @@ bool game::plfire()
                 return false;
             }
             reload_time += opt.moves();
-            // Character restores 50% + 7% * gun_skill, capped with 100% stability after shot for RELOAD_AND_SHOOT weapon
-            double skill_effect = 0.5 - 0.07 * u.get_skill_level( gun->gun_skill() );
-            skill_effect = std::max( skill_effect, 0.0 );
-            u.recoil = std::max( u.recoil, MAX_RECOIL * skill_effect );
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
