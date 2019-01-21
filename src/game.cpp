@@ -6530,7 +6530,7 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
         const Creature *creature = critter_at( lp, true );
 
         terrain_info( text, lp, max_width );
-        fields_info( text, lp, max_width );
+        fields_info( text, lp );
         trap_info( text, lp, max_width );
 
         if( creature ) {
@@ -6561,9 +6561,10 @@ int game::draw_look_around_text( const catacurses::window &w_info,
                                  const std::vector<std::string> &text,
                                  int curr_line, int last_line )
 {
+    nc_color clr = c_dark_gray;
     for( auto &str : text ) {
         if( curr_line < last_line ) {
-            print_colored_text( w_info, curr_line, 1, c_dark_gray, c_dark_gray, str );
+            print_colored_text( w_info, curr_line, 1, clr, clr, str );
             curr_line++;
         }
     }
@@ -6690,7 +6691,7 @@ size_t game::terrain_info( std::vector<std::string> &info, const tripoint &lp, c
     return info.size() - old_size;
 }
 
-size_t game::fields_info( std::vector<std::string> &info, const tripoint &lp, const int max_width )
+size_t game::fields_info( std::vector<std::string> &info, const tripoint &lp )
 {
     size_t old_size = info.size();
 
@@ -6739,7 +6740,7 @@ size_t game::creature_info( std::vector<std::string> &info, const Creature *crea
             foldstring( info, colorize( tempStr, c_white ), max_width );
             //attitude
             const auto att = mon->get_attitude();
-            if( tempStr.size() + att.first.size() < max_width ) {
+            if( static_cast<int>( tempStr.size() + att.first.size() ) < max_width ) {
                 info.back().append( colorize( att.first, att.second ) );
             } else {
                 info.push_back( colorize( att.first, att.second ) );
@@ -7699,7 +7700,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             curr_line = draw_look_around_text( w_info, text, curr_line, last_line );
 
-            if( text.size() > last_line ) {
+            if( static_cast<int>( text.size() ) > last_line ) {
                 message = "There are more things here...";
                 print_colored_text( w_info, curr_line, 1, c_yellow, c_yellow, message );
             }
