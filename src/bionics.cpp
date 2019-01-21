@@ -76,6 +76,11 @@ const efftype_id effect_weed_high( "weed_high" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 
+static const trait_id trait_THRESH_MEDICAL("THRESH_MEDICAL");
+static const trait_id trait_MASOCHIST("MASOCHIST");
+static const trait_id trait_MASOCHIST_MED("MASOCHIST_MED");
+static const trait_id trait_CENOBITE("CENOBITE");
+
 namespace
 {
 std::map<bionic_id, bionic_data> bionics;
@@ -1548,10 +1553,26 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel calm and even slightly excited, as the Autodoc slices painlessly into you.  You pass out when the blades reach your line of sight." ) )
+            ;
+        } else {
+            add_msg_if_player( m_mixed,
+                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
+            ;
+        }
+    }
+
+    //Pain junkies feel sorry about missed pain from operation.
+    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+        has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
-                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
+                           _( "Before passing out you've felt sorry for missing wonderful pain from operation process." ) )
         ;
     }
+
     add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }
