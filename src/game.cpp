@@ -6553,7 +6553,7 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
         }
 
         graffiti_info( text, lp, max_width );
-    } else    {
+    } else {
         visibility_info( text, visibility, max_width );
     }
     sound_info( text, lp, max_width );
@@ -6653,7 +6653,7 @@ size_t game::terrain_info( std::vector<std::string> &info, const tripoint &lp, c
     if( !signage.empty() ) {
         if( u.has_trait( trait_ILLITERATE ) ) {
             tempStr = _( "Sign: ???" );
-        } else        {
+        } else {
             tempStr = string_format( _( "Sign: %s" ), signage );
         }
         info.push_back( trim_to_width( colorize( tempStr, c_dark_gray ), max_width ) );
