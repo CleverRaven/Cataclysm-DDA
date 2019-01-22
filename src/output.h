@@ -178,6 +178,14 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
 void print_colored_text( const catacurses::window &w, int y, int x, nc_color &cur_color,
                          nc_color base_color, const std::string &text );
 /**
+* Calls the version of print_colored_text() taking a string, for every string in the vector up to 'last_line'.
+* @param last_line prints up to n lines or max window height. Defaults to max window height.
+* @return the number (y coordinate) after the last printed line
+**/
+int print_colored_text( const catacurses::window &w, int y, int x, nc_color &cur_color,
+                        nc_color base_color, const std::vector<std::string> &text, int last_line = -1 );
+
+/**
  * Print word wrapped text (with @ref color_tags) into the window.
  *
  * @param w Window we are printing in
@@ -263,6 +271,7 @@ inline int fold_and_print_from( const catacurses::window &w, const int begin_y, 
  */
 void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
                      nc_color base_color, const std::string &mes );
+//The function handles color_tags correctly.
 std::string trim_to_width( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const int begin_y, const int begin_x,

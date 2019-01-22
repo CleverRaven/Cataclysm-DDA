@@ -59,6 +59,7 @@ enum class part_status_flag : int {
     available = 1 << 1,
     enabled = 1 << 2
 };
+
 part_status_flag inline operator|( const part_status_flag &rhs, const part_status_flag &lhs )
 {
     return static_cast<part_status_flag>( static_cast<int>( lhs ) | static_cast<int>( rhs ) );
@@ -680,6 +681,21 @@ class vehicle
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
+
+        /**
+        *Retrieve the text information for the requested part, for display
+        *@param info a vector<string>& in which to insert the retrieved strings
+        *@param veh_part the index of the part for which we want informations
+        *@param max_width trim or folding of the strings for strings longer than this value
+        *@return the number of strings that where appended to info
+        */
+        size_t vehicle_info( std::vector<std::string> &info, int veh_part, const int max_width, const int hl = -1)const;
+        
+        //the _info functions below return individual pieces of information. Not trim or fold performed.
+        std::string fuel_info(const vehicle_part &vp)const;
+        std::string cargo_info(const int id)const;
+        std::pair<std::string, std::string> armor_info(const int id)const;
+
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
                              int hl = -1 ) const;

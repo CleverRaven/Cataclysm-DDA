@@ -6540,7 +6540,11 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
 
         if( vp ) {
             text.push_back( separator );
-            vehicle_info( text, &vp->vehicle(), vp->part_index(), max_width );
+            //@Todo: find a better way to get veh from vp
+            vehicle *veh = veh_pointer_or_null( vp );
+            if( vp ) {
+                veh->vehicle_info( text, vp->part_index(), max_width );
+            }
         }
 
         if( m.sees_some_items( lp, u ) ) {
@@ -6555,20 +6559,6 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
     sound_info( text, lp, max_width );
 
     return text;
-}
-
-int game::draw_look_around_text( const catacurses::window &w_info,
-                                 const std::vector<std::string> &text,
-                                 int curr_line, int last_line )
-{
-    nc_color clr = c_dark_gray;
-    for( auto &str : text ) {
-        if( curr_line < last_line ) {
-            print_colored_text( w_info, curr_line, 1, clr, clr, str );
-            curr_line++;
-        }
-    }
-    return curr_line;
 }
 
 void game::draw_terrain_indicators( const tripoint &lp, bool draw )
@@ -6821,90 +6811,6 @@ size_t game::creature_info( std::vector<std::string> &info, const Creature *crea
         auto *you = dynamic_cast<const player *>( creature );
         if( you == &u ) {
             info.push_back( trim_to_width( string_format( _( "You (%s)" ), you->name ), max_width ) );
-        }
-    }
-
-    return info.size() - old_size;
-}
-
-size_t game::vehicle_info( std::vector<std::string> &info, const vehicle *veh, int veh_part,
-                           const int max_width )
-{
-    size_t old_size = info.size();
-
-    if( veh ) {
-        //brief description
-        foldstring( info, string_format( _( "There is a %s there. Parts:" ), veh->name ), max_width );
-
-        //boundary check
-        if( veh_part < 0 || veh_part >= static_cast<int>( veh->parts.size() ) ) {
-            return 0;
-        }
-
-        std::vector<int> parts_id_list = veh->parts_at_relative( veh->parts[veh_part].mount, true );
-
-        for( int id : parts_id_list ) {
-            const vehicle_part &vp = veh->parts[id];
-            //name
-            std::string partname = vp.name();
-            //fuel content
-            if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
-                partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
-            }
-            //cargo
-            if( veh->part_flag( id, "CARGO" ) ) {
-                //~ used/total volume of a cargo vehicle part
-                partname += string_format( _( " (vol: %s/%s %s)" ),
-                                           format_volume( veh->stored_volume( id ) ),
-                                           format_volume( veh->max_volume( id ) ),
-                                           volume_units_abbr() );
-            }
-            //armor
-            std::string left_sym, right_sym;
-            if( veh->part_flag( id, "ARMOR" ) ) {
-                left_sym = "(";
-                right_sym = ")";
-            } else if( veh->part_info( id ).location == "structure" ) {
-                //the hardcoded "structure" above is dependend on the
-                //static const 'part_location_structure' defined in vehicle.cpp,
-                //so if that string changes, this won't work.
-                //@Todo: add a getter method to vehicle.h for 'part_location_structure' string
-                left_sym = "[";
-                right_sym = "]";
-            } else {
-                left_sym = "-";
-                right_sym = "-";
-            }
-
-            nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.get_base().damage_color();
-            left_sym = colorize( left_sym, c_light_gray );
-            right_sym = colorize( right_sym, c_light_gray );
-            partname = colorize( partname, col_cond );
-            partname = trim_to_width( ( left_sym + partname + right_sym ), max_width );
-
-            //Covered or not?
-            if( id == parts_id_list[0] ) {
-                bool isInside = vpart_position( const_cast<vehicle &>( *veh ), id ).is_inside();
-                std::string desc = isInside ? _( "Interior" ) : _( "Exterior" );
-
-                int start_pos = max_width - utf8_width( desc );
-                int naked_size = remove_color_tags( partname ).size();
-                if( naked_size > start_pos ) {
-                    partname = trim_to_width( partname, start_pos );
-                } else {
-                    partname += std::string( ( start_pos - naked_size ), ' ' );
-                }
-                partname += colorize( desc, c_light_gray );
-            }
-            info.push_back( partname );
-        }
-
-        //the label for this location
-        const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *veh ),
-                veh_part ).get_label();
-        if( label ) {
-            foldstring( info, colorize( string_format( "Label: %s", label->c_str() ), c_light_red ),
-                        max_width );
         }
     }
 
@@ -7698,7 +7604,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             print_colored_text( w_info, lookHeight - 2, 2, clr, clr, view_detail );
             print_colored_text( w_info, lookHeight - 1, 2, clr, clr, list_things );
 
-            curr_line = draw_look_around_text( w_info, text, curr_line, last_line );
+            //print all window content
+            curr_line = print_colored_text( w_info, curr_line, 1, clr, clr, text, last_line );
 
             if( static_cast<int>( text.size() ) > last_line ) {
                 clr = c_yellow;

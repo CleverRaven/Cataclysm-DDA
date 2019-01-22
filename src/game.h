@@ -582,16 +582,6 @@ class game
         * @return a vector with the strings that will appear in the Look Around window
         */
         std::vector<std::string> get_full_look_around_text( const tripoint &lp );
-        /**
-        * draws the vector of string returned by get_full_look_around_text()
-        * @param w_info window in which the text will be displayed
-        * @param text the text to display inside the window
-        * @param curr_line first line in which to draw
-        * @param last_line one past the end. This line will not be written
-        * @return the number of the line after the last written one
-        */
-        int draw_look_around_text( const catacurses::window &w_info, const std::vector<std::string> &text,
-                                   int curr_line, int last_line );
         void draw_terrain_indicators( const tripoint &lp, bool draw );
 
 
@@ -1006,8 +996,6 @@ class game
         size_t trap_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
         size_t creature_info( std::vector<std::string> &info, const Creature *creature,
                               const int max_width );
-        size_t vehicle_info( std::vector<std::string> &info, const vehicle *veh, int veh_part,
-                             const int max_width );
         size_t visibility_info( std::vector<std::string> &info, visibility_type visibility,
                                 const int max_width );
         size_t items_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
