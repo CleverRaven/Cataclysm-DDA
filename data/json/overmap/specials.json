@@ -313,6 +313,7 @@
         "city_distance" : [8, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 1],
+        "flags" : [ "ANT" ],
         "spawns" : { "group" : "GROUP_ANT", "population":[1000,2000], "radius":[10,30] }
     },{
         "type" : "overmap_special",
@@ -783,6 +784,7 @@
         "city_distance" : [10, -1],
         "city_sizes" : [0, 20],
         "occurrences" : [0, 3],
+        "flags" : [ "ANT" ],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_ANT", "population":[1000,2000], "radius":[10,30] }
     },{
@@ -795,6 +797,7 @@
         "city_distance" : [10, -1],
         "city_sizes" : [0, 20],
         "occurrences" : [0, 3],
+        "flags" : [ "ANT" ],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_ANT_ACID", "population":[800,1600], "radius":[10,30] }
     },{
