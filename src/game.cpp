@@ -6549,7 +6549,7 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
         }
 
         graffiti_info( text, lp, max_width );
-    } else    {
+    } else {
         visibility_info( text, visibility, max_width );
     }
     sound_info( text, lp, max_width );
