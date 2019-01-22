@@ -41,7 +41,6 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
     const unsigned modSEED = seed % 32768;
-
     // Noise factors
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
@@ -94,7 +93,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         current_winddir = convert_winddir( current_winddir );
     } else {
         //when wind strength is low, wind direction is more variable
-        bool changedir = one_in(W * 5);
+        bool changedir = one_in(W * 360);
         if( changedir == true ) {
             current_winddir = get_wind_direction( season );
             current_winddir = convert_winddir( current_winddir );
@@ -254,10 +253,10 @@ void weather_generator::test_weather() const
     testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
     const time_point begin = calendar::turn;
-    const time_point end = begin + 1 * calendar::year_length();
-    for( time_point i = begin; i < end; i += 600_turns ) {
+    const time_point end = begin + 1 * (calendar::year_length() / 360);
+    for( time_point i = begin; i < end; i += 10_turns ) {
         //@todo: a new random value for each call to get_weather? Is this really intended?
-        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 5000 );
+        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
         testfile << to_turn<int>( i ) << ";" << w.windpower << ";" << w.dirstring  << std::endl;
     }
 }
