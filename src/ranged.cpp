@@ -197,7 +197,7 @@ bool player::handle_gun_damage( item &it )
             uncork =  ( ( uncork*uncork*uncork*6.5 ) ) ;
             for( auto mod : it.gunmods() ) {
                 if ( mod->has_flag( "CONSUMABLE" ) ) {
-                    int dmgamt =  uncork / ( mod->type->gunmod->consume_divisor ) ;
+                    int dmgamt = uncork / mod->type->gunmod->consume_divisor;
                     int modconsume = mod->type->gunmod->consume_chance ;
                     // fuzz damage if it's small
                     if ( dmgamt < 1000 ) {
