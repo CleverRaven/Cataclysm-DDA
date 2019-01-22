@@ -54,6 +54,8 @@
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
 #   endif
+#else
+#   include <strings.h> // for strcasecmp
 #endif
 
 #ifdef __ANDROID__
