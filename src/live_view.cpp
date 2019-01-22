@@ -35,7 +35,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     }
 
     // -1 for border. -1 because getmaxy() actually returns height, not y position.
-    const int line_limit = max_height - 2;
+     const size_t line_limit = max_height - 2;
     int curr_line = START_LINE;
 
     nc_color clr = c_white;
