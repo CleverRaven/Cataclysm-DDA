@@ -5529,7 +5529,16 @@ bool game::swap_critters( Creature &a, Creature &b )
         debugmsg( "Tried to swap %s with itself", a.disp_name().c_str() );
         return true;
     }
-
+    if( critter_at( a.pos() ) != &a ) {
+        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                  b.disp_name().c_str(), critter_at( a.pos() )->disp_name().c_str() );
+        return false;
+    }
+    if( critter_at( b.pos() ) != &b ) {
+        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                  a.disp_name().c_str(), critter_at( b.pos() )->disp_name().c_str() );
+        return false;
+    }
     // Simplify by "sorting" the arguments
     // Only the first argument can be u
     // If swapping player/npc with a monster, monster is second
