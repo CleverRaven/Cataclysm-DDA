@@ -25,7 +25,6 @@ constexpr double tau = 2 * PI;
 
 weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
-int weather_generator::winddir_target = 1000;
 
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
@@ -85,44 +84,20 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, static_cast<int>( 3.0  / pow( ( ( P / 33.86 ) / 29.97 ), rng( 8,
-                                       51 ) ) + ( seasonal_variation * rng( 2, 4 ) ) * W ) );
+    W = std::max( 0, static_cast<int>( 5.7  / pow( ( P / 1014.78 ), rng( 9,
+                                       30 ) ) + ( ( seasonal_variation / 64 ) * rng( 1, 2 ) ) * W ) );
+    ///W = std::max(0 , static_cast<int>( W - ( seasonal_variation / 64 )));
     // Wind direction
-    // if wind direction has teached target direction...
-    int difference = get_angle_distance( winddir_target, current_winddir );
-    if( difference < 10 && difference > -10 ) {
-        bool changetarget = one_in(2);
-        if(changetarget == true) {
-            winddir_target = get_wind_direction( season );
-            winddir_target = convert_winddir( winddir_target );
-        }
-    }
     // initial static variable
     if( current_winddir == 1000 ) {
         current_winddir = get_wind_direction( season );
         current_winddir = convert_winddir( current_winddir );
-        winddir_target = get_wind_direction( season );
-        winddir_target = convert_winddir( winddir_target );
     } else {
-        /// change wind direction towards target direction
-        if( difference <= 0 ) {
-            bool changedir = one_in(5);
-            if( changedir == true ) {
-                //when wind strength is low, wind direction is more variable
-                current_winddir -= std::max(1, (int)(W + 0.5)) + rng(1, 5);
-            if ( current_winddir < 0 ) {
-                current_winddir = 360 + current_winddir;
-                }
-            }
-        } else if( difference > 0 ) {
-            bool changedir = one_in(5);
-            if( changedir == true ) {
-                //when wind strength is low, wind direction is more variable
-                current_winddir += std::max(1, (int)(W + 0.5)) + rng(1, 2);
-            if ( current_winddir > 359 ) {
-                current_winddir = 0 + ( current_winddir - 360 );
-                }
-            }
+        //when wind strength is low, wind direction is more variable
+        bool changedir = one_in(W * 5);
+        if( changedir == true ) {
+            current_winddir = get_wind_direction( season );
+            current_winddir = convert_winddir( current_winddir );
       }
     }
     std::string dirstring = get_dirstring( current_winddir );
@@ -243,22 +218,6 @@ int weather_generator::get_water_temperature() const
     return water_temperature;
 }
 
-int weather_generator::get_angle_distance( int target, int current ) const
-{   //distance between current angle and target angle, wrapping from 359 to 0
-    int phi = ((current-target) % 360) + 360;
-    int sign = -1;
-    int result;
-    if(!(phi >= 0 && phi <= 180) || (phi <= -180 && phi >= -360)) {
-        sign = 1;
-    }
-    if( phi > 180 ) {
-        result = 360 - phi;
-    } else {
-        result = phi;
-    }
-    return ( result * sign );
-}
-
 std::string weather_generator::get_dirstring( int angle ) const
 {   //convert angle to cardinal directions
     std::string dirstring;
@@ -295,7 +254,7 @@ void weather_generator::test_weather() const
     testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
     const time_point begin = calendar::turn;
-    const time_point end = begin + 2 * calendar::season_length();
+    const time_point end = begin + 1 * calendar::year_length();
     for( time_point i = begin; i < end; i += 600_turns ) {
         //@todo: a new random value for each call to get_weather? Is this really intended?
         w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 5000 );

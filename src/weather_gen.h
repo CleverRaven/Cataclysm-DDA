@@ -26,7 +26,6 @@ class weather_generator
         double base_humidity = 66.0; // Average humidity
         double base_pressure = 1015.0; // Average atmospheric pressure
         double base_acid = 0.0;
-        static int winddir_target;
         static int current_winddir;
 
         weather_generator();
@@ -41,7 +40,6 @@ class weather_generator
         weather_type get_weather_conditions( const w_point & ) const;
         int get_wind_direction( const season_type ) const;
         int convert_winddir( const int ) const;
-        int get_angle_distance( int, int ) const;
         std::string get_dirstring( int ) const;
         int get_water_temperature() const;
         void test_weather() const;
