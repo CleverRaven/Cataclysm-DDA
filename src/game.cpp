@@ -11601,7 +11601,6 @@ void game::vertical_move( int movez, bool force )
 
     // Find the corresponding staircase
     bool rope_ladder = false;
-    bool actually_moved = true;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
         const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder );
@@ -11609,10 +11608,6 @@ void game::vertical_move( int movez, bool force )
             return;
         }
         stairs = *pnt;
-    }
-
-    if( !actually_moved ) {
-        return;
     }
 
     if( !force ) {
