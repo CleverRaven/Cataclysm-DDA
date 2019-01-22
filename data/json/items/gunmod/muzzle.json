@@ -60,7 +60,7 @@
     "id": "filter_suppressor",
     "type": "GUNMOD",
     "name": "'solvent trap'",
-    "description": "A once /completely legal/ thread adapter attached to an automotive filter with a hole punched in the end, generating an illegal, unregistered silencer. Good thing there don't seem to be any ATF agents around to arrest you. While close in effectivness to a real suppressor, it is not designed around any particular caliber and will eventually lose effectiveness. The installed filter is large and, when attached, will interfere with your ability to aim down the base sights of the gun.",
+    "description": "A once /completely legal/ thread adapter attached to an automotive filter with a hole punched in the end, generating an illegal, unregistered silencer.  Good thing there don't seem to be any ATF agents around to arrest you.  While close in effectiveness to a real suppressor, it is not designed around any particular caliber and will eventually lose effectiveness.  The installed filter is large and, when attached, will interfere with your ability to aim down the base sights of the gun.",
     "weight": 880,
     "volume": 3,
     "price": 480,
