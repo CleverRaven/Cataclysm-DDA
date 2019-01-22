@@ -71,8 +71,8 @@
     "color": "dark_gray",
     "location": "muzzle",
     "mod_targets": [ "pistol", "smg", "rifle" ],
-    "consume_chance": 25,
-    "consume_multiplier": 1,
+    "consume_chance": 100,
+    "consume_divisor": 40,
     "damage_modifier": -5,
     "dispersion_modifier": 10,
     "handling_modifier": 1,
@@ -93,7 +93,7 @@
     "location": "muzzle",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "consume_chance": 1,
-    "consume_multiplier": 1,
+    "consume_divisor": 1,
     "damage_modifier": -5,
     "dispersion_modifier": 125,
     "loudness_modifier": -10,
@@ -133,7 +133,7 @@
     "damage_modifier": -4,
     "handling_modifier": 2,
     "consume_chance": 5000,
-    "consume_multiplier": 100,
+    "consume_divisor": 100,
     "loudness_modifier": -30,
     "flags": [ "CONSUMABLE" ]
   },
@@ -154,7 +154,7 @@
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "install_time": 200,
     "handling_modifier": 2,
-    "consume_multiplier": 50,
+    "consume_divisor": 50,
     "loudness_modifier": -50
   },
   {
@@ -172,7 +172,7 @@
     "mod_targets": [ "pistol", "smg" ],
     "install_time": 200,
     "consume_chance": 7000,
-    "consume_multiplier": 40,
+    "consume_divisor": 40,
     "handling_modifier": 1,
     "loudness_modifier": -30
   }
