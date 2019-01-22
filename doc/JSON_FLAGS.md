@@ -1139,6 +1139,17 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
 
+## Overmap specials
+
+### Flags
+
+- ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
+- ```CLASSIC``` Location is allowed when classic zombies are enabled.
+- ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- ```BEE``` Location is related to bees. Used to classify location.
+- ```FUNGAL``` Location is related to fungi. Used to classify location.
+- ```TRIFFID``` Location is related to triffids. Used to classify location.
+
 ## TODO
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
