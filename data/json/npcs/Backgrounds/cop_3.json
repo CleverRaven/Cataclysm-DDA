@@ -21,6 +21,11 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "BGSS_Cop_3_earlymeeting",
+    "//": "Defined here because this should be the only time this effect is referenced."
+  },
+  {
     "id": "BGSS_COP_3_STORY2",
     "type": "talk_topic",
     "dynamic_line": "At first I wanted to help.  The riots, fighting in the streets, it was too much for me to just sit in my house and hear about it on the news.  Then a buddy of mine called me from just off the front lines.  He'd been hurt and he wasn't making much sense, but what he told me... well, you can imagine the kind of stuff he told me.  Everything the worst of the internet was making up, and more.  Instead of packing up to try to volunteer back onto active duty, I took his advice and packed up to leave.  My house was on the edge of town and the riots hadn't reached it yet, but from what I'd heard it was smarter to get out than to hold tight.  I slipped out that night, took my quad out, and camped a few days in the woods, waiting for it to blow over.  It never did.",
