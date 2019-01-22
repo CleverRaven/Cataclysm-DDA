@@ -436,7 +436,7 @@ void player::power_bionics()
                                                                     *( *current_bionic_list )[i] ).c_str() );
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
                                     desc );
-                    if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED") ) {
+                    if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                         const bionic_id bio_id = ( *current_bionic_list )[i]->id;
                         draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
                                          pos_x - 2, bio_id );
