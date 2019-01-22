@@ -1,0 +1,17 @@
+[
+  {
+    "id": "BGSS_COP_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "tk",
+    "responses": [
+      { "text": "tk.", "topic": "BGSS_COP_3_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }
+    ]
+  },
+  {
+    "id": "BGSS_COP_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "tk",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]
