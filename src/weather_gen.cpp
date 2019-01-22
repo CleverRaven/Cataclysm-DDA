@@ -84,7 +84,9 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Wind power
     W = std::max( 0, static_cast<int>( 5.7  / pow( ( P / 1014.78 ), rng( 9,
-                                       30 ) ) + ( ( seasonal_variation / 64 ) * rng( 1, 2 ) ) * W ) );
+                                       30 ) ) + ( ( seasonal_variation / 64 ) * rng( 1, 2 ) ) * W
+
+                                     ) );
     // Wind direction
     // initial static variable
     if( current_winddir == 1000 ) {
@@ -92,11 +94,11 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         current_winddir = convert_winddir( current_winddir );
     } else {
         //when wind strength is low, wind direction is more variable
-        bool changedir = one_in(W * 360);
+        bool changedir = one_in( W * 360 );
         if( changedir == true ) {
             current_winddir = get_wind_direction( season );
             current_winddir = convert_winddir( current_winddir );
-      }
+        }
     }
     std::string dirstring = get_dirstring( current_winddir );
     // Acid rains
@@ -161,20 +163,20 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 int weather_generator::get_wind_direction( const season_type season ) const
 {
     unsigned dirseed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine wind_dir_gen (dirseed);
+    std::default_random_engine wind_dir_gen( dirseed );
     //assign chance to angle direction
     if( season == SPRING ) {
-        std::discrete_distribution<int> distribution {3,3,5,8,11,10,5,2,5,6,6,5,8,10,8,6};
-        return distribution(wind_dir_gen);
+        std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
+        return distribution( wind_dir_gen );
     } else if( season == SUMMER ) {
-        std::discrete_distribution<int> distribution {3,4,4,8,8,9,8,3,7,8,10,7,7,7,5,3};
-        return distribution(wind_dir_gen);
+        std::discrete_distribution<int> distribution {3, 4, 4, 8, 8, 9, 8, 3, 7, 8, 10, 7, 7, 7, 5, 3};
+        return distribution( wind_dir_gen );
     } else if( season == AUTUMN ) {
-        std::discrete_distribution<int> distribution {4,6,6,7,6,5,4,3,5,6,8,8,10,10,8,5};
-        return distribution(wind_dir_gen);
+        std::discrete_distribution<int> distribution {4, 6, 6, 7, 6, 5, 4, 3, 5, 6, 8, 8, 10, 10, 8, 5};
+        return distribution( wind_dir_gen );
     } else if( season == WINTER ) {
-        std::discrete_distribution<int> distribution {5,3,2,3,2,2,2,2,4,6,10,8,12,19,13,9};
-        return distribution(wind_dir_gen);
+        std::discrete_distribution<int> distribution {5, 3, 2, 3, 2, 2, 2, 2, 4, 6, 10, 8, 12, 19, 13, 9};
+        return distribution( wind_dir_gen );
     } else {
         return 0;
     }
@@ -184,7 +186,7 @@ int weather_generator::convert_winddir( const int inputdir ) const
 {
     //convert from discrete distribution output to angle
     float finputdir = inputdir * 22.5;
-    return static_cast<int>(finputdir);
+    return static_cast<int>( finputdir );
 
 }
 
@@ -217,25 +219,26 @@ int weather_generator::get_water_temperature() const
 }
 
 std::string weather_generator::get_dirstring( int angle ) const
-{   //convert angle to cardinal directions
+{
+    //convert angle to cardinal directions
     std::string dirstring;
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
-        dirstring = ("North");
-    } else if( dirangle <= 68 && dirangle > 23) {
-        dirstring = ("North-East");
-    } else if( dirangle <= 113 && dirangle > 68) {
-        dirstring = ("East");
-    } else if( dirangle <= 158 && dirangle > 113) {
-        dirstring = ("South-East");
-    } else if( dirangle <= 203 && dirangle > 158) {
-        dirstring = ("South");
-    } else if( dirangle <= 248 && dirangle > 203) {
-        dirstring = ("South-West");
-    } else if( dirangle <= 293 && dirangle > 248) {
-        dirstring = ("West");
-    } else if( dirangle <= 338 && dirangle > 293) {
-        dirstring = ("North-West");
+        dirstring = ( "North" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "North-East" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "East" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "South-East" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "South" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "South-West" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "West" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "North-West" );
     }
     return dirstring;
 }
