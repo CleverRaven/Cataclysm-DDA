@@ -28,29 +28,29 @@ void live_view::init()
     hide();
 }
 
-int live_view::draw( const catacurses::window &win, const int max_height )
+int live_view::draw( const catacurses::window &win, const uint32_t max_height )
 {
     if( !enabled ) {
         return 0;
     }
 
     // -1 for border. -1 because getmaxy() actually returns height, not y position.
-     const size_t line_limit = max_height - 2;
-    int curr_line = START_LINE;
+    const uint32_t line_limit = max_height - 2;
+    uint32_t curr_line = 1;
 
-    nc_color clr = c_white;
     auto text = g->get_full_look_around_text( mouse_position );
-    print_colored_text( win, curr_line, 1, clr, clr, text, line_limit );
+    curr_line = print_colored_text( win, curr_line, 1, c_white, text, line_limit );
     g->draw_terrain_indicators( mouse_position, !is_draw_tiles_mode() );
 
     if( text.size() > line_limit ) {
-        clr = c_yellow;
+        nc_color clr = c_yellow;
         std::string message = "There are more things here...";
         print_colored_text( win, curr_line, 1, clr, clr, message );
         curr_line++;
     }
-
-    const int live_view_box_height = std::min( max_height, std::max( curr_line + 1, MIN_BOX_HEIGHT ) );
+    const uint32_t min_height = static_cast<uint32_t>( MIN_BOX_HEIGHT );
+    const uint32_t requested_height = std::max( curr_line + 1, min_height );
+    const uint32_t live_view_box_height = std::min( max_height, requested_height );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must
@@ -66,7 +66,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
 
     draw_border( win );
 
-    clr = c_white;
+    nc_color clr = c_white;
     static const std::string pre = "< ", mid = _( "Mouse View" ), post = " >";
     static const std::string raw_title = pre + mid + post;
     static auto title = colorize( pre, clr ) + colorize( mid, c_green ) + colorize( post, clr );

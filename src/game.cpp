@@ -7605,7 +7605,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             print_colored_text( w_info, lookHeight - 1, 2, clr, clr, list_things );
 
             //print all window content
-            curr_line = print_colored_text( w_info, curr_line, 1, clr, clr, text, last_line );
+            curr_line = print_colored_text( w_info, curr_line, 1, clr, text, last_line );
 
             if( static_cast<int>( text.size() ) > last_line ) {
                 clr = c_yellow;
