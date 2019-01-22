@@ -85,7 +85,6 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // Wind power
     W = std::max( 0, static_cast<int>( 5.7  / pow( ( P / 1014.78 ), rng( 9,
                                        30 ) ) + ( ( seasonal_variation / 64 ) * rng( 1, 2 ) ) * W ) );
-    ///W = std::max(0 , static_cast<int>( W - ( seasonal_variation / 64 )));
     // Wind direction
     // initial static variable
     if( current_winddir == 1000 ) {
