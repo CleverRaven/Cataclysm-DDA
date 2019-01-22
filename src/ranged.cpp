@@ -191,33 +191,37 @@ bool player::handle_gun_damage( item &it )
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
-} else if( it.has_flag( "CONSUMABLE" ) ) {
-    int uncork =  ( ( 10 *it.ammo_data()->ammo->loudness )+(it.ammo_data()->ammo->recoil /2) )/100 ;
-    uncork =  ( ( uncork*uncork*uncork*6.5 ) ) ;
-    for( auto mod : it.gunmods() ) {
-        if ( mod->has_flag( "CONSUMABLE" ) ) {
-            int dmgamt =  uncork / ( mod->type->gunmod->consume_divisor ) ;
-            int modconsume = mod->type->gunmod->consume_chance ;
-              // fuzz damage if it's small
-            if ( dmgamt < 1000 ) {
-                dmgamt = rng ( dmgamt, 1300 );
-              // ignore damage if inconsequential.
-            } if ( dmgamt < 600 ) { dmgamt =0 ;
-            } if( one_in( modconsume ) ) {
-                if( mod->mod_damage( dmgamt ) ) {
-                    add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
-                                           _( "<npcname>'s attached %s is destroyed by their shot!" ),
-                                           mod->tname().c_str() );
-                    i_rem(mod);
-                } else if( mod->has_flag( "CONSUMABLE" )  ) {
-                    add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
-                                           _( "<npcname>'s %s is damaged by their shot!" ),
-                                           mod->tname().c_str() );
+        } else if( it.has_flag( "CONSUMABLE" ) )
+        {
+            int uncork =  ( ( 10 *it.ammo_data()->ammo->loudness )+(it.ammo_data()->ammo->recoil /2) )/100 ;
+            uncork =  ( ( uncork*uncork*uncork*6.5 ) ) ;
+            for( auto mod : it.gunmods() ) {
+                if ( mod->has_flag( "CONSUMABLE" ) ) {
+                    int dmgamt =  uncork / ( mod->type->gunmod->consume_divisor ) ;
+                    int modconsume = mod->type->gunmod->consume_chance ;
+                    // fuzz damage if it's small
+                    if ( dmgamt < 1000 ) {
+                        dmgamt = rng ( dmgamt, 1300 );
+                        // ignore damage if inconsequential.
+                    }
+                    if ( dmgamt < 600 ) {
+                        dmgamt =0 ;
+                    }
+                    if( one_in( modconsume ) ) {
+                        if( mod->mod_damage( dmgamt ) ) {
+                            add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
+                                                   _( "<npcname>'s attached %s is destroyed by their shot!" ),
+                                                   mod->tname().c_str() );
+                            i_rem(mod);
+                        } else if( mod->has_flag( "CONSUMABLE" )  ) {
+                            add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
+                                                   _( "<npcname>'s %s is damaged by their shot!" ),
+                                                   mod->tname().c_str() );
+                        }
+                    }
                 }
             }
         }
-    }
-}
      return true;
  }
 
