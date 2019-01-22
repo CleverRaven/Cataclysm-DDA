@@ -117,7 +117,7 @@
     "name": "mp5sd integral suppressor",
     "description": "The integrated suppressor for the mp5sd.",
     "weight": 0,
-    "volume" 0,
+    "volume" 2,
     "loudness_modifier": -75,
     "flags": [ "IRREMOVABLE" ]
   },
