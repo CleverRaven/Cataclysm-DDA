@@ -829,6 +829,7 @@
         "city_distance" : [5, -1],
         "city_sizes" : [0, 12],
         "occurrences" : [0, 3],
+        "flags" : [ "FUNGAL" ],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI", "population":[600,1200], "radius":[30,50] }
     },{
@@ -841,6 +842,7 @@
         "city_distance" : [5, -1],
         "city_sizes" : [0, 12],
         "occurrences" : [0, 2],
+        "flags" : [ "FUNGAL" ],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[125,175], "radius":[2,2] }
     },{
@@ -853,6 +855,7 @@
         "city_distance" : [5, -1],
         "city_sizes" : [0, 12],
         "occurrences" : [0, 2],
+        "flags" : [ "FUNGAL" ],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[2,4] }
     },{
