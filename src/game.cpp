@@ -6663,7 +6663,7 @@ size_t game::terrain_info( std::vector<std::string> &info, const tripoint &lp, c
     if( !signage.empty() ) {
         if( u.has_trait( trait_ILLITERATE ) ) {
             tempStr = _( "Sign: ???" );
-        } else        {
+        } else {
             tempStr = string_format( _( "Sign: %s" ), signage );
         }
         info.push_back( trim_to_width( colorize( tempStr, c_dark_gray ), max_width ) );
