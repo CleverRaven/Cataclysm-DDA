@@ -30,11 +30,11 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
                                         unsigned seed ) const
 {
     const double x( location.x /
-                    5000.0 ); // Integer x position / widening factor of the Perlin function.
+                    2000.0 ); // Integer x position / widening factor of the Perlin function.
     const double y( location.y /
-                    5000.0 ); // Integer y position / widening factor of the Perlin function.
+                    2000.0 ); // Integer y position / widening factor of the Perlin function.
     const double z( to_turn<int>( t + calendar::season_length() ) /
-                    20000.0 ); // Integer turn / widening factor of the Perlin function.
+                    2000.0 ); // Integer turn / widening factor of the Perlin function.
 
     const double dayFraction = time_past_midnight( t ) / 1_days;
 
@@ -45,9 +45,9 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
-    double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
+    double P( raw_noise_4d( x / 2.5, y / 2.5, z / 30, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
-    double W( raw_noise_4d( x, y, z / 20, modSEED ) * 10.0 );
+    double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
@@ -84,7 +84,8 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Wind power
     W = std::max( 0, static_cast<int>( 5.7  / pow( ( P / 1014.78 ), rng( 9,
-                                       30 ) ) + ( ( seasonal_variation / 64 ) * rng( 1, 2 ) ) * W
+                                       30 ) ) + ( ( seasonal_variation /
+64 ) * rng( 1, 2 ) ) * W
 
                                      ) );
     // Wind direction
