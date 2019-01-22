@@ -20,7 +20,7 @@
     "color": "yellow",
     "count": 30,
     "stack_size": 30,
-    "ammo_type": "45",
+    "ammo_type": [ "45", "460" ],
     "casing": "45_casing",
     "range": 16,
     "damage": 30,

@@ -6,6 +6,7 @@
 
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "effect.h"
 #include "event.h"
 #include "field.h"
 #include "game.h"
@@ -42,7 +43,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
+const efftype_id effect_mending( "mending" );
 
 int alerts = 0;
 
@@ -811,13 +812,39 @@ INITIATING STANDARD TREMOR TEST..." ) );
             remove_option( COMPACT_AMIGARA_START );
             break;
 
-        case COMPACT_STEMCELL_TREATMENT:
-            g->u.moves -= 70;
-            g->u.add_effect( effect_stemcell_treatment, 12_minutes );
-            print_line( _( "The machine injects your eyeball with the solution \n\
-of pureed bone & LSD." ) );
+        case COMPACT_BONESETTING:
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
+                body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
+                effect &existing_effect = g->u.get_effect( effect_mending, part );
+                if( !broken || ( !existing_effect.is_null() &&
+                                 existing_effect.get_duration() <
+                                 existing_effect.get_max_duration() - 5_days ) ) {
+                    continue;
+                }
+                g->u.moves -= 500;
+                print_line( _( "The machine rapidly sets and splints your broken %s." ),
+                            body_part_name( part ).c_str() );
+                // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
+                if( !g->u.worn_with_flag( "SPLINT", part ) ) {
+                    item splint;
+                    if( i == hp_arm_l || i == hp_arm_r ) {
+                        splint = item( "arm_splint", 0 );
+                    } else if( i == hp_leg_l || i == hp_leg_r ) {
+                        splint = item( "leg_splint", 0 );
+                    }
+                    item &equipped_splint = g->u.i_add( splint );
+                    cata::optional<std::list<item>::iterator> worn_item =
+                        g->u.wear( equipped_splint, false );
+                    if( worn_item && !g->u.worn_with_flag( "SPLINT", part ) ) {
+                        g->u.change_side( **worn_item, false );
+                    }
+                }
+                g->u.add_effect( effect_mending, 0, part, true );
+                effect &mending_effect = g->u.get_effect( effect_mending, part );
+                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+            }
             query_any( _( "Press any key..." ) );
-            g->u.mod_pain( rng( 40, 90 ) );
             break;
 
         case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER:
@@ -1647,7 +1674,7 @@ computer_action computer_action_from_string( const std::string &str )
             { "blood_anal", COMPACT_BLOOD_ANAL },
             { "data_anal", COMPACT_DATA_ANAL },
             { "disconnect", COMPACT_DISCONNECT },
-            { "stemcell_treatment", COMPACT_STEMCELL_TREATMENT },
+            { "bonesetting", COMPACT_BONESETTING },
             { "emerg_mess", COMPACT_EMERG_MESS },
             { "emerg_ref_center", COMPACT_EMERG_REF_CENTER },
             { "tower_unresponsive", COMPACT_TOWER_UNRESPONSIVE },

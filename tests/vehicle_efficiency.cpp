@@ -411,20 +411,20 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
     test_vehicle( "beetle", 767373, 165400, 136200, 70280, 56130 );
     test_vehicle( "car", 1072322, 283200, 188900, 49150, 30860 );
-    test_vehicle( "car_sports", 1090898, 181000, 133500, 39920, 21770 );
+    test_vehicle( "car_sports", 1098408, 181000, 139700, 39690, 23970 );
     test_vehicle( "electric_car", 962791, 61520, 39080, 9000, 4950 );
     test_vehicle( "suv", 1271990, 550100, 322600, 78690, 38840 );
-    test_vehicle( "motorcycle", 162785, 63890, 63070, 41110, 33600 );
-    test_vehicle( "quad_bike", 264745, 48980, 46380, 31200, 26540 );
+    test_vehicle( "motorcycle", 162785, 63890, 53950, 41110, 34490 );
+    test_vehicle( "quad_bike", 264745, 48980, 48980, 31200, 31200 );
     test_vehicle( "scooter", 62287, 138000, 135700, 107000, 105300 );
-    test_vehicle( "superbike", 241785, 58290, 45120, 30390, 16480 );
-    test_vehicle( "ambulance", 1783889, 195800, 153200, 66510, 45650 );
-    test_vehicle( "fire_engine", 2413241, 1028000, 865100, 249000, 215600 );
-    test_vehicle( "fire_truck", 6259233, 166000, 25200, 22760, 5097 );
-    test_vehicle( "truck_swat", 5939334, 267000, 36220, 36330, 8535 );
+    test_vehicle( "superbike", 241785, 58290, 39870, 30390, 19850 );
+    test_vehicle( "ambulance", 1783889, 195800, 162400, 66510, 49750 );
+    test_vehicle( "fire_engine", 2413241, 1028000, 919500, 249000, 222700 );
+    test_vehicle( "fire_truck", 6259233, 166000, 29430, 22760, 5135 );
+    test_vehicle( "truck_swat", 5939334, 267000, 42380, 36330, 8619 );
     test_vehicle( "tractor_plow", 703658, 187300, 187300, 95930, 95930 );
-    test_vehicle( "apc", 5740739, 606000, 543600, 157000, 142600 );
-    test_vehicle( "humvee", 5461385, 284700, 179000, 32490, 15870 );
-    test_vehicle( "road_roller", 8755702, 270300, 270300, 22880, 22880 );
+    test_vehicle( "apc", 5740739, 606000, 578700, 157000, 109400 );
+    test_vehicle( "humvee", 5461385, 284700, 120400, 32490, 11490 );
+    test_vehicle( "road_roller", 8755702, 270300, 56320, 22880, 7589 );
     test_vehicle( "golf_cart", 378101, 21440, 24320, 11510, 7627 );
-}
+};

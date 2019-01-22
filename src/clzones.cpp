@@ -690,6 +690,45 @@ void zone_manager::swap( zone_data &a, zone_data &b )
     std::swap( a, b );
 }
 
+void zone_manager::start_sort( const std::vector<tripoint> &src_sorted )
+{
+    for( auto &src : src_sorted ) {
+        num_processed[src] = 0;
+    }
+}
+
+void zone_manager::end_sort()
+{
+    num_processed.clear();
+}
+
+bool zone_manager::is_sorting() const
+{
+    return !num_processed.empty();
+}
+
+int zone_manager::get_num_processed( const tripoint &src ) const
+{
+    auto it = num_processed.find( src );
+    if( it != num_processed.end() ) {
+        return it->second;
+    }
+    return 0;
+}
+
+void zone_manager::increment_num_processed( const tripoint &src )
+{
+    num_processed[src]++;
+}
+
+void zone_manager::decrement_num_processed( const tripoint &src )
+{
+    num_processed[src]--;
+    if( num_processed[src] < 0 ) {
+        num_processed[src] = 0;
+    }
+}
+
 std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
 {
     auto zones = std::vector<ref_zone_data>();

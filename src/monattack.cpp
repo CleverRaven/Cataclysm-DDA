@@ -115,13 +115,9 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // shared utility functions
-int within_visual_range( monster *z, int max_range )
+bool within_visual_range( monster *z, int max_range )
 {
-    int dist = rl_dist( z->pos(), g->u.pos() );
-    if( dist > max_range || !z->sees( g->u ) ) {
-        return -1;    // Out of range
-    }
-    return dist;
+    return !( rl_dist( z->pos(), g->u.pos() ) > max_range || !z->sees( g->u ) );
 }
 
 bool within_target_range( const monster *const z, const Creature *const target, int range )
@@ -142,7 +138,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
         return nullptr;
     }
 
-    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
+    return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
 bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
@@ -2690,7 +2686,7 @@ bool mattack::fear_paralyze( monster *z )
 
 bool mattack::photograph( monster *z )
 {
-    if( within_visual_range( z, 6 ) < 0 ) {
+    if( !within_visual_range( z, 6 ) ) {
         return false;
     }
 
@@ -3199,8 +3195,7 @@ bool mattack::flamethrower( monster *z )
         return true;
     }
 
-    int dist = within_visual_range( z, 5 );
-    if( dist < 0 ) {
+    if( !within_visual_range( z, 5 ) ) {
         return false;
     }
 

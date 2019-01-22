@@ -154,6 +154,61 @@ void string_input_popup::add_to_history( const std::string &value ) const
     }
 }
 
+void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
+{
+    if( _identifier.empty() ) {
+        return;
+    }
+
+    std::vector<std::string> &hist = uistate.gethistory( _identifier );
+
+    if( hist.empty() ) {
+        return;
+    }
+
+    if( hist.size() >= _hist_max_size ) {
+        hist.erase( hist.begin(), hist.begin() + ( hist.size() - _hist_max_size ) );
+    }
+
+    if( up ) {
+        if( _hist_str_ind >= static_cast<int>( hist.size() ) ) {
+            return;
+        } else {
+            if( _hist_str_ind == 0 ) {
+                if( ret.empty() ) {
+                    _session_str_entered.erase( 0 );
+                } else {
+                    _session_str_entered = ret.str();
+                }
+
+                //avoid showing the same result twice (after reopen filter window without reset)
+                if( hist.size() > 1 && ret.str() == hist[hist.size() - 1] ) {
+                    _hist_str_ind += 1;
+                }
+            }
+        }
+    } else {
+        if( _hist_str_ind == 1 ) {
+            if( _session_str_entered.empty() ) {
+                ret.erase( 0 );
+            } else {
+                ret = _session_str_entered;
+                _position = _session_str_entered.length();
+            }
+            //show initial string entered and 'return'
+            _hist_str_ind = 0;
+        }
+        if( _hist_str_ind == 0 ) {
+            return;
+        }
+    }
+
+    _hist_str_ind += up ? 1 : -1;
+    ret = hist[hist.size() - _hist_str_ind];
+    _position = ret.length();
+
+}
+
 void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
                                const int shift ) const
 {
@@ -325,9 +380,20 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             add_to_history( ret.str() );
             _confirmed = true;
             _text = ret.str();
+            if( !_hist_use_uilist ) {
+                _hist_str_ind = 0;
+                _session_str_entered.erase( 0 );
+            }
             return _text;
         } else if( ch == KEY_UP ) {
-            show_history( ret );
+            if( _hist_use_uilist ) {
+                show_history( ret );
+            } else {
+                update_input_history( ret, true );
+            }
+            redraw = true;
+        } else if( ch == KEY_DOWN && !_hist_use_uilist ) {
+            update_input_history( ret, false );
             redraw = true;
         } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
             /* absolutely nothing */

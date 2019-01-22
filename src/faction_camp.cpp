@@ -1017,7 +1017,8 @@ bool basecamp::handle_mission( npc &p, const std::string &miss_id, const std::st
     craft_construction( p, miss_id, miss_dir, "BASE", "_faction_camp_crafting_" );
     if( miss_id == base_dir + " (Finish) Crafting" ) {
         const std::string msg = _( "returns to you with something..." );
-        mission_return( p, "_faction_camp_crafting", 15_minutes, true, msg, "construction", 2 );
+        mission_return( p, "_faction_camp_crafting_" + miss_dir, 15_minutes, true, msg,
+                        "construction", 2 );
     }
 
     for( const std::string &dir : directions ) {
@@ -1032,23 +1033,23 @@ bool basecamp::handle_mission( npc &p, const std::string &miss_id, const std::st
             craft_construction( p, miss_id, miss_dir, "FARM", "_faction_exp_farm_crafting_" );
             if( miss_id == miss_dir + " (Finish) Crafting" && miss_dir != base_dir ) {
                 const std::string msg = _( "returns from your farm with something..." );
-                mission_return( p, "_faction_exp_farm_crafting", 15_minutes, true, msg,
+                mission_return( p, "_faction_exp_farm_crafting_" + miss_dir, 15_minutes, true, msg,
                                 "construction", 2 );
             }
 
             craft_construction( p, miss_id, miss_dir, "COOK", "_faction_exp_kitchen_cooking_" );
             if( miss_id == miss_dir + " (Finish) Cooking" ) {
                 const std::string msg = _( "returns from your kitchen with something..." );
-                mission_return( p, "_faction_exp_kitchen_crafting", 15_minutes, true, msg,
-                                "cooking", 2 );
+                mission_return( p, "_faction_exp_kitchen_cooking_" + miss_dir, 15_minutes,
+                                true, msg, "cooking", 2 );
             }
 
             craft_construction( p, miss_id, miss_dir, "SMITH",
                                 "_faction_exp_blacksmith_crafting_" );
             if( miss_id == miss_dir + " (Finish) Smithing" ) {
                 const std::string msg = _( "returns from your blacksmith shop with something..." );
-                mission_return( p, "_faction_exp_blacksmith_crafting", 15_minutes, true, msg,
-                                "fabrication", 2 );
+                mission_return( p, "_faction_exp_blacksmith_crafting_" + miss_dir, 15_minutes,
+                                true, msg, "fabrication", 2 );
             }
 
             if( miss_id == miss_dir + " Plow Fields" ) {
@@ -1074,7 +1075,8 @@ bool basecamp::handle_mission( npc &p, const std::string &miss_id, const std::st
                 start_garage_chop( p, miss_dir, omt_trg );
             } else if( miss_id == miss_dir + " (Finish) Chop Shop" ) {
                 const std::string msg = _( "returns from your garage..." );
-                mission_return( p, "_faction_exp_chop_shop", 5_days, true, msg, "mechanics", 2 );
+                mission_return( p, "_faction_exp_chop_shop_" + miss_dir, 5_days, true, msg,
+                                "mechanics", 2 );
             }
             break;
         }
@@ -1500,11 +1502,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
-        return farm_ter == t_dirt || farm_ter == t_grass ||
-               farm_ter == ter_str_id( "t_grass_long" ) ||
-               farm_ter == ter_str_id( "t_grass_tall" ) ||
-               farm_ter == ter_str_id( "t_grass_tall" ) ||
-               farm_ter == ter_str_id( "t_grass_dead" ) ;
+        return farm_ter->has_flag( "PLOWABLE" );
     };
 
     std::set<std::string> plant_names;

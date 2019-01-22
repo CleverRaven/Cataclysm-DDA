@@ -752,33 +752,58 @@ void iexamine::rubble(player &p, const tripoint &examp)
 /**
  * Try to pry crate open with crowbar.
  */
-void iexamine::crate(player &p, const tripoint &examp)
+void iexamine::crate( player &p, const tripoint &examp )
 {
-    // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+    // PRY 1 is sufficient for popping open a nailed-shut crate.
+    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+
     if( !has_prying_tool ) {
-        add_msg( m_info, _("If only you had a crowbar...") );
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
-    // Ask if there's something possibly more interesting than this crate here
-    // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
-    std::string xname = g->m.furnname(examp);
-    if( ( g->m.veh_at( examp ) ||
-          !g->m.tr_at( examp ).is_null() ||
-          g->critter_at( examp ) != nullptr ) &&
-          !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "The %s is closed tightly." ),
+                                           g->m.furnname( examp ) );
+
+    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        return it.has_quality( quality_id( "PRY" ), 1 );
+    } );
+
+    iuse dummy;
+
+    if( prying_items.size() == 1 ) {
+        item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
+        dummy.crowbar( &p, &temporary_item, false, examp );
+    }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
+    }
+
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
         none( p, examp );
         return;
     }
 
-    // HACK ALERT: player::items_with returns const item* vector and so can't be used
-    // so we'll be making a fake crowbar here
-    // Not a problem for now, but if crowbar iuse-s ever get different, this will need a fix
-    item fakecrow( "crowbar", 0 );
+    auto selected_tool = prying_items[index - 1];
+    item temporary_item( selected_tool->type );
 
-    iuse dummy;
-    dummy.crowbar( &p, &fakecrow, false, examp );
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
@@ -1133,26 +1158,55 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
 }
 
 /**
- * Checks that player is outside and has crowbar then calls iuse.crowbar.
+ * Checks PC has a crowbar then calls iuse.crowbar.
  */
-void iexamine::locked_object( player &p, const tripoint &examp) {
-    // Print ordinary examine message if inside (where you can open doors/windows anyway)
-    if (!g->m.is_outside(p.pos())) {
-        none(p, examp);
+void iexamine::locked_object( player &p, const tripoint &examp )
+{
+    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 2 );
+    if( !has_prying_tool ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
-    if ( !has_prying_tool ) {
-        add_msg(m_info, _("If only you had a crowbar..."));
-        return;
-    }
+    uilist selection_menu;
 
-    // See crate prying for why a dummy item is used
-    item fakecrow( "crowbar", 0 );
+    selection_menu.text = string_format( _( "The %s is locked..." ), g->m.tername( examp ) );
+
+    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        return it.has_quality( quality_id( "PRY" ), 2 );
+    } );
 
     iuse dummy;
-    dummy.crowbar( &p, &fakecrow, false, examp );
+    if( prying_items.size() == 1 ) {
+        item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
+        dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
+    }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> int {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
+                                 iter->tname() ) );
+    }
+
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
+        none( p, examp );
+        return;
+    }
+
+    item temporary_item( prying_items[index - 1]->type );
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 void iexamine::bulletin_board(player &, const tripoint &examp)

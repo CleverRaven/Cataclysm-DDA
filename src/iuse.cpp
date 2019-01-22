@@ -1069,7 +1069,7 @@ void spawn_spores( const player &p )
         if( g->m.impassable( dest ) ) {
             continue;
         }
-        float dist = trig_dist( dest, p.pos() );
+        float dist = rl_dist( dest, p.pos() );
         if( x_in_y( 1, dist ) ) {
             fe.marlossify( dest );
         }
@@ -2290,7 +2290,6 @@ static bool pry_nails( player &p, const ter_id &type, const tripoint &pnt )
 
 int iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
-    g->draw();
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Pry where?" ) );
@@ -2305,13 +2304,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    ter_id type = g->m.ter( pnt );
-    if( pry_nails( *p, type, pnt ) ) {
-        return it->type->charges_to_use();
-    } else {
-        p->add_msg_if_player( m_info, _( "There's nothing to pry there." ) );
-    }
-    return 0;
+    return this->crowbar( p, it, false, pnt );
 }
 
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
@@ -2336,18 +2329,21 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const char *fail_action;
     ter_id new_type = t_null;
     bool noisy;
+    int pry_quality;
     int difficulty;
 
     if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
         succ_action = _( "You pry open the door." );
         fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o;
+        pry_quality = 2;
         noisy = true;
         difficulty = 6;
     } else if( type == t_door_locked_peep ) {
         succ_action = _( "You pry open the door." );
         fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o_peep;
+        pry_quality = 2;
         noisy = true;
         difficulty = 6;
     } else if( type == t_door_c ) {
@@ -2360,32 +2356,30 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         g->m.ter_set( pnt, t_door_o_peep );
         p->mod_moves( -100 );
         return 0;
-    } else if( type == t_door_bar_locked ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but cannot pry open the door." );
-        new_type = t_door_bar_o;
-        noisy = false;
-        difficulty = 10;
     } else if( type == t_manhole_cover ) {
         succ_action = _( "You lift the manhole cover." );
         fail_action = _( "You pry, but cannot lift the manhole cover." );
+        pry_quality = 1;
         new_type = t_manhole;
         noisy = false;
-        difficulty = 12;
+        difficulty = 4;
     } else if( g->m.furn( pnt ) == f_crate_c ) {
         succ_action = _( "You pop open the crate." );
         fail_action = _( "You pry, but cannot pop open the crate." );
+        pry_quality = 1;
         noisy = true;
         difficulty = 6;
     } else if( g->m.furn( pnt ) == f_coffin_c ) {
         succ_action = _( "You wedge open the coffin." );
         fail_action = _( "You pry, but the coffin remains closed." );
+        pry_quality = 2;
         noisy = true;
         difficulty = 5;
     } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
         succ_action = _( "You pry open the window." );
         fail_action = _( "You pry, but cannot pry open the window." );
         new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
+        pry_quality = 2;
         noisy = true;
         difficulty = 6;
     } else if( pry_nails( *p, type, pnt ) ) {
@@ -2395,9 +2389,25 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    /** @EFFECT_STR speeds up crowbar prying attempts */
+    // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
+    // & a claw hammer.
+    // The iexamine function for crate supplies a hammer object.
+    // So this stops the player (A)ctivating a Hammer with a Crowbar in their backpack
+    // then managing to open a door.
+    const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
-    p->mod_moves( -( std::max( 20, ( difficulty * 20 ) - ( ( p->str_cur ) * 5 ) ) ) );
+    if( pry_level < pry_quality ) {
+        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
+                              it->tname() );
+        p->mod_moves( 10 ); // spend a few moves trying it.
+        return 0;
+    }
+
+    // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
+    difficulty -= ( pry_level - pry_quality );
+
+    /** @EFFECT_STR speeds up crowbar prying attempts */
+    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
@@ -2464,7 +2474,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
+    if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
         p->add_msg_if_player( _( "You churn up the earth here." ) );
         p->mod_moves( -300 );
         g->m.ter_set( pnt, t_dirtmound );

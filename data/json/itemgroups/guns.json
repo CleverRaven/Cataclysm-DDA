@@ -45,7 +45,6 @@
     "//": "Military specification pistols only ever found at military sites.",
     "items": [
       [ "hk_ucp", 100 ],
-      [ "l_bak_223", 60 ],
       [ "l_mp_45", 70 ],
       [ "l_mp_9mm", 100 ],
       [ "needlepistol", 45 ],
@@ -63,6 +62,7 @@
       [ "moss_brownie", 100 ],
       [ "pistol_flintlock", 150 ],
       [ "raging_bull", 100 ],
+      [ "l_bak_223", 80 ],
       [ "rm99_pistol", 150 ],
       [ "tokarev", 100 ],
       [ "walther_ppk", 100 ]

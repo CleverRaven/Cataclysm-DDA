@@ -661,7 +661,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "rag", 7 ], [ "felt_patch", 7 ], [ "leather", 7 ], [ "fur", 7 ] ],
+      [ [ "felt_patch", 7 ], [ "leather", 7 ], [ "fur", 7 ] ],
       [ [ "filament", 20, "LIST" ], [ "cordage", 2, "LIST" ] ]
     ]
   },

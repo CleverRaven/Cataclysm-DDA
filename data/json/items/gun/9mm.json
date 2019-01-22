@@ -239,7 +239,7 @@
     "magazine_well": 1,
     "magazines": [
       [ "9mm", [ "lw21mag" ] ],
-      [ "45", [ "lw12mag" ] ]
+      [ "460", [ "lw12mag" ] ]
     ],
     "flags": [ "DURABLE_MELEE" ]
   },

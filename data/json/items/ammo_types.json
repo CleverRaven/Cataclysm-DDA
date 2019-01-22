@@ -109,6 +109,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "460",
+        "name" : ".460",
+        "default" : "45_acp"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "454",
         "name" : ".454",
         "default" : "454_Casull"
