@@ -17,7 +17,7 @@
       { "text": "How did you keep from getting arrested?", "topic": "BGSS_CRIMINAL_1_STORY3" },
       { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" } 
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -27,7 +27,7 @@
     "responses": [
       { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" } 
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -37,7 +37,7 @@
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" } 
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }
 ]
