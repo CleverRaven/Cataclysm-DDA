@@ -1911,8 +1911,8 @@
         "prereqs" : ["SPINES"]
     },{
         "type" : "mutation",
-        "id" : "PROJECT_QUILLS",
-        "name": "Fireable quills",
+        "id" : "BARBS",
+        "name": "Assault barbs",
         "points" : 2,
         "visibility" : 2,
         "ugliness" : 3,
@@ -1920,7 +1920,7 @@
         "active": true,
         "cost": 10,
         "hunger": true,
-        "gun_mutation": { "type": "mut_quills", "message": "You fire off some of your quills." },
+        "ranged_mutation": { "type": "mut_quills", "message": "You fire off some of your quills." },
         "prereqs" : ["QUILLS"]
     },{
         "type" : "mutation",

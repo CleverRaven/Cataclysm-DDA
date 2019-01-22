@@ -268,10 +268,10 @@ void mutation_branch::load( JsonObject &jsobj )
         new_mut.spawn_item = spawn_item.get_string( "type", "" );
         new_mut.raw_spawn_item_message = spawn_item.get_string( "message", "" );
     }
-    if( jsobj.has_object( "gun_mutation" ) ) {
-        JsonObject gun_mutation = jsobj.get_object( "gun_mutation" );
-        new_mut.gun_mutation = gun_mutation.get_string( "type", "" );
-        new_mut.raw_gun_mutation_message = gun_mutation.get_string( "message", "" );
+    if( jsobj.has_object( "ranged_mutation" ) ) {
+        JsonObject ranged_mutation = jsobj.get_object( "ranged_mutation" );
+        new_mut.ranged_mutation = ranged_mutation.get_string( "type", "" );
+        new_mut.raw_ranged_mutation_message = ranged_mutation.get_string( "message", "" );
     }
     for( auto &s : jsobj.get_string_array( "initial_ma_styles" ) ) {
         new_mut.initial_ma_styles.push_back( matype_id( s ) );
@@ -422,9 +422,9 @@ std::string mutation_branch::spawn_item_message() const
     return _( raw_spawn_item_message.c_str() );
 }
 
-std::string mutation_branch::gun_mutation_message() const
+std::string mutation_branch::ranged_mutation_message() const
 {
-    return _( raw_gun_mutation_message.c_str() );
+    return _( raw_ranged_mutation_message.c_str() );
 }
 
 std::string mutation_branch::name() const
