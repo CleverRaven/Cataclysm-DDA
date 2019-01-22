@@ -652,14 +652,6 @@ std::string print_temperature( double fahrenheit, int decimals )
     }
 }
 
-std::string print_winddirection( int angle )
-{
-    std::ostringstream ret;
-    ret << std::fixed;
-    ret << angle;
-    return string_format( pgettext( "wind direction angle", "%s" ), ret.str().c_str() );
-}
-
 /**
  * Print relative humidity (no conversions.)
  */
