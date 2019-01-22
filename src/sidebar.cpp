@@ -457,12 +457,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         fc = face_bird;
     }
 
-    // don't display mood while driving,
-    if( !in_vehicle ) {
-        mvwprintz( w, sideStyle ? 6 : 3, sideStyle ? getmaxx( w ) - 2 : 0, col_morale,
-                   morale_emotion( morale_cur, fc,
-                                   get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
-    }
+    // display mood smiley
+    mvwprintz( w, sideStyle ? 6 : 3, sideStyle ? getmaxx( w ) - 2 : 0, col_morale,
+               morale_emotion( morale_cur, fc,
+                               get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
+
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
         veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
