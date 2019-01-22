@@ -458,9 +458,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // display mood smiley
-        mvwprintz( w, sideStyle ? 6 : 3, sideStyle ? getmaxx( w ) - 2 : 0, col_morale,
-                   morale_emotion( morale_cur, fc,
-                                   get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
+    mvwprintz( w, sideStyle ? 6 : 3, sideStyle ? getmaxx( w ) - 2 : 0, col_morale,
+               morale_emotion( morale_cur, fc,
+                               get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
