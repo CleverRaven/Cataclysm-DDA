@@ -550,6 +550,19 @@
     },
     {
       "type" : "snippet",
+      "category" : "<cramped_vehicle>",
+      "text" : [
+        "Can I get out and walk?  This vehicle is too small.",
+        "How about we make the next vehicle a convertible?",
+        "This vehicle is too small.",
+        "I'm not a cortionist!",
+        "I can't fit in your tiny human vehicle.",
+        "This sucks.  I'm too big.",
+        "I don't like being a mutant crammed into your tiny little vehicle."
+      ]
+    },
+    {
+      "type" : "snippet",
       "category" : "<fire_in_the_hole_h>",
       "text" : [
         "<swear!> Fire in the hole!",

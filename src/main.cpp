@@ -33,10 +33,15 @@
 #include "translations.h"
 
 #ifdef TILES
-#include "sdl_wrappers.h"
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#      include <SDL2/SDL_version.h>
+#   else
+#      include <SDL_version.h>
+#   endif
 #endif
 
 #ifdef __ANDROID__
+#include <unistd.h>
 #include <SDL_system.h>
 #include <SDL_filesystem.h>
 #include <SDL_keyboard.h>

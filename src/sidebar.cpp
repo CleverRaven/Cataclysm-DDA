@@ -177,47 +177,32 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
         }
     }
 
+    // display limbs status
     static std::array<body_part, 7> part = {{
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
         }
     };
     for( size_t i = 0; i < part.size(); i++ ) {
-        const std::string str = ( i == part.size() - 1 ) ?
-                                _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
+        const std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w_HP, i * dy, 0 );
         if( wide ) {
             wprintz( w_HP, p.limb_color( part[i], true, true, true ), " " );
         }
         wprintz( w_HP, p.limb_color( part[i], true, true, true ), str );
-        if( !wide ) {
+        if( !wide && !( i == part.size() - 1 ) ) {
             wprintz( w_HP, p.limb_color( part[i], true, true, true ), ":" );
         }
     }
-
-    const int powx = hpx;
-    const int powy = wide ? 6 : 13;
-    if( p.max_power_level == 0 ) {
-        wmove( w_HP, powy, powx );
-        if( wide )
-            for( int i = 0; i < 2; i++ ) {
-                wputch( w_HP, c_light_gray, LINE_OXOX );
-            } else {
-            wprintz( w_HP, c_light_gray, " --   " );
-        }
-    } else {
-        nc_color color = c_red;
-        if( p.power_level == p.max_power_level ) {
-            color = c_blue;
-        } else if( p.power_level >= p.max_power_level * .5 ) {
-            color = c_light_blue;
-        } else if( p.power_level > 0 ) {
-            color = c_yellow;
-        }
-        mvwprintz( w_HP, powy, powx, color, "%-3d", p.power_level );
+    // display stamina
+    if( wide ) {
+        wmove( w_HP, 7 * dy, 0 );
+        wprintz( w_HP, c_light_gray, _( "STA   " ) );
+        print_stamina_bar( p, w_HP );
     }
     if( !wide ) {
-        mvwprintz( w_HP, 14, hpx, c_white, "%s", _( "Stm" ) );
-        wmove( w_HP, 15, hpx );
+        wmove( w_HP, 12, hpx );
+        wprintz( w_HP, c_light_gray, _( "STA:" ) );
+        wmove( w_HP, 13, hpx );
         print_stamina_bar( p, w_HP );
     }
     wrefresh( w_HP );
@@ -472,15 +457,18 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         fc = face_bird;
     }
 
-    mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 0, col_morale,
-               morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
-
+    // don't display mood while driving,
+    if( !in_vehicle ) {
+        mvwprintz( w, sideStyle ? 6 : 3, sideStyle ? getmaxx( w ) - 2 : 0, col_morale,
+                   morale_emotion( morale_cur, fc,
+                                   get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
+    }
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
         veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
+        veh->print_fuel_indicators( w, sideStyle ? 5 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
         nc_color col_indf1 = c_light_gray;
 
         const float strain = veh->strain();
@@ -532,33 +520,30 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
             wprintz( w, c_white, " " );
         }
-
+        wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - ( sideStyle ? 14 : 12 ) );
         //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
         wprintz( w, c_white, "%3d°", ( veh->face.dir() + 90 ) % 360 );
 
-        if( sideStyle ) {
-            // Make sure this is left-aligned.
-            mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
-            print_stamina_bar( *this, w );
-        }
     } else {  // Not in vehicle
         const int wx = sideStyle ? 18 :  0;
         const int wy = 0;
         const int dx = 0;
         const int dy = sideStyle ?  1 :  8;
-
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 0 ) : 17,
-                   wx + dx * 0, stat_color( get_str_bonus() ),
-                   _( "Str %d" ), str_cur );
+                   sideStyle ? ( wx + dx * 0 ) - 1 : wx + dx * 0, stat_color( get_str_bonus() ),
+                   _( "Str  %02d" ), str_cur );
+
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 1 ) : 18,
-                   wx + dx * 1, stat_color( get_dex_bonus() ),
-                   _( "Dex %d" ), dex_cur );
+                   sideStyle ? ( wx + dx * 1 ) - 1 : wx + dx * 1, stat_color( get_dex_bonus() ),
+                   _( "Dex  %02d" ), dex_cur );
+
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 2 ) : 19,
-                   wx + dx * 2, stat_color( get_int_bonus() ),
-                   _( "Int %d" ), int_cur );
+                   sideStyle ? ( wx + dx * 2 ) - 1 : wx + dx * 2, stat_color( get_int_bonus() ),
+                   _( "Int  %02d" ), int_cur );
+
         mvwprintz( sideStyle ? w : g->w_HP, sideStyle ? ( wy + dy * 3 ) : 20,
-                   wx + dx * 3, stat_color( get_per_bonus() ),
-                   _( "Per %d" ), per_cur );
+                   sideStyle ? ( wx + dx * 3 ) - 1 : wx + dx * 3, stat_color( get_per_bonus() ),
+                   _( "Per  %02d" ), per_cur );
 
         const int spdx = sideStyle ?  0 : getmaxx( w ) - 12;
         const int spdy = sideStyle ?  5 : wy + dy * 4;
@@ -583,11 +568,62 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         //~ Movement type: "running". Max string length: one letter.
         const auto str_run = pgettext( "movement-type", "R" );
         wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
-        if( sideStyle ) {
-            mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
-            print_stamina_bar( *this, w );
-        }
-        wrefresh( sideStyle ? w : g->w_HP );
     }
+    // display power level
+    wmove( sideStyle ? w : g->w_HP,
+           sideStyle ? 4 : 21,
+           sideStyle ? 17 : 0 );
+
+    wprintz( sideStyle ? w : g->w_HP, c_white, _( "Pwr " ) );
+
+    if( this->max_power_level == 0 ) {
+        wprintz( sideStyle ? w : g->w_HP, c_light_gray, " --" );
+    } else {
+        nc_color color = c_red;
+        if( this->power_level >= this->max_power_level / 2 ) {
+            color = c_green;
+        } else if( this->power_level >= this->max_power_level / 3 ) {
+            color = c_yellow;
+        } else if( this->power_level >= this->max_power_level / 4 ) {
+            color = c_red;
+        }
+
+        // calc number of digits in powerlevel int
+        int offset = get_int_digits( this->power_level );
+
+        // case power_level > 999 display 1k instead
+        int display_power = this->power_level;
+        std::string unit = "";
+        if( this->power_level > 999 ) {
+            switch( offset ) {
+                case 4:
+                    display_power /= 1000;
+                    unit = "k";
+                    offset = 2;
+                    break;
+                case 5:
+                    display_power /= 1000;
+                    unit = "k";
+                    offset = 0;
+                    break;
+            }
+        } else {
+            unit = "";
+        }
+
+        wmove( sideStyle ? w : g->w_HP,
+               sideStyle ? 4 : 21,
+               sideStyle ? 17 - offset : 7 - offset );
+        std::string power_value = std::to_string( display_power ) + unit;
+        wprintz( sideStyle ? w : g->w_HP, color, power_value );
+    }
+    wrefresh( sideStyle ? w : g->w_HP );
+
+}
+
+int get_int_digits( const int &digits )
+{
+    int offset = digits > 0 ? ( int ) log10( ( double ) digits ) + 1 : 1;
+    return offset;
 }
 

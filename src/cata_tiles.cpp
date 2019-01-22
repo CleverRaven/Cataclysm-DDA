@@ -26,7 +26,6 @@
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
 #include "path_info.h"
@@ -1022,8 +1021,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                       "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-        RenderFillRect( renderer, &clipRect );
+        handle_draw_rect( renderer, clipRect, 0, 0, 0 );
     }
 
     int posx = center.x;
@@ -1337,7 +1335,7 @@ void cata_tiles::process_minimap_cache_updates()
                     rectangle.x = p.x * minimap_tile_size.x;
                     rectangle.y = p.y * minimap_tile_size.y;
 
-                    RenderFillRect( renderer, &rectangle );
+                    handle_draw_rect( renderer, rectangle, c.r, c.g, c.b );
                 }
             }
             mcp.second.update_list.clear();
@@ -1734,6 +1732,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
 
     std::string looks_like;
     std::string over_type;
+
     if( overlay.substr( 0, 5 ) == "worn_" ) {
         looks_like = overlay.substr( 5 );
         over_type = "worn_";
@@ -1754,6 +1753,10 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
             break;
+        }
+        if( looks_like.substr( 0, 16 ) == "mutation_active_" ) {
+            looks_like = "mutation_" + looks_like.substr( 16 );
+            continue;
         }
         if( !item::type_is_defined( looks_like ) ) {
             break;
@@ -2245,8 +2248,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 );
-    RenderFillRect( renderer, &belowRect );
+    handle_draw_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
 
     return true;
 }
@@ -3195,4 +3197,43 @@ void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
         return v->id;
     }, label, prefix );
 }
+
+inline void cata_tiles::handle_draw_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+        Uint32 r, Uint32 g, Uint32 b )
+{
+    if( alt_rect_tex_enabled ) {
+        SetTextureColorMod( alt_rect_tex, r, g, b );
+        RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+    } else {
+        SetRenderDrawColor( renderer, r, g, b, 255 );
+        RenderFillRect( renderer, &rect );
+    }
+}
+
+std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
+{
+    std::vector<options_manager::id_and_option> renderer_names;
+    std::vector<options_manager::id_and_option> default_renderer_names = {
+#if (defined TILES)
+#   if (defined _WIN32 || defined WINDOWS)
+        { "direct3d", translate_marker( "direct3d" ) },
+#   endif
+        { "opengl", translate_marker( "opengl" ) },
+        { "opengles2", translate_marker( "opengles2" ) },
+#endif
+        { "software", translate_marker( "software" ) }
+    };
+
+    int numRenderDrivers = SDL_GetNumRenderDrivers();
+    DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
+    for( int ii = 0; ii < numRenderDrivers; ii++ ) {
+        SDL_RendererInfo ri;
+        SDL_GetRenderDriverInfo( ii, &ri );
+        DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
+        renderer_names.emplace_back( ri.name, ri.name );
+    }
+
+    return renderer_names.empty() ? default_renderer_names : renderer_names;
+}
+
 #endif // SDL_TILES

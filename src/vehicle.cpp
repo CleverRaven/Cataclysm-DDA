@@ -30,6 +30,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -3106,14 +3107,26 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     sounds::ambient_sound( global_pos3(), noise, sounds::sound_t::movement, sound_msgs[lvl] );
 }
 
-float vehicle::wheel_area() const
+int vehicle::wheel_area() const
 {
-    float total_area = 0.0f;
-    for( auto &wheel_index : wheelcache ) {
-        total_area += parts[ wheel_index ].base.wheel_area();
+    int total_area = 0;
+    for( const int &wheel_index : wheelcache ) {
+        total_area += parts[ wheel_index ].wheel_area();
     }
 
     return total_area;
+}
+
+float vehicle::average_or_rating() const
+{
+    if( wheelcache.empty() ) {
+        return 0.0f;
+    }
+    float total_rating = 0;
+    for( const int &wheel_index : wheelcache ) {
+        total_rating += part_info( wheel_index ).wheel_or_rating();
+    }
+    return total_rating / wheelcache.size();
 }
 
 static double tile_to_width( int tiles )
@@ -3140,6 +3153,7 @@ struct drag_column {
     int shield = minrow;
     int turret = minrow;
     int panel = minrow;
+    int windmill = minrow;
     int last = maxrow;
 };
 
@@ -3154,6 +3168,7 @@ double vehicle::coeff_air_drag() const
     constexpr double aisle_height = 0.6;
     constexpr double fullboard_height = 0.5;
     constexpr double roof_height = 0.1;
+    constexpr double windmill_height = 0.7;
 
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
     int min_x = 0;
@@ -3218,6 +3233,7 @@ double vehicle::coeff_air_drag() const
                          !pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
+            d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
                          pa.info().has_flag( "HALF_BOARD" ) );
@@ -3247,6 +3263,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c -= ( dc.last == min_x ) ? c_air_mod : 0;
         // turrets severely worsen air drag
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
+        // having a windmill is terrible for your drag
+        c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
         c_air_drag = std::max( c_air_drag, c_air_drag_c );
         // vehicles are 1.4m tall
         double c_height = base_height;
@@ -3260,6 +3278,8 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.turret > minrow ) ? 2 * roof_height : 0;
         // solar panels are better than turrets or floodlights, though
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
+        // windmills are tall, too
+        c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
         height = std::max( height, c_height );
     }
     constexpr double air_density = 1.29; // kg/m^3
@@ -3393,6 +3413,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );
+
     // For now make it easy until it gets properly balanced: add a low cap of 0.1
     return std::max( 0.1f, traction );
 }
@@ -4304,6 +4325,7 @@ void vehicle::refresh()
     engines.clear();
     reactors.clear();
     solar_panels.clear();
+    wind_turbines.clear();
     funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
@@ -4351,6 +4373,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
+        }
+        if( vpi.has_flag( "WIND_TURBINE" ) ) {
+            wind_turbines.push_back( p );
         }
         if( vpi.has_flag( "FUNNEL" ) ) {
             funnels.push_back( p );
@@ -4466,13 +4491,13 @@ void vehicle::refresh_pivot() const
         const auto &wheel = parts[p];
 
         // @todo: load on tire?
-        float contact_area = wheel.wheel_area();
+        int contact_area = wheel.wheel_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
         if( wheel.is_broken() ) {
             // broken wheels don't roll on either axis
-            weight_i = contact_area * 2;
-            weight_p = contact_area * 2;
+            weight_i = contact_area * 2.0;
+            weight_p = contact_area * 2.0;
         } else if( wheel.info().has_flag( "STEERABLE" ) ) {
             // Unbroken steerable wheels can handle motion on both axes
             // (but roll a little more easily inline)
@@ -5075,7 +5100,7 @@ void vehicle::update_time( const time_point &update_to )
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
-    if( funnels.empty() && solar_panels.empty() ) {
+    if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() ) {
         return;
     }
 
@@ -5137,6 +5162,29 @@ void vehicle::update_time( const time_point &update_to )
         int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from solar panels", name, energy_bat );
+            charge_battery( energy_bat );
+        }
+    }
+
+    if( !wind_turbines.empty() ) {
+        int epower_w = 0;
+        for( int part : wind_turbines ) {
+            if( parts[ part ].is_unavailable() ) {
+                continue;
+            }
+
+            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+                continue;
+            }
+
+            epower_w += part_epower_w( part );
+        }
+        const w_point weatherPoint = *g->weather_precise;
+        int windpower = weatherPoint.windpower;
+        double intensity = windpower / to_turns<double>( elapsed );
+        int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
+        if( energy_bat > 0 ) {
+            add_msg( m_debug, "%s got %d kJ energy from wind turbines", name, energy_bat );
             charge_battery( energy_bat );
         }
     }

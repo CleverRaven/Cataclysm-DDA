@@ -112,7 +112,10 @@ class options_manager
                     return !operator==( rhs );
                 }
 
-                void setPrerequisite( const std::string &sOption );
+                void setPrerequisites( const std::string &sOption, const std::vector<std::string> &sAllowedValues );
+                void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "" ) {
+                    setPrerequisites( sOption, { sAllowedValue } );
+                }
                 std::string getPrerequisite() const;
                 bool hasPrerequisite() const;
 

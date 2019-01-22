@@ -4261,6 +4261,62 @@ void player::check_needs_extremes()
 
 }
 
+needs_rates player::calc_needs_rates()
+{
+    effect &sleep = get_effect( effect_sleep );
+    const bool has_recycler = has_bionic( bio_recycler );
+    const bool asleep = !sleep.is_null();
+
+    needs_rates rates;
+    rates.hunger = metabolic_rate();
+    add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
+
+    rates.thirst = get_option< float >( "PLAYER_THIRST_RATE" );
+    rates.thirst *= 1.0f +  mutation_value( "thirst_modifier" );
+    if( worn_with_flag( "SLOWS_THIRST" ) ) {
+        rates.thirst *= 0.7f;
+    }
+
+    // Note: intentionally not in metabolic rate
+    if( has_recycler ) {
+        // Recycler won't help much with mutant metabolism - it is intended for human one
+        rates.hunger = std::min( rates.hunger, std::max( 0.5f, rates.hunger - 0.5f ) );
+        rates.thirst = std::min( rates.thirst, std::max( 0.5f, rates.thirst - 0.5f ) );
+    }
+
+    if( asleep ) {
+        rates.recovery = 1.0f + mutation_value( "fatigue_regen_modifier" );
+        if( !is_hibernating() ) {
+            // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+            rates.hunger *= 0.5f;
+            rates.thirst *= 0.5f;
+            const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
+            // Accelerated recovery capped to 2x over 2 hours
+            // After 16 hours of activity, equal to 7.25 hours of rest
+            const int accelerated_recovery_chance = 24 - intense + 1;
+            const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
+            rates.recovery += accelerated_recovery_rate;
+
+        } else {
+            // Hunger and thirst advance *much* more slowly whilst we hibernate.
+            rates.hunger *= ( 2.0f / 7.0f );
+            rates.thirst *= ( 2.0f / 7.0f );
+        } 
+        rates.recovery -= float( get_perceived_pain() ) / 60;
+
+    } else {
+        rates.recovery = 0;
+    }
+
+    if( is_npc() ) {
+        rates.hunger *= 0.25f;
+        rates.thirst *= 0.25f;
+    }
+    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
+    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
+    return rates;
+}
+
 void player::update_needs( int rate_multiplier )
 {
     // Hunger, thirst, & fatigue up every 5 minutes
@@ -4270,46 +4326,16 @@ void player::update_needs( int rate_multiplier )
     // No food/thirst, capped fatigue clock (only up to tired)
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     const bool foodless = debug_ls || npc_no_food;
-    const bool has_recycler = has_bionic( bio_recycler );
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down ) ||
                        activity.id() == "ACT_TRY_SLEEP";
-    const bool hibernating = asleep && is_hibernating();
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
-    float hunger_rate = metabolic_rate();
-    add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
 
-    float thirst_rate = get_option< float >( "PLAYER_THIRST_RATE" );
-    thirst_rate *= 1.0f +  mutation_value( "thirst_modifier" );
-    if( worn_with_flag( "SLOWS_THIRST" ) ) {
-        thirst_rate *= 0.7f;
-    }
+    needs_rates rates = calc_needs_rates();
 
-    // Note: intentionally not in metabolic rate
-    if( has_recycler ) {
-        // Recycler won't help much with mutant metabolism - it is intended for human one
-        hunger_rate = std::min( hunger_rate, std::max( 0.5f, hunger_rate - 0.5f ) );
-        thirst_rate = std::min( thirst_rate, std::max( 0.5f, thirst_rate - 0.5f ) );
-    }
-
-    if( asleep && !hibernating ) {
-        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-        hunger_rate *= 0.5f;
-        thirst_rate *= 0.5f;
-    } else if( asleep && hibernating ) {
-        // Hunger and thirst advance *much* more slowly whilst we hibernate.
-        hunger_rate *= (2.0f / 7.0f);
-        thirst_rate *= (2.0f / 7.0f);
-    }
-
-    if( is_npc() ) {
-        hunger_rate *= 0.25f;
-        thirst_rate *= 0.25f;
-    }
-
-    if( !foodless && hunger_rate > 0.0f ) {
-        const int rolled_hunger = divide_roll_remainder( hunger_rate * rate_multiplier, 1.0 );
+    if( !foodless && rates.hunger > 0.0f ) {
+        const int rolled_hunger = divide_roll_remainder( rates.hunger * rate_multiplier, 1.0 );
         mod_hunger( rolled_hunger );
 
         // if the playing is famished, starvation increases
@@ -4320,8 +4346,8 @@ void player::update_needs( int rate_multiplier )
         }
     }
 
-    if( !foodless && thirst_rate > 0.0f ) {
-        mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
+    if( !foodless && rates.thirst > 0.0f ) {
+        mod_thirst( divide_roll_remainder( rates.thirst * rate_multiplier, 1.0 ) );
     }
     if( mycus ) {
         // Mycus feeders synchronize hunger and thirst, since their only source of both is the mycus fruit.
@@ -4338,11 +4364,8 @@ void player::update_needs( int rate_multiplier )
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
-        float fatigue_rate = get_option< float >( "PLAYER_FATIGUE_RATE" );
-        fatigue_rate *= 1.0f + mutation_value( "fatigue_modifier" );
-
-        if( fatigue_rate > 0.0f ) {
-            int fatigue_roll = divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
+        if( rates.fatigue > 0.0f ) {
+            int fatigue_roll = divide_roll_remainder( rates.fatigue * rate_multiplier, 1.0 );
             mod_fatigue( fatigue_roll );
 
             if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
@@ -4363,21 +4386,8 @@ void player::update_needs( int rate_multiplier )
             }
         }
     } else if( asleep ) {
-        float recovery_rate = 1.0f + mutation_value( "fatigue_regen_modifier" );
-        if( !hibernating ) {
-            const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
-            // Accelerated recovery capped to 2x over 2 hours
-            // After 16 hours of activity, equal to 7.25 hours of rest
-            const int accelerated_recovery_chance = 24 - intense + 1;
-            const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
-            recovery_rate += accelerated_recovery_rate;
-        }
-
-        // Untreated pain causes a flat penalty to fatigue reduction
-        recovery_rate -= float( get_perceived_pain() ) / 60;
-
-        if( recovery_rate > 0.0f ) {
-            int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
+        if( rates.recovery > 0.0f ) {
+            int recovered = divide_roll_remainder( rates.recovery * rate_multiplier, 1.0 );
             if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
@@ -4427,8 +4437,8 @@ void player::update_needs( int rate_multiplier )
     }
     if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !lying ) {
         if( !activity ) {
-            add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
-                press_x(ACTION_SLEEP).c_str());
+            add_msg_if_player( m_warning, _( "You're feeling tired.  %s to lie down for sleep." ),
+                               press_x( ACTION_SLEEP ) );
         } else {
             g->cancel_activity_query( _( "You're feeling tired." ) );
         }
@@ -4444,32 +4454,38 @@ void player::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    if( has_bionic( bn_bio_solar ) && g->is_in_sunlight( pos() ) ) {
-        charge_power( rate_multiplier * 25 );
-    }
-
-    if( is_wearing( "solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
-        charge_power( rate_multiplier * 25 );
-    }
-
-    if( is_wearing( "q_solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
-        charge_power( rate_multiplier * 50 );
+    if( g->is_in_sunlight( pos() ) ) {
+        if( has_bionic( bn_bio_solar ) ) {
+            charge_power( rate_multiplier * 25 );
+        }
+        if( has_active_bionic( bionic_id( "bio_cable" ) ) ) {
+            if( is_wearing( "solarpack_on" ) ) {
+                charge_power( rate_multiplier * 25 );
+            }
+            if( is_wearing( "q_solarpack_on" ) ) {
+                charge_power( rate_multiplier * 50 );
+            }
+        }
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && (has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK )) ) {
-        // TODO: Make NPCs complain
-        add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
-        mod_pain_noresist( 2 * rng(2, 3) );
+    if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
+        add_msg_if_player( m_bad,
+                           _( "You're cramping up from stuffing yourself in this vehicle." ) );
+        if( is_npc() ) {
+             npc &as_npc = dynamic_cast<npc &>( *this );
+             as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+        }
+        mod_pain_noresist( 2 * rng( 2, 3 ) );
         focus_pool -= 1;
     }
 
-    int dec_stom_food = int(get_stomach_food() * 0.2);
-    int dec_stom_water = int(get_stomach_water() * 0.2);
+    int dec_stom_food = static_cast<int>( get_stomach_food() * 0.2 );
+    int dec_stom_water = static_cast<int>( get_stomach_water() * 0.2 );
     dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
     dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
-    mod_stomach_food(-dec_stom_food);
-    mod_stomach_water(-dec_stom_water);
+    mod_stomach_food( -dec_stom_food );
+    mod_stomach_water( -dec_stom_water );
 }
 
 void player::regen( int rate_multiplier )
@@ -12109,6 +12125,8 @@ std::vector<std::string> player::get_overlay_ids() const
 {
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
+    int order;
+    std::string overlay_id;
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -12116,15 +12134,17 @@ std::vector<std::string> player::get_overlay_ids() const
     }
 
     // then get mutations
-    for( auto &mutation : get_mutations() ) {
-        auto value = get_overlay_order_of_mutation( mutation.str());
-        mutation_sorting.insert( std::pair<int, std::string>( value, mutation.str() ) );
+    for( const auto &mut : my_mutations ) {
+        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }
 
     // then get bionics
     for( const bionic &bio : *my_bionics ) {
-        auto value = get_overlay_order_of_mutation( bio.id.str() );
-        mutation_sorting.insert( std::pair<int, std::string>( value, bio.id.str() ) );
+        overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }
 
     for( auto &mutorder : mutation_sorting ) {

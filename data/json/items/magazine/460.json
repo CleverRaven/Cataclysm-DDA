@@ -1,0 +1,19 @@
+[
+  {
+    "id": "lw12mag",
+    "type": "MAGAZINE",
+    "name": "LW-12 magazine",
+    "description": "A 12-round polymer magazine for use with the Leadworks LLC L39-45 and L39B-45 pistols.",
+    "weight": 60,
+    "volume": 1,
+    "price": 5800,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "460",
+    "capacity": 12,
+    "reliability": 10,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]
