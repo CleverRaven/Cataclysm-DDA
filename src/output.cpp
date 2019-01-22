@@ -187,7 +187,7 @@ int print_colored_text( const catacurses::window &w, int y, int x, nc_color &cur
 {
     int width = getmaxx( w );
     int height = getmaxy( w ) ;
-    if( ( y < height && y > 0 ) && ( x < width && x > 0 ) ) {
+    if( ( y < height && y >= 0 ) && ( x < width && x >= 0 ) ) {
         last_line = last_line > height ? height : last_line;
         for( auto &str : text ) {
             if( y < last_line ) {

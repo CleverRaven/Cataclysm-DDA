@@ -38,12 +38,13 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     const int line_limit = max_height - 2;
     int curr_line = START_LINE;
 
+    nc_color clr = c_white;
     auto text = g->get_full_look_around_text( mouse_position );
-    curr_line = g->draw_look_around_text( win, text, curr_line, line_limit );
+    print_colored_text(win, curr_line, 1, clr, clr, text, line_limit);
     g->draw_terrain_indicators( mouse_position, !is_draw_tiles_mode() );
 
-    nc_color clr = c_yellow;
     if( text.size() > line_limit ) {
+        clr = c_yellow;
         std::string message = "There are more things here...";
         print_colored_text( win, curr_line, 1, clr, clr, message );
         curr_line++;

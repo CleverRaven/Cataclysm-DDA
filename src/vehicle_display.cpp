@@ -127,6 +127,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &info, int veh_part,
 
     //brief description
     foldstring( info, string_format( _( "There is a %s there. Parts:" ), name ), max_width );
+    const int desc_offset = info.size() - old_size;
 
     //boundary check for part id
     if( veh_part < 0 || veh_part >= static_cast<int>( parts.size() ) ) {
@@ -171,7 +172,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &info, int veh_part,
         std::string desc = is_inside ? _( "Interior" ) : _( "Exterior" );
 
         size_t target = info.size() - line_written;
-        std::string &line = info[target];
+        std::string &line = info[target + desc_offset];
 
         int start_pos = max_width - utf8_width( desc );
         int naked_size = remove_color_tags( line ).size();
@@ -239,7 +240,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                               int p, int hl /*= -1*/ ) const
 {
     std::vector<std::string> text;
-    vehicle_info( text, p, width, hl );
+    vehicle_info( text, p, width - 1, hl );
 
     nc_color clr = c_white;
     int curr_line = print_colored_text( win, y1, 1, clr, clr, text, max_y );
