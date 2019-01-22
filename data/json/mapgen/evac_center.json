@@ -272,7 +272,7 @@
         { "item": "allclothes", "x": [ 8, 17 ], "y": [ 16, 16 ], "chance": 60 },
         { "item": "trash", "x": [ 13, 14 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] }
       ],
-      "place_npcs": [ { "class": "guard", "x": 19, "y": 21 } ]
+      "place_npcs": [ { "class": "refugee_JennyForcette", "x": 8, "y": 8 }, { "class": "guard", "x": 19, "y": 21 } ]
     }
   },
   {
