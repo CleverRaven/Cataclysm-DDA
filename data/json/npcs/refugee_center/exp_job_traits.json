@@ -167,7 +167,7 @@
   {
     "type": "mutation",
     "id": "Exp_FastFood",
-    "name": "Job experience - FastFood,
+    "name": "Job experience - FastFood",
     "points": 0,
     "description": "NPC job experience trait for conversations.",
     "valid": false,
