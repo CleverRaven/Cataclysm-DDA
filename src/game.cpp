@@ -11734,12 +11734,17 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     cata::optional<tripoint> stairs;
     int best = INT_MAX;
     const int movez = z_after - get_levz();
+    Creature *blocking_creature = nullptr;
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
             ( ( movez == -1 && mp.has_flag( "GOES_UP", dest ) ) ||
               ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+            if( mp.has_zlevels() && critter_at( dest ) ) {
+                blocking_creature = critter_at( dest );
+                continue;
+            }
             stairs.emplace( dest );
             best = rl_dist( u.pos(), dest );
         }
@@ -11750,6 +11755,10 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
         return stairs;
     }
 
+    if( blocking_creature ) {
+        add_msg( _( "There's a %s in the way!" ), blocking_creature->disp_name().c_str() );
+        return cata::nullopt;
+    }
     // No stairs found! Try to make some
     rope_ladder = false;
     stairs.emplace( u.pos() );
