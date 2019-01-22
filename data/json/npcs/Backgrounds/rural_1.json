@@ -1,0 +1,37 @@
+[
+  {
+    "id": "BGSS_RURAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "npc_female": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
+        "npc_male": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
+      }
+    ],
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up one of my tractors.  Not that I'd been working the fields since...  well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and choppers overhead.  I was scared, kept the curtains drawn, kept changing the channels.  Then, one day, there were no channels to change to.  Just the emergency broadcast, over and over.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RURAL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",
+    "//": "In the future this NPC should give you the map coordinates to the farm if you persuade.",
+    "responses": [
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

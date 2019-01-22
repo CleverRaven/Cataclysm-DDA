@@ -1,13 +1,14 @@
 #include "npc_class.h"
-#include "skill.h"
+
+#include <list>
+
 #include "debug.h"
-#include "rng.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "mutation.h"
+#include "rng.h"
+#include "skill.h"
 #include "trait_group.h"
-
-#include <list>
 
 static const std::array<npc_class_id, 17> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
@@ -285,7 +286,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
 
 const npc_class_id &npc_class::from_legacy_int( int i )
 {
-    if( i < 0 || ( size_t )i >= legacy_ids.size() ) {
+    if( i < 0 || static_cast<size_t>( i ) >= legacy_ids.size() ) {
         debugmsg( "Invalid legacy class id: %d", i );
         return npc_class_id::NULL_ID();
     }
@@ -307,7 +308,7 @@ const npc_class_id &npc_class::random_common()
         }
     }
 
-    if( common_classes.empty() ) {
+    if( common_classes.empty() || one_in( common_classes.size() ) ) {
         return NC_NONE;
     }
 

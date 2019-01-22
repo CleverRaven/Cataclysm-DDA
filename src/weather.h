@@ -125,7 +125,7 @@ struct weather_sum {
 
 weather_datum const weather_data( weather_type const type );
 
-std::string weather_forecast( point const &abs_sm_pos );
+std::string weather_forecast( const point &abs_sm_pos );
 
 // Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //
@@ -169,7 +169,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */
-int get_hourly_rotpoints_at_temp( int temp );
+int get_hourly_rotpoints_at_temp( const int temp );
 
 /**
  * Is it warm enough to plant seeds?

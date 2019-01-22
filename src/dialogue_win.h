@@ -2,9 +2,9 @@
 #ifndef DIALOGUE_WIN_H
 #define DIALOGUE_WIN_H
 
-#include "ui.h"
-
 #include <vector>
+
+#include "ui.h"
 
 using talk_data = std::pair<nc_color, std::string>;
 
@@ -18,7 +18,8 @@ class dialogue_window
         bool text_only = false;
 
         void clear_window_texts();
-        void display_responses( int hilight_lines, std::vector<talk_data> responses, const long &ch );
+        void display_responses( int hilight_lines, const std::vector<talk_data> &responses,
+                                const long &ch );
         void refresh_response_display();
         /**
          * Folds and adds the folded text to @ref history. Returns the number of added lines.
@@ -41,7 +42,7 @@ class dialogue_window
         bool can_scroll_down;
 
         void print_history( size_t hilight_lines );
-        bool print_responses( int yoffset, std::vector<talk_data> responses );
+        bool print_responses( int yoffset, const std::vector<talk_data> &responses );
 
         std::string npc_name;
 };

@@ -1,27 +1,27 @@
 #include "creature.h"
-#include "item.h"
-#include "output.h"
-#include "game.h"
-#include "map.h"
-#include "messages.h"
-#include "rng.h"
-#include "translations.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "effect.h"
-#include "mtype.h"
-#include "npc.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "field.h"
-#include "projectile.h"
-#include "anatomy.h"
 
 #include <algorithm>
-#include <numeric>
 #include <cmath>
 #include <map>
+
+#include "item.h"
+#include "anatomy.h"
+#include "debug.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "itype.h"
+#include "map.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
+#include "output.h"
+#include "projectile.h"
+#include "rng.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -56,7 +56,7 @@ Creature::Creature()
 {
     moves = 0;
     pain = 0;
-    killer = NULL;
+    killer = nullptr;
     speed_base = 100;
     underwater = false;
 
@@ -172,7 +172,10 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
-               ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ) {
+               ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
+               ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
+                 !( abs( posx() - critter.posx() ) <= 1 && abs( posy() - critter.posy() ) <= 1 &&
+                    abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
 
@@ -202,7 +205,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
-            return range >= wanted_range &&
+            const float player_visibility_factor = g->u.visibility() / 100.0f;
+            int adj_range = std::floor( range * player_visibility_factor );
+            return adj_range >= wanted_range &&
                    g->m.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
             return g->m.sees( pos(), t, range );
@@ -256,7 +261,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         } else if( pldist < 3 ) {
             iff_hangle = ( pldist == 2 ? 30 : 60 );  // granularity increases with proximity
         }
-        u_angle = g->m.coord_to_angle( posx(), posy(), u.posx(), u.posy() );
+        u_angle = coord_to_angle( pos(), u.pos() );
     }
 
     if( area > 0 && in_veh != nullptr ) {
@@ -278,7 +283,36 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     for( auto &m : targets ) {
         if( !sees( *m ) ) {
             // can't see nor sense it
-            continue;
+            if( is_fake() && in_veh ) {
+                // If turret in the vehicle then
+                // Hack: trying yo avoid turret LOS blocking by frames bug by trying to see target from vehicle boundary
+                // Or turret wallhack for turret's car
+                // TODO: to visibility checking another way, probably using 3D FOV
+                std::vector<tripoint> path_to_target = line_to( pos(), m->pos() );
+                path_to_target.insert( path_to_target.begin(), pos() );
+
+                // Getting point on vehicle boundaries and on line between target and turret
+                bool continueFlag = true;
+                do {
+                    const optional_vpart_position vp = g->m.veh_at( path_to_target.back() );
+                    vehicle *const veh = vp ? &vp->vehicle() : nullptr;
+                    if( in_veh == veh ) {
+                        continueFlag = false;
+                    } else {
+                        path_to_target.pop_back();
+                    }
+                } while( continueFlag );
+
+                tripoint oldPos = pos();
+                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
+                bool seesFromVehBound = sees( *m ); // And look from there
+                setpos( oldPos );
+                if( !seesFromVehBound ) {
+                    continue;
+                }
+            } else {
+                continue;
+            }
         }
         int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
         if( dist > range + 1 || dist < area ) {
@@ -306,7 +340,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            int tangle = g->m.coord_to_angle( posx(), posy(), m->posx(), m->posy() );
+            int tangle = coord_to_angle( pos(), m->pos() );
             int diff = abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
@@ -493,7 +527,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
-    std::string message = "";
+    std::string message;
     game_message_type gmtSCTcolor = m_neutral;
 
     if( goodhit < accuracy_headshot ) {
@@ -536,7 +570,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     impact.mult_damage( damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
-        float dmg_ratio = ( float )impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
+        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( player::bp_to_hp(
+                              bp_hit ) );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -867,7 +902,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration dur, body_part bp, bool permanent, int intensity, bool force )
+                               const time_duration &dur, body_part bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
@@ -1393,19 +1428,19 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, int player_x, int player_y, bool inverted ) const
+void Creature::draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const
 {
-    draw( w, tripoint( player_x, player_y, posz() ), inverted );
+    draw( w, tripoint( origin_x, origin_y, posz() ), inverted );
 }
 
-void Creature::draw( const catacurses::window &w, const tripoint &p, bool inverted ) const
+void Creature::draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const
 {
     if( is_draw_tiles_mode() ) {
         return;
     }
 
-    int draw_x = getmaxx( w ) / 2 + posx() - p.x;
-    int draw_y = getmaxy( w ) / 2 + posy() - p.y;
+    int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
+    int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
     if( inverted ) {
         mvwputch_inv( w, draw_y, draw_x, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
@@ -1439,10 +1474,10 @@ void Creature::check_dead_state()
     }
 }
 
-std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude att )
+const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    static std::array<pair_t, 5> const strings {
+    static const std::array<pair_t, 5> strings {
         {
             pair_t {_( "Hostile" ), c_red},
             pair_t {_( "Neutral" ), h_white},
@@ -1452,7 +1487,7 @@ std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude
         }
     };
 
-    if( ( int ) att < 0 || ( int ) att >= ( int ) strings.size() ) {
+    if( static_cast<int>( att ) < 0 || static_cast<int>( att ) >= static_cast<int>( strings.size() ) ) {
         return strings.back();
     }
 

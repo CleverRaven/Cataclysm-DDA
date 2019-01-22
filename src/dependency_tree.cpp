@@ -1,7 +1,8 @@
 #include "dependency_tree.h"
 
-#include <set>
 #include <algorithm>
+#include <set>
+
 #include "debug.h"
 #include "output.h"
 
@@ -111,7 +112,7 @@ void dependency_node::inherit_errors()
         nodes_to_check.pop();
 
         // add check errors
-        if( check->errors().size() > 0 ) {
+        if( !check->errors().empty() ) {
             std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
             for( auto &cerror : cerrors ) {
                 std::vector<std::string> node_errors = cerror.second;
@@ -360,7 +361,7 @@ dependency_node *dependency_tree::get_node( mod_id key )
     if( iter != master_node_map.end() ) {
         return &iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 // makes sure to set up Cycle errors properly!

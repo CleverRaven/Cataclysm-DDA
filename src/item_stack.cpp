@@ -1,10 +1,10 @@
 #include "item_stack.h"
 
-#include "units.h"
-#include "item.h"
-
-#include <list>
 #include <algorithm>
+#include <list>
+
+#include "item.h"
+#include "units.h"
 
 size_t item_stack::size() const
 {
@@ -76,7 +76,7 @@ item &item_stack::operator[]( size_t index )
 
 units::volume item_stack::stored_volume() const
 {
-    units::volume ret = 0;
+    units::volume ret = 0_ml;
     for( const item &it : *mystack ) {
         ret += it.volume();
     }
@@ -86,7 +86,7 @@ units::volume item_stack::stored_volume() const
 long item_stack::amount_can_fit( const item &it ) const
 {
     // Without stacking charges, would we violate the count limit?
-    const bool violates_count = size() >= ( size_t )count_limit();
+    const bool violates_count = size() >= static_cast<size_t>( count_limit() );
     const item *here = it.count_by_charges() ? stacks_with( it ) : nullptr;
 
     if( violates_count && !here ) {

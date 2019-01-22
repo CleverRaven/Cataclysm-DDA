@@ -1,27 +1,27 @@
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+#include <vector>
+
+#include "cata_utility.h"
+#include "catacharset.h" // used for utf8_width()
 #include "game.h"
 #include "game_inventory.h"
-#include "player.h"
-#include "catacharset.h" // used for utf8_width()
 #include "input.h"
-#include "output.h"
 #include "item.h"
-#include "string_formatter.h"
-#include "units.h"
-#include "translations.h"
-#include "npc.h"
-#include "cata_utility.h"
 #include "line.h"
-
-#include <vector>
-#include <string>
-#include <algorithm>
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 namespace
 {
-std::string clothing_layer( item const &worn_item );
-std::vector<std::string> clothing_properties( item const &worn_item, int width );
-std::vector<std::string> clothing_protection( item const &worn_item, int width );
-std::vector<std::string> clothing_flags_description( item const &worn_item );
+std::string clothing_layer( const item &worn_item );
+std::vector<std::string> clothing_properties(
+    const item &worn_item, int width, const Character & );
+std::vector<std::string> clothing_protection( const item &worn_item, int width );
+std::vector<std::string> clothing_flags_description( const item &worn_item );
 
 struct item_penalties {
     std::vector<body_part> body_parts_with_stacking_penalty;
@@ -77,7 +77,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
             if( it->get_layer() > layer && it->covers( bp ) ) {
                 bad_items_within.insert( it->type_name() );
             }
-        };
+        }
         if( !bad_items_within.empty() ) {
             body_parts_with_out_of_order_penalty.push_back( bp );
             lists_of_bad_items_within.push_back( bad_items_within );
@@ -135,19 +135,19 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                     const Character &c, int tabindex )
 {
     const int win_width = getmaxx( w_sort_middle );
-    const size_t win_height = ( size_t )getmaxy( w_sort_middle );
+    const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
     size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3 );
+    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
-        print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
+        print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter );
     }
 
     std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
-            print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
+            print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter );
         }
     } else {
         return;
@@ -233,7 +233,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     }
 }
 
-std::string clothing_layer( item const &worn_item )
+std::string clothing_layer( const item &worn_item )
 {
     std::string layer;
 
@@ -250,7 +250,8 @@ std::string clothing_layer( item const &worn_item )
     return layer;
 }
 
-std::vector<std::string> clothing_properties( item const &worn_item, int const width )
+std::vector<std::string> clothing_properties(
+    const item &worn_item, const int width, const Character &c )
 {
     std::vector<std::string> props;
     props.reserve( 5 );
@@ -260,7 +261,8 @@ std::vector<std::string> clothing_properties( item const &worn_item, int const w
     props.push_back( name_and_value( space + _( "Coverage:" ),
                                      string_format( "%3d", worn_item.get_coverage() ), width ) );
     props.push_back( name_and_value( space + _( "Encumbrance:" ),
-                                     string_format( "%3d", worn_item.get_encumber() ), width ) );
+                                     string_format( "%3d", worn_item.get_encumber( c ) ),
+                                     width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
     props.push_back( name_and_value( space + string_format( _( "Storage (%s):" ), volume_units_abbr() ),
@@ -268,7 +270,7 @@ std::vector<std::string> clothing_properties( item const &worn_item, int const w
     return props;
 }
 
-std::vector<std::string> clothing_protection( item const &worn_item, int const width )
+std::vector<std::string> clothing_protection( const item &worn_item, const int width )
 {
     std::vector<std::string> prot;
     prot.reserve( 4 );
@@ -284,7 +286,7 @@ std::vector<std::string> clothing_protection( item const &worn_item, int const w
     return prot;
 }
 
-std::vector<std::string> clothing_flags_description( item const &worn_item )
+std::vector<std::string> clothing_flags_description( const item &worn_item )
 {
     std::vector<std::string> description_stack;
 
@@ -351,7 +353,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
         if( elem_it->covers( static_cast<body_part>( bp ) ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
-                           elem_it->get_encumber(),
+                           elem_it->get_encumber( c ),
                            elem_it->tname()
                          } );
         }
@@ -424,12 +426,10 @@ void player::sort_armor()
     int tabindex = num_bp;
     const int tabcount = num_bp + 1;
 
-    int leftListSize;
     int leftListIndex  = 0;
     int leftListOffset = 0;
     int selected       = -1;
 
-    int rightListSize;
     int rightListOffset = 0;
 
     std::vector<std::list<item>::iterator> tmp_worn;
@@ -521,7 +521,8 @@ void player::sort_armor()
                 }
             }
         }
-        leftListSize = ( ( int )tmp_worn.size() < cont_h - 2 ) ? ( int )tmp_worn.size() : cont_h - 2;
+        int leftListSize = ( static_cast<int>( tmp_worn.size() ) < cont_h - 2 ) ? static_cast<int>
+                           ( tmp_worn.size() ) : cont_h - 2;
 
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, int( tmp_worn.size() ) - 1 );
@@ -539,20 +540,20 @@ void player::sort_armor()
                 mvwprintz( w_sort_left, drawindex + 1, 0, c_yellow, ">>" );
             }
 
-            std::string name = tmp_worn[itemindex]->tname();
+            std::string worn_armor_name = tmp_worn[itemindex]->tname();
             item_penalties const penalties =
                 get_item_penalties( tmp_worn[itemindex], *this, tabindex );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
-                            penalties.color_for_stacking_badness(), name );
+                            penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
                          format_volume( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
-        if( leftListSize > ( int )tmp_worn.size() ) {
+        if( leftListSize > static_cast<int>( tmp_worn.size() ) ) {
             // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
                        c_light_blue, _( "<more>" ) );
@@ -579,7 +580,7 @@ void player::sort_armor()
         right_print( w_sort_right, 0, 0, c_light_gray, _( "Encumbrance" ) );
 
         // Right list
-        rightListSize = 0;
+        int rightListSize = 0;
         for( int cover = 0, pos = 1; cover < num_bp; cover++ ) {
             bool combined = false;
             if( cover > 3 && cover % 2 == 0 &&
@@ -593,8 +594,8 @@ void player::sort_armor()
             }
             rightListSize++;
             for( layering_item_info &elem : items_cover_bp( *this, cover ) ) {
-                nc_color color = elem.penalties.color_for_stacking_badness();
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
+                    nc_color color = elem.penalties.color_for_stacking_badness();
                     trim_and_print( w_sort_right, pos, 2, right_w - 5, color,
                                     elem.name );
                     char plus = elem.penalties.badness() > 0 ? '+' : ' ';
@@ -696,7 +697,7 @@ void player::sort_armor()
                 selected = leftListIndex;
             }
         } else if( action == "CHANGE_SIDE" ) {
-            if( leftListIndex < ( int ) tmp_worn.size() && tmp_worn[leftListIndex]->is_sided() ) {
+            if( leftListIndex < static_cast<int>( tmp_worn.size() ) && tmp_worn[leftListIndex]->is_sided() ) {
                 if( g->u.query_yn( _( "Swap side for %s?" ), tmp_worn[leftListIndex]->tname().c_str() ) ) {
                     change_side( *tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
@@ -762,7 +763,7 @@ void player::sort_armor()
             draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "REMOVE_ARMOR" ) {
             // query (for now)
-            if( leftListIndex < ( int ) tmp_worn.size() ) {
+            if( leftListIndex < static_cast<int>( tmp_worn.size() ) ) {
                 if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
                     // remove the item, asking to drop it if necessary

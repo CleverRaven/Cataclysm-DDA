@@ -176,8 +176,7 @@ void query_popup::init() const
                 // Right align. todo: multi-line buttons
                 int button_x = std::max( 0, msg_width - button_width -
                                          horz_padding * static_cast<int>( line.size() - 1 ) );
-                for( size_t i = 0; i < line.size(); ++i ) {
-                    const auto &opt = line[i];
+                for( const auto &opt : line ) {
                     buttons.emplace_back( opt, button_x, msg_height );
                     button_x += utf8_width( opt, true ) + horz_padding;
                 }
@@ -233,7 +232,6 @@ query_popup::result query_popup::query_once()
     }
 
     if( test_mode ) {
-        std::cerr << text << std::endl;
         return { false, "ERROR", {} };
     }
 

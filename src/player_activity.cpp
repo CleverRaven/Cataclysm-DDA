@@ -1,16 +1,11 @@
 #include "player_activity.h"
 
+#include <algorithm>
+
+#include "activity_handlers.h"
 #include "activity_type.h"
-#include "construction.h"
 #include "craft_command.h"
 #include "player.h"
-#include "requirements.h"
-#include "translations.h"
-#include "activity_handlers.h"
-#include "messages.h"
-#include "mapdata.h"
-
-#include <algorithm>
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -207,4 +202,11 @@ void player_activity::ignore_distraction( distraction_type type )
 void player_activity::allow_distractions()
 {
     ignored_distractions.clear();
+}
+
+void player_activity::inherit_distractions( const player_activity &other )
+{
+    for( auto &type : other.ignored_distractions ) {
+        ignore_distraction( type );
+    }
 }

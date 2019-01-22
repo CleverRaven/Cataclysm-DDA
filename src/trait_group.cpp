@@ -1,13 +1,14 @@
+#include "trait_group.h"
+
+#include <algorithm>
+#include <cassert>
+#include <sstream>
+
 #include "debug.h"
 #include "json.h"
 #include "rng.h"
-#include "trait_group.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <algorithm>
-#include <sstream>
-#include <cassert>
 
 using namespace trait_group;
 
@@ -81,7 +82,7 @@ void trait_group::debug_spawn()
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.push_back( uimenu_entry( i, true, -2, groups[i].c_str() ) );
+        menu.entries.emplace_back( i, true, -2, groups[i].str() );
     }
     while( true ) {
         menu.query();
@@ -107,7 +108,7 @@ void trait_group::debug_spawn()
         for( const auto &e : traitnames2 ) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.push_back( uimenu_entry( menu2.entries.size(), true, -2, buffer.str() ) );
+            menu2.entries.emplace_back( menu2.entries.size(), true, -2, buffer.str() );
         }
         menu2.query();
     }
@@ -247,7 +248,7 @@ Trait_group_collection::Trait_group_collection( int probability )
     if( probability <= 0 || probability > 100 ) {
         debugmsg( "Probability %d out of range", probability );
     }
-};
+}
 
 Trait_list Trait_group_collection::create( RecursionList &rec ) const
 {

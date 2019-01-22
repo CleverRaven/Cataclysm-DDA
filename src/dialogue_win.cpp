@@ -1,20 +1,15 @@
-#include "game.h"
-#include "map.h"
 #include "dialogue_win.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "debug.h"
-#include "compatibility.h"
-#include "input.h"
-#include "output.h"
-#include "ui.h"
-#include "translations.h"
 
-#include "string_formatter.h"
-#include <vector>
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <string>
+#include <vector>
+
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "map.h"
+#include "output.h"
+#include "translations.h"
 
 void dialogue_window::open_dialogue( bool text_only )
 {
@@ -56,7 +51,7 @@ void dialogue_window::clear_window_texts()
 
 size_t dialogue_window::add_to_history( const std::string &text )
 {
-    auto const folded = foldstring( text, getmaxx( d_win ) / 2 );
+    const auto folded = foldstring( text, getmaxx( d_win ) / 2 );
     history.insert( history.end(), folded.begin(), folded.end() );
     return folded.size();
 }
@@ -67,7 +62,7 @@ void dialogue_window::add_history_separator()
     history.push_back( "" );
 }
 
-void dialogue_window::print_history( size_t const hilight_lines )
+void dialogue_window::print_history( const size_t hilight_lines )
 {
     if( text_only ) {
         return;
@@ -93,24 +88,23 @@ static int RESPONSE_AREA_HEIGHT( int win_height )
     return win_height - 2 - 2 - 1;
 }
 
-bool dialogue_window::print_responses( int const yoffset, std::vector<talk_data> responses )
+bool dialogue_window::print_responses( const int yoffset, const std::vector<talk_data> &responses )
 {
     if( text_only ) {
         return false;
     }
     // Responses go on the right side of the window, add 2 for spacing
-    size_t const xoffset = getmaxx( d_win ) / 2 + 2;
+    const size_t xoffset = getmaxx( d_win ) / 2 + 2;
     // First line we can print to, +2 for borders, +1 for the header.
-    int const min_line = 2 + 1;
+    const int min_line = 2 + 1;
     // Bottom most line we can print to
-    int const max_line = min_line + RESPONSE_AREA_HEIGHT( getmaxy( d_win ) ) - 1;
+    const int max_line = min_line + RESPONSE_AREA_HEIGHT( getmaxy( d_win ) ) - 1;
 
     // Remaining width of the responses area, -2 for the border, -2 for indentation, -2 for spacing
-    size_t const fold_width = xoffset - 2 - 2 - 2;
+    const size_t fold_width = xoffset - 2 - 2 - 2;
 
-    int curline = min_line - ( int ) yoffset;
-    size_t i;
-    for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
+    int curline = min_line - static_cast<int>( yoffset );
+    for( size_t i = 0; i < responses.size() && curline <= max_line; i++ ) {
         const std::vector<std::string> folded = foldstring( responses[i].second, fold_width );
         const nc_color &color = responses[i].first;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
@@ -119,7 +113,7 @@ bool dialogue_window::print_responses( int const yoffset, std::vector<talk_data>
             } else if( curline > max_line ) {
                 break;
             }
-            int const off = ( j != 0 ) ? +3 : 0;
+            const int off = ( j != 0 ) ? +3 : 0;
             mvwprintz( d_win, curline, xoffset + off, color, folded[j] );
         }
     }
@@ -138,7 +132,8 @@ void dialogue_window::refresh_response_display()
     can_scroll_up = false;
 }
 
-void dialogue_window::display_responses( int const hilight_lines, std::vector<talk_data> responses,
+void dialogue_window::display_responses( const int hilight_lines,
+        const std::vector<talk_data> &responses,
         const long &ch )
 {
     if( text_only ) {

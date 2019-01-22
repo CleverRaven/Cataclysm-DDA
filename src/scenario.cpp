@@ -1,20 +1,17 @@
 #include "scenario.h"
-#include <iostream>
-#include <sstream>
+
 #include <algorithm>
 #include <cmath>
 
-#include "debug.h"
-#include "json.h"
-#include "player.h"
-#include "translations.h"
-#include "pldata.h"
 #include "addiction.h"
-#include "profession.h"
-#include "mutation.h"
-#include "mapgen.h"
-#include "map_extras.h"
+#include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "map_extras.h"
+#include "mutation.h"
+#include "player.h"
+#include "profession.h"
+#include "translations.h"
 
 namespace
 {
@@ -299,11 +296,7 @@ bool scenario::allowed_start( const start_location_id &loc ) const
 
 bool scenario::can_pick( const scenario &current_scenario, const int points ) const
 {
-    if( point_cost() - current_scenario.point_cost() > points ) {
-        return false;
-    }
-
-    return true;
+    return point_cost() - current_scenario.point_cost() <= points;
 }
 bool scenario::has_map_special() const
 {

@@ -101,7 +101,7 @@
   {
     "type": "recipe_group",
     "name": "faction_base_camp_9",
-    "building_type": "COOK",
+    "building_type": "BASE",
     "recipes": [ { "id": "pointy_stick", "description": " Craft: Pointy Sticks" } ]
   },
   {

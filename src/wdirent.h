@@ -98,17 +98,17 @@
 #if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && defined(_M_IX86)
 #   define _X86_
 #endif
-#include <stdio.h>
-#include <stdarg.h>
 #include <windef.h>
-#include <winbase.h>
-#include <wchar.h>
-#include <string.h>
-#include <stdlib.h>
+#include <WinBase.h>
 #include <malloc.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <errno.h>
+#include <cstdio>
+#include <cstdarg>
+#include <cwchar>
+#include <cstring>
+#include <cstdlib>
+#include <cerrno>
 
 #if defined(_WIN32) || defined(WINDOWS)
 // needed by MultiByteToWideChar

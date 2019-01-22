@@ -1,21 +1,21 @@
 #include "tutorial.h"
 
-#include "coordinate_conversions.h"
-#include "gamemode.h"
-#include "game.h"
-#include "map.h"
-#include "output.h"
 #include "action.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "map_iterator.h"
-#include "profession.h"
-#include "mapdata.h"
-#include "overmap.h"
-#include "trap.h"
-#include "player.h"
-#include "scent_map.h"
+#include "coordinate_conversions.h"
+#include "game.h"
+#include "gamemode.h"
 #include "json.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "profession.h"
+#include "scent_map.h"
+#include "translations.h"
+#include "trap.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -144,6 +144,7 @@ void tutorial_game::pre_action( action_id &act )
         case ACTION_QUICKSAVE:
             popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
                       "Weird things might happen when you load this save. You have been warned." ) );
+            act = ACTION_NULL;
             break;
         default:
             // Other actions are fine.

@@ -1,30 +1,28 @@
 #include "map_extras.h"
 
+#include "cellular_automata.h"
 #include "debug.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
-#include "mongroup.h"
-#include "mtype.h"
-#include "vpart_range.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "trap.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
-#include "veh_type.h"
+#include "vpart_range.h"
 
 namespace MapExtras
 {
 
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_blank( "mon_blank" );
@@ -120,7 +118,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     int y_min = abs( bbox.p1.y ) + 0;
 
     int x_max = ( SEEX * 2 ) - ( bbox.p2.x + 1 );
-    int y_max = ( SEEX * 2 ) - ( bbox.p2.y + 1 );
+    int y_max = ( SEEY * 2 ) - ( bbox.p2.y + 1 );
 
     int x1 = clamp( cx + x_offset, x_min,
                     x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
@@ -129,6 +127,11 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
                                        1 );
 
+    const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
+        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
+    };
+
     if( wreckage != nullptr ) {
         const int clowncar_factor = dice( 1, 8 );
 
@@ -136,12 +139,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 1:
             case 2:
             case 3: // Full clown car
-                for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
-                    const vehicle_part *const p = &vp.vehicle().parts[vp.part_index()];
-                    const auto pos = wreckage->global_part_pos3( *p );
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                    const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
-                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
-                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                    if( controls_at( wreckage, pos ) ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( one_in( 5 ) ) {
@@ -154,7 +155,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y, true ) ) {
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -165,12 +166,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
             case 4:
             case 5: // 2/3rds clown car
-                for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_SEATBELT ) ) {
-                    const vehicle_part *const p = &vp.vehicle().parts[vp.part_index()];
-                    auto pos = wreckage->global_part_pos3( *p );
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                    const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
-                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
-                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                    if( controls_at( wreckage, pos ) ) {
                         m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( !one_in( 3 ) ) {
@@ -179,7 +178,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y, true ) ) {
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -189,13 +188,12 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 }
                 break;
             case 6: // Just pilots
-                for( const vpart_reference &vp : wreckage->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
-                    const vehicle_part *const p = &vp.vehicle().parts[vp.part_index()];
-                    auto pos = wreckage->global_part_pos3( *p );
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
+                    const tripoint pos = vp.pos();
                     m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y, true ) ) {
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = wreckage->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -361,7 +359,7 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1, 0_turns );
                 }
             }
         }
@@ -384,7 +382,7 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {p->x + ( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x + ( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1, 0_turns );
                 }
             }
         }
@@ -457,7 +455,7 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
                     m.add_field( {x + ( j * x_offset ), y + ( j * y_offset ), abs_sub.z},
-                                 fd_blood, 1, 0 );
+                                 fd_blood, 1, 0_turns );
                 }
             }
             if( a_has_drugs && num_drugs > 0 ) {
@@ -499,7 +497,7 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
                     m.add_field( {x + ( j * x_offset ), y + ( j * y_offset ), abs_sub.z},
-                                 fd_blood, 1, 0 );
+                                 fd_blood, 1, 0_turns );
                 }
                 if( !a_has_drugs && num_drugs > 0 ) {
                     int drugs_placed = rng( 2, 6 );
@@ -657,7 +655,7 @@ void mx_portal_in( map &m, const tripoint &abs_sub )
         }
     };
     int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
-    m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0 );
+    m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0_turns );
     fungal_effects fe( *g, m );
     for( int i = x - 5; i <= x + 5; i++ ) {
         for( int j = y - 5; j <= y + 5; j++ ) {
@@ -697,7 +695,7 @@ void mx_spider( map &m, const tripoint &abs_sub )
     // that it used flags rather than specific terrain types in determining where to
     // place webs.
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
 
             bool should_web_flat = m.has_flag_ter( "FLAT", location ) && !one_in( 3 );
@@ -705,7 +703,7 @@ void mx_spider( map &m, const tripoint &abs_sub )
             bool should_web_tree = m.has_flag_ter( "TREE", location ) && !one_in( 4 );
 
             if( should_web_flat || should_web_shrub || should_web_tree ) {
-                m.add_field( location, fd_web, rng( 1, 3 ), 0 );
+                m.add_field( location, fd_web, rng( 1, 3 ), 0_turns );
             }
         }
     }
@@ -739,7 +737,7 @@ void mx_grove( map &m, const tripoint &abs_sub )
     ter_id tree;
     bool found_tree = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "TREE", location ) ) {
                 tree = m.ter( location );
@@ -753,7 +751,7 @@ void mx_grove( map &m, const tripoint &abs_sub )
     }
 
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
                 m.has_flag_ter( "YOUNG", location ) ) {
@@ -771,7 +769,7 @@ void mx_shrubbery( map &m, const tripoint &abs_sub )
     ter_id shrubbery;
     bool found_shrubbery = false;
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) ) {
                 shrubbery = m.ter( location );
@@ -785,7 +783,7 @@ void mx_shrubbery( map &m, const tripoint &abs_sub )
     }
 
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
                 m.has_flag_ter( "YOUNG", location ) ) {
@@ -805,12 +803,101 @@ void mx_clearcut( map &m, const tripoint &abs_sub )
     ter_id stump( "t_stump" );
 
     for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEX * 2; j++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "TREE", location ) || m.has_flag_ter( "YOUNG", location ) ) {
                 m.ter_set( location, stump );
             }
         }
+    }
+}
+
+void mx_pond( map &m, const tripoint &abs_sub )
+{
+    // This map extra creates small ponds using a simple cellular automaton.
+
+    constexpr int width = SEEX * 2;
+    constexpr int height = SEEY * 2;
+
+    // Generate the cells for our lake.
+    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
+                                            height, 55, 5, 4, 3 );
+
+    // Loop through and turn every live cell into water.
+    // Do a roll for our three possible lake types:
+    // - all deep water
+    // - all shallow water
+    // - shallow water on the shore, deep water in the middle
+    const int lake_type = rng( 1, 3 );
+    for( int i = 0; i < width; i++ ) {
+        for( int j = 0; j < height; j++ ) {
+            if( current[i][j] == 1 ) {
+                const tripoint location( i, j, abs_sub.z );
+                m.furn_set( location, f_null );
+
+                switch( lake_type ) {
+                    case 1:
+                        m.ter_set( location, t_water_sh );
+                        break;
+                    case 2:
+                        m.ter_set( location, t_water_dp );
+                        break;
+                    case 3:
+                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, i, j );
+                        if( neighbors == 8 ) {
+                            m.ter_set( location, t_water_dp );
+                        } else {
+                            m.ter_set( location, t_water_sh );
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    m.place_spawns( GROUP_FISH, 1, 0, 0, width, height, 0.15f );
+}
+
+void mx_clay_deposit( map &m, const tripoint &abs_sub )
+{
+    // This map extra creates small clay deposits using a simple cellular automaton.
+
+    constexpr int width = SEEX * 2;
+    constexpr int height = SEEY * 2;
+
+    for( int tries = 0; tries < 5; tries++ ) {
+        // Generate the cells for our clay deposit.
+        std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
+                                                height, 35, 5, 4, 3 );
+
+        // With our settings for the CA, it's sometimes possible to get a bad generation with not enough
+        // alive cells (or even 0).
+        int alive_count = 0;
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++ ) {
+                alive_count += current[i][j];
+            }
+        }
+
+        // If we have fewer than 4 alive cells, lets try again.
+        if( alive_count < 4 ) {
+            continue;
+        }
+
+        // Loop through and turn every live cell into clay.
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++ ) {
+                if( current[i][j] == 1 ) {
+                    const tripoint location( i, j, abs_sub.z );
+                    m.furn_set( location, f_null );
+                    m.ter_set( location, t_clay );
+                }
+            }
+        }
+
+        // If we got here, it meant we had a successful try and can just break out of
+        // our retry loop.
+        break;
     }
 }
 
@@ -836,6 +923,8 @@ FunctionMap builtin_functions = {
     { "mx_grove", mx_grove },
     { "mx_shrubbery", mx_shrubbery },
     { "mx_clearcut", mx_clearcut },
+    { "mx_pond", mx_pond },
+    { "mx_clay_deposit", mx_clay_deposit },
 };
 
 map_special_pointer get_function( const std::string &name )
@@ -843,9 +932,9 @@ map_special_pointer get_function( const std::string &name )
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
         debugmsg( "no map special with name %s", name.c_str() );
-        return NULL;
+        return nullptr;
     }
     return iter->second;
 }
 
-};
+}

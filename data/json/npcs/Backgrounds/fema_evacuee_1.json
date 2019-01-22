@@ -1,0 +1,85 @@
+[
+  {
+    "id": "BGSS_FEMA_EVACUEE_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "That's a tall order.  I guess the short version is that I got evacuated to a FEMA camp for my so-called safety, but luckily I made it out.",
+    "responses": [
+      { "text": "Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },
+      {
+        "text": "How did you get out?",
+        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ] ] },
+        "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
+        "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_FEMA_EVACUEE_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "It was terrifying.  We were shipped there on a repurposed school bus, about thirty of us.  You can probably see the issues right away.  A few of the folks on board the bus had injuries, and some schmuck who had seen too many B-movies tried to insist that anyone who 'had been bitten' was going to 'turn'.  Fucking idiot, right?  I've been bitten a dozen times now and the worst I got was a gross infection.",
+    "responses": [
+      { "text": "What happened after that?", "topic": "BGSS_FEMA_EVACUEE_1_STORY3" },
+      {
+        "text": "How did you get out?",
+        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ] ] },
+        "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
+        "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_FEMA_EVACUEE_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "That guy started a frenzy.  People were already panicked.  There was an armed guy overseeing the transport, acting like a cop but really he was just some <dumb> kid they'd handed a rifle to.  He tried to calm things down, and I guess it actually worked for a bit, although the 'kill the infected' bunch were pretty <swear> freaked out and were clearly ready to jump the moment the granny with the cut on her arm started frothing at the mouth.  They started acting up again when we got to the camp.  That didn't go well for them.  A few heavily armed soldiers dragged them away, and I never saw them again.",
+    "responses": [
+      {
+        "text": "How did you get out?",
+        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+        "trial": { "type": "PERSUADE", "difficulty": 30 },
+        "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
+        "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_FEMA_EVACUEE_1_ESCAPE1",
+    "type": "talk_topic",
+    "dynamic_line": "That place was chaos.  I only stayed a few hours.  They had a big backhoe running, digging a huge pit in a cordoned section they wouldn't let us near.  Well, I managed to sneak over that way, and saw them dumping load after load of the dead in the pit, pouring dirt back over them even as they revived and tried to climb out.  Even with all the shit I've seen since, it haunts me.  I knew then I had to get out.  Luckily for me, we were attacked the next morning by some giant horror, a kind I haven't really seen since then.  While the guards were busy with that, I grabbed some supplies I'd stocked up over the night and I fucked right out of there.  A few others tried to fuck out with me, but as far as I know I was the only lucky one.",
+    "//": "TK: In a future version this character will give you directions to the FEMA camp.",
+    "responses": [
+      { "text": "Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_FEMA_EVACUEE_1_NOTYET",
+    "type": "talk_topic",
+    "dynamic_line": "Maybe another time.  I don't really like thinking about it.",
+    "responses": [
+      {
+        "text": "Sorry.  Tell me more about that FEMA camp.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
+        "topic": "BGSS_FEMA_EVACUEE_1_STORY2"
+      },
+      {
+        "text": "Sorry for asking.  <done_conversation_section>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
+        "topic": "TALK_FRIEND"
+      },
+      {
+        "text": "Sorry for asking.  <end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

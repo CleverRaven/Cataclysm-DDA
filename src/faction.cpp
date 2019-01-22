@@ -1,23 +1,21 @@
 #include "faction.h"
-#include <sstream>
 
-#include "rng.h"
-#include "math.h"
-#include "string_formatter.h"
-#include "output.h"
-#include "debug.h"
-#include "input.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "catacharset.h"
-
-#include "json.h"
-#include "translations.h"
-
+#include <cmath>
+#include <cstdlib>
 #include <map>
 #include <string>
-#include <cstdlib>
+
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "input.h"
+#include "json.h"
+#include "output.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 
@@ -280,27 +278,27 @@ void faction::randomize()
 
     switch( sel ) {
         case 1:
-            noun  = _( random_entry_ref( faction_noun_strong ).c_str() );
+            noun  = pgettext( "faction_adj", random_entry_ref( faction_noun_strong ).c_str() );
             power = dice( 5, 20 );
             size  = dice( 5, 6 );
             break;
         case 2:
-            noun  = _( random_entry_ref( faction_noun_sneak ).c_str() );
+            noun  = pgettext( "faction_adj", random_entry_ref( faction_noun_sneak ).c_str() );
             power = dice( 5, 8 );
             size  = dice( 5, 8 );
             break;
         case 3:
-            noun  = _( random_entry_ref( faction_noun_crime ).c_str() );
+            noun  = pgettext( "faction_adj", random_entry_ref( faction_noun_crime ).c_str() );
             power = dice( 5, 16 );
             size  = dice( 5, 8 );
             break;
         case 4:
-            noun  = _( random_entry_ref( faction_noun_cult ).c_str() );
+            noun  = pgettext( "faction_adj", random_entry_ref( faction_noun_cult ).c_str() );
             power = dice( 8, 8 );
             size  = dice( 4, 6 );
             break;
         default:
-            noun  = _( random_entry_ref( faction_noun_none ).c_str() );
+            noun  = pgettext( "faction_adj", random_entry_ref( faction_noun_none ).c_str() );
             power = dice( 6, 8 );
             size  = dice( 6, 6 );
     }
@@ -391,13 +389,14 @@ std::string faction::describe() const
 {
     std::string ret = _( desc.c_str() );
     ret = ret + "\n\n" + string_format( _( "%1$s have the ultimate goal of %2$s." ), _( name.c_str() ),
-                                        _( facgoal_data[goal].name.c_str() ) );
+                                        pgettext( "faction_goal", facgoal_data[goal].name.c_str() ) );
     if( job2 == FACJOB_NULL ) {
-        ret += string_format( _( " Their primary concern is %s." ), _( facjob_data[job1].name.c_str() ) );
+        ret += string_format( _( " Their primary concern is %s." ),
+                              pgettext( "faction_job", facjob_data[job1].name.c_str() ) );
     } else {
         ret += string_format( _( " Their primary concern is %1$s, but they are also involved in %2$s." ),
-                              _( facjob_data[job1].name.c_str() ),
-                              _( facjob_data[job2].name.c_str() ) );
+                              pgettext( "faction_job", facjob_data[job1].name.c_str() ),
+                              pgettext( "faction_job", facjob_data[job2].name.c_str() ) );
     }
     if( values == 0 ) {
         return ret;
@@ -409,7 +408,7 @@ std::string faction::describe() const
     }
     const std::string known_vals = enumerate_as_string( vals.begin(),
     vals.end(), [ this ]( const faction_value val ) {
-        return has_value( val ) ? _( facval_data[val].name.c_str() ) : "";
+        return has_value( val ) ? pgettext( "faction_value", facval_data[val].name.c_str() ) : "";
     } );
     if( !known_vals.empty() ) {
         ret += _( " They are known for " ) + known_vals + ".";
@@ -465,7 +464,7 @@ int faction::response_time( const tripoint &abs_sm_pos ) const
 
 std::string invent_name()
 {
-    std::string ret = "";
+    std::string ret;
     std::string tmp;
     int syllables = rng( 2, 3 );
     for( int i = 0; i < syllables; i++ ) {

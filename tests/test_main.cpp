@@ -1,24 +1,35 @@
-#define CATCH_CONFIG_RUNNER
-#include "catch/catch.hpp"
+#ifdef _GLIBCXX_DEBUG
+// Workaround to allow randomly ordered tests.  See
+// https://github.com/catchorg/Catch2/issues/1384
+// https://stackoverflow.com/questions/22915325/avoiding-self-assignment-in-stdshuffle/23691322
+// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85828
+#include <iosfwd> // Any cheap-to-include stdlib header
+#ifdef __GLIBCXX__
+#include <debug/macros.h> // IWYU pragma: keep
 
+#undef __glibcxx_check_self_move_assign
+#define __glibcxx_check_self_move_assign(x)
+#endif // __GLIBCXX__
+#endif // _GLIBCXX_DEBUG
+
+#define CATCH_CONFIG_RUNNER
+#include <algorithm>
+#include <cstring>
+#include <chrono>
+
+#include "catch/catch.hpp"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
-#include "init.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "mod_manager.h"
-#include "morale.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pathfinding.h"
 #include "player.h"
 #include "worldfactory.h"
-#include "loading_ui.h"
-
-#include <algorithm>
-#include <cstring>
-#include <chrono>
 
 typedef std::pair<std::string, std::string> name_value_pair_t;
 typedef std::vector<name_value_pair_t> option_overrides_t;
@@ -87,7 +98,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     get_options().load();
 
     // Apply command-line option overrides for test suite execution.
-    if( option_overrides.size() > 0 ) {
+    if( !option_overrides.empty() ) {
         for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
             name_value_pair_t option = *iter;
             if( get_options().has_option( option.first ) ) {
@@ -98,7 +109,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g = new game;
+    g.reset( new game );
     g->new_game = true;
     g->load_static_data();
 
@@ -149,7 +160,7 @@ bool check_remove_flags( std::vector<const char *> &cont, const std::vector<cons
 // second value if no separator found.
 name_value_pair_t split_pair( const std::string &s, const char sep )
 {
-    size_t pos = s.find( sep );
+    const size_t pos = s.find( sep );
     if( pos != std::string::npos ) {
         return name_value_pair_t( s.substr( 0, pos ), s.substr( pos + 1 ) );
     } else {
@@ -175,7 +186,7 @@ option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec 
         pos = option_overrides_string.find( delim, pos );
     }
     // Handle last part
-    std::string part = option_overrides_string.substr( i );
+    const std::string part = option_overrides_string.substr( i );
     ret.emplace_back( split_pair( part, sep ) );
     return ret;
 }
@@ -195,10 +206,10 @@ struct CataReporter : Catch::ConsoleReporter {
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
-        auto r = ConsoleReporter::assertionEnded( assertionStats );
+        const auto r = ConsoleReporter::assertionEnded( assertionStats );
+#ifdef BACKTRACE
         Catch::AssertionResult const &result = assertionStats.assertionResult;
 
-#ifdef BACKTRACE
         if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
             // We are in a signal handler for a fatal error condition, so print a
             // backtrace
@@ -211,7 +222,7 @@ struct CataReporter : Catch::ConsoleReporter {
     }
 };
 
-REGISTER_REPORTER( "cata", CataReporter );
+CATCH_REGISTER_REPORTER( "cata", CataReporter )
 
 int main( int argc, const char *argv[] )
 {
@@ -226,7 +237,7 @@ int main( int argc, const char *argv[] )
 
     option_overrides_t option_overrides_for_test_suite = extract_option_overrides( arg_vec );
 
-    bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
+    const bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
 
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
@@ -241,6 +252,15 @@ int main( int argc, const char *argv[] )
 
     test_mode = true;
 
+    setupDebug( DebugOutput::std_err );
+
+    // Set the seed for mapgen (the seed will also be reset before each test)
+    const unsigned int seed = session.config().rngSeed();
+    if( seed ) {
+        srand( seed );
+        rng_set_engine_seed( seed );
+    }
+
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite );
@@ -253,7 +273,9 @@ int main( int argc, const char *argv[] )
 
     const auto start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
-    printf( "Starting the actual test at %s", std::ctime( &start_time ) );
+    // Leading newline in case there were debug messages during
+    // initialization.
+    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );

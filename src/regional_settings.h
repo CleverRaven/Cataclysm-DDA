@@ -2,16 +2,16 @@
 #ifndef REGIONAL_SETTINGS_H
 #define REGIONAL_SETTINGS_H
 
-#include "weighted_list.h"
-#include "omdata.h"
-#include "mapdata.h"
-#include "weather_gen.h"
-
 #include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <memory>
+
+#include "mapdata.h"
+#include "omdata.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 
@@ -22,7 +22,7 @@ class building_bin
         weighted_int_list<overmap_special_id> buildings;
         std::map<overmap_special_id, int> unfinalized_buildings;
     public:
-        building_bin() {};
+        building_bin() = default;
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
         std::vector<std::string> all;
@@ -31,10 +31,15 @@ class building_bin
 };
 
 struct city_settings {
-    int shop_radius =
-        80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-    int park_radius =
-        130; // in theory, adjusting these can make a town with a few shops and a lot of parks + houses......by increasing shop_radius
+    // About the average US city non-residential, non-park land usage
+    int shop_radius = 30;
+    int shop_sigma = 20;
+
+    // Set the same as shop radius, let parks bleed through via normal rolls
+    int park_radius = shop_radius;
+    // We'll spread this out to the rest of the town.
+    int park_sigma = 100 - park_radius;
+
     int house_basement_chance = 5; // one_in(n) chance a house has a basement
     building_bin houses;
     building_bin basements;
@@ -139,12 +144,41 @@ struct forest_mapgen_settings {
     forest_mapgen_settings() = default;
 };
 
+struct forest_trail_settings {
+    int chance = 1;
+    int border_point_chance = 2;
+    int minimum_forest_size = 50;
+    int random_point_min = 4;
+    int random_point_max = 50;
+    int random_point_size_scalar = 100;
+    int trailhead_chance = 1;
+    int trailhead_road_distance = 6;
+    int trail_center_variance = 3;
+    int trail_width_offset_min = 1;
+    int trail_width_offset_max = 3;
+    bool clear_trail_terrain = false;
+    std::map<std::string, int> unfinalized_trail_terrain;
+    weighted_int_list<ter_id> trail_terrain;
+
+    void finalize();
+    forest_trail_settings() = default;
+};
+
+struct overmap_feature_flag_settings {
+    bool clear_blacklist = false;
+    bool clear_whitelist = false;
+    std::set<std::string> blacklist;
+    std::set<std::string> whitelist;
+
+    overmap_feature_flag_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
 
-    map_extras() : chance( 0 ), values() {}
-    map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
+    map_extras() : chance( 0 ) {}
+    map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
 struct sid_or_sid;
@@ -170,8 +204,9 @@ struct regional_settings {
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
-
+    forest_trail_settings forest_trail;
     weather_generator weather;
+    overmap_feature_flag_settings overmap_feature_flag;
 
     std::unordered_map<std::string, map_extras> region_extras;
 

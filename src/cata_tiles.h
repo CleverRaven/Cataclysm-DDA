@@ -2,24 +2,22 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <memory>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+#include <unordered_map>
 
+#include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
 #include "line.h"
+#include "options.h"
 #include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
-
-#include <memory>
-#include <list>
-#include <map>
-#include <set>
-#include <vector>
-#include <string>
-#include <unordered_map>
 
 class cata_tiles;
 class Creature;
@@ -36,7 +34,7 @@ struct tile_type {
     bool multitile = false;
     bool rotates = false;
     int height_3d = 0;
-    point offset = {0, 0};
+    point offset = point_zero;
 
     std::vector<std::string> available_subtiles;
 };
@@ -69,13 +67,6 @@ enum TILE_CATEGORY {
     C_WEATHER,
 };
 
-/** Typedefs */
-struct SDL_Texture_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Texture *const ptr );
-};
-using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
-
 class texture
 {
     private:
@@ -94,17 +85,18 @@ class texture
         /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
         /// null as source rectangle (render the whole texture). Other parameters
         /// are simply passed through.
-        int render_copy_ex( SDL_Renderer *const renderer, const SDL_Rect *const dstrect, const double angle,
+        int render_copy_ex( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const dstrect,
+                            const double angle,
                             const SDL_Point *const center, const SDL_RendererFlip flip ) const {
-            return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
+            return SDL_RenderCopyEx( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect, angle, center,
+                                     flip );
         }
 };
 
-struct SDL_Surface_deleter {
-    // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Surface *const ptr );
-};
-using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
+extern SDL_Texture_Ptr alt_rect_tex;
+extern bool alt_rect_tex_enabled;
+extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                           Uint32 r, Uint32 g, Uint32 b );
 
 struct pixel {
     int r;
@@ -296,7 +288,7 @@ class tileset_loader
 {
     private:
         tileset &ts;
-        SDL_Renderer *const renderer;
+        const SDL_Renderer_Ptr &renderer;
 
         int sprite_offset_x;
         int sprite_offset_y;
@@ -364,11 +356,12 @@ class tileset_loader
         void load_internal( JsonObject &config, const std::string &tileset_root,
                             const std::string &img_path );
     public:
-        tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
+        tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
         }
         /**
          * @throw std::exception On any error.
-         * @param tileset_name Ident of the tileset, as it appears in the options.
+         * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
          */
         void load( const std::string &tileset_id, bool precheck );
 };
@@ -394,7 +387,7 @@ struct formatted_text {
 class cata_tiles
 {
     public:
-        cata_tiles( SDL_Renderer *render );
+        cata_tiles( const SDL_Renderer_Ptr &render );
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -418,15 +411,15 @@ class cata_tiles
         const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
         bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
-        bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                  const std::string &subcategory, tripoint pos, int subtile, int rota,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles, int &height_3d );
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                  const std::string &subcategory, tripoint pos, int subtile, int rota,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
         bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
                              int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -445,11 +438,9 @@ class cata_tiles
         void get_tile_values( const int t, const int *tn, int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
-        void get_rotation_and_subtile( const char val, const int num_connects, int &rota, int &subtype );
+        void get_rotation_and_subtile( const char val, int &rota, int &subtype );
 
         /** Drawing Layers */
-        void draw_single_tile( const tripoint &p, const lit_level ll,
-                               const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
@@ -468,8 +459,6 @@ class cata_tiles
 
     public:
         // Animation layers
-        bool draw_hit( const tripoint &p );
-
         void init_explosion( const tripoint &p, int radius );
         void draw_explosion_frame();
         void void_explosion();
@@ -510,14 +499,12 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
-        /** Overmap Layer : Not used for now, do later*/
-        bool draw_omap();
-
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
-         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param precheck If true, only loads the meta data of the tileset (tile dimensions).
          * @param force If true, forces loading the tileset even if it is already loaded.
          * @throw std::exception On any error.
          */
@@ -544,15 +531,16 @@ class cata_tiles
         }
         void do_tile_loading_report();
         point player_to_screen( int x, int y ) const;
+        static std::vector<options_manager::id_and_option> build_renderer_list();
     protected:
         template <typename maptype>
-        void tile_loading_report( maptype const &tiletypemap, std::string const &label,
-                                  std::string const &prefix = "" );
+        void tile_loading_report( const maptype &tiletypemap, const std::string &label,
+                                  const std::string &prefix = "" );
         template <typename arraytype>
-        void tile_loading_report( arraytype const &array, int array_length, std::string const &label,
-                                  std::string const &prefix = "" );
+        void tile_loading_report( const arraytype &array, int array_length, const std::string &label,
+                                  const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, std::string const &label, std::string const &prefix );
+        void tile_loading_report( size_t count, const std::string &label, const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
@@ -564,7 +552,7 @@ class cata_tiles
         void init_light();
 
         /** Variables */
-        SDL_Renderer *renderer;
+        const SDL_Renderer_Ptr &renderer;
         std::unique_ptr<tileset> tileset_ptr;
 
         int tile_height = 0;
@@ -659,6 +647,9 @@ class cata_tiles
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
         SDL_Texture_Ptr main_minimap_tex;
+        // SDL_RenderFillRect replacement handler
+        void handle_draw_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                               Uint32 r, Uint32 g, Uint32 b );
 };
 
 #endif

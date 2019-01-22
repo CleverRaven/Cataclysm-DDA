@@ -70,13 +70,15 @@ class bonus_container
     public:
         bonus_container();
         void load( JsonObject &jo );
-        void load( JsonArray &jo, bool mult );
+        void load( JsonArray &jarr, bool mult );
 
-        float get_flat( const Character &u, affected_stat stat, damage_type type ) const;
+        float get_flat( const Character &u, affected_stat stat, damage_type dt ) const;
         float get_flat( const Character &u, affected_stat stat ) const;
 
-        float get_mult( const Character &u, affected_stat stat, damage_type type ) const;
+        float get_mult( const Character &u, affected_stat stat, damage_type dt ) const;
         float get_mult( const Character &u, affected_stat stat ) const;
+
+        std::string get_description() const;
 
     private:
         using bonus_map = std::map<affected_type, std::vector<effect_scaling>>;

@@ -1,52 +1,49 @@
 #include "mapgen.h"
 
-#include "coordinate_conversions.h"
-#include "drawing_primitives.h"
-#include "omdata.h"
-#include "output.h"
-#include "game.h"
-#include "fungal_effects.h"
-#include "rng.h"
-#include "line.h"
-#include "debug.h"
-#include "options.h"
-#include "vpart_range.h"
-#include "ammo.h"
-#include "item_group.h"
-#include "mapgen_functions.h"
-#include "string_formatter.h"
-#include "mapgenformat.h"
-#include "mapbuffer.h"
-#include "overmapbuffer.h"
-#include "enums.h"
-#include "monstergenerator.h"
-#include "vpart_position.h"
-#include "mongroup.h"
-#include "map.h"
-#include "map_extras.h"
-#include "translations.h"
-#include "trap.h"
-#include "submap.h"
-#include "mapdata.h"
-#include "overmap.h"
-#include "mapgen_functions.h"
-#include "mtype.h"
-#include "itype.h"
-#include "computer.h"
-#include "optional.h"
-#include "map_iterator.h"
-
 #include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <list>
+#include <random>
 #include <sstream>
-#include "json.h"
+
+#include "ammo.h"
+#include "catalua.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "debug.h"
+#include "drawing_primitives.h"
+#include "enums.h"
+#include "game.h"
+#include "item_group.h"
+#include "json.h"
+#include "line.h"
+#include "map.h"
+#include "map_extras.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "mapgen_functions.h"
+#include "mapgenformat.h"
+#include "mongroup.h"
+#include "mtype.h"
 #include "npc.h"
+#include "omdata.h"
+#include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "submap.h"
+#include "text_snippets.h"
+#include "translations.h"
+#include "trap.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-#include "catalua.h"
-#include "text_snippets.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -106,20 +103,16 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( oter_id there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
 void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
 
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id t );
-
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
 void map::generate( const int x, const int y, const int z, const time_point &when )
 {
-    dbg( D_INFO ) << "map::generate( g[" << g << "], x[" << x << "], "
+    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], x[" << x << "], "
                   << "y[" << y << "], z[" << z << "], when[" << to_string( when ) << "] )";
 
     set_abs_sub( x, y, z );
@@ -132,7 +125,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            setsubmap( get_nonant( gridx, gridy ), new submap() );
+            setsubmap( get_nonant( { gridx, gridy } ), new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -170,11 +163,11 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
     if( ex.chance > 0 && one_in( ex.chance ) ) {
         std::string *extra = ex.values.pick();
-        if( extra == NULL ) {
+        if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras().c_str() );
         } else {
             auto func = MapExtras::get_function( *( ex.values.pick() ) );
-            if( func != NULL ) {
+            if( func != nullptr ) {
                 func( *this, abs_sub );
             }
         }
@@ -205,7 +198,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
             if( i <= 1 && j <= 1 ) {
                 saven( i, j, z );
             } else {
-                delete get_submap_at_grid( i, j, z );
+                delete get_submap_at_grid( { i, j, z } );
             }
         }
     }
@@ -247,23 +240,23 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup too
 {
     oter_mapgen_weights.clear();
-    for( auto oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
+    for( auto &omw : oter_mapgen ) {
         int funcnum = 0;
         int wtotal = 0;
-        oter_mapgen_weights[ oit->first ] = std::map<int, int>();
-        for( auto fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
+        oter_mapgen_weights[ omw.first ] = std::map<int, int>();
+        for( auto fit = omw.second.begin(); fit != omw.second.end(); ++fit ) {
             //
             int weight = ( *fit )->weight;
             if( weight < 1 ) {
-                dbg( D_INFO ) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
+                dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
                               wtotal;
                 ++funcnum;
                 continue; // rejected!
             }
             ( *fit )->setup();
             wtotal += weight;
-            oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
-            dbg( D_INFO ) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
+            oter_mapgen_weights[ omw.first ][ wtotal ] = funcnum;
+            dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): +" << weight << " = " << wtotal;
             ++funcnum;
         }
     }
@@ -298,7 +291,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                 }
             }
         }
-        return NULL; // nothing
+        return nullptr; // nothing
     } else if( jio.has_string( "method" ) ) {
         const std::string mgtype = jio.get_string( "method" );
         if( mgtype == "builtin" ) { // c-function
@@ -320,7 +313,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                 ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
                 oter_mapgen[id_base].push_back( ret );
             } else if( jio.has_array( "script" ) ) { // or 1 line per entry array
-                std::string mgscript = "";
+                std::string mgscript;
                 JsonArray jascr = jio.get_array( "script" );
                 while( jascr.has_more() ) {
                     mgscript += jascr.next_string();
@@ -462,12 +455,10 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
     : jdata( std::move( s ) )
     , do_format( false )
     , is_ready( false )
-    , mapgensize_x( 24 )
-    , mapgensize_y( 24 )
+    , mapgensize_x( SEEX * 2 )
+    , mapgensize_y( SEEY * 2 )
     , x_offset( 0 )
     , y_offset( 0 )
-    , format()
-    , setmap_points()
     , objects( 0, 0, mapgensize_x, mapgensize_y )
 {
 }
@@ -542,7 +533,7 @@ int jmapgen_int::get() const
  */
 void mapgen_function_json_base::setup_setmap( JsonArray &parray )
 {
-    std::string tmpval = "";
+    std::string tmpval;
     std::map<std::string, jmapgen_setmap_op> setmap_opmap;
     setmap_opmap[ "terrain" ] = JMAPGEN_SETMAP_TER;
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
@@ -840,7 +831,7 @@ class jmapgen_gaspump : public jmapgen_piece
         jmapgen_int amount;
         std::string fuel;
         jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-            , amount( jsi, "amount", 0, 0 ), fuel() {
+            , amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_string( "fuel" ) ) {
                 fuel = jsi.get_string( "fuel" );
 
@@ -1351,7 +1342,7 @@ class jmapgen_nested : public jmapgen_piece
                         }
 
                         bool this_direction_matches = false;
-                        for( oter_str_id allowed_neighbor : allowed_neighbors ) {
+                        for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.neighbor_at( dir ).id() );
                         }
                         all_directions_match &= this_direction_matches;
@@ -1359,7 +1350,7 @@ class jmapgen_nested : public jmapgen_piece
 
                     if( !above.empty() ) {
                         bool above_matches = false;
-                        for( oter_str_id allowed_neighbor : above ) {
+                        for( const oter_str_id &allowed_neighbor : above ) {
                             above_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.above().id() );
                         }
                         all_directions_match &= above_matches;
@@ -1401,26 +1392,26 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t mapsize_y )
-    : offset_x( off_x )
-    , offset_y( off_y )
+jmapgen_objects::jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_y )
+    : offset_x( offset_x )
+    , offset_y( offset_y )
     , mapgensize_x( mapsize_x )
     , mapgensize_y( mapsize_y )
 {}
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > ( int )mapgensize_x - 1 ||
-        place.y.val < 0 || place.y.val > ( int )mapgensize_y - 1 ) {
+    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
+        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
         return false;
     }
 
-    if( ( size_t )place.x.valmax > mapgensize_x - 1 ) {
+    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
         return false;
     }
 
-    if( ( size_t )place.y.valmax > mapgensize_y - 1 ) {
+    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
         return false;
     }
@@ -1878,7 +1869,7 @@ void mapgen_function_json_base::setup_common()
                 } else if( ! qualifies ) {  // fill_ter should make this kosher
                     parray.throw_error(
                         string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, ( char )tmpkey ) );
+                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
                 }
                 auto iter_furn = format_furniture.find( tmpkey );
                 if( iter_furn != format_furniture.end() ) {
@@ -2005,7 +1996,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
             case JMAPGEN_SETMAP_LINE_RADIATION: {
                 const std::vector<point> line = line_to( x_get(), y_get(), x2_get(), y2_get(), 0 );
                 for( auto &i : line ) {
-                    m.set_radiation( i.x, i.y, ( int )val.get() );
+                    m.set_radiation( i.x, i.y, static_cast<int>( val.get() ) );
                 }
             }
             break;
@@ -2039,7 +2030,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
                 const int cy2 = y2_get();
                 for( int tx = cx; tx <= cx2; tx++ ) {
                     for( int ty = cy; ty <= cy2; ty++ ) {
-                        m.set_radiation( tx, ty, ( int )val.get() );
+                        m.set_radiation( tx, ty, static_cast<int>( val.get() ) );
                     }
                 }
             }
@@ -2212,16 +2203,14 @@ void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const m
 // track down what is and isn't supposed to be carried around between bits of code.
 // I suggest that we break the function down into smaller parts
 
-void map::draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                    const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                    const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
-                    const int zlevel, const regional_settings *rsettings )
+void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
+                    const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
+                    const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
+                    const oter_id &t_above, const oter_id &t_below, const time_point &when,
+                    const float density, const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_LAB( "GROUP_LAB" );
-    static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
-    static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -2263,7 +2252,7 @@ void map::draw_map( const oter_id terrain_type, const oter_id t_north, const ote
     mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above,
                     t_below, zlevel, *rsettings, *this );
 
-    computer *tmpcomp = NULL;
+    computer *tmpcomp = nullptr;
     bool terrain_type_found = true;
     const std::string function_key = terrain_type->get_mapgen_id();
 
@@ -3123,7 +3112,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                             ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
                             ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                            for( int i = 0; i <= 23; i++ ) {
+                            for( int i = 0; i < SEEX * 2; i++ ) {
                                 ter_set( 23, i, rw_type );
                                 furn_set( 23, i, f_null );
                                 i_clear( tripoint( 23, i, get_abs_sub().z ) );
@@ -3651,7 +3640,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                     ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
                     ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                    for( int i = 0; i <= 23; i++ ) {
+                    for( int i = 0; i < SEEX * 2; i++ ) {
                         ter_set( 23, i, rw_type );
                         furn_set( 23, i, f_null );
                         i_clear( tripoint( 23, i, get_abs_sub().z ) );
@@ -5271,8 +5260,8 @@ ___DEEE|.R.|...,,...|sss\n",
             add_spawn( mon_hazmatbot, 1, 10, 5 );
         }
         //lazy radiation mapping
-        for( int x = 0; x <= 23; x++ ) {
-            for( int y = 0; y <= 23; y++ ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            for( int y = 0; y < SEEY * 2; y++ ) {
                 adjust_radiation( x, y, rng( 10, 30 ) );
             }
         }
@@ -5341,8 +5330,8 @@ ___DEEE|.R.|...,,...|sss\n",
                 add_spawn( mon_hazmatbot, 1, 23, 18 );
             }
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5414,8 +5403,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             place_items( "office", 85,  11,  3, 13,  3, false, 0 );
             place_items( "office", 85,  17,  3, 19,  3, false, 0 );
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5479,8 +5468,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                 add_spawn( mon_hazmatbot, 1, 11, 16 );
             }
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5546,8 +5535,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                             f_null,     f_null,                 f_null,    f_null,               f_null,
                                             f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                             f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-        for( int i = 0; i <= 23; i++ ) {
-            for( int j = 0; j <= 23; j++ ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
                 if( this->ter( i, j ) == t_rock_floor ) {
                     if( one_in( 250 ) ) {
                         add_item( i, j, item::make_corpse() );
@@ -5571,6 +5560,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     }
                     place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                     place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                    if( one_in( 40 ) ) {
+                        spawn_item( i, j, "nanomaterial", 1, 5 );
+                    }
                     if( one_in( 5 ) ) {
                         if( one_in( 10 ) ) {
                             add_spawn( mon_zombie_child, 1, i, j );
@@ -5634,8 +5626,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                                 f_null,     f_null,                 f_null,    f_null,               f_null,
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( i, j ) == f_rack ) {
                         place_items( "mechanics", 60,  i,  j, i,  j, false, 0 );
                     }
@@ -5662,6 +5654,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5721,8 +5716,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                                 f_null,     f_null,                 f_null,    f_null,               f_null,
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->ter( i, j ) == t_rock_floor ) {
                         if( one_in( 250 ) ) {
                             add_item( i, j, item::make_corpse() );
@@ -5746,6 +5741,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 20 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5805,8 +5803,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
             spawn_item( 3, 16, "sarcophagus_access_code" );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( i, j ) == f_locker ) {
                         place_items( "cleaning", 60,  i,  j, i,  j, false, 0 );
                     }
@@ -5839,6 +5837,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5895,7 +5896,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             for( int a = 0; a < 21; a++ ) {
                 vset.push_back( a );
             }
-            std::random_shuffle( vset.begin(), vset.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( vset.begin(), vset.end(), eng );
             for( int a = 0; a < vnum; a++ ) {
                 if( vset[a] < 12 ) {
                     if( one_in( 2 ) ) {
@@ -6768,6 +6771,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }
@@ -6853,9 +6857,8 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y );
         return;
     }
-    int offset_x = 0;
-    int offset_y = 0;
-    submap *place_on_submap = get_submap_at( x, y, offset_x, offset_y );
+    point offset;
+    submap *place_on_submap = get_submap_at( { x, y }, offset );
 
     if( !place_on_submap ) {
         debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
@@ -6872,7 +6875,7 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset_x, offset_y, faction_id, mission_id, friendly, name );
+    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name );
     place_on_submap->spawns.push_back( tmp );
 }
 
@@ -6928,8 +6931,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     vehicle *placed_vehicle = add_vehicle_to_map( std::move( veh ), merge_wrecks );
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy,
-                                  placed_vehicle->smz );
+        submap *place_on_submap = get_submap_at_grid( { placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz} );
         place_on_submap->vehicles.push_back( placed_vehicle );
         place_on_submap->is_uniform = false;
 
@@ -6957,7 +6959,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->get_parts( "FLOATS" ) ) > 2;
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
@@ -7011,12 +7013,13 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
 
             for( auto &part : veh->parts ) {
                 const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( part_pos.x, part_pos.y, part );
+                // @todo change mount points to be tripoint
+                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
             }
 
             for( auto &part : other_veh->parts ) {
                 const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( part_pos.x, part_pos.y, part );
+                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
 
             }
 
@@ -7087,7 +7090,7 @@ void map::rotate( int turns )
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
     // @todo: This radius can be smaller - how small?
-    const int radius = int( MAPSIZE / 2 ) + 3;
+    const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
                                          abs_sub.z, radius );
@@ -7166,15 +7169,14 @@ void map::rotate( int turns )
                     new_y = old_x;
                     break;
             }
-            int new_lx = 0;
-            int new_ly = 0;
-            const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
+            point new_l;
+            const auto new_sm = get_submap_at( { new_x, new_y }, new_l );
             new_sm->is_uniform = false;
-            std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
-            std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
-            std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
-            std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
-            std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
+            std::swap( rotated[old_x][old_y], new_sm->ter[new_l.x][new_l.y] );
+            std::swap( furnrot[old_x][old_y], new_sm->frn[new_l.x][new_l.y] );
+            std::swap( traprot[old_x][old_y], new_sm->trp[new_l.x][new_l.y] );
+            std::swap( fldrot[old_x][old_y], new_sm->fld[new_l.x][new_l.y] );
+            std::swap( radrot[old_x][old_y], new_sm->rad[new_l.x][new_l.y] );
             auto items = i_at( new_x, new_y );
             itrot[old_x][old_y].reserve( items.size() );
             // Copy items, if we move them, it'll wreck i_clear().
@@ -7186,64 +7188,64 @@ void map::rotate( int turns )
     //Next, spawn points and cosmetic strings
     for( int sx = 0; sx < 2; sx++ ) {
         for( int sy = 0; sy < 2; sy++ ) {
-            const auto from = get_submap_at_grid( sx, sy );
+            const auto from = get_submap_at_grid( { sx, sy } );
             size_t gridto = 0;
             switch( turns ) {
                 case 0:
-                    gridto = get_nonant( sx, sy );
+                    gridto = get_nonant( { sx, sy } );
                     break;
                 case 1:
-                    gridto = get_nonant( 1 - sy, sx );
+                    gridto = get_nonant( { 1 - sy, sx } );
                     break;
                 case 2:
-                    gridto = get_nonant( 1 - sx, 1 - sy );
+                    gridto = get_nonant( { 1 - sx, 1 - sy } );
                     break;
                 case 3:
-                    gridto = get_nonant( sy, 1 - sx );
+                    gridto = get_nonant( { sy, 1 - sx } );
                     break;
             }
             for( auto &spawn : from->spawns ) {
                 spawn_point tmp = spawn;
-                int new_x = tmp.posx;
-                int new_y = tmp.posy;
+                int new_x = tmp.pos.x;
+                int new_y = tmp.pos.y;
                 switch( turns ) {
                     case 1:
-                        new_x = SEEY - 1 - tmp.posy;
-                        new_y = tmp.posx;
+                        new_x = SEEY - 1 - tmp.pos.y;
+                        new_y = tmp.pos.x;
                         break;
                     case 2:
-                        new_x = SEEX - 1 - tmp.posx;
-                        new_y = SEEY - 1 - tmp.posy;
+                        new_x = SEEX - 1 - tmp.pos.x;
+                        new_y = SEEY - 1 - tmp.pos.y;
                         break;
                     case 3:
-                        new_x = tmp.posy;
-                        new_y = SEEX - 1 - tmp.posx;
+                        new_x = tmp.pos.y;
+                        new_y = SEEX - 1 - tmp.pos.x;
                         break;
                 }
-                tmp.posx = new_x;
-                tmp.posy = new_y;
+                tmp.pos.x = new_x;
+                tmp.pos.y = new_y;
                 sprot[gridto].push_back( tmp );
             }
             for( auto &cosm : from->cosmetics ) {
                 submap::cosmetic_t tmp = cosm;
-                int new_x = tmp.p.x;
-                int new_y = tmp.p.y;
+                int new_x = tmp.pos.x;
+                int new_y = tmp.pos.y;
                 switch( turns ) {
                     case 1:
-                        new_x = SEEY - 1 - tmp.p.y;
-                        new_y = tmp.p.x;
+                        new_x = SEEY - 1 - tmp.pos.y;
+                        new_y = tmp.pos.x;
                         break;
                     case 2:
-                        new_x = SEEX - 1 - tmp.p.x;
-                        new_y = SEEY - 1 - tmp.p.y;
+                        new_x = SEEX - 1 - tmp.pos.x;
+                        new_y = SEEY - 1 - tmp.pos.y;
                         break;
                     case 3:
-                        new_x = tmp.p.y;
-                        new_y = SEEX - 1 - tmp.p.x;
+                        new_x = tmp.pos.y;
+                        new_y = SEEX - 1 - tmp.pos.x;
                         break;
                 }
-                tmp.p.x = new_x;
-                tmp.p.y = new_y;
+                tmp.pos.x = new_x;
+                tmp.pos.y = new_y;
                 cosmetics_rot[gridto].push_back( tmp );
             }
             // as vehrot starts out empty, this clears the other vehicles vector
@@ -7257,7 +7259,7 @@ void map::rotate( int turns )
     // change vehicles' directions
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t i = get_nonant( gridx, gridy );
+            const size_t i = get_nonant( { gridx, gridy } );
             for( auto &v : vehrot[i] ) {
                 vehicle *veh = v;
                 // turn the steering wheel, vehicle::turn does not actually
@@ -7319,15 +7321,15 @@ void map::rotate( int turns )
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            int lx = 0;
-            int ly = 0;
-            const auto sm = get_submap_at( i, j, lx, ly );
+            point p( i, j );
+            point l;
+            const auto sm = get_submap_at( p, l );
             sm->is_uniform = false;
-            std::swap( rotated[i][j], sm->ter[lx][ly] );
-            std::swap( furnrot[i][j], sm->frn[lx][ly] );
-            std::swap( traprot[i][j], sm->trp[lx][ly] );
-            std::swap( fldrot[i][j], sm->fld[lx][ly] );
-            std::swap( radrot[i][j], sm->rad[lx][ly] );
+            std::swap( rotated[i][j], sm->ter[l.x][l.y] );
+            std::swap( furnrot[i][j], sm->frn[l.x][l.y] );
+            std::swap( traprot[i][j], sm->trp[l.x][l.y] );
+            std::swap( fldrot[i][j], sm->fld[l.x][l.y] );
+            std::swap( radrot[i][j], sm->rad[l.x][l.y] );
             for( auto &itm : itrot[i][j] ) {
                 add_item( i, j, itm );
             }
@@ -7336,7 +7338,7 @@ void map::rotate( int turns )
 }
 
 // Hideous function, I admit...
-bool connects_to( oter_id there, int dir )
+bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
         case 2:

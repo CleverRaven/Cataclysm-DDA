@@ -3,10 +3,8 @@
 #define REQUIREMENTS_H
 
 #include <functional>
-#include <string>
-#include <vector>
 #include <map>
-#include <memory>
+#include <vector>
 
 #include "string_id.h"
 
@@ -58,17 +56,23 @@ struct component {
     component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
         type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
     void check_consistency( const std::string &display_name ) const;
+    int operator==( const component &rhs ) const {
+        return type == rhs.type && count == rhs.count;
+    }
+    int operator!=( const component &rhs ) const {
+        return !( *this == rhs );
+    }
 };
 
 struct tool_comp : public component {
     tool_comp() : component() { }
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
     bool by_charges() const;
 };
 
@@ -76,11 +80,11 @@ struct item_comp : public component {
     item_comp() : component() { }
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
 };
 
 struct quality_requirement {
@@ -90,16 +94,16 @@ struct quality_requirement {
     mutable available_status available = a_false;
     bool requirement = false; // Currently unused, but here for consistency and templates
 
-    quality_requirement() { }
+    quality_requirement() = default;
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
 };
 
 /**
@@ -129,7 +133,7 @@ struct quality_requirement {
  *   void check_consistency(const std::string &display_name) const;
  * Color to be used for displaying the requirement. has_one is true of the
  * player fulfills an alternative requirement:
- *   std::string get_color(bool has_one, const inventory &crafting_inv) const;
+ *   nc_color get_color(bool has_one, const inventory &crafting_inv) const;
 */
 struct requirement_data {
         // temporarily break encapsulation pending migration of legacy parts

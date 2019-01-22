@@ -1,14 +1,13 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "animation.h"
+#include "cursesport.h"
+
+#include <stdexcept>
+
 #include "catacharset.h"
 #include "color.h"
-#include "cursesport.h"
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
-
-#include <cstring> // strlen
-#include <stdexcept>
 
 /**
  * Whoever cares, btw. not my base design, but this is how it works:
@@ -564,8 +563,7 @@ void catacurses::wattroff( const window &win_, int )
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    char charcode;
-    charcode = ch;
+    char charcode = ch;
 
     switch( ch ) {      //LINE_NESW  - X for on, O for off
         case LINE_XOXO:
@@ -602,7 +600,7 @@ void catacurses::waddch( const window &win, const chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = ( char )ch;
+            charcode = static_cast<char>( ch );
             break;
     }
     char buffer[2] = { charcode, '\0' };

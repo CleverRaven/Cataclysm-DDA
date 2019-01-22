@@ -1,18 +1,18 @@
-#include "mutation.h"
-#include "json.h"
-#include "pldata.h" // traits
-#include "enums.h" // tripoint
-#include "bodypart.h"
-#include "debug.h"
-#include "translations.h"
-#include "trait_group.h"
-
-#include "color.h"
+#include "mutation.h" // IWYU pragma: associated
 
 #include <map>
-#include <sstream>
 #include <set>
+#include <sstream>
 #include <vector>
+
+#include "bodypart.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h" // tripoint
+#include "json.h"
+#include "pldata.h" // traits
+#include "trait_group.h"
+#include "translations.h"
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
 typedef std::set<trait_id> TraitSet;
@@ -245,7 +245,6 @@ void mutation_branch::load( JsonObject &jsobj )
     const trait_id id( jsobj.get_string( "id" ) );
     mutation_branch &new_mut = mutation_data[id];
 
-    JsonArray jsarr;
     new_mut.raw_name = jsobj.get_string( "name" );
     new_mut.raw_desc = jsobj.get_string( "description" );
     new_mut.points = jsobj.get_int( "points" );
@@ -282,6 +281,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.threshold = jsobj.get_bool( "threshold", false );
     new_mut.profession = jsobj.get_bool( "profession", false );
     new_mut.debug = jsobj.get_bool( "debug", false );
+    new_mut.player_display = jsobj.get_bool( "player_display", true );
 
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
@@ -295,6 +295,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.hp_modifier = jsobj.get_float( "hp_modifier", 0.0f );
     new_mut.hp_modifier_secondary = jsobj.get_float( "hp_modifier_secondary", 0.0f );
     new_mut.hp_adjustment = jsobj.get_float( "hp_adjustment", 0.0f );
+    new_mut.stealth_modifier = jsobj.get_float( "stealth_modifier", 0.0f );
 
     new_mut.metabolism_modifier = jsobj.get_float( "metabolism_modifier", 0.0f );
     new_mut.thirst_modifier = jsobj.get_float( "thirst_modifier", 0.0f );
@@ -339,7 +340,8 @@ void mutation_branch::load( JsonObject &jsobj )
     }
     new_mut.flags = jsobj.get_tags( "flags" );
     new_mut.types = jsobj.get_tags( "types" );
-    jsarr = jsobj.get_array( "category" );
+
+    JsonArray jsarr = jsobj.get_array( "category" );
     while( jsarr.has_more() ) {
         std::string s = jsarr.next_string();
         new_mut.category.push_back( s );
@@ -445,7 +447,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
             }
         }
-        for( const std::string type : mdata.types ) {
+        for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }

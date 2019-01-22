@@ -179,6 +179,10 @@ The "???" is the issue number. This automatically closes the issue when the PR i
 
 See https://help.github.com/articles/closing-issues-using-keywords/ for more.
 
+## Tooling support
+
+Various tools are available to help you keep your contributions conforming to the appropriate style.  See [the relevant docs](../doc/DEVELOPER_TOOLING.md) for more details.
+
 ## Advanced Techniques
 
 These guidelines aren't essential, but they can make keeping things in order much easier.
@@ -221,6 +225,25 @@ You can also set the tracking information at the same time as creating the branc
         ....
         To https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         xxxx..xxxx  new_feature -> new_feature
+
+## Unit tests
+
+There is a suite of tests built into the source tree at tests/  
+You should run the test suite after ANY change to the game source.  
+An ordinary invocation of ``make`` will build the test executable at tests/cata_test, and it can be invoked like any ordinary executable.  
+With no arguments it will run the entire test suite.  
+With ``--help`` it will print a number of invocation options you can use to adjust its operation.
+
+    $ make
+    ... compilation details ...
+    $ tests/cata_test
+    Starting the actual test at Fri Nov  9 04:37:03 2018
+    ===============================================================================
+    All tests passed (1324684 assertions in 94 test cases)
+    Ended test at Fri Nov  9 04:37:45 2018
+    The test took 41.772 seconds
+
+I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && tests/cata_test``.
 
 ## In-game testing, test environment and the debug menu
 

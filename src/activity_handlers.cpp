@@ -1,44 +1,44 @@
 #include "activity_handlers.h"
 
-#include "game.h"
-#include "map.h"
-#include "player.h"
+#include <algorithm>
+#include <cmath>
+
 #include "action.h"
-#include "veh_interact.h"
-#include "debug.h"
-#include "translations.h"
-#include "sounds.h"
-#include "iuse_actor.h"
-#include "skill.h"
+#include "advanced_inv.h"
+#include "catalua.h"
+#include "clzones.h"
+#include "construction.h"
 #include "craft_command.h"
-#include "rng.h"
-#include "requirements.h"
+#include "debug.h"
+#include "fault.h"
+#include "field.h"
+#include "game.h"
+#include "gates.h"
+#include "harvest.h"
+#include "iexamine.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "martialarts.h"
+#include "messages.h"
 #include "mongroup.h"
 #include "morale_types.h"
-#include "string_formatter.h"
-#include "output.h"
-#include "vpart_position.h"
-#include "messages.h"
-#include "martialarts.h"
-#include "itype.h"
-#include "vehicle.h"
-#include "mapdata.h"
-#include "iexamine.h"
 #include "mtype.h"
-#include "field.h"
-#include "weather.h"
+#include "output.h"
+#include "player.h"
+#include "requirements.h"
+#include "rng.h"
+#include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "ui.h"
-#include "map_iterator.h"
-#include "gates.h"
-#include "catalua.h"
-#include "fault.h"
-#include "construction.h"
-#include "harvest.h"
-#include "clzones.h"
-
-#include <math.h>
-#include <sstream>
-#include <algorithm>
+#include "veh_interact.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "map_selector.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -89,7 +89,9 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
+    { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
@@ -127,6 +129,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
@@ -144,8 +147,10 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
-    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish },
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -172,7 +177,8 @@ void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
-        sounds::sound( act->placement, 10, _( "ScratchCrunchScrabbleScurry." ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::movement,
+                       _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( *act, *p );
     }
 }
@@ -255,30 +261,43 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
-    int factor = u.max_quality( quality_id( "BUTCHER" ) );
+    int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
+                                quality_id( "BUTCHER" ) );
     auto items = g->m.i_at( u.pos() );
-    if( ( size_t )act.index >= items.size() || factor == INT_MIN ) {
+    if( static_cast<size_t>( act.index ) >= items.size() ) {
         // Let it print a msg for lack of corpses
         act.index = INT_MAX;
         return;
     }
 
     item corpse_item = items[act.index];
-    const mtype &corpse = *( corpse_item.get_mtype() );
+    const mtype *corpse_ptr = corpse_item.get_mtype();
+    if( corpse_ptr == nullptr ) {
+        debugmsg( "Tried to butcher a non-corpse item, %s",
+                  corpse_item.tname( corpse_item.count() ) );
+        act.set_to_null();
+        return;
+    }
+    const mtype &corpse = *corpse_ptr;
 
-    if( action != DISSECT && u.max_quality( quality_id( "BUTCHER" ) ) < 0 && one_in( 3 ) ) {
-        u.add_msg_if_player( m_bad,
-                             _( "You don't trust the quality of your tools, but carry on anyway." ) );
+    if( action != DISSECT ) {
+        if( factor == INT_MIN ) {
+            u.add_msg_if_player( m_info,
+                                 _( "None of your cutting tools are suitable for butchering." ) );
+            act.set_to_null();
+            return;
+        } else if( factor < 0 && one_in( 3 ) ) {
+            u.add_msg_if_player( m_bad,
+                                 _( "You don't trust the quality of your tools, but carry on anyway." ) );
+        }
     }
 
     if( action == DISSECT ) {
-        factor = u.max_quality( quality_id( "CUT_FINE" ) );
         switch( factor ) {
             case INT_MIN:
                 u.add_msg_if_player( m_info, _( "None of your tools are sharp and precise enough to do that." ) );
                 act.set_to_null();
                 return;
-                break;
             case 1:
                 u.add_msg_if_player( m_info, _( "You could use a better tool, but this will do." ) );
                 break;
@@ -287,6 +306,10 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 break;
             case 3:
                 u.add_msg_if_player( m_info, _( "You dissect the corpse with a trusty scalpel." ) );
+                break;
+            case 5:
+                u.add_msg_if_player( m_info,
+                                     _( "You dissect the corpse with a sophisticated system of surgical grade scalpels." ) );
                 break;
         }
     }
@@ -314,30 +337,30 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         } else if( big_corpse && !has_rope && !b_rack_present ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !has_table_nearby ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
                              u.has_quality( quality_id( "SAW_M" ) ) ) ) {
             u.add_msg_if_player( m_info,
                                  _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -346,14 +369,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info,
                              _( "It would be futile to search for implants inside this badly damaged corpse." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
     if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) ||
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
-        act.set_to_null();
+        act.index = -1;
         return;
     }
 
@@ -361,18 +384,18 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
             u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                  corpse.nname().c_str() );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -383,7 +406,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) ||
                        u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
-        if( query_yn( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) {
+        if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
             g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             switch( rng( 1, 3 ) ) {
                 case 1:
@@ -399,7 +422,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             }
         } else {
             u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-            act.set_to_null();
+            act.index = -1;
             return;
         }
     }
@@ -463,419 +486,199 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
     }
 
+    if( corpse_item.has_flag( "QUARTERED" ) ) {
+        time_to_cut /= 4;
+    }
+
     return time_to_cut;
 }
-
-void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p,
-                               const time_point &age, const std::function<int()> &roll_butchery, butcher_type action )
+// The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
+harvest_id butchery_flags_deprecate( const mtype &mt )
 {
-    itype_id meat = corpse->get_meat_itype();
-
-    int pieces = corpse->get_meat_chunks_count();
-    int skins = 0;
-    int bones = 0;
-    int fats = pieces / 5;
-    int sinews = 0;
-    int feathers = 0;
-    int wool = 0;
-    bool stomach = false;
-
-    int max_practice = 4;
-    switch( corpse->size ) {
-        case MS_TINY:
-            skins = 1;
-            bones = 1;
-            fats = 1;
-            sinews = 1;
-            feathers = 4;
-            wool = 1;
-            break;
-        case MS_SMALL:
-            skins = 2;
-            bones = 8;
-            sinews = 4;
-            feathers = 12;
-            wool = 4;
-            break;
-        case MS_MEDIUM:
-            skins = 5;
-            bones = 18;
-            sinews = 9;
-            feathers = 22;
-            wool = 8;
-            break;
-        case MS_LARGE:
-            skins = 10;
-            bones = 28;
-            sinews = 14;
-            feathers = 36;
-            wool = 16;
-            max_practice = 5;
-            break;
-        case MS_HUGE:
-            skins = 20;
-            bones = 42;
-            sinews = 21;
-            feathers = 48;
-            wool = 32;
-            max_practice = 6;
-            break;
-    }
-
-    if( corpse->made_of( material_id( "bone" ) ) ) {
-        //For butchering yield purposes, we treat it as bones, not meat
-        meat = "null";
-        bones += pieces / 4;
-        pieces = 0;
-    }
-
-    // Lose some meat, skins, etc if the rolls are low
-    pieces +=   std::min( 0, roll_butchery() );
-    skins +=    std::min( 0, roll_butchery() - 4 );
-    bones +=    std::min( 0, roll_butchery() - 2 );
-    fats +=     std::min( 0, roll_butchery() - 4 );
-    sinews +=   std::min( 0, roll_butchery() - 8 );
-    feathers += std::min( 0, roll_butchery() - 1 );
-    wool +=     std::min( 0, roll_butchery() );
-    stomach = roll_butchery() >= 0;
-
-    // (QUICK) BUTCHERY
-    if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) ||
-                               !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
-        pieces /= 4;
-        if( corpse->size >= MS_MEDIUM ) {
-            skins /= 2;
-        }
-        bones /= 2;
-        fats /= 4;
-        sinews /= 4;
-        // feathers unchanged
-        wool /= 4;
-        stomach = false;
-    } else if( action == BUTCHER ) {
-        stomach = roll_butchery() >= 0;
-    }
-
-    //FIELD DRESSING
-    if( action == F_DRESS ) {
-        // "pieces" left unchanged because they are 'converted' to offal and don't yield meat
-        skins = 0;
-        bones =  rng( 0, bones / 2 );
-        fats = 0;
-        sinews = 0;
-        feathers = 0;
-        wool = 0;
-        stomach = roll_butchery() >= 0;
-    }
-
-    // field dressing removed innards and bones from meatless limbs
-    if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-        stomach = false;
-        bones = ( bones / 2 ) + rng( bones / 2, bones );
-    }
-    // unskillfull field dressing damaged the skin, meat, and other parts
-    if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
-        pieces = rng( 0, pieces );
-        skins = rng( 0, skins );
-        bones = ( bones / 2 ) + rng( bones / 2, bones );
-        fats = rng( 0, fats );
-        feathers = rng( 0, feathers );
-        wool = rng( 0, wool );
-        stomach = false;
-    }
-    if( corpse_item->has_flag( "QUARTERED" ) ) {
-        pieces /= 4;
-        skins = 0; //quartering ruins skin
-        bones /= 4;
-        fats /= 4;
-        sinews /= 4;
-        feathers /= 4;
-        wool /= 4;
-    }
-    if( action == DISSECT ) {
-        pieces = 0;
-        skins = 0;
-        bones = 0;
-        fats = 0;
-        sinews = 0;
-        feathers = 0;
-        wool = 0;
-        stomach = false;
-    }
-
-    int practice = std::max( 0, 4 + pieces + roll_butchery() );
-    if( action == DISSECT ) {
-        p->practice( skill_firstaid, practice, max_practice );
-    } else {
-        p->practice( skill_survival, practice, max_practice );
-    }
-
-    if( bones > 0 ) {
-        if( corpse->made_of( material_id( "veggy" ) ) ) {
-            g->m.spawn_item( p->pos(), "plant_sac", bones, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some fluid bladders!" ) );
-        } else if( corpse->has_flag( MF_BONES ) && corpse->has_flag( MF_POISON ) ) {
-            g->m.spawn_item( p->pos(), "bone_tainted", bones / 2, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some salvageable bones!" ) );
-        } else if( corpse->has_flag( MF_BONES ) && corpse->has_flag( MF_HUMAN ) ) {
-            g->m.spawn_item( p->pos(), "bone_human", bones, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some salvageable bones!" ) );
-        } else if( corpse->has_flag( MF_BONES ) ) {
-            g->m.spawn_item( p->pos(), "bone", bones, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some usable bones!" ) );
-        }
-    } else if( meat == "null" && corpse->has_flag( MF_BONES ) ) {
-        //print a failure message only if the corpse doesn't have meat and has bones
-        p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the bones!" ) );
-    }
-
-    if( sinews > 0 ) {
-        if( corpse->has_flag( MF_BONES ) && !corpse->has_flag( MF_POISON ) ) {
-            g->m.spawn_item( p->pos(), "sinew", sinews, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some usable sinews!" ) );
-        } else if( corpse->made_of( material_id( "veggy" ) ) ) {
-            g->m.spawn_item( p->pos(), "plant_fibre", sinews, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some plant fibers!" ) );
-        }
-    }
-
-    if( stomach ) {
-        const itype_id meat = corpse->get_meat_itype();
-        if( meat == "meat" ) {
-            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
-                g->m.spawn_item( p->pos(), "stomach", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
-                g->m.spawn_item( p->pos(), "stomach_large", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            }
-        } else if( meat == "human_flesh" ) {
-            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
-                g->m.spawn_item( p->pos(), "hstomach", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
-                g->m.spawn_item( p->pos(), "hstomach_large", 1, 0, age );
-                p->add_msg_if_player( m_good, _( "You harvest the stomach!" ) );
-            }
-        }
-    }
-
-    if( ( corpse->has_flag( MF_FUR ) || corpse->has_flag( MF_LEATHER ) ||
-          corpse->has_flag( MF_CHITIN ) ) && skins > 0 ) {
-        p->add_msg_if_player( m_good, _( "You manage to skin the %s!" ), corpse->nname().c_str() );
-        int fur = 0;
-        int tainted_fur = 0;
-        int leather = 0;
-        int tainted_leather = 0;
-        int human_leather = 0;
-        int chitin = 0;
-
-        while( skins > 0 ) {
-            if( corpse->has_flag( MF_CHITIN ) ) {
-                chitin = rng( 0, skins );
-                skins -= chitin;
-                skins = std::max( skins, 0 );
-            }
-            if( corpse->has_flag( MF_FUR ) ) {
-                if( corpse->has_flag( MF_POISON ) ) {
-                    tainted_fur = rng( 0, skins );
-                    skins -= tainted_fur;
-                } else {
-                    fur = rng( 0, skins );
-                    skins -= fur;
-                }
-                skins = std::max( skins, 0 );
-            }
-            if( corpse->has_flag( MF_LEATHER ) ) {
-                if( corpse->has_flag( MF_POISON ) ) {
-                    tainted_leather = rng( 0, skins );
-                    skins -= tainted_leather;
-                } else if( corpse->has_flag( MF_HUMAN ) ) {
-                    human_leather = rng( 0, skins );
-                    skins -= human_leather;
-                } else {
-                    leather = rng( 0, skins );
-                    skins -= leather;
-                }
-                skins = std::max( skins, 0 );
-            }
-        }
-
-        if( chitin > 0 ) {
-            g->m.spawn_item( p->pos(), "chitin_piece", chitin, 0, age );
-        }
-        if( fur > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_fur", fur, 0, age );
-        }
-        if( tainted_fur > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_tainted_fur", fur, 0, age );
-        }
-        if( leather > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_leather", leather, 0, age );
-        }
-        if( human_leather > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_hleather", leather, 0, age );
-        }
-        if( tainted_leather > 0 ) {
-            g->m.spawn_item( p->pos(), "raw_tainted_leather", leather, 0, age );
-        }
-    }
-
-    if( feathers > 0 ) {
-        if( corpse->has_flag( MF_FEATHER ) ) {
-            g->m.spawn_item( p->pos(), "feather", feathers, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some feathers!" ) );
-        }
-    }
-
-    if( wool > 0 ) {
-        if( corpse->has_flag( MF_WOOL ) ) {
-            g->m.spawn_item( p->pos(), "wool_staple", wool, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some wool staples!" ) );
-        }
-    }
-
-    if( fats > 0 ) {
-        if( corpse->has_flag( MF_FAT ) && corpse->has_flag( MF_POISON ) ) {
-            g->m.spawn_item( p->pos(), "fat_tainted", fats, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some gooey fat!" ) );
-        } else if( corpse->has_flag( MF_FAT ) ) {
-            g->m.spawn_item( p->pos(), "fat", fats, 0, age );
-            p->add_msg_if_player( m_good, _( "You harvest some fat!" ) );
-        }
-    }
-
-    //Add a chance of CBM recovery.
-    //As long as the factor is above -4 (the sinew cutoff), you will be able to extract CBMs
-    if( action == DISSECT ) {
-
-        if( corpse->has_flag( MF_CBM_CIV ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_common", p->pos(), age, roll_butchery() );
-        }
-
-        // Zombie scientist bionics
-        if( corpse->has_flag( MF_CBM_SCI ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_sci", p->pos(), age, roll_butchery() );
-        }
-
-        // Zombie technician bionics
-        if( corpse->has_flag( MF_CBM_TECH ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_tech", p->pos(), age, roll_butchery() );
-        }
-
-        // Substation mini-boss bionics
-        if( corpse->has_flag( MF_CBM_SUBS ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_subs", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_subs", p->pos(), age, roll_butchery() );
-        }
-
-        // Payoff for butchering the zombie bio-op
-        if( corpse->has_flag( MF_CBM_OP ) ) {
-            butcher_cbm_item( "bio_power_storage_mkII", p->pos(), age, roll_butchery() );
-            butcher_cbm_group( "bionics_op", p->pos(), age, roll_butchery() );
-        }
-
-        //Add a chance of CBM power storage recovery.
-        if( corpse->has_flag( MF_CBM_POWER ) ) {
-            butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
-        }
-    }
-
-    // feedback that this type of corpse has implants that can be potentialy removed
-    if( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) ||
-        corpse->has_flag( MF_CBM_TECH ) ||
-        corpse->has_flag( MF_CBM_SUBS ) || corpse->has_flag( MF_CBM_OP ) ||
-        corpse->has_flag( MF_CBM_POWER ) ) {
-        if( action == F_DRESS ) {
-            p->add_msg_if_player( m_bad,
-                                  _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
-        }
-        if( action == BUTCHER || action == BUTCHER_FULL ) {
-            switch( rng( 1, 3 ) ) {
-                case 1:
-                    p->add_msg_if_player( m_bad,
-                                          _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
-                    break;
-                case 2:
-                    p->add_msg_if_player( m_bad,
-                                          _( "You find traces of implants in the body, but you care only for the flesh." ) );
-                    break;
-                case 3:
-                    p->add_msg_if_player( m_bad,
-                                          _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
-                    break;
-            }
-        }
-    }
-
-    //now handle the meat, if there is any
-    if( meat != "null" ) {
-        if( pieces <= 0 ) {
-            if( action == BUTCHER || action == BUTCHER_FULL ) {
-                p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the flesh!" ) );
-            }
+    std::string harvest_id_name = "null";
+    if( mt.has_flag( MF_CBM_CIV ) ) {
+        harvest_id_name = "CBM_CIV";
+    } else if( mt.has_flag( MF_CBM_SCI ) ) {
+        harvest_id_name = "CBM_SCI";
+    } else if( mt.has_flag( MF_CBM_TECH ) ) {
+        harvest_id_name = "CBM_TECH";
+    } else if( mt.has_flag( MF_CBM_SUBS ) ) {
+        harvest_id_name = "CBM_SUBS";
+    } else if( mt.has_flag( MF_CBM_OP ) ) {
+        harvest_id_name = "CBM_OP";
+    } else if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
+        if( mt.made_of( material_id( "veggy" ) ) ) {
+            harvest_id_name = "fungaloid";
+        } else if( mt.made_of( material_id( "bone" ) ) ) {
+            harvest_id_name = "mr_bones";
+        } else if( mt.has_flag( MF_CHITIN ) ) { // only arachnids drop chitin
+            harvest_id_name = "arachnid_tainted";
+            // acid ants have ACIDPROOF and do not have the CHITIN flag
+        } else if( mt.has_flag( MF_ACIDPROOF ) ) {
+            harvest_id_name = "arachnid_acid";
+        } else if( mt.has_flag( MF_LEATHER ) ) {
+            harvest_id_name = "zombie_leather";
+        } else if( mt.has_flag( MF_FUR ) ) {
+            harvest_id_name = "zombie_fur";
+        } else if( mt.has_flag( MF_BONES ) ) {
+            harvest_id_name = "zombie";
         } else {
-            if( action == BUTCHER || action == BUTCHER_FULL ) {
-                p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
-            }
-
-            item chunk( meat, age, 1 );
-            chunk.set_mtype( corpse );
-
-            item parts( "offal", age, 0 );
-            parts.set_mtype( corpse );
-
-            // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
-            // also field dressing removed innards so no offal
-            bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
-                              !( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
-                              !chunk.made_of( material_id( "veggy" ) );
-            if( action == F_DRESS ) {
-                for( int i = 1; i < pieces; ++i ) {
-                    if( make_offal && one_in( 3 ) ) {
-                        parts.charges++;
-                    }
-                }
-                chunk.charges = 0;
+            harvest_id_name = "zombie_meatslug";
+        }
+    } else { // drops regular edible meat
+        if( mt.made_of( material_id( "veggy" ) ) ) {
+            harvest_id_name = "triffid_small";
+        } else if( mt.size == MS_TINY ) {
+            if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_tiny";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_small";
             } else {
-                for( int i = 1; i < pieces; ++i ) {
-                    if( make_offal && one_in( 6 ) ) {
-                        parts.charges++;
-                    } else {
-                        chunk.charges++;
-                    }
-                }
+                harvest_id_name = "mammal_tiny";
             }
-            if( chunk.charges > 0 ) {
-                g->m.add_item_or_charges( p->pos(), chunk );
+        } else if( mt.has_flag( MF_HUMAN ) ) {
+            harvest_id_name = "human";
+        } else if( mt.size >= MS_SMALL && mt.size <= MS_MEDIUM ) {
+            if( mt.has_flag( MF_LEATHER ) ) {
+                harvest_id_name = "mammal_leather";
+            } else if( mt.has_flag( MF_FUR ) ) {
+                harvest_id_name = "mammal_fur";
+            } else if( mt.has_flag( MF_WOOL ) ) {
+                harvest_id_name = "mammal_wool";
+            } else if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_small";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_large";
+            } else if( mt.has_flag( MF_CHITIN ) ) {
+                harvest_id_name = "arachnid";
+            } else if( mt.has_flag( MF_BONES ) ) {
+                harvest_id_name = "animal_noskin";
+            } else {
+                harvest_id_name = "meatslug";
             }
-            if( parts.charges > 0 ) {
-                g->m.add_item_or_charges( p->pos(), parts );
+        } else if( mt.size >= MS_LARGE ) {
+            if( mt.has_flag( MF_LEATHER ) ) {
+                harvest_id_name = "mammal_large_leather";
+            } else if( mt.has_flag( MF_FUR ) ) {
+                harvest_id_name = "mammal_large_fur";
+            } else if( mt.has_flag( MF_WOOL ) ) {
+                harvest_id_name = "mammal_large_wool";
+            } else if( mt.has_flag( MF_FEATHER ) ) {
+                harvest_id_name = "bird_large";
+            } else if( mt.has_flag( MF_AQUATIC ) ) {
+                harvest_id_name = "fish_large";
+            } else if( mt.has_flag( MF_CHITIN ) ) {
+                harvest_id_name = "arachnid";
+            } else if( mt.has_flag( MF_BONES ) ) {
+                harvest_id_name = "animal_large_noskin";
+            } else {
+                harvest_id_name = "meatslug";
             }
         }
     }
+
+    return harvest_id( harvest_id_name );
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &age,
-                             const std::function<int()> &roll_butchery, butcher_type action )
+// this function modifies the input weight by its damage level, depending on the bodypart
+int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+{
+    float slight_damage = 0.9;
+    float damage = 0.75;
+    float high_damage = 0.5;
+    int destroyed = 0;
+
+    switch( damage_level ) {
+        case 2: // "damaged"
+            if( entry_type == "offal" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "skin" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * slight_damage );
+            }
+            break;
+        case 3: // "mangled"
+            if( entry_type == "offal" ) {
+                return destroyed;
+            }
+            if( entry_type == "skin" ) {
+                return round( weight * high_damage );
+            }
+            if( entry_type == "bone" ) {
+                return round( weight * slight_damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * damage );
+            }
+            break;
+        case 4: // "pulped"
+            if( entry_type == "offal" ) {
+                return destroyed;
+            }
+            if( entry_type == "skin" ) {
+                return destroyed;
+            }
+            if( entry_type == "bone" ) {
+                return round( weight * damage );
+            }
+            if( entry_type == "flesh" ) {
+                return round( weight * high_damage );
+            }
+            break;
+        default: // "bruised" modifier is almost impossible to avoid; also includes no modifier (zero damage)
+            break;
+    }
+    return weight;
+}
+
+void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
+                             const std::function<int()> &roll_butchery, butcher_type action,
+                             const std::function<double()> &roll_drops )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
-
+    int monster_weight = to_gram( mt.weight );
+    monster_weight += round( monster_weight * rng_float( -0.1, 0.1 ) );
+    if( corpse_item->has_flag( "QUARTERED" ) ) {
+        monster_weight /= 4;
+    }
+    if( corpse_item->has_flag( "GIBBED" ) ) {
+        monster_weight = round( 0.85 * monster_weight );
+        if( action != F_DRESS ) {
+            p.add_msg_if_player( m_bad,
+                                 _( "You salvage what you can from the corpse, but it is badly damaged." ) );
+        }
+    }
+    int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
-    for( const auto &entry : *mt.harvest ) {
+
+    harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate( mt ) : mt.harvest;
+    const harvest_list &harvest = *hid;
+
+    for( const auto &entry : harvest ) {
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
-
-        const itype *drop = item::find_type( entry.drop );
+        int roll = 0;
+        // mass_ratio will override the use of base_num, scale_num, and max
+        if( entry.mass_ratio != 0.00f ) {
+            roll = static_cast<int>( round( entry.mass_ratio * monster_weight ) );
+            roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) );
+        } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
+            roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+            // will not give less than min_num defined in the JSON
+            roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
+                                  entry.base_num.first );
+        }
+        const itype *drop = nullptr;
+        if( entry.type != "bionic_group" ) {
+            drop = item::find_type( entry.drop );
+        }
 
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
-        if( drop->bionic.has_value() ) {
+        if( entry.type == "bionic" || entry.type == "bionic_group" ) {
             if( action == F_DRESS ) {
                 p.add_msg_if_player( m_bad,
                                      _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
@@ -898,107 +701,138 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 }
                 continue;
             }
-        } else if( action == DISSECT ) {
+        }
+        if( action == DISSECT ) {
+            if( entry.type == "bionic" ) {
+                butcher_cbm_item( entry.drop, p.pos(), bday, roll_butchery() );
+            } else if( entry.type == "bionic_group" ) {
+                butcher_cbm_group( entry.drop, p.pos(), bday, roll_butchery() );
+            }
             continue;
+        }
+
+        // Check if monster was gibbed, and handle accordingly
+        if( corpse_item->has_flag( "GIBBED" ) && ( entry.type == "flesh" || entry.type == "bone" ) ) {
+            roll /= 2;
         }
 
         // QUICK BUTCHERY
         if( action == BUTCHER ) {
-            if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ||
-                entry.drop == "wool_staple" || entry.drop == "fat" || entry.drop == "fat_tainted" ) {
+            if( entry.type == "flesh" ) {
                 roll = roll / 4;
-            } else if( entry.drop != "bone" ) {
-                roll = roll / 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.drop == "raw_fur" ||
-                       entry.drop == "raw_leather" ||
-                       entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                       entry.drop == "raw_hleather" || entry.drop == "chitin_piece" ||
-                       entry.drop == "acidchitin_piece" ) ) {
-                roll /= 2 ;
+            } else if( entry.type == "bone" ) {
+                roll /= 2;
+            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+                roll /= 2;
+            } else if( entry.type == "offal" ) {
+                roll /= 5;
             } else {
                 continue;
             }
         }
         // field dressing ignores everything outside below list
         if( action == F_DRESS ) {
-            if( entry.drop != "bone" ) {
+            if( entry.type == "bone" ) {
                 roll = rng( 0, roll / 2 );
             }
-            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" ||
-                entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
+            if( entry.type == "flesh" ) {
+                continue;
+            }
+            if( entry.type == "skin" ) {
                 continue;
             }
         }
 
         // field dressing removed innards and bones from meatless limbs
-        if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-            if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
-                entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" || entry.drop == "plant_sac" ) {
+        if( ( action == BUTCHER_FULL || action == BUTCHER ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
+            if( entry.type == "offal" ) {
                 continue;
             }
-            if( entry.drop == "bone" ) {
+            if( entry.type == "bone" ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
         }
         // unskillfull field dressing may damage the skin, meat, and other parts
-        if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
-            if( entry.drop == "stomach" || entry.drop == "stomach_large" ||
-                entry.drop == "hstomach" || entry.drop == "hstomach_large" ||
-                entry.drop == "offal" ) {
+        if( ( action == BUTCHER_FULL || action == BUTCHER ) &&
+            corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
+            if( entry.type == "offal" ) {
                 continue;
             }
-            if( entry.drop == "bone" || entry.drop == "bone_human" ) {
+            if( entry.type == "bone" ) {
                 roll = ( roll / 2 ) + rng( roll / 2, roll );
             }
-            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" ||
-                entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
+            if( entry.type == "flesh" || entry.type == "skin" ) {
                 roll = rng( 0, roll );
             }
         }
         // quartering ruins skin
         if( corpse_item->has_flag( "QUARTERED" ) ) {
-            if( entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
-                entry.drop == "raw_hleather" || entry.drop == "wool_staple" ||
-                entry.drop == "raw_tainted_leather" || entry.drop == "chitin_piece" ||
-                entry.drop == "acidchitin_piece" ) {
+            if( entry.type == "skin" ) {
                 roll = 0; //not continue to show fail effect
             } else {
                 roll /= 4;
             }
         }
 
-        if( roll <= 0 ) {
-            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
-            continue;
-        }
-
-        if( drop->phase == LIQUID ) {
-            g->handle_all_liquid( item( drop, age, roll ), 1 );
-
-        } else if( drop->stackable ) {
-            g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
-
-        } else {
-            item obj( drop, age );
-            obj.set_mtype( &mt );
-            for( int i = 0; i != roll; ++i ) {
-                g->m.add_item_or_charges( p.pos(), obj );
+        if( action != DISSECT && entry.type != "bionic_group" ) {
+            // divide total dropped weight by drop's weight to get amount
+            if( entry.mass_ratio != 0.00f ) {
+                // apply skill before converting to items, but only if mass_ratio is defined
+                roll *= roll_drops();
+                monster_weight_remaining -= roll;
+                roll = ceil( roll / to_gram( ( item::find_type( entry.drop ) )->weight ) );
+            } else {
+                monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
-        }
 
-        p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+            if( roll <= 0 ) {
+                p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
+                continue;
+            }
+
+            if( drop->phase == LIQUID ) {
+                g->handle_all_liquid( item( drop, bday, roll ), 1 );
+
+            } else if( drop->stackable ) {
+                g->m.add_item_or_charges( p.pos(), item( drop, bday, roll ) );
+
+            } else {
+                item obj( drop, bday );
+                obj.set_mtype( &mt );
+                for( int i = 0; i != roll; ++i ) {
+                    g->m.add_item_or_charges( p.pos(), obj );
+                }
+            }
+
+            p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
+        }
         practice++;
     }
+    // 20% of the original corpse weight is not an item, but liquid gore
+    monster_weight_remaining -= monster_weight / 5;
+    // add the remaining unusable weight as rotting garbage
+    if( monster_weight_remaining > 0 ) {
+        if( action == F_DRESS ) {
+            // 25% of the corpse weight is what's removed during field dressing
+            monster_weight_remaining -= monster_weight * 3 / 4;
+        } else {
+            // a carcass is 75% of the weight of the unmodified creature's weight
+            if( ( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
+                !corpse_item->has_flag( "QUARTERED" ) ) {
+                monster_weight_remaining -= monster_weight / 4;
+            } else if( corpse_item->has_flag( "QUARTERED" ) ) {
+                monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
+            }
+        }
+        const int item_charges = monster_weight_remaining / to_gram( (
+                                     item::find_type( "ruined_chunks" ) )->weight );
+        if( item_charges > 0 ) {
+            item ruined_parts( "ruined_chunks", bday, item_charges );
+            ruined_parts.set_mtype( &mt );
+            g->m.add_item_or_charges( p.pos(), ruined_parts );
+        }
+    }
+
     if( action == DISSECT ) {
         p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
     } else {
@@ -1032,7 +866,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = DISSECT;
     }
 
+    //Negative index means try to start next item
     if( act->index < 0 ) {
+        //No values means no items left to try
+        if( act->values.empty() ) {
+            act->set_to_null();
+            return;
+        }
         set_up_butchery( *act, *p, action );
         return;
     }
@@ -1060,19 +900,19 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
-        act->set_to_null();
+        act->index = -1;
         return;
     }
 
     int skill_level = p->get_skill_level( skill_survival );
-    int factor = p->max_quality( quality_id( "BUTCHER" ) );
+    int factor = p->max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
+                                 quality_id( "BUTCHER" ) );
 
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid );
         skill_level += p->max_quality( quality_id( "CUT_FINE" ) );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
-        factor = 0;
     }
 
     auto roll_butchery = [&]() {
@@ -1114,16 +954,16 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
                                      corpse->size + 1 ) ) );
         }
-        act->set_to_null();
+        act->index = -1;
         return;
     }
-
+    // function just for drop yields
+    auto roll_drops = [&]() {
+        factor = std::max( factor, -50 );
+        return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
+    };
     // all action types - yields
-    if( corpse->harvest.is_null() ) {
-        butchery_drops_hardcoded( &corpse_item, corpse, p, bday, roll_butchery, action );
-    } else {
-        butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action );
-    }
+    butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
 
     // reveal hidden items / hidden content
     if( action != F_DRESS ) {
@@ -1158,15 +998,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 switch( rng( 1, 3 ) ) {
                     case 1:
                         p->add_msg_if_player( m_warning,
-                                              _( "You unskillfully hack up the corpse and chop off some excess body parts. You're left wondering how you did so poorly." ) );
+                                              _( "You unskillfully hack up the corpse and chop off some excess body parts.  You're left wondering how you did so poorly." ) );
                         break;
                     case 2:
                         p->add_msg_if_player( m_warning,
-                                              _( "Your unskilled hands slip and damage the corpse. You still hope it's not a total waste though." ) );
+                                              _( "Your unskilled hands slip and damage the corpse.  You still hope it's not a total waste though." ) );
                         break;
                     case 3:
                         p->add_msg_if_player( m_warning,
-                                              _( "You did something wrong and hacked the corpse badly. Maybe it's still recoverable." ) );
+                                              _( "You did something wrong and hacked the corpse badly.  Maybe it's still recoverable." ) );
                         break;
                 }
                 corpse_item.set_flag( "FIELD_DRESS_FAILED" );
@@ -1207,8 +1047,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
-            act->set_to_null();
-            return;
             break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
@@ -1216,11 +1054,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             break;
     }
     // multibutchering
-    if( act->values.empty() ) {
-        act->set_to_null();
-    } else {
-        set_up_butchery( *act, *p, action );
-    }
+    act->index = -1;
 }
 
 enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
@@ -1293,18 +1127,18 @@ void serialize_liquid_target( player_activity &act, const monster &mon )
     act.coords.push_back( mon.pos() );
 }
 
-void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
+void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 {
-    player_activity &act = *act_;
+    player_activity &act_ref = *act;
     try {
         // 1. Gather the source item.
         vehicle *source_veh = nullptr;
-        const tripoint source_pos = act.coords.at( 0 );
+        const tripoint source_pos = act_ref.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
         std::list<item>::iterator on_ground;
         monster *source_mon = nullptr;
         item liquid;
-        const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
+        const auto source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
         int part_num = -1;
         long veh_charges = 0;
         switch( source_type ) {
@@ -1313,20 +1147,20 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
                 }
-                deserialize( liquid, act.str_values.at( 0 ) );
-                part_num = static_cast<int>( act.values.at( 1 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                part_num = static_cast<int>( act_ref.values.at( 1 ) );
                 veh_charges = liquid.charges;
                 break;
             case LST_INFINITE_MAP:
-                deserialize( liquid, act.str_values.at( 0 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = item::INFINITE_CHARGES;
                 break;
             case LST_MAP_ITEM:
-                if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
+                if( static_cast<size_t>( act_ref.values.at( 1 ) ) >= source_stack.size() ) {
                     throw std::runtime_error( "could not find source item on ground for liquid transfer" );
                 }
                 on_ground = source_stack.begin();
-                std::advance( on_ground, act.values.at( 1 ) );
+                std::advance( on_ground, act_ref.values.at( 1 ) );
                 liquid = *on_ground;
                 break;
             case LST_MONSTER:
@@ -1334,9 +1168,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 source_mon = dynamic_cast<monster *>( c );
                 if( source_mon == nullptr ) {
                     debugmsg( "could not find source creature for liquid transfer" );
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
-                deserialize( liquid, act.str_values.at( 0 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = 1;
                 break;
         }
@@ -1347,22 +1181,22 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const long original_charges = liquid.charges;
 
         // 2. Transfer charges.
-        switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
+        switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
-                if( const optional_vpart_position vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
+                if( const optional_vpart_position vp = g->m.veh_at( act_ref.coords.at( 1 ) ) ) {
                     p->pour_into( vp->vehicle(), liquid );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
             case LTT_CONTAINER:
-                p->pour_into( p->i_at( act.values.at( 3 ) ), liquid );
+                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), liquid );
                 break;
             case LTT_MAP:
-                if( iexamine::has_keg( act.coords.at( 1 ) ) ) {
-                    iexamine::pour_into_keg( act.coords.at( 1 ), liquid );
+                if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
+                    iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
                 } else {
-                    g->m.add_item_or_charges( act.coords.at( 1 ), liquid );
+                    g->m.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
                     p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
                     liquid.charges = 0;
                 }
@@ -1375,7 +1209,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const long removed_charges = original_charges - liquid.charges;
         if( removed_charges == 0 ) {
             // Nothing has been transferred, target must be full.
-            act.set_to_null();
+            act_ref.set_to_null();
             return;
         }
 
@@ -1390,15 +1224,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                     // many charges are actually left for the next time we come
                     // around this loop.
                     if( !liquid.charges ) {
-                        act.set_to_null();
+                        act_ref.set_to_null();
                     } else {
-                        act.str_values.at( 0 ) = serialize( liquid );
+                        act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
                     source_veh->drain( liquid.typeId(), removed_charges );
                 }
                 if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
             case LST_MAP_ITEM:
@@ -1413,7 +1247,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ).c_str() );
                     }
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
             case LST_INFINITE_MAP:
@@ -1422,19 +1256,19 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             case LST_MONSTER:
                 // liquid source charges handled in monexamine::milk_source
                 if( liquid.charges == 0 ) {
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
         }
 
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
-            act.set_to_null();
+            act_ref.set_to_null();
         }
 
     } catch( const std::runtime_error &err ) {
         debugmsg( "error in activity data: \"%s\"", err.what() );
-        act.set_to_null();
+        act_ref.set_to_null();
         return;
     }
 }
@@ -1484,7 +1318,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    hp_part healed = ( hp_part )act->values[0];
+    hp_part healed = static_cast<hp_part>( act->values[0] );
     long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
@@ -1494,10 +1328,10 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, int sSkillLevel, int fishChance )
+static void rod_fish( player *p, int sSkillLevel, int fishChance, const tripoint &fish_point )
 {
     if( sSkillLevel > fishChance ) {
-        std::vector<monster *> fishables = g->get_fishable( 60 ); //get the nearby fish list.
+        std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.empty() ) {
             if( one_in( 20 ) ) {
@@ -1532,8 +1366,9 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice( 1, 6 ) + 3;
         fishChance = dice( 1, 20 );
     }
+    const tripoint fish_pos = act->placement;
     ///\EFFECT_SURVIVAL increases chance of fishing success
-    rod_fish( p, sSkillLevel, fishChance );
+    rod_fish( p, sSkillLevel, fishChance, fish_pos );
     p->practice( skill_survival, rng( 5, 15 ) );
     act->set_to_null();
 }
@@ -1630,11 +1465,11 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::hotwire_finish( player_activity *act, player *pl )
+void activity_handlers::hotwire_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                           pl->posz() ) ) ) {
+                                           p->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
         if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
@@ -1663,7 +1498,7 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
-    const static std::string salvage_string = "salvage";
+    static const std::string salvage_string = "salvage";
     item &main_tool = p->i_at( act->index );
     auto items = g->m.i_at( p->pos() );
     item *salvage_tool = main_tool.get_usable_item( salvage_string );
@@ -1681,9 +1516,10 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         return;
     }
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            actor->cut_up( *p, *salvage_tool, *it );
+    for( auto &item : items ) {
+        if( actor->valid_to_cut_up( item ) ) {
+            item_location item_loc( map_cursor( p->pos() ), &item );
+            actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
     }
@@ -1697,15 +1533,15 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     act->set_to_null();
     auto items = g->m.i_at( p->pos() );
     std::string corpse_name = act->str_values[0];
-    item *body = NULL;
+    item *body = nullptr;
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( it->display_name() == corpse_name ) {
-            body = &*it;
+    for( auto &item : items ) {
+        if( item.display_name() == corpse_name ) {
+            body = &item;
         }
     }
 
-    if( body == NULL ) {
+    if( body == nullptr ) {
         add_msg( m_info, _( "There's no corpse to make into a zombie slave!" ) );
         return;
     }
@@ -1766,7 +1602,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
     const tripoint &pos = act->placement;
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::combat, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -1859,7 +1695,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            float stamina_ratio = ( float )p->stamina / p->get_stamina_max();
+            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             p->mod_stat( "stamina", stamina_ratio * -40 );
 
             moves += 100 / std::max( 0.25f, stamina_ratio );
@@ -1934,7 +1770,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
             sfx::play_variant_sound( "reload", reloadable.typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume,
-                                   reloadable.type->gun->reload_noise );
+                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise );
         }
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
@@ -1963,7 +1799,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     float light = actor->light_mod( p->pos() );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
-        add_msg( m_bad, _( "There is not enough sunlight to start a fire now. You stop trying." ) );
+        add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
         p->cancel_activity();
     }
 }
@@ -2013,11 +1849,11 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     return;
 }
 
-void activity_handlers::vehicle_finish( player_activity *act, player *pl )
+void activity_handlers::vehicle_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
     const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                       pl->posz() ) );
+                                       p->posz() ) );
     veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -2097,33 +1933,45 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     }
 
     int attempted = 0;
+    int non_muscle_attempted = 0;
     int started = 0;
-    int not_muscle = 0;
+    int non_muscle_started = 0;
     const bool take_control = act->values[0];
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
             attempted++;
+            if( !veh->is_engine_type( e, "muscle" ) ) {
+                non_muscle_attempted++;
+            }
             if( veh->start_engine( e ) ) {
                 started++;
-            }
-            if( !veh->is_engine_type( e, "muscle" ) ) {
-                not_muscle++;
+                if( !veh->is_engine_type( e, "muscle" ) ) {
+                    non_muscle_started++;
+                }
             }
         }
     }
 
-    veh->engine_on = attempted > 0 && started == attempted;
+    //Did any engines start?
+    veh->engine_on = started;
 
     if( attempted == 0 ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name.c_str() );
-    } else if( not_muscle > 0 ) {
-        if( started == attempted ) {
+    } else if( non_muscle_attempted > 0 ) {
+        //Some non-muscle engines tried to start
+        if( non_muscle_attempted == non_muscle_started ) {
+            //All of the non-muscle engines started
             add_msg( ngettext( "The %s's engine starts up.",
-                               "The %s's engines start up.", not_muscle ), veh->name.c_str() );
+                               "The %s's engines start up.", non_muscle_started ), veh->name.c_str() );
+        } else if( non_muscle_started > 0 ) {
+            //Only some of the non-muscle engines started
+            add_msg( ngettext( "One of the %s's engines start up.",
+                               "Some of the %s's engines start up.", non_muscle_started ), veh->name.c_str() );
         } else {
+            //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
-                                      "The %s's engines fail to start.", not_muscle ), veh->name.c_str() );
+                                      "The %s's engines fail to start.", non_muscle_attempted ), veh->name.c_str() );
         }
     }
 
@@ -2147,7 +1995,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     act->values[0] -= int( charges_used );
 
     if( calendar::once_every( 2_turns ) ) {
-        sounds::sound( act->placement, 10, _( "hissssssssss!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hissssssssss!" ) );
     }
 }
 
@@ -2218,12 +2066,13 @@ void activity_handlers::open_gate_finish( player_activity *act, player * )
 }
 
 enum repeat_type : int {
-    REPEAT_ONCE = 0,    // Repeat just once
+    // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
+    REPEAT_INIT = 0,    // Haven't found repeat value yet.
+    REPEAT_ONCE,        // Repeat just once
     REPEAT_FOREVER,     // Repeat for as long as possible
     REPEAT_FULL,        // Repeat until damage==0
     REPEAT_EVENT,       // Repeat until something interesting happens
     REPEAT_CANCEL,      // Stop repeating
-    REPEAT_INIT         // Haven't found repeat value yet.
 };
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
@@ -2232,15 +2081,16 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     rmenu.text = title;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
-    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
+    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat until reinforced" ) );
     rmenu.addentry( REPEAT_FULL, true, '3', _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( REPEAT_EVENT, true, '4', _( "Repeat until success/failure/level up" ) );
+    rmenu.addentry( REPEAT_INIT, true, '5', _( "Back to item selection" ) );
 
-    rmenu.selected = last_selection;
-
+    rmenu.selected = last_selection - REPEAT_ONCE;
     rmenu.query();
-    if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
-        return ( repeat_type )rmenu.ret;
+
+    if( rmenu.ret >= REPEAT_INIT && rmenu.ret <= REPEAT_EVENT ) {
+        return static_cast<repeat_type>( rmenu.ret );
     }
 
     return REPEAT_CANCEL;
@@ -2267,7 +2117,7 @@ struct weldrig_hack {
 
         part = act.values[1];
         veh = veh_pointer_or_null( g->m.veh_at( act.coords[0] ) );
-        if( veh == nullptr || veh->parts.size() <= ( size_t )part ) {
+        if( veh == nullptr || veh->parts.size() <= static_cast<size_t>( part ) ) {
             part = -1;
             return false;
         }
@@ -2295,16 +2145,20 @@ struct weldrig_hack {
         veh->charge_battery( pseudo.charges );
         pseudo.charges = 0;
     }
+
+    ~weldrig_hack() {
+        clean_up();
+    }
 };
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    repeat_type repeat = ( repeat_type )act->get_value( 0, REPEAT_INIT );
+    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
     weldrig_hack w_hack;
     item_location *ploc = nullptr;
 
-    if( act->targets.size() > 0 ) {
+    if( !act->targets.empty() ) {
         ploc = &act->targets[0];
     }
 
@@ -2318,7 +2172,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    bool event_happened = false;
 
     const auto use_fun = used_tool->get_use( iuse_name_string );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
@@ -2329,18 +2182,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
-    // TODO: Allow setting this in the actor
-    // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-    if( !used_tool->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
-        act->set_to_null();
-        return;
-    }
+    // Valid Repeat choice and target, attempt repair.
+    if( repeat != REPEAT_INIT && act->position != INT_MIN ) {
+        item &fix = p->i_at( act->position );
 
-    item &fix = p->i_at( act->position );
-
-    // The first time through we just find out how many times the player wants to repeat the action.
-    if( repeat != REPEAT_INIT ) {
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
@@ -2352,33 +2197,66 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         }
 
+        // TODO: Allow setting this in the actor
+        // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
+        if( !used_tool->ammo_sufficient() ) {
+            p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
+            act->set_to_null();
+            return;
+        }
+
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         if( attempt == repair_item_actor::AS_CANT ||
             destroyed ||
-            !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
-            // Can't repeat any more
-            act->set_to_null();
-            w_hack.clean_up();
-            return;
+            !actor->can_repair_target( *p, fix, !destroyed ) ) {
+            // Cannot continue to repair target, select another target.
+            act->position = INT_MIN;
         }
 
-        event_happened =
+        bool event_happened =
             attempt == repair_item_actor::AS_FAILURE ||
             attempt == repair_item_actor::AS_SUCCESS ||
             old_level != p->get_skill_level( actor->used_skill );
-    } else {
-        repeat = REPEAT_ONCE;
+
+        const bool need_input =
+            repeat == REPEAT_ONCE ||
+            ( repeat == REPEAT_EVENT && event_happened ) ||
+            ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+        if( need_input ) {
+            repeat = REPEAT_INIT;
+        }
+    }
+    // Check tool is valid before we query target and Repeat choice.
+    if( !actor->can_use_tool( *p, *used_tool, true ) ) {
+        act->set_to_null();
+        return;
     }
 
-    w_hack.clean_up();
-    const bool need_input =
-        repeat == REPEAT_ONCE ||
-        ( repeat == REPEAT_EVENT && event_happened ) ||
-        ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+    // target selection and validation.
+    while( act->position == INT_MIN ) {
+        g->draw_sidebar_messages();     // Refresh messages to show feedback.
+        const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
+            return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
+                   &itm != &main_tool;
+        }, string_format( _( "You have no items that could be repaired with a %s." ),
+                          main_tool.type_name( 1 ) ) );
 
-    if( need_input ) {
+        if( pos == INT_MIN ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ) );
+            act->set_to_null();
+            return;
+        }
+        if( actor->can_repair_target( *p, p->i_at( pos ), true ) ) {
+            act->position = pos;
+            repeat = REPEAT_INIT;
+        }
+    }
+
+    const item &fix = p->i_at( act->position );
+
+    if( repeat == REPEAT_INIT ) {
         g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
@@ -2392,20 +2270,33 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s\nSuccess chance: %.1f%%\nDamage chance: %.1f%%" ),
-                                      repair_item_actor::action_description( action_type ).c_str(),
+                                      _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
+                                         "Damage chance: <color_light_blue>%.1f</color>%%" ),
+                                      repair_item_actor::action_description( action_type ),
+                                      fix.tname(),
                                       100.0f * chance.first, 100.0f * chance.second );
-        repeat_type answer = repeat_menu( title, repeat );
-        if( answer == REPEAT_CANCEL ) {
-            act->set_to_null();
-            return;
-        }
 
         if( act->values.empty() ) {
             act->values.resize( 1 );
         }
+        do {
+            g->draw_sidebar_messages();
+            repeat = repeat_menu( title, repeat );
 
-        act->values[0] = static_cast<int>( answer );
+            if( repeat == REPEAT_CANCEL ) {
+                act->set_to_null();
+                return;
+            }
+            act->values[0] = static_cast<int>( repeat );
+            if( repeat == REPEAT_INIT ) {       // BACK selected, redo target selection next.
+                p->activity.position = INT_MIN;
+                return;
+            }
+            if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
+                p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+                repeat = REPEAT_INIT;
+            }
+        } while( repeat == REPEAT_INIT );
     }
 
     // Otherwise keep retrying
@@ -2626,6 +2517,12 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::socialize_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
@@ -2720,7 +2617,7 @@ void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
-        sounds::sound( act->placement, 15, _( "grnd grnd grnd" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "grnd grnd grnd" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2785,7 +2682,7 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( act->placement, 15, _( "CHK!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "CHK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2795,7 +2692,12 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     tripoint direction;
-    while( !choose_direction( _( "Select a direction for the tree to fall in." ), direction ) ) {
+    while( true ) {
+        if( const cata::optional<tripoint> dir = choose_direction(
+                    _( "Select a direction for the tree to fall in." ) ) ) {
+            direction = *dir;
+            break;
+        }
         // try again
     }
 
@@ -2841,7 +2743,7 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
-        sounds::sound( act->placement, 15, _( "TATATATATATATAT!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "TATATATATATATAT!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2864,7 +2766,7 @@ void activity_handlers::dig_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2891,7 +2793,7 @@ void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2917,6 +2819,14 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
+{
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                          act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::shaving_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You open up your kit and shave." ) );
@@ -2931,7 +2841,40 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+void activity_handlers::unload_mag_finish( player_activity *act, player *p )
+{
+    long qty = 0;
+    item &it = *act->targets[ 0 ];
+
+    // remove the ammo leads in the belt
+    it.contents.erase( std::remove_if( it.contents.begin(),
+    it.contents.end(), [&]( item & e ) {
+        if( !p->add_or_drop_with_msg( e, true ) ) {
+            return false;
+        }
+        qty += e.charges;
+        return true;
+    } ), it.contents.end() );
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            p->add_or_drop_with_msg( link, true );
+        }
+        add_msg( _( "You disassemble your %s." ), it.tname().c_str() );
+    } else {
+        add_msg( _( "You unload your %s." ), it.tname().c_str() );
+    }
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        act->targets[ 0 ].remove_item();
+    }
+
+    act->set_to_null();
+}
+
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {
@@ -2962,21 +2905,17 @@ static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
     }
 }
 
-void activity_handlers::till_plot_do_turn( player_activity *, player *p )
+static void perform_zone_activity_turn( player *p,
+                                        const zone_type_id &ztype,
+                                        const std::function<bool( const tripoint & )> &tile_filter,
+                                        const std::function<void ( player &p, const tripoint & )> &tile_action,
+                                        const std::string &finished_msg )
 {
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+    auto unsorted_tiles = mgr.get_near( ztype, abspos );
 
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
-    // cleanup unwanted tiles
-    auto cleanup = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
-               g->m.ter( tile ) == t_dirtmound;
-    };
-    cleanup_tiles( unsorted_tiles, cleanup );
+    cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
     const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
@@ -2987,37 +2926,114 @@ void activity_handlers::till_plot_do_turn( player_activity *, player *p )
         auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
-            }
+
+            p->set_destination( route, p->activity );
+            p->activity.set_to_null();
             return;
         } else { // we are at destination already
-            p->add_msg_if_player( _( "You churn up the earth here." ) );
-            p->mod_moves( -300 );
-            g->m.ter_set( tile_loc, t_dirtmound );
+            /* Perform action */
+            tile_action( *p, tile_loc );
 
             if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_TILL_PLOT" ) );
                 return;
             }
         }
     }
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You tilled every tile you could." ) );
+    add_msg( m_info, finished_msg );
+    p->activity.set_to_null();
+}
+
+
+void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
+{
+    auto reject_tile = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
+    };
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                iexamine::harvest_plant,
+                                _( "You harvested all the plots you could." ) );
+
+}
+
+void activity_handlers::till_plot_do_turn( player_activity *, player *p )
+{
+    auto reject_tile = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+               g->m.ter( tile ) == t_dirtmound;
+    };
+
+    auto dig = []( player & p, const tripoint & tile_loc ) {
+        p.add_msg_if_player( _( "You churn up the earth here." ) );
+        p.mod_moves( -300 );
+        g->m.ter_set( tile_loc, t_dirtmound );
+    };
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                dig,
+                                _( "You tilled every tile you could." ) );
+}
+
+void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p )
+{
+    itype_id fertilizer;
+    auto check_fertilizer = [&]( bool ask_user = true ) -> void {
+        if( act->str_values.empty() )
+        {
+            act->str_values.push_back( "" );
+        }
+        fertilizer = act->str_values[0];
+
+        /* If unspecified, or if we're out of what we used before, ask */
+        if( ask_user && ( fertilizer.empty() || !p->has_charges( fertilizer, 1 ) ) )
+        {
+            fertilizer = iexamine::choose_fertilizer( *p, "plant",
+                    false /* Don't confirm action with player */ );
+            act->str_values[0] = fertilizer;
+        }
+    };
+
+    auto have_fertilizer = [&]() {
+        return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
+    };
+
+
+    auto reject_tile = [&]( const tripoint & tile ) {
+        check_fertilizer();
+        std::string failure = iexamine::fertilize_failure_reason( *p, tile, fertilizer );
+        return !p->sees( tile ) || !failure.empty();
+    };
+
+    auto fertilize = [&]( player & p, const tripoint & tile ) {
+        check_fertilizer();
+        if( have_fertilizer() ) {
+            iexamine::fertilize_plant( p, tile, fertilizer );
+            if( !have_fertilizer() ) {
+                add_msg( m_info, _( "You have run out of %s" ), fertilizer );
+            }
+        }
+    };
+
+    check_fertilizer();
+    if( !have_fertilizer() ) {
+        act->set_to_null();
+        return;
+    }
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                fertilize,
+                                _( "You fertilized every plot you could." ) );
 }
 
 void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 {
     const auto &mgr = zone_manager::get_manager();
-    const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
-
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
     std::vector<item *> seed_inv = p->items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
@@ -3030,7 +3046,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
             const auto seed = options.get_seed();
 
-            if( seed != "" && !( std::find( seeds.begin(), seeds.end(), seed ) != seeds.end() ) ) {
+            if( !seed.empty() && std::find( seeds.begin(), seeds.end(), seed ) == seeds.end() ) {
                 seeds.emplace_back( seed );
             }
         }
@@ -3039,8 +3055,8 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     };
 
     // cleanup unwanted tiles (local coords)
-    auto cleanup = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound ) {
+    auto reject_tiles = [&]( const tripoint & tile ) {
+        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
             return true;
         }
 
@@ -3052,42 +3068,24 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             } );
         } );
     };
-    cleanup_tiles( unsorted_tiles, cleanup );
 
-    // sort remaining tiles by distance
-    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
-
-    for( auto &tile : tiles ) {
-        const auto &tile_loc = g->m.getlocal( tile );
-
-        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
-        if( route.size() > 1 ) {
-            route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
-            }
-            return;
-        } else { // we are at destination already
-            const auto seeds = get_seeds( tile_loc );
-            std::vector<item *> seed_inv = p->items_with( [seeds]( const item & itm ) {
-                return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
-                    return itm.typeId() == itype_id( seed );
-                } );
+    auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
+        const auto seeds = get_seeds( tile_loc );
+        std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
+            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
+                return itm.typeId() == itype_id( seed );
             } );
-            if( seed_inv.size() > 0 ) {
-                auto it = seed_inv.front();
-                iexamine::plant_seed( *p, tile_loc, it->typeId() );
-            }
-
-            if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-                return;
-            }
+        } );
+        if( !seed_inv.empty() ) {
+            auto it = seed_inv.front();
+            iexamine::plant_seed( p, tile_loc, it->typeId() );
         }
-    }
+    };
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You planted all seeds you could." ) );
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tiles,
+                                plant_appropriate_seed,
+                                _( "You planted all seeds you could." ) );
 }

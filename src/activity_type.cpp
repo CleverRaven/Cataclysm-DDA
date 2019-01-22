@@ -1,12 +1,15 @@
 #include "activity_type.h"
 
+#include <map>
+#include <unordered_map>
+
 #include "activity_handlers.h"
 #include "assign.h"
+#include "catalua.h"
 #include "debug.h"
 #include "json.h"
+#include "player.h"
 #include "translations.h"
-
-#include <unordered_map>
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;
@@ -53,7 +56,7 @@ void activity_type::load( JsonObject &jo )
 void activity_type::check_consistency()
 {
     for( const auto &pair : activity_type_all ) {
-        if( pair.second.stop_phrase_ == "" ) {
+        if( pair.second.stop_phrase_.empty() ) {
             debugmsg( "%s doesn't have a stop phrase", pair.first.c_str() );
         }
         if( pair.second.based_on_ == based_on_type::NEITHER &&
@@ -83,7 +86,12 @@ void activity_type::call_do_turn( player_activity *act, player *p ) const
 {
     const auto &pair = activity_handlers::do_turn_functions.find( id_ );
     if( pair != activity_handlers::do_turn_functions.end() ) {
+        CallbackArgumentContainer lua_callback_args_info;
+        lua_callback_args_info.emplace_back( act->id().str() );
+        lua_callback_args_info.emplace_back( p->getID() );
+        lua_callback( "on_activity_call_do_turn_started", lua_callback_args_info );
         pair->second( act, p );
+        lua_callback( "on_activity_call_do_turn_finished", lua_callback_args_info );
     }
 }
 
@@ -91,7 +99,12 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
 {
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
+        CallbackArgumentContainer lua_callback_args_info;
+        lua_callback_args_info.emplace_back( act->id().str() );
+        lua_callback_args_info.emplace_back( p->getID() );
+        lua_callback( "on_activity_call_finish_started", lua_callback_args_info );
         pair->second( act, p );
+        lua_callback( "on_activity_call_finish_finished", lua_callback_args_info );
         return true;
     }
     return false;

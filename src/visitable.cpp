@@ -1,20 +1,19 @@
 #include "visitable.h"
 
-#include "string_id.h"
-#include "debug.h"
-#include "item.h"
-#include "inventory.h"
-#include "character.h"
-#include "map_selector.h"
-#include "vehicle_selector.h"
 #include "bionics.h"
-#include "map.h"
-#include "submap.h"
-#include "vehicle.h"
-#include "veh_type.h"
+#include "character.h"
+#include "debug.h"
 #include "game.h"
-#include "itype.h"
+#include "inventory.h"
+#include "item.h"
+#include "map.h"
+#include "map_selector.h"
 #include "player.h"
+#include "string_id.h"
+#include "submap.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 
 /** @relates visitable */
 template <typename T>
@@ -120,7 +119,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int qty = 0;
 
     auto pos = veh.parts[ part ].mount;
-    for( const auto &n : veh.parts_at_relative( pos.x, pos.y, true ) ) {
+    for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.parts[ n ].is_broken() ) {
@@ -214,7 +213,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int res = INT_MIN;
 
     auto pos = veh.parts[ part ].mount;
-    for( const auto &n : veh.parts_at_relative( pos.x, pos.y, true ) ) {
+    for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.parts[ n ].is_broken() ) {
@@ -636,22 +635,22 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     }
 
     // fetch the appropriate item stack
-    int x = 0;
-    int y = 0;
-    submap *sub = g->m.get_submap_at( *cur, x, y );
+    point offset;
+    submap *sub = g->m.get_submap_at( *cur, offset );
 
-    for( auto iter = sub->itm[ x ][ y ].begin(); iter != sub->itm[ x ][ y ].end(); ) {
+    for( auto iter = sub->itm[ offset.x ][ offset.y ].begin();
+         iter != sub->itm[ offset.x ][ offset.y ].end(); ) {
         if( filter( *iter ) ) {
             // check for presence in the active items cache
-            if( sub->active_items.has( iter, point( x, y ) ) ) {
-                sub->active_items.remove( iter, point( x, y ) );
+            if( sub->active_items.has( iter, offset ) ) {
+                sub->active_items.remove( iter, offset );
             }
 
             // if necessary remove item from the luminosity map
-            sub->update_lum_rem( *iter, x, y );
+            sub->update_lum_rem( offset, *iter );
 
             // finally remove the item
-            res.splice( res.end(), sub->itm[ x ][ y ], iter++ );
+            res.splice( res.end(), sub->itm[ offset.x ][ offset.y ], iter++ );
 
             if( --count == 0 ) {
                 return res;
@@ -823,7 +822,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
-            return std::min( ( long )p->power_level, limit );
+            return std::min( static_cast<long>( p->power_level ), limit );
         } else {
             return 0;
         }

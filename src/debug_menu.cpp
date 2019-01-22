@@ -1,25 +1,27 @@
 #include "debug_menu.h"
 
+#include <algorithm>
+#include <chrono>
+#include <vector>
+
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "messages.h"
-#include "overmap.h"
-#include "overmap_ui.h"
-#include "player.h"
-#include "ui.h"
+#include "mission.h"
+#include "morale_types.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "vitamin.h"
-#include "mission.h"
+#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "morale_types.h"
-
-#include <algorithm>
-#include <vector>
+#include "ui.h"
+#include "vitamin.h"
 
 namespace debug_menu
 {
@@ -60,13 +62,12 @@ void teleport_long()
 
 void teleport_overmap()
 {
-    tripoint dir;
-
-    if( !choose_direction( _( "Where is the desired overmap?" ), dir ) ) {
+    const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+    if( !dir_ ) {
         return;
     }
 
-    const tripoint offset( OMAPX * dir.x, OMAPY * dir.y, dir.z );
+    const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
     const tripoint where( g->u.global_omt_location() + offset );
 
     g->place_player_overmap( where );
@@ -398,7 +399,7 @@ void character_edit_menu()
             }
 
             types.query();
-            if( types.ret >= 0 && types.ret < ( int )mts.size() ) {
+            if( types.ret >= 0 && types.ret < static_cast<int>( mts.size() ) ) {
                 np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
             }
         }
@@ -427,7 +428,7 @@ void character_edit_menu()
             }
 
             classes.query();
-            if( classes.ret < ( int )ids.size() && classes.ret >= 0 ) {
+            if( classes.ret < static_cast<int>( ids.size() ) && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
             }
         }
@@ -468,10 +469,10 @@ std::string mission_debug::describe( const mission &m )
 
 void add_header( uilist &mmenu, const std::string &str )
 {
-    if( mmenu.entries.size() != 0 ) {
+    if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
     }
-    uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
+    uilist_entry header( -1, false, -1, str, c_yellow, c_yellow );
     header.force_color = true;
     mmenu.entries.push_back( header );
 }
@@ -506,7 +507,7 @@ void mission_debug::edit_npc( npc &who )
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 
@@ -539,7 +540,7 @@ void mission_debug::edit_player()
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= static_cast<int>( all_missions.size() ) ) {
         return;
     }
 
@@ -606,6 +607,36 @@ void mission_debug::edit_mission( mission &m )
             remove_mission( m );
             break;
     }
+}
+
+void draw_benchmark( const int max_difference )
+{
+    // call the draw procedure as many times as possible in max_difference milliseconds
+    auto start_tick = std::chrono::steady_clock::now();
+    auto end_tick = std::chrono::steady_clock::now();
+    long difference = 0;
+    int draw_counter = 0;
+    while( true ) {
+        end_tick = std::chrono::steady_clock::now();
+        difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick - start_tick ).count();
+        if( difference >= max_difference ) {
+            break;
+        }
+        g->draw();
+        draw_counter++;
+    }
+
+    DebugLog( D_INFO, DC_ALL ) << "Draw benchmark:\n" <<
+                               "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
+                               "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
+                               get_option<bool>( "USE_TILES" ) << " | " <<
+                               get_option<std::string>( "RENDERER" ) << " | " <<
+                               get_option<bool>( "FRAMEBUFFER_ACCEL" ) << " | " <<
+                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
+                               int( 1000.0 * draw_counter / ( double )difference ) << " |\n";
+
+    add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
+             difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
 }
 
 }

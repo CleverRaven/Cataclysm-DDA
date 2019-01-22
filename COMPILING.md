@@ -121,7 +121,7 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential
+    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
 
 ### Building
 
@@ -154,7 +154,7 @@ A more comprehensive alternative is:
 
     make -j2 TILES=1 SOUND=1 RELEASE=1 LUA=1 USE_HOME_DIR=1
 
-The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to use lua, or have sound, those flags can also be ommitted. The USE_HOME_DIR flag places the user files, like configurations and saves into the home folder, making It easier for backups, and can also be omitted.
+The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to use lua, or have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves into the home folder, making It easier for backups, and can also be omitted.
 
 
 
@@ -298,7 +298,7 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_image (tested with 2.0.3)
   * libintl-lite (tested with a custom fork of libintl-lite 0.5)
   * lua (tested with lua 5.1.5)
-  
+
 The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
 
 ### Setup
@@ -522,6 +522,12 @@ For SDL:
 
 For `app` builds, launch Cataclysm.app from Finder.
 
+### Test suite
+
+The build will also generate a test executable at tests/cata_test.
+Invoke it as you would any other executable and it will run the full suite of tests.
+Pass the ``--help`` flag to list options.
+
 ### dmg distribution
 
 You can build a nice dmg distribution file with the `dmgdist` target. You will need a tool called [dmgbuild](https://pypi.python.org/pypi/dmgbuild). To install this tool, you will need Python first. If you are on Mac OS X >= 10.8, Python 2.7 is pre-installed with the OS. If you are on an older version of OS X, you can download Python [on their official website](https://www.python.org/downloads/) or install it with homebrew `brew install python`. Once you have Python, you should be able to install `dmgbuild` by running:
@@ -606,11 +612,11 @@ If we want to compile with Tiles (SDL) we have to download a few libraries.
 * `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`
 
 #### Bundled Libraries
-The following archives were pre-bundled for convienience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
+The following archives were pre-bundled for convenience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
 * `64-bit SDL \ Tiles \ Sound \ Lua \ Localization` http://dev.narc.ro/cataclysm/cdda-win64-codeblocks.7z
 
 #### Installing Tiles(SDL) libraries.
-For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installtion folder. (Reccomended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
+For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installation folder. (Recommended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
 
 For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
 
@@ -620,7 +626,7 @@ https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h
 Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
 
 ### Makefile changes
-This probably not the best way to do it. But it seems that you need to remove a few dependenceis from the makefile or it will not build.
+This probably not the best way to do it. But it seems that you need to remove a few dependencies from the makefile or it will not build.
 change the line `LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2` to `LDFLAGS += -lfreetype`
 
 ### Compiling

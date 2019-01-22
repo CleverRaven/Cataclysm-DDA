@@ -1,18 +1,15 @@
 #include "artifact.h"
 
-#include "output.h" // string_format
-#include "item_factory.h"
-#include "debug.h"
-#include "json.h"
-#include "string_formatter.h"
-#include "cata_utility.h"
-#include "rng.h"
-#include "translations.h"
-
-#include <bitset>
-#include <cmath>
 #include <array>
+#include <cmath>
 #include <sstream>
+
+#include "cata_utility.h"
+#include "item_factory.h"
+#include "json.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -608,10 +605,10 @@ it_artifact_tool::it_artifact_tool() : itype()
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
     artifact->charge_req = ACR_NULL;
-    artifact->dream_msg_unmet  = artifact_dream_data[( int )ACR_NULL].msg_unmet;
-    artifact->dream_msg_met    = artifact_dream_data[( int )ACR_NULL].msg_met;
-    artifact->dream_freq_unmet = artifact_dream_data[( int )ACR_NULL].freq_unmet;
-    artifact->dream_freq_met   = artifact_dream_data[( int )ACR_NULL].freq_met;
+    artifact->dream_msg_unmet  = artifact_dream_data[static_cast<int>( ACR_NULL )].msg_unmet;
+    artifact->dream_msg_met    = artifact_dream_data[static_cast<int>( ACR_NULL )].msg_met;
+    artifact->dream_freq_unmet = artifact_dream_data[static_cast<int>( ACR_NULL )].freq_unmet;
+    artifact->dream_freq_met   = artifact_dream_data[static_cast<int>( ACR_NULL )].freq_met;
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
@@ -783,11 +780,14 @@ std::string new_artifact()
             def.artifact->charge_req = art_charge_req( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
         }
         // Assign dream data (stored individually so they can be overridden in json)
-        def.artifact->dream_msg_unmet  = artifact_dream_data[( int )( def.artifact->charge_req )].msg_unmet;
-        def.artifact->dream_msg_met    = artifact_dream_data[( int )( def.artifact->charge_req )].msg_met;
-        def.artifact->dream_freq_unmet = artifact_dream_data[( int )(
-                                             def.artifact->charge_req )].freq_unmet;
-        def.artifact->dream_freq_met   = artifact_dream_data[( int )( def.artifact->charge_req )].freq_met;
+        def.artifact->dream_msg_unmet  = artifact_dream_data[static_cast<int>
+                                         ( def.artifact->charge_req )].msg_unmet;
+        def.artifact->dream_msg_met    = artifact_dream_data[static_cast<int>
+                                         ( def.artifact->charge_req )].msg_met;
+        def.artifact->dream_freq_unmet = artifact_dream_data[static_cast<int>
+                                         ( def.artifact->charge_req )].freq_unmet;
+        def.artifact->dream_freq_met   = artifact_dream_data[static_cast<int>
+                                         ( def.artifact->charge_req )].freq_met;
         // Stronger artifacts have a higher chance of picking their dream
         def.artifact->dream_freq_unmet *= ( 1 + 0.1 * ( num_bad + num_good ) );
         def.artifact->dream_freq_met   *= ( 1 + 0.1 * ( num_bad + num_good ) );
@@ -827,13 +827,13 @@ std::string new_artifact()
             const artifact_armor_mod mod = random_entry_ref( info.available_mods );
             if( mod != ARMORMOD_NULL ) {
                 const artifact_armor_form_datum &modinfo = artifact_armor_mod_data[mod];
-                if( modinfo.volume >= 0 || def.volume > -modinfo.volume ) {
+                if( modinfo.volume >= 0_ml || def.volume > -modinfo.volume ) {
                     def.volume += modinfo.volume;
                 } else {
                     def.volume = 250_ml;
                 }
 
-                if( modinfo.weight >= 0 || def.weight.value() > std::abs( modinfo.weight.value() ) ) {
+                if( modinfo.weight >= 0_gram || def.weight.value() > std::abs( modinfo.weight.value() ) ) {
                     def.weight += modinfo.weight;
                 } else {
                     def.weight = 1_gram;
@@ -860,10 +860,10 @@ std::string new_artifact()
                 }
                 def.armor->warmth += modinfo.warmth;
 
-                if( modinfo.storage > 0 || def.armor->storage > -modinfo.storage ) {
+                if( modinfo.storage > 0_ml || def.armor->storage > -modinfo.storage ) {
                     def.armor->storage += modinfo.storage;
                 } else {
-                    def.armor->storage = 0;
+                    def.armor->storage = 0_ml;
                 }
 
                 description << string_format( info.plural ?
@@ -1007,11 +1007,14 @@ std::string new_natural_artifact( artifact_natural_property prop )
         }
     }
     // Assign dream data (stored individually so they can be overridden in json)
-    def.artifact->dream_msg_unmet  = artifact_dream_data[( int )( def.artifact->charge_req )].msg_unmet;
-    def.artifact->dream_msg_met    = artifact_dream_data[( int )( def.artifact->charge_req )].msg_met;
-    def.artifact->dream_freq_unmet = artifact_dream_data[( int )(
-                                         def.artifact->charge_req )].freq_unmet;
-    def.artifact->dream_freq_met   = artifact_dream_data[( int )( def.artifact->charge_req )].freq_met;
+    def.artifact->dream_msg_unmet  = artifact_dream_data[static_cast<int>
+                                     ( def.artifact->charge_req )].msg_unmet;
+    def.artifact->dream_msg_met    = artifact_dream_data[static_cast<int>
+                                     ( def.artifact->charge_req )].msg_met;
+    def.artifact->dream_freq_unmet = artifact_dream_data[static_cast<int>
+                                     ( def.artifact->charge_req )].freq_unmet;
+    def.artifact->dream_freq_met   = artifact_dream_data[static_cast<int>
+                                     ( def.artifact->charge_req )].freq_met;
     item_controller->add_item_type( static_cast<itype &>( def ) );
     return def.get_id();
 }
@@ -1092,9 +1095,9 @@ std::string artifact_name( const std::string &type )
 
 /* Json Loading and saving */
 
-void load_artifacts( const std::string &artfilename )
+void load_artifacts( const std::string &path )
 {
-    read_from_file_optional_json( artfilename, []( JsonIn & artifact_json ) {
+    read_from_file_optional_json( path, []( JsonIn & artifact_json ) {
         artifact_json.start_array();
         while( !artifact_json.end_array() ) {
             JsonObject jo = artifact_json.get_object();
@@ -1158,33 +1161,33 @@ void it_artifact_tool::deserialize( JsonObject &jo )
         tool->revert_to.reset();
     }
 
-    artifact->charge_type = ( art_charge )jo.get_int( "charge_type" );
+    artifact->charge_type = static_cast<art_charge>( jo.get_int( "charge_type" ) );
 
     // Artifacts in older saves do not have charge_req
     if( jo.has_int( "charge_req" ) ) {
-        artifact->charge_req  = ( art_charge_req )jo.get_int( "charge_req" );
+        artifact->charge_req  = static_cast<art_charge_req>( jo.get_int( "charge_req" ) );
     } else {
         artifact->charge_req = ACR_NULL;
     }
 
     JsonArray ja = jo.get_array( "effects_wielded" );
     while( ja.has_more() ) {
-        artifact->effects_wielded.push_back( ( art_effect_passive )ja.next_int() );
+        artifact->effects_wielded.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
     }
 
     ja = jo.get_array( "effects_activated" );
     while( ja.has_more() ) {
-        artifact->effects_activated.push_back( ( art_effect_active )ja.next_int() );
+        artifact->effects_activated.push_back( static_cast<art_effect_active>( ja.next_int() ) );
     }
 
     ja = jo.get_array( "effects_carried" );
     while( ja.has_more() ) {
-        artifact->effects_carried.push_back( ( art_effect_passive )ja.next_int() );
+        artifact->effects_carried.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
     }
 
     //Generate any missing dream data (due to e.g. old save)
     if( !jo.has_array( "dream_unmet" ) ) {
-        artifact->dream_msg_unmet = artifact_dream_data[( int )( artifact->charge_req )].msg_unmet;
+        artifact->dream_msg_unmet = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_unmet;
     } else {
         ja = jo.get_array( "dream_unmet" );
         while( ja.has_more() ) {
@@ -1192,7 +1195,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
         }
     }
     if( !jo.has_array( "dream_met" ) ) {
-        artifact->dream_msg_met   = artifact_dream_data[( int )( artifact->charge_req )].msg_met;
+        artifact->dream_msg_met   = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_met;
     } else {
         ja = jo.get_array( "dream_met" );
         while( ja.has_more() ) {
@@ -1202,12 +1205,13 @@ void it_artifact_tool::deserialize( JsonObject &jo )
     if( jo.has_int( "dream_freq_unmet" ) ) {
         artifact->dream_freq_unmet = jo.get_int( "dream_freq_unmet" );
     } else {
-        artifact->dream_freq_unmet = artifact_dream_data[( int )( artifact->charge_req )].freq_unmet;
+        artifact->dream_freq_unmet = artifact_dream_data[static_cast<int>
+                                     ( artifact->charge_req )].freq_unmet;
     }
     if( jo.has_int( "dream_freq_met" ) ) {
         artifact->dream_freq_met   = jo.get_int( "dream_freq_met" );
     } else {
-        artifact->dream_freq_met   = artifact_dream_data[( int )( artifact->charge_req )].freq_met;
+        artifact->dream_freq_met   = artifact_dream_data[static_cast<int>( artifact->charge_req )].freq_met;
     }
 
 }
@@ -1260,7 +1264,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
     JsonArray ja = jo.get_array( "effects_worn" );
     while( ja.has_more() ) {
-        artifact->effects_worn.push_back( ( art_effect_passive )ja.next_int() );
+        artifact->effects_worn.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
     }
 }
 
@@ -1313,7 +1317,7 @@ void it_artifact_tool::serialize( JsonOut &json ) const
     json.member( "price", price );
     json.member( "materials" );
     json.start_array();
-    for( auto mat : materials ) {
+    for( const material_id &mat : materials ) {
         json.write( mat );
     }
     json.end_array();
@@ -1367,7 +1371,7 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "price", price );
     json.member( "materials" );
     json.start_array();
-    for( auto mat : materials ) {
+    for( const material_id &mat : materials ) {
         json.write( mat );
     }
     json.end_array();
@@ -1488,6 +1492,7 @@ static const std::unordered_map<std::string, art_charge> art_charge_values = { {
         PAIR( ARTC_PAIN ),
         PAIR( ARTC_HP ),
         PAIR( ARTC_FATIGUE ),
+        PAIR( ARTC_PORTAL ),
     }
 };
 static const std::unordered_map<std::string, art_charge_req> art_charge_req_values = { {

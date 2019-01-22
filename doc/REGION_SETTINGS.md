@@ -4,12 +4,15 @@ The **region_settings** define the attributes for map generation that apply to a
 The general settings define the default overmap terrain and ground cover, as well as the factors
 that control forest and swamp growth. Additional sections are as follows:
 
-|     Section      |                         Description                          |
-| ---------------- | ------------------------------------------------------------ |
-| `field_coverage` | Defines the flora that cover the `field` overmap terrain.    |
-| `city`           | Defines the structural compositions of cities.               |
-| `map_extras`     | Defines the map extra groups referenced by overmap terrains. |
-| `weather`        | Defines the base weather attributes for the region.          |
+|             Section             |                            Description                             |
+| ------------------------------- | ------------------------------------------------------------------ |
+| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.          |
+| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types. |
+| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.          |
+| `city`                          | Defines the structural compositions of cities.                     |
+| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.       |
+| `weather`                       | Defines the base weather attributes for the region.                |
+| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.       |
 
 Note that for the default region, all attributes and sections are required.
 
@@ -97,7 +100,7 @@ furniture.
 
 At the top level, the `forest_mapgen_settings` is a collection of named configurations where each
 entry has the name of the overmap terrain that it applies to, e.g. `forest`, `forest_thick`,
-`forest_water`. It is possible to define settings for overmap terrrains that are not rendered by
+`forest_water`. It is possible to define settings for overmap terrains that are not rendered by
 the forest mapgen, but will be used when blending forest terrains with other terrain types.
 
 ```json
@@ -218,8 +221,8 @@ for the components are only relevant for the purposes of overriding them in regi
 The terrain furniture are a collection of terrain ids with a chance of having furniture
 picked from a weighted list for that given terrain and placed on it during mapgen after
 the normal mapgen has completed. This is used, for example, to place cattails on fresh
-water in swamps. Cattails could be simply placed in the `components` section and placed 
-during the normal forest mapgen, but that would not guarantee their placement on fresh 
+water in swamps. Cattails could be simply placed in the `components` section and placed
+during the normal forest mapgen, but that would not guarantee their placement on fresh
 water only, while this does.
 
 ### Fields
@@ -239,6 +242,54 @@ water only, while this does.
 		"clear_furniture": false,
 		"furniture": {
 			"f_cattails": 1
+		}
+	}
+}
+```
+
+## Forest Trail Settings
+
+The **forest_trail_settings** section defines the attributes used in generating trails in the
+forests, including their likelihood of spawning, their connectivity, their chance for spawning
+trailheads, and some general tuning of the actual trail width/position in mapgen.
+
+### Fields
+
+|         Identifier         |                                         Description                                         |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| `chance`                   | One in X chance a contiguous forest will have a trail system.                               |
+| `border_point_chance`      | One in X chance that the N/S/E/W-most point of the forest will be part of the trail system. |
+| `minimum_forest_size`      | Minimum contiguous forest size before a trail system can be spawned.                        |
+| `random_point_min`         | Minimum # of random points from contiguous forest used to form trail system.                |
+| `random_point_max`         | Maximum # of random points from contiguous forest used to form trail system.                |
+| `random_point_size_scalar` | Forest size is divided by this and added to the minimum number of random points.            |
+| `trailhead_chance`         | One in X chance a trailhead will spawn at end of trail near field.                          |
+| `trailhead_road_distance`  | Maximum distance trailhead can be from a road and still be created.                         |
+| `trail_center_variance`    | Center of the trail in mapgen is offset in X and Y by a random amount between +/- variance  |
+| `trail_width_offset_min`   | Trail width in mapgen is offset by `rng(trail_width_offset_min, trail_width_offset_max)`.   |
+| `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
+| `clear_trail_terrain`      | Clear all previously defined `trail_terrain`.                                               |
+| `trail_terrain`            | Weighted list of terrain that will used for the trail.                                      |
+
+### Example
+
+```json
+{
+	"forest_trail_settings": {
+		"chance": 2,
+		"border_point_chance": 2,
+		"minimum_forest_size": 100,
+		"random_point_min": 4,
+		"random_point_max": 50,
+		"random_point_size_scalar": 100,
+		"trailhead_chance": 1,
+		"trailhead_road_distance": 6,
+		"trail_center_variance": 3,
+		"trail_width_offset_min": 1,
+		"trail_width_offset_max": 3,
+		"clear_trail_terrain": false,
+		"trail_terrain": {
+			"t_dirt": 1
 		}
 	}
 }
@@ -354,6 +405,33 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
 		"base_acid": 0.0
+	}
+}
+```
+
+## Overmap Feature Flag Settings
+
+The **overmap_feature_flag_settings** section defines operations that operate on the flags assigned to overmap features.
+This is currently used to provide a mechanism for whitelisting and blacklisting locations on a per-region basis.
+
+### Fields
+
+|    Identifier     |                                        Description                                         |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| `clear_blacklist` | Clear all previously defined `blacklist`.                                                  |
+| `blacklist`       | List of flags. Any location with a matching flag will be excluded from overmap generation. |
+| `clear_whitelist` | Clear all previously defined `whitelist`.                                                  |
+| `whitelist`       | List of flags. Only locations with a matching flag will be included in overmap generation. |
+
+### Example
+
+```json
+{
+	"overmap_feature_flag_settings": {
+		"clear_blacklist": false,
+		"blacklist": [ "FUNGAL" ],
+		"clear_whitelist": false,
+		"whitelist": []
 	}
 }
 ```

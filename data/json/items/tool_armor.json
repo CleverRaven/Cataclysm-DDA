@@ -110,7 +110,7 @@
         "material_thickness": 1,
         "environmental_protection": 4,
         "use_action": "DIRECTIONAL_HOLOGRAM",
-        "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
+        "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER" ]
     },
     {
         "type" : "TOOL_ARMOR",
@@ -121,8 +121,10 @@
         "color" : "brown",
         "covers" : ["HEAD"],
         "use_action": {
-            "type": "consume_drug",
-            "activation_message": "You tip your fedora."
+            "menu_text": "Tip",
+            "type": "transform",
+            "target": "fedora",
+            "msg": "You tip your %s."
         },
         "symbol" : "[",
         "description" : "A high-crowned, wide-brimmed, sable colored fedora.  Its brim helps keep the sun out of your eyes.  The perfect hat for treasure hunting.",
@@ -816,7 +818,7 @@
         "type": "TOOL_ARMOR",
         "category": "armor",
         "name": "XL survivor firemask",
-        "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from heat, smoke, teargas, and shrapnel.   It must be prepared before use.",
+        "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from heat, smoke, teargas, and shrapnel.  It must be prepared before use.",
         "weight": 1108,
         "volume": 5,
         "price": 24000,
@@ -1448,7 +1450,7 @@
             "max_volume": 4,
             "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
         } ],
-        "qualities": [["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 2],
+        "qualities": [["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 2], ["AXE", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
     },
     {
@@ -1548,8 +1550,10 @@
         "color" : "light_gray",
         "covers" : ["HEAD"],
         "use_action": {
-            "type": "consume_drug",
-            "activation_message": "You tip your fedora."
+            "menu_text": "Tip",
+            "type": "transform",
+            "target": "straw_fedora",
+            "msg": "You tip your %s."
         },
         "symbol" : "[",
         "description" : "Straw fedora hat, comfortable and stylish.  Its brim helps keep the sun out of your eyes.",
@@ -2515,5 +2519,54 @@
         "material_thickness": 1,
         "use_action": "SOLARPACK_OFF",
         "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    },
+    {
+        "id": "helmet_riot",
+        "type": "TOOL_ARMOR",
+        "category": "armor",
+        "name": "riot helmet",
+        "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
+        "use_action": { "type": "transform", "target": "helmet_riot_raised", "msg": "You raise your visor." },
+        "weight": 2260,
+        "volume": 9,
+        "price": 22000,
+        "to_hit": -1,
+        "bashing": 8,
+        "material": [ "plastic", "steel" ],
+        "symbol": "[",
+        "color": "dark_gray",
+        "covers": [ "HEAD", "EYES", "MOUTH" ],
+        "coverage": 95,
+        "encumbrance": 20,
+        "warmth": 10,
+        "material_thickness": 3,
+        "environmental_protection": 2,
+        "techniques": [ "WBLOCK_1" ],
+        "flags": [ "WATERPROOF", "STURDY" ]
+    },
+    {
+        "id": "helmet_riot_raised",
+        "type": "TOOL_ARMOR",
+        "category": "armor",
+        "name": "riot helmet (raised visor)",
+        "name_plural": "riot helmets (raised visor)",
+        "description": "A riot helmet with a plastic face shield which is raised up.  Activate to lower the shield.",
+        "use_action": { "type": "transform", "target": "helmet_riot", "msg": "You put down your visor." },
+        "weight": 2260,
+        "volume": 9,
+        "price": 22000,
+        "to_hit": -1,
+        "bashing": 8,
+        "material": [ "plastic", "steel" ],
+        "symbol": "[",
+        "color": "dark_gray",
+        "covers": [ "HEAD"],
+        "coverage": 95,
+        "encumbrance": 20,
+        "warmth": 10,
+        "material_thickness": 3,
+        "environmental_protection": 2,
+        "techniques": [ "WBLOCK_1" ],
+        "flags": [ "WATERPROOF", "STURDY" ]
     }
 ]

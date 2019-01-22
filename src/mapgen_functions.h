@@ -1,13 +1,12 @@
 #pragma once
-#ifndef BUILDING_GENERATION_H
-#define BUILDING_GENERATION_H
-
-#include "int_id.h"
-#include "weighted_list.h"
-#include "game_constants.h"
+#ifndef MAPGEN_FUNCTIONS_H
+#define MAPGEN_FUNCTIONS_H
 
 #include <string>
-#include <map>
+
+#include "enums.h"
+#include "int_id.h"
+#include "weighted_list.h"
 
 class time_point;
 struct ter_t;
@@ -112,6 +111,14 @@ void mapgen_dirtlot( map *m, oter_id terrain_type, mapgendata dat, const time_po
                      float density );
 void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                     float density );
+void mapgen_forest_trail_straight( map *m, oter_id terrain_type, mapgendata dat,
+                                   const time_point &time, float density );
+void mapgen_forest_trail_curved( map *m, oter_id terrain_type, mapgendata dat,
+                                 const time_point &time, float density );
+void mapgen_forest_trail_tee( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
+                              float density );
+void mapgen_forest_trail_four_way( map *m, oter_id terrain_type, mapgendata dat,
+                                   const time_point &time, float density );
 void mapgen_hive( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                   float density );
 void mapgen_spider_pit( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
@@ -130,6 +137,10 @@ void mapgen_field( map *m, oter_id terrain_type, mapgendata dat, const time_poin
                    float density );
 void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                     float density );
+void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
+                      float density );
+void mapgen_railroad_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
+                             float density );
 void mapgen_highway( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                      float density );
 void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
@@ -225,8 +236,8 @@ void mapgen_tutorial( map *m, oter_id terrain_type, mapgendata dat, const time_p
 
 // Temporary wrappers
 void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id t );
-void madd_field( map *m, int x, int y, field_id t, int density );
+void mtrap_set( map *m, int x, int y, trap_id type );
+void madd_field( map *m, int x, int y, field_id type, int density );
 
 void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 

@@ -109,6 +109,12 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "forest_trail",
+    "items":[
+      { "group": "forest", "prob":  100 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hive",
     "items":[
       ["honeycomb", 10],
@@ -144,6 +150,10 @@
       ["wheel_bicycle", 10],
       ["wheel_motorbike", 10],
       ["wheel_small", 10],
+      ["wheel_wide_or", 5],
+      ["wheel_bicycle_or", 5],
+      ["wheel_motorbike_or", 5],
+      ["wheel_slick", 5],
       ["1cyl_combustion", 10],
       ["v2_combustion", 10],
       ["i4_combustion", 10],
@@ -158,6 +168,7 @@
       ["alternator_motorbike", 6],
       ["alternator_car", 6],
       ["alternator_truck", 6],
+      ["alternator_bicycle", 4],
       ["foot_crank", 10],
       ["55gal_drum", 1],
       ["flyer", 10],
@@ -289,6 +300,7 @@
       ["hat_cotton", 45],
       ["hat_knit", 25],
       ["hat_fur", 15],
+      ["hat_faux_fur", 30],
       ["hat_newsboy", 20],
       ["hat_sombrero", 3],
       ["helmet_bike", 35],
@@ -394,6 +406,7 @@
       ["pot", 25],
       ["pot_copper", 15],
       ["pot_canning", 15],
+      ["pressure_cooker", 5],
       ["bowl_pewter", 25],
       ["teapot", 15],
       ["pan", 25],
@@ -458,6 +471,7 @@
       ["toastem2", 30],
       ["toastem3", 35],
       ["toasterpastryfrozen", 20],
+      ["brownie", 30],
       ["cooking_oil", 20],
       ["fruit_leather", 15],
       ["sugar", 40],
@@ -575,7 +589,18 @@
       ["scots_cookbook", 6],
       ["food_processor", 30 ],
       ["eclipse_glasses", 1],
-      ["thermos", 15]
+      ["thermos", 15],
+      {"item": "meat_canned", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "veggy_canned", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "apple_canned", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "can_tomato", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "fish_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "human_pickled", "prob":  1, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "meat_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "veggy_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "fish_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "sauce_red", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "kompot", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"}
     ]
   },{
     "type" : "item_group",
@@ -763,7 +788,8 @@
       ["teapot", 25],
       ["pot", 80],
       ["pot_copper", 20],
-      ["pot_canning", 15]
+      ["pot_canning", 15],
+      ["pressure_cooker", 5]
     ]
   },{
     "type" : "item_group",
@@ -1554,6 +1580,7 @@
       ["portable_game", 8],
       ["game_watch", 2],
       ["roadmap", 40],
+      ["trailmap", 20],
       ["file", 10],
       ["touristmap", 20],
       ["restaurantmap", 20],
@@ -1651,6 +1678,7 @@
       [ "flyer", 10 ],
       [ "mag_fabrication", 30 ],
       [ "mag_tailor", 25 ],
+      [ "trailmap", 10 ],
       [ "survnote", 1 ]
     ]
   },{
@@ -1773,7 +1801,18 @@
       ["lutefisk", 1],
       ["dry_beans", 40],
       ["dry_rice", 40],
-      {"item": "meat_pickled", "prob":  6, "charges": 2, "container-item": "jar_glass_sealed"}
+      {"item": "meat_pickled", "prob":  6, "charges": 2, "container-item": "jar_glass_sealed"},
+      {"item": "meat_canned", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "veggy_canned", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "apple_canned", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "offal_canned", "prob":  1, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "can_tomato", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "fish_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "meat_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "veggy_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "fish_pickled", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "sauce_red", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"},
+      {"item": "kompot", "prob":  4, "charges": 12, "container-item": "jar_3l_glass_sealed"}
     ]
   },{
     "type" : "item_group",
@@ -1937,6 +1976,7 @@
       ["magnifying_glass", 5],
       ["chem_chromium_oxide", 5],
       ["chem_thermite", 10],
+      ["chem_zinc_powder", 10],
       ["denat_alcohol", 25],
       ["tourist_table", 1]
     ]
@@ -2334,7 +2374,9 @@
       ["straw_basket", 1],
       ["straw_hat", 5],
       ["l-stick", 1],
-      ["tourist_table", 30]
+      ["tourist_table", 30],
+      ["trailmap", 5],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
@@ -2540,7 +2582,8 @@
       ["iceaxe", 30],
       ["powered_earmuffs", 80],
       ["bandolier_wrist", 100],
-      ["tourist_table", 20]
+      ["tourist_table", 20],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
@@ -2804,6 +2847,7 @@
       ["hat_newsboy", 20],
       ["hat_knit", 25],
       ["hat_fur", 15],
+      ["hat_faux_fur", 20],
       ["pants_ski", 60],
       ["long_underpants", 40],
       ["long_undertop", 40],
@@ -2817,14 +2861,19 @@
     "type" : "item_group",
     "id" : "fancyfurs",
     "items":[
-      ["hat_fur", 400],
+      ["hat_fur", 300],
+      ["hat_faux_fur", 300],
       ["sleeveless_trenchcoat_fur", 10],
       ["sleeveless_duster_fur", 10],
+      ["sleeveless_trenchcoat_faux_fur", 10],
       ["coat_fur_sf", 100],
       ["coat_faux_fur", 300],
       ["coat_fur", 300],
       ["gloves_fur", 300],
-      ["boots_fur", 200]
+      ["boots_fur", 200],
+      ["trenchcoat_faux_fur", 50],
+      ["duster_faux_fur", 50],
+      ["pants_faux_fur", 50]
     ]
   },{
     "type" : "item_group",
@@ -2832,6 +2881,7 @@
     "items":[
       ["hat_cotton", 30],
       ["hat_knit", 40],
+      ["hat_faux_fur", 30],
       ["hat_fur", 20],
       ["hat_newsboy", 20],
       ["hat_sombrero", 30],
@@ -2932,20 +2982,26 @@
     "type" : "item_group",
     "id" : "female_underwear_top",
     "items":[
-      ["bra", 90]
+      ["bra", 70],
+      ["sports_bra", 50],
+      ["bikini_top", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "female_underwear_bottom",
     "items":[
       ["panties", 70],
-      ["boy_shorts", 50]
+      ["boy_shorts", 50],
+      ["bikini_bottom", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "male_underwear_top",
     "items":[
-      ["undershirt", 30]
+      ["undershirt", 50],
+      ["long_undertop", 20],
+      ["under_armor", 20],
+      ["tank_top", 50]
     ]
   },{
     "type" : "item_group",
@@ -2953,7 +3009,9 @@
     "items":[
       ["boxer_shorts", 70],
       ["briefs", 30],
-      ["boxer_briefs", 50]
+      ["boxer_briefs", 50],
+      ["long_underpants", 20],
+      ["under_armor_shorts", 20]
     ]
   },{
     "type" : "item_group",
@@ -3024,6 +3082,7 @@
       ["hat_newsboy", 20],
       ["hat_sombrero", 3],
       ["hat_fur", 15],
+      ["hat_faux_fur", 20],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["under_armor", 20],
@@ -3039,12 +3098,17 @@
       ["arm_warmers", 20],
       ["leg_warmers", 20],
       ["trenchcoat_leather", 12],
+      ["trenchcoat_faux_fur", 6],
       ["sleeveless_trenchcoat", 2],
       ["sleeveless_trenchcoat_leather", 2],
+      ["sleeveless_trenchcoat_faux_fur", 2],
+      ["trenchcoat_leather", 12],
       ["sleeveless_trenchcoat_fur", 1],
       ["duster_leather", 12],
+      ["duster_faux_fur", 6],
       ["sleeveless_duster", 2],
       ["sleeveless_duster_leather", 2],
+      ["sleeveless_duster_faux_fur", 2],
       ["sleeveless_duster_fur", 1],
       ["cloak", 5],
       ["cloak_wool", 5],
@@ -3111,6 +3175,7 @@
     "id" : "traveler",
     "items":[
       ["roadmap", 6],
+      ["trailmap", 6],
       ["touristmap", 4],
       ["lighter", 60],
       ["cig", 40],
@@ -3288,6 +3353,7 @@
       [ "textbook_biodiesel", 4 ],
       [ "textbook_fabrication", 4 ],
       [ "textbook_tailor", 4 ],
+      [ "recipe_fauxfur", 6 ],
       [ "carpentry_book", 4 ],
       [ "brewing_cookbook", 4 ],
       [ "computer_science", 8 ],
@@ -3396,6 +3462,7 @@
       ["textbook_gaswarfare", 5],
       ["recipe_bullets", 8],
       ["textbook_tailor", 12],
+      ["recipe_fauxfur", 4],
       ["recipe_bows", 4],
       ["recipe_arrows", 4],
       ["textbook_firstaid", 8],
@@ -3437,6 +3504,7 @@
       [ "novel_swash", 30 ],
       [ "manual_fencing", 9 ],
       [ "manual_niten", 9 ],
+      [ "manual_sojutsu", 9 ],	  
       [ "novel_samurai", 30 ],
       [ "plays_book", 30 ],
       [ "poetry_book", 30 ],
@@ -4075,6 +4143,7 @@
       ["maltballs", 60],
       ["chocolate", 100],
       ["cookies", 60],
+      ["brownie", 60],
       ["candy", 100],
       ["candy2", 100],
       ["candy3", 100],
@@ -4284,10 +4353,13 @@
     "items":[
       ["purifier", 12],
       ["plut_cell", 10],
+      ["standard_template_construct", 5],
+      ["nanomaterial", 5],
       ["ftk93", 1],
       ["canister_goo", 8],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
+      ["platinum_small", 10],
       ["gold_small", 10],
       ["silver_small", 30],
       ["bio_time_freeze", 10],
@@ -4346,7 +4418,9 @@
       ["katana", 2],
       ["rapier", 3],
       ["cavalry_sabre", 2],
-      ["sf_watch", 5]
+      ["sf_watch", 5],
+      ["magic_8_ball", 1],
+      ["coin_quarter", 1]
     ]
   },{
     "type" : "item_group",
@@ -4451,6 +4525,7 @@
       ["pastaextruder", 8],
       ["can_sealer", 5],
       ["knuckle_brass", 15],
+      ["platinum_small", 10],
       ["gold_small", 10],
       ["silver_small", 20],
       ["cane", 10],
@@ -4493,7 +4568,6 @@
       ["lemat_revolver", 1],
       ["m1911", 5],
       ["mn_ebr_kit", 1],
-      ["tuned_mechanism", 2],
       ["match_trigger", 3],
       ["geiger_off", 8],
       ["rad_monitor", 1],
@@ -4557,6 +4631,7 @@
       ["helmet_army", 40],
       ["helmet_liner", 10],
       ["hat_fur", 15],
+      ["hat_faux_fur", 15],
       ["hat_newsboy", 20],
       ["hat_sombrero", 5],
       ["holster", 8],
@@ -4796,7 +4871,9 @@
       ["l-stick", 1],
       ["solarpack", 5],
       ["tourist_table", 10],
-      ["thermos", 25]
+      ["thermos", 25],
+      ["magic_8_ball", 2],
+      ["coin_quarter", 2]
     ]
   },{
     "type" : "item_group",
@@ -5049,6 +5126,10 @@
       ["wheel_bicycle", 10],
       ["wheel_motorbike", 10],
       ["wheel_small", 10],
+      ["wheel_wide_or", 5],
+      ["wheel_bicycle_or", 5],
+      ["wheel_motorbike_or", 5],
+      ["wheel_slick", 5],
       ["1cyl_combustion", 10],
       ["v2_combustion", 10],
       ["i4_combustion", 10],
@@ -5075,6 +5156,7 @@
       ["alternator_motorbike", 6],
       ["alternator_car", 6],
       ["alternator_truck", 6],
+      ["alternator_bicycle", 4],
       ["generator_7500w", 3],
       ["storage_battery", 6],
       ["solar_panel", 3],
@@ -5173,6 +5255,7 @@
       ["charcoal", 15],
       ["chem_hydrogen_peroxide", 15],
       ["chem_carbide", 10],
+      ["chem_zinc_powder", 10],
       ["denat_alcohol", 10]
     ]
   },{
@@ -5226,6 +5309,7 @@
       ["chem_saltpetre", 15],
       ["chem_nitric_acid", 15],
       ["chem_chromium_oxide", 10],
+      ["chem_zinc_powder", 10],
       ["denat_alcohol", 10]
     ]
   },{
@@ -5566,6 +5650,7 @@
       ["eink_tablet_pc", 15],
       ["mobile_memory_card", 40],
       ["mobile_memory_card_science", 10],
+      ["standard_template_construct", 5],
       ["camera", 15],
       ["camera_pro", 5],
       ["lighter", 50],
@@ -6050,11 +6135,29 @@
       ["neccowafers", 30],
       ["can_beans", 40],
       ["pork_beans", 40],
-      ["mre_beef_box", 45],
-      ["mre_veggy_box", 45],
+      ["mre_chilibeans_box", 45],
+      ["mre_bbqbeef_box", 45],
+      ["mre_chickennoodle_box", 45],
+      ["mre_spaghetti_box", 45],
       ["mre_chicken_box", 45],
-      ["mre_hotdog_box", 60],
-      ["mre_ravioli_box", 30],
+      ["mre_beeftaco_box", 45],
+      ["mre_beef_box", 45],
+      ["mre_meatball_box", 45],
+      ["mre_beefstew_box", 45],
+      ["mre_chilimac_box", 45],
+      ["mre_veggy_box", 45],
+      ["mre_macaronimarinara_box", 45],
+      ["mre_cheesetort_box", 45],
+      ["mre_mushroomfettuccine_box", 45],
+      ["mre_mexicanchickenstew_box", 45],
+      ["mre_maplesausage_box", 45],
+      ["mre_ravioli_box", 45],
+      ["mre_hashbrownbacon_box", 45],
+      ["mre_lemontuna_box", 45],
+      ["mre_asianbeef_box", 45],
+      ["mre_chickenpesto_box", 45],
+      ["mre_southwestbeef_box", 45],
+      ["mre_hotdog_box", 45],
       ["1st_aid", 35],
       ["saline", 15],
       ["con_milk", 5],
@@ -6082,11 +6185,29 @@
       ["chocolate", 50],
       ["can_beans", 40],
       ["pork_beans", 40],
-      ["mre_beef_box", 45],
-      ["mre_veggy_box", 45],
+      ["mre_chilibeans_box", 45],
+      ["mre_bbqbeef_box", 45],
+      ["mre_chickennoodle_box", 45],
+      ["mre_spaghetti_box", 45],
       ["mre_chicken_box", 45],
-      ["mre_hotdog_box", 60],
-      ["mre_ravioli_box", 30],
+      ["mre_beeftaco_box", 45],
+      ["mre_beef_box", 45],
+      ["mre_meatball_box", 45],
+      ["mre_beefstew_box", 45],
+      ["mre_chilimac_box", 45],
+      ["mre_veggy_box", 45],
+      ["mre_macaronimarinara_box", 45],
+      ["mre_cheesetort_box", 45],
+      ["mre_mushroomfettuccine_box", 45],
+      ["mre_mexicanchickenstew_box", 45],
+      ["mre_maplesausage_box", 45],
+      ["mre_ravioli_box", 45],
+      ["mre_hashbrownbacon_box", 45],
+      ["mre_lemontuna_box", 45],
+      ["mre_asianbeef_box", 45],
+      ["mre_chickenpesto_box", 45],
+      ["mre_southwestbeef_box", 45],
+      ["mre_hotdog_box", 45],
       ["1st_aid", 35],
       ["saline", 10],
       ["con_milk", 10],
@@ -6729,6 +6850,7 @@
       ["eink_tablet_pc", 1],
       ["mobile_memory_card", 8],
       ["mobile_memory_card_science", 1],
+      ["standard_template_construct", 8],
       ["id_military", 3],
       ["militarymap", 3],
       ["pistol_bayonet", 4],
@@ -7136,11 +7258,29 @@
       ["knuckle_brass", 15],
       ["battery_ups", 10],
       ["duffelbag", 15],
-      ["mre_beef_box", 45],
-      ["mre_veggy_box", 45],
+      ["mre_chilibeans_box", 45],
+      ["mre_bbqbeef_box", 45],
+      ["mre_chickennoodle_box", 45],
+      ["mre_spaghetti_box", 45],
       ["mre_chicken_box", 45],
-      ["mre_hotdog_box", 60],
-      ["mre_ravioli_box", 30],
+      ["mre_beeftaco_box", 45],
+      ["mre_beef_box", 45],
+      ["mre_meatball_box", 45],
+      ["mre_beefstew_box", 45],
+      ["mre_chilimac_box", 45],
+      ["mre_veggy_box", 45],
+      ["mre_macaronimarinara_box", 45],
+      ["mre_cheesetort_box", 45],
+      ["mre_mushroomfettuccine_box", 45],
+      ["mre_mexicanchickenstew_box", 45],
+      ["mre_maplesausage_box", 45],
+      ["mre_ravioli_box", 45],
+      ["mre_hashbrownbacon_box", 45],
+      ["mre_lemontuna_box", 45],
+      ["mre_asianbeef_box", 45],
+      ["mre_chickenpesto_box", 45],
+      ["mre_southwestbeef_box", 45],
+      ["mre_hotdog_box", 45],
       ["bandages", 50],
       ["cotton_ball", 20],
       ["1st_aid", 35],
@@ -7338,7 +7478,6 @@
       ["halligan", 10],
       ["fire_ax", 5],
       ["antiparasitic", 2],
-      ["tuned_mechanism", 1],
       ["match_trigger", 2],
       ["grapnel", 1],
       ["bucket", 4],
@@ -7377,6 +7516,7 @@
       ["eink_tablet_pc", 20],
       ["mobile_memory_card", 50],
       ["mobile_memory_card_science", 5],
+      ["standard_template_construct", 5],
       ["camera", 3],
       ["thermometer", 3],
       ["hygrometer", 3],
@@ -7657,7 +7797,6 @@
       ["pocketwatch", 2],
       ["gold_dental_grill", 2],
       ["diamond_dental_grill", 1],
-      ["tuned_mechanism", 2],
       ["match_trigger", 3],
       ["pocketwatch", 2],
       ["wakizashi", 1],
@@ -7765,6 +7904,7 @@
       ["inhaler", 5],
       ["knife_swissarmy", 5],
       ["roadmap", 1],
+      ["trailmap", 1],
       ["touristmap", 1],
       ["eclipse_glasses", 1],
       ["thermos", 5]
@@ -8469,6 +8609,7 @@
       [ "solder_wire", 60 ],
       [ "hammer", 60 ],
       [ "chisel", 60 ],
+      [ "platinum_small", 20 ],
       [ "gold_small", 20 ],
       [ "silver_small", 30 ],
       [ "diamond", 5 ]
@@ -8477,6 +8618,7 @@
 "type" : "item_group",
 "id" : "jewelry_safe",
 "items":[
+      ["platinum_small", 80],
       ["gold_small", 80],
       ["silver_small", 85],
       ["diamond", 75]
@@ -8522,7 +8664,9 @@
       ["straw_doll", 1],
       ["pitchfork", 1],
       ["straw_sandals", 1],
-      ["holy_symbol", 10]
+      ["holy_symbol", 10],
+      ["magic_8_ball", 1],
+      ["coin_quarter", 1]
     ]
   },{
 "type"  : "item_group",
@@ -8769,7 +8913,8 @@
       [ "ceramic_bowl", 90 ],
       [ "clay_hydria", 50 ],
       [ "ceramic_cup", 90 ],
-      [ "crown_golden", 10 ]
+      [ "crown_golden", 10 ],
+      [ "fluid_preserved_brain", 20 ]
     ]
   },{
   "type" : "item_group",
@@ -9025,7 +9170,8 @@
       ["weed", 10],
       ["joint", 10],
       ["smart_phone", 20],
-      ["camera", 20]
+      ["camera", 20],
+      ["chem_hexamine", 5]
     ]
   },{
     "type" : "item_group",
@@ -9105,6 +9251,7 @@
       ["permanent_marker", 50],
       ["scissors", 25],
       ["roadmap", 10],
+      ["trailmap", 20],
       ["touristmap", 5],
       ["restaurantmap", 5],
       ["magnifying_glass", 25],
@@ -9126,6 +9273,7 @@
       ["chips2",      27],
       ["chips3",      26],
       ["cookies",     25],
+      ["brownie",     25],
       ["coffee_raw",  90],
       ["ceramic_cup", 10],
       ["ceramic_plate",10],
@@ -9159,6 +9307,7 @@
       ["candy",              30],
       ["chips",              30],
       ["cookies",            45],
+      ["brownie",            45],
       ["restaurantmap",       5],
       ["touristmap",          5],
       ["fried_seeds",         5],
@@ -9239,6 +9388,7 @@
       [ "touristmap", 25 ],
       [ "restaurantmap", 25 ],
       [ "roadmap", 25 ],
+      [ "trailmap", 25 ],
       [ "modern_tanner", 20 ],
       [ "pocket_survival", 20 ],
       [ "flyer", 40 ],
@@ -9454,6 +9604,10 @@
       [ "wheel_small", 35 ],
       [ "wheel_motorbike", 25 ],
       [ "wheel_bicycle", 40 ],
+      [ "wheel_wide_or", 25],
+      [ "wheel_bicycle_or", 25],
+      [ "wheel_motorbike_or", 25],
+      [ "wheel_slick", 25],
       [ "wheel", 50 ]
     ]
   },
@@ -9655,6 +9809,7 @@
       [ "mag_tailor", 15 ],
       [ "survnote", 3 ],
       [ "touristmap", 3 ],
+      [ "trailmap", 3 ],
       [ "phonebook", 60 ],
       [ "holybook_bible1", 1 ],
       [ "holybook_bible2", 1 ],

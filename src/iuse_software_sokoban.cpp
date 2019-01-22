@@ -1,22 +1,18 @@
 #include "iuse_software_sokoban.h"
 
-#include "output.h"
-#include "input.h"
-#include "cursesdef.h"
-#include "catacharset.h"
-#include "string_formatter.h"
-#include "debug.h"
-#include "path_info.h"
-#include "translations.h"
-#include "cata_utility.h"
-
-#include <iostream>
-#include <iterator>
 #include <sstream>
 
-sokoban_game::sokoban_game()
-{
-}
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "input.h"
+#include "output.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "translations.h"
+
+sokoban_game::sokoban_game() = default;
 
 void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore, int iMoves )
 {
@@ -310,7 +306,9 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( ctxt.get_direction( iDirX, iDirY, action ) ) {
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            iDirX = vec->x;
+            iDirY = vec->y;
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;

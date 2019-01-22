@@ -2,8 +2,8 @@
 #ifndef PATH_INFO_H
 #define PATH_INFO_H
 
-#include <string>
 #include <map>
+#include <string>
 
 extern std::map<std::string, std::string> FILENAMES;
 
@@ -23,12 +23,12 @@ void set_standard_filenames();
  * @param extension File name extension, is automatically added to the path
  * of the translated file. Can be empty, but must otherwise include the
  * initial '.', e.g. ".json"
- * @param defaultid The path id of the fallback filename. As like pathid it's
+ * @param fallbackid The path id of the fallback filename. As like pathid it's
  * the key into the @ref FILENAMES map. It is used if no translated file can be
  * found.
  */
 std::string find_translated_file( const std::string &pathid, const std::string &extension,
-                                  const std::string &defaultid );
+                                  const std::string &fallbackid );
 }
 
 #endif

@@ -1,10 +1,11 @@
 #pragma once
-#ifndef QUANTITY_CATA_H
-#define QUANTITY_CATA_H
+#ifndef UNITS_H
+#define UNITS_H
 
-#include <utility>
 #include <cstddef>
 #include <limits>
+#include <ostream>
+#include <utility>
 
 namespace units
 {
@@ -343,6 +344,25 @@ inline constexpr value_type to_gram( const quantity<value_type, mass_in_gram_tag
 inline constexpr double to_kilogram( const mass &v )
 {
     return v.value() / 1000.0;
+}
+
+// Streaming operators for debugging and tests
+// (for UI output other functions should be used which render in the user's
+// chosen units)
+inline std::ostream &operator<<( std::ostream &o, mass_in_gram_tag )
+{
+    return o << "g";
+}
+
+inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
+{
+    return o << "ml";
+}
+
+template<typename value_type, typename tag_type>
+inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
+{
+    return o << v.value() << tag_type{};
 }
 
 } // namespace units

@@ -1,33 +1,27 @@
 #include "action.h"
-#include "output.h"
-#include "options.h"
-#include "path_info.h"
+
+#include <algorithm>
+#include <istream>
+#include <iterator>
+
+#include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
-#include "map.h"
 #include "iexamine.h"
-#include "player.h"
-#include "options.h"
-#include "messages.h"
-#include "translations.h"
 #include "input.h"
-#include "crafting.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "ui.h"
-#include "trap.h"
-#include "itype.h"
 #include "mapdata.h"
-#include "cata_utility.h"
+#include "messages.h"
+#include "optional.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "translations.h"
+#include "trap.h"
+#include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "optional.h"
-
-#include <istream>
-#include <sstream>
-#include <iterator>
-#include <algorithm>
-
-extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -100,8 +94,8 @@ std::vector<char> keys_bound_to( action_id act )
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    input_event event( ( long ) ch, CATA_INPUT_KEYBOARD );
-    const std::string action = ctxt.input_to_action( event );
+    input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
+    const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
 
@@ -485,6 +479,7 @@ bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
     const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
+    const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -492,7 +487,7 @@ bool can_butcher_at( const tripoint &p )
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {
         if( items_it.is_corpse() ) {
-            if( factor != INT_MIN ) {
+            if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
         } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
@@ -541,11 +536,7 @@ bool can_examine_at( const tripoint &p )
     }
 
     const trap &tr = g->m.tr_at( p );
-    if( tr.can_see( p, g->u ) ) {
-        return true;
-    }
-
-    return false;
+    return tr.can_see( p, g->u );
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -578,12 +569,12 @@ action_id handle_action_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
 
-#define REGISTER_ACTION(name) entries.emplace_back(uimenu_entry(name, true, hotkey_for_action(name), \
-        ctxt.get_action_name(action_ident(name))));
-#define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
+#define REGISTER_ACTION( name ) entries.emplace_back( name, true, hotkey_for_action(name), \
+        ctxt.get_action_name( action_ident( name ) ) );
+#define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
     catgname = name; \
     catgname += "..."; \
-    entries.emplace_back(uimenu_entry(last_category, true, -1, catgname)); \
+    entries.emplace_back( last_category, true, -1, catgname ); \
     last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
@@ -651,8 +642,8 @@ action_id handle_action_menu()
     std::string category = "back";
 
     while( true ) {
-        std::vector<uimenu_entry> entries;
-        uimenu_entry *entry;
+        std::vector<uilist_entry> entries;
+        uilist_entry *entry;
         std::map<int, std::string> categories_by_int;
         int last_category = NUM_ACTIONS + 1;
 
@@ -790,8 +781,8 @@ action_id handle_action_menu()
         if( category != "back" ) {
             std::string msg = _( "Back" );
             msg += "...";
-            entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                                hotkey_for_action( ACTION_ACTIONMENU ), msg ) );
+            entries.emplace_back( 2 * NUM_ACTIONS, true,
+                                  hotkey_for_action( ACTION_ACTIONMENU ), msg );
         }
 
         std::string title = _( "Actions" );
@@ -803,14 +794,15 @@ action_id handle_action_menu()
 
         int width = 0;
         for( auto &cur_entry : entries ) {
-            if( width < ( int )cur_entry.txt.length() ) {
+            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
                 width = cur_entry.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
         int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
+        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+                 ( entries.size() ) - 2 ) / 2 - 1 : 0;
         int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                 std::max( iy, 0 ), title, entries );
 
@@ -827,7 +819,7 @@ action_id handle_action_menu()
         } else if( selection > NUM_ACTIONS ) {
             category = categories_by_int[selection];
         } else {
-            return ( action_id ) selection;
+            return static_cast<action_id>( selection );
         }
     }
 
@@ -838,13 +830,11 @@ action_id handle_action_menu()
 action_id handle_main_menu()
 {
     const input_context ctxt = get_default_mode_input_context();
-    std::vector<uimenu_entry> entries;
+    std::vector<uilist_entry> entries;
 
     auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.emplace_back( uimenu_entry( name, true, hotkey_for_action( name ),
-                                            ctxt.get_action_name( action_ident( name ) )
-                                          )
-                            );
+        entries.emplace_back( name, true, hotkey_for_action( name ),
+                              ctxt.get_action_name( action_ident( name ) ) );
     };
 
     REGISTER_ACTION( ACTION_HELP );
@@ -860,14 +850,15 @@ action_id handle_main_menu()
 
     int width = 0;
     for( auto &entry : entries ) {
-        if( width < ( int )entry.txt.length() ) {
+        if( width < static_cast<int>( entry.txt.length() ) ) {
             width = entry.txt.length();
         }
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
     int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
+    int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+             ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
@@ -876,20 +867,16 @@ action_id handle_main_menu()
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
     } else {
-        return ( action_id ) selection;
+        return static_cast<action_id>( selection );
     }
 }
 
-bool choose_direction( const std::string &message, int &x, int &y )
+cata::optional<tripoint> choose_direction( const std::string &message )
 {
-    tripoint temp( x, y, g->u.posz() );
-    bool ret = choose_direction( message, temp );
-    x = temp.x;
-    y = temp.y;
-    return ret;
+    return choose_direction( message, false );
 }
 
-bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical )
+cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.set_iso( true );
@@ -907,54 +894,39 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     popup( query_text, PF_NO_WAIT_ON_TOP );
 
     const std::string action = ctxt.handle_input();
-    if( ctxt.get_direction( offset.x, offset.y, action ) ) {
-        offset.z = 0;
-        return true;
+    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        return vec;
     } else if( action == "pause" ) {
-        offset = tripoint( 0, 0, 0 );
-        return true;
+        return tripoint_zero;
     } else if( action == "LEVEL_UP" ) {
-        offset = tripoint( 0, 0, 1 );
-        return true;
+        return tripoint( 0, 0, 1 );
     } else if( action == "LEVEL_DOWN" ) {
-        offset = tripoint( 0, 0, -1 );
-        return true;
+        return tripoint( 0, 0, -1 );
     }
 
     add_msg( _( "Invalid direction." ) );
-    return false;
+    return cata::nullopt;
 }
 
-bool choose_adjacent( const std::string &message, int &x, int &y )
+cata::optional<tripoint> choose_adjacent( const std::string &message )
 {
-    tripoint temp( x, y, g->u.posz() );
-    bool ret = choose_adjacent( message, temp );
-    x = temp.x;
-    y = temp.y;
-    return ret;
+    return choose_adjacent( message, false );
 }
 
-bool choose_adjacent( const std::string &message, tripoint &p, bool allow_vertical )
+cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
-    if( !choose_direction( message, p, allow_vertical ) ) {
-        return false;
-    }
-    p += g->u.pos();
-    return true;
+    const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
+    return dir ? *dir + g->u.pos() : dir;
 }
 
-bool choose_adjacent_highlight( const std::string &message, int &x, int &y,
-                                action_id action_to_highlight )
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const action_id action_to_highlight )
 {
-    tripoint temp( x, y, g->u.posz() );
-    bool ret = choose_adjacent_highlight( message, temp, action_to_highlight );
-    x = temp.x;
-    y = temp.y;
-    return ret;
+    return choose_adjacent_highlight( message, action_to_highlight, false );
 }
 
-bool choose_adjacent_highlight( const std::string &message, tripoint &p,
-                                action_id action_to_highlight )
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const action_id action_to_highlight, const bool allow_vertical )
 {
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
@@ -969,5 +941,5 @@ bool choose_adjacent_highlight( const std::string &message, tripoint &p,
         wrefresh( g->w_terrain );
     }
 
-    return choose_adjacent( message, p );
+    return choose_adjacent( message, allow_vertical );
 }

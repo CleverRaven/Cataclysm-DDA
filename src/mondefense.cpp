@@ -1,23 +1,20 @@
 #include "mondefense.h"
 
+#include <algorithm>
+
 #include "ballistics.h"
+#include "bodypart.h"
+#include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
-#include "gun_mode.h"
-#include "monster.h"
-#include "creature.h"
 #include "game.h"
+#include "messages.h"
+#include "monster.h"
 #include "output.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
-#include "line.h"
-#include "bodypart.h"
-#include "messages.h"
 #include "translations.h"
-#include "field.h"
-#include "player.h"
-
-#include <algorithm>
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
@@ -26,17 +23,17 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 }
 
 void mdefense::zapback( monster &m, Creature *const source,
-                        dealt_projectile_attack const *projectile )
+                        dealt_projectile_attack const *proj )
 {
     if( source == nullptr ) {
         return;
     }
     // If we have a projectile, we're a ranged attack, no zapback.
-    if( projectile != nullptr ) {
+    if( proj != nullptr ) {
         return;
     }
 
-    player const *const foe = dynamic_cast<player *>( source );
+    const player *const foe = dynamic_cast<player *>( source );
 
     // Players/NPCs can avoid the shock by using non-conductive weapons
     if( foe != nullptr && foe->is_armed() && !foe->weapon.conductive() ) {
@@ -48,7 +45,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     if( g->u.sees( source->pos() ) ) {
-        auto const msg_type = ( source == &g->u ) ? m_bad : m_info;
+        const auto msg_type = ( source == &g->u ) ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name().c_str(), source->disp_name().c_str() );
     }
@@ -75,7 +72,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     size_t num_drops = rng( 4, 6 );
-    player const *const foe = dynamic_cast<player *>( source );
+    const player *const foe = dynamic_cast<player *>( source );
     if( proj == nullptr && foe != nullptr ) {
         if( foe->weapon.is_melee( DT_CUT ) || foe->weapon.is_melee( DT_STAB ) ) {
             num_drops += rng( 3, 4 );

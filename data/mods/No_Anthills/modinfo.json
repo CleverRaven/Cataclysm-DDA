@@ -1,0 +1,34 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "No_Anthills",
+    "name": "No Ants",
+    "authors": [ "Inglonias" ],
+    "description": "Removes ants and anthills from the game",
+    "category": "monster_exclude",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "categories": [ "GROUP_ANT", "GROUP_ANT_ACID" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_ant_acid_larva",
+      "mon_ant_acid_soldier",
+      "mon_ant_acid_queen",
+      "mon_ant_larva",
+      "mon_ant_soldier",
+      "mon_ant_queen",
+      "mon_ant_acid",
+      "mon_ant"
+    ]
+  },
+  {
+    "type": "region_overlay",
+    "id": "No_Anthills_region_overlay",
+    "regions": [ "all" ],
+    "overmap_feature_flag_settings": { "blacklist": [ "ANT" ] }
+  }
+]

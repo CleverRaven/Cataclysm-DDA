@@ -1,26 +1,25 @@
 #include "auto_pickup.h"
-#include "game.h"
-#include "player.h"
-#include "output.h"
-#include "json.h"
-#include "debug.h"
-#include "item_factory.h"
-#include "translations.h"
-#include "cata_utility.h"
-#include "path_info.h"
-#include "string_formatter.h"
-#include "filesystem.h"
-#include "input.h"
-#include "options.h"
-#include "itype.h"
-#include "string_input_popup.h"
-#include "string_id.h"
-#include "material.h"
 
-#include <stdlib.h>
+#include <algorithm>
 #include <sstream>
-#include <string>
-#include <locale>
+
+#include "cata_utility.h"
+#include "debug.h"
+#include "filesystem.h"
+#include "game.h"
+#include "input.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "material.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
 
 auto_pickup &get_auto_pickup()
 {
@@ -378,7 +377,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 void auto_pickup::test_pattern( const int iTab, const int iRow )
 {
     std::vector<std::string> vMatchingItems;
-    std::string sItemName = "";
 
     if( vRules[iTab][iRow].sRule.empty() ) {
         return;
@@ -387,7 +385,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     //Loop through all itemfactory items
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( const itype *e : item_controller->all() ) {
-        sItemName = e->nname( 1 );
+        const std::string sItemName = e->nname( 1 );
         if( !check_special_rule( e->materials, vRules[iTab][iRow].sRule ) &&
             !wildcard_match( sItemName, vRules[iTab][iRow].sRule ) ) {
             continue;
@@ -415,7 +413,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
                                      nmatch ), nmatch, vRules[iTab][iRow].sRule.c_str() );
     draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
     center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
-                  _( "Won't display bottled and suffixes=(fits)" ) );
+                  _( "Won't display content or suffix matches" ) );
     wrefresh( w_test_rule_border );
 
     int iLine = 0;
@@ -618,13 +616,13 @@ void auto_pickup::refresh_map_items() const
             } else {
                 //only re-exclude items from the existing mapping for now
                 //new exclusions will process during pickup attempts
-                for( auto iter = map_items.begin(); iter != map_items.end(); ++iter ) {
-                    if( !check_special_rule( temp_items[ iter->first ]->materials, elem.sRule ) &&
-                        !wildcard_match( iter->first, elem.sRule ) ) {
+                for( auto &map_item : map_items ) {
+                    if( !check_special_rule( temp_items[ map_item.first ]->materials, elem.sRule ) &&
+                        !wildcard_match( map_item.first, elem.sRule ) ) {
                         continue;
                     }
 
-                    map_items[ iter->first ] = RULE_BLACKLISTED;
+                    map_items[ map_item.first ] = RULE_BLACKLISTED;
                 }
             }
         }
@@ -787,7 +785,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
             if( iNum != 2 ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
             } else {
-                std::string sRule = "";
+                std::string sRule;
                 bool bActive = true;
                 bool bExclude = false;
 

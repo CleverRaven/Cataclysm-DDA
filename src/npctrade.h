@@ -1,9 +1,13 @@
-#include "npc.h"
-#include "itype.h"
-#include "game.h"
+#pragma once
+#ifndef NPCTRADE_H
+#define NPCTRADE_H
 
-#include <vector>
 #include <algorithm>
+#include <vector>
+
+#include "game.h"
+#include "itype.h"
+#include "npc.h"
 
 struct item_pricing {
     item_pricing( Character &c, item *it, int v, bool s ) : loc( c, it ), price( v ), selected( s ) {
@@ -27,3 +31,5 @@ inventory inventory_exchange( inventory &inv,
 std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( npc &p, player &u );
 bool trade( npc &p, int cost, const std::string &deal );
+
+#endif

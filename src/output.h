@@ -2,31 +2,21 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include "color.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "player.h"
-
-#include <cstdarg>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <set>
-#include <memory>
-#include <map>
+
+#include "catacharset.h"
+#include "color.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "units.h"
 
 struct input_event;
 struct iteminfo;
 enum direction : unsigned;
 class input_context;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-} // namespace units
 namespace catacurses
 {
 class window;
@@ -142,8 +132,6 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = fa
  * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
-
-std::string tag_colored_string( const std::string &s, nc_color color );
 
 /*@{*/
 /**
@@ -339,13 +327,6 @@ inline bool query_int( int &result, const char *const msg, Args &&... args )
 
 std::vector<std::string> get_hotkeys( const std::string &s );
 
-// for the next two functions, if cancelable is true, Esc returns the last option
-// These are legacy functions, use uilist instead!
-int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );
-int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> &options,
-               const std::string &hotkeys_override );
-int  menu( bool cancelable, const char *mes, ... );
-
 /**
  * @name Popup windows
  *
@@ -426,6 +407,8 @@ inline void popup_player_or_npc( player &p, const char *player_mes, const char *
 }
 
 /*@}*/
+std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
+                              const std::vector<iteminfo> &vItemCompare );
 
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
                             const std::string &sTypeName,
@@ -489,7 +472,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
-std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+const std::pair<std::string, nc_color> &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
 std::pair<std::string, nc_color> get_light_level( const float light );
 
@@ -549,7 +532,7 @@ enum class enumeration_conjunction {
 /**
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param values A vector of strings
- * @param enumeration_conjunction Choose how to separate the last elements.
+ * @param conj Choose how to separate the last elements.
  */
 template<typename _Container>
 std::string enumerate_as_string( const _Container &values,
@@ -588,7 +571,7 @@ std::string enumerate_as_string( const _Container &values,
  * @param last Iterator pointing to the last element.
  * @param pred Predicate that accepts an element and returns a representing string.
  * May return an empty string to omit the element.
- * @param enumeration_conjunction Choose how to separate the last elements.
+ * @param conj Choose how to separate the last elements.
  */
 template<typename _FIter, typename _Predicate>
 std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
@@ -715,8 +698,8 @@ class scrollingcombattext
                 std::string getType() const {
                     return sType;
                 }
-                std::string getText( std::string const &type = "full" ) const;
-                game_message_type getMsgType( std::string const &type = "first" ) const;
+                std::string getText( const std::string &type = "full" ) const;
+                game_message_type getMsgType( const std::string &type = "first" ) const;
         };
 
         std::vector<cSCT> vSCT;
@@ -770,10 +753,6 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
-
-void play_music( std::string playlist );
-
-void update_music_volume();
 
 /**
  * Make changes made to the display visible to the user immediately.

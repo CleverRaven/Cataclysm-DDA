@@ -1,21 +1,19 @@
 #include "game_inventory.h"
 
+#include <functional>
+
 #include "game.h"
 #include "inventory_ui.h"
-#include "options.h"
-#include "player.h"
-#include "crafting.h"
-#include "output.h"
-#include "recipe_dictionary.h"
-#include "string_formatter.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "skill.h"
 #include "map.h"
-
-#include <algorithm>
-#include <functional>
+#include "options.h"
+#include "output.h"
+#include "player.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "string_formatter.h"
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
@@ -144,13 +142,14 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
 class armor_inventory_preset: public inventory_selector_preset
 {
     public:
-        armor_inventory_preset( const std::string &color_in ) : color( color_in ) {
+        armor_inventory_preset( const player &pl, const std::string &color_in ) :
+            p( pl ), color( color_in ) {
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->get_encumber() );
+                return get_number_string( loc->get_encumber( p ) );
             }, _( "ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return loc->get_storage() > 0 ? string_format( "<%s>%s</color>", color,
+                return loc->get_storage() > 0_ml ? string_format( "<%s>%s</color>", color,
                         format_volume( loc->get_storage() ) ) : std::string();
             }, _( "STORAGE" ) );
 
@@ -183,6 +182,8 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "ENV" ) );
         }
 
+    protected:
+        const player &p;
     private:
         std::string get_number_string( int number ) const {
             return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
@@ -194,8 +195,9 @@ class armor_inventory_preset: public inventory_selector_preset
 class wear_inventory_preset: public armor_inventory_preset
 {
     public:
-        wear_inventory_preset( const player &p,
-                               const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+        wear_inventory_preset( const player &p, const std::string &color ) :
+            armor_inventory_preset( p, color )
+        {}
 
         bool is_shown( const item_location &loc ) const override {
             return loc->is_armor() && !p.is_worn( *loc );
@@ -210,9 +212,6 @@ class wear_inventory_preset: public armor_inventory_preset
 
             return std::string();
         }
-
-    private:
-        const player &p;
 };
 
 item_location game_menus::inv::wear( player &p )
@@ -224,8 +223,9 @@ item_location game_menus::inv::wear( player &p )
 class take_off_inventory_preset: public armor_inventory_preset
 {
     public:
-        take_off_inventory_preset( const player &p,
-                                   const std::string &color ) : armor_inventory_preset( color ), p( p ) {}
+        take_off_inventory_preset( const player &p, const std::string &color ) :
+            armor_inventory_preset( p, color )
+        {}
 
         bool is_shown( const item_location &loc ) const override {
             return loc->is_armor() && p.is_worn( *loc );
@@ -240,9 +240,6 @@ class take_off_inventory_preset: public armor_inventory_preset
 
             return std::string();
         }
-
-    private:
-        const player &p;
 };
 
 item_location game_menus::inv::take_off( player &p )
@@ -309,15 +306,18 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         disassemble_inventory_preset( const player &p, const inventory &inv ) :
             pickup_inventory_preset( p ), p( p ), inv( inv ) {
 
+            check_components = true;
+
             append_cell( [ this ]( const item_location & loc ) {
                 const auto &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
                     return std::string();
                 }
-                const auto components = req.get_components();
+                const item *i = loc.get_item();
+                const auto components = i->get_uncraft_components();
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
-                    return comps.front().to_string();
+                    return comps.to_string();
                 } );
             }, _( "YIELD" ) );
 
@@ -353,7 +353,7 @@ item_location game_menus::inv::disassemble( player &p )
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
-};
+}
 
 class comestible_inventory_preset : public inventory_selector_preset
 {
@@ -380,8 +380,33 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
-                if( spoils > 0 ) {
+                if( spoils > 0_turns ) {
                     return to_string_clipped( spoils );
+                }
+                //~ Used for permafood shelf life in the Eat menu
+                return std::string( _( "indefinite" ) );
+            }, _( "SHELF LIFE" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                if( g->u.can_estimate_rot() ) {
+                    const islot_comestible item = get_edible_comestible( loc );
+                    if( item.spoils > 0_turns ) {
+                        return get_freshness( loc );
+                    }
+                    return std::string( "---" );
+                }
+                return std::string();
+            }, _( "FRESHNESS" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( g->u.can_estimate_rot() ) {
+                    const islot_comestible item = get_edible_comestible( loc );
+                    if( item.spoils > 0_turns ) {
+                        if( !get_comestible_item( loc ).rotten() ) {
+                            return get_time_left_rounded( loc );
+                        }
+                    }
+                    return std::string( "---" );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -482,6 +507,45 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
+        std::string get_time_left_rounded( const item_location &loc ) {
+            const item &it = get_comestible_item( loc );
+            const double relative_rot = it.get_relative_rot();
+            const time_duration shelf_life = get_edible_comestible( loc ).spoils;
+            time_duration time_left = shelf_life - shelf_life * relative_rot;
+
+            // Correct for an estimate that exceeds shelf life -- this happens especially with
+            // fresh items.
+            if( time_left > shelf_life ) {
+                time_left = shelf_life;
+            }
+
+            if( it.is_going_bad() ) {
+                return _( "soon!" );
+            }
+
+            return to_string_approx( time_left );
+        }
+
+        std::string get_freshness( const item_location &loc ) {
+            const item &it = get_comestible_item( loc );
+            const double rot_progress = it.get_relative_rot();
+            if( it.is_fresh() ) {
+                return _( "fresh" );
+            } else if( rot_progress < 0.3 ) {
+                return _( "quite fresh" );
+            } else if( rot_progress < 0.5 ) {
+                return _( "near midlife" );
+            } else if( rot_progress < 0.7 ) {
+                return _( "past midlife" );
+            } else if( rot_progress < 0.9 ) {
+                return _( "getting older" );
+            } else if( !it.rotten() ) {
+                return _( "old" );
+            } else {
+                return _( "rotten" );
+            }
+        }
+
     private:
         const player &p;
 };
@@ -499,33 +563,40 @@ class activatable_inventory_preset : public pickup_inventory_preset
         activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
-                    return string_format( "<color_light_green>%s</color>", get_action_name( *loc ).c_str() );
+                    const item &it = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
+                                     ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
+                    return string_format( "<color_light_green>%s</color>", get_action_name( it ).c_str() );
                 }, _( "ACTION" ) );
             }
         }
 
         bool is_shown( const item_location &loc ) const override {
+            if( !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
+                ( *loc ).get_contained().type->has_use() ) {
+                return true;
+            }
             return loc->type->has_use();
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto &uses = loc->type->use_methods;
+            const item &it = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
+                             ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
+            const auto &uses = it.type->use_methods;
 
             if( uses.size() == 1 ) {
-                const auto ret = uses.begin()->second.can_call( p, *loc, false, p.pos() );
+                const auto ret = uses.begin()->second.can_call( p, it, false, p.pos() );
                 if( !ret.success() ) {
                     return trim_punctuation_marks( ret.str() );
                 }
             }
 
-            if( !p.has_enough_charges( *loc, false ) ) {
+            if( !p.has_enough_charges( it, false ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
-            const item &it = *loc;
             if( !it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
                 return pickup_inventory_preset::get_denial( loc );
             }
@@ -663,7 +734,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( p.book_fun_for( *loc ) );
+                return good_bad_none( p.book_fun_for( *loc, p ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
@@ -734,7 +805,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
         int get_known_recipes( const islot_book &book ) const {
             int res = 0;
-            for( auto const &elem : book.recipes ) {
+            for( const auto &elem : book.recipes ) {
                 if( p.knows_recipe( elem.recipe ) ) {
                     ++res; // If the player knows it, they recognize it even if it's not clearly stated.
                 }
@@ -786,13 +857,23 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
-                    const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
+                    if( loc->ammo_data()->ammo->prop_damage ) {
+                        const int ammo_mult = *loc->ammo_data()->ammo->prop_damage;
 
-                    return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
-                                          get_damage_string( basic_damage, true ).c_str(),
-                                          get_damage_string( ammo_damage, true ).c_str(),
-                                          get_damage_string( total_damage, true ).c_str()
-                                        );
+                        return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
+                                              get_damage_string( basic_damage, true ).c_str(),
+                                              get_damage_string( ammo_mult, true ).c_str(),
+                                              get_damage_string( total_damage, true ).c_str()
+                                            );
+                    } else {
+                        const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
+
+                        return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
+                                              get_damage_string( basic_damage, true ).c_str(),
+                                              get_damage_string( ammo_damage, true ).c_str(),
+                                              get_damage_string( total_damage, true ).c_str()
+                                            );
+                    }
                 } else {
                     return get_damage_string( total_damage );
                 }

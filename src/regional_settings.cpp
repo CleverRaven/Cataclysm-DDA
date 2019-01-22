@@ -1,13 +1,15 @@
 #include "regional_settings.h"
-#include "json.h"
-#include "options.h"
-#include "string_formatter.h"
-#include "debug.h"
 
 #include <algorithm>
 #include <map>
 #include <string>
 #include <utility>
+
+#include "debug.h"
+#include "json.h"
+#include "options.h"
+#include "rng.h"
+#include "string_formatter.h"
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
@@ -180,6 +182,110 @@ void load_forest_mapgen_settings( JsonObject &jo, forest_mapgen_settings &forest
     }
 }
 
+void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_trail_settings,
+                                 const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "forest_trail_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"forest_trail_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject forest_trail_settings_jo = jo.get_object( "forest_trail_settings" );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "chance", forest_trail_settings.chance,
+                                    !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "border_point_chance",
+                                    forest_trail_settings.border_point_chance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "minimum_forest_size",
+                                    forest_trail_settings.minimum_forest_size, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "random_point_min",
+                                    forest_trail_settings.random_point_min, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "random_point_max",
+                                    forest_trail_settings.random_point_max, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "random_point_size_scalar",
+                                    forest_trail_settings.random_point_size_scalar, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_chance",
+                                    forest_trail_settings.trailhead_chance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_road_distance",
+                                    forest_trail_settings.trailhead_road_distance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
+                                    forest_trail_settings.trail_center_variance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",
+                                    forest_trail_settings.trail_width_offset_min, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_max",
+                                    forest_trail_settings.trail_width_offset_max, !overlay );
+        read_and_set_or_throw<bool>( forest_trail_settings_jo, "clear_trail_terrain",
+                                     forest_trail_settings.clear_trail_terrain, !overlay );
+
+        if( forest_trail_settings.clear_trail_terrain ) {
+            forest_trail_settings.unfinalized_trail_terrain.clear();
+        }
+
+        if( !forest_trail_settings_jo.has_object( "trail_terrain" ) ) {
+            if( !overlay ) {
+                forest_trail_settings_jo.throw_error( "trail_terrain required" );
+            }
+        } else {
+            JsonObject trail_terrain_jo = forest_trail_settings_jo.get_object( "trail_terrain" );
+            std::set<std::string> keys = trail_terrain_jo.get_member_names();
+            for( const auto &key : keys ) {
+                int weight = 0;
+                if( key != "//" ) {
+                    if( trail_terrain_jo.read( key, weight ) ) {
+                        forest_trail_settings.unfinalized_trail_terrain[key] = weight;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void load_overmap_feature_flag_settings( JsonObject &jo,
+        overmap_feature_flag_settings &overmap_feature_flag_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_feature_flag_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_feature_flag_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject overmap_feature_flag_settings_jo = jo.get_object( "overmap_feature_flag_settings" );
+        read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_blacklist",
+                                     overmap_feature_flag_settings.clear_blacklist, !overlay );
+        read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_whitelist",
+                                     overmap_feature_flag_settings.clear_whitelist, !overlay );
+
+        if( overmap_feature_flag_settings.clear_blacklist ) {
+            overmap_feature_flag_settings.blacklist.clear();
+        }
+
+        if( overmap_feature_flag_settings.clear_whitelist ) {
+            overmap_feature_flag_settings.whitelist.clear();
+        }
+
+        if( !overmap_feature_flag_settings_jo.has_array( "blacklist" ) ) {
+            if( !overlay ) {
+                overmap_feature_flag_settings_jo.throw_error( "blacklist required" );
+            }
+        } else {
+            JsonArray blacklist_ja = overmap_feature_flag_settings_jo.get_array( "blacklist" );
+            while( blacklist_ja.has_more() ) {
+                overmap_feature_flag_settings.blacklist.emplace( blacklist_ja.next_string() );
+            }
+        }
+
+        if( !overmap_feature_flag_settings_jo.has_array( "whitelist" ) ) {
+            if( !overlay ) {
+                overmap_feature_flag_settings_jo.throw_error( "whitelist required" );
+            }
+        } else {
+            JsonArray whitelist_ja = overmap_feature_flag_settings_jo.get_array( "whitelist" );
+            while( whitelist_ja.has_more() ) {
+                overmap_feature_flag_settings.whitelist.emplace( whitelist_ja.next_string() );
+            }
+        }
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -232,7 +338,7 @@ void load_region_settings( JsonObject &jo )
         if( ! pjo.read( "percent_coverage", tmpval ) ) {
             pjo.throw_error( "field_coverage: percent_coverage required" );
         }
-        new_region.field_coverage.mpercent_coverage = ( int )( tmpval * 10000.0 );
+        new_region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
         if( ! pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
             pjo.throw_error( "field_coverage: default_ter required" );
         }
@@ -250,15 +356,15 @@ void load_region_settings( JsonObject &jo )
             }
         }
         if( pjo.read( "boost_chance", tmpval ) && tmpval != 0.0f ) {
-            new_region.field_coverage.boost_chance = ( int )( tmpval * 10000.0 );
+            new_region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
             if( ! pjo.read( "boosted_percent_coverage", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
             }
-            new_region.field_coverage.boosted_mpercent_coverage = ( int )( tmpval * 10000.0 );
+            new_region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
             if( ! pjo.read( "boosted_other_percent", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
             }
-            new_region.field_coverage.boosted_other_mpercent = ( int )( tmpval * 10000.0 );
+            new_region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
             if( pjo.has_object( "boosted_other" ) ) {
                 JsonObject opjo = pjo.get_object( "boosted_other" );
                 std::set<std::string> keys = opjo.get_member_names();
@@ -277,6 +383,8 @@ void load_region_settings( JsonObject &jo )
     }
 
     load_forest_mapgen_settings( jo, new_region.forest_composition, strict, false );
+
+    load_forest_trail_settings( jo, new_region.forest_trail, strict, false );
 
     if( ! jo.has_object( "map_extras" ) ) {
         if( strict ) {
@@ -328,8 +436,14 @@ void load_region_settings( JsonObject &jo )
         if( ! cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
             jo.throw_error( "city: shop_radius required for default" );
         }
+        if( !cjo.read( "shop_sigma", new_region.city_spec.shop_sigma ) && strict ) {
+            jo.throw_error( "city: shop_sigma required for default" );
+        }
         if( ! cjo.read( "park_radius", new_region.city_spec.park_radius ) && strict ) {
             jo.throw_error( "city: park_radius required for default" );
+        }
+        if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
+            jo.throw_error( "city: park_sigma required for default" );
         }
         if( ! cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
             jo.throw_error( "city: house_basement_chance required for default" );
@@ -364,6 +478,8 @@ void load_region_settings( JsonObject &jo )
         JsonObject wjo = jo.get_object( "weather" );
         new_region.weather = weather_generator::load( wjo );
     }
+
+    load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
     region_settings_map[new_region.id] = new_region;
 }
@@ -433,7 +549,7 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     JsonObject fieldjo = jo.get_object( "field_coverage" );
     double tmpval = 0.0f;
     if( fieldjo.read( "percent_coverage", tmpval ) ) {
-        region.field_coverage.mpercent_coverage = ( int )( tmpval * 10000.0 );
+        region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
     }
 
     fieldjo.read( "default_ter", region.field_coverage.default_ter_str );
@@ -449,14 +565,14 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     }
 
     if( fieldjo.read( "boost_chance", tmpval ) ) {
-        region.field_coverage.boost_chance = ( int )( tmpval * 10000.0 );
+        region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
     }
     if( fieldjo.read( "boosted_percent_coverage", tmpval ) ) {
         if( region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f ) {
             fieldjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
         }
 
-        region.field_coverage.boosted_mpercent_coverage = ( int )( tmpval * 10000.0 );
+        region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
     }
 
     if( fieldjo.read( "boosted_other_percent", tmpval ) ) {
@@ -464,7 +580,7 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
             fieldjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
         }
 
-        region.field_coverage.boosted_other_mpercent = ( int )( tmpval * 10000.0 );
+        region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
     }
 
     JsonObject boostedjo = fieldjo.get_object( "boosted_other" );
@@ -483,6 +599,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     }
 
     load_forest_mapgen_settings( jo, region.forest_composition, false, true );
+
+    load_forest_trail_settings( jo, region.forest_trail, false, true );
 
     JsonObject mapextrajo = jo.get_object( "map_extras" );
     std::set<std::string> extrazones = mapextrajo.get_member_names();
@@ -512,7 +630,9 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     JsonObject cityjo = jo.get_object( "city" );
 
     cityjo.read( "shop_radius", region.city_spec.shop_radius );
+    cityjo.read( "shop_sigma", region.city_spec.shop_sigma );
     cityjo.read( "park_radius", region.city_spec.park_radius );
+    cityjo.read( "park_sigma", region.city_spec.park_sigma );
     cityjo.read( "house_basement_chance", region.city_spec.house_basement_chance );
 
     const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
@@ -528,6 +648,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
+
+    load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 }
 
 void groundcover_extra::finalize()   // @todo: fixme return bool for failure
@@ -555,7 +677,7 @@ void groundcover_extra::finalize()   // @todo: fixme return bool for failure
             debugmsg( "No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;
         }
-        wtotal += ( int )( it->second * 10000.0 );
+        wtotal += static_cast<int>( it->second * 10000.0 );
         weightlist[ wtotal ] = tf_id;
     }
 
@@ -577,7 +699,7 @@ void groundcover_extra::finalize()   // @todo: fixme return bool for failure
             debugmsg( "No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;
         }
-        btotal += ( int )( it->second * 10000.0 );
+        btotal += static_cast<int>( it->second * 10000.0 );
         boosted_weightlist[ btotal ] = tf_id;
     }
 
@@ -692,6 +814,18 @@ void forest_mapgen_settings::finalize()
     }
 }
 
+void forest_trail_settings::finalize()
+{
+    for( const std::pair<const std::string, int> &pr : unfinalized_trail_terrain ) {
+        const ter_str_id tid( pr.first );
+        if( !tid.is_valid() ) {
+            debugmsg( "Tried to add invalid terrain %s to forest_trail_settings trail_terrain.", tid.c_str() );
+            continue;
+        }
+        trail_terrain.add( tid.id(), pr.second );
+    }
+}
+
 void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
@@ -703,7 +837,8 @@ void regional_settings::finalize()
         default_groundcover_str.reset();
         city_spec.finalize();
         forest_composition.finalize();
-        get_options().add_value( "DEFAULT_REGION", id );
+        forest_trail.finalize();
+        get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }
 
@@ -756,7 +891,6 @@ void building_bin::finalize()
     }
 
     for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
-        bool skip = false;
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
@@ -769,19 +903,6 @@ void building_bin::finalize()
                 all.emplace_back( pr.first.str() );
             }
             current_id = overmap_specials::create_building_from( converted_id );
-        }
-        const overmap_special &cur_special = current_id.obj();
-        for( const overmap_special_terrain &ter : cur_special.terrains ) {
-            const tripoint &p = ter.p;
-            if( p.x != 0 || p.y != 0 ) {
-                debugmsg( "Tried to add city building %s, but it has a part with non-zero X or Y coordinates (not supported yet)",
-                          current_id.c_str() );
-                skip = true;
-                break;
-            }
-        }
-        if( skip ) {
-            continue;
         }
         buildings.add( current_id, pr.second );
     }

@@ -2,17 +2,14 @@
 #ifndef EDITMAP_H
 #define EDITMAP_H
 
-#include "map.h"
-#include "line.h"
-#include "omdata.h"
-#include "ui.h"
-#include "trap.h"
-#include "optional.h"
-
-#include <vector>
 #include <map>
-#include <list>
-#include <stdarg.h>
+#include <vector>
+
+#include "map.h"
+#include "omdata.h"
+#include "optional.h"
+#include "trap.h"
+#include "ui.h"
 
 struct real_coords;
 enum field_id : int;
@@ -27,7 +24,7 @@ struct editmap_hilight {
     int cur_blink;
     nc_color color;
     std::map<tripoint, char> points;
-    nc_color( *getbg )( nc_color );
+    nc_color( *getbg )( const nc_color & );
     void setup() {
         getbg = ( color == c_red ? &red_background :
                   ( color == c_magenta ? &magenta_background :
@@ -36,7 +33,7 @@ struct editmap_hilight {
                     )
                   )
                 );
-    };
+    }
     void draw( editmap &em, bool update = false );
 };
 
@@ -61,7 +58,8 @@ class editmap
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
         int mapgen_preview( real_coords &tc, uilist &gmenu );
-        bool mapgen_set( std::string om_name, tripoint omt_tgt, int r = 0, bool change_sensitive = true );
+        bool mapgen_set( std::string om_name, tripoint &omt_tgt, int r = 0,
+                         bool change_sensitive = true );
         vehicle *mapgen_veh_query( const tripoint &omt_tgt );
         bool mapgen_veh_has( const tripoint &omt_tgt );
         bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
@@ -70,7 +68,6 @@ class editmap
 
         void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
         void setup_fmenu( uilist &fmenu );
-        bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         catacurses::window w_info;
         catacurses::window w_help;
         int width;

@@ -1,18 +1,16 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "map.h"
-#include "player.h"
-
 #include "map_helpers.h"
+#include "player.h"
 
 TEST_CASE( "destroy_grabbed_furniture" )
 {
     clear_map();
     GIVEN( "Furniture grabbed by the player" ) {
-        tripoint test_origin( 60, 60, 0 );
+        const tripoint test_origin( 60, 60, 0 );
         g->u.setpos( test_origin );
-        tripoint grab_point = test_origin + tripoint( 1, 0, 0 );
+        const tripoint grab_point = test_origin + tripoint( 1, 0, 0 );
         g->m.furn_set( grab_point, furn_id( "f_chair" ) );
         g->u.grab( OBJECT_FURNITURE, grab_point );
         WHEN( "The furniture grabbed by the player is destroyed" ) {

@@ -1,26 +1,26 @@
 #include "weather.h"
 
-#include "coordinate_conversions.h"
-#include "options.h"
-#include "output.h"
+#include <cmath>
+#include <sstream>
+#include <vector>
+
 #include "calendar.h"
+#include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "game.h"
+#include "game_constants.h"
 #include "map.h"
 #include "messages.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "trap.h"
-#include "math.h"
+#include "player.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "weather_gen.h"
-#include "sounds.h"
-#include "cata_utility.h"
-#include "player.h"
-#include "game_constants.h"
-
-#include <vector>
-#include <sstream>
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
@@ -70,26 +70,24 @@ void weather_effect::glare()
 }
 ////// food vs weather
 
-int get_hourly_rotpoints_at_temp( int temp );
-
 time_duration get_rot_since( const time_point &start, const time_point &end,
-                             const tripoint &location )
+                             const tripoint &pos )
 {
-    time_duration ret = 0;
+    time_duration ret = 0_turns;
     const auto &wgen = g->get_cur_weather_gen();
     /* Hoisting loop invariants */
-    const auto location_temp = g->get_temperature( location );
-    const auto local = g->m.getlocal( location );
+    const auto location_temp = g->get_temperature( pos );
+    const auto local = g->m.getlocal( pos );
     const auto local_mod = g->new_game ? 0 : g->m.temperature( local );
     const auto seed = g->get_seed();
 
     const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
     for( time_point i = start; i < end; i += 1_hours ) {
-        w_point w = wgen.get_weather( location, i, seed );
+        w_point w = wgen.get_weather( pos, i, seed );
 
         //Use weather if above ground, use map temp if below
-        double temperature = ( location.z >= 0 ? w.temperature : location_temp ) + local_mod;
+        double temperature = ( pos.z >= 0 ? w.temperature : location_temp ) + local_mod;
         // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
         // If not: use calculated temperature
         temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
@@ -132,7 +130,7 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
 weather_sum sum_conditions( const time_point &start, const time_point &end,
                             const tripoint &location )
 {
-    time_duration tick_size = 0;
+    time_duration tick_size = 0_turns;
     weather_sum data;
 
     const auto wgen = g->get_cur_weather_gen();
@@ -146,7 +144,12 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             tick_size = 1_minutes;
         }
 
-        const auto wtype = wgen.get_weather_conditions( location, to_turn<int>( t ), g->get_seed() );
+        weather_type wtype;
+        if( g->weather_override == WEATHER_NULL ) {
+            wtype = wgen.get_weather_conditions( location, t, g->get_seed() );
+        } else {
+            wtype = g->weather_override;
+        }
         proc_weather_sum( wtype, data, t, tick_size );
     }
 
@@ -157,14 +160,14 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
-                                     const time_point &end, const tripoint &location )
+                                     const time_point &end, const tripoint &pos )
 {
     if( start > end || !tr.is_funnel() ) {
         return;
     }
 
     it.set_birthday( end ); // bday == last fill check
-    auto data = sum_conditions( start, end, location );
+    auto data = sum_conditions( start, end, pos );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
@@ -253,7 +256,8 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     static const item water( "water", 0 );
-    static const double charge_ml = ( double ) to_gram( water.weight() ) / water.charges; // 250ml
+    static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
+                                    water.charges; // 250ml
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
     const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS( 1 );
@@ -295,7 +299,7 @@ void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
     // Give each funnel on the map a chance to collect the rain.
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
-        units::volume maxcontains = 0;
+        units::volume maxcontains = 0_ml;
         if( one_in( turns_per_charge ) ) { // @todo: fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
@@ -312,7 +316,7 @@ void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
 
             if( container != items.end() ) {
                 container->add_rain_to_container( acid, 1 );
-                container->set_age( 0 );
+                container->set_age( 0_turns );
             }
         }
     }
@@ -387,10 +391,10 @@ void generic_very_wet( bool acid )
     wet_player( 60 );
 }
 
-void weather_effect::none()      {};
-void weather_effect::flurry()    {};
-void weather_effect::snow()      {};
-void weather_effect::snowstorm() {};
+void weather_effect::none()      {}
+void weather_effect::flurry()    {}
+void weather_effect::snow()      {}
+void weather_effect::snowstorm() {}
 
 /**
  * Wet.
@@ -560,7 +564,7 @@ static std::string print_time_just_hour( const time_point &p )
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast( point const &abs_sm_pos )
+std::string weather_forecast( const point &abs_sm_pos )
 {
     std::ostringstream weather_report;
     // Local conditions

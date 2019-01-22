@@ -2,12 +2,8 @@
 #ifndef PLDATA_H
 #define PLDATA_H
 
-#include "bodypart.h"
-#include "string_id.h"
 #include "calendar.h"
-
-#include <map>
-#include <string>
+#include "string_id.h"
 
 class JsonIn;
 class JsonOut;
@@ -59,7 +55,7 @@ class addiction
         time_duration sated = 1_hours;
 
         addiction() = default;
-        addiction( add_type const t, int const i = 1 ) : type {t}, intensity {i} { }
+        addiction( add_type const t, const int i = 1 ) : type {t}, intensity {i} { }
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

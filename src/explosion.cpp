@@ -1,27 +1,28 @@
-#include "explosion.h"
+#include "explosion.h" // IWYU pragma: associated
+#include "fragment_cloud.h" // IWYU pragma: associated
 
-#include "fragment_cloud.h"
-#include "cata_utility.h"
-#include "game.h"
-#include "item_factory.h"
-#include "map.h"
-#include "projectile.h"
-#include "shadowcasting.h"
-#include "json.h"
-#include "creature.h"
-#include "character.h"
-#include "player.h"
-#include "monster.h"
-#include "vpart_position.h"
-#include "output.h"
-#include "debug.h"
-#include "messages.h"
-#include "translations.h"
-#include "sounds.h"
-#include "vehicle.h"
-#include "field.h"
 #include <algorithm>
 #include <chrono>
+
+#include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
+#include "debug.h"
+#include "field.h"
+#include "game.h"
+#include "item_factory.h"
+#include "json.h"
+#include "map.h"
+#include "messages.h"
+#include "output.h"
+#include "player.h"
+#include "projectile.h"
+#include "shadowcasting.h"
+#include "sounds.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+
 // For M_PI
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -284,13 +285,13 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
 {
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
-        sounds::sound( p, noise, _( "a huge explosion!" ) );
+        sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ) );
         sfx::play_variant_sound( "explosion", "huge", 100 );
     } else if( noise >= 4 ) {
-        sounds::sound( p, noise, _( "an explosion!" ) );
+        sounds::sound( p, noise, sounds::sound_t::combat, _( "an explosion!" ) );
         sfx::play_variant_sound( "explosion", "default", 100 );
     } else if( noise > 0 ) {
-        sounds::sound( p, 3, _( "a loud pop!" ) );
+        sounds::sound( p, 3, sounds::sound_t::combat, _( "a loud pop!" ) );
         sfx::play_variant_sound( "explosion", "small", 100 );
     }
 
@@ -320,7 +321,9 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            std::random_shuffle( tiles.begin(), tiles.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( tiles.begin(), tiles.end(), eng );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {
@@ -388,6 +391,11 @@ bool shrapnel_check( const fragment_cloud &cloud, const fragment_cloud &intensit
            intensity.density > MIN_FRAGMENT_DENSITY;
 }
 
+void update_fragment_cloud( fragment_cloud &update, const fragment_cloud &new_value, quadrant )
+{
+    update = std::max( update, new_value );
+}
+
 fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud,
         const fragment_cloud &current_cloud, const int &distance )
 {
@@ -405,7 +413,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
 constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
 static float gurney_spherical( const double charge, const double mass )
 {
-    return ( float )( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ), -0.5 ) * TYPICAL_GURNEY_CONSTANT );
+    return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
+                                         -0.5 ) * TYPICAL_GURNEY_CONSTANT );
 }
 
 // Calculate cross-sectional area of a steel sphere in cm^2 based on mass of fragment.
@@ -435,8 +444,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    fragment_cloud obstacle_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
-    fragment_cloud visited_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
+    fragment_cloud obstacle_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
+    fragment_cloud visited_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
 
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
@@ -453,8 +462,9 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
     visited_cache[src.x][src.y] = initial_cloud;
 
-    castLightAll<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
-    ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
+    castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
+                 update_fragment_cloud, accumulate_fragment_cloud>
+                 ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
     for( int x = start.x; x < end.x; x++ ) {

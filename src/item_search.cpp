@@ -1,8 +1,9 @@
 #include "item_search.h"
-#include "item.h"
-#include "material.h"
+
 #include "cata_utility.h"
+#include "item.h"
 #include "item_category.h"
+#include "material.h"
 #include "recipe_dictionary.h"
 
 std::pair<std::string, std::string> get_both( const std::string &a );
@@ -41,6 +42,16 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 auto pair = get_both( filter );
                 return item_filter_from_string( pair.first )( i )
                        && item_filter_from_string( pair.second )( i );
+            };
+        case 'd'://disassembled components
+            return [filter]( const item & i ) {
+                const auto &components = i.get_uncraft_components();
+                for( auto &component : components ) {
+                    if( lcmatch( component.to_string(), filter ) ) {
+                        return true;
+                    }
+                }
+                return false;
             };
         default://by name
             return [filter]( const item & a ) {

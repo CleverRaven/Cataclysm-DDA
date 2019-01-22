@@ -1,40 +1,35 @@
 #include "item_factory.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <sstream>
+
 #include "addiction.h"
+#include "ammo.h"
 #include "artifact.h"
+#include "assign.h"
 #include "catacharset.h"
-#include "construction.h"
-#include "crafting.h"
 #include "debug.h"
 #include "enums.h"
-#include "assign.h"
-#include "string_formatter.h"
-#include "item_category.h"
+#include "field.h"
 #include "init.h"
 #include "item.h"
-#include "ammo.h"
+#include "item_category.h"
 #include "item_group.h"
-#include "vitamin.h"
 #include "iuse_actor.h"
 #include "json.h"
-#include "mapdata.h"
 #include "material.h"
 #include "options.h"
 #include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "skill.h"
-#include "translations.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "ui.h"
 #include "veh_type.h"
-#include "field.h"
-
-#include <algorithm>
-#include <assert.h>
-#include <cassert>
-#include <cmath>
-#include <sstream>
+#include "vitamin.h"
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -172,23 +167,36 @@ void Item_factory::finalize_pre( itype &obj )
         obj.price_post = obj.price;
     }
     // use base volume if integral volume unspecified
-    if( obj.integral_volume < 0 ) {
+    if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
     }
     // for ammo and comestibles stack size defaults to count of initial charges
-    if( obj.stackable && obj.stack_size == 0 ) {
-        obj.stack_size = obj.charges_default();
+    // Set max stack size to 200 to prevent integer overflow
+    if( obj.stackable ) {
+        if( obj.stack_size == 0 ) {
+            obj.stack_size = obj.charges_default();
+        } else if( obj.stack_size > 200 ) {
+            debugmsg( obj.id + " stack size is too large, reducing to 200" );
+            obj.stack_size = 200;
+        }
     }
+
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
-    if( obj.volume <= 0 ) {
+    if( obj.volume <= 0_ml ) {
         obj.volume = units::from_milliliter( 1 );
     }
     for( const auto &tag : obj.item_tags ) {
         if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
             obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
         }
+    }
+
+    // Set max volume for containers to prevent integer overflow
+    if( obj.container && obj.container->contains > 10000000_ml ) {
+        debugmsg( obj.id + " storage volume is too large, reducing to 10000000" );
+        obj.container->contains = 10000000_ml;
     }
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -321,6 +329,18 @@ void Item_factory::finalize_pre( itype &obj )
 
     if( obj.drop_action.get_actor_ptr() != nullptr ) {
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
+    }
+
+    if( obj.item_tags.count( "SKINTIGHT" ) ) {
+        obj.layer = UNDERWEAR;
+    } else if( obj.item_tags.count( "WAIST" ) ) {
+        obj.layer = WAIST_LAYER;
+    } else if( obj.item_tags.count( "OUTER" ) ) {
+        obj.layer = OUTER_LAYER;
+    } else if( obj.item_tags.count( "BELTED" ) ) {
+        obj.layer = BELTED_LAYER;
+    } else {
+        obj.layer = REGULAR_LAYER;
     }
 }
 
@@ -487,12 +507,36 @@ class iuse_function_wrapper : public iuse_actor
         void load( JsonObject & ) override {}
 };
 
+class iuse_function_wrapper_with_info : public iuse_function_wrapper
+{
+    private:
+        std::string info_string; // Untranslated
+    public:
+        iuse_function_wrapper_with_info(
+            const std::string &type, const use_function_pointer f, const std::string &info )
+            : iuse_function_wrapper( type, f ), info_string( info ) { }
+
+        void info( const item &, std::vector<iteminfo> &info ) const override {
+            info.emplace_back( "DESCRIPTION", _( info_string.c_str() ) );
+        }
+        iuse_actor *clone() const override {
+            return new iuse_function_wrapper_with_info( *this );
+        }
+};
+
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
     iuse_function_list[ type ] = use_function( type, f );
+}
+
+void Item_factory::add_iuse( const std::string &type, const use_function_pointer f,
+                             const std::string &info )
+{
+    iuse_function_list[ type ] =
+        use_function( new iuse_function_wrapper_with_info( type, f, info ) );
 }
 
 void Item_factory::add_actor( iuse_actor *ptr )
@@ -539,6 +583,7 @@ void Item_factory::init()
     add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
+    add_iuse( "COIN_FLIP", &iuse::coin_flip );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
@@ -590,6 +635,12 @@ void Item_factory::init()
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
+    add_iuse( "GASMASK", &iuse::gasmask,
+              translate_marker( "Can be activated to <good>increase environmental "
+                                "protection</good>.  Will consume charges when active, "
+                                "but <info>only when environmental hazards are "
+                                "present</info>."
+                              ) );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
@@ -609,6 +660,7 @@ void Item_factory::init()
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
     add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
+    add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "MARLOSS", &iuse::marloss );
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
@@ -622,7 +674,6 @@ void Item_factory::init()
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
-    add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
@@ -633,11 +684,9 @@ void Item_factory::init()
     add_iuse( "PANACEA", &iuse::panacea );
     add_iuse( "PHEROMONE", &iuse::pheromone );
     add_iuse( "PICKAXE", &iuse::pickaxe );
-    add_iuse( "PIPEBOMB_ACT", &iuse::pipebomb_act );
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
-    add_iuse( "PORTABLE_STRUCTURE", &iuse::portable_structure );
     add_iuse( "PORTAL", &iuse::portal );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
@@ -725,6 +774,7 @@ void Item_factory::init()
     add_actor( new detach_gunmods_actor() );
     add_actor( new mutagen_actor() );
     add_actor( new mutagen_iv_actor() );
+    add_actor( new deploy_tent_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -761,10 +811,10 @@ void Item_factory::check_definitions() const
             msg << "undefined category " << type->category_force << "\n";
         }
 
-        if( type->weight < 0 ) {
+        if( type->weight < 0_gram ) {
             msg << "negative weight" << "\n";
         }
-        if( type->volume < 0 ) {
+        if( type->volume < 0_ml ) {
             msg << "negative volume" << "\n";
         }
         if( type->price < 0 ) {
@@ -777,7 +827,7 @@ void Item_factory::check_definitions() const
             msg << "empty description" << "\n";
         }
 
-        for( auto mat_id : type->materials ) {
+        for( const material_id &mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
                 msg << string_format( "invalid material %s", mat_id.c_str() ) << "\n";
             }
@@ -902,7 +952,7 @@ void Item_factory::check_definitions() const
                     msg << "specified magazine but none provided for default ammo type" << "\n";
                 }
             }
-            if( type->gun->barrel_length < 0 ) {
+            if( type->gun->barrel_length < 0_ml ) {
                 msg << "gun barrel length cannot be negative" << "\n";
             }
 
@@ -1027,7 +1077,7 @@ void Item_factory::check_definitions() const
                 msg << string_format( "Resealable container unseals_into %s",
                                       type->container->unseals_into.c_str() ) << "\n";
             }
-            if( type->container->contains <= 0 ) {
+            if( type->container->contains <= 0_ml ) {
                 msg << string_format( "\"contains\" (%d) must be >0", type->container->contains.value() ) << "\n";
             }
             if( !has_template( type->container->unseals_into ) ) {
@@ -1113,7 +1163,7 @@ Item_spawn_data *Item_factory::get_group( const Item_tag &group_tag )
     if( group_iter != m_template_groups.end() ) {
         return group_iter->second.get();
     }
-    return NULL;
+    return nullptr;
 }
 
 ///////////////////////
@@ -1238,6 +1288,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "count", slot.def_charges, strict, 1L );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
+    assign( jo, "prop_damage", slot.prop_damage, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
@@ -1337,7 +1388,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
-    assign( jo, "barrel_length", slot.barrel_length, strict, 0 );
+    assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
@@ -1383,7 +1434,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
-    assign( jo, "storage", slot.storage, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
@@ -1652,6 +1703,17 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     }
 
     assign( jo, "mode_modifier", slot.mode_modifier );
+    assign( jo, "reload_modifier", slot.reload_modifier );
+    assign( jo, "min_str_required_mod", slot.min_str_required_mod );
+    if( jo.has_array( "add_mod" ) ) {
+        slot.add_mod.clear();
+        JsonArray jarr = jo.get_array( "add_mod" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.add_mod.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
+        }
+    }
+    assign( jo, "blacklist_mod", slot.blacklist_mod );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
@@ -1809,7 +1871,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     bool strict = src == "dda";
 
     assign( jo, "category", def.category_force, strict );
-    assign( jo, "weight", def.weight, strict, 0 );
+    assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );
@@ -1997,8 +2059,9 @@ void Item_factory::load_item_category( JsonObject &jo )
         debugmsg( "Item category %s already exists", id );
         return;
     }
-    categories.emplace( id, item_category( id, _( jo.get_string( "name" ).c_str() ),
-                                           jo.get_int( "sort_rank" ) ) );
+    translation name;
+    jo.read( "name", name );
+    categories.emplace( id, item_category( id, name, jo.get_int( "sort_rank" ) ) );
 }
 
 void Item_factory::load_migration( JsonObject &jo )
@@ -2521,7 +2584,7 @@ bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag i
     }
 
     Item_group *ig = dynamic_cast<Item_group *>( &group_to_access );
-    if( chance != 0 && ig != NULL ) {
+    if( chance != 0 && ig != nullptr ) {
         // Only re-add if chance != 0
         ig->add_item_entry( item_id, chance );
     }
@@ -2535,7 +2598,7 @@ void item_group::debug_spawn()
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
+        menu.entries.emplace_back( i, true, -2, groups[i] );
     }
     while( true ) {
         menu.query();
@@ -2561,7 +2624,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.push_back( uimenu_entry( menu2.entries.size(), true, -2, buffer.str() ) );
+            menu2.entries.emplace_back( menu2.entries.size(), true, -2, buffer.str() );
         }
         menu2.query();
     }

@@ -1,42 +1,41 @@
+#include "player.h" // IWYU pragma: associated
+
+#include "addiction.h"
+#include "bionics.h"
 #include "cata_utility.h"
-#include "player.h"
+#include "catacharset.h"
+#include "crafting.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "martialarts.h"
+#include "mutation.h"
+#include "name.h"
+#include "options.h"
+#include "output.h"
+#include "path_info.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
-#include "scenario.h"
-#include "start_location.h"
-#include "input.h"
-#include "output.h"
-#include "bionics.h"
-#include "units.h"
 #include "rng.h"
-#include "game.h"
-#include "name.h"
-#include "string_formatter.h"
-#include "options.h"
+#include "scenario.h"
 #include "skill.h"
-#include "catacharset.h"
-#include "debug.h"
-#include "char_validity_check.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "translations.h"
-#include "martialarts.h"
-#include "addiction.h"
-#include "ui.h"
-#include "mutation.h"
-#include "crafting.h"
+#include "start_location.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
 #include "worldfactory.h"
-#include "json.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
-#include <cstring>
-#include <sstream>
-#include <vector>
+
 #include <algorithm>
 #include <cassert>
+#include <sstream>
+#include <vector>
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -203,14 +202,24 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     if( styles.size() == 1 ) {
         return styles.front();
     }
-    uimenu menu;
-    menu.text = _( "Pick your style:" );
+
+    input_context ctxt( "MELEE_STYLE_PICKER" );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
+    uilist menu;
+    menu.allow_cancel = false;
+    menu.text = string_format( _( "Select a style. (press %s for more info)" ),
+                               ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
+    ma_style_callback callback( 0, styles );
+    menu.callback = &callback;
+    menu.input_category = "MELEE_STYLE_PICKER";
+    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
     menu.desc_enabled = true;
+
     for( auto &s : styles ) {
         auto &style = s.obj();
         menu.addentry_desc( _( style.name.c_str() ), _( style.description.c_str() ) );
     }
-    menu.selected = 0;
     while( true ) {
         menu.query( true );
         auto &selected = styles[menu.ret];
@@ -645,7 +654,7 @@ void draw_tabs( const catacurses::window &w, const std::string &sTab )
     size_t temp_len = 0;
     size_t tabs_length = 0;
     std::vector<int> tab_len;
-    for( auto tab_name : tab_captions ) {
+    for( const std::string &tab_name : tab_captions ) {
         // String length + borders
         temp_len = utf8_width( tab_name ) + 2;
         tabs_length += temp_len;
@@ -657,7 +666,7 @@ void draw_tabs( const catacurses::window &w, const std::string &sTab )
     // Initial value of next_pos is free space too.
     // '1' is used for SDL/curses screen column reference.
     int free_space = ( TERMX - tabs_length - 1 - next_pos );
-    int spaces = free_space / ( ( int )tab_captions.size() - 1 );
+    int spaces = free_space / ( static_cast<int>( tab_captions.size() ) - 1 );
     if( spaces < 0 ) {
         spaces = 0;
     }
@@ -691,15 +700,14 @@ void draw_points( const catacurses::window &w, points_left &points, int netPoint
 }
 
 template <class Compare>
-void draw_sorting_indicator( const catacurses::window &w_sorting, input_context ctxt,
+void draw_sorting_indicator( const catacurses::window &w_sorting, const input_context &ctxt,
                              Compare sorter )
 {
-    auto const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
-    auto const sort_help = string_format( _( "(Press <color_light_green>%s</color> to change)" ),
-                                          ctxt.get_desc( "SORT" ).c_str() );
-    wprintz( w_sorting, COL_HEADER, _( "Sort by:" ) );
-    wprintz( w_sorting, c_light_gray, " %s", sort_order );
-    fold_and_print( w_sorting, 0, 16, ( TERMX / 2 ), c_light_gray, sort_help );
+    const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
+    const auto sort_text = string_format(
+                               _( "<color_white>Sort by: </color>%1$s (Press <color_light_green>%2$s</color> to change)" ),
+                               sort_order, ctxt.get_desc( "SORT" ).c_str() );
+    fold_and_print( w_sorting, 0, 0, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
 tab_direction set_points( const catacurses::window &w, player &, points_left &points )
@@ -749,7 +757,7 @@ Scenarios and professions affect skill point pool" ) );
     do {
         if( highlighted < 0 ) {
             highlighted = opts.size() - 1;
-        } else if( highlighted >= ( int )opts.size() ) {
+        } else if( highlighted >= static_cast<int>( opts.size() ) ) {
             highlighted = 0;
         }
 
@@ -760,7 +768,7 @@ Scenarios and professions affect skill point pool" ) );
         // Clear the bottom of the screen.
         werase( w_description );
 
-        for( int i = 0; i < ( int )opts.size(); i++ ) {
+        for( int i = 0; i < static_cast<int>( opts.size() ); i++ ) {
             nc_color color = ( points.limit == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray );
             if( highlighted == i ) {
                 color = hilite( color );
@@ -1122,9 +1130,9 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                           traits_size[iCurrentPage] );
 
             //Draw Traits
-            for( int i = start_y; i < ( int )traits_size[iCurrentPage]; i++ ) {
+            for( int i = start_y; i < static_cast<int>( traits_size[iCurrentPage] ); i++ ) {
                 if( i < start_y ||
-                    i >= start_y + ( int )std::min( traits_size[iCurrentPage], iContentHeight ) ) {
+                    i >= start_y + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) ) ) {
                     continue;
                 }
                 auto &cur_trait = vStartingTraits[iCurrentPage][i];
@@ -1205,7 +1213,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             }
         } else if( action == "DOWN" ) {
             iCurrentLine[iCurWorkingPage]++;
-            if( ( size_t ) iCurrentLine[iCurWorkingPage] >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "CONFIRM" ) {
@@ -1484,7 +1492,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
 
         // Profession bionics, active bionics shown first
         auto prof_CBMs = sorted_profs[cur_id]->CBMs();
-        std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( bionic_id const & a, bionic_id const & b ) {
+        std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
             return a->activated && !b->activated;
         } );
         buffer << "<color_light_blue>" << _( "Profession bionics:" ) << "</color>\n";
@@ -1492,7 +1500,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {
             for( const auto &b : prof_CBMs ) {
-                auto const &cbm = b.obj();
+                const auto &cbm = b.obj();
 
                 if( cbm.activated && cbm.toggled ) {
                     buffer << cbm.name << " (" << _( "toggled" ) << ")\n";
@@ -1534,7 +1542,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             cur_id++;
-            if( cur_id > ( int )profs_length - 1 ) {
+            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
                 cur_id = 0;
             }
             desc_offset = 0;
@@ -1614,7 +1622,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
     catacurses::window w_description = catacurses::newwin( iContentHeight, TERMX - 35,
                                        5 + getbegy( w ), 31 + getbegx( w ) );
 
-    auto sorted_skills = Skill::get_skills_sorted_by( []( Skill const & a, Skill const & b ) {
+    auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
         return a.name() < b.name();
     } );
 
@@ -1677,7 +1685,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             }
         }
 
-        std::string rec_disp = "";
+        std::string rec_disp;
 
         for( auto &elem : recipes ) {
             std::sort( elem.second.begin(), elem.second.end(),
@@ -2154,12 +2162,12 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "QUIT" );
 
-    uimenu select_location;
+    uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
-            select_location.entries.push_back( uimenu_entry( loc.name() ) );
+            select_location.entries.emplace_back( loc.name() );
             if( loc.ident() == u.start_location ) {
                 select_location.selected = offset;
             }
@@ -2223,9 +2231,9 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
 
             mvwprintz( w_skills, 0, 0, COL_HEADER, _( "Skills:" ) );
 
-            auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
-                int const level_a = u.get_skill_level_object( a.ident() ).exercised_level();
-                int const level_b = u.get_skill_level_object( b.ident() ).exercised_level();
+            auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
+                const int level_a = u.get_skill_level_object( a.ident() ).exercised_level();
+                const int level_b = u.get_skill_level_object( b.ident() ).exercised_level();
                 return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
             } );
 
@@ -2246,7 +2254,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
                 if( level > 0 ) {
                     mvwprintz( w_skills, line, 0, c_light_gray,
                                elem->name() + ":" );
-                    mvwprintz( w_skills, line, 23, c_light_gray, "%-2d", ( int )level );
+                    mvwprintz( w_skills, line, 23, c_light_gray, "%-2d", static_cast<int>( level ) );
                     line++;
                     has_skills = true;
                 }
@@ -2379,9 +2387,11 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( const auto &loc : start_location::get_all() ) {
-                if( loc.name() == select_location.entries[ select_location.selected ].txt ) {
-                    u.start_location = loc.ident();
+            if( select_location.ret >= 0 ) {
+                for( const auto &loc : start_location::get_all() ) {
+                    if( loc.name() == select_location.entries[ select_location.ret ].txt ) {
+                        u.start_location = loc.ident();
+                    }
                 }
             }
             werase( select_location.window );
@@ -2423,11 +2433,13 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations() const
+std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
     for( auto &t : my_mutations ) {
-        result.push_back( t.first );
+        if( include_hidden || t.first.obj().player_display ) {
+            result.push_back( t.first );
+        }
     }
     return result;
 }
@@ -2608,7 +2620,13 @@ void reset_scenario( player &u, const scenario *scen )
     u.per_max = 8;
     g->scen = scen;
     u.prof = &default_prof.obj();
+    for( auto &t : u.get_mutations() ) {
+        if( t.obj().hp_modifier != 0 ) {
+            u.toggle_trait( t );
+        }
+    }
     u.empty_traits();
+    u.recalc_hp();
     u.empty_skills();
     u.add_traits();
 }

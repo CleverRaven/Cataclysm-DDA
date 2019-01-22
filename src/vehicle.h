@@ -2,25 +2,24 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include <array>
+#include <list>
+#include <map>
+#include <stack>
+#include <vector>
+
+#include "active_item_cache.h"
 #include "calendar.h"
-#include "tileray.h"
+#include "clzones.h"
 #include "damage.h"
 #include "item.h"
 #include "item_group.h"
-#include "line.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
+#include "line.h"
 #include "string_id.h"
+#include "tileray.h"
 #include "ui.h"
 #include "units.h"
-
-#include <vector>
-#include <array>
-#include <map>
-#include <list>
-#include <string>
-#include <iosfwd>
-#include <stack>
 
 class nc_color;
 class map;
@@ -42,6 +41,9 @@ class window;
 namespace vehicles
 {
 extern point cardinal_d[5];
+// ratio of constant rolling resistance to the part that varies with velocity
+constexpr double rolling_constant_to_variable = 33.33;
+constexpr float vmiph_per_tile = 400.0f;
 }
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor( float delta_v );
@@ -50,6 +52,21 @@ float get_collision_factor( float delta_v );
 constexpr int SCATTER_DISTANCE = 3;
 //adjust this to balance collision damage
 constexpr int k_mvel = 200;
+
+enum class part_status_flag : int {
+    any = 0,
+    working = 1 << 0,
+    available = 1 << 1,
+    enabled = 1 << 2
+};
+part_status_flag inline operator|( const part_status_flag &rhs, const part_status_flag &lhs )
+{
+    return static_cast<part_status_flag>( static_cast<int>( lhs ) | static_cast<int>( rhs ) );
+}
+int inline operator&( const part_status_flag &rhs, const part_status_flag &lhs )
+{
+    return static_cast<int>( lhs ) & static_cast<int>( rhs );
+}
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
@@ -80,7 +97,7 @@ class vehicle_stack : public item_stack
         int part_num;
     public:
         vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
-            item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {};
+            item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
         std::list<item>::iterator erase( std::list<item>::iterator it ) override;
         void push_back( const item &newitem ) override;
         void insert_at( std::list<item>::iterator index, const item &newitem ) override;
@@ -96,6 +113,12 @@ struct bounding_box {
 };
 
 char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
+
+int mps_to_vmiph( double mps );
+double vmiph_to_mps( int vmiph );
+int cmps_to_vmiph( int cmps );
+int vmiph_to_cmps( int vmiph );
+static constexpr float accel_g = 9.81f;
 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
@@ -115,18 +138,18 @@ struct vehicle_part {
 
         vehicle_part(); /** DefaultConstructible */
 
-        vehicle_part( const vpart_id &vp, int dx, int dy, item &&it );
+        vehicle_part( const vpart_id &vp, const point &dp, item &&it );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
-        bool has_flag( int const flag ) const noexcept {
+        bool has_flag( const int flag ) const noexcept {
             return flag & flags;
         }
-        int  set_flag( int const flag )       noexcept {
+        int  set_flag( const int flag )       noexcept {
             return flags |= flag;
         }
-        int  remove_flag( int const flag )    noexcept {
+        int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
 
@@ -146,6 +169,10 @@ struct vehicle_part {
         /** Amount of fuel, charges or ammunition currently contained by a part */
         long ammo_remaining() const;
 
+        /** Type of fuel used by an engine */
+        itype_id fuel_current() const;
+        /** Set an engine to use a different type of fuel */
+        bool fuel_set( const itype_id &fuel );
         /**
          * Set fuel, charges or ammunition for this part removing any existing ammo
          * @param ammo specific type of ammo (must be compatible with vehicle part)
@@ -168,10 +195,10 @@ struct vehicle_part {
         /**
          * Consume fuel by energy content.
          * @param ftype Type of fuel to consume
-         * @param energy Energy to consume, in kJ
-         * @return Energy actually consumed, in kJ
+         * @param energy_j Energy to consume, in J
+         * @return Energy actually consumed, in J
          */
-        float consume_energy( const itype_id &ftype, float energy );
+        double consume_energy( const itype_id &ftype, double energy_j );
 
         /* @retun true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
@@ -357,6 +384,11 @@ struct vehicle_part {
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...
          */
         item properties_to_item() const;
+        /**
+         * Returns an ItemList of the pieces that should arise from breaking
+         * this part.
+         */
+        item_group::ItemList pieces_for_broken_part() const;
 };
 
 class turret_data
@@ -454,22 +486,12 @@ class turret_data
  * Struct used for storing labels
  * (easier to json opposed to a std::map<point, std::string>)
  */
-struct label {
+struct label : public point {
     label() = default;
-    label( int const x, int const y ) : x( x ), y( y ) {}
-    label( const int x, const int y, std::string text ) : x( x ), y( y ), text( std::move( text ) ) {}
+    label( const point &p ) : point( p ) {}
+    label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
 
-    int         x = 0;
-    int         y = 0;
     std::string text;
-
-    // these are stored in a set
-    bool operator<( const label &rhs ) const noexcept {
-        return ( x != rhs.x ) ? ( x < rhs.x ) : ( y < rhs.y );
-    }
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
 };
 
 /**
@@ -547,11 +569,11 @@ struct label {
 class vehicle
 {
     private:
-        bool has_structural_part( int dx, int dy ) const;
+        bool has_structural_part( const point &dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
-        bool is_connected( vehicle_part const &to, vehicle_part const &from,
-                           vehicle_part const &excluded ) const;
+        bool is_connected( const vehicle_part &to, const vehicle_part &from,
+                           const vehicle_part &excluded ) const;
         void add_missing_frames();
         void add_steerable_wheels();
 
@@ -565,16 +587,18 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        int part_power( int index, bool at_full_hp = false ) const;
+        int part_vpower_w( int index, bool at_full_hp = false ) const;
+        int part_vpower_vhp( int index, bool at_full_hp = false ) const;
 
         // get vpart epowerinfo for part number.
-        int part_epower( int index ) const;
+        int part_epower_w( int index ) const;
 
-        // convert epower (watts) to power.
-        static int epower_to_power( int epower );
+        // convert watts over time to battery energy
+        // time duration can't resolve less than 6 seconds so specify time in seconds
+        int power_to_energy_bat( const int power_w, const int t_seconds ) const;
 
-        // convert power to epower (watts).
-        static int power_to_epower( int power );
+        // convert vhp to watts.
+        static int vhp_to_watts( int power );
 
         //Refresh all caches and re-locate all parts
         void refresh();
@@ -585,8 +609,13 @@ class vehicle
         units::volume total_folded_volume() const;
 
         // Vehicle fuel indicator (by fuel)
-        void print_fuel_indicator( const catacurses::window &w, int y, int x, const itype_id &fuelType,
-                                   bool verbose = false, bool desc = false ) const;
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   bool verbose = false, bool desc = false );
+        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+                                   const itype_id &fuelType,
+                                   std::map<itype_id, int> fuel_usages,
+                                   bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
         int engine_start_time( const int e ) const;
@@ -637,16 +666,16 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( player const &p ) const;
+        bool player_in_control( const player &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( player const &p ) const;
+        bool remote_controlled( const player &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int veh_init_fuel, int veh_init_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point( 0, 0 ),
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
                     float damage_size = 0 );
 
         void serialize( JsonOut &jsout ) const;
@@ -681,20 +710,20 @@ class vehicle
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
         // check if certain part can be mounted at certain position (not accounting frame direction)
-        bool can_mount( int dx, int dy, const vpart_id &id ) const;
+        bool can_mount( const point &dp, const vpart_id &id ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
         bool can_unmount( int p, std::string &reason ) const;
 
         // install a new part to vehicle
-        int install_part( int dx, int dy, const vpart_id &id, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, bool force = false );
 
         // Install a copy of the given part, skips possibility check
-        int install_part( int dx, int dy, const vehicle_part &part );
+        int install_part( const point &dp, const vehicle_part &part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( int dx, int dy, const vpart_id &id, item &&obj, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -732,42 +761,44 @@ class vehicle
          * a vehicle part on both sides.
          */
         void remove_remote_part( int part_num );
-
-        /**
-         * Returns an ItemList of the pieces that should arise from breaking
-         * this part.
-         * @param p The index of the part to break.
-         */
-        item_group::ItemList pieces_for_broken_part( int p );
-
-        void break_part_into_pieces( int p, int x, int y, bool scatter = false );
         /**
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.
          */
         // @todo maybe not include broken ones? Have a separate function for that?
         // @todo rename to just `parts()` and rename the data member to `parts_`.
-        vehicle_part_range get_parts() const;
+        vehicle_part_range get_all_parts() const;
         /**
          * Yields a range of parts of this vehicle that each have the given feature
-         * and are not broken. Removed parts are also excluded. The enabled status
-         * of the part is ignored.
+         * and are available: not broken, removed, or part of a carried vehicle.
+         * The enabled status of the part is ignored.
          */
         /**@{*/
-        vehicle_part_with_feature_range<std::string> get_parts( std::string feature ) const;
-        vehicle_part_with_feature_range<vpart_bitflags> get_parts( vpart_bitflags f ) const;
+        vehicle_part_with_feature_range<std::string> get_avail_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_avail_parts( vpart_bitflags f ) const;
         /**@}*/
         /**
-         * Like @ref get_parts, but also yields broken parts.
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are not broken or removed.
+         * The enabled status of the part is ignored.
          */
         /**@{*/
-        vehicle_part_with_feature_range<std::string> get_parts_including_broken(
+        vehicle_part_with_feature_range<std::string> get_parts_including_carried(
             std::string feature ) const;
-        vehicle_part_with_feature_range<vpart_bitflags> get_parts_including_broken(
+        vehicle_part_with_feature_range<vpart_bitflags> get_parts_including_carried(
             vpart_bitflags f ) const;
         /**@}*/
         /**
-         * Like @ref get_parts, but only yield enabled parts. They must still be unbroken.
+         * Yields a range of parts of this vehicle that each have the given feature and not removed.
+         * The enabled status of the part is ignored.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> get_any_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_any_parts( vpart_bitflags f ) const;
+        /**@}*/
+        /**
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are enabled and available: not broken, removed, or part of a carried vehicle.
          */
         /**@{*/
         vehicle_part_with_feature_range<std::string> get_enabled_parts( std::string feature ) const;
@@ -775,7 +806,7 @@ class vehicle
         /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
-        std::vector<int> parts_at_relative( int dx, int dy, bool use_cache ) const;
+        std::vector<int> parts_at_relative( const point &dp, bool use_cache ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
         int part_with_feature( int p, const std::string &f, bool unbroken ) const;
@@ -804,16 +835,15 @@ class vehicle
         bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
 
         /**
-         *  Get all unbroken vehicle parts at specified position
+         *  Get all enabled, available, unbroken vehicle parts at specified position
          *  @param pos position to check
          *  @param flag if set only flags with this part will be considered
-         *  @param enabled if set part must also be enabled to be considered
-         *  @param enabled if you want to get broken parts too
+         *  @param condition enum to include unabled, unavailable, and broken parts
          */
-        std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag, bool enabled,
-                                               bool include_broken_parts );
-        std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag,
-                bool enabled, bool include_broken_parts ) const;
+        std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
+                const part_status_flag condition );
+        std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
+                const std::string &flag, const part_status_flag condition ) const;
 
         /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
         bool can_enable( const vehicle_part &pt, bool alert = false ) const;
@@ -847,7 +877,7 @@ class vehicle
 
         // Given a part and a flag, returns the indices of all continiguously adjacent parts
         // with the same flag on the X and Y Axis
-        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string flag );
+        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
 
         // returns true if given flag is present for given part index
         bool part_flag( int p, const std::string &f ) const;
@@ -869,9 +899,8 @@ class vehicle
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
-        int part_at( int dx, int dy ) const;
-        int global_part_at( int x, int y ) const;
-        int part_displayed_at( int local_x, int local_y ) const;
+        int part_at( const point &dp ) const;
+        int part_displayed_at( const point &dp ) const;
         int roof_at_part( int p ) const;
 
         // Given a part, finds its index in the vehicle
@@ -884,16 +913,12 @@ class vehicle
         // get color for map
         nc_color part_color( int p, bool exact = false ) const;
 
-        // Vehicle parts description
-        int print_part_desc( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1 ) const;
-
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types() const;
 
         // Vehicle fuel indicators (all of them)
         void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0,
-                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, int dir, const point &pivot );
@@ -926,6 +951,10 @@ class vehicle
 
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
+        // Checks how much of the part p's current fuel is left
+        int fuel_left( const int p, bool recurse = false ) const;
+        // Checks how much of an engine's current fuel is left in the tanks.
+        int engine_fuel_left( const int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
@@ -935,15 +964,16 @@ class vehicle
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
-         * @param energy Desired amount of energy of fuel to consume
+         * @param energy_w Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
-        float drain_energy( const itype_id &ftype, float energy );
+        double drain_energy( const itype_id &ftype, double energy_w );
 
-        // fuel consumption of vehicle engines of given type, in one-hundredth of fuel
+        // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
+        int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( double load );
+        void consume_fuel( int load, const int t_seconds = 6, bool skip_battery = false );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -956,6 +986,16 @@ class vehicle
          */
         std::vector<vehicle_part *> lights( bool active = false );
 
+        // Calculate vehicle's total drain or production of electrical power, including nominal
+        // solar power.
+        int total_epower_w();
+        // Calculate vehicle's total drain or production of electrical power, optionally
+        // including nominal solar power.  Return engine power as engine_power
+        int total_epower_w( int &engine_power, bool skip_solar = true );
+        // Calculate the total available power rating of all reactors
+        int total_reactor_epower_w() const;
+        // Produce and consume electrical power, with excess power stored or taken from
+        // batteries
         void power_parts();
 
         /**
@@ -993,71 +1033,99 @@ class vehicle
         point pivot_displacement() const;
 
         // Get combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
-        int total_power( bool fueled = true ) const;
+        // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
+        // their safe power.
+        int total_power_w( bool fueled = true, bool safe = false ) const;
 
-        // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
-        int acceleration( bool fueled = true ) const;
+        // Get ground acceleration gained by combined power of all engines. If fueled == true,
+        // then only engines which the vehicle has fuel for are included
+        int ground_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        // Get water acceleration gained by combined power of all engines. If fueled == true,
+        // then only engines which the vehicle has fuel for are included
+        int water_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        // Get acceleration for the current movement mode
+        int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
 
-        // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
+        // Get the vehicle's actual current acceleration
+        int current_acceleration( bool fueled = true ) const;
+
+        // is the vehicle currently moving?
+        bool is_moving() const;
+        // Get maximum ground velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int max_ground_velocity( bool fueled = true ) const;
+        // Get maximum water velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int max_water_velocity( bool fueled = true ) const;
+        // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
 
-        // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
-        // vehicle have fuel for are accounted
+        // Get safe ground velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int safe_ground_velocity( bool fueled = true ) const;
+        // Get safe water velocity gained by combined power of all engines.
+        // If fueled == true, then only the engines which the vehicle has fuel for are included
+        int safe_water_velocity( bool fueled = true ) const;
+        // Get maximum velocity for the current movement mode
         int safe_velocity( bool fueled = true ) const;
 
         // Generate smoke from a part, either at front or back of vehicle depending on velocity.
         void spew_smoke( double joules, int part, int density = 1 );
 
         // Loop through engines and generate noise and smoke for each one
-        void noise_and_smoke( double load, double time = 6.0 );
+        void noise_and_smoke( int load, time_duration time = 1_turns );
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
-         * @param boat If true, calculates the area under "wheels" that allow swimming.
          */
-        float wheel_area( bool boat ) const;
+        int wheel_area() const;
+        // average off-road rating for displaying off-road perfomance
+        float average_or_rating() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
-         * All coefficients have values ranging from 1.0 (ideal) to 0.0 (vehicle can't move).
          */
         /*@{*/
         /**
-         * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
-         * Safe velocity and acceleration are multiplied by this value.
+         * coefficient of air drag in kg/m
+         * multiplied by the square of speed to calculate air drag force in N
+         * proportional to cross sectional area of the vehicle, times the density of air,
+         * times a dimensional constant based on the vehicle's shape
          */
-        float k_dynamics() const;
+        double coeff_air_drag() const;
 
         /**
-         * Wheel friction coefficient of the vehicle.
-         * Inversely proportional to (wheel area + constant).
-         *
-         * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
+         * coefficient of rolling resistance
+         * multiplied by velocity to get the variable part of rolling resistance drag in N
+         * multiplied by a constant to get the constant part of rolling resistance drag in N
+         * depends on wheel design, wheel number, and vehicle weight
          */
-        float k_friction() const;
+        double coeff_rolling_drag() const;
 
         /**
-         * Air friction coefficient of the vehicle.
-         * Affected by vehicle's width and non-passable tiles.
-         * Calculated by projecting rays from front of the vehicle to its back.
-         * Each ray that contains only passable vehicle tiles causes a small penalty,
-         * and each ray that contains an unpassable vehicle tile causes a big penalty.
-         *
-         * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
+         * coefficient of water drag in kg/m
+         * multiplied by the square of speed to calculate water drag force in N
+         * proportional to cross sectional area of the vehicle, times the density of water,
+         * times a dimensional constant based on the vehicle's shape
          */
-        float k_aerodynamics() const;
+        double coeff_water_drag() const;
 
         /**
-         * Mass coefficient of the vehicle.
-         * Roughly proportional to vehicle's mass divided by wheel area, times constant.
-         *
-         * Affects safe velocity (moderately), acceleration (heavily).
-         * Also affects braking (including hand-braking) and velocity drop during coasting.
+         * water draft in meters - how much of the vehicle's body is under water
+         * must be less than the hull height or the boat will sink
+         * at some point, also add boats with deep draft running around
          */
-        float k_mass() const;
+        double water_draft() const;
+
+        /**
+         * can_float
+         * does the vehicle have freeboard or does it overflow with whater?
+         */
+        bool can_float() const;
+        /**
+         * is the vehicle mostly in water or mostly on fairly dry land?
+         */
+        bool is_in_water() const;
 
         /**
          * Traction coefficient of the vehicle.
@@ -1070,15 +1138,16 @@ class vehicle
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.
-        float drag() const;
+        // @param actual is current drag if true or nominal drag otherwise
+        int static_drag( bool actual = true ) const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
 
-        // Calculate if it can move using its wheels or boat parts configuration
-        bool sufficient_wheel_config( bool floating ) const;
-        bool balanced_wheel_config( bool floating ) const;
-        bool valid_wheel_config( bool floating ) const;
+        // Calculate if it can move using its wheels
+        bool sufficient_wheel_config() const;
+        bool balanced_wheel_config() const;
+        bool valid_wheel_config() const;
 
         // return the relative effectiveness of the steering (1.0 is normal)
         // <0 means there is no steering installed at all.
@@ -1098,7 +1167,7 @@ class vehicle
         void thrust( int thd );
 
         //deceleration due to ground friction and air resistance
-        int slowdown() const;
+        int slowdown( int velocity ) const;
 
         // depending on skid vectors, chance to recover.
         void possibly_recover_from_skid();
@@ -1176,7 +1245,7 @@ class vehicle
         void gain_moves();
 
         // reduces velocity to 0
-        void stop();
+        void stop( bool update_cache = true );
 
         void refresh_insides();
 
@@ -1192,7 +1261,7 @@ class vehicle
         void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
 
         //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
-        void shift_parts( point delta );
+        void shift_parts( const point &delta );
         bool shift_if_needed();
 
         void shed_loose_parts();
@@ -1285,6 +1354,7 @@ class vehicle
 
         // Honk the vehicle's horn, if there are any
         void honk_horn();
+        void reload_seeds( const tripoint &pos );
         void beeper_sound();
         void play_music();
         void play_chimes();
@@ -1296,10 +1366,10 @@ class vehicle
         void operate_reaper();
         void operate_plow();
         void operate_rockwheel();
-        void add_toggle_to_opts( std::vector<uimenu_entry> &options,
+        void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
                                  const std::string &flag );
-        void set_electronics_menu_options( std::vector<uimenu_entry> &options,
+        void set_electronics_menu_options( std::vector<uilist_entry> &options,
                                            std::vector<std::function<void()>> &actions );
         //main method for the control of multiple electronics
         void control_electronics();
@@ -1342,7 +1412,12 @@ class vehicle
         rl_vec2d move_vec() const;
         // As above, but calculated for the actually used variable `dir`
         rl_vec2d dir_vec() const;
+        // update vehicle parts as the vehicle moves
         void on_move();
+        // move the vehicle on the map
+        bool act_on_map();
+        // check if the vehicle should be falling or is in water
+        void check_falling_or_floating();
 
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
@@ -1360,6 +1435,9 @@ class vehicle
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
         int lift_strength() const;
 
+        // Called by map.cpp to make sure the real position of each zone_data is accurate
+        bool refresh_zones();
+
         // config values
         std::string name;   // vehicle name
         /**
@@ -1371,12 +1449,15 @@ class vehicle
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
         int removed_part_count;            // Subtract from parts.size() to get the real part count.
         std::map<point, std::vector<int> >
-        relative_parts;    // parts_at_relative(x,y) is used a lot (to put it mildly)
+        relative_parts;    // parts_at_relative(dp) is used a lot (to put it mildly)
         std::set<label> labels;            // stores labels
+        std::unordered_multimap<point, zone_data> loot_zones;
+        // relative loot zone positions
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
+        std::vector<int> wind_turbines;     // List of wind turbine indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
@@ -1407,7 +1488,8 @@ class vehicle
         int smy;
         int smz;
 
-        float alternator_load;
+        // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load;
 
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
@@ -1440,6 +1522,7 @@ class vehicle
         // id of the om_vehicle struct corresponding to this vehicle
         int om_id;
         // direction, to which vehicle is turning (player control). will rotate frame on next move
+        // must be a multiple of 15 degrees
         int turn_dir = 0;
 
         // points used for rotation of mount precalc values
@@ -1454,11 +1537,6 @@ class vehicle
         // leftover from previous turn
         float of_turn_carry;
 
-        // total power consumed by tracking devices (why would you use more than one?)
-        int tracking_epower     = 0;
-        int alarm_epower        = 0;
-        // power consumed by camera system
-        int camera_epower       = 0;
         int extra_drag          = 0;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
@@ -1479,9 +1557,11 @@ class vehicle
         // "inside" flags are outdated and need refreshing
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
-        bool falling                    = false;
+        bool is_falling                 = false;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::time_of_cataclysm;
+        // zone_data positions are outdated and need refreshing
+        bool zones_dirty = true;
 
     private:
         // refresh pivot_cache, clear pivot_dirty
@@ -1514,6 +1594,24 @@ class vehicle
         mutable units::mass mass_cache;
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
+
+        // cached values for air, water, and  rolling resistance;
+        mutable bool coeff_rolling_dirty = true;
+        mutable bool coeff_air_dirty = true;
+        mutable bool coeff_water_dirty = true;
+        // air uses a two stage dirty check: one dirty bit gets set on part install,
+        // removal, or breakage. The other dirty bit only gets set during part_removal_cleanup,
+        // and that's the bit that controls recalculation.  The intent is to only recalculate
+        // the coeffs once per turn, even if multiple parts are destroyed in a collision
+        mutable bool coeff_air_changed = true;
+
+        mutable double coefficient_air_resistance = 1;
+        mutable double coefficient_rolling_resistance = 1;
+        mutable double coefficient_water_resistance = 1;
+        mutable double draft_m = 1;
+        mutable double hull_height = 0.3;
+        // is the vehicle currently mostly in water
+        mutable bool is_floating = false;
 };
 
 #endif

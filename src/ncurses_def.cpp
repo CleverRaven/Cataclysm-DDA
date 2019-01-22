@@ -8,18 +8,17 @@
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
 #if (defined __CYGWIN__)
-#include "ncurses/curses.h"
+#include <ncurses/curses.h>
 #else
 #include <curses.h>
 #endif
 
-#include "cursesdef.h"
+#include <stdexcept>
 
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "color.h"
-
 #include "game_ui.h"
-#include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window

@@ -2,10 +2,11 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "cursesdef.h"
-#include <vector>
-#include <string>
 
 class game;
 class player;
@@ -41,7 +42,7 @@ enum computer_action {
     COMPACT_BLOOD_ANAL,
     COMPACT_DATA_ANAL,
     COMPACT_DISCONNECT,
-    COMPACT_STEMCELL_TREATMENT,
+    COMPACT_BONESETTING,
     COMPACT_EMERG_MESS,
     COMPACT_EMERG_REF_CENTER,   //Points to the refugee center
     COMPACT_TOWER_UNRESPONSIVE,
@@ -105,7 +106,7 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &name, int Security );
+        computer( const std::string &new_name, int new_security );
         computer( const computer &rhs );
         ~computer();
 

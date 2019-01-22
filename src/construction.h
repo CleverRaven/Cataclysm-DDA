@@ -2,13 +2,13 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include "string_id.h"
-
-#include <string>
-#include <set>
-#include <map>
-#include <vector>
 #include <functional>
+#include <map>
+#include <set>
+#include <vector>
+
+#include "optional.h"
+#include "string_id.h"
 
 namespace catacurses
 {
@@ -29,6 +29,9 @@ struct construction {
         std::string pre_note; // Additional note displayed along with construction requirements.
         std::string pre_terrain; // beginning terrain for construction
         std::string post_terrain;// final terrain after construction
+
+        // Item group of byproducts created by the construction on success.
+        cata::optional<std::string> byproduct_item_group;
 
         std::set<std::string> pre_flags; // flags beginning terrain must have
 
@@ -60,7 +63,7 @@ struct construction {
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
-void load_construction( JsonObject &jsobj );
+void load_construction( JsonObject &jo );
 void reset_constructions();
 void construction_menu();
 void complete_construction();

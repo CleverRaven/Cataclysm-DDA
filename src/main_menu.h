@@ -101,7 +101,6 @@ class main_menu
          * @param iSel which index in vMenuItems is selected
          * @param iMenuOffsetX Menu location in window, x coordinate
          * @param iMenuOffsetY Menu location in window, y coordinate
-         * @param bShowDDA Whether to show "Dark Days Ahead" banner
          */
         void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
                          int iMenuOffsetY );

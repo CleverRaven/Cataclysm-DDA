@@ -1,46 +1,40 @@
-#include "game.h"
+#include "game.h" // IWYU pragma: associated
 
-#include "coordinate_conversions.h"
-#include "creature_tracker.h"
-#include "output.h"
-#include "skill.h"
-#include "line.h"
-#include "computer.h"
-#include "options.h"
-#include "auto_pickup.h"
-#include "mapbuffer.h"
-#include "debug.h"
-#include "map.h"
-#include "output.h"
-#include "artifact.h"
-#include "mission.h"
-#include "faction.h"
-#include "overmapbuffer.h"
-#include "trap.h"
-#include "messages.h"
-#include "mapdata.h"
-#include "translations.h"
-#include "mongroup.h"
-#include "scent_map.h"
-#include "io.h"
-
+#include <algorithm>
+#include <cmath>
 #include <map>
 #include <set>
-#include <algorithm>
-#include <string>
 #include <sstream>
-#include <math.h>
+#include <string>
 #include <vector>
+
+#include "artifact.h"
+#include "auto_pickup.h"
+#include "computer.h"
+#include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "debug.h"
-#include "weather.h"
-#include "mapsharing.h"
+#include "faction.h"
+#include "io.h"
+#include "line.h"
+#include "map.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "mission.h"
+#include "mongroup.h"
 #include "monster.h"
-#include "overmap.h"
-#include "weather_gen.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "scent_map.h"
+#include "translations.h"
+#include "tuple_hash.h"
 
 #ifdef __ANDROID__
 #include "input.h"
+
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 #endif
 
@@ -76,16 +70,6 @@ void game::serialize( std::ostream &fout )
     json.member( "turn", static_cast<int>( calendar::turn ) );
     json.member( "calendar_start", static_cast<int>( calendar::start ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
-    if( const auto lt_ptr = last_target.lock() ) {
-        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
-            json.member( "last_target", guy->getID() );
-            json.member( "last_target_type", +1 );
-        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
-            // monsters don't have IDs, so get its index in the Creature_tracker instead
-            json.member( "last_target", critter_tracker->temporary_id( *mon ) );
-            json.member( "last_target_type", -1 );
-        }
-    }
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
@@ -185,8 +169,6 @@ void game::unserialize( std::istream &fin )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
-    int tmptar = 0;
-    int tmptartyp = 0;
     int levx = 0;
     int levy = 0;
     int levz = 0;
@@ -198,10 +180,8 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = ( season_type )data.get_int( "initial_season",
-                                   static_cast<int>( SPRING ) );
-        data.read( "last_target", tmptar );
-        data.read( "last_target_type", tmptartyp );
+        calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
+                                   static_cast<int>( SPRING ) ) );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );
@@ -228,14 +208,6 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "active_monsters", *critter_tracker );
-
-        if( tmptartyp == +1 ) {
-            // Use overmap_buffer because game::active_npc is not filled yet.
-            last_target = overmap_buffer.find_npc( tmptar );
-        } else if( tmptartyp == -1 ) {
-            // Need to do this *after* the monsters have been loaded!
-            last_target = critter_tracker->from_temporary_id( tmptar );
-        }
 
         JsonArray vdata = data.get_array( "stair_monsters" );
         coming_to_stairs.clear();
@@ -888,11 +860,11 @@ void overmap::unserialize( std::istream &fin )
                     if( city_member_name == "name" ) {
                         jsin.read( new_city.name );
                     } else if( city_member_name == "x" ) {
-                        jsin.read( new_city.x );
+                        jsin.read( new_city.pos.x );
                     } else if( city_member_name == "y" ) {
-                        jsin.read( new_city.y );
+                        jsin.read( new_city.pos.y );
                     } else if( city_member_name == "size" ) {
-                        jsin.read( new_city.s );
+                        jsin.read( new_city.size );
                     }
                 }
                 cities.push_back( new_city );
@@ -905,9 +877,9 @@ void overmap::unserialize( std::istream &fin )
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.x );
+                        jsin.read( new_road.pos.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.y );
+                        jsin.read( new_road.pos.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -1000,9 +972,45 @@ void overmap::unserialize( std::istream &fin )
                 }
                 npcs.push_back( new_npc );
             }
+        } else if( name == "overmap_special_placements" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                overmap_special_id s;
+                while( !jsin.end_object() ) {
+                    std::string name = jsin.get_member_name();
+                    if( name == "special" ) {
+                        jsin.read( s );
+                    } else if( name == "placements" ) {
+                        jsin.start_array();
+                        while( !jsin.end_array() ) {
+                            jsin.start_object();
+                            while( !jsin.end_object() ) {
+                                std::string name = jsin.get_member_name();
+                                if( name == "points" ) {
+                                    jsin.start_array();
+                                    while( !jsin.end_array() ) {
+                                        jsin.start_object();
+                                        tripoint p;
+                                        while( !jsin.end_object() ) {
+                                            std::string name = jsin.get_member_name();
+                                            if( name == "p" ) {
+                                                jsin.read( p );
+                                                overmap_special_placements[p] = s;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
+
 
 static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
 {
@@ -1097,7 +1105,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
                 }
                 lastval = value;
                 json.start_array();
-                json.write( ( bool )value );
+                json.write( static_cast<bool>( value ) );
                 count = 1;
             } else {
                 count++;
@@ -1270,9 +1278,9 @@ void overmap::serialize( std::ostream &fout ) const
     for( auto &i : cities ) {
         json.start_object();
         json.member( "name", i.name );
-        json.member( "x", i.x );
-        json.member( "y", i.y );
-        json.member( "size", i.s );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
+        json.member( "size", i.size );
         json.end_object();
     }
     json.end_array();
@@ -1282,8 +1290,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : roads_out ) {
         json.start_object();
-        json.member( "x", i.x );
-        json.member( "y", i.y );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
         json.end_object();
     }
     json.end_array();
@@ -1341,6 +1349,39 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    // Condense the overmap special placements so that all placements of a given special
+    // are grouped under a single key for that special.
+    std::map<overmap_special_id, std::vector<tripoint>> condensed_overmap_special_placements;
+    for( const auto &placement : overmap_special_placements ) {
+        condensed_overmap_special_placements[placement.second].emplace_back( placement.first );
+    }
+
+    json.member( "overmap_special_placements" );
+    json.start_array();
+    for( const auto &placement : condensed_overmap_special_placements ) {
+        json.start_object();
+        json.member( "special", placement.first );
+        json.member( "placements" );
+        json.start_array();
+        // When we have a discriminator for different instances of a given special,
+        // we'd use that that group them, but since that doesn't exist yet we'll
+        // dump all the points of a given special into a single entry.
+        json.start_object();
+        json.member( "points" );
+        json.start_array();
+        for( const tripoint &pos : placement.second ) {
+            json.start_object();
+            json.member( "p", pos );
+            json.end_object();
+        }
+        json.end_array();
+        json.end_object();
+        json.end_array();
+        json.end_object();
     }
     json.end_array();
     fout << std::endl;

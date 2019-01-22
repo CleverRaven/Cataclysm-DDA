@@ -2,12 +2,11 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-#include "string_formatter.h"
-#include "pimpl.h"
-
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
+
+#include "string_formatter.h"
 
 class JsonOut;
 class JsonObject;
@@ -30,7 +29,7 @@ bool has_undisplayed_messages();
 void display_messages();
 void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
                        int bottom );
-void serialize( JsonOut &jsout );
+void serialize( JsonOut &json );
 void deserialize( JsonObject &json );
 } // namespace Messages
 

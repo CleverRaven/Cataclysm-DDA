@@ -1,7 +1,6 @@
-#include "catch/catch.hpp"
-
 #include <initializer_list>
 
+#include "catch/catch.hpp"
 #include "output.h"
 
 template<class IterResult, class IterExpect>

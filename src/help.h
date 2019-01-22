@@ -2,9 +2,10 @@
 #ifndef HELP_H
 #define HELP_H
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+
 #include "cursesdef.h"
 #include "input.h"
 

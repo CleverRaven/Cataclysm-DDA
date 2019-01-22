@@ -2,16 +2,15 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include <array>
+#include <bitset>
+#include <set>
+#include <vector>
+
+#include "color.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "units.h"
-#include "color.h"
-
-#include <bitset>
-#include <vector>
-#include <set>
-#include <string>
-#include <array>
 
 class JsonObject;
 struct itype;
@@ -50,6 +49,7 @@ struct map_bash_info {
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
@@ -105,6 +105,7 @@ struct map_deconstruct_info {
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
+ * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -127,7 +128,7 @@ struct map_deconstruct_info {
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
  *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
+ * To add a new ter_bitflag, add below and add to ter_bitflags_map in mapdata.cpp
  * Order does not matter.
  */
 enum ter_bitflags : int {
@@ -165,6 +166,7 @@ enum ter_bitflags : int {
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP,
+    TFLAG_HIDE_PLACE,
 
     NUM_TERFLAGS
 };
@@ -309,6 +311,9 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    int comfort = 0;
+    int floor_bedding_warmth = 0;
+    int bonus_fire_warmth_feet = 300;
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.

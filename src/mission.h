@@ -2,14 +2,15 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include <vector>
-#include <string>
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <unordered_map>
+#include <string>
+#include <vector>
 
-#include "enums.h"
 #include "calendar.h"
+#include "enums.h"
 #include "npc_favor.h"
 
 class player;
@@ -19,17 +20,20 @@ class npc;
 class Creature;
 class npc_class;
 class JsonObject;
+class JsonArray;
 class JsonIn;
 class JsonOut;
 struct mission_type;
 struct oter_type_t;
 struct species_type;
+struct mtype;
 
 enum npc_mission : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using species_id = string_id<species_type>;
+using mtype_id = string_id<mtype>;
 
 namespace debug_menu
 {
@@ -63,6 +67,23 @@ enum mission_goal {
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
     NUM_MGOAL
 };
+const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
+        { "MGOAL_NULL", MGOAL_NULL },
+        { "MGOAL_GO_TO", MGOAL_GO_TO },
+        { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
+        { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
+        { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
+        { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
+        { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
+        { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
+        { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
+        { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
+        { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
+        { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
+        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
+        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC }
+    }
+};
 
 struct mission_place {
     // Return true if the place (global overmap terrain coordinate) is valid for starting a mission
@@ -75,11 +96,17 @@ struct mission_place {
     static bool near_town( const tripoint & );
 };
 
+struct mission_start_t {
+    void set_reveal( const std::string &terrain );
+    void set_reveal_any( JsonArray &ja );
+    void set_assign_mission_target( JsonObject &jo );
+    void load( JsonObject &jo );
+    void apply( mission *miss ) const;
+    std::vector<std::function<void( mission *miss )>> start_funcs;
+};
+
 /* mission_start functions are first run when a mission is accepted; this
  * initializes the mission's key values, like the target and description.
- * These functions are also run once a turn for each active mission, to check
- * if the current goal has been reached.  At that point they either start the
- * goal, or run the appropriate mission_end function.
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
@@ -96,20 +123,13 @@ struct mission_start {
     static void place_grabber( mission * );      // For Old Guard mission
     static void place_bandit_camp( mission * );  // For Old Guard mission
     static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
-    static void kill_100_z( mission * );         // Kill 100 more regular zombies
     static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
-    static void reveal_lab_black_box( mission * ); // Reveal the nearest lab and give black box
-    static void open_sarcophagus( mission * );   // Reveal the sarcophagus and give access code
-    static void reveal_hospital( mission * );    // Reveal the nearest hospital
     static void find_safety( mission * );        // Goal is set to non-spawn area
-    static void point_prison( mission * );       // Point to prison entrance
-    static void point_cabin_strange( mission * ); // Point to strange cabin location
     static void recruit_tracker( mission * );    // Recruit a tracker to help you
-    static void radio_repeater( mission * );     // Gives you the plans for the radio repeater mod
     static void start_commune( mission * );      // Focus on starting the ranch commune
     static void ranch_construct_1( mission * );  // Encloses barn
     static void ranch_construct_2( mission * );  // Adds makeshift beds to the barn, 1 NPC
@@ -147,10 +167,6 @@ struct mission_start {
     static void ranch_bartender_3( mission * );  // Expand Bar
     static void ranch_bartender_4( mission * );  // Expand Bar
     static void place_book( mission * );         // Place a book to retrieve
-    static void reveal_weather_station( mission * ); // Find weather logs
-    static void reveal_office_tower( mission * ); // Find corporate accounts
-    static void reveal_doctors_office( mission * ); // Find patient records
-    static void reveal_cathedral( mission * );   // Find relic
     static void reveal_refugee_center( mission * ); // Find refugee center
     static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
@@ -159,7 +175,7 @@ struct mission_start {
 };
 
 struct mission_end { // These functions are run when a mission ends
-    static void standard( mission * ) {};       // Nothing special happens
+    static void standard( mission * ) {}     // Nothing special happens
     static void leave( mission * );          // NPC leaves after the mission is complete
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
@@ -167,7 +183,7 @@ struct mission_end { // These functions are run when a mission ends
 };
 
 struct mission_fail {
-    static void standard( mission * ) {};   // Nothing special happens
+    static void standard( mission * ) {} // Nothing special happens
     static void kill_npc( mission * );   // Kill the NPC who assigned it!
 };
 
@@ -187,7 +203,7 @@ struct mission_type {
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
-    std::string monster_type = "mon_null";
+    mtype_id monster_type = mtype_id::NULL_ID();
     species_id monster_species;
     int monster_kill_goal = -1;
     string_id<oter_type_t> target_id;
@@ -213,7 +229,7 @@ struct mission_type {
     /**
      * Get the mission_type object of the given id. Returns null if the input is invalid!
      */
-    static const mission_type *get( mission_type_id id );
+    static const mission_type *get( const mission_type_id &id );
     /**
      * Converts the legacy int id to a string_id.
      */
@@ -234,6 +250,7 @@ struct mission_type {
 
     static void check_consistency();
 
+    void parse_start( JsonObject &jo );
     void load( JsonObject &jo, const std::string &src );
 };
 
@@ -265,7 +282,7 @@ class mission
         string_id<oter_type_t> target_id;      // Destination type to be reached
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
-        std::string monster_type;    // Monster ID that are to be killed
+        mtype_id monster_type;    // Monster ID that are to be killed
         species_id monster_species;  // Monster species that are to be killed
         int monster_kill_goal;  // The number of monsters you need to kill
         int kill_count_to_reach; // The kill count you need to reach to complete mission
@@ -312,7 +329,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
-        void set_target( const tripoint &target );
+        void set_target( const tripoint &p );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -363,8 +380,6 @@ class mission
         static void on_creature_death( Creature &poor_dead_dude );
         /*@}*/
 
-        // Don't use this, it's only for loading legacy saves.
-        static void unserialize_legacy( std::istream &fin );
         // Serializes and unserializes all missions
         static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );

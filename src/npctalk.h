@@ -2,10 +2,18 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
-#include <memory>
-#include <vector>
+#include "auto_pickup.h"
+
 #include <string>
-#include <functional>
+
+#include "string_id.h"
+
+class martialart;
+using matype_id = string_id<martialart>;
+class npc;
+class Skill;
+using skill_id = string_id<Skill>;
+class time_duration;
 
 namespace talk_function
 {
@@ -25,9 +33,10 @@ void bionic_remove( npc & );
 
 void buy_haircut( npc & );
 void buy_shave( npc & );
+void morale_chat( npc & );
+void morale_chat_activity( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
-void give_equipment( npc & );
 void start_trade( npc & );
 void assign_base( npc & );
 void assign_guard( npc & );
@@ -49,9 +58,6 @@ void stranger_neutral( npc & );      // p is now neutral towards you
 void start_mugging( npc & );
 void player_leaving( npc & );
 
-void start_mugging( npc & );
-void player_leaving( npc & );
-
 void drop_weapon( npc & );
 void player_weapon_away( npc & );
 void player_weapon_drop( npc & );
@@ -60,8 +66,9 @@ void lead_to_safety( npc & );
 void start_training( npc & );
 
 void wake_up( npc & );
-
-};
+void copy_npc_rules( npc &p );
+void set_npc_pickup( npc &p );
+}
 
 bool trade( npc &p, int cost, const std::string &deal );
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );

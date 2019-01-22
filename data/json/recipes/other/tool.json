@@ -22,7 +22,7 @@
         [ [ "plastic_chunk", 3 ] ],
         [ [ "wire", 1 ] ],
         [ [ "scrap", 1 ] ],
-        [ [ "bismuth", 200 ], [ "lead", 200 ], [ "gold_small", 200 ], [ "silver_small", 200 ] ]
+        [ [ "bismuth", 200 ], [ "lead", 200 ], [ "gold_small", 200 ], [ "silver_small", 200 ], [ "platinum_small", 200 ] ]
       ]
   },
   {

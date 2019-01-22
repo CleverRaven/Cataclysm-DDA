@@ -1,23 +1,13 @@
-#include "catch/catch.hpp"
-
-#include "morale.h"
-#include "player.h"
-#include "game.h"
-#include "overmapbuffer.h"
-#include "item_factory.h"
-#include "start_location.h"
-#include "path_info.h"
-#include "mapsharing.h"
-#include "options.h"
-#include "map.h"
-#include "weather.h"
-#include "itype.h"
-
 #include <string>
+
+#include "catch/catch.hpp"
+#include "game.h"
+#include "player.h"
+#include "weather.h"
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
-void temperature_check( player *p, int ambient_temp, int target_temp )
+void temperature_check( player *p, const int ambient_temp, const int target_temp )
 {
     g->temperature = ambient_temp;
     for( int i = 0 ; i < num_bp; i++ ) {
@@ -46,7 +36,7 @@ void temperature_check( player *p, int ambient_temp, int target_temp )
 
 void equip_clothing( player *p, const std::string &clothing )
 {
-    item article( clothing, 0 );
+    const item article( clothing, 0 );
     p->wear_item( article );
 }
 

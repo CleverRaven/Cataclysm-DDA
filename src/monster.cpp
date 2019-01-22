@@ -1,38 +1,38 @@
 #include "monster.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "effect.h"
+#include "field.h"
+#include "game.h"
+#include "item.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mondeath.h"
-#include "output.h"
-#include "game.h"
-#include "projectile.h"
-#include "debug.h"
-#include "rng.h"
-#include "item.h"
-#include "translations.h"
-#include "overmapbuffer.h"
-#include <sstream>
-#include <stdlib.h>
-#include <algorithm>
-#include <numeric>
-#include "cursesdef.h"
-#include "effect.h"
+#include "mapdata.h"
 #include "melee.h"
 #include "messages.h"
-#include "mondefense.h"
 #include "mission.h"
-#include "mongroup.h"
+#include "mondeath.h"
+#include "mondefense.h"
 #include "monfaction.h"
-#include "string_formatter.h"
-#include "options.h"
-#include "trap.h"
-#include "line.h"
-#include "mapdata.h"
+#include "mongroup.h"
 #include "mtype.h"
-#include "field.h"
-#include "sounds.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
+#include "overmapbuffer.h"
+#include "projectile.h"
+#include "rng.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "trap.h"
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
@@ -128,9 +128,6 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
-static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},
@@ -548,6 +545,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
 
+    if( debug_mode ) {
+        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+    }
+
     std::string effects = get_effect_status();
     long long used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
@@ -569,16 +570,35 @@ std::string monster::extended_description() const
 {
     std::ostringstream ss;
     const auto att = get_attitude();
-    std::string att_colored = get_tag_from_color( att.second ) + att.first;
+    std::string att_colored = colorize( att.first, att.second );
+    std::string difficulty_str;
+    if( debug_mode ) {
+        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+    } else {
+        if( type->difficulty < 3 ) {
+            difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
+        } else if( type->difficulty < 10 ) {
+            difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
+        } else if( type->difficulty < 20 ) {
+            difficulty_str = _( "<color_light_red>Dangerous.</color>" );
+        } else if( type->difficulty < 30 ) {
+            difficulty_str = _( "<color_red>Very dangerous.</color>" );
+        } else if( type->difficulty < 50 ) {
+            difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
+        } else {
+            difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
+        }
+    }
 
-    ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
+    ss << string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
+                         difficulty_str ) << std::endl;
     if( !get_effect_status().empty() ) {
         ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
     }
 
     ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
-    ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
+    ss << colorize( hp_bar.first, hp_bar.second ) << std::endl;
 
     ss << "--" << std::endl;
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
@@ -625,22 +645,22 @@ std::string monster::extended_description() const
     };
 
     describe_flags( _( "It has the following senses: %s." ), {
-        {m_flag::MF_HEARS, _( "hearing" )},
-        {m_flag::MF_SEES, _( "sight" )},
-        {m_flag::MF_SMELLS, _( "smell" )},
+        {m_flag::MF_HEARS, pgettext( "Hearing as sense", "hearing" )},
+        {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
+        {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
 
     describe_flags( _( "It can %s." ), {
-        {m_flag::MF_SWIMS, _( "swim" )},
-        {m_flag::MF_FLIES, _( "fly" )},
-        {m_flag::MF_CAN_DIG, _( "dig" )},
-        {m_flag::MF_CLIMBS, _( "climb" )}
+        {m_flag::MF_SWIMS, pgettext( "Swim as an action", "swim" )},
+        {m_flag::MF_FLIES, pgettext( "Fly as an action", "fly" )},
+        {m_flag::MF_CAN_DIG, pgettext( "Dig as an action", "dig" )},
+        {m_flag::MF_CLIMBS, pgettext( "Climb as an action", "climb" )}
     } );
 
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
-        {m_flag::MF_GRABS, _( "grab" )},
-        {m_flag::MF_VENOM, _( "poison" )},
-        {m_flag::MF_PARALYZE, _( "paralyze" )},
+        {m_flag::MF_GRABS, pgettext( "Grab as an action", "grab" )},
+        {m_flag::MF_VENOM, pgettext( "Poison as an action", "poison" )},
+        {m_flag::MF_PARALYZE, pgettext( "Paralyze as an action", "paralyze" )},
         {m_flag::MF_BLEED, _( "cause bleed" )}
     } );
 
@@ -1185,8 +1205,6 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     const bool u_see_me = g->u.sees( *this );
 
-    body_part bp_hit;
-
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
         damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
@@ -1197,7 +1215,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
-    bp_hit = dealt_dam.bp_hit;
+    body_part bp_hit = dealt_dam.bp_hit;
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
@@ -1222,7 +1240,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), 0 );
+                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name().c_str(),
                          body_part_name_accusative( bp_hit ).c_str() );
             } else if( target.is_npc() ) {
@@ -1814,16 +1832,16 @@ void monster::process_turn()
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
-                sounds::sound( pos(), 5, _( "hummmmm." ) );
+                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ) );
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
-                for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
-                    if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                for( const auto &item : items ) {
+                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
-                        sounds::sound( pos(), 30, _( "fwoosh!" ) );
+                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
                         break;
                     }
                 }
@@ -1848,8 +1866,8 @@ void monster::process_turn()
             }
             if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
                 g->lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 300, _( "BOOOOOOOM!!!" ) );
-                sounds::sound( pos(), 20, _( "vrrrRRRUUMMMMMMMM!" ) );
+                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ) );
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name().c_str() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -1857,7 +1875,7 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 20, _( "VMMMMMMMMM!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ) );
             }
         }
     }
@@ -1929,8 +1947,8 @@ void monster::die( Creature *nkiller )
         const point abssub = ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
-            for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
-                for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
+            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
+                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
                     std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y,
                                                      g->get_levz() + z );
                     for( auto &mgp : groups ) {
@@ -1951,7 +1969,7 @@ void monster::die( Creature *nkiller )
     }
 
     //Not a hallucination, go process the death effects.
-    for( auto const &deathfunction : type->dies ) {
+    for( const auto &deathfunction : type->dies ) {
         deathfunction( *this );
     }
 
@@ -2038,7 +2056,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         if( dam > 0 ) {
             apply_damage( nullptr, bp_torso, dam );
         } else {
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
@@ -2197,7 +2215,7 @@ void monster::make_ally( const monster &z )
     faction = z.faction;
 }
 
-void monster::add_item( item it )
+void monster::add_item( const item &it )
 {
     inv.push_back( it );
 }
@@ -2343,7 +2361,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= ( long )type->def_chance ) {
+    if( rng( 0, 100 ) <= static_cast<long>( type->def_chance ) ) {
         type->sp_defense( *this, source, proj );
     }
 
@@ -2489,7 +2507,7 @@ void monster::on_load()
     // Possible TODO: Integrate monster upgrade
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
-    if( dt <= 0 ) {
+    if( dt <= 0_turns ) {
         return;
     }
 
