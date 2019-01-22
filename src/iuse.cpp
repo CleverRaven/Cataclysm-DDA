@@ -6221,13 +6221,15 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     npc_photo.name = guy->name;
                     std::string timestamp = to_string( time_point( calendar::turn ) );
                     //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
-                    npc_photo.description = string_format( _( "This is a photo of %1$s. It was taken on %2$s." ),
-                                                           "<color_light_blue>" + npc_photo.name + "</color>",
-                                                           "<color_light_blue>" + timestamp + "</color>" );
-                    npc_photo.description += "\n\n" + guy->short_description();
+                    npc_photo.description = string_format( _( "This is a photo of %1$s." ),
+                                                           "<color_light_blue>" + npc_photo.name + "</color>" );
+                    npc_photo.description += "\n\n" + join( guy->short_description_parts(), "\n\n" );
                     if( !description_extra.empty() ) {
-                        npc_photo.description += string_format( _( "\nAlso in the picture: %1$s." ), description_extra );
+                        npc_photo.description += "\n\n" + string_format( _( "Also in the picture: %1$s." ),
+                                                 description_extra );
                     }
+                    npc_photo.description += "\n\n" + string_format( _( "The photo was taken on %1$s." ),
+                                             "<color_light_blue>" + timestamp + "</color>" );
 
                     npc_photos.push_back( npc_photo );
                     try {
