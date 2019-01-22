@@ -183,7 +183,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &cu
 * @return the number (y coordinate) after the last printed line
 **/
 int print_colored_text( const catacurses::window &w, int y, int x, nc_color &cur_color,
-                        nc_color base_color, const std::vector<std::string> &text, int last_line = -1 );
+                        nc_color base_color, const std::vector<std::string> &text, size_t last_line = 0 );
 
 /**
  * Print word wrapped text (with @ref color_tags) into the window.

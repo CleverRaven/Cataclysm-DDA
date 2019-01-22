@@ -183,15 +183,17 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
 }
 
 int print_colored_text( const catacurses::window &w, int y, int x, nc_color &cur_color,
-                        nc_color base_color, const std::vector<std::string> &text, int last_line /* = -1*/ )
+                        nc_color base_color, const std::vector<std::string> &text, size_t last_line /* = 0*/ )
 {
-    const int limit = getmaxy( w ) - y;
-    last_line = last_line < 0 ? limit : last_line;
-    last_line = last_line > limit ? limit : last_line;
-    for( auto &str : text ) {
-        if( y < last_line ) {
-            print_colored_text( w, y, x, cur_color, base_color, str );
-            y++;
+    int width = getmaxx( w );
+    int height = getmaxy( w ) ;
+    if( ( y < height && y > 0 ) && ( x < width && x > 0 ) ) {
+        last_line = last_line > height ? height : last_line;
+        for( auto &str : text ) {
+            if( y < last_line ) {
+                print_colored_text( w, y, x, cur_color, base_color, str );
+                y++;
+            }
         }
     }
     return y;
