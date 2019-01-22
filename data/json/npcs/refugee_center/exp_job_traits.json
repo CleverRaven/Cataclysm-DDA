@@ -9,8 +9,18 @@
     "purifiable": false,
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },  
+  {
+    "type": "mutation",
+    "id": "Exp_AutoSales",
+    "name": "Job experience - Auto Sales",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
-      { "trait": "Exp_AutoSales", "prob": 3 },
   {
     "type": "mutation",
     "id": "Exp_Baker",
@@ -33,9 +43,39 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
-      { "trait": "Exp_Barber", "prob": 3 },
-      { "trait": "Exp_Barista", "prob": 5 },
-      { "trait": "Exp_Bartender", "prob": 5 },
+  {
+    "type": "mutation",
+    "id": "Exp_Barber",
+    "name": "Job experience - Barber",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Barista",
+    "name": "Job experience - Barista",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Bartender",
+    "name": "Job experience - Bartender",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
   {
     "type": "mutation",
     "id": "Exp_Brewer",
@@ -58,9 +98,39 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
-      { "trait": "Exp_ClothingStore", "prob": 2 },
-      { "trait": "Exp_ComicBookStore", "prob": 2 },
-      { "trait": "Exp_DentalHygenist", "prob": 3 },
+  {
+    "type": "mutation",
+    "id": "Exp_ClothingStore",
+    "name": "Job experience - ClothingStore",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_ComicBookStore",
+    "name": "Job experience - ComicBookStore",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_DentalHygenist",
+    "name": "Job experience - DentalHygenist",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
   {
     "type": "mutation",
     "id": "Exp_Drycleaner",
@@ -94,9 +164,39 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
-      { "trait": "Exp_FastFood", "prob": 5 },
-      { "trait": "Exp_Hairdresser", "prob": 4 },
-      { "trait": "Exp_HealthInspector", "prob": 3 },
+  {
+    "type": "mutation",
+    "id": "Exp_FastFood",
+    "name": "Job experience - FastFood,
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_Hairdresser",
+    "name": "Job experience - Hairdresser",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
+  {
+    "type": "mutation",
+    "id": "Exp_HealthInspector",
+    "name": "Job experience - HealthInspector",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
   {
     "type": "mutation",
     "id": "Exp_HumanResources",
@@ -251,7 +351,17 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
-      { "trait": "Exp_PersonalTrainer", "prob": 2 },
+  {
+    "type": "mutation",
+    "id": "Exp_PersonalTrainer",
+    "name": "Job experience - PersonalTrainer",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
   {
     "type": "mutation",
     "id": "Exp_Photographer",
@@ -328,8 +438,18 @@
     "purifiable": false,
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },  
+  {
+    "type": "mutation",
+    "id": "Exp_Server",
+    "name": "Job experience - restaurant server",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
-      { "trait": "Exp_Server", "prob": 5 },
   {
     "type": "mutation",
     "id": "Exp_Stonemason",
@@ -385,7 +505,17 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
-      { "trait": "Exp_ToyStore", "prob": 2 },
+  {
+    "type": "mutation",
+    "id": "Exp_ToyStore",
+    "name": "Job experience - worked at a Toy Store",
+    "points": 0,
+    "description": "NPC job experience trait for conversations.",
+    "valid": false,
+    "purifiable": false,
+    "player_visible": false,
+    "flags": [ "Actual_Expert", "Claimed_Expert" ]
+  },
   {
     "type": "mutation",
     "id": "Exp_TruckDriver",
