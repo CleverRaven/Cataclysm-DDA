@@ -121,7 +121,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
 }
 
 size_t vehicle::vehicle_info( std::vector<std::string> &info, int veh_part,
-                              const int max_width, const int hl ) const
+                              const int max_width, const int hl /* = -1*/ )
 {
     size_t old_size = info.size();
 
@@ -141,8 +141,8 @@ size_t vehicle::vehicle_info( std::vector<std::string> &info, int veh_part,
         size_t id = parts_id_list[i];
         const vehicle_part &vp = parts[id];
         //color
-        nc_color sym_color = c_light_gray;
-        nc_color part_col = vp.is_broken() ? c_dark_gray : vp.get_base().damage_color();
+        nc_color sym_clr = c_light_gray;
+        nc_color part_clr = vp.is_broken() ? c_dark_gray : vp.get_base().damage_color();
         //name
         std::string partname = vp.name() + " ";
         //fuel content
@@ -153,13 +153,13 @@ size_t vehicle::vehicle_info( std::vector<std::string> &info, int veh_part,
         auto sym = armor_info( id );
         //highlight selected
         if( i == hl ) {
-            sym_color = hilite( c_light_gray );
-            part_col = hilite( part_col );
+            sym_clr = hilite( c_light_gray );
+            part_clr = hilite( part_clr );
         }
 
-        sym.first = colorize( sym.first, sym_color );
-        sym.second = colorize( sym.second, sym_color );
-        partname = colorize( partname, part_col );
+        sym.first = colorize( sym.first, sym_clr );
+        sym.second = colorize( sym.second, sym_clr );
+        partname = colorize( partname, part_clr );
         partname = trim_to_width( ( sym.first + partname + sym.second ), max_width );
         info.push_back( partname );
     }
@@ -168,7 +168,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &info, int veh_part,
     size_t line_written = ( info.size() - old_size );
     if( line_written > 0 ) {
 
-        bool is_inside = vpart_position( const_cast<vehicle &>( *this ), parts_id_list[0] ).is_inside();
+        bool is_inside = vpart_position( *this, parts_id_list[0] ).is_inside();
         std::string desc = is_inside ? _( "Interior" ) : _( "Exterior" );
 
         size_t target = info.size() - line_written;
@@ -187,7 +187,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &info, int veh_part,
     }
 
     //the label for this location
-    const auto label = vpart_position( const_cast<vehicle &>( *this ), veh_part ).get_label();
+    const auto label = vpart_position( *this, veh_part ).get_label();
     if( label ) {
         foldstring( info, colorize( string_format( "Label: %s", label->c_str() ), c_light_red ),
                     max_width );
@@ -237,7 +237,7 @@ std::pair<std::string, std::string> vehicle::armor_info( const int id )const
  * @param hl The index of the part to highlight (if any).
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/ ) const
+                              int p, int hl /*= -1*/ )
 {
     std::vector<std::string> text;
     vehicle_info( text, p, width - 1, hl );

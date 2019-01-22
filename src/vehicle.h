@@ -689,16 +689,17 @@ class vehicle
         *@param max_width trim or folding of the strings for strings longer than this value
         *@return the number of strings that where appended to info
         */
-        size_t vehicle_info( std::vector<std::string> &info, int veh_part, const int max_width, const int hl = -1)const;
-        
+        size_t vehicle_info( std::vector<std::string> &info, int veh_part, const int max_width,
+                             const int hl = -1 );
+
         //the _info functions below return individual pieces of information. Not trim or fold performed.
-        std::string fuel_info(const vehicle_part &vp)const;
-        std::string cargo_info(const int id)const;
-        std::pair<std::string, std::string> armor_info(const int id)const;
+        std::string fuel_info( const vehicle_part &vp )const;
+        std::string cargo_info( const int id )const;
+        std::pair<std::string, std::string> armor_info( const int id )const;
 
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1 ) const;
+                             int hl = -1 );
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
