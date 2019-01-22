@@ -48,10 +48,7 @@
     "id": "BGSS_EVACUEE_3_STORY3_EARLY",
     "type": "talk_topic",
     "dynamic_line": "Straight up hunger.  I didn't have any great light source down there, and I didn't have much food.  I was slipping up and down to the station to buy from the vending machines, but once I ran out of cash I had to make a break for it.  I waited until dark and then skipped out.",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_EVACUEE_3_STORY3_LATE",
@@ -72,5 +69,5 @@
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
-  },
+  }
 ]
