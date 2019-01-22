@@ -873,6 +873,7 @@
         "locations" : [ "forest" ],
         "city_sizes" : [0, 12],
         "occurrences" : [0, 4],
+        "flags" : [ "TRIFFID" ],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_TRIFFID", "population":[800,1300], "radius":[12,20] }
     },{
