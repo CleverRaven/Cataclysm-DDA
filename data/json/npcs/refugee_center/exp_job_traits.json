@@ -10,6 +10,7 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
+      { "trait": "Exp_AutoSales", "prob": 3 },
   {
     "type": "mutation",
     "id": "Exp_Baker",
@@ -32,6 +33,9 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
+      { "trait": "Exp_Barber", "prob": 3 },
+      { "trait": "Exp_Barista", "prob": 5 },
+      { "trait": "Exp_Bartender", "prob": 5 },
   {
     "type": "mutation",
     "id": "Exp_Brewer",
@@ -54,6 +58,9 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
+      { "trait": "Exp_ClothingStore", "prob": 2 },
+      { "trait": "Exp_ComicBookStore", "prob": 2 },
+      { "trait": "Exp_DentalHygenist", "prob": 3 },
   {
     "type": "mutation",
     "id": "Exp_Drycleaner",
@@ -87,6 +94,9 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
+      { "trait": "Exp_FastFood", "prob": 5 },
+      { "trait": "Exp_Hairdresser", "prob": 4 },
+      { "trait": "Exp_HealthInspector", "prob": 3 },
   {
     "type": "mutation",
     "id": "Exp_HumanResources",
@@ -241,6 +251,7 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
+      { "trait": "Exp_PersonalTrainer", "prob": 2 },
   {
     "type": "mutation",
     "id": "Exp_Photographer",
@@ -318,6 +329,7 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
+      { "trait": "Exp_Server", "prob": 5 },
   {
     "type": "mutation",
     "id": "Exp_Stonemason",
@@ -373,6 +385,7 @@
     "player_visible": false,
     "flags": [ "Actual_Expert", "Claimed_Expert" ]
   },
+      { "trait": "Exp_ToyStore", "prob": 2 },
   {
     "type": "mutation",
     "id": "Exp_TruckDriver",
