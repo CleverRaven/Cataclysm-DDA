@@ -84,7 +84,9 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Wind power
     W = std::max( 0, static_cast<int>( 5.7  / pow( ( P / 1014.78 ), rng( 9,
-                                       30 ) ) + ( ( seasonal_variation /
+                                       30 ) ) + ( (
+
+                                               seasonal_variation /
 
                                                64 ) * rng( 1, 2 ) ) * W
 
@@ -202,9 +204,10 @@ int weather_generator::get_water_temperature() const
 
     int season_length = to_days<int>( calendar::season_length() );
     int day = calendar::turn.day_of_year();
-    int hour = hour_of_day<int>( calendar::turn );
+    int hour = hour_of_day<int>
+               ( calendar::turn );
 
- int water_temperature = 0;
+    int water_temperature = 0;
 
     if( season_length == 0 ) {
         season_length = 1;
