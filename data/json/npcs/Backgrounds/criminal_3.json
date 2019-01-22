@@ -1,0 +1,56 @@
+[
+  {
+    "id": "BGSS_CRIMINAL_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I found out <the_cataclysm> wasn't a bunch of tall tales in the middle of a heist.  I'm serious.  I was hanging from a line coming down the ceiling of the museum, and my man Jordie was on the ground getting ready to trip the alarm, when a security guard came in off schedule.  Jordie hid and I pulled myself up, but the guard started sniffing the air, and we could see this black stuff oozing from his chin.  Then he charged Jordie like a wild animal and ripped his face off with his teeth.",
+    "responses": [
+      { "text": "Were you able to help your friend?", "topic": "BGSS_CRIMINAL_3_STORY2" },
+      { "text": "Wait wait wait.  Hanging from the ceiling?", "topic": "BGSS_CRIMINAL_3_MASTERTHIEF" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, Jordie wasn't my friend.  He was my man on the ground.  He knew... well, I was going to say he knew the risks when he took the job, but I suppose he wasn't anticipating getting his face eaten!  Ha!  Oh, Jordie would have liked that joke.  No, I didn't drop from my safe vantage to heroically rescue him and get my own face eaten; I pulled up to the roof and cowered for a few hours, then left for a safehouse on the beach.",
+    "responses": [
+      { "text": "Tell me about that safe house.", "topic": "BGSS_CRIMINAL_3_SAFEHOUSE1" },
+      { "text": "Wait wait wait.  Hanging from the ceiling?", "topic": "BGSS_CRIMINAL_3_MASTERTHIEF" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_3_MASTERTHIEF",
+    "type": "talk_topic",
+    "dynamic_line": "Hahaha, yes, sounds unlikely, doesn't it?  I was a hell of a thief, when there was stuff worth stealing.  It's a sad state we're in now, there's really no cause for that kind of thing.  I really miss it.  I'd do a job every few months or so, and spend the rest of it living large.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_3_SAFEHOUSE1",
+    "type": "talk_topic",
+    "dynamic_line": "Yes indeed!  In my line of work it pays to have places off-grid to lay low.  I own a few properties.  I haven't been able to make it to any of them though.",
+    "responses": [
+      { "text": "Can we get to one of your safe houses?", "topic": "BGSS_CRIMINAL_3_SAFEHOUSE2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_3_SAFEHOUSE2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, now.  We certainly could, but old habits die hard.  I'm not particularly excited about telling you how to find one.  I'll tell you what, though.  My thirst for the finer things in life hasn't gone away, even if I get my thrills somewhere else now.  If you can bring me a solid gold crown, I'll tell you where one of my safe houses is.  Perhaps we can all hole up there.",
+    "//": "TK: Needs further development to offer him the item and stuff.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]
