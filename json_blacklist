@@ -302,9 +302,6 @@ data/mods/Craft_Gunpowder/cgp_ranged.json
 data/mods/Craft_Gunpowder/cgp_recipes.json
 data/mods/default.json
 data/mods/DeoxyMod/Deoxy_vehicle_parts.json
-data/mods/DinoMod/dinosaur.json
-data/mods/DinoMod/fieldoffice.json
-data/mods/DinoMod/regional_overlay.json
 data/mods/EW_Pack/ew_ammo_handloaded.json
 data/mods/EW_Pack/ew_ammo.json
 data/mods/EW_Pack/ew_ammo_t.json
