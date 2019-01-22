@@ -198,7 +198,7 @@ bool player::handle_gun_damage( item &it )
             int dmgamt =  uncork / ( mod->type->gunmod->consume_divisor ) ;
             int modconsume = mod->type->gunmod->consume_chance ;
             if ( dmgamt < 1000 ) {
-                dmgamt = rng ( dmgamt, 1600 );
+                dmgamt = rng ( dmgamt, 1300 );
             }
             if ( dmgamt < 600 ) {
                 dmgamt =0 ;
