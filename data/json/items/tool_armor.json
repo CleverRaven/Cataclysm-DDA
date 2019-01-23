@@ -1603,6 +1603,7 @@
       "price": 5500,
       "to_hit": -1,
       "revert_to": "blanket",
+      "looks_like": "blanket",
       "use_action": {
           "type": "transform",
           "msg": "You lower your %s to cover your feet.",
@@ -1656,6 +1657,7 @@
       "price": 5500,
       "to_hit": -1,
       "revert_to": "down_blanket",
+      "looks_like": "down_blanket",
       "use_action": {
           "type": "transform",
           "msg": "You lower your %s to cover your feet.",
@@ -1708,6 +1710,7 @@
       "price": 2000,
       "to_hit": -1,
       "revert_to": "sheet",
+      "looks_like": "sheet",
       "use_action": {
           "type": "transform",
           "msg": "You lower your %s to cover your feet.",
@@ -1760,6 +1763,7 @@
       "price": 19500,
       "to_hit": -1,
       "revert_to": "fur_blanket",
+      "looks_like": "fur_blanket",
       "use_action": {
           "type": "transform",
           "msg": "You lower your %s.",

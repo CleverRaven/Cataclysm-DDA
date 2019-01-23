@@ -6332,8 +6332,6 @@
           "id": [
             "blanket",
             "down_blanket",
-            "blanket_raised",
-            "down_blanket_raised",
             "towel_wet"
           ],
           "fg": 759,
@@ -6729,7 +6727,6 @@
         {
           "id": [
             "fur_blanket",
-            "fur_blanket_raised",
             "sleeping_bag_fur"
           ],
           "fg": 818,

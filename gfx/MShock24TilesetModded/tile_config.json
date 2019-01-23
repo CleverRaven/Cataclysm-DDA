@@ -1908,11 +1908,6 @@
           "rotates": false
         },
         {
-          "id": "blanket_raised",
-          "fg": 302,
-          "rotates": false
-        },
-        {
           "id": "blazer",
           "fg": 303,
           "rotates": false
@@ -2211,10 +2206,6 @@
           "fg": 358
         },
         {
-          "id": "down_blanket_raised",
-          "fg": 358
-        },
-        {
           "id": "dress",
           "fg": 359,
           "bg": 621,
@@ -2359,11 +2350,6 @@
         },
         {
           "id": "fur_blanket",
-          "fg": 381,
-          "rotates": false
-        },
-        {
-          "id": "fur_blanket_raised",
           "fg": 381,
           "rotates": false
         },
@@ -3378,11 +3364,6 @@
         },
         {
           "id": "sheet",
-          "fg": 542,
-          "rotates": false
-        },
-        {
-          "id": "sheet_raised",
           "fg": 542,
           "rotates": false
         },
