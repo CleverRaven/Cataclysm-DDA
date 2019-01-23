@@ -201,7 +201,7 @@ bool player::handle_gun_damage( item &it )
                     int initstate = it.damage();
                     // fuzz damage if it's small
                     if( dmgamt < 1000 ) {
-                        dmgamt = rng( dmgamt, 1100 );
+                        dmgamt = rng( dmgamt, dmgamt + 200 );
                         // ignore damage if inconsequential.
                     }
                     if( dmgamt < 800 ) {
