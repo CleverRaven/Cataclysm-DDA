@@ -292,12 +292,20 @@ void player::disp_status( const catacurses::window &w )
     nc_color t_color = c_white;
 
     const int delta = conv_zone - cur_zone;
-    if( delta > 1 ) {
+    if( delta > 2 ) {
+        t_msg2 = "(\u2191)";
+    } else if( delta ==  2 ) {
+        t_msg2 = "(\u2191)";
+    } else if( delta ==  1 ) {
         t_msg2 = "(\u2191)";
     } else if( delta ==  0 ) {
         t_msg2 = "";
     } else if( delta < -1 ) {
-        t_msg2 = "(\u2191)";
+        t_msg2 = "(\u2193)";
+    } else if( delta == -2 ) {
+        t_msg2 = "(\u2193)";
+    } else {
+        t_msg2 = "(\u2193)";
     }
 
     // print hottest/coldest bodypart, and if it is rising or falling in temperature
@@ -594,7 +602,7 @@ void player::disp_status( const catacurses::window &w )
     wprintz( sideStyle ? g->w_status : g->w_HP, c_white, _( "Pwr  : " ) );
 
     if( this->max_power_level == 0 ) {
-        wprintz( sideStyle ? g->w_status : g->w_HP, c_light_gray, " --" );
+        wprintz( sideStyle ? g->w_status : g->w_HP, c_light_gray, "--" );
     } else {
         nc_color color = c_red;
         if( this->power_level >= this->max_power_level / 2 ) {
