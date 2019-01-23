@@ -193,6 +193,7 @@ static const std::map<std::string, mission_goal> goal_map = {{
         { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
         { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
         { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
+        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
         { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
         { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
         { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
@@ -285,6 +286,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
+    optional( jo, was_loaded, "item_group", group_id );
     optional( jo, was_loaded, "count", item_count, 1 );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );

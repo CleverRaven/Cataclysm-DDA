@@ -16,6 +16,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "item_group.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -222,6 +223,7 @@ void mission::step_complete( const int _step )
     step = _step;
     switch( type->goal ) {
         case MGOAL_FIND_ITEM:
+        case MGOAL_FIND_ITEM_GROUP:
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
@@ -249,6 +251,38 @@ void mission::wrap_up()
     u.on_mission_finished( *this );
     std::vector<item_comp> comps;
     switch( type->goal ) {
+        case MGOAL_FIND_ITEM_GROUP: {
+            inventory tmp_inv = u.crafting_inventory();
+            std::vector<item *> items = std::vector<item *>();
+            tmp_inv.dump( items );
+            int num_in_group = 0;
+            Group_tag grp_type = type->group_id;
+
+            std::vector<item *> matches = std::vector<item *>();
+            get_all_item_group_matches( &items, &grp_type, &matches );
+            matches.resize( type->item_count );
+
+            std::map<std::string, int> count_by_type = std::map<std::string, int>();
+
+            for( int i = 0; i < ( type->item_count ); i++ ) {
+                item *itm = matches.at( i );
+                std::string id = itm->typeId();
+
+                std::map<std::string, int>::iterator it = count_by_type.find( id );
+                if( it != count_by_type.end() ) {
+                    it->second = ( it->second ) + 1;
+                } else {
+                    count_by_type.insert( std::make_pair( id, 1 ) );
+                }
+            }
+
+            std::map<std::string, int>::iterator cnt_it;
+            for( cnt_it = count_by_type.begin(); cnt_it != count_by_type.end(); cnt_it++ ) {
+                comps.push_back( item_comp( cnt_it->first, cnt_it->second ) );
+            }
+            u.consume_items( comps );
+        }
+        break;
         case MGOAL_FIND_ITEM:
             comps.push_back( item_comp( type->item_id, item_count ) );
             u.consume_items( comps );
@@ -280,6 +314,22 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
             return is_ot_type( type->target_id.str(), cur_ter );
+        }
+
+        case MGOAL_FIND_ITEM_GROUP: {
+            inventory tmp_inv = u.crafting_inventory();
+            std::vector<item *> items = std::vector<item *>();
+            tmp_inv.dump( items );
+            int num_in_group = 0;
+            Group_tag grp_type = type -> group_id;
+
+            std::vector<item *> matches = std::vector<item *>();
+            get_all_item_group_matches( &items, &grp_type, &matches );
+
+            if( matches.size() >= ( type -> item_count ) ) {
+                return true;
+            }
+            return false;
         }
 
         case MGOAL_FIND_ITEM: {
@@ -342,6 +392,37 @@ bool mission::is_complete( const int _npc_id ) const
         default:
             return false;
     }
+}
+
+std::vector<item *> *mission::get_all_item_group_matches( std::vector<item *> *items,
+        Group_tag *grp_type, std::vector<item *> *matches )
+{
+    for( std::vector<int>::size_type i = 0; i < ( *items ).size(); i++ ) {
+        item *itm = ( *items ).at( i );
+        std::string tId = itm -> typeId(); //TODO: delete debug once error fixed
+
+        //check whether item itself is target
+        if( item_group::group_contains_item( *grp_type, itm->typeId() ) ) {
+            ( *matches ).push_back( itm );
+        }
+
+        //recursivly check item contents for target
+        if( ( itm->is_container() ) && !( itm-> is_container_empty() ) ) {
+            std::list<item> content_list = itm->contents;
+
+            std::vector<item *> content;
+            //list of item into list item*
+            std::transform(
+                content_list.begin(), content_list.end(),
+                std::back_inserter( content ),
+            []( item p ) {
+                return &p;
+            } );
+
+            get_all_item_group_matches( &content, grp_type, matches );
+        }
+    }
+    return matches;
 }
 
 bool mission::has_deadline() const

@@ -12,6 +12,7 @@
 #include "enums.h"
 #include "npc_favor.h"
 #include "overmap.h"
+#include "item_group.h"
 
 class player;
 class mission;
@@ -56,6 +57,7 @@ enum mission_goal {
     MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_type_id map tile like "hospital_entrance"
     MGOAL_FIND_ITEM,         // Find an item of a given type
     MGOAL_FIND_ANY_ITEM,     // Find an item tagged with this mission
+    MGOAL_FIND_ITEM_GROUP,   // Find items that belong to a specific item group
     MGOAL_FIND_MONSTER,      // Find and retrieve a friendly monster
     MGOAL_FIND_NPC,          // Find a given NPC
     MGOAL_ASSASSINATE,       // Kill a given NPC
@@ -201,6 +203,7 @@ struct mission_type {
 
     std::vector<mission_origin> origins; // Points of origin
     itype_id item_id = "null";
+    Group_tag group_id = "null";
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
@@ -404,6 +407,11 @@ class mission
         void load_info( std::istream &info );
 
         void set_target_to_mission_giver();
+
+        static std::vector<item *> *get_all_item_group_matches(
+            std::vector<item *> *items,
+            Group_tag   *grp_type,
+            std::vector<item *> *out );
 };
 
 #endif
