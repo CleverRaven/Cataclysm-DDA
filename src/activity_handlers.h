@@ -33,7 +33,7 @@ void activity_on_turn_pickup();
 void activity_on_turn_stash();
 void try_refuel_fire( player &p );
 // finds and spawns a vector of items from an items_location
-std::vector<item *> find_forage_items(player *p, items_location loc);
+std::vector<item *> find_forage_items( player *p, items_location loc );
 
 enum class item_drop_reason {
     deliberate,
