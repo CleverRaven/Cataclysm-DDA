@@ -116,9 +116,11 @@
     "type": "GUNMOD",
     "name": "mp5sd integral suppressor",
     "description": "The integrated suppressor for the mp5sd.",
+    "damage_modifier": -7,
     "weight": 0,
     "volume": 1,
-    "loudness_modifier": -75,
+    "loudness_modifier": -100,
+    "location": "barrel",
     "flags": [ "IRREMOVABLE" ]
   },
   {
