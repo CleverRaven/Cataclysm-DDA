@@ -1,6 +1,8 @@
 #include "posix_time.h"
 
 #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+#include <cerrno>
+
 int
 nanosleep( const struct timespec *requested_delay,
            struct timespec *remaining_delay )
