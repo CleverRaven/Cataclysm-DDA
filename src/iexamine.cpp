@@ -1625,8 +1625,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     if( !harvest_list.empty() )
     {
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
-    } else
-    {
+    } else {
         for( item &it : harvest_list ) {
             g->m.add_item_or_charges( p.pos(), it );
             p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );

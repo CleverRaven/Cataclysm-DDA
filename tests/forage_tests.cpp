@@ -32,11 +32,9 @@ int forage_calories( player &p, items_location loc )
 std::map<harvest_id, int> get_map_terrain_harvest( const tripoint &p )
 {
     std::map<harvest_id, int> harvests;
-    tripoint t = p;
     for( int x = 0; x < SEEX * 2; ++x ) {
         for( int y = 0; y < SEEY * 2; ++y ) {
-            t.x = p.x + x;
-            t.y = p.y + y;
+            const tripoint t = p + point( x, y );
             harvests[ g->m.get_harvest( t ) ]++;
         }
     }
@@ -47,11 +45,9 @@ std::map<harvest_id, int> get_map_terrain_harvest( const tripoint &p )
 std::vector<tripoint> get_harvest_pos( const tripoint &p )
 {
     std::vector<tripoint> harvests;
-    tripoint t = p;
     for( int x = 0; x < SEEX * 2; ++x ) {
         for( int y = 0; y < SEEY * 2; ++y ) {
-            t.x = p.x + x;
-            t.y = p.y + y;
+            const tripoint t = p + point( x, y );
             if( g->m.get_harvest( t ) != harvest_id( "null" ) ) {
                 harvests.push_back( t );
             }
@@ -68,11 +64,9 @@ std::vector<tripoint> get_harvest_pos( const tripoint &p )
 std::vector<tripoint> get_underbrush_pos( const tripoint &p )
 {
     std::vector<tripoint> underbrush;
-    tripoint t = p;
     for( int x = 0; x < SEEX * 2; ++x ) {
         for( int y = 0; y < SEEY * 2; ++y ) {
-            t.x = p.x + x;
-            t.y = p.y + y;
+            const tripoint t = p + point( x, y );
             if( g->m.tername( t ) == "underbrush" ) {
                 underbrush.push_back( t );
             }

@@ -1411,7 +1411,6 @@ std::vector<item *> find_forage_items( player *p, items_location loc )
 
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
-
     items_location loc;
     ter_str_id next_ter;
 
