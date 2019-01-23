@@ -193,7 +193,7 @@ uint32_t print_colored_text( const catacurses::window &w, uint32_t y, const uint
         last_line = last_line > height ? height : last_line;
         for( auto &str : text ) {
             if( y < last_line ) {
-                print_colored_text( w, y, x, clr, clr, str );
+                print_colored_text( w, y, x, clr, base_color, str );
                 y++;
             }
         }

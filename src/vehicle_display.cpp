@@ -243,7 +243,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     std::vector<std::string> text;
     vehicle_info( text, p, width - 1, hl );
 
-    uint32_t curr_line = print_colored_text( win, y1, 1, c_white, text, max_y );
+    uint32_t curr_line = print_colored_text( win, y1, 1, c_dark_gray, text, max_y );
 
     if( static_cast<int>( text.size() ) > max_y ) {
         nc_color clr = c_yellow;

@@ -12122,7 +12122,7 @@ int player::print_info( const catacurses::window &w, int vStart, int, int column
 {
     std::vector<std::string> text;
     creature_info( text, getmaxx( w ) - 2 );
-    return print_colored_text( w, vStart, column, c_white, text );
+    return print_colored_text( w, vStart, column, c_dark_gray, text );
 }
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
