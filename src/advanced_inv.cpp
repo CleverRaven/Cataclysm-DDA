@@ -1570,7 +1570,6 @@ void advanced_inventory::display()
             }
             aim_location destarea = dpane.get_area();
             aim_location srcarea = sitem->area;
-            int distance = std::max( rl_dist( aim_vector( srcarea ), aim_vector( destarea ) ), 1 );
             bool restore_area = ( destarea == AIM_ALL );
             if( !query_destination( destarea ) ) {
                 continue;
@@ -1597,7 +1596,6 @@ void advanced_inventory::display()
             // but are potentially at a different place).
             recalc = true;
             assert( amount_to_move > 0 );
-            int move_cost = 0;
             if( destarea == AIM_CONTAINER ) {
                 if( !move_content( *sitem->items.front(),
                                    *squares[destarea].get_container( dpane.in_vehicle() ) ) ) {
@@ -1605,91 +1603,75 @@ void advanced_inventory::display()
                     continue;
                 }
             } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
-                // from inventory: remove all items first, then try to put them
-                // onto the map/vehicle, if it fails, put them back into the inventory.
-                // If no item has actually been moved, continue.
+
+                // make sure advanced inventory is reopend after activity completion.
+                do_return_entry();
 
                 // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
                 int idx = ( srcarea == AIM_INVENTORY ) ? sitem->idx : player::worn_position_to_index( sitem->idx );
+
+                std::list<std::pair<int, int>> dropped;
+                dropped.emplace_back( idx, amount_to_move );
+
+                g->u.drop( dropped, g->u.pos() + squares[destarea].off );
+
+                // exit so that the activity can be carried out
+                exit = true;
+
+            } else { // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
+
+                // Make sure advanced inventory is reopend after activity completion.
+                do_return_entry();
+
+                if( destarea == AIM_INVENTORY || destarea == AIM_WORN ) {
+                    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    if( destarea == AIM_WORN ) {
+                        g->u.activity.str_values.push_back( "equip" );
+                    }
+                } else { // Vehicle and map destinations are handled similarly.
+
+                    g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+                    // store whether the source is from a vehicle (first entry)
+                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    // store whether the destination is a vehicle
+                    g->u.activity.values.push_back( dpane.in_vehicle() );
+                    // Stash the destination
+                    g->u.activity.coords.push_back( squares[destarea].off );
+                }
+                g->u.activity.placement = squares[srcarea].off;
+
                 if( by_charges ) {
-                    item moving_item = g->u.reduce_charges( idx, amount_to_move );
-                    assert( !moving_item.is_null() );
-                    move_cost = Pickup::cost_to_move_item( g->u, moving_item );
-                    int items_left = add_item( destarea, moving_item );
-                    // take care of charging back any items as well
-                    if( items_left > 0 ) {
-                        add_item( srcarea, moving_item, items_left );
-                        continue;
-                    }
+                    g->u.activity.values.push_back( sitem->idx );
+                    g->u.activity.values.push_back( amount_to_move );
                 } else {
-                    std::list<item> moving_items;
-                    if( srcarea == AIM_INVENTORY ) {
-                        moving_items = g->u.inv.reduce_stack( idx, amount_to_move );
-                    } else if( srcarea == AIM_WORN ) {
-                        g->u.takeoff( *sitem->items.front(), &moving_items );
+                    std::list<item>::iterator begin, end;
+                    if( spane.in_vehicle() ) {
+                        begin = squares[srcarea].veh->get_items( squares[srcarea].vstor ).begin();
+                        end = squares[srcarea].veh->get_items( squares[srcarea].vstor ).end();
+                    } else {
+                        begin = g->m.i_at( squares[srcarea].pos ).begin();
+                        end = g->m.i_at( squares[srcarea].pos ).end();
                     }
-                    int items_left = 0;
-                    int moved = 0;
-                    for( auto &elem : moving_items ) {
-                        assert( !elem.is_null() );
-                        move_cost += Pickup::cost_to_move_item( g->u, elem );
-                        items_left = add_item( destarea, elem );
-                        if( items_left > 0 ) {
-                            // chargeback the items if adding them failed
-                            add_item( srcarea, elem, items_left );
-                        } else {
-                            ++moved;
+
+                    int index = 0;
+                    for( auto item_it = begin; amount_to_move > 0 && item_it != end; ++item_it, ++index ) {
+
+                        if( item_it->typeId() == sitem->id ) {
+                            g->u.activity.values.push_back( index );
+                            g->u.activity.values.push_back( 1 );
+
+                            sitem->items.erase( sitem->items.begin() );
+
+                            --amount_to_move;
                         }
                     }
-                    if( moved == 0 ) {
-                        continue;
-                    }
+
                 }
-                // from map/vehicle: add the item to the destination.
-                // if that worked, remove it from the source, else continue.
-            } else {
-                // create a new copy of the old item being manipulated
-                item new_item( *sitem->items.front() );
-                if( by_charges ) {
-                    // set the new item's charge amount
-                    new_item.charges = amount_to_move;
-                }
-                // add the item, and note any items that might be leftover
-                int items_left = add_item( destarea, new_item, ( by_charges ) ? 1 : amount_to_move );
-                move_cost = ( by_charges ? 1 : amount_to_move ) * Pickup::cost_to_move_item( g->u, new_item );
-                // only remove item or charges if the add succeeded
-                if( items_left == 0 ) {
-                    if( by_charges ) {
-                        item *it = sitem->items.front();
-                        if( it->charges <= amount_to_move ) {
-                            remove_item( *sitem, 1 );
-                        } else {
-                            it->mod_charges( -amount_to_move );
-                        }
-                    } else {
-                        remove_item( *sitem, amount_to_move );
-                    }
-                    // note to the player (and possibly debug) that the item transfer failed somehow
-                } else {
-                    const char *msg = nullptr;
-                    int items_unmoved = amount_to_move - items_left;
-                    if( by_charges ) {
-                        msg = ( items_unmoved > 0 ) ?
-                              _( "Only moved %d of %d charges." ) :
-                              _( "Moved no charges." );
-                    } else {
-                        msg = ( items_unmoved > 0 ) ?
-                              _( "Only moved %d of %d items." ) :
-                              _( "Moved no items." );
-                    }
-                    assert( msg != nullptr );
-                    g->u.add_msg_if_player( msg, amount_to_move - items_left, amount_to_move );
-                    // redraw the screen if moving to AIM_WORN, so we can see that it didn't work
-                    redraw = ( destarea == AIM_WORN );
-                }
+                
+                // exit so that the activity can be carried out
+                exit = true;
             }
-            // This is only reached when at least one item has been moved.
-            g->u.mod_moves( -move_cost * distance );
             // Just in case the items have moved from/to the inventory
             g->u.inv.restack( g->u );
             // if dest was AIM_ALL then we used query_destination and should undo that
