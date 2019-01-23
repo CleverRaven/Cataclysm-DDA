@@ -48,17 +48,15 @@ jobs:
           packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-      # MXE variants disabled while pkg.mxe.cc is down
+      # MXE variants using alternate repository http://mirror.mxe.cc/repos/apt
       # GCC MinGW
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      if: type = disabled
       addons: &gcc
         apt:
           packages: ["wine"]
 
     # Windows Tiles
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
-      if: type = disabled
       compiler: gcc
       addons: &gcc
         apt:
@@ -161,7 +159,7 @@ jobs:
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
 
     # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag"
       dist: trusty
       compiler: clang
       addons: &clang60

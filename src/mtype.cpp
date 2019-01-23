@@ -98,19 +98,19 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
     } );
 }
 
-bool mtype::has_anger_trigger( monster_trigger trig ) const
+bool mtype::has_anger_trigger( monster_trigger trigger ) const
 {
-    return bitanger[trig];
+    return bitanger[trigger];
 }
 
-bool mtype::has_fear_trigger( monster_trigger trig ) const
+bool mtype::has_fear_trigger( monster_trigger trigger ) const
 {
-    return bitfear[trig];
+    return bitfear[trigger];
 }
 
-bool mtype::has_placate_trigger( monster_trigger trig ) const
+bool mtype::has_placate_trigger( monster_trigger trigger ) const
 {
-    return bitplacate[trig];
+    return bitplacate[trigger];
 }
 
 bool mtype::in_category( const std::string &category ) const

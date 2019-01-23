@@ -72,8 +72,8 @@ struct damage_instance {
      */
     /*@{*/
     void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
-    void add( const damage_instance &b );
-    void add( const damage_unit &b );
+    void add( const damage_instance &added_di );
+    void add( const damage_unit &added_du );
     /*@}*/
 
     void deserialize( JsonIn & );

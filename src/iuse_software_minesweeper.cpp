@@ -128,7 +128,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
 
     mvwputch( w_minesweeper, iOffsetY, iOffsetX, hilite( c_white ), "#" );
 
-    draw_custom_border( w_minesweeper, true, true, true, true, true, true, true, true,
+    draw_custom_border( w_minesweeper, 1, 1, 1, 1, 1, 1, 1, 1,
                         BORDER_COLOR, iOffsetY - 1, iLevelY + 2, iOffsetX - 1, iLevelX + 2 );
 }
 

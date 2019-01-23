@@ -2,6 +2,7 @@
 #ifndef SDL_WRAPPERS_H
 #define SDL_WRAPPERS_H
 
+// IWYU pragma: begin_exports
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_ttf.h>
@@ -9,6 +10,7 @@
 #   include <SDL.h>
 #   include <SDL_ttf.h>
 #endif
+// IWYU pragma: end_exports
 
 #include <memory>
 
@@ -80,6 +82,8 @@ SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface );
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
+void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
+bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
 SDL_Surface_Ptr load_image( const char *path );
 void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );

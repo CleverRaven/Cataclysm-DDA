@@ -1633,7 +1633,7 @@ bool veh_interact::do_tirechange( std::string &msg )
             return false;
 
         case LACK_TOOLS:
-	    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
             msg = string_format( _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
                                     "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
                                  status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
@@ -2021,8 +2021,8 @@ void veh_interact::display_stats() const
     const int slots = 24; // 3 * stats_h
     int x[slots], y[slots], w[slots];
 
-    units::volume total_cargo = 0;
-    units::volume free_cargo = 0;
+    units::volume total_cargo = 0_ml;
+    units::volume free_cargo = 0_ml;
     for( const vpart_reference &vp : veh->get_any_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         total_cargo += veh->max_volume(p);
@@ -2166,7 +2166,8 @@ void veh_interact::display_stats() const
 
     fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
-                    static_cast<int>( veh->k_traction( veh->wheel_area() * 0.5f ) * 100 ) );
+                    static_cast<int>( veh->k_traction( veh->wheel_area() *
+                    veh->average_or_rating() ) * 100 ) );
     i += 1;
 
     if( is_boat ) {
@@ -2344,7 +2345,7 @@ void veh_interact::display_details( const vpart_info *part )
                     small_mode ? _("Wgt") : _("Weight"),
                     convert_weight( item::find_type( part->item )->weight ),
                     weight_units() );
-    if ( part->folded_volume != 0 ) {
+    if ( part->folded_volume != 0_ml ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
                        "%s: <color_light_gray>%s %s</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
@@ -2353,7 +2354,7 @@ void veh_interact::display_details( const vpart_info *part )
     }
 
     // line 3: (column 1) size, bonus, wheel diameter (if applicable)    (column 2) epower, wheel width (if applicable)
-    if( part->size > 0 && part->has_flag( VPFLAG_CARGO ) ) {
+    if( part->size > 0_ml && part->has_flag( VPFLAG_CARGO ) ) {
         fold_and_print( w_details, line + 3, col_1, column_width, c_white,
                        "%s: <color_light_gray>%s %s</color>",
                        small_mode ? _( "Cap" ) : _( "Capacity" ),

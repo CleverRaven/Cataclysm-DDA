@@ -300,7 +300,7 @@ struct use_function {
         }
 
         explicit operator bool() const {
-            return actor.get() != nullptr;
+            return actor != nullptr;
         }
 
         /** @return See @ref iuse_actor::type */

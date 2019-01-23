@@ -492,7 +492,7 @@ class npc : public player
 
         // Save & load
         void load_info( std::string data ) override; // Overloaded from player
-        virtual std::string save_info() const override;
+        std::string save_info() const override;
 
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &jsout ) const override;

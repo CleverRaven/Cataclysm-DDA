@@ -1001,7 +1001,7 @@ std::string ma_technique::get_description() const
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
                              uilist *menu )
 {
-    const std::string action = ctxt.input_to_action( event );
+    const std::string &action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {
         return false;
     }

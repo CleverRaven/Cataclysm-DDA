@@ -8,7 +8,7 @@
 #include "map.h"
 #include "player.h"
 
-int get_remaining_charges( std::string tool_id )
+int get_remaining_charges( const std::string &tool_id )
 {
     const inventory crafting_inv = g->u.crafting_inventory();
     std::vector<const item *> items =
@@ -31,7 +31,7 @@ void clear_player()
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
-    for( trait_id tr : dummy.get_mutations() ) {
+    for( const trait_id &tr : dummy.get_mutations() ) {
         dummy.unset_mutation( tr );
     }
     // Prevent spilling, but don't cause encumbrance

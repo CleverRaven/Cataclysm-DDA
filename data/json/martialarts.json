@@ -431,6 +431,7 @@
             "diveknife",
             "firemachete_off",
             "firemachete_on",
+            "glaive",
             "golf_club",
             "hockey_stick",
             "i_staff",
@@ -444,6 +445,7 @@
             "makeshift_halberd",
             "makeshift_knife",
             "makeshift_machete",
+            "naginata",
             "pipe",
             "pointy_stick",
             "pool_cue",
@@ -665,9 +667,13 @@
             "sharp_toothbrush",
             "shishkebab_off",
             "shishkebab_on",
+            "shocktonfa_off",
+            "shocktonfa_on",
             "stick",
             "switchblade",
             "tanto",
+            "tonfa",
+            "tonfa_wood",
             "umbrella",
             "wasp_sting",
             "wrench",
@@ -1003,6 +1009,60 @@
         "techniques" : [
             "tec_debug_slow",
             "tec_debug_arpen"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_sojutsu",
+        "name" : "Sōjutsu",
+        "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.",
+        "arm_block" : 99,
+        "leg_block" : 99,
+        "static_buffs" : [
+            {
+                "id" : "sojutsu_static",
+                "name" : "Sōjutsu Stance",
+                "description" : "Bonus block with reach weapons while standing still",
+                "unarmed_allowed" : false,
+                "bonus_blocks" : 1
+            }
+        ],
+        "onmove_buffs": [
+            {
+                "id" : "sojutsu_damage_buff",
+                "name" : "Sōjutsu Rush",
+                "description" : "Increased damage when moving but no bonus block",
+                "unarmed_allowed" : false,
+                "min_melee" : 0,
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bonus_blocks" : -1,
+                "mult_bonuses" : [["damage", "cut", 1.1]]
+            }
+        ],
+        "techniques" : [
+            "tec_sojutsu_push",
+			"tec_sojutsu_trip",
+			"tec_sojutsu_skewer"
+        ],
+        "weapons" : [
+			"glaive",
+			"halberd",
+			"halberd_fake",
+			"naginata",
+			"makeshift_halberd",
+			"pike",
+            "pike_inferior",
+            "pike_fake",
+			"pitchfork",
+			"qiang",
+			"spear_copper",
+			"spear_forked",
+			"spear_homemade_halfpike",
+			"spear_pipe",
+			"spear_rebar",
+			"spear_steel",
+			"spear_survivor",
+			"spear_wood"
         ]
     }
 ]

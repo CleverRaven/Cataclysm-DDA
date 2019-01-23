@@ -20855,6 +20855,78 @@
               "fg": 2727
             }
           ]
+        },
+        {
+          "id": "overlay_mutation_bio_armor_head",
+          "fg": 2733
+        },
+        {
+          "id": "overlay_male_mutation_bio_armor_head",
+          "fg": 2734
+        },
+        {
+          "id": "overlay_mutation_bio_armor_legs",
+          "fg": 2735
+        },
+        {
+          "id": "overlay_male_mutation_bio_armor_legs",
+          "fg": 2736
+        },
+        {
+          "id": "overlay_mutation_bio_armor_torso",
+          "fg": 2737
+        },
+        {
+          "id": "overlay_male_mutation_bio_armor_torso",
+          "fg": 2738
+        },
+        {
+          "id": "overlay_mutation_bio_armor_eyes",
+          "fg": 2739
+        },
+        {
+          "id": "overlay_male_mutation_bio_armor_eyes",
+          "fg": 2740
+        },
+        {
+          "id": "overlay_mutation_bio_armor_arms",
+          "fg": 2741
+        },
+        {
+          "id": "overlay_male_mutation_bio_armor_arms",
+          "fg": 2742
+        },
+        {
+          "id": "overlay_mutation_bio_blaster",
+          "fg": 2743
+        },
+        {
+          "id": "overlay_male_mutation_bio_blaster",
+          "fg": 2744
+        },
+        {
+          "id": "overlay_mutation_bio_deformity",
+          "fg": 2745
+        },
+        {
+          "id": "overlay_male_mutation_bio_deformity",
+          "fg": 2746
+        },
+        {
+          "id": "overlay_male_mutation_active_CLAWS_RETRACT",
+          "fg": 2747
+        },
+        {
+          "id": "overlay_male_mutation_CLAWS_RETRACT",
+          "fg": 2748
+        },
+        {
+          "id": "overlay_mutation_active_CLAWS_RETRACT",
+          "fg": 2749
+        },
+        {
+          "id": "overlay_mutation_CLAWS_RETRACT",
+          "fg": 2750
         }
       ]
     },
@@ -20943,6 +21015,29 @@
           "color": "YELLOW"
         }
       ]
+    }
+  ],
+  "overlay_ordering": [
+    {
+      "id": "bio_armor_head",
+      "order": 505
+    },
+    {
+      "id": [
+        "bio_armor_legs",
+        "bio_armor_torso",
+        "bio_armor_eyes",
+        "bio_armor_arms"
+      ],
+      "order": 500
+    },
+    {
+      "id": "bio_blaster",
+      "order": 510
+    },
+    {
+      "id": "bio_deformity",
+      "order": 515
     }
   ]
 }

@@ -5,6 +5,8 @@
 #include <list>
 #include <memory>
 
+#include "map_selector.h"
+
 struct tripoint;
 class item;
 class Character;
@@ -97,6 +99,8 @@ class item_location
          * @warning usage should be restricted to implementing custom copy-constructors
          */
         item_location clone() const;
+
+        void set_should_stack( bool should_stack ) const;
 
     private:
         class impl;

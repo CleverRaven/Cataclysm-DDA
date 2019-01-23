@@ -279,13 +279,19 @@ void vehicle::turn( int deg )
     turn_dir = 15 * ( ( turn_dir * 2 + 15 ) / 30 );
 }
 
-void vehicle::stop()
+void vehicle::stop( bool update_cache )
 {
     velocity = 0;
     skidding = false;
     move = face;
     last_turn = 0;
     of_turn_carry = 0;
+    if( !update_cache ) {
+        return;
+    }
+    for( const tripoint &p : get_points() ) {
+        g->m.set_memory_seen_cache_dirty( p );
+    }
 }
 
 bool vehicle::collision( std::vector<veh_collision> &colls,
@@ -1002,7 +1008,7 @@ bool vehicle::act_on_map()
     if( !g->m.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
-        stop();
+        stop( false );
         of_turn = 0;
         is_falling = false;
         return true;
@@ -1174,7 +1180,7 @@ void vehicle::check_falling_or_floating()
             is_falling &= !g->m.has_floor( p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
-        water_tiles += g->m.has_flag( "SWIMMABLE", p ) ? 1 : 0;
+        water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
     }
     // floating if 2/3rds of the vehicle is in water
     is_floating = 3 * water_tiles > 2 * pts.size();
@@ -1197,7 +1203,7 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
         const tripoint &pp = veh.global_part_pos3( p );
-        const float wheel_area = veh.parts[ p ].wheel_area();
+        const int wheel_area = veh.parts[ p ].wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -1213,14 +1219,13 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
             return 0.0f;
         }
 
-        if( !tr.has_flag( "FLAT" ) ) {
-            // Wheels aren't as good as legs on rough terrain
-            move_mod += 4;
-        } else if( !tr.has_flag( "ROAD" ) ) {
-            move_mod += 2;
+        for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
+            if( !tr.has_flag( terrain_mod.first ) ) {
+                move_mod += terrain_mod.second;
+                break;
+            }
         }
-
-        traction_wheel_area += 2 * wheel_area / move_mod;
+        traction_wheel_area += 2.0 * wheel_area / move_mod;
     }
 
     return traction_wheel_area;

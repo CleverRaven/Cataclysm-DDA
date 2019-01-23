@@ -20,7 +20,7 @@ bool damage_unit::operator==( const damage_unit &other ) const
            damage_multiplier == other.damage_multiplier;
 }
 
-damage_instance::damage_instance() { }
+damage_instance::damage_instance() = default;
 damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
 {
     damage_instance d;
@@ -85,9 +85,9 @@ bool damage_instance::empty() const
     return damage_units.empty();
 }
 
-void damage_instance::add( const damage_instance &b )
+void damage_instance::add( const damage_instance &added_di )
 {
-    for( auto &added_du : b.damage_units ) {
+    for( auto &added_du : added_di.damage_units ) {
         add( added_du );
     }
 }

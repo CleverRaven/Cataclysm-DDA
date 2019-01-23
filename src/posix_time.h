@@ -1,16 +1,20 @@
 #pragma once
 #ifndef TIME_SPEC_H
 #define TIME_SPEC_H
-/* Windows lacks the nanosleep() function. The following code was stuffed
-   together from GNUlib (http://www.gnu.org/software/gnulib/), which is
-   licensed under the GPLv3. */
-#include <cerrno>
-#include <ctime>
 
-enum { BILLION = 1000 * 1000 * 1000 };
+// Compatibility header.  On POSIX, just include <ctime>.  On Windows, provide
+// our own nanosleep implementation.
+
+#include <ctime> // IWYU pragma: keep
 
 #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
 /* Windows platforms.  */
+
+/* Windows lacks the nanosleep() function. The following code was stuffed
+   together from GNUlib (http://www.gnu.org/software/gnulib/), which is
+   licensed under the GPLv3. */
+
+enum { BILLION = 1000 * 1000 * 1000 };
 
 #   ifdef __cplusplus
 extern "C" {
