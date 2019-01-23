@@ -213,7 +213,7 @@
     "volume": 1,
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "fun": -10
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
@@ -293,7 +293,7 @@
     "volume": 1,
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "fun": -10
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
