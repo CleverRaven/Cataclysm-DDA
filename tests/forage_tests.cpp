@@ -123,7 +123,7 @@ int harvest_calories( const player &p, const std::vector<tripoint> &hv_p )
 }
 
 // returns total calories you can find in one overmap tile forest_thick
-int calories_in_forest( player &p, items_location loc, bool print = false )
+int calories_in_forest( player &p, items_location loc )
 {
     generate_forest_OMT( p.pos() );
     const int underbrush = get_underbrush_pos( p.pos() ).size();
@@ -170,7 +170,7 @@ bool run_forage_test( const int min_forests, const int max_forests, const int se
     }
     if( print ) {
         printf( "\n" );
-        printf( "%s\n", calendar::name_season( season_of_year( calendar::turn ) ) );
+        printf( "%s\n", calendar::name_season( season_of_year( calendar::turn ) ).c_str() );
         printf( "Survival: %i, Perception: %i\n", dummy.get_skill_level( skill_id( "skill_survival" ) ),
                 dummy.per_cur );
         printf( "Average Calories in %i Forests: %f\n", data.calories.n(), data.calories.avg() );
