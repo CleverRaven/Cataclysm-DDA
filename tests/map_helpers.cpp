@@ -34,13 +34,12 @@ void i_clear_adjacent( const tripoint &p )
     }
 }
 
-// generates a thick forest overmap tile. sets the adjacent tiles to thick forests as well.
-void generate_forest_OMT( const tripoint &p )
+// wipes map terrain, sets a 3x3 area centered on a tripoint to an oter_id and calls mapgen_forest
+void generate_forest_OMT( const tripoint &p, const oter_id f)
 {
-    oter_id f( "forest_thick" );
     wipe_map_terrain();
 
-    // first, set current and adjacent map tiles to forest_thick
+    // first, set current and adjacent map tiles to the same id
     for( int x = -1; x <= 1; x++ ) {
         for( int y = -1; y <= 1; y++ ) {
             const tripoint temp_trip( p.x + x, p.y + y, p.z );

@@ -119,7 +119,7 @@ int harvest_calories( const player &p, const std::vector<tripoint> &hv_p )
 // returns total calories you can find in one overmap tile forest_thick
 int calories_in_forest( player &p, items_location loc )
 {
-    generate_forest_OMT( p.pos() );
+    generate_forest_OMT( p.pos(), oter_id("forest_thick") );
     const int underbrush = get_underbrush_pos( p.pos() ).size();
     int calories = 0;
     for( int i = 0; i < underbrush; i++ ) {
