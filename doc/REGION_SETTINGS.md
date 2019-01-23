@@ -4,12 +4,15 @@ The **region_settings** define the attributes for map generation that apply to a
 The general settings define the default overmap terrain and ground cover, as well as the factors
 that control forest and swamp growth. Additional sections are as follows:
 
-|     Section      |                         Description                          |
-| ---------------- | ------------------------------------------------------------ |
-| `field_coverage` | Defines the flora that cover the `field` overmap terrain.    |
-| `city`           | Defines the structural compositions of cities.               |
-| `map_extras`     | Defines the map extra groups referenced by overmap terrains. |
-| `weather`        | Defines the base weather attributes for the region.          |
+|             Section             |                            Description                             |
+| ------------------------------- | ------------------------------------------------------------------ |
+| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.          |
+| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types. |
+| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.          |
+| `city`                          | Defines the structural compositions of cities.                     |
+| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.       |
+| `weather`                       | Defines the base weather attributes for the region.                |
+| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.       |
 
 Note that for the default region, all attributes and sections are required.
 
@@ -402,6 +405,33 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
 		"base_acid": 0.0
+	}
+}
+```
+
+## Overmap Feature Flag Settings
+
+The **overmap_feature_flag_settings** section defines operations that operate on the flags assigned to overmap features.
+This is currently used to provide a mechanism for whitelisting and blacklisting locations on a per-region basis.
+
+### Fields
+
+|    Identifier     |                                        Description                                         |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| `clear_blacklist` | Clear all previously defined `blacklist`.                                                  |
+| `blacklist`       | List of flags. Any location with a matching flag will be excluded from overmap generation. |
+| `clear_whitelist` | Clear all previously defined `whitelist`.                                                  |
+| `whitelist`       | List of flags. Only locations with a matching flag will be included in overmap generation. |
+
+### Example
+
+```json
+{
+	"overmap_feature_flag_settings": {
+		"clear_blacklist": false,
+		"blacklist": [ "FUNGAL" ],
+		"clear_whitelist": false,
+		"whitelist": []
 	}
 }
 ```

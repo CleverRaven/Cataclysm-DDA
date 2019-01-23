@@ -239,6 +239,53 @@ void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_t
     }
 }
 
+void load_overmap_feature_flag_settings( JsonObject &jo,
+        overmap_feature_flag_settings &overmap_feature_flag_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_feature_flag_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_feature_flag_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject overmap_feature_flag_settings_jo = jo.get_object( "overmap_feature_flag_settings" );
+        read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_blacklist",
+                                     overmap_feature_flag_settings.clear_blacklist, !overlay );
+        read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_whitelist",
+                                     overmap_feature_flag_settings.clear_whitelist, !overlay );
+
+        if( overmap_feature_flag_settings.clear_blacklist ) {
+            overmap_feature_flag_settings.blacklist.clear();
+        }
+
+        if( overmap_feature_flag_settings.clear_whitelist ) {
+            overmap_feature_flag_settings.whitelist.clear();
+        }
+
+        if( !overmap_feature_flag_settings_jo.has_array( "blacklist" ) ) {
+            if( !overlay ) {
+                overmap_feature_flag_settings_jo.throw_error( "blacklist required" );
+            }
+        } else {
+            JsonArray blacklist_ja = overmap_feature_flag_settings_jo.get_array( "blacklist" );
+            while( blacklist_ja.has_more() ) {
+                overmap_feature_flag_settings.blacklist.emplace( blacklist_ja.next_string() );
+            }
+        }
+
+        if( !overmap_feature_flag_settings_jo.has_array( "whitelist" ) ) {
+            if( !overlay ) {
+                overmap_feature_flag_settings_jo.throw_error( "whitelist required" );
+            }
+        } else {
+            JsonArray whitelist_ja = overmap_feature_flag_settings_jo.get_array( "whitelist" );
+            while( whitelist_ja.has_more() ) {
+                overmap_feature_flag_settings.whitelist.emplace( whitelist_ja.next_string() );
+            }
+        }
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -432,6 +479,8 @@ void load_region_settings( JsonObject &jo )
         new_region.weather = weather_generator::load( wjo );
     }
 
+    load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
+
     region_settings_map[new_region.id] = new_region;
 }
 
@@ -599,6 +648,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
+
+    load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 }
 
 void groundcover_extra::finalize()   // @todo: fixme return bool for failure
