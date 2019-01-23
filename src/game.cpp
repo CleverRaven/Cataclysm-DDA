@@ -6781,12 +6781,12 @@ size_t game::items_info( std::vector<std::string> &info, const tripoint &lp, con
         for( const auto &it : item_names ) {
             if( it.second > 1 ) {
                 temp_str = string_format( pgettext( "%s is the name of the item. %d is the quantity of that item.",
-                                                  "%s [%d]" ),
-                                        it.first, it.second );
+                                                    "%s [%d]" ),
+                                          it.first, it.second );
             } else {
                 temp_str = it.first;
             }
-            info.push_back( trim_to_width( colorize(temp_str, c_white ), max_width ) );
+            info.push_back( trim_to_width( colorize( temp_str, c_white ), max_width ) );
         }
     }
 

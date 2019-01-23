@@ -131,8 +131,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
     const size_t desc_offset = out_info.size() - old_size;
 
     //boundary check for part id
-    if( veh_part >= parts.size() )
-    {
+    if( veh_part >= parts.size() ) {
         return 0;
     }
 
