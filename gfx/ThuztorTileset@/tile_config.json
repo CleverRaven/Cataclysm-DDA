@@ -7985,7 +7985,21 @@
          "multitile" : false
         },
         {
+         "id" : "blanket_raised",
+         "fg" : 1123,
+         "bg" : 959,
+         "rotates" : false,
+         "multitile" : false
+        },
+        {
          "id" : "fur_blanket",
+         "fg" : 1124,
+         "bg" : 959,
+         "rotates" : false,
+         "multitile" : false
+        },
+        {
+         "id" : "fur_blanket_raised",
          "fg" : 1124,
          "bg" : 959,
          "rotates" : false,
@@ -10597,6 +10611,13 @@
         },
         {
          "id" : "sheet",
+         "fg" : 1502,
+         "bg" : 1436,
+         "rotates" : false,
+         "multitile" : false
+        },
+        {
+         "id" : "sheet_raised",
          "fg" : 1502,
          "bg" : 1436,
          "rotates" : false,

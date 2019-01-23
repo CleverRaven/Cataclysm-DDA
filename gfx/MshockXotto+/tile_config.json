@@ -2006,6 +2006,11 @@
           "rotates": false
         },
         {
+          "id": "blanket_raised",
+          "fg": 285,
+          "rotates": false
+        },
+        {
           "id": "blazer",
           "fg": 286,
           "rotates": false
@@ -2380,6 +2385,10 @@
           "fg": 341
         },
         {
+          "id": "down_blanket_raised",
+          "fg": 341
+        },
+        {
           "id": "dragonskin",
           "fg": 342
         },
@@ -2628,6 +2637,11 @@
         },
         {
           "id": "fur_blanket",
+          "fg": 367,
+          "rotates": false
+        },
+        {
+          "id": "fur_blanket_raised",
           "fg": 367,
           "rotates": false
         },
@@ -4031,7 +4045,27 @@
           "rotates": false
         },
         {
+          "id": "overlay_worn_blanket_raised",
+          "fg": 541,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_down_blanket_raised",
+          "fg": 541,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_fur_blanket_raised",
+          "fg": 541,
+          "rotates": false
+        },
+        {
           "id": "overlay_worn_sheet",
+          "fg": 541,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_sheet_raised",
           "fg": 541,
           "rotates": false
         },
@@ -6927,6 +6961,11 @@
         },
         {
           "id": "sheet",
+          "fg": 872,
+          "rotates": false
+        },
+        {
+          "id": "sheet_raised",
           "fg": 872,
           "rotates": false
         },
@@ -31690,7 +31729,7 @@
 		{
           "id": "shadow_filter",
           "fg": 4195
-        },		
+        },
         {
           "id": "blob_pit",
           "fg": 2967,
@@ -39853,7 +39892,7 @@
 		{
           "id": "night_filter4",
           "fg": 4219
-        },		
+        },
 		{
           "id": "blood_filter",
           "fg": 4220
@@ -40378,7 +40417,7 @@
           "additional_tiles": [
             {
               "fg": [ 5200, 5201],
-	          "bg": 5225,		  
+	          "bg": 5225,
               "id": "edge"
             },
             {
@@ -40407,7 +40446,7 @@
               "id": "unconnected"
             }
           ],
-          "rotates": true		  
+          "rotates": true
         },
         {
           "id": "t_palisade_gate",
@@ -40417,7 +40456,7 @@
           "additional_tiles": [
             {
               "fg": [ 5214, 5215],
-	          "bg": 5225,		  
+	          "bg": 5225,
               "id": "edge"
             },
             {
@@ -40436,7 +40475,7 @@
               "id": "unconnected"
             }
           ],
-          "rotates": false			  
+          "rotates": false
         },
         {
           "id": "t_palisade_gate_o",
@@ -40446,7 +40485,7 @@
           "additional_tiles": [
             {
               "fg": [ 5218, 5223],
-	          "bg": 5225,		  
+	          "bg": 5225,
               "id": "edge"
             },
             {
@@ -40475,7 +40514,7 @@
               "id": "unconnected"
             }
           ],
-          "rotates": true			  
+          "rotates": true
         },
         {
           "id": "t_palisade_gate_o_season_winter",
@@ -40485,7 +40524,7 @@
           "additional_tiles": [
             {
               "fg": [ 5218, 5223],
-	          "bg": 5226,		  
+	          "bg": 5226,
               "id": "edge"
             },
             {
@@ -40514,7 +40553,7 @@
               "id": "unconnected"
             }
           ],
-          "rotates": true		  
+          "rotates": true
         },
         {
           "id": "t_palisade_gate_season_winter",
@@ -40524,7 +40563,7 @@
           "additional_tiles": [
             {
               "fg": [ 5214, 5215],
-	          "bg": 5226,		  
+	          "bg": 5226,
               "id": "edge"
             },
             {
@@ -40543,7 +40582,7 @@
               "id": "unconnected"
             }
           ],
-          "rotates": false			  
+          "rotates": false
         },
         {
           "id": "t_palisade_season_winter",
@@ -40553,7 +40592,7 @@
           "additional_tiles": [
             {
               "fg": [ 5200, 5201],
-	          "bg": 5226,		  
+	          "bg": 5226,
               "id": "edge"
             },
             {
@@ -40582,7 +40621,7 @@
               "id": "unconnected"
             }
           ],
-          "rotates": true			  
+          "rotates": true
         },
         {
           "id": "t_pit_corpsed",
@@ -40631,7 +40670,7 @@
           "additional_tiles": [
             {
               "fg": [ 3152, 3152],
-	          "bg": 5226,		  
+	          "bg": 5226,
               "id": "edge"
             },
             {
@@ -41517,7 +41556,7 @@
         {
           "id": "t_tree_pine",
           "fg": 5401,
-          "bg": 5402,		  
+          "bg": 5402,
           "rotates": false
         },
         {

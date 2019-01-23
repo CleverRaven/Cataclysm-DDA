@@ -10,7 +10,7 @@
     {
       "file": "tiles.png",
       "tiles": [
-	  
+
         {
           "additional_tiles": [
             {
@@ -129,7 +129,7 @@
           "fg": [ 2718, 5493, 5494, 5495 ],
           "multitile": true,
           "rotates": true
-        },		
+        },
 	    {
           "fg": 1114,
           "id": "vp_base_kitchen_unit",
@@ -232,7 +232,7 @@
           "fg": 0,
           "id": "vp_wiring",
           "rotates": false
-        },		
+        },
         {
           "additional_tiles": [
             {
@@ -2260,6 +2260,12 @@
         },
         {
           "bg": 632,
+          "fg": 266,
+          "id": "blanket_raised",
+          "rotates": false
+        },
+        {
+          "bg": 632,
           "fg": 267,
           "id": "blazer"
         },
@@ -2495,6 +2501,10 @@
           "id": "down_blanket"
         },
         {
+          "fg": 309,
+          "id": "down_blanket_raised"
+        },
+        {
           "bg": 632,
           "fg": 310,
           "id": "dress",
@@ -2590,6 +2600,12 @@
           "bg": 632,
           "fg": 328,
           "id": "fur_blanket",
+          "rotates": false
+        },
+        {
+          "bg": 632,
+          "fg": 328,
+          "id": "fur_blanket_raised",
           "rotates": false
         },
         {
@@ -3664,7 +3680,7 @@
         },
         {
           "fg": 534,
-          "id": ["overlay_worn_sleeping_bag", "overlay_worn_sleeping_bag_fur", "overlay_worn_sheet", "overlay_worn_blanket", "overlay_worn_down_blanket", "overlay_worn_towel", "overlay_worn_towel_wet"],
+          "id": ["overlay_worn_sleeping_bag", "overlay_worn_sleeping_bag_fur", "overlay_worn_sheet", "overlay_worn_blanket", "overlay_worn_blanket_raised", "overlay_worn_down_blanket", "overlay_worn_down_blanket_raised", "overlay_worn_towel", "overlay_worn_towel_wet"],
           "rotates": false
         },
         {
@@ -3887,7 +3903,7 @@
         {
           "bg": 632,
           "fg": 581,
-          "id": "sheet",
+          "id": ["sheet", "sheet_raised"],
           "rotates": false
         },
         {
@@ -4310,7 +4326,7 @@
         },
         {
           "bg": 676,
-          "id": ["tr_tripwire", "tripwire"], 
+          "id": ["tr_tripwire", "tripwire"],
           "rotates": false
         },
         {
@@ -4327,7 +4343,7 @@
         {
           "bg": 632,
           "fg": 681,
-          "id": ["bio_eye_enhancer", "bio_eye_optic"] 
+          "id": ["bio_eye_enhancer", "bio_eye_optic"]
         },
         {
           "fg": 682,
@@ -6055,7 +6071,7 @@
         {
           "bg": 632,
           "fg": 989,
-          "id": ["dry_veggy_tainted", "veggy_tainted"], 
+          "id": ["dry_veggy_tainted", "veggy_tainted"],
           "rotates": false
         },
         {
@@ -6318,7 +6334,7 @@
           "rotates": false
         },
         {
-          "bg": 633,		
+          "bg": 633,
           "fg": 1071,
           "id": "f_dahlia"
         },
@@ -6331,7 +6347,7 @@
           "id": "f_dandelion"
         },
         {
-          "bg": 640,		
+          "bg": 640,
           "fg": 1073,
           "id": "f_datura"
         },
@@ -6532,7 +6548,7 @@
           "id": "f_plant_seed",
           "height_3d": 2,
           "rotates": false
-        }, 
+        },
         {
           "bg": 1990,
           "fg": 1119,
@@ -14149,7 +14165,7 @@
           "rotates": false
         },
         {
-          "bg": 640,		
+          "bg": 640,
           "fg": 3226,
           "id": "f_bluebell"
         },
@@ -15949,7 +15965,7 @@
           "id": "overlay_worn_long_glove_white",
           "rotates": false
         },
-        { 
+        {
             "id": "t_tree_hickory",
             "fg": 3591,
             "bg": 640,
@@ -20580,7 +20596,7 @@
               "fg": [ 2908, 2907, 2908, 2907 ],
               "id": "t_connection"
             }
-		   ],	
+		   ],
 		  "bg": [ 5997, 5998, 5997, 5998 ],
           "fg": [ 2907, 2908, 2907, 2908 ],
           "id": "t_window_domestic",
@@ -20761,7 +20777,7 @@
               "id": "t_connection"
             }
 		   ],
-          "fg": [ 5815, 5816 ], 
+          "fg": [ 5815, 5816 ],
           "id": "t_window_reinforced",
 		  "multitile": true,
           "rotates": true
@@ -21362,7 +21378,7 @@
           "id": "vp_hdboard_ne",
           "multitile": true,
           "rotates": true
-        },		
+        },
         {
           "additional_tiles": [
             {
@@ -21510,7 +21526,7 @@
         {
           "additional_tiles": [
             {
-              "fg": 3046, 
+              "fg": 3046,
               "id": "broken"
             },
             {
@@ -22351,7 +22367,7 @@
               "id": "unconnected"
             }
           ],
-          "fg": [ 2705, 5415, 5416, 5417 ],		  
+          "fg": [ 2705, 5415, 5416, 5417 ],
           "id": "vp_halfboard_ne",
           "multitile": true,
           "rotates": true
@@ -23471,7 +23487,7 @@
           "fg": 5799,
           "bg": 642,
           "rotates": false
-        },		
+        },
         {
           "additional_tiles": [
             {
@@ -24111,7 +24127,7 @@
           "id": "bucket"
         },
         {
-          "additional_tiles": [		  
+          "additional_tiles": [
             {
               "bg": 660,
               "fg": [ 6032, 6033 ],
@@ -25034,7 +25050,7 @@
           "rotates": false
         },
         {
-          "id": ["mon_zombie_fiend","mon_zombie_fiend_pk"], 
+          "id": ["mon_zombie_fiend","mon_zombie_fiend_pk"],
           "fg": 6239,
           "bg": 632,
           "rotates": false

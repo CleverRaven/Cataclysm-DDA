@@ -7547,7 +7547,19 @@
          "rotates": false
       },
       {
+         "id" : "blanket_raised",
+         "fg" : 835,
+         "bg" : -1,
+         "rotates": false
+      },
+      {
          "id" : "fur_blanket",
+         "fg" : 836,
+         "bg" : -1,
+         "rotates": false
+      },
+      {
+         "id" : "fur_blanket_raised",
          "fg" : 836,
          "bg" : -1,
          "rotates": false
@@ -10143,11 +10155,16 @@
          "rotates" : false,
          "multitile" : false
       },
-        {
-            "id":"sheet",
-            "fg":138,
-            "rotates":true
-        },
+      {
+          "id":"sheet",
+          "fg":138,
+          "rotates":true
+      },
+      {
+          "id":"sheet_raised",
+          "fg":138,
+          "rotates":true
+      },
       {
          "id" : "broketent",
          "fg" : 1237,
