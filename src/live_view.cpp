@@ -18,8 +18,8 @@
 namespace
 {
 
-constexpr int START_LINE = 1;
-constexpr int MIN_BOX_HEIGHT = 11;
+constexpr uint32_t START_LINE = 1;
+constexpr uint32_t MIN_BOX_HEIGHT = 11;
 
 } //namespace
 
@@ -36,7 +36,7 @@ int live_view::draw( const catacurses::window &win, const uint32_t max_height )
 
     // -1 for border. -1 because getmaxy() actually returns height, not y position.
     const uint32_t line_limit = max_height - 2;
-    uint32_t curr_line = 1;
+    uint32_t curr_line = START_LINE;
 
     auto text = g->get_full_look_around_text( mouse_position );
     curr_line = print_colored_text( win, curr_line, 1, c_white, text, line_limit );
@@ -48,8 +48,7 @@ int live_view::draw( const catacurses::window &win, const uint32_t max_height )
         print_colored_text( win, curr_line, 1, clr, clr, message );
         curr_line++;
     }
-    const uint32_t min_height = static_cast<uint32_t>( MIN_BOX_HEIGHT );
-    const uint32_t requested_height = std::max( curr_line + 1, min_height );
+    const uint32_t requested_height = std::max( curr_line + 1, MIN_BOX_HEIGHT );
     const uint32_t live_view_box_height = std::min( max_height, requested_height );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)

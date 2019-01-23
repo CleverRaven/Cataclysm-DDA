@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdarg>
 #include <cstdlib>
+#include <cctype>
 #include <cstring>
 #include <map>
 #include <sstream>
