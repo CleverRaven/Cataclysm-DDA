@@ -448,7 +448,6 @@ class salvage_actor : public iuse_actor
             material_id( "cotton" ),
             material_id( "leather" ),
             material_id( "fur" ),
-            material_id( "faux_fur" ),
             material_id( "nomex" ),
             material_id( "kevlar" ),
             material_id( "plastic" ),
