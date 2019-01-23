@@ -652,7 +652,7 @@ void game::init_ui( const bool resized )
         w_messages_short = w_messages_short_ptr = catacurses::newwin( messHshort - 5, messW, _y + messY + 5,
                            _x + messX );
     } else {
-        w_messages_short = w_messages_short_ptr = catacurses::newwin( messHshort - 5, messW, _y + messY,
+        w_messages_short = w_messages_short_ptr = catacurses::newwin( messHshort - 3, messW, _y + messY,
                            _x + messX );
     }
 
@@ -662,7 +662,7 @@ void game::init_ui( const bool resized )
         w_messages_long = w_messages_long_ptr = catacurses::newwin( messHlong - 5, messW, _y + messY + 5,
                                                 _x + messX );
     } else {
-        w_messages_long = w_messages_long_ptr = catacurses::newwin( messHlong - 5, messW, _y + messY,
+        w_messages_long = w_messages_long_ptr = catacurses::newwin( messHlong - 3, messW, _y + messY,
                                                 _x + messX );
     }
     werase( w_messages_long );
@@ -672,7 +672,7 @@ void game::init_ui( const bool resized )
                                                 _y + pixelminimapY, _x + pixelminimapX );
     } else {
         w_pixel_minimap = w_pixel_minimap_ptr = catacurses::newwin( pixelminimapH, pixelminimapW,
-                                                _y + pixelminimapY - 5, _x + pixelminimapX );
+                                                _y + pixelminimapY - 3, _x + pixelminimapX );
     }
     werase( w_pixel_minimap );
 
@@ -681,16 +681,20 @@ void game::init_ui( const bool resized )
         w_messages = w_messages_long;
     }
 
-    w_location_wider = w_location_wider_ptr = catacurses::newwin( locH + 5, locW + 10, _y + locY - 5,
+    w_location_wider = w_location_wider_ptr = catacurses::newwin( locH + 7, locW + 10, _y + locY - 3,
                        _x + locX - 7 );
     werase( w_location_wider );
 
     w_location = w_location_ptr = catacurses::newwin( locH, locW, _y + locY, _x + locX );
     werase( w_location );
 
-    w_status = w_status_ptr = catacurses::newwin( statH, statW, _y + statY, _x + statX );
-    werase( w_status );
+    if( sideStyle ) {
+        w_status = w_status_ptr = catacurses::newwin( statH, statW, _y + statY, _x + statX );
 
+    } /*else {
+        w_status = w_status_ptr = catacurses::newwin( 0, 0, 0, 0 );
+    }*/
+    werase( w_status );
     w_status2 = w_status2_ptr = catacurses::newwin( stat2H + 5, stat2W, _y + stat2Y, _x + stat2X );
     werase( w_status2 );
 
@@ -3671,9 +3675,9 @@ void game::draw_sidebar()
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     const catacurses::window &s_window = sideStyle ?  w_location : w_location_wider;
     werase( s_window );
-    u.disp_status( w_status );
+    u.disp_status( w_status2 );
 
-    wmove( sideStyle ? time_window : s_window, sideStyle ? 1 : 4, sideStyle ? 32 : 43 );
+    wmove( sideStyle ? time_window : s_window, sideStyle ? 0 : 3, sideStyle ? 32 : 43 );
     if( u.has_watch() ) {
         wprintz( sideStyle ? time_window : s_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( get_levz() >= 0 ) {
@@ -3734,9 +3738,9 @@ void game::draw_sidebar()
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        mvwprintz( sideStyle ? w_status2 : s_window,
-                   sideStyle ? 4 : 2, sideStyle ? 32 : 43, c_light_gray, _( "Temp :" ) );
-        wprintz( sideStyle ? w_status2 : s_window,
+        mvwprintz( sideStyle ? w_status2 : w_location_wider,
+                   sideStyle ? 4 : 7, sideStyle ? 32 : 43, c_light_gray, _( "Temp :" ) );
+        wprintz( sideStyle ? w_status2 : w_location_wider,
                  c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str() );
     }
 
@@ -3752,7 +3756,7 @@ void game::draw_sidebar()
                        "<color_" + string_from_color( i_black ) + ">" );
     }
     int x = sideStyle ?  32 : 43;
-    int y = sideStyle ?  1 : 0;
+    int y = sideStyle ?  1 : 1;
     mvwprintz( s_window, y, x, c_light_gray, "Moon : " );
     trim_and_print( s_window, y, x + 7, 11, c_white, sPhase.c_str() );
 
@@ -3762,39 +3766,33 @@ void game::draw_sidebar()
 
     // display player noise in sidebar
     x = sideStyle ?  32 : 43;
-    y = sideStyle ?  2 : 1;
+    y = sideStyle ?  2 : 2;
     if( u.is_deaf() ) {
         mvwprintz( s_window, y, x, c_red, _( "Deaf!" ) );
     } else {
         mvwprintz( s_window, y, x, c_light_gray, "%s ", _( "Sound: " ) );
-        //mvwprintz( w_status2, 0, x - 5, c_light_gray, "%s ", _( "Sound: " ) );
         mvwprintz( s_window, y, x + 7, c_yellow,  std::to_string( u.volume ) );
         wrefresh( s_window );
     }
     u.volume = 0;
 
-    //Safemode coloring
-    // catacurses::window day_window = sideStyle ? w_status2 : w_status;
-    mvwprintz( sideStyle ? time_window : s_window, sideStyle ? 1 : 4,
+    // display date
+    mvwprintz( sideStyle ? time_window : s_window, sideStyle ? 0 : 3,
                0, c_light_gray, _( "Date    :" ) );
-    mvwprintz( sideStyle ? time_window : s_window, sideStyle ? 1 : 4,
+    mvwprintz( sideStyle ? time_window : s_window, sideStyle ? 0 : 3,
                10, c_white, _( "%s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
 
-    // don't display SAFE mode in vehicle, doesn't apply.
-    if( !u.in_vehicle ) {
-        if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
-            //int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-            std::string s_mode = safe_mode ? "On" : "Off";
-            nc_color s_color = safe_mode ? c_green : c_red;
-            mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23,
-                       sideStyle ? getmaxx( w_status ) - 13 : 0, c_light_gray,
-                       sideStyle ? _( "Safe :" ) : _( "Safe:" ) );
-            mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 24,
-                       sideStyle ? getmaxx( w_status ) - 6 : 0, s_color, s_mode );
-        }
-    }
+    // display safe mode
+    std::string s_mode = safe_mode ? "On" : "Off";
+    nc_color s_color = safe_mode ? c_green : c_red;
+    mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23,
+               sideStyle ? getmaxx( w_status ) - 13 : 0, c_light_gray,
+               sideStyle ? _( "Safe :" ) : _( "Safe:" ) );
+    mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 24,
+               sideStyle ? getmaxx( w_status ) - 6 : 0, s_color, s_mode );
+
     wrefresh( w_status );
     if( sideStyle ) {
         wrefresh( w_status2 );
@@ -3819,7 +3817,7 @@ void game::draw_sidebar_messages()
     if( topline == 0 ) {
         topline = mon_info( w_messages ) + 2    ;
     }
-    int line = getmaxy( w_messages ) - 1;
+    int line = getmaxy( w_messages ) - 2;
     int maxlength = getmaxx( w_messages );
     Messages::display_messages( w_messages, 0, topline, maxlength, line );
     wrefresh( w_messages );
