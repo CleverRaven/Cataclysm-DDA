@@ -2568,7 +2568,7 @@
         "environmental_protection": 2,
         "techniques": [ "WBLOCK_1" ],
         "flags": [ "WATERPROOF", "STURDY" ]
-    }
+    },
     {
         "id": "helmet_lord",
         "type": "TOOL_ARMOR",
