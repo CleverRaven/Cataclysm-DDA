@@ -10,6 +10,12 @@
 #include <unordered_map>
 #include <vector>
 
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#    include <SDL2/SDL_mixer.h>
+#else
+#    include <SDL_mixer.h>
+#endif
+
 #include "debug.h"
 #include "init.h"
 #include "json.h"
@@ -17,6 +23,7 @@
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
+#include "sdl_wrappers.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

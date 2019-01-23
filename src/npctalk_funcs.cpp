@@ -405,8 +405,16 @@ void talk_function::buy_shave( npc &p )
 
 void talk_function::morale_chat( npc &p )
 {
-    g->u.add_morale( MORALE_CHAT, 5, 5, 360_minutes, 3_minutes );
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
     add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
+}
+
+void talk_function::morale_chat_activity( npc &p )
+{
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    g->u.activity.str_values.push_back( p.name );
+    add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
 void talk_function::buy_10_logs( npc &p )
@@ -610,4 +618,49 @@ void talk_function::start_training( npc &p )
     }
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
+}
+
+npc *pick_follower()
+{
+    std::vector<npc *> followers;
+    std::vector<tripoint> locations;
+
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_following() && g->u.sees( guy ) ) {
+            followers.push_back( &guy );
+            locations.push_back( guy.pos() );
+        }
+    }
+
+    pointmenu_cb callback( locations );
+
+    uilist menu;
+    menu.text = _( "Select a follower" );
+    menu.callback = &callback;
+    menu.w_y = 2;
+
+    for( const npc *p : followers ) {
+        menu.addentry( -1, true, MENU_AUTOASSIGN, p->name );
+    }
+
+    menu.query();
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= followers.size() ) {
+        return nullptr;
+    }
+
+    return followers[ menu.ret ];
+}
+
+void talk_function::copy_npc_rules( npc &p )
+{
+    const npc *other = pick_follower();
+    if( other != nullptr && other != &p ) {
+        p.rules = other->rules;
+    }
+}
+
+void talk_function::set_npc_pickup( npc &p )
+{
+    const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
+    p.rules.pickup_whitelist->show( title, false );
 }

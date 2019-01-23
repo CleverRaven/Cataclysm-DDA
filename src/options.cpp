@@ -356,16 +356,42 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     options[sNameIn] = thisOpt;
 }
 
-void options_manager::cOpt::setPrerequisite( const std::string &sOption )
+void options_manager::cOpt::setPrerequisites( const std::string &sOption,
+        const std::vector<std::string> &sAllowedValues )
 {
-    if( !get_options().has_option( sOption ) ) {
+    static const std::vector<std::string> &sSupportedTypes = { "bool", "string", "string_select", "string_input" };
+    const bool hasOption = get_options().has_option( sOption );
+    if( !hasOption ) {
         debugmsg( "setPrerequisite: unknown option %s", sType.c_str() );
-
-    } else if( get_options().get_option( sOption ).getType() != "bool" ) {
-        debugmsg( "setPrerequisite: option %s not of type bool", sType.c_str() );
+        return;
     }
 
-    sPrerequisite = sOption;
+    const cOpt &existingOption = get_options().get_option( sOption );
+    const std::string &existingOptionType = existingOption.getType();
+    bool isOfSupportType = false;
+    for( const std::string &sSupportedType : sSupportedTypes ) {
+        if( existingOptionType == sSupportedType ) {
+            isOfSupportType = true;
+            break;
+        }
+    }
+
+    if( !isOfSupportType ) {
+        debugmsg( "setPrerequisite: option %s not of type bool", sType.c_str() );
+        return;
+    }
+
+    if( !sAllowedValues.empty() ) {
+        const std::string &existingOptionValue = existingOption.getValue();
+        for( const std::string &sAllowedValue : sAllowedValues ) {
+            if( existingOptionValue == sAllowedValue ) {
+                sPrerequisite = sOption;
+                break;
+            }
+        }
+    } else {
+        sPrerequisite = sOption;
+    }
 }
 
 std::string options_manager::cOpt::getPrerequisite() const
@@ -1514,22 +1540,41 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+#ifndef __ANDROID__
+    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
+         translate_marker( "Set which renderer to use.  Requires restart." ),
+#   ifndef TILES
+         // No renderer selection in non-TILES mode
+    {   { "software", translate_marker( "software" ) }
+    },
+#   else
+         cata_tiles::build_renderer_list(),
+#   endif
+    "software", COPT_CURSES_HIDE );
+#else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
-#ifdef __ANDROID__
          android_get_default_setting( "Software rendering", false ),
          COPT_CURSES_HIDE // take default setting from pre-game settings screen - important as both software + hardware rendering have issues with specific devices
-#else
          false, COPT_CURSES_HIDE
-#endif
        );
+#endif
 
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
          translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
        );
 
+#ifdef __ANDROID__
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
+#else
+    get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
+#endif
+
+    add( "USE_COLOR_MODULATED_TEXTURES", "graphics", translate_marker( "Use color modulated textures" ),
+         translate_marker( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
+         false, COPT_CURSES_HIDE
+       );
 
     add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
          translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),

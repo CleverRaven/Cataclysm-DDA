@@ -915,6 +915,10 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     // sort source tiles by distance
     const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
+    if( !mgr.is_sorting() ) {
+        mgr.start_sort( src_sorted );
+    }
+
     for( auto &src : src_sorted ) {
         const auto &src_loc = g->m.getlocal( src );
         bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
@@ -951,8 +955,12 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             }
         }
 
-        for( auto it : items ) {
-            const auto id = mgr.get_near_zone_type_for_item( *it, abspos );
+        //Skip items that have already been processed
+        for( auto it = items.begin() + mgr.get_num_processed( src ); it < items.end(); it++ ) {
+
+            mgr.increment_num_processed( src );
+
+            const auto id = mgr.get_near_zone_type_for_item( **it, abspos );
 
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
@@ -986,7 +994,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         free_space = g->m.free_volume( dest_loc );
                     }
                     // check free space at destination
-                    if( free_space > it->volume() ) {
+                    if( free_space >= ( *it )->volume() ) {
                         // before we move any item, check if player is at or adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
                             std::vector<tripoint> route;
@@ -1016,9 +1024,16 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             // we don't need to check for safe mode, activity will be restarted only if
                             // player arrives on destination tile
                             p.set_destination( route, player_activity( activity_id( "ACT_MOVE_LOOT" ) ) );
+
+                            // didn't actually process so decrement
+                            mgr.decrement_num_processed( src );
                             return;
                         }
-                        move_item( *it, it->count(), src_loc, dest_loc, src_veh, src_part );
+                        move_item( **it, ( *it )->count(), src_loc, dest_loc, src_veh, src_part );
+
+                        // moved item away from source so decrement
+                        mgr.decrement_num_processed( src );
+
                         break;
                     }
                 }
@@ -1033,6 +1048,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, _( "You sorted out every item you could." ) );
+    mgr.end_sort();
 }
 
 cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )

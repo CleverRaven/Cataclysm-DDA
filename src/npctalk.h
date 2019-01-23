@@ -2,6 +2,8 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
+#include "auto_pickup.h"
+
 #include <string>
 
 #include "string_id.h"
@@ -32,6 +34,7 @@ void bionic_remove( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
 void morale_chat( npc & );
+void morale_chat_activity( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
@@ -63,7 +66,8 @@ void lead_to_safety( npc & );
 void start_training( npc & );
 
 void wake_up( npc & );
-
+void copy_npc_rules( npc &p );
+void set_npc_pickup( npc &p );
 }
 
 bool trade( npc &p, int cost, const std::string &deal );

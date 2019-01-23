@@ -5,9 +5,11 @@
 #include <array>
 
 #include "calendar.h"
-#include "enums.h"
+#include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
 #include "optional.h"
+
+static constexpr int SCENT_MAP_Z_REACH = 1;
 
 class map;
 class game;

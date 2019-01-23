@@ -19,6 +19,7 @@
 #include "lightmap.h"
 #include "shadowcasting.h"
 #include "string_id.h"
+#include "units.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -33,13 +34,6 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-} // namespace units
 class emit;
 using emit_id = string_id<emit>;
 class vpart_position;

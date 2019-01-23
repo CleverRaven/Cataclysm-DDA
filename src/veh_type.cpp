@@ -84,6 +84,27 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
 };
 
+static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
+        { "FLAT", 4 }, { "ROAD", 2 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> rigid_terrain_mod = {{
+        { "FLAT", 6 }, { "ROAD", 3 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> racing_terrain_mod = {{
+        { "FLAT", 5 }, { "ROAD", 2 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> off_road_terrain_mod = {{
+        { "FLAT", 3 }, { "ROAD", 1 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> treads_terrain_mod = {{
+        { "FLAT", 3 }
+    }
+};
+
 static std::map<vpart_id, vpart_info> vpart_info_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
@@ -191,6 +212,26 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
         wh_info = *whptr;
     }
     assign( jo, "rolling_resistance", wh_info.rolling_resistance );
+    assign( jo, "contact_area", wh_info.contact_area );
+    wh_info.terrain_mod = standard_terrain_mod;
+    wh_info.or_rating = 0.5f;
+    if( jo.has_string( "wheel_type" ) ) {
+        const std::string wheel_type = jo.get_string( "wheel_type" );
+        if( wheel_type == "rigid" ) {
+            wh_info.terrain_mod = rigid_terrain_mod;
+            wh_info.or_rating = 0.1;
+        } else if( wheel_type == "off-road" ) {
+            wh_info.terrain_mod = off_road_terrain_mod;
+            wh_info.or_rating = 0.7;
+        } else if( wheel_type == "racing" ) {
+            wh_info.terrain_mod = racing_terrain_mod;
+            wh_info.or_rating = 0.3;
+        } else if( wheel_type == "treads" ) {
+            wh_info.terrain_mod = treads_terrain_mod;
+            wh_info.or_rating = 0.9;
+        }
+    }
+
     whptr = wh_info;
     assert( whptr );
 }
@@ -550,7 +591,7 @@ void vpart_info::check()
         static const std::vector<std::string> handled = {{
                 "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
-                "REACTOR"
+                "REACTOR", "WIND_TURBINE"
             }
         };
         if( part.epower != 0 &&
@@ -759,6 +800,22 @@ float vpart_info::wheel_rolling_resistance() const
 {
     // caster wheels return 29, so if a part rolls worse than a caster wheel...
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->rolling_resistance : 50;
+}
+
+int vpart_info::wheel_area() const
+{
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
+}
+
+std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
+{
+    std::vector<std::pair<std::string, int>> null_map;
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
+}
+
+float vpart_info::wheel_or_rating() const
+{
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
 }
 
 /** @relates string_id */

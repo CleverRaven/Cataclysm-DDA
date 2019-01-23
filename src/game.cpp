@@ -1786,7 +1786,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     }
     if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
-        for( auto activity : u.backlog ) {
+        for( auto &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
     }
@@ -2984,7 +2984,7 @@ void game::debug()
         _( "Set automove route" ),              // 27
         _( "Show mutation category levels" ),   // 28
         _( "Overmap editor" ),                  // 29
-        _( "Draw benchmark (5 seconds)" ),      // 30
+        _( "Draw benchmark (X seconds)" ),      // 30
         _( "Teleport - Adjacent overmap" ),     // 31
         _( "Test trait group" ),                // 32
         _( "Show debug message" ),              // 33
@@ -3316,23 +3316,12 @@ void game::debug()
             break;
 
         case 30: {
-            // call the draw procedure as many times as possible in 5 seconds
-            auto start_tick = std::chrono::steady_clock::now();
-            auto end_tick = std::chrono::steady_clock::now();
-            long difference = 0;
-            int draw_counter = 0;
-            while( true ) {
-                end_tick = std::chrono::steady_clock::now();
-                difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick -
-                             start_tick ).count();
-                if( difference >= 5000 ) {
-                    break;
-                }
-                draw();
-                draw_counter++;
-            }
-            add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-                     difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
+            const int ms = string_input_popup()
+                           .title( _( "Enter benchmark length (in milliseconds):" ) )
+                           .width( 20 )
+                           .text( "5000" )
+                           .query_int();
+            debug_menu::draw_benchmark( ms );
         }
         break;
 
@@ -3771,13 +3760,16 @@ void game::draw_sidebar()
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
 
-    if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-        wmove( sideStyle ? w_status : w_HP, sideStyle ? 4 : 21, sideStyle ? getmaxx( w_status ) - 4 : 0 );
-        const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
-        for( int i = 0; i < 4; i++ ) {
-            nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
-            wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
+    // don't display SAFE mode in vehicle, doesn't apply.
+    if( !u.in_vehicle ) {
+        if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
+            int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
+            wmove( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23, sideStyle ? getmaxx( w_status ) - 4 : 0 );
+            const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
+            for( int i = 0; i < 4; i++ ) {
+                nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
+                wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
+            }
         }
     }
     wrefresh( w_status );
@@ -5538,7 +5530,16 @@ bool game::swap_critters( Creature &a, Creature &b )
         debugmsg( "Tried to swap %s with itself", a.disp_name().c_str() );
         return true;
     }
-
+    if( critter_at( a.pos() ) != &a ) {
+        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                  b.disp_name().c_str(), critter_at( a.pos() )->disp_name().c_str() );
+        return false;
+    }
+    if( critter_at( b.pos() ) != &b ) {
+        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                  a.disp_name().c_str(), critter_at( b.pos() )->disp_name().c_str() );
+        return false;
+    }
     // Simplify by "sorting" the arguments
     // Only the first argument can be u
     // If swapping player/npc with a monster, monster is second
@@ -5941,6 +5942,7 @@ bool pet_menu( monster *z )
         attach_bag,
         drop_all,
         give_items,
+        play_with_pet,
         pheromone,
         milk,
         rope
@@ -5963,6 +5965,10 @@ bool pet_menu( monster *z )
         amenu.addentry( drop_all, true, 'd', _( "Drop all items" ) );
     } else {
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag" ) );
+    }
+
+    if( z->has_flag( MF_BIRDFOOD ) || z->has_flag( MF_CATFOOD ) || z->has_flag( MF_DOGFOOD ) ) {
+        amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name.c_str() );
     }
 
     if( z->has_effect( effect_tied ) ) {
@@ -6131,6 +6137,13 @@ bool pet_menu( monster *z )
         }
 
         return false;
+    }
+
+    if( play_with_pet == choice &&
+        query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name.c_str() ) ) {
+        g->u.assign_activity( activity_id( "ACT_PLAY_WITH_PET" ), rng( 50, 125 ) * 100 );
+        g->u.activity.str_values.push_back( pet_name );
+
     }
 
     if( pheromone == choice && query_yn( _( "Really kill the zombie slave?" ) ) ) {
@@ -9180,10 +9193,6 @@ bool game::plfire()
                 return false;
             }
             reload_time += opt.moves();
-            // Character restores 50% + 7% * gun_skill, capped with 100% stability after shot for RELOAD_AND_SHOOT weapon
-            double skill_effect = 0.5 - 0.07 * u.get_skill_level( gun->gun_skill() );
-            skill_effect = std::max( skill_effect, 0.0 );
-            u.recoil = std::max( u.recoil, MAX_RECOIL * skill_effect );
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
@@ -11638,7 +11647,6 @@ void game::vertical_move( int movez, bool force )
 
     // Find the corresponding staircase
     bool rope_ladder = false;
-    bool actually_moved = true;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
         const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder );
@@ -11646,10 +11654,6 @@ void game::vertical_move( int movez, bool force )
             return;
         }
         stairs = *pnt;
-    }
-
-    if( !actually_moved ) {
-        return;
     }
 
     if( !force ) {
@@ -11768,12 +11772,17 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after,
     cata::optional<tripoint> stairs;
     int best = INT_MAX;
     const int movez = z_after - get_levz();
+    Creature *blocking_creature = nullptr;
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
             ( ( movez == -1 && mp.has_flag( "GOES_UP", dest ) ) ||
               ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+            if( mp.has_zlevels() && critter_at( dest ) ) {
+                blocking_creature = critter_at( dest );
+                continue;
+            }
             stairs.emplace( dest );
             best = rl_dist( u.pos(), dest );
         }
@@ -11784,6 +11793,10 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after,
         return stairs;
     }
 
+    if( blocking_creature ) {
+        add_msg( _( "There's a %s in the way!" ), blocking_creature->disp_name().c_str() );
+        return cata::nullopt;
+    }
     // No stairs found! Try to make some
     rope_ladder = false;
     stairs.emplace( u.pos() );
