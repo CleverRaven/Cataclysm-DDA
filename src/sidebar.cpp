@@ -483,7 +483,7 @@ void player::disp_status( const catacurses::window &w )
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
                sideStyle ? 2 : 5, sideStyle ? 32 : 43, c_light_gray, _( "Move :" ) );
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 2 : 5, sideStyle ? 38 : 50, col_time, " %d", movecounter );
+               sideStyle ? 2 : 5, sideStyle ? 38 : 49, col_time, " %03d", movecounter );
 
     //~ Movement type: "walking". Max string length: one letter.
     const auto str_walk = pgettext( "movement-type", "W" );
@@ -599,7 +599,11 @@ void player::disp_status( const catacurses::window &w )
            sideStyle ? 4 : 21,
            sideStyle ? 11 : 0 );
 
-    wprintz( sideStyle ? g->w_status : g->w_HP, c_white, _( "Pwr  : " ) );
+    if( sideStyle ) {
+        wprintz( sideStyle ? g->w_status : g->w_HP, c_white, _( "Pwr  : " ) );
+    } else {
+        wprintz( sideStyle ? g->w_status : g->w_HP, c_white, _( "Pwr " ) );
+    }
 
     if( this->max_power_level == 0 ) {
         wprintz( sideStyle ? g->w_status : g->w_HP, c_light_gray, "--" );
