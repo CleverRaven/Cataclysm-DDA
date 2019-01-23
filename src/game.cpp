@@ -1678,7 +1678,7 @@ bool game::do_turn()
     u.apply_wetness_morale( temperature );
     u.do_skill_rust();
 
-    if( calendar::once_every( 1_minutes ) ) {
+    if( calendar::once_every( 1_turns ) ) {
         u.update_morale();
     }
 
