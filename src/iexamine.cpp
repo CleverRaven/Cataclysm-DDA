@@ -1579,6 +1579,24 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     // But those were useless, don't re-add until they get useful
 }
 
+std::vector<item> harvest_terrain( const player &p, const tripoint &hv_p )
+{
+    const auto hid = g->m.get_harvest( hv_p );
+    const auto &harvest = hid.obj();
+    std::vector<item> harvest_items;
+
+    int lev = p.get_skill_level( skill_survival );
+    for( const auto &entry : harvest ) {
+        float min_num = entry.base_num.first + lev * entry.scale_num.first;
+        float max_num = entry.base_num.second + lev * entry.scale_num.second;
+        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+        for( int i = 0; i < roll; i++ ) {
+            harvest_items.push_back( item( entry.drop ) );
+        }
+    }
+    return harvest_items;
+}
+
 static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar, bool auto_forage = false )
 {
     const auto hid = g->m.get_harvest( examp );
@@ -1590,7 +1608,6 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         return false;
     }
 
-    const auto &harvest = hid.obj();
 
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority @todo: Allow separating nectar seasons
@@ -1603,21 +1620,17 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         return false;
     }
 
-    int lev = p.get_skill_level( skill_survival );
-    bool got_anything = false;
-    for( const auto &entry : harvest ) {
-        float min_num = entry.base_num.first + lev * entry.scale_num.first;
-        float max_num = entry.base_num.second + lev * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
-        for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
-            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
-            got_anything = true;
-        }
-    }
+    std::vector<item> harvest_list = harvest_terrain( p, examp );
 
-    if( !got_anything ) {
+    if( !harvest_list.empty() )
+    {
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+    } else
+    {
+        for( item &it : harvest_list ) {
+            g->m.add_item_or_charges( p.pos(), it );
+            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
+        }
     }
 
     return true;

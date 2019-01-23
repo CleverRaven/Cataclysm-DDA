@@ -5,6 +5,10 @@
 #include "monster.h"
 #include "player.h"
 #include "field.h"
+#include "overmapbuffer.h"
+#include "mapgen_functions.h"
+#include "map_iterator.h"
+#include "omdata.h"
 
 void wipe_map_terrain()
 {
@@ -19,6 +23,33 @@ void wipe_map_terrain()
         g->m.destroy_vehicle( veh.v );
     }
     g->m.build_map_cache( 0, true );
+}
+
+// removes all items in a 1 radius area around a point
+void i_clear_adjacent( const tripoint &p )
+{
+    auto close_trip = g->m.points_in_radius( p, 1 );
+    for( const auto &trip : close_trip ) {
+        g->m.i_clear( trip );
+    }
+}
+
+// generates a thick forest overmap tile. sets the adjacent tiles to thick forests as well.
+void generate_forest_OMT( const tripoint &p )
+{
+    oter_id f( "forest_thick" );
+    wipe_map_terrain();
+
+    // first, set current and adjacent map tiles to forest_thick
+    for( int x = -1; x <= 1; x++ ) {
+        for( int y = -1; y <= 1; y++ ) {
+            const tripoint temp_trip( p.x + x, p.y + y, p.z );
+            overmap_buffer.ter( temp_trip ) = f;
+        }
+    }
+    const regional_settings &rsettings = overmap_buffer.get_settings( p.x, p.y, p.z );
+    mapgendata mgd( f, f, f, f, f, f, f, f, f, f, 0, rsettings, g->m );
+    mapgen_forest( &g->m, f, mgd, calendar::turn, 0 );
 }
 
 void clear_creatures()

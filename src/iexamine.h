@@ -126,6 +126,7 @@ std::string fertilize_failure_reason( player &p, const tripoint &tile, const ity
 
 } //namespace iexamine
 
+std::vector<item> harvest_terrain(const player &p, const tripoint &hv_p);
 using iexamine_function = void ( * )( player &, const tripoint & );
 iexamine_function iexamine_function_from_string( const std::string &function_name );
 
