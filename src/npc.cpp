@@ -1728,10 +1728,11 @@ nc_color npc::basic_symbol_color() const
 size_t npc::creature_info( std::vector<std::string> &out_info, const uint32_t max_width )const
 {
     size_t old_size = out_info.size();
+    std::string message;
 
     //name
-    std::string message = _( "NPC: %s" );
-    std::string message = colorize( string_format( message, name ), c_white );
+    message = _( "NPC: %s" );
+    message = colorize( string_format( message, name ), c_white );
     out_info.push_back( trim_to_width( message, max_width ) );
 
     //wielding
@@ -1748,9 +1749,9 @@ size_t npc::creature_info( std::vector<std::string> &out_info, const uint32_t ma
     }
 
     //mutations
-    message = mutations_info();
-    if( !message.empty() ) {
-        message = _( "Traits: " ) + message;
+    std::string mutations = mutations_info();
+    if( !mutations.empty() ) {
+        message = _( "Traits: " ) + mutations;
         foldstring( out_info, colorize( message, c_green ), max_width );
     }
 

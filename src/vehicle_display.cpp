@@ -175,7 +175,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
         std::string &line = out_info[target + desc_offset];
 
         const size_t lenght = static_cast<size_t>( utf8_width( desc ) );
-        const size_t start_pos = lenght > max_width ? max_width : lenght;
+        const size_t start_pos = lenght > max_width ? max_width : max_width - lenght;
         const size_t naked_size = remove_color_tags( line ).size();
 
         if( naked_size > start_pos ) {
