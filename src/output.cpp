@@ -182,7 +182,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
     }
 }
 
-uint32_t print_colored_text( const catacurses::window &w, uint32_t y, uint32_t x,
+uint32_t print_colored_text( const catacurses::window &w, uint32_t y, const uint32_t x,
                              nc_color base_color, const std::vector<std::string> &text, uint32_t last_line /* = 0*/ )
 {
     nc_color clr = base_color;
@@ -199,7 +199,6 @@ uint32_t print_colored_text( const catacurses::window &w, uint32_t y, uint32_t x
     }
     return y;
 }
-
 
 std::string trim_to_width( const std::string &text, int width )
 {

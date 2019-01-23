@@ -113,6 +113,7 @@ class monster : public Creature
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
+        size_t creature_info( std::vector<std::string> &out_info, const uint32_t max_width )const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // Information on how our symbol should appear

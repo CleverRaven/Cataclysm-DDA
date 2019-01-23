@@ -499,6 +499,9 @@ class npc : public player
 
         // Display
         nc_color basic_symbol_color() const override;
+        size_t creature_info( std::vector<std::string> &out_info, const uint32_t max_width )const override;
+        std::string wearing_info()const;
+        std::string mutations_info()const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
 

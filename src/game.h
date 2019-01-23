@@ -994,8 +994,6 @@ class game
         size_t terrain_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
         size_t fields_info( std::vector<std::string> &info, const tripoint &lp );
         size_t trap_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );
-        size_t creature_info( std::vector<std::string> &info, const Creature *creature,
-                              const int max_width );
         size_t visibility_info( std::vector<std::string> &info, visibility_type visibility,
                                 const int max_width );
         size_t items_info( std::vector<std::string> &info, const tripoint &lp, const int max_width );

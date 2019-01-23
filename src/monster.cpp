@@ -536,34 +536,44 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
+size_t monster::creature_info( std::vector<std::string> &out_info, const uint32_t max_width )const
+{
+    size_t old_size = out_info.size();
+    std::string message;
+
+    //name & attitude
+    std::string name_str = colorize( get_name(), c_white );
+    const auto att = get_attitude();
+    name_str += colorize( att.first, att.second );
+    foldstring( out_info, name_str, max_width );
+
+    //difficulty
+    if( debug_mode ) {
+        message = _( " Difficulty " ) + to_string( type->difficulty );
+        foldstring( out_info, colorize( message, c_light_gray ), max_width );
+    }
+
+    //effects
+    std::string effects = get_effect_status();
+    if( !effects.empty() ) {
+        out_info.push_back( trim_to_width( colorize( effects, h_white ), max_width ) );
+    }
+
+    //Health
+    const auto hp_desc = hp_description( hp, type->hp );
+    out_info.push_back( trim_to_width( colorize( hp_desc.first, hp_desc.second ), max_width ) );
+
+    //monster description
+    foldstring( out_info, colorize( type->get_description(), c_white ), max_width );
+
+    return out_info.size() - old_size;
+}
+
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
-    const int vEnd = vStart + vLines;
-
-    mvwprintz( w, vStart, column, c_white, "%s ", name().c_str() );
-
-    const auto att = get_attitude();
-    wprintz( w, att.second, att.first );
-
-    if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
-    }
-
-    std::string effects = get_effect_status();
-    long long used_space = att.first.length() + name().length() + 3;
-    trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
-                    h_white, effects );
-
-    const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, vStart++, column, hp_desc.second, hp_desc.first );
-
-    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
-    int numlines = lines.size();
-    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, vStart++, column, c_white, lines[i] );
-    }
-
-    return vStart;
+    std::vector<std::string> text;
+    creature_info( text, getmaxx( w ) - 2 );
+    return print_colored_text( w, vStart, column, c_white, text );
 }
 
 std::string monster::extended_description() const

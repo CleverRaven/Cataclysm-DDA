@@ -197,6 +197,7 @@ class player : public Character
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( const int visibility_cap ) const;
         std::string short_description() const;
+        size_t creature_info( std::vector<std::string> &out_info, const uint32_t max_width )const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object

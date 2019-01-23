@@ -182,7 +182,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &cu
 * @param last_line prints up to n lines or max window height. Defaults to max window height.
 * @return the number (y coordinate) after the last printed line
 **/
-uint32_t print_colored_text( const catacurses::window &w, uint32_t y, uint32_t x,
+uint32_t print_colored_text( const catacurses::window &w, uint32_t y, const uint32_t x,
                              nc_color base_color, const std::vector<std::string> &text, uint32_t last_line = 0 );
 
 /**

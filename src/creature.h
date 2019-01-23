@@ -479,6 +479,15 @@ class Creature
 
         void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
+
+        /**
+        *Retrieve the text information for this creature
+        *@param out_info a vector<string>& in which to insert the retrieved strings
+        *@param max_width trim or folding of the strings for strings longer than this value
+        *@return the number of strings that where appended to out_info
+        */
+        virtual size_t creature_info( std::vector<std::string> &out_info,
+                                      const uint32_t max_width )const = 0;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

@@ -684,13 +684,13 @@ class vehicle
 
         /**
         *Retrieve the text information for the requested part, for display
-        *@param info a vector<string>& in which to insert the retrieved strings
+        *@param out_info a vector<string>& in which to insert the retrieved strings
         *@param veh_part the index of the part for which we want informations
         *@param max_width trim or folding of the strings for strings longer than this value
-        *@return the number of strings that where appended to info
+        *@return the number of strings that where appended to out_info
         */
-        size_t vehicle_info( std::vector<std::string> &info, int veh_part, const int max_width,
-                             const int hl = -1 );
+        size_t vehicle_info( std::vector<std::string> &out_info, const uint32_t veh_part,
+                             const uint32_t max_width, const int hl = -1 );
 
         //the _info functions below return individual pieces of information. Not trim or fold performed.
         std::string fuel_info( const vehicle_part &vp )const;

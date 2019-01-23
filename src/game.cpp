@@ -6533,9 +6533,9 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
         fields_info( text, lp );
         trap_info( text, lp, max_width );
 
-        if( creature ) {
+        if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
             text.push_back( separator );
-            creature_info( text, creature, max_width );
+            creature->creature_info( text, max_width );
         }
 
         if( vp ) {
@@ -6709,109 +6709,6 @@ size_t game::trap_info( std::vector<std::string> &info, const tripoint &lp, cons
     if( trap.can_see( lp, u ) ) {
         std::string str = colorize( trap.name(), trap.color );
         foldstring( info, str, max_width );
-    }
-
-    return info.size() - old_size;
-}
-
-size_t game::creature_info( std::vector<std::string> &info, const Creature *creature,
-                            const int max_width )
-{
-    size_t old_size = info.size();
-
-    if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
-        std::string tempStr;
-
-        //MONSTER INFO
-        auto *mon = dynamic_cast<const monster *>( creature );
-        if( mon ) {
-            //name
-            tempStr = mon->get_name() + " ";
-            foldstring( info, colorize( tempStr, c_white ), max_width );
-            //attitude
-            const auto att = mon->get_attitude();
-            if( static_cast<int>( tempStr.size() + att.first.size() ) < max_width ) {
-                info.back().append( colorize( att.first, att.second ) );
-            } else {
-                info.push_back( colorize( att.first, att.second ) );
-            }
-            //difficulty
-            if( debug_mode ) {
-                tempStr = _( " Difficulty " ) + to_string( mon->type->difficulty );
-                foldstring( info, colorize( tempStr, c_light_gray ), max_width );
-            }
-            //effects
-            std::string effects = mon->get_effect_status();
-            if( !effects.empty() ) {
-                info.push_back( trim_to_width( colorize( effects, h_white ), max_width ) );
-            }
-            //Health
-            nc_color col;
-            int cur_hp = mon->get_hp();
-            int max_hp = mon->get_hp_max();
-            if( cur_hp >= max_hp ) {
-                tempStr = _( "It is uninjured." );
-                col = c_green;
-            } else if( cur_hp >= max_hp * 0.8 ) {
-                tempStr = _( "It is lightly injured." );
-                col = c_light_green;
-            } else if( cur_hp >= max_hp * 0.6 ) {
-                tempStr = _( "It is moderately injured." );
-                col = c_yellow;
-            } else if( cur_hp >= max_hp * 0.3 ) {
-                tempStr = _( "It is heavily injured." );
-                col = c_yellow;
-            } else if( cur_hp >= max_hp * 0.1 ) {
-                tempStr = _( "It is severely injured." );
-                col = c_light_red;
-            } else {
-                tempStr = _( "It is nearly dead!" );
-                col = c_red;
-            }
-            info.push_back( trim_to_width( colorize( tempStr, col ), max_width ) );
-            //description
-            foldstring( info, colorize( mon->type->get_description(), c_white ), max_width );
-
-            return info.size() - old_size;
-        }
-        //NPC INFO
-        auto *npc_ = dynamic_cast<const npc *>( creature );
-        if( npc_ ) {
-            //name
-            tempStr = string_format( _( "NPC: %s" ), npc_->name );
-            info.push_back( trim_to_width( colorize( tempStr, c_white ), max_width ) );
-            //wielding
-            if( npc_->is_armed() ) {
-                tempStr = string_format( _( "Wielding a %s" ), npc_->weapon.tname() );
-                info.push_back( trim_to_width( colorize( tempStr, c_red ), max_width ) );
-            }
-            //wearing
-            std::string wornStr;
-            for( auto &it : npc_->worn ) {
-                wornStr += it.tname() + ", ";
-            }
-            if( wornStr.size() > 1 ) {
-                wornStr.resize( wornStr.size() - 2 ); // remove the last ", "
-            }
-            if( !wornStr.empty() ) {
-                tempStr = _( "Wearing: " ) + remove_color_tags( wornStr );
-                foldstring( info, colorize( tempStr, c_blue ), max_width );
-            }
-            //mutations
-            const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), npc_->pos() );
-            const auto trait_str = npc_->visible_mutations( visibility_cap );
-            if( !trait_str.empty() ) {
-                tempStr = _( "Traits: " ) + remove_color_tags( trait_str );
-                foldstring( info, colorize( tempStr, c_green ), max_width );
-            }
-
-            return info.size() - old_size;
-        }
-        //PLAYER INFO
-        auto *you = dynamic_cast<const player *>( creature );
-        if( you == &u ) {
-            info.push_back( trim_to_width( string_format( _( "You (%s)" ), you->name ), max_width ) );
-        }
     }
 
     return info.size() - old_size;

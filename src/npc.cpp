@@ -1725,54 +1725,64 @@ nc_color npc::basic_symbol_color() const
     return c_pink;
 }
 
-int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
+size_t npc::creature_info( std::vector<std::string> &out_info, const uint32_t max_width )const
 {
-    const int last_line = line + vLines;
-    const unsigned int iWidth = getmaxx( w ) - 2;
-    // First line of w is the border; the next 4 are terrain info, and after that
-    // is a blank line. w is 13 characters tall, and we can't use the last one
-    // because it's a border as well; so we have lines 6 through 11.
-    // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, line++, column, c_white, _( "NPC: %s" ), name.c_str() );
+    size_t old_size = out_info.size();
+
+    //name
+    std::string message = _( "NPC: %s" );
+    std::string message = colorize( string_format( message, name ), c_white );
+    out_info.push_back( trim_to_width( message, max_width ) );
+
+    //wielding
     if( is_armed() ) {
-        trim_and_print( w, line++, column, iWidth, c_red, _( "Wielding a %s" ), weapon.tname().c_str() );
+        message = _( "Wielding a %s" );
+        message = colorize( string_format( message, weapon.tname() ), c_red );
+        out_info.push_back( trim_to_width( message, max_width ) );
     }
 
-    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
-    nc_color color ) {
-        // @todo: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
-        size_t split;
-        do {
-            split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    long( iWidth ) );
-            if( split == std::string::npos ) {
-                mvwprintz( w, line, column, color, str_in.c_str() );
-            } else {
-                mvwprintz( w, line, column, color, str_in.substr( 0, split ).c_str() );
-            }
-            str_in = str_in.substr( split + 1 );
-            line++;
-        } while( split != std::string::npos && line <= last_line );
-    };
+    //wearing
+    if( !worn.empty() ) {
+        message = _( "Wearing: " ) + wearing_info();
+        foldstring( out_info, colorize( message, c_blue ), max_width );
+    }
 
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
-        return it.tname();
-    } );
+    //mutations
+    message = mutations_info();
+    if( !message.empty() ) {
+        message = _( "Traits: " ) + message;
+        foldstring( out_info, colorize( message, c_green ), max_width );
+    }
+
+    return out_info.size() - old_size;
+}
+
+std::string npc::wearing_info()const
+{
+    std::string worn_str, separator = ", ";
+    for( auto &item : worn ) {
+        worn_str += item.tname() + separator;
+    }
+
     if( !worn_str.empty() ) {
-        std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
-        enumerate_print( wearing, c_blue );
+        worn_str.resize( worn_str.size() - separator.size() ); // remove the last ", "
     }
+    return remove_color_tags( worn_str );
+}
 
+std::string npc::mutations_info()const
+{
     // @todo: Balance this formula
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
+    std::string ret = visible_mutations( visibility_cap );
+    return remove_color_tags( ret );;
+}
 
-    const auto trait_str = visible_mutations( visibility_cap );
-    if( !trait_str.empty() ) {
-        std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
-        enumerate_print( mutations, c_green );
-    }
-
-    return line;
+int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
+{
+    std::vector<std::string> text;
+    creature_info( text, getmaxx( w ) - 2 );
+    return print_colored_text( w, line, column, c_white, text );
 }
 
 std::string npc::opinion_text() const
