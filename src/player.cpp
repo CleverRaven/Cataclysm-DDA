@@ -12112,7 +12112,7 @@ size_t player::creature_info( std::vector<std::string> &out_info, const uint32_t
 
     //name
     std::string message = _( "You (%s)" );
-    message = string_format( message, name );
+    message = colorize( string_format( message, name ), c_dark_gray );
     out_info.push_back( trim_to_width( message, max_width ) );
 
     return out_info.size() - old_size;
@@ -12122,7 +12122,7 @@ int player::print_info( const catacurses::window &w, int vStart, int, int column
 {
     std::vector<std::string> text;
     creature_info( text, getmaxx( w ) - 2 );
-    return print_colored_text( w, vStart, column, c_dark_gray, text );
+    return print_colored_text( w, vStart, column, c_white, text );
 }
 
 bool player::is_visible_in_range( const Creature &critter, const int range ) const

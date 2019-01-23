@@ -39,7 +39,7 @@ int live_view::draw( const catacurses::window &win, const uint32_t max_height )
     uint32_t curr_line = START_LINE;
 
     auto text = g->get_full_look_around_text( mouse_position );
-    curr_line = print_colored_text( win, curr_line, 1, c_dark_gray, text, line_limit );
+    curr_line = print_colored_text( win, curr_line, 1, c_white, text, line_limit );
     g->draw_terrain_indicators( mouse_position, !is_draw_tiles_mode() );
 
     if( text.size() > line_limit ) {

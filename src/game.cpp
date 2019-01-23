@@ -6555,7 +6555,7 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
             text.push_back( separator );
             //@Todo: find a better way to get veh from vp
             vehicle *veh = veh_pointer_or_null( vp );
-            if( vp ) {
+            if( veh ) {
                 veh->vehicle_info( text, vp->part_index(), max_width );
             }
         }
@@ -6569,7 +6569,10 @@ std::vector<std::string> game::get_full_look_around_text( const tripoint &lp )
     } else {
         visibility_info( text, visibility, max_width );
     }
-    sound_info( text, lp, max_width );
+
+    if( !u.is_deaf() ) {
+        sound_info( text, lp, max_width );
+    }
 
     return text;
 }
@@ -6774,16 +6777,16 @@ size_t game::items_info( std::vector<std::string> &info, const tripoint &lp, con
             ++item_names[item.tname()];
         }
 
-        std::string tmpStr;
+        std::string temp_str;
         for( const auto &it : item_names ) {
             if( it.second > 1 ) {
-                tmpStr = string_format( pgettext( "%s is the name of the item. %d is the quantity of that item.",
+                temp_str = string_format( pgettext( "%s is the name of the item. %d is the quantity of that item.",
                                                   "%s [%d]" ),
                                         it.first, it.second );
             } else {
-                tmpStr = it.first;
+                temp_str = it.first;
             }
-            info.push_back( trim_to_width( colorize( tmpStr, c_white ), max_width ) );
+            info.push_back( trim_to_width( colorize(temp_str, c_white ), max_width ) );
         }
     }
 
@@ -7515,7 +7518,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             print_colored_text( w_info, lookHeight - 1, 2, clr, clr, list_things );
 
             //print all window content
-            curr_line = print_colored_text( w_info, curr_line, 1, c_dark_gray, text, last_line );
+            curr_line = print_colored_text( w_info, curr_line, 1, c_white, text, last_line );
 
             if( static_cast<int>( text.size() ) > last_line ) {
                 clr = c_yellow;
