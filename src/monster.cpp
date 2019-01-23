@@ -569,7 +569,7 @@ size_t monster::creature_info( std::vector<std::string> &out_info, const uint32_
     return out_info.size() - old_size;
 }
 
-int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
+int monster::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
     std::vector<std::string> text;
     creature_info( text, getmaxx( w ) - 2 );

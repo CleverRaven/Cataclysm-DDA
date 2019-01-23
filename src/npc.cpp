@@ -1779,7 +1779,7 @@ std::string npc::mutations_info()const
     return remove_color_tags( ret );;
 }
 
-int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
+int npc::print_info( const catacurses::window &w, int line, int, int column ) const
 {
     std::vector<std::string> text;
     creature_info( text, getmaxx( w ) - 2 );
