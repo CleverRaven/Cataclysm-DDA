@@ -26,7 +26,7 @@ os: linux
 # This re-enables just the master branch.
 branches:
   only:
-  - master
+  - dev
 
 jobs:
   include:
