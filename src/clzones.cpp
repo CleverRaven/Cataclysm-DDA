@@ -772,9 +772,10 @@ void zone_manager::deserialize( JsonIn &jsin )
 {
     jsin.read( zones );
     for( auto it = zones.begin(); it != zones.end(); ++it ) {
-        if( !has_type( it->get_type() ) ) {
+        std::string zone_type = it->get_type();
+        if( !has_type( zone_type ) ) {
             zones.erase( it );
-            debugmsg( "Invalid zone type: %s", it->get_type().c_str() );
+            debugmsg( "Invalid zone type: %s", zone_type.c_str() );
         }
     }
 }
