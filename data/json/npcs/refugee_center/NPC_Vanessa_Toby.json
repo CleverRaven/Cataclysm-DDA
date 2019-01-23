@@ -1,0 +1,135 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Vanessa",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Vanessa is a middle-aged hairdresser.  She doesn't want to talk abou ther past.",
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ -4, 2 ] },
+    "bonus_per": { "rng": [ -1, 4 ] },
+    "worn_override": "REFUGEE_Vanessa_worn",
+    "carry_override": "REFUGEE_Vanessa_carried",
+    "weapon_override": "REFUGEE_Vanessa_wield",
+    "traits": [ { "group": "NPC_starting_traits" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
+      { "skill": "tailor", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Vanessa_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "bra" },
+      { "item": "dress" },
+      { "item": "jacket_jean" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Vanessa_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "lighter" }, { "item": "ecig" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Vanessa_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "scissors" } ]
+  },
+  {
+    "type": "npc",
+    "id": "refugee_VanessaToby",
+    "name_unique": "Vanessa Toby",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Vanessa",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Vanessa_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_Vanessa_Toby",
+    "//": "Use this flag to indicate if the player has met this NPC before."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_1",
+    "dynamic_line": {
+      "u_has_effect": "u_met_Vanessa_Toby",
+      "yes": "Oh, you're back.",
+      "no": "Oh, great.  Another new mouth to feed?  Just what we need.  Well, I'm Vanessa."
+    },
+    "responses": [
+      {
+        "text": "I'm not a new mouth to feed, but nice to meet you too.",
+        "condition": { "not": { "u_has_effect": "u_met_Vanessa_Toby" } },
+        "effect": { "u_add_effect": "u_met_Vanessa_Toby", "duration": "PERMANENT" },
+        "topic": "TALK_REFUGEE_Vanessa_1_firstmeet",
+        "switch": true
+      },
+      {
+        "text": "Hi, Vanessa.  What's up?",
+        "condition": { "days_since_cataclysm": 180 },
+        "topic": "TALK_REFUGEE_Vanessa_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Hi, Vanessa.  What's up?",
+        "condition": { "days_since_cataclysm": 60 },
+        "topic": "TALK_REFUGEE_Vanessa_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Hi, Vanessa.  What's up?",
+        "condition": { "days_since_cataclysm": 30 },
+        "topic": "TALK_REFUGEE_Vanessa_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Hi, Vanessa.  What's up?",
+        "condition": { "u_has_effect": "u_met_Vanessa_Toby" },
+        "topic": "TALK_REFUGEE_Vanessa_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Yeah, no.  I'm going.",
+        "effect": { "u_add_effect": "u_met_Vanessa_Toby", "duration": "PERMANENT" },
+        "condition": { "not": { "u_has_effect": "u_met_Vanessa_Toby" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "See you later, sunshine.",
+        "condition": { "u_has_effect": "u_met_Vanessa_Toby" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_1_firstmeet",
+    "dynamic_line": "Well that's good.  If you're going to pull your own weight I guess that's an improvement.",
+    "responses": [
+      { "text": "What's up in your life these days?", "topic": "TALK_REFUGEE_Vanessa_2_stub" },
+      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_2_stub",
+    "dynamic_line": "Not much is up right now.  Ask me again some time.",
+    "//": "TK: not written yet",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  }
+]
