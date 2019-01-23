@@ -7,9 +7,6 @@ cache: ccache
 
 notifications:
   email: false
-  irc: "irc.freenode.org#Cataclysm-DDA"
-  use_notice: true
-  skip_join: true
 
 git:
   depth: 5
@@ -173,6 +170,7 @@ before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
   - CXX="$COMPILER"
+  - export VER="cth-${BUILD_TYPE}-${TRAVIS_BUILD_NUMBER}"
   - source build-scripts/requirements.sh
 
 script:
@@ -181,3 +179,15 @@ script:
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
+
+before_deploy:
+  - make CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" VERSION="${VER}" $BUILD_EXTRA bindist && export RELEASE_PKG_FILES=$(ls *.zip *.tar.gz)
+
+deploy:
+  provider: releases
+  api_key:
+    secure: EfssdhGJxeYf8vkx1aJf4YPGdznXc4erPwQnQTqplsjpRDLclScgFAxQ+eF37feUeHTHlXYZ5h41VdmIA8eKCaoxCHVAYSGHk1au8m8KUf4zEZTEmwkWf/NXwrkjnmEr1zphf1KADkEnLmCe6emWDzT/THGAPgulB3R9mz/dgysP1IikTLghPCGc+QO3smieBqu7cecXPBW9UsdEQRtXtWOu8dakLw2XbsfaqfX18Pb5clfYYGe7XwjURbfKDkSAWqm2LD4NPASSOFKUGLf71SCUVVeIuzlbpB85+k29M883M36c0RjNE+JRfVhJcBdsXvuHbNzSrM6yg3/HQq+GegG/4ZjA1VmLH6QqGGvfml6mZMxL8dUKnOWauodUyW8BCcto1k9LLLzOchj8ZZA5V3z2wE3N5vErSHlOvpo2K2LKW+2qovA/eUANt91R/0LUjoymEvudC7Y4PwvrGNXrC/eRRwEJJN3rLVam6KbQ5XUj7ieG7FWpmnWPujiUo+nbr7FoI66c8Z4qkwKvCXPoABP/tG90KEZMTh2blNfwvM/lBsDCMER4dtxGto4nHBaR8CYGK9k2nRKR9Blsr7QtTjvjU6IcQzD7vm0IjAnqKvQoab1dgGf10Nt+lsN3hKARsa2ZySxbS1sEsJ1+v0SW+MjMfvYZjhRdPB2JlxbL7l8=
+  file: "${RELEASE_PKG_FILES}"
+  on:
+    repo: TGITS-Solutions/Cataclysm-DDA
+    branch: dev
