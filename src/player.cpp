@@ -11217,10 +11217,10 @@ std::string player::weapname() const
                               weapon.contents.front().charges );
 
     } else if( !is_armed() ) {
-        return _( "Weapon  : fists" );
+        return _( "fists" );
 
     } else {
-        return "Weapon  : " + weapon.tname();
+        return weapon.tname();
     }
 }
 

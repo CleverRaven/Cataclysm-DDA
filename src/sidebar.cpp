@@ -332,9 +332,9 @@ void player::disp_status( const catacurses::window &w )
         t_msg1 = _( "Freezing!" );
     }
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 1 : 4, sideStyle ? 0 : 0, c_light_gray, _( "Heat    :" ) );
+               sideStyle ? 1 : 4, 0, c_light_gray, _( "Heat :" ) );
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 1 : 4, sideStyle ? 10 : 10, t_color, t_msg1 + " " + t_msg2 );
+               sideStyle ? 1 : 4, 7, t_color, t_msg1 + " " + t_msg2 );
 
     // display tiredness
     std::string tiredness = "";
@@ -350,9 +350,9 @@ void player::disp_status( const catacurses::window &w )
         tired_color = c_yellow;
     }
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 2 : 5, 0, c_light_gray, _( "Sleep   :" ) );
+               sideStyle ? 2 : 5, 0, c_light_gray, _( "Sleep:" ) );
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 2 : 5, 10, tired_color, tiredness );
+               sideStyle ? 2 : 5, 7, tired_color, tiredness );
 
     // display pain levels
     nc_color col_pain = c_yellow;
@@ -362,13 +362,13 @@ void player::disp_status( const catacurses::window &w )
         col_pain = c_light_red;
     }
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 3 : 6, 0, c_light_gray, _( "Pain    :" ) );
+               sideStyle ? 3 : 6, 0, c_light_gray, _( "Pain :" ) );
     if( has_trait( trait_SELFAWARE ) && get_perceived_pain() > 0 ) {
         mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-                   sideStyle ? 3 : 6, 10, col_pain, "%d", get_perceived_pain() );
+                   sideStyle ? 3 : 6, 7, col_pain, "%d", get_perceived_pain() );
     } else if( get_perceived_pain() > 0 ) {
         mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-                   sideStyle ? 3 : 6, 10, col_pain, get_pain_description() );
+                   sideStyle ? 3 : 6, 7, col_pain, get_pain_description() );
     }
 
     // display hunger
@@ -400,9 +400,9 @@ void player::disp_status( const catacurses::window &w )
         hunger_string = _( "Full" );
     }
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 4 : 7, sideStyle ? 0 : 0, c_light_gray, _( "Food    :" ) );
+               sideStyle ? 4 : 7, 0, c_light_gray, _( "Food :" ) );
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 4 : 7, sideStyle ? 10 : 10, hunger_color, hunger_string );
+               sideStyle ? 4 : 7, 7, hunger_color, hunger_string );
 
     // display thirst
     std::string hydration_string = "";
@@ -430,9 +430,9 @@ void player::disp_status( const catacurses::window &w )
         hydration_string = _( "Slaked" );
     }
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 5 : 8, sideStyle ? 0 : 0, c_light_gray, _( "Thirst  :" ) );
+               sideStyle ? 5 : 8, 0, c_light_gray, _( "Drink:" ) );
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 5 : 8, sideStyle ? 10 : 10, hydration_color, hydration_string );
+               sideStyle ? 5 : 8, 7, hydration_color, hydration_string );
 
     // Print in sidebar currently used martial style.
     std::string style;
@@ -452,13 +452,13 @@ void player::disp_status( const catacurses::window &w )
         const auto style_color = is_armed() ? c_red : c_blue;
         trim_and_print( sideStyle ? g->w_status2 : g->w_location_wider,
                         sideStyle ? 6 : 9, 0, getmaxx( g->w_status2 ), c_light_gray,
-                        print_gun_mode( *this ) );
+                        _( "Arm  : %s" ), print_gun_mode( *this ) );
         mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
                    sideStyle ? 6 : 9, sideStyle ? 32 : 43, style_color, style );
 
     } else {
         trim_and_print( sideStyle ? g->w_status2 : g->w_location_wider, sideStyle ? 6 : 9,
-                        0, 20, c_light_gray, print_gun_mode( *this ) );
+                        0, 20, c_light_gray, _( "Arm  : %s" ), print_gun_mode( *this ) );
     }
 
     // display speed

@@ -3727,13 +3727,13 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     wrefresh( s_window );
-    mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
+    mvwprintz( s_window, 0, 0, c_light_gray, "Place: " );
     wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
 
     if( get_levz() < 0 ) {
-        mvwprintz( s_window, 1, 0, c_light_gray, _( "Underground" ) );
+        mvwprintz( s_window, 1, 0, c_light_gray, _( "Sky  : Underground" ) );
     } else {
-        mvwprintz( s_window, 1, 0, c_light_gray, _( "Weather :" ) );
+        mvwprintz( s_window, 1, 0, c_light_gray, _( "Sky  :" ) );
         wprintz( s_window, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
     }
 
@@ -3761,7 +3761,7 @@ void game::draw_sidebar()
     trim_and_print( s_window, y, x + 7, 11, c_white, sPhase.c_str() );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( s_window, 2, 0, c_light_gray, "%s ", _( "Lighting:" ) );
+    mvwprintz( s_window, 2, 0, c_light_gray, "%s ", _( "Light:" ) );
     wprintz( s_window, ll.second, ll.first.c_str() );
 
     // display player noise in sidebar
@@ -3778,9 +3778,9 @@ void game::draw_sidebar()
 
     // display date
     mvwprintz( sideStyle ? time_window : s_window, sideStyle ? 0 : 3,
-               0, c_light_gray, _( "Date    :" ) );
+               0, c_light_gray, _( "Date :" ) );
     mvwprintz( sideStyle ? time_window : s_window, sideStyle ? 0 : 3,
-               10, c_white, _( "%s, day %d" ),
+               7, c_white, _( "%s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
 
