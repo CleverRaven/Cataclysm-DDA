@@ -2351,7 +2351,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
         bool hasPrerequisite = current_opt.hasPrerequisite();
-        bool hasPrerequisiteFulfilled = !current_opt.checkPrerequisite();
+        bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
         if( hasPrerequisite && !hasPrerequisiteFulfilled &&
             ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
