@@ -1,8 +1,6 @@
 [
   {
-    "//": "Hair and skin colour traits mainlined from a mod originally by Zetsukaze."
-  },
-  {
+    "//": "Hair and skin colour traits mainlined from a mod originally by Zetsukaze.",
     "id": "hair1black",
     "type": "mutation",
     "name": "Black Hair 1",
