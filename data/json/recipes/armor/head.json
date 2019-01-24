@@ -461,7 +461,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "difficulty": 8,
+    "difficulty": 6,
     "time": 600000,
     "book_learn": [ [ "mag_gaming", 6 ] ],
     "using": [ [ "forging_standard", 25 ], [ "steel_hardened", 14 ] ],
