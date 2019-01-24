@@ -574,6 +574,16 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( item_vars != rhs.item_vars ) {
         return false;
     }
+    // check if components are the same, otherwise don't stack
+    if( components.size() != rhs.components.size() ) {
+        return false;
+    } else {
+        for( int i = 0; components.size(); i++ ) {
+            if( components.operator[]( i ).type != rhs.components.operator[]( i ).type ) {
+                return false;
+            }
+        }
+    }
     if( goes_bad() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
         // Stack items that fall into the same "bucket" of freshness.
@@ -6442,7 +6452,9 @@ std::string item::components_to_string() const
     t_count_map counts;
     for( const auto &elem : components ) {
         const std::string name = elem.display_name();
-        counts[name]++;
+        if( !elem.has_flag( "BYPRODUCT" ) ) {
+            counts[name]++;
+        }
     }
     return enumerate_as_string( counts.begin(), counts.end(),
     []( const std::pair<std::string, int> &entry ) -> std::string {
