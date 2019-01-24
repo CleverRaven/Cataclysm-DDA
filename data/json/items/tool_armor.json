@@ -2603,7 +2603,7 @@
         "category": "armor",
         "name": "Maska-1 helmet (raised face shield)",
         "name_plural": "Maska-1 helmets (raised face shield)",
-        "description": "A heavy steel helmet, capaple of stopping many lower caliber bullets. It only has a strip hole in the helmet for you to see out of, thus limiting you sight greatly. It has an odd Russian symbol on it. Acticate to lower the mask.",
+        "description": "A heavy steel helmet, capaple of stopping many lower caliber bullets. It only has a strip hole in the helmet for you to see out of, thus limiting your sight greatly. It has an odd Russian symbol on it. Acticate to lower the mask.",
         "use_action": { "type": "transform", "target": "helmet_lord", "msg": "You put down the face shield." },
         "weight": 4000,
         "volume": 9,
