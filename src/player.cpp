@@ -7170,7 +7170,8 @@ bool player::has_mission_item(int mission_id) const
 //Returns the amount of charges that were consumed by the player
 int player::drink_from_hands(item& water) {
     int charges_consumed = 0;
-    if( query_yn( _("Drink %s from your hands?"), water.type_name().c_str() ) )
+    if( query_yn( _( "Drink %s from your hands?" ),
+                  colorize( water.type_name(), water.color_in_inventory() ) ) )
     {
         // Create a dose of water no greater than the amount of water remaining.
         item water_temp( water );
@@ -8493,7 +8494,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
 
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
-            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
+            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
+                                      colorize( it.tname(), it.color_in_inventory() ) ) ) {
                 drop( get_item_position( &it ), pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
@@ -9185,8 +9187,9 @@ void player::gunmod_add( item &gun, item &mod )
     int qty = 0;
 
     if( mod.is_irremovable() ) {
-        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
-                       gun.tname().c_str() ) ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                       colorize( mod.tname(), mod.color_in_inventory() ),
+                       colorize( gun.tname(), gun.color_in_inventory() ) ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
         }
@@ -9252,8 +9255,9 @@ void player::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod->tname().c_str(),
-                    tool->tname().c_str() ) ) {
+    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                   colorize( mod->tname().c_str(), mod->color_in_inventory() ),
+                   colorize( tool->tname().c_str(), tool->color_in_inventory() ) ) ) {
         add_msg_if_player( _( "Never mind." ) );
         return; // player canceled installation
     }
