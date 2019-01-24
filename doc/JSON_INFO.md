@@ -950,6 +950,7 @@ CBMs can be defined like this:
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
+"cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 ```
 
 ### Containers
@@ -2067,6 +2068,14 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
               { "weight":1, "sprite":3621},
               { "weight":1, "sprite":3622}
             ]
+          },
+          {
+            "id": [
+              "overlay_mutation_GOURMAND",        // character overlay for mutation
+              "overlay_mutation_male_GOURMAND",   // overlay for specified gender
+              "overlay_mutation_active_GOURMAND"  // overlay for activated mutation
+            ],
+            "fg": 4040
           }
         ]
       },

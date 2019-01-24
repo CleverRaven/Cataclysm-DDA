@@ -1,4 +1,3 @@
-#include <chrono>
 #include <functional>
 #include <unordered_set>
 #include <vector>
@@ -6,6 +5,10 @@
 #include "catch/catch.hpp"
 #include "map.h"
 #include "enums.h"
+
+#ifdef RELEASE
+#include <chrono>
+#endif
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.
 // Previously tried inserting into an unordered_set,

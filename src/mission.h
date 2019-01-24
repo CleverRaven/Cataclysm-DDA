@@ -5,6 +5,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
@@ -65,6 +66,23 @@ enum mission_goal {
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
     NUM_MGOAL
+};
+const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
+        { "MGOAL_NULL", MGOAL_NULL },
+        { "MGOAL_GO_TO", MGOAL_GO_TO },
+        { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
+        { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
+        { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
+        { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
+        { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
+        { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
+        { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
+        { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
+        { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
+        { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
+        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
+        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC }
+    }
 };
 
 struct mission_place {

@@ -106,7 +106,12 @@
     "type": "trait_group",
     "id": "BG_survival_story_POLICE",
     "subtype": "distribution",
-    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cop_1" }, { "trait": "BGSS_Cop_2" } ]
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Cop_1" },
+      { "trait": "BGSS_Cop_2" },
+      { "trait": "BGSS_Cop_3" }
+    ]
   },
   {
     "//": "This group is for NPCs that should be doing their homework instead of hunting zombies.",
