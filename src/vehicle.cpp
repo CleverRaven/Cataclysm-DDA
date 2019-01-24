@@ -5166,7 +5166,6 @@ void vehicle::update_time( const time_point &update_to )
             charge_battery( energy_bat );
         }
     }
-    const oter_id cur_om_ter;
     if( !wind_turbines.empty() ) {
         int epower_w = 0;
         for( int part : wind_turbines ) {
