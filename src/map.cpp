@@ -7227,13 +7227,26 @@ const std::vector<tripoint> &map::trap_locations( const trap_id type ) const
 
 bool map::inbounds( const tripoint &p ) const
 {
-    const tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
-    const tripoint map_boundary_max( SEEY * my_MAPSIZE, SEEX * my_MAPSIZE, OVERMAP_HEIGHT );
-    const tripoint map_clearance_min( tripoint_zero );
-    const tripoint map_clearance_max( 1, 1, 0 );
+    constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    constexpr tripoint map_boundary_max( SEEY * MAPSIZE, SEEX * MAPSIZE, OVERMAP_HEIGHT );
+    constexpr tripoint map_clearance_min( tripoint_zero );
+    constexpr tripoint map_clearance_max( 1, 1, 0 );
 
-    const box map_boundaries( map_boundary_min, map_boundary_max );
-    const box map_clearance( map_clearance_min, map_clearance_max );
+    constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    constexpr box map_clearance( map_clearance_min, map_clearance_max );
+
+    return generic_inbounds( p, map_boundaries, map_clearance );
+}
+
+bool tinymap::inbounds( const tripoint &p ) const
+{
+    constexpr tripoint map_boundary_min( tripoint_zero );
+    constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, 0 );
+    constexpr tripoint map_clearance_min( tripoint_zero );
+    constexpr tripoint map_clearance_max( 1, 1, 0 );
+
+    constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    constexpr box map_clearance( map_clearance_min, map_clearance_max );
 
     return generic_inbounds( p, map_boundaries, map_clearance );
 }
