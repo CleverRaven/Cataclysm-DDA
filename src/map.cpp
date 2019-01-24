@@ -4529,6 +4529,9 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                                     map::map_process_func processor, const std::string &signal )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
+    for (const vpart_reference &vp : cur_veh.get_any_parts(VPFLAG_FLUIDTANK)) {
+        vp.part().process_contents(vp.pos(), engine_heater_is_on);
+    }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
     for( const vpart_reference &vp : cargo_parts ) {
@@ -4559,7 +4562,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         if( item_iter->is_food() || item_iter->is_food_container() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
-                it_temp = std::max( it_temp, temperatures::cold + 1 );
+                it_temp = std::max(it_temp, temperatures::normal);
             }
             // some vehicle parts provide insulation, default is 1
             it_insulation = item::find_type( pti.item )->insulation_factor;
@@ -4578,9 +4581,6 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             continue;
         }
 
-        for (const vpart_reference &vp : cur_veh.get_any_parts(VPFLAG_FLUIDTANK)) {
-            vp.part().process_contents(vp.pos(), engine_heater_is_on);
-        }
 
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
