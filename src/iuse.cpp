@@ -7413,6 +7413,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
                 player_local_temp ).c_str() );
+        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
     }
 
     return 0;

@@ -1,12 +1,18 @@
 #include "weather_gen.h"
 
+#include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
+#include <random>
+#include <string>
 
-#include "calendar.h"
 #include "enums.h"
 #include "json.h"
+#include "messages.h"
+#include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
 
@@ -18,6 +24,7 @@ constexpr double tau = 2 * PI;
 } //namespace
 
 weather_generator::weather_generator() = default;
+int weather_generator::current_winddir = 1000;
 
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
@@ -34,19 +41,18 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
     const unsigned modSEED = seed % 32768;
-
     // Noise factors
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
-    double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
+    double P( raw_noise_4d( x / 2.5, y / 2.5, z / 30, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
-    double W;
+    double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
-
+    const season_type season = season_of_year( now );
     // Temperature variation
     const double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
     const double current_t( base_temperature +
@@ -77,13 +83,26 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, 1020 - static_cast<int>( P ) );
-
+    W = std::max( 0, static_cast<int>( 5.7  / pow( P / 1014.78, rng( 9, 30 ) ) +
+                                                                 ( seasonal_variation / 64 ) * rng( 1, 2 ) * W ) );
+    // Wind direction
+    // initial static variable
+    if( current_winddir == 1000 ) {
+        current_winddir = get_wind_direction( season );
+        current_winddir = convert_winddir( current_winddir );
+    } else {
+        //when wind strength is low, wind direction is more variable
+        bool changedir = one_in( W * 360 );
+        if( changedir == true ) {
+            current_winddir = get_wind_direction( season );
+            current_winddir = convert_winddir( current_winddir );
+        }
+    }
+    std::string dirstring = get_dirstring( current_winddir );
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-
-    return w_point {T, H, P, W, acid};
+    return w_point {T, H, P, W, current_winddir, dirstring, acid};
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -139,6 +158,35 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
+int weather_generator::get_wind_direction( const season_type season ) const
+{
+    unsigned dirseed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine wind_dir_gen( dirseed );
+    //assign chance to angle direction
+    if( season == SPRING ) {
+        std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
+        return distribution( wind_dir_gen );
+    } else if( season == SUMMER ) {
+        std::discrete_distribution<int> distribution {3, 4, 4, 8, 8, 9, 8, 3, 7, 8, 10, 7, 7, 7, 5, 3};
+        return distribution( wind_dir_gen );
+    } else if( season == AUTUMN ) {
+        std::discrete_distribution<int> distribution {4, 6, 6, 7, 6, 5, 4, 3, 5, 6, 8, 8, 10, 10, 8, 5};
+        return distribution( wind_dir_gen );
+    } else if( season == WINTER ) {
+        std::discrete_distribution<int> distribution {5, 3, 2, 3, 2, 2, 2, 2, 4, 6, 10, 8, 12, 19, 13, 9};
+        return distribution( wind_dir_gen );
+    } else {
+        return 0;
+    }
+}
+
+int weather_generator::convert_winddir( const int inputdir ) const
+{
+    //convert from discrete distribution output to angle
+    float finputdir = inputdir * 22.5;
+    return static_cast<int>( finputdir );
+}
+
 int weather_generator::get_water_temperature() const
 {
     /**
@@ -150,6 +198,7 @@ int weather_generator::get_water_temperature() const
     int season_length = to_days<int>( calendar::season_length() );
     int day = calendar::turn.day_of_year();
     int hour = hour_of_day<int>( calendar::turn );
+
     int water_temperature = 0;
 
     if( season_length == 0 ) {
@@ -165,6 +214,31 @@ int weather_generator::get_water_temperature() const
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
 
     return water_temperature;
+}
+
+std::string weather_generator::get_dirstring( int angle ) const
+{
+    //convert angle to cardinal directions
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ( "North" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "North-East" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "East" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "South-East" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "South" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "South-West" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "West" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "North-West" );
+    }
+    return dirstring;
 }
 
 void weather_generator::test_weather() const
