@@ -35,7 +35,7 @@ void i_clear_adjacent( const tripoint &p )
 }
 
 // wipes map terrain, sets a 3x3 area centered on a tripoint to an oter_id and calls mapgen_forest
-void generate_forest_OMT( const tripoint &p, const oter_id f)
+void generate_forest_OMT( const tripoint &p, const oter_id f )
 {
     wipe_map_terrain();
 
