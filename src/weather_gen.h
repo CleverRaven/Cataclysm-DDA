@@ -26,6 +26,10 @@ class weather_generator
         double base_humidity = 66.0; // Average humidity
         double base_pressure = 1015.0; // Average atmospheric pressure
         double base_acid = 0.0;
+        double base_wind = 5.7; //Average yearly windspeed of New England
+        int base_wind_distrib_peaks = 30; //How much the wind peaks above average
+        int base_wind_season_variation =
+            64; //How much the wind folows seasonal variation ( lower means more change )
         static int current_winddir;
 
         weather_generator();
