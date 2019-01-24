@@ -574,16 +574,6 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( item_vars != rhs.item_vars ) {
         return false;
     }
-    // check if components are the same, otherwise don't stack
-    if( components.size() != rhs.components.size() ) {
-        return false;
-    } else {
-        for( int i = 0; components.size(); i++ ) {
-            if( components.operator[]( i ).type != rhs.components.operator[]( i ).type ) {
-                return false;
-            }
-        }
-    }
     if( goes_bad() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
         // Stack items that fall into the same "bucket" of freshness.
@@ -607,8 +597,8 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
     }
-    if( check_components ) {
-        //Only check if at least one item isn't using the default recipe
+    if( check_components || rhs.is_comestible() ) {
+        //Only check if at least one item isn't using the default recipe or is comestible
         if( !components.empty() || !rhs.components.empty() ) {
             if( get_uncraft_components() != rhs.get_uncraft_components() ) {
                 return false;
