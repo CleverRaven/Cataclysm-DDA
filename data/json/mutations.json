@@ -3494,7 +3494,7 @@
         },
         "encumbrance_always" : [
             [ "HAND_L", 3 ],
-            [ "HAND_R", 3 ],
+            [ "HAND_R", 3 ]
         ]
     },{
         "type" : "mutation",
@@ -3513,7 +3513,7 @@
         },
         "encumbrance_always" : [
             [ "HAND_L", 6 ],
-            [ "HAND_R", 6 ],
+            [ "HAND_R", 6 ]
         ]
     },{
         "type" : "mutation",
