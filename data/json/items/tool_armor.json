@@ -2575,13 +2575,17 @@
         "category": "armor",
         "name": "Maska-1 helmet",
         "description": "A heavy steel helmet, capaple of stopping many lower caliber bullets. It only has a strip hole in the helmet for you to see out of, thus limiting you sight greatly. It has an odd Russian symbol on it. Activate to raise the mask.",
-        "use_action": { "type": "transform", "target": "helmet_lord_raised", "msg": "You raise the heavy metal face shield, allowing you to see." },
+        "use_action": {
+        "type": "transform",
+        "target": "helmet_lord_raised",
+        "msg": "You raise the heavy metal face shield, allowing you to see."
+        },
         "weight": 4000,
         "volume": 9,
         "price": 20000,
         "to_hit": -1,
         "bashing": 10,
-        "material": ["steel" ],
+        "material": [ "steel" ],
         "symbol": "[",
         "color": "dark_gray",
         "covers": [ "HEAD", "EYES", "MOUTH" ],
@@ -2592,8 +2596,8 @@
         "environmental_protection": 2,
         "techniques": [ "WBLOCK_1" ],
         "flags": [ "WATERPROOF", "STURDY" ]
-    },
-    {
+  },
+  {
         "id": "helmet_lord_raised",
         "type": "TOOL_ARMOR",
         "category": "armor",
@@ -2609,7 +2613,7 @@
         "material": [ "steel" ],
         "symbol": "[",
         "color": "dark_gray",
-        "covers": [ "HEAD"],
+        "covers": [ "HEAD" ],
         "coverage": 95,
         "encumbrance": 50,
         "warmth": 5,
@@ -2617,5 +2621,5 @@
         "environmental_protection": 2,
         "techniques": [ "WBLOCK_1" ],
         "flags": [ "WATERPROOF", "STURDY" ]
-    }
+  }
 ]
