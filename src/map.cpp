@@ -4581,7 +4581,6 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             continue;
         }
 
-
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
         const auto &veh_in_nonant = current_submap.vehicles;
