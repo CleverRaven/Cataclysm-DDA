@@ -3484,18 +3484,15 @@
         "name" : "Extremely Strong",
         "points" : 4,
         "visibility" : 1,
-        "description" : "Your muscles are much stronger. Fine activity with your hands is slightly harder. Strength + 4",
+        "description" : "Your muscles are much stronger. Strength + 4",
         "prereqs" : ["STR_UP_2"],
+        "cancels" : ["DEX_UP_3", "DEX_UP_4"],
         "changes_to" : ["STR_UP_4"],
         "leads_to" : ["MUT_TOUGH"],
         "category" : ["CHIMERA", "LUPINE", "TROGLOBITE"],
         "passive_mods" : {
             "str_mod" : 4
-        },
-        "encumbrance_always" : [
-            [ "HAND_L", 3 ],
-            [ "HAND_R", 3 ]
-        ]
+        }
     },{
         "type" : "mutation",
         "id" : "STR_UP_4",
@@ -3503,18 +3500,15 @@
         "points" : 7,
         "visibility" : 2,
         "ugliness" : 2,
-        "description" : "Your muscles are noticeably bulging. Fine activity with your hands is somewhat harder.  Strength + 7",
+        "description" : "Your muscles are noticeably bulging.  Strength + 7",
         "prereqs" : ["STR_UP_3"],
+        "cancels" : ["DEX_UP_2", "DEX_UP_3", "DEX_UP_4"],
         "leads_to" : ["MUT_TOUGH"],
         "threshreq" : ["THRESH_BEAST", "THRESH_URSINE"],
         "category" : ["BEAST", "URSINE"],
         "passive_mods" : {
             "str_mod" : 7
-        },
-        "encumbrance_always" : [
-            [ "HAND_L", 6 ],
-            [ "HAND_R", 6 ]
-        ]
+        }
     },{
         "type" : "mutation",
         "id" : "STR_ALPHA",
