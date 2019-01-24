@@ -13,6 +13,7 @@ class player;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
+std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
 
 enum butcher_type : int {
     BUTCHER,        // quick butchery
