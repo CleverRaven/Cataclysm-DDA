@@ -2,8 +2,8 @@
 #ifndef SDL_SOUND_H
 #define SDL_SOUND_H
 
+#include <string>
 #ifdef SDL_SOUND
-#    include "sounds.h"
 
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.

@@ -1,5 +1,7 @@
 #include "craft_command.h"
 
+#include <limits.h>
+#include <stdlib.h>
 #include <sstream>
 #include <algorithm>
 
@@ -7,13 +9,16 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "player_activity.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

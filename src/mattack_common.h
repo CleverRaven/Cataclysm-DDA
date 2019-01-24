@@ -7,7 +7,6 @@
 
 class JsonObject;
 class monster;
-class mattack_actor;
 
 using mattack_id = std::string;
 using mon_action_attack = bool ( * )( monster * );

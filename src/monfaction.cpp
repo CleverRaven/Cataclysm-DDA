@@ -1,7 +1,12 @@
 #include "monfaction.h"
 
+#include <stddef.h>
 #include <queue>
 #include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
 
 #include "debug.h"
 #include "json.h"

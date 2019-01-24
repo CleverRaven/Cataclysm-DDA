@@ -1,6 +1,8 @@
 #include "mod_manager.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <exception>
+#include <sstream>
 
 #include "debug.h"
 #include "dependency_tree.h"

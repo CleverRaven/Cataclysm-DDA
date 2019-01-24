@@ -1,5 +1,7 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <memory>
+
 #include "debug.h"
 #include "game.h"
 #include "messages.h"
@@ -7,6 +9,9 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "creature.h"
+#include "item.h"
+#include "player.h"
 
 const efftype_id effect_infection( "infection" );
 

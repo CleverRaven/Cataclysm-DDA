@@ -1,7 +1,15 @@
 #include "field.h"
 
+#include <math.h>
+#include <stddef.h>
 #include <algorithm>
 #include <queue>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -27,6 +35,18 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "bodypart.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "int_id.h"
+#include "item.h"
+#include "line.h"
+#include "optional.h"
+#include "player.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
 
 const species_id FUNGUS( "FUNGUS" );
 

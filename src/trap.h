@@ -2,8 +2,10 @@
 #ifndef TRAP_H
 #define TRAP_H
 
+#include <stddef.h>
 #include <functional>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "int_id.h"
@@ -17,6 +19,7 @@ class map;
 struct trap;
 struct tripoint;
 class JsonObject;
+
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
 

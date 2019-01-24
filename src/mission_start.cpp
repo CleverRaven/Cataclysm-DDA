@@ -1,6 +1,7 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <cstdio>
+#include <algorithm>
+#include <memory>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -26,6 +27,16 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "bodypart.h"
+#include "creature.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "monster.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );

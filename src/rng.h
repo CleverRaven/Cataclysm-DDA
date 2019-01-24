@@ -2,8 +2,12 @@
 #ifndef RNG_H
 #define RNG_H
 
+#include <stdint.h>
 #include <array>
 #include <functional>
+#include <iosfwd>
+#include <iterator>
+#include <type_traits>
 
 #include "optional.h"
 
@@ -137,13 +141,6 @@ inline V random_entry_removed( C &container )
     container.erase( iter );
     return result;
 }
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 class map;
 struct tripoint;
 class tripoint_range;

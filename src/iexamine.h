@@ -10,18 +10,18 @@
 #define IEXAMINE_H
 
 #include <list>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "itype.h"
 #include "string_id.h"
 
-class game;
 class item;
 class player;
-class npc;
-class map;
 struct tripoint;
-struct itype;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 

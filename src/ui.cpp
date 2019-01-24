@@ -1,7 +1,11 @@
 #include "ui.h"
 
+#include <ctype.h>
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <iterator>
+#include <memory>
 
 #include "cata_utility.h"
 #include "catacharset.h"

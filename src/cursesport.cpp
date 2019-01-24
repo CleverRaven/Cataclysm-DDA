@@ -1,7 +1,8 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
 
-#include <stdexcept>
+#include <cstdint>
+#include <memory>
 
 #include "catacharset.h"
 #include "color.h"

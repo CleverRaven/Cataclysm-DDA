@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <array>
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
@@ -24,37 +25,45 @@
 // see item.h
 class item_category;
 class gun_mode;
+
 using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
-class recipe;
 class emit;
+
 using emit_id = string_id<emit>;
-struct itype;
 class Skill;
+
 using skill_id = string_id<Skill>;
 struct bionic_data;
+
 using bionic_id = string_id<bionic_data>;
 class player;
 class item;
 class vitamin;
+
 using vitamin_id = string_id<vitamin>;
 class ma_technique;
+
 using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-struct artifact_dream_datum;
 class material_type;
+
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
 class ammunition_type;
+
 using ammotype = string_id<ammunition_type>;
 class fault;
+
 using fault_id = string_id<fault>;
 struct quality;
+
 using quality_id = string_id<quality>;
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;

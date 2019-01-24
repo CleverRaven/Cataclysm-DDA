@@ -1,8 +1,17 @@
 #include "iexamine.h"
 
+#include <limits.h>
+#include <math.h>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <set>
+#include <type_traits>
+#include <utility>
 
 #include "ammo.h"
 #include "basecamp.h"
@@ -45,6 +54,23 @@
 #include "units.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_location.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "pldata.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );

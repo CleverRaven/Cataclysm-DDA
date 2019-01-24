@@ -2,9 +2,20 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <array>
 #include <memory>
 #include <unordered_set>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <set>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "character.h"
@@ -18,11 +29,26 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
+#include "bodypart.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "pldata.h"
+#include "string_id.h"
+
+class effect;
+class npc;
+struct itype;
+struct pathfinding_settings;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
 class craft_command;
 class recipe_subset;
+
 enum action_id : int;
 struct bionic;
 class JsonObject;
@@ -30,30 +56,32 @@ class JsonIn;
 class JsonOut;
 struct dealt_projectile_attack;
 class dispersion_sources;
-class monster;
-class game;
 struct trap;
 class mission;
 class profession;
+
 nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
 class martialart;
 class recipe;
+
 using recipe_id = string_id<recipe>;
-struct component;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
 class vehicle;
 class vitamin;
+
 using vitamin_id = string_id<vitamin>;
 class start_location;
+
 using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
 class morale_type_data;
+
 using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu

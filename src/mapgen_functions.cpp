@@ -1,10 +1,16 @@
 #include "mapgen_functions.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <array>
 #include <chrono>
 #include <iterator>
 #include <random>
+#include <initializer_list>
+#include <map>
+#include <ostream>
+#include <utility>
+#include <vector>
 
 #include "computer.h"
 #include "debug.h"
@@ -23,6 +29,14 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "monster.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_id.h"
+
+class npc_template;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

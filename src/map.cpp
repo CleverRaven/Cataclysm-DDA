@@ -1,10 +1,16 @@
 #include "map.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <functional>
+#include <iterator>
+#include <limits>
+#include <sstream>
+#include <unordered_map>
 
 #include "ammo.h"
 #include "artifact.h"
@@ -51,6 +57,26 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "active_item_cache.h"
+#include "basecamp.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "field.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
+#include "map_memory.h"
+#include "math_defines.h"
+#include "omdata.h"
+#include "optional.h"
+#include "player.h"
+#include "player_activity.h"
+#include "tileray.h"
+#include "weighted_list.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

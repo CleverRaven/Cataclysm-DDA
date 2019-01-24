@@ -2,20 +2,20 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
+#include <stddef.h>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "pimpl.h"
 #include "string_id.h"
 
 struct WORLD;
+
 typedef WORLD *WORLDPTR;
 class dependency_tree;
-class mod_ui;
-class game;
-class worldfactory;
 class JsonObject;
 class mod_manager;
 
@@ -24,6 +24,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
 struct MOD_INFORMATION;
+
 using mod_id = string_id<MOD_INFORMATION>;
 
 struct MOD_INFORMATION {

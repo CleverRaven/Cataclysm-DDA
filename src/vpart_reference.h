@@ -2,6 +2,7 @@
 #ifndef VPART_REFERENCE_H
 #define VPART_REFERENCE_H
 
+#include <stddef.h>
 #include <string>
 
 #include "vpart_position.h"
@@ -9,6 +10,7 @@
 class vehicle;
 struct vehicle_part;
 class vpart_info;
+
 enum vpart_bitflags : int;
 
 /**

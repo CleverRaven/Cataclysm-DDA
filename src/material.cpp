@@ -2,6 +2,10 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
+#include <iterator>
+#include <memory>
+#include <set>
 
 #include "assign.h"
 #include "damage.h" // damage_type

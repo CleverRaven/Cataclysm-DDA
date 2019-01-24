@@ -1,14 +1,26 @@
 #include <vector>
+#include <algorithm>
+#include <array>
+#include <list>
+#include <ostream>
+#include <string>
 
 #include "catch/catch.hpp"
 #include "ballistics.h"
 #include "dispersion.h"
-#include "game.h"
 #include "map_helpers.h"
-#include "monster.h"
 #include "npc.h"
 #include "test_statistics.h"
 #include "units.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_location.h"
+#include "mapdata.h"
+#include "player.h"
 
 typedef statistics<bool> firing_statistics;
 

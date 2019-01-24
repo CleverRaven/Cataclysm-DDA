@@ -1,5 +1,9 @@
 #include "output.h"
 
+#include <ctype.h>
+#include <errno.h>
+#include <math.h>
+#include <stdio.h>
 #include <algorithm>
 #include <cstdarg>
 #include <cstdlib>
@@ -9,6 +13,8 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <array>
+#include <memory>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -24,6 +30,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "units.h"
+#include "enums.h"
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"

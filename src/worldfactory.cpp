@@ -1,6 +1,14 @@
 #include "worldfactory.h"
 
+#include <stdio.h>
 #include <algorithm>
+#include <array>
+#include <cstdlib>
+#include <iterator>
+#include <set>
+#include <sstream>
+#include <unordered_map>
+#include <utility>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -9,16 +17,15 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "gamemode.h"
 #include "input.h"
 #include "json.h"
-#include "mapsharing.h"
 #include "mod_manager.h"
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
 
 using namespace std::placeholders;
 

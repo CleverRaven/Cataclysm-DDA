@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include <ctype.h>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -8,6 +9,10 @@
 #include <string>
 #include <sstream>
 #include <limits>
+#include <bitset>
+#include <exception>
+#include <functional>
+#include <tuple>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -75,6 +80,20 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "compatibility.h"
+#include "field.h"
+#include "fire.h"
+#include "int_id.h"
+#include "iuse.h"
+#include "lightmap.h"
+#include "line.h"
+#include "monster.h"
+#include "omdata.h"
+#include "pathfinding.h"
+#include "recipe.h"
+#include "rng.h"
+#include "units.h"
+#include "visitable.h"
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 

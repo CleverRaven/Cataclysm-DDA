@@ -1,12 +1,16 @@
 #include "inventory.h"
 
+#include <limits.h>
+#include <math.h>
+#include <stdlib.h>
 #include <algorithm>
+#include <cstdint>
+#include <limits>
+#include <memory>
 
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
-#include "itype.h"
-#include "iuse_actor.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -18,6 +22,16 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
+
+struct itype;
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );

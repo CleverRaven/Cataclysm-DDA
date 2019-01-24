@@ -1,7 +1,10 @@
 #include "text_snippets.h"
 
+#include <stdlib.h>
 #include <random>
 #include <string>
+#include <iterator>
+#include <utility>
 
 #include "json.h"
 #include "rng.h"

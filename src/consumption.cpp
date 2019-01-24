@@ -1,7 +1,12 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <math.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <string>
+#include <limits>
+#include <sstream>
+#include <tuple>
 
 #include "addiction.h"
 #include "cata_utility.h"
@@ -21,6 +26,7 @@
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
+#include "rng.h"
 
 namespace
 {

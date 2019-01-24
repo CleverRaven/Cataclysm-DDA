@@ -1,3 +1,10 @@
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "ammo.h"
 #include "game.h"
@@ -6,6 +13,12 @@
 #include "player.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "enums.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "string_id.h"
+#include "units.h"
 
 static std::vector<const vpart_info *> turret_types()
 {

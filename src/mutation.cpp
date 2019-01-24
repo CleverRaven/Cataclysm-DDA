@@ -1,6 +1,9 @@
 #include "mutation.h"
 
+#include <stddef.h>
 #include <algorithm>
+#include <list>
+#include <unordered_set>
 
 #include "action.h"
 #include "field.h"
@@ -15,6 +18,12 @@
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
+#include "creature.h"
+#include "int_id.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "rng.h"
 
 const efftype_id effect_stunned( "stunned" );
 

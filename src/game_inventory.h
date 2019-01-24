@@ -3,9 +3,12 @@
 #define GAME_INVENTORY_H
 
 #include <list>
+#include <functional>
+#include <utility>
 
-#include "enums.h"
 #include "inventory_ui.h"
+
+struct tripoint;
 
 namespace cata
 {

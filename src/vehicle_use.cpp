@@ -2,12 +2,12 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <sstream>
+#include <memory>
+#include <tuple>
 
-#include "coordinate_conversions.h"
 #include "activity_handlers.h"
 #include "debug.h"
 #include "game.h"
@@ -19,20 +19,27 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "mtype.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "veh_interact.h"
 #include "veh_type.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "string_input_popup.h"
+#include "color.h"
+#include "input.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "iuse.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "requirements.h"
+#include "rng.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );

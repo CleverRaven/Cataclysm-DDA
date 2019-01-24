@@ -2,10 +2,12 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
+#include <stddef.h>
 #include <functional>
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "optional.h"
 #include "string_id.h"

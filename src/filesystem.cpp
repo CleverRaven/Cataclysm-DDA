@@ -2,15 +2,17 @@
 
 // FILE I/O
 #include <sys/stat.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cerrno>
-#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <deque>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "debug.h"
 

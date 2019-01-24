@@ -6,17 +6,14 @@
 #include <string>
 #include <vector>
 
-#include "enums.h"
 #include "units.h"
 
 class item;
 class player;
 class JsonObject;
-class MonsterGenerator;
-
 template<typename T> class ret_val;
-
 struct iteminfo;
+
 typedef std::string itype_id;
 struct tripoint;
 

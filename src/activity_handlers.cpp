@@ -1,7 +1,16 @@
 #include "activity_handlers.h"
 
+#include <limits.h>
+#include <stddef.h>
 #include <algorithm>
 #include <cmath>
+#include <iterator>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -39,6 +48,28 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "map_selector.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_location.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "line.h"
+#include "monster.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "pldata.h"
+#include "ret_val.h"
+#include "string_id.h"
+#include "units.h"
+
+class recipe;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

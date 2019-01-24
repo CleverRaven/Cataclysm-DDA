@@ -3,6 +3,9 @@
 #include "sdl_wrappers.h"
 
 #include <cassert>
+#include <ostream>
+#include <stdexcept>
+#include <string>
 
 #include "debug.h"
 

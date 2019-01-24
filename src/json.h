@@ -1,12 +1,12 @@
 #ifndef JSON_H
 #define JSON_H
 
+#include <stddef.h>
 #include <type_traits>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <bitset>
-#include <utility>
 #include <array>
 #include <map>
 #include <set>
@@ -26,8 +26,6 @@
  * Further documentation can be found below.
  */
 
-class JsonIn;
-class JsonOut;
 class JsonObject;
 class JsonArray;
 class JsonSerializer;

@@ -1,11 +1,17 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <stddef.h>
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <vector>
+#include <iterator>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
 
-#include "action.h"
 #include "clzones.h"
 #include "creature.h"
 #include "debug.h"
@@ -33,6 +39,13 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item_stack.h"
+#include "line.h"
+#include "units.h"
 
 void cancel_aim_processing();
 

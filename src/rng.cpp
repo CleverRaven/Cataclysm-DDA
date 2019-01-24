@@ -1,11 +1,10 @@
 #include "rng.h"
 
 #include <chrono>
-#include <cmath>
 #include <cstdlib>
 #include <random>
-
-#include "output.h"
+#include <algorithm>
+#include <utility>
 
 long rng( long val1, long val2 )
 {

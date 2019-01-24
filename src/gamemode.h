@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "calendar.h"
 #include "enums.h"
@@ -17,6 +18,7 @@ class window;
 } // namespace catacurses
 struct special_game;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 
 std::string special_game_name( special_game_id id );

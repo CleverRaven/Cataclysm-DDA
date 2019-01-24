@@ -1,5 +1,10 @@
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <vector>
+
 #include "catch/catch.hpp"
-#include "crafting.h"
 #include "game.h"
 #include "itype.h"
 #include "map_helpers.h"
@@ -7,6 +12,14 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "recipe_dictionary.h"
+#include "calendar.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "recipe.h"
+#include "requirements.h"
 
 TEST_CASE( "recipe_subset" )
 {

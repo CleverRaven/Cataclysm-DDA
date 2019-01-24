@@ -4,8 +4,8 @@
 #include <cassert>
 #include <cmath>
 #include <set>
+#include <memory>
 
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -19,6 +19,7 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "optional.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );

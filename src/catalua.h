@@ -6,10 +6,12 @@
 #include <sstream>
 #include <string>
 
-#include "creature.h"
 #include "enums.h"
 #include "int_id.h"
 #include "item.h"
+#include "bodypart.h"
+
+class Creature;
 
 enum CallbackArgumentType : int {
     Integer,

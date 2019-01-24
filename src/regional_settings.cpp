@@ -10,6 +10,7 @@
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 

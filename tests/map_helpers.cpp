@@ -1,3 +1,8 @@
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
@@ -5,6 +10,10 @@
 #include "monster.h"
 #include "player.h"
 #include "field.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "pimpl.h"
 
 void wipe_map_terrain()
 {

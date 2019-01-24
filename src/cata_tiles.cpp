@@ -1,11 +1,17 @@
 #if (defined TILES)
 #include "cata_tiles.h"
 
+#include <math.h>
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <cstdlib>
 #include <fstream>
+#include <bitset>
+#include <cstdint>
+#include <iterator>
+#include <stdexcept>
+#include <tuple>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -42,6 +48,18 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weighted_list.h"
+#include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "int_id.h"
+#include "map_memory.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "string_id.h"
+#include "tileray.h"
+#include "translations.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

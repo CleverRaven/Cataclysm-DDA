@@ -1,10 +1,15 @@
+#include <math.h>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <utility>
 
 #include "catch/catch.hpp"
-#include "creature.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -12,7 +17,10 @@
 #include "options.h"
 #include "player.h"
 #include "test_statistics.h"
-#include "vehicle.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "line.h"
 
 typedef statistics<int> move_statistics;
 

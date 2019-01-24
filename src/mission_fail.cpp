@@ -1,5 +1,7 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <memory>
+
 #include "game.h"
 #include "npc.h"
 #include "overmapbuffer.h"

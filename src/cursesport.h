@@ -5,12 +5,12 @@
 #include <array>
 #include <string>
 #include <vector>
-
-class nc_color;
+#include <utility>
 
 namespace catacurses
 {
 class window;
+
 enum base_color : short;
 } // namespace catacurses
 

@@ -2,6 +2,7 @@
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
 
+#include <stddef.h>
 #include <cstdint>
 #include <string>
 

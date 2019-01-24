@@ -2,6 +2,7 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
+#include <stdlib.h>
 #include <algorithm>
 #include <array>
 #include <functional>
@@ -11,24 +12,21 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "game_constants.h"
-#include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
-#include "weighted_list.h"
+#include "enums.h"
+#include "mongroup.h"
 
-class input_context;
-class JsonObject;
 class npc;
-class overmapbuffer;
 class overmap_connection;
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-struct mongroup;
+class JsonIn;
+class JsonOut;
+class monster;
 
 namespace pf
 {

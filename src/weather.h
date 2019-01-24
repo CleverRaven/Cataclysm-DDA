@@ -3,6 +3,7 @@
 #define WEATHER_H
 
 #include "color.h"
+#include "int_id.h"
 
 /**
  * @name BODYTEMP
@@ -32,9 +33,8 @@ class item;
 struct point;
 struct tripoint;
 struct trap;
-template<typename T>
-class int_id;
 struct oter_t;
+
 using oter_id = int_id<oter_t>;
 
 /**

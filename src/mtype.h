@@ -6,6 +6,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "damage.h"
@@ -20,9 +21,11 @@ class Creature;
 class monster;
 class monfaction;
 class emit;
+
 using emit_id = string_id<emit>;
 struct dealt_projectile_attack;
 struct species_type;
+
 enum field_id : int;
 enum body_part : int;
 enum m_size : int;
@@ -31,25 +34,28 @@ using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
 using species_id = string_id<species_type>;
 class effect_type;
+
 using efftype_id = string_id<effect_type>;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class material_type;
+
 using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
 
-class emit;
 using emit_id = string_id<emit>;
 
 class harvest_list;
+
 using harvest_id = string_id<harvest_list>;
 
 // These are triggers which may affect the monster's anger or morale.

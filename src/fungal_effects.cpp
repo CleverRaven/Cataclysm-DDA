@@ -1,5 +1,8 @@
 #include "fungal_effects.h"
 
+#include <memory>
+#include <string>
+
 #include "creature.h"
 #include "field.h"
 #include "game.h"
@@ -11,6 +14,15 @@
 #include "mtype.h"
 #include "output.h"
 #include "player.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "enums.h"
+#include "item.h"
+#include "item_stack.h"
+#include "pldata.h"
+#include "rng.h"
+#include "translations.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );

@@ -2,19 +2,26 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
+#include <stddef.h>
 #include <map>
 #include <sstream>
 #include <vector>
+#include <functional>
+#include <string>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "requirements.h"
 #include "string_id.h"
+#include "item.h"
+#include "item_location.h"
 
 class vpart_info;
+struct requirement_data;
+struct tripoint;
+
 using vpart_id = string_id<vpart_info>;
 
 /** Represents possible return values from the cant_do function. */

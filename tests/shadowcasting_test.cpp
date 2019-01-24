@@ -1,11 +1,19 @@
 #include <chrono>
 #include <cstdio>
 #include <random>
+#include <array>
+#include <functional>
+#include <memory>
+#include <type_traits>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "line.h" // For rl_dist.
 #include "map.h"
 #include "shadowcasting.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "lightmap.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;

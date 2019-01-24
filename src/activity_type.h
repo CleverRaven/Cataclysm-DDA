@@ -2,6 +2,8 @@
 #ifndef ACTIVITY_TYPE_H
 #define ACTIVITY_TYPE_H
 
+#include <string>
+
 #include "string_id.h"
 
 class activity_type;

@@ -1,9 +1,14 @@
 #include "item_factory.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <stdexcept>
+#include <type_traits>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -12,7 +17,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "enums.h"
-#include "field.h"
 #include "init.h"
 #include "item.h"
 #include "item_category.h"
@@ -21,7 +25,6 @@
 #include "json.h"
 #include "material.h"
 #include "options.h"
-#include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_formatter.h"
@@ -30,6 +33,20 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vitamin.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "color.h"
+#include "creature.h"
+#include "damage.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "omdata.h"
+#include "optional.h"
+#include "recipe.h"
+#include "string_id.h"
+#include "units.h"
+
+class player;
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;

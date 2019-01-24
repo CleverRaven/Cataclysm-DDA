@@ -1,9 +1,8 @@
 #include "scenario.h"
 
+#include <stdlib.h>
 #include <algorithm>
-#include <cmath>
 
-#include "addiction.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -12,6 +11,7 @@
 #include "player.h"
 #include "profession.h"
 #include "translations.h"
+#include "rng.h"
 
 namespace
 {

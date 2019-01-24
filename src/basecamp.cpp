@@ -1,30 +1,23 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <array>
 #include <sstream>
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
-#include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "enums.h"
 #include "item_group.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "mapbuffer.h"
-#include "mapdata.h"
-#include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "npc.h"
-#include "recipe.h"
 #include "recipe_groups.h"
-#include "requirements.h"
-#include "skill.h"
 #include "faction_camp.h"
+#include "compatibility.h"
+#include "omdata.h"
+#include "string_id.h"
 
 static const std::string base_dir = "[B]";
 static const std::string prefix = "faction_base_";

@@ -12,6 +12,8 @@
 #include <queue>
 #include <random>
 #include <vector>
+#include <exception>
+#include <unordered_set>
 
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -41,6 +43,11 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "translations.h"
+#include "assign.h"
+#include "item.h"
+#include "math_defines.h"
+#include "monster.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

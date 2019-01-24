@@ -7,11 +7,14 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <set>
 
 #include "mapdata.h"
 #include "omdata.h"
 #include "weather_gen.h"
 #include "weighted_list.h"
+#include "int_id.h"
+#include "string_id.h"
 
 class JsonObject;
 
@@ -181,7 +184,6 @@ struct map_extras {
     map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
-struct sid_or_sid;
 /*
  * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion

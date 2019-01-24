@@ -1,4 +1,16 @@
+#include <stddef.h>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "messages.h"
+
+class JsonObject;
+class JsonOut;
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 /**
  * Stubs to turn all Messages calls into no-ops for unit testing.

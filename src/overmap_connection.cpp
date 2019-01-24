@@ -1,11 +1,15 @@
 #include "overmap_connection.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <cassert>
+#include <map>
+#include <memory>
 
 #include "generic_factory.h"
 #include "json.h"
 #include "overmap_location.h"
+#include "debug.h"
 
 namespace
 {

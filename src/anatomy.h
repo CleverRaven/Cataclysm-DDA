@@ -3,11 +3,14 @@
 #define ANATOMY_H
 
 #include <vector>
+#include <string>
 
 #include "bodypart.h"
 #include "string_id.h"
 
 class anatomy;
+class JsonObject;
+
 using anatomy_id = string_id<anatomy>;
 
 /**

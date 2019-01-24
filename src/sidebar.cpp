@@ -3,6 +3,10 @@
 #include <cmath>
 #include <cstdlib>
 #include <string>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
 
 #include "cata_utility.h"
 #include "color.h"
@@ -21,6 +25,14 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "item_location.h"
+#include "pldata.h"
+#include "tileray.h"
+#include "units.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );

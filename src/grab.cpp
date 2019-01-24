@@ -1,5 +1,8 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <stdlib.h>
+#include <algorithm>
+
 #include "map.h"
 #include "messages.h"
 #include "output.h"
@@ -7,6 +10,11 @@
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "debug.h"
+#include "rng.h"
+#include "tileray.h"
+#include "translations.h"
+#include "units.h"
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {

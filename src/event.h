@@ -2,7 +2,6 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <climits>
 #include <list>
 
 #include "calendar.h"

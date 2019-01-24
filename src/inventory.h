@@ -2,27 +2,32 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include <stddef.h>
 #include <array>
 #include <list>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <map>
+#include <set>
 
-#include "enums.h"
 #include "item.h"
 #include "visitable.h"
+#include "units.h"
 
-class map;
 class npc;
+class Character;
+class JsonIn;
+class JsonOut;
+class player;
+struct tripoint;
 
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
-
-class salvage_actor;
 
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of

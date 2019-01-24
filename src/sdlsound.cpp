@@ -2,6 +2,7 @@
 
 #include "sdlsound.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <chrono>
 #include <map>
@@ -9,6 +10,11 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <exception>
+#include <memory>
+#include <ostream>
+#include <type_traits>
+#include <utility>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #    include <SDL2/SDL_mixer.h>
@@ -24,6 +30,7 @@
 #include "path_info.h"
 #include "rng.h"
 #include "sdl_wrappers.h"
+#include "sounds.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

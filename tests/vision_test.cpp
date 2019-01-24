@@ -1,13 +1,25 @@
+#include <stddef.h>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
 #include "field.h"
-#include "string.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "item.h"
+#include "lightmap.h"
+#include "shadowcasting.h"
 
 void full_map_test( const std::vector<std::string> &setup,
                     const std::vector<std::string> &expected_results,

@@ -5,6 +5,7 @@
 #include "mapdata.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "computer.h"
 
 submap::submap()
 {

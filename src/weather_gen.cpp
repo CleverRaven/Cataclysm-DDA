@@ -5,13 +5,11 @@
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
-#include <iostream>
 #include <random>
 #include <string>
 
 #include "enums.h"
 #include "json.h"
-#include "messages.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"

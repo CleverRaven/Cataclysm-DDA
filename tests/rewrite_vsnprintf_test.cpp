@@ -1,3 +1,5 @@
+#include <string>
+
 #include "catch/catch.hpp"
 
 std::string rewrite_vsnprintf( const char *msg );

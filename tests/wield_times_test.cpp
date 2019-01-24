@@ -1,4 +1,7 @@
+#include <stdio.h>
 #include <string>
+#include <list>
+#include <memory>
 
 #include "catch/catch.hpp"
 #include "game.h"
@@ -6,6 +9,8 @@
 #include "map_helpers.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "enums.h"
+#include "item.h"
 
 void wield_check_internal( player &dummy, item &the_item, const char *section_text,
                            const std::string &var_name, const int expected_cost )

@@ -8,10 +8,11 @@
 #include <string>
 #include <vector>
 
+#include "string_id.h"
+
 class item;
-template<typename T>
-class string_id;
 struct quality;
+
 using quality_id = string_id<quality>;
 
 enum class VisitResponse {

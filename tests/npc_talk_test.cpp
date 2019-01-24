@@ -1,4 +1,7 @@
+#include <stdio.h>
 #include <string>
+#include <memory>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "calendar.h"
@@ -12,6 +15,12 @@
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "npc_class.h"
+#include "pimpl.h"
+#include "string_id.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );

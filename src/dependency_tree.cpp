@@ -2,6 +2,10 @@
 
 #include <algorithm>
 #include <set>
+#include <array>
+#include <iterator>
+#include <sstream>
+#include <utility>
 
 #include "debug.h"
 #include "output.h"

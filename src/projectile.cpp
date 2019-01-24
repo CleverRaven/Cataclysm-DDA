@@ -1,5 +1,7 @@
 #include "projectile.h"
 
+#include <utility>
+
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -7,6 +9,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
+#include "game_constants.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )

@@ -1,5 +1,9 @@
 #include "vehicle_group.h"
 
+#include <stddef.h>
+#include <functional>
+#include <utility>
+
 #include "debug.h"
 #include "enums.h"
 #include "json.h"

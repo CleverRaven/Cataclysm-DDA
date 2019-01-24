@@ -2,6 +2,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <stddef.h>
 #include <functional>
 #include <map>
 #include <string>
@@ -13,6 +14,7 @@
 #endif
 
 struct tripoint;
+
 namespace cata
 {
 template<typename T>

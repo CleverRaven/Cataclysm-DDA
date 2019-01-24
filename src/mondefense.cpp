@@ -1,12 +1,16 @@
 #include "mondefense.h"
 
+#include <stddef.h>
 #include <algorithm>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "ballistics.h"
 #include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
-#include "dispersion.h"
 #include "game.h"
 #include "messages.h"
 #include "monster.h"
@@ -15,6 +19,8 @@
 #include "projectile.h"
 #include "rng.h"
 #include "translations.h"
+#include "enums.h"
+#include "item.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 

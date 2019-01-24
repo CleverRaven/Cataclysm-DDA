@@ -5,11 +5,13 @@
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 #include "enums.h" // IWYU pragma: keep
 
 class JsonOut;
 class JsonObject;
+class JsonIn;
 
 struct memorized_terrain_tile {
     std::string tile;

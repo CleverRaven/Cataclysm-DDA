@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <memory>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "item.h"

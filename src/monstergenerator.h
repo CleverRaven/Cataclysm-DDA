@@ -5,31 +5,31 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "enums.h"
 #include "mattack_common.h"
 #include "pimpl.h"
 #include "string_id.h"
+#include "generic_factory.h"
+#include "mtype.h"
 
 class JsonObject;
 class Creature;
-struct mtype;
+
 enum m_flag : int;
 enum monster_trigger : int;
 enum m_size : int;
 class monster;
-class Creature;
 struct dealt_projectile_attack;
+
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 using mtype_id = string_id<mtype>;
 struct species_type;
-using species_id = string_id<species_type>;
 
-class mattack_actor;
-template<typename T>
-class generic_factory;
+using species_id = string_id<species_type>;
 
 struct species_type {
     species_id id;

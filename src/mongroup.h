@@ -5,6 +5,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "calendar.h"
 #include "enums.h"
@@ -18,12 +19,15 @@ class JsonObject;
 class JsonIn;
 class JsonOut;
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 
 struct MonsterGroupEntry;
+
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 

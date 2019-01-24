@@ -7,6 +7,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "cursesdef.h"
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
@@ -14,6 +15,7 @@
 
 #include <algorithm> // min & max
 #include <string>
+#include <memory>
 
 namespace
 {

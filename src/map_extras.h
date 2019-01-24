@@ -2,6 +2,8 @@
 #ifndef MAP_EXTRAS_H
 #define MAP_EXTRAS_H
 
+#include <string>
+
 #include "mapgen.h"
 
 namespace MapExtras

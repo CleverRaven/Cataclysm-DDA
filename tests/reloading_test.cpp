@@ -1,9 +1,17 @@
+#include <limits.h>
+#include <list>
+#include <memory>
+#include <set>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "player.h"
+#include "calendar.h"
+#include "inventory.h"
+#include "optional.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {

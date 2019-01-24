@@ -3,6 +3,7 @@
 #include <array>
 #include <cmath>
 #include <limits>
+#include <algorithm>
 
 #include "options.h"
 #include "rng.h"

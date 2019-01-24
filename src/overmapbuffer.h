@@ -6,19 +6,22 @@
 #include <set>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <string>
+#include <utility>
 
 #include "enums.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
-#include "string_id.h"
+#include "optional.h"
 
 struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
+class overmap_special_batch;
 
-struct oter_t;
 using oter_id = int_id<oter_t>;
 class overmap;
 struct radio_tower;

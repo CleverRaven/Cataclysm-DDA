@@ -1,16 +1,19 @@
 #include "veh_type.h"
 
+#include <assert.h>
+#include <stddef.h>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
+#include <type_traits>
 
 #include "ammo.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
-#include "generic_factory.h"
 #include "init.h"
 #include "item_group.h"
 #include "itype.h"
@@ -21,6 +24,11 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "assign.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "item.h"
+#include "mapdata.h"
 
 const skill_id skill_mechanics( "mechanics" );
 

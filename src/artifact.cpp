@@ -1,8 +1,14 @@
 #include "artifact.h"
 
+#include <stdlib.h>
 #include <array>
-#include <cmath>
 #include <sstream>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <vector>
 
 #include "cata_utility.h"
 #include "item_factory.h"
@@ -10,6 +16,12 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "color.h"
+#include "damage.h"
+#include "iuse.h"
+#include "optional.h"
+#include "units.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,

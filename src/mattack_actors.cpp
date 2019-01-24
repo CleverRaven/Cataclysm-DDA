@@ -1,9 +1,12 @@
 #include "mattack_actors.h"
 
+#include <math.h>
+#include <algorithm>
+#include <memory>
+
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
-#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -13,6 +16,15 @@
 #include "output.h"
 #include "sounds.h"
 #include "translations.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "enums.h"
+#include "item.h"
+#include "json.h"
+#include "mapdata.h"
+#include "player.h"
+#include "rng.h"
 
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );

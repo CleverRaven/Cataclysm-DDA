@@ -1,7 +1,10 @@
 #include "morale.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <set>
+#include <memory>
+#include <utility>
 
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -10,11 +13,13 @@
 #include "debug.h"
 #include "input.h"
 #include "item.h"
-#include "itype.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "color.h"
+#include "creature.h"
+#include "player.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );

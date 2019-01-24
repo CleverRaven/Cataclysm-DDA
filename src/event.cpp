@@ -1,5 +1,8 @@
 #include "event.h"
 
+#include <array>
+#include <memory>
+
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -12,6 +15,10 @@
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "player.h"
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 const mtype_id mon_copbot( "mon_copbot" );

@@ -2,6 +2,11 @@
 
 #include <cstdlib>
 #include <cassert>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
 
 #include "translations.h"
 #include "string_formatter.h"

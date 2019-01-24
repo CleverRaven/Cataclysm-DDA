@@ -5,9 +5,13 @@
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include <functional>
+#include <string>
 
-#include "enums.h"
 #include "game_constants.h"
+#include "lightmap.h"
+
+struct tripoint;
 
 // For light we store four values, depending on the direction that the light
 // comes from.  This allows us to determine whether the side of the wall the

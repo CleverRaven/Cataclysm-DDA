@@ -2,10 +2,14 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <bitset>
 #include <list>
 #include <set>
 #include <vector>
+#include <array>
+#include <string>
 
 #include "color.h"
 #include "common_types.h"
@@ -15,15 +19,16 @@
 #include "translations.h"
 
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 struct city;
 struct oter_t;
-struct oter_type_t;
 struct overmap_location;
 class JsonObject;
 class overmap_connection;
 class overmap_special_batch;
 class overmap_special;
+
 using overmap_special_id = string_id<overmap_special>;
 
 /** Direction on the overmap. */

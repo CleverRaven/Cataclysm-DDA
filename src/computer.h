@@ -8,7 +8,6 @@
 #include "calendar.h"
 #include "cursesdef.h"
 
-class game;
 class player;
 class JsonObject;
 

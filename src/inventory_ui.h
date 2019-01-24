@@ -2,25 +2,30 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <functional>
 #include <limits>
 #include <memory>
+#include <array>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "input.h"
 #include "item_location.h"
 #include "pimpl.h"
 #include "units.h"
+#include "item_category.h"
 
 class Character;
-
 class item;
-class item_category;
-class item_location;
-
 class player;
+struct tripoint;
 
 enum class navigation_mode : int {
     ITEM = 0,

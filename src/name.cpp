@@ -1,7 +1,10 @@
 #include "name.h"
 
+#include <stddef.h>
 #include <map>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "json.h"

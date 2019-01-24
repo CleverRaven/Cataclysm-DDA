@@ -1,6 +1,13 @@
 #include "ballistics.h"
 
+#include <math.h>
+#include <stddef.h>
 #include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "creature.h"
 #include "dispersion.h"
@@ -17,8 +24,15 @@
 #include "rng.h"
 #include "sounds.h"
 #include "trap.h"
-#include "vehicle.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "damage.h"
+#include "debug.h"
+#include "enums.h"
+#include "item.h"
+#include "optional.h"
+#include "translations.h"
+#include "units.h"
 
 const efftype_id effect_bounced( "bounced" );
 

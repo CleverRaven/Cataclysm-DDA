@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cassert>
-#include <map>
+#include <list>
+#include <set>
+#include <type_traits>
 
 #include "ammo.h"
 #include "debug.h"
@@ -11,6 +13,10 @@
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
+#include "calendar.h"
+#include "compatibility.h"
+#include "enums.h"
+#include "string_id.h"
 
 static const std::string null_item_id( "null" );
 

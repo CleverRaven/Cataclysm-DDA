@@ -7,8 +7,6 @@
 #include "enums.h"
 #include "visitable.h"
 
-class map;
-
 class map_cursor : public tripoint, public visitable<map_cursor>
 {
     public:

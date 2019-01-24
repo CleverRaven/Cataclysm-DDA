@@ -1,6 +1,9 @@
 #include "monexamine.h"
 
 #include <utility>
+#include <map>
+#include <memory>
+#include <string>
 
 #include "calendar.h"
 #include "game.h"

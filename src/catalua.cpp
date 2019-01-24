@@ -1,6 +1,11 @@
 #include "catalua.h"
 
+#include <stddef.h>
 #include <memory>
+#include <map>
+#include <new>
+#include <utility>
+#include <vector>
 
 #include "action.h"
 #include "debug.h"
@@ -8,20 +13,26 @@
 #include "item.h"
 #include "item_factory.h"
 #include "map.h"
-#include "mapgen.h"
-#include "mapgen_functions.h"
 #include "messages.h"
 #include "monstergenerator.h"
 #include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "path_info.h"
-#include "player.h"
-#include "pldata.h"
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "weather_gen.h"
+#include "calendar.h"
+#include "iuse.h"
+#include "mattack_common.h"
+#include "monster.h"
+#include "ret_val.h"
+#include "string_id.h"
+#include "units.h"
+
+class Creature;
+class JsonObject;
+class player;
 
 #ifdef LUA
 
@@ -33,16 +44,13 @@
 #include "field.h" // IWYU pragma: keep
 #include "filesystem.h"
 #include "gun_mode.h"
-#include "itype.h"
 #include "line.h" // IWYU pragma: keep
 #include "mapdata.h"
-#include "mongroup.h"
 #include "morale_types.h" // IWYU pragma: keep
 #include "mtype.h"
 #include "mutation.h" // IWYU pragma: keep
 #include "npc.h" // IWYU pragma: keep
 #include "optional.h"
-#include "overmap.h"
 #include "overmap_ui.h" // IWYU pragma: keep
 #include "requirements.h" // IWYU pragma: keep
 #include "rng.h" // IWYU pragma: keep

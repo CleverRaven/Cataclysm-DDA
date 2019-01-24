@@ -1,5 +1,17 @@
 #include "overmap_ui.h"
 
+#include <stddef.h>
+#include <algorithm>
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
@@ -21,6 +33,20 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "omdata.h"
+#include "optional.h"
+#include "overmap_types.h"
+#include "pldata.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 
 #ifdef __ANDROID__
 #include <SDL_keyboard.h>

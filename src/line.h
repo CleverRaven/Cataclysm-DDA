@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "enums.h"
-#include "game_constants.h"
+#include "math_defines.h"
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )

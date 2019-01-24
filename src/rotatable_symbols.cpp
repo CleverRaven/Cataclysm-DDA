@@ -1,7 +1,9 @@
 #include "rotatable_symbols.h"
 
+#include <stdlib.h>
 #include <array>
 #include <vector>
+#include <algorithm>
 
 #include "generic_factory.h"
 #include "json.h"

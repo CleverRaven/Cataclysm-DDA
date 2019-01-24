@@ -2,8 +2,11 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
+#include <stddef.h>
 #include <array>
 #include <bitset>
+#include <initializer_list>
+#include <string>
 
 #include "int_id.h"
 #include "string_id.h"
@@ -45,6 +48,7 @@ constexpr std::array<body_part, 12> all_body_parts = {{
 };
 
 struct body_part_struct;
+
 using bodypart_ids = string_id<body_part_struct>;
 using bodypart_id = int_id<body_part_struct>;
 

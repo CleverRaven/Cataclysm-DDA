@@ -1,9 +1,11 @@
 #include "weather.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <array>
 #include <cmath>
 #include <map>
 #include <vector>
+#include <iterator>
 
 #include "color.h"
 #include "game_constants.h"

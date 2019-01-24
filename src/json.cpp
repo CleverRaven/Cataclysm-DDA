@@ -1,10 +1,9 @@
 #include "json.h"
 
+#include <stdio.h>
 #include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
-#include <fstream>
-#include <istream>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
 #include <sstream>
@@ -12,6 +11,10 @@
 #include <vector>
 #include <bitset>
 #include <iterator>
+#include <algorithm>
+#include <cstdint>
+#include <exception>
+#include <utility>
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.

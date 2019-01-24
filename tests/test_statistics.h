@@ -5,6 +5,9 @@
 #include <cmath>
 #include <limits>
 #include <vector>
+#include <algorithm>
+#include <string>
+#include <type_traits>
 
 #include "catch/catch.hpp"
 

@@ -2,6 +2,10 @@
 
 #include <algorithm>
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <memory>
+#include <utility>
 
 #include "action.h"
 #include "cata_utility.h"
@@ -9,7 +13,6 @@
 #include "debug.h"
 #include "game.h"
 #include "input.h"
-#include "inventory.h"
 #include "item_group.h"
 #include "iuse.h"
 #include "json.h"
@@ -32,6 +35,18 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "player_activity.h"
+#include "pldata.h"
+
+class inventory;
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );

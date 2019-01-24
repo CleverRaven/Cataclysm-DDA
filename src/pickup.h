@@ -4,13 +4,10 @@
 
 #include <list>
 
-#include "enums.h"
-
-class vehicle;
 class item;
 class Character;
-class player;
 class map;
+struct tripoint;
 
 namespace Pickup
 {

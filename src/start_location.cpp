@@ -1,8 +1,10 @@
 #include "start_location.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <chrono>
 #include <random>
+#include <memory>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -10,7 +12,6 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "map_extras.h"
 #include "mapdata.h"
@@ -18,6 +19,16 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "calendar.h"
+#include "creature.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "omdata.h"
+#include "pldata.h"
+#include "rng.h"
+#include "translations.h"
+
+class item;
 
 const efftype_id effect_bleed( "bleed" );
 

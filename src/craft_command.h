@@ -4,6 +4,7 @@
 
 #include <list>
 #include <vector>
+#include <string>
 
 #include "requirements.h"
 #include "string_id.h"
@@ -13,11 +14,6 @@ class item;
 class player;
 class recipe;
 
-struct component;
-struct tool_comp;
-struct item_comp;
-
-struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 
 /**

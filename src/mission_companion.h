@@ -6,24 +6,18 @@
 #include <string>
 #include <vector>
 
-#include "game.h"
-#include "map.h"
-#include "npc.h"
-#include "output.h"
+#include "calendar.h"
+#include "damage.h"
+#include "translations.h"
 
-class martialart;
-class JsonObject;
-class mission;
-class time_point;
-class time_duration;
 class npc;
 class item;
 struct tripoint;
 struct comp_rank;
-class player;
 class npc_template;
 template<typename T>
 class string_id;
+class monster;
 
 struct mission_entry {
     std::string id;

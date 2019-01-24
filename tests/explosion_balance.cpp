@@ -1,4 +1,8 @@
 #include <sstream>
+#include <algorithm>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "enums.h"
@@ -8,10 +12,10 @@
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "monster.h"
 #include "test_statistics.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "creature.h"
 
 void check_lethality( const std::string &explosive_id, const int range, float lethality,
                       float margin )

@@ -2,14 +2,18 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
+#include <stddef.h>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "int_id.h"
 
 struct ter_t;
+
 using ter_id = int_id<ter_t>;
 struct furn_t;
+
 using furn_id = int_id<furn_t>;
 class map;
 

@@ -1,8 +1,16 @@
 #include "pickup.h"
 
+#include <limits.h>
+#include <stddef.h>
 #include <map>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <set>
+#include <type_traits>
+#include <utility>
 
 #include "auto_pickup.h"
 #include "cata_utility.h"
@@ -26,6 +34,20 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "clzones.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "int_id.h"
+#include "item.h"
+#include "line.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "string_id.h"
+#include "units.h"
 
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;

@@ -4,21 +4,21 @@
 
 #include <set>
 #include <vector>
+#include <string>
 
 #include "string_id.h"
 
-class scenario;
 class profession;
-class player;
-class JsonArray;
 class JsonObject;
-class addiction;
+
 enum add_type : int;
 class start_location;
+
 using start_location_id = string_id<start_location>;
 template<typename T>
 class generic_factory;
 struct mutation_branch;
+
 using trait_id = string_id<mutation_branch>;
 
 class scenario

@@ -5,6 +5,8 @@
 #include <functional>
 #include <map>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "string_id.h"
 
@@ -12,13 +14,14 @@ class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;
-
 struct requirement_data;
+
 using requirement_id = string_id<requirement_data>;
 
 // Denotes the id of an item type
 typedef std::string itype_id;
 struct quality;
+
 using quality_id = string_id<quality>;
 
 enum available_status {

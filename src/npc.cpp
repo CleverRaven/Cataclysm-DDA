@@ -1,7 +1,15 @@
 #include "npc.h"
 
+#include <math.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <functional>
+#include <limits>
+#include <sstream>
+#include <unordered_map>
+#include <unordered_set>
+
 #include "ammo.h"
-#include "auto_pickup.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "item_group.h"
@@ -12,7 +20,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
-#include "monfaction.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -28,6 +35,23 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h" // IWYU pragma: keep
+#include "bodypart.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "debug.h"
+#include "game_constants.h"
+#include "item.h"
+#include "iuse.h"
+#include "line.h"
+#include "math_defines.h"
+#include "monster.h"
+#include "pathfinding.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "tileray.h"
+#include "translations.h"
+#include "units.h"
+#include "visitable.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );

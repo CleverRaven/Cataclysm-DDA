@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <iterator>
 
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
@@ -14,6 +15,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "debug.h"
 
 namespace
 {

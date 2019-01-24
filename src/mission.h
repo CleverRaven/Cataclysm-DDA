@@ -12,11 +12,10 @@
 #include "calendar.h"
 #include "enums.h"
 #include "npc_favor.h"
+#include "string_id.h"
 
 class player;
 class mission;
-class game;
-class npc;
 class Creature;
 class npc_class;
 class JsonObject;

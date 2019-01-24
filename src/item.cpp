@@ -1,5 +1,7 @@
 #include "item.h"
 
+#include <ctype.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -7,6 +9,11 @@
 #include <iterator>
 #include <set>
 #include <sstream>
+#include <bitset>
+#include <cmath>
+#include <cstdint>
+#include <limits>
+#include <locale>
 
 #include "advanced_inv.h"
 #include "ammo.h"
@@ -54,11 +61,24 @@
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "explosion.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_group.h"
+#include "iuse.h"
+#include "line.h"
+#include "mapdata.h"
+#include "monster.h"
+#include "optional.h"
+#include "recipe.h"
+#include "rng.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 

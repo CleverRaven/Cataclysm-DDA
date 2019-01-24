@@ -1,11 +1,21 @@
 #include "explosion.h" // IWYU pragma: associated
 #include "fragment_cloud.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <algorithm>
 #include <chrono>
+#include <queue>
+#include <random>
+#include <array>
+#include <cmath>
+#include <limits>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
-#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "field.h"
@@ -23,9 +33,20 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <queue>
-#include <random>
+#include "bodypart.h"
+#include "calendar.h"
+#include "color.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "itype.h"
+#include "line.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "units.h"
 
 static const itype_id null_itype( "null" );
 

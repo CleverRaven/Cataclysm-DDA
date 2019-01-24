@@ -2,12 +2,15 @@
 #ifndef POPUP_H
 #define POPUP_H
 
+#include <stddef.h>
 #include <functional>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "cursesdef.h"
 #include "input.h"
+#include "string_formatter.h"
 
 class nc_color;
 

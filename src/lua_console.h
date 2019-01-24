@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <sstream>
 
 #include "cursesdef.h"
 #include "output.h"

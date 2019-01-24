@@ -1,4 +1,7 @@
-#include <sstream>
+#include <stdio.h>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "game.h"
@@ -8,11 +11,16 @@
 #include "veh_type.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-#include "itype.h"
 #include "player.h"
-#include "cata_utility.h"
-#include "options.h"
 #include "test_statistics.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "mapdata.h"
+
+class monster;
 
 typedef statistics<long> efficiency_stat;
 
