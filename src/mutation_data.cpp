@@ -293,7 +293,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
 
     JsonArray vr = jo.get_array( "vitamin_rates" );
 
-  while( vr.has_more() ) {
+    while( vr.has_more() ) {
         auto pair = vr.next_array();
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
                                time_duration::from_turns( pair.get_int( 1 ) ) );
