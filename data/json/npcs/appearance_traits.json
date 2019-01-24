@@ -661,17 +661,6 @@
     "types": [ "hair_style" ]
   },
   {
-    "id": "PALE",
-    "type": "mutation",
-    "name": "Pale Skin",
-    "description": "You have a pale skin tone.",
-    "points": 0,
-    "starting_trait": true,
-    "purifiable": false,
-    "player_display": false,
-    "types": [ "skin_tone" ]
-  },
-  {
     "id": "SKIN_DARK",
     "type": "mutation",
     "name": "Dark Brown Skin",
