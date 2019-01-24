@@ -244,7 +244,7 @@
     "price": 1120,
     "material": [ "powder", "egg" ],
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "//": "according to USDA website info on powdered egg, you lose most of the vitamins by powderizing them",
     "charges": 16,
     "fun": -4

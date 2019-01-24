@@ -706,8 +706,28 @@ void player::complete_craft()
             making.is_reversible() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
-            // which would either loose this information or merge it somehow.
+            // which would either lose this information or merge it somehow.
             set_components( newit.components, used, batch_size, newit_counter );
+            newit_counter++;
+        } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+            // if a component item has "cooks_like" it will be replaced by that item as a component
+            for( item &comp : used ) {
+                // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
+                if( comp.is_comestible() && !comp.type->comestible->cooks_like.empty() ) {
+                    comp = item( comp.type->comestible->cooks_like, comp.birthday(), comp.charges );
+                }
+            }
+            // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
+            if( making.has_byproducts() ) {
+                for( item &byproduct : making.create_byproducts( batch_size ) ) {
+                    byproduct.set_flag( "BYPRODUCT" );
+                    used.push_back( byproduct );
+                }
+            }
+            // store components for food recipes that do not have the override flag
+            set_components( newit.components, used, batch_size, newit_counter );
+            // store the number of charges the recipe creates
+            newit.recipe_charges = newit.charges / batch_size;
             newit_counter++;
         }
 
