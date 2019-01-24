@@ -4823,40 +4823,40 @@
         "name" : "Very Heat Dependent",
         "points" : -2,
         "mixed_effect" : true,
-        "description" : "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less food.",
+        "description" : "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less food and liquid.",
         "prereqs" : ["COLDBLOOD"],
         "changes_to" : ["COLDBLOOD3"],
         "types" : ["METABOLISM"],
         "category" : ["RAPTOR"],
         "metabolism_modifier": -0.5,
-       	"thirst_modifier": -0.15
+       	"thirst_modifier": -0.2
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD3",
         "name" : "Cold Blooded",
         "points" : -3,
         "mixed_effect" : true,
-        "description" : "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C), but only need to eat about half as much as before.",
+        "description" : "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C), but only need to eat about half as much and drink less than before.",
         "prereqs" : ["COLDBLOOD2"],
         "changes_to" : ["COLDBLOOD4"],
         "types" : ["METABOLISM"],
         "category" : ["INSECT", "LIZARD"],
         "metabolism_modifier": -0.5,
-        "thirst_modifier": -0.2
+        "thirst_modifier": -0.25
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD4",
         "name" : "Ectothermic",
         "points" : 0,
         "mixed_effect" : true,
-        "description" : "Your body has become permanently cold-blooded.  Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
+        "description" : "Your body has become permanently cold-blooded.  Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much and drink much less than an average human.",
         "prereqs" : ["COLDBLOOD3"],
         "threshreq" : ["THRESH_LIZARD"],
         "purifiable" : false,
         "types" : ["METABOLISM"],
         "category" : ["LIZARD"],
         "metabolism_modifier": -0.5,
-        "thirst_modifier": -0.25
+        "thirst_modifier": -0.3
     },{
         "type" : "mutation",
         "id" : "GROWL",
