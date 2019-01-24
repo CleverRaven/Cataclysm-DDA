@@ -4807,7 +4807,8 @@
         "changes_to" : ["COLDBLOOD2"],
         "types" : ["METABOLISM"],
         "category" : ["FISH", "CEPHALOPOD", "SPIDER"],
-        "metabolism_modifier": -0.333
+        "metabolism_modifier": -0.333,
+        "thirst_modifier": -0.1
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
@@ -4819,7 +4820,8 @@
         "changes_to" : ["COLDBLOOD3"],
         "types" : ["METABOLISM"],
         "category" : ["RAPTOR"],
-        "metabolism_modifier": -0.5
+        "metabolism_modifier": -0.5,
+       	"thirst_modifier": -0.15
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD3",
@@ -4831,7 +4833,8 @@
         "changes_to" : ["COLDBLOOD4"],
         "types" : ["METABOLISM"],
         "category" : ["INSECT", "LIZARD"],
-        "metabolism_modifier": -0.5
+        "metabolism_modifier": -0.5,
+        "thirst_modifier": -0.2
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD4",
@@ -4844,7 +4847,8 @@
         "purifiable" : false,
         "types" : ["METABOLISM"],
         "category" : ["LIZARD"],
-        "metabolism_modifier": -0.5
+        "metabolism_modifier": -0.5,
+        "thirst_modifier": -0.25
     },{
         "type" : "mutation",
         "id" : "GROWL",
