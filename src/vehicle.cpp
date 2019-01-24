@@ -5184,9 +5184,7 @@ void vehicle::update_time( const time_point &update_to )
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
         int windpower = weatherPoint.windpower;
-        add_msg( m_debug, "%s intensity before", windpower );
         windpower = get_local_windpower( windpower, cur_om_ter, false );
-        add_msg( m_debug, "%s intensity after", windpower );
         double intensity = windpower / to_turns<double>( elapsed );
         //If turbine is in the forest... it produces less power
         int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
