@@ -436,15 +436,19 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) c
 {
     const auto &point_set = get_point_set( type );
     for( auto &point : point_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            return true;
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                return true;
+            }
         }
     }
 
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            return true;
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                return true;
+            }
         }
     }
 
@@ -458,15 +462,19 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            near_point_set.insert( point );
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                near_point_set.insert( point );
+            }
         }
     }
 
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            near_point_set.insert( point );
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                near_point_set.insert( point );
+            }
         }
     }
 
