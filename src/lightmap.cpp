@@ -241,11 +241,14 @@ void map::generate_lightmap( const int zlev )
                                                 ) && outside_cache[p.x + dir_x[i]][p.y + dir_y[i]]
                               ) {
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
-                                    lm[p.x][p.y][quadrant::default_] = natural_light;
+                                    update_light_quadrants(
+                                        lm[p.x][p.y], natural_light, quadrant::default_ );
                                     apply_directional_light( p, dir_d[i], natural_light );
                                 } else {
-                                    lm[p.x][p.y][dir_quadrants[i][0]] = natural_light;
-                                    lm[p.x][p.y][dir_quadrants[i][1]] = natural_light;
+                                    update_light_quadrants(
+                                        lm[p.x][p.y], natural_light, dir_quadrants[i][0] );
+                                    update_light_quadrants(
+                                        lm[p.x][p.y], natural_light, dir_quadrants[i][1] );
                                 }
                             }
                         }

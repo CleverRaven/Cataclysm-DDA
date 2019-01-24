@@ -88,6 +88,23 @@ A complex `dynamic_line` usually contains several `dynamic_line` entry and some 
 
 In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional lines do not have to be defined, but the NPC should always have something to say.  Entries are always parsed as `dynamic_line` and can be nested.
 
+#### Several lines joined together
+The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
+```C++
+{
+    "and": [
+        {
+            "npc_male": "I'm a man.",
+            "npc_female": "I'm a woman."
+        },
+        "  ",
+        {
+            "u_male": "You're a man.",
+            "u_female": "You're a woman."
+        }
+    ]
+}
+```
 #### Based on the gender of the NPC / NPC
 The dynamic line is chosen based on the gender of the NPC.  Both entries must exist.
 
@@ -263,6 +280,30 @@ The dynamic line is chosen based on whether the player character is performing a
 }
 ```
 
+#### Based on whether the player character or NPC are driving vehicles or not
+The dynamic line is chosen if the player is driving a vehicle, or the NPC is driving a vehicle, or if neither are driving vehicles.  The line from `u_driving` is chosen if the player is in control of a vehicle, the line from `npc_driving` is chosen if the NPC is in control of a vehicle, and the line from `no_vehicle` is chosen if neither are controlling a vehicle.
+
+**NOTE**: NPCs can't drive vehicles right now.
+
+```C++
+{
+    "u_driving": "I said take a left at Albequerque!",
+    "npc_driving": "Who died and put me behind the wheel?",
+    "no_vehicle": "This is a good time to chat."
+}
+```
+
+#### Based on whether the NPC has a pickup list
+The dynamic line is chosen based on whether the NPC has a pickup list or not.  The line from `yes` will be shown if they have a pickup list and otherwise the line from `no`.  The line from `yes` will be shown even if `npc_rule`: `allow_pick_up` is false.
+
+```C++
+{
+    "has_pickup_list": true,
+    "yes": "I know what to get.",
+    "no": "What was I supposed to take?"
+}
+```
+
 #### Based on the days since the Cataclysm
 The dynamic line is chosen based on the specified number of days have elapsed since the start of the Catacylsm.  Both entries are optional.  The line from `yes` will be shown if at least that many days have passed, otherwise the line from `no`.
 
@@ -378,14 +419,31 @@ The player will always have the option to return to a previous topic or end the 
 will otherwise have the option to give a $500, $50, or $5 bribe if they have the funds.  If they
 don't have at least $50, they will also have the option to provide some other bribe.
 
+### truefalsetext
+The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
+
+```C++
+{
+    "truefalsetext": {
+        "condition": { "u_has_cash": 800 },
+        "true": "I may have the money, I'm not giving you any.",
+        "false": "I don't have that money."
+    },
+    "topic": "TALK_WONT_PAY"
+}
+```
+
 ### text
 Will be shown to the user, no further meaning.
 
 ### trial
-Optional, if not defined, "NONE" is used. Otherwise one of "NONE", "LIE", "PERSUADE" or "INTIMIDATE". If "NONE" is used, the `failure` object is not read, otherwise it's mandatory.
-The `difficulty` is only required if type is not "NONE" and specifies the success chance in percent (it is however modified by various things like mutations).
+Optional, if not defined, "NONE" is used. Otherwise one of "NONE", "LIE", "PERSUADE" "INTIMIDATE", or "CONDITION". If "NONE" is used, the `failure` object is not read, otherwise it's mandatory.
 
-An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: "ANGER", "FEAR", "TRUST", "VALUE", "AGRESSION", "ALTRUISM", "BRAVERY", "COLLECTOR". The special "POS_FEAR" modifier treats NPC's fear of your character below 0 as though it were 0.
+The `difficulty` is only required if type is not "NONE" or "CONDITION" and specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass.
+
+An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: "ANGER", "FEAR", "TRUST", "VALUE", "AGRESSION", "ALTRUISM", "BRAVERY", "COLLECTOR". The special "POS_FEAR" modifier treats NPC's fear of your character below 0 as though it were 0.  The special "TOTAL" modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
+
+"CONDITION" trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
 
 ### success and failure
 Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, see below.
@@ -404,6 +462,7 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 ### Sample trials
 "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
+"trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
 
 `topic` can also be a single topic object (the `type` member is not required here):
 ```C++
@@ -465,6 +524,9 @@ give_equipment | Allows your character to select items from the NPC's inventory 
 u_buy_item: item_string, (*optional* cost: cost_num, *optional* count: count_num, *optional* container: container_string) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.<br/>If cost isn't present, the NPC gives your character the item at no charge.
 u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_num) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
 u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
+add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br />The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value.<br />```
+{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ]
+```
 
 #### Behaviour / AI
 
@@ -521,6 +583,9 @@ trust, value, fear, and anger are optional keywords inside the opinion object. E
 { "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
 ```
+
+#### mission_opinion: { }
+trust, value, fear, and anger are optional keywords inside the opinion object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value of the current mission divided by the value of the keyword.
 ---
 
 ### response conditions
@@ -567,6 +632,9 @@ Condition | Type | Description
 "has_no_available_mission" | simple string | `true` if the NPC has no jobs available for the player character.
 "has_available_mission" | simple string | `true` if the NPC has one job available for the player character.
 "has_many_available_missions" | simple string | `true` if the NPC has several jobs available for the player character.
+"mission_goal" | string | `true` if the NPC's current mission has the same goal as `mission_goal`.
+"mission_complete" | simple string | `true` if the player has completed the NPC's current mission.
+"mission_incomplete" | simple string | `true` if the player hasn't completed the NPC's current mission.
 "npc_service" | int | `true` if the NPC does not have the "currently_busy" effect and the player character has at least npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 "npc_allies" | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 "npc_following" | simple string | `true` if the NPC is following the player character.
@@ -576,6 +644,11 @@ Condition | Type | Description
 Condition | Type | Description
 --- | --- | ---
 "npc_available" | simple string | `true` if the NPC does not have effect "currently_busy".
+"npc_following" | simple string | `true` if the NPC is following the player character.
+"npc_friend" | simple string | `true` if the NPC is friendly to the player character.
+"npc_hostile" | simple string | `true` if the NPC is an enemy of the player character.
+"npc_train_skills" | simple string | `true` if the NPC has one or more skills with more levels than the player.
+"npc_train_styles" | simple string | `true` if the NPC knows one or more martial arts styles that the player does not know.
 "npc_has_any_trait" | array | `true` if the NPC has any trait or mutation in the array. Used to check multiple traits.
 "npc_has_class" | array | `true` if the NPC is a member of an NPC class.
 "npc_has_effect" | string | `true` if the NPC is under the effect with npc_has_effect's `effect_id`.
@@ -650,8 +723,49 @@ Condition | Type | Description
       { "not": { "u_has_effect": "has_og_comm_freq" } }
     ]
   }
+},
+{
+    "text": "I killed them.  All of them.",
+    "topic": "TALK_MISSION_SUCCESS",
+    "condition": {
+        "and": [ { "or": [ { "mission_goal": "KILL_MONSTER_SPEC" }, { "mission_goal": "KILL_MONSTER_TYPE" } ] }, "mission_complete" ]
+    },
+    "switch": true
+},
+{
+    "text": "Glad to help.  I need no payment.",
+    "topic": "TALK_NONE",
+    "effect": "clear_mission",
+    "mission_opinion": { "trust": 4, "value": 3 },
+    "opinion": { "fear": -1, "anger": -1 }
+},
+{
+    "text": "Maybe you can teach me something as payment?",
+    "topic": "TALK_TRAIN",
+    "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] },
+    "effect": "mission_reward"
+},
+{
+    "truefalsetext": {
+        "true": "I killed him.",
+        "false": "I killed it.",
+        "condition": { "mission_goal": "ASSASSINATE" }
+    },
+    "condition": {
+        "and": [
+            "mission_incomplete",
+            {
+                "or": [
+                    { "mission_goal": "ASSASSINATE" },
+                    { "mission_goal": "KILL_MONSTER" },
+                    { "mission_goal": "KILL_MONSTER_SPEC" },
+                    { "mission_goal": "KILL_MONSTER_TYPE" }
+                ]
+            }
+        ]
+    },
+    "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
+    "success": { "topic": "TALK_NONE" },
+    "failure": { "topic": "TALK_MISSION_FAILURE" }
 }
-
-
-
 ```

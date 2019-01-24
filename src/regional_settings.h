@@ -164,6 +164,15 @@ struct forest_trail_settings {
     forest_trail_settings() = default;
 };
 
+struct overmap_feature_flag_settings {
+    bool clear_blacklist = false;
+    bool clear_whitelist = false;
+    std::set<std::string> blacklist;
+    std::set<std::string> whitelist;
+
+    overmap_feature_flag_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
@@ -196,8 +205,8 @@ struct regional_settings {
     groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
     forest_trail_settings forest_trail;
-
     weather_generator weather;
+    overmap_feature_flag_settings overmap_feature_flag;
 
     std::unordered_map<std::string, map_extras> region_extras;
 

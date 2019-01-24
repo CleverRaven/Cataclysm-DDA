@@ -13,6 +13,7 @@ class player;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
+std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
 
 enum butcher_type : int {
     BUTCHER,        // quick butchery
@@ -134,6 +135,7 @@ void play_with_pet_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
+void robot_control_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

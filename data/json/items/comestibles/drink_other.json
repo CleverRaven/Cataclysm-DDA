@@ -179,7 +179,7 @@
     "id": "cooking_oil",
     "name": "cooking oil",
     "name_plural": "cooking oil",
-    "weight": 117,
+    "weight": 15,
     "color": "yellow",
     "container": "jug_plastic",
     "comestible_type": "DRINK",

@@ -359,7 +359,6 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 void options_manager::cOpt::setPrerequisites( const std::string &sOption,
         const std::vector<std::string> &sAllowedValues )
 {
-    static const std::vector<std::string> &sSupportedTypes = { "bool", "string", "string_select", "string_input" };
     const bool hasOption = get_options().has_option( sOption );
     if( !hasOption ) {
         debugmsg( "setPrerequisite: unknown option %s", sType.c_str() );
@@ -369,7 +368,7 @@ void options_manager::cOpt::setPrerequisites( const std::string &sOption,
     const cOpt &existingOption = get_options().get_option( sOption );
     const std::string &existingOptionType = existingOption.getType();
     bool isOfSupportType = false;
-    for( const std::string &sSupportedType : sSupportedTypes ) {
+    for( const std::string &sSupportedType : getPrerequisiteSupportedTypes() ) {
         if( existingOptionType == sSupportedType ) {
             isOfSupportType = true;
             break;
@@ -377,21 +376,12 @@ void options_manager::cOpt::setPrerequisites( const std::string &sOption,
     }
 
     if( !isOfSupportType ) {
-        debugmsg( "setPrerequisite: option %s not of type bool", sType.c_str() );
+        debugmsg( "setPrerequisite: option %s not of supported type", sType.c_str() );
         return;
     }
 
-    if( !sAllowedValues.empty() ) {
-        const std::string &existingOptionValue = existingOption.getValue();
-        for( const std::string &sAllowedValue : sAllowedValues ) {
-            if( existingOptionValue == sAllowedValue ) {
-                sPrerequisite = sOption;
-                break;
-            }
-        }
-    } else {
-        sPrerequisite = sOption;
-    }
+    sPrerequisite = sOption;
+    sPrerequisiteAllowedValues = sAllowedValues;
 }
 
 std::string options_manager::cOpt::getPrerequisite() const
@@ -402,6 +392,22 @@ std::string options_manager::cOpt::getPrerequisite() const
 bool options_manager::cOpt::hasPrerequisite() const
 {
     return !sPrerequisite.empty();
+}
+
+bool options_manager::cOpt::checkPrerequisite() const
+{
+    if( !hasPrerequisite() ) {
+        return true;
+    }
+    bool isPrerequisiteFulfilled = false;
+    const std::string prerequisite_option_value = get_options().get_option( sPrerequisite ).getValue();
+    for( const std::string &sAllowedPrerequisiteValue : sPrerequisiteAllowedValues ) {
+        if( prerequisite_option_value == sAllowedPrerequisiteValue ) {
+            isPrerequisiteFulfilled = true;
+            break;
+        }
+    }
+    return isPrerequisiteFulfilled;
 }
 
 //helper functions
@@ -1554,9 +1560,9 @@ void options_manager::add_options_graphics()
 #else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
+         // take default setting from pre-game settings screen - important as both software + hardware rendering have issues with specific devices
          android_get_default_setting( "Software rendering", false ),
-         COPT_CURSES_HIDE // take default setting from pre-game settings screen - important as both software + hardware rendering have issues with specific devices
-         false, COPT_CURSES_HIDE
+         COPT_CURSES_HIDE
        );
 #endif
 
@@ -2227,9 +2233,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
-            bool hasPrerequisite = current_opt.hasPrerequisite();
-            bool prerequisiteEnabled = !hasPrerequisite ||
-                                       cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
+            const bool hasPrerequisite = current_opt.hasPrerequisite();
+            const bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
             int line_pos = i - iStartPos; // Current line position in window.
 
@@ -2245,9 +2250,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
             mvwprintz( w_options, line_pos, name_col + 3, !hasPrerequisite ||
-                       prerequisiteEnabled ? c_white : c_light_gray, name );
+                       hasPrerequisiteFulfilled ? c_white : c_light_gray, name );
 
-            if( hasPrerequisite && !prerequisiteEnabled ) {
+            if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 cLineColor = c_light_gray;
 
             } else if( current_opt.getValue() == "false" ) {
@@ -2346,10 +2351,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
         bool hasPrerequisite = current_opt.hasPrerequisite();
-        bool prerequisiteEnabled = !hasPrerequisite ||
-                                   cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
+        bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
-        if( hasPrerequisite && !prerequisiteEnabled &&
+        if( hasPrerequisite && !hasPrerequisiteFulfilled &&
             ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
             popup( _( "Prerequisite for this option not met!\n(%s)" ),
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
