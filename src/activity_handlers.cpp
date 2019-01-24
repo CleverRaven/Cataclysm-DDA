@@ -150,7 +150,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
-    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -3088,4 +3089,76 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
                                 reject_tiles,
                                 plant_appropriate_seed,
                                 _( "You planted all seeds you could." ) );
+}
+
+void activity_handlers::robot_control_finish( player_activity *act, player *p )
+{
+    uilist pick_robot;
+    pick_robot.text = _( "Override ready, choose an endpoint to hack." );
+    // Build a list of all unfriendly robots in range.
+    std::vector< monster * > mons; // @todo: change into vector<Creature*>
+    std::vector< tripoint > locations;
+    int entry_num = 0;
+    for( monster &candidate : g->all_monsters() ) {
+        if( candidate.type->in_species( species_id( "ROBOT" ) ) && candidate.friendly == 0 &&
+            rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
+            mons.push_back( &candidate );
+            pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
+            tripoint seen_loc;
+            // Show locations of seen robots, center on player if robot is not seen
+            if( p->sees( candidate ) ) {
+                seen_loc = candidate.pos();
+            } else {
+                seen_loc = p->pos();
+            }
+            locations.push_back( seen_loc );
+        }
+    }
+    if( mons.empty() ) {
+        p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
+        act->set_to_null();
+        return;
+    }
+    pointmenu_cb callback( locations );
+    pick_robot.callback = &callback;
+    pick_robot.query();
+    if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
+        p->add_msg_if_player( m_info, _( "Never mind" ) );
+        act->set_to_null();
+        return;
+    }
+    const size_t mondex = pick_robot.ret;
+    monster *z = mons[mondex];
+    p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name().c_str() );
+
+    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+    /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
+    float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
+                    ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    if( success >= 0 ) {
+        p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
+                              z->name().c_str() );
+        z->friendly = -1;
+    } else if( success >= -2 ) { //A near success
+        p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
+                              z->name().c_str() );
+        z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
+        if( z->is_dead() ) {
+            p->practice( skill_id( "computer" ), 10 );
+            act->set_to_null();
+            return; // Do not do the other effects if the robot died
+        }
+        if( one_in( 3 ) ) {
+            p->add_msg_if_player( _( "...and turns friendly!" ) );
+            if( one_in( 3 ) ) { //did the robot became friendly permanently?
+                z->friendly = -1; //it did
+            } else {
+                z->friendly = rng( 5, 40 ); // it didn't
+            }
+        }
+    } else {
+        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
+    }
+    p->practice( skill_id( "computer" ), 10 );
+    act->set_to_null();
 }
