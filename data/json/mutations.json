@@ -3914,7 +3914,7 @@
         "changes_to" : ["ALBINO"],
         "leads_to" : ["TROGLO"],
         "category": [ "LUPINE" ],
-        "type": [ "skin_tone" ]
+        "types": [ "skin_tone" ]
     },{
         "type" : "mutation",
         "id" : "SPOTS",
