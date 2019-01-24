@@ -4529,9 +4529,6 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                                     map::map_process_func processor, const std::string &signal )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
-    for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        vp.part().process_contents( vp.pos(), engine_heater_is_on );
-    }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
     for( const vpart_reference &vp : cargo_parts ) {
@@ -4579,6 +4576,10 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
+        }
+
+        for (const vpart_reference &vp : cur_veh.get_any_parts(VPFLAG_FLUIDTANK)) {
+            vp.part().process_contents(vp.pos(), engine_heater_is_on);
         }
 
         // item does not exist anymore, might have been an exploding bomb,
