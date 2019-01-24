@@ -206,5 +206,13 @@
     "name": "The Way of the Spear",
     "name_plural": "The Way of the Spear",
     "description": "A complete guide to Sōjutsu."
-  }
+  },
+  {
+    "id": "manual_viking",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Warriors of the North",
+    "name_plural": "Warriors of the North",
+    "description": "A complete guide to Viking Combat."
+  }  
 ]

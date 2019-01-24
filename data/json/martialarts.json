@@ -1064,5 +1064,99 @@
 			"spear_survivor",
 			"spear_wood"
         ]
-    }
+    },{
+        "type" : "martial_art",
+        "id" : "style_viking",
+        "name" : "Viking Combat",
+        "description": "The \"bear-shirt\" was the greatest among Viking warriors and fought with a trance-like fury.  These berserkers would charge unarmored into battle with axe or sword held high with the faith that Odin would protect them.  This \"kill or be killed\" style of fighting focuses on speed and fighting against multiple opponents at once.",
+        "arm_block" : 99,
+        "leg_block" : 99,
+        "static_buffs" : [
+			{
+			    "id" : "viking_static",
+			    "name" : "Battle Ready",
+			    "description" : "Extra Block and Dodge.",
+			    "unarmed_allowed" : false,
+			    "bonus_blocks" : 1,
+			    "bonus_dodges" : 1
+			}
+        ],
+        "onhit_buffs" : [
+			{
+			    "id" : "viking_onhit_buff",
+			    "name" : "Determination",
+			    "description" : "+1 Bash and +1 Cut Armor Penetration on hit. Stacks 10 times.",
+			    "unarmed_allowed" : false,
+			    "buff_duration" : 2,
+			    "max_stacks" : 10,
+				"flat_bonuses" : [
+					["arpen", "bash", 1],
+					["arpen", "cut", 1]
+				]
+			}
+        ],
+        "techniques" : [
+			"tec_viking_feint",
+			"tec_viking_rapid",
+			"tec_viking_spin",
+			"tec_viking_wide"
+        ],
+        "weapons" : [
+			"arming_sword",
+			"arming_sword_fake",
+			"arming_sword_inferior",
+			"battleaxe",
+			"battleaxe_fake",
+			"battleaxe_inferior",
+			"broadsword",
+			"broadsword_fake",
+			"broadsword_inferior",
+			"cavalry_sabre",
+			"cavalry_sabre_fake",
+			"copper_ax",
+			"cutlass",
+			"cutlass_fake",
+			"cutlass_inferior",
+			"machete",
+			"makeshift_machete",
+			"survivor_machete",
+			"hatchet",
+			"jian",
+			"jian_inferior",
+			"jian_fake",
+			"katana",
+			"katana_fake",
+			"katana_inferior",
+			"lobotomizer",
+			"longsword",
+			"longsword_inferior",
+			"longsword_fake",
+			"broadfire_off",
+			"broadfire_on",
+			"fire_ax",
+			"firemachete_off",
+			"firemachete_on",
+			"nodachi_fake",
+			"nodachi",
+			"nodachi_fake",
+			"wakizashi",
+			"zweihander",
+			"zweihander_fake",
+			"zweihander_inferior",
+			"sword_wood",
+			"scimitar",
+			"scimitar_inferior",
+			"scimitar_fake",
+			"firekatana_off",
+			"firekatana_on",
+			"shishkebab_off",
+			"shishkebab_on",
+			"primitive_axe",
+			"sword_crude",
+			"wakizashi",
+			"wakizashi_fake",
+			"wakizashi_inferior",
+			"ax"
+        ]
+    }	
 ]

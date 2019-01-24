@@ -1393,5 +1393,58 @@
             "You brutally skewer %s",
             "<npcname> brutally skewers %s"
         ]
+  },{
+        "type" : "technique",
+        "id" : "tec_viking_feint",
+        "name" : "Fake Out",
+        "min_melee" : 2,
+        "unarmed_allowed" : false,
+        "defensive" : true,
+        "miss_recovery" : true,
+        "messages" : [
+            "You pretend to attack %s",
+            "<npcname> pretends to attack %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_viking_rapid",
+        "name" : "Quick Hack",
+        "min_melee" : 1,
+        "unarmed_allowed" : false,
+        "mult_bonuses" : [
+            ["movecost", 0.5],
+            ["damage", "bash", 0.66],
+            ["damage", "cut", 0.66],
+            ["damage", "stab", 0.66]
+        ],
+        "messages" : [
+            "You quickly hack at %s",
+            "<npcname> quickly hacks at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_viking_spin",
+        "name" : "Whirlwind",
+        "min_melee" : 4,
+        "unarmed_allowed" : false,
+        "crit_tec" : true,
+        "mult_bonuses" : [["movecost", 0.8]],
+        "messages" : [
+            "You whirl around striking %s and everyone nearby",
+            "<npcname> whirls around striking %s and everyone nearby"
+        ],
+        "aoe" : "spin"
+    },{
+        "type" : "technique",
+        "id" : "tec_viking_wide",
+        "name" : "Sweeping Strike",
+        "min_melee" : 3,
+        "unarmed_allowed" : false,
+        "mult_bonuses" : [["movecost", 0.5]],
+        "messages" : [
+            "You sweep through %s and those nearby",
+            "<npcname> sweeps through %s and those nearby"
+        ],
+        "aoe" : "wide"
     }
 ]
