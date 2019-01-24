@@ -5375,12 +5375,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             /** @EFFECT_COMPUTER speeds up hacking preperation */
             int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
 
-            // assign activity, no resuming
             player_activity act( activity_id( "ACT_ROBOT_CONTROL" ), move_cost );
             p->assign_activity( act );
-
-            p->activity.moves_total = move_cost;
-            p->activity.moves_left = move_cost;
 
             return it->type->charges_to_use();
         }
