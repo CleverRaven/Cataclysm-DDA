@@ -3787,6 +3787,19 @@ void game::draw_sidebar()
     // display safe mode
     std::string s_mode = safe_mode ? "On" : "Off";
     nc_color s_color = safe_mode ? c_green : c_red;
+    if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
+        int s_return = get_option<int>( "AUTOSAFEMODETURNS" );
+        int iPercent = turnssincelastmon * 100 / s_return;
+        if( iPercent >= 100 ) {
+            s_color = c_green;
+        } else if( iPercent >= 75 ) {
+            s_color = c_yellow;
+        } else if( iPercent >= 50 ) {
+            s_color = c_light_red;
+        } else if( iPercent >= 25 ) {
+            s_color = c_red;
+        }
+    }
     mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23,
                sideStyle ? getmaxx( w_status ) - 13 : 0, c_light_gray,
                sideStyle ? _( "Safe :" ) : _( "Safe:" ) );
