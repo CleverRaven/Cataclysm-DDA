@@ -4,1371 +4,645 @@
     "id": "hair1black",
     "type": "mutation",
     "name": "Black Hair 1",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair2black",
     "type": "mutation",
     "name": "Black Hair 2",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair3black",
     "type": "mutation",
     "name": "Black Hair 3",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair4black",
     "type": "mutation",
     "name": "Black Hair 4",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair5black",
     "type": "mutation",
     "name": "Black Hair 5",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair6black",
     "type": "mutation",
     "name": "Black Hair 6",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair7black",
     "type": "mutation",
     "name": "Black Hair 7",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair8black",
     "type": "mutation",
     "name": "Black Hair 8",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair9black",
     "type": "mutation",
     "name": "Black Hair 9",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair10black",
     "type": "mutation",
     "name": "Black Hair 10",
-    "description": "Your natural hair colour is black.",
+    "description": "Hair style: ___, color: black.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair1blond",
     "type": "mutation",
     "name": "Blond Hair 1",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair2blond",
     "type": "mutation",
     "name": "Blond Hair 2",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair3blond",
     "type": "mutation",
     "name": "Blond Hair 3",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair4blond",
     "type": "mutation",
     "name": "Blond Hair 4",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair5blond",
     "type": "mutation",
     "name": "Blond Hair 5",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair6blond",
     "type": "mutation",
     "name": "Blond Hair 6",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair7blond",
     "type": "mutation",
     "name": "Blond Hair 7",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair8blond",
     "type": "mutation",
     "name": "Blond Hair 8",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair9blond",
     "type": "mutation",
     "name": "Blond Hair 9",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair10blond",
     "type": "mutation",
     "name": "Blond Hair 10",
-    "description": "Your natural hair colour is blond.",
+    "description": "Hair style: ___, color: blond.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair1brown",
     "type": "mutation",
     "name": "Brown Hair 1",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair2brown",
     "type": "mutation",
     "name": "Brown Hair 2",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair3brown",
     "type": "mutation",
     "name": "Brown Hair 3",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair4brown",
     "type": "mutation",
     "name": "Brown Hair 4",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair5brown",
     "type": "mutation",
     "name": "Brown Hair 5",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair6brown",
     "type": "mutation",
     "name": "Brown Hair 6",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
-  },
-  {
-    "id": "hair7brown",
-    "type": "mutation",
-    "name": "Brown Hair 7",
-    "description": "Your natural hair colour is brown.",
-    "points": 0,
-    "starting_trait": true,
-    "purifiable": false,
-    "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair8brown",
     "type": "mutation",
     "name": "Brown Hair 8",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair9brown",
     "type": "mutation",
     "name": "Brown Hair 9",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair10brown",
     "type": "mutation",
     "name": "Brown Hair 10",
-    "description": "Your natural hair colour is brown.",
+    "description": "Hair style: ___, color: brown.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair1gray",
     "type": "mutation",
     "name": "Gray Hair 1",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair2gray",
     "type": "mutation",
     "name": "Gray Hair 2",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair3gray",
     "type": "mutation",
     "name": "Gray Hair 3",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair4gray",
     "type": "mutation",
     "name": "Gray Hair 4",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair5gray",
     "type": "mutation",
     "name": "Gray Hair 5",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair6gray",
     "type": "mutation",
     "name": "Gray Hair 6",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair7gray",
     "type": "mutation",
     "name": "Gray Hair 7",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair8gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair8gray",
     "type": "mutation",
     "name": "Gray Hair 8",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair9gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair9gray",
     "type": "mutation",
     "name": "Gray Hair 9",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair10gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair10gray",
     "type": "mutation",
     "name": "Gray Hair 10",
-    "description": "Your natural hair colour is gray.",
+    "description": "Hair style: ___, color: gray.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1blond",
-      "hair2blond",
-      "hair3blond",
-      "hair4blond",
-      "hair5blond",
-      "hair6blond",
-      "hair7blond",
-      "hair8blond",
-      "hair9blond",
-      "hair10blond",
-      "hair1brown",
-      "hair2brown",
-      "hair3brown",
-      "hair4brown",
-      "hair5brown",
-      "hair6brown",
-      "hair7brown",
-      "hair8brown",
-      "hair9brown",
-      "hair10brown",
-      "hair1gray",
-      "hair2gray",
-      "hair3gray",
-      "hair4gray",
-      "hair5gray",
-      "hair6gray",
-      "hair7gray",
-      "hair8gray",
-      "hair9gray",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair1red",
     "type": "mutation",
     "name": "Red Hair 1",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair2red",
-      "hair3red",
-      "hair4red",
-      "hair5red",
-      "hair6red",
-      "hair7red",
-      "hair8red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair2red",
     "type": "mutation",
     "name": "Red Hair 2",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair3red",
-      "hair4red",
-      "hair5red",
-      "hair6red",
-      "hair7red",
-      "hair8red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair3red",
     "type": "mutation",
     "name": "Red Hair 3",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair2red",
-      "hair4red",
-      "hair5red",
-      "hair6red",
-      "hair7red",
-      "hair8red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair4red",
     "type": "mutation",
     "name": "Red Hair 4",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair2red",
-      "hair3red",
-      "hair5red",
-      "hair6red",
-      "hair7red",
-      "hair8red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair5red",
     "type": "mutation",
     "name": "Red Hair 5",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair2red",
-      "hair3red",
-      "hair4red",
-      "hair6red",
-      "hair7red",
-      "hair8red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair6red",
     "type": "mutation",
     "name": "Red Hair 6",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair2red",
-      "hair3red",
-      "hair4red",
-      "hair5red",
-      "hair7red",
-      "hair8red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair7red",
     "type": "mutation",
     "name": "Red Hair 7",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair2red",
-      "hair3red",
-      "hair4red",
-      "hair5red",
-      "hair6red",
-      "hair8red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair8red",
     "type": "mutation",
     "name": "Red Hair 8",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair2red",
-      "hair3red",
-      "hair4red",
-      "hair5red",
-      "hair6red",
-      "hair7red",
-      "hair9red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair9red",
     "type": "mutation",
     "name": "Red Hair 9",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      "hair1red",
-      "hair2red",
-      "hair3red",
-      "hair4red",
-      "hair5red",
-      "hair6red",
-      "hair7red",
-      "hair8red",
-      
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
-    "id": 
+    "id": "hair10red",
     "type": "mutation",
     "name": "Red Hair 10",
-    "description": "Your natural hair colour is red.",
+    "description": "Hair style: ___, color: red.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
-    
-      
-    ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair1white",
     "type": "mutation",
     "name": "White Hair 1",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair2white",
     "type": "mutation",
     "name": "White Hair 2",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair3white",
     "type": "mutation",
     "name": "White Hair 3",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair4white",
     "type": "mutation",
     "name": "White Hair 4",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair5white",
     "type": "mutation",
     "name": "White Hair 5",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair6white",
     "type": "mutation",
     "name": "White Hair 6",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair7white",
     "type": "mutation",
     "name": "White Hair 7",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair8white",
     "type": "mutation",
     "name": "White Hair 8",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair9white",
     "type": "mutation",
     "name": "White Hair 9",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "hair10white",
     "type": "mutation",
     "name": "White Hair 10",
-    "description": "Your natural hair colour is white.",
+    "description": "Hair style: ___, color: white.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
@@ -1384,7 +658,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_color" ]
+    "types": [ "hair_style" ]
   },
   {
     "id": "PALE",
@@ -1395,7 +669,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin" ]
+    "types": [ "skin_tone" ]
   },
   {
     "id": "SKIN_DARK",
@@ -1406,7 +680,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin" ]
+    "types": [ "skin_tone" ]
   },
   {
     "id": "SKIN_LIGHT",
@@ -1417,7 +691,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin" ]
+    "types": [ "skin_tone" ]
   },
   {
     "id": "SKIN_MEDIUM",
@@ -1428,18 +702,18 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin" ]
+    "types": [ "skin_tone" ]
   },
   {
     "id": "SKIN_PINK",
     "type": "mutation",
     "name": "Pink Skin",
-    "description": "You have a pink skin tone.",
+    "description": "You have a rosy skin tone.",
     "points": 0,
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin" ]
+    "types": [ "skin_tone" ]
   },
   {
     "id": "SKIN_TAN",
@@ -1450,6 +724,6 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin" ]
+    "types": [ "skin_tone" ]
   }
 ]
