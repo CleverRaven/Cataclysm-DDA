@@ -75,7 +75,9 @@ void weather_effect::glare()
  */
 void weather_effect::snow_glare()
 {
-    if( is_player_outside() && !g->u.in_sleep_state() &&
+
+    season_type season = season_of_year( calendar::turn );
+    if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_snow_glare ) ) {
