@@ -486,6 +486,13 @@ bool main_menu::opening_screen()
             }
         } else if( layer == 2 ) {
             if( sel1 == 4 ) { // Special game
+
+                 // Disabled for 0.D
+                layer = 1;
+                popup( _( "Special games are WIP and disabled for 0.D. ") );
+                continue;
+                //
+
                 if( MAP_SHARING::isSharing() ) { // Thee can't save special games, therefore thee can't share them
                     layer = 1;
                     popup( _( "Special games don't work with shared maps." ) );
