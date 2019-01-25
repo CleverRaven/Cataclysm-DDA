@@ -11647,6 +11647,7 @@ int player::get_stamina_max() const
 
 void player::burn_move_stamina( int moves )
 {
+
     int overburden_percentage = 0;
     units::mass current_weight = weight_carried();
     units::mass max_weight = weight_capacity();
@@ -11657,6 +11658,9 @@ void player::burn_move_stamina( int moves )
     // 7/turn walking
     // 20/turn running
     int burn_ratio = 7;
+    if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+        burn_ratio = ( burn_ratio * 2 ) - 3;
+    }
     burn_ratio += overburden_percentage;
     if( move_mode == "run" ) {
         burn_ratio = burn_ratio * 3 - 1;
