@@ -70,6 +70,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_SKIN",
+    "type": "activity_type",
+    "stop_phrase": "Stop skinning?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_QUARTER",
     "type": "activity_type",
     "stop_phrase": "Stop quartering?",
