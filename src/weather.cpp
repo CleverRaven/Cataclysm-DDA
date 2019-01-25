@@ -448,7 +448,6 @@ void weather_effect::snow()
 void weather_effect::snowstorm()
 {
     wet_player( 40 );
-    snow_glare();
 }
 /**
  * Thunder.
