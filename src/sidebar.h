@@ -29,5 +29,7 @@ void draw_sound( const catacurses::window &w, const int y, const int x, const bo
 void draw_date( const catacurses::window &w, const int y, const int x );
 void draw_safe_mode( const catacurses::window &w, const int y, const int x,
                      const bool safe_mode_off, const int iPercent );
+void draw_ui_power( const catacurses::window &w, const int y, const int x, const int power,
+                    const int max_power );
 int get_int_digits( const int &digits );
 #endif

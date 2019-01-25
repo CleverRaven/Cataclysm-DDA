@@ -698,32 +698,36 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         const auto str_run = pgettext( "movement-type", "R" );
         wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
     }
-    // display power level
-    wmove( sideStyle ? w : g->w_HP,
-           sideStyle ? 4 : 21,
-           sideStyle ? 17 : 0 );
 
-    wprintz( sideStyle ? w : g->w_HP, c_white, _( "Pwr " ) );
+    draw_ui_power( sideStyle ? w : g->w_HP, sideStyle ? 4 : 21, sideStyle ? 17 : 0, this->power_level,
+                   this->max_power_level );
+}
 
-    if( this->max_power_level == 0 ) {
-        wprintz( sideStyle ? w : g->w_HP, c_light_gray, " --" );
+void draw_ui_power( const catacurses::window &w, const int y, const int x, const int power,
+                    const int max_power )
+{
+    wmove( w, y, x );
+    wprintz( w, c_white, _( "Pwr " ) );
+
+    if( max_power == 0 ) {
+        wprintz( w, c_light_gray, " --" );
     } else {
         nc_color color = c_red;
-        if( this->power_level >= this->max_power_level / 2 ) {
+        if( power >= max_power / 2 ) {
             color = c_green;
-        } else if( this->power_level >= this->max_power_level / 3 ) {
+        } else if( power >= max_power / 3 ) {
             color = c_yellow;
-        } else if( this->power_level >= this->max_power_level / 4 ) {
+        } else if( power >= max_power / 4 ) {
             color = c_red;
         }
 
         // calc number of digits in powerlevel int
-        int offset = get_int_digits( this->power_level );
+        int offset = get_int_digits( power );
 
         // case power_level > 999 display 1k instead
-        int display_power = this->power_level;
+        int display_power = power;
         std::string unit = "";
-        if( this->power_level > 999 ) {
+        if( power > 999 ) {
             switch( offset ) {
                 case 4:
                     display_power /= 1000;
@@ -740,14 +744,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             unit = "";
         }
 
-        wmove( sideStyle ? w : g->w_HP,
-               sideStyle ? 4 : 21,
-               sideStyle ? 17 - offset : 7 - offset );
+        wmove( w, y, getmaxx( w ) - offset ); //sideStyle ? 17 - offset : 7 - offset
         std::string power_value = std::to_string( display_power ) + unit;
-        wprintz( sideStyle ? w : g->w_HP, color, power_value );
+        wprintz( w, color, power_value );
     }
-    wrefresh( sideStyle ? w : g->w_HP );
-
+    wrefresh( w );
 }
 
 std::string player::weapname() const
