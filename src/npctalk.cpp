@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "ammo.h"
-#include "auto_pickup.h"
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -192,14 +191,19 @@ void game::chat()
     int yell_sentence = 0;
     int yell_guard = -1;
     int yell_follow = -1;
+    int yell_awake = -1;
+    int yell_sleep = -1;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
     if( !followers.empty() ) {
-        nmenu.addentry( yell_guard = i++, true, 'c', _( "Tell all your allies to guard" ) );
+        nmenu.addentry( yell_guard = i++, true, 'g', _( "Tell all your allies to guard" ) );
+        nmenu.addentry( yell_awake = i++, true, 'w', _( "Tell all your allies to stay awake" ) );
+        nmenu.addentry( yell_sleep = i++, true, 's',
+                        _( "Tell all your allies to relax and sleep when tired" ) );
     }
     if( !guards.empty() ) {
-        nmenu.addentry( yell_follow = i++, true, 'd', _( "Tell all your allies to follow" ) );
+        nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
     }
 
     nmenu.query();
@@ -225,6 +229,16 @@ void game::chat()
            talk_function::assign_guard( *p );
         }
         u.shout( _( "Guard here!" ) );
+    } else if( nmenu.ret == yell_awake ) {
+        for( npc *p: followers ) {
+           talk_function::wake_up( *p );
+        }
+        u.shout( _( "Stay awake!" ) );
+    } else if( nmenu.ret == yell_sleep ) {
+        for( npc *p: followers ) {
+           p->rules.allow_sleep = true;
+        }
+        u.shout( _( "We're safe!  Take a nap if you're tired." ) );
     } else if( nmenu.ret == yell_follow ) {
         for( npc *p: guards ) {
            talk_function::stop_guard( *p );
@@ -1305,7 +1319,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
 int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
 {
-    // player &u = *d.alpha;
+    player &u = *d.alpha;
     npc &p = *d.beta;
     int modifier = 0;
     if( attribute == "ANGER" ) {
@@ -1326,6 +1340,12 @@ int parse_mod( const dialogue &d, const std::string &attribute, const int factor
         modifier = p.personality.bravery;
     } else if( attribute == "COLLECTOR" ) {
         modifier = p.personality.collector;
+    } else if( attribute == "MISSIONS" ) {
+        modifier = p.assigned_missions_value() / OWED_VAL;
+    } else if( attribute == "U_INTIMIDATE" ) {
+        modifier = u.intimidation();
+    } else if( attribute == "NPC_INTIMIDATE" ) {
+        modifier = p.intimidation();
     }
     modifier *= factor;
     return modifier;
@@ -2045,6 +2065,21 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
     };
 }
 
+void talk_effect_fun_t::set_add_debt( const std::vector<trial_mod> debt_modifiers )
+{
+    function = [debt_modifiers]( const dialogue &d ) {
+        int debt = 0;
+        for( const trial_mod &this_mod: debt_modifiers ) {
+            if( this_mod.first == "TOTAL" ) {
+                debt *= this_mod.second;
+            } else {
+                debt += parse_mod( d, this_mod.first, this_mod.second );
+            }
+        }
+        d.beta->op_of_u += npc_opinion( 0, 0, 0, 0, debt );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2086,6 +2121,20 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
         effect( d );
     }
     d.beta->op_of_u += opinion;
+    mission *miss = d.beta->chatbin.mission_selected;
+    if( miss && ( mission_opinion.trust || mission_opinion.fear ||
+        mission_opinion.value || mission_opinion.anger ) ) {
+        int m_value = cash_to_favor( *d.beta, miss->get_value() );
+        npc_opinion mod = npc_opinion( mission_opinion.trust ?
+                                       m_value / mission_opinion.trust : 0,
+                                       mission_opinion.fear ?
+                                       m_value / mission_opinion.fear : 0,
+                                       mission_opinion.value ?
+                                       m_value / mission_opinion.value : 0,
+                                       mission_opinion.anger ?
+                                       m_value / mission_opinion.anger : 0, 0 );
+        d.beta->op_of_u += mod;
+    }
     if( d.beta->turned_hostile() ) {
         d.beta->make_angry();
         return talk_topic( "TALK_DONE" );
@@ -2117,6 +2166,11 @@ talk_effect_t::talk_effect_t( JsonObject jo )
         JsonIn *ji = jo.get_raw( "opinion" );
         // Same format as when saving a game (-:
         opinion.deserialize( *ji );
+    }
+    if( jo.has_member( "mission_opinion" ) ) {
+        JsonIn *ji = jo.get_raw( "mission_opinion" );
+        // Same format as when saving a game (-:
+        mission_opinion.deserialize( *ji );
     }
 }
 
@@ -2196,6 +2250,17 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_int( "u_faction_rep" ) ) {
         int faction_rep = jo.get_int( "u_faction_rep" );
         subeffect_fun.set_change_faction_rep( faction_rep );
+    } else if( jo.has_array( "add_debt" ) ) {
+        std::vector<trial_mod> debt_modifiers;
+        JsonArray ja = jo.get_array( "add_debt" );
+        while( ja.has_more() ) {
+            JsonArray jmod = ja.next_array();
+            trial_mod this_modifier;
+            this_modifier.first = jmod.next_string();
+            this_modifier.second = jmod.next_int();
+            debt_modifiers.push_back( this_modifier );
+        }
+        subeffect_fun.set_add_debt( debt_modifiers );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }
@@ -2251,6 +2316,8 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( player_weapon_drop ),
             WRAP( lead_to_safety ),
             WRAP( start_training ),
+            WRAP( copy_npc_rules ),
+            WRAP( set_npc_pickup ),
             WRAP( nothing )
 #undef WRAP
         }
@@ -2596,17 +2663,29 @@ conditional_t::conditional_t( JsonObject jo )
                    ( season == AUTUMN && season_name == "autumn" ) ||
                    ( season == WINTER && season_name == "winter" );
         };
+    } else if( jo.has_string( "mission_goal" ) ) {
+        std::string mission_goal_str = jo.get_string( "mission_goal" );
+        condition = [mission_goal_str]( const dialogue &d ) {
+            mission *miss = d.beta->chatbin.mission_selected;
+            const auto mgoal = mission_goal_strs.find( mission_goal_str );
+            if( !miss || mgoal == mission_goal_strs.end() ) {
+                return false;
+            }
+            return miss->get_type().goal == mgoal->second;
+        };
     } else {
-        static const std::unordered_set<std::string> sub_condition_strs = { {
+        static const std::unordered_set<std::string> simple_string_conds = { {
                 "has_assigned_mission", "has_many_assigned_missions", "has_no_available_mission",
                 "has_available_mission", "has_many_available_missions",
-                "npc_available", "npc_following",
+                "mission_complete", "mission_incomplete",
+                "npc_available", "npc_following", "npc_friend", "npc_hostile",
+                "npc_train_skills", "npc_train_styles",
                 "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
                 "is_day", "is_outside", "u_has_camp"
             }
         };
         bool found_sub_member = false;
-        for( const std::string &sub_member: sub_condition_strs ) {
+        for( const std::string &sub_member: simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
                 condition = [sub_condition]( const dialogue & d ) {
@@ -2650,6 +2729,22 @@ conditional_t::conditional_t( const std::string &type )
         condition = []( const dialogue & d ) {
             return d.beta->chatbin.missions.size() >= 2;
         };
+    } else if( type == "mission_complete" ) {
+        condition = []( const dialogue & d ) {
+            mission *miss = d.beta->chatbin.mission_selected;
+            if( !miss ) {
+                return false;
+            }
+            return miss->is_complete( d.beta->getID() );
+        };
+    } else if( type == "mission_incomplete" ) {
+        condition = []( const dialogue & d ) {
+            mission *miss = d.beta->chatbin.mission_selected;
+            if( !miss ) {
+                return false;
+            }
+            return !miss->is_complete( d.beta->getID() );
+        };
     } else if( type == "npc_available" ) {
         condition = []( const dialogue & d ) {
             return !d.beta->has_effect( effect_currently_busy );
@@ -2657,6 +2752,22 @@ conditional_t::conditional_t( const std::string &type )
     } else if( type == "npc_following" ) {
         condition = []( const dialogue & d ) {
             return d.beta->is_following();
+        };
+    } else if( type == "npc_friend" ) {
+        condition = []( const dialogue & d ) {
+            return d.beta->is_friend();
+        };
+    } else if( type == "npc_hostile" ) {
+        condition = []( const dialogue & d ) {
+            return d.beta->is_enemy();
+        };
+    } else if( type == "npc_train_skills" ) {
+        condition = []( const dialogue & d ) {
+            return !d.beta->skills_offered_to( *d.alpha ).empty();
+        };
+    } else if( type == "npc_train_styles" ) {
+        condition = []( const dialogue & d ) {
+            return !d.beta->styles_offered_to( *d.alpha ).empty();
         };
     } else if( type == "at_safe_space" ) {
         condition = []( const dialogue & d ) {
@@ -2743,7 +2854,28 @@ dynamic_line_t::dynamic_line_t( const std::string &line )
 
 dynamic_line_t::dynamic_line_t( JsonObject jo )
 {
-    if( jo.has_member( "u_male" ) && jo.has_member( "u_female" ) ) {
+    if( jo.has_member( "and" ) ) {
+        std::vector<dynamic_line_t> lines;
+        JsonArray ja = jo.get_array( "and" );
+        while( ja.has_more() ) {
+            if( ja.test_string() ) {
+                lines.emplace_back( ja.next_string() );
+            } else if( ja.test_array() ) {
+                lines.emplace_back( ja.next_array() );
+            } else if( ja.test_object() ) {
+                lines.emplace_back( ja.next_object() );
+            } else {
+                ja.throw_error( "invalid format: must be string, array or object" );
+            }
+        }
+        function = [lines]( const dialogue & d ) {
+            std::string all_lines;
+            for( const dynamic_line_t &line: lines ) {
+                all_lines += line( d );
+            }
+            return all_lines;
+        };
+    } else if( jo.has_member( "u_male" ) && jo.has_member( "u_female" ) ) {
         const dynamic_line_t u_male = from_member( jo, "u_male" );
         const dynamic_line_t u_female = from_member( jo, "u_female" );
         function = [u_male, u_female]( const dialogue & d ) {
@@ -2932,12 +3064,39 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [is_day, is_night]( const dialogue & d ) {
             return ( calendar::turn.is_night() ? is_night : is_day )( d );
         };
+    } else if( jo.has_member( "u_driving" ) || jo.has_member( "npc_driving" ) ) {
+        const dynamic_line_t u_driving = from_member( jo, "u_driving" );
+        const dynamic_line_t npc_driving = from_member( jo, "npc_driving" );
+        const dynamic_line_t no_vehicle = from_member( jo, "no_vehicle" );
+        function = [u_driving, npc_driving, no_vehicle]( const dialogue & d ) {
+            player &u = *d.alpha;
+            npc &p = *d.beta;
+            if( const optional_vpart_position vp = g->m.veh_at( u.pos() ) ) {
+                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( u ) ) {
+                    return u_driving( d );
+                }
+            } else if( const optional_vpart_position vp = g->m.veh_at( p.pos() ) ) {
+                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( p ) ) {
+                    return npc_driving( d );
+                }
+            }
+            return no_vehicle( d );
+        };
+    } else if( jo.has_bool( "has_pickup_list" ) ) {
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [yes, no]( const dialogue &d ) {
+            if( d.beta->rules.pickup_whitelist->empty() ) {
+                return no( d );
+            }
+            return yes( d );
+        };
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
         };
     } else {
-        jo.throw_error( "no supported" );
+        jo.throw_error( "dynamic line not supported" );
     }
 }
 
@@ -3277,35 +3436,4 @@ npc_follower_rules::npc_follower_rules()
     allow_pulp = true;
 
     close_doors = false;
-}
-
-npc *pick_follower()
-{
-    std::vector<npc *> followers;
-    std::vector<tripoint> locations;
-
-    for( npc &guy : g->all_npcs() ) {
-        if( guy.is_following() && g->u.sees( guy ) ) {
-            followers.push_back( &guy );
-            locations.push_back( guy.pos() );
-        }
-    }
-
-    pointmenu_cb callback( locations );
-
-    uilist menu;
-    menu.text = _( "Select a follower" );
-    menu.callback = &callback;
-    menu.w_y = 2;
-
-    for( const npc *p : followers ) {
-        menu.addentry( -1, true, MENU_AUTOASSIGN, p->name );
-    }
-
-    menu.query();
-    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= followers.size() ) {
-        return nullptr;
-    }
-
-    return followers[ menu.ret ];
 }

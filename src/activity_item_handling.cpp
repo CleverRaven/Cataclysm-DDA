@@ -874,7 +874,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 }
 
-static std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
+std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 {
     auto passable_tiles = std::unordered_set<tripoint>();
 

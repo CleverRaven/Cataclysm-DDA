@@ -873,6 +873,47 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 void overmap::populate()
 {
     overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
+
+    const bool should_blacklist = !settings.overmap_feature_flag.blacklist.empty();
+    const bool should_whitelist = !settings.overmap_feature_flag.whitelist.empty();
+
+    // If this region's settings has blacklisted or whitelisted overmap feature flags, let's
+    // filter our default batch.
+
+    // Remove any items that have a flag that is present in the blacklist.
+    if( should_blacklist ) {
+        for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
+            std::vector<std::string> common;
+            std::set_intersection( settings.overmap_feature_flag.blacklist.begin(),
+                                   settings.overmap_feature_flag.blacklist.end(),
+                                   it->special_details->flags.begin(), it->special_details->flags.end(),
+                                   std::back_inserter( common )
+                                 );
+            if( !common.empty() ) {
+                it = enabled_specials.erase( it );
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    // Remove any items which do not have any of the flags from the whitelist.
+    if( should_whitelist ) {
+        for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
+            std::vector<std::string> common;
+            std::set_intersection( settings.overmap_feature_flag.whitelist.begin(),
+                                   settings.overmap_feature_flag.whitelist.end(),
+                                   it->special_details->flags.begin(), it->special_details->flags.end(),
+                                   std::back_inserter( common )
+                                 );
+            if( common.empty() ) {
+                it = enabled_specials.erase( it );
+            } else {
+                ++it;
+            }
+        }
+    }
+
     populate( enabled_specials );
 }
 

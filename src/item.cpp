@@ -597,8 +597,8 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
     }
-    if( check_components ) {
-        //Only check if at least one item isn't using the default recipe
+    if( check_components || rhs.is_comestible() ) {
+        //Only check if at least one item isn't using the default recipe or is comestible
         if( !components.empty() || !rhs.components.empty() ) {
             if( get_uncraft_components() != rhs.get_uncraft_components() ) {
                 return false;
@@ -6442,7 +6442,9 @@ std::string item::components_to_string() const
     t_count_map counts;
     for( const auto &elem : components ) {
         const std::string name = elem.display_name();
-        counts[name]++;
+        if( !elem.has_flag( "BYPRODUCT" ) ) {
+            counts[name]++;
+        }
     }
     return enumerate_as_string( counts.begin(), counts.end(),
     []( const std::pair<std::string, int> &entry ) -> std::string {
