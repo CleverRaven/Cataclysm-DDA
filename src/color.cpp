@@ -612,20 +612,23 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-nc_color get_color_from_tag( const std::string &s, const nc_color &base_color )
+color_tag_parse_result get_color_from_tag( const std::string &s )
 {
-    if( s.empty() || s[0] != '<' || s.substr( 0, 8 ) == "</color>" ) {
-        return base_color;
+    if( s.empty() || s[0] != '<' ) {
+        return { color_tag_parse_result::non_color_tag, {} };
+    }
+    if( s.substr( 0, 8 ) == "</color>" ) {
+        return { color_tag_parse_result::close_color_tag, {} };
     }
     if( s.substr( 0, 7 ) != "<color_" ) {
-        return base_color;
+        return { color_tag_parse_result::non_color_tag, {} };
     }
     size_t tag_close = s.find( '>' );
     if( tag_close == std::string::npos ) {
-        return base_color;
+        return { color_tag_parse_result::non_color_tag, {} };
     }
     std::string color_name = s.substr( 7, tag_close - 7 );
-    return color_from_string( color_name );
+    return { color_tag_parse_result::open_color_tag, color_from_string( color_name ) };
 }
 
 std::string get_tag_from_color( const nc_color &color )
