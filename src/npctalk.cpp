@@ -74,25 +74,6 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 #define OWED_VAL 1000
 
-// Some aliases to help with gen_responses
-#define RESPONSE(txt)      ret.push_back(talk_response());\
-    ret.back().truetext = txt
-
-#define TRIAL(tr, diff) ret.back().trial.type = tr;\
-    ret.back().trial.difficulty = diff
-
-#define SUCCESS(topic_)  ret.back().success.next_topic = talk_topic( topic_ )
-#define FAILURE(topic_)  ret.back().failure.next_topic = talk_topic( topic_ )
-
-// trust (T), fear (F), value (V), anger(A), owed (O) { };
-#define SUCCESS_OPINION(T, F, V, A, O)   ret.back().success.opinion =\
-        npc_opinion(T, F, V, A, O)
-#define FAILURE_OPINION(T, F, V, A, O)   ret.back().failure.opinion =\
-        npc_opinion(T, F, V, A, O)
-
-#define SUCCESS_ACTION(func)  ret.back().success.set_effect( func )
-#define FAILURE_ACTION(func)  ret.back().failure.set_effect( func )
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 int topic_category( const talk_topic &the_topic );
@@ -498,20 +479,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return bulk_trade_inquire( *p, the_topic.item_type );
     } else if( topic == "TALK_DELIVER_CONFIRM" ) {
         return _( "Pleasure doing business!" );
-    } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
-        if( p->has_effect( effect_asked_for_item ) ) {
-            return _( "You just asked me for stuff; ask later." );
-        }
-        return _( "Why should I share my equipment with you?" );
-    } else if( topic == "TALK_DENY_EQUIPMENT" ) {
-        if( p->op_of_u.anger >= p->hostile_anger_level() - 4 ) {
-            return _( "<no>, and if you ask again, <ill_kill_you>!" );
-        } else {
-            return _( "<no><punc> <fuck_you>!" );
-        }
-
-    }
-    if( topic == "TALK_TRAIN" ) {
+    } else if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             return _( "Shall we resume?" );
         }
@@ -522,9 +490,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "Here's what I can teach you..." );
         }
-    } else if( topic == "TALK_LEADER" ) {
-        return _( "What is it?" );
-
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         // TODO: this ignores the z-component
         const tripoint player_pos = p->global_omt_location();
@@ -545,10 +510,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return response;
     } else if( topic == "TALK_FRIEND" ) {
         return _( "What is it?" );
-
-    } else if( topic == "TALK_DENY_TRAIN" ) {
-        return the_topic.reason;
-
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
         switch( p->mission ) {
             case NPC_MISSION_SHELTER:
@@ -565,7 +526,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             default:
                 return "ERROR: Someone forgot to code an npc_mission text.";
         } // switch (p->mission)
-
     } else if( topic == "TALK_SHOUT" ) {
         alpha->shout();
         if( alpha->is_deaf() ) {
@@ -573,7 +533,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } else {
             return _( "&You yell." );
         }
-
     } else if( topic == "TALK_SIZE_UP" ) {
         ///\EFFECT_PER affects whether player can size up NPCs
 
@@ -765,9 +724,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
     }
 
-    // Can be nullptr! Check before dereferencing
-    mission *miss = p->chatbin.mission_selected;
-
     if( topic == "TALK_MISSION_LIST" ) {
         if( p->chatbin.missions.size() == 1 ) {
             add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",
@@ -785,92 +741,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( miss_it->get_type().name, "TALK_MISSION_INQUIRE", miss_it );
             }
         }
-    } else if( topic == "TALK_MISSION_INQUIRE" ) {
-        if( miss == nullptr ) {
-            debugmsg( "dialogue::gen_responses(\"TALK_MISSION_INQUIRE\") called for null mission" );
-        } else if( miss->has_failed() ) {
-            RESPONSE( _( "I'm sorry... I failed." ) );
-            SUCCESS( "TALK_MISSION_FAILURE" );
-            SUCCESS_OPINION( -1, 0, -1, 1, 0 );
-            RESPONSE( _( "Not yet." ) );
-            TRIAL( TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 3 );
-            SUCCESS( "TALK_NONE" );
-            FAILURE( "TALK_MISSION_FAILURE" );
-            FAILURE_OPINION( -3, 0, -1, 2, 0 );
-        } else if( !miss->is_complete( p->getID() ) ) {
-            add_response_none( _( "Not yet." ) );
-            if( miss->get_type().goal == MGOAL_KILL_MONSTER ) {
-                RESPONSE( _( "Yup, I killed it." ) );
-                TRIAL( TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 5 );
-                SUCCESS( "TALK_MISSION_SUCCESS" );
-                SUCCESS_ACTION( &talk_function::mission_success );
-                FAILURE( "TALK_MISSION_SUCCESS_LIE" );
-                FAILURE_OPINION( -5, 0, -1, 5, 0 );
-                FAILURE_ACTION( &talk_function::mission_failure );
-            }
-            add_response_done( _( "No.  I'll get back to it, bye!" ) );
-        } else {
-            // TODO: Lie about mission
-            std::string msg;
-            switch( miss->get_type().goal ) {
-                case MGOAL_FIND_ITEM:
-                case MGOAL_FIND_ANY_ITEM:
-                    msg = _( "Yup!  Here it is!" );
-                    break;
-                case MGOAL_GO_TO_TYPE:
-                    msg = _( "We're here!" );
-                    break;
-                case MGOAL_GO_TO:
-                case MGOAL_FIND_NPC:
-                    msg = _( "Here I am." );
-                    break;
-                case MGOAL_FIND_MONSTER:
-                    msg = _( "Here it is!" );
-                    break;
-                case MGOAL_ASSASSINATE:
-                    msg = _( "Justice has been served." );
-                    break;
-                case MGOAL_KILL_MONSTER:
-                    msg = _( "I killed it." );
-                    break;
-                case MGOAL_RECRUIT_NPC:
-                case MGOAL_RECRUIT_NPC_CLASS:
-                    msg = _( "I brought'em." );
-                    break;
-                case MGOAL_COMPUTER_TOGGLE:
-                    msg = _( "I've taken care of it..." );
-                    break;
-                default:
-                    msg = _( "Mission success!  I don't know what else to say." );
-                    break;
-            }
-            add_response( msg, "TALK_MISSION_SUCCESS", &talk_function::mission_success );
-        }
-    } else if( topic == "TALK_MISSION_SUCCESS" ) {
-        int mission_value = 0;
-        if( miss == nullptr ) {
-            debugmsg( "dialogue::gen_responses(\"TALK_MISSION_SUCCESS\") called for null mission" );
-        } else {
-            mission_value = cash_to_favor( *p, miss->get_value() );
-        }
-        RESPONSE( _( "Glad to help.  I need no payment." ) );
-        SUCCESS( "TALK_NONE" );
-        SUCCESS_OPINION( mission_value / 4, -1,
-                         mission_value / 3, -1, 0 );
-        SUCCESS_ACTION( &talk_function::clear_mission );
-        if( !p->is_friend() ) {
-            add_response( _( "How about some items as payment?" ), "TALK_MISSION_REWARD",
-                          &talk_function::mission_reward );
-        }
-        if( !p->skills_offered_to( g->u ).empty() || !p->styles_offered_to( g->u ).empty() ) {
-            RESPONSE( _( "Maybe you can teach me something as payment." ) );
-            SUCCESS( "TALK_TRAIN" );
-        }
-        RESPONSE( _( "Glad to help.  I need no payment.  Bye!" ) );
-        SUCCESS( "TALK_DONE" );
-        SUCCESS_ACTION( &talk_function::clear_mission );
-        SUCCESS_OPINION( mission_value / 4, -1,
-                         mission_value / 3, -1, 0 );
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
         add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW", true );
         static const std::vector<itype_id> wanted = {{
@@ -900,56 +770,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         if( g->u.charges_of( "bandages" ) > 0 ) {
             add_response( _( "Delivering bandages." ), "TALK_DELIVER_ASK", itype_id( "bandages" ) );
         }
-    } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
-        if( p->has_effect( effect_asked_for_item ) ) {
-            add_response_none( _( "Okay, fine." ) );
-        } else {
-            int score = p->op_of_u.trust + p->op_of_u.value * 3 +
-                        p->personality.altruism * 2;
-            int missions_value = p->assigned_missions_value();
-            if( g->u.has_amount( "mininuke", 1 ) ) {
-                RESPONSE( _( "Because I'm holding a thermal detonator!" ) );
-                SUCCESS( "TALK_GIVE_EQUIPMENT" );
-                SUCCESS_ACTION( &talk_function::give_equipment );
-                SUCCESS_OPINION( 0, 0, -1, 0, score * 300 );
-                FAILURE( "TALK_DENY_EQUIPMENT" );
-                FAILURE_OPINION( 0, 0, -1, 0, 0 );
-            }
-            RESPONSE( _( "Because I'm your friend!" ) );
-            TRIAL( TALK_TRIAL_PERSUADE, 10 + score );
-            SUCCESS( "TALK_GIVE_EQUIPMENT" );
-            SUCCESS_ACTION( &talk_function::give_equipment );
-            SUCCESS_OPINION( 0, 0, -1, 0, score * 300 );
-            FAILURE( "TALK_DENY_EQUIPMENT" );
-            FAILURE_OPINION( 0, 0, -1, 0, 0 );
-            if( missions_value >= 1 ) {
-                RESPONSE( _( "Well, I am helping you out..." ) );
-                TRIAL( TALK_TRIAL_PERSUADE, 12 + ( .8 * score ) + missions_value / OWED_VAL );
-                SUCCESS( "TALK_GIVE_EQUIPMENT" );
-                SUCCESS_ACTION( &talk_function::give_equipment );
-                FAILURE( "TALK_DENY_EQUIPMENT" );
-                FAILURE_OPINION( 0, 0, -1, 0, 0 );
-            }
-            RESPONSE( _( "I'll give it back!" ) );
-            TRIAL( TALK_TRIAL_LIE, score * 1.5 );
-            SUCCESS( "TALK_GIVE_EQUIPMENT" );
-            SUCCESS_ACTION( &talk_function::give_equipment );
-            SUCCESS_OPINION( 0, 0, -1, 0, score * 300 );
-            FAILURE( "TALK_DENY_EQUIPMENT" );
-            FAILURE_OPINION( 0, -1, -1, 1, 0 );
-            RESPONSE( _( "Give it to me, or else!" ) );
-            TRIAL( TALK_TRIAL_INTIMIDATE, 40 );
-            SUCCESS( "TALK_GIVE_EQUIPMENT" );
-            SUCCESS_ACTION( &talk_function::give_equipment );
-            SUCCESS_OPINION( -3, 2, -2, 2,
-                             ( g->u.intimidation() + p->op_of_u.fear -
-                               p->personality.bravery - p->intimidation() ) * 500 );
-            FAILURE( "TALK_DENY_EQUIPMENT" );
-            FAILURE_OPINION( -3, 1, -3, 5, 0 );
-            add_response_none( _( "Eh, never mind." ) );
-            add_response_done( _( "Never mind, I'll do without.  Bye." ) );
-        }
-
     } else if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             player_activity &backlog = g->u.backlog.front();
@@ -992,14 +812,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( text, "TALK_TRAIN_START", trained );
         }
         add_response_none( _( "Eh, never mind." ) );
-
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         add_response_none( _( "Okay, thanks." ) );
         add_response_done( _( "Let's keep moving." ) );
-    } else if( topic == "TALK_SIZE_UP" || topic == "TALK_LOOK_AT" ||
-               topic == "TALK_OPINION" || topic == "TALK_SHOUT" ) {
-        add_response_none( _( "Okay." ) );
-
     }
 
     if( g->u.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_friend() ) {
