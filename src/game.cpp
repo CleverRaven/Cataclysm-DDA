@@ -3675,7 +3675,7 @@ void game::draw_sidebar()
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     const catacurses::window &s_window = sideStyle ?  w_location : w_location_wider;
     werase( s_window );
-    u.disp_status( w_status2 );
+    u.disp_status();
 
     wmove( sideStyle ? time_window : s_window, sideStyle ? 0 : 3, sideStyle ? 32 : 43 );
     if( u.has_watch() ) {
@@ -3787,7 +3787,7 @@ void game::draw_sidebar()
     // display safe mode
     std::string s_mode = safe_mode ? "On" : "Off";
     nc_color s_color = safe_mode ? c_green : c_red;
-    if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
+    if( safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
         int s_return = get_option<int>( "AUTOSAFEMODETURNS" );
         int iPercent = turnssincelastmon * 100 / s_return;
         if( iPercent >= 100 ) {
@@ -3800,10 +3800,10 @@ void game::draw_sidebar()
             s_color = c_red;
         }
     }
-    mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23,
+    mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 26,
                sideStyle ? getmaxx( w_status ) - 13 : 0, c_light_gray,
                sideStyle ? _( "Safe :" ) : _( "Safe:" ) );
-    mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 24,
+    mvwprintz( sideStyle ? w_status : w_HP, sideStyle ? 5 : 27,
                sideStyle ? getmaxx( w_status ) - 6 : 0, s_color, s_mode );
 
     wrefresh( w_status );

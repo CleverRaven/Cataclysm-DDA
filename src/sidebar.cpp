@@ -264,7 +264,7 @@ nc_color stat_color( const int bonus )
     return c_white;
 }
 
-void player::disp_status( const catacurses::window &w )
+void player::disp_status()
 {
     bool sideStyle = use_narrow_sidebar();
 
@@ -480,18 +480,16 @@ void player::disp_status( const catacurses::window &w )
             col_time = c_dark_gray_red;
         }
     }
+    // get move mode Walk / Run (1 letter)
+    const auto str_walk = pgettext( "movement-type", "W" );
+    const auto str_run = pgettext( "movement-type", "R" );
+    const char *move = move_mode == "walk" ? str_walk : str_run;
+    //int offset = get_int_digits( movecounter );
+    std::string movecost = std::to_string( movecounter ) + move;
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
                sideStyle ? 2 : 5, sideStyle ? 32 : 43, c_light_gray, _( "Move :" ) );
     mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 2 : 5, sideStyle ? 38 : 49, col_time, " %03d", movecounter );
-
-    //~ Movement type: "walking". Max string length: one letter.
-    const auto str_walk = pgettext( "movement-type", "W" );
-    //~ Movement type: "running". Max string length: one letter.
-    const auto str_run = pgettext( "movement-type", "R" );
-    mvwprintz( sideStyle ? g->w_status2 : g->w_location_wider,
-               sideStyle ? 2 : 5, sideStyle ? 42 : 53,
-               c_white, " %s", move_mode == "walk" ? str_walk : str_run );
+               sideStyle ? 2 : 5, sideStyle ? 39 : 50, col_time, movecost );
 
     // display focus
     nc_color col_xp = c_dark_gray;
@@ -527,10 +525,10 @@ void player::disp_status( const catacurses::window &w )
     }
 
     // display mood smiley
-    mvwprintz( sideStyle ? g->w_status : g->w_HP, sideStyle ? 6 : 26,
+    mvwprintz( sideStyle ? g->w_status : g->w_HP, sideStyle ? 6 : 29,
                sideStyle ? 11 : 0, c_light_gray, sideStyle ? _( "Mood :" ) : _( "Mood:" ) );
 
-    mvwprintz( sideStyle ? g->w_status : g->w_HP, sideStyle ? 6 : 27,
+    mvwprintz( sideStyle ? g->w_status : g->w_HP, sideStyle ? 6 : 30,
                sideStyle ? 18 : 0, col_morale,
                morale_emotion( morale_cur, fc,
                                get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
@@ -595,16 +593,6 @@ void player::disp_status( const catacurses::window &w )
                sideStyle ? _( "Per  : %02d" ) : _( "Per %02d" ), per_cur );
 
     // display power level
-    wmove( sideStyle ? g->w_status : g->w_HP,
-           sideStyle ? 4 : 21,
-           sideStyle ? 11 : 0 );
-
-    if( sideStyle ) {
-        wprintz( sideStyle ? g->w_status : g->w_HP, c_white, _( "Pwr  : " ) );
-    } else {
-        wprintz( sideStyle ? g->w_status : g->w_HP, c_white, _( "Pwr " ) );
-    }
-
     if( this->max_power_level == 0 ) {
         wprintz( sideStyle ? g->w_status : g->w_HP, c_light_gray, "--" );
     } else {
@@ -622,29 +610,32 @@ void player::disp_status( const catacurses::window &w )
 
         // case power_level > 999 display 1k instead
         int display_power = this->power_level;
-        std::string unit = "";
+        std::string unit = " ";
         if( this->power_level > 999 ) {
             switch( offset ) {
                 case 4:
                     display_power /= 1000;
                     unit = "k";
-                    offset = 2;
+                    //offset = 2;
                     break;
                 case 5:
                     display_power /= 1000;
                     unit = "k";
-                    offset = 0;
+                    //offset = 0;
                     break;
             }
         } else {
-            unit = "";
+            unit = " ";
         }
 
-        wmove( sideStyle ? w : g->w_HP,
-               sideStyle ? 4 : 21,
-               sideStyle ? 20 - offset : 6 - offset );
-        std::string power_value = std::to_string( display_power ) + unit;
-        wprintz( sideStyle ? g->w_status : g->w_HP, color, power_value );
+        if( sideStyle ) {
+            std::string power_value = std::to_string( display_power ) + unit;
+            mvwprintz( sideStyle ? g->w_status : g->w_HP, 4, 11, c_white, _( "Pwr  : " ) );
+            mvwprintz( sideStyle ? g->w_status : g->w_HP, 4, 18, color, power_value );
+        } else {
+            mvwprintz( sideStyle ? g->w_status : g->w_HP, 23, 0, c_white, _( "Pwr: " ) );
+            mvwprintz( sideStyle ? g->w_status : g->w_HP, 24, 0, color, "%d", this->power_level );
+        }
     }
     wrefresh( sideStyle ? g->w_status : g->w_HP );
 
