@@ -147,7 +147,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
         //name
         std::string partname = vp.name() + " ";
         //fuel content
-        partname += ( vp.is_fuel_store() && vp.ammo_current() != "null" ) ?  vp.fuel_info() : "";
+        partname += ( vp.is_fuel_store() && vp.ammo_current() != "null" ) ?  fuel_info( vp ) : "";
         //cargo
         partname += part_flag( id, "CARGO" ) ? cargo_info( id ) : "";
         //armor
@@ -171,7 +171,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
         refresh_insides();
         std::string desc = parts[veh_part].inside ? _( "Interior" ) : _( "Exterior" );
 
-        std::string &line = out_info[desc_offset];
+        std::string &line = out_info[old_size + desc_offset];
 
         const size_t length = static_cast<size_t>( utf8_width( desc ) );
         const size_t start_pos = length > max_width ? max_width : max_width - length;
@@ -196,12 +196,12 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
     return out_info.size() - old_size;
 }
 
-std::string vehicle_part::fuel_info()const
+std::string vehicle::fuel_info( const vehicle_part &vp )const
 {
-    return string_format( "(%s)", item::nname( this->ammo_current() ) );
+    return string_format( "(%s)", item::nname( vp.ammo_current() ) );
 }
 
-std::string vehicle_part::cargo_info( const int id )const
+std::string vehicle::cargo_info( const int id )const
 {
     //~ used/total volume of a cargo vehicle part
     return string_format( _( "(vol: %s/%s %s)" ),
@@ -210,7 +210,7 @@ std::string vehicle_part::cargo_info( const int id )const
                           volume_units_abbr() );
 }
 
-std::pair<std::string, std::string> vehicle_part::armor_info( const int id )const
+std::pair<std::string, std::string> vehicle::armor_info( const int id )const
 {
     std::pair<std::string, std::string> ret;
     if( part_flag( id, "ARMOR" ) ) {

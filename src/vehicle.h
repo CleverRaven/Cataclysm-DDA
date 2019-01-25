@@ -236,13 +236,6 @@ struct vehicle_part {
         /** Get wheel width (inches) or return 0 if part is not wheel */
         int wheel_width() const;
 
-        /**@return stringified fuel information, no trim, fold or color applied.*/
-        std::string fuel_info()const;
-        /**@return stringified cargo information, no trim, fold or color applied.*/
-        std::string cargo_info( const int id )const;
-        /**@return stringified armor information, no trim, fold or color applied.*/
-        std::pair<std::string, std::string> armor_info( const int id )const;
-
         /**
          *  Get NPC currently assigned to this part (seat, turret etc)?
          *  @note checks crew member is alive and currently allied to the player
@@ -698,6 +691,12 @@ class vehicle
         */
         size_t vehicle_info( std::vector<std::string> &out_info, const uint32_t veh_part,
                              const uint32_t max_width, const int hl = -1 );
+        /**@return stringified fuel information, no trim, fold or color applied.*/
+        std::string fuel_info( const vehicle_part &vp )const;
+        /**@return stringified cargo information, no trim, fold or color applied.*/
+        std::string cargo_info( const int id )const;
+        /**@return stringified armor information, no trim, fold or color applied.*/
+        std::pair<std::string, std::string> armor_info( const int id )const;
 
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
