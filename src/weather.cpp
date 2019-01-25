@@ -51,7 +51,7 @@ static bool is_player_outside()
  */
 void weather_effect::glare()
 {
-    if( is_player_outside() && !g->u.in_sleep_state() &&
+    if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
