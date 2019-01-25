@@ -3704,7 +3704,7 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     wrefresh( s_window );
-    mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
+    mvwprintz( s_window, 0, 0, c_light_gray, _( "Location: " ) );
     wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
 
     if( get_levz() < 0 ) {
@@ -3734,7 +3734,7 @@ void game::draw_sidebar()
     }
     int x = sideStyle ?  32 : 43;
     int y = sideStyle ?  1 : 0;
-    mvwprintz( s_window, y, x, c_light_gray, "Moon : " );
+    mvwprintz( s_window, y, x, c_light_gray, _( "Moon : " ) );
     trim_and_print( s_window, y, x + 7, 11, c_white, sPhase.c_str() );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
