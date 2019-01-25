@@ -153,7 +153,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
         //armor
         auto sym = armor_info( id );
         //highlight selected
-        if( static_cast<const int>( i ) == hl ) {
+        if( static_cast<int>( i ) == hl ) {
             sym_clr = hilite( c_light_gray );
             part_clr = hilite( part_clr );
         }
