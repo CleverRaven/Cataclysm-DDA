@@ -11,7 +11,8 @@ class window;
 } // namespace catacurses
 
 void draw_HP( const player &p, const catacurses::window &w_HP, const bool wide );
-void print_stamina_bar( const player &p, const catacurses::window &w );
+void print_stamina_bar( const catacurses::window &w, const int y, const int x, const player &p,
+                        const bool narrow );
 void draw_time( const catacurses::window &time_window, const int y, const int x,
                 const bool has_watch,
                 const bool can_see_sun );

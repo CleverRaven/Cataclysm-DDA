@@ -193,17 +193,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP, const bool wide )
         }
     }
     // display stamina
-    if( wide ) {
-        wmove( w_HP, 7 * dy, 0 );
-        wprintz( w_HP, c_light_gray, _( "STA   " ) );
-        print_stamina_bar( p, w_HP );
-    }
-    if( !wide ) {
-        wmove( w_HP, 12, hpx );
-        wprintz( w_HP, c_light_gray, _( "STA:" ) );
-        wmove( w_HP, 13, hpx );
-        print_stamina_bar( p, w_HP );
-    }
+    print_stamina_bar( w_HP, wide ? 7 * dy : 12, wide ? 0 : hpx, p, !wide );
     wrefresh( w_HP );
 }
 
@@ -227,8 +217,17 @@ static std::string print_gun_mode( const player &p )
     }
 }
 
-void print_stamina_bar( const player &p, const catacurses::window &w )
+void print_stamina_bar( const catacurses::window &w, const int y, const int x, const player &p,
+                        const bool narrow )
 {
+    wmove( w, y, x );
+    if( narrow ) {
+        wprintz( w, c_light_gray, _( "STA:" ) );
+        wmove( w, y + 1, x );
+    } else {
+        wprintz( w, c_light_gray, _( "STA   " ) );
+    }
+
     std::string sta_bar;
     nc_color sta_color;
     std::tie( sta_bar, sta_color ) = get_hp_bar( p.stamina, p.get_stamina_max() );
