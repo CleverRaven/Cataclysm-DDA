@@ -399,6 +399,7 @@ void WinCreate()
     format.reset( SDL_AllocFormat( wformat ) );
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
+#ifndef __ANDROID__
     bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
     int renderer_id = -1;
     std::string renderer_name;
@@ -418,6 +419,9 @@ void WinCreate()
             break;
         }
     }
+#else
+    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
+#endif
 
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
