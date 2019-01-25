@@ -762,10 +762,6 @@ void iexamine::crate( player &p, const tripoint &examp )
         return;
     }
 
-    uilist selection_menu;
-    selection_menu.text = string_format( _( "The %s is closed tightly." ),
-                                           g->m.furnname( examp ) );
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         return it.has_quality( quality_id( "PRY" ), 1 );
     } );
@@ -784,6 +780,10 @@ void iexamine::crate( player &p, const tripoint &examp )
     } );
 
     // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is closed tightly."),
+        g->m.furnname(examp));
+
     int i = 0;
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
     for( auto iter : prying_items ) {
@@ -1168,10 +1168,6 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return;
     }
 
-    uilist selection_menu;
-
-    selection_menu.text = string_format( _( "The %s is locked..." ), g->m.tername( examp ) );
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         return it.has_quality( quality_id( "PRY" ), 2 );
     } );
@@ -1190,6 +1186,9 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
+
     int i = 0;
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
     for( auto iter : prying_items ) {
