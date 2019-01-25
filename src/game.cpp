@@ -3640,7 +3640,11 @@ void game::draw_sidebar()
     // w_status2 is not used with the wide sidebar (wide == !narrow)
     // Don't draw anything on it (no werase, wrefresh) in this case to avoid flickering
     // (it overlays other windows)
+
+    // sidestyle ? narrow = 1 : wider = 0
     const bool sideStyle = use_narrow_sidebar();
+    const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
+    const catacurses::window &s_window = sideStyle ? w_location : w_location_wider;
 
     // Draw Status
     draw_HP( u, w_HP );
@@ -3648,59 +3652,12 @@ void game::draw_sidebar()
     if( sideStyle ) {
         werase( w_status2 );
     }
-
-    // sidestyle ? narrow = 1 : wider = 0
-    const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
-    const catacurses::window &s_window = sideStyle ?  w_location : w_location_wider;
     werase( s_window );
+
     u.disp_status( w_status, w_status2 );
+
     wmove( time_window, 1, sideStyle ? 15 : 43 );
-    if( u.has_watch() ) {
-        wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
-    } else if( get_levz() >= 0 ) {
-        std::vector<std::pair<char, nc_color> > vGlyphs;
-        vGlyphs.push_back( std::make_pair( '_', c_red ) );
-        vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
-        vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-        vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-        vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-        vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-        vGlyphs.push_back( std::make_pair( '*', c_yellow ) );
-        vGlyphs.push_back( std::make_pair( 'C', c_white ) );
-        vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-        vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-        vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-        vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-        vGlyphs.push_back( std::make_pair( '_', c_red ) );
-        vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
-
-        const int iHour = hour_of_day<int>( calendar::turn );
-        wprintz( time_window, c_white, "[" );
-        bool bAddTrail = false;
-
-        for( int i = 0; i < 14; i += 2 ) {
-            if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) {
-                wputch( time_window, hilite( c_white ), ' ' );
-
-            } else if( iHour >= 6 + i && iHour <= 7 + i ) {
-                wputch( time_window, hilite( vGlyphs[i].second ), vGlyphs[i].first );
-                bAddTrail = true;
-
-            } else if( iHour >= ( 18 + i ) % 24 && iHour <= ( 19 + i ) % 24 ) {
-                wputch( time_window, vGlyphs[i + 1].second, vGlyphs[i + 1].first );
-
-            } else if( bAddTrail && iHour >= 6 + ( i / 2 ) ) {
-                wputch( time_window, hilite( c_white ), ' ' );
-
-            } else {
-                wputch( time_window, c_white, ' ' );
-            }
-        }
-
-        wprintz( time_window, c_white, "]" );
-    } else {
-        wprintz( time_window, c_white, _( "Time: ???" ) );
-    }
+    draw_time( time_window, u.has_watch(), get_levz() >= 0 );
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     wrefresh( s_window );
@@ -3753,7 +3710,6 @@ void game::draw_sidebar()
     }
     u.volume = 0;
 
-    //Safemode coloring
     catacurses::window day_window = sideStyle ? w_status2 : w_status;
     mvwprintz( time_window, 1, 0, c_white, _( "%s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
@@ -3765,6 +3721,7 @@ void game::draw_sidebar()
             int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
             wmove( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23, sideStyle ? getmaxx( w_status ) - 4 : 0 );
             const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
+            //Safemode coloring
             for( int i = 0; i < 4; i++ ) {
                 nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
                 wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );

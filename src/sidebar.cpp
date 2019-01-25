@@ -236,6 +236,57 @@ void print_stamina_bar( const player &p, const catacurses::window &w )
     wprintz( w, sta_color, sta_bar );
 }
 
+void draw_time( const catacurses::window &time_window, const bool has_watch,
+                const bool can_see_sun )
+{
+    if( has_watch ) {
+        wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
+    } else if( can_see_sun ) {
+        std::vector<std::pair<char, nc_color> > vGlyphs;
+        vGlyphs.push_back( std::make_pair( '_', c_red ) );
+        vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
+        vGlyphs.push_back( std::make_pair( '.', c_brown ) );
+        vGlyphs.push_back( std::make_pair( ',', c_blue ) );
+        vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
+        vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
+        vGlyphs.push_back( std::make_pair( '*', c_yellow ) );
+        vGlyphs.push_back( std::make_pair( 'C', c_white ) );
+        vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
+        vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
+        vGlyphs.push_back( std::make_pair( '.', c_brown ) );
+        vGlyphs.push_back( std::make_pair( ',', c_blue ) );
+        vGlyphs.push_back( std::make_pair( '_', c_red ) );
+        vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
+
+        const int iHour = hour_of_day<int>( calendar::turn );
+        wprintz( time_window, c_white, "[" );
+        bool bAddTrail = false;
+
+        for( int i = 0; i < 14; i += 2 ) {
+            if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) {
+                wputch( time_window, hilite( c_white ), ' ' );
+
+            } else if( iHour >= 6 + i && iHour <= 7 + i ) {
+                wputch( time_window, hilite( vGlyphs[i].second ), vGlyphs[i].first );
+                bAddTrail = true;
+
+            } else if( iHour >= ( 18 + i ) % 24 && iHour <= ( 19 + i ) % 24 ) {
+                wputch( time_window, vGlyphs[i + 1].second, vGlyphs[i + 1].first );
+
+            } else if( bAddTrail && iHour >= 6 + ( i / 2 ) ) {
+                wputch( time_window, hilite( c_white ), ' ' );
+
+            } else {
+                wputch( time_window, c_white, ' ' );
+            }
+        }
+
+        wprintz( time_window, c_white, "]" );
+    } else {
+        wprintz( time_window, c_white, _( "Time: ???" ) );
+    }
+}
+
 int define_temp_level( const int lvl )
 {
     if( lvl > BODYTEMP_SCORCHING ) {
@@ -618,6 +669,56 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
     wrefresh( sideStyle ? w : g->w_HP );
 
+}
+
+std::string player::weapname() const
+{
+    if( weapon.is_gun() ) {
+        std::string str;
+        str = weapon.type_name();
+
+        // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
+        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
+
+        const auto mods = weapon.gunmods();
+        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
+            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
+        } );
+
+        if( base || aux ) {
+            str += " (";
+            if( base ) {
+                str += std::to_string( weapon.ammo_remaining() );
+                if( weapon.magazine_integral() ) {
+                    str += "/" + std::to_string( weapon.ammo_capacity() );
+                }
+            } else {
+                str += "---";
+            }
+            str += ")";
+
+            for( auto e : mods ) {
+                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                    str += " (" + std::to_string( e->ammo_remaining() );
+                    if( e->magazine_integral() ) {
+                        str += "/" + std::to_string( e->ammo_capacity() );
+                    }
+                    str += ")";
+                }
+            }
+        }
+        return "Weapon  : " + str;
+
+    } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
+        return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
+                              weapon.contents.front().charges );
+
+    } else if( !is_armed() ) {
+        return _( "Weapon  : fists" );
+
+    } else {
+        return "Weapon  : " + weapon.tname();
+    }
 }
 
 int get_int_digits( const int &digits )

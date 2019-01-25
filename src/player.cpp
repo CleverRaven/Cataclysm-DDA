@@ -11173,57 +11173,6 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
     } );
 }
 
-// mytest return weapon name to display in sidebar
-std::string player::weapname() const
-{
-    if( weapon.is_gun() ) {
-        std::string str;
-        str = weapon.type_name();
-
-        // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
-
-        const auto mods = weapon.gunmods();
-        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item *e ) {
-            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
-        } );
-
-        if( base || aux ) {
-            str += " (";
-            if( base ) {
-                str += std::to_string( weapon.ammo_remaining() );
-                if( weapon.magazine_integral() ) {
-                    str += "/" + std::to_string( weapon.ammo_capacity() );
-                }
-            } else {
-                str += "---";
-            }
-            str += ")";
-
-            for( auto e : mods ) {
-                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                    str += " (" + std::to_string( e->ammo_remaining() );
-                    if( e->magazine_integral() ) {
-                        str += "/" + std::to_string( e->ammo_capacity() );
-                    }
-                    str += ")";
-                }
-            }
-        }
-        return "Weapon  : " + str;
-
-    } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
-        return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
-                              weapon.contents.front().charges );
-
-    } else if( !is_armed() ) {
-        return _( "Weapon  : fists" );
-
-    } else {
-        return "Weapon  : " + weapon.tname();
-    }
-}
-
 bool player::wield_contents( item &container, int pos, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
