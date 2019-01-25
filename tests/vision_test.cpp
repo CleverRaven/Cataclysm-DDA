@@ -21,6 +21,7 @@ void full_map_test( const std::vector<std::string> &setup,
 
     g->place_player( tripoint( 60, 60, 0 ) );
     g->reset_light_level();
+    g->u.worn.clear(); // Remove any light-emitting clothing
     g->u.clear_effects();
     clear_map();
 
@@ -48,9 +49,16 @@ void full_map_test( const std::vector<std::string> &setup,
     tripoint origin;
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
-            if( setup[y][x] == 'U' || setup[y][x] == 'u' ) {
-                origin = g->u.pos() - point( x, y );
-                break;
+            switch( setup[y][x] ) {
+                case 'V':
+                case 'U':
+                case 'u':
+                    origin = g->u.pos() - point( x, y );
+                    if( setup[y][x] == 'V' ) {
+                        item headlamp( "wearable_light_on" );
+                        g->u.worn.push_back( headlamp );
+                    }
+                    break;
             }
         }
     }
@@ -63,7 +71,7 @@ void full_map_test( const std::vector<std::string> &setup,
         REQUIRE( player_offset.x >= 0 );
         REQUIRE( player_offset.x < width );
         char player_char = setup[player_offset.y][player_offset.x];
-        REQUIRE( ( player_char == 'U' || player_char == 'u' ) );
+        REQUIRE( ( player_char == 'U' || player_char == 'u' || player_char == 'V' ) );
     }
 
     for( int y = 0; y < height; ++y ) {
@@ -86,6 +94,7 @@ void full_map_test( const std::vector<std::string> &setup,
                     g->m.ter_set( p, t_floor );
                     break;
                 case 'U':
+                case 'V':
                     // Already handled above
                     break;
                 default:
@@ -269,6 +278,7 @@ static constexpr int midday = HOURS( 12 );
 // '-' - empty, indoors
 // 'U' - player, outdoors
 // 'u' - player, indoors
+// 'V' - player, with light in inventory
 // 'L' - light, indoors
 // '#' - wall
 // '=' - window frame
@@ -387,6 +397,30 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
             "666",
             "111",
             "141",
+        },
+        midnight,
+        true
+    };
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
+{
+    vision_test_case t {
+        {
+            " V",
+            "  ",
+            "  ",
+            "##",
+            "--",
+        },
+        {
+            "44",
+            "44",
+            "44",
+            "44",
+            "66",
         },
         midnight,
         true

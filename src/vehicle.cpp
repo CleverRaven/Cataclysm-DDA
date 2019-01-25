@@ -361,7 +361,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
 
-        if( vp.has_feature( "REACTOR" ) ) {
+        if( vp.has_feature( VPFLAG_REACTOR ) ) {
             // De-hardcoded reactors. Should always start active
             pt.enabled = true;
         }
@@ -4368,7 +4368,7 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_ENGINE ) ) {
             engines.push_back( p );
         }
-        if( vpi.has_flag( "REACTOR" ) ) {
+        if( vpi.has_flag( VPFLAG_REACTOR ) ) {
             reactors.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
