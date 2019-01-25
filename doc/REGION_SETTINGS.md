@@ -391,7 +391,7 @@ The **weather** section defines the base weather attributes used for the region.
 
 |     Identifier                 |                              Description                              |
 | ------------------------------ | --------------------------------------------------------------------- |
-| `base_temperature` 					   | Base temperature for the region in degrees Celsius.                   |
+| `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
 | `base_pressure`                | Base pressure for the region in millibars.                            |
 | `base_acid`                    | Base acid for the region in ? units. Value >= 1 is considered acidic. |
@@ -407,10 +407,7 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_temperature": 6.5,
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
-		"base_acid": 0.0,
-		"base_wind": 5.7,
-		"base_wind_distrib_peaks": 30,
-		"base_wind_season_variation": 64
+		"base_acid": 0.0
 	}
 }
 ```
