@@ -125,15 +125,15 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
 {
     const size_t old_size = out_info.size();
 
-    //brief description
-    std::string message = string_format( _( "There is a %s there. Parts:" ), name );
-    foldstring( out_info, colorize( message, c_dark_gray ), max_width );
-    const size_t desc_offset = out_info.size() - old_size;
-
     //boundary check for part id
     if( veh_part >= parts.size() ) {
         return 0;
     }
+
+    //brief description
+    std::string message = string_format( _( "There is a %s there. Parts:" ), name );
+    foldstring( out_info, colorize( message, c_dark_gray ), max_width );
+    const size_t desc_offset = out_info.size() - old_size;
 
     std::vector<int> parts_id_list = parts_at_relative( parts[veh_part].mount, true );
 
@@ -147,7 +147,7 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
         //name
         std::string partname = vp.name() + " ";
         //fuel content
-        partname += ( vp.is_fuel_store() && vp.ammo_current() != "null" ) ? fuel_info( vp ) : "";
+        partname += ( vp.is_fuel_store() && vp.ammo_current() != "null" ) ?  vp.fuel_info() : "";
         //cargo
         partname += part_flag( id, "CARGO" ) ? cargo_info( id ) : "";
         //armor
@@ -166,17 +166,15 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
     }
 
     //Covered or not?
-    size_t line_written = ( out_info.size() - old_size );
-    if( line_written > 0 ) {
+    if( parts_id_list.size() ) {
 
-        const bool is_inside = vpart_position( *this, parts_id_list[0] ).is_inside();
-        std::string desc = is_inside ? _( "Interior" ) : _( "Exterior" );
+        refresh_insides();
+        std::string desc = parts[veh_part].inside ? _( "Interior" ) : _( "Exterior" );
 
-        const size_t target = out_info.size() - line_written;
-        std::string &line = out_info[target + desc_offset];
+        std::string &line = out_info[desc_offset];
 
         const size_t length = static_cast<size_t>( utf8_width( desc ) );
-        const size_t start_pos = lenght > max_width ? max_width : max_width - lenght;
+        const size_t start_pos = length > max_width ? max_width : max_width - length;
         const size_t naked_size = remove_color_tags( line ).size();
 
         if( naked_size > start_pos ) {
@@ -198,12 +196,12 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
     return out_info.size() - old_size;
 }
 
-std::string vehicle::fuel_info( const vehicle_part &vp )const
+std::string vehicle_part::fuel_info()const
 {
-    return string_format( "(%s)", item::nname( vp.ammo_current() ) );
+    return string_format( "(%s)", item::nname( this->ammo_current() ) );
 }
 
-std::string vehicle::cargo_info( const int id )const
+std::string vehicle_part::cargo_info( const int id )const
 {
     //~ used/total volume of a cargo vehicle part
     return string_format( _( "(vol: %s/%s %s)" ),
@@ -212,7 +210,7 @@ std::string vehicle::cargo_info( const int id )const
                           volume_units_abbr() );
 }
 
-std::pair<std::string, std::string> vehicle::armor_info( const int id )const
+std::pair<std::string, std::string> vehicle_part::armor_info( const int id )const
 {
     std::pair<std::string, std::string> ret;
     if( part_flag( id, "ARMOR" ) ) {
