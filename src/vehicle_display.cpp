@@ -167,21 +167,18 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
 
     //Covered or not?
     if( parts_id_list.size() ) {
-
         refresh_insides();
+        std::string &line = out_info[old_size + desc_offset];
         std::string desc = parts[veh_part].inside ? _( "Interior" ) : _( "Exterior" );
 
-        std::string &line = out_info[old_size + desc_offset];
+        const size_t line_length = remove_color_tags( line ).size();
+        const size_t desc_length = static_cast<size_t>( utf8_width( desc ) );
+        const size_t start_pos = desc_length > max_width ? max_width : max_width - desc_length;
 
-        const size_t length = static_cast<size_t>( utf8_width( desc ) );
-        const size_t start_pos = length > max_width ? max_width : max_width - length;
-        const size_t naked_size = remove_color_tags( line ).size();
-
-        if( naked_size > start_pos ) {
+        if( line_length > start_pos ) {
             line = trim_to_width( line, start_pos );
         } else {
-            std::string padding( ( start_pos - naked_size ), ' ' );
-            line += padding;
+            line.resize( start_pos, ' ' );
         }
         line += colorize( desc, c_light_gray );
     }
