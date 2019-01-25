@@ -1397,29 +1397,13 @@
         "type" : "technique",
         "id" : "tec_viking_feint",
         "name" : "Fake Out",
-        "min_melee" : 2,
+        "min_melee" : 1,
         "unarmed_allowed" : false,
         "defensive" : true,
         "miss_recovery" : true,
         "messages" : [
             "You pretend to attack %s",
             "<npcname> pretends to attack %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_viking_rapid",
-        "name" : "Quick Hack",
-        "min_melee" : 1,
-        "unarmed_allowed" : false,
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ],
-        "messages" : [
-            "You quickly hack at %s",
-            "<npcname> quickly hacks at %s"
         ]
     },{
         "type" : "technique",
