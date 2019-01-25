@@ -40,6 +40,8 @@ static void reload_names()
 #   include <CoreFoundation/CFLocale.h>
 #   include <CoreFoundation/CoreFoundation.h>
 
+#include "cata_utility.h"
+
 std::string getOSXSystemLang();
 #endif
 
