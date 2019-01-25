@@ -771,7 +771,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Target Aquired.\"",
+        "targeting_sound": "\"Target Acquired.\"",
         "targeting_volume": 10
       }
     ],
