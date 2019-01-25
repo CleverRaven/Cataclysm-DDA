@@ -67,6 +67,7 @@
     "copy-from": "toasterpastryfrozen",
     "quench": 4,
     "description": "A delicious fruit-filled pastry that you've cooked.  It even comes with frosting!",
+    "charges": 1,
     "fun": 30,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -990,6 +991,7 @@
     "container": "wrapper",
     "healthy": -2,
     "description": "A heavily processed sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
+    "charges": 1,
     "fun": 18
   },
   {
@@ -1126,6 +1128,7 @@
     "name_plural": "campfire hot dogs",
     "copy-from": "hotdogs_frozen",
     "description": "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
+    "charges": 1,
     "stack_size": 4,
     "healthy": -1,
     "fun": 5
@@ -1149,7 +1152,7 @@
     "volume": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitmins": [ [ "vitC", 20 ], [ "calcium", 5 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 5 ], [ "iron", 3 ] ],
     "rot_spawn": "GROUP_CARRION",
     "rot_spawn_chance": 15
   },
