@@ -9,7 +9,9 @@
 #include <iostream>
 #include <locale>
 #include <map>
-#if (!(defined _WIN32 || defined WINDOWS))
+#if defined _WIN32 || defined WINDOWS
+#include "platform_win.h"
+#else
 #include <signal.h>
 #endif
 #include <stdexcept>
