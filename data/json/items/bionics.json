@@ -803,7 +803,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Joint Torsion Ratchet CBM",
-    "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move. With this toggled you will find it hard to move",
+    "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move. whilst this is toggled, moving will require more effort.",
     "price": 380000,
     "difficulty": 4
   },
