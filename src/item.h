@@ -430,6 +430,9 @@ class item : public visitable<item>
          */
         bool merge_charges( const item &rhs );
 
+        // The number of charges a recipe creates.  Used for comestible consumption.
+        int recipe_charges = 1;
+
         units::mass weight( bool include_contents = true ) const;
 
         /**

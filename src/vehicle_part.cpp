@@ -455,7 +455,7 @@ bool vehicle_part::is_battery() const
 
 bool vehicle_part::is_reactor() const
 {
-    return info().has_flag( "REACTOR" );
+    return info().has_flag( VPFLAG_REACTOR );
 }
 
 bool vehicle_part::is_turret() const

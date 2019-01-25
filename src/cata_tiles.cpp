@@ -2292,8 +2292,25 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
         return false;
     }
 
-    return draw_from_id_string( t.tile, C_TERRAIN, empty_string, p, t.subtile, t.rotation, LL_MEMORIZED,
-                                nv_goggles_activated, height_3d );
+    TILE_CATEGORY category = C_NONE;
+
+    switch( t.tile[0] ) {
+        case 't':
+            category = C_TERRAIN;
+            break;
+        case 'f':
+            category = C_FURNITURE;
+            break;
+        case 'v':
+            category = C_VEHICLE_PART;
+            break;
+        default:
+            debugmsg( "Could not infer category for memorized tile %s", t.tile );
+            break;
+    }
+
+    return draw_from_id_string( t.tile, category, empty_string, p, t.subtile, t.rotation,
+                                LL_MEMORIZED, nv_goggles_activated, height_3d );
 }
 
 bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d )

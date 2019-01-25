@@ -5,6 +5,7 @@
     "comestible_type": "FOOD",
     "name": "Spice",
     "//": "Spices are inedible in their base form but useful in crafting",
+    "flags": "NUTRIENT_OVERRIDE",
     "weight": 5,
     "volume": 1,
     "price": 250,

@@ -146,10 +146,11 @@
     "hp": 10,
     "speed": 50,
     "material": [ "iflesh" ],
+    "diff": 1,
     "symbol": "a",
     "color": "brown",
-    "aggression": 100,
-    "morale": 100,
+    "aggression": -99,
+    "morale": -8,
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 3,
@@ -160,7 +161,7 @@
     "upgrades": { "age_grow": 7, "into": "mon_giant_cockroach" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "CLIMBS" ]
   },
   {
     "id": "mon_pregnant_giant_cockroach",
