@@ -178,7 +178,8 @@ size_t vehicle::vehicle_info( std::vector<std::string> &out_info, const uint32_t
         if( line_length > start_pos ) {
             line = trim_to_width( line, start_pos );
         } else {
-            line.resize( start_pos, ' ' );
+            std::string padding( ( start_pos - line_length ), ' ' );
+            line += padding;
         }
         line += colorize( desc, c_light_gray );
     }
