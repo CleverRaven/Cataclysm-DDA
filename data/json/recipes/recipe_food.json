@@ -3741,7 +3741,7 @@
     "difficulty": 1,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "grahmcrackers", 1 ] ], [ [ "marshmallow", 1 ] ], [ [ "chocolate", 1 ] ] ]
   },
