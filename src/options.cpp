@@ -1053,19 +1053,6 @@ void options_manager::add_options_general()
 
     mOptionsSort["general"]++;
 
-    add("AUTO_PRY", "general", translate_marker("Auto-pry closed crates on examine"),
-        translate_marker("If true, automatically uses the best available prying tool to open a crate when you examine it.  If false, displays a prompt including a 'leave it alone' option."),
-        false
-    );
-
-    add("AUTO_PRY_LOCK", "general", translate_marker("Auto-pry locks on examine"),
-        translate_marker("If true, automatically uses the best available prying tool to open a locked object when you examine it.  If false, displays a prompt including a 'leave it alone' option.  WARNING: lockpicks are not considered by this feature, and must be activated manually (instead of examining)."),
-        false
-    );
-
-    mOptionsSort["general"]++;
-
-
     add( "AUTO_FEATURES", "general", translate_marker( "Additional auto features" ),
          translate_marker( "If true, enables configured auto features below.  Disabled as long as any enemy monster is seen." ),
          false

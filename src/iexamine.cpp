@@ -768,42 +768,43 @@ void iexamine::crate( player &p, const tripoint &examp )
 
     iuse dummy;
 
-    // Sort by their quality level.
-    std::sort(prying_items.begin(), prying_items.end(), [](const item * a, const item * b) -> bool {
-        return a->get_quality(quality_id("PRY")) > b->get_quality(quality_id("PRY"));
-    });
-
-    if( get_option<bool>( "AUTO_PRY" ) ) {
-        // User has elected to always use the best available prying tool, without being stopped by a prompt; just use the item
+    if( prying_items.size() == 1 ) {
         item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
         dummy.crowbar( &p, &temporary_item, false, examp );
-    } else {
-        // User wants to have a choice. Display the previously-generated sorted list of prying items, and add a 'do nothing' option
-        uilist selection_menu;
-        selection_menu.text = string_format(_("The %s is closed tightly."),
-            g->m.furnname(examp));
-
-        int i = 0;
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-        for( auto iter : prying_items ) {
-            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
-        }
-
-        selection_menu.query();
-        auto index = selection_menu.ret;
-
-        if( index == 0 || index == UILIST_CANCEL ) {
-            none( p, examp );
-            return;
-        }
-
-        auto selected_tool = prying_items[index - 1];
-        item temporary_item( selected_tool->type );
-
-        // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-        // changes to the original item.
-        dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
     }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is closed tightly."),
+        g->m.furnname(examp));
+
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
+    }
+
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
+        none( p, examp );
+        return;
+    }
+
+    auto selected_tool = prying_items[index - 1];
+    item temporary_item( selected_tool->type );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
@@ -1168,48 +1169,44 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return;
     }
 
-    // TODO: include lockpicks in this list. Will need to update the code to use the original item instead of a dummy, or otherwise apply damage to the original item on a failed pick, as noted below.
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         return it.has_quality( quality_id( "PRY" ), 2 );
     } );
 
-    // Sort by their quality level.
-    std::sort(prying_items.begin(), prying_items.end(), [](const item * a, const item * b) -> int {
-        return a->get_quality(quality_id("PRY")) > b->get_quality(quality_id("PRY"));
-    });
-
     iuse dummy;
-    if( get_option<bool>( "AUTO_PRY_LOCK" ) ) {
-        // User has elected to always use the best available prying tool, without being stopped by a prompt; just use the item
+    if( prying_items.size() == 1 ) {
         item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
         dummy.crowbar( &p, &temporary_item, false, examp );
-    } else {
-        // User wants to have a choice. Display the previously-generated sorted list of prying items, and add a 'do nothing' option
-        uilist selection_menu;
-        selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
-
-        int i = 0;
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-        for( auto iter : prying_items ) {
-            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
-                                     iter->tname() ) );
-        }
-
-        selection_menu.query();
-        auto index = selection_menu.ret;
-
-        if( index == 0 || index == UILIST_CANCEL ) {
-            none( p, examp );
-            return;
-        }
-
-        item temporary_item( prying_items[index - 1]->type );
-
-        // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-        // changes to the original item.
-        // Will also need to do so if lockpicks are considered by this, as lockpicks can be damaged during use
-        dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
     }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> int {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
+
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
+                                 iter->tname() ) );
+    }
+
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
+        none( p, examp );
+        return;
+    }
+
+    item temporary_item( prying_items[index - 1]->type );
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
