@@ -654,10 +654,10 @@ void player::reset_stats()
     // Stimulants
     set_fake_effect_dur( effect_stim, 1_turns * stim );
     set_fake_effect_dur( effect_depressants, 1_turns * -stim );
-    if( has_trait ( trait_STIMBOOST ) ) {
-        set_fake_effect_dur ( effect_stim_overdose, 1_turns * (stim - 60) );
+    if( has_trait( trait_STIMBOOST ) ) {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 60 ) );
     } else {
-        set_fake_effect_dur ( effect_stim_overdose, 1_turns * (stim - 30) );
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
     }
     // Starvation
     if( get_starvation() >= 200 ) {
@@ -4502,8 +4502,8 @@ void player::update_needs( int rate_multiplier )
         add_msg_if_player( m_bad,
                            _( "You're cramping up from stuffing yourself in this vehicle." ) );
         if( is_npc() ) {
-             npc &as_npc = dynamic_cast<npc &>( *this );
-             as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+            npc &as_npc = dynamic_cast<npc &>( *this );
+            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
         }
         mod_pain_noresist( 2 * rng( 2, 3 ) );
         focus_pool -= 1;
@@ -5213,10 +5213,10 @@ void player::suffer()
 
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
-        if (one_in(100)) {
-            add_msg_if_player(m_good, _("This soil is delicious!"));
-            if (get_hunger() > -20) {
-                mod_hunger(-2);
+        if( one_in( 100 ) ) {
+            add_msg_if_player( m_good, _( "This soil is delicious!" ) );
+            if( get_hunger() > -20 ) {
+                mod_hunger( -2 );
             }
             if( get_thirst() > -20 ) {
                 mod_thirst( -2 );
@@ -5801,10 +5801,12 @@ void player::suffer()
         g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
     }
 
-    if (has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_in(28800)) { // Average once per 2 days
+    if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
+        one_in( 28800 ) ) { // Average once per 2 days
         mutate();
     }
-    if (( has_trait( trait_CHAOTIC ) || has_trait ( trait_CHAOTIC_BAD )) && one_in(7200)) { // Should be once every 12 hours
+    if( ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) &&
+        one_in( 7200 ) ) { // Should be once every 12 hours
         mutate();
     }
     if( has_artifact_with( AEP_MUTAGENIC ) && one_in( 28800 ) ) {
@@ -7342,8 +7344,8 @@ bool player::consume( int target_position )
 void player::rooted_message() const
 {
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-    if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        g->m.has_flag("PLOWABLE", pos()) &&
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) &&
         !wearing_shoes ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
     }
@@ -7354,11 +7356,11 @@ void player::rooted()
 // Overfilling triggered hibernation checks, so capping.
 {
     double shoe_factor = footwear_factor();
-    if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )) &&
-        g->m.has_flag("PLOWABLE", pos()) && shoe_factor != 1.0 ) {
-        if( one_in(20.0 / (1.0 - shoe_factor)) ) {
-            if (get_hunger() > -20) {
-                mod_hunger(-1);
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
+        if( one_in( 20.0 / ( 1.0 - shoe_factor ) ) ) {
+            if( get_hunger() > -20 ) {
+                mod_hunger( -1 );
             }
             if( get_thirst() > -20 ) {
                 mod_thirst( -1 );
@@ -8653,7 +8655,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload(item &it)
+bool player::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() || it.is_bandolier() ) {
