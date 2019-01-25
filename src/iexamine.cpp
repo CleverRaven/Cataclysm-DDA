@@ -791,6 +791,7 @@ void iexamine::crate( player &p, const tripoint &examp )
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
     }
 
+    selection_menu.selected = 1;
     selection_menu.query();
     auto index = selection_menu.ret;
 
@@ -1197,6 +1198,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
                                  iter->tname() ) );
     }
 
+    selection_menu.selected = 1;
     selection_menu.query();
     auto index = selection_menu.ret;
 
