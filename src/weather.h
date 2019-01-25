@@ -116,7 +116,6 @@ struct weather_datum {
     int sound_attn;         //!< Sound attenuation of a given weather type.
     bool dangerous;         //!< If true, our activity gets interrupted.
     void ( *effect )();     //!< Function pointer for weather effects.
-    void ( *effect2 )();     //!< Function pointer for a secondary effect.
 };
 
 struct weather_sum {
