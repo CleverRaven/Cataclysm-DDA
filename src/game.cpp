@@ -3641,13 +3641,12 @@ void game::draw_sidebar()
     // Don't draw anything on it (no werase, wrefresh) in this case to avoid flickering
     // (it overlays other windows)
 
-    // sidestyle ? narrow = 1 : wider = 0
+    // sideStyle ? narrow = 1 : wider = 0
     const bool sideStyle = use_narrow_sidebar();
-    const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     const catacurses::window &s_window = sideStyle ? w_location : w_location_wider;
 
     // Draw Status
-    draw_HP( u, w_HP );
+    draw_HP( u, w_HP, sideStyle );
     werase( w_status );
     if( sideStyle ) {
         werase( w_status2 );
@@ -3656,78 +3655,37 @@ void game::draw_sidebar()
 
     u.disp_status( w_status, w_status2 );
 
-    wmove( time_window, 1, sideStyle ? 15 : 43 );
-    draw_time( time_window, u.has_watch(), get_levz() >= 0 );
+    draw_time( sideStyle ? w_status2 : w_status, 1, sideStyle ? 15 : 43, u.has_watch(),
+               get_levz() >= 0 );
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
-    wrefresh( s_window );
-    mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
-    wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
+    draw_location( s_window, 0, 0, cur_ter->get_name() );
 
-    if( get_levz() < 0 ) {
-        mvwprintz( s_window, 1, 0, c_light_gray, _( "Underground" ) );
-    } else {
-        mvwprintz( s_window, 1, 0, c_light_gray, _( "Weather :" ) );
-        wprintz( s_window, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
-    }
+    draw_ui_weather( s_window, 1, 0, get_levz() < 0, weather_data( weather ).color,
+                     weather_data( weather ).name.c_str() );
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        mvwprintz( sideStyle ? w_status2 : s_window,
-                   sideStyle ? 1 : 2, sideStyle ? 32 : 43, c_light_gray, _( "Temp :" ) );
-        wprintz( sideStyle ? w_status2 : s_window,
-                 c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str() );
+        draw_temperature( sideStyle ? w_status2 : s_window, sideStyle ? 1 : 2, sideStyle ? 32 : 43,
+                          print_temperature( get_temperature( u.pos() ) ).c_str() );
     }
 
-    //moon phase display
-    static std::vector<std::string> vMoonPhase = {"(   )", "(  ))", "( | )", "((  )"};
+    draw_moon( s_window, sideStyle ? 1 : 0, sideStyle ? 32 : 43,
+               static_cast<int>( get_moon_phase( calendar::turn ) ) );
 
-    const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
-    std::string sPhase = vMoonPhase[iPhase % 4];
+    draw_lighting( s_window, 2, 0 );
 
-    if( iPhase > 0 ) {
-        sPhase.insert( 5 - ( ( iPhase > 4 ) ? iPhase % 4 : 0 ), "</color>" );
-        sPhase.insert( 5 - ( ( iPhase < 4 ) ? iPhase + 1 : 5 ),
-                       "<color_" + string_from_color( i_black ) + ">" );
-    }
-    int x = sideStyle ?  32 : 43;
-    int y = sideStyle ?  1 : 0;
-    mvwprintz( s_window, y, x, c_light_gray, "Moon : " );
-    trim_and_print( s_window, y, x + 7, 11, c_white, sPhase.c_str() );
-
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( s_window, 2, 0, c_light_gray, "%s ", _( "Lighting:" ) );
-    wprintz( s_window, ll.second, ll.first.c_str() );
-
-    // display player noise in sidebar
-    x = sideStyle ?  32 : 43;
-    y = sideStyle ?  2 : 1;
-    if( u.is_deaf() ) {
-        mvwprintz( s_window, y, x, c_red, _( "Deaf!" ) );
-    } else {
-        mvwprintz( s_window, y, x, c_light_gray, "%s ", _( "Sound: " ) );
-        mvwprintz( s_window, y, x + 7, c_yellow,  std::to_string( u.volume ) );
-        wrefresh( s_window );
-    }
+    draw_sound( s_window, sideStyle ? 2 : 1, sideStyle ? 32 : 43, u.is_deaf(), u.volume );
     u.volume = 0;
 
-    catacurses::window day_window = sideStyle ? w_status2 : w_status;
-    mvwprintz( time_window, 1, 0, c_white, _( "%s, day %d" ),
-               calendar::name_season( season_of_year( calendar::turn ) ),
-               day_of_season<int>( calendar::turn ) + 1 );
+    draw_date( sideStyle ? w_status2 : w_status, 1, 0 );
 
     // don't display SAFE mode in vehicle, doesn't apply.
-    if( !u.in_vehicle ) {
-        if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
-            int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-            wmove( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23, sideStyle ? getmaxx( w_status ) - 4 : 0 );
-            const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
-            //Safemode coloring
-            for( int i = 0; i < 4; i++ ) {
-                nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
-                wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
-            }
-        }
+    if( !u.in_vehicle && ( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) ) {
+        draw_safe_mode( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23,
+                        sideStyle ? getmaxx( w_status ) - 4 : 0, safe_mode == SAFE_MODE_OFF,
+                        turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" ) );
     }
+
     wrefresh( w_status );
     if( sideStyle ) {
         wrefresh( w_status2 );

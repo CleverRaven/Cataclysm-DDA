@@ -117,12 +117,11 @@ std::string morale_emotion( const int morale_cur, const face_type face,
     }
 }
 
-void draw_HP( const player &p, const catacurses::window &w_HP )
+void draw_HP( const player &p, const catacurses::window &w_HP, const bool wide )
 {
     werase( w_HP );
 
     // The HP window can be in "tall" mode (7x14) or "wide" mode (14x7).
-    const bool wide = ( getmaxy( w_HP ) == 7 );
     const int hpx = wide ? 7 : 0;
     const int hpy = wide ? 0 : 1;
     const int dy = wide ? 1 : 2;
@@ -236,9 +235,11 @@ void print_stamina_bar( const player &p, const catacurses::window &w )
     wprintz( w, sta_color, sta_bar );
 }
 
-void draw_time( const catacurses::window &time_window, const bool has_watch,
+void draw_time( const catacurses::window &time_window, const int y, const int x,
+                const bool has_watch,
                 const bool can_see_sun )
 {
+    catacurses::wmove( time_window, y, x );
     if( has_watch ) {
         wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( can_see_sun ) {
@@ -284,6 +285,85 @@ void draw_time( const catacurses::window &time_window, const bool has_watch,
         wprintz( time_window, c_white, "]" );
     } else {
         wprintz( time_window, c_white, _( "Time: ???" ) );
+    }
+}
+
+void draw_location( const catacurses::window &w, const int y, const int x,
+                    const std::string &location_name )
+{
+    wrefresh( w );
+    mvwprintz( w, y, x, c_light_gray, "Location: " );
+    wprintz( w, c_white, utf8_truncate( location_name, getmaxx( w ) ) );
+}
+
+void draw_ui_weather( const catacurses::window &w, const int y, const int x, const bool underground,
+                      const nc_color &weather_color, const std::string &weather )
+{
+    if( underground ) {
+        mvwprintz( w, y, x, c_light_gray, _( "Underground" ) );
+    } else {
+        mvwprintz( w, y, x, c_light_gray, _( "Weather :" ) );
+        wprintz( w, weather_color, " %s", weather );
+    }
+}
+
+void draw_temperature( const catacurses::window &w, const int y, const int x,
+                       const std::string &temperature )
+{
+    mvwprintz( w, y, x, c_light_gray, _( "Temp :" ) );
+    wprintz( w, c_white, " %s", temperature );
+}
+
+void draw_moon( const catacurses::window &w, const int y, const int x, const int iPhase )
+{
+    static std::vector<std::string> vMoonPhase = { "(   )", "(  ))", "( | )", "((  )" };
+
+    std::string sPhase = vMoonPhase[iPhase % 4];
+
+    if( iPhase > 0 ) {
+        sPhase.insert( 5 - ( ( iPhase > 4 ) ? iPhase % 4 : 0 ), "</color>" );
+        sPhase.insert( 5 - ( ( iPhase < 4 ) ? iPhase + 1 : 5 ),
+                       "<color_" + string_from_color( i_black ) + ">" );
+    }
+    mvwprintz( w, y, x, c_light_gray, "Moon : " );
+    trim_and_print( w, y, x + 7, 11, c_white, sPhase.c_str() );
+}
+
+void draw_lighting( const catacurses::window &w, const int y, const int x )
+{
+    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    mvwprintz( w, y, x, c_light_gray, "%s ", _( "Lighting:" ) );
+    wprintz( w, ll.second, ll.first.c_str() );
+}
+
+void draw_sound( const catacurses::window &w, const int y, const int x, const bool is_deaf,
+                 const int sound )
+{
+    if( is_deaf ) {
+        mvwprintz( w, y, x, c_red, _( "Deaf!" ) );
+    } else {
+        mvwprintz( w, y, x, c_light_gray, "%s ", _( "Sound: " ) );
+        mvwprintz( w, y, x + 7, c_yellow, std::to_string( sound ) );
+        wrefresh( w );
+    }
+}
+
+void draw_date( const catacurses::window &w, const int y, const int x )
+{
+    mvwprintz( w, y, x, c_white, _( "%s, day %d" ),
+               calendar::name_season( season_of_year( calendar::turn ) ),
+               day_of_season<int>( calendar::turn ) + 1 );
+}
+
+void draw_safe_mode( const catacurses::window &w, const int y, const int x,
+                     const bool safe_mode_off, const int iPercent )
+{
+    wmove( w, y, x );
+    const std::array<std::string, 4> letters = { { "S", "A", "F", "E" } };
+    //Safemode coloring
+    for( int i = 0; i < 4; i++ ) {
+        nc_color c = ( safe_mode_off && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
+        wprintz( w, c, letters[i].c_str() );
     }
 }
 
