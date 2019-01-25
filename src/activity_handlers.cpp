@@ -80,6 +80,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
+    { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
     { activity_id( "ACT_DISSECT" ), butcher_do_turn },
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
@@ -101,6 +102,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_BUTCHER" ), butcher_finish },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_finish },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_finish },
+    { activity_id( "ACT_SKIN" ), butcher_finish },
     { activity_id( "ACT_QUARTER" ), butcher_finish },
     { activity_id( "ACT_DISSECT" ), butcher_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
@@ -381,6 +383,12 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
+    if( action == SKIN && corpse_item.has_flag( "SKINNED" ) ) {
+        u.add_msg_if_player( m_info, _( "This corpse is already skinned." ) );
+        act.index = -1;
+        return;
+    }
+
     if( action == QUARTER ) {
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
@@ -474,6 +482,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             }
             break;
         case F_DRESS:
+            time_to_cut *= 2;
+            break;
+        case SKIN:
             time_to_cut *= 2;
             break;
         case QUARTER:
@@ -652,6 +663,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                                  _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
+    if( corpse_item->has_flag( "SKINNED" ) ) {
+        monster_weight = round( 0.85 * monster_weight );
+    }
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
@@ -744,6 +758,14 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             }
         }
 
+        // you only get the skin from skinning
+        if( action == SKIN ) {
+            if( entry.type != "skin" ) {
+                roll = 0;
+                continue;
+            }
+        }
+
         // field dressing removed innards and bones from meatless limbs
         if( ( action == BUTCHER_FULL || action == BUTCHER ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
             if( entry.type == "offal" ) {
@@ -816,6 +838,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( action == F_DRESS ) {
             // 25% of the corpse weight is what's removed during field dressing
             monster_weight_remaining -= monster_weight * 3 / 4;
+        } else if( action == SKIN ) {
+            monster_weight_remaining -= monster_weight * 0.85;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
             if( ( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
@@ -823,6 +847,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= monster_weight / 4;
             } else if( corpse_item->has_flag( "QUARTERED" ) ) {
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
+            }
+            if( corpse_item->has_flag( "SKINNED" ) ) {
+                monster_weight_remaining -= monster_weight * 0.15;
             }
         }
         const int item_charges = monster_weight_remaining / to_gram( (
@@ -865,6 +892,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = QUARTER;
     } else if( act->id() == activity_id( "ACT_DISSECT" ) ) {
         action = DISSECT;
+    } else if( act->id() == activity_id( "ACT_SKIN" ) ) {
+        action = SKIN;
     }
 
     //Negative index means try to start next item
@@ -967,7 +996,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
 
     // reveal hidden items / hidden content
-    if( action != F_DRESS ) {
+    if( action != F_DRESS && action != SKIN ) {
         for( auto &content : contents ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -1048,6 +1077,27 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
+            break;
+        case SKIN:
+            switch( rng( 1, 4 ) ) {
+                case 1:
+                    p->add_msg_if_player( m_good, _( "You skin the %s." ), corpse->nname().c_str() );
+                    break;
+                case 2:
+                    p->add_msg_if_player( m_good, _( "You carefully remove the hide from the %s" ),
+                                          corpse->nname().c_str() );
+                    break;
+                case 3:
+                    p->add_msg_if_player( m_good,
+                                          _( "The %s is challenging to skin, but you get a good hide from it." ),
+                                          corpse->nname().c_str() );
+                    break;
+                case 4:
+                    p->add_msg_if_player( m_good, _( "With a few deft slices you take the skin from the %s" ),
+                                          corpse->nname().c_str() );
+                    break;
+            }
+            corpse_item.set_flag( "SKINNED" );
             break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
