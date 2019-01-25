@@ -7240,8 +7240,8 @@ bool map::inbounds( const tripoint &p ) const
 
 bool tinymap::inbounds( const tripoint &p ) const
 {
-    constexpr tripoint map_boundary_min( tripoint_zero );
-    constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, 0 );
+    constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT );
     constexpr tripoint map_clearance_min( tripoint_zero );
     constexpr tripoint map_clearance_max( 1, 1, 0 );
 
