@@ -731,6 +731,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll /= 2;
         }
 
+        if( corpse_item->has_flag( "SKINNED" ) && entry.type == "skin" ) {
+            roll = 0;
+        }
+
         // QUICK BUTCHERY
         if( action == BUTCHER ) {
             if( entry.type == "flesh" ) {
