@@ -253,7 +253,7 @@
     "id": "blind",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
-    "removes_effects": [ "glare", "darkness" ],
+    "removes_effects": [ "glare", "snow_glare", "darkness" ],
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
@@ -419,6 +419,15 @@
     "name": [ "Glare" ],
     "desc": [ "The sun is in your eyes." ],
     "apply_message": "The sunlight's glare makes it hard to see.",
+    "rating": "bad",
+    "base_mods": { "per_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "snow_glare",
+    "name": [ "Snow glare" ],
+    "desc": [ "The sunlight is reflecting off the snow." ],
+    "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
     "rating": "bad",
     "base_mods": { "per_mod": [ -1 ] }
   },

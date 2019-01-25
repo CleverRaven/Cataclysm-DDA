@@ -92,11 +92,13 @@ weather_datum const weather_data( weather_type const type )
             },
             weather_datum {
                 translate_marker( "Snowing" ), c_white, 4, 1.13f, -20, 4, false,
-                &weather_effect::snow
+                &weather_effect::snow,
+                &weather_effect::snow_glare
             },
             weather_datum {
                 translate_marker( "Snowstorm" ), c_white, 6, 1.2f, -30, 6, false,
-                &weather_effect::snowstorm
+                &weather_effect::snowstorm,
+                &weather_effect::snow_glare
             }
         }};
 
