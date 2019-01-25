@@ -772,6 +772,7 @@ void iexamine::crate( player &p, const tripoint &examp )
         item temporary_item( prying_items[0]->type );
         // They only had one item anyway, so just use it.
         dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
     }
 
     // Sort by their quality level.
