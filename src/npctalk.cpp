@@ -236,7 +236,7 @@ void game::chat()
         u.shout( _( "Stay awake!" ) );
     } else if( nmenu.ret == yell_sleep ) {
         for( npc *p: followers ) {
-           p->rules.allow_sleep = true;
+           p->rules.set_flag( ally_rule::allow_sleep );
         }
         u.shout( _( "We're safe!  Take a nap if you're tired." ) );
     } else if( nmenu.ret == yell_follow ) {
@@ -549,53 +549,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_DENY_TRAIN" ) {
         return the_topic.reason;
 
-    } else if( topic == "TALK_COMBAT_COMMANDS" ) {
-        std::stringstream status;
-        // Prepending * makes this an action, not a phrase
-        switch( p->rules.engagement ) {
-            case ENGAGE_NONE:
-                status << _( "*is not engaging enemies." );
-                break;
-            case ENGAGE_CLOSE:
-                status << _( "*is engaging nearby enemies." );
-                break;
-            case ENGAGE_WEAK:
-                status << _( "*is engaging weak enemies." );
-                break;
-            case ENGAGE_HIT:
-                status << _( "*is engaging enemies you attack." );
-                break;
-            case ENGAGE_NO_MOVE:
-                status << _( "*is engaging enemies close enough to attack without moving." );
-                break;
-            case ENGAGE_ALL:
-                status << _( "*is engaging all enemies." );
-                break;
-        }
-        std::string npcstr = p->male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
-        if( p->rules.use_guns ) {
-            if( p->rules.use_silent ) {
-                status << string_format( _( " %s will use silenced firearms." ), npcstr );
-            } else {
-                status << string_format( _( " %s will use firearms." ), npcstr );
-            }
-        } else {
-            status << string_format( _( " %s will not use firearms." ), npcstr );
-        }
-        if( p->rules.use_grenades ) {
-            status << string_format( _( " %s will use grenades." ), npcstr );
-        } else {
-            status << string_format( _( " %s will not use grenades." ), npcstr );
-        }
-
-        return status.str();
-
-    } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-        return _( "What should I do?" );
-
-    } else if( topic == "TALK_AIM_RULES" ) {
-        return _( "How should I aim?" );
-
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
         switch( p->mission ) {
             case NPC_MISSION_SHELTER:
@@ -699,65 +652,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return "&" + p->short_description();
     } else if( topic == "TALK_OPINION" ) {
         return "&" + p->opinion_text();
-    } else if( topic == "TALK_WAKE_UP" ) {
-        if( p->has_effect( effect_sleep ) ) {
-            if( p->get_fatigue() > EXHAUSTED ) {
-                return _( "No, just <swear> no..." );
-            } else if( p->get_fatigue() > DEAD_TIRED ) {
-                return _( "Just let me sleep, <name_b>!" );
-            } else if( p->get_fatigue() > TIRED ) {
-                return _( "Make it quick, I want to go back to sleep." );
-            } else {
-                return _( "Just few minutes more..." );
-            }
-        } else {
-            return _( "Anything to do before I go to sleep?" );
-        }
-
-    } else if( topic == "TALK_MISC_RULES" ) {
-        std::stringstream status;
-        std::string npcstr = p->male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
-
-        if( p->rules.allow_pick_up && p->rules.pickup_whitelist->empty() ) {
-            status << string_format( _( " %s will pick up all items." ), npcstr );
-        } else if( p->rules.allow_pick_up ) {
-            status << string_format( _( " %s will pick up items from the whitelist." ), npcstr );
-        } else {
-            status << string_format( _( " %s will not pick up items." ), npcstr );
-        }
-
-        if( p->rules.allow_bash ) {
-            status << string_format( _( " %s will bash down obstacles." ), npcstr );
-        } else {
-            status << string_format( _( " %s will not bash down obstacles." ), npcstr );
-        }
-
-        if( p->rules.allow_sleep ) {
-            status << string_format( _( " %s will sleep when tired." ), npcstr );
-        } else {
-            status << string_format( _( " %s will sleep only when exhausted." ), npcstr );
-        }
-
-        if( p->rules.allow_complain ) {
-            status << string_format( _( " %s will complain about wounds and needs." ), npcstr );
-        } else {
-            status << string_format( _( " %s will only complain in an emergency." ), npcstr );
-        }
-
-        if( p->rules.allow_pulp ) {
-            status << string_format( _( " %s will smash nearby zombie corpses." ), npcstr );
-        } else {
-            status << string_format( _( " %s will leave zombie corpses intact." ), npcstr );
-        }
-
-        if( p->rules.close_doors ) {
-            status << string_format( _( " %s will close doors behind themselves." ), npcstr );
-        } else {
-            status << string_format( _( " %s will leave doors open." ), npcstr );
-        }
-
-        return status.str();
-
     } else if( topic == "TALK_USE_ITEM" ) {
         return give_item_to( *p, true, false );
     } else if( topic == "TALK_GIVE_ITEM" ) {
@@ -1102,208 +996,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         add_response_none( _( "Okay, thanks." ) );
         add_response_done( _( "Let's keep moving." ) );
-
-    } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
-        if( p->is_following() ) {
-            add_response( _( "Combat commands..." ), "TALK_COMBAT_COMMANDS" );
-        }
-
-        add_response( _( "Can I do anything for you?" ), "TALK_MISSION_LIST" );
-        if( p->is_following() ) {
-            // TODO: Allow NPCs to break training properly
-            // Don't allow them to walk away in the middle of training
-            std::stringstream reasons;
-            if( const optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
-                if( abs( vp->vehicle().velocity ) > 0 ) {
-                    reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
-                }
-            }
-
-            if( p->has_effect( effect_asked_to_train ) ) {
-                reasons << _( "Give it some time, I'll show you something new later..." ) << std::endl;
-            }
-
-            if( p->get_thirst() > 80 ) {
-                reasons << _( "I'm too thirsty, give me something to drink." ) << std::endl;
-            }
-
-            if( p->get_hunger() > 160 ) {
-                reasons << _( "I'm too hungry, give me something to eat." ) << std::endl;
-            }
-
-            if( p->get_fatigue() > TIRED ) {
-                reasons << _( "I'm too tired, let me rest first." ) << std::endl;
-            }
-
-            if( !reasons.str().empty() ) {
-                RESPONSE( _( "[N/A] Can you teach me anything?" ) );
-                SUCCESS( "TALK_DENY_TRAIN" );
-                ret.back().success.next_topic.reason = reasons.str();
-            } else {
-                RESPONSE( _( "Can you teach me anything?" ) );
-                int commitment = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
-                                 3 * p->op_of_u.anger;
-                TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
-                SUCCESS( "TALK_TRAIN" );
-                SUCCESS_ACTION( []( npc &p ) { p.chatbin.mission_selected = nullptr; } );
-                FAILURE( "TALK_DENY_PERSONAL" );
-                FAILURE_ACTION( &talk_function::deny_train );
-            }
-        }
-        add_response( _( "Let's trade items." ), "TALK_FRIEND", &talk_function::start_trade );
-        if( p->is_following() && g->m.camp_at( g->u.pos() ) ) {
-            add_response( _( "Wait at this base." ), "TALK_DONE", &talk_function::assign_base );
-        }
-        if( p->is_following() ) {
-            RESPONSE( _( "Guard this position." ) );
-            SUCCESS( "TALK_FRIEND_GUARD" );
-            SUCCESS_ACTION( &talk_function::assign_guard );
-
-            RESPONSE( _( "I'd like to know a bit more about you..." ) );
-            SUCCESS( "TALK_FRIEND" );
-            SUCCESS_ACTION( &talk_function::reveal_stats );
-
-            add_response( _( "I want you to use this item" ), "TALK_USE_ITEM" );
-            add_response( _( "Hold on to this item" ), "TALK_GIVE_ITEM" );
-            add_response( _( "Miscellaneous rules..." ), "TALK_MISC_RULES" );
-
-            add_response( _( "I'm going to go my own way for a while." ), "TALK_LEAVE" );
-            add_response_done( _( "Let's go." ) );
-
-            add_response( _( "Let's talk about faction camps." ), "TALK_CAMP_GENERAL" );
-        }
-
-        if( !p->is_following() ) {
-            add_response( _( "I need you to come with me." ), "TALK_FRIEND",
-                             &talk_function::stop_guard );
-            add_response_done( _( "Bye." ) );
-        }
-
-    } else if( topic == "TALK_COMBAT_COMMANDS" ) {
-        add_response( _( "Change your engagement rules..." ), "TALK_COMBAT_ENGAGEMENT" );
-        add_response( _( "Change your aiming rules..." ), "TALK_AIM_RULES" );
-        add_response( p->rules.use_guns ? _( "Don't use guns anymore." ) :
-                      _( "You can use guns." ),
-                      "TALK_COMBAT_COMMANDS",  []( npc & np ) {
-                          np.rules.use_guns = !np.rules.use_guns;
-                      } );
-        add_response( p->rules.use_silent ? _( "Don't worry about noise." ) :
-                      _( "Use only silent weapons." ),
-                      "TALK_COMBAT_COMMANDS", []( npc & np ) {
-                          np.rules.use_silent = !np.rules.use_silent;
-                      } );
-        add_response( p->rules.use_grenades ? _( "Don't use grenades anymore." ) :
-                      _( "You can use grenades." ),
-                      "TALK_COMBAT_COMMANDS", []( npc & np ) {
-                           np.rules.use_grenades = !np.rules.use_grenades;
-                      } );
-        add_response_none( _( "Never mind." ) );
-
-    } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-        struct engagement_setting {
-            combat_engagement rule;
-            std::string description;
-        };
-        static const std::vector<engagement_setting> engagement_settings = {{
-                { ENGAGE_NONE, _( "Don't fight unless your life depends on it." ) },
-                { ENGAGE_CLOSE, _( "Attack enemies that get too close." ) },
-                { ENGAGE_WEAK, _( "Attack enemies that you can kill easily." ) },
-                { ENGAGE_HIT, _( "Attack only enemies that I attack first." ) },
-                { ENGAGE_NO_MOVE, _( "Attack only enemies you can reach without moving." ) },
-                { ENGAGE_ALL, _( "Attack anything you want." ) },
-            }
-        };
-
-        for( const auto &setting : engagement_settings ) {
-            if( p->rules.engagement == setting.rule ) {
-                continue;
-            }
-
-            combat_engagement eng = setting.rule;
-            add_response( setting.description, "TALK_NONE", [eng]( npc & np ) {
-                np.rules.engagement = eng;
-            }, dialogue_consequence::none );
-        }
-        add_response_none( _( "Never mind." ) );
-
-    } else if( topic == "TALK_AIM_RULES" ) {
-        struct aim_setting {
-            aim_rule rule;
-            std::string description;
-        };
-        static const std::vector<aim_setting> aim_settings = {{
-                { AIM_WHEN_CONVENIENT, _( "Aim when it's convenient." ) },
-                { AIM_SPRAY, _( "Go wild, you don't need to aim much." ) },
-                { AIM_PRECISE, _( "Take your time, aim carefully." ) },
-                { AIM_STRICTLY_PRECISE, _( "Don't shoot if you can't aim really well." ) },
-            }
-        };
-
-        for( const auto &setting : aim_settings ) {
-            if( p->rules.aim == setting.rule ) {
-                continue;
-            }
-
-            aim_rule ar = setting.rule;
-            add_response( setting.description, "TALK_NONE", [ar]( npc & np ) {
-                np.rules.aim = ar;
-            }, dialogue_consequence::none );
-        }
-        add_response_none( _( "Never mind." ) );
-
     } else if( topic == "TALK_SIZE_UP" || topic == "TALK_LOOK_AT" ||
                topic == "TALK_OPINION" || topic == "TALK_SHOUT" ) {
         add_response_none( _( "Okay." ) );
-
-    } else if( topic == "TALK_WAKE_UP" ) {
-        add_response( _( "Wake up!" ), "TALK_NONE", &talk_function::wake_up );
-        add_response_done( _( "Go back to sleep." ) );
-
-    } else if( topic == "TALK_MISC_RULES" ) {
-        add_response( _( "Follow same rules as this follower." ),
-                      "TALK_MISC_RULES", []( npc & np ) {
-                          const npc *other = pick_follower();
-                          if( other != nullptr && other != &np ) {
-                               np.rules = other->rules;
-                          }
-                      } );
-        add_response( p->rules.allow_pick_up ? _( "Don't pick up items." ) :
-                      _( "You can pick up items now." ),
-                      "TALK_MISC_RULES", []( npc & np ) {
-                          np.rules.allow_pick_up = !np.rules.allow_pick_up;
-                      } );
-        add_response( p->rules.allow_bash ? _( "Don't bash obstacles." ) :
-                      _( "You can bash obstacles." ),
-                      "TALK_MISC_RULES", []( npc & np ) {
-                          np.rules.allow_bash = !np.rules.allow_bash;
-                      } );
-        add_response( p->rules.allow_sleep ? _( "Stay awake." ) :
-                      _( "Sleep when you feel tired." ),
-                      "TALK_MISC_RULES", []( npc & np ) {
-                          np.rules.allow_sleep = !np.rules.allow_sleep;
-                      } );
-        add_response( p->rules.allow_complain ? _( "Stay quiet." ) :
-                      _( "Tell me when you need something." ),
-                      "TALK_MISC_RULES", []( npc & np ) {
-                         np.rules.allow_complain = !np.rules.allow_complain;
-                      } );
-        add_response( p->rules.allow_pulp ? _( "Leave corpses alone." ) :
-                      _( "Smash zombie corpses." ),
-                      "TALK_MISC_RULES", []( npc & np ) {
-                          np.rules.allow_pulp = !np.rules.allow_pulp;
-                      } );
-        add_response( p->rules.close_doors ? _( "Leave doors open." ) :
-                      _( "Close the doors." ),
-                      "TALK_MISC_RULES", []( npc & np ) {
-                          np.rules.close_doors = !np.rules.close_doors;
-                      } );
-
-        add_response( _( "Set up pickup rules." ), "TALK_MISC_RULES", []( npc & np ) {
-            const std::string title = string_format( _( "Pickup rules for %s" ), np.name );
-            np.rules.pickup_whitelist->show( title, false );
-        } );
-
-        add_response_none( _( "Never mind." ) );
 
     }
 
@@ -1685,6 +1380,9 @@ void parse_tags( std::string &phrase, const player &u, const player &me )
                     phrase.replace( fa, l, pgettext( "punctuation", "!" ) );
                     break;
             }
+        } else if( tag == "<mypronoun>" ) {
+            std::string npcstr = me.male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
+            phrase.replace( fa, l, npcstr );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -2080,6 +1778,37 @@ void talk_effect_fun_t::set_add_debt( const std::vector<trial_mod> debt_modifier
     };
 }
 
+void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
+{
+    function = [rule]( const dialogue &d ) {
+        auto toggle = ally_rule_strs.find( rule );
+        if( toggle == ally_rule_strs.end() ) {
+            return;
+        }
+        d.beta->rules.toggle_flag( toggle->second );
+    };
+}
+
+void talk_effect_fun_t::set_npc_engagement_rule( const std::string &setting )
+{
+    function = [setting]( const dialogue &d ) {
+        auto rule = combat_engagement_strs.find( setting );
+        if( rule != combat_engagement_strs.end() ) {
+            d.beta->rules.engagement = rule->second;
+        }
+    };
+}
+
+void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
+{
+    function = [setting]( const dialogue &d ) {
+        auto rule = aim_rule_strs.find( setting );
+        if( rule != aim_rule_strs.end() ) {
+            d.beta->rules.aim = rule->second;
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2261,6 +1990,15 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             debt_modifiers.push_back( this_modifier );
         }
         subeffect_fun.set_add_debt( debt_modifiers );
+    } else if( jo.has_string( "toggle_npc_rule" ) ) {
+        const std::string rule = jo.get_string( "toggle_npc_rule" );
+        subeffect_fun.set_toggle_npc_rule( rule );
+    } else if( jo.has_string( "set_npc_engagement_rule" ) ) {
+        const std::string setting = jo.get_string( "set_npc_engagement_rule" );
+        subeffect_fun.set_npc_engagement_rule( setting );
+    } else if( jo.has_string( "set_npc_aim_rule" ) ) {
+        const std::string setting = jo.get_string( "set_npc_aim_rule" );
+        subeffect_fun.set_npc_aim_rule( setting );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }
@@ -2666,6 +2404,33 @@ conditional_t::conditional_t( JsonObject jo )
         const unsigned long min_cash = jo.get_int( "u_has_cash" );
         condition = [min_cash]( const dialogue & d ) {
             return d.alpha->cash >= min_cash;
+        };
+    } else if( jo.has_string( "npc_aim_rule" ) ) {
+        std::string setting = jo.get_string( "npc_aim_rule" );
+        condition = [setting]( const dialogue &d ) {
+            auto rule = aim_rule_strs.find( setting );
+            if( rule != aim_rule_strs.end() ) {
+                return d.beta->rules.aim == rule->second;
+            }
+            return false;
+        };
+    } else if( jo.has_string( "npc_engagement_rule" ) ) {
+        std::string setting = jo.get_string( "npc_engagement_rule" );
+        condition = [setting]( const dialogue &d ) {
+            auto rule = combat_engagement_strs.find( setting );
+            if( rule != combat_engagement_strs.end() ) {
+                return d.beta->rules.engagement == rule->second;
+            }
+            return false;
+        };
+    } else if( jo.has_string( "npc_rule" ) ) {
+        std::string rule = jo.get_string( "npc_rule" );
+        condition = [rule]( const dialogue &d ) {
+            auto flag = ally_rule_strs.find( rule );
+            if( flag != ally_rule_strs.end() ) {
+                return d.beta->rules.has_flag( flag->second );
+            }
+            return false;
         };
     } else if( jo.has_int( "days_since_cataclysm" ) ) {
         const unsigned long days = jo.get_int( "days_since_cataclysm" );
@@ -3123,6 +2888,40 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             }
             return no_vehicle( d );
         };
+    } else if( jo.has_string( "npc_aim_rule" ) ) {
+        std::string setting = jo.get_string( "npc_aim_rule" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [setting, yes, no]( const dialogue &d ) {
+            auto rule = aim_rule_strs.find( setting );
+            if( rule != aim_rule_strs.end() && d.beta->rules.aim == rule->second ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_string( "npc_engagement_rule" ) ) {
+        std::string setting = jo.get_string( "npc_engagement_rule" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [setting, yes, no]( const dialogue &d ) {
+            auto rule = combat_engagement_strs.find( setting );
+            if( rule != combat_engagement_strs.end() &&
+                d.beta->rules.engagement == rule->second ) {
+                return yes( d );
+            }
+            return no( d );
+        };
+    } else if( jo.has_string( "npc_rule" ) ) {
+        std::string rule = jo.get_string( "npc_rule" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [rule, yes, no]( const dialogue &d ) {
+            auto flag = ally_rule_strs.find( rule );
+            if( flag != ally_rule_strs.end() && d.beta->rules.has_flag( flag->second ) ) {
+                return yes( d );
+            }
+            return no( d );
+        };
     } else if( jo.has_bool( "has_pickup_list" ) ) {
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
@@ -3460,21 +3259,4 @@ bool npc::item_whitelisted( const item &it )
 
     const auto to_match = it.tname( 1, false );
     return item_name_whitelisted( to_match );
-}
-
-npc_follower_rules::npc_follower_rules()
-{
-    engagement = ENGAGE_CLOSE;
-    aim = AIM_WHEN_CONVENIENT;
-    use_guns = true;
-    use_grenades = true;
-    use_silent = false;
-
-    allow_pick_up = false;
-    allow_bash = false;
-    allow_sleep = false;
-    allow_complain = true;
-    allow_pulp = true;
-
-    close_doors = false;
 }

@@ -179,6 +179,16 @@ enum combat_engagement {
     ENGAGE_ALL,
     ENGAGE_NO_MOVE
 };
+const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
+        { "ENGAGE_NONE", ENGAGE_NONE },
+        { "ENGAGE_CLOSE", ENGAGE_CLOSE },
+        { "ENGAGE_WEAK", ENGAGE_WEAK },
+        { "ENGAGE_HIT", ENGAGE_HIT },
+        { "ENGAGE_ALL", ENGAGE_ALL },
+        { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
+    }
+};
+
 
 enum aim_rule {
     // Aim some
@@ -190,19 +200,45 @@ enum aim_rule {
     // If you can't aim, don't shoot
     AIM_STRICTLY_PRECISE
 };
+const std::unordered_map<std::string, aim_rule> aim_rule_strs = { {
+        { "AIM_WHEN_CONVENIENT", AIM_WHEN_CONVENIENT },
+        { "AIM_SPRAY", AIM_SPRAY },
+        { "AIM_PRECISE", AIM_PRECISE },
+        { "AIM_STRICTLY_PRECISE", AIM_STRICTLY_PRECISE }
+    }
+};
+
+enum class ally_rule {
+    DEFAULT = 0,
+    use_guns = 1,
+    use_grenades = 2,
+    use_silent = 4,
+    avoid_friendly_fire = 8,
+    allow_pick_up = 16,
+    allow_bash = 32,
+    allow_sleep = 64,
+    allow_complain = 128,
+    allow_pulp = 256,
+    close_doors = 512
+};
+const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
+        { "use_guns", ally_rule::use_guns },
+        { "use_grenades", ally_rule::use_grenades },
+        { "use_silent", ally_rule::use_silent },
+        { "avoid_friendly_fire", ally_rule::avoid_friendly_fire },
+        { "allow_pick_up", ally_rule::allow_pick_up },
+        { "allow_bash", ally_rule::allow_bash },
+        { "allow_sleep", ally_rule::allow_sleep },
+        { "allow_complain", ally_rule::allow_complain },
+        { "allow_pulp", ally_rule::allow_pulp },
+        { "close_doors", ally_rule::close_doors }
+    }
+};
 
 struct npc_follower_rules {
     combat_engagement engagement;
     aim_rule aim = AIM_WHEN_CONVENIENT;
-    bool use_guns;
-    bool use_grenades;
-    bool use_silent;
-
-    bool allow_pick_up;
-    bool allow_bash;
-    bool allow_sleep;
-    bool allow_complain;
-    bool allow_pulp;
+    ally_rule flags;
 
     bool close_doors;
 
@@ -212,6 +248,12 @@ struct npc_follower_rules {
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
+
+    bool has_flag( ally_rule test ) const;
+    void set_flag( ally_rule setit );
+    void clear_flag( ally_rule clearit );
+    void toggle_flag( ally_rule toggle );
+
 };
 
 // Data relevant only for this action
