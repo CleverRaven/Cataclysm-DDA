@@ -821,7 +821,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             }
         } else { // Counting by units, not charges
 
-            if( has_amount( type, count ) ) {
+            // Can't use pseudo items as components
+            if( has_amount( type, count, false ) ) {
                 player_has.push_back( component );
                 found = true;
             }
@@ -829,7 +830,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                 map_has.push_back( component );
                 found = true;
             }
-            if( !found && amount_of( type ) + map_inv.amount_of( type ) >= count ) {
+            if( !found && amount_of( type, false ) + map_inv.amount_of( type, false ) >= count ) {
                 mixed.push_back( component );
             }
         }
