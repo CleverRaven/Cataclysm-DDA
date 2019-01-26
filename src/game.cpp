@@ -3704,7 +3704,7 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     wrefresh( s_window );
-    mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
+    mvwprintz( s_window, 0, 0, c_light_gray, _( "Location: " ) );
     wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
 
     if( get_levz() < 0 ) {
@@ -3734,7 +3734,7 @@ void game::draw_sidebar()
     }
     int x = sideStyle ?  32 : 43;
     int y = sideStyle ?  1 : 0;
-    mvwprintz( s_window, y, x, c_light_gray, "Moon : " );
+    mvwprintz( s_window, y, x, c_light_gray, _( "Moon : " ) );
     trim_and_print( s_window, y, x + 7, 11, c_white, sPhase.c_str() );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -9366,8 +9366,10 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
                         _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
     smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
                         _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+    smenu.addentry_col( SKIN, true, 's', ( "Skin corpse" ), cut_time( SKIN ),
+                        _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ) );
     smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
-                        _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+                        _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
     smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                         _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
@@ -9380,6 +9382,9 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
             break;
         case F_DRESS:
             g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+            break;
+        case SKIN:
+            g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, -1 );
             break;
         case QUARTER:
             g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
@@ -9586,36 +9591,17 @@ void game::butcher()
         }
     }
 
-    bool no_morale_butcher = false;
     if( !u.has_morale_to_craft() ) {
-        switch( butcher_select ) {
-            case BUTCHER_OTHER:
-                switch( indexer_index ) {
-                    case MULTIBUTCHER:
-                        no_morale_butcher = true;
-                        break;
-                }
-            /* fallthrough */
-            case BUTCHER_CORPSE:
-                no_morale_butcher = true;
-                break;
-            case BUTCHER_DISASSEMBLE:
-                break;
-            case BUTCHER_SALVAGE:
-                break;
-        }
-
-        if( no_morale_butcher ) {
+        if( butcher_select == BUTCHER_CORPSE || indexer_index == MULTIBUTCHER ) {
             add_msg( m_info,
                      _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
-            return;
         } else {
             add_msg( m_info,
                      _( "You are not in the mood and the prospect of work stops you before you begin." ) );
-            return;
         }
-
+        return;
     }
+
     switch( butcher_select ) {
         case BUTCHER_OTHER:
             switch( indexer_index ) {
