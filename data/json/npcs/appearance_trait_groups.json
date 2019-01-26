@@ -96,7 +96,7 @@
       { "group": "Hair_Blond", "prob": 25 },
       { "group": "Hair_Black", "prob": 25 },
       { "group": "Hair_Brown", "prob": 25 },
-      { "group": "Hair_Grey", "prob": 10 },
+      { "group": "Hair_Gray", "prob": 10 },
       { "group": "Hair_White", "prob": 10 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
@@ -110,7 +110,7 @@
       { "group": "Hair_Blond", "prob": 10 },
       { "group": "Hair_Black", "prob": 25 },
       { "group": "Hair_Brown", "prob": 40 },
-      { "group": "Hair_Grey", "prob": 8 },
+      { "group": "Hair_Gray", "prob": 8 },
       { "group": "Hair_White", "prob": 7 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
@@ -124,7 +124,7 @@
       { "group": "Hair_Blond", "prob": 50 },
       { "group": "Hair_Black", "prob": 7 },
       { "group": "Hair_Brown", "prob": 40 },
-      { "group": "Hair_Grey", "prob": 5 },
+      { "group": "Hair_Gray", "prob": 5 },
       { "group": "Hair_White", "prob": 8 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
@@ -136,7 +136,7 @@
     "traits": [
       { "group": "Hair_Black", "prob": 50 },
       { "group": "Hair_Brown", "prob": 40 },
-      { "group": "Hair_Grey", "prob": 6 },
+      { "group": "Hair_Gray", "prob": 6 },
       { "group": "Hair_White", "prob": 5 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
