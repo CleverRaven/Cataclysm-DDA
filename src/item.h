@@ -162,7 +162,6 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
 
 class item : public visitable<item>
 {
-// Member Functions
     public:
         item();
 
@@ -1802,17 +1801,17 @@ class item : public visitable<item>
         bool process_cable( player *carrier, const tripoint &pos );
         bool process_tool( player *carrier, const tripoint &pos );
 
-// Member Variables
     public:
         static const long INFINITE_CHARGES;
         typedef std::vector<item> t_item_vector;
-        
+
         const itype *type;
         std::list<item> contents;
         t_item_vector components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
         std::set<std::string> item_tags; // generic item specific flags
+
     private:
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
@@ -1825,17 +1824,15 @@ class item : public visitable<item>
 
         // The number of charges a recipe creates.  Used for comestible consumption.
         int recipe_charges = 1;
-
         int burnt = 0;           // How badly we're burnt
-
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
         int note = 0;            // Associated dynamic text snippet.
         int irridation = 0;      // Tracks radiation dosage.
-
         int item_counter = 0; // generic counter to be used with item flags
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!
+
     private:
         /**
          * Accumulated rot, expressed as time the item has been in standard temperature.
@@ -1859,6 +1856,7 @@ class item : public visitable<item>
 
         int damage_ = 0;
         light_emission light = nolight;
+
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
