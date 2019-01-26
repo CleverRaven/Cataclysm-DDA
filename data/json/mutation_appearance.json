@@ -8,6 +8,31 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_black", "hair_crewcut" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_black_mohawk",
+    "type": "mutation",
+    "name": "Hair: black, mohawk",
+    "description": "Mohawk black hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_black", "hair_mohawk" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_black_fro",
+    "type": "mutation",
+    "name": "Hair: black, 'fro",
+    "description": "'Fro black hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_black", "hair_fro" ],
     "types": [ "hair_style" ]
   },
   {
@@ -19,6 +44,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_black", "hair_short" ],
     "types": [ "hair_style" ]
   },
   {
@@ -30,6 +56,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_black", "hair_medium" ],
     "types": [ "hair_style" ]
   },
   {
@@ -41,6 +68,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_black", "hair_long" ],
     "types": [ "hair_style" ]
   },
   {
@@ -52,6 +80,31 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_brown", "hair_crewcut" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_brown_mohawk",
+    "type": "mutation",
+    "name": "Hair: brown, mohawk",
+    "description": "Mohawk brown hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_brown", "hair_mohawk" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_brown_fro",
+    "type": "mutation",
+    "name": "Hair: brown, 'fro",
+    "description": "'Fro brown hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_brown", "hair_fro" ],
     "types": [ "hair_style" ]
   },
   {
@@ -63,6 +116,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_brown", "hair_short" ],
     "types": [ "hair_style" ]
   },
   {
@@ -74,6 +128,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_brown", "hair_medium" ],
     "types": [ "hair_style" ]
   },
   {
@@ -85,6 +140,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_brown", "hair_long" ],
     "types": [ "hair_style" ]
   },
   {
@@ -96,6 +152,31 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_blond", "hair_crewcut" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_blond_mohawk",
+    "type": "mutation",
+    "name": "Hair: blond, mohawk",
+    "description": "Mohawk blond hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_blond", "hair_mohawk" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_blond_fro",
+    "type": "mutation",
+    "name": "Hair: blond, 'fro",
+    "description": "'Fro blond hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_blond", "hair_fro" ],
     "types": [ "hair_style" ]
   },
   {
@@ -107,6 +188,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_blond", "hair_short" ],
     "types": [ "hair_style" ]
   },
   {
@@ -118,6 +200,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_blond", "hair_medium" ],
     "types": [ "hair_style" ]
   },
   {
@@ -129,6 +212,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_blond", "hair_long" ],
     "types": [ "hair_style" ]
   },
   {
@@ -140,6 +224,31 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_red", "hair_crewcut" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_red_mohawk",
+    "type": "mutation",
+    "name": "Hair: red, mohawk",
+    "description": "Mohawk red hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_red", "hair_mohawk" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_red_fro",
+    "type": "mutation",
+    "name": "Hair: red, 'fro",
+    "description": "'Fro red hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_red", "hair_fro" ],
     "types": [ "hair_style" ]
   },
   {
@@ -151,6 +260,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_red", "hair_short" ],
     "types": [ "hair_style" ]
   },
   {
@@ -162,6 +272,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_red", "hair_medium" ],
     "types": [ "hair_style" ]
   },
   {
@@ -173,6 +284,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_red", "hair_long" ],
     "types": [ "hair_style" ]
   },
   {
@@ -184,6 +296,31 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_gray", "hair_crewcut" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_gray_mohawk",
+    "type": "mutation",
+    "name": "Hair: gray, mohawk",
+    "description": "Mohawk gray hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_gray", "hair_mohawk" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_gray_fro",
+    "type": "mutation",
+    "name": "Hair: gray, 'fro",
+    "description": "'Fro gray hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_gray", "hair_fro" ],
     "types": [ "hair_style" ]
   },
   {
@@ -195,6 +332,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_gray", "hair_short" ],
     "types": [ "hair_style" ]
   },
   {
@@ -206,6 +344,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_gray", "hair_medium" ],
     "types": [ "hair_style" ]
   },
   {
@@ -217,6 +356,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_gray", "hair_long" ],
     "types": [ "hair_style" ]
   },
   {
@@ -228,6 +368,31 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_white", "hair_crewcut" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_white_mohawk",
+    "type": "mutation",
+    "name": "Hair: white, mohawk",
+    "description": "Mohawk white hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_white", "hair_mohawk" ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "id": "hair_white_fro",
+    "type": "mutation",
+    "name": "Hair: white, 'fro",
+    "description": "'Fro white hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "hair_white", "hair_fro" ],
     "types": [ "hair_style" ]
   },
   {
@@ -239,6 +404,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_white", "hair_short" ],
     "types": [ "hair_style" ]
   },
   {
@@ -250,6 +416,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_white", "hair_medium" ],
     "types": [ "hair_style" ]
   },
   {
@@ -261,10 +428,11 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
+    "flags": [ "hair_white", "hair_long" ],
     "types": [ "hair_style" ]
   },
   {
-    "id": "hair_bald",
+    "id": "HAIR_BALD",
     "type": "mutation",
     "name": "Hair: none",
     "description": "You are bald.",
