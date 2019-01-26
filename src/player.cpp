@@ -11659,7 +11659,7 @@ void player::burn_move_stamina( int moves )
     // 20/turn running
     int burn_ratio = 7;
     if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-        burn_ratio = ( burn_ratio * 2 ) - 3;
+        burn_ratio = burn_ratio * 2  - 3;
     }
     burn_ratio += overburden_percentage;
     if( move_mode == "run" ) {

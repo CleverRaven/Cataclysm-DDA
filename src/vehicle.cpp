@@ -3590,12 +3590,13 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     //do this with chance proportional to current load
     // But only if the player is actually there!
     if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
+        //cost proportional to strain
+        int mod = 1 + 4 * st;
         //charge bionics when using muscle engine
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             g->u.charge_power( 1 );
+            mod = mod * 2;
         }
-        //cost proportional to strain
-        int mod = 1 + 4 * st;
         if( one_in( 10 ) ) {
             g->u.mod_hunger( mod );
             g->u.mod_thirst( mod );
