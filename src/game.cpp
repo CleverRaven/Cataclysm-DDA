@@ -269,6 +269,7 @@ void game::load_static_data()
     DynamicDataLoader::get_instance();
     narrow_sidebar = get_option<std::string>( "SIDEBAR_STYLE" ) == "narrow";
     right_sidebar = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
+    hide_compass = false;
     fullscreen = false;
     was_fullscreen = false;
 
@@ -717,6 +718,11 @@ void game::toggle_pixel_minimap()
     init_ui();
     refresh_all();
 #endif // TILES
+}
+
+void game::toggle_compass()
+{
+    hide_compass = !hide_compass;
 }
 
 void game::reload_tileset()
@@ -2382,6 +2388,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_fullscreen" );
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
+    ctxt.register_action( "toggle_compass" );
     ctxt.register_action( "reload_tileset" );
     ctxt.register_action( "toggle_auto_features" );
     ctxt.register_action( "toggle_auto_pulp_butcher" );
@@ -3793,7 +3800,11 @@ void game::draw_sidebar_messages()
     // Print liveview or monster info and start log messages output below it.
     int topline = liveview.draw( w_messages, getmaxy( w_messages ) );
     if( topline == 0 ) {
-        topline = mon_info( w_messages ) + 2;
+        if( hide_compass ) {
+            topline = 1;
+        } else {
+            topline = mon_info( w_messages ) + 2;
+        }
     }
     int line = getmaxy( w_messages ) - 1;
     int maxlength = getmaxx( w_messages );

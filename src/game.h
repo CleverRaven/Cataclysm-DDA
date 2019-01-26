@@ -614,6 +614,7 @@ class game
         void toggle_sidebar_style();
         void toggle_fullscreen();
         void toggle_pixel_minimap();
+        void toggle_compass();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -846,6 +847,7 @@ class game
 
         bool narrow_sidebar;
         bool right_sidebar;
+        bool hide_compass;
         bool fullscreen;
         bool was_fullscreen;
 

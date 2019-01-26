@@ -261,6 +261,8 @@ enum action_id : int {
     ACTION_ITEMACTION,
     /** Turn pixel minimap on/off */
     ACTION_TOGGLE_PIXEL_MINIMAP,
+    /** Turn compass on/off */
+    ACTION_TOGGLE_COMPASS,
     /** Reload current tileset */
     ACTION_RELOAD_TILESET,
     /** Turn auto features on/off */

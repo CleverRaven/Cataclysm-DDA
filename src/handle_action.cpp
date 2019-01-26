@@ -1862,6 +1862,10 @@ bool game::handle_action()
                 toggle_pixel_minimap();
                 break;
 
+            case ACTION_TOGGLE_COMPASS:
+                toggle_compass();
+                break;
+
             case ACTION_RELOAD_TILESET:
                 reload_tileset();
                 break;

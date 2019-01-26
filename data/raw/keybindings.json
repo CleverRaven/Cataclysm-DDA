@@ -1812,6 +1812,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Compass",
+    "category": "DEFAULTMODE",
+    "id": "toggle_compass",
+    "bindings": [ { "input_method": "keyboard", "key": "?" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Reload Tileset",
     "category": "DEFAULTMODE",
     "id": "reload_tileset"
