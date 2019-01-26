@@ -49,36 +49,46 @@ static bool is_player_outside()
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  */
+
 void weather_effect::glare( bool snowglare )
 {
-    efftype_id glareeffect;
-    bool glare_proceed;
+    season_type season = season_of_year( calendar::turn );
     if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == false &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-        glareeffect = effect_glare;
-        glare_proceed = true;
-    } else if( is_player_outside() && !g->u.in_sleep_state() &&
-               !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == true &&
-               !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-        glareeffect = effect_snow_glare;
-        glare_proceed = true;
-    }
-    if( ( !g->u.has_effect( effect_glare ) || !g->u.has_effect( effect_snow_glare ) )  &&
-        ( glare_proceed == true ) ) {
-        if( g->u.has_trait( trait_CEPH_VISION ) ) {
-            g->u.add_env_effect( glareeffect, bp_eyes, 2, 4_turns );
+        if( !g->u.has_effect( effect_glare ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4_turns );
+            } else {
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
+            }
         } else {
-            g->u.add_env_effect( glareeffect, bp_eyes, 2, 2_turns );
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
+            } else {
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1_turns );
+            }
         }
-    } else if( glare_proceed == true ) {
-        if( g->u.has_trait( trait_CEPH_VISION ) ) {
-            g->u.add_env_effect( glareeffect, bp_eyes, 2, 2_turns );
+    }
+    if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == true &&
+        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
+        if( !g->u.has_effect( effect_snow_glare ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 4_turns );
+            } else {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
+            }
         } else {
-            g->u.add_env_effect( glareeffect, bp_eyes, 2, 1_turns );
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
+            } else {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 1_turns );
+            }
         }
     }
 }
+
 ////// food vs weather
 
 time_duration get_rot_since( const time_point &start, const time_point &end,

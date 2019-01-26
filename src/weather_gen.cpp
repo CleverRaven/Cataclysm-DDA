@@ -145,7 +145,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         } else if( r > WEATHER_DRIZZLE ) {
             r = WEATHER_SNOW;
         }
-        if( r == WEATHER_SNOW && w.pressure < 960 ) {
+        if( r == WEATHER_SNOW && w.pressure < 960 && w.windpower > 15 ) {
             r = WEATHER_SNOWSTORM;
         }
     }
