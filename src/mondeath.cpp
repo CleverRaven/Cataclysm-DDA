@@ -97,7 +97,7 @@ void mdeath::normal( monster &z )
     }
 }
 
-void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int distance,
+void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
                      int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop

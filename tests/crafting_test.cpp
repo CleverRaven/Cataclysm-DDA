@@ -92,8 +92,7 @@ TEST_CASE( "recipe_subset" )
     }
 }
 
-// This crashes subsequent testcases for some reason.
-TEST_CASE( "available_recipes", "[.]" )
+TEST_CASE( "available_recipes", "[recipes]" )
 {
     const recipe *r = &recipe_id( "brew_mead" ).obj();
     player dummy;
@@ -158,6 +157,44 @@ TEST_CASE( "available_recipes", "[.]" )
             }
         }
     }
+
+    GIVEN( "an eink pc with a cannibal recipe" ) {
+        const recipe *r2 = &recipe_id( "soup_human" ).obj();
+        item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
+        eink.set_var( "EIPC_RECIPES", ",soup_human," );
+        REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
+
+        WHEN( "the player holds it and has an appropriate skill" ) {
+            dummy.set_skill_level( r2->skill_used, 2 );
+
+            AND_WHEN( "he searches for the recipe in the tablet" ) {
+                THEN( "he finds it!" ) {
+                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                }
+                THEN( "he still hasn't the recipe memorized" ) {
+                    CHECK_FALSE( dummy.knows_recipe( r2 ) );
+                }
+            }
+            AND_WHEN( "he gets rid of the tablet" ) {
+                dummy.i_rem( &eink );
+
+                THEN( "he cant make the recipe anymore" ) {
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                }
+            }
+        }
+    }
+}
+
+// This crashes subsequent testcases for some reason.
+TEST_CASE( "crafting_with_a_companion", "[.]" )
+{
+    const recipe *r = &recipe_id( "brew_mead" ).obj();
+    player dummy;
+
+    REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
+    REQUIRE_FALSE( dummy.knows_recipe( r ) );
+    REQUIRE( r->skill_used );
 
     GIVEN( "a companion who can help with crafting" ) {
         standard_npc who( "helper", {}, 0 );

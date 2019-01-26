@@ -70,6 +70,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_SKIN",
+    "type": "activity_type",
+    "stop_phrase": "Stop skinning?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_QUARTER",
     "type": "activity_type",
     "stop_phrase": "Stop quartering?",
@@ -112,6 +118,13 @@
     "type": "activity_type",
     "stop_phrase": "Stop training?",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_SOCIALIZE",
+    "type": "activity_type",
+    "stop_phrase": "Stop socializing?",
+    "based_on": "time",
+    "rooted": true
   },
   {
     "id": "ACT_WAIT_WEATHER",
@@ -421,11 +434,32 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_PLAY_WITH_PET",
+    "type": "activity_type",
+    "stop_phrase": "Stop playing with your pet?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_TRY_SLEEP",
     "type": "activity_type",
     "stop_phrase": "Stop trying to fall asleep?",
     "rooted": true,
     "based_on": "speed",
     "suspendable": false
+  },
+  {
+    "id": "ACT_UNLOAD_MAG",
+    "type": "activity_type",
+    "stop_phrase": "Stop unloading?",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_ROBOT_CONTROL",
+    "type": "activity_type",
+    "stop_phrase": "Stop programming override?",
+    "suspendable": false,
+    "based_on": "speed",
+    "no_resume": true
   }
 ]

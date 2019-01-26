@@ -2,15 +2,6 @@
 #ifndef MAPSHARING_H
 #define MAPSHARING_H
 
-#ifdef __linux__
-#include <sys/file.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <cstdio>
-#endif // __linux__
-
 #include <cstdlib>
 #include <fstream>
 #include <map>

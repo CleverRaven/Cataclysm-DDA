@@ -14,6 +14,65 @@
     ]
   },
   {
+    "id": "TALK_FRIEND",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Relax and chat with me for a while...",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      { "u_has_item": "beer", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "european_pilsner", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "india_pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      {
+        "is_season": "summer",
+        "yes": "Yeah, this summer heat is hitting me hard, let's take a quick break, how goes it <name_g>?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "is_season": "winter",
+        "yes": "OK, maybe it'll stop me from freezing in this weather, what's up?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "is_day": "Well, it's the time of day for a quick break surely!  How are you holding up?",
+        "is_night": "Man it's dark out isn't it? what's up?"
+      },
+      {
+        "npc_has_effect": "infected",
+        "yes": "Well, I'm feeling pretty sick... are you doing OK though?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "u_has_mission": true,
+        "many": "Definitely, by the way, thanks for helping me so much with my tasks!  Anyway, you coping OK, <name_g>? ",
+        "one": "OK, let's take a moment, oh, and thanks for helping me with that thing, so... what's up?",
+        "none": "<neutralchitchat>"
+      },
+      {
+        "days_since_cataclysm": 30,
+        "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
+        "no": "<neutralchitchat>"
+      }
+    ],
+    "responses": [
+      {
+        "text": "Oh you know, not bad, not bad...",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
+  },
+  {
     "id": "TALK_SHELTER_PLANS",
     "type": "talk_topic",
     "dynamic_line": [
@@ -46,25 +105,29 @@
     },
     "responses": [
       {
+        "switch": true,
         "text": "Understood.  I'll get those antibiotics.",
         "topic": "TALK_NONE",
         "condition": { "npc_has_effect": "infected" }
       },
       {
+        "switch": true,
         "text": "Right, right, I'll ask later.",
         "topic": "TALK_NONE",
         "condition": { "npc_has_effect": "asked_to_follow" }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "I can keep you safe.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "value": -1, "anger": 1 } }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "You can keep me safe.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": {
           "type": "PERSUADE",
           "difficulty": 0,
@@ -74,15 +137,17 @@
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "We're friends, aren't we?",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 2, "anger": -1 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 1, "fear": -2, "value": -1, "anger": 1 } }
       },
       {
+        "switch": true,
+        "default": true,
         "text": "I'll kill you if you don't.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "infected" }, { "npc_has_effect": "asked_to_follow" } ] } },
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
@@ -206,14 +271,21 @@
     "type": "talk_topic",
     "dynamic_line": "Alright, let's begin.",
     "responses": [
-      { "text": "Sounds good.", "topic": "TALK_DONE", "condition": "at_safe_space", "effect": "start_training" },
+      {
+        "text": "Sounds good.",
+        "topic": "TALK_DONE",
+        "condition": "at_safe_space",
+        "effect": "start_training",
+        "switch": true
+      },
       {
         "text": "Okay.  Lead the way.",
         "topic": "TALK_DONE",
-        "condition": { "not": "at_safe_space" },
+        "switch": true,
+        "default": true,
         "effect": "lead_to_safety"
       },
-      { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_FORCE", "condition": { "not": "at_safe_space" } },
+      { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_FORCE", "switch": true, "default": true },
       { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
     ]
   },

@@ -100,9 +100,10 @@ class inventory : public visitable<inventory>
 
         void unsort(); // flags the inventory as unsorted
         void clear();
-        void push_back( std::list<item> newits );
+        void push_back( const std::list<item> &newits );
         // returns a reference to the added item
-        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true );
+        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
+                        bool should_stack = true );
         void add_item_keep_invlet( item newit );
         void push_back( item newit );
 
@@ -140,7 +141,8 @@ class inventory : public visitable<inventory>
          * the container. All items that are part of the same stack have the same item position.
          */
         int position_by_item( const item *it ) const;
-        int position_by_type( const itype_id &type );
+        int position_by_type( const itype_id &type ) const;
+
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position( char invlet ) const;

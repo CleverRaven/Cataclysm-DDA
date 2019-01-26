@@ -76,6 +76,7 @@ enum vpart_bitflags : int {
     VPFLAG_ENABLED_DRAINS_EPOWER,
     VPFLAG_WASHING_MACHINE,
     VPFLAG_FLUIDTANK,
+    VPFLAG_REACTOR,
 
     NUM_VPFLAGS
 };
@@ -104,6 +105,9 @@ struct vpslot_engine {
 
 struct vpslot_wheel {
     float rolling_resistance = 1;
+    int contact_area = 1;
+    std::vector<std::pair<std::string, int>> terrain_mod;
+    float or_rating;
 };
 
 class vpart_info
@@ -160,13 +164,13 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (TODO: units?) when delivering max @ref power
+         * Energy consumed by engines and motors (watts) when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
         int energy_consumption = 0;
 
         /**
-         * For engines and motors this is maximum output (TODO: units?)
+         * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
         int power = 0;
@@ -178,10 +182,10 @@ class vpart_info
         itype_id default_ammo = "null";
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0;
+        units::volume folded_volume = 0_ml;
 
         /** Cargo location volume */
-        units::volume size = 0;
+        units::volume size = 0_ml;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
@@ -260,6 +264,9 @@ class vpart_info
          *
          */
         float wheel_rolling_resistance() const;
+        int wheel_area() const;
+        std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
+        float wheel_or_rating() const;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */

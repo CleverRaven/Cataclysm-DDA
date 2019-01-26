@@ -24,7 +24,7 @@ struct editmap_hilight {
     int cur_blink;
     nc_color color;
     std::map<tripoint, char> points;
-    nc_color( *getbg )( nc_color );
+    nc_color( *getbg )( const nc_color & );
     void setup() {
         getbg = ( color == c_red ? &red_background :
                   ( color == c_magenta ? &magenta_background :

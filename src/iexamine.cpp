@@ -752,33 +752,60 @@ void iexamine::rubble(player &p, const tripoint &examp)
 /**
  * Try to pry crate open with crowbar.
  */
-void iexamine::crate(player &p, const tripoint &examp)
+void iexamine::crate( player &p, const tripoint &examp )
 {
-    // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+    // PRY 1 is sufficient for popping open a nailed-shut crate.
+    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+
     if( !has_prying_tool ) {
-        add_msg( m_info, _("If only you had a crowbar...") );
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
-    // Ask if there's something possibly more interesting than this crate here
-    // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
-    std::string xname = g->m.furnname(examp);
-    if( ( g->m.veh_at( examp ) ||
-          !g->m.tr_at( examp ).is_null() ||
-          g->critter_at( examp ) != nullptr ) &&
-          !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
+    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        return it.has_quality( quality_id( "PRY" ), 1 );
+    } );
+
+    iuse dummy;
+
+    if( prying_items.size() == 1 ) {
+        item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
+        dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
+    }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is closed tightly."),
+        g->m.furnname(examp));
+
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
+    }
+
+    selection_menu.selected = 1;
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
         none( p, examp );
         return;
     }
 
-    // HACK ALERT: player::items_with returns const item* vector and so can't be used
-    // so we'll be making a fake crowbar here
-    // Not a problem for now, but if crowbar iuse-s ever get different, this will need a fix
-    item fakecrow( "crowbar", 0 );
+    auto selected_tool = prying_items[index - 1];
+    item temporary_item( selected_tool->type );
 
-    iuse dummy;
-    dummy.crowbar( &p, &fakecrow, false, examp );
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
@@ -829,8 +856,8 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         g->m.unboard_vehicle( p.pos() );
     }
     p.setpos( examp );
-    if( examp.x < SEEX * int( MAPSIZE / 2 ) || examp.y < SEEY * int( MAPSIZE / 2 ) ||
-        examp.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examp.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+    if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
+        examp.x >= HALF_MAPSIZE_X + SEEX || examp.y >= HALF_MAPSIZE_Y + SEEY ) {
         if( p.is_player() ) {
             g->update_map( p );
         }
@@ -874,7 +901,7 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     g->m.furn_set( pos, f_null );
 }
 
-static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id id )
+static std::pair<itype_id, const deploy_tent_actor*> find_tent_itype( const furn_str_id &id )
 {
     const itype_id &iid = id->deployed_item;
     if( item::type_is_defined( iid ) ) {
@@ -1133,26 +1160,55 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
 }
 
 /**
- * Checks that player is outside and has crowbar then calls iuse.crowbar.
+ * Checks PC has a crowbar then calls iuse.crowbar.
  */
-void iexamine::locked_object( player &p, const tripoint &examp) {
-    // Print ordinary examine message if inside (where you can open doors/windows anyway)
-    if (!g->m.is_outside(p.pos())) {
-        none(p, examp);
+void iexamine::locked_object( player &p, const tripoint &examp )
+{
+    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 2 );
+    if( !has_prying_tool ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
-    if ( !has_prying_tool ) {
-        add_msg(m_info, _("If only you had a crowbar..."));
-        return;
-    }
-
-    // See crate prying for why a dummy item is used
-    item fakecrow( "crowbar", 0 );
+    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        return it.has_quality( quality_id( "PRY" ), 2 );
+    } );
 
     iuse dummy;
-    dummy.crowbar( &p, &fakecrow, false, examp );
+    if( prying_items.size() == 1 ) {
+        item temporary_item( prying_items[0]->type );
+        // They only had one item anyway, so just use it.
+        dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
+    }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> int {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
+
+    int i = 0;
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+    for( auto iter : prying_items ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
+                                 iter->tname() ) );
+    }
+
+    selection_menu.selected = 1;
+    selection_menu.query();
+    auto index = selection_menu.ret;
+
+    if( index == 0 || index == UILIST_CANCEL ) {
+        none( p, examp );
+        return;
+    }
+
+    item temporary_item( prying_items[index - 1]->type );
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
@@ -1210,8 +1266,8 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
         int tries = 0;
         tripoint monp = examp;
         do {
-            monp.x = rng(0, SEEX * MAPSIZE);
-            monp.y = rng(0, SEEY * MAPSIZE);
+            monp.x = rng(0, MAPSIZE_X);
+            monp.y = rng(0, MAPSIZE_Y);
             tries++;
         } while (tries < 10 && !g->is_empty( monp ) &&
                     rl_dist( p.pos(), monp ) <= 2);
@@ -1292,7 +1348,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     tripoint tmp;
     tmp.z = examp.z;
     for (tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
-        for (tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++) {
+        for (tmp.x = 0; tmp.x < MAPSIZE_X; tmp.x++) {
             if ( terid == t_switch_rg ) {
                 if (g->m.ter(tmp) == t_rock_red) {
                     g->m.ter_set(tmp, t_floor_red);
@@ -1725,7 +1781,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
     smenu.text = _( "Use which seed?" );
     int count = 0;
     for( const auto &entry : seed_entries ) {
-        auto seed_name = std::get<1>( entry );
+        const std::string &seed_name = std::get<1>( entry );
         int seed_count = std::get<2>( entry );
 
         std::string format = seed_count > 0 ? "%s (%d)" : "%s";
@@ -1754,7 +1810,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().set_age( 0 );
+    used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
     g->m.set( examp, t_dirt, f_plant_seed );
     p.moves -= 500;
@@ -2059,7 +2115,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     for( const item &i : items ) {
         total_volume += i.volume();
     }
@@ -2115,7 +2171,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     add_msg( _("There's a charcoal kiln there.") );
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items[0].age();
-    if( time_left > 0 ) {
+    if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
@@ -2130,7 +2186,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         return;
     }
 
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
@@ -2266,7 +2322,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
     }
     if (vat_full || ferment) {
-        g->m.i_at( examp ).front().set_age( 0 );
+        g->m.i_at( examp ).front().set_age( 0_turns );
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -2357,7 +2413,7 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
     if( furn.id == "f_standing_tank" )  { return units::from_liter( 300 ); }
     else if( furn.id == "f_wood_keg" )  { return units::from_liter( 125 ); }
     //add additional cases above
-    else                                { return 0; }
+    else                                { return 0_ml; }
 }
 
 /**
@@ -2365,7 +2421,7 @@ static units::volume get_keg_capacity( const tripoint &pos ) {
  */
 bool iexamine::has_keg( const tripoint &pos )
 {
-    return get_keg_capacity( pos ) > 0;
+    return get_keg_capacity( pos ) > 0_ml;
 }
 
 void iexamine::keg(player &p, const tripoint &examp)
@@ -2531,7 +2587,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
-    if( keg_cap <= 0 ) {
+    if( keg_cap <= 0_ml ) {
         return false;
     }
     const auto keg_name = g->m.name( pos );
@@ -2824,26 +2880,26 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
 
     // check inputs and tally total mass
     auto inputs = g->m.i_at( examp );
-    units::mass sum_weight = 0;
+    units::mass sum_weight = 0_gram;
     auto ca = m.compact_accepts();
     std::set<material_id> accepts( ca.begin(), ca.end() );
     accepts.insert( m.id );
-    for( auto it = inputs.begin(); it != inputs.end(); ++it ) {
-        if( !it->only_made_of( accepts ) ) {
+    for( auto &input : inputs ) {
+        if( !input.only_made_of( accepts ) ) {
             //~ %1$s: an item in the compactor , %2$s: desired compactor output material
             add_msg( _( "You realize this isn't going to work because %1$s is not made purely of %2$s." ),
-                     it->tname().c_str(), m.name().c_str() );
+                     input.tname().c_str(), m.name().c_str() );
             return;
         }
-        if( it->is_container() && !it->is_container_empty() ) {
+        if( input.is_container() && !input.is_container_empty() ) {
             //~ %1$s: an item in the compactor
             add_msg( _( "You realize this isn't going to work because %1$s has not been emptied of its contents." ),
-                     it->tname().c_str() );
+                     input.tname().c_str() );
             return;
         }
-        sum_weight += it->weight();
+        sum_weight += input.weight();
     }
-    if( sum_weight <= 0 ) {
+    if( sum_weight <= 0_gram ) {
         //~ %1$s: desired compactor output material
         add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
                  m.name().c_str() );
@@ -2947,7 +3003,7 @@ void iexamine::water_source(player &p, const tripoint &examp)
 const itype * furn_t::crafting_pseudo_item_type() const
 {
     if (crafting_pseudo_item.empty()) {
-        return NULL;
+        return nullptr;
     }
     return item::find_type( crafting_pseudo_item );
 }
@@ -3132,7 +3188,7 @@ static cata::optional<tripoint> getNearFilledGasTank(const tripoint &center, lon
     int distance = INT_MAX;
     gas_units = 0;
 
-    for( const tripoint &tmp : g->m.points_in_radius( center, 24 ) ) {
+    for( const tripoint &tmp : g->m.points_in_radius( center, SEEX * 2 ) ) {
         if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
             continue;
         }
@@ -3561,7 +3617,7 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
-player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_patient,
+player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
                          bool &adjacent_couch )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
@@ -3585,8 +3641,7 @@ player &best_installer( player &p, player &null_player, int difficulty )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
-                         skill_electronics,
-                         true );
+                         skill_electronics );
 
     std::vector< std::pair<float, long>> ally_skills;
     ally_skills.reserve( g->allies().size() );
@@ -3598,8 +3653,7 @@ player &best_installer( player &p, player &null_player, int difficulty )
         ally_skill.second = i;
         ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
                            skill_computer,
-                           skill_electronics,
-                           true );
+                           skill_electronics );
         ally_skills.push_back( ally_skill );
     }
     std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, long> &lhs,
@@ -3824,7 +3878,7 @@ void smoker_activate(player &p, const tripoint &examp)
     bool food_present = false;
     bool charcoal_present = false;
     auto items = g->m.i_at( examp );
-    units::volume food_volume = 0;
+    units::volume food_volume = 0_ml;
     item *charcoal = nullptr;
 
     for( size_t i = 0; i < items.size(); i++ ) {
@@ -4128,10 +4182,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 
     bool rem_f_opt = false;
     std::stringstream pop;
-    time_duration time_left = 0;
+    time_duration time_left = 0_turns;
     int hours_left = 0;
     int minutes_left = 0;
-    units::volume f_volume = 0;
+    units::volume f_volume = 0_ml;
     bool f_check = false;
 
     for( size_t i = 0; i < items_here.size(); i++ ) {
@@ -4147,7 +4201,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         }
     }
 
-    const bool empty = f_volume == 0;
+    const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto has_coal_in_inventory = p.charges_of( "charcoal" ) > 0;
@@ -4204,7 +4258,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         {
             if ( active ) {
                 pop << "<color_green>" << _( "There's a smoking rack here.  It is lit and smoking." ) << "</color>" << "\n";
-                if( time_left > 0 ) {
+                if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
                         pop << string_format( ngettext( "It will finish smoking in about %d hour.",
                                 "It will finish smoking in about %d hours.",

@@ -583,7 +583,7 @@
     }
   },
   {
-    "//": "medical wing, stemcell + centrifuge, monster in stemcell room",
+    "//": "medical wing, bonesetting + centrifuge, monster in bonesetting room",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -635,8 +635,8 @@
           "failures": [ { "action": "destroy_blood" } ]
         },
         "7": {
-          "name": "Mr. Stem Cell",
-          "options": [ { "name": "Stem Cell Treatment", "action": "stemcell_treatment" } ],
+          "name": "Bonesetting Treatment",
+          "options": [ { "name": "Bonesetting Treatment", "action": "bonesetting" } ],
           "failures": [ { "action": "alarm" } ]
         }
       },

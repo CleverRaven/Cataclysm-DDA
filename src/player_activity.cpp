@@ -203,3 +203,10 @@ void player_activity::allow_distractions()
 {
     ignored_distractions.clear();
 }
+
+void player_activity::inherit_distractions( const player_activity &other )
+{
+    for( auto &type : other.ignored_distractions ) {
+        ignore_distraction( type );
+    }
+}

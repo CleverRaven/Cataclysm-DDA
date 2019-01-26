@@ -14,6 +14,8 @@ projectile::projectile() :
 
 projectile::~projectile() = default;
 
+projectile::projectile( projectile && ) = default;
+
 projectile::projectile( const projectile &other )
 {
     ( *this ) = other;
