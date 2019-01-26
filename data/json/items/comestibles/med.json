@@ -1372,7 +1372,7 @@
     "id": "cattail_jelly",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "Cattail Jelly",
+    "name": "cattail jelly",
     "description": "Clear jelly harvested from cattail, has antiseptic properties and works as a painkiller.",
     "container": "bottle_plastic_small",
     "weight": 50,
