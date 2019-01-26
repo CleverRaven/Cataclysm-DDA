@@ -8,6 +8,7 @@
 #include "faction.h"
 #include "game.h"
 #include "map.h"
+#include "mission.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -222,6 +223,36 @@ TEST_CASE( "npc_talk_test" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
+
+    d.add_topic( "TALK_TEST_NPC_NEEDS" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    talker_npc.set_thirst( 90 );
+    talker_npc.set_hunger( 90 );
+    talker_npc.set_fatigue( EXHAUSTED );
+    gen_response_lines( d, 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a npc thirst test response." );
+    CHECK( d.responses[2].text == "This is a npc hunger test response." );
+    CHECK( d.responses[3].text == "This is a npc fatigue test response." );
+
+    d.add_topic( "TALK_TEST_MISSION_GOAL" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    const std::vector<mission_type> &all_missions = mission_type::get_all();
+    bool set_mission = false;
+    for( const mission_type &some_mission : all_missions ) {
+        if( some_mission.goal == MGOAL_ASSASSINATE ) {
+            mission *assassinate = mission::reserve_new( some_mission.id, talker_npc.getID() );
+            talker_npc.chatbin.mission_selected = assassinate;
+            set_mission = true;
+            break;
+        }
+    }
+    CHECK( set_mission );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a mission goal test response." );
 
     const calendar old_calendar = calendar::turn;
     calendar::turn = calendar::start;
