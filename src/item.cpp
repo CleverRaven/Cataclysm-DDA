@@ -2270,7 +2270,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         // @todo: Unhide when enforcing limits
-        if( is_bionic() && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) )
+        if( is_bionic() && get_option < bool >( "CBM_SLOTS_ENABLED" )
             && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
             info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                                       _( "This bionic is installed in the following body part(s):" ) ) ) );

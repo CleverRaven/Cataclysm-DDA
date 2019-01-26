@@ -2608,6 +2608,24 @@ conditional_t::conditional_t( JsonObject jo )
         condition = [effect]( const dialogue & d ) {
             return d.alpha->has_effect( efftype_id( effect ) );
         };
+    } else if( jo.has_string( "npc_need" ) ) {
+        const std::string need = jo.get_string( "npc_need" );
+        int amount = 0;
+        if( jo.has_int( "amount" ) ) {
+            amount = jo.get_int( "amount" );
+        } else if( jo.has_string( "level" ) ) {
+            const std::string &level = jo.get_string( "level" );
+            auto flevel = fatigue_level_strs.find( level );
+            if( flevel != fatigue_level_strs.end() ) {
+                amount = static_cast<int>( flevel->second );
+            }
+        }
+        condition = [need, amount]( const dialogue &d) {
+            npc &p = *d.beta;
+            return ( p.get_fatigue() > amount && need == "fatigue" ) ||
+                   ( p.get_hunger() > amount && need == "hunger" ) ||
+                   ( p.get_thirst() > amount && need == "thirst" );
+        };
     } else if( jo.has_string( "u_at_om_location" ) ) {
         const std::string &location = jo.get_string( "u_at_om_location" );
         condition = [location]( const dialogue & d ) {
@@ -3063,6 +3081,29 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const dynamic_line_t is_night = from_member( jo, "is_night" );
         function = [is_day, is_night]( const dialogue & d ) {
             return ( calendar::turn.is_night() ? is_night : is_day )( d );
+        };
+    } else if( jo.has_member( "npc_need" ) ) {
+        const std::string &need = jo.get_string( "npc_need" );
+        int amount = 0;
+        if( jo.has_int( "amount" ) ) {
+            amount = jo.get_int( "amount" );
+        } else {
+            const std::string &level = jo.get_string( "level" );
+            auto flevel = fatigue_level_strs.find( level );
+            if( flevel != fatigue_level_strs.end() ) {
+                amount = static_cast<int>( flevel->second );
+            }
+        }
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [need, amount, yes, no]( const dialogue & d ) {
+            npc &p = *d.beta;
+            if( ( p.get_fatigue() > amount && need == "fatigue" ) ||
+                ( p.get_hunger() > amount && need == "hunger" ) ||
+                ( p.get_thirst() > amount && need == "thirst" ) ) {
+                return yes( d );
+            }
+            return no( d );
         };
     } else if( jo.has_member( "u_driving" ) || jo.has_member( "npc_driving" ) ) {
         const dynamic_line_t u_driving = from_member( jo, "u_driving" );
