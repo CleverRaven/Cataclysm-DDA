@@ -1215,7 +1215,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
 std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bioid )
 {
     std::map<body_part, int> issues;
-    if( !has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+    if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
     for( auto &elem : bioid->occupied_bodyparts ) {

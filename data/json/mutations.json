@@ -5767,14 +5767,6 @@
         "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
         "debug" : true
     },{
-      "type" : "mutation",
-      "id" : "DEBUG_CBM_SLOTS",
-      "name" : "Debug CBM Slots Limits",
-      "points" : 99,
-      "valid" : false,
-      "description" : "Limitate the number of bionics which you're able to install in your body.",
-      "debug" : true
-    },{
         "type" : "mutation",
         "id" : "DEBUG_MIND_CONTROL",
         "name" : "Debug Mind Control",
