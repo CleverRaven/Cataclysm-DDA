@@ -3648,7 +3648,6 @@ void item::calc_rot_while_smoking( const tripoint &location, time_duration smoki
 
     rot += get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
     last_rot_check += smoking_duration;
-
 }
 
 units::volume item::get_storage() const
