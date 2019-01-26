@@ -193,7 +193,7 @@
       { "trait": "hair_black_fro", "prob": 10 },
       { "trait": "hair_black_short", "prob": 35 },
       { "trait": "hair_black_medium", "prob": 25 },
-      { "trait": "hair_black_long", "prob": 13 },
+      { "trait": "hair_black_long", "prob": 13 }
     ]
   },
   {
@@ -206,7 +206,7 @@
       { "trait": "hair_brown_fro", "prob": 5 },
       { "trait": "hair_brown_short", "prob": 35 },
       { "trait": "hair_brown_medium", "prob": 25 },
-      { "trait": "hair_brown_long", "prob": 13 },
+      { "trait": "hair_brown_long", "prob": 13 }
     ]
   },
   {
@@ -219,7 +219,7 @@
       { "trait": "hair_blond_fro", "prob": 1 },
       { "trait": "hair_blond_short", "prob": 35 },
       { "trait": "hair_blond_medium", "prob": 25 },
-      { "trait": "hair_blond_long", "prob": 13 },
+      { "trait": "hair_blond_long", "prob": 13 }
     ]
   },
   {
@@ -232,7 +232,7 @@
       { "trait": "hair_red_fro", "prob": 1 },
       { "trait": "hair_red_short", "prob": 35 },
       { "trait": "hair_red_medium", "prob": 25 },
-      { "trait": "hair_red_long", "prob": 13 },
+      { "trait": "hair_red_long", "prob": 13 }
     ]
   },
   {
@@ -245,7 +245,7 @@
       { "trait": "hair_gray_fro", "prob": 1 },
       { "trait": "hair_gray_short", "prob": 35 },
       { "trait": "hair_gray_medium", "prob": 25 },
-      { "trait": "hair_gray_long", "prob": 13 },
+      { "trait": "hair_gray_long", "prob": 13 }
     ]
   },
   {
@@ -258,7 +258,7 @@
       { "trait": "hair_white_fro", "prob": 1 },
       { "trait": "hair_white_short", "prob": 35 },
       { "trait": "hair_white_medium", "prob": 25 },
-      { "trait": "hair_white_long", "prob": 13 },
+      { "trait": "hair_white_long", "prob": 13 }
     ]
   }
 ]
