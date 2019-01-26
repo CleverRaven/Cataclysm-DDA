@@ -277,6 +277,7 @@
         { "class": "refugee_AleeshaSeward", "x": 11, "y": 7 },
         { "class": "refugee_PabloNunez", "x": 11, "y": 12 },
         { "class": "refugee_DanaNunez", "x": 11, "y": 13 },
+        { "class": "refugee_VanessaToby", "x": 8, "y": 17 },
         { "class": "guard", "x": 19, "y": 21 }
       ]
     }
