@@ -399,9 +399,9 @@ void WinCreate()
     format.reset( SDL_AllocFormat( wformat ) );
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
+    int renderer_id = -1;
 #ifndef __ANDROID__
     bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
-    int renderer_id = -1;
     std::string renderer_name;
     if( software_renderer ) {
        renderer_name = "software";
