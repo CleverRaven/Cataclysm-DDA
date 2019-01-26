@@ -3980,7 +3980,20 @@ void smoker_finalize(player &, const tripoint &examp)
             product = "dry_fish";
         } else if( item_it.typeId() == "raw_beans" ) {
             product = "dry_beans";
-        } else if( item_it.typeId() == "sweet_fruit" || item_it.typeId() == "coconut" || item_it.typeId() == "can_coconut" ) {
+        } else if( item_it.typeId() == "sweet_fruit" ||
+            item_it.typeId() == "apple" ||
+            item_it.typeId() == "blueberries" ||
+            item_it.typeId() == "strawberries" ||
+            item_it.typeId() == "raspberries" ||
+            item_it.typeId() == "huckleberries" ||
+            item_it.typeId() == "juice_pulp" ||
+            item_it.typeId() == "pear" ||
+            item_it.typeId() == "grapes" ||
+            item_it.typeId() == "peach" ||
+            item_it.typeId() == "blackberries" ||
+            item_it.typeId() == "apricot" ||
+            item_it.typeId() == "coconut" ||
+            item_it.typeId() == "can_coconut" ) {
             product = "dry_fruit";
         } else if( item_it.typeId() == "human_smoked" ) {
             product = "dry_hflesh";

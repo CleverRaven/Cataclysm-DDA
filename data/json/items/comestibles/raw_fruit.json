@@ -16,7 +16,7 @@
     "material": "fruit",
     "volume": "375 ml",
     "fun": 3,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "vitamins": [ [ "vitC", 3 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -98,6 +98,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 2,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "vitamins": [ [ "vitC", 6 ] ],
     "rot_spawn_chance": 5
@@ -120,6 +121,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 5,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "vitamins": [ [ "vitC", 34 ] ],
     "rot_spawn_chance": 5
@@ -163,6 +165,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
+    "flags": [ "SMOKABLE" ],
     "vitamins": [ [ "vitC", 15 ], [ "iron", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -184,6 +187,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 2,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "vitamins": [ [ "vitC", 1 ] ],
     "rot_spawn_chance": 5
@@ -270,6 +274,7 @@
     "price": 25,
     "material": "fruit",
     "volume": "50 ml",
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "//": "juice pulp is an arbitrary item, but needed some baseline nutrients for byproducts",
     "vitamins": [ [ "vitC", 2 ] ],
@@ -292,7 +297,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "vitamins": [ [ "vitC", 2 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -375,7 +380,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "vitamins": [ [ "vitC", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -439,6 +444,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
+    "flags": [ "SMOKABLE" ],
     "vitamins": [ [ "vitC", 3 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -508,6 +514,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
+    "flags": [ "SMOKABLE" ],
     "vitamins": [ [ "vitC", 2 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -614,6 +621,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
+    "flags": [ "SMOKABLE" ],
     "vitamins": [ [ "vitA", 4 ], [ "vitC", 4 ], [ "iron", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   }
