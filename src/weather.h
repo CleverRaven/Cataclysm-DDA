@@ -94,7 +94,7 @@ struct weather_printable {
 namespace weather_effect
 {
 void none();        //!< Fallback weather.
-void glare();
+void glare( bool );
 void wet();
 void very_wet();
 void thunder();
@@ -103,6 +103,7 @@ void light_acid();
 void acid();
 void flurry();      //!< Currently flurries have no additional effects.
 void snow();
+void sunny();
 void snow_glare();
 void snowstorm();
 } //namespace weather_effect
