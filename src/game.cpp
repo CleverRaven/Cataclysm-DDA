@@ -9591,36 +9591,17 @@ void game::butcher()
         }
     }
 
-    bool no_morale_butcher = false;
     if( !u.has_morale_to_craft() ) {
-        switch( butcher_select ) {
-            case BUTCHER_OTHER:
-                switch( indexer_index ) {
-                    case MULTIBUTCHER:
-                        no_morale_butcher = true;
-                        break;
-                }
-            /* fallthrough */
-            case BUTCHER_CORPSE:
-                no_morale_butcher = true;
-                break;
-            case BUTCHER_DISASSEMBLE:
-                break;
-            case BUTCHER_SALVAGE:
-                break;
-        }
-
-        if( no_morale_butcher ) {
+        if( butcher_select == BUTCHER_CORPSE || indexer_index == MULTIBUTCHER ) {
             add_msg( m_info,
                      _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
-            return;
         } else {
             add_msg( m_info,
                      _( "You are not in the mood and the prospect of work stops you before you begin." ) );
-            return;
         }
-
+        return;
     }
+
     switch( butcher_select ) {
         case BUTCHER_OTHER:
             switch( indexer_index ) {
