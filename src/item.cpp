@@ -3609,7 +3609,8 @@ void item::calc_rot( const tripoint &location )
         last_rot_check = now;
 
         // Frozen food do not rot, so no change to rot variable
-        if( item_tags.count( "FROZEN" ) ) {
+        // Smoking food will be checked for rot in smoker_finalize
+        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) ) {
             return;
         }
 
@@ -3636,6 +3637,18 @@ void item::calc_rot( const tripoint &location )
         }
 
     }
+}
+
+void item::calc_rot_while_smoking( const tripoint &location, time_duration smoking_duration )
+{
+    if( !item_tags.count( "SMOKING" ) ) {
+        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname().c_str() );
+        return;
+    }
+
+    rot += get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
+    last_rot_check += smoking_duration;
+
 }
 
 units::volume item::get_storage() const

@@ -3953,6 +3953,13 @@ void smoker_activate(player &p, const tripoint &examp)
     }
 
     p.use_charges( "fire", 1 );
+    for( auto &it : g->m.i_at( examp ) ) {
+        if( it.has_flag( "SMOKABLE" ) ) {
+            // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
+            it.calc_rot( examp );
+            it.set_flag( "SMOKING" );
+        }
+    }
     g->m.furn_set( examp, next_smoker_type );
     if( charcoal->charges == char_charges ) {
         g->m.i_rem( examp, charcoal );
@@ -3981,6 +3988,13 @@ void smoker_finalize(player &, const tripoint &examp)
     if( items.empty() ) {
         g->m.furn_set(examp, next_smoker_type);
         return;
+    }
+
+    for( auto &it : items ) {
+        if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal 
+            it.calc_rot_while_smoking( examp, 6_hours );
+            it.process( &g->u, examp, false );
+        }
     }
 
     std::string product;
