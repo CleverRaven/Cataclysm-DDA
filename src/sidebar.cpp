@@ -594,7 +594,11 @@ void player::disp_status()
 
     // display power level
     if( this->max_power_level == 0 ) {
-        wprintz( sideStyle ? g->w_status : g->w_HP, c_light_gray, "--" );
+        mvwprintz( sideStyle ? g->w_status : g->w_HP,
+                   sideStyle ? 4 : 23, sideStyle ? 11 : 0, c_light_gray,
+                   sideStyle ? "Pwr  :" : "Power:" );
+        mvwprintz( sideStyle ? g->w_status : g->w_HP,
+                   sideStyle ? 4 : 24, sideStyle ? 18 : 0, c_light_gray, "--" );
     } else {
         nc_color color = c_red;
         if( this->power_level >= this->max_power_level / 2 ) {
@@ -616,12 +620,10 @@ void player::disp_status()
                 case 4:
                     display_power /= 1000;
                     unit = "k";
-                    //offset = 2;
                     break;
                 case 5:
                     display_power /= 1000;
                     unit = "k";
-                    //offset = 0;
                     break;
             }
         } else {
