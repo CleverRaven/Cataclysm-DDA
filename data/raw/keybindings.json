@@ -1815,7 +1815,7 @@
     "name": "Toggle Compass",
     "category": "DEFAULTMODE",
     "id": "toggle_compass",
-    "bindings": [ { "input_method": "keyboard", "key": "?" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "°" } ]
   },
   {
     "type": "keybinding",
