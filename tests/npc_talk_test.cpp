@@ -8,6 +8,7 @@
 #include "faction.h"
 #include "game.h"
 #include "map.h"
+#include "mission.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
