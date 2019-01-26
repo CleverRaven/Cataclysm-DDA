@@ -164,6 +164,16 @@
   },
   {
     "type": "trait_group",
+    "id": "Skin_White",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "SKIN_TAN", "prob": 15 },
+      { "trait": "SKIN_PINK", "prob": 25 },
+      { "trait": "SKIN_LIGHT", "prob": 55 }
+    ]
+  },
+  {
+    "type": "trait_group",
     "id": "Skin_Medium",
     "subtype": "distribution",
     "traits": [
