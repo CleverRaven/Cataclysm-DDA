@@ -1326,6 +1326,14 @@ class map
          */
         bool has_rotten_away( item &itm, const tripoint &pnt ) const;
         /**
+		 * Try to smoke meat in a smoking rack here.
+		 * @param p The point on this map to look for an active smoking rack.
+		 * @param items The items at this location, used to find the fake smoke item.
+		 * @param time_since_last_actualize Time since this function was last called.
+		 */
+        template <typename Container>
+		void smoke_meat(const tripoint &p, Container &items, const time_duration &time_since_last_actualize);
+        /**
          * Go through the list of items, update their rotten status and remove items
          * that have rotten away completely.
          * @param items items to remove

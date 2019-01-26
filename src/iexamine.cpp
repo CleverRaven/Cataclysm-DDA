@@ -3953,7 +3953,7 @@ void smoker_activate(player &p, const tripoint &examp)
     add_msg( _("You light a small fire under the rack and it starts to smoke.") );
 }
 
-void smoker_finalize(player &, const tripoint &examp)
+void smoker_finalize(player &, const tripoint &examp, const time_point &finished_at = calendar::turn)
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
@@ -4023,7 +4023,7 @@ void smoker_finalize(player &, const tripoint &examp)
             product.clear();
         }
         if( !product.empty() ) {
-            item result( product, calendar::turn );
+            item result( product, finished_at );
             result.charges = item_it.charges;
             //g->m.add_item( examp, result );
             item_it = result;
@@ -4155,10 +4155,10 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     p.invalidate_crafting_inventory();
 }
 
-void iexamine::on_smoke_out( const tripoint &examp )
+void iexamine::on_smoke_out( const tripoint &examp, const time_point &finished_at )
 {
     if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
-        smoker_finalize( g->u, examp );
+        smoker_finalize( g->u, examp, finished_at );
     }
 }
 
