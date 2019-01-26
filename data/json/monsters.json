@@ -2439,7 +2439,7 @@
     "material": [ "veggy" ],
     "symbol": "o",
     "color": "light_gray",
-    "aggression": -50,
+    "aggression": 50,
     "morale": 75,
     "melee_cut": 0,
     "dodge": 2,
@@ -2447,7 +2447,7 @@
     "special_attacks": [ [ "PLANT", 100 ] ],
     "death_function": [ "DISINTEGRATE" ],
     "upgrades": { "half_life": 10, "into": "mon_fungaloid" },
-    "flags": [ "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB" ]
+    "flags": [ "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB", "SUNDEATH" ]
   },
   {
     "id": "mon_tankbot",
