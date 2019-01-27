@@ -1547,9 +1547,11 @@ void options_manager::add_options_graphics()
 #endif
 
     std::string default_renderer = "software";
+#if (defined TILES)
 #   if ( defined _WIN32 || defined WINDOWS )
     { default_renderer = "direct3d"; }
 #   endif
+#endif
 
 #ifndef __ANDROID__
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
