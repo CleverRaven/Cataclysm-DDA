@@ -1008,7 +1008,7 @@
     "id": "bio_tools",
     "type": "bionic",
     "name": "Integrated Toolset",
-    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "fake_item": "toolset"
