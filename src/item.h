@@ -874,9 +874,6 @@ class item : public visitable<item>
          * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
-        float get_specific_heat_solid() const;
-        float get_specific_heat_liquid() const;
-        float get_latent_heat() const;
         int bash_resist( bool to_self = false ) const;
         int cut_resist( bool to_self = false )  const;
         int stab_resist( bool to_self = false ) const;
