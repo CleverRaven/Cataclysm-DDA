@@ -1546,9 +1546,8 @@ void options_manager::add_options_graphics()
        );
 #endif
 
-    std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
-
 #ifndef __ANDROID__
+    std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
          translate_marker( "Set which renderer to use.  Requires restart." ),
 #   ifndef TILES
