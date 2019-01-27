@@ -32,6 +32,7 @@ class item;
 struct point;
 struct tripoint;
 struct trap;
+struct rl_vec2d;
 template<typename T>
 class int_id;
 struct oter_t;
@@ -139,8 +140,9 @@ std::string print_pressure( double pressure, int decimals = 0 );
 
 int get_local_windchill( double temperature, double humidity, double windpower );
 int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
-int get_local_windpower( double windpower, const oter_id &omter,
-                         bool sheltered = false );
+double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
+                            const int &winddirection,
+                            bool sheltered = false );
 
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
@@ -166,6 +168,11 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  */
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
+rl_vec2d convert_wind_to_coord( const int angle );
+
+std::string get_wind_arrow( int );
+
+std::string get_wind_desc( double );
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */
@@ -175,5 +182,7 @@ int get_hourly_rotpoints_at_temp( const int temp );
  * Is it warm enough to plant seeds?
  */
 bool warm_enough_to_plant();
+
+bool is_wind_blocker( const tripoint &location );
 
 #endif
