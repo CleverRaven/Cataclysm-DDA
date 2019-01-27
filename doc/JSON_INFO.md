@@ -252,8 +252,8 @@ The syntax listed here is still valid.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
-| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(gK)). Default 4.186.
-| `specific_heat_solid`  | Specific heat of a material when frozen (J/(gK)). Default 2.108.
+| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
+| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
 | `latent_heat`    | Latent heat of a material (J/g). Default 334.
 
 ```JSON
