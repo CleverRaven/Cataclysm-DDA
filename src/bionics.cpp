@@ -492,7 +492,7 @@ bool player::activate_bionic( int b, bool eff_only )
         const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                           cur_om_ter, g->is_sheltered( g->u.pos() ) );
+                           cur_om_ter, g->u.pos(), g->is_sheltered( g->u.pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
