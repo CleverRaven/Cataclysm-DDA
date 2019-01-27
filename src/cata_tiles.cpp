@@ -3259,8 +3259,6 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
 
     }
 
-
-
     return renderer_names.empty() ? default_renderer_names : renderer_names;
 }
 
