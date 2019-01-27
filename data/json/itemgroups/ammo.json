@@ -27,6 +27,8 @@
        [ "44fmj", 15 ],
        [ "44magnum", 35 ],
        [ "45_super", 30 ],
+       [ "460_rowland", 15 ],
+       [ "460_fmj", 10 ],
        [ "57mm", 50 ],
        [ "9mmP", 30 ],
        [ "9mmP2", 20 ]
@@ -79,6 +81,8 @@
        [ "reloaded_45_super", 40 ],
        [ "reloaded_46mm", 20 ],
        [ "reloaded_454_Casull", 5 ],
+       [ "reloaded_460_fmj", 5 ],
+       [ "reloaded_460_rowland", 5 ],
        [ "reloaded_500_Magnum", 5 ],
        [ "reloaded_57mm", 50 ],
        [ "reloaded_9mm", 160 ],

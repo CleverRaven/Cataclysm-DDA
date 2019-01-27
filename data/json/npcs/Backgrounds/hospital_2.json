@@ -2,21 +2,38 @@
   {
     "id": "BGSS_HOSPITAL_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I...  well, I broke.  I'd seen such horrible injuries, and then I...  <swear!>, I can't even talk about it.",
+    "dynamic_line": {
+      "npc_has_effect": "player_BGSS_SAIDNO",
+      "yes": "I just can't talk about that right now.  I can't.",
+      "no": {
+        "npc_has_effect": "player_BGSS_SAIDYES",
+        "yes": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I...  well, I broke.",
+        "no": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I...  well, I broke.  I'd seen such horrible injuries, and then I...  <swear!>, I can't even talk about it."
+      }
+    },
     "responses": [
       {
         "text": "It might help to get it off your chest.",
-        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", 2 ] ] },
+        "condition": {
+          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", 2 ], [ "VALUE", 3 ] ] },
         "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
         "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
       },
       {
         "text": "Suck it up.  If we're going to work together I need to know you.",
-        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "INTIMIDATE", "difficulty": 40, "mod": [ [ "BRAVERY", 2 ] ] },
+        "condition": {
+          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+        },
+        "trial": { "type": "INTIMIDATE", "difficulty": 40, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ], [ "ANGER", -2 ] ] },
         "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
         "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
+      },
+      {
+        "text": "What was it that 'broke' you?",
+        "condition": { "npc_has_effect": "player_BGSS_SAIDYES" },
+        "topic": "BGSS_HOSPITAL_2_STORY2"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -26,17 +43,34 @@
     "id": "BGSS_HOSPITAL_2_NOTYET",
     "type": "talk_topic",
     "dynamic_line": "No.  I can't.  Just, no.",
-    "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000" },
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Sorry... I'll let you be.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 },
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BGSS_HOSPITAL_2_STORY2",
     "type": "talk_topic",
     "dynamic_line": "A young mother.  I know she was a mother, because I delivered her baby.  Sweet girl, she...  she had a good sense of humor.  She came in, spitting that black goo, fighting the orderlies, dead from a bullet wound through the chest.  That's when I ...  I don't know if I woke up, finally, or if I finally went crazy.  Either way, I broke.  I broke a lot earlier than my colleagues, and that's the only reason I lived.  I skipped out, went to a dead corner of the hospital I used to hide in when I was a resident.  An old stairwell leading to a closed-off unit the maintenance staff were using to store old equipment.  I hid there for hours, while I listened to the world crumbling outside and inside.",
     "responses": [
-      { "text": "How did you get out of there?", "topic": "BGSS_HOSPITAL_2_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
+      {
+        "text": "How did you get out of there?",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "topic": "BGSS_HOSPITAL_2_STORY3"
+      },
+      {
+        "text": "<done_conversation_section>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "topic": "TALK_FRIEND"
+      },
+      {
+        "text": "<end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

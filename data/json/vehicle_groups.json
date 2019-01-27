@@ -142,13 +142,15 @@
       [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
       [ "pickup", 300 ],
-      [ "portable_generator", 50 ]
+      [ "portable_generator", 50 ],
+      [ "bicycle", 150 ],
+      [ "dirt_bike", 125 ]
     ]
   },
   {
     "type": "vehicle_group",
     "id": "dirtlot",
-    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ] ]
+    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "dirt_bike", 100 ] ]
   },
   {
     "type": "vehicle_group",
@@ -316,7 +318,8 @@
       [ "electric_car", 100 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
-      [ "suv_electric", 100 ],
+      [ "suv_electric_rack", 100 ],
+      [ "dirt_bike", 50 ],
       [ "car_mini", 200 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],

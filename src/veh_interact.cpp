@@ -2166,7 +2166,8 @@ void veh_interact::display_stats() const
 
     fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
-                    static_cast<int>( veh->k_traction( veh->wheel_area() * 0.5f ) * 100 ) );
+                    static_cast<int>( veh->k_traction( veh->wheel_area() *
+                    veh->average_or_rating() ) * 100 ) );
     i += 1;
 
     if( is_boat ) {

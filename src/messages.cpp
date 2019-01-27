@@ -1,7 +1,8 @@
 #include "messages.h"
 
 #include "calendar.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "game.h"
 #include "input.h"

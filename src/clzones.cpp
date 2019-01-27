@@ -436,15 +436,19 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) c
 {
     const auto &point_set = get_point_set( type );
     for( auto &point : point_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            return true;
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                return true;
+            }
         }
     }
 
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            return true;
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                return true;
+            }
         }
     }
 
@@ -458,15 +462,19 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            near_point_set.insert( point );
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                near_point_set.insert( point );
+            }
         }
     }
 
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            near_point_set.insert( point );
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                near_point_set.insert( point );
+            }
         }
     }
 
@@ -690,6 +698,45 @@ void zone_manager::swap( zone_data &a, zone_data &b )
     std::swap( a, b );
 }
 
+void zone_manager::start_sort( const std::vector<tripoint> &src_sorted )
+{
+    for( auto &src : src_sorted ) {
+        num_processed[src] = 0;
+    }
+}
+
+void zone_manager::end_sort()
+{
+    num_processed.clear();
+}
+
+bool zone_manager::is_sorting() const
+{
+    return !num_processed.empty();
+}
+
+int zone_manager::get_num_processed( const tripoint &src ) const
+{
+    auto it = num_processed.find( src );
+    if( it != num_processed.end() ) {
+        return it->second;
+    }
+    return 0;
+}
+
+void zone_manager::increment_num_processed( const tripoint &src )
+{
+    num_processed[src]++;
+}
+
+void zone_manager::decrement_num_processed( const tripoint &src )
+{
+    num_processed[src]--;
+    if( num_processed[src] < 0 ) {
+        num_processed[src] = 0;
+    }
+}
+
 std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
 {
     auto zones = std::vector<ref_zone_data>();
@@ -733,9 +780,10 @@ void zone_manager::deserialize( JsonIn &jsin )
 {
     jsin.read( zones );
     for( auto it = zones.begin(); it != zones.end(); ++it ) {
-        if( !has_type( it->get_type() ) ) {
+        const zone_type_id zone_type = it->get_type();
+        if( !has_type( zone_type ) ) {
             zones.erase( it );
-            debugmsg( "Invalid zone type: %s", it->get_type().c_str() );
+            debugmsg( "Invalid zone type: %s", zone_type.c_str() );
         }
     }
 }

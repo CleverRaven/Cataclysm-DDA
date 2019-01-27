@@ -259,8 +259,6 @@ data/json/vehicles/vans_busses.json
 data/legacy/1/obsolete.json
 data/legacy/4/boots.json
 data/legacy/5/vehicle_parts.json
-data/mods/alt_map_key/modinfo.json
-data/mods/alt_map_key/overmap_terrain.json
 data/mods/Animatronics/animatronics.json
 data/mods/Animatronics/bankrupt_pizzeria.json
 data/mods/Animatronics/dead_animatronics.json
@@ -302,9 +300,6 @@ data/mods/Craft_Gunpowder/cgp_ranged.json
 data/mods/Craft_Gunpowder/cgp_recipes.json
 data/mods/default.json
 data/mods/DeoxyMod/Deoxy_vehicle_parts.json
-data/mods/DinoMod/dinosaur.json
-data/mods/DinoMod/fieldoffice.json
-data/mods/DinoMod/regional_overlay.json
 data/mods/EW_Pack/ew_ammo_handloaded.json
 data/mods/EW_Pack/ew_ammo.json
 data/mods/EW_Pack/ew_ammo_t.json

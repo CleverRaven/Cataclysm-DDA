@@ -933,9 +933,9 @@ static void do_purify( player &p )
 {
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p.has_trait( traits_iter.first ) && !p.has_base_trait( traits_iter.first ) ) {
+        if( p.has_trait( traits_iter.id ) && !p.has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
+            valid.push_back( traits_iter.id );
         }
     }
     if( valid.empty() ) {
@@ -978,9 +978,9 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+        if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
+            valid.push_back( traits_iter.id );
         }
     }
     if( valid.empty() ) {
@@ -1022,12 +1022,12 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) &&
-            !p->has_base_trait( traits_iter.first ) &&
-            p->purifiable( traits_iter.first ) ) {
+        if( p->has_trait( traits_iter.id ) &&
+            !p->has_base_trait( traits_iter.id ) &&
+            p->purifiable( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
-            valid_names.push_back( traits_iter.first->name() );
+            valid.push_back( traits_iter.id );
+            valid_names.push_back( traits_iter.id->name() );
         }
     }
     if( valid.empty() ) {
@@ -2290,7 +2290,6 @@ static bool pry_nails( player &p, const ter_id &type, const tripoint &pnt )
 
 int iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
-    g->draw();
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Pry where?" ) );
@@ -2305,13 +2304,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    ter_id type = g->m.ter( pnt );
-    if( pry_nails( *p, type, pnt ) ) {
-        return it->type->charges_to_use();
-    } else {
-        p->add_msg_if_player( m_info, _( "There's nothing to pry there." ) );
-    }
-    return 0;
+    return this->crowbar( p, it, false, pnt );
 }
 
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
@@ -2336,18 +2329,21 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const char *fail_action;
     ter_id new_type = t_null;
     bool noisy;
+    int pry_quality;
     int difficulty;
 
     if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
         succ_action = _( "You pry open the door." );
         fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o;
+        pry_quality = 2;
         noisy = true;
         difficulty = 6;
     } else if( type == t_door_locked_peep ) {
         succ_action = _( "You pry open the door." );
         fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o_peep;
+        pry_quality = 2;
         noisy = true;
         difficulty = 6;
     } else if( type == t_door_c ) {
@@ -2360,32 +2356,30 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         g->m.ter_set( pnt, t_door_o_peep );
         p->mod_moves( -100 );
         return 0;
-    } else if( type == t_door_bar_locked ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but cannot pry open the door." );
-        new_type = t_door_bar_o;
-        noisy = false;
-        difficulty = 10;
     } else if( type == t_manhole_cover ) {
         succ_action = _( "You lift the manhole cover." );
         fail_action = _( "You pry, but cannot lift the manhole cover." );
+        pry_quality = 1;
         new_type = t_manhole;
         noisy = false;
-        difficulty = 12;
+        difficulty = 4;
     } else if( g->m.furn( pnt ) == f_crate_c ) {
         succ_action = _( "You pop open the crate." );
         fail_action = _( "You pry, but cannot pop open the crate." );
+        pry_quality = 1;
         noisy = true;
         difficulty = 6;
     } else if( g->m.furn( pnt ) == f_coffin_c ) {
         succ_action = _( "You wedge open the coffin." );
         fail_action = _( "You pry, but the coffin remains closed." );
+        pry_quality = 2;
         noisy = true;
         difficulty = 5;
     } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
         succ_action = _( "You pry open the window." );
         fail_action = _( "You pry, but cannot pry open the window." );
         new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
+        pry_quality = 2;
         noisy = true;
         difficulty = 6;
     } else if( pry_nails( *p, type, pnt ) ) {
@@ -2395,9 +2389,25 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    /** @EFFECT_STR speeds up crowbar prying attempts */
+    // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
+    // & a claw hammer.
+    // The iexamine function for crate supplies a hammer object.
+    // So this stops the player (A)ctivating a Hammer with a Crowbar in their backpack
+    // then managing to open a door.
+    const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
-    p->mod_moves( -( std::max( 20, ( difficulty * 20 ) - ( ( p->str_cur ) * 5 ) ) ) );
+    if( pry_level < pry_quality ) {
+        p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
+                              it->tname() );
+        p->mod_moves( 10 ); // spend a few moves trying it.
+        return 0;
+    }
+
+    // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
+    difficulty -= ( pry_level - pry_quality );
+
+    /** @EFFECT_STR speeds up crowbar prying attempts */
+    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
@@ -5339,80 +5349,35 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
     }
 
     int choice = uilist( _( "Welcome to hackPRO!:" ), {
-        _( "Override IFF protocols" ),
+        _( "Prepare IFF protocol override" ),
         _( "Set friendly robots to passive mode" ),
         _( "Set friendly robots to combat mode" )
     } );
     switch( choice ) {
         case 0: { // attempt to make a robot friendly
-            uilist pick_robot;
-            pick_robot.text = _( "Choose an endpoint to hack." );
-            // Build a list of all unfriendly robots in range.
-            std::vector< monster * > mons; // @todo: change into vector<Creature*>
-            std::vector< tripoint > locations;
-            int entry_num = 0;
+
+            bool enemy_robot_in_range = false;
             for( monster &candidate : g->all_monsters() ) {
                 if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
                     rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
-                    mons.push_back( &candidate );
-                    pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-                    tripoint seen_loc;
-                    // Show locations of seen robots, center on player if robot is not seen
-                    if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos();
-                    } else {
-                        seen_loc = p->pos();
-                    }
-                    locations.push_back( seen_loc );
+                    enemy_robot_in_range = true;
+                    break;
                 }
             }
-            if( mons.empty() ) {
+            if( !enemy_robot_in_range ) {
                 p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
-                return it->type->charges_to_use();
+                return 0;
             }
-            pointmenu_cb callback( locations );
-            pick_robot.callback = &callback;
-            pick_robot.query();
-            if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
-                p->add_msg_if_player( m_info, _( "Never mind" ) );
-                return it->type->charges_to_use();
-            }
-            const size_t mondex = pick_robot.ret;
-            monster *z = mons[mondex];
-            p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name().c_str() );
-            /** @EFFECT_INT speeds up robot reprogramming */
 
-            /** @EFFECT_COMPUTER speeds up robot reprogramming */
-            p->moves -= std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
-            /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+            p->add_msg_if_player( _( "You start preparing your override." ) );
 
-            /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-            float success = p->get_skill_level( skill_computer ) - 1.5 * ( z->type->difficulty ) /
-                            ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_computer ) / 2 ) );
-            if( success >= 0 ) {
-                p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
-                                      z->name().c_str() );
-                z->friendly = -1;
-            } else if( success >= -2 ) { //A near success
-                p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
-                                      z->name().c_str() );
-                z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
-                if( z->is_dead() ) {
-                    p->practice( skill_computer, 10 );
-                    return it->type->charges_to_use(); // Do not do the other effects if the robot died
-                }
-                if( one_in( 3 ) ) {
-                    p->add_msg_if_player( _( "...and turns friendly!" ) );
-                    if( one_in( 3 ) ) { //did the robot became friendly permanently?
-                        z->friendly = -1; //it did
-                    } else {
-                        z->friendly = rng( 5, 40 ); // it didn't
-                    }
-                }
-            } else {
-                p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
-            }
-            p->practice( skill_computer, 10 );
+            /** @EFFECT_INT speeds up hacking preperation */
+            /** @EFFECT_COMPUTER speeds up hacking preperation */
+            int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
+
+            player_activity act( activity_id( "ACT_ROBOT_CONTROL" ), move_cost );
+            p->assign_activity( act );
+
             return it->type->charges_to_use();
         }
         case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
@@ -7410,8 +7375,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
+                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ).c_str() );
+        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
     }
 
     return 0;

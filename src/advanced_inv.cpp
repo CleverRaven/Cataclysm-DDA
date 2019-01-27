@@ -314,7 +314,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
 
         if( selected ) {
             thiscolor = ( inCategoryMode &&
-                          pane.sortby == SORTBY_CATEGORY ) ? c_white_red : hilite( thiscolor );
+                          pane.sortby == SORTBY_CATEGORY ) ? c_white_red : hilite( c_white );
             thiscolordark = hilite( thiscolordark );
             if( compact ) {
                 mvwprintz( window, 6 + x, 1, thiscolor, "  %s", spaces.c_str() );

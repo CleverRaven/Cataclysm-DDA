@@ -1786,7 +1786,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     }
     if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
-        for( auto activity : u.backlog ) {
+        for( auto &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
     }
@@ -2986,7 +2986,7 @@ void game::debug()
         _( "Set automove route" ),              // 27
         _( "Show mutation category levels" ),   // 28
         _( "Overmap editor" ),                  // 29
-        _( "Draw benchmark (5 seconds)" ),      // 30
+        _( "Draw benchmark (X seconds)" ),      // 30
         _( "Teleport - Adjacent overmap" ),     // 31
         _( "Test trait group" ),                // 32
         _( "Show debug message" ),              // 33
@@ -3318,23 +3318,12 @@ void game::debug()
             break;
 
         case 30: {
-            // call the draw procedure as many times as possible in 5 seconds
-            auto start_tick = std::chrono::steady_clock::now();
-            auto end_tick = std::chrono::steady_clock::now();
-            long difference = 0;
-            int draw_counter = 0;
-            while( true ) {
-                end_tick = std::chrono::steady_clock::now();
-                difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick -
-                             start_tick ).count();
-                if( difference >= 5000 ) {
-                    break;
-                }
-                draw();
-                draw_counter++;
-            }
-            add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-                     difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
+            const int ms = string_input_popup()
+                           .title( _( "Enter benchmark length (in milliseconds):" ) )
+                           .width( 20 )
+                           .text( "5000" )
+                           .query_int();
+            debug_menu::draw_benchmark( ms );
         }
         break;
 
@@ -3718,7 +3707,7 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     wrefresh( s_window );
-    mvwprintz( s_window, 0, 0, c_light_gray, "Location: " );
+    mvwprintz( s_window, 0, 0, c_light_gray, _( "Location: " ) );
     wprintz( s_window, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( s_window ) ) );
 
     if( get_levz() < 0 ) {
@@ -3748,7 +3737,7 @@ void game::draw_sidebar()
     }
     int x = sideStyle ?  32 : 43;
     int y = sideStyle ?  1 : 0;
-    mvwprintz( s_window, y, x, c_light_gray, "Moon : " );
+    mvwprintz( s_window, y, x, c_light_gray, _( "Moon : " ) );
     trim_and_print( s_window, y, x + 7, 11, c_white, sPhase.c_str() );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -3773,13 +3762,16 @@ void game::draw_sidebar()
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
 
-    if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-        wmove( sideStyle ? w_status : w_HP, sideStyle ? 4 : 21, sideStyle ? getmaxx( w_status ) - 4 : 0 );
-        const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
-        for( int i = 0; i < 4; i++ ) {
-            nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
-            wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
+    // don't display SAFE mode in vehicle, doesn't apply.
+    if( !u.in_vehicle ) {
+        if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
+            int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
+            wmove( sideStyle ? w_status : w_HP, sideStyle ? 5 : 23, sideStyle ? getmaxx( w_status ) - 4 : 0 );
+            const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
+            for( int i = 0; i < 4; i++ ) {
+                nc_color c = ( safe_mode == SAFE_MODE_OFF && iPercent < ( i + 1 ) * 25 ) ? c_red : c_green;
+                wprintz( sideStyle ? w_status : w_HP, c, letters[i].c_str() );
+            }
         }
     }
     wrefresh( w_status );
@@ -5540,7 +5532,16 @@ bool game::swap_critters( Creature &a, Creature &b )
         debugmsg( "Tried to swap %s with itself", a.disp_name().c_str() );
         return true;
     }
-
+    if( critter_at( a.pos() ) != &a ) {
+        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                  b.disp_name().c_str(), critter_at( a.pos() )->disp_name().c_str() );
+        return false;
+    }
+    if( critter_at( b.pos() ) != &b ) {
+        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                  a.disp_name().c_str(), critter_at( b.pos() )->disp_name().c_str() );
+        return false;
+    }
     // Simplify by "sorting" the arguments
     // Only the first argument can be u
     // If swapping player/npc with a monster, monster is second
@@ -9158,10 +9159,6 @@ bool game::plfire()
                 return false;
             }
             reload_time += opt.moves();
-            // Character restores 50% + 7% * gun_skill, capped with 100% stability after shot for RELOAD_AND_SHOOT weapon
-            double skill_effect = 0.5 - 0.07 * u.get_skill_level( gun->gun_skill() );
-            skill_effect = std::max( skill_effect, 0.0 );
-            u.recoil = std::max( u.recoil, MAX_RECOIL * skill_effect );
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
@@ -9372,8 +9369,10 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
                         _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
     smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
                         _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+    smenu.addentry_col( SKIN, true, 's', ( "Skin corpse" ), cut_time( SKIN ),
+                        _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ) );
     smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
-                        _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+                        _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
     smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                         _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
@@ -9386,6 +9385,9 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
             break;
         case F_DRESS:
             g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+            break;
+        case SKIN:
+            g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, -1 );
             break;
         case QUARTER:
             g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
@@ -9592,36 +9594,17 @@ void game::butcher()
         }
     }
 
-    bool no_morale_butcher = false;
     if( !u.has_morale_to_craft() ) {
-        switch( butcher_select ) {
-            case BUTCHER_OTHER:
-                switch( indexer_index ) {
-                    case MULTIBUTCHER:
-                        no_morale_butcher = true;
-                        break;
-                }
-            /* fallthrough */
-            case BUTCHER_CORPSE:
-                no_morale_butcher = true;
-                break;
-            case BUTCHER_DISASSEMBLE:
-                break;
-            case BUTCHER_SALVAGE:
-                break;
-        }
-
-        if( no_morale_butcher ) {
+        if( butcher_select == BUTCHER_CORPSE || indexer_index == MULTIBUTCHER ) {
             add_msg( m_info,
                      _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
-            return;
         } else {
             add_msg( m_info,
                      _( "You are not in the mood and the prospect of work stops you before you begin." ) );
-            return;
         }
-
+        return;
     }
+
     switch( butcher_select ) {
         case BUTCHER_OTHER:
             switch( indexer_index ) {
@@ -11616,7 +11599,6 @@ void game::vertical_move( int movez, bool force )
 
     // Find the corresponding staircase
     bool rope_ladder = false;
-    bool actually_moved = true;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
         const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder );
@@ -11624,10 +11606,6 @@ void game::vertical_move( int movez, bool force )
             return;
         }
         stairs = *pnt;
-    }
-
-    if( !actually_moved ) {
-        return;
     }
 
     if( !force ) {
@@ -11745,12 +11723,17 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     cata::optional<tripoint> stairs;
     int best = INT_MAX;
     const int movez = z_after - get_levz();
+    Creature *blocking_creature = nullptr;
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
             ( ( movez == -1 && mp.has_flag( "GOES_UP", dest ) ) ||
               ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+            if( mp.has_zlevels() && critter_at( dest ) ) {
+                blocking_creature = critter_at( dest );
+                continue;
+            }
             stairs.emplace( dest );
             best = rl_dist( u.pos(), dest );
         }
@@ -11761,6 +11744,10 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
         return stairs;
     }
 
+    if( blocking_creature ) {
+        add_msg( _( "There's a %s in the way!" ), blocking_creature->disp_name().c_str() );
+        return cata::nullopt;
+    }
     // No stairs found! Try to make some
     rope_ladder = false;
     stairs.emplace( u.pos() );

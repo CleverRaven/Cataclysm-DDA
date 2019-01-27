@@ -15,7 +15,7 @@
 #include "game_constants.h"
 #include "monster.h"
 #include "omdata.h"
-#include "overmap_types.h"
+#include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
 #include "weighted_list.h"
 

@@ -12,6 +12,7 @@
 #include "game.h"
 #include "item_factory.h"
 #include "json.h"
+#include "math_defines.h"
 #include "map.h"
 #include "messages.h"
 #include "output.h"
@@ -23,9 +24,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-// For M_PI
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include <queue>
 #include <random>
 
