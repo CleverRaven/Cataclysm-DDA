@@ -241,6 +241,12 @@
     "inherit": false
   },
   {
+    "id": "NUTRIENT_OVERRIDE",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "description": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],

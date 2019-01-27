@@ -64,6 +64,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
+- ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
@@ -1138,6 +1139,17 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
+
+## Overmap specials
+
+### Flags
+
+- ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
+- ```CLASSIC``` Location is allowed when classic zombies are enabled.
+- ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- ```BEE``` Location is related to bees. Used to classify location.
+- ```FUNGAL``` Location is related to fungi. Used to classify location.
+- ```TRIFFID``` Location is related to triffids. Used to classify location.
 
 ## TODO
 

@@ -1078,7 +1078,9 @@ class vehicle
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
          */
-        float wheel_area() const;
+        int wheel_area() const;
+        // average off-road rating for displaying off-road perfomance
+        float average_or_rating() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
@@ -1455,6 +1457,7 @@ class vehicle
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
+        std::vector<int> wind_turbines;     // List of wind turbine indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels

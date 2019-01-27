@@ -234,6 +234,9 @@ class zone_manager
         std::unordered_set<tripoint> get_point_set( const zone_type_id &type ) const;
         std::unordered_set<tripoint> get_vzone_set( const zone_type_id &type ) const;
 
+        //Cache number of items already checked on each source tile when sorting
+        std::unordered_map<tripoint, int> num_processed;
+
     public:
         zone_manager();
         ~zone_manager() = default;
@@ -273,6 +276,13 @@ class zone_manager
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
+
+        void start_sort( const std::vector<tripoint> &src_sorted );
+        void end_sort();
+        bool is_sorting() const;
+        int get_num_processed( const tripoint &src ) const;
+        void increment_num_processed( const tripoint &src );
+        void decrement_num_processed( const tripoint &src );
 
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones();

@@ -1022,7 +1022,7 @@ void Pickup::pick_up( const tripoint &p, int min )
                     item &this_item = stacked_here[ true_it ].begin()->_item;
                     nc_color icolor = this_item.color_in_inventory();
                     if( cur_it == selected ) {
-                        icolor = hilite( icolor );
+                        icolor = hilite( c_white );
                     }
 
                     if( cur_it < static_cast<int>( pickup_chars.size() ) ) {

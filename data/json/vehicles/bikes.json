@@ -10,7 +10,17 @@
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_bicycle", "basketsm" ] }
     ]
   },
-
+  {
+    "id": "bicycle_dirt",
+    "type": "vehicle",
+    "name": "Dirt bike",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle", "horn_bicycle", "foot_pedals" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_bicycle_or_steerable" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_bicycle_or" ] }
+    ]
+  },
   {
     "id": "bicycle_electric",
     "type": "vehicle",
@@ -88,10 +98,10 @@
       { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle", "controls", "controls_electronic", "horn_car" ] },
       { "x": 1, "y": 0, "parts": [ "frame_cover","engine_vtwin", "alternator_motorbike", "battery_motorbike", "headlight", { "part": "tank_small", "fuel": "gasoline" }, "plating_steel" ] },
       { "x": -1, "y": 0, "parts": [ "frame_horizontal", "muffler", "trunk" ] },
-      { "x": 1, "y": 1, "parts": [ "frame_horizontal", "wheel_motorbike_steerable" ] },
-      { "x": 1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike_steerable" ] },
-      { "x": -1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_horizontal", "wheel_motorbike" ] }
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal", "wheel_motorbike_or_steerable" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike_or_steerable" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike_or" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_horizontal", "wheel_motorbike_or" ] }
     ],
     "items": [ { "x": -1, "y": 0, "chance": 10, "items": [ "helmet_motor" ] } ]
   },
@@ -108,9 +118,9 @@
       { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle" ] },
       { "x": 1, "y": 0, "part": "frame_cover" },
       { "x": -1, "y": 0, "part": "frame_horizontal" },
-      { "x": 1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike_steerable" ] },
-      { "x": -1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_horizontal", "wheel_motorbike" ] }
+      { "x": 1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike_or_steerable" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_horizontal", "wheel_motorbike_or" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_horizontal", "wheel_motorbike_or" ] }
     ]
   },
   {

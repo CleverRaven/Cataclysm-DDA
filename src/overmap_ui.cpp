@@ -614,9 +614,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     const std::string &note_text = overmap_buffer.note( cursx, cursy, z );
     if( !note_text.empty() ) {
-        const size_t pos = std::get<2>( get_note_display_info( note_text ) );
+        const std::tuple<char, nc_color, size_t> note_info = get_note_display_info(
+                    note_text );
+        const size_t pos = std::get<2>( note_info );
         if( pos != std::string::npos ) {
-            corner_text.emplace_back( c_yellow, note_text.substr( pos ) );
+            corner_text.emplace_back( std::get<1>( note_info ), note_text.substr( pos ) );
         }
     }
 

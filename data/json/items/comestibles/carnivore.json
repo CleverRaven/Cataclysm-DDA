@@ -91,6 +91,7 @@
     "calories": 302,
     "healthy": -1,
     "fun": -10,
+    "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
     "flags": [ "SMOKABLE" ]
   },
@@ -101,6 +102,7 @@
     "name": "scrap of meat",
     "name_plural": "scraps of meat",
     "description": "This is a tiny scrap of edible meat.  It's not much, but it'll do in a pinch.",
+    "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "vitamins": [ [ "vitB", 18 ], [ "vitC", 0 ], [ "iron", 0 ] ]
   },
@@ -138,7 +140,7 @@
     "calories": 402,
     "healthy": 0,
     "fun": 0,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "meat_scrap_cooked",
@@ -149,6 +151,7 @@
     "parasites": 0,
     "fun": 0,
     "healthy": 0,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
   },
   {

@@ -19,6 +19,7 @@
 #include "lightmap.h"
 #include "shadowcasting.h"
 #include "string_id.h"
+#include "units.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -33,13 +34,6 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-} // namespace units
 class emit;
 using emit_id = string_id<emit>;
 class vpart_position;
@@ -227,7 +221,7 @@ class map
         // Constructors & Initialization
         map( int mapsize = MAPSIZE, bool zlev = false );
         map( bool zlev ) : map( MAPSIZE, zlev ) { }
-        ~map();
+        virtual ~map();
 
         map &operator=( map && ) = default;
 
@@ -1269,7 +1263,7 @@ class map
             return getlocal( p.x, p.y );
         }
         tripoint getlocal( const tripoint &p ) const;
-        bool inbounds( const tripoint &p ) const;
+        virtual bool inbounds( const tripoint &p ) const;
         bool inbounds( const point &p ) const {
             return inbounds( tripoint( p, 0 ) );
         }
@@ -1623,6 +1617,7 @@ class tinymap : public map
         friend class editmap;
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
+        bool inbounds( const tripoint &p ) const;
 };
 
 #endif

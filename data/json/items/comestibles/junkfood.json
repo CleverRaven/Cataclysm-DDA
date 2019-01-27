@@ -1099,7 +1099,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_frozen",
-    "name": "uncooked hot dogs",
+    "name": "uncooked hot dog",
     "name_plural": "uncooked hot dogs",
     "weight": 43,
     "color": "red",
@@ -1133,7 +1133,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_cooked",
-    "name": "cooked hot dogs",
+    "name": "cooked hot dog",
     "name_plural": "cooked hot dogs",
     "weight": 383,
     "color": "red",
@@ -1149,7 +1149,7 @@
     "volume": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitmins": [ [ "vitC", 20 ], [ "calcium", 5 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 5 ], [ "iron", 3 ] ],
     "rot_spawn": "GROUP_CARRION",
     "rot_spawn_chance": 15
   },

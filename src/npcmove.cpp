@@ -966,7 +966,7 @@ npc_action npc::method_of_attack()
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
     std::vector<std::pair<gun_mode_id, gun_mode>> modes;
-    if( rules.use_guns || !is_following() ) {
+    if( rules.has_flag( ally_rule::use_guns ) || !is_following() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
             modes.push_back( e );
         }
@@ -979,7 +979,8 @@ npc_action npc::method_of_attack()
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
                    ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
-                   ( rules.use_silent && is_following() && !m.target->is_silent() );
+                   ( rules.has_flag( ally_rule::use_silent ) && is_following() &&
+                     !m.target->is_silent() );
 
         } ), modes.end() );
     }
@@ -1209,7 +1210,7 @@ npc_action npc::address_needs( float danger )
             return npc_undecided;
         }
 
-        if( rules.allow_sleep || get_fatigue() > MASSIVE_FATIGUE ) {
+        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
@@ -1882,7 +1883,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
 void npc::find_item()
 {
-    if( is_following() && !rules.allow_pick_up ) {
+    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -2017,7 +2018,7 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
-    if( is_following() && !rules.allow_pick_up ) {
+    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name.c_str() );
         fetching_item = false;
         moves -= 1;
@@ -2275,7 +2276,7 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && ( !rules.allow_pulp || g->u.in_vehicle ) ) {
+    if( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) {
         return false;
     }
 
@@ -2371,8 +2372,8 @@ bool npc::do_pulp()
 bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
-    bool can_use_gun = ( !is_following() || rules.use_guns );
-    bool use_silent = ( is_following() && rules.use_silent );
+    bool can_use_gun = ( !is_following() || rules.has_flag( ally_rule::use_guns ) );
+    bool use_silent = ( is_following() && rules.has_flag( ally_rule::use_silent ) );
     invslice slice = inv.slice();
 
     // Check if there's something better to wield
@@ -2486,7 +2487,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 
 bool npc::alt_attack()
 {
-    if( is_following() && !rules.use_grenades ) {
+    if( is_following() && !rules.has_flag( ally_rule::use_grenades ) ) {
         return false;
     }
 
@@ -3251,8 +3252,8 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
 
     // Don't wake player up with non-serious complaints
     // Stop complaining while asleep
-    const bool do_complain = force || ( rules.allow_complain && !g->u.in_sleep_state() &&
-                                        !in_sleep_state() );
+    const bool do_complain = force || ( rules.has_flag( ally_rule::allow_complain ) &&
+                                        !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
         say( speech );

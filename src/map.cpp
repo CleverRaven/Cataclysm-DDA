@@ -1321,14 +1321,18 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
     bool is_transparent =
         ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
-    auto const is_memorized =
-    [&]( const tripoint & q ) {
-#ifdef TILES
-        return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
-#else
-        return g->u.get_memorized_symbol( getabs( q ) );
-#endif
-    };
+    std::function<bool( const tripoint & )> is_memorized;
+    if( use_tiles ) {
+        is_memorized =
+        [&]( const tripoint & q ) {
+            return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
+        };
+    } else {
+        is_memorized =
+        [&]( const tripoint & q ) {
+            return g->u.get_memorized_symbol( getabs( q ) );
+        };
+    }
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
@@ -4558,7 +4562,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         if( item_iter->is_food() || item_iter->is_food_container() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
-                it_temp = std::max( it_temp, temperatures::cold + 1 );
+                it_temp = std::max( it_temp, temperatures::normal );
             }
             // some vehicle parts provide insulation, default is 1
             it_insulation = item::find_type( pti.item )->insulation_factor;
@@ -7223,13 +7227,26 @@ const std::vector<tripoint> &map::trap_locations( const trap_id type ) const
 
 bool map::inbounds( const tripoint &p ) const
 {
-    const tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
-    const tripoint map_boundary_max( SEEY * my_MAPSIZE, SEEX * my_MAPSIZE, OVERMAP_HEIGHT );
-    const tripoint map_clearance_min( tripoint_zero );
-    const tripoint map_clearance_max( 1, 1, 0 );
+    constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT );
+    constexpr tripoint map_clearance_min( tripoint_zero );
+    constexpr tripoint map_clearance_max( 1, 1, 0 );
 
-    const box map_boundaries( map_boundary_min, map_boundary_max );
-    const box map_clearance( map_clearance_min, map_clearance_max );
+    constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    constexpr box map_clearance( map_clearance_min, map_clearance_max );
+
+    return generic_inbounds( p, map_boundaries, map_clearance );
+}
+
+bool tinymap::inbounds( const tripoint &p ) const
+{
+    constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT );
+    constexpr tripoint map_clearance_min( tripoint_zero );
+    constexpr tripoint map_clearance_max( 1, 1, 0 );
+
+    constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    constexpr box map_clearance( map_clearance_min, map_clearance_max );
 
     return generic_inbounds( p, map_boundaries, map_clearance );
 }

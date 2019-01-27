@@ -278,6 +278,7 @@
     "price": 300,
     "material": "bean",
     "volume": 1,
+    "cooks_like": "beans_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 4 ] ],
@@ -300,7 +301,7 @@
     "price": 100,
     "material": "bean",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
     "vitamins": [ [ "calcium", 2 ], [ "vitB", 8 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"

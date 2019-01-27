@@ -1,7 +1,13 @@
 #include "player.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
 #include <map>
+#include <string>
+#include <sstream>
+#include <limits>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -69,21 +75,6 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weather_gen.h"
-
-#ifdef TILES
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
-
-#include <algorithm>
-#include <cmath>
-#include <cstdlib>
-#include <string>
-#include <sstream>
-#include <limits>
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
@@ -834,6 +825,12 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+    if( inp_mngr.get_previously_pressed_key() == KEY_LEFT ) {
+        facing = FD_LEFT;
+    }
+    else if( inp_mngr.get_previously_pressed_key() == KEY_RIGHT ) {
+        facing = FD_RIGHT;
+    }
 }
 
 void player::action_taken()
@@ -843,7 +840,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale->decay( 1_turns );
+    morale->decay( 10_turns );
     apply_persistent_morale();
 }
 
@@ -4310,7 +4307,7 @@ needs_rates player::calc_needs_rates()
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
             rates.hunger *= ( 2.0f / 7.0f );
             rates.thirst *= ( 2.0f / 7.0f );
-        } 
+        }
         rates.recovery -= float( get_perceived_pain() ) / 60;
 
     } else {
@@ -8570,7 +8567,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload(item &it) 
+bool player::unload(item &it)
 {
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() || it.is_bandolier() ) {
@@ -11134,8 +11131,6 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    activity.allow_distractions();
-
     if( activity.rooted() ) {
         rooted_message();
     }
@@ -11530,7 +11525,6 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
@@ -12136,6 +12130,8 @@ std::vector<std::string> player::get_overlay_ids() const
 {
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
+    int order;
+    std::string overlay_id;
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -12143,15 +12139,17 @@ std::vector<std::string> player::get_overlay_ids() const
     }
 
     // then get mutations
-    for( auto &mutation : get_mutations() ) {
-        auto value = get_overlay_order_of_mutation( mutation.str());
-        mutation_sorting.insert( std::pair<int, std::string>( value, mutation.str() ) );
+    for( const auto &mut : my_mutations ) {
+        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }
 
     // then get bionics
     for( const bionic &bio : *my_bionics ) {
-        auto value = get_overlay_order_of_mutation( bio.id.str() );
-        mutation_sorting.insert( std::pair<int, std::string>( value, bio.id.str() ) );
+        overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }
 
     for( auto &mutorder : mutation_sorting ) {
@@ -12226,7 +12224,6 @@ float player::speed_rating() const
     if( move_mode != "run" ) {
         ret *= 1.0f + (static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ));
     }
-
     return ret;
 }
 

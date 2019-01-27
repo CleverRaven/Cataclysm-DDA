@@ -195,6 +195,7 @@
     "price": 500,
     "material": "veggy",
     "volume": 1,
+    "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "vitamins": [ [ "iron", 3 ] ],
