@@ -7449,6 +7449,7 @@
       [ "AXE", 1 ],
       [ "WRENCH", 2 ],
       [ "SCREW", 1 ],
+      [ "PRY", 1 ],
       [ "HAMMER_FINE", 1 ],
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
