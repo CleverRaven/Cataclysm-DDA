@@ -202,6 +202,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "values", values );
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
+        json.member( "monsters", monsters );
     }
     json.end_object();
 }
