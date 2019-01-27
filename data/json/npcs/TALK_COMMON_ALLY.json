@@ -348,7 +348,7 @@
       {
         "truefalsetext": { "condition": { "npc_rule": "close_doors" }, "true": "Leave doors open.", "false": "Close the doors." },
         "topic": "TALK_MISC_RULES",
-        "effect": { "toggle_npc_rule": "close_door" }
+        "effect": { "toggle_npc_rule": "close_doors" }
       },
       { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
       { "text": "Never mind.", "topic": "TALK_NONE" }

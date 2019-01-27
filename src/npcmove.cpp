@@ -1661,7 +1661,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         // Close doors behind self (if you can)
-        if( is_friend() && rules.close_doors ) {
+        if( is_friend() && rules.has_flag( ally_rule::close_doors ) ) {
             doors::close_door( g->m, *this, old_pos );
         }
 
