@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
@@ -9,6 +10,7 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "game_constants.h"
+#include "line.h"
 #include "map.h"
 #include "messages.h"
 #include "options.h"
