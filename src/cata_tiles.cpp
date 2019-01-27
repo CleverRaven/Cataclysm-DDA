@@ -3251,7 +3251,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         SDL_RendererInfo ri;
         SDL_GetRenderDriverInfo( ii, &ri );
         DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
-        if (ri.name == default_renderer_names.front().first) {
+        if ( ri.name == default_renderer_names.front().first ) {
             renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );
         }
         else {
