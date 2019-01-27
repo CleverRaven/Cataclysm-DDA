@@ -1655,7 +1655,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_following() || rules.allow_bash ) {
+    if( !is_following() || rules.has_flag( ally_rule::allow_bash ) ) {
         ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.damage_melee( DT_BASH );
     }
@@ -2438,4 +2438,45 @@ void npc::set_attitude( npc_attitude new_attitude )
         }
     }
     attitude = new_attitude;
+}
+
+npc_follower_rules::npc_follower_rules()
+{
+    engagement = ENGAGE_CLOSE;
+    aim = AIM_WHEN_CONVENIENT;
+    set_flag( ally_rule::use_guns );
+    set_flag( ally_rule::use_grenades );
+    clear_flag( ally_rule::use_silent );
+    set_flag( ally_rule::avoid_friendly_fire );
+
+    clear_flag( ally_rule::allow_pick_up );
+    clear_flag( ally_rule::allow_bash );
+    clear_flag( ally_rule::allow_sleep );
+    set_flag( ally_rule::allow_complain );
+    set_flag( ally_rule::allow_pulp );
+    clear_flag( ally_rule::close_doors );
+}
+
+bool npc_follower_rules::has_flag( ally_rule test ) const
+{
+    return static_cast<int>( test ) & static_cast<int>( flags );
+}
+
+void npc_follower_rules::set_flag( ally_rule setit )
+{
+    flags = static_cast<ally_rule>( static_cast<int>( flags ) | static_cast<int>( setit ) );
+}
+
+void npc_follower_rules::clear_flag( ally_rule clearit )
+{
+    flags = static_cast<ally_rule>( static_cast<int>( flags ) & ~static_cast<int>( clearit ) );
+}
+
+void npc_follower_rules::toggle_flag( ally_rule toggle )
+{
+    if( has_flag( toggle ) ) {
+        clear_flag( toggle );
+    } else {
+        set_flag( toggle );
+    }
 }

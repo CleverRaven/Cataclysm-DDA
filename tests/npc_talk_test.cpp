@@ -224,6 +224,19 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
 
+    d.add_topic( "TALK_TEST_NPC_RULES" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    talker_npc.rules.engagement = ENGAGE_ALL;
+    talker_npc.rules.aim = AIM_SPRAY;
+    talker_npc.rules.set_flag( ally_rule::use_silent );
+    gen_response_lines( d, 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a npc engagement rule test response." );
+    CHECK( d.responses[2].text == "This is a npc aim rule test response." );
+    CHECK( d.responses[3].text == "This is a npc rule test response." );
+    talker_npc.rules.clear_flag( ally_rule::use_silent );
+
     d.add_topic( "TALK_TEST_NPC_NEEDS" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -451,4 +464,14 @@ TEST_CASE( "npc_talk_test" )
     effects.apply( d );
     CHECK( !has_item( "bottle_plastic", 1 ) );
     CHECK( !has_item( "beer", 1 ) );
+
+    d.add_topic( "TALK_COMBAT_COMMANDS" );
+    gen_response_lines( d, 7 );
+    CHECK( d.responses[0].text == "Change your engagement rules..." );
+    CHECK( d.responses[1].text == "Change your aiming rules..." );
+    CHECK( d.responses[2].text == "Don't use ranged weapons anymore." );
+    CHECK( d.responses[3].text == "Use only silent weapons." );
+    CHECK( d.responses[4].text == "Don't use grenades anymore." );
+    CHECK( d.responses[5].text == "Don't worry about shooting an ally." );
+    CHECK( d.responses[6].text == "Never mind." );
 }
