@@ -4210,6 +4210,7 @@
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
+      [ "PRY", 1 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
       [ "WRENCH_FINE", 1 ],
@@ -4734,7 +4735,7 @@
     "initial_charges": 100,
     "max_charges": 200,
     "charges_per_use": 50,
-    "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ] ],
+    "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
     "use_action": "MISC_REPAIR"
   },
   {
@@ -6415,6 +6416,7 @@
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
+      [ "PRY", 1 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 1 ],
