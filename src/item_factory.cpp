@@ -1578,7 +1578,6 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
         float latent_heat = 0;
 
         for( auto &m : jo.get_tags( "material" ) ) {
-            //slot.specific_heat_solid = material_id( m )->specific_heat_solid();
             specific_heat_solid += material_id( m )->specific_heat_solid();
             specific_heat_liquid += material_id( m )->specific_heat_liquid();
             latent_heat += material_id( m )->latent_heat();
