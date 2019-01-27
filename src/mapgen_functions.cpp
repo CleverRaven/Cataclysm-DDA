@@ -4392,9 +4392,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     }
 
     // Shuffle tripoints so that the stairs are not always similarly placed.
-    static auto eng = std::default_random_engine(
-                          std::chrono::system_clock::now().time_since_epoch().count() );
-    std::shuffle( std::begin( tripoints ), std::end( tripoints ), eng );
+    std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
 
     bool all_can_be_placed = false;
     tripoint shift( 0, 0, 0 );
