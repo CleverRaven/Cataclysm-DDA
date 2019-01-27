@@ -3741,7 +3741,7 @@
     "difficulty": 1,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "grahmcrackers", 1 ] ], [ [ "marshmallow", 1 ] ], [ [ "chocolate", 1 ] ] ]
   },
@@ -5182,9 +5182,10 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "time": 1000,
+    "charges": 1,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "COOK", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "hotdogs_frozen", 1 ] ] ]
   },
@@ -5334,7 +5335,8 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 3500,
+    "time": 1750,
+    "charges": 1,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -5520,10 +5522,11 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
-    "time": 5000,
+    "time": 2500,
+    "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "toasterpastryfrozen", 2 ] ] ]
+    "components": [ [ [ "toasterpastryfrozen", 1 ] ] ]
   },
   {
     "type": "recipe",
