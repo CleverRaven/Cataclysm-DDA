@@ -61,7 +61,7 @@
     "type": "trait_group",
     "id": "Appearance_Mixed",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Any", "prob": 100 }, { "trait": "Skin_Any", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Any", "prob": 100 }, { "group": "Skin_Any", "prob": 100 } ]
   },
   {
     "type": "trait_group",
