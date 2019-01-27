@@ -193,6 +193,7 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
+    "flags": "NUTRIENT_OVERRIDE",
     "freezing_point": 14
   },
   {
