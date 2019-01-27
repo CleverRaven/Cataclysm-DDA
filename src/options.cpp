@@ -1546,6 +1546,11 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+    std::string default_renderer = "software";
+#   if ( defined _WIN32 || defined WINDOWS )
+    { default_renderer = "direct3d"; }
+#   endif
+
 #ifndef __ANDROID__
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
          translate_marker( "Set which renderer to use.  Requires restart." ),
@@ -1556,7 +1561,7 @@ void options_manager::add_options_graphics()
 #   else
          cata_tiles::build_renderer_list(),
 #   endif
-    "software", COPT_CURSES_HIDE );
+    default_renderer, COPT_CURSES_HIDE );
 #else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
