@@ -52,7 +52,42 @@ jobs:
         apt:
           packages: ["wine"]
 
-# Windows Tiles with deployment
+    # Windows Tiles x32 with deployment no lua no astyle
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win32" WINE='wine' TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all DEPLOY=1 BUILD_TYPE="win-tiles32"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]     
+
+    # Windows Tiles x64 with deployment no lua no astyle
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win64" WINE='wine' TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all DEPLOY=1 BUILD_TYPE="win-tiles64"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]    
+
+    # Windows Tiles x32 with deployment no lua
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win32" WINE='wine' TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all DEPLOY=1 BUILD_TYPE="win-tiles32"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine", "astyle"]     
+
+    # Windows Tiles x64 with deployment no lua
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win64" WINE='wine' TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all DEPLOY=1 BUILD_TYPE="win-tiles64"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine", "astyle"]               
+
+    # Windows Tiles x32 with deployment
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win32" WINE='wine' TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all DEPLOY=1 BUILD_TYPE="win-tiles32"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine", "lua5.2", "liblua5.2-dev", "astyle"]     
+
+    # Windows Tiles x64 with deployment
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win64" WINE='wine' TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all DEPLOY=1 BUILD_TYPE="win-tiles64"
       compiler: gcc
       addons: &gcc
