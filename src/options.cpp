@@ -1549,12 +1549,16 @@ void options_manager::add_options_graphics()
 #ifndef __ANDROID__
 #   ifndef TILES
     // No renderer selection in non-TILES mode
-    add( "RENDERER", "graphics", translate_marker( "Renderer" ), translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } }, "software", COPT_CURSES_HIDE);
+    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
+    translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
+    "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
-    add( "RENDERER", "graphics", translate_marker( "Renderer" ), translate_marker( "Set which renderer to use.  Requires restart." ), renderer_list, renderer_list.front().first, COPT_CURSES_HIDE );
+    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
+         translate_marker( "Set which renderer to use.  Requires restart." ), renderer_list,
+         renderer_list.front().first, COPT_CURSES_HIDE );
 #   endif
-    
+
 #else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
