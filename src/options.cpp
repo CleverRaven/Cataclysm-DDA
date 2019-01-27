@@ -1546,6 +1546,8 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+    std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
+
 #ifndef __ANDROID__
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
          translate_marker( "Set which renderer to use.  Requires restart." ),
@@ -1554,9 +1556,9 @@ void options_manager::add_options_graphics()
     {   { "software", translate_marker( "software" ) }
     },
 #   else
-         cata_tiles::build_renderer_list(),
+        renderer_list,
 #   endif
-    "software", COPT_CURSES_HIDE );
+        renderer_list.front().first, COPT_CURSES_HIDE );
 #else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
