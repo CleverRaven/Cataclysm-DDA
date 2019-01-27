@@ -3252,7 +3252,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         SDL_GetRenderDriverInfo( ii, &ri );
         DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
         // First default renderer name we will put first on the list. We can use it later as default value.
-        if( ri.name == default_renderer_names.front().first ) { 
+        if( ri.name == default_renderer_names.front().first ) {
             renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );
         } else {
             renderer_names.emplace_back( ri.name, ri.name );
