@@ -6556,21 +6556,23 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
 
 template <typename Container>
-void map::smoke_meat(const tripoint &p, Container &items, const time_duration &time_since_last_actualize){
-    if( this->furn( p ) == furn_str_id( "f_smoking_rack_active" ) ){
-        for( auto it = items.begin(); it != items.end(); ++it) {
-            if( it->has_flag( "FAKE_SMOKE" ) ){
+void map::smoke_meat( const tripoint &p, Container &items,
+                      const time_duration &time_since_last_actualize )
+{
+    if( this->furn( p ) == furn_str_id( "f_smoking_rack_active" ) ) {
+        for( auto it = items.begin(); it != items.end(); ++it ) {
+            if( it->has_flag( "FAKE_SMOKE" ) ) {
                 it->item_counter -= to_turns<int>( time_since_last_actualize );
 
                 //If the smoking has finished and the map is fully loaded process it right away to prevent a field emission
-                if( it->item_counter <= 0 && this==&(g->m) ){
-                    iexamine::on_smoke_out(p, calendar::turn + time_duration::from_turns( it->item_counter ));
+                if( it->item_counter <= 0 && this == &( g->m ) ) {
+                    iexamine::on_smoke_out( p, calendar::turn + time_duration::from_turns( it->item_counter ) );
                     i_rem( p, it );
                 }
                 return;
             }
         }
-	}
+    }
 }
 
 bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
@@ -6922,7 +6924,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             const point p( x, y );
 
             //This call may produce rotten items that should be immediately removed
-            smoke_meat(pnt, tmpsub->itm[x][y], time_since_last_actualize );
+            smoke_meat( pnt, tmpsub->itm[x][y], time_since_last_actualize );
 
             const auto &furn = this->furn( pnt ).obj();
             // plants contain a seed item which must not be removed under any circumstances

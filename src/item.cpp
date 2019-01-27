@@ -6780,7 +6780,8 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
     }
 
     if( item_counter <= 0 ) {
-        iexamine::on_smoke_out( pos, calendar::turn + time_duration::from_turns(item_counter) ); //activate effects when timers goes to zero
+        iexamine::on_smoke_out( pos, calendar::turn + time_duration::from_turns(
+                                    item_counter ) ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 
