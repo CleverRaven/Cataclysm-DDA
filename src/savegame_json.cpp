@@ -61,6 +61,24 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
     }
 };
 
+void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+{
+    if( const auto monster_ptr = obj.lock() ) {
+        jsout.write( g->critter_tracker->temporary_id( *monster_ptr ) );
+    } else {
+        jsout.write_null();
+    }
+}
+
+void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj = g->critter_tracker->from_temporary_id( jsin.get_long() );
+    }
+}
+
 template<typename T>
 void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 {
