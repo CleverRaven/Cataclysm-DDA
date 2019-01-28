@@ -762,9 +762,8 @@ bool monster::can_act() const
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
-    if( !can_see() || has_effect( effect_no_sight ) || ( underwater && !has_flag( MF_SWIMS ) &&
-            !has_flag( MF_AQUATIC ) &&
-            !digging() ) ) {
+    if( !can_see() || has_effect( effect_no_sight ) ||
+        ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
 
