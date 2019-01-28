@@ -631,9 +631,9 @@ bool player::eat( item &food, bool force )
     const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
     if( food.has_flag( "HIDDEN_HALLU" ) ) {
         if( spiritual ) {
-            add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false );
         } else {
-            add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 18, 36, 1_hours, 30_minutes, false );
         }
         if( !has_effect( effect_hallu ) ) {
             add_effect( effect_hallu, 6_hours );
