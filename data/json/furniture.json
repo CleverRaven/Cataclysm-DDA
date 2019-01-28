@@ -1688,14 +1688,14 @@
     "color": "brown",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
       "sound": "rrrrip!",
       "sound_fail": "slap!",
       "sound_vol": 8,
-      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet", "BLOCK_WIND" ]
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
     }
   },
   {
@@ -1706,7 +1706,7 @@
     "color": "white",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "open": "f_skin_door_o",
     "bash": {
       "str_min": 1,
@@ -1714,7 +1714,7 @@
       "sound": "rrrrip!",
       "sound_fail": "slap!",
       "sound_vol": 8,
-      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet", "BLOCK_WIND" ]
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
     }
   },
   {
