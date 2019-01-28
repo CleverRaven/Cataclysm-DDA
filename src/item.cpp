@@ -6877,6 +6877,9 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool in_inv = carrier != nullptr && carrier->has_item( *this );
     bool submerged = false;
     bool precipitation = false;
+    bool windtoostrong = false;
+    w_point weatherPoint = *g->weather_precise;
+    double windpower = weatherPoint.windpower;
     switch( g->weather ) {
         case WEATHER_DRIZZLE:
         case WEATHER_FLURRIES:
@@ -6902,6 +6905,11 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
+    if( in_inv && windpower > 5.0 && !g->is_sheltered( pos ) &&
+        this->has_flag( "WIND_EXTINGUISH" ) ) {
+        windtoostrong = true;
+        extinguish = true;
+    }
     if( !extinguish ||
         ( in_inv && precipitation && carrier->weapon.has_flag( "RAIN_PROTECT" ) ) ) {
         return false; //nothing happens
@@ -6911,6 +6919,9 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), tname().c_str() );
         } else if( precipitation ) {
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ),
+                                        tname().c_str() );
+        } else if( windtoostrong ) {
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is blown out by the wind." ),
                                         tname().c_str() );
         }
     }
@@ -7128,6 +7139,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         return true;
     }
     if( has_flag( "WATER_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
+        return false;
+    }
+    if( has_flag( "WIND_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
         return false;
     }
     if( has_flag( "CABLE_SPOOL" ) ) {
