@@ -1784,6 +1784,11 @@ bool game::handle_action()
                 ui::omap::display();
                 break;
 
+            case ACTION_SKY:
+                werase( w_terrain );
+                ui::omap::display_visible_weather();
+                break;
+
             case ACTION_MISSIONS:
                 list_missions();
                 break;

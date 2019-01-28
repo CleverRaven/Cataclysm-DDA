@@ -35,6 +35,8 @@ struct draw_data_t {
     bool debug_mongroup = false;
     // draw weather, e.g. clouds etc.
     bool debug_weather = false;
+    // draw weather only around player position
+    bool visible_weather = false;
     // draw editor.
     bool debug_editor = false;
     // draw scent traces.
@@ -440,12 +442,16 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const tripoint cur_pos {omx, omy, z};
             // Check if location is within player line-of-sight
             const bool los = see && g->u.overmap_los( cur_pos, sight_points );
+            const bool los_sky = g->u.overmap_los( cur_pos, 20 );
 
             if( blink && cur_pos == orig ) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
             } else if( data.debug_weather &&
+                       get_weather_glyph( tripoint( omx, omy, z ), ter_color, ter_sym ) ) {
+                // ter_color and ter_sym have been set by get_weather_glyph
+            } else if( data.visible_weather && los_sky && z == 10 &&
                        get_weather_glyph( tripoint( omx, omy, z ), ter_color, ter_sym ) ) {
                 // ter_color and ter_sym have been set by get_weather_glyph
             } else if( data.debug_scent && get_scent_glyph( cur_pos, ter_color, ter_sym ) ) {
@@ -1211,6 +1217,15 @@ void ui::omap::display_weather()
     draw_data_t data;
     data.debug_weather = true;
     ::display( g->u.global_omt_location(), data );
+}
+
+void ui::omap::display_visible_weather()
+{
+    draw_data_t data;
+    data.visible_weather = true;
+    tripoint pos = g->u.global_omt_location();
+    pos.z = 10;
+    ::display( pos, data );
 }
 
 void ui::omap::display_scents()
