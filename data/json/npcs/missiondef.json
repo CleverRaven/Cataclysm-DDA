@@ -449,7 +449,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": { 
+    "start": {
       "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -474,7 +474,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": { 
+    "start": {
       "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -660,7 +660,7 @@
     "difficulty": 5,
     "value": 250000,
     "monster_type": "mon_charred_nightmare",
-    "start": { 
+    "start": {
       "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 }
     },
     "monster_kill_goal": 20,
