@@ -933,9 +933,9 @@ static void do_purify( player &p )
 {
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p.has_trait( traits_iter.first ) && !p.has_base_trait( traits_iter.first ) ) {
+        if( p.has_trait( traits_iter.id ) && !p.has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
+            valid.push_back( traits_iter.id );
         }
     }
     if( valid.empty() ) {
@@ -978,9 +978,9 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+        if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
+            valid.push_back( traits_iter.id );
         }
     }
     if( valid.empty() ) {
@@ -1022,12 +1022,12 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) &&
-            !p->has_base_trait( traits_iter.first ) &&
-            p->purifiable( traits_iter.first ) ) {
+        if( p->has_trait( traits_iter.id ) &&
+            !p->has_base_trait( traits_iter.id ) &&
+            p->purifiable( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.first );
-            valid_names.push_back( traits_iter.first->name() );
+            valid.push_back( traits_iter.id );
+            valid_names.push_back( traits_iter.id->name() );
         }
     }
     if( valid.empty() ) {
@@ -5349,80 +5349,35 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
     }
 
     int choice = uilist( _( "Welcome to hackPRO!:" ), {
-        _( "Override IFF protocols" ),
+        _( "Prepare IFF protocol override" ),
         _( "Set friendly robots to passive mode" ),
         _( "Set friendly robots to combat mode" )
     } );
     switch( choice ) {
         case 0: { // attempt to make a robot friendly
-            uilist pick_robot;
-            pick_robot.text = _( "Choose an endpoint to hack." );
-            // Build a list of all unfriendly robots in range.
-            std::vector< monster * > mons; // @todo: change into vector<Creature*>
-            std::vector< tripoint > locations;
-            int entry_num = 0;
+
+            bool enemy_robot_in_range = false;
             for( monster &candidate : g->all_monsters() ) {
                 if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
                     rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
-                    mons.push_back( &candidate );
-                    pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-                    tripoint seen_loc;
-                    // Show locations of seen robots, center on player if robot is not seen
-                    if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos();
-                    } else {
-                        seen_loc = p->pos();
-                    }
-                    locations.push_back( seen_loc );
+                    enemy_robot_in_range = true;
+                    break;
                 }
             }
-            if( mons.empty() ) {
+            if( !enemy_robot_in_range ) {
                 p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
-                return it->type->charges_to_use();
+                return 0;
             }
-            pointmenu_cb callback( locations );
-            pick_robot.callback = &callback;
-            pick_robot.query();
-            if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
-                p->add_msg_if_player( m_info, _( "Never mind" ) );
-                return it->type->charges_to_use();
-            }
-            const size_t mondex = pick_robot.ret;
-            monster *z = mons[mondex];
-            p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name().c_str() );
-            /** @EFFECT_INT speeds up robot reprogramming */
 
-            /** @EFFECT_COMPUTER speeds up robot reprogramming */
-            p->moves -= std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
-            /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+            p->add_msg_if_player( _( "You start preparing your override." ) );
 
-            /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-            float success = p->get_skill_level( skill_computer ) - 1.5 * ( z->type->difficulty ) /
-                            ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_computer ) / 2 ) );
-            if( success >= 0 ) {
-                p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
-                                      z->name().c_str() );
-                z->friendly = -1;
-            } else if( success >= -2 ) { //A near success
-                p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
-                                      z->name().c_str() );
-                z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
-                if( z->is_dead() ) {
-                    p->practice( skill_computer, 10 );
-                    return it->type->charges_to_use(); // Do not do the other effects if the robot died
-                }
-                if( one_in( 3 ) ) {
-                    p->add_msg_if_player( _( "...and turns friendly!" ) );
-                    if( one_in( 3 ) ) { //did the robot became friendly permanently?
-                        z->friendly = -1; //it did
-                    } else {
-                        z->friendly = rng( 5, 40 ); // it didn't
-                    }
-                }
-            } else {
-                p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
-            }
-            p->practice( skill_computer, 10 );
+            /** @EFFECT_INT speeds up hacking preperation */
+            /** @EFFECT_COMPUTER speeds up hacking preperation */
+            int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
+
+            player_activity act( activity_id( "ACT_ROBOT_CONTROL" ), move_cost );
+            p->assign_activity( act );
+
             return it->type->charges_to_use();
         }
         case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
@@ -7411,8 +7366,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
+                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ).c_str() );
+        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
     }
 
     return 0;

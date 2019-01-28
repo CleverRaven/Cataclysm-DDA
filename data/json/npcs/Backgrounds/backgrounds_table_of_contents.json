@@ -221,6 +221,12 @@
       },
       {
         "text": "<BGSS_intro_question>",
+        "topic": "BGSS_COP_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Cop_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
         "topic": "BGSS_HUNTER_1_STORY1",
         "condition": { "npc_has_trait": "BGSS_Hunter_1" },
         "switch": true

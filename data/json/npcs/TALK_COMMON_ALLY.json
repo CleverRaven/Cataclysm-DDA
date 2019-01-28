@@ -1,0 +1,414 @@
+[
+  {
+    "id": "TALK_WAKE_UP",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "sleep",
+      "yes": {
+        "npc_need": "fatigue",
+        "level": "EXHAUSTED",
+        "no": {
+          "npc_need": "fatigue",
+          "level": "DEAD_TIRED",
+          "no": {
+            "npc_need": "fatigue",
+            "level": "TIRED",
+            "no": "Just few minutes more...",
+            "yes": "Make it quick, I want to go back to sleep."
+          },
+          "yes": "Just let me sleep, <name_b>!"
+        },
+        "yes": "No, just <swear> no..."
+      },
+      "no": "Anything to do before I go to sleep?"
+    },
+    "responses": [
+      { "text": "Wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "Go back to sleep.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM" ],
+    "type": "talk_topic",
+    "responses": [
+      { "text": "Combat commands...", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Can you teach me anything?",
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" }
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN" },
+        "failure": { "topic": "TALK_TRAIN_PERSUADE" }
+      },
+      { "text": "Let's trade items", "topic": "TALK_FRIEND", "effect": "start_trade" },
+      { "text": "Guard this position", "topic": "TALK_FRIEND_GUARD", "effect": "assign_guard" },
+      { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
+      { "text": "I want you to use this item", "topic": "TALK_USE_ITEM" },
+      { "text": "Hold on to this item", "topic": "TALK_GIVE_ITEM" },
+      { "text": "Miscellaneous rules...", "topic": "TALK_MISC_RULES" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" },
+      {
+        "text": "Relax and chat with me for a while...",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" }
+    ]
+  },
+  {
+    "id": "TALK_COMBAT_COMMANDS",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "and": [
+        {
+          "npc_engagement_rule": "ENGAGE_NONE",
+          "no": {
+            "npc_engagement_rule": "ENGAGE_CLOSE",
+            "no": {
+              "npc_engagement_rule": "ENGAGE_WEAK",
+              "no": {
+                "npc_engagement_rule": "ENGAGE_HIT",
+                "no": {
+                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                  "no": "*will engage all enemies.",
+                  "yes": "*will engage enemies close enough to attack without moving."
+                },
+                "yes": "*will engage enemies you attack."
+              },
+              "yes": "*will engage weak enemies."
+            },
+            "yes": "*will engage nearby enemies."
+          },
+          "yes": "*will not engage enemies."
+        },
+        {
+          "npc_rule": "use_guns",
+          "yes": {
+            "npc_rule": "use_silent",
+            "yes": "  <mypronoun> will use silenced ranged weapons.",
+            "no": "  <mypronoun> will use ranged weapons."
+          },
+          "no": "  <mypronoun> will not use ranged weapons."
+        },
+        {
+          "npc_rule": "use_grenades",
+          "yes": "  <mypronoun> will use grenades.",
+          "no": "  <mypronoun> will not use grenades."
+        },
+        {
+          "npc_rule": "avoid_friendly_fire",
+          "yes": "  <mypronoun> will avoid shooting if allies are in the line of fire.",
+          "no": "  <mypronoun> will shoot even if allies are in the line of fire."
+        },
+        "  What should <mypronoun> do?"
+      ]
+    },
+    "responses": [
+      { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
+      { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "use_guns" },
+          "true": "Don't use ranged weapons anymore.",
+          "false": "You can use ranged weapons."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "use_guns" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "use_silent" }, "true": "Don't worry about noise.", "false": "Use only silent weapons." },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "use_silent" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "use_grenades" }, "true": "Don't use grenades anymore.", "false": "You can use grenades." },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "use_grenades" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_friendly_fire" },
+          "true": "Don't worry about shooting an ally.",
+          "false": "Don't shoot unless you're sure you won't hit an ally."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "avoid_friendly_fire" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_COMBAT_ENGAGEMENT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "and": [
+        {
+          "npc_engagement_rule": "ENGAGE_NONE",
+          "no": {
+            "npc_engagement_rule": "ENGAGE_CLOSE",
+            "no": {
+              "npc_engagement_rule": "ENGAGE_WEAK",
+              "no": {
+                "npc_engagement_rule": "ENGAGE_HIT",
+                "no": {
+                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                  "no": "*will engage all enemies.",
+                  "yes": "*will engage enemies close enough to attack without moving."
+                },
+                "yes": "*will engage enemies you attack."
+              },
+              "yes": "*will engage weak enemies."
+            },
+            "yes": "*will engage nearby enemies."
+          },
+          "yes": "*will not engage enemies."
+        },
+        "  What should <mypronoun> do?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "Don't fight unless your life depends on it.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_NONE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_NONE" }
+      },
+      {
+        "text": "Attack enemies that get too close.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_CLOSE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_CLOSE" }
+      },
+      {
+        "text": "Attack enemies that you can kill easily.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_WEAK" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_WEAK" }
+      },
+      {
+        "text": "Attack only enemies that I attack first.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENAGE_HIT" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_HIT" }
+      },
+      {
+        "text": "Attack only enemies you can reach without moving.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_NO_MOVE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_NO_MOVE" }
+      },
+      {
+        "text": "Attack anything you want.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_ALL" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_ALL" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_AIM_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "and": [
+        {
+          "npc_aim_rule": "AIM_WHEN_CONVENIENT",
+          "no": {
+            "npc_aim_rule": "AIM_STRICTLY_PRECISE",
+            "no": { "npc_aim_rule": "AIM_PRECISE", "no": "*will not bother to aim at all.", "yes": "*will take time and aim carefully." },
+            "yes": "*will only shoot after taking a long time to aim."
+          },
+          "yes": "*will aim when it's convenient."
+        },
+        "  How should <mypronoun> aim?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "Aim when it's convenient.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_WHEN_CONVENIENT" } },
+        "effect": { "set_npc_aim_rule": "AIM_WHEN_CONVENIENT" }
+      },
+      {
+        "text": "Go wild, you don't need to aim much.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_SPRAY" } },
+        "effect": { "set_npc_aim_rule": "AIM_SPRAY" }
+      },
+      {
+        "text": "Take your time, aim carefully.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_PRECISE" } },
+        "effect": { "set_npc_aim_rule": "AIM_PRECISE" }
+      },
+      {
+        "text": "Don't shoot if you can't aim really well.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_aim_rule": "AIM_STRICTLY_PRECISE" } },
+        "effect": { "set_npc_aim_rule": "AIM_STRICTLY_PRECISE" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_PERSUADE",
+    "type": "talk_topic",
+    "dynamic_line": "Why should I teach you?",
+    "responses": [
+      {
+        "text": "Come on, we're friends.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 } }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_MISC_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "and": [
+        {
+          "npc_rule": "allow_pick_up",
+          "yes": { "has_pickup_list": true, "yes": "* will pick up items from the whitelist.", "no": "* will pick up all items." },
+          "no": "* will not pick up items."
+        },
+        {
+          "npc_rule": "allow_bash",
+          "yes": "  <mypronoun> will bash down obstacles.",
+          "no": "  <mypronoun> will not bash down obstacles."
+        },
+        {
+          "npc_rule": "allow_sleep",
+          "yes": "  <mypronoun> will sleep when tired.",
+          "no": "  <mypronoun> will sleep only when exhausted."
+        },
+        {
+          "npc_rule": "allow_complain",
+          "yes": "  <mypronoun> will complain about wounds and needs.",
+          "no": "  <mypronoun> will only complain in an emergency."
+        },
+        {
+          "npc_rule": "allow_pulp",
+          "yes": "  <mypronoun> will smash nearby zombie corpses.",
+          "no": "  <mypronoun> will leave zombie corpses intact."
+        },
+        {
+          "npc_rule": "close_doors",
+          "yes": "  <mypronoun> will close doors behind themselves.",
+          "no": "  <mypronoun> will leave doors open."
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "Follow same rules as this follower.",
+        "topic": "TALK_MISC_RULES",
+        "condition": { "npc_allies": 2 },
+        "effect": "copy_npc_rules"
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_pick_up" }, "true": "Don't pick up items.", "false": "You can pick up items now." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_pick_up" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_bash" }, "true": "Don't bash obstacles.", "false": "You can bash obstacles." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_bash" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_sleep" }, "true": "Stay awake.", "false": "Sleep when you feel tired." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_sleep" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_complain" }, "true": "Stay quiet.", "false": "Tell me when you need something." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_complain" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "allow_pulp" }, "true": "Leave corpses alone.", "false": "Smash zombie corpses." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "allow_pulp" }
+      },
+      {
+        "truefalsetext": { "condition": { "npc_rule": "close_doors" }, "true": "Leave doors open.", "false": "Close the doors." },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "close_doors" }
+      },
+      { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "You're really leaving?",
+    "responses": [
+      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave" },
+      { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      { "u_has_item": "beer", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "european_pilsner", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      { "u_has_item": "india_pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
+      {
+        "is_season": "summer",
+        "yes": "Yeah, this summer heat is hitting me hard, let's take a quick break, how goes it <name_g>?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "is_season": "winter",
+        "yes": "OK, maybe it'll stop me from freezing in this weather, what's up?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "is_day": "Well, it's the time of day for a quick break surely!  How are you holding up?",
+        "is_night": "Man it's dark out isn't it? what's up?"
+      },
+      {
+        "npc_has_effect": "infected",
+        "yes": "Well, I'm feeling pretty sick... are you doing OK though?",
+        "no": "<neutralchitchat>"
+      },
+      {
+        "u_has_mission": true,
+        "many": "Definitely, by the way, thanks for helping me so much with my tasks!  Anyway, you coping OK, <name_g>? ",
+        "one": "OK, let's take a moment, oh, and thanks for helping me with that thing, so... what's up?",
+        "none": "<neutralchitchat>"
+      },
+      {
+        "days_since_cataclysm": 30,
+        "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
+        "no": "<neutralchitchat>"
+      }
+    ],
+    "responses": [
+      {
+        "text": "Oh you know, not bad, not bad...",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
+  }
+]

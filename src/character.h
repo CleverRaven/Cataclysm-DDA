@@ -63,6 +63,13 @@ enum fatigue_levels {
     EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
 };
+const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
+        { "TIRED", TIRED },
+        { "DEAD_TIRED", DEAD_TIRED },
+        { "EXHAUSTED", EXHAUSTED },
+        { "MASSIVE_FATIGUE", MASSIVE_FATIGUE }
+    }
+};
 
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.

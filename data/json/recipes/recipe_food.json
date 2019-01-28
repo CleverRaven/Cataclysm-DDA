@@ -2013,8 +2013,8 @@
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 2 ],
-        [ "powder_eggs", 5 ],
+        [ "sauerkraut", 1 ],
+        [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
         [ "egg_reptile", 1 ],
         [ "dry_beans", 1 ],
@@ -2113,9 +2113,9 @@
         [ "fish_canned", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
-        [ "sausage", 2 ],
-        [ "sausage_cooked", 2 ],
-        [ "bratwurst_sausage", 2 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
         [ "powder_eggs", 2 ],
         [ "eggs_bird", 2, "LIST" ],
         [ "egg_reptile", 2 ]
@@ -3741,7 +3741,7 @@
     "difficulty": 1,
     "time": 2000,
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "grahmcrackers", 1 ] ], [ [ "marshmallow", 1 ] ], [ [ "chocolate", 1 ] ] ]
   },
@@ -4138,7 +4138,7 @@
         [ "dandelion_cooked", 2 ],
         [ "acorns_cooked", 2 ]
       ],
-      [ [ "meat_red", 2, "LIST" ], [ "dry_meat", 2 ], [ "can_chicken", 2 ] ]
+      [ [ "meat_red", 2, "LIST" ], [ "dry_meat", 2 ], [ "can_chicken", 4 ] ]
     ]
   },
   {
@@ -5182,9 +5182,10 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "time": 1000,
+    "charges": 1,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "COOK", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "hotdogs_frozen", 1 ] ] ]
   },
@@ -5334,7 +5335,8 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 3500,
+    "time": 1750,
+    "charges": 1,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -5520,10 +5522,11 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
-    "time": 5000,
+    "time": 2500,
+    "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "toasterpastryfrozen", 2 ] ] ]
+    "components": [ [ [ "toasterpastryfrozen", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6411,7 +6414,7 @@
         [ "cornmeal", 1 ],
         [ "milk_powder", 1 ],
         [ "crackers", 2 ],
-        [ "powder_eggs", 5 ],
+        [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
         [ "egg_reptile", 1 ],
         [ "dry_beans", 1 ],
@@ -7779,8 +7782,8 @@
         [ "irradiated_celery", 12 ],
         [ "cabbage", 12 ],
         [ "irradiated_cabbage", 12 ],
-        [ "sauerkraut", 24 ],
-        [ "powder_eggs", 60 ],
+        [ "sauerkraut", 12 ],
+        [ "powder_eggs", 12 ],
         [ "eggs_bird", 12, "LIST" ],
         [ "egg_reptile", 12 ],
         [ "can_beans", 12 ],
@@ -7794,7 +7797,7 @@
         [ "dandelion_cooked", 12 ],
         [ "acorns_cooked", 12 ]
       ],
-      [ [ "meat", 24 ], [ "rehydrated_meat", 24 ], [ "dry_meat", 24 ], [ "meat_canned", 24 ], [ "can_chicken", 24 ] ]
+      [ [ "meat", 12 ], [ "rehydrated_meat", 12 ], [ "dry_meat", 12 ], [ "meat_canned", 12 ], [ "can_chicken", 24 ] ]
     ]
   },
   {
@@ -7895,7 +7898,7 @@
         [ "irradiated_celery", 12 ],
         [ "cabbage", 12 ],
         [ "irradiated_cabbage", 12 ],
-        [ "sauerkraut", 74 ],
+        [ "sauerkraut", 12 ],
         [ "can_corn", 12 ],
         [ "corn", 12 ],
         [ "irradiated_corn", 12 ],
@@ -7908,7 +7911,7 @@
         [ "veggy_wild", 12 ],
         [ "veggy", 12 ],
         [ "dry_veggy", 12 ],
-        [ "powder_eggs", 60 ],
+        [ "powder_eggs", 12 ],
         [ "eggs_bird", 12, "LIST" ],
         [ "egg_reptile", 12 ],
         [ "can_beans", 12 ],
@@ -7927,7 +7930,7 @@
         [ "flour", 12 ],
         [ "cornmeal", 12 ],
         [ "milk_powder", 12 ],
-        [ "crackers", 24 ],
+        [ "crackers", 12 ],
         [ "dry_beans", 12 ],
         [ "raw_beans", 12 ],
         [ "dry_rice", 12 ],
@@ -7940,10 +7943,10 @@
         [ "acorns_cooked", 12 ]
       ],
       [
-        [ "fish", 24 ],
-        [ "dry_fish", 24 ],
-        [ "salted_fish", 18 ],
-        [ "fish_smoked", 24 ],
+        [ "fish", 12 ],
+        [ "dry_fish", 12 ],
+        [ "salted_fish", 12 ],
+        [ "fish_smoked", 12 ],
         [ "fish_pickled", 12 ],
         [ "fish_canned", 12 ],
         [ "can_salmon", 12 ],

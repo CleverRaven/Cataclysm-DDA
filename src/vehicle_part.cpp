@@ -330,7 +330,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     if( base.is_food_container() ) {
         int temp = g->get_temperature( pos );
         if( e_heater ) {
-            temp = std::max( temp, temperatures::cold + 1 );
+            temp = std::max( temp, temperatures::normal );
         }
         base.process( nullptr, pos, false, temp, 1 );
     }
@@ -455,7 +455,7 @@ bool vehicle_part::is_battery() const
 
 bool vehicle_part::is_reactor() const
 {
-    return info().has_flag( "REACTOR" );
+    return info().has_flag( VPFLAG_REACTOR );
 }
 
 bool vehicle_part::is_turret() const

@@ -630,7 +630,11 @@ void draw_benchmark( const int max_difference )
                                "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
                                "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
                                get_option<bool>( "USE_TILES" ) << " | " <<
+#ifndef __ANDROID__
                                get_option<std::string>( "RENDERER" ) << " | " <<
+#else
+                               get_option<bool>( "SOFTWARE_RENDERING" ) << " | " <<
+#endif
                                get_option<bool>( "FRAMEBUFFER_ACCEL" ) << " | " <<
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
                                int( 1000.0 * draw_counter / ( double )difference ) << " |\n";

@@ -105,6 +105,7 @@
         "points" : 2,
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
+        "cancels" : ["MET_RAT"],
         "types" : ["METABOLISM"],
         "changes_to" : [ "GIZZARD", "COLDBLOOD" ],
         "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE"],
@@ -1110,7 +1111,7 @@
         "name" : "Genetic Downward Spiral",
         "points" : -12,
         "purifiable" : false,
-        "description" : "The events of the Cataclysm have damaged your DNA beyond repair. You mutate frequently, and all mutations you receive (from any source) are negative.",
+        "description" : "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
         "starting_trait" : true,
 		"cancels" : ["ROBUST"],
         "valid" : false
@@ -5765,14 +5766,6 @@
         "valid" : false,
         "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
         "debug" : true
-    },{
-      "type" : "mutation",
-      "id" : "DEBUG_CBM_SLOTS",
-      "name" : "Debug CBM Slots Limits",
-      "points" : 99,
-      "valid" : false,
-      "description" : "Limitate the number of bionics which you're able to install in your body.",
-      "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_MIND_CONTROL",
