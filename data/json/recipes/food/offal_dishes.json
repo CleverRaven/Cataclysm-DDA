@@ -100,7 +100,7 @@
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
     "components": [
       [ [ "flour", 2 ] ],
-      [ [ "liver", 4 ], [ "lung", 4 ], [ "kidney", 5 ] ],     
+      [ [ "liver", 4 ], [ "lung", 4 ], [ "kidney", 4 ] ],     
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
