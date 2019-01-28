@@ -466,6 +466,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```plasma``` Superheated.
 - ```plutonium``` 1.21 Gigawatts!
 - ```water``` Clean.
+- ```wind``` Wind powered.
 
 ### Flags
 
@@ -540,6 +541,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
+- ```WIND_POWERED``` This engine is powered by wind ( sails etc ).
 - ```REACTOR``` When enabled, part consumes fuel to generate epower.
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
