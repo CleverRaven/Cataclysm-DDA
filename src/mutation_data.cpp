@@ -293,7 +293,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
                                time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
-    auto vam = jsobj.get_array( "vitamin_absorb_multi" );
+    auto vam = jo.get_array( "vitamin_absorb_multi" );
     while( vam.has_more() ) {
         auto pair = vam.next_array();
         std::map<vitamin_id, float> vit;
@@ -304,7 +304,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
             vit.emplace( vitamin_id( vitamins.get_string( 0 ) ), vitamins.get_float( 1 ) );
         }
         // assign the inner vitamin map to the material_id key
-        new_mut.vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
+        vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
