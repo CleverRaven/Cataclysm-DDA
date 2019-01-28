@@ -2881,7 +2881,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     } else {
         maintext = label( quantity );
     }
-    maintext = colorize( maintext, color_in_inventory() );
 
     ret.str( "" );
     if( is_food() ) {
