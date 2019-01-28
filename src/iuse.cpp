@@ -853,7 +853,7 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
     if( p->has_effect( effect_smoke ) ) {
         p->remove_effect( effect_smoke );
     } else if( p->has_effect( effect_teargas ) ) {
-	       p->remove_effect( effect_teargas );
+        p->remove_effect( effect_teargas );
     } else if( p->has_effect( effect_asthma ) ) {
         p->remove_effect( effect_asthma );
     } else if( p->stim < 16 ) {
