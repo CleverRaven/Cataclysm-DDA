@@ -55,7 +55,7 @@
     "type": "trait_group",
     "id": "Appearance_SouthAsian",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "trait": "Skin_Medium", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "trait": "SKIN_TAN", "prob": 100 } ]
   },
   {
     "type": "trait_group",
@@ -139,24 +139,19 @@
     "type": "trait_group",
     "id": "Skin_White",
     "subtype": "distribution",
-    "traits": [ { "trait": "SKIN_TAN", "prob": 15 }, { "trait": "SKIN_PINK", "prob": 25 }, { "trait": "SKIN_LIGHT", "prob": 55 } ]
+    "traits": [ { "trait": "SKIN_MEDIUM", "prob": 15 }, { "trait": "SKIN_PINK", "prob": 25 }, { "trait": "SKIN_LIGHT", "prob": 55 } ]
   },
   {
     "type": "trait_group",
     "id": "Skin_Medium",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "SKIN_DARK", "prob": 5 },
-      { "trait": "SKIN_MEDIUM", "prob": 50 },
-      { "trait": "SKIN_TAN", "prob": 25 },
-      { "trait": "SKIN_LIGHT", "prob": 5 }
-    ]
+    "traits": [ { "trait": "SKIN_DARK", "prob": 5 }, { "trait": "SKIN_MEDIUM", "prob": 50 }, { "trait": "SKIN_TAN", "prob": 25 } ]
   },
   {
     "type": "trait_group",
     "id": "Skin_Dark",
     "subtype": "distribution",
-    "traits": [ { "trait": "SKIN_DARK", "prob": 50 }, { "trait": "SKIN_MEDIUM", "prob": 25 }, { "trait": "SKIN_TAN", "prob": 5 } ]
+    "traits": [ { "trait": "SKIN_DARK", "prob": 50 }, { "trait": "SKIN_MEDIUM", "prob": 5 }, { "trait": "SKIN_TAN", "prob": 25 } ]
   },
   {
     "type": "trait_group",
