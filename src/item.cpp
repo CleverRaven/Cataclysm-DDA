@@ -7138,10 +7138,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
     }
-    if( has_flag( "WATER_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
-        return false;
-    }
-    if( has_flag( "WIND_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
+    if( ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "WIND_EXTINGUISH" ) ) &&
+        process_extinguish( carrier, pos ) ) {
         return false;
     }
     if( has_flag( "CABLE_SPOOL" ) ) {
