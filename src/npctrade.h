@@ -2,12 +2,12 @@
 #ifndef NPCTRADE_H
 #define NPCTRADE_H
 
+#include <algorithm>
+#include <vector>
+
 #include "game.h"
 #include "itype.h"
 #include "npc.h"
-
-#include <algorithm>
-#include <vector>
 
 struct item_pricing {
     item_pricing( Character &c, item *it, int v, bool s ) : loc( c, it ), price( v ), selected( s ) {

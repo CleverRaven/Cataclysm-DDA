@@ -1,9 +1,9 @@
 #include "mod_tileset.h"
 
-#include "json.h"
-
 #include <algorithm>
 #include <iterator>
+
+#include "json.h"
 
 std::vector<mod_tileset> all_mod_tilesets;
 

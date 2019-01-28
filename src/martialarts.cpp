@@ -1,5 +1,9 @@
 #include "martialarts.h"
 
+#include <algorithm>
+#include <map>
+#include <string>
+
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -12,10 +16,6 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <map>
-#include <string>
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -1001,7 +1001,7 @@ std::string ma_technique::get_description() const
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
                              uilist *menu )
 {
-    const std::string action = ctxt.input_to_action( event );
+    const std::string &action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {
         return false;
     }

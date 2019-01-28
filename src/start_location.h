@@ -2,10 +2,10 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
-#include "string_id.h"
-
 #include <set>
 #include <vector>
+
+#include "string_id.h"
 
 class overmap;
 class tinymap;

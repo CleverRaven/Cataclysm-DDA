@@ -1,15 +1,15 @@
 #include "regional_settings.h"
 
+#include <algorithm>
+#include <map>
+#include <string>
+#include <utility>
+
 #include "debug.h"
 #include "json.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
-
-#include <algorithm>
-#include <map>
-#include <string>
-#include <utility>
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
@@ -205,6 +205,8 @@ void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_t
                                     forest_trail_settings.random_point_size_scalar, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_chance",
                                     forest_trail_settings.trailhead_chance, !overlay );
+        read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_road_distance",
+                                    forest_trail_settings.trailhead_road_distance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
                                     forest_trail_settings.trail_center_variance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",
@@ -232,6 +234,53 @@ void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_t
                         forest_trail_settings.unfinalized_trail_terrain[key] = weight;
                     }
                 }
+            }
+        }
+    }
+}
+
+void load_overmap_feature_flag_settings( JsonObject &jo,
+        overmap_feature_flag_settings &overmap_feature_flag_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_feature_flag_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_feature_flag_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject overmap_feature_flag_settings_jo = jo.get_object( "overmap_feature_flag_settings" );
+        read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_blacklist",
+                                     overmap_feature_flag_settings.clear_blacklist, !overlay );
+        read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_whitelist",
+                                     overmap_feature_flag_settings.clear_whitelist, !overlay );
+
+        if( overmap_feature_flag_settings.clear_blacklist ) {
+            overmap_feature_flag_settings.blacklist.clear();
+        }
+
+        if( overmap_feature_flag_settings.clear_whitelist ) {
+            overmap_feature_flag_settings.whitelist.clear();
+        }
+
+        if( !overmap_feature_flag_settings_jo.has_array( "blacklist" ) ) {
+            if( !overlay ) {
+                overmap_feature_flag_settings_jo.throw_error( "blacklist required" );
+            }
+        } else {
+            JsonArray blacklist_ja = overmap_feature_flag_settings_jo.get_array( "blacklist" );
+            while( blacklist_ja.has_more() ) {
+                overmap_feature_flag_settings.blacklist.emplace( blacklist_ja.next_string() );
+            }
+        }
+
+        if( !overmap_feature_flag_settings_jo.has_array( "whitelist" ) ) {
+            if( !overlay ) {
+                overmap_feature_flag_settings_jo.throw_error( "whitelist required" );
+            }
+        } else {
+            JsonArray whitelist_ja = overmap_feature_flag_settings_jo.get_array( "whitelist" );
+            while( whitelist_ja.has_more() ) {
+                overmap_feature_flag_settings.whitelist.emplace( whitelist_ja.next_string() );
             }
         }
     }
@@ -387,8 +436,14 @@ void load_region_settings( JsonObject &jo )
         if( ! cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
             jo.throw_error( "city: shop_radius required for default" );
         }
+        if( !cjo.read( "shop_sigma", new_region.city_spec.shop_sigma ) && strict ) {
+            jo.throw_error( "city: shop_sigma required for default" );
+        }
         if( ! cjo.read( "park_radius", new_region.city_spec.park_radius ) && strict ) {
             jo.throw_error( "city: park_radius required for default" );
+        }
+        if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
+            jo.throw_error( "city: park_sigma required for default" );
         }
         if( ! cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
             jo.throw_error( "city: house_basement_chance required for default" );
@@ -423,6 +478,8 @@ void load_region_settings( JsonObject &jo )
         JsonObject wjo = jo.get_object( "weather" );
         new_region.weather = weather_generator::load( wjo );
     }
+
+    load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
     region_settings_map[new_region.id] = new_region;
 }
@@ -573,7 +630,9 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     JsonObject cityjo = jo.get_object( "city" );
 
     cityjo.read( "shop_radius", region.city_spec.shop_radius );
+    cityjo.read( "shop_sigma", region.city_spec.shop_sigma );
     cityjo.read( "park_radius", region.city_spec.park_radius );
+    cityjo.read( "park_sigma", region.city_spec.park_sigma );
     cityjo.read( "house_basement_chance", region.city_spec.house_basement_chance );
 
     const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
@@ -589,6 +648,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
+
+    load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 }
 
 void groundcover_extra::finalize()   // @todo: fixme return bool for failure

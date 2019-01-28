@@ -1,5 +1,7 @@
 #include "mod_manager.h"
 
+#include <queue>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -11,8 +13,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "worldfactory.h"
-
-#include <queue>
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -172,11 +172,11 @@ void mod_manager::remove_mod( const mod_id &ident )
     }
 }
 
-void mod_manager::remove_invalid_mods( std::vector<mod_id> &m ) const
+void mod_manager::remove_invalid_mods( std::vector<mod_id> &mods ) const
 {
-    m.erase( std::remove_if( m.begin(), m.end(), [this]( const mod_id & mod ) {
+    mods.erase( std::remove_if( mods.begin(), mods.end(), [this]( const mod_id & mod ) {
         return mod_map.count( mod ) == 0;
-    } ), m.end() );
+    } ), mods.end() );
 }
 
 bool mod_manager::set_default_mods( const mod_id &ident )

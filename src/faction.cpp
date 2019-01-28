@@ -1,5 +1,10 @@
 #include "faction.h"
 
+#include <cmath>
+#include <cstdlib>
+#include <map>
+#include <string>
+
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -11,11 +16,6 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <cmath>
-#include <cstdlib>
-#include <map>
-#include <string>
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 

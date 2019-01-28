@@ -1,5 +1,7 @@
 #include "mondefense.h"
 
+#include <algorithm>
+
 #include "ballistics.h"
 #include "bodypart.h"
 #include "creature.h"
@@ -14,8 +16,6 @@
 #include "rng.h"
 #include "translations.h"
 
-#include <algorithm>
-
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
@@ -23,13 +23,13 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 }
 
 void mdefense::zapback( monster &m, Creature *const source,
-                        dealt_projectile_attack const *projectile )
+                        dealt_projectile_attack const *proj )
 {
     if( source == nullptr ) {
         return;
     }
     // If we have a projectile, we're a ranged attack, no zapback.
-    if( projectile != nullptr ) {
+    if( proj != nullptr ) {
         return;
     }
 

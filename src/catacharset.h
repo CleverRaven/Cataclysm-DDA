@@ -15,7 +15,7 @@ uint32_t UTF8_getch( const char **src, int *srclen );
 // from wcwidth.c, return "cell" width of a Unicode char
 int mk_wcwidth( uint32_t ucs );
 // convert cursorx value to byte position
-int cursorx_to_position( const char *line, int cursorx, int *prevppos = NULL, int maxlen = -1 );
+int cursorx_to_position( const char *line, int cursorx, int *prevpos = NULL, int maxlen = -1 );
 int utf8_width( const char *s, const bool ignore_tags = false );
 int utf8_width( const std::string &str, const bool ignore_tags = false );
 int utf8_width( const utf8_wrapper &str, const bool ignore_tags = false );

@@ -23,6 +23,17 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "army_mags_rm25",
+    "entries": [
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_rm11b",
     "entries": [
       { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
@@ -76,6 +87,7 @@
           [ "boots_winter", "boots_fur" ],
           [ "cloak_wool", "cloak_leather" ],
           [ "gloves_wool", "gloves_leather" ],
+          [ "socks_wool", "socks" ],
           [ "kilt", "kilt_leather" ],
           [ "mask_ski", "balclava" ]
         ]
@@ -142,6 +154,42 @@
       { "item": "cookbook_human", "bonus": [ [ "CANNIBAL" ] ] },
       { "item": "teleumbrella", "bonus": [ [ "ALBINO" ] ] }
     ]
+  },
+  {
+    "type": "profession",
+    "ident": "vagabond",
+    "name": "Vagabond",
+    "description": "Circumstances left you wandering, with no home, no family, no friends.  But the world you knew is gone, and maybe your experiences relying on yourself to survive could be useful in this new one.",
+    "points": 2,
+    "skills": [
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "tailor" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "cooking" }
+    ],
+    "items": {
+      "both": [
+        "jeans",
+        "tshirt",
+        "gloves_light",
+        "hat_ball",
+        "duffelbag",
+        "backpack",
+        "long_underpants",
+        "boots",
+        "socks_wool",
+        "socks",
+        "hoodie",
+        "folding_poncho_on",
+        "knit_scarf",
+        "jug_plastic",
+        "can_beans",
+        "pockknife",
+        "matches"
+      ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -1399,7 +1447,9 @@
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
           { "item": "rm11b_sniper_rifle", "ammo-item": "8mm_fmj", "contents-item": [ "shoulder_strap" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "chestrig", "contents-group": [ "army_mags_rm51", "army_mags_usp45" ] }
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "chestrig", "contents-group": [ "army_mags_rm25" ] }
         ]
       },
       "male": [ "boxer_shorts" ],

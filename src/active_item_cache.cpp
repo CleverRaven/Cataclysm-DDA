@@ -1,9 +1,9 @@
 #include "active_item_cache.h"
 
+#include <algorithm>
+
 #include "debug.h"
 #include "item.h"
-
-#include <algorithm>
 
 void active_item_cache::remove( std::list<item>::iterator it, point location )
 {

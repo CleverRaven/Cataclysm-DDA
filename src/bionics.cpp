@@ -1,5 +1,8 @@
 #include "bionics.h"
 
+#include <algorithm> //std::min
+#include <sstream>
+
 #include "action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
@@ -30,9 +33,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm> //std::min
-#include <sstream>
+#include "weather_gen.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -75,6 +76,11 @@ const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
+
+static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
 
 namespace
 {
@@ -501,7 +507,8 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + player_local_temp ).c_str() );
+                                       windpower / 100 ) + player_local_temp ).c_str() );
+        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )
@@ -1213,7 +1220,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
 std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bioid )
 {
     std::map<body_part, int> issues;
-    if( !has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+    if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
     for( auto &elem : bioid->occupied_bodyparts ) {
@@ -1373,6 +1380,11 @@ bool player::remove_random_bionic()
     return numb;
 }
 
+void player::clear_bionics()
+{
+    my_bionics->clear();
+}
+
 void reset_bionics()
 {
     bionics.clear();
@@ -1498,14 +1510,14 @@ void finalize_bionics()
     }
 }
 
-int bionic::get_quality( const quality_id &q ) const
+int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
     if( i.fake_item.empty() ) {
         return INT_MIN;
     }
 
-    return item( i.fake_item ).get_quality( q );
+    return item( i.fake_item ).get_quality( quality );
 }
 
 void bionic::serialize( JsonOut &json ) const
@@ -1538,15 +1550,34 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "You settle into position, sliding your right wrist into the couch's strap." ),
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( anesthetic ) {
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the operation starts." ) );
+        }
+
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
-        add_msg_if_player( m_mixed,
-                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
-        ;
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
+        } else {
+            add_msg_if_player( m_mixed,
+                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+        }
     }
+
+    //Pain junkies feel sorry about missed pain from operation.
+    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+        has_trait( trait_CENOBITE ) ) {
+        add_msg_if_player( m_mixed,
+                           _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+    }
+
     add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }

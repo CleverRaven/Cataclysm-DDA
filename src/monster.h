@@ -2,17 +2,17 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "int_id.h"
-
 #include <bitset>
 #include <map>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "int_id.h"
 
 class JsonObject;
 class JsonIn;
@@ -301,7 +301,7 @@ class monster : public Creature
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
-                         int intensity = 0, bool force = false, bool defererd = false ) override;
+                         int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
@@ -340,7 +340,7 @@ class monster : public Creature
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
         /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
-        std::vector<body_part> get_all_body_parts( bool main = false ) const override;
+        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );

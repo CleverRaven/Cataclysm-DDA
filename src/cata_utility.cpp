@@ -1,5 +1,10 @@
 #include "cata_utility.h"
 
+#include <algorithm>
+#include <cmath>
+#include <locale>
+#include <string>
+
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
@@ -11,11 +16,6 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
-
-#include <algorithm>
-#include <cmath>
-#include <locale>
-#include <string>
 
 static double pow10( unsigned int n )
 {
@@ -228,7 +228,7 @@ double convert_weight( const units::mass &weight )
 
 double convert_volume( int volume )
 {
-    return convert_volume( volume, NULL );
+    return convert_volume( volume, nullptr );
 }
 
 double convert_volume( int volume, int *out_scale )
@@ -264,7 +264,7 @@ double temp_to_kelvin( double fahrenheit )
 
 double clamp_to_width( double value, int width, int &scale )
 {
-    return clamp_to_width( value, width, scale, NULL );
+    return clamp_to_width( value, width, scale, nullptr );
 }
 
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )

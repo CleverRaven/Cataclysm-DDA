@@ -2,14 +2,14 @@
 #ifndef CATALUA_H
 #define CATALUA_H
 
+#include <list>
+#include <sstream>
+#include <string>
+
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
 #include "item.h"
-
-#include <list>
-#include <sstream>
-#include <string>
 
 enum CallbackArgumentType : int {
     Integer,

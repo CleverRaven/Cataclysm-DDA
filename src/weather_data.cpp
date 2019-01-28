@@ -1,13 +1,13 @@
-#include "weather.h"
-
-#include "color.h"
-#include "game_constants.h"
-#include "translations.h"
+#include "weather.h" // IWYU pragma: associated
 
 #include <array>
 #include <cmath>
 #include <map>
 #include <vector>
+
+#include "color.h"
+#include "game_constants.h"
+#include "translations.h"
 
 /**
  * @ingroup Weather

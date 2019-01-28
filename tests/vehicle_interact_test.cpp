@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -14,15 +13,15 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     clear_player();
     clear_map();
 
-    tripoint test_origin( 60, 60, 0 );
+    const tripoint test_origin( 60, 60, 0 );
     g->u.setpos( test_origin );
-    item backpack( "backpack" );
+    const item backpack( "backpack" );
     g->u.wear( g->u.i_add( backpack ), false );
-    for( item gear : tools ) {
+    for( const item gear : tools ) {
         g->u.i_add( gear );
     }
 
-    tripoint vehicle_origin = test_origin + tripoint( 1, 1, 0 );
+    const tripoint vehicle_origin = test_origin + tripoint( 1, 1, 0 );
     vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.

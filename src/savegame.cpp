@@ -1,4 +1,12 @@
-#include "game.h"
+#include "game.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
 
 #include "artifact.h"
 #include "auto_pickup.h"
@@ -24,16 +32,9 @@
 #include "translations.h"
 #include "tuple_hash.h"
 
-#include <algorithm>
-#include <cmath>
-#include <map>
-#include <set>
-#include <sstream>
-#include <string>
-#include <vector>
-
 #ifdef __ANDROID__
 #include "input.h"
+
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 #endif
 

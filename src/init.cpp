@@ -1,5 +1,11 @@
 #include "init.h"
 
+#include <cassert>
+#include <fstream>
+#include <sstream> // for throwing errors
+#include <string>
+#include <vector>
+
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
@@ -57,12 +63,6 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-
-#include <cassert>
-#include <fstream>
-#include <sstream> // for throwing errors
-#include <string>
-#include <vector>
 
 #if defined(TILES)
 void load_tileset();
@@ -184,7 +184,7 @@ void DynamicDataLoader::initialize()
     add( "dream", &dream::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
-    add( "mutation", &mutation_branch::load );
+    add( "mutation", &mutation_branch::load_trait );
     add( "furniture", &load_furniture );
     add( "terrain", &load_terrain );
     add( "monstergroup", &MonsterGroupManager::LoadMonsterGroup );
@@ -485,8 +485,6 @@ void DynamicDataLoader::unload_data()
     // TODO:
     //    Name::clear();
 }
-
-extern void calculate_mapgen_weights();
 
 void DynamicDataLoader::finalize_loaded_data()
 {

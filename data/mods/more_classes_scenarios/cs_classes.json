@@ -350,7 +350,7 @@
         "entries": [
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "tommygun", "ammo-item": "45_acp", "container-item": "shoulder_strap", "charges": 30 },
+          { "item": "tommygun", "ammo-item": "45_acp", "charges": 30, "contents-item": [ "shoulder_strap" ] },
           { "item": "thompson_bigmag", "ammo-item": "45_acp", "charges": 30 },
           { "item": "ref_lighter", "charges": 100 }
         ]

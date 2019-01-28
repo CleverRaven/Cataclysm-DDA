@@ -2,13 +2,13 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "translations.h"
-
 #include <map>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include "translations.h"
 
 class JsonIn;
 class JsonOut;
@@ -112,9 +112,26 @@ class options_manager
                     return !operator==( rhs );
                 }
 
-                void setPrerequisite( const std::string &sOption );
+                static std::vector<std::string> getPrerequisiteSupportedTypes() {
+                    return { "bool", "string", "string_select", "string_input" };
+                };
+
+                void setPrerequisites( const std::string &sOption, const std::vector<std::string> &sAllowedValues );
+                void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" ) {
+                    setPrerequisites( sOption, { sAllowedValue } );
+                }
                 std::string getPrerequisite() const;
                 bool hasPrerequisite() const;
+                bool checkPrerequisite() const;
+
+                enum COPT_VALUE_TYPE {
+                    CVT_UNKNOWN = 0,
+                    CVT_BOOL = 1,
+                    CVT_STRING = 2,
+                    CVT_FLOAT = 3,
+                    CVT_INT = 4,
+                    CVT_VOID = 5
+                };
 
             private:
                 std::string sName;
@@ -128,9 +145,12 @@ class options_manager
                 std::string format;
 
                 std::string sPrerequisite;
+                std::vector<std::string> sPrerequisiteAllowedValues;
 
                 copt_hide_t hide;
                 int iSortPos;
+
+                COPT_VALUE_TYPE eType;
 
                 //sType == "string"
                 std::string sSet;
@@ -227,7 +247,7 @@ class options_manager
         //add int map option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const std::map<int, std::string> mIntValuesIn, int iInitialIn,
+                  const std::map<int, std::string> &mIntValuesIn, int iInitialIn,
                   int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add float option

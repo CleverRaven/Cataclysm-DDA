@@ -1,9 +1,8 @@
-#include "catch/catch.hpp"
+#include <algorithm>
 
+#include "catch/catch.hpp"
 #include "item.h"
 #include "worldfactory.h"
-
-#include <algorithm>
 
 TEST_CASE( "Boat mod is loaded correctly or not at all" )
 {

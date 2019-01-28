@@ -1,5 +1,7 @@
 #include "worldfactory.h"
 
+#include <algorithm>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "char_validity_check.h"
@@ -17,8 +19,6 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
 
 using namespace std::placeholders;
 

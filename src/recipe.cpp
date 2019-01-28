@@ -1,5 +1,9 @@
 #include "recipe.h"
 
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+
 #include "calendar.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -9,10 +13,6 @@
 #include "skill.h"
 #include "uistate.h"
 #include "string_formatter.h"
-
-#include <algorithm>
-#include <cmath>
-#include <numeric>
 
 struct oter_t;
 using oter_str_id = string_id<oter_t>;
@@ -200,6 +200,9 @@ void recipe::load( JsonObject &jo, const std::string &src )
         assign( jo, "reversible", reversible, strict );
 
         if( jo.has_member( "byproducts" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
             auto bp = jo.get_array( "byproducts" );
             byproducts.clear();
             while( bp.has_more() ) {

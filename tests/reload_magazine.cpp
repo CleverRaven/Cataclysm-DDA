@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "itype.h"
 #include "player.h"

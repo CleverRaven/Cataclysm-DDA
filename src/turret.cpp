@@ -1,4 +1,7 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <numeric>
 
 #include "game.h"
 #include "gun_mode.h"
@@ -15,9 +18,6 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
-
-#include <algorithm>
-#include <numeric>
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );

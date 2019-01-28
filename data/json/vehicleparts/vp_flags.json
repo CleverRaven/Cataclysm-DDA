@@ -99,7 +99,7 @@
     "id": "FLOATS",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "If the center of balance of your vehicle is between all the boat boards and you have no wheels, the vehicle will be able to float and move over water, provided it has an active engine or motor with enough power to move the vehicle."
+    "info": "Each boat hull will reduce the draft of your vehicle and increase the height sealed against water.  If the draft is less than the sealed height, your vehicle will float if placed in water."
   },
   {
     "id": "NONBELTABLE",

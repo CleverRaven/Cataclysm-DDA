@@ -1,5 +1,10 @@
 #include "ranged.h"
 
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -26,11 +31,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -295,6 +295,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // apply delayed recoil
     recoil += delay;
+    // Reset aim for bows and other reload-and-shoot weapons.
+    if( gun.has_flag( "RELOAD_AND_SHOOT" ) ) {
+        recoil = MAX_RECOIL;
+    }
     // Cap
     recoil = std::min( MAX_RECOIL, recoil );
 
@@ -791,7 +795,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 }
 
 static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon,
-                      const double target_size, tripoint pos, double predicted_recoil )
+                      const double target_size, const tripoint &pos, double predicted_recoil )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -1278,13 +1282,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // by a direction key, or by the previous value.
         if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
             targ = *mouse_pos;
-            if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
-                // Snap to target doesn't currently work with tiles.
-                targ.x += dst.x - src.x;
-                targ.y += dst.y - src.y;
-            }
             targ.x -= dst.x;
             targ.y -= dst.y;
+            targ.z -= dst.z;
         } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             targ.x = vec->x;
             targ.y = vec->y;
@@ -1374,7 +1374,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             recoil_pc = pc.recoil;
             recoil_pos = dst;
-            int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
                 if( action == it->action ) {
@@ -1385,7 +1384,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 debugmsg( "Could not find a valid aim_type for %s", action.c_str() );
                 aim_mode = aim_types.begin();
             }
-            aim_threshold = it->threshold;
+            int aim_threshold = it->threshold;
             set_last_target( dst );
             do {
                 do_aim( pc, *relevant );
@@ -1502,7 +1501,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_fire( const Character &p, const itype &firingt )
+int time_to_fire( const Character &p, const itype &firing )
 {
     struct time_info_t {
         int min_time;  // absolute floor on the time taken to fire.
@@ -1521,7 +1520,7 @@ int time_to_fire( const Character &p, const itype &firingt )
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    const skill_id &skill_used = firingt.gun->skill_used;
+    const skill_id &skill_used = firing.gun->skill_used;
     const auto it = map.find( skill_used );
     // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
     static const time_info_t default_info{ 50, 220, 25 };

@@ -2,11 +2,11 @@
 #ifndef TRAIT_GROUP_H
 #define TRAIT_GROUP_H
 
-#include "mutation.h"
-#include "string_id.h"
-
 #include <memory>
 #include <vector>
+
+#include "mutation.h"
+#include "string_id.h"
 
 class JsonObject;
 class JsonIn;
@@ -159,9 +159,9 @@ class Trait_group : public Trait_creation_data
          */
         virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) = 0;
 
-        virtual void check_consistency() const override;
-        virtual bool remove_trait( const trait_id &tid ) override;
-        virtual bool has_trait( const trait_id &tid ) const override;
+        void check_consistency() const override;
+        bool remove_trait( const trait_id &tid ) override;
+        bool has_trait( const trait_id &tid ) const override;
 
     protected:
         // Links to all entries in this group.
@@ -180,8 +180,8 @@ class Trait_group_collection : public Trait_group
         Trait_group_collection( int probability );
         ~Trait_group_collection() override = default;
 
-        virtual trait_group::Trait_list create( RecursionList &rec ) const override;
-        virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
+        trait_group::Trait_list create( RecursionList &rec ) const override;
+        void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
 };
 
 /**
@@ -196,8 +196,8 @@ class Trait_group_distribution : public Trait_group
             Trait_group( probability ) {}
         ~Trait_group_distribution() override = default;
 
-        virtual trait_group::Trait_list create( RecursionList &rec ) const override;
-        virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
+        trait_group::Trait_list create( RecursionList &rec ) const override;
+        void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
 };
 
 #endif

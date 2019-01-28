@@ -1335,9 +1335,9 @@
     "description": "Stores your trash.",
     "symbol": "{",
     "color": "green",
-    "move_cost_mod": -1,
+    "move_cost_mod": 3,
     "required_str": 16,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE" ],
     "bash": {
       "str_min": 8,
       "str_max": 45,
@@ -1588,7 +1588,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "close": "f_canvas_door",
+    "close": "f_large_canvas_door",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -3363,7 +3363,16 @@
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ] },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "REDUCE_SCENT", "EASY_DECONSTRUCT", "BASHABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "REDUCE_SCENT",
+      "EASY_DECONSTRUCT",
+      "BASHABLE",
+      "HIDE_PLACE"
+    ],
     "bash": {
       "str_min": 1,
       "str_max": 1,

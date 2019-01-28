@@ -1,5 +1,6 @@
-#include "catch/catch.hpp"
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "enums.h"
 #include "game.h"
 #include "item.h"
@@ -12,12 +13,10 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-#include <sstream>
-
-void check_lethality( std::string explosive_id, int range, float lethality,
+void check_lethality( const std::string &explosive_id, const int range, float lethality,
                       float margin )
 {
-    epsilon_threshold target_lethality{ lethality, margin };
+    const epsilon_threshold target_lethality{ lethality, margin };
     int num_survivors = 0;
     int num_subjects = 0;
     int num_wounded = 0;
@@ -66,7 +65,7 @@ void check_lethality( std::string explosive_id, int range, float lethality,
     INFO( num_survivors << " survivors out of " << num_subjects << " targets." );
     INFO( survivor_stats.str() );
     INFO( "Wounded survivors: " << num_wounded );
-    int average_hp = num_survivors ? total_hp / num_survivors : 0;
+    const int average_hp = num_survivors ? total_hp / num_survivors : 0;
     INFO( "average hp of survivors: " << average_hp );
     CHECK( deaths.avg() == Approx( lethality ).margin( margin ) );
 }
@@ -81,7 +80,8 @@ std::vector<int> get_part_hp( vehicle *veh )
     return part_hp;
 }
 
-void check_vehicle_damage( std::string explosive_id, std::string vehicle_id, int range )
+void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
+                           const int range )
 {
     // Clear map
     clear_map_and_put_player_underground();

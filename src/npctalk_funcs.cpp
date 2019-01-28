@@ -1,4 +1,8 @@
-#include "npc.h"
+#include "npctalk.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+#include <vector>
 
 #include "basecamp.h"
 #include "bionics.h"
@@ -10,7 +14,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "npctalk.h"
+#include "npc.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
@@ -21,10 +25,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -188,7 +188,7 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::wake_up( npc &p )
 {
-    p.rules.allow_sleep = false;
+    p.rules.clear_flag( ally_rule::allow_sleep );
     p.remove_effect( effect_allow_sleep );
     p.remove_effect( effect_lying_down );
     p.remove_effect( effect_sleep );
@@ -272,7 +272,6 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    item tmp;
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( auto &bio : all_bio ) {
@@ -281,7 +280,7 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
-                    tmp = item( bio.id.str(), 0 );
+                    item tmp = item( bio.id.str(), 0 );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
@@ -348,9 +347,8 @@ void talk_function::give_equipment( npc &p )
 void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
-    body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
-        bp_healed = player::hp_to_bp( hp_part( i ) );
+        const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
         g->u.heal( hp_part( i ), 5 * rng( 2, 5 ) );
         if( g->u.has_effect( effect_bite, bp_healed ) ) {
             g->u.remove_effect( effect_bite, bp_healed );
@@ -370,11 +368,10 @@ void talk_function::give_all_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
-    body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                bp_healed = player::hp_to_bp( hp_part( i ) );
+                const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
                 guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );
@@ -404,6 +401,20 @@ void talk_function::buy_shave( npc &p )
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
+}
+
+void talk_function::morale_chat( npc &p )
+{
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
+}
+
+void talk_function::morale_chat_activity( npc &p )
+{
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    g->u.activity.str_values.push_back( p.name );
+    add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
+    g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
 void talk_function::buy_10_logs( npc &p )
@@ -607,4 +618,49 @@ void talk_function::start_training( npc &p )
     }
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
+}
+
+npc *pick_follower()
+{
+    std::vector<npc *> followers;
+    std::vector<tripoint> locations;
+
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_following() && g->u.sees( guy ) ) {
+            followers.push_back( &guy );
+            locations.push_back( guy.pos() );
+        }
+    }
+
+    pointmenu_cb callback( locations );
+
+    uilist menu;
+    menu.text = _( "Select a follower" );
+    menu.callback = &callback;
+    menu.w_y = 2;
+
+    for( const npc *p : followers ) {
+        menu.addentry( -1, true, MENU_AUTOASSIGN, p->name );
+    }
+
+    menu.query();
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= followers.size() ) {
+        return nullptr;
+    }
+
+    return followers[ menu.ret ];
+}
+
+void talk_function::copy_npc_rules( npc &p )
+{
+    const npc *other = pick_follower();
+    if( other != nullptr && other != &p ) {
+        p.rules = other->rules;
+    }
+}
+
+void talk_function::set_npc_pickup( npc &p )
+{
+    const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
+    p.rules.pickup_whitelist->show( title, false );
 }

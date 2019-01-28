@@ -2,13 +2,13 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "bodypart.h"
-#include "calendar.h"
-#include "morale_types.h"
-
 #include <functional>
 #include <map>
 #include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "morale_types.h"
 
 class item;
 class JsonIn;
@@ -111,7 +111,7 @@ class player_morale
                  * Returns either new_time or remaining time (which one is greater).
                  * Only returns new time if same_sign is true
                  */
-                time_duration pick_time( time_duration cur_time, time_duration new_time, bool same_sign ) const;
+                time_duration pick_time( time_duration current_time, time_duration new_time, bool same_sign ) const;
                 /**
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */

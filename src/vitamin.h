@@ -2,12 +2,12 @@
 #ifndef VITAMIN_H
 #define VITAMIN_H
 
-#include "calendar.h"
-#include "string_id.h"
-
 #include <map>
 #include <utility>
 #include <vector>
+
+#include "calendar.h"
+#include "string_id.h"
 
 class JsonObject;
 class vitamin;

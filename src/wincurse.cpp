@@ -2,17 +2,18 @@
 #define UNICODE 1
 #define _UNICODE 1
 
-#include "cursesport.h"
+#include "cursesport.h" // IWYU pragma: associated
+
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
+
 #include "cursesdef.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
 #include "get_version.h"
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
-#include "catacharset.h"
 #include "init.h"
 #include "input.h"
 #include "path_info.h"

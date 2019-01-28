@@ -1,4 +1,6 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
+
+#include <cstdio>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -24,8 +26,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <stdio.h>
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -81,7 +81,7 @@ static tripoint random_house_in_closest_city()
     return random_house_in_city( cref );
 }
 
-static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_rad, mission *miss )
+static tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss )
 {
     tripoint testpoint = tripoint( origin );
     // Get the surface locations for labs and for spaces above hidden lab stairs.
@@ -265,7 +265,7 @@ void mission_start::infect_npc( mission *miss )
         debugmsg( "couldn't find an NPC!" );
         return;
     }
-    p->add_effect( effect_infection, 1_turns, num_bp, true, true );
+    p->add_effect( effect_infection, 1_turns, num_bp, true, 1 );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
@@ -391,6 +391,7 @@ void mission_start::place_bandit_cabin( mission *miss )
     t.overmap_terrain_subtype = "bandit_cabin";
     t.overmap_special = overmap_special_id( "bandit_cabin" );
     t.mission_pointer = miss;
+    t.search_range = OMAPX * 5;
     t.reveal_radius = 1;
 
     const cata::optional<tripoint> target_pos = assign_mission_target( t );
@@ -445,6 +446,7 @@ void mission_start::place_bandit_camp( mission *miss )
     t.overmap_terrain_subtype = "bandit_camp_1";
     t.overmap_special = overmap_special_id( "bandit_camp" );
     t.mission_pointer = miss;
+    t.search_range = OMAPX * 5;
     t.reveal_radius = 1;
 
     const cata::optional<tripoint> target_pos = assign_mission_target( t );
@@ -512,7 +514,7 @@ void mission_start::kill_horde_master( mission *miss )
     tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
     tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
 
-    if( overmap::inbounds( SEEX, SEEY, 0, 1 ) ) {
+    if( overmap::inbounds( tripoint( SEEX, SEEY, 0 ), 1 ) ) {
         for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
             for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
                 tile.add_spawn( mon_zombie, rng( 3, 10 ), x, y );
@@ -1770,7 +1772,7 @@ const tripoint reveal_destination( const std::string &type )
     return overmap::invalid_tripoint;
 }
 
-void reveal_route( mission *miss, const tripoint destination )
+void reveal_route( mission *miss, const tripoint &destination )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {

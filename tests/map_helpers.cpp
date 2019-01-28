@@ -28,7 +28,7 @@ void clear_creatures()
     g->unload_npcs();
 }
 
-void clear_fields( int zlevel )
+void clear_fields( const int zlevel )
 {
     const int mapsize = g->m.getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {

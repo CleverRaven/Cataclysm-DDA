@@ -1,9 +1,9 @@
 #include "tileray.h"
 
-#include "game_constants.h"
-
 #include <cmath>
 #include <cstdlib>
+
+#include "game_constants.h"
 
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };

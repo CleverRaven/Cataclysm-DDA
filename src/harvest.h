@@ -2,11 +2,11 @@
 #ifndef HARVEST_H
 #define HARVEST_H
 
-#include "string_id.h"
-
 #include <list>
 #include <map>
 #include <set>
+
+#include "string_id.h"
 
 typedef std::string itype_id;
 class JsonObject;

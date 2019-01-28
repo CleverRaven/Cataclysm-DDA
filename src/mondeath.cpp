@@ -1,5 +1,9 @@
 #include "mondeath.h"
 
+#include <algorithm>
+#include <cmath>
+#include <vector>
+
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -20,10 +24,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cmath>
-#include <vector>
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -97,7 +97,7 @@ void mdeath::normal( monster &z )
     }
 }
 
-void scatter_chunks( std::string chunk_name, int chunk_amt, monster &z, int distance,
+void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
                      int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
@@ -180,7 +180,7 @@ void mdeath::splatter( monster &z )
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
         int gib_distance = round( rng( 2, 4 ) );
-        for( const auto entry : *z.type->harvest ) {
+        for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get

@@ -2,6 +2,10 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
+#include <unordered_map>
+#include <tuple>
+#include <vector>
+
 #include "bodypart.h"
 #include "calendar.h"
 #include "enums.h"
@@ -9,10 +13,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "tuple_hash.h"
-
-#include <unordered_map>
-#include <tuple>
-#include <vector>
 
 class effect_type;
 class Creature;
@@ -76,9 +76,9 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jsobj, const std::string &member );
-        bool load_miss_msgs( JsonObject &jsobj, const std::string &member );
-        bool load_decay_msgs( JsonObject &jsobj, const std::string &member );
+        bool load_mod_data( JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( JsonObject &jo, const std::string &member );
+        bool load_decay_msgs( JsonObject &jo, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
@@ -142,7 +142,7 @@ class effect
         effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
             permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
         }
-        effect( const effect_type *peff_type, const time_duration dur, body_part part,
+        effect( const effect_type *peff_type, const time_duration &dur, body_part part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
@@ -179,9 +179,9 @@ class effect
         /** Returns the maximum duration of an effect. */
         time_duration get_max_duration() const;
         /** Sets the duration, capping at max_duration if it exists. */
-        void set_duration( time_duration dur, bool alert = false );
+        void set_duration( const time_duration &dur, bool alert = false );
         /** Mods the duration, capping at max_duration if it exists. */
-        void mod_duration( time_duration dur, bool alert = false );
+        void mod_duration( const time_duration &dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration( double dur, bool alert = false );
 

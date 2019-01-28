@@ -1,5 +1,11 @@
 #include "input.h"
 
+#include <algorithm>
+#include <cctype>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+
 #include "action.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -18,16 +24,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 
-#include <algorithm>
-#include <cctype>
-#include <fstream>
-#include <sstream>
-#include <stdexcept>
-
 using std::min; // from <algorithm>
 using std::max;
-
-extern bool tile_iso;
 
 static const std::string default_context_id( "default" );
 

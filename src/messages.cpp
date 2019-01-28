@@ -1,7 +1,8 @@
 #include "messages.h"
 
 #include "calendar.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -12,8 +13,9 @@
 #include "translations.h"
 
 #ifdef __ANDROID__
-#include "options.h"
 #include <SDL_keyboard.h>
+
+#include "options.h"
 #endif
 
 #include <deque>
@@ -388,9 +390,9 @@ void Messages::dialog::init()
         const size_t msg_ind = log_from_top ? ind : msg_count - 1 - ind;
         const game_message &msg = player_messages.history( msg_ind );
         const auto &folded = foldstring( msg.get_with_count(), msg_width );
-        for( auto it = folded.begin(); it != folded.end(); ++it ) {
+        for( const auto &it : folded ) {
             folded_filtered.emplace_back( folded_all.size() );
-            folded_all.emplace_back( msg_ind, *it );
+            folded_all.emplace_back( msg_ind, it );
         }
     }
 

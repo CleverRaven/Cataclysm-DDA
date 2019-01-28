@@ -1,5 +1,9 @@
 #include "monattack.h"
 
+#include <algorithm>
+#include <cmath>
+#include <map>
+
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
@@ -33,10 +37,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
-
-#include <algorithm>
-#include <cmath>
-#include <map>
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -115,13 +115,9 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // shared utility functions
-int within_visual_range( monster *z, int max_range )
+bool within_visual_range( monster *z, int max_range )
 {
-    int dist = rl_dist( z->pos(), g->u.pos() );
-    if( dist > max_range || !z->sees( g->u ) ) {
-        return -1;    // Out of range
-    }
-    return dist;
+    return !( rl_dist( z->pos(), g->u.pos() ) > max_range || !z->sees( g->u ) );
 }
 
 bool within_target_range( const monster *const z, const Creature *const target, int range )
@@ -142,7 +138,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
         return nullptr;
     }
 
-    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
+    return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
 bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
@@ -240,18 +236,18 @@ bool mattack::eat_food( monster *z )
             continue;
         }
         auto items = g->m.i_at( p );
-        for( auto i = items.begin(); i != items.end(); i++ ) {
+        for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !i->is_food() || i->type->comestible->fun < -20 ) {
+            if( !item.is_food() || item.type->comestible->fun < -20 ) {
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_egg != i->type->get_id() ) {
+            if( z->type->baby_egg != item.type->get_id() ) {
                 long consumed = 1;
-                if( i->count_by_charges() ) {
-                    g->m.use_charges( p, 0, i->type->get_id(), consumed );
+                if( item.count_by_charges() ) {
+                    g->m.use_charges( p, 0, item.type->get_id(), consumed );
                 } else {
-                    g->m.use_amount( p, 0, i->type->get_id(), consumed );
+                    g->m.use_amount( p, 0, item.type->get_id(), consumed );
                 }
                 return true;
             }
@@ -2466,8 +2462,8 @@ bool mattack::ranged_pull( monster *z )
                 g->m.unboard_vehicle( foe->pos() );
             }
 
-            if( target->is_player() && ( pt.x < SEEX * int( MAPSIZE / 2 ) || pt.y < SEEY * int( MAPSIZE / 2 ) ||
-                                         pt.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || pt.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) ) {
+            if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
+                                         pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
                 g->update_map( pt.x, pt.y );
             }
         }
@@ -2571,9 +2567,9 @@ bool mattack::grab_drag( monster *z )
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
             return false;
         }
-        if( target->is_player() && ( zpt.x < SEEX * int( MAPSIZE / 2 ) ||
-                                     zpt.y < SEEY * int( MAPSIZE / 2 ) ||
-                                     zpt.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || zpt.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) ) {
+        if( target->is_player() && ( zpt.x < HALF_MAPSIZE_X ||
+                                     zpt.y < HALF_MAPSIZE_Y ||
+                                     zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
             g->update_map( zpt.x, zpt.y );
         }
         if( foe != nullptr ) {
@@ -2690,7 +2686,7 @@ bool mattack::fear_paralyze( monster *z )
 
 bool mattack::photograph( monster *z )
 {
-    if( within_visual_range( z, 6 ) < 0 ) {
+    if( !within_visual_range( z, 6 ) ) {
         return false;
     }
 
@@ -3199,8 +3195,7 @@ bool mattack::flamethrower( monster *z )
         return true;
     }
 
-    int dist = within_visual_range( z, 5 );
-    if( dist < 0 ) {
+    if( !within_visual_range( z, 5 ) ) {
         return false;
     }
 
@@ -3931,7 +3926,7 @@ bool mattack::parrot( monster *z )
         return false;
     } else if( one_in( 20 ) ) {
         z->moves -= 100;  // It takes a while
-        const SpeechBubble speech = get_speech( z->type->id.str() );
+        const SpeechBubble &speech = get_speech( z->type->id.str() );
         sounds::sound( z->pos(), speech.volume, sounds::sound_t::speech, speech.text );
         return true;
     }

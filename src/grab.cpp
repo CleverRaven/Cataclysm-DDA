@@ -1,4 +1,5 @@
-#include "game.h"
+#include "game.h" // IWYU pragma: associated
+
 #include "map.h"
 #include "messages.h"
 #include "output.h"
@@ -64,12 +65,12 @@ bool game::grabbed_veh_move( const tripoint &dp )
     // (Roughly 1.1K kg = danger zone; cube vans are about the max)
     if( str_req > 45 ) {
         add_msg( m_info, _( "The %s is too bulky for you to move by hand." ),
-                 grabbed_vehicle->name.c_str() );
+                 grabbed_vehicle->name );
         return true; // No shoving around an RV.
     }
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
-    if( grabbed_vehicle->valid_wheel_config( false ) ) {
+    if( grabbed_vehicle->valid_wheel_config() ) {
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {

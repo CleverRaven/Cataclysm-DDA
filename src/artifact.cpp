@@ -1,15 +1,15 @@
 #include "artifact.h"
 
+#include <array>
+#include <cmath>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "item_factory.h"
 #include "json.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <array>
-#include <cmath>
-#include <sstream>
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -827,13 +827,13 @@ std::string new_artifact()
             const artifact_armor_mod mod = random_entry_ref( info.available_mods );
             if( mod != ARMORMOD_NULL ) {
                 const artifact_armor_form_datum &modinfo = artifact_armor_mod_data[mod];
-                if( modinfo.volume >= 0 || def.volume > -modinfo.volume ) {
+                if( modinfo.volume >= 0_ml || def.volume > -modinfo.volume ) {
                     def.volume += modinfo.volume;
                 } else {
                     def.volume = 250_ml;
                 }
 
-                if( modinfo.weight >= 0 || def.weight.value() > std::abs( modinfo.weight.value() ) ) {
+                if( modinfo.weight >= 0_gram || def.weight.value() > std::abs( modinfo.weight.value() ) ) {
                     def.weight += modinfo.weight;
                 } else {
                     def.weight = 1_gram;
@@ -860,10 +860,10 @@ std::string new_artifact()
                 }
                 def.armor->warmth += modinfo.warmth;
 
-                if( modinfo.storage > 0 || def.armor->storage > -modinfo.storage ) {
+                if( modinfo.storage > 0_ml || def.armor->storage > -modinfo.storage ) {
                     def.armor->storage += modinfo.storage;
                 } else {
-                    def.armor->storage = 0;
+                    def.armor->storage = 0_ml;
                 }
 
                 description << string_format( info.plural ?
@@ -1095,9 +1095,9 @@ std::string artifact_name( const std::string &type )
 
 /* Json Loading and saving */
 
-void load_artifacts( const std::string &artfilename )
+void load_artifacts( const std::string &path )
 {
-    read_from_file_optional_json( artfilename, []( JsonIn & artifact_json ) {
+    read_from_file_optional_json( path, []( JsonIn & artifact_json ) {
         artifact_json.start_array();
         while( !artifact_json.end_array() ) {
             JsonObject jo = artifact_json.get_object();

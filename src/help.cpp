@@ -1,5 +1,8 @@
 #include "help.h"
 
+#include <algorithm>
+#include <vector>
+
 #include "action.h"
 #include "catacharset.h"
 #include "cursesdef.h"
@@ -9,9 +12,6 @@
 #include "path_info.h"
 #include "text_snippets.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <vector>
 
 help &get_help()
 {

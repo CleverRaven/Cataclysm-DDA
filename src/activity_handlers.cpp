@@ -1,6 +1,10 @@
 #include "activity_handlers.h"
 
+#include <algorithm>
+#include <cmath>
+
 #include "action.h"
+#include "advanced_inv.h"
 #include "catalua.h"
 #include "clzones.h"
 #include "construction.h"
@@ -35,9 +39,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "map_selector.h"
-
-#include <algorithm>
-#include <cmath>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -79,6 +80,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
+    { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
     { activity_id( "ACT_DISSECT" ), butcher_do_turn },
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
@@ -88,7 +90,9 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
+    { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
@@ -98,6 +102,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_BUTCHER" ), butcher_finish },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_finish },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_finish },
+    { activity_id( "ACT_SKIN" ), butcher_finish },
     { activity_id( "ACT_QUARTER" ), butcher_finish },
     { activity_id( "ACT_DISSECT" ), butcher_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
@@ -126,6 +131,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
@@ -143,8 +149,11 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
-    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish },
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -301,6 +310,10 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             case 3:
                 u.add_msg_if_player( m_info, _( "You dissect the corpse with a trusty scalpel." ) );
                 break;
+            case 5:
+                u.add_msg_if_player( m_info,
+                                     _( "You dissect the corpse with a sophisticated system of surgical grade scalpels." ) );
+                break;
         }
     }
 
@@ -366,6 +379,12 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) ||
                                corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
+        act.index = -1;
+        return;
+    }
+
+    if( action == SKIN && corpse_item.has_flag( "SKINNED" ) ) {
+        u.add_msg_if_player( m_info, _( "This corpse is already skinned." ) );
         act.index = -1;
         return;
     }
@@ -463,6 +482,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             }
             break;
         case F_DRESS:
+            time_to_cut *= 2;
+            break;
+        case SKIN:
             time_to_cut *= 2;
             break;
         case QUARTER:
@@ -571,7 +593,7 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-int corpse_damage_effect( int weight, std::string entry_type, int damage_level )
+int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     float slight_damage = 0.9;
     float damage = 0.75;
@@ -641,6 +663,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                                  _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
+    if( corpse_item->has_flag( "SKINNED" ) ) {
+        monster_weight = round( 0.85 * monster_weight );
+    }
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
@@ -662,7 +687,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
                                   entry.base_num.first );
         }
-        const itype *drop = NULL;
+        const itype *drop = nullptr;
         if( entry.type != "bionic_group" ) {
             drop = item::find_type( entry.drop );
         }
@@ -706,6 +731,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll /= 2;
         }
 
+        if( corpse_item->has_flag( "SKINNED" ) && entry.type == "skin" ) {
+            roll = 0;
+        }
+
         // QUICK BUTCHERY
         if( action == BUTCHER ) {
             if( entry.type == "flesh" ) {
@@ -729,6 +758,14 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 continue;
             }
             if( entry.type == "skin" ) {
+                continue;
+            }
+        }
+
+        // you only get the skin from skinning
+        if( action == SKIN ) {
+            if( entry.type != "skin" ) {
+                roll = 0;
                 continue;
             }
         }
@@ -805,6 +842,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( action == F_DRESS ) {
             // 25% of the corpse weight is what's removed during field dressing
             monster_weight_remaining -= monster_weight * 3 / 4;
+        } else if( action == SKIN ) {
+            monster_weight_remaining -= monster_weight * 0.85;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
             if( ( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
@@ -813,11 +852,17 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             } else if( corpse_item->has_flag( "QUARTERED" ) ) {
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
             }
+            if( corpse_item->has_flag( "SKINNED" ) ) {
+                monster_weight_remaining -= monster_weight * 0.15;
+            }
         }
-        item ruined_parts( "ruined_chunks", bday,
-                           monster_weight_remaining / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) );
-        ruined_parts.set_mtype( &mt );
-        g->m.add_item_or_charges( p.pos(), ruined_parts );
+        const int item_charges = monster_weight_remaining / to_gram( (
+                                     item::find_type( "ruined_chunks" ) )->weight );
+        if( item_charges > 0 ) {
+            item ruined_parts( "ruined_chunks", bday, item_charges );
+            ruined_parts.set_mtype( &mt );
+            g->m.add_item_or_charges( p.pos(), ruined_parts );
+        }
     }
 
     if( action == DISSECT ) {
@@ -851,6 +896,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = QUARTER;
     } else if( act->id() == activity_id( "ACT_DISSECT" ) ) {
         action = DISSECT;
+    } else if( act->id() == activity_id( "ACT_SKIN" ) ) {
+        action = SKIN;
     }
 
     //Negative index means try to start next item
@@ -953,7 +1000,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
 
     // reveal hidden items / hidden content
-    if( action != F_DRESS ) {
+    if( action != F_DRESS && action != SKIN ) {
         for( auto &content : contents ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -1035,6 +1082,27 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             }
             break;
+        case SKIN:
+            switch( rng( 1, 4 ) ) {
+                case 1:
+                    p->add_msg_if_player( m_good, _( "You skin the %s." ), corpse->nname().c_str() );
+                    break;
+                case 2:
+                    p->add_msg_if_player( m_good, _( "You carefully remove the hide from the %s" ),
+                                          corpse->nname().c_str() );
+                    break;
+                case 3:
+                    p->add_msg_if_player( m_good,
+                                          _( "The %s is challenging to skin, but you get a good hide from it." ),
+                                          corpse->nname().c_str() );
+                    break;
+                case 4:
+                    p->add_msg_if_player( m_good, _( "With a few deft slices you take the skin from the %s" ),
+                                          corpse->nname().c_str() );
+                    break;
+            }
+            corpse_item.set_flag( "SKINNED" );
+            break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
             g->m.i_rem( p->pos(), act->index );
@@ -1114,18 +1182,18 @@ void serialize_liquid_target( player_activity &act, const monster &mon )
     act.coords.push_back( mon.pos() );
 }
 
-void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
+void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 {
-    player_activity &act = *act_;
+    player_activity &act_ref = *act;
     try {
         // 1. Gather the source item.
         vehicle *source_veh = nullptr;
-        const tripoint source_pos = act.coords.at( 0 );
+        const tripoint source_pos = act_ref.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
         std::list<item>::iterator on_ground;
         monster *source_mon = nullptr;
         item liquid;
-        const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
+        const auto source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
         int part_num = -1;
         long veh_charges = 0;
         switch( source_type ) {
@@ -1134,20 +1202,20 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
                 }
-                deserialize( liquid, act.str_values.at( 0 ) );
-                part_num = static_cast<int>( act.values.at( 1 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                part_num = static_cast<int>( act_ref.values.at( 1 ) );
                 veh_charges = liquid.charges;
                 break;
             case LST_INFINITE_MAP:
-                deserialize( liquid, act.str_values.at( 0 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = item::INFINITE_CHARGES;
                 break;
             case LST_MAP_ITEM:
-                if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
+                if( static_cast<size_t>( act_ref.values.at( 1 ) ) >= source_stack.size() ) {
                     throw std::runtime_error( "could not find source item on ground for liquid transfer" );
                 }
                 on_ground = source_stack.begin();
-                std::advance( on_ground, act.values.at( 1 ) );
+                std::advance( on_ground, act_ref.values.at( 1 ) );
                 liquid = *on_ground;
                 break;
             case LST_MONSTER:
@@ -1155,9 +1223,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 source_mon = dynamic_cast<monster *>( c );
                 if( source_mon == nullptr ) {
                     debugmsg( "could not find source creature for liquid transfer" );
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
-                deserialize( liquid, act.str_values.at( 0 ) );
+                deserialize( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = 1;
                 break;
         }
@@ -1168,22 +1236,22 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const long original_charges = liquid.charges;
 
         // 2. Transfer charges.
-        switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
+        switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
-                if( const optional_vpart_position vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
+                if( const optional_vpart_position vp = g->m.veh_at( act_ref.coords.at( 1 ) ) ) {
                     p->pour_into( vp->vehicle(), liquid );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
             case LTT_CONTAINER:
-                p->pour_into( p->i_at( act.values.at( 3 ) ), liquid );
+                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), liquid );
                 break;
             case LTT_MAP:
-                if( iexamine::has_keg( act.coords.at( 1 ) ) ) {
-                    iexamine::pour_into_keg( act.coords.at( 1 ), liquid );
+                if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
+                    iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
                 } else {
-                    g->m.add_item_or_charges( act.coords.at( 1 ), liquid );
+                    g->m.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
                     p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
                     liquid.charges = 0;
                 }
@@ -1196,7 +1264,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const long removed_charges = original_charges - liquid.charges;
         if( removed_charges == 0 ) {
             // Nothing has been transferred, target must be full.
-            act.set_to_null();
+            act_ref.set_to_null();
             return;
         }
 
@@ -1211,15 +1279,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                     // many charges are actually left for the next time we come
                     // around this loop.
                     if( !liquid.charges ) {
-                        act.set_to_null();
+                        act_ref.set_to_null();
                     } else {
-                        act.str_values.at( 0 ) = serialize( liquid );
+                        act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
                     source_veh->drain( liquid.typeId(), removed_charges );
                 }
                 if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
             case LST_MAP_ITEM:
@@ -1234,7 +1302,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ).c_str() );
                     }
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
             case LST_INFINITE_MAP:
@@ -1243,19 +1311,19 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             case LST_MONSTER:
                 // liquid source charges handled in monexamine::milk_source
                 if( liquid.charges == 0 ) {
-                    act.set_to_null();
+                    act_ref.set_to_null();
                 }
                 break;
         }
 
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
-            act.set_to_null();
+            act_ref.set_to_null();
         }
 
     } catch( const std::runtime_error &err ) {
         debugmsg( "error in activity data: \"%s\"", err.what() );
-        act.set_to_null();
+        act_ref.set_to_null();
         return;
     }
 }
@@ -1452,11 +1520,11 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::hotwire_finish( player_activity *act, player *pl )
+void activity_handlers::hotwire_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                           pl->posz() ) ) ) {
+                                           p->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
         if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
@@ -1503,9 +1571,9 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         return;
     }
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            item_location item_loc( map_cursor( p->pos() ), &*it );
+    for( auto &item : items ) {
+        if( actor->valid_to_cut_up( item ) ) {
+            item_location item_loc( map_cursor( p->pos() ), &item );
             actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
@@ -1522,9 +1590,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( it->display_name() == corpse_name ) {
-            body = &*it;
+    for( auto &item : items ) {
+        if( item.display_name() == corpse_name ) {
+            body = &item;
         }
     }
 
@@ -1757,7 +1825,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
             sfx::play_variant_sound( "reload", reloadable.typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume,
-                                   reloadable.type->gun->reload_noise );
+                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise );
         }
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
@@ -1836,11 +1904,11 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     return;
 }
 
-void activity_handlers::vehicle_finish( player_activity *act, player *pl )
+void activity_handlers::vehicle_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
     const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                       pl->posz() ) );
+                                       p->posz() ) );
     veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -2053,12 +2121,13 @@ void activity_handlers::open_gate_finish( player_activity *act, player * )
 }
 
 enum repeat_type : int {
-    REPEAT_ONCE = 0,    // Repeat just once
+    // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
+    REPEAT_INIT = 0,    // Haven't found repeat value yet.
+    REPEAT_ONCE,        // Repeat just once
     REPEAT_FOREVER,     // Repeat for as long as possible
     REPEAT_FULL,        // Repeat until damage==0
     REPEAT_EVENT,       // Repeat until something interesting happens
     REPEAT_CANCEL,      // Stop repeating
-    REPEAT_INIT         // Haven't found repeat value yet.
 };
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
@@ -2067,14 +2136,15 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     rmenu.text = title;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
-    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
+    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat until reinforced" ) );
     rmenu.addentry( REPEAT_FULL, true, '3', _( "Repeat until fully repaired, but don't reinforce" ) );
     rmenu.addentry( REPEAT_EVENT, true, '4', _( "Repeat until success/failure/level up" ) );
+    rmenu.addentry( REPEAT_INIT, true, '5', _( "Back to item selection" ) );
 
-    rmenu.selected = last_selection;
-
+    rmenu.selected = last_selection - REPEAT_ONCE;
     rmenu.query();
-    if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
+
+    if( rmenu.ret >= REPEAT_INIT && rmenu.ret <= REPEAT_EVENT ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
@@ -2130,6 +2200,10 @@ struct weldrig_hack {
         veh->charge_battery( pseudo.charges );
         pseudo.charges = 0;
     }
+
+    ~weldrig_hack() {
+        clean_up();
+    }
 };
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
@@ -2153,7 +2227,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    bool event_happened = false;
 
     const auto use_fun = used_tool->get_use( iuse_name_string );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
@@ -2164,18 +2237,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
-    // TODO: Allow setting this in the actor
-    // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-    if( !used_tool->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
-        act->set_to_null();
-        return;
-    }
+    // Valid Repeat choice and target, attempt repair.
+    if( repeat != REPEAT_INIT && act->position != INT_MIN ) {
+        item &fix = p->i_at( act->position );
 
-    item &fix = p->i_at( act->position );
-
-    // The first time through we just find out how many times the player wants to repeat the action.
-    if( repeat != REPEAT_INIT ) {
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
@@ -2187,33 +2252,66 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         }
 
+        // TODO: Allow setting this in the actor
+        // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
+        if( !used_tool->ammo_sufficient() ) {
+            p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
+            act->set_to_null();
+            return;
+        }
+
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         if( attempt == repair_item_actor::AS_CANT ||
             destroyed ||
-            !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
-            // Can't repeat any more
-            act->set_to_null();
-            w_hack.clean_up();
-            return;
+            !actor->can_repair_target( *p, fix, !destroyed ) ) {
+            // Cannot continue to repair target, select another target.
+            act->position = INT_MIN;
         }
 
-        event_happened =
+        bool event_happened =
             attempt == repair_item_actor::AS_FAILURE ||
             attempt == repair_item_actor::AS_SUCCESS ||
             old_level != p->get_skill_level( actor->used_skill );
-    } else {
-        repeat = REPEAT_ONCE;
+
+        const bool need_input =
+            repeat == REPEAT_ONCE ||
+            ( repeat == REPEAT_EVENT && event_happened ) ||
+            ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+        if( need_input ) {
+            repeat = REPEAT_INIT;
+        }
+    }
+    // Check tool is valid before we query target and Repeat choice.
+    if( !actor->can_use_tool( *p, *used_tool, true ) ) {
+        act->set_to_null();
+        return;
     }
 
-    w_hack.clean_up();
-    const bool need_input =
-        repeat == REPEAT_ONCE ||
-        ( repeat == REPEAT_EVENT && event_happened ) ||
-        ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+    // target selection and validation.
+    while( act->position == INT_MIN ) {
+        g->draw_sidebar_messages();     // Refresh messages to show feedback.
+        const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
+            return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
+                   &itm != &main_tool;
+        }, string_format( _( "You have no items that could be repaired with a %s." ),
+                          main_tool.type_name( 1 ) ) );
 
-    if( need_input ) {
+        if( pos == INT_MIN ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ) );
+            act->set_to_null();
+            return;
+        }
+        if( actor->can_repair_target( *p, p->i_at( pos ), true ) ) {
+            act->position = pos;
+            repeat = REPEAT_INIT;
+        }
+    }
+
+    const item &fix = p->i_at( act->position );
+
+    if( repeat == REPEAT_INIT ) {
         g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
@@ -2227,20 +2325,33 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s\nSuccess chance: %.1f%%\nDamage chance: %.1f%%" ),
-                                      repair_item_actor::action_description( action_type ).c_str(),
+                                      _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
+                                         "Damage chance: <color_light_blue>%.1f</color>%%" ),
+                                      repair_item_actor::action_description( action_type ),
+                                      fix.tname(),
                                       100.0f * chance.first, 100.0f * chance.second );
-        repeat_type answer = repeat_menu( title, repeat );
-        if( answer == REPEAT_CANCEL ) {
-            act->set_to_null();
-            return;
-        }
 
         if( act->values.empty() ) {
             act->values.resize( 1 );
         }
+        do {
+            g->draw_sidebar_messages();
+            repeat = repeat_menu( title, repeat );
 
-        act->values[0] = static_cast<int>( answer );
+            if( repeat == REPEAT_CANCEL ) {
+                act->set_to_null();
+                return;
+            }
+            act->values[0] = static_cast<int>( repeat );
+            if( repeat == REPEAT_INIT ) {       // BACK selected, redo target selection next.
+                p->activity.position = INT_MIN;
+                return;
+            }
+            if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
+                p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+                repeat = REPEAT_INIT;
+            }
+        } while( repeat == REPEAT_INIT );
     }
 
     // Otherwise keep retrying
@@ -2458,6 +2569,12 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
+void activity_handlers::socialize_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0].c_str() );
     act->set_to_null();
 }
 
@@ -2757,6 +2874,14 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
+{
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                          act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
 void activity_handlers::shaving_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You open up your kit and shave." ) );
@@ -2771,7 +2896,40 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+void activity_handlers::unload_mag_finish( player_activity *act, player *p )
+{
+    long qty = 0;
+    item &it = *act->targets[ 0 ];
+
+    // remove the ammo leads in the belt
+    it.contents.erase( std::remove_if( it.contents.begin(),
+    it.contents.end(), [&]( item & e ) {
+        if( !p->add_or_drop_with_msg( e, true ) ) {
+            return false;
+        }
+        qty += e.charges;
+        return true;
+    } ), it.contents.end() );
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            p->add_or_drop_with_msg( link, true );
+        }
+        add_msg( _( "You disassemble your %s." ), it.tname().c_str() );
+    } else {
+        add_msg( _( "You unload your %s." ), it.tname().c_str() );
+    }
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        act->targets[ 0 ].remove_item();
+    }
+
+    act->set_to_null();
+}
+
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {
@@ -2802,21 +2960,17 @@ static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
     }
 }
 
-void activity_handlers::till_plot_do_turn( player_activity *, player *p )
+static void perform_zone_activity_turn( player *p,
+                                        const zone_type_id &ztype,
+                                        const std::function<bool( const tripoint & )> &tile_filter,
+                                        const std::function<void ( player &p, const tripoint & )> &tile_action,
+                                        const std::string &finished_msg )
 {
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+    auto unsorted_tiles = mgr.get_near( ztype, abspos );
 
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
-    // cleanup unwanted tiles
-    auto cleanup = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
-               g->m.ter( tile ) == t_dirtmound;
-    };
-    cleanup_tiles( unsorted_tiles, cleanup );
+    cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
     const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
@@ -2827,37 +2981,114 @@ void activity_handlers::till_plot_do_turn( player_activity *, player *p )
         auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
-            }
+
+            p->set_destination( route, p->activity );
+            p->activity.set_to_null();
             return;
         } else { // we are at destination already
-            p->add_msg_if_player( _( "You churn up the earth here." ) );
-            p->mod_moves( -300 );
-            g->m.ter_set( tile_loc, t_dirtmound );
+            /* Perform action */
+            tile_action( *p, tile_loc );
 
             if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_TILL_PLOT" ) );
                 return;
             }
         }
     }
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You tilled every tile you could." ) );
+    add_msg( m_info, finished_msg );
+    p->activity.set_to_null();
+}
+
+
+void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
+{
+    auto reject_tile = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
+    };
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                iexamine::harvest_plant,
+                                _( "You harvested all the plots you could." ) );
+
+}
+
+void activity_handlers::till_plot_do_turn( player_activity *, player *p )
+{
+    auto reject_tile = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+               g->m.ter( tile ) == t_dirtmound;
+    };
+
+    auto dig = []( player & p, const tripoint & tile_loc ) {
+        p.add_msg_if_player( _( "You churn up the earth here." ) );
+        p.mod_moves( -300 );
+        g->m.ter_set( tile_loc, t_dirtmound );
+    };
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                dig,
+                                _( "You tilled every tile you could." ) );
+}
+
+void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p )
+{
+    itype_id fertilizer;
+    auto check_fertilizer = [&]( bool ask_user = true ) -> void {
+        if( act->str_values.empty() )
+        {
+            act->str_values.push_back( "" );
+        }
+        fertilizer = act->str_values[0];
+
+        /* If unspecified, or if we're out of what we used before, ask */
+        if( ask_user && ( fertilizer.empty() || !p->has_charges( fertilizer, 1 ) ) )
+        {
+            fertilizer = iexamine::choose_fertilizer( *p, "plant",
+                    false /* Don't confirm action with player */ );
+            act->str_values[0] = fertilizer;
+        }
+    };
+
+    auto have_fertilizer = [&]() {
+        return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
+    };
+
+
+    auto reject_tile = [&]( const tripoint & tile ) {
+        check_fertilizer();
+        std::string failure = iexamine::fertilize_failure_reason( *p, tile, fertilizer );
+        return !p->sees( tile ) || !failure.empty();
+    };
+
+    auto fertilize = [&]( player & p, const tripoint & tile ) {
+        check_fertilizer();
+        if( have_fertilizer() ) {
+            iexamine::fertilize_plant( p, tile, fertilizer );
+            if( !have_fertilizer() ) {
+                add_msg( m_info, _( "You have run out of %s" ), fertilizer );
+            }
+        }
+    };
+
+    check_fertilizer();
+    if( !have_fertilizer() ) {
+        act->set_to_null();
+        return;
+    }
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tile,
+                                fertilize,
+                                _( "You fertilized every plot you could." ) );
 }
 
 void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 {
     const auto &mgr = zone_manager::get_manager();
-    const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
-
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
     std::vector<item *> seed_inv = p->items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
@@ -2879,7 +3110,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     };
 
     // cleanup unwanted tiles (local coords)
-    auto cleanup = [&]( const tripoint & tile ) {
+    auto reject_tiles = [&]( const tripoint & tile ) {
         if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
             return true;
         }
@@ -2892,42 +3123,96 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             } );
         } );
     };
-    cleanup_tiles( unsorted_tiles, cleanup );
 
-    // sort remaining tiles by distance
-    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
-
-    for( auto &tile : tiles ) {
-        const auto &tile_loc = g->m.getlocal( tile );
-
-        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
-        if( route.size() > 1 ) {
-            route.pop_back();
-            // check for safe mode, we don't want to trigger moving if it is activated
-            if( g->check_safe_mode_allowed() ) {
-                p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
-            }
-            return;
-        } else { // we are at destination already
-            const auto seeds = get_seeds( tile_loc );
-            std::vector<item *> seed_inv = p->items_with( [seeds]( const item & itm ) {
-                return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
-                    return itm.typeId() == itype_id( seed );
-                } );
+    auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
+        const auto seeds = get_seeds( tile_loc );
+        std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
+            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
+                return itm.typeId() == itype_id( seed );
             } );
-            if( !seed_inv.empty() ) {
-                auto it = seed_inv.front();
-                iexamine::plant_seed( *p, tile_loc, it->typeId() );
-            }
+        } );
+        if( !seed_inv.empty() ) {
+            auto it = seed_inv.front();
+            iexamine::plant_seed( p, tile_loc, it->typeId() );
+        }
+    };
 
-            if( p->moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p->assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-                return;
+
+    perform_zone_activity_turn( p,
+                                zone_type_id( "FARM_PLOT" ),
+                                reject_tiles,
+                                plant_appropriate_seed,
+                                _( "You planted all seeds you could." ) );
+}
+
+void activity_handlers::robot_control_finish( player_activity *act, player *p )
+{
+    uilist pick_robot;
+    pick_robot.text = _( "Override ready, choose an endpoint to hack." );
+    // Build a list of all unfriendly robots in range.
+    std::vector< monster * > mons; // @todo: change into vector<Creature*>
+    std::vector< tripoint > locations;
+    int entry_num = 0;
+    for( monster &candidate : g->all_monsters() ) {
+        if( candidate.type->in_species( species_id( "ROBOT" ) ) && candidate.friendly == 0 &&
+            rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
+            mons.push_back( &candidate );
+            pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
+            tripoint seen_loc;
+            // Show locations of seen robots, center on player if robot is not seen
+            if( p->sees( candidate ) ) {
+                seen_loc = candidate.pos();
+            } else {
+                seen_loc = p->pos();
             }
+            locations.push_back( seen_loc );
         }
     }
+    if( mons.empty() ) {
+        p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
+        act->set_to_null();
+        return;
+    }
+    pointmenu_cb callback( locations );
+    pick_robot.callback = &callback;
+    pick_robot.query();
+    if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
+        p->add_msg_if_player( m_info, _( "Never mind" ) );
+        act->set_to_null();
+        return;
+    }
+    const size_t mondex = pick_robot.ret;
+    monster *z = mons[mondex];
+    p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name().c_str() );
 
-    // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You planted all seeds you could." ) );
+    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+    /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
+    float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
+                    ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    if( success >= 0 ) {
+        p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
+                              z->name().c_str() );
+        z->friendly = -1;
+    } else if( success >= -2 ) { //A near success
+        p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
+                              z->name().c_str() );
+        z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
+        if( z->is_dead() ) {
+            p->practice( skill_id( "computer" ), 10 );
+            act->set_to_null();
+            return; // Do not do the other effects if the robot died
+        }
+        if( one_in( 3 ) ) {
+            p->add_msg_if_player( _( "...and turns friendly!" ) );
+            if( one_in( 3 ) ) { //did the robot became friendly permanently?
+                z->friendly = -1; //it did
+            } else {
+                z->friendly = rng( 5, 40 ); // it didn't
+            }
+        }
+    } else {
+        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
+    }
+    p->practice( skill_id( "computer" ), 10 );
+    act->set_to_null();
 }

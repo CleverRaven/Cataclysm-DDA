@@ -2,13 +2,13 @@
 #ifndef SKILL_H
 #define SKILL_H
 
-#include "calendar.h"
-#include "string_id.h"
-
 #include <functional>
 #include <map>
 #include <set>
 #include <vector>
+
+#include "calendar.h"
+#include "string_id.h"
 
 class JsonObject;
 class JsonIn;

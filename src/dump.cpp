@@ -1,6 +1,11 @@
+#include "game.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+
 #include "ammo.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "game.h"
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
@@ -12,10 +17,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <iostream>
-#include <iterator>
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -126,7 +127,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         }
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
-            r.push_back( obj.tname( false ) );
+            r.push_back( obj.tname( 1, false ) );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
@@ -203,7 +204,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
                 dump( test_npcs[ "S1" ], gun );
 
-                if( gun.type->gun->barrel_length > 0 ) {
+                if( gun.type->gun->barrel_length > 0_ml ) {
                     gun.emplace_back( "barrel_small" );
                     dump( test_npcs[ "S1" ], gun );
                 }
@@ -277,7 +278,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.coeff_rolling_drag() ) );
             r.push_back( to_string( veh_fueled.static_drag( false ) ) );
             r.push_back( to_string( static_cast<int>( 50 *
-                                    veh_fueled.k_traction( veh_fueled.wheel_area( false ) ) ) ) );
+                                    veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {

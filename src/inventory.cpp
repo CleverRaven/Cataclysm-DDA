@@ -1,5 +1,7 @@
 #include "inventory.h"
 
+#include <algorithm>
+
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -16,7 +18,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
-#include <algorithm>
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );
@@ -27,6 +28,70 @@ bool invlet_wrapper::valid( const long invlet ) const
         return false;
     }
     return find( static_cast<char>( invlet ) ) != std::string::npos;
+}
+
+invlet_favorites::invlet_favorites( const std::unordered_map<itype_id, std::string> &map )
+{
+    for( const auto &p : map ) {
+        if( p.second.empty() ) {
+            // The map gradually accumulates empty lists; remove those here
+            continue;
+        }
+        invlets_by_id.insert( p );
+        for( char invlet : p.second ) {
+            uint8_t invlet_u = invlet;
+            if( !ids_by_invlet[invlet_u].empty() ) {
+                debugmsg( "Duplicate invlet: %s and %s both mapped to %c",
+                          ids_by_invlet[invlet_u], p.first, invlet );
+            }
+            ids_by_invlet[invlet_u] = p.first;
+        }
+    }
+}
+
+void invlet_favorites::set( char invlet, const itype_id &id )
+{
+    if( contains( invlet, id ) ) {
+        return;
+    }
+    erase( invlet );
+    uint8_t invlet_u = invlet;
+    ids_by_invlet[invlet_u] = id;
+    invlets_by_id[id].push_back( invlet );
+}
+
+void invlet_favorites::erase( char invlet )
+{
+    uint8_t invlet_u = invlet;
+    const std::string &id = ids_by_invlet[invlet_u];
+    if( id.empty() ) {
+        return;
+    }
+    std::string &invlets = invlets_by_id[id];
+    std::string::iterator it = std::find( invlets.begin(), invlets.end(), invlet );
+    invlets.erase( it );
+    ids_by_invlet[invlet_u].clear();
+}
+
+bool invlet_favorites::contains( char invlet, const itype_id &id ) const
+{
+    uint8_t invlet_u = invlet;
+    return ids_by_invlet[invlet_u] == id;
+}
+
+std::string invlet_favorites::invlets_for( const itype_id &id ) const
+{
+    auto map_iterator = invlets_by_id.find( id );
+    if( map_iterator == invlets_by_id.end() ) {
+        return {};
+    }
+    return map_iterator->second;
+}
+
+const std::unordered_map<itype_id, std::string> &
+invlet_favorites::get_invlets_by_id() const
+{
+    return invlets_by_id;
 }
 
 inventory::inventory() = default;
@@ -43,8 +108,8 @@ invslice inventory::slice()
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
-    for( auto iter = items.cbegin(); iter != items.cend(); ++iter ) {
-        stacks.push_back( &*iter );
+    for( const auto &item : items ) {
+        stacks.push_back( &item );
     }
     return stacks;
 }
@@ -130,7 +195,7 @@ void inventory::clear()
     binned = false;
 }
 
-void inventory::push_back( const std::list<item> newits )
+void inventory::push_back( const std::list<item> &newits )
 {
     for( const auto &newit : newits ) {
         add_item( newit, true );
@@ -149,38 +214,14 @@ void inventory::update_cache_with_item( item &newit )
     if( newit.invlet == 0 ) {
         return;
     }
-    // Iterator over all the keys of the map.
-    std::map<std::string, std::vector<char> >::iterator i;
-    for( i = invlet_cache.begin(); i != invlet_cache.end(); i++ ) {
-        std::string type = i->first;
-        std::vector<char> &preferred_invlets = i->second;
 
-        if( newit.typeId() != type ) {
-            // Erase the used invlet from all caches.
-            for( size_t ind = 0; ind < preferred_invlets.size(); ++ind ) {
-                if( preferred_invlets[ind] == newit.invlet ) {
-                    preferred_invlets.erase( preferred_invlets.begin() + ind );
-                    ind--;
-                }
-            }
-        }
-    }
-
-    // Append the selected invlet to the list of preferred invlets of this item type.
-    std::vector<char> &pref = invlet_cache[newit.typeId()];
-    if( std::find( pref.begin(), pref.end(), newit.invlet ) == pref.end() ) {
-        pref.push_back( newit.invlet );
-    }
+    invlet_cache.set( newit.invlet, newit.typeId() );
 }
 
 char inventory::find_usable_cached_invlet( const std::string &item_type )
 {
-    if( ! invlet_cache.count( item_type ) ) {
-        return 0;
-    }
-
     // Some of our preferred letters might already be used.
-    for( auto invlet : invlet_cache[item_type] ) {
+    for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
         if( assigned_invlet.count( invlet ) ) {
             continue;
@@ -195,31 +236,33 @@ char inventory::find_usable_cached_invlet( const std::string &item_type )
     return 0;
 }
 
-item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet )
+item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
 
-    // See if we can't stack this item.
-    for( auto &elem : items ) {
-        std::list<item>::iterator it_ref = elem.begin();
-        if( it_ref->stacks_with( newit ) ) {
-            if( it_ref->merge_charges( newit ) ) {
-                return *it_ref;
-            }
-            if( it_ref->invlet == '\0' ) {
-                if( !keep_invlet ) {
-                    update_invlet( newit, assign_invlet );
+    if( should_stack ) {
+        // See if we can't stack this item.
+        for( auto &elem : items ) {
+            std::list<item>::iterator it_ref = elem.begin();
+            if( it_ref->stacks_with( newit ) ) {
+                if( it_ref->merge_charges( newit ) ) {
+                    return *it_ref;
                 }
-                update_cache_with_item( newit );
-                it_ref->invlet = newit.invlet;
-            } else {
-                newit.invlet = it_ref->invlet;
+                if( it_ref->invlet == '\0' ) {
+                    if( !keep_invlet ) {
+                        update_invlet( newit, assign_invlet );
+                    }
+                    update_cache_with_item( newit );
+                    it_ref->invlet = newit.invlet;
+                } else {
+                    newit.invlet = it_ref->invlet;
+                }
+                elem.push_back( newit );
+                return elem.back();
+            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
+                // If keep_invlet is true, we'll be forcing other items out of their current invlet.
+                assign_empty_invlet( *it_ref, g->u );
             }
-            elem.push_back( newit );
-            return elem.back();
-        } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
-            // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-            assign_empty_invlet( *it_ref, g->u );
         }
     }
 
@@ -266,9 +309,8 @@ void inventory::restack( player &p )
         const int ipos = p.invlet_to_position( topmost.invlet );
         if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
             assign_empty_invlet( topmost, p );
-            for( std::list<item>::iterator stack_iter = stack.begin();
-                 stack_iter != stack.end(); ++stack_iter ) {
-                stack_iter->invlet = topmost.invlet;
+            for( auto &stack_iter : stack ) {
+                stack_iter.invlet = topmost.invlet;
             }
         }
 
@@ -557,9 +599,9 @@ item inventory::remove_item( const int position )
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
 {
     std::list<item> result;
-    units::volume volume_dropped = 0;
+    units::volume volume_dropped = 0_ml;
     while( volume_dropped < volume ) {
-        units::volume cumulative_volume = 0;
+        units::volume cumulative_volume = 0_ml;
         auto chosen_stack = items.begin();
         auto chosen_item = chosen_stack->begin();
         for( auto stack = items.begin(); stack != items.end(); ++stack ) {
@@ -638,7 +680,7 @@ int inventory::position_by_item( const item *it ) const
     return INT_MIN;
 }
 
-int inventory::position_by_type( const itype_id &type )
+int inventory::position_by_type( const itype_id &type ) const
 {
     int i = 0;
     for( auto &elem : items ) {
@@ -827,7 +869,7 @@ void inventory::rust_iron_items()
 
 units::mass inventory::weight() const
 {
-    units::mass ret = 0;
+    units::mass ret = 0_gram;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.weight();
@@ -890,7 +932,7 @@ units::mass inventory::weight_without( const std::map<const item *, int> &withou
 
 units::volume inventory::volume() const
 {
-    units::volume ret = 0;
+    units::volume ret = 0_ml;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.volume();
@@ -981,14 +1023,7 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
         return;
     }
     if( remove_old && it.invlet ) {
-        auto invlet_list_iter = invlet_cache.find( it.typeId() );
-        if( invlet_list_iter != invlet_cache.end() ) {
-            auto &invlet_list = invlet_list_iter->second;
-            invlet_list.erase( std::remove_if( invlet_list.begin(),
-            invlet_list.end(), [&it]( char cached_invlet ) {
-                return cached_invlet == it.invlet;
-            } ), invlet_list.end() );
-        }
+        invlet_cache.erase( it.invlet );
     }
     it.invlet = invlet;
     update_cache_with_item( it );
@@ -1004,13 +1039,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
     // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
-        auto invlet_list_iter = invlet_cache.find( newit.typeId() );
-        bool found = false;
-        if( invlet_list_iter != invlet_cache.end() ) {
-            auto &invlet_list = invlet_list_iter->second;
-            found = std::find( invlet_list.begin(), invlet_list.end(), newit.invlet ) != invlet_list.end();
-        }
-        if( !found ) {
+        if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
         }
     }

@@ -1,5 +1,7 @@
 #include "mapbuffer.h"
 
+#include <sstream>
+
 #include "cata_utility.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -15,15 +17,11 @@
 #include "trap.h"
 #include "vehicle.h"
 
-#include <sstream>
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 mapbuffer MAPBUFFER;
 
-mapbuffer::mapbuffer()
-{
-}
+mapbuffer::mapbuffer() = default;
 
 mapbuffer::~mapbuffer()
 {
@@ -151,8 +149,8 @@ void mapbuffer::save( bool delete_after_save )
         save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete,
                    delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
-                   om_addr.x > map_origin.x + ( MAPSIZE / 2 ) ||
-                   om_addr.y > map_origin.y + ( MAPSIZE / 2 ) );
+                   om_addr.x > map_origin.x + HALF_MAPSIZE ||
+                   om_addr.y > map_origin.y + HALF_MAPSIZE );
         num_saved_submaps += 4;
     }
     for( auto &elem : submaps_to_delete ) {

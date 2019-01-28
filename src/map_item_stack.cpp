@@ -1,11 +1,11 @@
 #include "map_item_stack.h"
 
+#include <algorithm>
+
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
 #include "line.h"
-
-#include <algorithm>
 
 map_item_stack::item_group::item_group() : pos( 0, 0, 0 ), count( 0 )
 {

@@ -1335,6 +1335,27 @@
     "flags": "NPC_SAFE"
   },
   {
+    "id": "pepto",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "heartburn medicine",
+    "description": "Creamy pink heartburn syrup that soothes upset stomachs and quells vomitous urges; with a twist off cap that doubles as a dosage cup.",
+    "weight": 1,
+    "volume": 1,
+    "price": 1000,
+    "container": "bottle_plastic_small",
+    "charges": 10,
+    "symbol": "%",
+    "phase": "liquid",
+    "color": "white",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take some heartburn medicine.",
+      "effects": [ { "id": "tummy_tablet", "duration": 6400 } ],
+      "flags": [ "USE_ON_NPC", "NPC_SAFE" ]
+    }
+  },
+  {
     "id": "panacea",
     "type": "COMESTIBLE",
     "comestible_type": "MED",

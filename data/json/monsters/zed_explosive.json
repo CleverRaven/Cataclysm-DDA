@@ -45,7 +45,7 @@
     "description": "Once a soldier, it is dressed head to toe in combat gear and wearing a MOLLE pack.  Its hands quickly open and close its many pouches.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 40,
+    "diff": 30,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,

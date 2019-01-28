@@ -1,14 +1,14 @@
 #include "trait_group.h"
 
+#include <algorithm>
+#include <cassert>
+#include <sstream>
+
 #include "debug.h"
 #include "json.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <algorithm>
-#include <cassert>
-#include <sstream>
 
 using namespace trait_group;
 

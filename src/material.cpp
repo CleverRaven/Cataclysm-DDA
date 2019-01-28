@@ -1,5 +1,8 @@
 #include "material.h"
 
+#include <map>
+#include <string>
+
 #include "assign.h"
 #include "damage.h" // damage_type
 #include "debug.h"
@@ -7,9 +10,6 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
-
-#include <map>
-#include <string>
 
 namespace
 {

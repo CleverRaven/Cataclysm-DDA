@@ -683,7 +683,6 @@
     },
     "om_terrain": "house",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 80
   },
   {
@@ -990,7 +989,6 @@
     },
     "om_terrain": "house",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 80
   },
   {
@@ -1234,7 +1232,6 @@
     },
     "om_terrain": "house",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 80
   },
   {
@@ -1494,7 +1491,6 @@
     },
     "om_terrain": "house",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 80
   },
   {
@@ -1854,7 +1850,6 @@
     },
     "om_terrain": "house",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 80
   },
   {
@@ -1985,7 +1980,6 @@
     },
     "om_terrain": "house",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 80
   },
   {

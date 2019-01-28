@@ -2,10 +2,10 @@
 #ifndef MAP_ITEM_STACK_H
 #define MAP_ITEM_STACK_H
 
-#include "enums.h"
-
 #include <string>
 #include <vector>
+
+#include "enums.h"
 
 class item;
 

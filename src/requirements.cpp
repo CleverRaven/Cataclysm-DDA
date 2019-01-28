@@ -1,5 +1,10 @@
 #include "requirements.h"
 
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <sstream>
+
 #include "calendar.h"
 #include "debug.h"
 #include "game.h"
@@ -12,11 +17,6 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cmath>
-#include <limits>
-#include <sstream>
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 

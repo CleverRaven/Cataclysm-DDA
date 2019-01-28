@@ -1,12 +1,12 @@
 #include "catacharset.h"
 
-#include "cursesdef.h"
-#include "options.h"
-#include "wcwidth.h"
-
 #include <cstdlib>
 #include <cstring>
 #include <array>
+
+#include "cursesdef.h"
+#include "options.h"
+#include "wcwidth.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #include "platform_win.h"
@@ -222,7 +222,7 @@ std::string utf8_truncate( std::string s, size_t length )
         return s;
     }
 
-    int last_pos = cursorx_to_position( s.c_str(), length, NULL, -1 );
+    int last_pos = cursorx_to_position( s.c_str(), length, nullptr, -1 );
 
     return s.substr( 0, last_pos );
 }
@@ -359,7 +359,7 @@ static void strip_trailing_nulls( std::string &str )
 std::wstring utf8_to_wstr( const std::string &str )
 {
 #if defined(_WIN32) || defined(WINDOWS)
-    int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
     std::wstring wstr( sz, '\0' );
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
     strip_trailing_nulls( wstr );

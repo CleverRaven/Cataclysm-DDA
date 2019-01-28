@@ -1,14 +1,18 @@
-#include "explosion.h"
+#include "explosion.h" // IWYU pragma: associated
+#include "fragment_cloud.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <chrono>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "field.h"
-#include "fragment_cloud.h"
 #include "game.h"
 #include "item_factory.h"
 #include "json.h"
+#include "math_defines.h"
 #include "map.h"
 #include "messages.h"
 #include "output.h"
@@ -20,11 +24,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-#include <algorithm>
-#include <chrono>
-// For M_PI
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include <queue>
 #include <random>
 
@@ -320,7 +319,9 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            std::random_shuffle( tiles.begin(), tiles.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( tiles.begin(), tiles.end(), eng );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {
@@ -441,8 +442,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    fragment_cloud obstacle_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
-    fragment_cloud visited_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
+    fragment_cloud obstacle_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
+    fragment_cloud visited_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
 
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().

@@ -2,13 +2,13 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include "enums.h"
-#include "item_location.h"
-#include "string_id.h"
-
 #include <climits>
 #include <set>
 #include <vector>
+
+#include "enums.h"
+#include "item_location.h"
+#include "string_id.h"
 
 class player;
 class Character;
@@ -102,6 +102,7 @@ class player_activity
         bool is_distraction_ignored( distraction_type type ) const;
         void ignore_distraction( distraction_type type );
         void allow_distractions();
+        void inherit_distractions( const player_activity & );
 };
 
 #endif

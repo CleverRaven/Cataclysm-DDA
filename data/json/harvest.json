@@ -269,11 +269,11 @@
     "id": "bird_large",
     "type": "harvest",
     "entries": [
-      { "drops": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drops": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-      { "drops": "fat", "type": "flesh", "mass_ratio": 0.18 },
-      { "drops": "feather", "type": "skin", "mass_ratio": 0.03 },
-      { "drops": "bone", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.03 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {

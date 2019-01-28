@@ -2,17 +2,17 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
+#include <bitset>
+#include <list>
+#include <set>
+#include <vector>
+
 #include "color.h"
 #include "common_types.h"
 #include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
-
-#include <bitset>
-#include <list>
-#include <set>
-#include <vector>
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;

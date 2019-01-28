@@ -13,13 +13,12 @@
 #include <curses.h>
 #endif
 
-#include "cursesdef.h"
+#include <stdexcept>
 
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "color.h"
 #include "game_ui.h"
-
-#include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window

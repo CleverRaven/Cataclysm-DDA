@@ -1,10 +1,10 @@
 #include "overmap_location.h"
 
+#include <algorithm>
+
 #include "generic_factory.h"
 #include "omdata.h"
 #include "rng.h"
-
-#include <algorithm>
 
 namespace
 {

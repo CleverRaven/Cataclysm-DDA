@@ -516,7 +516,29 @@
     "warmth": 40,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "armor_nomad_light",
+    "type": "ARMOR",
+    "name": "light nomad gear",
+    "description": "A light makeshift outfit made from pre-cataclysm clothing designed for long summer travels.  It offers less storage space and armor compared to regular nomad gear.",
+    "weight": 3200,
+    "volume": 26,
+    "price": 29500,
+    "to_hit": -4,
+    "material": [ "cotton" ],
+    "looks_like": "armor_nomad",
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 16,
+    "storage": 50,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "armor_plarmor",
@@ -1220,7 +1242,7 @@
     "id": "spearsling",
     "type": "ARMOR",
     "name": "spear strap",
-    "description": "A cloth strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
+    "description": "A leather strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
     "weight": 160,
     "volume": 2,
     "price": 5200,
@@ -1934,6 +1956,25 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+  },
+  {
+    "id": "coat_gut",
+    "type": "ARMOR",
+    "name": "gutskin parka",
+    "description": "An intricately sewn coat of treated and split intestines, prized for its light weight and waterproofness among the indigenous peoples of the arctic.",
+    "weight": 200,
+    "volume": 5,
+    "price": 13000,
+    "material": [ "flesh" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 95,
+    "encumbrance": 12,
+    "warmth": 10,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
   },
   {
     "id": "coat_winter",
@@ -3158,7 +3199,6 @@
     "coverage": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
@@ -5035,7 +5075,7 @@
     "storage": 2,
     "warmth": 25,
     "material_thickness": 1,
-    "flags": [ "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "jacket_flannel",
@@ -7290,9 +7330,9 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
-    "encumbrance": 2,
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 3,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
@@ -7309,8 +7349,8 @@
     "material": [ "wood" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 10,
     "encumbrance": 10,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },

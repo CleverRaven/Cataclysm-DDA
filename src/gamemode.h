@@ -2,12 +2,12 @@
 #ifndef GAMEMODE_H
 #define GAMEMODE_H
 
+#include <memory>
+#include <vector>
+
 #include "calendar.h"
 #include "enums.h"
 #include "string_id.h"
-
-#include <memory>
-#include <vector>
 
 enum action_id : int;
 using itype_id = std::string;

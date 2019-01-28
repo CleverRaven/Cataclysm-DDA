@@ -1,9 +1,9 @@
 [
   {
     "type" : "item_group",
-    "id" : "NC_EVAC_SHOPKEEP_extra",
+    "id" : "NC_EVAC_SHOPKEEP_storage",
     "items":[
-      ["rucksack", 90]
+      ["duffelbag", 100]
     ]
   },{
     "type" : "item_group",

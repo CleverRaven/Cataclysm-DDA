@@ -8,16 +8,11 @@
 #include <utility>
 #include <vector>
 
+#include "units.h"
+
 class item;
 class Creature;
 struct tripoint;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-}
 class JsonIn;
 class JsonOut;
 

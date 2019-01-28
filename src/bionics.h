@@ -2,12 +2,12 @@
 #ifndef BIONICS_H
 #define BIONICS_H
 
-#include "bodypart.h"
-#include "string_id.h"
-
 #include <map>
 #include <set>
 #include <vector>
+
+#include "bodypart.h"
+#include "string_id.h"
 
 class player;
 class JsonObject;

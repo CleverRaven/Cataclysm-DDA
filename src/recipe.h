@@ -2,12 +2,12 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "requirements.h"
-#include "string_id.h"
-
 #include <map>
 #include <set>
 #include <vector>
+
+#include "requirements.h"
+#include "string_id.h"
 
 class recipe_dictionary;
 class Skill;

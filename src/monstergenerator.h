@@ -2,14 +2,14 @@
 #ifndef MONSTERGENERATOR_H
 #define MONSTERGENERATOR_H
 
+#include <map>
+#include <set>
+#include <vector>
+
 #include "enums.h"
 #include "mattack_common.h"
 #include "pimpl.h"
 #include "string_id.h"
-
-#include <map>
-#include <set>
-#include <vector>
 
 class JsonObject;
 class Creature;

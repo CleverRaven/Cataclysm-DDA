@@ -1,11 +1,11 @@
 #include "line.h"
+
+#include <cstdlib>
+#include <cassert>
+
 #include "translations.h"
 #include "string_formatter.h"
-#include <cstdlib>
-
 #include "output.h"
-
-#include <cassert>
 
 extern bool trigdist;
 

@@ -25,11 +25,11 @@ fungal_effects::fungal_effects( game &g, map &mp )
 {
 }
 
-void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double spore_chance )
+void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spore_chance )
 {
-    if( monster *const mon_ptr = g->critter_at<monster>( sporep ) ) {
+    if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( gm.u.sees( sporep ) &&
+        if( gm.u.sees( p ) &&
             !critter.type->in_species( FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ),
                      critter.name().c_str() );
@@ -39,7 +39,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
             critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
             critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
         }
-    } else if( gm.u.pos() == sporep ) {
+    } else if( gm.u.pos() == p ) {
         player &pl = gm.u; // TODO: Make this accept NPCs when they understand fungals
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
 
@@ -62,7 +62,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
     } else if( gm.num_creatures() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
-        if( monster *const spore = gm.summon_mon( mon_spore, sporep ) ) {
+        if( monster *const spore = gm.summon_mon( mon_spore, p ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( *origin_mon );
@@ -72,14 +72,14 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
             }
         }
     } else {
-        spread_fungus( sporep );
+        spread_fungus( p );
     }
 }
 
-void fungal_effects::create_spores( const tripoint &p, Creature *source )
+void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 {
     for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
-        fungalize( tmp, source, 0.25 );
+        fungalize( tmp, origin, 0.25 );
     }
 }
 

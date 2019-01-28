@@ -1,5 +1,6 @@
+#include "debug_menu.h" // IWYU pragma: associated
+
 #include "debug.h"
-#include "debug_menu.h"
 #include "game.h"
 #include "input.h"
 #include "item_factory.h"
@@ -59,8 +60,8 @@ class wish_mutate_callback: public uilist_callback
                 started = true;
                 padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
-                    vTraits.push_back( traits_iter.first );
-                    pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
+                    vTraits.push_back( traits_iter.id );
+                    pTraits[traits_iter.id] = ( p->has_trait( traits_iter.id ) );
                 }
             }
             const mutation_branch &mdata = vTraits[entnum].obj();
@@ -187,13 +188,13 @@ void debug_menu::wishmutate( player *p )
     int c = 0;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        wmenu.addentry( -1, true, -2, traits_iter.second.name() );
+        wmenu.addentry( -1, true, -2, traits_iter.name() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
-        if( p->has_trait( traits_iter.first ) ) {
+        if( p->has_trait( traits_iter.id ) ) {
             wmenu.entries[ c ].text_color = c_green;
-            if( p->has_base_trait( traits_iter.first ) ) {
+            if( p->has_base_trait( traits_iter.id ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
         }
@@ -351,7 +352,7 @@ class wish_monster_callback: public uilist_callback
         }
 };
 
-void debug_menu::wishmonster( const cata::optional<tripoint> p )
+void debug_menu::wishmonster( const cata::optional<tripoint> &p )
 {
     std::vector<const mtype *> mtypes;
 

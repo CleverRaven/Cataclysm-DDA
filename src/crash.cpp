@@ -1,5 +1,7 @@
 #if defined BACKTRACE
 
+#include "crash.h"
+
 #include <csignal>
 #include <cstdio>
 #include <cstdint>
@@ -15,14 +17,15 @@
 #   endif
 #endif
 
-#include "crash.h"
 #include "get_version.h"
 #include "path_info.h"
 
 [[noreturn]] static void crash_terminate_handler();
 
 #if ( defined _WIN32 || defined _WIN64 )
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
+#endif
 
 #include <dbghelp.h>
 
@@ -216,6 +219,7 @@ void init_crash_handlers()
 // Non-Windows implementation
 
 #include <sstream>
+
 #include "debug.h"
 
 extern "C" {

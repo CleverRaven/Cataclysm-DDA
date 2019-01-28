@@ -2,6 +2,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <array>
+#include <memory>
+#include <unordered_set>
+
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -15,10 +19,6 @@
 #include "ret_val.h"
 #include "weighted_list.h"
 
-#include <array>
-#include <memory>
-#include <unordered_set>
-
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
 class craft_command;
@@ -28,6 +28,7 @@ struct bionic;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+struct dealt_projectile_attack;
 class dispersion_sources;
 class monster;
 class game;
@@ -142,6 +143,13 @@ struct stat_mod {
     int speed = 0;
 };
 
+struct needs_rates {
+    float thirst;
+    float hunger;
+    float fatigue;
+    float recovery;
+};
+
 class player : public Character
 {
     public:
@@ -249,6 +257,7 @@ class player : public Character
         void update_body( const time_point &from, const time_point &to );
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
+        needs_rates calc_needs_rates();
 
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
@@ -331,6 +340,8 @@ class player : public Character
         void process_bionic( int b );
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
+        /** Remove all bionics */
+        void clear_bionics();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
         /** Returns amount of Storage CBMs in the corpse **/
@@ -823,7 +834,7 @@ class player : public Character
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
-        int book_fun_for( const item &book ) const;
+        int book_fun_for( const item &book, const player &p ) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.
@@ -1019,6 +1030,11 @@ class player : public Character
         void drop( int pos, const tripoint &where );
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
 
+        /** So far only called by unload() from game.cpp */
+        bool add_or_drop_with_msg( item &it, const bool unloading = false );
+
+        bool unload( item &it );
+
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded
@@ -1121,6 +1137,9 @@ class player : public Character
     private:
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
+        /** Used in max_memorized_tiles to cache memory capacity. **/
+        mutable time_point current_map_memory_turn = calendar::before_time_starts;
+        mutable size_t current_map_memory_capacity = 0;
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
@@ -1195,12 +1214,14 @@ class player : public Character
                               const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
-        bool has_activity( const activity_id type ) const;
+        bool has_activity( const activity_id &type ) const;
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
-                         time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
+        void add_morale( morale_type type, int bonus, int max_bonus = 0,
+                         const time_duration &duration = 6_minutes,
+                         const time_duration &decay_start = 3_minutes, bool capped = false,
+                         const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;
@@ -1678,6 +1699,8 @@ class player : public Character
          * @param td targeting data to be set.
          */
         void set_targeting_data( const targeting_data &td );
+
+        std::set<tripoint> camps;
 
     protected:
         // The player's position on the local map.

@@ -33,13 +33,20 @@
 #define MAX_WORN_PER_TYPE 2
 
 #define MAPSIZE 11
+#define HALF_MAPSIZE static_cast<int>( MAPSIZE / 2 )
 
 // SEEX/SEEY define the size of a nonant, or grid.
 // All map segments will need to be at least this wide.
 #define SEEX 12
 #define SEEY SEEX
 
-#define MAX_VIEW_DISTANCE ( SEEX * int( MAPSIZE / 2 ) )
+#define MAPSIZE_X (SEEX * MAPSIZE)
+#define MAPSIZE_Y (SEEY * MAPSIZE)
+
+#define HALF_MAPSIZE_X (SEEX * HALF_MAPSIZE)
+#define HALF_MAPSIZE_Y (SEEY * HALF_MAPSIZE)
+
+#define MAX_VIEW_DISTANCE ( SEEX * HALF_MAPSIZE )
 
 // Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
 // it's just like SEEX/SEEY for submaps.

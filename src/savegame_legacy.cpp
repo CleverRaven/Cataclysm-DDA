@@ -1,3 +1,8 @@
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
@@ -9,11 +14,6 @@
 #include "options.h"
 #include "overmap.h"
 #include "player_activity.h"
-
-#include <sstream>
-#include <string>
-#include <unordered_map>
-#include <vector>
 
 namespace std
 {

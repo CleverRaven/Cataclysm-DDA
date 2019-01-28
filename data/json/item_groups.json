@@ -150,6 +150,10 @@
       ["wheel_bicycle", 10],
       ["wheel_motorbike", 10],
       ["wheel_small", 10],
+      ["wheel_wide_or", 5],
+      ["wheel_bicycle_or", 5],
+      ["wheel_motorbike_or", 5],
+      ["wheel_slick", 5],
       ["1cyl_combustion", 10],
       ["v2_combustion", 10],
       ["i4_combustion", 10],
@@ -467,6 +471,7 @@
       ["toastem2", 30],
       ["toastem3", 35],
       ["toasterpastryfrozen", 20],
+      ["brownie", 30],
       ["cooking_oil", 20],
       ["fruit_leather", 15],
       ["sugar", 40],
@@ -2977,20 +2982,26 @@
     "type" : "item_group",
     "id" : "female_underwear_top",
     "items":[
-      ["bra", 90]
+      ["bra", 70],
+      ["sports_bra", 50],
+      ["bikini_top", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "female_underwear_bottom",
     "items":[
       ["panties", 70],
-      ["boy_shorts", 50]
+      ["boy_shorts", 50],
+      ["bikini_bottom", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "male_underwear_top",
     "items":[
-      ["undershirt", 30]
+      ["undershirt", 50],
+      ["long_undertop", 20],
+      ["under_armor", 20],
+      ["tank_top", 50]
     ]
   },{
     "type" : "item_group",
@@ -2998,7 +3009,9 @@
     "items":[
       ["boxer_shorts", 70],
       ["briefs", 30],
-      ["boxer_briefs", 50]
+      ["boxer_briefs", 50],
+      ["long_underpants", 20],
+      ["under_armor_shorts", 20]
     ]
   },{
     "type" : "item_group",
@@ -3491,6 +3504,7 @@
       [ "novel_swash", 30 ],
       [ "manual_fencing", 9 ],
       [ "manual_niten", 9 ],
+      [ "manual_sojutsu", 9 ],
       [ "novel_samurai", 30 ],
       [ "plays_book", 30 ],
       [ "poetry_book", 30 ],
@@ -4129,6 +4143,7 @@
       ["maltballs", 60],
       ["chocolate", 100],
       ["cookies", 60],
+      ["brownie", 60],
       ["candy", 100],
       ["candy2", 100],
       ["candy3", 100],
@@ -5111,6 +5126,10 @@
       ["wheel_bicycle", 10],
       ["wheel_motorbike", 10],
       ["wheel_small", 10],
+      ["wheel_wide_or", 5],
+      ["wheel_bicycle_or", 5],
+      ["wheel_motorbike_or", 5],
+      ["wheel_slick", 5],
       ["1cyl_combustion", 10],
       ["v2_combustion", 10],
       ["i4_combustion", 10],
@@ -9254,6 +9273,7 @@
       ["chips2",      27],
       ["chips3",      26],
       ["cookies",     25],
+      ["brownie",     25],
       ["coffee_raw",  90],
       ["ceramic_cup", 10],
       ["ceramic_plate",10],
@@ -9287,6 +9307,7 @@
       ["candy",              30],
       ["chips",              30],
       ["cookies",            45],
+      ["brownie",            45],
       ["restaurantmap",       5],
       ["touristmap",          5],
       ["fried_seeds",         5],
@@ -9583,6 +9604,10 @@
       [ "wheel_small", 35 ],
       [ "wheel_motorbike", 25 ],
       [ "wheel_bicycle", 40 ],
+      [ "wheel_wide_or", 25],
+      [ "wheel_bicycle_or", 25],
+      [ "wheel_motorbike_or", 25],
+      [ "wheel_slick", 25],
       [ "wheel", 50 ]
     ]
   },

@@ -169,7 +169,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */
-int get_hourly_rotpoints_at_temp( int temp );
+int get_hourly_rotpoints_at_temp( const int temp );
 
 /**
  * Is it warm enough to plant seeds?

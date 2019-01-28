@@ -25,6 +25,7 @@
  *
  * Further documentation can be found below.
  */
+
 class JsonIn;
 class JsonOut;
 class JsonObject;
@@ -981,9 +982,9 @@ std::set<T> JsonObject::get_tags( const std::string &name )
 class JsonSerializer
 {
     public:
-        virtual ~JsonSerializer() {}
+        virtual ~JsonSerializer() = default;
         virtual void serialize( JsonOut &jsout ) const = 0;
-        JsonSerializer() { }
+        JsonSerializer() = default;
         JsonSerializer( JsonSerializer && ) = default;
         JsonSerializer( const JsonSerializer & ) = default;
         JsonSerializer &operator=( JsonSerializer && ) = default;

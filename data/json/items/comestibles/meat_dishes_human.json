@@ -31,7 +31,7 @@
     "id": "hfleshbologna",
     "copy-from": "bologna",
     "name": "brat bologna",
-    "description": "A type of lunch meat made out of human flesh that comes pre-sliced.  Its first name may have been Oscar.  Can be eaten cold.",
+    "description": "Preserved and sliced human flesh.  His first name may have been Oscar.  You can eat it cold, like the cold-blooded people-eater you are.",
     "material": "hflesh"
   },
   {
@@ -207,7 +207,7 @@
     "id": "mann_bratwurst",
     "copy-from": "bratwurst_sausage",
     "name": "Mannbrat",
-    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available. Germans are not mandatory.",
+    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available.  Germans are not mandatory.",
     "material": "hflesh"
   },
   {

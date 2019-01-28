@@ -2,13 +2,13 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include "enums.h"
-#include "game_constants.h"
-
 #include <cmath>
 #include <functional>
 #include <string>
 #include <vector>
+
+#include "enums.h"
+#include "game_constants.h"
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )

@@ -1,5 +1,7 @@
 #include "recipe_dictionary.h"
 
+#include <algorithm>
+
 #include "cata_utility.h"
 #include "crafting.h"
 #include "generic_factory.h"
@@ -10,8 +12,6 @@
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
-
-#include <algorithm>
 
 recipe_dictionary recipe_dict;
 
@@ -120,7 +120,6 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
-
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {
@@ -168,6 +167,32 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     } );
 
     return res;
+}
+
+recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
+{
+    for( const auto elem : recipes ) {
+        include( elem, src.get_custom_difficulty( elem ) );
+    }
+}
+
+recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+{
+    return recipe_subset( *this, search( txt, key ) );
+}
+recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
+{
+    std::vector<const recipe *> intersection_result;
+    std::set_intersection( this->begin(), this->end(), subset.begin(), subset.end(),
+                           std::back_inserter( intersection_result ) );
+    return recipe_subset( *this, intersection_result );
+}
+recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
+{
+    std::vector<const recipe *> difference_result;
+    std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(),
+                         std::back_inserter( difference_result ) );
+    return recipe_subset( *this, difference_result );
 }
 
 std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const
@@ -240,25 +265,25 @@ void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
 }
 
 recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
-                                 std::map<recipe_id, recipe> &dest )
+                                 std::map<recipe_id, recipe> &out )
 {
     recipe r;
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
-        if( !dest.count( base ) ) {
+        if( !out.count( base ) ) {
             deferred.emplace_back( jo.str(), src );
             return null_recipe;
         }
-        r = dest[ base ];
+        r = out[ base ];
     }
 
     r.load( jo, src );
 
-    dest[ r.ident() ] = std::move( r );
+    out[ r.ident() ] = std::move( r );
 
-    return dest[ r.ident() ];
+    return out[ r.ident() ];
 }
 
 size_t recipe_dictionary::size() const
@@ -331,7 +356,7 @@ void recipe_dictionary::finalize()
         const recipe_id rid = recipe_id( id );
 
         // books that don't already have an uncrafting recipe
-        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0 ) {
+        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / units::from_milliliter( 12.5 );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;

@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
@@ -83,7 +82,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     const cata::optional<islot_ammo> &ammo_type = ammo.type->ammo;
     REQUIRE( ammo_type );
 
-    item mag( "glockmag", 0, 0 );
+    const item mag( "glockmag", 0, 0 );
     const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
     REQUIRE( magazine_type );
     REQUIRE( ammo_type->type.count( magazine_type->type ) != 0 );
