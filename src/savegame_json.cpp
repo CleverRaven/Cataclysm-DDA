@@ -61,10 +61,16 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
     }
 };
 
+// @todo: investigate serializing other members of the Creature class hierarchy
 void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
-        jsout.write( g->critter_tracker->temporary_id( *monster_ptr ) );
+        jsout.start_object();
+        jsout.member( "temp_id", g->critter_tracker->temporary_id( *monster_ptr ) );
+        // @todo: if monsters/Creatures ever get unique ids,
+        // create a differently named member, e.g.
+        //     jsout.member("unique_id", monster_ptr->getID());
+        jsout.end_object();
     } else {
         jsout.write_null();
     }
@@ -72,10 +78,19 @@ void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
 
 void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
 {
+    obj.reset();
     if( jsin.test_null() ) {
-        obj.reset();
+        return;
     } else {
-        obj = g->critter_tracker->from_temporary_id( jsin.get_long() );
+        JsonObject data = jsin.get_object();
+        int temp_id;
+        if( data.read( "temp_id", temp_id ) ) {
+            obj = g->critter_tracker->from_temporary_id( temp_id );
+        }
+        // @todo: if monsters/Creatures ever get unique ids,
+        // look for a differently named member, e.g.
+        //     data.read( "unique_id", unique_id );
+        //     obj = g->id_registry->from_id( unique_id)
     }
 }
 
