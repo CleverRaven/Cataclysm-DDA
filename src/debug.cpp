@@ -454,7 +454,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
 {
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
-                                         "01234567890_./-";
+                                         "01234567890_./-+";
     using std::begin;
     using std::end;
     const auto is_safe_char =
