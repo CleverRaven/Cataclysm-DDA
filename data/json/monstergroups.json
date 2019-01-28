@@ -1031,28 +1031,10 @@
       { "monster" : "mon_zombie_fireman", "freq" : 20, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_cop", "freq" : 40, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_dog", "freq" : 10, "cost_multiplier" : 2 },
-      { "monster" : "mon_dog_skeleton", "freq" : 5, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 5, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 70, "cost_multiplier" : 1 },
-      { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_smoker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_gasbag", "freq" : 20, "cost_multiplier": 5},
-      { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 10, "pack_size": [3,5]},
       { "monster" : "mon_zombie_swimmer", "freq" : 20, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_shrieker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_spitter", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_acidic", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
-      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
-      { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 1, "cost_multiplier" : 45 }
+      { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 }
     ]
   },{
     "type":"monstergroup",
@@ -1068,37 +1050,23 @@
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_dog", "freq" : 40, "cost_multiplier" : 2 },
-      { "monster" : "mon_dog_skeleton", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_cop", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 10, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 70, "cost_multiplier" : 1 },
-      { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_smoker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_swimmer", "freq" : 20, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_shrieker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_spitter", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_acidic", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
-      { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
-      { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 }
+      { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 }
     ]
   },{
     "type":"monstergroup",
     "name" : "GROUP_PREPPER_HOUSE",
     "default" : "mon_zombie",
     "monsters" : [
-      { "monster" : "mon_zombie_smoker", "freq" : 180, "cost_multiplier" : 0 },
+      { "monster" : "mon_zombie_tough", "freq" : 180, "cost_multiplier" : 0 },
       { "monster" : "mon_zombie_survivor", "freq" : 400, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_PHARM", "//" : "+15% fast",
+    "name" : "GROUP_PHARM", "//" : "more fast",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2},
@@ -1110,30 +1078,16 @@
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_dog", "freq" : 150, "cost_multiplier" : 2 },
-      { "monster" : "mon_dog_skeleton", "freq" : 15, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_cop", "freq" : 15, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 40, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 70, "cost_multiplier" : 1 },
-      { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_smoker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 5},
       { "monster" : "mon_zombie_swimmer", "freq" : 20, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_shrieker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_spitter", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_acidic", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
-      { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
-      { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 }
+      { "monster" : "mon_zombie_runner", "freq" : 20, "cost_multiplier" : 5, "pack_size": [1,4] }
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_ELECTRO", "//" : "+15% electric",
+    "name" : "GROUP_ELECTRO", "//" : "more electric",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2},
@@ -1145,32 +1099,17 @@
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_dog", "freq" : 40, "cost_multiplier" : 2 },
-      { "monster" : "mon_dog_skeleton", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_cop", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 10, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 70, "cost_multiplier" : 1 },
-      { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_smoker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 5},
       { "monster" : "mon_zombie_swimmer", "freq" : 20, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_shrieker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_spitter", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_acidic", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_electric", "freq" : 180, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
-      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
-      { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 6, "cost_multiplier" : 26 }
+      { "monster" : "mon_zombie_electric", "freq" : 6, "cost_multiplier" : 26 }
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_GROCERY", "//" : "+15% bommers",
+    "name" : "GROUP_GROCERY", "//" : "more fat",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2},
@@ -1185,25 +1124,10 @@
       { "monster" : "mon_dog_skeleton", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_cop", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 10, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 70, "cost_multiplier" : 1 },
-      { "monster" : "mon_zombie_grappler", "freq" : 10, "cost_multiplier" : 7 },
-      { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_smoker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 5},
       { "monster" : "mon_zombie_swimmer", "freq" : 20, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_shrieker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_spitter", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_acidic", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_boomer", "freq" : 180, "cost_multiplier" : 7 },
-      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
-      { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 }
+      { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2}
     ]
   },{
     "type":"monstergroup",
@@ -1221,24 +1145,13 @@
     "name" : "GROUP_PUBLICWORKERS",
     "default" : "mon_zombie_electric",
     "monsters" : [
-      { "monster" : "mon_zombie_grabber", "freq" : 100, "cost_multiplier" : 1 },
-      { "monster" : "mon_zombie_smoker", "freq" : 100, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_gasbag", "freq" : 20, "cost_multiplier": 10, "pack_size": [3,5]},
-      { "monster" : "mon_zombie_shrieker", "freq" : 100, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_spitter", "freq" : 100, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_acidic", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie", "freq" : 100, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_fat", "freq" : 26, "cost_multiplier": 5},
       { "monster" : "mon_zombie_child", "freq" : 10, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_tough", "freq" : 10, "cost_multiplier": 5},
       { "monster" : "mon_zombie_rot", "freq" : 6, "cost_multiplier": 5},
       { "monster" : "mon_zombie_crawler", "freq" : 4, "cost_multiplier": 5},
-      { "monster" : "mon_zombie_brute", "freq" : 20, "cost_multiplier" : 15 },
-      { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 8, "cost_multiplier" : 28 }
+      { "monster" : "mon_zombie_electric", "freq" : 8, "cost_multiplier" : 28 }
     ]
   },{
     "type":"monstergroup",
@@ -1251,10 +1164,7 @@
       { "monster" : "mon_zombie_rot", "freq" : 3, "cost_multiplier": 2, "pack_size": [1,5]},
       { "monster" : "mon_zombie_crawler", "freq" : 2, "cost_multiplier": 2, "pack_size": [1,5]},
       { "monster" : "mon_zombie_dog", "freq" : 7, "cost_multiplier" : 0 },
-      { "monster" : "mon_dog_skeleton", "freq" : 3, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_child", "freq" : 8, "cost_multiplier" : 0 },
-      { "monster" : "mon_skeleton", "freq" : 10, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shrieker", "freq" : 10, "cost_multiplier" : 5 }
+      { "monster" : "mon_zombie_child", "freq" : 8, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
@@ -1395,7 +1305,7 @@
     "name" : "GROUP_LARGE_STATION",
     "default" : "mon_zombie_technician",
     "monsters" : [
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 100, "cost_multiplier" : 2, "pack_size": [1,2]},
+      { "monster" : "mon_zombie_electric", "freq" : 100, "cost_multiplier" : 2, "pack_size": [1,2]},
       { "monster" : "mon_zombie_electric", "freq" : 55, "cost_multiplier": 4, "pack_size": [1,2]},
       { "monster" : "mon_zombie_technician", "freq" : 50, "cost_multiplier": 5, "pack_size": [2,4]},
       { "monster" : "mon_zombie_tough", "freq" : 25, "cost_multiplier" : 0}
@@ -1537,8 +1447,6 @@
         { "monster" : "mon_zombie", "freq" : 200, "cost_multiplier": 0},
         { "monster" : "mon_zombie_fat", "freq" : 100, "cost_multiplier": 0},
         { "monster" : "mon_zombie_tough", "freq" : 50, "cost_multiplier": 0},
-        { "monster" : "mon_zombie_brute", "freq" : 30, "cost_multiplier": 0},
-        { "monster" : "mon_zombie_grabber", "freq" : 10, "cost_multiplier": 0},
         { "monster" : "mon_zombie_electric", "freq" : 10, "cost_multiplier": 0}
       ]
   },{
@@ -1642,31 +1550,11 @@
       { "monster" : "mon_zombie_cop", "freq" : 20, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 35, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_grappler", "freq" : 5, "cost_multiplier" : 10 },
-      { "monster" : "mon_zombie_hunter", "freq" : 10, "cost_multiplier" : 5 },
-      { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_smoker", "freq" : 10, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shady", "freq" : 10, "cost_multiplier" : 4},
-      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 15, "pack_size": [4,6]},
-      { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 5},
-      { "monster" : "mon_zombie_gasbag", "freq" : 3, "cost_multiplier": 10, "pack_size": [3,5]},
       { "monster" : "mon_zombie_swimmer", "freq" : 10, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_shrieker", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_spitter", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_acidic", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_electric", "freq" : 10, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_necro", "freq" : 5, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
-      { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
-      { "monster" : "mon_beekeeper", "freq" : 1, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_technician", "freq" : 1, "cost_multiplier" : 12},
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 5, "cost_multiplier" : 40 },
-      { "monster" : "mon_zombie_runner", "freq" : 20, "cost_multiplier" : 5, "pack_size": [1,4] }
+      { "monster" : "mon_zombie_technician", "freq" : 1, "cost_multiplier" : 12}
     ]
   },
   {
