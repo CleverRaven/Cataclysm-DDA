@@ -157,7 +157,7 @@
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ]
     ]
-  },  
+  },
   {
     "id": "hk_mp5sd",
     "copy-from": "hk_mp5",
