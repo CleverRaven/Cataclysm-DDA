@@ -240,8 +240,6 @@ struct npc_follower_rules {
     aim_rule aim = AIM_WHEN_CONVENIENT;
     ally_rule flags;
 
-    bool close_doors;
-
     pimpl<auto_pickup> pickup_whitelist;
 
     npc_follower_rules();
