@@ -268,7 +268,7 @@
     "responses": [
       {
         "text": "Come on, we're friends.",
-        "trial": { "type": "PERSUADE", "difficulty": 0, "mods": [ [ "TRUST", 3 ], [ "VALUE", 1 ], [ "ANGER", -3 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": { "topic": "TALK_TRAIN" },
         "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 } }
       },
