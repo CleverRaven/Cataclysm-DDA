@@ -1110,7 +1110,7 @@
         "name" : "Genetic Downward Spiral",
         "points" : -12,
         "purifiable" : false,
-        "description" : "The events of the Cataclysm have damaged your DNA beyond repair. You mutate frequently, and all mutations you receive (from any source) are negative.",
+        "description" : "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
         "starting_trait" : true,
 		"cancels" : ["ROBUST"],
         "valid" : false
