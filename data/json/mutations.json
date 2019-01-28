@@ -105,6 +105,7 @@
         "points" : 2,
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
+        "cancels" : ["MET_RAT"],
         "types" : ["METABOLISM"],
         "changes_to" : [ "GIZZARD", "COLDBLOOD" ],
         "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE"],
