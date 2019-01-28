@@ -1024,7 +1024,7 @@ int parse_mod( const dialogue &d, const std::string &attribute, const int factor
     } else if( attribute == "TRUST" ) {
         modifier = p.op_of_u.trust;
     } else if( attribute == "VALUE" ) {
-        modifier = p.op_of_u.trust;
+        modifier = p.op_of_u.value;
     } else if( attribute == "POS_FEAR" ) {
         modifier = std::max( 0, p.op_of_u.fear );
     } else if( attribute == "AGGRESSION" ) {
