@@ -1889,6 +1889,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + ( isBold ? 8 : 0 );
             std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
+
+            // do not rotate fallback tiles!
+            if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
+                rota = 0;
+            }
+
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
