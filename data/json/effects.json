@@ -463,7 +463,7 @@
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
      "harmful_cough": true,
       "max_duration": 1800,
-     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "show_in_info": true
   },
   {
