@@ -112,12 +112,17 @@ class options_manager
                     return !operator==( rhs );
                 }
 
+                static std::vector<std::string> getPrerequisiteSupportedTypes() {
+                    return { "bool", "string", "string_select", "string_input" };
+                };
+
                 void setPrerequisites( const std::string &sOption, const std::vector<std::string> &sAllowedValues );
-                void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "" ) {
+                void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" ) {
                     setPrerequisites( sOption, { sAllowedValue } );
                 }
                 std::string getPrerequisite() const;
                 bool hasPrerequisite() const;
+                bool checkPrerequisite() const;
 
                 enum COPT_VALUE_TYPE {
                     CVT_UNKNOWN = 0,
@@ -140,6 +145,7 @@ class options_manager
                 std::string format;
 
                 std::string sPrerequisite;
+                std::vector<std::string> sPrerequisiteAllowedValues;
 
                 copt_hide_t hide;
                 int iSortPos;

@@ -181,7 +181,8 @@
     "price": 7500,
     "material": "wheat",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "cooks_like": "oatmeal_cooked",
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 16,
     "vitamins": [ [ "iron", 2 ] ],
     "fun": -2
@@ -221,7 +222,7 @@
     "price": 500,
     "material": "wheat",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
     "vitamins": [ [ "iron", 3 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"

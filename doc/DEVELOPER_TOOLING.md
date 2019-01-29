@@ -1,9 +1,13 @@
 ## Astyle
 
 Automatic formatting is performed by astyle.  If you have make and astyle
-installed then this can be done with 'make astyle'.
+installed then this can be done with `make astyle`.
 
 On Windows, there is an astyle extension for Visual Studio.
+
+## JSON style
+
+See the [JSON style guide](JSON_STYLE.md).
 
 ## include-what-you-use
 
@@ -27,6 +31,15 @@ Then run:
 ```
 iwyu_tool.py -p $CMAKE_BUILD_DIR/compile_commands.json -- -Xiwyu --mapping_file=$PWD/tools/iwyu/cata.imp | fix_includes.py --nosafe_headers
 ```
+
+There are mapping files in `tools/iwyu` intended to help IWYU pick the right
+headers.  Mostly they should be fairly obvious, but the SDL mappings might
+warrant further explanation.  We want to force most SDL includes to go via
+`sdl_wrappers.h`, because that handles the platform-dependence issues (the
+include paths are different on Windows).  There are a couple of exceptions
+(`SDL_version.h` and `SDL_mixer.h`).  The former is because `main.cpp` can't
+include all SDL headers, because they `#define WinMain`.  All the mappings in
+`sdl.imp` are designed to make this happen.
 
 We have to use IWYU pragmas in some situations.  Some of the reasons are:
 

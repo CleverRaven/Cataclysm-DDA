@@ -825,6 +825,12 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+    if( inp_mngr.get_previously_pressed_key() == KEY_LEFT ) {
+        facing = FD_LEFT;
+    }
+    else if( inp_mngr.get_previously_pressed_key() == KEY_RIGHT ) {
+        facing = FD_RIGHT;
+    }
 }
 
 void player::action_taken()
@@ -834,7 +840,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale->decay( 1_turns );
+    morale->decay( 10_turns );
     apply_persistent_morale();
 }
 
@@ -855,7 +861,7 @@ void player::apply_persistent_morale()
             pen = pen / 2;
         }
         if( pen > 0 ) {
-            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5_turns, 5_turns, true );
+            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
 }
@@ -4301,7 +4307,7 @@ needs_rates player::calc_needs_rates()
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
             rates.hunger *= ( 2.0f / 7.0f );
             rates.thirst *= ( 2.0f / 7.0f );
-        } 
+        }
         rates.recovery -= float( get_perceived_pain() ) / 60;
 
     } else {
@@ -6388,7 +6394,7 @@ void player::vomit()
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
         rem_morale( MORALE_HONEY ); // bears must suffer too
-        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90_turns, 45_turns, false ); // 1.5 times longer
+        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90_minutes, 45_minutes, false ); // 1.5 times longer
 
         g->m.add_field( adjacent_tile(), fd_bile, 1 );
 
@@ -6613,7 +6619,7 @@ void player::apply_wetness_morale( int temperature )
         }
     }
 
-    add_morale( MORALE_WET, morale_effect, total_morale, 5_turns, 5_turns, true );
+    add_morale( MORALE_WET, morale_effect, total_morale, 1_minutes, 1_minutes, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
@@ -8561,7 +8567,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload(item &it) 
+bool player::unload(item &it)
 {
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() || it.is_bandolier() ) {
@@ -9650,7 +9656,7 @@ bool player::read( int inventory_position, const bool continuous )
     }
     for( player *elem : apply_morale ) {
         //Fun bonuses for spritual and To Serve Man are no longer calculated here.
-        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 3_minutes,
+        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
 
@@ -9735,7 +9741,7 @@ void player::do_read( item &book )
 
         if( book_fun_for( book, *learner ) != 0 ) {
             //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book, *learner ) * 15, 6_minutes, 3_minutes, true,
+            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book, *learner ) * 15, 1_hours, 30_minutes, true,
                 book.type );
         }
 
@@ -11117,6 +11123,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         add_msg_if_player( _("You resume your task.") );
         activity = backlog.front();
         backlog.pop_front();
+        activity.resume_with( act );
     } else {
         if( activity ) {
             backlog.push_front( activity );
@@ -11519,7 +11526,6 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
@@ -12219,7 +12225,6 @@ float player::speed_rating() const
     if( move_mode != "run" ) {
         ret *= 1.0f + (static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ));
     }
-
     return ret;
 }
 

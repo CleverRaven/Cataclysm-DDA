@@ -80,6 +80,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
+    { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
     { activity_id( "ACT_DISSECT" ), butcher_do_turn },
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
@@ -101,6 +102,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_BUTCHER" ), butcher_finish },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_finish },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_finish },
+    { activity_id( "ACT_SKIN" ), butcher_finish },
     { activity_id( "ACT_QUARTER" ), butcher_finish },
     { activity_id( "ACT_DISSECT" ), butcher_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
@@ -150,7 +152,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
-    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish }
+    { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -380,6 +383,12 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
+    if( action == SKIN && corpse_item.has_flag( "SKINNED" ) ) {
+        u.add_msg_if_player( m_info, _( "This corpse is already skinned." ) );
+        act.index = -1;
+        return;
+    }
+
     if( action == QUARTER ) {
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
@@ -473,6 +482,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             }
             break;
         case F_DRESS:
+            time_to_cut *= 2;
+            break;
+        case SKIN:
             time_to_cut *= 2;
             break;
         case QUARTER:
@@ -651,6 +663,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                                  _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
+    if( corpse_item->has_flag( "SKINNED" ) ) {
+        monster_weight = round( 0.85 * monster_weight );
+    }
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
@@ -716,6 +731,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll /= 2;
         }
 
+        if( corpse_item->has_flag( "SKINNED" ) && entry.type == "skin" ) {
+            roll = 0;
+        }
+
         // QUICK BUTCHERY
         if( action == BUTCHER ) {
             if( entry.type == "flesh" ) {
@@ -739,6 +758,14 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 continue;
             }
             if( entry.type == "skin" ) {
+                continue;
+            }
+        }
+
+        // you only get the skin from skinning
+        if( action == SKIN ) {
+            if( entry.type != "skin" ) {
+                roll = 0;
                 continue;
             }
         }
@@ -815,6 +842,8 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( action == F_DRESS ) {
             // 25% of the corpse weight is what's removed during field dressing
             monster_weight_remaining -= monster_weight * 3 / 4;
+        } else if( action == SKIN ) {
+            monster_weight_remaining -= monster_weight * 0.85;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
             if( ( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
@@ -822,6 +851,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 monster_weight_remaining -= monster_weight / 4;
             } else if( corpse_item->has_flag( "QUARTERED" ) ) {
                 monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
+            }
+            if( corpse_item->has_flag( "SKINNED" ) ) {
+                monster_weight_remaining -= monster_weight * 0.15;
             }
         }
         const int item_charges = monster_weight_remaining / to_gram( (
@@ -864,6 +896,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = QUARTER;
     } else if( act->id() == activity_id( "ACT_DISSECT" ) ) {
         action = DISSECT;
+    } else if( act->id() == activity_id( "ACT_SKIN" ) ) {
+        action = SKIN;
     }
 
     //Negative index means try to start next item
@@ -966,7 +1000,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
 
     // reveal hidden items / hidden content
-    if( action != F_DRESS ) {
+    if( action != F_DRESS && action != SKIN ) {
         for( auto &content : contents ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -1047,6 +1081,27 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
+            break;
+        case SKIN:
+            switch( rng( 1, 4 ) ) {
+                case 1:
+                    p->add_msg_if_player( m_good, _( "You skin the %s." ), corpse->nname().c_str() );
+                    break;
+                case 2:
+                    p->add_msg_if_player( m_good, _( "You carefully remove the hide from the %s" ),
+                                          corpse->nname().c_str() );
+                    break;
+                case 3:
+                    p->add_msg_if_player( m_good,
+                                          _( "The %s is challenging to skin, but you get a good hide from it." ),
+                                          corpse->nname().c_str() );
+                    break;
+                case 4:
+                    p->add_msg_if_player( m_good, _( "With a few deft slices you take the skin from the %s" ),
+                                          corpse->nname().c_str() );
+                    break;
+            }
+            corpse_item.set_flag( "SKINNED" );
             break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
@@ -2821,7 +2876,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
 
 void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
 {
-    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
     p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                           act->str_values[0].c_str() );
     act->set_to_null();
@@ -3088,4 +3143,76 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
                                 reject_tiles,
                                 plant_appropriate_seed,
                                 _( "You planted all seeds you could." ) );
+}
+
+void activity_handlers::robot_control_finish( player_activity *act, player *p )
+{
+    uilist pick_robot;
+    pick_robot.text = _( "Override ready, choose an endpoint to hack." );
+    // Build a list of all unfriendly robots in range.
+    std::vector< monster * > mons; // @todo: change into vector<Creature*>
+    std::vector< tripoint > locations;
+    int entry_num = 0;
+    for( monster &candidate : g->all_monsters() ) {
+        if( candidate.type->in_species( species_id( "ROBOT" ) ) && candidate.friendly == 0 &&
+            rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
+            mons.push_back( &candidate );
+            pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
+            tripoint seen_loc;
+            // Show locations of seen robots, center on player if robot is not seen
+            if( p->sees( candidate ) ) {
+                seen_loc = candidate.pos();
+            } else {
+                seen_loc = p->pos();
+            }
+            locations.push_back( seen_loc );
+        }
+    }
+    if( mons.empty() ) {
+        p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
+        act->set_to_null();
+        return;
+    }
+    pointmenu_cb callback( locations );
+    pick_robot.callback = &callback;
+    pick_robot.query();
+    if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
+        p->add_msg_if_player( m_info, _( "Never mind" ) );
+        act->set_to_null();
+        return;
+    }
+    const size_t mondex = pick_robot.ret;
+    monster *z = mons[mondex];
+    p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name().c_str() );
+
+    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+    /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
+    float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
+                    ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    if( success >= 0 ) {
+        p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
+                              z->name().c_str() );
+        z->friendly = -1;
+    } else if( success >= -2 ) { //A near success
+        p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
+                              z->name().c_str() );
+        z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
+        if( z->is_dead() ) {
+            p->practice( skill_id( "computer" ), 10 );
+            act->set_to_null();
+            return; // Do not do the other effects if the robot died
+        }
+        if( one_in( 3 ) ) {
+            p->add_msg_if_player( _( "...and turns friendly!" ) );
+            if( one_in( 3 ) ) { //did the robot became friendly permanently?
+                z->friendly = -1; //it did
+            } else {
+                z->friendly = rng( 5, 40 ); // it didn't
+            }
+        }
+    } else {
+        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
+    }
+    p->practice( skill_id( "computer" ), 10 );
+    act->set_to_null();
 }

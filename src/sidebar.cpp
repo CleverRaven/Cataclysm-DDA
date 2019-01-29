@@ -567,57 +567,58 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         //~ Movement type: "running". Max string length: one letter.
         const auto str_run = pgettext( "movement-type", "R" );
         wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
-
-        // display power level
-        wmove( sideStyle ? w : g->w_HP,
-               sideStyle ? spdy - 1 : 21,
-               sideStyle ? ( wx + dx * 4 - 1 ) : 0 );
-
-        wprintz( sideStyle ? w : g->w_HP, c_white, _( "Pwr " ) );
-
-        if( this->max_power_level == 0 ) {
-            wprintz( sideStyle ? w : g->w_HP, c_light_gray, " --" );
-        } else {
-            nc_color color = c_red;
-            if( this->power_level >= this->max_power_level / 2 ) {
-                color = c_green;
-            } else if( this->power_level >= this->max_power_level / 3 ) {
-                color = c_yellow;
-            } else if( this->power_level >= this->max_power_level / 4 ) {
-                color = c_red;
-            }
-
-            // calc number of digits in powerlevel int
-            int offset = get_int_digits( this->power_level );
-
-            // case power_level > 999 display 1k instead
-            int display_power = this->power_level;
-            std::string unit = "";
-            if( this->power_level > 999 ) {
-                switch( offset ) {
-                    case 4:
-                        display_power /= 1000;
-                        unit = "k";
-                        offset = 2;
-                        break;
-                    case 5:
-                        display_power /= 1000;
-                        unit = "k";
-                        offset = 0;
-                        break;
-                }
-            } else {
-                unit = "";
-            }
-
-            wmove( sideStyle ? w : g->w_HP,
-                   sideStyle ? spdy - 1 : 21,
-                   sideStyle ? ( wx + dx * 4 + 6 ) - offset : 7 - offset );
-            std::string power_value = std::to_string( display_power ) + unit;
-            wprintz( sideStyle ? w : g->w_HP, color, power_value );
-        }
-        wrefresh( sideStyle ? w : g->w_HP );
     }
+    // display power level
+    wmove( sideStyle ? w : g->w_HP,
+           sideStyle ? 4 : 21,
+           sideStyle ? 17 : 0 );
+
+    wprintz( sideStyle ? w : g->w_HP, c_white, _( "Pwr " ) );
+
+    if( this->max_power_level == 0 ) {
+        wprintz( sideStyle ? w : g->w_HP, c_light_gray, " --" );
+    } else {
+        nc_color color = c_red;
+        if( this->power_level >= this->max_power_level / 2 ) {
+            color = c_green;
+        } else if( this->power_level >= this->max_power_level / 3 ) {
+            color = c_yellow;
+        } else if( this->power_level >= this->max_power_level / 4 ) {
+            color = c_red;
+        }
+
+        // calc number of digits in powerlevel int
+        int offset = get_int_digits( this->power_level );
+
+        // case power_level > 999 display 1k instead
+        int display_power = this->power_level;
+        std::string unit = "";
+        if( this->power_level > 999 ) {
+            switch( offset ) {
+                case 4:
+                    display_power /= 1000;
+                    unit = "k";
+                    offset = 2;
+                    break;
+                case 5:
+                    display_power /= 1000;
+                    unit = "k";
+                    offset = 0;
+                    break;
+            }
+        } else {
+            unit = "";
+        }
+
+        wmove( sideStyle ? w : g->w_HP,
+               sideStyle ? 4 : 21,
+               sideStyle ? 24 - offset : 7 - offset );
+        std::string power_value = std::to_string( display_power ) + unit;
+        wprintz( sideStyle ? w : g->w_HP, color, power_value );
+    }
+    wrefresh( sideStyle ? w : g->w_HP );
+
+
 }
 
 int get_int_digits( const int &digits )

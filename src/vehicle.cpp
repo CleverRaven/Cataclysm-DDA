@@ -361,7 +361,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
 
-        if( vp.has_feature( "REACTOR" ) ) {
+        if( vp.has_feature( VPFLAG_REACTOR ) ) {
             // De-hardcoded reactors. Should always start active
             pt.enabled = true;
         }
@@ -4368,7 +4368,7 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_ENGINE ) ) {
             engines.push_back( p );
         }
-        if( vpi.has_flag( "REACTOR" ) ) {
+        if( vpi.has_flag( VPFLAG_REACTOR ) ) {
             reactors.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
@@ -5165,7 +5165,6 @@ void vehicle::update_time( const time_point &update_to )
             charge_battery( energy_bat );
         }
     }
-
     if( !wind_turbines.empty() ) {
         int epower_w = 0;
         for( int part : wind_turbines ) {
@@ -5179,8 +5178,11 @@ void vehicle::update_time( const time_point &update_to )
 
             epower_w += part_epower_w( part );
         }
+        //Wind Turbine less efficient in forests
+        const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
         int windpower = weatherPoint.windpower;
+        windpower = get_local_windpower( windpower, cur_om_ter, false );
         double intensity = windpower / to_turns<double>( elapsed );
         int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {

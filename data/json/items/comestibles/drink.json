@@ -37,6 +37,7 @@
     "calories": 35,
     "description": "This serving of coffee has been created using an atomic coffee pot's FULL NUCLEAR brewing cycle.  Every possible microgram of caffeine and flavor has been carefully extracted for your enjoyment, using the power of the atom.",
     "price": 300,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 10
   },
   {
@@ -96,7 +97,7 @@
     "material": [ "milk", "water" ],
     "volume": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 14
   },
   {
@@ -141,7 +142,7 @@
     "material": "water",
     "volume": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 6
   },
   {
@@ -302,7 +303,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
@@ -389,7 +390,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4
   },
   {
@@ -647,7 +648,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 10 ] ]
   },
@@ -774,7 +775,7 @@
     "volume": 1,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 6
   },
   {
@@ -793,7 +794,7 @@
     "volume": 2,
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": -5
   },
   {

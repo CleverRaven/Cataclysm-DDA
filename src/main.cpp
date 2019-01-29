@@ -1,7 +1,4 @@
-/* Main Loop for cataclysm
- * Linux only I guess
- * But maybe not
- * Who knows
+/* Entry point and main loop for Cataclysm
  */
 
 #include <cstring>
