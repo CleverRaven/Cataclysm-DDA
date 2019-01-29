@@ -468,6 +468,16 @@ struct note_color {
     std::string name;
 };
 
+struct color_tag_parse_result {
+    enum tag_type {
+        open_color_tag,
+        close_color_tag,
+        non_color_tag,
+    };
+    tag_type type;
+    nc_color color;
+};
+
 extern std::unordered_map<std::string, note_color> color_by_string_map;
 extern std::unordered_map<std::string, note_color> color_shortcuts;
 
@@ -483,7 +493,7 @@ nc_color cyan_background( const nc_color &c );
 nc_color color_from_string( const std::string &color );
 std::string string_from_color( const nc_color &color );
 nc_color bgcolor_from_string( const std::string &color );
-nc_color get_color_from_tag( const std::string &s, const nc_color &base_color );
+color_tag_parse_result get_color_from_tag( const std::string &s );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
 

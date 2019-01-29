@@ -612,7 +612,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         wmove( sideStyle ? w : g->w_HP,
                sideStyle ? 4 : 21,
-               sideStyle ? 17 - offset : 7 - offset );
+               sideStyle ? 24 - offset : 7 - offset );
         std::string power_value = std::to_string( display_power ) + unit;
         wprintz( sideStyle ? w : g->w_HP, color, power_value );
     }
