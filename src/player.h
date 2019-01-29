@@ -20,6 +20,7 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
+#include "stomach.h"
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
@@ -256,6 +257,8 @@ class player : public Character
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
         void update_body( const time_point &from, const time_point &to );
+        /** Updates the stomach to give accurate hunger messages */
+        void update_stomach( const time_point &from, const time_point &to );
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates();
@@ -836,6 +839,8 @@ class player : public Character
         int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
+        // easy way to get calorie value from nutrition_for
+        int calories_for( const item &comest ) const;
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
@@ -845,6 +850,11 @@ class player : public Character
          * the first of its contents (if it's comestible) or null item otherwise.
          */
         item &get_comestible_from( item &it ) const;
+
+        stomach_contents stomach;
+        stomach_contents guts;
+
+        void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item &it ) const;
@@ -861,6 +871,8 @@ class player : public Character
          * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
         int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+
+        void vitamins_mod( const std::map<vitamin_id, int>, bool capped = true );
 
         /**
          * Check current level of a vitamin
@@ -889,7 +901,7 @@ class player : public Character
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        void consume_effects( const item &eaten );
+        void consume_effects( item &eaten );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();

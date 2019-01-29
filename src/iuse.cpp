@@ -886,8 +886,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         double multiplier = -1;
         p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier );
-        p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
-        p->mod_stomach_water( 20 );
+        p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
                             it->type->comestible->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 1_hours, 30_minutes,

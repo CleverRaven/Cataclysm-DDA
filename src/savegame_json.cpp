@@ -343,8 +343,7 @@ void Character::load( JsonObject &data )
     data.read( "starvation", starvation );
     data.read( "fatigue", fatigue );
     data.read( "sleep_deprivation", sleep_deprivation );
-    data.read( "stomach_food", stomach_food );
-    data.read( "stomach_water", stomach_water );
+    data.read( "stored_calories", stored_calories );
 
     // health
     data.read( "healthy", healthy );
@@ -476,8 +475,7 @@ void Character::store( JsonOut &json ) const
     json.member( "starvation", starvation );
     json.member( "fatigue", fatigue );
     json.member( "sleep_deprivation", sleep_deprivation );
-    json.member( "stomach_food", stomach_food );
-    json.member( "stomach_water", stomach_water );
+    json.member( "stored_calories", stored_calories );
 
     // breathing
     json.member( "underwater", underwater );

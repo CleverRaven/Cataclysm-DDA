@@ -112,8 +112,9 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    stomach_food = 0;
-    stomach_water = 0;
+    // 45 days to starve to death
+    healthy_calories = 77000;
+    stored_calories = healthy_calories;
 
     name.clear();
 
@@ -1890,6 +1891,37 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     healthy_mod = std::max( healthy_mod, low_cap );
 }
 
+int Character::get_stored_kcal() const
+{
+    return stored_calories;
+}
+
+void Character::mod_stored_kcal( int nkcal )
+{
+    // this needs to be capped until there are negative effects on being overweight
+    const int capped = std::min( stored_calories + nkcal,
+                                 static_cast<int>( get_healthy_kcal() * 1.1 ) );
+    set_stored_kcal( capped );
+}
+
+void Character::mod_stored_nutr( int nnutr )
+{
+    // nutr is legacy type code, this function simply converts old nutrition to new kcal
+    mod_stored_kcal( round( nnutr * 2500.0f / ( 12 * 24 ) ) );
+}
+
+void Character::set_stored_kcal( int kcal )
+{
+    if( stored_calories != kcal ) {
+        stored_calories = kcal;
+    }
+}
+
+int Character::get_healthy_kcal() const
+{
+    return healthy_calories;
+}
+
 int Character::get_hunger() const
 {
     return hunger;
@@ -2024,31 +2056,6 @@ void Character::set_thirst( int nthirst )
         thirst = nthirst;
         on_stat_change( "thirst", thirst );
     }
-}
-
-int Character::get_stomach_food() const
-{
-    return stomach_food;
-}
-void Character::mod_stomach_food( int n_stomach_food )
-{
-    stomach_food = std::max( 0, stomach_food + n_stomach_food );
-}
-void Character::set_stomach_food( int n_stomach_food )
-{
-    stomach_food = std::max( 0, n_stomach_food );
-}
-int Character::get_stomach_water() const
-{
-    return stomach_water;
-}
-void Character::mod_stomach_water( int n_stomach_water )
-{
-    stomach_water = std::max( 0, stomach_water + n_stomach_water );
-}
-void Character::set_stomach_water( int n_stomach_water )
-{
-    stomach_water = std::max( 0, n_stomach_water );
 }
 
 void Character::mod_fatigue( int nfatigue )

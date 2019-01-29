@@ -535,6 +535,7 @@ player::player() : Character()
             style_none, style_kicks
         }
     };
+    initialize_stomach_contents();
 }
 
 player::~player() = default;
@@ -750,8 +751,8 @@ void player::process_turn()
     last_item = itype_id( "null" );
 
     if( has_active_bionic( bio_metabolics ) && power_level + 25 <= max_power_level &&
-        get_hunger() < 100 && calendar::once_every( 5_turns ) ) {
-        mod_hunger( 2 );
+        get_stored_kcal() > get_healthy_kcal() + 25 && calendar::once_every( 5_turns ) ) {
+        mod_stored_kcal( -25 );
         charge_power( 25 );
     }
     if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
@@ -3999,6 +4000,7 @@ void player::update_body()
 void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
+    update_stomach( from, to );
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
@@ -4030,6 +4032,74 @@ void player::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+    }
+}
+
+void player::update_stomach( const time_point &from, const time_point &to )
+{
+    const needs_rates rates = calc_needs_rates();
+    // No food/thirst/fatigue clock at all
+    const bool debug_ls = has_trait( trait_DEBUG_LS );
+    // No food/thirst, capped fatigue clock (only up to tired)
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    const bool foodless = debug_ls || npc_no_food;
+    const bool mouse = has_trait( trait_NO_THIRST );
+    const bool mycus = has_trait( trait_M_DEPENDENT );
+    // @TODO: move to kcal altogether
+    const float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+    const int five_mins = ticks_between( from, to, 5_minutes );
+
+    if( five_mins > 0 ) {
+        stomach.absorb_water( *this, 250_ml * five_mins );
+        guts.absorb_water( *this, 250_ml * five_mins );
+    }
+    if( ticks_between( from, to, 30_minutes ) > 0 ) {
+        // the stomach does not currently have rates of absorption, but this is where it goes
+        stomach.calculate_absorbed( stomach.get_absorb_rates( true ) );
+        guts.calculate_absorbed( guts.get_absorb_rates( false ) );
+        stomach.store_absorbed( *this );
+        guts.store_absorbed( *this );
+        guts.bowel_movement( guts.get_pass_rates( false ) );
+        stomach.bowel_movement( stomach.get_pass_rates( true ), guts );
+    }
+
+    if( stomach.contains() >= stomach.capacity() ) {
+        // you're engorged! your stomach is full to bursting!
+        set_hunger( -61 );
+    } else if( stomach.contains() >= stomach.capacity() / 2 ) {
+        // sated
+        set_hunger( -21 );
+    } else if( stomach.contains() >= stomach.capacity() / 8 ) {
+        // that's really all the food you need to feel full
+        set_hunger( -1 );
+    } else if( stomach.contains() == 0_ml ) {
+        if( guts.calories == 0 && guts.calories_absorbed == 0 && get_stored_kcal() < get_healthy_kcal() ) {
+            // there's no food except what you have stored in fat
+            set_hunger( 300 );
+        } else if( ( guts.calories == 0 && guts.calories_absorbed == 0 &&
+                     get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) {
+            set_hunger( 100 );
+        } else if( get_hunger() < 0 ) {
+            set_hunger( 0 );
+        }
+    }
+    if( stomach.contains() < stomach.capacity() / 8 && get_hunger() < 250 ) {
+        const int rolled_hunger = divide_roll_remainder( rates.hunger * five_mins, 1.0 );
+        mod_hunger( rolled_hunger );
+    }
+
+    if( !foodless && rates.hunger > 0.0f ) {
+        // instead of hunger keeping track of how you're living, burn calories instead
+        mod_stored_kcal( divide_roll_remainder( rates.hunger * five_mins, 1.0 ) * -kcal_per_nutr );
+    }
+
+    if( !foodless && rates.thirst > 0.0f ) {
+        mod_thirst( divide_roll_remainder( rates.thirst * five_mins, 1.0 ) );
+    }
+    // Mycus and Metabolic Rehydration makes thirst unnecessary
+    // since water is not limited by intake but by absorption, we can just set thirst to zero
+    if( mycus || mouse ) {
+        set_thirst( 0 );
     }
 }
 
@@ -4135,24 +4205,17 @@ void player::check_needs_extremes()
         hp_cur[hp_torso] = 0;
     }
 
-    // Check if we're starving or have starved
-    if( is_player() && get_hunger() >= 300 && get_starvation() >= 2700 ) {
-        if( get_starvation() >= 5700 ) {
-            add_msg_if_player( m_bad, _( "You have starved to death." ) );
-            add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
-                              pgettext( "memorial_female", "Died of starvation." ) );
-            hp_cur[hp_torso] = 0;
-        } else if( get_starvation() >= 4700 && calendar::once_every( 1_hours ) ) {
-            add_msg_if_player( m_warning, _( "Food..." ) );
-        } else if( get_starvation() >= 3700 && calendar::once_every( 1_hours ) ) {
-            add_msg_if_player( m_warning, _( "You are STARVING!" ) );
-        } else if( calendar::once_every( 1_hours ) ) {
-            add_msg_if_player( m_warning, _( "Your stomach feels so empty..." ) );
-        }
+    // check if we've starved
+    // other starving messages are in player::update_stomach()
+    if( is_player() && get_stored_kcal() == 0 ) {
+        add_msg_if_player( m_bad, _( "You have starved to death." ) );
+        add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
+                          pgettext( "memorial_female", "Died of starvation." ) );
+        hp_cur[hp_torso] = 0;
     }
 
     // Check if we're dying of thirst
-    if( is_player() && get_thirst() >= 600 ) {
+    if( is_player() && get_thirst() >= 600 && ( stomach.water == 0_ml || guts.water == 0_ml ) ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             add_memorial_log( pgettext( "memorial_male", "Died of thirst." ),
@@ -4345,41 +4408,11 @@ void player::update_needs( int rate_multiplier )
     const bool debug_ls = has_trait( trait_DEBUG_LS );
     // No food/thirst, capped fatigue clock (only up to tired)
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
-    const bool foodless = debug_ls || npc_no_food;
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down ) ||
                        activity.id() == "ACT_TRY_SLEEP";
-    const bool mouse = has_trait( trait_NO_THIRST );
-    const bool mycus = has_trait( trait_M_DEPENDENT );
 
     needs_rates rates = calc_needs_rates();
-
-    if( !foodless && rates.hunger > 0.0f ) {
-        const int rolled_hunger = divide_roll_remainder( rates.hunger * rate_multiplier, 1.0 );
-        mod_hunger( rolled_hunger );
-
-        // if the playing is famished, starvation increases
-        if( get_hunger() >= 300 ) {
-            mod_starvation( rolled_hunger );
-        } else {
-            mod_starvation( -rolled_hunger );
-        }
-    }
-
-    if( !foodless && rates.thirst > 0.0f ) {
-        mod_thirst( divide_roll_remainder( rates.thirst * rate_multiplier, 1.0 ) );
-    }
-    if( mycus ) {
-        // Mycus feeders synchronize hunger and thirst, since their only source of both is the mycus fruit.
-        if( get_hunger() > get_thirst() ) {
-            set_thirst( get_hunger() );
-        } else if( get_thirst() > get_hunger() ) {
-            set_hunger( get_thirst() );
-        }
-    } else if( mouse ) {
-        // Metabolic Rehydration makes PT mice gain all their hydration from food.
-        set_thirst( get_hunger() );
-    }
 
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
@@ -4496,13 +4529,6 @@ void player::update_needs( int rate_multiplier )
         mod_pain_noresist( 2 * rng( 2, 3 ) );
         focus_pool -= 1;
     }
-
-    int dec_stom_food = static_cast<int>( get_stomach_food() * 0.2 );
-    int dec_stom_water = static_cast<int>( get_stomach_water() * 0.2 );
-    dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
-    dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
-    mod_stomach_food( -dec_stom_food );
-    mod_stomach_water( -dec_stom_water );
 }
 
 void player::regen( int rate_multiplier )
@@ -5111,7 +5137,7 @@ double player::vomit_mod()
     }
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
-    if( get_stomach_food() != 0 && has_effect( effect_nausea ) ) {
+    if( stomach.contains() != 0_ml && has_effect( effect_nausea ) ) {
         mod *= 5 * get_effect_int( effect_nausea );
     }
     return mod;
@@ -5150,8 +5176,9 @@ void player::suffer()
             }
             if( mdata.hunger ) {
                 mod_hunger( mdata.cost );
-                if( get_hunger() >= 700 ) { // Well into Famished
-                    add_msg_if_player( m_warning, _( "You're too famished to keep your %s going." ), mdata.name() );
+                // pretty well on your way to starving at 75% your healthy kcal storage
+                if( get_healthy_kcal() >= 3 * get_stored_kcal() / 4 ) {
+                    add_msg_if_player( m_warning, _( "You're too malnourished to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
@@ -5913,9 +5940,8 @@ void player::suffer()
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < radiation ) {
             mutate();
             radiation -= 50;
-        } else if( radiation > 50 && rng( 1, 3000 ) < radiation &&
-                   ( get_stomach_food() > 0 || get_stomach_water() > 0 ||
-                     radiation_increasing || !in_sleep_state() ) ) {
+        } else if( radiation > 50 && rng( 1, 3000 ) < radiation && ( stomach.contains() > 0_ml ||
+                   radiation_increasing || !in_sleep_state() ) ) {
             vomit();
             radiation -= 1;
         }
@@ -6391,8 +6417,9 @@ void player::mend( int rate_multiplier )
     healing_factor *= 1.0f + get_healthy() / 200.0f;
 
     // Very hungry starts lowering the chance
-    // Healing stops completely halfway between near starving and starving
-    healing_factor *= 1.0f - clamp( ( get_hunger() - 100.0f ) / 2000.0f, 0.0f, 1.0f );
+    // square rooting the value makes the numbers drop off faster when below 1
+    healing_factor *= sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
+                            ( get_healthy_kcal() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
     healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
@@ -6451,25 +6478,29 @@ void player::mend( int rate_multiplier )
     }
 }
 
+// sets default stomach contents when starting the game
+void player::initialize_stomach_contents()
+{
+    stomach = stomach_contents( 4000_ml );
+    guts = stomach_contents( 24000_ml );
+    guts.set_calories( 300 );
+    stomach.set_calories( 800 );
+    stomach.mod_contents( 750_ml );
+}
+
 void player::vomit()
 {
     add_memorial_log( pgettext( "memorial_male", "Threw up." ),
                       pgettext( "memorial_female", "Threw up." ) );
 
-    const int stomach_contents = get_stomach_food() + get_stomach_water();
-    if( stomach_contents != 0 ) {
-        mod_hunger( get_stomach_food() );
-        mod_thirst( get_stomach_water() );
-
-        set_stomach_food( 0 );
-        set_stomach_water( 0 );
-        // Remove all joy form previously eaten food and apply the penalty
+    if( stomach.contains() != 0_ml ) {
+        // Remove all joy from previously eaten food and apply the penalty
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
         rem_morale( MORALE_HONEY ); // bears must suffer too
-        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90_minutes, 45_minutes,
-                    false ); // 1.5 times longer
-
+        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
+                    45_minutes, false ); // 1.5 times longer
+        stomach.bowel_movement(); // puke all of it
         g->m.add_field( adjacent_tile(), fd_bile, 1 );
 
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
@@ -6479,8 +6510,8 @@ void player::vomit()
 
     if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
         const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
-        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
-                                             dummy_nausea.get_int_dur_factor() ) );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
+                stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
     }
 
     moves -= 100;
@@ -6498,7 +6529,7 @@ void player::vomit()
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
-    if( stomach_contents != 0 ) {
+    if( stomach.contains() > 0_ml ) {
         wake_up();
     }
 }
