@@ -192,7 +192,6 @@
     "default": "mon_null",
     "//": "School monster spawns.",
     "monsters": [
-    "monsters": [
       { "monster": "mon_zombie_child", "freq": 650, "cost_multiplier": 1 },
       { "monster": "mon_zombie_fat", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 1 },
