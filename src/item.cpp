@@ -574,16 +574,6 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( item_vars != rhs.item_vars ) {
         return false;
     }
-    // check if components are the same, otherwise don't stack
-    if( components.size() != rhs.components.size() ) {
-        return false;
-    } else {
-        for( int i = 0; components.size(); i++ ) {
-            if( components.operator[]( i ).type != rhs.components.operator[]( i ).type ) {
-                return false;
-            }
-        }
-    }
     if( goes_bad() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
         // Stack items that fall into the same "bucket" of freshness.
@@ -607,8 +597,8 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
     }
-    if( check_components ) {
-        //Only check if at least one item isn't using the default recipe
+    if( check_components || rhs.is_comestible() ) {
+        //Only check if at least one item isn't using the default recipe or is comestible
         if( !components.empty() || !rhs.components.empty() ) {
             if( get_uncraft_components() != rhs.get_uncraft_components() ) {
                 return false;
@@ -2280,7 +2270,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         // @todo: Unhide when enforcing limits
-        if( is_bionic() && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) )
+        if( is_bionic() && get_option < bool >( "CBM_SLOTS_ENABLED" )
             && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
             info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                                       _( "This bionic is installed in the following body part(s):" ) ) ) );
@@ -3143,6 +3133,9 @@ units::mass item::weight( bool include_contents ) const
         if( has_flag( "GIBBED" ) ) {
             ret *= 0.85;
         }
+        if( has_flag( "SKINNED" ) ) {
+            ret *= 0.85;
+        }
 
     } else if( magazine_integral() && !is_magazine() ) {
         if( ammo_type() == ammotype( "plutonium" ) ) {
@@ -3187,6 +3180,9 @@ units::volume item::corpse_volume( const mtype *corpse ) const
         corpse_volume *= 0.75;
     }
     if( has_flag( "GIBBED" ) ) {
+        corpse_volume *= 0.85;
+    }
+    if( has_flag( "SKINNED" ) ) {
         corpse_volume *= 0.85;
     }
     if( corpse_volume > 0_ml ) {
@@ -3815,7 +3811,8 @@ const std::vector<itype_id> &item::brewing_results() const
 bool item::can_revive() const
 {
     if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
-        !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ) ) {
+        !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ||
+           has_flag( "SKINNED" ) ) ) {
 
         return true;
     }
@@ -7281,9 +7278,16 @@ std::string item::type_name( unsigned int quantity ) const
     const auto iter = item_vars.find( "name" );
     bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
     bool quartered = has_flag( "QUARTERED" );
+    bool skinned = has_flag( "SKINNED" );
     if( corpse != nullptr && typeId() == "corpse" ) {
         if( corpse_name.empty() ) {
-            if( f_dressed && !quartered ) {
+            if( skinned && !f_dressed && !quartered ) {
+                return string_format( npgettext( "item name", "skinned %s corpse", "skinned %s corpses", quantity ),
+                                      corpse->nname().c_str() );
+            } else if( skinned && f_dressed && !quartered ) {
+                return string_format( npgettext( "item name", "skinned %s carcass", "skinned %s carcasses",
+                                                 quantity ), corpse->nname().c_str() );
+            } else if( f_dressed && !quartered ) {
                 return string_format( npgettext( "item name", "%s carcass",
                                                  "%s carcasses", quantity ),
                                       corpse->nname().c_str() );
@@ -7296,11 +7300,17 @@ std::string item::type_name( unsigned int quantity ) const
                                              "%s corpses", quantity ),
                                   corpse->nname().c_str() );
         } else {
-            if( f_dressed && !quartered ) {
+            if( skinned && !f_dressed && !quartered ) {
+                return string_format( npgettext( "item name", "skinned %s corpse of %s", "skinned %s corpses of %s",
+                                                 quantity ) );
+            } else if( skinned && f_dressed && !quartered ) {
+                return string_format( npgettext( "item name", "skinned %s carcass of %s",
+                                                 "skinned %s carcasses of %s", quantity ) );
+            } else            if( f_dressed && !quartered && !skinned ) {
                 return string_format( npgettext( "item name", "%s carcass of %s",
                                                  "%s carcasses of %s", quantity ),
                                       corpse->nname().c_str(), corpse_name.c_str() );
-            } else if( f_dressed && quartered ) {
+            } else if( f_dressed && quartered && !skinned ) {
                 return string_format( npgettext( "item name", "quartered %s carcass",
                                                  "quartered %s carcasses", quantity ),
                                       corpse->nname().c_str() );

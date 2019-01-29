@@ -236,7 +236,7 @@
   {
     "id": "BGSS_PRISONER_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "I heard gunshots, even from down in lockup.  Didn't hear much screaming or anything. That was my first clue something was up. Food stopped showing up, next.  Then, the lights went out.  I was down there for maybe hours, maybe days, when finally a flashlight in the bars blinded me.  It was a guard.  He let me out, filled me in on what was going on.  I wanted to think he was crazy, but something in his eyes... I believed him.",
+    "dynamic_line": "I heard gunshots, even from down in lockup.  Didn't hear much screaming or anything.  That was my first clue something was up.  Food stopped showing up, next.  Then, the lights went out.  I was down there for maybe hours, maybe days, when finally a flashlight in the bars blinded me.  It was a guard.  He let me out, filled me in on what was going on.  I wanted to think he was crazy, but something in his eyes... I believed him.",
     "responses": [
       { "text": "What did you do from there?", "topic": "BGSS_PRISONER_1_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },

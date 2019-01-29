@@ -344,11 +344,12 @@ inline bool generic_inbounds( const tripoint &p,
                               const box &boundaries,
                               const box &clearance = box_zero )
 {
-    return p.x >= ( boundaries.p_min + clearance.p_min ).x &&
-           p.x <= ( boundaries.p_max - clearance.p_max ).x &&
-           p.y >= ( boundaries.p_min + clearance.p_min ).y &&
-           p.y <= ( boundaries.p_max - clearance.p_max ).y &&
-           p.z >= ( boundaries.p_min + clearance.p_min ).z && p.z <= ( boundaries.p_max - clearance.p_max ).z;
+    return p.x >= boundaries.p_min.x + clearance.p_min.x &&
+           p.x <= boundaries.p_max.x - clearance.p_max.x &&
+           p.y >= boundaries.p_min.y + clearance.p_min.y &&
+           p.y <= boundaries.p_max.y - clearance.p_max.y &&
+           p.z >= boundaries.p_min.z + clearance.p_min.z &&
+           p.z <= boundaries.p_max.z - clearance.p_max.z;
 }
 
 /** Checks if given point is inbounds of given min and max point using given clearance **/
