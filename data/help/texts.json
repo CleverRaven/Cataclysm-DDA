@@ -280,7 +280,7 @@
     "messages": [
       "Quick Mode allows advanced players to choose to skip certain prompts, reducing the number of keypresses required for potentially dangerous or undesirable actions. The <press_quickmode> key toggles Quick Mode. It's off by default, but its state will be remembered in your savegame.",
 	  "Quick Mode is a recent feature that's currently under development, and it may eventually be much more extensive. At present, being in Quick Mode will:",
-      " - Skip the prompt for choosing a tool to pry a crate or lock with, and always use the best available tool (lockpicks first)."
+      " - Skip the prompt for choosing a tool to pry a crate or lock with, and always use the best available tool (lockpicks NYI and must be activated manually)."
     ]
   }
 ]
