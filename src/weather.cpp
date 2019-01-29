@@ -718,27 +718,15 @@ std::string get_wind_strength_bars( double windpower )
     std::string wind_bars;
     if( windpower < 3 ) {
         wind_bars = "";
-    } else if( windpower < 7 ) {
-        wind_bars = "+";
     } else if( windpower < 12 ) {
         wind_bars = "+";
-    } else if( windpower < 18 ) {
-        wind_bars = "++";
     } else if( windpower < 24 ) {
         wind_bars = "++";
-    } else if( windpower < 31 ) {
-        wind_bars = "+++";
     } else if( windpower < 38 ) {
         wind_bars = "+++";
-    } else if( windpower < 46 ) {
-        wind_bars = "++++";
     } else if( windpower < 54 ) {
         wind_bars = "++++";
-    } else if( windpower < 63 ) {
-        wind_bars = "+++++";
-    } else if( windpower < 72 ) {
-        wind_bars = "+++++";
-    } else if( windpower > 72 ) {
+    } else if( windpower >= 54 ) {
         wind_bars = "+++++";
     }
     return wind_bars;
