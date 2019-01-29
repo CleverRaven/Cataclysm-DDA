@@ -1695,7 +1695,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_QUICKMODE:
-                if ( quick_mode ) {
+                if( quick_mode ) {
                     quick_mode = false;
                     add_msg( m_info, _( "Quick mode OFF!" ) );
                 } else {
