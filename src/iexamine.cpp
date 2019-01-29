@@ -384,8 +384,21 @@ private:
 
     //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
+        //We may want to use visit_items here but thats fairly heavy.
+        //For now, just check weapon if we didnt find it in the inventory.
         int pos = u.inv.position_by_type( "cash_card" );
-        item *dst = &u.i_at( pos );
+        item *dst;
+        if (pos == INT_MIN) {
+            dst = &u.weapon;
+        } else {
+            dst = &u.i_at( pos );
+        }
+
+        if (dst->is_null()) {
+            //Just in case we run into an edge case
+            popup(_("You do not have a cash card to withdraw money!"));
+            return false;
+        }
 
         const int amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
