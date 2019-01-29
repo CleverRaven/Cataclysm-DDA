@@ -192,10 +192,15 @@
     "default": "mon_null",
     "//": "School monster spawns.",
     "monsters": [
+    "monsters": [
       { "monster": "mon_zombie_child", "freq": 650, "cost_multiplier": 1 },
       { "monster": "mon_zombie_fat", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_zombie", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_child", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_child", "freq": 5, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_child", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_child", "freq": 5, "cost_multiplier": 3 },
       { "monster": "mon_zombie_child", "freq": 5, "cost_multiplier": 3 },
       { "monster": "mon_zombie_waif", "freq": 5, "cost_multiplier": 3 }
     ]
@@ -246,7 +251,7 @@
     "default": "mon_null",
     "//": "Hospital monster spawns. Same as GROUP_ZOMBIE, but without Z-dogs and more rotten zombies",
     "monsters": [
-      { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 7, "pack_size": [5,10]},
+      { "monster" : "mon_zombie_rot", "freq" : 1, "cost_multiplier": 7, "pack_size": [5,10]},
       { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 13, "pack_size": [15,20]},
       { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 20, "pack_size": [25,30]},
       { "monster" : "mon_zombie_fat", "freq" : 75, "cost_multiplier": 2},

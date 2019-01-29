@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "no_advanced_monsters_in_the_beginning",
+    "name": "No advanced monsters in the beginning",
+    "authors": [ "Firesorm01X2" ],
+    "maintainers": [ "Firesorm01X2" ],
+    "description": "Recommended evolution factor is 2.0.  Spawns mostly non-evolved monsters in the beginning.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
