@@ -716,9 +716,7 @@ int get_local_windchill( double temperature, double humidity, double windpower )
 std::string get_wind_strength_bars( double windpower )
 {
     std::string wind_bars;
-    if( windpower < 1 ) {
-        wind_bars = "";
-    } else if( windpower < 3 ) {
+    if( windpower < 3 ) {
         wind_bars = "";
     } else if( windpower < 7 ) {
         wind_bars = "+";
