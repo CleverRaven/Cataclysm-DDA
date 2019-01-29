@@ -793,32 +793,38 @@ void iexamine::crate( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    // Then display the items
-    uilist selection_menu;
-    selection_menu.text = string_format(_("The %s is closed tightly."),
-        g->m.furnname(examp));
-
-    int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-    for( auto iter : prying_items ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
-    }
-
-    selection_menu.selected = 1;
-    selection_menu.query();
-    auto index = selection_menu.ret;
-
-    if( index == 0 || index == UILIST_CANCEL ) {
-        none( p, examp );
+    if( g->quick_mode ) {
+        item temporary_item(prying_items[0]->type);
+        dummy.crowbar(&p, &temporary_item, false, examp);
         return;
+    } else {
+        // Then display the items
+        uilist selection_menu;
+        selection_menu.text = string_format(_("The %s is closed tightly."),
+            g->m.furnname(examp));
+        
+        int i = 0;
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+        for( auto iter : prying_items ) {
+            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
+        }
+        
+        selection_menu.selected = 1;
+        selection_menu.query();
+        auto index = selection_menu.ret;
+        
+        if( index == 0 || index == UILIST_CANCEL ) {
+            none( p, examp );
+            return;
+        }
+        
+        auto selected_tool = prying_items[index - 1];
+        item temporary_item( selected_tool->type );
+
+        // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+        // changes to the original item.
+        dummy.crowbar( &p, &temporary_item, false, examp );
     }
-
-    auto selected_tool = prying_items[index - 1];
-    item temporary_item( selected_tool->type );
-
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
@@ -1200,28 +1206,34 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    // Then display the items
-    uilist selection_menu;
-    selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
-
-    int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-    for( auto iter : prying_items ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
-                                 iter->tname() ) );
-    }
-
-    selection_menu.selected = 1;
-    selection_menu.query();
-    auto index = selection_menu.ret;
-
-    if( index == 0 || index == UILIST_CANCEL ) {
-        none( p, examp );
+    if( g->quick_mode ) {
+        item temporary_item(prying_items[0]->type);
+        dummy.crowbar(&p, &temporary_item, false, examp);
         return;
-    }
+    } else {
+        // Then display the items
+        uilist selection_menu;
+        selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
 
-    item temporary_item( prying_items[index - 1]->type );
-    dummy.crowbar( &p, &temporary_item, false, examp );
+        int i = 0;
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
+        for( auto iter : prying_items ) {
+            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
+                                     iter->tname() ) );
+        }
+
+        selection_menu.selected = 1;
+        selection_menu.query();
+        auto index = selection_menu.ret;
+
+        if( index == 0 || index == UILIST_CANCEL ) {
+            none( p, examp );
+            return;
+        }
+
+        item temporary_item( prying_items[index - 1]->type );
+        dummy.crowbar( &p, &temporary_item, false, examp );
+    }
 }
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
