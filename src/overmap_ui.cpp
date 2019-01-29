@@ -261,6 +261,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
     const int om_half_width = om_map_width / 2;
     const int om_half_height = om_map_height / 2;
+    const bool viewing_weather = ( ( data.debug_weather || data.visible_weather ) && z == 10 );
 
     // Target of current mission
     const tripoint target = g->u.get_active_mission_target();
@@ -412,7 +413,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
-            } else if( data.debug_weather || ( data.visible_weather && los_sky && z == 10 ) ) {
+            } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 weather_datum weather = weather_data( get_weather_at_point( tripoint( omx, omy, z ) ) );
                 ter_color = weather.color;
                 ter_sym = weather.glyph;
@@ -647,7 +648,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
 
     // Draw text describing the overmap tile at the cursor position.
-    if( csee && !data.debug_weather && !data.visible_weather ) {
+    if( csee && !viewing_weather ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -676,7 +677,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 mvwprintz( wbar, i + 1, 3, ter.get_color(), name[i] );
             }
         }
-    } else if( data.debug_weather || ( data.visible_weather && z == 10 ) ) {
+    } else if( viewing_weather ) {
         const auto curs_pos = tripoint( cursx, cursy, z );
         const bool weather_is_visible = ( data.debug_weather ||
                                           g->u.overmap_los( curs_pos, sight_points * 2 ) );
@@ -1188,7 +1189,9 @@ void ui::omap::display_weather()
 {
     draw_data_t data;
     data.debug_weather = true;
-    ::display( g->u.global_omt_location(), data );
+    tripoint pos = g->u.global_omt_location();
+    pos.z = 10;
+    ::display( pos, data );
 }
 
 void ui::omap::display_visible_weather()
