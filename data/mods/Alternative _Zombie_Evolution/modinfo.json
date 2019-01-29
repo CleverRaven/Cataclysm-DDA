@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "alternative_zombie_evolution",
+    "name": "Alternative Zombie Evolution",
+    "authors": [ "Firesorm01X2" ],
+    "maintainers": [ "Firesorm01X2" ],
+    "description": "Alternates zombie evolution.  Spawns only non-evolved zombies in the beginning.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
