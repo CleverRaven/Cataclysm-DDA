@@ -53,7 +53,7 @@
     "consume_chance": 20,
     "consume_divisor": 110,
     "damage_modifier": -5,
-    "dispersion_modifier": 15,
+    "dispersion_modifier": 40,
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
