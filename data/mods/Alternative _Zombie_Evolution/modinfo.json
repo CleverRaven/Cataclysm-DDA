@@ -8,5 +8,12 @@
     "description": "Alternates zombie evolution.  Spawns only non-evolved zombies in the beginning.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MONSTER_UPGRADE_FACTOR",
+    "info": "Monster upgrade factor override.",
+    "stype": "float",
+    "value": 2.0
   }
 ]
