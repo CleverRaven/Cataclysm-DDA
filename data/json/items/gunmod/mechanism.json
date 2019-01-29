@@ -56,7 +56,7 @@
     "install_time": 25000,
     "dispersion_modifier": 40,
     "consume_chance": 300,
-    "consume_divisor": 400,
+    "consume_divisor": 110,
     "durability_modifier": -3,
     "mode_modifier": [ [ "DEFAULT", "auto", 14 ] ],
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],

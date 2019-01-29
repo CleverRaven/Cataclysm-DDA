@@ -50,6 +50,8 @@
     "color": "dark_gray",
     "location": "muzzle",
     "mod_targets": [ "pistol", "smg", "rifle" ],
+    "consume_chance": 20,
+    "consume_divisor": 110,
     "damage_modifier": -5,
     "dispersion_modifier": 15,
     "handling_modifier": 1,
@@ -60,7 +62,7 @@
     "id": "filter_suppressor",
     "type": "GUNMOD",
     "name": "'solvent trap'",
-    "description": "A once /completely legal/ thread adapter attached to an automotive filter with a hole punched in the end, generating an illegal, unregistered silencer.  Good thing there don't seem to be any ATF agents around to arrest you.  While close in effectiveness to a real suppressor, it is not designed around any particular caliber and will eventually lose effectiveness.  The installed filter is large and, when attached, will interfere with your ability to aim down the base sights of the gun.",
+    "description": "This is an automotive filter crudely adapted to mate up with a firearm's barrel, generating an illegal, unregistered silencer.  Good thing there don't seem to be any ATF agents around to arrest you.  While close in effectiveness to a real suppressor, it is not designed around any particular caliber and will eventually lose effectiveness.  The installed filter is large and, when attached, will interfere with your ability to aim down the base sights of the gun.",
     "weight": 880,
     "volume": 3,
     "price": 480,
@@ -133,7 +135,7 @@
     "damage_modifier": -4,
     "handling_modifier": 2,
     "consume_chance": 5000,
-    "consume_divisor": 100,
+    "consume_divisor": 235,
     "loudness_modifier": -30,
     "flags": [ "CONSUMABLE" ]
   },
@@ -154,7 +156,7 @@
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "install_time": 200,
     "handling_modifier": 2,
-    "consume_divisor": 50,
+    "consume_divisor": 840,
     "loudness_modifier": -50
   },
   {
@@ -172,7 +174,7 @@
     "mod_targets": [ "pistol", "smg" ],
     "install_time": 200,
     "consume_chance": 7000,
-    "consume_divisor": 40,
+    "consume_divisor": 85,
     "handling_modifier": 1,
     "loudness_modifier": -30
   }
