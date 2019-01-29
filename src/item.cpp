@@ -6194,7 +6194,7 @@ void item::set_item_temperature( float new_temperature )
 {
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float specific_heat_solid = type->comestible->specific_heat_solid; // J/g K
-    const float latent_heat = type->comestible->latent_heat;; // J/kg
+    const float latent_heat = type->comestible->latent_heat; // J/kg
 
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
