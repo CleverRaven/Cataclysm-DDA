@@ -6792,8 +6792,8 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
         return true; //destroy fake smoke
     }
 
-    if( item_counter == 0 ) {
-        iexamine::on_smoke_out( pos ); //activate effects when timers goes to zero
+    if( age() >= 6_hours || item_counter == 0 ) {
+        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 
