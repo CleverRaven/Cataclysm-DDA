@@ -1429,6 +1429,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             target = -1;
             break;
         }
+
+        // Make player's sprite flip to face the current target
+        if ( dst.x > src.x ) {
+            g->u.facing = FD_RIGHT;
+        } else if ( dst.x < src.x ) {
+            g->u.facing = FD_LEFT;
+        }
+
     } while( true );
 
     pc.view_offset = old_offset;
