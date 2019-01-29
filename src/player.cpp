@@ -7149,7 +7149,7 @@ bool player::has_mission_item(int mission_id) const
 int player::drink_from_hands(item& water) {
     int charges_consumed = 0;
     if( query_yn( _( "Drink %s from your hands?" ),
-                  colorize( water.type_name().c_str(), water.color_in_inventory() ) ) )
+                  colorize( water.type_name(), water.color_in_inventory() ) ) )
     {
         // Create a dose of water no greater than the amount of water remaining.
         item water_temp( water );
@@ -8473,7 +8473,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
-                                      colorize( it.tname().c_str(), it.color_in_inventory() ) ) ) {
+                                      colorize( it.tname(), it.color_in_inventory() ) ) ) {
                 drop( get_item_position( &it ), pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
@@ -9166,8 +9166,8 @@ void player::gunmod_add( item &gun, item &mod )
 
     if( mod.is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                       colorize( mod.tname().c_str(), mod.color_in_inventory() ),
-                       colorize( gun.tname().c_str(), gun.color_in_inventory() ) ) ) {
+                       colorize( mod.tname(), mod.color_in_inventory() ),
+                       colorize( gun.tname(), gun.color_in_inventory() ) ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
         }

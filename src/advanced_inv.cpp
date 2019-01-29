@@ -2039,7 +2039,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
         if( ( destarea == AIM_INVENTORY || destarea == AIM_WORN || panes[dest].in_vehicle() ) &&
             new_item.is_bucket_nonempty() &&
             !query_yn( _( "Spill contents of %s?" ),
-                       colorize( new_item.tname().c_str(), new_item.color_in_inventory() ) ) ) {
+                       colorize( new_item.tname(), new_item.color_in_inventory() ) ) ) {
             break;
         } else if( destarea == AIM_INVENTORY ) {
             const item &added = g->u.i_add( new_item );

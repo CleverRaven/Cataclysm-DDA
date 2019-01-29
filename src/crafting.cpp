@@ -1210,13 +1210,13 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
-                    colorize( obj.tname().c_str(), obj.color_in_inventory() ),
-                    list.str().c_str() ) ) {
+                    colorize( obj.tname(), obj.color_in_inventory() ),
+                    list.str() ) ) {
                 return false;
             }
         } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
-                              colorize( obj.tname().c_str(), obj.color_in_inventory() ),
-                              list.str().c_str() ) ) {
+                              colorize( obj.tname(), obj.color_in_inventory() ),
+                              list.str() ) ) {
             return false;
         }
     }

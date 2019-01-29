@@ -1234,7 +1234,7 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
 int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
 {
     if( !query_yn( _( "Sure you want to eat the %s? You could plant it in a mound of dirt." ),
-                   colorize( it->tname().c_str(), it->color_in_inventory() ) ) ) {
+                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return 0; // Save the seed for later!
     }
 
@@ -3959,7 +3959,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it.tname().c_str(), map_it.color_in_inventory() ) ) ) {
+                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s..." ), map_it.tname().c_str() );
             drew_blood = true;
             auto bloodtype( map_it.get_mtype()->bloodType() );
@@ -5332,7 +5332,7 @@ int iuse::seed( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ||
         query_yn( _( "Sure you want to eat the %s? You could plant it in a mound of dirt." ),
-                  colorize( it->tname().c_str(), it->color_in_inventory() ) ) ) {
+                  colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return it->type->charges_to_use(); //This eats the seed object.
     }
     return 0;

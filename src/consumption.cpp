@@ -486,7 +486,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
-        std::string food_tame = food.tname().c_str();
+        std::string food_tame = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == "FOOD" ) {
             req << string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
