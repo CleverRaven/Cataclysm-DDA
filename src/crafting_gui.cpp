@@ -339,7 +339,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 } else if( subtab.cur() == "CSC_*_RECENT" ) {
                     picking = available_recipes.recent();
                 } else if( subtab.cur() == "CSC_*_HIDDEN" ) {
-                    picking.insert(picking.end(), available_recipes.begin(), available_recipes.end());
+                    picking.insert( picking.end(), available_recipes.begin(), available_recipes.end() );
                     show_hidden = true;
                 } else {
                     picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
