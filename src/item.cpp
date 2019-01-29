@@ -3646,7 +3646,8 @@ void item::calc_rot_while_smoking( const tripoint &location, time_duration smoki
         return;
     }
 
-    rot += get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
+    // Apply rot at 1/2 normal rate while smoking
+    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
     last_rot_check += smoking_duration;
 }
 

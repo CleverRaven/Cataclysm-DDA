@@ -4048,11 +4048,12 @@ void smoker_finalize(player &, const tripoint &examp)
             product = "human_smoked";
         } else {
             product.clear();
+            item_it.unset_flag( "SMOKING" );
         }
         if( !product.empty() ) {
             item result( product, calendar::turn );
             result.charges = item_it.charges;
-            //g->m.add_item( examp, result );
+            result.set_relative_rot( item_it.get_relative_rot() );
             item_it = result;
         }
     }
