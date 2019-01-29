@@ -467,7 +467,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, sideStyle ? 4 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
+        veh->print_fuel_indicators( w, sideStyle ? 5 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
         nc_color col_indf1 = c_light_gray;
 
         const float strain = veh->strain();
@@ -519,7 +519,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
             wprintz( w, c_white, " " );
         }
-
+        wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - ( sideStyle ? 14 : 12 ) );
         //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
         wprintz( w, c_white, "%3d°", ( veh->face.dir() + 90 ) % 360 );
 
@@ -617,7 +617,6 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         wprintz( sideStyle ? w : g->w_HP, color, power_value );
     }
     wrefresh( sideStyle ? w : g->w_HP );
-
 
 }
 
