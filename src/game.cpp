@@ -2347,6 +2347,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "disassemble" );
     ctxt.register_action( "sleep" );
     ctxt.register_action( "control_vehicle" );
+    ctxt.register_action( "quickmode" );
     ctxt.register_action( "safemode" );
     ctxt.register_action( "autosafe" );
     ctxt.register_action( "autoattack" );
