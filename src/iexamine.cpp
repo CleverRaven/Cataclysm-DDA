@@ -787,6 +787,7 @@ void iexamine::crate( player &p, const tripoint &examp )
     } );
 
     if( g->quick_mode ) {
+        add_msg(m_info, _("[QUICKMODE] Using best prying tool..."));
         item temporary_item(prying_items[0]->type);
         dummy.crowbar(&p, &temporary_item, false, examp);
         return;
@@ -1194,6 +1195,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     if( g->quick_mode ) {
+        add_msg(m_info, _("[QUICKMODE] Using best prying tool..."));
         item temporary_item(prying_items[0]->type);
         dummy.crowbar(&p, &temporary_item, false, examp);
         return;
