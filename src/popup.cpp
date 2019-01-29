@@ -219,7 +219,7 @@ void query_popup::show() const
     }
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
-        nc_color col = ind == cur ? hilite( default_text_color ) : default_text_color;
+        nc_color col = ind == cur ? hilite( c_white ) : c_white;
         const auto &btn = buttons[ind];
         print_colored_text( win, border_width + btn.y, border_width + btn.x,
                             col, col, btn.text );
