@@ -458,7 +458,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // display mood smiley
-    bool mood_style_hor = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
+    const bool mood_style_hor = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     int mood_x = 0;
     if( sideStyle ) {
         if( mood_style_hor ) {
