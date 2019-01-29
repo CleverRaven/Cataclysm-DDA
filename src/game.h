@@ -1128,6 +1128,7 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
     public:
+        bool quick_mode;
         weather_type weather_override;
 };
 

@@ -240,6 +240,8 @@ std::string action_ident( action_id act )
             return "sleep";
         case ACTION_CONTROL_VEHICLE:
             return "control_vehicle";
+        case ACTION_TOGGLE_QUICKMODE:
+            return "quickmode";
         case ACTION_TOGGLE_SAFEMODE:
             return "safemode";
         case ACTION_TOGGLE_AUTOSAFE:

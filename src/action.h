@@ -187,6 +187,8 @@ enum action_id : int {
     ACTION_SLEEP,
     /** Open vehicle control menu */
     ACTION_CONTROL_VEHICLE,
+    /** Turn quickmode on/off */
+    ACTION_TOGGLE_QUICKMODE,
     /** Turn safemode on/off, while leaving autosafemode intact */
     ACTION_TOGGLE_SAFEMODE,
     /** Turn automatic triggering of safemode on/off */
