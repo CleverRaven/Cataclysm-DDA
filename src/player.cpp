@@ -825,12 +825,6 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
-    if( inp_mngr.get_previously_pressed_key() == KEY_LEFT ) {
-        facing = FD_LEFT;
-    }
-    else if( inp_mngr.get_previously_pressed_key() == KEY_RIGHT ) {
-        facing = FD_RIGHT;
-    }
 }
 
 void player::action_taken()

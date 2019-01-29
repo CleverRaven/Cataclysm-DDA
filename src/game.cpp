@@ -10179,6 +10179,15 @@ bool game::plmove( int dx, int dy, int dz )
         }
     }
 
+    // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
+    int new_dx = dest_loc.x - u.posx();
+    if (new_dx > 0) {
+        u.facing = FD_RIGHT;
+    }
+    else if (new_dx < 0) {
+        u.facing = FD_LEFT;
+    }
+
     if( dz == 0 && ramp_move( dest_loc ) ) {
         // TODO: Make it work nice with automove (if it doesn't do so already?)
         return false;
