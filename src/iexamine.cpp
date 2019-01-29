@@ -787,15 +787,14 @@ void iexamine::crate( player &p, const tripoint &examp )
     } );
 
     if( g->quick_mode ) {
-        add_msg(m_info, _("[QUICKMODE] Using best prying tool..."));
-        item temporary_item(prying_items[0]->type);
-        dummy.crowbar(&p, &temporary_item, false, examp);
+        add_msg( m_info, _( "[QUICKMODE] Using best prying tool..." ) );
+        item temporary_item( prying_items[0]->type );
+        dummy.crowbar( &p, &temporary_item, false, examp );
         return;
     } else {
         // Then display the items
         uilist selection_menu;
-        selection_menu.text = string_format(_("The %s is closed tightly."),
-            g->m.furnname(examp));
+        selection_menu.text = string_format( _( "The %s is closed tightly." ), g->m.furnname( examp ) );
         
         int i = 0;
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
@@ -1195,14 +1194,14 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     if( g->quick_mode ) {
-        add_msg(m_info, _("[QUICKMODE] Using best prying tool..."));
-        item temporary_item(prying_items[0]->type);
-        dummy.crowbar(&p, &temporary_item, false, examp);
+        add_msg( m_info, _( "[QUICKMODE] Using best prying tool..." ) );
+        item temporary_item( prying_items[0]->type );
+        dummy.crowbar( &p, &temporary_item, false, examp );
         return;
     } else {
         // Then display the items
         uilist selection_menu;
-        selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
+        selection_menu.text = string_format( _( "The %s is locked..." ), g->m.tername( examp ) );
 
         int i = 0;
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
