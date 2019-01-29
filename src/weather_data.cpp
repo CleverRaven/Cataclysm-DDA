@@ -47,55 +47,55 @@ weather_datum const weather_data( weather_type const type )
     static const std::array<weather_datum, NUM_WEATHER_TYPES> data {{
             weather_datum {
                 "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta,
-                0, 0.0f, 0, 0, false,
+                '0', 0, 0.0f, 0, 0, false,
                 &weather_effect::none
             },
             weather_datum {
-                translate_marker( "Clear" ), c_cyan, 0, 1.0f, 0, 0, false,
+                translate_marker( "Clear" ), c_cyan, ' ', 0, 1.0f, 0, 0, false,
                 &weather_effect::none
             },
             weather_datum {
-                translate_marker( "Sunny" ), c_light_cyan, 0, 1.0f, 2, 0, false,
+                translate_marker( "Sunny" ), c_light_cyan, ' ', 0, 1.0f, 2, 0, false,
                 &weather_effect::glare
             },
             weather_datum {
-                translate_marker( "Cloudy" ), c_light_gray, 0, 1.0f, -20, 0, false,
+                translate_marker( "Cloudy" ), c_light_gray, '.', 0, 1.0f, -20, 0, false,
                 &weather_effect::none
             },
             weather_datum {
-                translate_marker( "Drizzle" ), c_light_blue, 1, 1.03f, -20, 1, false,
+                translate_marker( "Drizzle" ), c_light_blue, 'o', 1, 1.03f, -20, 1, false,
                 &weather_effect::wet
             },
             weather_datum {
-                translate_marker( "Rain" ), c_blue, 3, 1.1f, -30, 4, false,
+                translate_marker( "Rain" ), c_blue, '8', 3, 1.1f, -30, 4, false,
                 &weather_effect::very_wet
             },
             weather_datum {
-                translate_marker( "Thunder Storm" ), c_dark_gray, 4, 1.2f, -40, 8, false,
+                translate_marker( "Thunder Storm" ), c_dark_gray, '%', 4, 1.2f, -40, 8, false,
                 &weather_effect::thunder
             },
             weather_datum {
-                translate_marker( "Lightning Storm" ), c_yellow, 4, 1.25f, -45, 8, false,
+                translate_marker( "Lightning Storm" ), c_yellow, '%', 4, 1.25f, -45, 8, false,
                 &weather_effect::lightning
             },
             weather_datum {
-                translate_marker( "Acidic Drizzle" ), c_light_green, 2, 1.03f, -20, 1, true,
+                translate_marker( "Acidic Drizzle" ), c_light_green, 'o', 2, 1.03f, -20, 1, true,
                 &weather_effect::light_acid
             },
             weather_datum {
-                translate_marker( "Acid Rain" ), c_green, 4, 1.1f, -30, 4, true,
+                translate_marker( "Acid Rain" ), c_green, '8', 4, 1.1f, -30, 4, true,
                 &weather_effect::acid
             },
             weather_datum {
-                translate_marker( "Flurries" ), c_white, 2, 1.12f, -15, 2, false,
+                translate_marker( "Flurries" ), c_white, 'o', 2, 1.12f, -15, 2, false,
                 &weather_effect::flurry
             },
             weather_datum {
-                translate_marker( "Snowing" ), c_white, 4, 1.13f, -20, 4, false,
+                translate_marker( "Snowing" ), c_white, '8', 4, 1.13f, -20, 4, false,
                 &weather_effect::snow
             },
             weather_datum {
-                translate_marker( "Snowstorm" ), c_white, 6, 1.2f, -30, 6, false,
+                translate_marker( "Snowstorm" ), c_white, '%', 6, 1.2f, -30, 6, false,
                 &weather_effect::snowstorm
             }
         }};

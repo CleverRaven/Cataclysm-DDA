@@ -109,6 +109,7 @@ void snowstorm();   //!< Currently snowstorms have no additional effects.
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
+    char glyph;             //!< UI glyph of weather type.
     int ranged_penalty;     //!< Penalty to ranged attacks.
     float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
