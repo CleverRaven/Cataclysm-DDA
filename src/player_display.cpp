@@ -682,7 +682,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
     if( get_hunger() + get_starvation() > 100 ) {
         pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Inanition           -%s%d%%" ),
+        mvwprintz( w_speed, line, 1, c_red, _( "Under-Fed           -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
