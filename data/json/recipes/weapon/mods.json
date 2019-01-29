@@ -185,10 +185,10 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 2 ] ],
     "difficulty": 2,
-    "using": [ [ "welding_standard", 2 ] ],
-    "time": 30000,
+    "time": 2600,
     "autolearn": true,
-    "components": [ [ [ "filter_liquid", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",

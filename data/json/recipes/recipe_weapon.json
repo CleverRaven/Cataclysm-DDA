@@ -1221,7 +1221,7 @@
     "time": 650,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "muffler", 1 ], [ "rag", 4 ] ], [ [ "pipe", 1 ] ] ]
+    "components": [ [ [ "rag", 4 ], [ "plastic_chunk", 4 ], [ "felt_patch", 4 ], [ "leather", 4 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
