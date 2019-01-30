@@ -1863,6 +1863,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             std::vector<std::string> recipe_list;
             for( const auto &elem : book.recipes ) {
                 const bool knows_it = g->u.knows_recipe( elem.recipe );
+                const bool can_learn = g->u.get_skill_level( elem.recipe->skill_used )  >= elem.skill_level;
                 // If the player knows it, they recognize it even if it's not clearly stated.
                 if( elem.is_hidden() && !knows_it ) {
                     continue;
@@ -1872,6 +1873,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     // real name to avoid confusing the player.
                     const std::string name = elem.recipe->result_name();
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
+                } else if ( !can_learn ) {
+                    recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
                 } else {
                     recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
                 }
