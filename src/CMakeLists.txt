@@ -58,7 +58,7 @@ IF(TILES)
 		${CATACLYSM_DDA_HEADERS}
 	)
 
-	target_include_directories(libcataclysm-tiles PUBLIC ${CMAKE_SOURCE_DIR}/src)
+	target_include_directories(libcataclysm-tiles INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
 	IF(WIN32)
 		ADD_EXECUTABLE(cataclysm-tiles
@@ -167,7 +167,7 @@ IF(CURSES)
 		${CATACLYSM_DDA_HEADERS}
 	)
 
-	target_include_directories(libcataclysm PUBLIC ${CMAKE_SOURCE_DIR}/src)
+	target_include_directories(libcataclysm INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
 	IF(WIN32)
 		ADD_EXECUTABLE(cataclysm
