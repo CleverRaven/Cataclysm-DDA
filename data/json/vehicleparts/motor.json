@@ -110,5 +110,23 @@
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
     ]
+  },
+  {
+    "id": "engine_electric_super",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "super electric motor",
+    "item": "motor_super",
+    "difficulty": 5,
+    "durability": 400,
+    "power": 400000,
+    "energy_consumption": 359500,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 10 ] },
+      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "scrap", "count": [ 6, 10 ] },
+      { "item": "cable", "charges": [ 20, 30 ] }
+    ]
   }
 ]
