@@ -2300,10 +2300,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
+                                      _( "%s %s\nSkill used: <color_light_blue>%s (%s)</color>\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
                                          "Damage chance: <color_light_blue>%.1f</color>%%" ),
                                       repair_item_actor::action_description( action_type ),
                                       fix.tname(),
+                                      actor->used_skill.obj().name(), level,
                                       100.0f * chance.first, 100.0f * chance.second );
 
         if( act->values.empty() ) {
