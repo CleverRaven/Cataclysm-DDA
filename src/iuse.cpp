@@ -5113,6 +5113,11 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     sounds::ambient_sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text );
 
+    // Sound code doesn't describe noises at the player position
+    if( p->can_hear( p->pos(), speech.volume ) ) {
+        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
+    }
+
     return it->type->charges_to_use();
 }
 
