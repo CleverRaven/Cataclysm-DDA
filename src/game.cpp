@@ -10615,6 +10615,9 @@ bool game::walk_move( const tripoint &dest_loc )
             u.activity.values.push_back( amount );
         }
     }
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+        add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ).c_str() );
+    }
 
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
