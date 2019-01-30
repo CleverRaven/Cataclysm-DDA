@@ -336,11 +336,11 @@
         "id" : "motor_small",
         "name" : "small electric motor",
         "description" : "A small electric motor.  Useful for crafting.",
-        "weight" : 1500,
+        "weight" : 7500,
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel"],
-        "volume" : 2,
+        "volume" : 20,
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 2000
