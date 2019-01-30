@@ -398,6 +398,13 @@ std::string recipe::required_skills_string( const Character *c ) const
     return required_skills_string(c, false);
 }
 
+std::string recipe::batch_savings_string () const
+{
+    return (batch_rsize != 0) ?
+        string_format( _( "%s%% at >%s units" ), int(batch_rscale * 100), batch_rsize)
+        : _( "none" );
+}
+
 std::string recipe::result_name() const
 {
     std::string name = item::nname( result_ );

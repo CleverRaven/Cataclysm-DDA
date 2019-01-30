@@ -579,6 +579,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         _( "Time to complete: <color_cyan>%s</color>" ),
                                         to_string( time_duration::from_turns( expected_turns ) ) );
 
+                ypos += fold_and_print( w_data, ypos, xpos, pane, col,
+                                        _( "Batch time savings: <color_cyan>%s</color>" ),
+                                        current[line]->batch_savings_string());
+
                 print_colored_text(
                     w_data, ypos++, xpos, col, col,
                     string_format( _( "Dark craftable? <color_cyan>%s</color>" ),
