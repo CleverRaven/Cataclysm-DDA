@@ -87,7 +87,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
       },
       "monster": {
         "Z": { "monster": "mon_zombie_brute" }
@@ -138,7 +138,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
       },
       "monster": {
         "Z": { "monster": "mon_zombie_brute" }
@@ -189,7 +189,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
       },
       "monster": {
         "Z": { "monster": "mon_zombie_brute" }
