@@ -318,6 +318,20 @@
     },
     {
         "type":"GENERIC",
+        "id" : "motor_super",
+        "name" : "super electric motor",
+        "description" : "The most powerfull electric motor on the market.  Useful for crafting.",
+        "weight" : 133800,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel"],
+        "volume" : "111 L",
+        "bashing" : 4,
+        "category" : "veh_parts",
+        "price" : 80000
+    },
+    {
+        "type":"GENERIC",
         "id" : "motor_large",
         "name" : "large electric motor",
         "description" : "A large and very powerful electric motor.  Useful for crafting.",
