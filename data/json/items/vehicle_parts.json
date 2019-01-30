@@ -297,7 +297,7 @@
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel"],
-        "volume" : "9.7 L",
+        "volume" : "9700 ml",
         "bashing" : 4,
         "category" : "veh_parts",
         "price" : 12000
@@ -311,7 +311,7 @@
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["superalloy"],
-        "volume" : "26.5 L",
+        "volume" : "2650 ml",
         "bashing" : 4,
         "category" : "veh_parts",
         "price" : 68000
@@ -340,7 +340,7 @@
         "color" : "light_cyan",
         "symbol" : ":",
         "material" : ["steel"],
-        "volume" : "17.4 L",
+        "volume" : "1740 ml",
         "bashing" : 9,
         "category" : "veh_parts",
         "price" : 22000
