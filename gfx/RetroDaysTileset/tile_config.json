@@ -3148,6 +3148,126 @@
           ]
         },
         {
+          "id": "vp_stowboard_nw",
+          "fg": 2859,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 423
+            }
+          ]
+        },
+        {
+          "id": "vp_stowboard_ne",
+          "fg": 2860,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 423
+            }
+          ]
+        },
+        {
+          "id": "vp_stowboard_sw",
+          "fg": 2861,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 423
+            }
+          ]
+        },
+        {
+          "id": "vp_stowboard_se",
+          "fg": 2862,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 423
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_horizontal",
+          "fg": 2863,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 508
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_vertical",
+          "fg": 2864,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 508
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_nw",
+          "fg": 2865,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 508
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_ne",
+          "fg": 2866,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 508
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_sw",
+          "fg": 2867,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 508
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_se",
+          "fg": 2868,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 508
+            }
+          ]
+        },
+        {
           "id": "vp_halfboard_cross",
           "fg": 473,
           "rotates": true,
