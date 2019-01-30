@@ -940,7 +940,7 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
-        p.add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ), veh_there.value().vehicle().disp_name(), it.tname().c_str());
+        p.add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ), veh_there.value().vehicle().disp_name(), it.tname().c_str() );
         return 0;
     }
 
