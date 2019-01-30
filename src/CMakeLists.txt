@@ -1,8 +1,8 @@
 # Cataclysm DDA client
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0.0)
 
-SET(CATACLYSM_DDA_SRCS "")
 SET(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
+SET(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
 
 FILE(GLOB CATACLYSM_DDA_SOURCES
      ${CMAKE_SOURCE_DIR}/src/*.cpp)
@@ -29,28 +29,6 @@ ADD_CUSTOM_COMMAND (
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-IF(WIN32)
-	IF(RC_COMPILER_PATH)
-		ADD_CUSTOM_TARGET(
-			compile_res
-			DEPENDS ${CMAKE_BINARY_DIR}/resource.rc.o
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		)
-		ADD_CUSTOM_COMMAND(
-			OUTPUT ${CMAKE_BINARY_DIR}/resource.rc.o
-			COMMAND	${RC_COMPILER_PATH}
-				${CMAKE_SOURCE_DIR}/src/resource.rc
-				${CMAKE_BINARY_DIR}/resource.rc.o
-			WORKING_DIRECTORY
-				${CMAKE_SOURCE_DIR}/src
-		)
-		SET(CATACLYSM_DDA_SRCS
-			${MAIN_CPP}
-			${CMAKE_BINARY_DIR}/resource.rc.o
-		)
-	ENDIF(RC_COMPILER_PATH)
-ENDIF(WIN32)
-
 # Build tiles version if requested
 IF(TILES)
 	add_library(libcataclysm-tiles STATIC
@@ -62,17 +40,14 @@ IF(TILES)
 
 	IF(WIN32)
 		ADD_EXECUTABLE(cataclysm-tiles
-			${CATACLYSM_DDA_SRCS}
+			${MAIN_CPP}
+			${RESOURCE_RC}
 		)
 	ELSE(WIN32)
 		ADD_EXECUTABLE(cataclysm-tiles
 			${MAIN_CPP}
 		)
 	ENDIF(WIN32)
-
-	IF(RC_COMPILER_PATH)
-		ADD_DEPENDENCIES(cataclysm-tiles compile_res)
-	ENDIF(RC_COMPILER_PATH)
 
 	ADD_DEPENDENCIES(libcataclysm-tiles get_version)
 
@@ -174,17 +149,14 @@ IF(CURSES)
 
 	IF(WIN32)
 		ADD_EXECUTABLE(cataclysm
-			${CATACLYSM_DDA_SRCS}
+			${MAIN_CPP}
+			${RESOURCE_RC}
 		)
 	ELSE(WIN32)
 		ADD_EXECUTABLE(cataclysm
 			${MAIN_CPP}
 		)
 	ENDIF(WIN32)
-
-	IF(RC_COMPILER_PATH)
-		ADD_DEPENDENCIES(cataclysm compile_res)
-	ENDIF(RC_COMPILER_PATH)
 
 	ADD_DEPENDENCIES(libcataclysm get_version)
 
