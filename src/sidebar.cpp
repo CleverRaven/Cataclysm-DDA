@@ -291,7 +291,7 @@ void draw_location( const catacurses::window &w, const int y, const int x,
                     const std::string &location_name )
 {
     wrefresh( w );
-    mvwprintz( w, y, x, c_light_gray, "Location: " );
+    mvwprintz( w, y, x, c_light_gray, _( "Location: " ) );
     wprintz( w, c_white, utf8_truncate( location_name, getmaxx( w ) ) );
 }
 
@@ -324,7 +324,7 @@ void draw_moon( const catacurses::window &w, const int y, const int x, const int
         sPhase.insert( 5 - ( ( iPhase < 4 ) ? iPhase + 1 : 5 ),
                        "<color_" + string_from_color( i_black ) + ">" );
     }
-    mvwprintz( w, y, x, c_light_gray, "Moon : " );
+    mvwprintz( w, y, x, c_light_gray, _( "Moon : " ) );
     trim_and_print( w, y, x + 7, 11, c_white, sPhase.c_str() );
 }
 
@@ -744,7 +744,7 @@ void draw_ui_power( const catacurses::window &w, const int y, const int x, const
             unit = "";
         }
 
-        wmove( w, y, getmaxx( w ) - offset ); //sideStyle ? 17 - offset : 7 - offset
+        wmove( w, y, getmaxx( w ) - offset );
         std::string power_value = std::to_string( display_power ) + unit;
         wprintz( w, color, power_value );
     }

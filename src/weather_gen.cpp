@@ -83,8 +83,9 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, static_cast<int>( 5.7  / pow( P / 1014.78, rng( 9, 30 ) ) +
-                                       ( seasonal_variation / 64 ) * rng( 1, 2 ) * W ) );
+    W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
+                                       base_wind_distrib_peaks ) ) +
+                                       ( seasonal_variation / base_wind_season_variation ) * rng( 1, 2 ) * W ) );
     // Wind direction
     // initial static variable
     if( current_winddir == 1000 ) {
@@ -269,5 +270,8 @@ weather_generator weather_generator::load( JsonObject &jo )
     ret.base_humidity = jo.get_float( "base_humidity", 66.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 1015.0 );
     ret.base_acid = jo.get_float( "base_acid", 1015.0 );
+    ret.base_wind = jo.get_float( "base_wind", 5.7 );
+    ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 30 );
+    ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 64 );
     return ret;
 }

@@ -384,8 +384,21 @@ private:
 
     //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
+        //We may want to use visit_items here but thats fairly heavy.
+        //For now, just check weapon if we didnt find it in the inventory.
         int pos = u.inv.position_by_type( "cash_card" );
-        item *dst = &u.i_at( pos );
+        item *dst;
+        if (pos == INT_MIN) {
+            dst = &u.weapon;
+        } else {
+            dst = &u.i_at( pos );
+        }
+
+        if (dst->is_null()) {
+            //Just in case we run into an edge case
+            popup(_("You do not have a cash card to withdraw money!"));
+            return false;
+        }
 
         const int amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
@@ -762,10 +775,6 @@ void iexamine::crate( player &p, const tripoint &examp )
         return;
     }
 
-    uilist selection_menu;
-    selection_menu.text = string_format( _( "The %s is closed tightly." ),
-                                           g->m.furnname( examp ) );
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         return it.has_quality( quality_id( "PRY" ), 1 );
     } );
@@ -776,6 +785,7 @@ void iexamine::crate( player &p, const tripoint &examp )
         item temporary_item( prying_items[0]->type );
         // They only had one item anyway, so just use it.
         dummy.crowbar( &p, &temporary_item, false, examp );
+        return;
     }
 
     // Sort by their quality level.
@@ -784,12 +794,17 @@ void iexamine::crate( player &p, const tripoint &examp )
     } );
 
     // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is closed tightly."),
+        g->m.furnname(examp));
+
     int i = 0;
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
     for( auto iter : prying_items ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
     }
 
+    selection_menu.selected = 1;
     selection_menu.query();
     auto index = selection_menu.ret;
 
@@ -1168,10 +1183,6 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return;
     }
 
-    uilist selection_menu;
-
-    selection_menu.text = string_format( _( "The %s is locked..." ), g->m.tername( examp ) );
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         return it.has_quality( quality_id( "PRY" ), 2 );
     } );
@@ -1190,6 +1201,9 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     // Then display the items
+    uilist selection_menu;
+    selection_menu.text = string_format(_("The %s is locked..."), g->m.tername(examp));
+
     int i = 0;
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
     for( auto iter : prying_items ) {
@@ -1197,6 +1211,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
                                  iter->tname() ) );
     }
 
+    selection_menu.selected = 1;
     selection_menu.query();
     auto index = selection_menu.ret;
 

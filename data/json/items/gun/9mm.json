@@ -157,13 +157,13 @@
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ]
     ]
-  },  
+  },
   {
     "id": "hk_mp5sd",
     "copy-from": "hk_mp5",
     "type": "GUN",
     "name": "H&K MP5SD",
-    "description": "Despite its integrated silencer element, it has the same length and shape as an unsilenced submachine gun. Unlike most conventional silenced submachine guns, it fires standard ammunition types with the same effect. The use of special subsonic ammunition is not necessary. The integrated silencer element suppresses the muzzle flash extremely effectively, as a result of which the weapon is also excellent for night operations using low-light amplifiers. No wonder the MP5SD is one of the most accurate silenced submachine guns of its type.",
+    "description": "Despite its integrated silencer element, it has the same length and shape as an unsilenced submachine gun.  Unlike most conventional silenced submachine guns, it fires standard ammunition types with the same effect.  The use of special subsonic ammunition is not necessary.  The integrated silencer element suppresses the muzzle flash extremely effectively, as a result of which the weapon is also excellent for night operations using low-light amplifiers.  No wonder the MP5SD is one of the most accurate silenced submachine guns of its type.",
     "price": 3000000,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "modes": [
