@@ -102,7 +102,7 @@
     "difficulty": 4,
     "durability": 200,
     "power": 313300,
-    "energy_consumption": 207250,
+    "energy_consumption": 348500,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
@@ -120,7 +120,7 @@
     "difficulty": 5,
     "durability": 400,
     "power": 400000,
-    "energy_consumption": 359500,
+    "energy_consumption": 444940,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 10 ] },
