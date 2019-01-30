@@ -47,6 +47,23 @@
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
+    "id": "pistol_sight_rail",
+    "type": "GUNMOD",
+    "name": "pistol rail mount",
+    "description": "A rail mount for using larger sites.",
+    "weight": 15,
+    "volume": "50ml",
+    "price": 2000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "rail",
+    "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "sights", 1 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
+  },
+  {
     "id": "rail_laser_sight",
     "type": "GUNMOD",
     "name": "rail laser sight",
