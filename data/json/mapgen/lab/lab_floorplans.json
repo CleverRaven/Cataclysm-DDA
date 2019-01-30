@@ -33,7 +33,7 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "?": [ "t_concrete_wall", "t_door_glass_frosted_c", "t_door_glass_c"] },
+      "terrain": { "?": [ "t_concrete_wall", "t_door_glass_frosted_lab_c", "t_door_glass_lab_c"] },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 0, "y": 0 },
         { "chunks": [ "lab_spawn_7x7" ], "x": 0, "y": 8 },
@@ -88,9 +88,9 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "H": [ "f_armchair" ] },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "g": [ "t_wall_glass"],
-        "G": [ "t_door_glass_c"]
+        "G": [ "t_door_glass_lab_c"]
       },
       "mapping": {
         "f": { "items": [ { "item": "fridge", "chance": 30 }, { "item": "alcohol", "chance": 60 } ] },
@@ -115,9 +115,9 @@
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
-        ",,,|,,,|r......|X.ccc.X|",
-        ",,,|,,,|r......|X.....X|",
-        ",,,|,,,|.......|---W---|",
+        "...|...|r......|X.ccc.X|",
+        "...|...|r......|X.....X|",
+        "...|...|.......|---W---|",
         "LLL|LLL|.......|       |",
         "...C..........l|       |",
         "..............l|       |",
@@ -143,12 +143,12 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "f": "f_null" },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "P": "t_generator_broken",
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
-        "C": "t_gates_control_concrete"
+        "C": "t_gates_control_concrete_lab"
       },
       "mapping": { "r": { "items": [ { "item": "hardware", "chance": 10 }, { "item": "robots", "chance": 10 } ] } },
       "place_nested": [
@@ -210,7 +210,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "=": "t_conveyor",
         "%": "t_machinery_heavy"
       },
@@ -261,7 +261,7 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "f": "f_null" },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken"],
         "C": "t_centrifuge"
       },
@@ -360,7 +360,7 @@
         "-----------..-----------"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 20 } ] } },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 3, "y": 2 },
@@ -406,7 +406,7 @@
         "-----------..-----------"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "furniture": {
         "^": "f_indoor_plant",
         "C": "f_cupboard"
@@ -432,13 +432,13 @@
       "rotation": [ 0, 3 ],
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ",,,,,,,L...............l",
-        ",,,,,,,L...............l",
-        ",,,,,,,L....----?----..l",
+        ".......L...............l",
+        ".......L...............l",
+        ".......L....----?----..l",
         "-------|C...|       |..l",
-        ",,,,,,,L....|       |..l",
-        ",,,,,,,L....|       |..l",
-        ",,,,,,,L....+       |..l",
+        ".......L....|       |..l",
+        ".......L....|       |..l",
+        ".......L....+       |..l",
         "-------|....|       |..l",
         "............|       |-+-",
         "............|       |...",
@@ -467,8 +467,8 @@
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
-        "C": "t_gates_control_concrete",
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
+        "C": "t_gates_control_concrete_lab",
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
       },
       "mapping": {
         "X": {
@@ -620,7 +620,7 @@
       "palettes": [ "lab_palette" ],
       "terrain": {
         "C": "t_centrifuge",
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c"],
         "7": "t_console"
       },
       "items": {
@@ -743,14 +743,14 @@
         ".......................x",
         "x................|-g-g--",
         "-------|.........|^.....",
-        ",,,,,,,L.........G......",
-        ",,,,,,,L.........|..ddd.",
-        ",,,,,,,L.........g..dh..",
+        ".......L.........G......",
+        ".......L.........|..ddd.",
+        ".......L.........g..dh..",
         "-------|C........g......",
-        ",,,,,,,L.........g......",
-        ",,,,,,,L.........|dh....",
-        ",,,,,,,L.........|dxd.^.",
-        ",,,,,,,|.........|......"
+        ".......L.........g......",
+        ".......L.........|dh....",
+        ".......L.........|dxd.^.",
+        ".......|.........|......"
       ],
       "palettes": [ "lab_palette" ],
       "furniture": { "S": "f_null", "^": "f_indoor_plant", "f": "f_null" },
@@ -762,9 +762,9 @@
         "P": "t_generator_broken",
         "S": "t_sewage_pump",
         "p": "t_sewage_pipe",
-        "C": "t_gates_control_concrete",
+        "C": "t_gates_control_concrete_lab",
         "g": "t_wall_glass",
-        "G": "t_door_glass_c"
+        "G": "t_door_glass_lab_c"
       },
       "mapping": {
         "X": {
@@ -839,7 +839,7 @@
         "e": "t_elevator_control_off",
         "w": "t_water_sh",
         "W": "t_water_dp",
-        "=": "t_door_c",
+        "=": "t_door_lab_c",
         "C": "t_centrifuge"
       },
       "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 20 } ] } },
@@ -893,7 +893,7 @@
         ",": "t_floor_blue",
         "&": "t_radio_tower",
         "g": "t_wall_glass",
-        "G": "t_door_glass_c",
+        "G": "t_door_glass_lab_c",
         "r": "t_railing_h"
       },
       "computers": {
@@ -953,7 +953,7 @@
         "O": "f_oven",
         "V": "f_table"
       },
-      "terrain": { "w": "t_window_domestic", "`": "t_grass", "+": "t_door_c" },
+      "terrain": { "w": "t_window_domestic", "`": "t_grass", "+": "t_door_lab_c" },
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
         "F": { "items": [ { "item": "livingroom", "chance": 5 } ] },

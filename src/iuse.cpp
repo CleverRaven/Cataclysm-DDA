@@ -140,6 +140,7 @@ const efftype_id effect_stimpack( "stimpack" );
 const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
@@ -811,7 +812,7 @@ int iuse::datura( player *p, item *it, bool, const tripoint & )
     p->add_effect( effect_datura, rng( 200_minutes, 800_minutes ) );
     p->add_msg_if_player( _( "You eat the datura seed." ) );
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false, it->type );
     }
     return it->type->charges_to_use();
 }
@@ -851,6 +852,8 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( m_neutral, _( "You breathe deeply from the %s" ), it->tname().c_str() );
     if( p->has_effect( effect_smoke ) ) {
         p->remove_effect( effect_smoke );
+    } else if( p->has_effect( effect_teargas ) ) {
+        p->remove_effect( effect_teargas );
     } else if( p->has_effect( effect_asthma ) ) {
         p->remove_effect( effect_asthma );
     } else if( p->stim < 16 ) {
@@ -886,7 +889,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->mod_stomach_water( 20 );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
                             it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 6_minutes, 3_minutes,
+        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
@@ -914,7 +917,7 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         p->mod_thirst( -it->type->comestible->quench * multiplier );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
                             it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
         return blech( p, it, true, pos );
@@ -3648,7 +3651,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1_turns );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_turns, 2_turns );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes );
         // mp3 player reduces hearing
         if( volume == 0 ) {
             p.add_effect( effect_earphones, 1_turns );
@@ -4650,7 +4653,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                                string_format( _( "a disturbing scream from %s %s" ),
                                               p->disp_name( true ), it->tname() ) );
                 if( !p->is_deaf() ) {
-                    p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 5_turns );
+                    p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
                 }
                 break;
 
@@ -5109,6 +5112,11 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
     const SpeechBubble speech = get_speech( it->typeId() );
 
     sounds::ambient_sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text );
+
+    // Sound code doesn't describe noises at the player position
+    if( p->can_hear( p->pos(), speech.volume ) ) {
+        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
+    }
 
     return it->type->charges_to_use();
 }
