@@ -256,6 +256,32 @@ The dynamic line is chosen based on whether the NPC is currently is under the ef
 }
 ```
 
+#### Based on the NPC's current needs
+The dynamic line is chosed based on the NPC's current hunger, thirst, or fatigue.  `level` or `amount` is required: `amount` is an integer, and `level` is one of the four defined fatigue levels "TIRED", "DEAD_TIRED", "EXHAUSTED", or "MASSIVE_FATIGUE".  The line from `yes` will be shown if the NPC's need is at least that amount, and otherwise the line from `no`.
+
+```C++
+{
+    "and" [
+        {
+            "npc_need": "hunger",
+            "amount": 100,
+            "yes": "I'm hungry!  "
+        },
+        {
+            "npc_need": "thirst",
+            "amount": 100,
+            "yes": "I need a drink!  "
+        },
+        {
+            "npc_need": "fatigue",
+            "level": "TIRED",
+            "yes": "I could use a nap.",
+            "no": "I'm otherwise good."
+        }
+    ]
+}
+```
+
 #### Based on whether the NPC has missions available
 The dynamic line is chosen based on whether the NPC has any missions to give out.  All entries are optional.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
 
@@ -290,6 +316,33 @@ The dynamic line is chosen if the player is driving a vehicle, or the NPC is dri
     "u_driving": "I said take a left at Albequerque!",
     "npc_driving": "Who died and put me behind the wheel?",
     "no_vehicle": "This is a good time to chat."
+}
+```
+
+#### Based on an NPC follower AI rule
+The dynamic line is chosen based on NPC follower AI rules settings.  There are three variants: `npc_aim_rule`, `npc_engagement_rule`, and `npc_rule`, all of which take a rule value and an optional `yes` and `no` response.  The `yes` response is chosen if the NPC follower AI rule value matches the rule value and otherwise the no value is chosen.
+
+`npc_aim_rule` values are currently "AIM_SPRAY", "AIM_WHEN_CONVENIENT", "AIM_PRECISE", or "AIM_STRICTLY_PRECISE".
+`npc_engagement_rule` values are currently "ENGAGE_NONE", "ENGAGE_CLOSE", "ENGAGE_WEAK", "ENGAGE_HIT", or "ENGAGE_NO_MOVE".
+`npc_rule` values are currently "use_guns", "use_grenades", "use_silent", "avoid_friendly_fire", "allow_pick_up", "allow_bash", "allow_sleep", "allow_complain", "allow_pulp", or "close_doors".
+
+```C++
+{
+    "and": [
+        {
+            "npc_aim_rule": "AIM_STRICTLY_PRECISE",
+            "yes": "No wasting ammo, got it.  "
+        },
+        {
+            "npc_engagement_rule": "ENGAGE_NO_MOVE",
+            "yes": "Stay where I am.  "
+        },
+        {
+            "npc_rule": "allow_pulp",
+            "yes": "Pulp the corpses when I'm done.",
+            "no": "Leave the corpses for someone else to deal with."
+        }
+    ]
 }
 ```
 
@@ -556,6 +609,9 @@ bionic_install | The NPC installs a bionic from your character's inventory onto 
 bionic_remove | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
 npc_faction_change: faction_string | Change the NPC's faction membership to `faction_string`.
 u_faction_rep: rep_num | Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
+toggle_npc_rule: rule_string | Toggles the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
+set_npc_engagement_rule: rule_string | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
+set_npc_aim_rule: rule_string | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
 
 #### Deprecated
 
@@ -657,6 +713,13 @@ Condition | Type | Description
 "npc_role_nearby" | string | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
 "npc_has_weapon" | simple string | `true` if the NPC is wielding a weapon.
 
+#### NPC Follower AI rules
+Condition | Type | Description
+--- | --- | ---
+"npc_aim_rule" | string | `true` if the NPC follower AI rule for aiming matches the string.
+"npc_engagement_rule" | string | `true` if the NPC follower AI rule for engagement matches the string.
+"npc_rule" | string | `true` if the NPC follower AI rule for that matches string is set.
+
 #### Environment
 
 Condition | Type | Description
@@ -665,6 +728,7 @@ Condition | Type | Description
 "is_season" | string | `true` if the current season matches `is_season`, which must be one of "spring", "summer", "autumn", or "winter".
 "is_day" | simple string | `true` if it is currently daytime.
 "is_outside" | simple string | `true` if the NPC is on a tile without a roof.
+
 
 #### Sample responses with conditions
 ```C++

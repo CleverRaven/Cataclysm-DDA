@@ -98,7 +98,19 @@ int player::nutrition_for( const item &comest ) const
     }
 
     // As float to avoid rounding too many times
-    float nutr = comest.type->comestible->nutr;
+    float nutr = 0;
+
+    // if item has components, will derive calories from that instead.
+    if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        int byproduct_multiplier;
+        for( item component : comest.components ) {
+            component.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
+            nutr += this->nutrition_for( component ) * component.charges * byproduct_multiplier;
+        }
+        nutr /= comest.recipe_charges;
+    } else {
+        nutr = comest.type->comestible->nutr;
+    }
 
     if( has_trait( trait_GIZZARD ) ) {
         nutr *= 0.6f;
@@ -207,14 +219,27 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // food to which the player is allergic to never contains any vitamins
-    if( allergy_type( it ) != MORALE_NULL ) {
-        return res;
-    }
-
     // @todo: bionics and mutations can affect vitamin absorption
-    for( const auto &e : it.type->comestible->vitamins ) {
-        res.emplace( e.first, e.second );
+    if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        // if an item is a byproduct, it should subtract the calories and vitamins instead of add
+        int byproduct_multiplier = 1;
+        for( const auto &comp : it.components ) {
+            comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
+            std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
+            for( const auto &vit : component_map ) {
+                res.operator[]( vit.first ) += byproduct_multiplier * ceil( static_cast<float>
+                                               ( vit.second ) / static_cast<float>
+                                               ( it.type->charges_default() ) );
+            }
+        }
+    } else {
+        // food to which the player is allergic to never contains any vitamins
+        if( allergy_type( it ) != MORALE_NULL ) {
+            return res;
+        }
+        for( const auto &e : it.type->comestible->vitamins ) {
+            res.emplace( e );
+        }
     }
 
     return res;
@@ -606,9 +631,9 @@ bool player::eat( item &food, bool force )
     const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
     if( food.has_flag( "HIDDEN_HALLU" ) ) {
         if( spiritual ) {
-            add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false );
         } else {
-            add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 18, 36, 1_hours, 30_minutes, false );
         }
         if( !has_effect( effect_hallu ) ) {
             add_effect( effect_hallu, 6_hours );

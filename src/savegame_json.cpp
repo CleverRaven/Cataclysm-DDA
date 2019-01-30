@@ -951,18 +951,11 @@ void npc_follower_rules::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "engagement", static_cast<int>( engagement ) );
     json.member( "aim", static_cast<int>( aim ) );
-    json.member( "use_guns", use_guns );
-    json.member( "use_grenades", use_grenades );
-    json.member( "use_silent", use_silent );
 
-    json.member( "allow_pick_up", allow_pick_up );
-    json.member( "allow_bash", allow_bash );
-    json.member( "allow_sleep", allow_sleep );
-    json.member( "allow_complain", allow_complain );
-    json.member( "allow_pulp", allow_pulp );
-
-    json.member( "close_doors", close_doors );
-
+    // serialize the flags so they can be changed between save games
+    for( const auto &rule : ally_rule_strs ) {
+        json.member( rule.first, has_flag( rule.second ) );
+    }
     json.member( "pickup_whitelist", *pickup_whitelist );
 
     json.end_object();
@@ -977,17 +970,17 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     int tmpaim = 0;
     data.read( "aim", tmpaim );
     aim = static_cast<aim_rule>( tmpaim );
-    data.read( "use_guns", use_guns );
-    data.read( "use_grenades", use_grenades );
-    data.read( "use_silent", use_silent );
 
-    data.read( "allow_pick_up", allow_pick_up );
-    data.read( "allow_bash", allow_bash );
-    data.read( "allow_sleep", allow_sleep );
-    data.read( "allow_complain", allow_complain );
-    data.read( "allow_pulp", allow_pulp );
-
-    data.read( "close_doors", close_doors );
+    // deserialize the flags so they can be changed between save games
+    for( const auto &rule : ally_rule_strs ) {
+        bool tmpflag = false;
+        data.read( rule.first, tmpflag );
+        if( tmpflag ) {
+            set_flag( rule.second );
+        } else {
+            clear_flag( rule.second );
+        }
+    }
 
     data.read( "pickup_whitelist", *pickup_whitelist );
 }
@@ -1804,6 +1797,7 @@ void item::io( Archive &archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
+    archive.io( "recipe_charges", recipe_charges, 1 );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
     []( const itype & i ) {
         return i.get_id();

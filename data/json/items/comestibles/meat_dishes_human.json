@@ -207,7 +207,7 @@
     "id": "mann_bratwurst",
     "copy-from": "bratwurst_sausage",
     "name": "Mannbrat",
-    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available. Germans are not mandatory.",
+    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available.  Germans are not mandatory.",
     "material": "hflesh"
   },
   {

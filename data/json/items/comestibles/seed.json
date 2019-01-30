@@ -15,6 +15,7 @@
     "symbol": ".",
     "color": "brown",
     "rot_spawn": "GROUP_CROPS_GENERAL",
+    "flags": "NUTRIENT_OVERRIDE",
     "rot_spawn_chance": 2
   },
   {
@@ -398,7 +399,8 @@
     "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
     "price": 90,
     "fun": -1,
-    "flags": [ "SMOKABLE" ],
+    "cooks_like": "beans_cooked",
+    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -566,7 +568,7 @@
     "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "flags": "HIDDEN_HALLU",
+    "flags": [ "HIDDEN_HALLU", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_magic", "grow": "91 days" }
   },
   {
@@ -575,7 +577,7 @@
     "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "flags": "HIDDEN_POISON",
+    "flags": [ "HIDDEN_POISON", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_poison", "grow": "91 days" }
   },
   {

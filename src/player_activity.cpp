@@ -161,8 +161,16 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     }
 
     if( id() == activity_id( "ACT_CRAFT" ) || id() == activity_id( "ACT_LONGCRAFT" ) ) {
-        if( !containers_equal( values, other.values ) ||
-            !containers_equal( coords, other.coords ) ) {
+        // The last value is a time stamp, and the last coord is the player
+        // position.  We want to allow either to have changed.
+        // (This would be much less hacky in the hypothetical future of
+        // activity_handler_actors).
+        if( !( values.size() == other.values.size() &&
+               values.size() >= 1 &&
+               std::equal( values.begin(), values.end() - 1, other.values.begin() ) &&
+               coords.size() == other.coords.size() &&
+               coords.size() >= 1 &&
+               std::equal( coords.begin(), coords.end() - 1, other.coords.begin() ) ) ) {
             return false;
         }
     } else if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
@@ -187,6 +195,22 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     return !auto_resume && id() == other.id() && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
+}
+
+void player_activity::resume_with( const player_activity &other )
+{
+    if( id() == activity_id( "ACT_CRAFT" ) || id() == activity_id( "ACT_LONGCRAFT" ) ) {
+        // For crafting actions, we need to update the start turn and position
+        // to the resumption time values.  These are stored in the last
+        // elements of values and coords respectively.
+        if( !( values.size() >= 1 && values.size() == other.values.size() &&
+               coords.size() >= 1 && coords.size() == other.coords.size() ) ) {
+            debugmsg( "Activities incompatible; should not have resumed" );
+            return;
+        }
+        values.back() = other.values.back();
+        coords.back() = other.coords.back();
+    }
 }
 
 bool player_activity::is_distraction_ignored( distraction_type type ) const
