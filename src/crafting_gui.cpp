@@ -555,24 +555,20 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( display_mode == 0 ) {
                 const int width = getmaxx( w_data ) - xpos - item_info_x;
-                print_colored_text(
-                    w_data, ypos++, xpos, col, col,
-                    string_format( _( "Primary skill used: <color_cyan>%s</color>" ),
-                                   ( !current[line]->skill_used ? _( "N/A" ) :
-                                     current[line]->skill_used.obj().name() ) ) );
+
                 auto player_skill = g->u.get_skill_level( current[line]->skill_used );
                 std::string difficulty_color =
                     current[ line ]->difficulty > player_skill ? "yellow" : "green";
+                std::string primary_skill_level = string_format("(%s/%s)", player_skill, current[ line ]->difficulty);
                 print_colored_text(
                     w_data, ypos++, xpos, col, col,
-                    string_format( _( "Difficulty: <color_%s>%d</color>" ),
-                                   difficulty_color, current[ line ]->difficulty ) );
-                std::string skill_level_string =
-                    current[line]->skill_used ?
-                    string_format( _( "Your skill level: <color_%s>%d</color>" ),
-                                   difficulty_color, player_skill ) :
-                    _( "Your skill level: <color_yellow>N/A</color>" );
-                print_colored_text( w_data, ypos++, xpos, col, col, skill_level_string );
+                    string_format( _( "Primary skill used: <color_cyan>%s</color> <color_%s>%s</color>" ),
+                                   ( !current[line]->skill_used ? _( "N/A" ) :
+                                     current[line]->skill_used.obj().name() ),
+                                   difficulty_color,
+                                   ( !current[line]->skill_used ? "" : primary_skill_level )
+                                 ));
+
                 ypos += fold_and_print( w_data, ypos, xpos, width, col,
                                         _( "Other skills used: %s" ),
                                         current[line]->required_skills_string( &g->u ) );

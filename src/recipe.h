@@ -83,6 +83,7 @@ class recipe
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
         // Character object (if provided) used to color levels
+        std::string required_skills_string( const Character *, bool print_skill_level ) const;
         std::string required_skills_string( const Character * ) const;
 
         // Create an item instance as if the recipe was just finished,
