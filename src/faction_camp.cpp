@@ -1040,7 +1040,7 @@ bool basecamp::handle_mission( npc &p, const std::string &miss_id, const std::st
             craft_construction( p, miss_id, miss_dir, "COOK", "_faction_exp_kitchen_cooking_" );
             if( miss_id == miss_dir + " (Finish) Cooking" ) {
                 const std::string msg = _( "returns from your kitchen with something..." );
-                mission_return( p, "_faction_exp_kitchen_crafting_" + miss_dir, 15_minutes,
+                mission_return( p, "_faction_exp_kitchen_cooking_" + miss_dir, 15_minutes,
                                 true, msg, "cooking", 2 );
             }
 
