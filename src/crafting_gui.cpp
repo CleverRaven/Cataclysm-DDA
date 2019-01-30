@@ -562,7 +562,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 std::string primary_skill_level = string_format("(%s/%s)", player_skill, current[ line ]->difficulty);
                 print_colored_text(
                     w_data, ypos++, xpos, col, col,
-                    string_format( _( "Primary skill used: <color_cyan>%s</color> <color_%s>%s</color>" ),
+                    string_format( _( "Primary skill: <color_cyan>%s</color> <color_%s>%s</color>" ),
                                    ( !current[line]->skill_used ? _( "N/A" ) :
                                      current[line]->skill_used.obj().name() ),
                                    difficulty_color,
@@ -570,7 +570,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                  ));
 
                 ypos += fold_and_print( w_data, ypos, xpos, width, col,
-                                        _( "Other skills used: %s" ),
+                                        _( "Other skills: %s" ),
                                         current[line]->required_skills_string( &g->u ) );
 
                 const int expected_turns = g->u.expected_time_to_craft( *current[line],
