@@ -1635,6 +1635,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
+    p.mod_moves( -rng( 100, 300 ) );
+
     return true;
 }
 
