@@ -51,15 +51,15 @@ weather_datum const weather_data( weather_type const type )
                 &weather_effect::none
             },
             weather_datum {
-                translate_marker( "Clear" ), c_cyan, c_black_white, ' ', 0, 1.0f, 0, 0, false,
+                translate_marker( "Clear" ), c_cyan, c_yellow_white, ' ', 0, 1.0f, 0, 0, false,
                 &weather_effect::none
             },
             weather_datum {
-                translate_marker( "Sunny" ), c_light_cyan, i_yellow, ' ', 0, 1.0f, 2, 0, false,
+                translate_marker( "Sunny" ), c_light_cyan, c_yellow_white, '*', 0, 1.0f, 2, 0, false,
                 &weather_effect::glare
             },
             weather_datum {
-                translate_marker( "Cloudy" ), c_light_gray, c_dark_gray_white, '.', 0, 1.0f, -20, 0, false,
+                translate_marker( "Cloudy" ), c_light_gray, c_dark_gray_white, '~', 0, 1.0f, -20, 0, false,
                 &weather_effect::none
             },
             weather_datum {
@@ -67,7 +67,7 @@ weather_datum const weather_data( weather_type const type )
                 &weather_effect::wet
             },
             weather_datum {
-                translate_marker( "Rain" ), c_blue, h_blue, '8', 3, 1.1f, -30, 4, false,
+                translate_marker( "Rain" ), c_blue, h_blue, 'o', 3, 1.1f, -30, 4, false,
                 &weather_effect::very_wet
             },
             weather_datum {
@@ -83,7 +83,7 @@ weather_datum const weather_data( weather_type const type )
                 &weather_effect::light_acid
             },
             weather_datum {
-                translate_marker( "Acid Rain" ), c_green, c_yellow_green, '8', 4, 1.1f, -30, 4, true,
+                translate_marker( "Acid Rain" ), c_green, c_yellow_green, 'o', 4, 1.1f, -30, 4, true,
                 &weather_effect::acid
             },
             weather_datum {
