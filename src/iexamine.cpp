@@ -4052,7 +4052,11 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
         if( !product.empty() ) {
             item result( product, start_time + 6_hours );
             result.charges = item_it.charges;
+
+            // Set flag to tell set_relative_rot() to calc from bday not now
+            result.set_flag( "SMOKING_RESULT" );
             result.set_relative_rot( item_it.get_relative_rot() );
+            result.unset_flag( "SMOKING_RESULT" );
             item_it = result;
         }
     }
