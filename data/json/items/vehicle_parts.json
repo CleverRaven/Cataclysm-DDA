@@ -293,11 +293,11 @@
         "id" : "motor",
         "name" : "electric motor",
         "description" : "A powerful electric motor.  Useful for crafting.",
-        "weight" : 9071,
+        "weight" : 27200,
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel"],
-        "volume" : 6,
+        "volume" : "9.7 L",
         "bashing" : 4,
         "category" : "veh_parts",
         "price" : 12000
