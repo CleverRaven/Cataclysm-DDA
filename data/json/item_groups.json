@@ -344,7 +344,6 @@
       ["gum", 30],
       ["caff_gum", 3],
       ["flask_hip", 5],
-      ["sm_extinguisher", 10],
       ["atomic_light", 1],
       ["atomic_lamp", 1],
       ["dog_whistle", 5],
@@ -2619,6 +2618,48 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "alcohol_bottled_canned",
+    "items":[
+      ["whiskey", 16],
+      ["vodka", 20],
+      ["gin", 20],
+      ["rum", 14],
+      ["tequila", 12],
+      ["triple_sec", 12],
+      ["brandy", 12],
+      ["drink_rumcola", 12],
+      ["drink_screwdriver", 12],
+      ["drink_wild_apple", 8],
+      ["drink_strawberry_surprise", 6],
+      ["drink_boozeberry", 6],
+      ["drink_hobo", 10],
+      ["drink_kalimotxo", 10],
+      ["drink_beeknees", 8],
+      ["drink_wsour", 8],
+      ["wine_riesling", 6],
+      ["wine_chardonnay", 10],
+      ["wine_cabernet", 10],
+      ["wine_noir", 5],
+      ["dandelion_wine", 8],
+      ["pine_wine", 6],
+      ["bum_wine", 20],
+      ["fruit_wine", 12],
+      ["beer", 35],
+      ["european_pilsner", 25],
+      ["pale_ale", 25],
+      ["india_pale_ale", 25],
+      ["stout", 15],
+      ["belgian_ale", 10],
+      ["imperial_stout", 5],
+      ["hb_beer", 8],
+      ["long_island", 6],
+      ["mead", 10],
+      ["moonshine", 8],
+      ["eggnog_spiked", 5],
+      ["chem_ethanol", 5]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "wines_worthy",
     "items":[
       ["wine_riesling", 20],
@@ -2737,7 +2778,8 @@
       ["clogs", 1],
       ["leathersandals", 10],
       ["rollerskates", 1],
-      ["roller_blades", 5]
+      ["roller_blades", 5],
+      ["mocassins", 20]
     ]
   },{
     "type" : "item_group",
@@ -2785,7 +2827,8 @@
       ["postman_shirt", 5],
       ["halter_top", 50],
       ["linuxtshirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["poncho", 20]
     ]
   },{
     "type" : "item_group",
@@ -8624,6 +8667,25 @@
       ["diamond", 75]
     ]
   },{
+    "type" : "item_group",
+    "id" : "jewelry_accessories",
+    "items":[
+      ["ring", 30],
+      ["gold_ear", 30],
+      ["gold_bracelet", 30],
+      ["gold_dental_grill", 10],
+      ["silver_ear", 40],
+      ["necklace", 40],
+      ["silver_bracelet", 40],
+      ["diamond_ring", 10],
+      ["diamond_dental_grill", 5],
+      ["brooch", 30],
+      ["copper_ear", 50],
+      ["tieclip", 35],
+      ["pearl_collar", 30],
+      ["holy_symbol", 20]
+    ]
+  },{
 "type" : "item_group",
 "id" : "antique",
         "items" : [
@@ -9918,6 +9980,30 @@
     "items": [
       { "item": "ceramic_shard", "prob": 65, "count-min": 2, "count-max": 5 },
       { "item": "plastic_chunk", "prob": 100, "count-min": 2, "count-max": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "phones",
+    "items": [ 
+      { "item": "cell_phone", "prob": 50, "charges-min": 0, "charges-max": 15 },
+      { "item": "smart_phone", "prob": 50, "charges-min": 0, "charges-max": 15 } 
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "common_gloves",
+    "items": [
+      { "item": "gloves_light", "prob": 15 },
+      { "item": "gloves_leather", "prob": 15 },
+      { "item": "gloves_golf", "prob": 15 },
+      { "item": "gloves_wool", "prob": 15 },
+      { "item": "gloves_winter", "prob": 10 },
+      { "item": "gloves_fingerless", "prob": 15 },
+      { "item": "gloves_liner", "prob": 15 },
+      { "item": "mittens", "prob": 5 },
+      { "item": "thermal_gloves", "prob": 2 }
     ]
   }
 ]
