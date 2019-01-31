@@ -354,7 +354,7 @@
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel"],
-        "volume" : 20,
+        "volume" : "5 L",
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 2000
