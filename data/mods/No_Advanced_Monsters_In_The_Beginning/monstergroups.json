@@ -31,9 +31,9 @@
       { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
       { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] }
     ],
-    "replace_monster_group": true,
+    "replace_monster_group": false,
     "new_monster_group_id": "GROUP_ZOMBIE_MID",
-    "replacement_time": 1400,
+    "replacement_time": 14,
     "//": "(replacement_time * difficulty)DAYS *(SEASON_LENGTH / 14)"
   },
   {
