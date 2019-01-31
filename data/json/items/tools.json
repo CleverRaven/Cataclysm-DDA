@@ -1449,7 +1449,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "charcoal",
-    "max_charges": 200,
+    "max_charges": 180,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
