@@ -1338,6 +1338,11 @@ void options_manager::add_options_interface()
     { { "wider", translate_marker( "Wider" ) }, { "narrow", translate_marker( "Narrow" ) } }, "narrow"
        );
 
+    add( "TOGGLE_COMPASS", "interface", translate_marker( "Display the compass" ),
+         translate_marker( "Toggle to display or hide the compass and monster indicator. Set to true to enable compass, false to disable it. " ),
+         true
+       );
+
     add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),
          translate_marker( "Where new log messages should show." ),
          //~ sidebar/message log flow direction
@@ -2443,6 +2448,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     bool lang_changed = false;
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
+    bool hide_compass_changed = false;
     bool sidebar_style_changed = false;
     bool terminal_size_changed = false;
 
@@ -2458,6 +2464,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 || iter.first == "PIXEL_MINIMAP_RATIO"
                 || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
+
+            } else if( iter.first == "TOGGLE_COMPASS" ) {
+                hide_compass_changed = true;
 
             } else if( iter.first == "SIDEBAR_STYLE" ) {
                 sidebar_style_changed = true;
@@ -2498,6 +2507,12 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     if( lang_changed ) {
         set_language();
+    }
+
+    if( hide_compass_changed ) {
+        if( ingame ) {
+            g->toggle_compass();
+        }
     }
 
     if( sidebar_style_changed ) {
