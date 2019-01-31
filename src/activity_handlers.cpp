@@ -2299,13 +2299,15 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             action_type = repair_item_actor::RT_PRACTICE;
         }
 
-        const std::string title = string_format(
-                                      _( "%s %s\nSkill used: <color_light_blue>%s (%s)</color>\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
-                                         "Damage chance: <color_light_blue>%.1f</color>%%" ),
-                                      repair_item_actor::action_description( action_type ),
-                                      fix.tname(),
-                                      actor->used_skill.obj().name(), level,
-                                      100.0f * chance.first, 100.0f * chance.second );
+        std::string title = string_format( _( "%s %s\n" ),
+            repair_item_actor::action_description( action_type ),
+            fix.tname() );
+        title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
+            actor->used_skill.obj().name(), level );
+        title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
+            100.0f * chance.first );
+        title += string_format( _( "Damage chance: <color_light_blue>%.1f</color>%%" ),
+            100.0f * chance.second );
 
         if( act->values.empty() ) {
             act->values.resize( 1 );
