@@ -17337,6 +17337,30 @@
           "rotates": false
         },
         {
+          "id": "t_door_red_c",
+          "fg": 2197,
+          "bg": 2215,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_c",
+          "fg": 2197,
+          "bg": 2214,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_c",
+          "fg": 2197,
+          "bg": 2258,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_c",
+          "fg": 2197,
+          "bg": 2218,
+          "rotates": false
+        },
+        {
           "id": "t_door_c_peep",
           "fg": 2198,
           "bg": 2184,
@@ -17352,12 +17376,60 @@
           "rotates": false
         },
         {
+          "id": "t_door_red_b",
+          "fg": 2199,
+          "bg": 2215,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_b",
+          "fg": 2199,
+          "bg": 2214,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_b",
+          "fg": 2199,
+          "bg": 2258,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_b",
+          "fg": 2199,
+          "bg": 2218,
+          "rotates": false
+        },
+        {
           "id": [
             "t_door_o",
             "t_door_o_peep"
           ],
           "fg": 2200,
           "bg": 2184,
+          "rotates": false
+        },
+        {
+          "id": "t_door_red_o",
+          "fg": 2200,
+          "bg": 2215,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_o",
+          "fg": 2200,
+          "bg": 2214,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_o",
+          "fg": 2200,
+          "bg": 2258,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_o",
+          "fg": 2200,
+          "bg": 2218,
           "rotates": false
         },
         {
@@ -17386,12 +17458,60 @@
           "rotates": true
         },
         {
+          "id": "t_door_glass_red_c",
+          "fg": 2203,
+          "bg": 2215,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_green_c",
+          "fg": 2203,
+          "bg": 2214,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_white_c",
+          "fg": 2203,
+          "bg": 2258,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_gray_c",
+          "fg": 2203,
+          "bg": 2218,
+          "rotates": true
+        },
+        {
           "id": [
             "t_door_glass_o",
             "t_door_glass_frosted_o"
           ],
           "fg": 2204,
           "bg": 2184,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_red_o",
+          "fg": 2204,
+          "bg": 2215,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_green_o",
+          "fg": 2204,
+          "bg": 2214,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_white_o",
+          "fg": 2204,
+          "bg": 2258,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_gray_o",
+          "fg": 2204,
+          "bg": 2218,
           "rotates": true
         },
         {
@@ -19213,7 +19333,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_frame",
+          "id": [ "t_door_frame", "t_door_red_frame", "t_door_green_frame", "t_door_gray_frame", "t_door_white_frame" ],
           "fg": 2200,
           "rotates": false
         },
