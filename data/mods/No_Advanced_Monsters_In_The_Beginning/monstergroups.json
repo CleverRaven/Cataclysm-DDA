@@ -38,6 +38,7 @@
   },
   {
     "type": "monstergroup",
+    "override": true,
     "name": "GROUP_ZOMBIE_UPGRADE",
     "default": "mon_zombie_tough",
     "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
@@ -64,6 +65,7 @@
   },
   {
     "type": "monstergroup",
+    "override": true,
     "name": "GROUP_ZOMBIE_MID",
     "default": "mon_zombie_tough",
     "monsters": [
