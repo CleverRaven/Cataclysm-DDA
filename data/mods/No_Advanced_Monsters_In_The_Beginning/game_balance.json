@@ -11,7 +11,7 @@
     "name": "MONSTER_UPGRADE_MIN_HALFLIFE",
     "info": "Minimal  half time for monster upgrade.  If monster upgrade halflife time stat is lower than that value then will be used that value.  This value scales with MONSTER_UPGRADE_FACTOR.",
     "stype": "int",
-    "value": 45
+    "value": 50
   },
   {
     "type": "EXTERNAL_OPTION",
