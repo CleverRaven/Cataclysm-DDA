@@ -5760,6 +5760,43 @@
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
+    "id": "reading_light",
+    "type": "TOOL",
+    "name": "reading light",
+    "name_plural": "reading lights",
+    "description": "A little clip-on LED light, meant for reading books in the dark.",
+    "weight": 90,
+    "volume": 0,
+    "price": 100,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": "battery",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "charges_per_use": 1,
+    "use_action": {
+      "target": "reading_light_on",
+      "msg": "You switch on the reading light.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The reading light winks out.",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "reading_light_on",
+    "copy-from": "reading_light",
+    "type": "TOOL",
+    "name": "reading light (active)",
+    "name_plural": "reading lights (active)",
+    "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
+    "turns_per_charge": 120,
+    "revert_to": "reading_light",
+    "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "LIGHT_8", "CHARGEDIM" ]
+  },
+  {
     "id": "ref_lighter",
     "type": "TOOL",
     "name": "refillable lighter",
