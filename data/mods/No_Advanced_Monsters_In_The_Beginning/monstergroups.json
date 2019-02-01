@@ -179,7 +179,10 @@
     "override": true,
     "name": "GROUP_PREPPER_HOUSE",
     "default": "mon_zombie",
-    "monsters": [ { "monster": "mon_zombie_survivor", "freq": 400, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 180, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_survivor", "freq": 400, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",
