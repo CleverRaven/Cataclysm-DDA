@@ -1233,9 +1233,7 @@
     "qualities": [
       { "id": "CUT", "level": 1 }
     ],
-    "components": [
-      [ [ "plastic_chunk", 20 ] ]
-    ]
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
   },
   {
     "result": "lawnmower",
