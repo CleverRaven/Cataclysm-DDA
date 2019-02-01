@@ -65,6 +65,16 @@
     ]
   },
   {
+    "type":"monstergroup",
+    "override": true,
+    "name" : "GROUP_ZOMBIE_ELECTRO",
+    "default" : "mon_null",
+    "monsters" : [
+      { "monster" : "mon_zombie_nullfield", "freq" : 20, "cost_multiplier": 0},
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 40, "cost_multiplier": 2}
+    ]
+  },
+  {
     "type": "monstergroup",
     "override": true,
     "name": "GROUP_ZOMBIE_MID",
