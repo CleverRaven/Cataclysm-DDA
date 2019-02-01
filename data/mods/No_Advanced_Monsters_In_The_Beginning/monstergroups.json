@@ -67,7 +67,7 @@
   {
     "type": "monstergroup",
     "override": true,
-    "name": "GROUP_ZOMBIE_ELECTRO",
+    "name": "GROUP_ZOMBIE_ELECTRIC",
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_zombie_nullfield", "freq": 20, "cost_multiplier": 0 },
