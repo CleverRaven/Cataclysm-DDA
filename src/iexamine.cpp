@@ -3953,6 +3953,13 @@ void smoker_activate(player &p, const tripoint &examp)
     }
 
     p.use_charges( "fire", 1 );
+    for( auto &it : g->m.i_at( examp ) ) {
+        if( it.has_flag( "SMOKABLE" ) ) {
+            // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
+            it.calc_rot( examp );
+            it.set_flag( "SMOKING" );
+        }
+    }
     g->m.furn_set( examp, next_smoker_type );
     if( charcoal->charges == char_charges ) {
         g->m.i_rem( examp, charcoal );
@@ -3966,7 +3973,7 @@ void smoker_activate(player &p, const tripoint &examp)
     add_msg( _("You light a small fire under the rack and it starts to smoke.") );
 }
 
-void smoker_finalize(player &, const tripoint &examp)
+void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
@@ -3981,6 +3988,12 @@ void smoker_finalize(player &, const tripoint &examp)
     if( items.empty() ) {
         g->m.furn_set(examp, next_smoker_type);
         return;
+    }
+
+    for( auto &it : items ) {
+        if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal 
+            it.calc_rot_while_smoking( examp, 6_hours );
+        }
     }
 
     std::string product;
@@ -4034,11 +4047,16 @@ void smoker_finalize(player &, const tripoint &examp)
             product = "human_smoked";
         } else {
             product.clear();
+            item_it.unset_flag( "SMOKING" );
         }
         if( !product.empty() ) {
-            item result( product, calendar::turn );
+            item result( product, start_time + 6_hours );
             result.charges = item_it.charges;
-            //g->m.add_item( examp, result );
+
+            // Set flag to tell set_relative_rot() to calc from bday not now
+            result.set_flag( "SMOKING_RESULT" );
+            result.set_relative_rot( item_it.get_relative_rot() );
+            result.unset_flag( "SMOKING_RESULT" );
             item_it = result;
         }
     }
@@ -4168,10 +4186,10 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     p.invalidate_crafting_inventory();
 }
 
-void iexamine::on_smoke_out( const tripoint &examp )
+void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time )
 {
     if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
-        smoker_finalize( g->u, examp );
+        smoker_finalize( g->u, examp, start_time );
     }
 }
 

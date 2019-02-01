@@ -34,7 +34,7 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c"] },
       "place_nested": [
         { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
@@ -80,7 +80,7 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c"] },
       "place_nested": [
         { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
@@ -127,7 +127,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "!": [ "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken", "t_centrifuge" ]
       },
       "place_nested": [
@@ -189,7 +189,7 @@
           ]
         }
       },
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c"] },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 3, "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
@@ -496,7 +496,7 @@
     "id": "lab_loot_bionic_vault",
     "mapping": { "r": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] }
     },
-    "terrain": { "r": "t_strconc_floor" },
+    "terrain": { "r": "t_thconc_floor" },
     "computers": {
         "6": {
           "name": "Bionic Vault", "security": 3,
@@ -513,7 +513,7 @@
     "id": "lab_loot_serum_vault",
     "mapping": { "r": { "items": [ { "item": "mut_iv", "chance": 50 } ] }
     },
-    "terrain": { "r": "t_strconc_floor" },
+    "terrain": { "r": "t_thconc_floor" },
     "computers": {
         "6": {
           "name": "Advanced PE012 Samples", "security": 3,

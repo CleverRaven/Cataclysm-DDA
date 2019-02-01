@@ -3556,7 +3556,10 @@ void item::set_relative_rot( double val )
         rot = type->comestible->spoils * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
-        last_rot_check = calendar::turn;
+        // if this item is the result of smoking don't do this, we want to start from bday.
+        if( !has_flag( "SMOKING_RESULT" ) ) {
+            last_rot_check = calendar::turn;
+        }
         active = true;
     }
 }
@@ -3608,7 +3611,8 @@ void item::calc_rot( const tripoint &location )
         last_rot_check = now;
 
         // Frozen food do not rot, so no change to rot variable
-        if( item_tags.count( "FROZEN" ) ) {
+        // Smoking food will be checked for rot in smoker_finalize
+        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) ) {
             return;
         }
 
@@ -3635,6 +3639,18 @@ void item::calc_rot( const tripoint &location )
         }
 
     }
+}
+
+void item::calc_rot_while_smoking( const tripoint &location, time_duration smoking_duration )
+{
+    if( !item_tags.count( "SMOKING" ) ) {
+        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname().c_str() );
+        return;
+    }
+
+    // Apply rot at 1/2 normal rate while smoking
+    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
+    last_rot_check += smoking_duration;
 }
 
 units::volume item::get_storage() const
@@ -6892,8 +6908,8 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
         return true; //destroy fake smoke
     }
 
-    if( item_counter == 0 ) {
-        iexamine::on_smoke_out( pos ); //activate effects when timers goes to zero
+    if( age() >= 6_hours || item_counter == 0 ) {
+        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 

@@ -605,11 +605,12 @@ bool query_yn( const std::string &text )
     return query_popup()
            .context( "YESNO" )
            .message( force_uc ?
-                     pgettext( "query_yn", "<color_light_red>%s (Case Sensitive)</color>" ) :
-                     pgettext( "query_yn", "<color_light_red>%s</color>" ), text )
+                     pgettext( "query_yn", "%s (Case Sensitive)" ) :
+                     pgettext( "query_yn", "%s" ), text )
            .option( "YES", allow_key )
            .option( "NO", allow_key )
            .cursor( 1 )
+           .default_color( c_light_red )
            .query()
            .action == "YES";
 }

@@ -167,6 +167,8 @@ const efftype_id effect_magnesium_supplements( "magnesium" );
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
 
+const species_id ROBOT( "ROBOT" );
+
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
@@ -223,6 +225,7 @@ static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
+static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
@@ -267,6 +270,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FASTHEALER( "FASTHEALER" );
 static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
@@ -279,6 +283,7 @@ static const trait_id trait_FLEET( "FLEET" );
 static const trait_id trait_FLEET2( "FLEET2" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
+static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -367,7 +372,9 @@ static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -1873,10 +1880,17 @@ int player::run_cost( int base_cost, bool diag ) const
 
 int player::swim_speed() const
 {
-    int ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
+    int ret;
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
+
+    if( !has_trait( trait_AMPHIBIAN ) ) {
+        ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
+     /** AMPHIBIAN increases base swim speed */
+    } else {
+        ret = 200 + weight_carried() / 120_gram - 50 * get_skill_level( skill_swimming );
+    }
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
@@ -2772,7 +2786,7 @@ bool player::sight_impaired() const
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
              ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
-               !has_trait( trait_CEPH_EYES ) ) ||
+               !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
              ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
                !worn_with_flag( "FIX_NEARSIGHT" ) &&
                !has_effect( effect_contacts ) &&
@@ -5176,6 +5190,14 @@ void player::suffer()
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
+        if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) && get_thirst() > -60 ) {
+            mod_thirst( -1 );
+        }
+    }
+
+    if( has_trait( trait_SHARKTEETH ) && one_in( 14400 ) ) {
+        add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
+        g->m.spawn_item( pos(), "bone", 1 );
     }
 
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
@@ -7154,7 +7176,8 @@ bool player::has_mission_item(int mission_id) const
 //Returns the amount of charges that were consumed by the player
 int player::drink_from_hands(item& water) {
     int charges_consumed = 0;
-    if( query_yn( _("Drink %s from your hands?"), water.type_name().c_str() ) )
+    if( query_yn( _( "Drink %s from your hands?" ),
+                  colorize( water.type_name(), water.color_in_inventory() ) ) )
     {
         // Create a dose of water no greater than the amount of water remaining.
         item water_temp( water );
@@ -7213,7 +7236,7 @@ bool player::consume_item( item &target )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
     }
-    if( is_underwater() ) {
+    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return false;
     }
@@ -8477,7 +8500,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
 
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
-            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
+            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
+                                      colorize( it.tname(), it.color_in_inventory() ) ) ) {
                 drop( get_item_position( &it ), pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
@@ -9169,8 +9193,9 @@ void player::gunmod_add( item &gun, item &mod )
     int qty = 0;
 
     if( mod.is_irremovable() ) {
-        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
-                       gun.tname().c_str() ) ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                       colorize( mod.tname(), mod.color_in_inventory() ),
+                       colorize( gun.tname(), gun.color_in_inventory() ) ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
         }
@@ -9236,8 +9261,9 @@ void player::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod->tname().c_str(),
-                    tool->tname().c_str() ) ) {
+    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                   colorize( mod->tname().c_str(), mod->color_in_inventory() ),
+                   colorize( tool->tname().c_str(), tool->color_in_inventory() ) ) ) {
         add_msg_if_player( _( "Never mind." ) );
         return; // player canceled installation
     }
@@ -10038,7 +10064,7 @@ void player::try_to_sleep( const time_duration &dur )
                          ter_at_pos == t_improvised_shelter ||
                          trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
                          trap_at_pos.loadid == tr_fur_rollmat ||
-                         in_shell || websleeping ||
+                         in_shell || websleeping || watersleep ||
                          vp.part_with_feature( "SEAT", true ) ||
                          vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
@@ -10130,6 +10156,9 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
         if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
+        else if( watersleep && g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+            comfort += static_cast<int>( comfort_level::very_comfortable );
+        }
     }
     else if( plantsleep ) {
         if( vp || furn_at_pos != f_null ) {
@@ -10150,11 +10179,6 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             else {
                 comfort = static_cast<int>( comfort_level::uncomfortable );
             }
-        }
-    //Has watersleep
-    } else if( watersleep ) {
-        if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
-            comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     // Has webforce
     } else {
@@ -10186,6 +10210,7 @@ int player::sleep_spot( const tripoint &p ) const
 {
     comfort_level base_level = base_comfort_value( p );
     int sleepy = static_cast<int>( base_level );
+    bool watersleep = has_trait( trait_WATERSLEEP );
 
     if (has_addiction(ADD_SLEEP)) {
         sleepy -= 4;
@@ -10202,6 +10227,9 @@ int player::sleep_spot( const tripoint &p ) const
     if (has_trait( trait_EASYSLEEPER2 )) {
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
+    }
+    if( watersleep && g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+        sleepy += 10; //comfy water!
     }
 
     if( get_fatigue() < TIRED + 1 ) {
@@ -10835,6 +10863,9 @@ int player::get_env_resist(body_part bp) const
         if (ret > 5) {
             ret = 5;
         }
+    }
+    if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
+        ret += 8;
     }
     return ret;
 }
@@ -12114,6 +12145,12 @@ void player::place_corpse( const tripoint &om_target )
 
 bool player::sees_with_infrared( const Creature &critter ) const
 {
+    const monster *m = dynamic_cast< const monster * >( &critter );
+    // electroreceptors grants vision of robots and electric monsters through walls
+    if( m != nullptr && has_trait( trait_ELECTRORECEPTORS ) && ( m->type->in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        return true;
+    }
+
     if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
         return false;
     }
