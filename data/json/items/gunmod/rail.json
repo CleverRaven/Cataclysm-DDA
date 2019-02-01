@@ -53,6 +53,7 @@
     "description": "A rail mount for using larger sights.",
     "weight": 15,
     "volume": "50ml",
+    "rail_size": "small",
     "price": 2000,
     "material": [ "steel" ],
     "symbol": ":",
