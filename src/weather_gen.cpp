@@ -89,13 +89,13 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // Wind direction
     // initial static variable
     if( current_winddir == 1000 ) {
-        current_winddir = get_wind_direction( season );
+        current_winddir = get_wind_direction( season, seed );
         current_winddir = convert_winddir( current_winddir );
     } else {
         //when wind strength is low, wind direction is more variable
         bool changedir = one_in( W * 360 );
         if( changedir == true ) {
-            current_winddir = get_wind_direction( season );
+            current_winddir = get_wind_direction( season, seed );
             current_winddir = convert_winddir( current_winddir );
         }
     }
@@ -159,9 +159,9 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
-int weather_generator::get_wind_direction( const season_type season ) const
+int weather_generator::get_wind_direction( const season_type season, unsigned seed ) const
 {
-    unsigned dirseed = std::chrono::system_clock::now().time_since_epoch().count();
+    unsigned dirseed = seed;
     std::default_random_engine wind_dir_gen( dirseed );
     //assign chance to angle direction
     if( season == SPRING ) {
