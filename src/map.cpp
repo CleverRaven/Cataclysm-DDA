@@ -1084,7 +1084,7 @@ bool map::displace_water( const tripoint &p )
                 }
                 ter_id ter0 = ter( temp );
                 if( ter0 == t_water_sh ||
-                    ter0 == t_water_dp ) {
+                    ter0 == t_water_dp || ter0 == t_water_moving_sh || ter0 == t_water_moving_dp ) {
                     continue;
                 }
                 if( pass != 0 && dis_places == sel_place ) {
@@ -4294,6 +4294,18 @@ item map::water_from( const tripoint &p )
     }
     if( terrain_id == t_water_dp ) {
         if( one_in( 4 ) ) {
+            ret.poison = rng( 1, 4 );
+        }
+        return ret;
+    }
+    if( terrain_id == t_water_moving_sh ) {
+        if( one_in( 10 ) ) {
+            ret.poison = rng( 1, 4 );
+        }
+        return ret;
+    }
+    if( terrain_id == t_water_moving_dp ) {
+        if( one_in( 20 ) ) {
             ret.poison = rng( 1, 4 );
         }
         return ret;

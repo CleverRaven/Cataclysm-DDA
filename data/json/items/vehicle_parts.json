@@ -486,6 +486,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "water_wheel",
+        "name" : "water wheel",
+        "description" : "A water wheel.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
+        "weight" : 65000,
+        "to_hit" : -5,
+        "color" : "yellow",
+        "symbol" : "*",
+        "material" : ["wood"],
+        "volume" : 80,
+        "bashing" : 3,
+        "category" : "veh_parts",
+        "price" : 120000
+    },
+    {
+        "type":"GENERIC",
         "id" : "wind_turbine",
         "name" : "wind turbine",
         "description" : "A small turbine that can convert wind into electric power.",
