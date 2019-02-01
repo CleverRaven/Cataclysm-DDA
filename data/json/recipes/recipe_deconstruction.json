@@ -1230,7 +1230,9 @@
     "result": "basket_laundry",
     "type": "uncraft",
     "time": 5000,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 }
+    ],
     "components": [
       [ [ "plastic_chunk", 20 ] ]
     ]
