@@ -175,6 +175,6 @@
   {
     "type": "effect_type",
     "id": "BGSS_Merc_haswhisky",
-    "//": "Defined here because this should be the only time this effect is referenced.",
+    "//": "Defined here because this should be the only time this effect is referenced."
   }
 ]
