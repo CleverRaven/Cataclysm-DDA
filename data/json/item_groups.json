@@ -383,7 +383,8 @@
       ["robe", 3],
       ["thawb", 1],
       ["kimono", 1],
-      ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1],
+      ["reading_light", 9]
     ]
   },{
     "type" : "item_group",
@@ -1082,7 +1083,8 @@
       ["holy_symbol", 5],
       ["pet_carrier", 3],
       ["eclipse_glasses", 1],
-      ["bodypillow", 2]
+      ["bodypillow", 2],
+      ["reading_light", 8]
     ]
   },{
     "type" : "item_group",
@@ -2137,7 +2139,8 @@
       ["radiocontrol", 15],
       ["magnifying_glass", 4],
       ["omnicamera", 2],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["reading_light", 6]
     ]
   },{
     "type" : "item_group",
@@ -9320,6 +9323,7 @@
       ["glasses_reading", 50],
       ["string_6", 25],
       ["candle", 20],
+      ["reading_light", 25],
       ["survnote", 1]
     ]
   },{
@@ -9494,7 +9498,8 @@
       { "item": "cell_phone", "prob": 35, "charges-min": 0, "charges-max": 15 },
       { "item": "cell_phone_flashlight", "prob": 25, "charges-min": 0, "charges-max": 15 },
       [ "e_scrap", 55 ],
-      [ "amplifier", 25 ]
+      [ "amplifier", 25 ],
+      [ "reading_light", 10 ]
     ]
   },
   {
