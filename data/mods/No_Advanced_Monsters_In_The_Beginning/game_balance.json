@@ -9,15 +9,22 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "MONSTER_UPGRADE_MIN_HALFLIFE",
-    "info": "Minimal  half time for monster upgrade.  If monster upgrade halflife time stat is lower than that value then will be used that value.  This value scales with MONSTER_UPGRADE_FACTOR.",
+    "info": "Minimal half time for monster upgrade.  If monster upgrade halflife time stat is lower than that value then will be used that value.",
     "stype": "int",
-    "value": 50
+    "value": 15
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MONSTER_UPGRADE_MAX_HALFLIFE",
+    "info": "Maximum half time for monster upgrade.  If monster upgrade halflife time stat is higher than that value then will be used that value.",
+    "stype": "int",
+    "value": 15
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "MONSTER_UPGRADE_MIN_DAYS",
     "info": "Minimal days for monster upgrade.  Monster upgade time in days can't be lower than that no matter what.  This value doesn't scales with MONSTER_UPGRADE_FACTOR",
     "stype": "int",
-    "value": 10
+    "value": 3
   }
 ]
