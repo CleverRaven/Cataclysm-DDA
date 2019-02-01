@@ -5,7 +5,7 @@
     "name": "No advanced monsters in the beginning",
     "authors": [ "Firestorm01X2" ],
     "maintainers": [ "Firestorm01X2" ],
-    "description": "Recommended evolution factor is 3.0.  Spawns mostly non-evolved monsters in the beginning.",
+    "description": "Spawns mostly non-evolved monsters in the beginning and let them evolve.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }
