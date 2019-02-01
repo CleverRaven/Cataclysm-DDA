@@ -247,7 +247,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
-- ```CURRENT_WATER``` this water is flowing.
+- ```CURRENT``` this water is flowing.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```FUR``` May produce fur when butchered.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
