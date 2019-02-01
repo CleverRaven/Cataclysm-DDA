@@ -240,8 +240,12 @@
     "responses": [
       {
         "text": "Glad to help.  I need no payment.",
-        "effect": "clear_mission",
-        "success": { "topic": "TALK_NONE", "mission_opinion": { "trust": 4, "value": 3 }, "opinion": { "fear": -1, "anger": -1 } }
+        "success": {
+          "topic": "TALK_NONE",
+          "effect": "clear_mission",
+          "mission_opinion": { "trust": 4, "value": 3 },
+          "opinion": { "fear": -1, "anger": -1 }
+        }
       },
       {
         "text": "How about some items as payment?",
@@ -252,14 +256,16 @@
       {
         "text": "Maybe you can teach me something as payment?",
         "topic": "TALK_TRAIN",
-        "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] },
-        "effect": "clear_mission"
+        "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] }
       },
       {
         "text": "Glad to help.  I need no payment.  Bye!",
-        "topic": "TALK_DONE",
-        "effect": "clear_mission",
-        "success": { "topic": "TALK_DONE", "mission_opinion": { "trust": 4, "value": 3 }, "opinion": { "fear": -1, "anger": -1 } }
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": "clear_mission",
+          "mission_opinion": { "trust": 4, "value": 3 },
+          "opinion": { "fear": -1, "anger": -1 }
+        }
       }
     ]
   },
