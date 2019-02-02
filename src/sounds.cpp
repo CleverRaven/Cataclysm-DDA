@@ -569,7 +569,7 @@ void sfx::do_ambient()
     }
     // We are indoors and it is also raining
     if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground
-        && !is_channel_playing( 4 ) ) {
+        && is_sheltered && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
     }

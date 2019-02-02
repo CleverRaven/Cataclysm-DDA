@@ -271,7 +271,7 @@
     ]
   },
   {
-    "id": "veggy_any",
+    "id": "veggy_any_uncooked",
     "type": "requirement",
     "components": [
       [
@@ -280,7 +280,7 @@
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "carrot", 2 ],
-        [ "irradiated_carrot", 1 ],
+        [ "irradiated_carrot", 2 ],
         [ "cattail_stalk", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
@@ -306,15 +306,17 @@
         [ "rehydrated_veggy", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
-        [ "veggy_salted", 1 ],
         [ "zucchini", 1 ],
         [ "irradiated_zucchini", 1 ],
-        [ "rehydrated_veggy", 1 ],
         [ "veggy", 1 ],
-        [ "veggy_wild", 1 ],
-        [ "veggy_salted", 1 ]
+        [ "veggy_wild", 1 ]
       ]
     ]
+  },
+  {
+    "id": "veggy_any",
+    "type": "requirement",
+    "components": [ [ [ "dandelion_cooked", 1 ], [ "veggy_any_uncooked", 1, "LIST" ], [ "veggy_canned", 1 ], [ "veggy_salted", 1 ] ] ]
   },
   {
     "id": "wash_liquor",

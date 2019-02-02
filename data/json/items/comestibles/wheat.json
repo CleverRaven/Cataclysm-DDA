@@ -113,7 +113,7 @@
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 2,
+    "calories": 222,
     "description": "It could be eaten raw if you're desperate, but is much better cooked.",
     "price": 150,
     "material": "wheat",
