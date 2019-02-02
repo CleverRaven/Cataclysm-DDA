@@ -210,6 +210,8 @@ bool player::activate_bionic( int b, bool eff_only )
                 add_msg( m_info, _( "Your %s automatically turns off." ), bionics[i.id].name.c_str() );
             }
         }
+    } else if( bio.id == "bio_tools" ) {
+        invalidate_crafting_inventory();
     } else if( bio.id == "bio_cqb" ) {
         if( !pick_style() ) {
             bio.powered = false;
@@ -622,6 +624,8 @@ bool player::deactivate_bionic( int b, bool eff_only )
         } else if( !get_value( "remote_controlling" ).empty() && !has_active_item( "radiocontrol" ) ) {
             set_value( "remote_controlling", "" );
         }
+    } else if( bio.id == "bio_tools" ) {
+        invalidate_crafting_inventory();
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
@@ -1288,7 +1292,7 @@ void player::add_bionic( const bionic_id &b )
     }
 
     my_bionics->push_back( bionic( b, get_free_invlet( *this ) ) );
-    if( b == "bio_ears" ) {
+    if( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic( my_bionics->size() - 1 );
     }
 

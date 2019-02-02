@@ -7491,7 +7491,6 @@
     "use_action": [ "HAMMER" ]
   },
   {
-	"copy-from": "fake_item",
     "id": "toolset_extended",
     "type": "TOOL",
     "name": "extended toolset",
