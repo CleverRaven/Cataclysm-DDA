@@ -45,7 +45,6 @@
 #include "units.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "pickup.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -1656,7 +1655,6 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     }
 
     p.mod_moves( -rng( 100, 300 ) );
-
     return true;
 }
 
