@@ -24,12 +24,14 @@
 #include <sys/time.h>
 #endif
 
-#ifdef BACKTRACE
-#if defined _WIN32 || defined _WIN64
+#if (defined _WIN32 || defined _WIN64)
 #if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
 #endif
+#endif
 
+#ifdef BACKTRACE
+#if (defined _WIN32 || defined _WIN64)
 #include <dbghelp.h>
 #else
 #include <execinfo.h>
