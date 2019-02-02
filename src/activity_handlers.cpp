@@ -1,3 +1,55 @@
+
+Skip to content
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+    @Hirmuolio
+
+257
+2,464
+
+    1,609
+
+CleverRaven/Cataclysm-DDA
+Code
+Issues 1,054
+Pull requests 67
+Projects 18
+Wiki
+Insights
+Cataclysm-DDA/src/activity_handlers.cpp
+1391c34 8 days ago
+@rselias rselias Increase duration of most morale effects
+@ZhilkinSerg
+@Coolthulhu
+@KorGgenT
+@kevingranade
+@nexusmrsep
+@mugling
+@Night-Pryanik
+@codemime
+@BevapDin
+@Tsunder
+@Robik81
+@Rivet-the-Zombie
+@Karthas077
+@Treah
+@AlecWhite
+@KA101
+@prutschman
+@jbytheway
+@sparr
+@BrettDong
+@alanbrady
+@tivec
+@vulkans22
+@OzoneH3
+@Rail-Runner
+@facepalm
+3219 lines (2869 sloc) 121 KB
 #include "activity_handlers.h"
 
 #include <algorithm>
@@ -1463,15 +1515,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     ///\EFFECT_PER slightly increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
-        const auto dropped = item_group::items_from( loc, calendar::turn );
+        const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
-            if( p->can_pickWeight( item( it ), true ) && p->can_pickVolume( item( it ), true ) ){
-                p->i_add( item( it ) );
-                add_msg( _( "You found: %s!" ), item( it ).tname().c_str() );
-            } else {
-                g->m.add_item_or_charges( p->pos(), item( it ) );
-                add_msg( _( "You found and drop: %s!" ), item( it ).tname().c_str() );
-            }
+            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
         }
     }
@@ -3222,3 +3268,19 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     p->practice( skill_id( "computer" ), 10 );
     act->set_to_null();
 }
+
+    © 2019 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+Press h to open a hovercard with more details.
