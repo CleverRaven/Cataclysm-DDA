@@ -1735,6 +1735,17 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         return;
     }
     g->m.spawn_item( p.pos(), "spider_egg", rng( 1, 4 ), 0, calendar::turn );
+    int roll = round( rng_float( 1, 5 ) );
+    for( int i = 0; i < roll; i++ ) {
+        if( p.can_pickWeight( item( "spider_egg" ), true ) && p.can_pickVolume( item( "spider_egg" ), true ) ){
+            p.i_add( item( "spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest: spider_egg" ) );
+        } else {
+            g->m.add_item_or_charges( p.pos(), item( "spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest and drop: spider_egg" ) );
+        }
+    }
+
     g->m.furn_set( examp, f_egg_sacke );
     if( one_in( 2 ) ) {
         int monster_count = 0;

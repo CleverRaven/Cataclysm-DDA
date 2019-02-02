@@ -1463,9 +1463,15 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     ///\EFFECT_PER slightly increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
-        const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
+        const auto dropped = item_group::items_from( loc, calendar::turn );
         for( const auto &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
+            if( p->can_pickWeight( item( it ), true ) && p->can_pickVolume( item( it ), true ) ){
+                p->i_add( item( it ) );
+                add_msg( _( "You found: %s!" ), item( it ).tname().c_str() );
+            } else {
+                g->m.add_item_or_charges( p->pos(), item( it ) );
+                add_msg( _( "You found and drop: %s!" ), item( it ).tname().c_str() );
+            }
             found_something = true;
         }
     }
