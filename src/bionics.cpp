@@ -150,11 +150,6 @@ bool player::activate_bionic( int b, bool eff_only )
         return deactivate_bionic( b );
     }
 
-    // Compatibility with old saves without the toolset hammerspace
-    if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
-        add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
-    }
-
     // eff_only means only do the effect without messing with stats or displaying messages
     if( !eff_only ) {
         if( bio.powered ) {
@@ -589,6 +584,10 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( !bio.powered ) {
             // It's already off!
             return false;
+        }
+        // Compatibility with old saves without the toolset hammerspace
+        if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+            add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
         }
         if( !bionics[bio.id].toggled ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
