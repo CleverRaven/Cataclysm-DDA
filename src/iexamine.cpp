@@ -45,7 +45,6 @@
 #include "units.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "pickup.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
