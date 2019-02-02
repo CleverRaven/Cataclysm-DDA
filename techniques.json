@@ -158,5 +158,26 @@
             "<npcname> tears into %s flesh"
         ],
         "description" : "Stab an enemy and brutally rip your blade out of them for amped damage"
+    },{
+        "type" : "technique",
+        "id" : "THRUST",
+        "name" : "tHRUST",
+        "min_unarmed" : 1,
+        "unarmed_allowed" : false,
+        "melee_allowed" : true,
+        "crit_tec": false,
+        "weighting" : 1,
+        "mult_bonuses" : [
+            ["damage", "stab", 1.10]
+        ],
+        "flat_bonuses": [
+            ["damage", "stab", "str", 0.10],
+            ["damage", "stab", "per", 0.20]
+        ],
+        "messages" : [
+            "You lean forward and stab at %s",
+            "<npcname> stabs into %s flesh"
+        ],
+        "description" : "Launch a solid thrust at an enemy, 110% Stab damage, Strength (E) and Perception (D) provides bonus damage"
     }
 ]    

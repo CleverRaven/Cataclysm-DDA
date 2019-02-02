@@ -144,7 +144,7 @@
         "price": 2500,
         "price_postapoc": 5000,
         "material": ["steel", "wood"],
-        "techniques": ["WBLOCK_1", "HOOK", "INERTIAL", "SHOVE", "CHOP", "TEAR" ],
+        "techniques": ["WBLOCK_1", "HOOK", "INERTIAL", "CHOP"],
         "weight": 907,
         "volume": 2,
         "bashing": 12,
@@ -272,7 +272,7 @@
         "cutting": 8,
         "to_hit": 1,
         "flags": "SPEAR",
-        "techniques": ["WBLOCK_1"],
+        "techniques": ["WBLOCK_1", "THRUST"],
         "qualities": [["COOK", 1]]
     },
     {
@@ -303,7 +303,7 @@
         "weight": 648,
         "bashing": 12,
         "cutting": 4,
-        "techniques": ["WBLOCK_1"]
+        "techniques": ["WBLOCK_1", "CHOP"]
     },
     {
         "type":"GENERIC",
@@ -319,7 +319,7 @@
         "cutting": 14,
         "to_hit": -1,
         "flags": ["SHEATH_SWORD"],
-        "techniques": ["WBLOCK_1"]
+        "techniques": ["WBLOCK_1", "CHOP", "TEAR"]
     },
     {
         "type":"GENERIC",
