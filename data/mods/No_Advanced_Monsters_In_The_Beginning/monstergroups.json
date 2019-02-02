@@ -293,8 +293,7 @@
       { "monster": "mon_zombie_child", "freq": 650, "cost_multiplier": 1 },
       { "monster": "mon_zombie_fat", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie", "freq": 150, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_waif", "freq": 5, "cost_multiplier": 3 }
+      { "monster": "mon_zombie", "freq": 150, "cost_multiplier": 1 }
     ]
   },
   {

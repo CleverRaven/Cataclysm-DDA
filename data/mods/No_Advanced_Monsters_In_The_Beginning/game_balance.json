@@ -18,7 +18,7 @@
     "name": "MONSTER_UPGRADE_MAX_HALFLIFE",
     "info": "Maximum half time for monster upgrade.  If monster upgrade halflife time stat is higher than that value then will be used that value.",
     "stype": "int",
-    "value": 15
+    "value": 19
   },
   {
     "type": "EXTERNAL_OPTION",
