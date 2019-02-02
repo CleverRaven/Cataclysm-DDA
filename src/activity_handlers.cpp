@@ -1,55 +1,3 @@
-
-Skip to content
-
-    Pull requests
-    Issues
-    Marketplace
-    Explore
-
-    @Hirmuolio
-
-257
-2,464
-
-    1,609
-
-CleverRaven/Cataclysm-DDA
-Code
-Issues 1,054
-Pull requests 67
-Projects 18
-Wiki
-Insights
-Cataclysm-DDA/src/activity_handlers.cpp
-1391c34 8 days ago
-@rselias rselias Increase duration of most morale effects
-@ZhilkinSerg
-@Coolthulhu
-@KorGgenT
-@kevingranade
-@nexusmrsep
-@mugling
-@Night-Pryanik
-@codemime
-@BevapDin
-@Tsunder
-@Robik81
-@Rivet-the-Zombie
-@Karthas077
-@Treah
-@AlecWhite
-@KA101
-@prutschman
-@jbytheway
-@sparr
-@BrettDong
-@alanbrady
-@tivec
-@vulkans22
-@OzoneH3
-@Rail-Runner
-@facepalm
-3219 lines (2869 sloc) 121 KB
 #include "activity_handlers.h"
 
 #include <algorithm>
@@ -3268,19 +3216,3 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     p->practice( skill_id( "computer" ), 10 );
     act->set_to_null();
 }
-
-    © 2019 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Help
-
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-Press h to open a hovercard with more details.
