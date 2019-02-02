@@ -1216,6 +1216,7 @@ class player : public Character
         void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity( const activity_id &type ) const;
         void cancel_activity();
+        void resume_backlog_activity();
 
         int get_morale_level() const; // Modified by traits, &c
         void add_morale( morale_type type, int bonus, int max_bonus = 0,
