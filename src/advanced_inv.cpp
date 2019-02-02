@@ -1641,32 +1641,34 @@ void advanced_inventory::display()
                 }
                 g->u.activity.placement = squares[srcarea].off;
 
-                if( by_charges ) {
-                    g->u.activity.values.push_back( sitem->idx );
-                    g->u.activity.values.push_back( amount_to_move );
+                std::list<item>::iterator begin, end;
+                if( spane.in_vehicle() ) {
+                    begin = squares[srcarea].veh->get_items( squares[srcarea].vstor ).begin();
+                    end = squares[srcarea].veh->get_items( squares[srcarea].vstor ).end();
                 } else {
-                    std::list<item>::iterator begin, end;
-                    if( spane.in_vehicle() ) {
-                        begin = squares[srcarea].veh->get_items( squares[srcarea].vstor ).begin();
-                        end = squares[srcarea].veh->get_items( squares[srcarea].vstor ).end();
-                    } else {
-                        begin = g->m.i_at( squares[srcarea].pos ).begin();
-                        end = g->m.i_at( squares[srcarea].pos ).end();
-                    }
+                    begin = g->m.i_at( squares[srcarea].pos ).begin();
+                    end = g->m.i_at( squares[srcarea].pos ).end();
+                }
 
-                    int index = 0;
+                int index = 0;
+                if( by_charges ) {
                     for( auto item_it = begin; amount_to_move > 0 && item_it != end; ++item_it, ++index ) {
-
                         if( item_it->typeId() == sitem->id ) {
                             g->u.activity.values.push_back( index );
-                            g->u.activity.values.push_back( 1 );
+                            g->u.activity.values.push_back( amount_to_move );
+                            break;
+                        }
+                    }
+                } else {
+                    for( auto item_it = begin; amount_to_move > 0 && item_it != end; ++item_it, ++index ) {
 
-                            sitem->items.erase( sitem->items.begin() );
+                        if( item_it->stacks_with( *sitem->items.front() ) ) {
+                            g->u.activity.values.push_back( index );
+                            g->u.activity.values.push_back( 1 );
 
                             --amount_to_move;
                         }
                     }
-
                 }
                 
                 // exit so that the activity can be carried out
