@@ -2108,8 +2108,8 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
 
 void activity_handlers::cracking_finish( player_activity *act, player *p )
 {
-    p->add_msg_if_player( m_good, _( "The safe opens!" ) );
-    g->m.furn_set( act->placement, f_safe_o );
+    p->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
+    g->m.furn_set( act->placement, f_safe_c );
     act->set_to_null();
 }
 
