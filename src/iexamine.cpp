@@ -1734,7 +1734,6 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         none( p, examp );
         return;
     }
-    g->m.spawn_item( p.pos(), "spider_egg", rng( 1, 4 ), 0, calendar::turn );
     int roll = round( rng_float( 1, 5 ) );
     for( int i = 0; i < roll; i++ ) {
         if( p.can_pickWeight( item( "spider_egg" ), true ) && p.can_pickVolume( item( "spider_egg" ), true ) ){
