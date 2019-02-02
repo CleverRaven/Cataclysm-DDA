@@ -12,9 +12,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-sokoban_game::sokoban_game()
-{
-}
+sokoban_game::sokoban_game() = default;
 
 void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore, int iMoves )
 {

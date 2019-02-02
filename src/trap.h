@@ -139,7 +139,7 @@ struct trap {
          * It should spawn trap items (if any) and remove the trap from the map via
          * @ref map::remove_trap.
          */
-        void on_disarmed( map &m, const tripoint &pos ) const;
+        void on_disarmed( map &m, const tripoint &p ) const;
         /**
          * Whether this kind of trap actually occupies a 3x3 area. Currently only blade traps
          * do so.

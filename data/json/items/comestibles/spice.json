@@ -73,11 +73,13 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
-    "price": 550,
+    "price": 387,
     "material": [ "powder", "junk" ],
     "volume": 1,
+    "calories": 19,
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 100
+    "//": "a tbps is 4.2g of sugar, meaning the volume needed to be adjusted.",
+    "charges": 71
   },
   {
     "type": "COMESTIBLE",
@@ -110,6 +112,7 @@
     "price": 190,
     "weight": 24,
     "volume": 1,
+    "calories": 17,
     "comestible_type": "DRINK",
     "container": "bottle_glass",
     "quench": -20,

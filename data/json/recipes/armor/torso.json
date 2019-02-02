@@ -171,6 +171,23 @@
     ]
   },
   {
+    "result": "coat_gut",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 5 ],
+    "difficulty": 5,
+    "time": 200000,
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": [ [ "trappers_companion", 6 ], [ "survival_book", 4 ] ],
+    "components": [
+      [ [ "stomach_sealed", 16 ], [ "large_stomach_sealed", 10 ] ],
+      [ [ "sinew", 60 ] ]
+    ]
+  },
+  {
     "result": "coat_rain",
     "type": "recipe",
     "category": "CC_ARMOR",

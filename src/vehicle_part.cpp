@@ -28,7 +28,7 @@ static const itype_id fuel_type_battery( "battery" );
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj )
+vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
@@ -330,7 +330,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     if( base.is_food_container() ) {
         int temp = g->get_temperature( pos );
         if( e_heater ) {
-            temp = std::max( temp, temperatures::cold + 1 );
+            temp = std::max( temp, temperatures::normal );
         }
         base.process( nullptr, pos, false, temp, 1 );
     }
@@ -367,7 +367,7 @@ bool vehicle_part::fault_set( const fault_id &f )
 
 int vehicle_part::wheel_area() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
+    return info().wheel_area();
 }
 
 /** Get wheel diameter (inches) or return 0 if part is not wheel */
@@ -455,7 +455,7 @@ bool vehicle_part::is_battery() const
 
 bool vehicle_part::is_reactor() const
 {
-    return info().has_flag( "REACTOR" );
+    return info().has_flag( VPFLAG_REACTOR );
 }
 
 bool vehicle_part::is_turret() const

@@ -41,7 +41,7 @@ struct projectile {
 
         projectile();
         projectile( const projectile & );
-        projectile( projectile && ) = default;
+        projectile( projectile && );
         projectile &operator=( const projectile & );
         ~projectile();
 
@@ -61,6 +61,6 @@ struct dealt_projectile_attack {
 };
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
-int aoe_size( const std::set<std::string> &effects );
+int aoe_size( const std::set<std::string> &tags );
 
 #endif

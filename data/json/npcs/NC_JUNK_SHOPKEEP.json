@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "NC_JUNK_SHOPKEEP_extra",
-    "items": [ [ "rucksack", 90 ] ]
+    "items": [ [ "duffelbag", 100] ]
   },
   {
     "type": "item_group",

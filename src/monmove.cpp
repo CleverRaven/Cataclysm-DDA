@@ -606,6 +606,12 @@ void monster::move()
         // Otherwise weird things happen
         destination.z = posz();
     }
+    // toggle facing direction for sdl flip
+    if( destination.x < pos().x ) {
+        facing = FD_LEFT;
+    } else {
+        facing = FD_RIGHT;
+    }
 
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
@@ -773,7 +779,7 @@ void monster::footsteps( const tripoint &p )
 tripoint monster::scent_move()
 {
     // @todo: Remove when scentmap is 3D
-    if( abs( posz() - g->get_levz() ) > 1 ) {
+    if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
 
@@ -797,7 +803,7 @@ tripoint monster::scent_move()
         return next;
     }
     const bool can_bash = bash_skill() > 0;
-    for( const auto &dest : g->m.points_in_radius( pos(), 1, 1 ) ) {
+    for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = g->scent.get( dest );
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
             continue;

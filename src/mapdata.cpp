@@ -154,6 +154,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
         { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
         { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
+        { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
     }
 };

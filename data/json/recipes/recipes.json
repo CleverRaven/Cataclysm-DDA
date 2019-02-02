@@ -5,7 +5,8 @@
     "//": "This is just a dummy category. No recipes should be added in here.",
     "recipe_subcategories": [
       "CSC_*_FAVORITE",
-      "CSC_*_RECENT"
+      "CSC_*_RECENT",
+	   "CSC_*_HIDDEN"
     ]
   },
   {

@@ -109,7 +109,7 @@ std::string new_natural_artifact( artifact_natural_property prop );
 std::string architects_cube();
 
 // note: needs to be called by main() before MAPBUFFER.load
-void load_artifacts( const std::string &filename );
+void load_artifacts( const std::string &path );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
 

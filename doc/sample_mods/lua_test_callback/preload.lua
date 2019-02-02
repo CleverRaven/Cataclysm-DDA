@@ -1,4 +1,4 @@
 local MOD = {
   id = "lua_test_callback",
-  version = "2018-09-10"
+  version = "2019-01-06"
 }

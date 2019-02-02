@@ -94,7 +94,6 @@
     },
     "om_terrain": "dump",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -192,7 +191,6 @@
     },
     "om_terrain": "dump",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -450,7 +448,6 @@
     },
     "om_terrain": "dump",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -547,7 +544,6 @@
     },
     "om_terrain": "dump",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   }
 ]

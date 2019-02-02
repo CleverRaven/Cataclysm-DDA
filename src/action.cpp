@@ -23,8 +23,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-extern bool tile_iso;
-
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
 
@@ -97,7 +95,7 @@ action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
     input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
-    const std::string action = ctxt.input_to_action( event );
+    const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
 

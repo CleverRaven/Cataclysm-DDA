@@ -169,8 +169,8 @@ void gates::open_gate( const tripoint &pos )
             continue;
         }
 
-        for( int j = 0; j < 4; ++j ) {
-            const tripoint gate_pos = wall_pos + dir[j];
+        for( auto j : dir ) {
+            const tripoint gate_pos = wall_pos + j;
 
             if( gate_pos == pos ) {
                 continue; // Never comes back
@@ -181,7 +181,7 @@ void gates::open_gate( const tripoint &pos )
                 while( g->m.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
-                    cur_pos += dir[j];
+                    cur_pos += j;
                 }
             }
 
@@ -196,7 +196,7 @@ void gates::open_gate( const tripoint &pos )
                     } else if( ter != gate.floor.id() ) {
                         break;
                     }
-                    cur_pos += dir[j];
+                    cur_pos += j;
                 }
             }
         }

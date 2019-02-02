@@ -8,7 +8,7 @@ void test_encumbrance_on(
     const std::vector<item> &clothing,
     const std::string &body_part,
     int expected_encumbrance,
-    std::function<void( player & )> tweak_player = {}
+    const std::function<void( player & )> &tweak_player = {}
 )
 {
     CAPTURE( body_part );
@@ -28,8 +28,8 @@ void test_encumbrance_on(
 void test_encumbrance_items(
     const std::vector<item> &clothing,
     const std::string &body_part,
-    int expected_encumbrance,
-    std::function<void( player & )> tweak_player = {}
+    const int expected_encumbrance,
+    const std::function<void( player & )> &tweak_player = {}
 )
 {
     // Test NPC first because NPC code can accidentally end up using properties
@@ -46,7 +46,7 @@ void test_encumbrance_items(
 void test_encumbrance(
     const std::vector<itype_id> &clothing_types,
     const std::string &body_part,
-    int expected_encumbrance
+    const int expected_encumbrance
 )
 {
     CAPTURE( clothing_types );

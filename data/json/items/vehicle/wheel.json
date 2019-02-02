@@ -17,6 +17,23 @@
     "width": 9
   },
   {
+    "id": "wheel_slick",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": "racing wheel",
+    "description": "A wide, smooth wheel intended for racing.  The slick surface provides better speed on pavement but penalizes off-road speed.",
+    "weight": 12600,
+    "volume": 55,
+    "price": 24000,
+    "bashing": 14,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 16,
+    "width": 11
+  },
+  {
     "type": "WHEEL",
     "id": "wheel_armor",
     "category": "veh_parts",
@@ -64,8 +81,25 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
-    "diameter": 10,
-    "width": 2
+    "diameter": 27,
+    "width": 3
+  },
+  {
+    "id": "wheel_bicycle_or",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": "bicycle wheel",
+    "description": "A wide, studded, bicycle wheel intended for off-road biking.",
+    "weight": 1500,
+    "volume": 28,
+    "price": 4000,
+    "bashing": 8,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 27,
+    "width": 3
   },
   {
     "id": "wheel_caster",
@@ -116,7 +150,24 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
-    "diameter": 11,
+    "diameter": 16,
+    "width": 4
+  },
+  {
+    "id": "wheel_motorbike_or",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": "motorbike wheel",
+    "description": "A motorbike wheel, studded for improved off-road performance.",
+    "weight": 5443,
+    "volume": 33,
+    "price": 14000,
+    "bashing": 10,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 16,
     "width": 4
   },
   {
@@ -134,7 +185,7 @@
     "symbol": "m",
     "color": "light_gray",
     "diameter": 60,
-    "width": 60
+    "width": 30
   },
   {
     "id": "wheel_small",
@@ -177,6 +228,23 @@
     "category": "veh_parts",
     "name": "wide wheel",
     "description": "A wide wheel.  \\o/ This wide.",
+    "weight": 22600,
+    "volume": 70,
+    "price": 34000,
+    "bashing": 17,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 24,
+    "width": 14
+  },
+  {
+    "id": "wheel_wide_or",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": "off-road wide wheel",
+    "description": "A wide wheel.  \\o/ This wide.  It's studded to provide better grip off-road at the cost of some performance on pavement.",
     "weight": 22600,
     "volume": 70,
     "price": 34000,

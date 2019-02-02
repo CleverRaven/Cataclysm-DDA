@@ -200,6 +200,9 @@ void recipe::load( JsonObject &jo, const std::string &src )
         assign( jo, "reversible", reversible, strict );
 
         if( jo.has_member( "byproducts" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
             auto bp = jo.get_array( "byproducts" );
             byproducts.clear();
             while( bp.has_more() ) {
@@ -374,7 +377,7 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_skills_string( const Character *c ) const
+std::string recipe::required_skills_string( const Character *c, bool print_skill_level ) const
 {
     if( required_skills.empty() ) {
         return _( "<color_cyan>none</color>" );
@@ -383,9 +386,23 @@ std::string recipe::required_skills_string( const Character *c ) const
     [&]( const std::pair<skill_id, int> &skill ) {
         auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
-        return string_format( "<color_cyan>%s</color> <color_%s>(%d)</color>",
-                              skill.first.obj().name(), difficulty_color, skill.second );
+        std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
+        skill_level_string += std::to_string( skill.second );
+        return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                              skill.first.obj().name(), difficulty_color, skill_level_string );
     } );
+}
+
+std::string recipe::required_skills_string( const Character *c ) const
+{
+    return required_skills_string( c, false );
+}
+
+std::string recipe::batch_savings_string() const
+{
+    return ( batch_rsize != 0 ) ?
+           string_format( _( "%s%% at >%s units" ), int( batch_rscale * 100 ), batch_rsize )
+           : _( "none" );
 }
 
 std::string recipe::result_name() const

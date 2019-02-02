@@ -296,7 +296,6 @@
        "}": { "item": "displays", "chance": 30, "repeat": [ 1, 3 ]  },
        "C": { "item": "chair_extra", "chance": 20, "repeat": [ 1, 2 ]  },
        "c": { "item": "chair_torso", "chance": 10, "repeat": [ 1, 3 ]  }
-
       },
       "place_signs": [ { "signage": "The Green Leaf Tea Shop", "x": 4, "y": 0 } ]
     }
