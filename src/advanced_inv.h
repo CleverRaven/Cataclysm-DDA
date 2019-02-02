@@ -436,22 +436,6 @@ class advanced_inventory
          */
         bool query_destination( aim_location &def );
         /**
-         * Add the item to the destination area.
-         * @param destarea Where add the item to. This must not be AIM_ALL.
-         * @param new_item The item to add.
-         * @param count The amount to add items to add.
-         * @return Returns the amount of items that weren't addable, 0 if everything went fine.
-         */
-        int add_item( aim_location destarea, item &new_item, int count = 1 );
-        /**
-         * Remove the item from source area. Must not be used on items with area
-         *      AIM_ALL or AIM_INVENTORY!
-         * @param sitem The item reference that should be removed, along with the source area.
-         * @param count The amount to move of said item.
-         * @return Returns the amount of items that weren't removable, 0 if everything went fine.
-         */
-        int remove_item( advanced_inv_listitem &sitem, int count = 1 );
-        /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
          * @param dest_container Destination container
