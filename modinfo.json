@@ -1,0 +1,10 @@
+[
+{
+    "type": "MOD_INFO",
+    "ident": "XTNDDTCHNQS",
+    "name": "Extended Techniques",
+    "author": ["Soupster89"],
+    "description": "This mod adds extra techniques for weapons. You can then edit these techniques onto weapons. Useful for those making mods or those who dabble in the .json arts to add extra flair to their game.",
+    "category": "misc"
+}
+]
