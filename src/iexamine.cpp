@@ -1735,8 +1735,8 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         return;
     }
     g->m.furn_set( examp, f_egg_sacke );
+	int monster_count = 0;
     if( one_in( 2 ) ) {
-        int monster_count = 0;
         const std::vector<tripoint> pts = closest_tripoints_first( 1, examp );
         for( const auto &pt : pts ) {
             if( g->is_empty( pt ) && one_in( 3 ) ) {
@@ -1755,10 +1755,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     for( int i = 0; i < roll; i++ ) {
         if( monster_count == 0 && p.can_pickWeight( item( "spider_egg" ), true ) && p.can_pickVolume( item( "spider_egg" ), true ) ){
             p.i_add( item( "spider_egg" ) );
-            p.add_msg_if_player( _( "You harvest: spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest: spider egg" ) );
         } else {
             g->m.add_item_or_charges( p.pos(), item( "spider_egg" ) );
-            p.add_msg_if_player( _( "You harvest and drop: spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest and drop: spider egg" ) );
         }
     }
 }
