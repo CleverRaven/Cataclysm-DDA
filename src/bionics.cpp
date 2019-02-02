@@ -76,6 +76,8 @@ const efftype_id effect_weed_high( "weed_high" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 
+static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
+
 namespace
 {
 std::map<bionic_id, bionic_data> bionics;
@@ -142,6 +144,11 @@ bool player::activate_bionic( int b, bool eff_only )
         return deactivate_bionic( b );
     }
 
+    // Compatibility with old saves without the toolset hammerspace
+    if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+        add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+    }
+
     // eff_only means only do the effect without messing with stats or displaying messages
     if( !eff_only ) {
         if( bio.powered ) {
@@ -203,8 +210,6 @@ bool player::activate_bionic( int b, bool eff_only )
                 add_msg( m_info, _( "Your %s automatically turns off." ), bionics[i.id].name.c_str() );
             }
         }
-    } else if( bio.id == "bio_tools" ) {
-        invalidate_crafting_inventory();
     } else if( bio.id == "bio_cqb" ) {
         if( !pick_style() ) {
             bio.powered = false;
@@ -596,6 +601,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
             weapon = item();
+            invalidate_crafting_inventory();
         }
     } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
@@ -616,8 +622,6 @@ bool player::deactivate_bionic( int b, bool eff_only )
         } else if( !get_value( "remote_controlling" ).empty() && !has_active_item( "radiocontrol" ) ) {
             set_value( "remote_controlling", "" );
         }
-    } else if( bio.id == "bio_tools" ) {
-        invalidate_crafting_inventory();
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
@@ -1284,7 +1288,7 @@ void player::add_bionic( const bionic_id &b )
     }
 
     my_bionics->push_back( bionic( b, get_free_invlet( *this ) ) );
-    if( b == "bio_tools" || b == "bio_ears" ) {
+    if( b == "bio_ears" ) {
         activate_bionic( my_bionics->size() - 1 );
     }
 
