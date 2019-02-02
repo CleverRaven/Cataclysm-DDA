@@ -1941,14 +1941,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         } else if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
             std::string tmp;
+            bool bionic_tool = has_flag( "USES_BIONIC_POWER" );
             if( ammo_type() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
                 tmp = string_format( tmp, ammo_type()->name().c_str() );
-            } else {
+            // No need to display max charges, since charges are always equal to bionic power
+            } else if( !bionic_tool ) {
                 tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
             }
-            info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
+            if( !bionic_tool ) {
+                info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
+            }
         }
     }
 
@@ -2228,6 +2232,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                        parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
+            } else if( has_flag( "USES_BIONIC_POWER" ) ) {
+                info.emplace_back( "DESCRIPTION",
+                                   _( "* This tool <info>runs on bionic power</info>." ) );
             }
         }
 
@@ -4999,6 +5006,10 @@ long item::ammo_remaining() const
 
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
+        if( has_flag( "USES_BIONIC_POWER" ) ) {
+            long power = g->u.power_level;
+            return power;
+        }
         return charges;
     }
 
@@ -5118,6 +5129,10 @@ long item::ammo_consume( long qty, const tripoint &pos )
 
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
+        if( has_flag( "USES_BIONIC_POWER" ) ) {
+            charges = g->u.power_level;
+            g->u.charge_power( -qty );
+        }
         charges -= qty;
         if( charges == 0 ) {
             curammo = nullptr;

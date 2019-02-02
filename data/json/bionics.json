@@ -1017,7 +1017,7 @@
   {
     "id": "bio_tools_extend",
     "type": "bionic",
-    "name": "Toolset Hammerspace",
+    "name": "Extended Toolset",
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hand.",
     "fake_item": "toolset_extended",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
