@@ -480,11 +480,11 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
             act.values.push_back( drop.second );
         }
     }
-    // And either cancel if it's empty, or restart if it's not.
+    // And cancel if its empty. If its not, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which
+    // creates a brand new activity every turn and cancels the old activity
     if( act.values.empty() ) {
         p.cancel_activity();
-    } else {
-        p.assign_activity( act );
     }
 
     return res;

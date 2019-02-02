@@ -1800,6 +1800,7 @@ bool game::cancel_activity_query( const std::string &text )
 
     if( query_yn( "%s %s", text.c_str(), u.activity.get_stop_phrase().c_str() ) ) {
         u.cancel_activity();
+        u.resume_backlog_activity();
         return true;
     }
     return false;
