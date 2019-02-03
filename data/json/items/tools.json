@@ -4787,7 +4787,7 @@
     "category": "weapons",
     "name": "Molotov cocktail",
     "name_plural": "Molotov cocktails",
-    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
+    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
     "weight": 742,
     "volume": 3,
     "price": 0,
