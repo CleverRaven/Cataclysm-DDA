@@ -242,6 +242,7 @@
     "calories": 27,
     "description": "Whole fresh eggs, dehydrated into an easy to store powder.",
     "price": 1120,
+    "phase": "powder",
     "material": [ "powder", "egg" ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],

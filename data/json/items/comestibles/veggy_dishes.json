@@ -150,6 +150,7 @@
     "vitamins": [ [ "iron", 6 ] ],
     "description": "This yellow cornmeal is useful for baking.",
     "price": 450,
+    "phase": "powder",
     "material": [ "veggy", "powder" ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],

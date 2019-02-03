@@ -140,6 +140,7 @@
     "calories": 26,
     "description": "Dehydrated milk powder.  Mix with water to make drinkable milk.",
     "price": 1100,
+    "phase": "powder",
     "material": [ "powder", "milk" ],
     "volume": 1,
     "cooks_like": "milk",

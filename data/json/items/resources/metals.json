@@ -97,6 +97,7 @@
     "count": 100,
     "stack_size": 100,
     "container": "bag_plastic",
+    "phase": "powder",
     "material": [ "powder" ],
     "symbol": "=",
     "color": "dark_gray",

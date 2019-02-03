@@ -74,6 +74,7 @@
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "price": 387,
+    "phase": "powder",
     "material": [ "powder", "junk" ],
     "volume": 1,
     "calories": 19,

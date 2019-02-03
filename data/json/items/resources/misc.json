@@ -10,6 +10,7 @@
     "volume": 1,
     "price": 10000,
     "container": "bag_plastic",
+    "phase": "powder",
     "material": [ "powder" ],
     "symbol": "=",
     "color": "dark_gray",

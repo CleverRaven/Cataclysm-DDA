@@ -10,6 +10,7 @@
     "volume": 1,
     "price": 250,
     "container": "bag_plastic",
+    "phase": "powder",
     "material": "powder",
     "symbol": "%",
     "charges": 100

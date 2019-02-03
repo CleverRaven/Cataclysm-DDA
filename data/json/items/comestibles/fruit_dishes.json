@@ -112,6 +112,7 @@
     "calories": 74,
     "description": "Tangy yellow powder that smells strongly of lemons.  Can be mixed with water to make lemonade.",
     "price": 10,
+    "phase": "powder",
     "material": [ "powder", "fruit" ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
