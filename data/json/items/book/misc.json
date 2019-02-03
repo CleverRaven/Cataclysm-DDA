@@ -1269,7 +1269,7 @@
     "time": 28,
     "chapters": 40,
     "fun": 3
-  }
+  },
   {
     "type": "BOOK",
     "id": "fancy_literature",
@@ -1359,7 +1359,7 @@
       {
         "id": "fancy21",
         "text": "This is a first edition copy of Terry Pratchett's \"The Colour of Magic\".  In the inner cover is a handwritten note that reads \"To Chris, thanks for believing I could do it.  Best regards, Terry.\""
-      },
+      }
     ],
     "weight": 400,
     "volume": 3,
