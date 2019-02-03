@@ -2724,7 +2724,7 @@ bool map::mop_spills( const tripoint &p )
     if( !has_flag( "LIQUIDCONT", p ) ) {
         auto items = i_at( p );
         auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
-            return it.made_of( LIQUID );
+            return it.made_of( LIQUID ) || it.made_of( POWDER );
         } );
         retval = new_end != items.end();
         while( new_end != items.end() ) {
@@ -2758,10 +2758,10 @@ bool map::mop_spills( const tripoint &p )
                 veh->parts[elem].blood = 0;
                 retval = true;
             }
-            //remove any liquids that somehow didn't fall through to the ground
+            //remove any liquids/powders that somehow didn't fall through to the ground
             vehicle_stack here = veh->get_items( elem );
             auto new_end = std::remove_if( here.begin(), here.end(), []( const item & it ) {
-                return it.made_of( LIQUID );
+                return it.made_of( LIQUID ) || it.made_of( POWDER );
             } );
             retval |= ( new_end != here.end() );
             while( new_end != here.end() ) {

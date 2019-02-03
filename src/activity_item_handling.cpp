@@ -664,7 +664,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
         }
 
         // Check that we can pick it up.
-        if( !temp_item->made_of_from_type( LIQUID ) ) {
+        if( !temp_item->made_of_from_type( LIQUID ) && !temp_item->made_of_from_type( POWDER ) ) {
             int distance = std::max( rl_dist( src, dest ), 1 );
             g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) * distance );
             if( to_vehicle ) {
@@ -851,7 +851,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 
     // Check that we can pick it up.
-    if( !it.made_of_from_type( LIQUID ) ) {
+    if( !it.made_of_from_type( LIQUID ) && !it.made_of_from_type( POWDER ) ) {
         g->u.mod_moves( -move_cost( it, src, dest ) );
         put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, { it }, dest );
         // Remove from map or vehicle.
@@ -941,7 +941,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
             for( auto &it : src_veh->get_items( src_part ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                if( !it.made_of_from_type( LIQUID ) && !it.made_of_from_type( POWDER ) ) { // skip unpickable liquid
                     items.push_back( &it );
                 }
             }
@@ -949,7 +949,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             src_veh = nullptr;
             src_part = -1;
             for( auto &it : g->m.i_at( src_loc ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                if( !it.made_of_from_type( LIQUID ) && !it.made_of_from_type( POWDER ) ) { // skip unpickable liquid
                     items.push_back( &it );
                 }
             }

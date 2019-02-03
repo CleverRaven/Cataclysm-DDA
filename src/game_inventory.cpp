@@ -286,6 +286,8 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of_from_type( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
+                } else if( loc->made_of_from_type( POWDER ) ) {
+                    return _( "Can't pick up scattered powders" );
                 } else if( !p.can_pickVolume( *loc ) ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc ) ) {
@@ -447,6 +449,9 @@ class comestible_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
+            }
+            if( loc->made_of_from_type( POWDER ) ) {
+                return _( "Can't eat scattered powders" );
             }
 
             const auto &it = get_comestible_item( loc );

@@ -7766,6 +7766,9 @@ ret_val<bool> player::can_wield( const item &it ) const
     if( it.made_of_from_type( LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
+    if( it.made_of_from_type( POWDER ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wield scattered powders." ) );
+    }
 
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {

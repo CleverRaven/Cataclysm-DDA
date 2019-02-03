@@ -1983,8 +1983,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     item &src_contents = src_container.contents.front();
 
-    if( !src_contents.made_of( LIQUID ) ) {
-        popup( _( "You can unload only liquids into target container." ) );
+    if( !src_contents.made_of( LIQUID ) && !src_contents.made_of( POWDER ) ) {
+        popup( _( "You can unload only liquids or powders into target container." ) );
         return false;
     }
 
@@ -1995,7 +1995,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         popup( err.c_str() );
         return false;
     }
-    if( src_container.is_non_resealable_container() ) {
+    if( src_container.is_non_resealable_container() && !src_contents.made_of( POWDER ) ) {
         if( src_contents.charges > amount ) {
             popup( _( "You can't partially unload liquids from unsealable container." ) );
             return false;
@@ -2039,6 +2039,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( LIQUID ) ) {
         popup( _( "You can't pick up a liquid." ) );
+        redraw = true;
+        return false;
+    }
+    if( it.made_of_from_type( POWDER ) ) {
+        popup( _( "You can't pick up a powder." ) );
         redraw = true;
         return false;
     }

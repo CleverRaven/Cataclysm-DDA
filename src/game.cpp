@@ -8675,9 +8675,9 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
                               const monster *const source_mon,
                               liquid_dest_opt &target )
 {
-    if( !liquid.made_of_from_type( LIQUID ) ) {
-        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
-        debugmsg( "Tried to handle_liquid a non-liquid!" );
+    if( !liquid.made_of_from_type( LIQUID ) || !liquid.made_of_from_type( POWDER ) ) {
+        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid/powder!";
+        debugmsg( "Tried to handle_liquid a non-liquid/powder!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
@@ -8732,7 +8732,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
         }
     }
     for( auto veh : opts ) {
-        if( veh == source_veh ) {
+        if( veh == source_veh || liquid.made_of_from_type( POWDER ) ) {
             continue;
         }
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name.c_str() );
@@ -8743,7 +8743,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
     }
 
     for( auto &target_pos : m.points_in_radius( u.pos(), 1 ) ) {
-        if( !iexamine::has_keg( target_pos ) ) {
+        if( !iexamine::has_keg( target_pos ) || liquid.made_of_from_type( POWDER ) ) {
             continue;
         }
         if( source_pos != nullptr && *source_pos == target_pos ) {
@@ -8812,9 +8812,9 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint *const source_p
                                     const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of_from_type( LIQUID ) ) {
-        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
-        debugmsg( "Tried to handle_liquid a non-liquid!" );
+    if( !liquid.made_of_from_type( LIQUID ) || !liquid.made_of_from_type( POWDER ) ) {
+        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid/powder!";
+        debugmsg( "Tried to handle_liquid a non-liquid/powder!" );
         // "canceled by the user" because we *can* not handle it.
         return transfer_ok;
     }
@@ -8906,12 +8906,12 @@ bool game::handle_liquid( item &liquid, item *const source, const int radius,
                           const monster *const source_mon )
 {
     if( liquid.made_of_from_type( SOLID ) ) {
-        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
-        debugmsg( "Tried to handle_liquid a non-liquid!" );
+        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid/powder!";
+        debugmsg( "Tried to handle_liquid a non-liquid/powder!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of( LIQUID ) || !liquid.made_of( POWDER ) ) {
         add_msg( _( "The %s froze solid before you could finish." ), liquid.tname().c_str() );
         return false;
     }

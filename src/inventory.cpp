@@ -386,7 +386,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         }
         if( g->m.accessible_items( p ) ) {
             for( auto &i : g->m.i_at( p ) ) {
-                if( !i.made_of( LIQUID ) ) {
+                if( !i.made_of( LIQUID ) && !i.made_of( POWDER ) ) {
                     add_item( i, false, assign_invlet );
                 }
             }

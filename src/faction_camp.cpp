@@ -1823,7 +1823,7 @@ bool basecamp::menial_return( npc &p )
             continue;
         }
         for( auto &i : g->m.i_at( tmp ) ) {
-            if( i.made_of( LIQUID ) ) {
+            if( i.made_of( LIQUID ) || i.made_of( POWDER ) ) {
                 continue;
             } else if( i.is_comestible() && i.rotten() ) {
                 g->m.add_item_or_charges( p_trash, i, true );

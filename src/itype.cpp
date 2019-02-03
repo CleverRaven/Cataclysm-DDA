@@ -15,9 +15,9 @@ std::string gunmod_location::name() const
 
 std::string itype::nname( unsigned int quantity ) const
 {
-    // Always use singular form for liquids.
+    // Always use singular form for liquids/powders.
     // (Maybe gases too?  There are no gases at the moment)
-    if( phase == LIQUID ) {
+    if( phase == LIQUID || phase == POWDER ) {
         quantity = 1;
     }
     return ngettext( name.c_str(), name_plural.c_str(), quantity );

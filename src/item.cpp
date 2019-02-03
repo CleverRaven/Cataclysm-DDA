@@ -516,7 +516,7 @@ item item::in_container( const itype_id &cont ) const
     if( cont != "null" ) {
         item ret( cont, birthday() );
         ret.contents.push_back( *this );
-        if( made_of( LIQUID ) && ret.is_container() ) {
+        if( ( made_of( LIQUID ) || made_of( POWDER ) ) && ret.is_container() ) {
             // Note: we can't use any of the normal container functions as they check the
             // container being suitable (seals, watertight etc.)
             ret.contents.back().charges = charges_per_volume( ret.get_container_capacity() );
@@ -2415,7 +2415,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
                     const auto description = _( contents_item.type->description.c_str() );
 
-                    if( contents_item.made_of_from_type( LIQUID ) ) {
+                    if( contents_item.made_of_from_type( LIQUID ) || contents_item.made_of_from_type( POWDER ) ) {
                         auto contents_volume = contents_item.volume() * batch;
                         int converted_volume_scale = 0;
                         const double converted_volume =
@@ -2865,7 +2865,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
         const item &contents_item = contents.front();
-        if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
+        if( contents_item.made_of( LIQUID ) || contents_item.made_of( POWDER ) || contents_item.is_food() ) {
             const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
             maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
                                       contents_item.tname( contents_count, with_prefix ).c_str() );
@@ -3082,7 +3082,7 @@ int item::price( bool practical ) const
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
         }
 
-        if( e->count_by_charges() || e->made_of( LIQUID ) ) {
+        if( e->count_by_charges() || e->made_of( LIQUID ) || e->made_of( POWDER ) ) {
             // price from json data is for default-sized stack
             child *= e->charges / static_cast<double>( e->type->stack_size );
 
@@ -3232,7 +3232,7 @@ units::volume item::volume( bool integral ) const
         ret = type->volume;
     }
 
-    if( count_by_charges() || made_of( LIQUID ) ) {
+    if( count_by_charges() || made_of( LIQUID ) || made_of( POWDER ) ) {
         auto num = ret * static_cast<int64_t>( charges );
         ret = num / type->stack_size;
         if( num % type->stack_size != 0_ml ) {
@@ -4587,7 +4587,7 @@ bool item::can_unload_liquid() const
     }
 
     const item &cts = contents.front();
-    if( !is_bucket() && cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID ) ) {
+    if( !is_bucket() && cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID ) && cts.made_of( POWDER ) ) {
         return false;
     }
 
@@ -4732,7 +4732,7 @@ bool item::spill_contents( Character &c )
 
     while( !contents.empty() ) {
         on_contents_changed();
-        if( contents_made_of( LIQUID ) ) {
+        if( contents_made_of( LIQUID ) || contents_made_of( POWDER ) ) {
             if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
@@ -7438,6 +7438,10 @@ bool item::on_drop( const tripoint &pos, map &m )
     // dirty
     if( made_of_from_type( LIQUID ) && !m.has_flag( "LIQUIDCONT", pos ) &&
         !item_tags.count( "DIRTY" ) ) {
+        item_tags.insert( "DIRTY" );
+    }
+    // same with powders
+    if( made_of_from_type( POWDER ) && item_tags.count( "DIRTY" ) ) {
         item_tags.insert( "DIRTY" );
     }
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );

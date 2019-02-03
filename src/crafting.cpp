@@ -212,7 +212,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     all.insert( all.end(), bps.begin(), bps.end() );
 
     for( const item &prod : all ) {
-        if( !prod.made_of( LIQUID ) ) {
+        if( !prod.made_of( LIQUID ) && !prod.made_of( POWDER ) ) {
             continue;
         }
 
@@ -448,7 +448,7 @@ static void finalize_crafted_item( item &newit )
 
 static void set_item_inventory( item &newit )
 {
-    if( newit.made_of( LIQUID ) ) {
+    if( newit.made_of( LIQUID ) || newit.made_of( POWDER ) ) {
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         g->u.inv.assign_empty_invlet( newit, g->u );
@@ -1509,7 +1509,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        if( act_item.made_of( LIQUID ) ) {
+        if( act_item.made_of( LIQUID ) || act_item.made_of( POWDER ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
@@ -1544,7 +1544,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 
 void drop_or_handle( const item &newit, player &p )
 {
-    if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
+    if( ( newit.made_of( LIQUID ) || act_item.made_of( POWDER ) ) && &p == &g->u ) { // TODO: what about NPCs?
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );

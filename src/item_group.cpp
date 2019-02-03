@@ -247,7 +247,7 @@ void Item_modifier::modify( item &new_item ) const
     if( container != nullptr ) {
         item cont = container->create_single( new_item.birthday() );
         if( !cont.is_null() ) {
-            if( new_item.made_of( LIQUID ) ) {
+            if( new_item.made_of( LIQUID ) || new_item.made_of( POWDER ) ) {
                 long rc = cont.get_remaining_capacity_for_liquid( new_item );
                 if( rc > 0 && ( new_item.charges > rc || ch == -1 ) ) {
                     // make sure the container is not over-full.

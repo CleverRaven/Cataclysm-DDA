@@ -2511,6 +2511,7 @@ namespace io
 {
 static const std::unordered_map<std::string, phase_id> phase_id_values = { {
         { "liquid", LIQUID },
+        { "powder", POWDER },
         { "solid", SOLID },
         { "gas", GAS },
         { "plasma", PLASMA },

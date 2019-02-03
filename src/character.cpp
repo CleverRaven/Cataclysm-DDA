@@ -851,7 +851,7 @@ void Character::i_rem_keep_contents( const int pos )
 bool Character::i_add_or_drop( item &it, int qty )
 {
     bool retval = true;
-    bool drop = it.made_of( LIQUID );
+    bool drop = it.made_of( LIQUID ) || it.made_of( POWDER );
     bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
     for( int i = 0; i < qty; ++i ) {
@@ -932,9 +932,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         } else {
-            // Look for containers with any liquid
+            // Look for containers with any liquid/powder
             src.visit_items( [&src, &nested, &out]( item * node ) {
-                if( node->is_container() && node->contents_made_of( LIQUID ) ) {
+                if( node->is_container() && ( node->contents_made_of( LIQUID ) || node->contents_made_of( POWDER ) ) {
                     out = item_location( src, node );
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -1176,6 +1176,7 @@ bool Character::can_use( const item &it, const item &context ) const
 void Character::drop_invalid_inventory()
 {
     bool dropped_liquid = false;
+    bool dropped_powder = false;
     for( const std::list<item> *stack : inv.const_slice() ) {
         const item &it = stack->front();
         if( it.made_of( LIQUID ) ) {
@@ -1184,9 +1185,18 @@ void Character::drop_invalid_inventory()
             // must be last
             i_rem( &it );
         }
+        if( it.made_of( POWDER ) ) {
+            dropped_powder = true;
+            g->m.add_item_or_charges( pos(), it );
+            // must be last
+            i_rem( &it );
+        }
     }
     if( dropped_liquid ) {
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
+    }
+    if( dropped_powder ) {
+        add_msg_if_player( m_bad, _( "Powder from your inventory has poured out onto the ground." ) );
     }
 
     if( volume_carried() > volume_capacity() ) {
