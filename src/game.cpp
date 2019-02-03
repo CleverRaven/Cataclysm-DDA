@@ -5924,10 +5924,17 @@ void game::control_vehicle()
             add_msg( _( "No vehicle there." ) );
             return;
         }
-        vehicle *const veh = &vp->vehicle();
+        veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
             veh->use_controls( *examp_ );
+        }
+    }
+    if( veh ) {
+        // If we reached here, we gained control of a vehicle.
+        // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
+        for( const tripoint &target : veh->get_points() ) {
+            u.clear_memorized_tile( m.getabs( target ) );
         }
     }
 }
