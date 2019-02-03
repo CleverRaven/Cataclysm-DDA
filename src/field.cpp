@@ -5,6 +5,7 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "emit.h"
 #include "enums.h"
@@ -21,12 +22,15 @@
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "submap.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weather.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -613,6 +617,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
     const auto spread_gas = [this, &get_neighbors](
                                 field_entry & cur, const tripoint & p, field_id curtype,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
+        const w_point weather = *g->weather_precise;
+        const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+        bool sheltered = g->is_sheltered( p );
+        int winddirection = weather.winddirection;
+        int windpower = get_local_windpower( weather.windpower, cur_om_ter, p, winddirection, sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -668,11 +677,38 @@ bool map::process_fields_in_submap( submap *const current_submap,
         }
 
         auto neighs = get_neighbors( p );
-        const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+        size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
         std::vector<size_t> spread;
+        std::vector<maptile> neighbour_vec;
+        // Then, spread to a nearby point.
+        // If not possible (or randomly), try to spread up
+        // Wind direction will block the field spreading into the wind.
+        double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+        float fx, fy;
+        fy = -cos( raddir );
+        fx = sin( raddir );
+        int roundedx;
+        int roundedy;
+        if( fx > 0.5 ) {
+            roundedx = 1;
+        } else if( fx < -0.5 ) {
+            roundedx = -1;
+        } else {
+            roundedx = 0;
+        }
+        if( fy > 0.5 ) {
+            roundedy = 1;
+        } else if( fy < -0.5 ) {
+            roundedy = -1;
+        } else {
+            roundedy = 0;
+        }
+        tripoint removepoint( p - point( roundedx, roundedy ) );
+        tripoint removepoint2;
+        tripoint removepoint3;
         spread.reserve( 8 );
-        // Start at end_it + 1, then wrap around until i == end_it
         for( size_t i = ( end_it + 1 ) % neighs.size() ;
+             // Start at end_it + 1, then wrap around until i == end_it
              i != end_it;
              i = ( i + 1 ) % neighs.size() ) {
             const auto &neigh = neighs[i];
@@ -680,12 +716,48 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 spread.push_back( i );
             }
         }
-
-        // Then, spread to a nearby point.
-        // If not possible (or randomly), try to spread up
-        if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
+        if( roundedy != 0 && roundedx == 0 ) {
+            removepoint2 = removepoint - point( 1, 0 );
+            removepoint3 = removepoint + point( 1, 0 );
+        } else if( roundedy == 0 && roundedx != 0 ) {
+            removepoint2 = removepoint - point( 0, 1 );
+            removepoint3 = removepoint + point( 0, 1 );
+        } else if( roundedy > 0 && roundedx > 0 ) {
+            removepoint2 = removepoint - point( 1, 0 );
+            removepoint3 = removepoint - point( 0, 1 );
+        } else if( roundedy < 0 && roundedx > 0 ) {
+            removepoint2 = removepoint - point( 1, 0 );
+            removepoint3 = removepoint + point( 0, 1 );
+        } else if( roundedy < 0 && roundedx < 0 ) {
+            removepoint2 = removepoint + point( 1, 0 );
+            removepoint3 = removepoint + point( 0, 1 );
+        } else if( roundedy > 0 && roundedx < 0 ) {
+            removepoint2 = removepoint + point( 1, 0 );
+            removepoint3 = removepoint - point( 0, 1 );
+        }
+        // three map tiles that are facing th wind direction.
+        const maptile remove_tile = maptile_at_internal( removepoint );
+        const maptile remove_tile2 = maptile_at_internal( removepoint2 );
+        const maptile remove_tile3 = maptile_at_internal( removepoint3 );
+        if( !zlevels || one_in( spread.size() ) ) {
             // Construct the destination from offset and p
-            spread_to( neighs[ random_entry( spread ) ] );
+            if( g->is_sheltered( p ) || windpower < 5 ) {
+                spread_to( neighs[ random_entry( spread ) ] );
+            } else {
+                end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+                for( size_t i = ( end_it + 1 ) % neighs.size() ;
+                     // Start at end_it + 1, then wrap around until i == end_it
+                     i != end_it;
+                     i = ( i + 1 ) % neighs.size() ) {
+                    const auto &neigh = neighs[i];
+                    if( ( neigh.x != remove_tile.x && neigh.y != remove_tile.y ) ||
+                        ( neigh.x != remove_tile2.x && neigh.y != remove_tile2.y ) ||
+                        ( neigh.x != remove_tile3.x && neigh.y != remove_tile3.y ) ) {
+                        neighbour_vec.push_back( neigh );
+                    }
+                }
+                spread_to( neighbour_vec[ rng( 0, neighbour_vec.size() - 1 ) ] );
+            }
         } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
             tripoint up{p.x, p.y, p.z + 1};
             maptile up_tile = maptile_at_internal( up );
@@ -863,7 +935,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // We've got ter/furn cached, so let's use that
                         const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
-                                               !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
+                        !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
+                        const w_point weather = *g->weather_precise;
+                        const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+                        int winddirection = weather.winddirection;
+                        bool sheltered = g->is_sheltered( p );
+                        int windpower = get_local_windpower( weather.windpower, cur_om_ter, p, winddirection, sheltered );
                         // Smoke generation probability, consumed items count
                         int smoke = 0;
                         int consumed = 0;
@@ -947,6 +1024,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
+                                smoke += windpower;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     destroy( p, false );
@@ -957,6 +1035,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 4 - cur.getFieldDensity() );
                                 smoke += 2;
+                                smoke += windpower;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     destroy( p, false );
@@ -966,6 +1045,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
+                                smoke += windpower;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     ter_set( p, t_dirt );
@@ -975,6 +1055,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
+                                smoke += windpower;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     furn_set( p, f_ash );
@@ -1012,7 +1093,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-
+                        cur.setFieldDensity( cur.getFieldDensity() + windpower );
                         // Lower age is a longer lasting fire
                         if( time_added != 0_turns ) {
                             cur.setFieldAge( cur.getFieldAge() - time_added );
@@ -1032,10 +1113,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // Count adjacent fires, to optimize out needless smoke and hot air
                         int adjacent_fires = 0;
-
                         // If the flames are big, they contribute to adjacent flames
+                        int spreadchance = std::max( 0, windpower / 5 );
                         if( can_spread ) {
-                            if( cur.getFieldDensity() > 1 && one_in( 3 ) ) {
+                            if( cur.getFieldDensity() > 1 && one_in( spreadchance ) ) {
                                 // Basically: Scan around for a spot,
                                 // if there is more fire there, make it bigger and give it some fuel.
                                 // This is how big fires spend their excess age:
