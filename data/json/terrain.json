@@ -7160,6 +7160,26 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "whump!",
+      "ter_set": "t_water_moving_sh",
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sh_bridge",
+    "name": "shallow bridge",
+    "description": "A wooden platform held by a support made of logs dug into the ground.",
+    "looks_like": "t_dock",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "whump!",
       "ter_set": "t_water_sh",
       "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
     }
@@ -7175,6 +7195,29 @@
     "flags": [ "TRANSPARENT", "FLAT" ],
     "deconstruct": {
       "ter_set": "t_water_dp",
+      "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_riverbridge_dp",
+    "name": "river bridge",
+    "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
+    "looks_like": "t_pontoon",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "deconstruct": {
+      "ter_set": "t_water_moving_dp",
       "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
     },
     "bash": {
