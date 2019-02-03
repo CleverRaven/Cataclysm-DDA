@@ -9682,7 +9682,7 @@ bool player::read( int inventory_position, const bool continuous )
     }
     for( player *elem : apply_morale ) {
         //Fun bonuses for spritual and To Serve Man are no longer calculated here.
-        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 12_hours,
+        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
 
@@ -9767,7 +9767,7 @@ void player::do_read( item &book )
 
         if( book_fun_for( book, *learner ) != 0 ) {
             //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book, *learner ) * 15, 4_days, 12_hours, true,
+            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book, *learner ) * 15, 1_hours, 30_minutes, true,
                 book.type );
         }
 
