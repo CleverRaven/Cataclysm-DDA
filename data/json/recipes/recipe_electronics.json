@@ -1037,6 +1037,28 @@
     [ [ "solar_cell", 12 ] ],
     [ [ "cable", 20 ] ]
   ]
+  },{
+  "type" : "recipe",
+  "result": "wind_turbine",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics", 3],
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": true,
+  "book_learn": [["manual_electronics", 7] , ["textbook_electronics", 6] , ["advanced_electronics", 6]],
+  "using": [ [ "soldering_standard", 35 ] ],
+  "qualities" : [ {"id": "SCREW","level":1}, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+  "components": [
+    [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+    [ [ "2x4", 5 ], [ "frame_wood", 1 ] ],
+    [ [ "sheet_metal_small", 3 ] ],
+    [ [ "nail", 20 ] ],
+    [ [ "pipe", 4 ] ]
+  ]
 },{
   "type" : "recipe",
   "result": "solar_panel_v2",
@@ -1315,7 +1337,14 @@
   "using": [ [ "soldering_standard", 14 ] ],
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
-    [ [ "m4a1", 1 ] ],
+    [
+      [ "m4a1", 1 ],
+      [ "sig552", 1 ],
+      [ "h&k416a5", 1 ],
+      [ "m27iar", 1 ],
+      [ "acr", 1 ],
+      [ "hk_g36", 1 ]
+    ],
     [ [ "processor", 2 ] ],
     [ [ "RAM", 2 ] ],
     [

@@ -4,12 +4,15 @@ The **region_settings** define the attributes for map generation that apply to a
 The general settings define the default overmap terrain and ground cover, as well as the factors
 that control forest and swamp growth. Additional sections are as follows:
 
-|     Section      |                         Description                          |
-| ---------------- | ------------------------------------------------------------ |
-| `field_coverage` | Defines the flora that cover the `field` overmap terrain.    |
-| `city`           | Defines the structural compositions of cities.               |
-| `map_extras`     | Defines the map extra groups referenced by overmap terrains. |
-| `weather`        | Defines the base weather attributes for the region.          |
+|             Section             |                            Description                             |
+| ------------------------------- | ------------------------------------------------------------------ |
+| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.          |
+| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types. |
+| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.          |
+| `city`                          | Defines the structural compositions of cities.                     |
+| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.       |
+| `weather`                       | Defines the base weather attributes for the region.                |
+| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.       |
 
 Note that for the default region, all attributes and sections are required.
 
@@ -261,6 +264,7 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 | `random_point_max`         | Maximum # of random points from contiguous forest used to form trail system.                |
 | `random_point_size_scalar` | Forest size is divided by this and added to the minimum number of random points.            |
 | `trailhead_chance`         | One in X chance a trailhead will spawn at end of trail near field.                          |
+| `trailhead_road_distance`  | Maximum distance trailhead can be from a road and still be created.                         |
 | `trail_center_variance`    | Center of the trail in mapgen is offset in X and Y by a random amount between +/- variance  |
 | `trail_width_offset_min`   | Trail width in mapgen is offset by `rng(trail_width_offset_min, trail_width_offset_max)`.   |
 | `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
@@ -279,6 +283,7 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 		"random_point_max": 50,
 		"random_point_size_scalar": 100,
 		"trailhead_chance": 1,
+		"trailhead_road_distance": 6,
 		"trail_center_variance": 3,
 		"trail_width_offset_min": 1,
 		"trail_width_offset_max": 3,
@@ -384,12 +389,15 @@ The **weather** section defines the base weather attributes used for the region.
 
 ### Fields
 
-|     Identifier     |                              Description                              |
-| ------------------ | --------------------------------------------------------------------- |
-| `base_temperature` | Base temperature for the region in degrees Celsius.                   |
-| `base_humidity`    | Base humidity for the region in relative humidity %                   |
-| `base_pressure`    | Base pressure for the region in millibars.                            |
-| `base_acid`        | Base acid for the region in ? units. Value >= 1 is considered acidic. |
+|     Identifier                 |                              Description                              |
+| ------------------------------ | --------------------------------------------------------------------- |
+| `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
+| `base_humidity`                | Base humidity for the region in relative humidity %                   |
+| `base_pressure`                | Base pressure for the region in millibars.                            |
+| `base_acid`                    | Base acid for the region in ? units. Value >= 1 is considered acidic. |
+| `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
+| `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
+| `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
 
 ### Example
 
@@ -399,7 +407,38 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_temperature": 6.5,
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
+		"base_acid": 0.0,
+		"base_wind": 5.7,
+		"base_wind_distrib_peaks": 30,
+		"base_wind_season_variation": 64,
 		"base_acid": 0.0
+	}
+}
+```
+
+## Overmap Feature Flag Settings
+
+The **overmap_feature_flag_settings** section defines operations that operate on the flags assigned to overmap features.
+This is currently used to provide a mechanism for whitelisting and blacklisting locations on a per-region basis.
+
+### Fields
+
+|    Identifier     |                                        Description                                         |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| `clear_blacklist` | Clear all previously defined `blacklist`.                                                  |
+| `blacklist`       | List of flags. Any location with a matching flag will be excluded from overmap generation. |
+| `clear_whitelist` | Clear all previously defined `whitelist`.                                                  |
+| `whitelist`       | List of flags. Only locations with a matching flag will be included in overmap generation. |
+
+### Example
+
+```json
+{
+	"overmap_feature_flag_settings": {
+		"clear_blacklist": false,
+		"blacklist": [ "FUNGAL" ],
+		"clear_whitelist": false,
+		"whitelist": []
 	}
 }
 ```

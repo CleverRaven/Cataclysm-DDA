@@ -27,8 +27,6 @@
 using std::min; // from <algorithm>
 using std::max;
 
-extern bool tile_iso;
-
 static const std::string default_context_id( "default" );
 
 template <class T1, class T2>

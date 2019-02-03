@@ -201,7 +201,7 @@ struct effect_data {
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration &dur, body_part nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
@@ -448,6 +448,7 @@ class salvage_actor : public iuse_actor
             material_id( "cotton" ),
             material_id( "leather" ),
             material_id( "fur" ),
+            material_id( "faux_fur" ),
             material_id( "nomex" ),
             material_id( "kevlar" ),
             material_id( "plastic" ),
@@ -645,7 +646,7 @@ class musical_instrument_actor : public iuse_actor
         /**
          * Display description once per this duration (@ref calendar::once_every).
          */
-        time_duration description_frequency = 0;
+        time_duration description_frequency = 0_turns;
 
         musical_instrument_actor( const std::string &type = "musical_instrument" ) : iuse_actor( type ) {}
 

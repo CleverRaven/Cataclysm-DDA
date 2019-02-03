@@ -68,6 +68,9 @@ Cataclysm.exe.lastcodeanalysissucceeded
 #Visual Studio 2017
 /msvc-full-features/PredictedInputCache_Debug_x64.dat
 
+# PVS Studio
+/msvc-full-features/*PVS-Studio*
+
 # Temporary and backup files
 *.bak
 *.cbTemp

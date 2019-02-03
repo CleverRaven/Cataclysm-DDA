@@ -794,7 +794,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Integrated Toolset CBM",
-    "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
     "price": 800000,
     "difficulty": 6
   },

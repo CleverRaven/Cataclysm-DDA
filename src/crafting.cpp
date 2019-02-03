@@ -706,8 +706,28 @@ void player::complete_craft()
             making.is_reversible() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
-            // which would either loose this information or merge it somehow.
+            // which would either lose this information or merge it somehow.
             set_components( newit.components, used, batch_size, newit_counter );
+            newit_counter++;
+        } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+            // if a component item has "cooks_like" it will be replaced by that item as a component
+            for( item &comp : used ) {
+                // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
+                if( comp.is_comestible() && !comp.type->comestible->cooks_like.empty() ) {
+                    comp = item( comp.type->comestible->cooks_like, comp.birthday(), comp.charges );
+                }
+            }
+            // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
+            if( making.has_byproducts() ) {
+                for( item &byproduct : making.create_byproducts( batch_size ) ) {
+                    byproduct.set_flag( "BYPRODUCT" );
+                    used.push_back( byproduct );
+                }
+            }
+            // store components for food recipes that do not have the override flag
+            set_components( newit.components, used, batch_size, newit_counter );
+            // store the number of charges the recipe creates
+            newit.recipe_charges = newit.charges / batch_size;
             newit_counter++;
         }
 
@@ -801,7 +821,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             }
         } else { // Counting by units, not charges
 
-            if( has_amount( type, count ) ) {
+            // Can't use pseudo items as components
+            if( has_amount( type, count, false ) ) {
                 player_has.push_back( component );
                 found = true;
             }
@@ -809,7 +830,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                 map_has.push_back( component );
                 found = true;
             }
-            if( !found && amount_of( type ) + map_inv.amount_of( type ) >= count ) {
+            if( !found && amount_of( type, false ) + map_inv.amount_of( type, false ) >= count ) {
                 mixed.push_back( component );
             }
         }
@@ -1177,6 +1198,8 @@ bool player::disassemble()
         return false;
     }
 
+    loc.set_should_stack( false );
+
     return disassemble( loc.obtain( *this ) );
 }
 
@@ -1199,22 +1222,22 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
-        const auto components( r.disassembly_requirements().get_components() );
         std::ostringstream list;
+        const auto components = obj.get_uncraft_components();
         for( const auto &component : components ) {
-            list << "- " << component.front().to_string() << std::endl;
+            list << "- " << component.to_string() << std::endl;
         }
 
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
-                    obj.tname().c_str(),
-                    list.str().c_str() ) ) {
+                    colorize( obj.tname(), obj.color_in_inventory() ),
+                    list.str() ) ) {
                 return false;
             }
         } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
-                              obj.tname().c_str(),
-                              list.str().c_str() ) ) {
+                              colorize( obj.tname(), obj.color_in_inventory() ),
+                              list.str() ) ) {
             return false;
         }
     }

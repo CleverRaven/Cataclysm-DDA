@@ -1,31 +1,19 @@
 [
   {
     "type" : "item_group",
-    "id" : "NC_SOLDIER_pants_male",
+    "id" : "NC_SOLDIER_pants",
     "items":[
-      ["pants_army", 100]
+      ["pants_army", 80],
+      ["winter_pants_army", 20]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_SOLDIER_pants_female",
+    "id" : "NC_SOLDIER_shirt",
     "items":[
-      ["pants_army", 100]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_shirt_male",
-    "items":[
-      ["army_top", 50],
-      ["jacket_army", 50],
-      ["tank_top", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_shirt_female",
-    "items":[
-      ["army_top", 50],
-      ["jacket_army", 50],
-      ["tank_top", 5]
+      ["army_top", 20],
+      ["tshirt", 20],
+      ["polo_shirt", 20],
+      ["longshirt", 20]
     ]
   },{
     "type" : "item_group",
@@ -33,13 +21,23 @@
     "items":[
       ["null", 20],
       ["gloves_tactical", 50],
-      ["gloves_fingerless", 30]
+      ["gloves_fingerless", 30],
+      ["winter_gloves_army", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "NC_SOLDIER_coat",
     "items":[
+      ["null", 20],
+      ["jacket_army", 50],
+      ["winter_jacket_army", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_SOLDIER_vest",
+    "items":[
       ["null", 10],
+      ["jacket_army", 50],
       ["kevlar", 10],
       ["modularvest", 15],
       ["modularvestkevlar", 25],
@@ -57,7 +55,8 @@
     "id" : "NC_SOLDIER_masks",
     "items":[
       ["null", 50],
-      ["mask_gas", 10]
+      ["mask_gas", 20],
+      ["mask_bal", 10]
     ]
   },{
     "type" : "item_group",
@@ -71,17 +70,25 @@
     "type" : "item_group",
     "id" : "NC_SOLDIER_hat",
     "items":[
-      ["null", 50],
-      ["tac_helmet", 10],
-      ["helmet_army", 50]
+      ["null", 10],
+      ["tac_helmet", 50],
+      ["helmet_army", 50],
+      ["helmet_skid", 20]
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_SOLDIER_extra",
+    "id" : "NC_SOLDIER_storage",
     "items":[
       ["null", 5],
       ["molle_pack", 40],
       ["rucksack", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_SOLDIER_holster",
+    "items":[
+      ["null", 20],
+      ["holster", 50]
     ]
   },{
     "type" : "item_group",

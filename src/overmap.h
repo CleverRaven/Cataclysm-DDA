@@ -15,7 +15,7 @@
 #include "game_constants.h"
 #include "monster.h"
 #include "omdata.h"
-#include "overmap_types.h"
+#include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
 #include "weighted_list.h"
 
@@ -203,12 +203,13 @@ class overmap
         void set_scent( const tripoint &loc, scent_trace &new_scent );
 
         /**
-         * @returns Whether @param loc is within desired bounds of the overmap
+         * @returns Whether @param p is within desired bounds of the overmap
          * @param clearance Minimal distance from the edges of the overmap
          */
-        static bool inbounds( const tripoint &loc, int clearance = 0 );
-        static bool inbounds( int x, int y, int z,
-                              int clearance = 0 ); /// @todo: This one should be obsoleted
+        static bool inbounds( const tripoint &p, int clearance = 0 );
+        static bool inbounds( const point &p, int clearance = 0 ) {
+            return inbounds( tripoint( p, 0 ), clearance );
+        }
         /**
          * Dummy value, used to indicate that a point returned by a function is invalid.
          */

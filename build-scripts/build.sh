@@ -6,7 +6,7 @@ set -ex
 
 function run_tests
 {
-    $WINE "$@" -d yes -r cata --rng-seed time
+    $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
 }
 
 if [ -n "$CMAKE" ]

@@ -1,0 +1,61 @@
+[
+  {
+    "id": "TALK_FRIEND",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Mind if we just chat for a bit?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
+        },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": "at_safe_space",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_Confused_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      {
+        "text": "Mind if we just chat for a bit?",
+        "topic": "TALK_CONVERSATION_DANGER",
+        "condition": { "not": "at_safe_space" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_CONVERSATION_DANGER",
+    "type": "talk_topic",
+    "dynamic_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk...",
+    "responses": [
+      {
+        "text": "It's fine, we've got a moment.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
+      },
+      {
+        "text": "It's fine, we've got a moment.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_No_Past_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      { "text": "Good point, let's find a more appropriate place.", "topic": "TALK_NONE" },
+      { "text": "You're right.  Forget I said anything, let's get moving.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_CONVERSATION",
+    "type": "talk_topic",
+    "dynamic_line": "What did you want to talk about?",
+    "responses": [ { "text": "Actually, never mind.", "topic": "TALK_NONE" } ]
+  }
+]

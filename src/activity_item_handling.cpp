@@ -176,8 +176,7 @@ void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<it
 
 void stash_on_pet( const std::list<item> &items, monster &pet )
 {
-    units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
-                                     pet.inv.front().get_storage();
+    units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
     units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
@@ -399,7 +398,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 
-    units::volume storage_loss = 0;                        // Cumulatively increases
+    units::volume storage_loss = 0_ml;                     // Cumulatively increases
     units::volume remaining_storage = p.volume_capacity(); // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
@@ -469,7 +468,7 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
     }
     // Avoid tumbling to the ground. Unload cleanly.
     const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
-    if( excessive_volume > 0 ) {
+    if( excessive_volume > 0_ml ) {
         const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
@@ -481,11 +480,11 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
             act.values.push_back( drop.second );
         }
     }
-    // And either cancel if it's empty, or restart if it's not.
+    // And cancel if its empty. If its not, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which
+    // creates a brand new activity every turn and cancels the old activity
     if( act.values.empty() ) {
         p.cancel_activity();
-    } else {
-        p.assign_activity( act );
     }
 
     return res;
@@ -504,7 +503,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
-    units::volume total_volume = 0;
+    units::volume total_volume = 0_ml;
 
     for( const act_item &filthy_item : items ) {
         total_volume += filthy_item.it->volume();
@@ -875,7 +874,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 }
 
-static std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
+std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 {
     auto passable_tiles = std::unordered_set<tripoint>();
 
@@ -916,6 +915,10 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     // sort source tiles by distance
     const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
+    if( !mgr.is_sorting() ) {
+        mgr.start_sort( src_sorted );
+    }
+
     for( auto &src : src_sorted ) {
         const auto &src_loc = g->m.getlocal( src );
         bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
@@ -952,8 +955,12 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             }
         }
 
-        for( auto it : items ) {
-            const auto id = mgr.get_near_zone_type_for_item( *it, abspos );
+        //Skip items that have already been processed
+        for( auto it = items.begin() + mgr.get_num_processed( src ); it < items.end(); it++ ) {
+
+            mgr.increment_num_processed( src );
+
+            const auto id = mgr.get_near_zone_type_for_item( **it, abspos );
 
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
@@ -987,7 +994,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         free_space = g->m.free_volume( dest_loc );
                     }
                     // check free space at destination
-                    if( free_space > it->volume() ) {
+                    if( free_space >= ( *it )->volume() ) {
                         // before we move any item, check if player is at or adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
                             std::vector<tripoint> route;
@@ -1017,9 +1024,16 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             // we don't need to check for safe mode, activity will be restarted only if
                             // player arrives on destination tile
                             p.set_destination( route, player_activity( activity_id( "ACT_MOVE_LOOT" ) ) );
+
+                            // didn't actually process so decrement
+                            mgr.decrement_num_processed( src );
                             return;
                         }
-                        move_item( *it, it->count(), src_loc, dest_loc, src_veh, src_part );
+                        move_item( **it, ( *it )->count(), src_loc, dest_loc, src_veh, src_part );
+
+                        // moved item away from source so decrement
+                        mgr.decrement_num_processed( src );
+
                         break;
                     }
                 }
@@ -1034,6 +1048,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, _( "You sorted out every item you could." ) );
+    mgr.end_sort();
 }
 
 cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )

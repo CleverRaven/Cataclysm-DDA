@@ -888,7 +888,7 @@
     "encumbrance": 50,
     "storage": 100,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NOSALVAGE" ]
   },
   {
     "id": "beekeeping_gloves",
@@ -1242,7 +1242,7 @@
     "id": "spearsling",
     "type": "ARMOR",
     "name": "spear strap",
-    "description": "A cloth strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
+    "description": "A leather strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
     "weight": 160,
     "volume": 2,
     "price": 5200,
@@ -1956,6 +1956,25 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+  },
+  {
+    "id": "coat_gut",
+    "type": "ARMOR",
+    "name": "gutskin parka",
+    "description": "An intricately sewn coat of treated and split intestines, prized for its light weight and waterproofness among the indigenous peoples of the arctic.",
+    "weight": 200,
+    "volume": 5,
+    "price": 13000,
+    "material": [ "flesh" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 95,
+    "encumbrance": 12,
+    "warmth": 10,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
   },
   {
     "id": "coat_winter",
@@ -5056,7 +5075,7 @@
     "storage": 2,
     "warmth": 25,
     "material_thickness": 1,
-    "flags": [ "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "jacket_flannel",
@@ -7311,9 +7330,9 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
-    "encumbrance": 2,
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 3,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
@@ -7330,8 +7349,8 @@
     "material": [ "wood" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 10,
     "encumbrance": 10,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },

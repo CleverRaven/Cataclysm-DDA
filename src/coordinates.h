@@ -31,8 +31,7 @@ struct real_coords {
     point om_pos;      // overmap tile: 2x2 submaps.
     point om_sub;      // submap (0-359) in overmap / abs_sub constrained to % 360. equivalent to g->levx
 
-    real_coords() {
-    }
+    real_coords() = default;
 
     real_coords( point ap ) {
         fromabs( ap.x, ap.y );

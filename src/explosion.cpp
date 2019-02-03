@@ -12,6 +12,7 @@
 #include "game.h"
 #include "item_factory.h"
 #include "json.h"
+#include "math_defines.h"
 #include "map.h"
 #include "messages.h"
 #include "output.h"
@@ -23,9 +24,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-// For M_PI
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include <queue>
 #include <random>
 
@@ -321,7 +319,9 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            std::random_shuffle( tiles.begin(), tiles.end() );
+            static auto eng = std::default_random_engine(
+                                  std::chrono::system_clock::now().time_since_epoch().count() );
+            std::shuffle( tiles.begin(), tiles.end(), eng );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {

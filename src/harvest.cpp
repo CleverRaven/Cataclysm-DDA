@@ -67,13 +67,13 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
 }
 
 const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
-                                      const std::string &id )
+                                      const std::string &force_id )
 {
     harvest_list ret;
     if( jo.has_string( "id" ) ) {
         ret.id_ = harvest_id( jo.get_string( "id" ) );
-    } else if( !id.empty() ) {
-        ret.id_ = harvest_id( id );
+    } else if( !force_id.empty() ) {
+        ret.id_ = harvest_id( force_id );
     } else {
         jo.throw_error( "id was not specified for harvest" );
     }

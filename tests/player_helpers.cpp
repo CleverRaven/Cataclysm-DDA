@@ -5,6 +5,7 @@
 #include "enums.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "map.h"
 #include "player.h"
 
@@ -20,6 +21,16 @@ int get_remaining_charges( const std::string &tool_id )
         remaining_charges += instance->charges;
     }
     return remaining_charges;
+}
+
+bool player_has_item_of_type( const std::string &type )
+{
+    std::vector<item *> matching_items = g->u.inv.items_with(
+    [&]( const item & i ) {
+        return i.type->get_id() == type;
+    } );
+
+    return !matching_items.empty();
 }
 
 void clear_player()

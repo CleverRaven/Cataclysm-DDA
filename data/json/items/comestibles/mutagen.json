@@ -17,6 +17,8 @@
     "healthy": -2,
     "addiction_potential": 2,
     "addiction_type": "mutagen",
+    "flags": "NUTRIENT_OVERRIDE",
+    "vitamins": [  ],
     "freezing_point": 17
   },
   {
@@ -455,7 +457,7 @@
     "healthy": -6,
     "stim": -5,
     "use_action": "PURIFY_SMART",
-    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
+    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -467,7 +469,7 @@
     "color": "pink",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -12,
@@ -488,7 +490,7 @@
     "color": "brown",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -509,7 +511,7 @@
     "color": "brown",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -544,7 +546,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -22,
     "fun": -40
   },
@@ -570,7 +572,7 @@
     "phase": "liquid",
     "charges": 2,
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -22,
     "fun": -15
   }

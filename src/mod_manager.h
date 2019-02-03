@@ -10,8 +10,6 @@
 #include "pimpl.h"
 #include "string_id.h"
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
-
 struct WORLD;
 typedef WORLD *WORLDPTR;
 class dependency_tree;

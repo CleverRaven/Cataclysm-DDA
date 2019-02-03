@@ -68,7 +68,7 @@
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
-                   const std::string &mes );
+                   const std::string &text );
 template<typename ...Args>
 inline void realDebugmsg( const char *const filename, const char *const line,
                           const char *const funcname, const char *const mes, Args &&... args )

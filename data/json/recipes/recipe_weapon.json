@@ -2394,7 +2394,8 @@
      [ "scrap", 6 ]
      ],
      [
-     [ "plastic_chunk", 2 ]
+     [ "plastic_chunk", 2 ],
+     [ "scrap", 2 ]
      ]
     ]
 },{

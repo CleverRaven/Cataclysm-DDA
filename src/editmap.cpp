@@ -41,19 +41,18 @@
 #include "vpart_position.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-#define maplim 132
-#define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
+
+static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
+static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT );
+static constexpr tripoint editmap_clearance_min( tripoint_zero );
+static constexpr tripoint editmap_clearance_max( 1, 1, 0 );
+
+static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
+static constexpr box editmap_clearance( editmap_clearance_min, editmap_clearance_max );
 
 static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
 static const trap_id undefined_trap_id( -1 );
-
-bool inbounds( const int x, const int y, const int z )
-{
-    return x >= 0 && x < maplim &&
-           y >= 0 && y < maplim &&
-           z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
-}
 
 std::vector<std::string> fld_string( const std::string &str, int width )
 {
@@ -226,7 +225,7 @@ editmap::editmap()
 
 editmap::~editmap() = default;
 
-void editmap_hilight::draw( editmap &hm, bool update )
+void editmap_hilight::draw( editmap &em, bool update )
 {
     cur_blink++;
     if( cur_blink >= static_cast<int>( blink_interval.size() ) ) {
@@ -258,7 +257,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
                 if( blink_interval[ cur_blink ] ) {
                     t_col = getbg( t_col );
                 }
-                tripoint scrpos = hm.pos2screen( p );
+                tripoint scrpos = em.pos2screen( p );
                 mvwputch( g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym );
             }
         }
@@ -1416,9 +1415,10 @@ tripoint editmap::recalc_target( shapetype shape )
             int radius = rl_dist( origin, target );
             for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
                 for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                    if( rl_dist( {x, y, z}, origin ) <= radius ) {
-                        if( inbounds( x, y, z ) ) {
-                            target_list.push_back( tripoint( x, y, z ) );
+                    const tripoint p( x, y, z );
+                    if( rl_dist( p, origin ) <= radius ) {
+                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                            target_list.push_back( p );
                         }
                     }
                 }
@@ -1448,8 +1448,9 @@ tripoint editmap::recalc_target( shapetype shape )
             for( int x = sx; x <= ex; x++ ) {
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
-                        if( inbounds( x, y, z ) ) {
-                            target_list.push_back( tripoint( x, y, z ) );
+                        const tripoint p( x, y, z );
+                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                            target_list.push_back( p );
                         }
                     }
                 }
@@ -1488,8 +1489,8 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     tripoint mp;
     bool move_origin = ( moveorigin == 1 ? true : ( moveorigin == 0 ? false : moveall ) );
     if( eget_direction( mp, action ) ) {
-        target.x = limited_shift( target.x, mp.x, 0, maplim );
-        target.y = limited_shift( target.y, mp.y, 0, maplim );
+        target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
+        target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
         target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
         if( move_origin ) {
             origin += mp;
@@ -1868,8 +1869,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             }
 
             destsm->delete_vehicles();
-            for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                vehicle *veh1 = srcsm->vehicles[i];
+            for( auto veh1 : srcsm->vehicles ) { // copy vehicles to real map
                 veh1->smx = target_sub.x + x;
                 veh1->smy = target_sub.y + y;
                 veh1->smz = target.z;
@@ -1880,8 +1880,8 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             g->m.update_vehicle_list( destsm, target.z );
 
             int spawns_todo = 0;
-            for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                destsm->spawns.push_back( srcsm->spawns[i] );
+            for( const auto &spawn : srcsm->spawns ) { // copy spawns
+                destsm->spawns.push_back( spawn );
                 spawns_todo++;
             }
 
@@ -1951,8 +1951,8 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
-                possible_vehicles.push_back( destsm->vehicles[z] );
+            for( auto vehicle : destsm->vehicles ) {
+                possible_vehicles.push_back( vehicle );
             }
         }
     }
@@ -1997,9 +1997,9 @@ bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            for( size_t z = 0; z < destsm->vehicles.size(); z++ ) {
-                if( destsm->vehicles[z] == car_target ) {
-                    auto veh = destsm->vehicles[z];
+            for( auto &z : destsm->vehicles ) {
+                if( z == car_target ) {
+                    auto veh = z;
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( veh );
                     g->m.clear_vehicle_cache( omt_tgt.z );
                     g->m.reset_vehicle_cache( omt_tgt.z );
@@ -2039,12 +2039,14 @@ int editmap::mapgen_retarget()
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
                                          target.z );
-            if( pinbounds( ptarget ) && inbounds( ptarget.x + SEEX * 2, ptarget.y + SEEY * 2, ptarget.z ) ) {
+            if( generic_inbounds( ptarget, editmap_boundaries, editmap_clearance ) &&
+                generic_inbounds( { ptarget.x + SEEX, ptarget.y + SEEY, ptarget.z },
+                                  editmap_boundaries, editmap_clearance ) ) {
                 target = ptarget;
 
                 target_list.clear();
-                for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {
-                    for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
+                for( int x = target.x - SEEX - 1; x < target.x + SEEX + 1; x++ ) {
+                    for( int y = target.y - SEEY - 1; y < target.y + SEEY + 1; y++ ) {
                         target_list.push_back( tripoint( x, y, target.z ) );
                     }
                 }

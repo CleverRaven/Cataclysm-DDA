@@ -225,7 +225,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
             volume_left = p.volume_capacity() - p.volume_carried_with_tweaks( { temp } );
             weight_left = p.weight_capacity() - p.weight_carried_with_tweaks( { temp } );
-            mvwprintz( w_head, 3, 2, ( volume_left < 0 || weight_left < 0 ) ? c_red : c_green,
+            mvwprintz( w_head, 3, 2, ( volume_left < 0_ml || weight_left < 0_gram ) ? c_red : c_green,
                        _( "Volume: %s %s, Weight: %.1f %s" ),
                        format_volume( volume_left ).c_str(), volume_units_abbr(),
                        convert_weight( weight_left ), weight_units() );
@@ -343,7 +343,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                            format_money( -cash ) );
                     update = true;
                     ch = ' ';
-                } else if( volume_left < 0 || weight_left < 0 ) {
+                } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                     // Make sure NPC doesn't go over allowed volume
                     popup( _( "%s can't carry all that." ), p.name.c_str() );
                     update = true;

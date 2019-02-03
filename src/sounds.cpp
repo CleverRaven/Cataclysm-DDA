@@ -82,9 +82,10 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
-void sounds::ambient_sound( const tripoint &p, int vol, const std::string &description )
+void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
+                            const std::string &description )
 {
-    sound( p, vol, sounds::sound_t::background, description, true );
+    sound( p, vol, category, description, true );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, std::string description,
@@ -323,7 +324,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
-        if( p->is_npc() ) {
+        if( p->is_npc() && !sound.ambient ) {
             npc *guy = dynamic_cast<npc *>( p );
             guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
             continue;
@@ -568,7 +569,7 @@ void sfx::do_ambient()
     }
     // We are indoors and it is also raining
     if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground
-        && !is_channel_playing( 4 ) ) {
+        && is_sheltered && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
     }
@@ -622,14 +623,14 @@ void sfx::do_ambient()
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
 // vehicle turrets) or a NPC.
-void sfx::generate_gun_sound( const player &p, const item &firing )
+void sfx::generate_gun_sound( const player &source_arg, const item &firing )
 {
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
-    const tripoint source = p.pos();
+    const tripoint source = source_arg.pos();
     int heard_volume = get_heard_volume( source );
     if( heard_volume <= 30 ) {
         heard_volume = 30;

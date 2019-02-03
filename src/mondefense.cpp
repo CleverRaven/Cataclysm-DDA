@@ -23,13 +23,13 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 }
 
 void mdefense::zapback( monster &m, Creature *const source,
-                        dealt_projectile_attack const *projectile )
+                        dealt_projectile_attack const *proj )
 {
     if( source == nullptr ) {
         return;
     }
     // If we have a projectile, we're a ranged attack, no zapback.
-    if( projectile != nullptr ) {
+    if( proj != nullptr ) {
         return;
     }
 

@@ -69,7 +69,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "trailhead" ],
-    "weight": 1,
+    "weight": 5,
     "object": {
       "rows": [
         ",,,,,,,;;......,,,,,,;,,",
@@ -150,7 +150,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "trailhead" ],
-    "weight": 1,
+    "weight": 5,
     "object": {
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",

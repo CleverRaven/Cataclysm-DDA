@@ -160,7 +160,7 @@ std::vector<item> item::magazine_convert()
     // normalize the base item and mark it as converted
     charges = 0;
     curammo = nullptr;
-    set_var( "magazine_converted", true );
+    set_var( "magazine_converted", 1 );
 
     return res;
 }
@@ -569,6 +569,15 @@ void player::load( JsonObject &data )
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
+
+    JsonArray basecamps = data.get_array( "camps" );
+    camps.clear();
+    while( basecamps.has_more() ) {
+        JsonObject bcdata = basecamps.next_object();
+        tripoint bcpt;
+        bcdata.read( "pos", bcpt );
+        camps.insert( bcpt );
+    }
 }
 
 /*
@@ -662,6 +671,15 @@ void player::store( JsonOut &json ) const
     }
 
     json.member( "ammo_location", ammo_location );
+
+    json.member( "camps" );
+    json.start_array();
+    for( const tripoint &bcpt : camps ) {
+        json.start_object();
+        json.member( "pos", bcpt );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -762,7 +780,6 @@ void player::serialize( JsonOut &json ) const
 void player::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    JsonArray parray;
 
     load( data );
 
@@ -914,7 +931,7 @@ void player::deserialize( JsonIn &jsin )
     }
     data.read( "show_map_memory", show_map_memory );
 
-    parray = data.get_array( "assigned_invlet" );
+    JsonArray parray = data.get_array( "assigned_invlet" );
     while( parray.has_more() ) {
         JsonArray pair = parray.next_array();
         inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] = pair.get_string( 1 );
@@ -934,18 +951,11 @@ void npc_follower_rules::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "engagement", static_cast<int>( engagement ) );
     json.member( "aim", static_cast<int>( aim ) );
-    json.member( "use_guns", use_guns );
-    json.member( "use_grenades", use_grenades );
-    json.member( "use_silent", use_silent );
 
-    json.member( "allow_pick_up", allow_pick_up );
-    json.member( "allow_bash", allow_bash );
-    json.member( "allow_sleep", allow_sleep );
-    json.member( "allow_complain", allow_complain );
-    json.member( "allow_pulp", allow_pulp );
-
-    json.member( "close_doors", close_doors );
-
+    // serialize the flags so they can be changed between save games
+    for( const auto &rule : ally_rule_strs ) {
+        json.member( rule.first, has_flag( rule.second ) );
+    }
     json.member( "pickup_whitelist", *pickup_whitelist );
 
     json.end_object();
@@ -960,17 +970,17 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     int tmpaim = 0;
     data.read( "aim", tmpaim );
     aim = static_cast<aim_rule>( tmpaim );
-    data.read( "use_guns", use_guns );
-    data.read( "use_grenades", use_grenades );
-    data.read( "use_silent", use_silent );
 
-    data.read( "allow_pick_up", allow_pick_up );
-    data.read( "allow_bash", allow_bash );
-    data.read( "allow_sleep", allow_sleep );
-    data.read( "allow_complain", allow_complain );
-    data.read( "allow_pulp", allow_pulp );
-
-    data.read( "close_doors", close_doors );
+    // deserialize the flags so they can be changed between save games
+    for( const auto &rule : ally_rule_strs ) {
+        bool tmpflag = false;
+        data.read( rule.first, tmpflag );
+        if( tmpflag ) {
+            set_flag( rule.second );
+        } else {
+            clear_flag( rule.second );
+        }
+    }
 
     data.read( "pickup_whitelist", *pickup_whitelist );
 }
@@ -1698,7 +1708,7 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
     if( skip_spaces() ) {
         error( "invalid time duration string: empty string" );
     }
-    time_duration result = 0;
+    time_duration result = 0_turns;
     do {
         int sign_value = +1;
         if( s[i] == '-' ) {
@@ -1787,6 +1797,7 @@ void item::io( Archive &archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
+    archive.io( "recipe_charges", recipe_charges, 1 );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
     []( const itype & i ) {
         return i.get_id();
@@ -2871,12 +2882,12 @@ void basecamp::serialize( JsonOut &json ) const
     json.end_array();
     json.member( "expansions" );
     json.start_array();
-    for( auto it = expansions.begin(); it != expansions.end(); ++it ) {
+    for( const auto &expansion : expansions ) {
         json.start_object();
-        json.member( "dir", it->first );
-        json.member( "type", it->second.type );
-        json.member( "cur_level", it->second.cur_level );
-        json.member( "pos", it->second.pos );
+        json.member( "dir", expansion.first );
+        json.member( "type", expansion.second.type );
+        json.member( "cur_level", expansion.second.cur_level );
+        json.member( "pos", expansion.second.pos );
         json.end_object();
     }
     json.end_array();

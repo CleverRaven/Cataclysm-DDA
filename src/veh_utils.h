@@ -22,7 +22,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, Character &who );
  * Prefers the most damaged parts that don't need replacements.
  * If no such part exists, returns a null part.
  */
-vehicle_part &most_repairable_part( vehicle &veh, const Character &who,
+vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg,
                                     bool only_repairable = false );
 /**
  * Repairs a given part on a given vehicle by given character.

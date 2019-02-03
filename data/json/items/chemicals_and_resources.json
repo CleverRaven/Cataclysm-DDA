@@ -200,7 +200,7 @@
     "name_plural" : "liquid fertilizer",
     "weight" : 67,
     "color" : "yellow",
-    "flags" : ["FERTILIZER"],
+    "flags" : ["FERTILIZER", "NUTRIENT_OVERRIDE"],
     "use_action" : "PLANTBLECH",
     "container" : "jug_plastic",
     "comestible_type" : "DRINK",

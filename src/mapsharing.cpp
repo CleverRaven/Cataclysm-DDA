@@ -1,5 +1,14 @@
 #include "mapsharing.h"
 
+#ifdef __linux__
+#include <sys/file.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <cstdio>
+#include <fcntl.h>
+#include <unistd.h>
+#endif // __linux__
+
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
 bool MAP_SHARING::worldmenu;
