@@ -9652,7 +9652,7 @@ void game::butcher()
 void game::eat( int pos )
 {
     if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
-        (  m.ter( u.pos() ) == t_underbrush || m.ter( u.pos() ) == t_shrub ) ) {
+        ( m.ter( u.pos() ) == t_underbrush || m.ter( u.pos() ) == t_shrub ) ) {
         if( u.get_hunger() < 20 ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), m.ter( u.pos() )->name() );
             return;
@@ -9665,7 +9665,7 @@ void game::eat( int pos )
         }
     }
     if( u.has_active_mutation( trait_GRAZER ) && ( m.ter( u.pos() ) == t_grass ||
-        m.ter( u.pos() ) == t_grass_long || m.ter( u.pos() ) == t_grass_tall ) ) {
+            m.ter( u.pos() ) == t_grass_long || m.ter( u.pos() ) == t_grass_tall ) ) {
         if( u.get_hunger() < 8 ) {
             add_msg( _( "You're too full to graze." ) );
             return;
@@ -9674,11 +9674,11 @@ void game::eat( int pos )
             add_msg( _( "You graze on the %s." ), m.ter( u.pos() )->name() );
             u.mod_hunger( -8 );
             if( m.ter( u.pos() ) == t_grass_tall ) {
-                m.ter_set( u.pos(), t_grass_long);
+                m.ter_set( u.pos(), t_grass_long );
             } else if( m.ter( u.pos() ) == t_grass_long ) {
-                m.ter_set( u.pos(), t_grass);
+                m.ter_set( u.pos(), t_grass );
             } else {
-                m.ter_set( u.pos(), t_dirt);
+                m.ter_set( u.pos(), t_dirt );
             }
             return;
         }
