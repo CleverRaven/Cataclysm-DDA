@@ -934,7 +934,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         } else {
             // Look for containers with any liquid/powder
             src.visit_items( [&src, &nested, &out]( item * node ) {
-                if( node->is_container() && ( node->contents_made_of( LIQUID ) || node->contents_made_of( POWDER ) ) {
+                if( node->is_container() && ( node->contents_made_of( LIQUID ) || node->contents_made_of( POWDER ) ) ) {
                     out = item_location( src, node );
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
