@@ -11808,6 +11808,11 @@ size_t player::max_memorized_tiles() const
     return current_map_memory_capacity;
 }
 
+void player::clear_memorized_tile( const tripoint &pos )
+{
+    player_map_memory.clear_memorized_tile( pos );
+}
+
 bool player::sees( const tripoint &t, bool ) const
 {
     static const bionic_id str_bio_night("bio_night");
