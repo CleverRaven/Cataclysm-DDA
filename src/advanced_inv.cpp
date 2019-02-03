@@ -1602,6 +1602,24 @@ void advanced_inventory::display()
                     redraw = true;
                     continue;
                 }
+            } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
+
+                // make sure advanced inventory is reopend after activity completion.
+                do_return_entry();
+
+                g->u.assign_activity( activity_id( "ACT_WEAR" ) );
+                g->u.activity.placement = tripoint_zero;
+                // Wearing from inventory
+                g->u.activity.values.push_back( true );
+                // Not from vehicle
+                g->u.activity.values.push_back( false );
+
+                g->u.activity.values.push_back( sitem->idx );
+                g->u.activity.values.push_back( amount_to_move );
+
+                // exit so that the activity can be carried out
+                exit = true;
+
             } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
 
                 // make sure advanced inventory is reopend after activity completion.
@@ -1610,12 +1628,16 @@ void advanced_inventory::display()
                 // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
                 int idx = ( srcarea == AIM_INVENTORY ) ? sitem->idx : player::worn_position_to_index( sitem->idx );
 
-                std::list<std::pair<int, int>> dropped;
-                dropped.emplace_back( idx, amount_to_move );
+                if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
+                    // this is ok because worn items are never stacked (can't move more than 1).
+                    g->u.takeoff( idx );
+                } else {
+                    std::list<std::pair<int, int>> dropped;
+                    dropped.emplace_back( idx, amount_to_move );
+                    g->u.drop( dropped, g->u.pos() + squares[destarea].off );
+                }
 
-                g->u.drop( dropped, g->u.pos() + squares[destarea].off );
-
-                // exit so that the activity can be carried out
+                // exit so that the action can be carried out
                 exit = true;
 
             } else { // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
@@ -1623,12 +1645,14 @@ void advanced_inventory::display()
                 // Make sure advanced inventory is reopend after activity completion.
                 do_return_entry();
 
-                if( destarea == AIM_INVENTORY || destarea == AIM_WORN ) {
+                if( destarea == AIM_INVENTORY ) {
                     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
                     g->u.activity.values.push_back( spane.in_vehicle() );
-                    if( destarea == AIM_WORN ) {
-                        g->u.activity.str_values.push_back( "equip" );
-                    }
+                } else if( destarea == AIM_WORN ) {
+                    g->u.assign_activity( activity_id( "ACT_WEAR" ) );
+                    // Wearing from map/vehicle not inventory
+                    g->u.activity.values.push_back( false );
+                    g->u.activity.values.push_back( spane.in_vehicle() );
                 } else { // Vehicle and map destinations are handled similarly.
 
                     g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
