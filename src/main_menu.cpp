@@ -620,7 +620,7 @@ bool main_menu::opening_screen()
         g->refresh_all();
         g->draw();
     }
-    popup( "%s", g->scen->description( g->u.male ) );
+    g->u.add_msg_if_player( g->scen->description( g->u.male ) );
     return start;
 }
 
