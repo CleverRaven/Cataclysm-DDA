@@ -1224,7 +1224,7 @@
   },
   {
     "type": "BOOK",
-    "id": "fancy_literature",
+    "id": "collector_book",
     "name": "collector's edition book",
     "name_plural": "collector's edition book",
     "snippet_category": [
