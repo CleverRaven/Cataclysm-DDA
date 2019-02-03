@@ -11192,6 +11192,14 @@ void player::cancel_activity()
     activity = player_activity();
 }
 
+void player::resume_backlog_activity()
+{
+    if( !backlog.empty() && backlog.front().auto_resume ) {
+        activity = backlog.front();
+        backlog.pop_front();
+    }
+}
+
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {

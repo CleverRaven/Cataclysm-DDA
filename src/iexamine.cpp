@@ -1512,7 +1512,14 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( p.pos(), "poppy_bud", 1, 0, calendar::turn );
+
+    if( p.can_pickWeight( item( "poppy_bud" ), true ) && p.can_pickVolume( item( "poppy_bud" ), true ) ){
+        p.i_add( item( "poppy_bud" ) );
+        p.add_msg_if_player( _( "You harvest: poppy bud" ) );
+    } else {
+        g->m.add_item_or_charges( p.pos(), item( "poppy_bud" ) );
+        p.add_msg_if_player( _( "You harvest and drop: poppy bud" ) );
+    }
 }
 
 /**
@@ -1589,7 +1596,14 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( p.pos(), "dahlia_root", 1, 0, calendar::turn );
+
+    if( p.can_pickWeight( item( "dahlia_root" ), true ) && p.can_pickVolume( item( "dahlia_root" ), true ) ){
+        p.i_add( item( "dahlia_root" ) );
+        p.add_msg_if_player( _( "You harvest: dahlia root" ) );
+    } else {
+        g->m.add_item_or_charges( p.pos(), item( "dahlia_root" ) );
+        p.add_msg_if_player( _( "You harvest and drop: dahlia root" ) );
+    }
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1625,8 +1639,13 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
         int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
         for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
-            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
+            if( p.can_pickWeight( item( entry.drop ), true ) && p.can_pickVolume( item( entry.drop ), true ) ){
+                p.i_add( item( entry.drop ) );
+                p.add_msg_if_player( _( "You harvest: %s" ), item( entry.drop ).tname().c_str() );
+            } else {
+                g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
+                p.add_msg_if_player( _( "You harvest and drop: %s" ), item( entry.drop ).tname().c_str() );
+            }
             got_anything = true;
         }
     }
@@ -1636,7 +1655,6 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     }
 
     p.mod_moves( -rng( 100, 300 ) );
-
     return true;
 }
 
@@ -1716,10 +1734,9 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         none( p, examp );
         return;
     }
-    g->m.spawn_item( p.pos(), "spider_egg", rng( 1, 4 ), 0, calendar::turn );
     g->m.furn_set( examp, f_egg_sacke );
+    int monster_count = 0;
     if( one_in( 2 ) ) {
-        int monster_count = 0;
         const std::vector<tripoint> pts = closest_tripoints_first( 1, examp );
         for( const auto &pt : pts ) {
             if( g->is_empty( pt ) && one_in( 3 ) ) {
@@ -1727,11 +1744,21 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
                 monster_count++;
             }
         }
-        if( monster_count == 1 ) {
-            add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name.c_str() );
-        } else if( monster_count >= 1 ) {
-            add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name.c_str() );
+    }
+    int roll = round( rng_float( 1, 5 ) );
+    for( int i = 0; i < roll; i++ ) {
+        if( monster_count == 0 && p.can_pickWeight( item( "spider_egg" ), true ) && p.can_pickVolume( item( "spider_egg" ), true ) ){
+            p.i_add( item( "spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest: spider egg" ) );
+        } else {
+            g->m.add_item_or_charges( p.pos(), item( "spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest and drop: spider egg" ) );
         }
+    }
+    if( monster_count == 1 ) {
+        add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name.c_str() );
+    } else if( monster_count >= 1 ) {
+        add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name.c_str() );
     }
 }
 
