@@ -1286,6 +1286,49 @@ class jmapgen_computer : public jmapgen_piece
         }
 };
 
+/**
+ * Place an item in furniture (expected to be used with NOITEM SEALED furniture like plants).
+ * "item": item to spawn (object with usual parameters).
+ * "items": item group to spawn (object with usual parameters).
+ * "furniture": furniture to create around it.
+ */
+class jmapgen_sealed_item : public jmapgen_piece
+{
+    public:
+        furn_id furniture;
+        cata::optional<jmapgen_spawn_item> item_spawner;
+        cata::optional<jmapgen_item_group> item_group_spawner;
+        jmapgen_sealed_item( JsonObject &jsi ) : jmapgen_piece()
+            , furniture( jsi.get_string( "furniture" ) ) {
+            if( jsi.has_object( "item" ) ) {
+                JsonObject item_obj = jsi.get_object( "item" );
+                item_spawner = jmapgen_spawn_item( item_obj );
+            }
+            if( jsi.has_object( "items" ) ) {
+                JsonObject items_obj = jsi.get_object( "items" );
+                item_group_spawner = jmapgen_item_group( items_obj );
+            }
+            if( !item_spawner && !item_group_spawner ) {
+                jsi.throw_error( "sealed_item must specify either item or items",
+                                 "sealed_item" );
+            }
+            if( !furniture.is_valid() ) {
+                jsi.throw_error( "no such furniture", "furniture" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float mon_density ) const override {
+            dat.m.furn_set( x.get(), y.get(), f_null );
+            if( item_spawner ) {
+                item_spawner->apply( dat, x, y, mon_density );
+            }
+            if( item_group_spawner ) {
+                item_group_spawner->apply( dat, x, y, mon_density );
+            }
+            dat.m.furn_set( x.get(), y.get(), furniture );
+        }
+};
+
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
@@ -1751,6 +1794,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
+    new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
 
     return new_pal;
