@@ -109,7 +109,7 @@ enum artifact_natural_property {
 };
 
 enum phase_id : int {
-    PNULL, SOLID, LIQUID, GAS, PLASMA
+    PNULL, SOLID, LIQUID, POWDER, GAS, PLASMA
 };
 
 // Return the class an in-world object uses to interact with the world.
