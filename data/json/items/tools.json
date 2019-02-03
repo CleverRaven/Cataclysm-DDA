@@ -4771,8 +4771,8 @@
     "max_charges": 1,
     "use_action": {
       "target": "molotov_lit",
-      "msg": "You light the Molotov cocktail.",
-      "target_charges": 5,
+      "msg": "You light the Molotov cocktail!",
+      "target_charges": 1,
       "active": true,
       "moves": 75,
       "need_fire": 1,
@@ -4787,7 +4787,7 @@
     "category": "weapons",
     "name": "Molotov cocktail",
     "name_plural": "Molotov cocktails",
-    "description": "A bottle of flammable liquid with a flaming rag inserted.  Throwing it will cause the bottle to break, spreading fire.  The flame may go out shortly if you do not throw it.  Dropping it while lit is not safe.",
+    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
     "weight": 742,
     "volume": 3,
     "price": 0,
@@ -4796,11 +4796,11 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
-    "initial_charges": 5,
-    "max_charges": 5,
+    "initial_charges": 1,
+    "max_charges": 1,
     "turns_per_charge": 1,
     "use_action": "MOLOTOV_LIT",
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ]
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "TRIGGER_ON_IMPACT", "WATER_EXTINGUISH" ]
   },
   {
     "id": "mop",
