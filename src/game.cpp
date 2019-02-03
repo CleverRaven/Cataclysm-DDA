@@ -9652,25 +9652,46 @@ void game::butcher()
 void game::eat( int pos )
 {
     if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
-        m.ter( u.pos() ) == t_underbrush ) {
+        ( m.ter( u.pos() ) == t_underbrush || m.ter( u.pos() ) == t_shrub ) ) {
         if( u.get_hunger() < 20 ) {
-            add_msg( _( "You're too full to eat the underbrush." ) );
+            add_msg( _( "You're too full to eat the leaves from the %s." ), m.ter( u.pos() )->name() );
+            return;
         } else {
             u.moves -= 400;
             u.mod_hunger( -20 );
+            add_msg( _( "You eat the leaves from the %s." ), m.ter( u.pos() )->name() );
             m.ter_set( u.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
             return;
         }
     }
-    if( u.has_active_mutation( trait_GRAZER ) && m.ter( u.pos() ) == t_grass ) {
+    if( u.has_active_mutation( trait_GRAZER ) && ( m.ter( u.pos() ) == t_grass ||
+            m.ter( u.pos() ) == t_grass_long || m.ter( u.pos() ) == t_grass_tall ) ) {
         if( u.get_hunger() < 8 ) {
             add_msg( _( "You're too full to graze." ) );
+            return;
         } else {
             u.moves -= 400;
-            add_msg( _( "You eat the grass." ) );
+            add_msg( _( "You graze on the %s." ), m.ter( u.pos() )->name() );
             u.mod_hunger( -8 );
-            m.ter_set( u.pos(), t_dirt );
+            if( m.ter( u.pos() ) == t_grass_tall ) {
+                m.ter_set( u.pos(), t_grass_long );
+            } else if( m.ter( u.pos() ) == t_grass_long ) {
+                m.ter_set( u.pos(), t_grass );
+            } else {
+                m.ter_set( u.pos(), t_dirt );
+            }
+            return;
+        }
+    }
+    if( u.has_active_mutation( trait_GRAZER ) ) {
+        if( m.ter( u.pos() ) == t_grass_golf ) {
+            add_msg( _( "This grass is too short to graze." ) );
+            return;
+        } else if( m.ter( u.pos() ) == t_grass_dead ) {
+            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
+            return;
+        } else if( m.ter( u.pos() ) == t_grass_white ) {
+            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
             return;
         }
     }
