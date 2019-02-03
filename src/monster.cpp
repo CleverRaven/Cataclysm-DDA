@@ -472,6 +472,10 @@ std::string monster::name_with_armor() const
         ret = string_format( _( "thick hide" ) );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
         ret = string_format( _( "armor plating" ) );
+    } else if( made_of( LIQUID ) ) {
+        ret = string_format( _( "dense jelly mass" ) );
+    } else {
+        ret = string_format( _( "armor" ) );
     }
     return ret;
 }
@@ -1277,7 +1281,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 //~ $3s is target armor name.
                 add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
                          name().c_str(),
-                         target.disp_name( true ).c_str(),
+                         target.disp_name().c_str(),
                          target.skin_name().c_str() );
             }
         } else if( target.is_player() ) {
