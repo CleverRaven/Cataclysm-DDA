@@ -20,6 +20,7 @@
 #include "path_info.h"
 #include "player.h"
 #include "safemode_ui.h"
+#include "scenario.h"
 #include "sdlsound.h"
 #include "sounds.h"
 #include "text_snippets.h"
@@ -619,6 +620,7 @@ bool main_menu::opening_screen()
         g->refresh_all();
         g->draw();
     }
+    popup( "%s", g->scen->description( g->u.male ) );
     return start;
 }
 
