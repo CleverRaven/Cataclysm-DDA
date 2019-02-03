@@ -2865,7 +2865,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
         const item &contents_item = contents.front();
-        if( contents_item.made_of( LIQUID ) || contents_item.made_of( POWDER ) || contents_item.is_food() ) {
+        if( contents_item.made_of( LIQUID ) || contents_item.made_of( POWDER ) ||
+            contents_item.is_food() ) {
             const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
             maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
                                       contents_item.tname( contents_count, with_prefix ).c_str() );
@@ -4587,7 +4588,8 @@ bool item::can_unload_liquid() const
     }
 
     const item &cts = contents.front();
-    if( !is_bucket() && cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID ) && cts.made_of( POWDER ) ) {
+    if( !is_bucket() && cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID ) &&
+        cts.made_of( POWDER ) ) {
         return false;
     }
 
