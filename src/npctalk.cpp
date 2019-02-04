@@ -316,7 +316,7 @@ void npc::talk_to_u( bool text_only )
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
         if( type.urgent && type.difficulty > most_difficult_mission ) {
-            d.add_topic( "TALK_MISSION_DESCRIBE" );
+            d.add_topic( "TALK_MISSION_DESCRIBE_URGENT" );
             chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -441,7 +441,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     const auto &p = beta; // for compatibility, later replace it in the code below
     // Those topics are handled by the mission system, see there.
     static const std::unordered_set<std::string> mission_topics = { {
-            "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
+            "TALK_MISSION_DESCRIBE", "TALK_MISSION_DESCRIBE_URGENT",
+            "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
             "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE", "TALK_MISSION_INQUIRE",
             "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE", "TALK_MISSION_FAILURE"
         }
