@@ -50,6 +50,7 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "weather.h"
+#include "weather_gen.h"
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
@@ -1027,6 +1028,12 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
+    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( pos ) );
+    const w_point weatherPoint = *g->weather_precise;
+    bool sheltered = g->is_sheltered( pos );
+    double windpower = weatherPoint.windpower;
+    windpower = get_local_windpower( windpower, cur_om_ter, g->m.getabs( pos ),
+                                     weatherPoint.winddirection, sheltered );
     if( pos == p.pos() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
@@ -1059,6 +1066,20 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             !query_yn(
                 _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
             return false;
+        }
+        if( !sheltered && windpower > 15 ) {
+            if( one_in( std::max( 2, ( 2 + p.get_skill_level( skill_survival ) ) - static_cast<int>
+                                  ( windpower / 4 ) ) ) ) {
+                p.add_msg_if_player( m_info, _( "The wind extinguishes the flame!" ) );
+                return false;
+            }
+        }
+        if( !sheltered && ( g->weather == WEATHER_RAINY || g->weather == WEATHER_THUNDER ||
+                            g->weather == WEATHER_LIGHTNING || g-> weather == WEATHER_SNOWSTORM ) ) {
+            if( one_in( ( 2 + p.get_skill_level( skill_survival ) ) ) ) {
+                p.add_msg_if_player( m_info, _( "The precipitation extinguishes the flame!" ) );
+                return false;
+            }
         }
         return true;
     } else {
