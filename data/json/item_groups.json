@@ -3680,7 +3680,7 @@
       [ "manual_niten", 1 ],
       [ "manual_sojutsu", 1 ],
       [ "manual_capoeira", 1 ],
-      { "group": "rare_martial_arts_books", "prob": 10 }
+      { "group": "rare_martial_arts_books", "prob": 6 }
     ]
   },
   {

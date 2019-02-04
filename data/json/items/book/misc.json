@@ -1136,6 +1136,7 @@
     "id": "classic_literature",
     "name": "book of classic literature",
     "name_plural": "books of classic literature",
+    "description": "A book of classic literature, timeless and enjoyable but a bit dense to read.",
     "snippet_category": [
       { "id": "classic1", "text": "This is a copy of Dickens' \"Bleak House\"." },
       { "id": "classic2", "text": "This is a copy of \"Great Expectations\" by Charles Dickens." },
@@ -1217,7 +1218,7 @@
     "looks_like": "tall_tales",
     "color": "light_blue",
     "symbol": "?",
-    "intelligence": 6,
+    "intelligence": 7,
     "time": 28,
     "chapters": 40,
     "fun": 3
@@ -1227,6 +1228,7 @@
     "id": "collector_book",
     "name": "collector's edition book",
     "name_plural": "collector's edition book",
+    "description": "A unique, valuable book that has been kept as a collector's item.",
     "snippet_category": [
       { "id": "fancy1", "text": "This is a high-quality leather bound copy of Charles Dickens' \"A Tale of Two Cities\"." },
       { "id": "fancy2", "text": "This is a very old but well-preserved copy of Charles Dickens' \"Oliver Twist\"." },
