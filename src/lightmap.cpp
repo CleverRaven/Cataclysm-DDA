@@ -955,14 +955,21 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         delta.y = -distance;
         bool started_row = false;
         T current_transparency = 0.0;
-        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+        float away = start - ( -distance + 0.5f ) / ( -distance -
+                     0.5f ); //The distance between our first leadingEdge and start
+
+        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
+                                        0 );
+
+        for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
             float trailingEdge = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
             float leadingEdge = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
 
             if( !( currentX >= 0 && currentY >= 0 && currentX < MAPSIZE_X &&
-                   currentY < MAPSIZE_Y ) || start < leadingEdge ) {
+                   currentY < MAPSIZE_Y ) /* || start < leadingEdge */ ) {
                 continue;
             } else if( end > trailingEdge ) {
                 break;
