@@ -1,0 +1,11 @@
+[
+  {
+    "type": "effect_type",
+    "id": "winded",
+    "name": [ "Winded" ],
+    "desc": [ "You're short of breath.  But fighting will not be more difficult." ],
+    "apply_message": "Your breath gives out!",
+    "remove_message": "You catch your breath.",
+    "rating": "bad"
+  }
+]

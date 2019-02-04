@@ -157,6 +157,9 @@ struct islot_comestible {
     /** Reference to other item that replaces this one as a component in recipe results */
     itype_id cooks_like;
 
+    /** change stamina penalty */
+    int stamina_pool_recovery = 0;
+
     /** @todo: add documentation */
     int healthy = 0;
 

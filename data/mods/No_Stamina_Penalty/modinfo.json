@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "no_stamina_penalty.",
+    "name": "No Stamina Penalty",
+    "description": "Physical activity will not decrease stamina pool or increase needs.  Effect winded will not apply penalty.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

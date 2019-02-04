@@ -916,6 +916,10 @@ void player::consume_effects( const item &food )
         rem_morale( addiction_craving( comest.add ) );
     }
 
+    if( comest.stamina_pool_recovery != 0 ) {
+        mod_stamina_max_penalty( -comest.stamina_pool_recovery );
+    }
+
     time_duration morale_time = 2_hours;
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
         morale_time = 3_hours;

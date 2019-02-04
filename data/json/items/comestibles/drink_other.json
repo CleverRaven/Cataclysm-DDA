@@ -253,6 +253,7 @@
     "addiction_type": "caffeine",
     "use_action": "CAFF",
     "stim": 8,
+    "stamina_pool_recovery": 250,
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "%",
