@@ -25,7 +25,7 @@
     "method": "json",
     "om_terrain": [ "fire_station" ],
     "weight": 10000000,  
-	"object": {
+    "object": {
 	      "fill_ter": "t_grass",
           "rows": [
             "________________________",
@@ -115,14 +115,14 @@
           "place_monsters": [ { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1 } ],
           "place_vehicles": [ { "vehicle": "fire_engine", "x": 12, "y": 13, "chance": 30, "rotation": 270 } ]
         },
-		"flags": [ "SIDEWALK" ]
+        "flags": [ "SIDEWALK" ]
    },
    {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "fire_station" ],
     "weight": 10000000,
-	"object": {
+    "object": {
 	      "fill_ter": "t_grass",
           "rows": [
             "__PpppppppPpppppppP__s__",
@@ -188,7 +188,7 @@
             "{": "t_floor",
             "|": "t_brick_wall"
         },
-		"furniture": {
+        "furniture": {
             "#": "f_table",
             "&": "f_sink",
             "5": "f_ergometer",
@@ -208,8 +208,8 @@
             "r": "f_rack",
             "{": "f_locker"
         },
-		 "toilets": { "i": {} },
-		"place_items": [
+        "toilets": { "i": {} },
+        "place_items": [
             { "item": "mechanics", "x": 15, "y": 14, "chance": 25 },
             { "item": "mechanics", "x": [ 10, 11 ], "y": 14, "chance": 25 },
             { "item": "fireman_pants", "x": 11, "y": 16, "chance": 70 },
@@ -241,11 +241,11 @@
           "place_monsters": [
             { "monster": "GROUP_FIRE", "x": 10, "y": 16, "chance": 1 }
           ],
-		  "place_vehicles": [
+          "place_vehicles": [
             { "vehicle": "fire_truck", "x": 5, "y": 5, "rotation": 270, "chance": 20 },
             { "vehicle": "fire_engine", "x": 14, "y": 5, "rotation": 270, "chance": 20 }
           ]
 	    },
-		"flags": [ "SIDEWALK" ]
-	}
+        "flags": [ "SIDEWALK" ]
+    }
 ]
