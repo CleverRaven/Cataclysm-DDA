@@ -616,7 +616,8 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
     return nullptr;
 }
 
-void zone_manager::create_vehicle_loot_zone(vehicle& vehicle, const point mount_point, zone_data& new_zone)
+void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point mount_point,
+        zone_data &new_zone )
 {
     //create a vehicle loot zone
     new_zone.set_is_vehicle( true );
@@ -643,8 +644,8 @@ void zone_manager::add( const std::string &name, const zone_type_id &type,
                 popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                 return;
             }
-            
-            create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone);
+
+            create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone );
             return;
         }
     }

@@ -1308,13 +1308,13 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         // the mount point on the old vehicle (carry_veh) that will be destroyed
         point old_mount;
     };
-    
+
     // By structs, we mean all the parts of the carry vehicle that are at the structure location
     // of the vehicle (i.e. frames)
     std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
-    
+
     //X is forward/backward, Y is left/right
     std::string axis;
     if( carry_veh_structs.size() == 1 ) {
@@ -1408,10 +1408,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
 
-            std::unordered_multimap<point, zone_data>::iterator it = carry_veh->loot_zones.find(carry_map.old_mount);
-            if (it != carry_veh->loot_zones.end())
-            {
-                zone_manager::get_manager().create_vehicle_loot_zone(*this, carry_map.carry_mount, it->second);
+            std::unordered_multimap<point, zone_data>::iterator it = carry_veh->loot_zones.find(
+                        carry_map.old_mount );
+            if( it != carry_veh->loot_zones.end() ) {
+                zone_manager::get_manager().create_vehicle_loot_zone( *this, carry_map.carry_mount, it->second );
             }
         }
         //~ %1$s is the vehicle being loaded onto the bicycle rack
@@ -1880,9 +1880,9 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             if( lz_iter != loot_zones.end() ) {
                 new_zones.emplace( new_mount, lz_iter->second );
 
-                // We have to call remove here before the parts are actually 
+                // We have to call remove here before the parts are actually
                 // removed or we can't remove the zone
-                zone_manager::get_manager().remove(lz_iter->second);
+                zone_manager::get_manager().remove( lz_iter->second );
             }
             // remove the passenger from the old vehicle
             if( passenger ) {
@@ -1897,9 +1897,8 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         // We want to create the vehicle zones after we've setup the parts
         // because we need only to move the zone once per mount, not per part. If we move per
         // part, we will end up with duplicates of the zone per part on the same mount
-        for (std::pair<point, zone_data> zone : new_zones) 
-        {
-            zone_manager::get_manager().create_vehicle_loot_zone(*new_vehicle, zone.first, zone.second);
+        for( std::pair<point, zone_data> zone : new_zones ) {
+            zone_manager::get_manager().create_vehicle_loot_zone( *new_vehicle, zone.first, zone.second );
         }
 
         g->m.dirty_vehicle_list.insert( new_vehicle );
