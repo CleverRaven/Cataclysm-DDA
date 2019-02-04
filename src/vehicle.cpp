@@ -1262,7 +1262,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
-bool vehicle::find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks )
+bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks )
 {
     for( auto this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
@@ -1294,17 +1294,28 @@ bool vehicle::find_rackable_vehicle( const std::vector<std::vector<int>> &list_o
 
 bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts )
 {
+    // Mapping between the old vehicle and new vehicle mounting points
     struct mapping {
+        // All the parts attached to this mounting point
         std::vector<int> carry_parts_here;
+
+        // the index where the racking part is on the vehicle with the rack
         int rack_part;
+
+        // the mount point we are going to add to the vehicle with the rack
         point carry_mount;
+
+        // the mount point on the old vehicle (carry_veh) that will be destroyed
         point old_mount;
     };
+    
+    // By structs, we mean all the parts of the carry vehicle that are at the structure location
+    // of the vehicle (i.e. frames)
     std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
-    bool found_all_parts = true;
-    const point mount_zero = point_zero;
+    
+    //X is forward/backward, Y is left/right
     std::string axis;
     if( carry_veh_structs.size() == 1 ) {
         axis = "X";
@@ -1315,6 +1326,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             }
         }
     }
+
     int relative_dir = modulo( carry_veh->face.dir() - face.dir(), 360 );
     int relative_180 = modulo( relative_dir, 180 );
     int face_dir_180 = modulo( face.dir(), 180 );
@@ -1331,8 +1343,15 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         }
     }
 
+    // We look at each of the structure parts (mount points, i.e. frames) for the
+    // carry vehicle and then find a rack part adjacent to it. If we dont find a rack part,
+    // then we cant merge.
+    bool found_all_parts = true;
     for( auto carry_part : carry_veh_structs ) {
+
+        // The current position on the original vehicle for this part
         tripoint carry_pos = carry_veh->global_part_pos3( carry_part );
+
         bool merged_part = false;
         for( int rack_part : rack_parts ) {
             size_t j = 0;
@@ -1346,7 +1365,12 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                     break;
                 }
             }
-            if( j < 4 ) {
+
+            // We checked the adjacent points from the mounting rack and managed
+            // to find the current structure part were looking for nearby. If the part was not
+            // near this particular rack, we would look at each in the list of rack_parts
+            const bool carry_part_next_to_this_rack = j < 4;
+            if( carry_part_next_to_this_rack ) {
                 mapping carry_map;
                 point old_mount = carry_veh->parts[ carry_part ].mount;
                 carry_map.carry_parts_here = carry_veh->parts_at_relative( old_mount, true );
@@ -1358,11 +1382,17 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 break;
             }
         }
+
+        // We checked all the racks and could not find a place for this structure part.
         if( !merged_part ) {
             found_all_parts = false;
             break;
         }
     }
+
+    // Now that we have mapped all the parts of the carry vehicle to the vehicle with the rack
+    // we can go ahead and merge
+    const point mount_zero = point_zero;
     if( found_all_parts ) {
         for( auto carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
@@ -1376,6 +1406,12 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
+            }
+
+            std::unordered_multimap<point, zone_data>::iterator it = carry_veh->loot_zones.find(carry_map.old_mount);
+            if (it != carry_veh->loot_zones.end())
+            {
+                zone_manager::get_manager().create_vehicle_loot_zone(*this, carry_map.carry_mount, it->second);
             }
         }
         //~ %1$s is the vehicle being loaded onto the bicycle rack
@@ -1843,7 +1879,10 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             const auto lz_iter = loot_zones.find( cur_mount );
             if( lz_iter != loot_zones.end() ) {
                 new_zones.emplace( new_mount, lz_iter->second );
-                loot_zones.erase( lz_iter );
+
+                // We have to call remove here before the parts are actually 
+                // removed or we can't remove the zone
+                zone_manager::get_manager().remove(lz_iter->second);
             }
             // remove the passenger from the old vehicle
             if( passenger ) {
@@ -1854,13 +1893,19 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             parts[ mov_part].removed = true;
             removed_part_count++;
         }
+
+        // We want to create the vehicle zones after we've setup the parts
+        // because we need only to move the zone once per mount, not per part. If we move per
+        // part, we will end up with duplicates of the zone per part on the same mount
+        for (std::pair<point, zone_data> zone : new_zones) 
+        {
+            zone_manager::get_manager().create_vehicle_loot_zone(*new_vehicle, zone.first, zone.second);
+        }
+
         g->m.dirty_vehicle_list.insert( new_vehicle );
         g->m.set_transparency_cache_dirty( smz );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
-        }
-        if( !new_zones.empty() ) {
-            new_vehicle->loot_zones = new_zones;
         }
 
         if( split_mounts.empty() ) {
