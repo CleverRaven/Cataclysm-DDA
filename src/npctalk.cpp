@@ -401,16 +401,15 @@ void npc::talk_to_u( bool text_only )
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
         g->u.cancel_activity();
-
-        // don't query certain activities that are started from dialogue
-    } else if( ( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ) ||
-               ( ( g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ) ||
-                 ( ( g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ) ||
-                   ( ( g->u.activity.index == getID() ) ) ) ) ) {
+    // don't query certain activities that are started from dialogue
+    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN") ||
+               g->u.activity.id() == activity_id( "ACT_WAIT_NPC") ||
+               g->u.activity.id() == activity_id( "ACT_SOCIALIZE") ||
+               g->u.activity.index == getID() ) {
         return;
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                            string_format( _( "%s talked to you." ), name ) );
     }
+    g->cancel_activity_or_ignore_query( distraction_type::talked_to,
+                                        string_format( _( "%s talked to you." ), name ) );
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
@@ -431,7 +430,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
                    _( "&You are deaf and can't talk. When you don't respond, %s becomes angry!" ),
-                   beta->name.c_str() );
+                   beta->name );
     }
     if( topic == "TALK_SEDATED" ) {
         return string_format(
