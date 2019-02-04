@@ -616,6 +616,22 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
     return nullptr;
 }
 
+// CAREFUL: This function has the ability to move the passed in zone reference depending on
+// which constructor of the key-value pair we use which depends on new_zone being an rvalue or lvalue and constness.
+// If you are passing new_zone from a non-const iterator, be prepared for a move! This
+// may break some iterators like map iterators if you are less specific!
+void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point mount_point,
+        zone_data &new_zone )
+{
+    //create a vehicle loot zone
+    new_zone.set_is_vehicle( true );
+    auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
+    g->m.register_vehicle_zone( &vehicle, g->get_levz() );
+    vehicle.zones_dirty = false;
+    added_vzones.push_back( &nz->second );
+    cache_vzones();
+}
+
 void zone_manager::add( const std::string &name, const zone_type_id &type,
                         const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
                         std::shared_ptr<zone_options> options )
@@ -632,16 +648,12 @@ void zone_manager::add( const std::string &name, const zone_type_id &type,
                 popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                 return;
             }
-            //create a vehicle loot zone
-            new_zone.set_is_vehicle( true );
-            auto nz = vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
-            g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
-            vp->vehicle().zones_dirty = false;
-            added_vzones.push_back( &nz->second );
-            cache_vzones();
+
+            create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone );
             return;
         }
     }
+
     //Create a regular zone
     zones.push_back( new_zone );
     cache_data();
