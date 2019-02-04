@@ -11793,8 +11793,9 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( movez > 0 ) {
         if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
-            popup( _( "Halfway up, the way up becomes blocked off." ) );
-            return cata::nullopt;
+            if( !query_yn( _( "You may be unable to return back down these stairs. Continue up?" ) ) ) {
+                return cata::nullopt;
+            }
         }
         // Manhole covers need this to work
         // Maybe require manhole cover here and fail otherwise?
