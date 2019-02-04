@@ -367,6 +367,8 @@ bool player::activate_bionic( int b, bool eff_only )
         } else if( !g->consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
+    } else if( bio.id == "bio_torsionratchet" ) {
+        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
