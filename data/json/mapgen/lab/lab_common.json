@@ -99,12 +99,7 @@
       },
       "b": { "items": [ { "item": "bed", "chance": 50 } ] },
       "]": {
-        "items": [
-          { "item": "manuals", "chance": 5 },
-          { "item": "textbooks", "chance": 10 },
-          { "item": "novels", "chance": 5 },
-          { "item": "magazines", "chance": 5 }
-        ]
+        "items": [ { "group": "lab_bookshelves", "prob": 50 } ]
       },
       "l": {
         "items": [
