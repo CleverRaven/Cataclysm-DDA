@@ -139,7 +139,7 @@ class item_category;
 struct advanced_inv_listitem {
     typedef std::string itype_id;
     /**
-     * Index of the item in the original storage container (or inventory).
+     * Index of the item in the itemstack.
      */
     int idx;
     /**

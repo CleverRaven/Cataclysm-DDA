@@ -520,6 +520,7 @@ void sfx::do_ambient()
     17: Stamina 35%
     18: Idle chainsaw
     19: Chainsaw theme
+    20: Outdoor blizzard
     Group Assignments:
     1: SFX related to weather
     2: SFX related to time of day
@@ -606,6 +607,8 @@ void sfx::do_ambient()
             case WEATHER_SUNNY:
             case WEATHER_CLOUDY:
             case WEATHER_SNOWSTORM:
+                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume, 20,
+                                            1000 );
             case WEATHER_SNOW:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, 5,
                                             1000 );
