@@ -1,0 +1,40 @@
+[
+  {
+    "id": "crt_laser_pistol",
+    "type": "GUN",
+    "name": "C.R.I.T .5 LP",
+    "description": "Experimental low power sidearm under development in C.R.I.T R&D, the .5 LP is a  relatively weak but accurate laser pistol. The tri-barrel pepperbox design compensates for the lack of raw power and yet manages to be surprisingly really easy to aim and is very light thanks to the superalloy construction.",
+    "weight": 650,
+    "volume": 3,
+    "price": 1000000,
+    "to_hit": -2,
+    "bashing": 3,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "(",
+    "color": "cyan",
+    "skill": "pistol",
+    "range": 22,
+    "ranged_damage": 5,
+    "pierce": 12,
+    "dispersion": 150,
+    "durability": 9,
+    "loudness": 9,
+    "ups_charges": 10,
+    "reload": 220,
+    "modes": [
+      [ "DEFAULT", "multi", 3 ]
+    ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+  }
+]  
