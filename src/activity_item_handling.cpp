@@ -480,11 +480,11 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
             act.values.push_back( drop.second );
         }
     }
-    // And either cancel if it's empty, or restart if it's not.
+    // And cancel if its empty. If its not, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which
+    // creates a brand new activity every turn and cancels the old activity
     if( act.values.empty() ) {
         p.cancel_activity();
-    } else {
-        p.assign_activity( act );
     }
 
     return res;
@@ -495,6 +495,88 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
     const tripoint pos = act->placement + p->pos();
     put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
                               pos );
+}
+
+void activity_on_turn_wear()
+{
+    // Wear activity has source square, bools indicating source type,
+    // indices of items on map or position of items in inventory, and quantities of same.
+    tripoint source = g->u.activity.placement + g->u.pos();
+    bool from_inventory = g->u.activity.values[0];
+    bool from_vehicle = g->u.activity.values[1];
+
+    // load vehicle information if requested
+    int s_cargo = -1;
+    vehicle *s_veh;
+    s_veh = nullptr;
+
+    if( from_vehicle ) {
+        const cata::optional<vpart_reference> vp = g->m.veh_at( source ).part_with_feature( "CARGO",
+                false );
+        assert( vp );
+        s_veh = &vp->vehicle();
+        s_cargo = vp->part_index();
+        assert( s_cargo >= 0 );
+    }
+
+    std::list<int> indices;
+    std::list<int> quantities;
+
+    if( g->u.activity.values.size() % 2 != 0 ) {
+        debugmsg( "ACT_WEAR started with uneven number of values." );
+        g->u.cancel_activity();
+        return;
+    } else {
+        // Note i = 2, skipping first 2 elements.
+        for( size_t i = 2; i < g->u.activity.values.size(); i += 2 ) {
+            indices.push_back( g->u.activity.values[i] );
+            quantities.push_back( g->u.activity.values[ i + 1 ] );
+        }
+    }
+    g->u.cancel_activity();
+
+    while( g->u.moves > 0 && !indices.empty() ) {
+        int index = indices.back();
+        int quantity = quantities.back();
+        indices.pop_back();
+        quantities.pop_back();
+
+        if( from_inventory ) {
+            if( g->u.wear( index ) ) {
+                if( --quantity > 0 ) {
+                    indices.push_back( index );
+                    quantities.push_back( quantity );
+                }
+            }
+        } else {
+            item *temp_item = from_vehicle ? g->m.item_from( s_veh, s_cargo, index ) : g->m.item_from( source,
+                              index );
+            if( temp_item == nullptr ) {
+                continue; // No such item.
+            }
+            // On successful wear remove from map or vehicle.
+            if( g->u.wear_item( *temp_item ) ) {
+                if( from_vehicle ) {
+                    s_veh->remove_item( s_cargo, index );
+                } else {
+                    g->m.i_rem( source, index );
+                }
+            }
+        }
+    }
+    // If there are items left, we ran out of moves, so make a new activity with the remainder.
+    if( !indices.empty() ) {
+        g->u.assign_activity( activity_id( "ACT_WEAR" ) );
+        g->u.activity.placement = source - g->u.pos();
+        g->u.activity.values.push_back( from_inventory );
+        g->u.activity.values.push_back( from_vehicle );
+        while( !indices.empty() ) {
+            g->u.activity.values.push_back( indices.front() );
+            indices.pop_front();
+            g->u.activity.values.push_back( quantities.front() );
+            quantities.pop_front();
+        }
+    }
 }
 
 void activity_handlers::washing_finish( player_activity *act, player *p )

@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
@@ -9,6 +10,7 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "game_constants.h"
+#include "line.h"
 #include "map.h"
 #include "messages.h"
 #include "options.h"
@@ -23,6 +25,7 @@
 #include "weather_gen.h"
 
 const efftype_id effect_glare( "glare" );
+const efftype_id effect_snow_glare( "snow_glare" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_sleep( "sleep" );
 
@@ -48,10 +51,12 @@ static bool is_player_outside()
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  */
-void weather_effect::glare()
+
+void weather_effect::glare( bool snowglare )
 {
+    season_type season = season_of_year( calendar::turn );
     if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == false &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
@@ -67,7 +72,25 @@ void weather_effect::glare()
             }
         }
     }
+    if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == true &&
+        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
+        if( !g->u.has_effect( effect_snow_glare ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 4_turns );
+            } else {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
+            }
+        } else {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
+            } else {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 1_turns );
+            }
+        }
+    }
 }
+
 ////// food vs weather
 
 time_duration get_rot_since( const time_point &start, const time_point &end,
@@ -393,8 +416,11 @@ void generic_very_wet( bool acid )
 
 void weather_effect::none()      {}
 void weather_effect::flurry()    {}
-void weather_effect::snow()      {}
-void weather_effect::snowstorm() {}
+
+void weather_effect::sunny()
+{
+    glare( false );
+}
 
 /**
  * Wet.
@@ -414,6 +440,16 @@ void weather_effect::very_wet()
     generic_very_wet( false );
 }
 
+void weather_effect::snow()
+{
+    wet_player( 10 );
+    glare( true );
+}
+
+void weather_effect::snowstorm()
+{
+    wet_player( 40 );
+}
 /**
  * Thunder.
  * Flavor messages. Very wet.
@@ -711,6 +747,83 @@ int get_local_windchill( double temperature, double humidity, double windpower )
     return windchill;
 }
 
+std::string get_wind_strength_bars( double windpower )
+{
+    std::string wind_bars;
+    if( windpower < 3 ) {
+        wind_bars = "";
+    } else if( windpower < 12 ) {
+        wind_bars = "+";
+    } else if( windpower < 24 ) {
+        wind_bars = "++";
+    } else if( windpower < 38 ) {
+        wind_bars = "+++";
+    } else if( windpower < 54 ) {
+        wind_bars = "++++";
+    } else if( windpower >= 54 ) {
+        wind_bars = "+++++";
+    }
+    return wind_bars;
+}
+
+nc_color get_wind_color( double windpower )
+{
+    nc_color windcolor;
+    if( windpower < 1 ) {
+        windcolor = c_dark_gray;
+    } else if( windpower < 3 ) {
+        windcolor = c_dark_gray;
+    } else if( windpower < 7 ) {
+        windcolor = c_light_gray;
+    } else if( windpower < 12 ) {
+        windcolor = c_light_gray;
+    } else if( windpower < 18 ) {
+        windcolor = c_blue;
+    } else if( windpower < 24 ) {
+        windcolor = c_blue;
+    } else if( windpower < 31 ) {
+        windcolor = c_light_blue;
+    } else if( windpower < 38 ) {
+        windcolor = c_light_blue;
+    } else if( windpower < 46 ) {
+        windcolor = c_cyan;
+    } else if( windpower < 54 ) {
+        windcolor = c_cyan;
+    } else if( windpower < 63 ) {
+        windcolor = c_light_cyan;
+    } else if( windpower < 72 ) {
+        windcolor = c_light_cyan;
+    } else if( windpower > 72 ) {
+        windcolor = c_white;
+    }
+    return windcolor;
+}
+
+std::string get_wind_arrow( int dirangle )
+{
+    std::string wind_arrow = "";
+    if( dirangle <= 23 || dirangle > 338 ) {
+        wind_arrow = "\u21D3";
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        wind_arrow = "\u21D9";
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        wind_arrow = "\u21D0";
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        wind_arrow = "\u21D6";
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        wind_arrow = "\u21D1";
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        wind_arrow = "\u21D7";
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        wind_arrow = "\u21D2";
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        wind_arrow = "\u21D8";
+    } else {
+        wind_arrow = "";
+    }
+    return wind_arrow;
+}
+
 int get_local_humidity( double humidity, weather_type weather, bool sheltered )
 {
     int tmphumidity = humidity;
@@ -724,17 +837,18 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
     return tmphumidity;
 }
 
-int get_local_windpower( double windpower, const oter_id &omter, bool sheltered )
+double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
+                            const int &winddirection, bool sheltered )
 {
+    rl_vec2d windvec = convert_wind_to_coord( winddirection );
+    double tmpwind = windpower;
+    tripoint triblocker( location + point( windvec.x, windvec.y ) );
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
     **/
-
-    double tmpwind = windpower;
-
-    // Over map terrain may modify the effect of wind.
     if( sheltered ) {
         tmpwind  = 0.0;
+        // Over map terrain may modify the effect of wind.
     } else if( omter.id() == "forest_water" ) {
         tmpwind *= 0.7;
     } else if( omter.id() == "forest" ) {
@@ -742,8 +856,82 @@ int get_local_windpower( double windpower, const oter_id &omter, bool sheltered 
     } else if( omter.id() == "forest_thick" || omter.id() == "hive" ) {
         tmpwind *= 0.4;
     }
-
+    // an adjacent wall will block wind
+    if( is_wind_blocker( triblocker ) ) {
+        tmpwind *= 0.1;
+    }
     return tmpwind;
+}
+
+bool is_wind_blocker( const tripoint &location )
+{
+    if( g->m.has_flag( "BLOCK_WIND", location ) ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+std::string get_wind_desc( double windpower )
+{
+    std::string winddesc;
+    if( windpower < 1 ) {
+        winddesc = "Calm";
+    } else if( windpower < 3 ) {
+        winddesc = "Light Air";
+    } else if( windpower < 7 ) {
+        winddesc = "Light Breeze";
+    } else if( windpower < 12 ) {
+        winddesc = "Gentle Breeze";
+    } else if( windpower < 18 ) {
+        winddesc = "Moderate Breeze";
+    } else if( windpower < 24 ) {
+        winddesc = "Fresh Breeze";
+    } else if( windpower < 31 ) {
+        winddesc = "Strong Breeze";
+    } else if( windpower < 38 ) {
+        winddesc = "Moderate Gale";
+    } else if( windpower < 46 ) {
+        winddesc = "Gale";
+    } else if( windpower < 54 ) {
+        winddesc = "Strong Gale";
+    } else if( windpower < 63 ) {
+        winddesc = "Whole Gale";
+    } else if( windpower < 72 ) {
+        winddesc = "Violent Storm";
+    } else if( windpower > 72 ) {
+        winddesc =
+            "Hurricane";  //Anything above Whole Gale is very unlikely to happen and has no additional effects.
+    }
+    return winddesc;
+}
+
+rl_vec2d convert_wind_to_coord( const int angle )
+{
+
+    float fx, fy;
+    rl_vec2d windvec;
+    fy = cos( angle * M_PI / 180.0f );
+    fx = sin( angle * M_PI / 180.0f );
+    int roundedx;
+    int roundedy;
+    if( fx > 0.5 ) {
+        roundedx = 1;
+    } else if( fx < -0.5 ) {
+        roundedx = -1;
+    } else {
+        roundedx = 0;
+    }
+    if( fy > 0.5 ) {
+        roundedy = 1;
+    } else if( fy < -0.5 ) {
+        roundedy = -1;
+    } else {
+        roundedy = 0;
+    }
+    windvec.x = roundedx;
+    windvec.y = roundedy;
+    return windvec;
 }
 
 bool warm_enough_to_plant()

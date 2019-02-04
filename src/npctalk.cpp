@@ -1661,11 +1661,13 @@ void talk_effect_t::set_effect( talkfunction_ptr ptr )
 
 talk_topic talk_effect_t::apply( dialogue &d ) const
 {
+    // Need to get a reference to the mission before effects are applied, because effects can remove the mission
+    mission *miss = d.beta->chatbin.mission_selected;
+
     for( const talk_effect_fun_t &effect: effects ) {
         effect( d );
     }
     d.beta->op_of_u += opinion;
-    mission *miss = d.beta->chatbin.mission_selected;
     if( miss && ( mission_opinion.trust || mission_opinion.fear ||
         mission_opinion.value || mission_opinion.anger ) ) {
         int m_value = cash_to_favor( *d.beta, miss->get_value() );

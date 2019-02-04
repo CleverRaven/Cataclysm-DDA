@@ -53,6 +53,7 @@ void clear_map()
         clear_fields( z );
     }
     wipe_map_terrain();
+    g->m.clear_traps();
     clear_creatures();
 }
 
