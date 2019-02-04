@@ -145,7 +145,8 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             r = WEATHER_FLURRIES;
         } else if( r > WEATHER_DRIZZLE ) {
             r = WEATHER_SNOW;
-        } else if( r > WEATHER_THUNDER ) { // @todo: that is always false!
+        }
+        if( r == WEATHER_SNOW && w.pressure < 960 && w.windpower > 15 ) {
             r = WEATHER_SNOWSTORM;
         }
     }
@@ -251,15 +252,17 @@ void weather_generator::test_weather() const
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
     testfile.open( "weather.output", std::ofstream::trunc );
-    testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
+    testfile << "turn;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
+             << std::endl;
 
     const time_point begin = calendar::turn;
     const time_point end = begin + 2 * calendar::year_length();
     for( time_point i = begin; i < end; i += 200_turns ) {
-        //@todo: a new random value for each call to get_weather? Is this really intended?
-        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), rand() );
-        testfile << to_turn<int>( i ) << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
-                 std::endl;
+        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
+        weather_type c =  get_weather_conditions( w );
+        weather_datum wd = weather_data( c );
+        testfile << to_turn<int>( i ) << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure <<
+                 ";" << wd.name << ";" << w.windpower << ";" << w.dirstring << std::endl;
     }
 }
 

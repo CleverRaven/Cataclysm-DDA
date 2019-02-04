@@ -52,8 +52,8 @@ enum weather_type : int {
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
     WEATHER_FLURRIES,     //!< Light snow
-    WEATHER_SNOW,         //!< Medium snow
-    WEATHER_SNOWSTORM,    //!< Heavy snow
+    WEATHER_SNOW,         //!< Medium snow glare effects
+    WEATHER_SNOWSTORM,    //!< Heavy snow glare effects, sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -94,7 +94,7 @@ struct weather_printable {
 namespace weather_effect
 {
 void none();        //!< Fallback weather.
-void glare();
+void glare( bool );
 void wet();
 void very_wet();
 void thunder();
@@ -102,8 +102,10 @@ void lightning();
 void light_acid();
 void acid();
 void flurry();      //!< Currently flurries have no additional effects.
-void snow();        //!< Currently snow has no additional effects.
-void snowstorm();   //!< Currently snowstorms have no additional effects.
+void snow();
+void sunny();
+void snow_glare();
+void snowstorm();
 } //namespace weather_effect
 
 struct weather_datum {

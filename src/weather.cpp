@@ -23,6 +23,7 @@
 #include "weather_gen.h"
 
 const efftype_id effect_glare( "glare" );
+const efftype_id effect_snow_glare( "snow_glare" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_sleep( "sleep" );
 
@@ -48,10 +49,12 @@ static bool is_player_outside()
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  */
-void weather_effect::glare()
+
+void weather_effect::glare( bool snowglare )
 {
+    season_type season = season_of_year( calendar::turn );
     if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == false &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
@@ -67,7 +70,25 @@ void weather_effect::glare()
             }
         }
     }
+    if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == true &&
+        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
+        if( !g->u.has_effect( effect_snow_glare ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 4_turns );
+            } else {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
+            }
+        } else {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
+            } else {
+                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 1_turns );
+            }
+        }
+    }
 }
+
 ////// food vs weather
 
 time_duration get_rot_since( const time_point &start, const time_point &end,
@@ -393,8 +414,11 @@ void generic_very_wet( bool acid )
 
 void weather_effect::none()      {}
 void weather_effect::flurry()    {}
-void weather_effect::snow()      {}
-void weather_effect::snowstorm() {}
+
+void weather_effect::sunny()
+{
+    glare( false );
+}
 
 /**
  * Wet.
@@ -414,6 +438,16 @@ void weather_effect::very_wet()
     generic_very_wet( false );
 }
 
+void weather_effect::snow()
+{
+    wet_player( 10 );
+    glare( true );
+}
+
+void weather_effect::snowstorm()
+{
+    wet_player( 40 );
+}
 /**
  * Thunder.
  * Flavor messages. Very wet.
