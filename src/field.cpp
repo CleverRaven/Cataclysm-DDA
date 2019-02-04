@@ -22,7 +22,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -31,6 +30,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_gen.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -635,7 +635,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         }
 
         // Bail out if we don't meet the spread chance or required density.
-        if( current_density <= 1 || rng( 1, 100 ) > percent_spread ) {
+        if( current_density <= 1 || rng( 1, ( 100 - windpower ) ) > percent_spread ) {
             return;
         }
 
@@ -736,9 +736,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
             removepoint3 = removepoint - point( 0, 1 );
         }
         // three map tiles that are facing th wind direction.
-        const maptile remove_tile = maptile_at_internal( removepoint );
-        const maptile remove_tile2 = maptile_at_internal( removepoint2 );
-        const maptile remove_tile3 = maptile_at_internal( removepoint3 );
+        const maptile remove_tile = maptile_at( removepoint );
+        const maptile remove_tile2 = maptile_at( removepoint2 );
+        const maptile remove_tile3 = maptile_at( removepoint3 );
         if( !zlevels || one_in( spread.size() ) ) {
             // Construct the destination from offset and p
             if( g->is_sheltered( p ) || windpower < 5 ) {
@@ -930,17 +930,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
                         // Entire objects for ter/frn for flags
+                        const w_point weather = *g->weather_precise;
+                        const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+                        bool sheltered = g->is_sheltered( p );
+                        int winddirection = weather.winddirection;
+                        int windpower = get_local_windpower( weather.windpower, cur_om_ter, p, winddirection, sheltered );
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
 
                         // We've got ter/furn cached, so let's use that
                         const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
-                        !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
-                        const w_point weather = *g->weather_precise;
-                        const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
-                        int winddirection = weather.winddirection;
-                        bool sheltered = g->is_sheltered( p );
-                        int windpower = get_local_windpower( weather.windpower, cur_om_ter, p, winddirection, sheltered );
+                                               !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
                         // Smoke generation probability, consumed items count
                         int smoke = 0;
                         int consumed = 0;
@@ -1024,7 +1024,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
-                                smoke += windpower;
+                                smoke += static_cast<int>( windpower / 5 );
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     destroy( p, false );
@@ -1035,7 +1035,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 4 - cur.getFieldDensity() );
                                 smoke += 2;
-                                smoke += windpower;
+                                smoke += static_cast<int>( windpower / 5 );
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     destroy( p, false );
@@ -1045,7 +1045,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
-                                smoke += windpower;
+                                smoke += static_cast<int>( windpower / 5 );
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     ter_set( p, t_dirt );
@@ -1055,7 +1055,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
-                                smoke += windpower;
+                                smoke += static_cast<int>( windpower / 5 );
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     furn_set( p, f_ash );
@@ -1093,7 +1093,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                        cur.setFieldDensity( cur.getFieldDensity() + windpower );
+                        //amplify fire growth due to wind
+                        cur.setFieldDensity( cur.getFieldDensity() + static_cast<int>( windpower / 5 ) );
                         // Lower age is a longer lasting fire
                         if( time_added != 0_turns ) {
                             cur.setFieldAge( cur.getFieldAge() - time_added );
@@ -1107,41 +1108,126 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Below we will access our nearest 8 neighbors, so let's cache them now
                         // This should probably be done more globally, because large fires will re-do it a lot
                         auto neighs = get_neighbors( p );
-
+                        // get the neighbours that are allowed due to wind direction
+                        double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+                        float fx, fy;
+                        fy = -cos( raddir );
+                        fx = sin( raddir );
+                        int roundedx;
+                        int roundedy;
+                        if( fx > 0.5 ) {
+                            roundedx = 1;
+                        } else if( fx < -0.5 ) {
+                            roundedx = -1;
+                        } else {
+                            roundedx = 0;
+                        }
+                        if( fy > 0.5 ) {
+                            roundedy = 1;
+                        } else if( fy < -0.5 ) {
+                            roundedy = -1;
+                        } else {
+                            roundedy = 0;
+                        }
+                        tripoint removepoint( p - point( roundedx, roundedy ) );
+                        tripoint removepoint2;
+                        tripoint removepoint3;
+                        if( roundedy != 0 && roundedx == 0 ) {
+                            removepoint2 = removepoint - point( 1, 0 );
+                            removepoint3 = removepoint + point( 1, 0 );
+                        } else if( roundedy == 0 && roundedx != 0 ) {
+                            removepoint2 = removepoint - point( 0, 1 );
+                            removepoint3 = removepoint + point( 0, 1 );
+                        } else if( roundedy > 0 && roundedx > 0 ) {
+                            removepoint2 = removepoint - point( 1, 0 );
+                            removepoint3 = removepoint - point( 0, 1 );
+                        } else if( roundedy < 0 && roundedx > 0 ) {
+                            removepoint2 = removepoint - point( 1, 0 );
+                            removepoint3 = removepoint + point( 0, 1 );
+                        } else if( roundedy < 0 && roundedx < 0 ) {
+                            removepoint2 = removepoint + point( 1, 0 );
+                            removepoint3 = removepoint + point( 0, 1 );
+                        } else if( roundedy > 0 && roundedx < 0 ) {
+                            removepoint2 = removepoint + point( 1, 0 );
+                            removepoint3 = removepoint - point( 0, 1 );
+                        }
+                        // three map tiles that are facing th wind direction.
+                        const maptile remove_tile = maptile_at( removepoint );
+                        const maptile remove_tile2 = maptile_at( removepoint2 );
+                        const maptile remove_tile3 = maptile_at( removepoint3 );
+                        std::vector<maptile> neighbour_vec;
+                        size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+                        for( size_t i = ( end_it + 1 ) % neighs.size() ;
+                             // Start at end_it + 1, then wrap around until i == end_it
+                             i != end_it;
+                             i = ( i + 1 ) % neighs.size() ) {
+                            const auto &neigh = neighs[i];
+                            if( ( neigh.x != remove_tile.x && neigh.y != remove_tile.y ) ||
+                                ( neigh.x != remove_tile2.x && neigh.y != remove_tile2.y ) ||
+                                ( neigh.x != remove_tile3.x && neigh.y != remove_tile3.y ) ) {
+                                neighbour_vec.push_back( neigh );
+                            }
+                        }
                         // If the flames are in a pit, it can't spread to non-pit
                         const bool in_pit = ter.id.id() == t_pit;
 
                         // Count adjacent fires, to optimize out needless smoke and hot air
                         int adjacent_fires = 0;
+
                         // If the flames are big, they contribute to adjacent flames
-                        int spreadchance = std::max( 0, windpower / 5 );
                         if( can_spread ) {
-                            if( cur.getFieldDensity() > 1 && one_in( spreadchance ) ) {
+                            if( cur.getFieldDensity() > 1 && one_in( 3 ) ) {
                                 // Basically: Scan around for a spot,
                                 // if there is more fire there, make it bigger and give it some fuel.
                                 // This is how big fires spend their excess age:
                                 // making other fires bigger. Flashpoint.
-                                const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
-                                for( size_t i = ( end_it + 1 ) % neighs.size();
-                                     i != end_it && cur.getFieldAge() < 0_turns;
-                                     i = ( i + 1 ) % neighs.size() ) {
-                                    maptile &dst = neighs[i];
-                                    auto dstfld = dst.find_field( fd_fire );
-                                    // If the fire exists and is weaker than ours, boost it
-                                    if( dstfld != nullptr &&
-                                        ( dstfld->getFieldDensity() <= cur.getFieldDensity() ||
-                                          dstfld->getFieldAge() > cur.getFieldAge() ) &&
-                                        ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
-                                        if( dstfld->getFieldDensity() < 2 ) {
-                                            dstfld->setFieldDensity( dstfld->getFieldDensity() + 1 );
+                                if( sheltered || windpower < 5 ) {
+                                    const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+                                    for( size_t i = ( end_it + 1 ) % neighs.size();
+                                         i != end_it && cur.getFieldAge() < 0_turns;
+                                         i = ( i + 1 ) % neighs.size() ) {
+                                        maptile &dst = neighs[i];
+                                        auto dstfld = dst.find_field( fd_fire );
+                                        // If the fire exists and is weaker than ours, boost it
+                                        if( dstfld != nullptr &&
+                                            ( dstfld->getFieldDensity() <= cur.getFieldDensity() ||
+                                              dstfld->getFieldAge() > cur.getFieldAge() ) &&
+                                            ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
+                                            if( dstfld->getFieldDensity() < 2 ) {
+                                                dstfld->setFieldDensity( dstfld->getFieldDensity() + 1 );
+                                            }
+
+                                            dstfld->setFieldAge( dstfld->getFieldAge() - 5_minutes );
+                                            cur.setFieldAge( cur.getFieldAge() + 5_minutes );
                                         }
 
-                                        dstfld->setFieldAge( dstfld->getFieldAge() - 5_minutes );
-                                        cur.setFieldAge( cur.getFieldAge() + 5_minutes );
+                                        if( dstfld != nullptr ) {
+                                            adjacent_fires++;
+                                        }
                                     }
+                                } else {
+                                    const size_t end_it = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
+                                    for( size_t i = ( end_it + 1 ) % neighbour_vec.size();
+                                         i != end_it && cur.getFieldAge() < 0_turns;
+                                         i = ( i + 1 ) % neighbour_vec.size() ) {
+                                        maptile &dst = neighbour_vec[i];
+                                        auto dstfld = dst.find_field( fd_fire );
+                                        // If the fire exists and is weaker than ours, boost it
+                                        if( dstfld != nullptr &&
+                                            ( dstfld->getFieldDensity() <= cur.getFieldDensity() ||
+                                              dstfld->getFieldAge() > cur.getFieldAge() ) &&
+                                            ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
+                                            if( dstfld->getFieldDensity() < 2 ) {
+                                                dstfld->setFieldDensity( dstfld->getFieldDensity() + 1 );
+                                            }
 
-                                    if( dstfld != nullptr ) {
-                                        adjacent_fires++;
+                                            dstfld->setFieldAge( dstfld->getFieldAge() - 5_minutes );
+                                            cur.setFieldAge( cur.getFieldAge() + 5_minutes );
+                                        }
+
+                                        if( dstfld != nullptr ) {
+                                            adjacent_fires++;
+                                        }
                                     }
                                 }
                             } else if( cur.getFieldAge() < 0_turns && cur.getFieldDensity() < 3 ) {
@@ -1181,7 +1267,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-
                         // Consume adjacent fuel / terrain / webs to spread.
                         // Allow raging fires (and only raging fires) to spread up
                         // Spreading down is achieved by wrecking the walls/floor and then falling
@@ -1202,67 +1287,122 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // Fueling fires above doesn't cost fuel
                             }
                         }
-
                         // Our iterator will start at end_i + 1 and increment from there and then wrap around.
                         // This guarantees it will check all neighbors, starting from a random one
-                        const size_t end_i = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
-                        for( size_t i = ( end_i + 1 ) % neighs.size();
-                             i != end_i; i = ( i + 1 ) % neighs.size() ) {
-                            if( one_in( cur.getFieldDensity() * 2 ) ) {
-                                // Skip some processing to save on CPU
-                                continue;
-                            }
-
-                            maptile &dst = neighs[i];
-                            // No bounds checking here: we'll treat the invalid neighbors as valid.
-                            // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
-                            // This will create small oddities on map edges, but nothing more noticeable than
-                            // "cut-off" that happens with bounds checks.
-
-                            field_entry *nearfire = dst.find_field( fd_fire );
-                            if( nearfire != nullptr ) {
-                                // We handled supporting fires in the section above, no need to do it here
-                                continue;
-                            }
-
-                            field_entry *nearwebfld = dst.find_field( fd_web );
-                            int spread_chance = 25 * ( cur.getFieldDensity() - 1 );
-                            if( nearwebfld != nullptr ) {
-                                spread_chance = 50 + spread_chance / 2;
-                            }
-
-                            const auto &dster = dst.get_ter_t();
-                            const auto &dsfrn = dst.get_furn_t();
-                            // Allow weaker fires to spread occasionally
-                            const int power = cur.getFieldDensity() + one_in( 5 );
-                            if( can_spread && rng( 1, 100 ) < spread_chance &&
-                                ( in_pit == ( dster.id.id() == t_pit ) ) &&
-                                (
-                                    ( power >= 3 && cur.getFieldAge() < 0_turns && one_in( 20 ) ) ||
-                                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
-                                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
-                                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                                    one_in( 5 ) )
-                                ) ) {
-                                dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
-                                tmpfld = dst.find_field( fd_fire );
-                                if( tmpfld != nullptr ) {
-                                    // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                                    tmpfld->setFieldAge( 2_minutes );
-                                    // Consume a bit of our fuel
-                                    cur.setFieldAge( cur.getFieldAge() + 1_minutes );
+                        if( sheltered || windpower < 5 ) {
+                            const size_t end_i = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+                            for( size_t i = ( end_i + 1 ) % neighs.size();
+                                 i != end_i; i = ( i + 1 ) % neighs.size() ) {
+                                if( one_in( cur.getFieldDensity() * 2 ) ) {
+                                    // Skip some processing to save on CPU
+                                    continue;
                                 }
-                                if( nearwebfld ) {
-                                    nearwebfld->setFieldDensity( 0 );
+
+                                maptile &dst = neighs[i];
+                                // No bounds checking here: we'll treat the invalid neighbors as valid.
+                                // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
+                                // This will create small oddities on map edges, but nothing more noticeable than
+                                // "cut-off" that happens with bounds checks.
+
+                                field_entry *nearfire = dst.find_field( fd_fire );
+                                if( nearfire != nullptr ) {
+                                    // We handled supporting fires in the section above, no need to do it here
+                                    continue;
+                                }
+
+                                field_entry *nearwebfld = dst.find_field( fd_web );
+                                int spread_chance = 25 * ( cur.getFieldDensity() - 1 );
+                                if( nearwebfld != nullptr ) {
+                                    spread_chance = 50 + spread_chance / 2;
+                                }
+
+                                const auto &dster = dst.get_ter_t();
+                                const auto &dsfrn = dst.get_furn_t();
+                                // Allow weaker fires to spread occasionally
+                                const int power = cur.getFieldDensity() + one_in( 5 );
+                                if( can_spread && rng( 1, 100 ) < spread_chance &&
+                                    ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                                    (
+                                        ( power >= 3 && cur.getFieldAge() < 0_turns && one_in( 20 ) ) ||
+                                        ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
+                                        ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
+                                        ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
+                                        nearwebfld || ( dst.get_item_count() > 0 &&
+                                                        flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
+                                                        one_in( 5 ) )
+                                    ) ) {
+                                    dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
+                                    tmpfld = dst.find_field( fd_fire );
+                                    if( tmpfld != nullptr ) {
+                                        // Make the new fire quite weak, so that it doesn't start jumping around instantly
+                                        tmpfld->setFieldAge( 2_minutes );
+                                        // Consume a bit of our fuel
+                                        cur.setFieldAge( cur.getFieldAge() + 1_minutes );
+                                    }
+                                    if( nearwebfld ) {
+                                        nearwebfld->setFieldDensity( 0 );
+                                    }
+                                }
+                            }
+                        } else {
+                            const size_t end_i = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
+                            for( size_t i = ( end_i + 1 ) % neighbour_vec.size();
+                                 i != end_i; i = ( i + 1 ) % neighbour_vec.size() ) {
+                                if( one_in( cur.getFieldDensity() * 2 ) ) {
+                                    // Skip some processing to save on CPU
+                                    continue;
+                                }
+
+                                maptile &dst = neighbour_vec[i];
+                                // No bounds checking here: we'll treat the invalid neighbors as valid.
+                                // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
+                                // This will create small oddities on map edges, but nothing more noticeable than
+                                // "cut-off" that happens with bounds checks.
+
+                                field_entry *nearfire = dst.find_field( fd_fire );
+                                if( nearfire != nullptr ) {
+                                    // We handled supporting fires in the section above, no need to do it here
+                                    continue;
+                                }
+
+                                field_entry *nearwebfld = dst.find_field( fd_web );
+                                int spread_chance = 25 * ( cur.getFieldDensity() - 1 );
+                                if( nearwebfld != nullptr ) {
+                                    spread_chance = 50 + spread_chance / 2;
+                                }
+
+                                const auto &dster = dst.get_ter_t();
+                                const auto &dsfrn = dst.get_furn_t();
+                                // Allow weaker fires to spread occasionally
+                                const int power = cur.getFieldDensity() + one_in( 5 );
+                                if( can_spread && rng( 1, ( 100 - windpower ) ) < spread_chance &&
+                                    ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                                    (
+                                        ( power >= 3 && cur.getFieldAge() < 0_turns && one_in( 20 ) ) ||
+                                        ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
+                                        ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
+                                        ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
+                                        nearwebfld || ( dst.get_item_count() > 0 &&
+                                                        flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
+                                                        one_in( 5 ) )
+                                    ) ) {
+                                    dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
+                                    tmpfld = dst.find_field( fd_fire );
+                                    if( tmpfld != nullptr ) {
+                                        // Make the new fire quite weak, so that it doesn't start jumping around instantly
+                                        tmpfld->setFieldAge( 2_minutes );
+                                        // Consume a bit of our fuel
+                                        cur.setFieldAge( cur.getFieldAge() + 1_minutes );
+                                    }
+                                    if( nearwebfld ) {
+                                        nearwebfld->setFieldDensity( 0 );
+                                    }
                                 }
                             }
                         }
-
                         // Create smoke once - above us if possible, at us otherwise
                         if( !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) &&
-                            rng( 0, 100 ) <= smoke &&
+                            rng( 0, ( 100 - windpower ) ) <= smoke &&
                             rng( 3, 35 ) < cur.getFieldDensity() * 10 ) {
                             bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
                             if( smoke_up ) {
@@ -1297,22 +1437,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_smoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 50, 0_turns );
+                        spread_gas( cur, p, curtype, 10, 0_turns );
                         break;
 
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 30, 0_turns );
+                        spread_gas( cur, p, curtype, 10, 0_turns );
                         break;
 
                     case fd_relax_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 25, 5_minutes );
+                        spread_gas( cur, p, curtype, 15, 5_minutes );
                         break;
 
                     case fd_fungal_haze:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 33, 5_turns );
+                        spread_gas( cur, p, curtype, 13, 5_turns );
                         if( one_in( 10 - 2 * cur.getFieldDensity() ) ) {
                             // Haze'd terrain
                             fungal_effects( *g, g->m ).spread_fungus( p );
@@ -1322,7 +1462,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_toxic_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 50, 3_minutes );
+                        spread_gas( cur, p, curtype, 30, 3_minutes );
                         break;
 
                     case fd_cigsmoke:
@@ -1378,7 +1518,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         dirty_transparency_cache = true;
                         int extra_radiation = rng( 0, cur.getFieldDensity() );
                         adjust_radiation( p, extra_radiation );
-                        spread_gas( cur, p, curtype, 50, 1_minutes );
+                        spread_gas( cur, p, curtype, 15, 1_minutes );
                         break;
                     }
 
