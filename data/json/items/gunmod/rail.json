@@ -83,6 +83,42 @@
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
+    "id": "small_rail",
+    "type": "GUNMOD",
+    "name": "small sight rail",
+    "description": "A small rail, for attaching scopes and the like. This one can only fit smaller sights."
+    "weight": 30,
+    "volume": "75ml",
+    "rail_size": "small",
+    "price": 3000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "rail",
+    "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "sights", 1 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
+  },
+  {
+    "id": "med_rail",
+    "type": "GUNMOD",
+    "name": "medium sight rail",
+    "description": "A medium sized rail, for attaching scopes and the like. This one fits medium sized sights."
+    "weight": 30,
+    "volume": "75ml",
+    "rail_size": "medium",
+    "price": 3000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "rail",
+    "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "sights", 1 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
+  },
+  {
     "id": "stabilizer",
     "type": "GUNMOD",
     "name": "gyroscopic stabilizer",
