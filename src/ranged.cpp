@@ -868,9 +868,9 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-            { accuracy_critical, '*', "light_green", translate_marker_context( "aim_confidence", "Great" ) },
-            { accuracy_standard, '+', "white", translate_marker_context( "aim_confidence", "Normal" ) },
-            { accuracy_grazing, '|', "yellow", translate_marker_context( "aim_confidence", "Graze" ) }
+            { accuracy_critical, '*', "green", translate_marker_context( "aim_confidence", "Great" ) },
+            { accuracy_standard, '+', "light_gray", translate_marker_context( "aim_confidence", "Normal" ) },
+            { accuracy_grazing, '|', "magenta", translate_marker_context( "aim_confidence", "Graze" ) }
         }
     };
 
@@ -915,9 +915,9 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
     static const std::vector<confidence_rating> confidence_config_critter = {{
-            { accuracy_critical, '*', "light_green", translate_marker_context( "aim_confidence", "Great" ) },
-            { accuracy_standard, '+', "white", translate_marker_context( "aim_confidence", "Normal" ) },
-            { accuracy_grazing, '|', "yellow", translate_marker_context( "aim_confidence", "Graze" ) }
+            { accuracy_critical, '*', "green", translate_marker_context( "aim_confidence", "Great" ) },
+            { accuracy_standard, '+', "light_gray", translate_marker_context( "aim_confidence", "Normal" ) },
+            { accuracy_grazing, '|', "magenta", translate_marker_context( "aim_confidence", "Graze" ) }
         }
     };
     static const std::vector<confidence_rating> confidence_config_object = {{
