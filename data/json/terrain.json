@@ -57,7 +57,7 @@
     "symbol": "LINE_OXOX",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -76,7 +76,7 @@
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 80,
@@ -113,7 +113,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 90,
@@ -151,7 +151,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 120,
@@ -867,7 +867,7 @@
     "symbol": "LINE_OXOX",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -886,7 +886,7 @@
     "symbol": "LINE_OXOX",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 40,
@@ -923,7 +923,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_TO_WALL", "WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_TO_WALL", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 35,
       "str_max": 150,
@@ -941,7 +941,7 @@
     "symbol": "+",
     "color": "light_red",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 24,
       "str_max": 150,
@@ -1001,7 +1001,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_red",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 12,
@@ -1024,7 +1024,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_red",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 8,
@@ -1071,7 +1071,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -1091,7 +1091,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "roof": "t_rock_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
       "str_max": 300,
@@ -1111,7 +1111,7 @@
     "color": "cyan",
     "move_cost": 0,
     "roof": "t_metal_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -1134,7 +1134,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -1155,7 +1155,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "AUTO_WALL_SYMBOL" ],
+    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -1176,7 +1176,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
       "str_max": 210,
@@ -1196,7 +1196,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_glass_shutter_open",
     "bash": {
       "str_min": 60,
@@ -1221,7 +1221,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "close": "t_reinforced_glass_shutter",
     "bash": {
       "str_min": 40,
@@ -1247,7 +1247,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_door_glass_o",
     "bash": {
       "str_min": 40,
@@ -1374,7 +1374,7 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_o",
     "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
     "bash": {
@@ -1420,7 +1420,7 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "door_peephole",
     "open": "t_door_o_peep",
     "deconstruct": {
@@ -1638,7 +1638,7 @@
     "color": "red",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_rdoor_o",
     "deconstruct": { "ter_set": "t_door_c", "items": [ { "item": "2x4", "count": 24 }, { "item": "nail", "charges": [ 36, 48 ] } ] },
     "bash": {
@@ -1725,7 +1725,7 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "BLOCK_WIND" ],
     "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
@@ -1747,7 +1747,16 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED" ],
+    "flags": [
+      "FLAMMABLE_ASH",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "REDUCE_SCENT",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_DOOR",
+      "LOCKED",
+      "BLOCK_WIND"
+    ],
     "examine_action": "locked_object",
     "open": "t_door_o",
     "bash": {
@@ -1770,7 +1779,16 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED" ],
+    "flags": [
+      "FLAMMABLE_ASH",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "REDUCE_SCENT",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_DOOR",
+      "LOCKED",
+      "BLOCK_WIND"
+    ],
     "open": "t_door_o_peep",
     "examine_action": "door_peephole",
     "bash": {
@@ -1798,7 +1816,7 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED" ],
+    "flags": [ "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "BLOCK_WIND" ],
     "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
@@ -1851,7 +1869,7 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT", "BLOCK_WIND" ],
     "open": "t_door_makeshift_o",
     "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "2x4", "count": 6 }, { "item": "rope_makeshift_6", "count": 2 } ] },
     "bash": {
@@ -2168,7 +2186,7 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -2215,7 +2233,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "examine_action": "door_peephole",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -2240,7 +2258,7 @@
     "color": "brown",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 25,
       "str_max": 60,
@@ -2309,7 +2327,7 @@
     "color": "cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
     "bash": {
       "str_min": 80,
@@ -2389,7 +2407,7 @@
     "color": "cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o_peep",
     "examine_action": "door_peephole",
     "bash": {
@@ -2431,7 +2449,7 @@
     "color": "cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2451,7 +2469,7 @@
     "color": "cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "examine_action": "locked_object",
     "open": "t_door_metal_o",
     "bash": {
@@ -2540,7 +2558,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_glass_o",
     "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -2630,7 +2648,7 @@
     "description": "A sliding door of frosted white glass.",
     "symbol": "+",
     "color": "white",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_glass_frosted_o",
     "copy-from": "t_door_glass_c"
   },
@@ -2719,7 +2737,7 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -2740,7 +2758,7 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2767,7 +2785,8 @@
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
       "REDUCE_SCENT",
-      "CONNECT_TO_WALL"
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND"
     ],
     "examine_action": "curtains",
     "close": "t_curtains",
@@ -2806,7 +2825,16 @@
     "symbol": "\"",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW",
+      "REDUCE_SCENT",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND"
+    ],
     "examine_action": "locked_object",
     "open": "t_window_no_curtains_open",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
@@ -2851,7 +2879,7 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2872,7 +2900,7 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "bash": {
       "str_min": 6,
@@ -2925,7 +2953,15 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "REDUCE_SCENT",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND"
+    ],
     "open": "t_window_domestic",
     "examine_action": "curtains",
     "deconstruct": {
@@ -2962,7 +2998,16 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ALARMED", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "ALARMED",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND"
+    ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -2981,7 +3026,7 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3044,7 +3089,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -3064,7 +3109,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -3084,7 +3129,7 @@
     "symbol": "#",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -3102,7 +3147,7 @@
     "symbol": "#",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -3120,7 +3165,7 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost": 0,
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 18,
       "str_max": 40,
@@ -3138,7 +3183,7 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost": 0,
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 18,
       "str_max": 40,
@@ -3200,7 +3245,7 @@
     "color": "light_green",
     "move_cost": 0,
     "roof": "t_rock_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -3219,7 +3264,7 @@
     "color": "light_red",
     "move_cost": 0,
     "roof": "t_rock_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -3238,7 +3283,7 @@
     "color": "light_blue",
     "move_cost": 0,
     "roof": "t_rock_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -3256,7 +3301,7 @@
     "symbol": "#",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE", "BLOCK_WIND" ],
     "roof": "t_rock_floor",
     "bash": {
       "str_min": 100,
@@ -3282,7 +3327,7 @@
     "//": "use pillars, 't_column', as a compliment.",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "roof": "t_rock_floor",
     "connects_to": "WALL",
     "bash": {
@@ -6808,7 +6853,7 @@
     "symbol": "LINE_OXOX",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -6827,7 +6872,7 @@
     "symbol": "LINE_OXOX",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -6846,7 +6891,7 @@
     "symbol": "LINE_OXOX",
     "color": "blue",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -6865,7 +6910,7 @@
     "symbol": "LINE_OXOX",
     "color": "green",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -6884,7 +6929,7 @@
     "symbol": "LINE_OXOX",
     "color": "yellow",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -6903,7 +6948,7 @@
     "symbol": "LINE_OXOX",
     "color": "magenta",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -6920,7 +6965,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 80,

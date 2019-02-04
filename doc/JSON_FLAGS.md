@@ -65,6 +65,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
+- ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`

@@ -5191,8 +5191,9 @@ void vehicle::update_time( const time_point &update_to )
         //Wind Turbine less efficient in forests
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
-        int windpower = weatherPoint.windpower;
-        windpower = get_local_windpower( windpower, cur_om_ter, false );
+        double windpower = weatherPoint.windpower;
+        windpower = get_local_windpower( windpower, cur_om_ter, g->m.getabs( global_pos3() ),
+                                         weatherPoint.winddirection, false );
         double intensity = windpower / to_turns<double>( elapsed );
         int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {
