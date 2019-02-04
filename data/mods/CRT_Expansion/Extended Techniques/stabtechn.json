@@ -1,0 +1,91 @@
+[
+    {
+        "type" : "technique",
+        "id" : "THRUST",
+        "name" : "THRUST",
+        "min_melee" : 1,
+        "unarmed_allowed" : false,
+        "melee_allowed" : true,
+        "crit_tec": false,
+        "weighting" : 1,
+        "mult_bonuses" : [
+            ["damage", "stab", 1.10]
+        ],
+        "flat_bonuses": [
+            ["damage", "stab", "str", 0.10],
+            ["damage", "stab", "per", 0.20]
+        ],
+        "messages" : [
+            "You lean forward and stab at %s",
+            "<npcname> stabs into %s flesh"
+        ],
+        "description" : "110% Stab damage, Strength (E) and Perception (D) provides bonus damage, min 1 melee"
+    },{
+        "type" : "technique",
+        "id" : "LUNGE",
+        "name" : "LUNGE",
+        "min_melee" : 2,
+        "unarmed_allowed" : false,
+        "melee_allowed" : true,
+        "crit_tec": true,
+        "weighting" : 2,
+        "mult_bonuses" : [
+            ["damage", "stab", 1.2]
+        ],
+        "flat_bonuses": [
+            ["damage", "stab", "str", 0.20],
+            ["damage", "stab", "per", 0.20]
+        ],
+        "messages" : [
+            "You explosively jab at %s",
+            "<npcname> violently jabs at %s"
+        ],
+        "description" : "Crit only, 120% Stab damage, Crit only, Strength (D) and Perception (D) provides bonus damage, min 2 melee"
+    },{
+        "type" : "technique",
+        "id" : "PROD",
+        "name" : "PROD",
+        "min_melee" : 3,
+        "unarmed_allowed" : false,
+        "melee_allowed" : true,
+        "crit_tec": false,
+        "weighting" : 1,
+        "mult_bonuses" : [
+            ["movecost", 0.66],
+            ["damage", "stab", 0.70]
+        ],
+        "flat_bonuses": [
+            ["damage", "stab", "str", 0.15],
+            ["damage", "stab", "per", 0.25],
+            ["movecost", "dex", 0.25]
+        ],
+        "messages" : [
+            "You prod at %s defensively",
+            "<npcname> prods at %s "
+        ],
+        "description" : "66% movecost, 70% Stab damage, Strength (E) and Perception (C) provides bonus damage, Dexterity (C) reduces action cost, min 3 melee"
+    },{
+        "type" : "technique",
+        "id" : "PROBE",
+        "name" : "PROBE",
+        "min_unarmed" : 3,
+        "unarmed_allowed" : false,
+        "melee_allowed" : true,
+        "crit_tec": false,
+        "weighting" : 1,
+        "mult_bonuses" : [
+            ["movecost", 0.80],
+            ["damage", "stab", 0.85]
+        ],
+        "flat_bonuses": [
+            ["damage", "stab", "str", 0.20],
+            ["damage", "stab", "per", 0.30],
+            ["arpen", "stab", "per", 0.1]
+        ],
+        "messages" : [
+            "You probe %s for openings",
+            "<npcname> probe %s "
+        ],
+        "description" : "85% Stab damage, Strength (D) and Perception (C) provides bonus damage and the latter also provides armor pierce (E), min 3 melee"
+    }
+]    
