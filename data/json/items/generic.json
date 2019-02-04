@@ -1153,6 +1153,7 @@
     "price": 120000,
     "material": "glass",
     "weight": 340,
+    "qualities": [ [ "FIRESTARTING", 1 ] ],
     "volume": 0,
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },

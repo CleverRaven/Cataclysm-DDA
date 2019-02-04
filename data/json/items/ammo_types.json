@@ -12,6 +12,12 @@
     "default": "700nx"
   },
   {
+    "id": "tinder",
+    "name": "tinder",
+    "default": "tinder",
+    "type": "ammunition_type"
+  },
+  {
     "type": "ammunition_type",
     "id": "50",
     "name": ".50 BMG",

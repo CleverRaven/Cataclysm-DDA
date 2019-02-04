@@ -60,6 +60,16 @@
   },
   {
     "type": "tool_quality",
+    "id": "FIRESTARTING",
+    "name": "fire starting"
+  },
+  {
+    "type": "tool_quality",
+    "id": "FIRE_ACCELERANT",
+    "name": "accelerate fire starting"
+  },
+  {
+    "type": "tool_quality",
     "id": "BOIL",
     "name": "boiling"
   },

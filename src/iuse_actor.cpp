@@ -1028,12 +1028,6 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( pos ) );
-    const w_point weatherPoint = *g->weather_precise;
-    bool sheltered = g->is_sheltered( pos );
-    double windpower = weatherPoint.windpower;
-    windpower = get_local_windpower( windpower, cur_om_ter, g->m.getabs( pos ),
-                                     weatherPoint.winddirection, sheltered );
     if( pos == p.pos() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
@@ -1066,20 +1060,6 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             !query_yn(
                 _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
             return false;
-        }
-        if( !sheltered && windpower > 15 ) {
-            if( one_in( std::max( 2, ( 2 + p.get_skill_level( skill_survival ) ) - static_cast<int>
-                                  ( windpower / 4 ) ) ) ) {
-                p.add_msg_if_player( m_info, _( "The wind extinguishes the flame!" ) );
-                return false;
-            }
-        }
-        if( !sheltered && ( g->weather == WEATHER_RAINY || g->weather == WEATHER_THUNDER ||
-                            g->weather == WEATHER_LIGHTNING || g-> weather == WEATHER_SNOWSTORM ) ) {
-            if( one_in( ( 2 + p.get_skill_level( skill_survival ) ) ) ) {
-                p.add_msg_if_player( m_info, _( "The precipitation extinguishes the flame!" ) );
-                return false;
-            }
         }
         return true;
     } else {
@@ -1157,28 +1137,105 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     if( t ) {
         return 0;
     }
-
     tripoint pos = spos;
-    float light = light_mod( pos );
     if( !prep_firestarter_use( p, pos ) ) {
         return 0;
     }
-
+    int firestart_level = it.get_quality( quality_id( "FIRESTARTING" ) );
+    const time_point update_to = calendar::turn;
+    const time_point update_from = calendar::turn - DAYS( 1 );
+    // get the general wetness of this area from history of rain
+    bool sheltered = g->is_sheltered( pos );
+    auto accum_weather = sum_conditions( update_from, update_to, pos );
+    int wetness = 1;
+    if( !sheltered ) {
+        wetness =  std::max( 1, static_cast<int>( accum_weather.rain_amount / 7000 ) );
+    }
+    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( pos ) );
+    const w_point weatherPoint = *g->weather_precise;
+    double windpower = weatherPoint.windpower;
+    windpower = get_local_windpower( windpower, cur_om_ter, pos,
+                                     weatherPoint.winddirection, sheltered );
+    float light = light_mod( pos );
     double skill_level = p.get_skill_level( skill_survival );
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
-    const int moves_base = moves_cost_by_fuel( pos );
+    int moves_base = moves_cost_by_fuel( pos );
+    int environment_modifier = 1;
+    if( !sheltered && ( g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_FLURRIES ) ) {
+        wetness += 2;
+    } else if( !sheltered && ( g->weather == WEATHER_RAINY || g->weather == WEATHER_SNOWSTORM ||
+                               g->weather == WEATHER_SNOW || g->weather == WEATHER_THUNDER || g->weather == WEATHER_LIGHTNING ) ) {
+        wetness += 5;
+    }
+    if( !sheltered ) {
+        environment_modifier += std::max( 1, static_cast<int>( windpower / 2 ) );
+        environment_modifier *= wetness;
+    }
+    // Firestarting quality affects time taken
+    environment_modifier = std::max( 1, static_cast<int>( environment_modifier / firestart_level ) );
     const int min_moves = std::min<int>( moves_base,
                                          sqrt( 1 + moves_base / to_moves<int>( 1_turns ) ) * to_moves<int>( 1_turns ) );
-    const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
+    int moves = std::max<int>( min_moves,
+                               moves_base * moves_modifier * environment_modifier ) / light;
+    //its not possible even with accelerant.
+    if( moves > to_moves<int>( 120_minutes ) ) {
+        p.add_msg_if_player( m_warning,
+                             ( "Starting a fire with your skills and tools, will be impossible, in these conditions." ) );
+        return 0;
+    }
+    int fuelquality = 1;
+    const inventory &crafting_inv = p.crafting_inventory();
+    // do they want to use napalm/diesel/tinder to help?
+    if( crafting_inv.has_quality( quality_id( "FIRE_ACCELERANT" ) ) ) {
+        if( query_yn( _( "Do you want to use accelerant?" ) ) ) {
+            std::vector<item *> fuel_inv = p.items_with( []( const item & itm ) {
+                return itm.has_quality( quality_id( "FIRE_ACCELERANT" ) );
+            } );
+            int i = 0;
+            uilist selection_menu;
+            selection_menu.text = string_format( _( "Select an accelerant." ) );
+            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+            for( auto iter : fuel_inv ) {
+                if( !iter->is_container() ) {
+                    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
+                }
+            }
+            selection_menu.selected = 1;
+            selection_menu.query();
+            auto index = selection_menu.ret;
+            if( index == 0 || index == UILIST_CANCEL ) {
+                return 0;
+            }
+            auto selected_tool = fuel_inv[index];
+            fuelquality = selected_tool->get_quality( quality_id( "FIRE_ACCELERANT" ) );
+            if( selected_tool->is_container() ) {
+                item contents = selected_tool->contents.front();
+                contents.mod_charges( -10 );
+            } else {
+                selected_tool->mod_charges( -10 );
+            }
+        }
+    }
+    moves = static_cast<int>( moves / fuelquality );
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
         static const std::string sun_msg =
             _( "If the current weather holds, it will take around %d minutes to light a fire." );
+        static const std::string wet_msg =
+            _( "Everything is soaking wet! this will be difficult to set on fire." );
+        static const std::string wind_msg =
+            _( "The wind is making it hard to keep a spark going, this will be difficult to set on fire." );
         static const std::string normal_msg =
-            _( "At your skill level, it will take around %d minutes to light a fire." );
+            _( "At your skill level, and with these conditions, it will take around %d minutes to light a fire." );
         p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
                              moves / to_moves<int>( 1_minutes ) );
+        if( wetness > 10 ) {
+            p.add_msg_if_player( m_info, ( wet_msg ).c_str() );
+        }
+        if( windpower > 10 ) {
+            p.add_msg_if_player( m_info, ( wind_msg ).c_str() );
+        }
     } else if( moves < to_moves<int>( 2_turns ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
@@ -1189,7 +1246,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
                        it.tname() );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.placement = pos;
-    p.practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
+    p.practice( skill_survival, moves_modifier + moves_cost_fast / 200 + 2, 5 );
     return it.type->charges_to_use();
 }
 

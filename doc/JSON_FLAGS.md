@@ -1005,6 +1005,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIRECRACKER_ACT``` The saddest Fourth of July.
 - ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
 - ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
+- ```FIRE_ACCELERANT``` this will speed up firestarting activities.
 - ```FLASHBANG``` Pull the pin on a flashbang.
 - ```GEIGER``` Detect local radiation levels.
 - ```GRANADE``` Pull the pin on Granade.
@@ -1012,6 +1013,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```GRENADE``` Pull the pin on a grenade.
 - ```HACKSAW``` Cut metal into chunks.
 - ```HAMMER``` Pry boards off of windows, doors and fences.
+- ```FIRESTARTING``` This item can start fires.
 - ```HEATPACK``` Activate the heatpack and get warm.
 - ```HEAT_FOOD``` Heat food around fires.
 - ```HOTPLATE``` Use the hotplate.
