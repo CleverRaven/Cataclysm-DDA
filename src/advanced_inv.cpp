@@ -1574,6 +1574,9 @@ void advanced_inventory::display()
             if( !query_destination( destarea ) ) {
                 continue;
             }
+            // Not necessarily equivalent to spane.in_vehicle() or dpane.in_vehicle() if using AIM_ALL
+            bool from_vehicle = sitem->from_vehicle;
+            bool to_vehicle = panes[dest].in_vehicle();
             // AIM_ALL should disable same area check and handle it with proper filtering instead.
             // This is a workaround around the lack of vehicle location info in
             // either aim_location or advanced_inv_listitem.
@@ -1598,7 +1601,7 @@ void advanced_inventory::display()
             assert( amount_to_move > 0 );
             if( destarea == AIM_CONTAINER ) {
                 if( !move_content( *sitem->items.front(),
-                                   *squares[destarea].get_container( dpane.in_vehicle() ) ) ) {
+                                   *squares[destarea].get_container( to_vehicle ) ) ) {
                     redraw = true;
                     continue;
                 }
@@ -1647,26 +1650,26 @@ void advanced_inventory::display()
 
                 if( destarea == AIM_INVENTORY ) {
                     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    g->u.activity.values.push_back( from_vehicle );
                 } else if( destarea == AIM_WORN ) {
                     g->u.assign_activity( activity_id( "ACT_WEAR" ) );
                     // Wearing from map/vehicle not inventory
                     g->u.activity.values.push_back( false );
-                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    g->u.activity.values.push_back( from_vehicle );
                 } else { // Vehicle and map destinations are handled similarly.
 
                     g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
                     // store whether the source is from a vehicle (first entry)
-                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    g->u.activity.values.push_back( from_vehicle );
                     // store whether the destination is a vehicle
-                    g->u.activity.values.push_back( dpane.in_vehicle() );
+                    g->u.activity.values.push_back( to_vehicle );
                     // Stash the destination
                     g->u.activity.coords.push_back( squares[destarea].off );
                 }
                 g->u.activity.placement = squares[srcarea].off;
 
                 std::list<item>::iterator begin, end;
-                if( spane.in_vehicle() ) {
+                if( from_vehicle ) {
                     begin = squares[srcarea].veh->get_items( squares[srcarea].vstor ).begin();
                     end = squares[srcarea].veh->get_items( squares[srcarea].vstor ).end();
                 } else {
