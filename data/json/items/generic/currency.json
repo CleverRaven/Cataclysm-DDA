@@ -10,7 +10,7 @@
     "color": "white",
     "symbol": "$",
     "material": [ "paper" ],
-    "volume": "2 mL"
+    "volume": "2ml"
   },
   {
     "type": "GENERIC",
@@ -20,9 +20,9 @@
     "price": 5,
     "weight": 2,
     "to_hit": -3,
-    "color": "orange",
+    "color": "brown",
     "symbol": "$",
     "material": [ "copper" ],
-    "volume": "2 mL"
+    "volume": "2ml"
   }
 ]
