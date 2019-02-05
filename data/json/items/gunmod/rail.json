@@ -113,7 +113,25 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "rail",
-    "mod_targets": [ "pistol" ],
+    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "sights", 1 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
+  },
+  {
+    "id": "large_rail",
+    "type": "GUNMOD",
+    "name": "large sight rail",
+    "description": "A large sized rail, for attaching scopes and the like. This one fits large sized sights."
+    "weight": 50,
+    "volume": "150ml",
+    "rail_size": "large",
+    "price": 3000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "rail",
+    "mod_targets": [ "rifle", "crossbow", ],
     "min_skills": [ [ "gun", 1 ] ],
     "add_mod": [ [ "sights", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
