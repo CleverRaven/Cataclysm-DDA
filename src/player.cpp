@@ -6640,8 +6640,8 @@ void player::apply_wetness_morale( int temperature )
             morale_effect = -1;
         }
     }
-
-    add_morale( MORALE_WET, morale_effect, total_morale, 1_minutes, 1_minutes, true );
+    // 11_turns because decay is applied in 10_turn increments
+    add_morale( MORALE_WET, morale_effect, total_morale, 11_turns, 11_turns, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
