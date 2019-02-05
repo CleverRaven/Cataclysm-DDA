@@ -122,7 +122,7 @@
   {
     "type": "AMMO",
     "id": "arrow_wood_heavy",
-    "price": 400
+    "price": 400,
     "name": "tipped simple wooden arrow",
     "symbol": "=",
     "color": "green",
@@ -149,11 +149,11 @@
     "description": "A simple fletched steel arrow shaft with a flattened and sharpened tip.  Stands a somewhat low chance of remaining intact once fired.",
     "material": "steel",
     "volume": 1,
-    "weight": 65
+    "weight": 65,
     "bashing": 2,
     "ammo_type": "arrow",
-    "pierce": 1
-    "dispersion": 100
+    "pierce": 1,
+    "dispersion": 100,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_20]
