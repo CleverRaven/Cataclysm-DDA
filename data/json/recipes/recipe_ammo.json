@@ -153,53 +153,13 @@
     ]
 },{
   "type" : "recipe",
-  "result" : "arrow_field_point_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
-  "difficulty" : 3,
-  "time" : 11000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
-  "qualities":[
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ],
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ],
-      [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result" : "arrow_small_game_fletched",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "survival", 1 ],
-  "difficulty" : 1,
-  "time" : 11000,
+  "difficulty" : 3,
+  "time" : 15000,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1], [ "book_archery", 2]],
   "qualities":[
@@ -217,16 +177,6 @@
       [ "bee_sting", 1 ]
     ],
     [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ],
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ],
-      [ "sharp_rock", 1 ]
-    ],
-    [
       [ "fletching", 1, "LIST" ]
     ]
   ]
@@ -238,30 +188,18 @@
   "skill_used" : "fabrication",
   "skills_required": [ "survival", 2 ],
   "difficulty" : 1,
-  "time" : 14000,
+  "time" : 15000,
   "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 1 ]],
   "qualities":[
     {"id":"CUT","level":1}
   ],
-  "tools" : [
-    [
-      [ "fire", -1 ]
-    ]
-  ],
   "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 10, "LIST" ]
-    ],
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
       [ "2x4", 1 ],
       [ "bee_sting", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -305,14 +243,19 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
-  "difficulty" : 3,
-  "time" : 14000,
+  "skills_required": [[ "archery", 4 ], [ "survival", 1 ]],
+  "using": [ [ "forging_standard", 1 ] ],
+  "difficulty" : 5,
+  "time" : 30000,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1}
+  "qualities": [
+    {"id":"HAMMER","level":2},
+    {"id":"CUT","level":1},
+    { "id": "ANVIL", "level": 3 }
+  ],
+   "tools": [
+    [ [ "tongs", -1 ] ]
   ],
   "components" : [
     [
@@ -320,8 +263,83 @@
       [ "filament", 20, "LIST" ]
     ],
     [
-      [ "steel_chunk", 1 ],
-      [ "scrap", 3 ]
+      [ "steel_tiny", 1, "LIST" ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
+    ],
+    [
+      [ "fletching", 1, "LIST" ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "arrow_field_point_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [[ "archery", 4 ], [ "survival", 1 ]],
+  "using": [ [ "forging_standard", 1 ] ],
+  "difficulty" : 5,
+  "time" : 30000,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "qualities": [
+    {"id":"HAMMER","level":2},
+    {"id":"CUT","level":1},
+    { "id": "ANVIL", "level": 3 }
+  ],
+   "tools": [
+    [ [ "tongs", -1 ] ]
+  ],
+  "components" : [
+    [
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
+    ],
+    [
+      [ "steel_tiny", 1, "LIST" ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
+    ],
+    [
+      [ "fletching", 1, "LIST" ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "arrow_heavy_field_point_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [[ "archery", 4 ], [ "survival", 1 ]],
+  "using": [ [ "forging_standard", 1 ] ],
+  "difficulty" : 5,
+  "time" : 30000,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "qualities": [
+    {"id":"HAMMER","level":2},
+    {"id":"CUT","level":1},
+    { "id": "ANVIL", "level": 3 }
+  ],
+   "tools": [
+    [ [ "tongs", -1 ] ]
+  ],
+  "components" : [
+    [
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
+    ],
+    [
+      [ "steel_tiny", 1, "LIST" ]
     ],
     [
       [ "stick", 1 ],
@@ -354,8 +372,8 @@
       [ "filament", 10, "LIST" ]
     ],
     [
-      [ "scrap", 6 ],
-      [ "steel_chunk", 2 ]
+      [ "wire", 2 ],
+      [ "pipe", 1 ]
     ],
     [
       [ "fletching", 1, "LIST" ]
@@ -368,7 +386,7 @@
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [[ "survival", 3 ], [ "archery", 1 ]],
-  "difficulty" : 4,
+  "difficulty" : 3,
   "time" : 20000,
   "autolearn" : true,
   "qualities":[
@@ -383,10 +401,10 @@
       [ "filament", 10, "LIST" ]
     ],
     [
-      [ "stick", 2 ],
-      [ "broom", 2 ],
-      [ "2x4", 2 ],
-      [ "bee_sting", 2 ]
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
     ],
     [
       [ "fletching", 1, "LIST" ]
@@ -394,13 +412,13 @@
   ]
 },{
   "type" : "recipe",
-  "result" : "arrow_heavy_field_point_fletched",
+  "result" : "arrow_wood_heavy",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [[ "archery", 3 ], [ "survival", 1]],
   "difficulty" : 4,
-  "time" : 17000,
+  "time" : 20000,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
   "qualities":[
@@ -427,124 +445,6 @@
       [ "scrap", 2 ],
       [ "nail", 10 ],
       [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_wood_heavy",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1]],
-  "difficulty" : 5,
-  "time" : 18000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 3 ]],
-  "qualities" : [
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1}
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "steel_chunk", 1 ],
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "stick", 2 ],
-      [ "broom", 2 ],
-      [ "2x4", 2 ],
-      [ "bee_sting", 2 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_metal",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
-  "difficulty" : 5,
-  "time" : 20000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 4 ]],
-  "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "scrap", 9 ],
-      [ "steel_chunk", 3 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_metal_bodkin",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
-  "difficulty" : 5,
-  "time" : 20000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 4 ]],
-  "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "scrap", 9 ],
-      [ "steel_chunk", 3 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_metal_target",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
-  "difficulty" : 5,
-  "time" : 20000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 4 ]],
-  "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "scrap", 9 ],
-      [ "steel_chunk", 3 ]
     ],
     [
       [ "fletching", 1, "LIST" ]
