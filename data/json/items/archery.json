@@ -43,7 +43,7 @@
     "type": "AMMO",
     "id": "arrow_small_game_fletched",
     "price": 300,
-    "name": "blunt simple wooden arrow",
+    "name": "simple wooden small game arrow",
     "symbol": "=",
     "color": "green",
     "description": "A simple fletched wooden arrow shaft with a blunted tip.  Useful for hunting small woodland creatures without splattering them all over the ground.  Stands a low chance of remaining intact once fired.",
@@ -117,13 +117,13 @@
     "dispersion": 130,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_35" ]
+    "effects": [ "RECOVER_35", "NOGIB" ]
   },
   {
     "type": "AMMO",
     "id": "arrow_wood_heavy",
     "price": 400,
-    "name": "tipped simple wooden arrow",
+    "name": "makeshift wooden arrow",
     "symbol": "=",
     "color": "green",
     "description": "A simple fletched wooden arrow shaft with a makeshift arrowhead.  Stands a low chance of remaining intact once fired.",
@@ -761,7 +761,7 @@
     "type": "AMMO",
     "symbol": "=",
     "color": "green",
-    "name": "rubber blunt arrow",
+    "name": "wooden rubber blunt arrow",
     "description": "A fletched wooden arrow shaft with a blunt rubber tip.  Can stun weaker enemies.  Stands a good chance of remaining intact once fired.",
     "price": 500,
     "material": [ "wood", "plastic" ],
