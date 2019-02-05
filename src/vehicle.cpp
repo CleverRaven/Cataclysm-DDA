@@ -5186,9 +5186,10 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            if( g->is_sheltered( global_part_pos3( part ) ) ) {
                 continue;
             }
+
             windpower = get_local_windpower( basewindpower, cur_om_ter, global_part_pos3( part ),
                                              weatherPoint.winddirection, false );
             if( windpower <= ( basewindpower / 10 ) ) {
