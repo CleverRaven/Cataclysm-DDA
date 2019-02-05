@@ -147,6 +147,25 @@
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
+    "id": "sniper_scope",
+    "type": "GUNMOD",
+    "name": "sniper's scope",
+    "description": "A very large sight, this scope has a range of nearly 4000",
+    "weight": 750,
+    "volume": 3.5,
+    "price": 78000,
+    "material": [ "aluminum", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "med_rail" ],
+    "install_time": 50000,
+    "sight_dispersion": -2,
+    "aim_speed": +10,
+    "min_skills": [ [ "weapon", 4 ], [ "gun", 4 ] ],
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+  },
+  {
     "id": "acog_scope",
     "type": "GUNMOD",
     "name": "ACOG scope",
