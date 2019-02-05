@@ -89,14 +89,12 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     assert( line != nullptr );
     assert( funcname != nullptr );
 
-    if( test_mode ) {
-        test_dirty = true;
-        std::cerr << filename << ":" << line << " [" << funcname << "] " << text << std::endl;
-        return;
-    }
-
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
                                 << text << std::flush;
+
+    if( test_mode ) {
+        return;
+    }
 
     std::string msg_key( filename );
     msg_key += line;
