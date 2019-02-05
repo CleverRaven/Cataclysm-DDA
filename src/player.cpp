@@ -6737,6 +6737,11 @@ void player::rem_morale(morale_type type, const itype* item_type)
     morale->remove( type, item_type );
 }
 
+void player::clear_morale()
+{
+    morale->clear();
+}
+
 bool player::has_morale_to_read() const
 {
     return get_morale_level() >= -40;
