@@ -200,7 +200,7 @@
     "dispersion": 65,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_30" ]
+    "effects": [ "RECOVER_40" ]
   },
   {
     "type": "AMMO",
@@ -221,7 +221,7 @@
     "dispersion": 70,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_35", "NOGIB" ]
+    "effects": [ "RECOVER_45", "NOGIB" ]
   },
   {
     "type": "AMMO",
