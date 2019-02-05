@@ -1378,6 +1378,8 @@ class player : public Character
         void complete_disassemble( int item_pos, const tripoint &loc,
                                    bool from_ground, const recipe &dis );
 
+        void favorite( int pos );
+
         // yet more crafting.cpp
         const inventory &crafting_inventory(); // includes nearby items
         void invalidate_crafting_inventory();

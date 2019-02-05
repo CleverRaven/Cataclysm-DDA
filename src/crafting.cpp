@@ -1255,6 +1255,12 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     return true;
 }
 
+void player::favorite( int fav_pos )
+{
+    item &obj = i_at( fav_pos );
+    obj.is_favorite = !obj.is_favorite;
+}
+
 void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values

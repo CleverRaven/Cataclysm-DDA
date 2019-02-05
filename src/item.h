@@ -1870,6 +1870,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        bool is_favorite = false;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

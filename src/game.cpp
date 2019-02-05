@@ -2105,7 +2105,15 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
+
+        if (oThisItem.is_favorite) {
+            addentry( 'f', pgettext( "action", "unfavorite" ), HINT_GOOD );
+        } else {
+            addentry( 'f', pgettext( "action", "favorite" ), HINT_GOOD );
+        }
+
         addentry( '=', pgettext( "action", "reassign" ), HINT_GOOD );
+
         if( bHPR ) {
             addentry( '-', _( "Autopickup" ), HINT_IFFY );
         } else {
@@ -2209,6 +2217,9 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     break;
                 case 'D':
                     u.disassemble( pos );
+                    break;
+                case 'f':
+                    u.favorite( pos );
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, u.i_at( pos ) );
