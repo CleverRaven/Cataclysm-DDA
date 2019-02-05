@@ -472,7 +472,14 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
-const std::pair<std::string, nc_color> &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+// The last color is used for an empty bar
+const std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5, 
+    std::vector<nc_color> colors = { c_green, c_light_green, c_yellow, c_light_red, c_red, c_light_gray },
+    char destroyed_symbol = ' ' );
+
+const std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+
+const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( const float light );
 
