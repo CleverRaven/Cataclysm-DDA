@@ -11793,7 +11793,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( movez > 0 ) {
         if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
-            if( !query_yn( _( "You may be unable to return back down these stairs. Continue up?" ) ) ) {
+            if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return cata::nullopt;
             }
         }
