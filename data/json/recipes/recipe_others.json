@@ -3397,7 +3397,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ] ],
+      [ [ "bone_hard", 25 ] ],
       [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ], [ "adhesive", 4, "LIST" ] ]
     ]
   },

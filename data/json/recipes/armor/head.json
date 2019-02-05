@@ -375,7 +375,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 24 ], [ "bone_human", 24 ], [ "bone_tainted", 48 ] ] ]
+    "components": [ [ [ "bone_hard", 24 ] ] ]
   },
   {
     "result": "helmet_chitin",

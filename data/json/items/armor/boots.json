@@ -52,7 +52,7 @@
     "price": 13500,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "bone", "leather" ],
+    "material": [ "bone_hard", "leather" ],
     "symbol": "[",
     "color": "white",
     "covers": [ "FEET" ],
