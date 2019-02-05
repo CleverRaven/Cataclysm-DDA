@@ -2135,7 +2135,7 @@
     "difficulty": 2,
     "location": "armor",
     "flags": [ "ARMOR" ],
-    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
+    "breaks_into": [ { "item": "bone_hard", "count": [ 5, 15 ] } ],
     "damage_reduction": { "all": 5 }
   },
   {

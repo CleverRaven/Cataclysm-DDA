@@ -376,7 +376,8 @@ void Item_factory::finalize_post( itype &obj )
     if( !obj.gun && !obj.count_by_charges() && std::any_of( obj.materials.begin(), obj.materials.end(),
     []( const material_id & m ) {
     return m == material_id( "wood" ) || m == material_id( "paper" ) ||
-               m == material_id( "bone" ) || m == material_id( "chitin" ) || m == material_id( "acidchitin" );
+               m == material_id( "bone" ) || m == material_id( "bone_hard" ) || 
+               m == material_id( "chitin" ) || m == material_id( "acidchitin" );
     } ) ) {
         std::copy( misc_tools.begin(), misc_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;

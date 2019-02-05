@@ -5274,6 +5274,7 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         material_id( "wood" ),
         material_id( "paper" ),
         material_id( "bone" ),
+        material_id( "bone_hard" ),
         material_id( "chitin" ),
         material_id( "acidchitin" )
     };

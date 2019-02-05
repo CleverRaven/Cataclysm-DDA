@@ -82,7 +82,7 @@
   {
     "type": "material",
     "ident": "bone_hard",
-    "name": "Hardened Bone",
+    "name": "Petrified Bone",
     "density": 8,
     "bash_resist": 1,
     "cut_resist": 4,
@@ -93,7 +93,6 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
-    "vitamins": [ [ "calcium", 2 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250_ml" },

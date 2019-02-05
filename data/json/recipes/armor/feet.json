@@ -30,12 +30,13 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 3,
+    "skills_required": [ "survival", 3 ],
     "time": 40000,
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 18 ] ],
     "components": [
-      [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
+      [ [ "bone_hard", 18 ] ],
       [ [ "leather", 6 ], [ "fur", 6 ] ]
     ]
   },

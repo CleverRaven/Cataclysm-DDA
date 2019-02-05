@@ -35,11 +35,12 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "tailor",
     "difficulty": 4,
+    "skills_required": [ "survival", 3 ],
     "time": 30000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 11 ] ],
     "components": [
-      [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ],
+      [ [ "bone_hard", 10 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
     ]
   },
