@@ -491,10 +491,10 @@
     "id": "bone_hard",
     "copy-from": "bone",
     "looks_like": "bone",
-    "name": "hardened bone",
+    "name": "petrified bone",
     "weight": 250,
     "description": "This bone has been hardened to an extraordinary degree making it a viable choice for armor plating. It does not seem edible or suitable for fine tools though.",
-    "material": "bone_hard",
+    "material": "bone_hard"
   },
   {
     "type": "COMESTIBLE",
