@@ -1004,6 +1004,12 @@
       ["plastic_chunk", 3]
     ],
     [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
+    ],
+    [
       [ "fletching", 1, "LIST" ]
     ]
   ]
