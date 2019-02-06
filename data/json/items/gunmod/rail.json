@@ -122,7 +122,7 @@
     "id": "large_rail",
     "type": "GUNMOD",
     "name": "large sight rail",
-    "description": "A large sized rail, for attaching scopes and the like. This one fits large sized sights."
+    "description": "A large sized rail, for attaching scopes and the like.  This one fits large sized sights."
     "weight": 50,
     "volume": "150ml",
     "rail_size": "large",
