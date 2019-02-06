@@ -224,7 +224,7 @@ class player : public Character
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Generates the sidebar and it's data in-game */
-        void disp_status( const catacurses::window &w, const catacurses::window &w2 );
+        int disp_status();
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;

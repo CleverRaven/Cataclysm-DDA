@@ -2177,7 +2177,6 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     } else {
         add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
                  format_volume( total_volume ), volume_units_abbr() );
-        g->draw_sidebar_messages(); // flush messages before popup
         if( !query_yn( _( "Fire the kiln?" ) ) ) {
             return;
         }
@@ -2293,7 +2292,6 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         }
         // Choose brew from list
         int b_index = 0;
-        g->draw_sidebar_messages(); // flush messages before popup
         if (b_types.size() > 1) {
             b_index = uilist( _("Use which brew?"), b_names );
         } else { //Only one brew type was in inventory, so it's automatically used
@@ -2314,7 +2312,6 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         charges_on_ground = brew.charges;
         add_msg( _( "This keg contains %s (%d), %0.f%% full." ),
                  brew.tname().c_str(), brew.charges, brew.volume() * 100.0 / vat_volume );
-        g->draw_sidebar_messages(); // flush messages before popup
         enum options { ADD_BREW, REMOVE_BREW, START_FERMENT };
         uilist selectmenu;
         selectmenu.text = _( "Select an action" );
@@ -2361,7 +2358,6 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         g->m.add_item( examp, brew );
         p.moves -= 250;
         if( !vat_full ) {
-            g->draw_sidebar_messages(); // flush messages before popup
             ferment = query_yn( _( "Start fermenting cycle?" ) );
         }
     }
@@ -2421,7 +2417,6 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             return;
         }
 
-        g->draw_sidebar_messages(); // flush messages before popup
         if( query_yn(_("Finish brewing?") ) ) {
             const auto results = brew_i.brewing_results();
 
@@ -2511,7 +2506,6 @@ void iexamine::keg(player &p, const tripoint &examp)
         }
         // Choose drink to store in keg from list
         int drink_index = 0;
-        g->draw_sidebar_messages(); // flush messages before popup
         if( drink_types.size() > 1 ) {
             drink_index = uilist( _( "Store which drink?" ), drink_names );
             if( drink_index < 0 || static_cast<size_t>( drink_index ) >= drink_types.size() ) {
@@ -2553,7 +2547,6 @@ void iexamine::keg(player &p, const tripoint &examp)
         auto drink = g->m.i_at(examp).begin();
         const auto drink_tname = drink->tname();
         const auto drink_nname = item::nname( drink->typeId() );
-        g->draw_sidebar_messages(); // flush messages before popup
         enum options {
             DISPENSE,
             HAVE_A_DRINK,

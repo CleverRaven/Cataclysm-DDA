@@ -11265,17 +11265,17 @@ std::string player::weapname() const
                 }
             }
         }
-        return "Weapon  : " + str;
+        return str;
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
-        return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
+        return string_format( "%s (%d)", weapon.tname().c_str(),
                               weapon.contents.front().charges );
 
     } else if( !is_armed() ) {
-        return _( "Weapon  : fists" );
+        return _( "fists" );
 
     } else {
-        return "Weapon  : " + weapon.tname();
+        return weapon.tname( 1, false );
     }
 }
 

@@ -750,10 +750,10 @@ void Pickup::pick_up( const tripoint &p, int min )
     if( min != -1 ) { // don't bother if we're just autopickuping
         g->temp_exit_fullscreen();
     }
-    bool sideStyle = use_narrow_sidebar();
+    // bool sideStyle = use_narrow_sidebar();
 
     // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
-    int maxmaxitems = sideStyle ? TERMY : getmaxy( g->w_messages ) - 3;
+    int maxmaxitems = TERMY;
 
     int itemsH = std::min( 25, TERMY / 2 );
     int pickupBorderRows = 3;
@@ -765,7 +765,7 @@ void Pickup::pick_up( const tripoint &p, int min )
         maxmaxitems = TERMY - minleftover;
     }
 
-    const int minmaxitems = sideStyle ? 6 : 9;
+    const int minmaxitems = 9;
 
     std::vector<pickup_count> getitem( stacked_here.size() );
 
@@ -782,16 +782,13 @@ void Pickup::pick_up( const tripoint &p, int min )
         }
     } else {
         int pickupH = maxitems + pickupBorderRows;
-        int pickupW = getmaxx( g->w_messages );
-        int pickupY = VIEW_OFFSET_Y;
-        int pickupX = getbegx( g->w_messages );
+        int pickupW = 60;
 
         int itemsW = pickupW;
-        int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
-        int itemsX = pickupX;
 
-        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, pickupY, pickupX );
-        catacurses::window w_item_info = catacurses::newwin( itemsH,  itemsW,  itemsY,  itemsX );
+        catacurses::window w_pickup = catacurses::newwin( pickupH, 32, 0, 88 );
+        catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH,
+                                         32,  pickupH,  88 );
 
         std::string action;
         long raw_input_char = ' ';
@@ -817,7 +814,7 @@ void Pickup::pick_up( const tripoint &p, int min )
         int start = 0;
         int cur_it = 0;
         bool update = true;
-        mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
+        mvwprintw( w_pickup, 0, 0, _( "PICK" ) );
         int selected = 0;
         int iScrollPos = 0;
 
@@ -903,6 +900,7 @@ void Pickup::pick_up( const tripoint &p, int min )
                     filter_changed = true;
                 } else {
                     wrefresh( g->w_terrain );
+                    g->draw_panels();
                 }
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup()
@@ -960,6 +958,7 @@ void Pickup::pick_up( const tripoint &p, int min )
                     if( matches.empty() ) {
                         popup( _( "Your filter returned no results" ) );
                         wrefresh( g->w_terrain );
+                        g->draw_panels();
                         // The filter must have results, or simply be emptied or canceled,
                         // as this screen can't be reached without there being
                         // items available
@@ -982,6 +981,7 @@ void Pickup::pick_up( const tripoint &p, int min )
                     iScrollPos = 0;
                 }
                 wrefresh( g->w_terrain );
+                g->draw_panels();
             }
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
 
@@ -1127,13 +1127,13 @@ void Pickup::pick_up( const tripoint &p, int min )
                 auto weight_predict = g->u.weight_carried() + weight_picked_up;
                 auto volume_predict = g->u.volume_carried() + volume_picked_up;
 
-                mvwprintz( w_pickup, 0, 9, weight_predict > g->u.weight_capacity() ? c_red : c_white,
+                mvwprintz( w_pickup, 0, 5, weight_predict > g->u.weight_capacity() ? c_red : c_white,
                            _( "Wgt %.1f" ), round_up( convert_weight( weight_predict ), 1 ) );
 
                 wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
 
                 std::string fmted_volume_predict = format_volume( volume_predict );
-                mvwprintz( w_pickup, 0, 24, volume_predict > g->u.volume_capacity() ? c_red : c_white,
+                mvwprintz( w_pickup, 0, 18, volume_predict > g->u.volume_capacity() ? c_red : c_white,
                            _( "Vol %s" ), fmted_volume_predict.c_str() );
 
                 std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );

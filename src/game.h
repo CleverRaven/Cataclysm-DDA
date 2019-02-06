@@ -133,6 +133,7 @@ struct liquid_dest_opt {
     vehicle *veh = nullptr;
 };
 
+
 enum peek_act : int {
     PA_BLIND_THROW
     // obvious future additional value is PA_BLIND_FIRE
@@ -141,6 +142,12 @@ enum peek_act : int {
 struct look_around_result {
     cata::optional<tripoint> position;
     cata::optional<peek_act> peek_action;
+};
+
+struct w_map {
+    std::string name;
+    bool toggle;
+    catacurses::window win;
 };
 
 class game
@@ -230,6 +237,7 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+        void draw_panels();
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -239,6 +247,9 @@ class game
          */
         cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
+
+        /** save offset backup **/
+        tripoint stored_view_offset;
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
@@ -614,6 +625,7 @@ class game
         void toggle_sidebar_style();
         void toggle_fullscreen();
         void toggle_pixel_minimap();
+        void toggle_panel_adm();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -666,13 +678,18 @@ class game
         catacurses::window w_terrain_ptr;
         catacurses::window w_minimap_ptr;
         catacurses::window w_pixel_minimap_ptr;
-        catacurses::window w_HP_ptr;
-        catacurses::window w_messages_short_ptr;
-        catacurses::window w_messages_long_ptr;
-        catacurses::window w_location_wider_ptr;
-        catacurses::window w_location_ptr;
-        catacurses::window w_status_ptr;
-        catacurses::window w_status2_ptr;
+
+        catacurses::window w_panel_char_ptr;
+        catacurses::window w_panel_limb_ptr;
+        catacurses::window w_panel_stat_ptr;
+        catacurses::window w_panel_mod1_ptr;
+        catacurses::window w_panel_mod2_ptr;
+        catacurses::window w_panel_msg_ptr;
+        catacurses::window w_panel_env1_ptr;
+        catacurses::window w_panel_env2_ptr;
+        catacurses::window w_panel_com_ptr;
+        catacurses::window w_panel_map_ptr;
+        catacurses::window w_panel_adm_ptr;
 
     public:
         catacurses::window w_terrain;
@@ -680,15 +697,21 @@ class game
         catacurses::window w_omlegend;
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
-        catacurses::window w_HP;
         //only a pointer, can refer to w_messages_short or w_messages_long
-        catacurses::window w_messages;
-        catacurses::window w_messages_short;
-        catacurses::window w_messages_long;
-        catacurses::window w_location_wider;
-        catacurses::window w_location;
-        catacurses::window w_status;
-        catacurses::window w_status2;
+
+        std::map<int, w_map> win_map;
+        catacurses::window w_panel_char;
+        catacurses::window w_panel_limb;
+        catacurses::window w_panel_stat;
+        catacurses::window w_panel_mod1;
+        catacurses::window w_panel_mod2;
+        catacurses::window w_panel_msg;
+        catacurses::window w_panel_env1;
+        catacurses::window w_panel_env2;
+        catacurses::window w_panel_com;
+        catacurses::window w_panel_map;
+        catacurses::window w_panel_adm;
+
         catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
@@ -845,9 +868,24 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         bool narrow_sidebar;
+        bool show_panel_adm;
         bool right_sidebar;
+        bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
+        bool char_panel;
+        bool limb_panel;
+        bool stat_panel;
+        bool env1_panel;
+        bool env2_panel;
+        bool mod1_panel;
+        bool mod2_panel;
+
+        bool env_panel;
+        bool msg_panel;
+        bool mod_panel;
+        bool map_panel;
+        bool com_panel;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
@@ -973,6 +1011,7 @@ class game
         void set_npcs_dirty();
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
+        void mon_info( const catacurses::window & ); // Prints a list of nearby monsters
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
@@ -1031,7 +1070,7 @@ class game
         void monmove();          // Monster movement
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters
+        // int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
@@ -1050,13 +1089,10 @@ class game
 
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
-        void draw_minimap();     // Draw the 5x5 minimap
-        /** Draws the sidebar (if it's visible), including all windows there */
-        void draw_sidebar();
     public:
-        void draw_sidebar_messages();
-    private:
+        void draw_minimap( const catacurses::window &w );     // Draw the 5x5 minimap
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
+    private:
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
@@ -1082,11 +1118,13 @@ class game
 
         // ########################## DATA ################################
 
+    public:
         safe_mode_type safe_mode;
+        int turnssincelastmon; // needed for auto run mode
+    private:
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
         bool bVMonsterLookFire;
         time_point nextweather; // The time on which weather will shift next.
@@ -1114,9 +1152,10 @@ class game
 
         int user_action_counter; // Times the user has input an action
 
+    public:
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
-
+    private:
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed;
 

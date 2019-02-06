@@ -573,8 +573,9 @@ class Creature
          * Must not remove the effect, but can set it up for removal.
          */
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
-
+    public:
         pimpl<effects_map> effects;
+    protected:
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 

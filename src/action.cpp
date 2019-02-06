@@ -288,6 +288,10 @@ std::string action_ident( action_id act )
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_TOGGLE_PANEL_ADM:
+            return "toggle_panel_adm";
+        case ACTION_PANEL_MGMT:
+            return "panel_mgmt";
         case ACTION_RELOAD_TILESET:
             return "reload_tileset";
         case ACTION_TOGGLE_AUTO_FEATURES:
@@ -376,6 +380,8 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
+        case ACTION_TOGGLE_PANEL_ADM:
+        case ACTION_PANEL_MGMT:
         case ACTION_RELOAD_TILESET:
         case ACTION_TIMEOUT:
         case ACTION_TOGGLE_AUTO_FEATURES:
@@ -720,6 +726,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
 #endif // TILES
+            REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
@@ -939,6 +946,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     }
     if( highlighted ) {
         wrefresh( g->w_terrain );
+        // prevent hiding panels when examining an object
+        g->draw_panels();
     }
 
     return choose_adjacent( message, allow_vertical );

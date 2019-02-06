@@ -2266,7 +2266,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->position == INT_MIN ) {
-        g->draw_sidebar_messages();     // Refresh messages to show feedback.
         const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
             return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
                    &itm != &main_tool;
@@ -2310,7 +2309,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
-            g->draw_sidebar_messages();
             repeat = repeat_menu( title, repeat );
 
             if( repeat == REPEAT_CANCEL ) {

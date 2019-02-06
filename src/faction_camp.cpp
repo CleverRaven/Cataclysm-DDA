@@ -1084,6 +1084,7 @@ bool basecamp::handle_mission( npc &p, const std::string &miss_id, const std::st
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     return true;
 }

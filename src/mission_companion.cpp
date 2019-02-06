@@ -404,6 +404,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];
@@ -510,6 +511,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
         } else if( action == "HELP_KEYBINDINGS" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
+            g->draw_panels();
         }
     }
     g->refresh_all();
@@ -573,6 +575,7 @@ bool talk_function::handle_outpost_mission( mission_entry &cur_key, npc &p )
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     return true;
 }
@@ -618,6 +621,7 @@ std::vector<item *> talk_function::individual_mission_give_equipment( std::vecto
     do {
         g->draw_ter();
         wrefresh( g->w_terrain );
+        g->draw_panels();
 
         std::vector<std::string> names;
         for( auto &i : equipment ) {

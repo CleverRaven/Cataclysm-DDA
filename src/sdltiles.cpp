@@ -34,6 +34,7 @@
 #include "loading_ui.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "path_info.h"
 #include "player.h"
 #include "rng.h"
@@ -1070,8 +1071,10 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
-            win->width * font->fontwidth, win->height * font->fontheight);
+            win->width * font->fontwidth, win->height * font->fontheight );
+
         update = true;
+
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
         update = font->draw_window( w );
@@ -1122,11 +1125,8 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
     Everything else works on strict equality because there aren't yet IDs for some of them.
     */
-    if( g && ( w == g->w_terrain || w == g->w_minimap || w == g->w_HP || w == g->w_status ||
-         w == g->w_status2 || w == g->w_messages || w == g->w_location ) ) {
-        if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
-             winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
-             winBuffer == g->w_messages || winBuffer == g->w_location ) {
+    if( g && ( w == g->w_terrain || w == g->w_minimap ) ) {
+        if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ) {
             oldWinCompatible = true;
         }
     }else if( g && ( w == g->w_overmap || w == g->w_omlegend ) ) {
