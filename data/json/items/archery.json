@@ -87,7 +87,7 @@
     "name": "simple wooden arrow",
     "symbol": "=",
     "color": "green",
-    "description": "A simple fletched wooden arrow shaft with a pointed tip.  Stands a low chance of remaining intact once fired.",
+    "description": "A simple fletched wooden arrow shaft with a fire-hardened and sharpened tip.  Stands a low chance of remaining intact once fired.",
     "material": "wood",
     "volume": 1,
     "weight": 35,
