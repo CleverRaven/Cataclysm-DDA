@@ -190,6 +190,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
+        p.on_worn_item_transform( *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;

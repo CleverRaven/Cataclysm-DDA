@@ -6781,6 +6781,10 @@ void player::check_and_recover_morale()
     }
 }
 
+void player::on_worn_item_transform( const item &it ) {
+	morale->on_worn_item_transform( it );
+}
+
 void player::process_active_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
