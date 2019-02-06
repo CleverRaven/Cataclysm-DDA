@@ -46,6 +46,76 @@
     ]
   },
   {
+    "id": "mon_zombie_soldier_blackops_1",
+    "type": "MONSTER",
+    "name": "black-ops zombie",
+    "description": "This soldier zombie's skin radiates a sort of shadowy smoke that obscures its outline, making its camouflage even harder to see against the background.  In the darkness it would be nigh invisible.",
+    "copy_from": "mon_zombie_soldier",
+	"looks_like": "mon_zombie_soldier",
+    "hp": 100,
+    "speed": 90,
+    "melee_skill": 6,
+    "dodge": 3,
+    "vision_night": 30,
+    "special_attacks": [       
+	  {
+        "type": "bite",
+        "cooldown": 8,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
+      } 
+	],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY",
+      "NIGHT_INVISIBILITY"
+    ]
+  },
+  {
+    "id": "mon_zombie_soldier_blackops_2",
+    "type": "MONSTER",
+    "name": "nightstalker zombie",
+    "description": "Fragments of visible uniform hint that this monstrosity was once a soldier.  Anything human is invisible, hidden inside a sheath of living shadow.  It moves with preternatural fluidity and grace.",
+    "copy_from": "mon_zombie_soldier_blackops_1",
+	"looks_like": "mon_zombie_soldier_blackops_1",
+    "hp": 120,
+    "speed": 110,
+    "melee_skill": 7,
+    "dodge": 4,
+    "vision_night": 50,
+    "special_attacks": [       
+	  {
+        "type": "bite",
+        "cooldown": 8,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
+      } 
+	],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY",
+      "NIGHT_INVISIBILITY"
+    ]
+  },
+  {
     "id": "mon_zombie_military_pilot",
     "type": "MONSTER",
     "name": "zombie military pilot",
