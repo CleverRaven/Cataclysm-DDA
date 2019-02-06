@@ -2111,9 +2111,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
             if( ingame ) {
-                if( g->pixel_minimap_option ) {
-                    wrefresh( g->w_pixel_minimap );
-                }
                 g->refresh_all();
             }
             tilecontext->do_tile_loading_report();
@@ -2124,7 +2121,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
         tilecontext->reinit_minimap();
         g->init_ui();
-        wrefresh( g->w_pixel_minimap );
         g->refresh_all();
     }
 }
@@ -2526,9 +2522,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     }
 
     if( sidebar_style_changed ) {
-        if( ingame ) {
-            g->toggle_sidebar_style();
-        } else {
+        if( !ingame ) {
 #ifdef TILES
             tilecontext->reinit_minimap();
 #endif

@@ -1108,8 +1108,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     // Default to the maximum window size we can use.
     int height = 31;
-    int top = use_narrow_sidebar() ? getbegy( g->w_messages ) : getbegy( g->w_minimap ) + getmaxy(
-                  g->w_minimap );
+    int top = 0;
     if( tiny ) {
         // If we're extremely short on space, use the whole sidebar.
         top = 0;
@@ -1118,13 +1117,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         top -= 4;
         height = 25;
-    } else {
-        // Cover up the redundant weapon line.
-        top -= 1;
     }
-
-    catacurses::window w_target = catacurses::newwin( height, getmaxx( g->w_messages ), top,
-                                  getbegx( g->w_messages ) );
+    top = 0;
+    catacurses::window w_target = catacurses::newwin( height, 45, top, TERMX - 45 );
 
     input_context ctxt( "TARGET" );
     ctxt.set_iso( true );
@@ -1348,8 +1343,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
         }
 
-        wrefresh( w_target );
         wrefresh( g->w_terrain );
+        draw_targeting_window( w_target, relevant->tname(),
+                               mode, ctxt, aim_types,
+                               bool( on_mode_change ),
+                               bool( on_ammo_change ), tiny );
+        wrefresh( w_target );
+
         catacurses::refresh();
 
         std::string action;
@@ -1539,7 +1539,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // TODO: get rid of this. Or move into the on-hit code?
         mon->add_effect( effect_hit_by_player, 10_minutes );
     }
-
+    wrefresh( w_target );
     return ret;
 }
 

@@ -398,6 +398,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];
@@ -505,6 +506,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "HELP_KEYBINDINGS" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
+            g->draw_panels();
         }
     }
     g->refresh_all();
@@ -568,6 +570,7 @@ bool talk_function::handle_outpost_mission( mission_entry &cur_key, npc &p )
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     return true;
 }
@@ -614,6 +617,31 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
     g->validate_npc_followers();
     assert( !comp->is_active() );
     return comp;
+}
+
+std::vector<item *> talk_function::individual_mission_give_equipment( std::vector<item *> equipment,
+        const std::string &message )
+{
+    std::vector<item *> equipment_lost;
+    do {
+        g->draw_ter();
+        wrefresh( g->w_terrain );
+        g->draw_panels();
+
+        std::vector<std::string> names;
+        for( auto &i : equipment ) {
+            names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
+        }
+
+        // Choose item if applicable
+        const int i_index = uilist( message, names );
+        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
+            return equipment_lost;
+        }
+        equipment_lost.push_back( equipment[i_index] );
+        equipment.erase( equipment.begin() + i_index );
+    } while( !equipment.empty() );
+    return equipment_lost;
 }
 
 void talk_function::caravan_depart( npc &p, const std::string &dest, const std::string &id )

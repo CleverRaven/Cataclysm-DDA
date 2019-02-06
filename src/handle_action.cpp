@@ -274,9 +274,9 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
-                draw_sidebar();
 
                 query_popup()
                 .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
@@ -285,9 +285,6 @@ input_context game::get_player_input( std::string &action )
 
                 break;
             }
-
-            //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
-            draw_pixel_minimap();
         }
         ctxt.reset_timeout();
     } else {
@@ -975,6 +972,7 @@ static void reach_attack( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
     g->reenter_fullscreen();
 }
 
@@ -1890,6 +1888,10 @@ bool game::handle_action()
 
             case ACTION_TOGGLE_PIXEL_MINIMAP:
                 toggle_pixel_minimap();
+                break;
+
+            case ACTION_TOGGLE_PANEL_ADM:
+                toggle_panel_adm();
                 break;
 
             case ACTION_RELOAD_TILESET:

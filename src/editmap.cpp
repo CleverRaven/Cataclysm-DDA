@@ -172,7 +172,7 @@ editmap::editmap()
 {
     width = TERMX - TERRAIN_WINDOW_TERM_WIDTH;
     height = TERMY;
-    offsetX = g->right_sidebar ? TERRAIN_WINDOW_TERM_WIDTH - VIEW_OFFSET_X : VIEW_OFFSET_X;
+    offsetX = VIEW_OFFSET_X;
     infoHeight = 0;
     sel_ter = undefined_ter_id;
     target_ter = undefined_ter_id;
@@ -568,6 +568,7 @@ void editmap::update_view( bool update_info )
     }
 
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     if( update_info ) {  // only if requested; this messes up windows layered on top
         int off = 1;
@@ -1032,7 +1033,6 @@ int editmap::edit_ter()
             }
         }
     } while( action != "QUIT" );
-    g->draw_sidebar();
     return ret;
 }
 
@@ -1180,7 +1180,6 @@ int editmap::edit_fld()
             update_view( false );
         }
     } while( fmenu.ret != UILIST_CANCEL );
-    g->draw_sidebar();
     return ret;
 }
 
@@ -1266,8 +1265,6 @@ int editmap::edit_trp()
     } while( action != "QUIT" );
 
     wrefresh( w_info );
-
-    g->draw_sidebar();
     return ret;
 }
 
@@ -1359,8 +1356,8 @@ int editmap::edit_itm()
                 }
                 g->draw_ter( target );
                 wrefresh( g->w_terrain );
+                g->draw_panels();
             } while( imenu.ret != UILIST_CANCEL );
-            g->draw_sidebar();
             update_view( true );
         } else if( ilmenu.ret == static_cast<int>( items.size() ) ) {
             debug_menu::wishitem( nullptr, target.x, target.y, target.z );
@@ -1378,7 +1375,6 @@ int editmap::edit_itm()
             ilmenu.refresh();
         }
     } while( ilmenu.ret != UILIST_CANCEL );
-    g->draw_sidebar();
     return ret;
 }
 
@@ -1542,7 +1538,7 @@ int editmap::select_shape( shapetype shape, int mode )
         action = ctxt.handle_input( BLINK_SPEED );
         if( action == "RESIZE" ) {
             if( ! moveall ) {
-                const int offset = g->right_sidebar ? -16 : 16;
+                const int offset = 16;
                 uilist smenu;
                 smenu.text = _( "Selection type" );
                 smenu.w_x = ( offsetX + offset ) / 2;
@@ -1681,6 +1677,7 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         if( showpreview ) {
             hilights["mapgentgt"].draw( *this, true );
             wrefresh( g->w_terrain );
+            g->draw_panels();
             tmpmap.reset_vehicle_cache( target.z );
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
@@ -2134,7 +2131,6 @@ int editmap::edit_mapgen()
             mapgen_preview( tc, gmenu );
         }
     } while( gmenu.ret != UILIST_CANCEL );
-    g->draw_sidebar();
     return ret;
 }
 
