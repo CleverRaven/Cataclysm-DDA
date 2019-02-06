@@ -6184,7 +6184,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
       [
-        [ "meat", 1 ],
+        [ "meat_nofish", 1, "LIST" ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -7737,7 +7737,7 @@
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
       [ [ "broth", 12 ], [ "broth_bone", 12 ], [ "pine_tea", 12 ] ],
       [
-        [ "meat", 12 ],
+        [ "meat_nofish", 12, "LIST" ],
         [ "meat_smoked", 12 ],
         [ "dry_meat", 12 ],
         [ "rehydrated_meat", 12 ],
