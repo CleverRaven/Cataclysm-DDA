@@ -1021,7 +1021,7 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 3180,
+    "calories": 180,
     "description": "Crunchy and delicious waffles with real maple syrup, with delicious chocolate baked right in.",
     "price": 650,
     "material": [ "wheat", "junk", "milk" ],

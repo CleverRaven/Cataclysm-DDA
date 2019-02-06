@@ -3590,18 +3590,28 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     //do this with chance proportional to current load
     // But only if the player is actually there!
     if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
-        //charge bionics when using muscle engine
-        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            g->u.charge_power( 1 );
-        }
         //cost proportional to strain
         int mod = 1 + 4 * st;
+        //charge bionics when using muscle engine
+        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            g->u.charge_power( 2 );
+            mod = mod * 2;
+        }
+        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            if( one_in( 20 ) ) {
+                g->u.charge_power( 1 );
+            }
+        }
         if( one_in( 10 ) ) {
             g->u.mod_hunger( mod );
             g->u.mod_thirst( mod );
             g->u.mod_fatigue( mod );
         }
-        g->u.mod_stat( "stamina", -mod * 20 );
+        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            g->u.mod_stat( "stamina", -mod * 30 );
+        } else {
+            g->u.mod_stat( "stamina", -mod * 20 );
+        }
     }
 }
 
@@ -3869,14 +3879,28 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
 
 int vehicle::charge_battery( int amount, bool include_other_vehicles )
 {
-    for( auto &p : parts ) {
-        if( amount <= 0 ) {
-            break;
+    // Key parts by percentage charge level.
+    std::multimap<int, vehicle_part *> chargeable_parts;
+    for( vehicle_part &p : parts ) {
+        if( p.is_available() && p.is_battery() && p.ammo_capacity() > p.ammo_remaining() ) {
+            chargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity(), &p } );
         }
-        if( p.is_available() && p.is_battery() ) {
-            int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
-            p.ammo_set( fuel_type_battery, p.ammo_remaining() + qty );
-            amount -= qty;
+    }
+    while( amount > 0 && !chargeable_parts.empty() ) {
+        // Grab first part, charge until it reaches the next %, then re-insert with new % key.
+        auto iter = chargeable_parts.begin();
+        int charge_level = iter->first;
+        vehicle_part *p = iter->second;
+        chargeable_parts.erase( iter );
+        // Calculate number of charges to reach the next %, but insure it's at least
+        // one more than current charge.
+        long next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity() ) / 100;
+        next_charge_level = std::max( next_charge_level, p->ammo_remaining() + 1 );
+        long qty = std::min( static_cast<long>( amount ), next_charge_level - p->ammo_remaining() );
+        p->ammo_set( fuel_type_battery, p->ammo_remaining() + qty );
+        amount -= qty;
+        if( p->ammo_capacity() > p->ammo_remaining() ) {
+            chargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity(), p } );
         }
     }
 
@@ -3894,12 +3918,27 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
 
 int vehicle::discharge_battery( int amount, bool recurse )
 {
-    for( auto &p : parts ) {
-        if( amount <= 0 ) {
-            break;
+    // Key parts by percentage charge level.
+    std::multimap<int, vehicle_part *> dischargeable_parts;
+    for( vehicle_part &p : parts ) {
+        if( p.is_available() && p.is_battery() && p.ammo_remaining() > 0 ) {
+            dischargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity(), &p } );
         }
-        if( p.is_available() && p.is_battery() ) {
-            amount -= p.ammo_consume( amount, global_part_pos3( p ) );
+    }
+    while( amount > 0 && !dischargeable_parts.empty() ) {
+        // Grab first part, discharge until it reaches the next %, then re-insert with new % key.
+        auto iter = std::prev( dischargeable_parts.end() );
+        int charge_level = iter->first;
+        vehicle_part *p = iter->second;
+        dischargeable_parts.erase( iter );
+        // Calculate number of charges to reach the previous %.
+        long prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity() ) / 100;
+        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level,
+                                            static_cast<long>( amount ) );
+        p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
+        amount -= amount_to_discharge;
+        if( p->ammo_remaining() > 0 ) {
+            dischargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity(), p } );
         }
     }
 
@@ -5181,8 +5220,9 @@ void vehicle::update_time( const time_point &update_to )
         //Wind Turbine less efficient in forests
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
-        int windpower = weatherPoint.windpower;
-        windpower = get_local_windpower( windpower, cur_om_ter, false );
+        double windpower = weatherPoint.windpower;
+        windpower = get_local_windpower( windpower, cur_om_ter, g->m.getabs( global_pos3() ),
+                                         weatherPoint.winddirection, false );
         double intensity = windpower / to_turns<double>( elapsed );
         int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {

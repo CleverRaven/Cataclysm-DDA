@@ -70,6 +70,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_OXYTORCH" ), oxytorch_do_turn },
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
+    { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
     { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
@@ -112,7 +113,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_LONGSALVAGE" ), longsalvage_finish },
     { activity_id( "ACT_MAKE_ZLAVE" ), make_zlave_finish },
     { activity_id( "ACT_PICKAXE" ), pickaxe_finish },
-    { activity_id( "ACT_PICKUP" ), pickup_finish },
     { activity_id( "ACT_RELOAD" ), reload_finish },
     { activity_id( "ACT_START_FIRE" ), start_fire_finish },
     { activity_id( "ACT_TRAIN" ), train_finish },
@@ -138,8 +138,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
-    { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
-    { activity_id( "ACT_MOVE_LOOT" ), move_loot_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
@@ -1328,29 +1326,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     }
 }
 
-// handles equipping an item on ACT_PICKUP, if requested
-void activity_handlers::pickup_finish( player_activity *act, player *p )
-{
-    // loop through all the str_values, and if we find equip, do so.
-    // if no str_values present, carry on
-    for( auto &elem : act->str_values ) {
-        if( elem == "equip" ) {
-            item &it = p->i_at( act->position );
-            p->wear_item( it );
-        }
-    }
-}
-
-void activity_handlers::move_items_finish( player_activity *act, player *p )
-{
-    pickup_finish( act, p );
-}
-
-void activity_handlers::move_loot_finish( player_activity *act, player *p )
-{
-    pickup_finish( act, p );
-}
-
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     static const std::string iuse_name_string( "heal" );
@@ -2108,8 +2083,8 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
 
 void activity_handlers::cracking_finish( player_activity *act, player *p )
 {
-    p->add_msg_if_player( m_good, _( "The safe opens!" ) );
-    g->m.furn_set( act->placement, f_safe_o );
+    p->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
+    g->m.furn_set( act->placement, f_safe_c );
     act->set_to_null();
 }
 
@@ -2490,6 +2465,11 @@ void activity_handlers::aim_do_turn( player_activity *act, player * )
 void activity_handlers::pickup_do_turn( player_activity *, player * )
 {
     activity_on_turn_pickup();
+}
+
+void activity_handlers::wear_do_turn( player_activity *, player * )
+{
+    activity_on_turn_wear();
 }
 
 void activity_handlers::move_items_do_turn( player_activity *, player * )
@@ -2876,7 +2856,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
 
 void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
 {
-    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 30_minutes, 5_minutes / 2 );
+    p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
     p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                           act->str_values[0].c_str() );
     act->set_to_null();

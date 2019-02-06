@@ -190,6 +190,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
+        p.on_worn_item_transform( *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -933,6 +934,15 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
     if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info,
                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
+        return 0;
+    }
+
+    optional_vpart_position veh_there = g->m.veh_at( pnt );
+    if( veh_there.has_value() ) {
+        // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
+        // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
+        p.add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
+                             veh_there.value().vehicle().disp_name(), it.tname().c_str() );
         return 0;
     }
 
@@ -2024,7 +2034,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
         p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes );
     }
 
     return 0;

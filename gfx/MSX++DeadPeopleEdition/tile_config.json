@@ -391,7 +391,7 @@
           "rotates": false
         },
         {
-          "id": "44magnum",
+          "id": ["44magnum", "460_rowland", "460_fmj", "reloaded_460_fmj", "reloaded_460_rowland"],
           "fg": 49,
           "bg": 957,
           "rotates": false
@@ -7436,7 +7436,7 @@
           "rotates": false
         },
 		{
-          "id": "45lc_casing",
+          "id": ["45lc_casing", "460_casing"],
           "fg": 1612,
           "bg": 957,
           "rotates": false
@@ -10000,7 +10000,7 @@
           "rotates": false
         },
         {
-          "id": ["suppressor", "riv_suppressor"],
+          "id": ["suppressor", "riv_suppressor", "mp5sd_suppressor"],
           "fg": 2257,
           "bg": 957,
           "rotates": false
@@ -10405,7 +10405,7 @@
           "rotates": false
         },
         {
-          "id": "wheel_motorbike",
+          "id": ["wheel_motorbike", "wheel_bicycle_or", "wheel_motorbike_or", "wheel_slick", "wheel_wide_or"],
           "fg": 4187,
           "bg": 957,
           "rotates": false
@@ -15069,7 +15069,7 @@
         {
           "id": "mon_centipede_giant",
           "fg": 2369,
-          "bg": 967,
+          "bg": 0,
           "rotates": false
         },
         {
@@ -17907,9 +17907,19 @@
           "bg": 985
         },
         {
+          "id": "t_reinforced_door_glass_lab_o",
+          "fg": 3183,
+          "bg": 5010
+        },
+        {
           "id": "t_reinforced_door_glass_c",
           "fg": 3182,
           "bg": 985
+        },
+        {
+          "id": "t_reinforced_door_glass_lab_c",
+          "fg": 3182,
+          "bg": 5010
         },
         {
           "id": "t_scrap_wall",
@@ -18166,15 +18176,33 @@
           "rotates": false
         },
         {
+          "id": "t_door_lab_frame",
+          "fg": 3035,
+          "bg": 5010,
+          "rotates": false
+        },
+        {
           "id": "t_door_glass_o",
           "fg": 3037,
           "bg": 987,
           "rotates": false
         },
         {
+          "id": "t_door_glass_lab_o",
+          "fg": 3037,
+          "bg": 5010,
+          "rotates": false
+        },
+        {
           "id": "t_door_o",
           "fg": 3044,
           "bg": 987,
+          "rotates": false
+        },
+        {
+          "id": "t_door_lab_o",
+          "fg": 3044,
+          "bg": 5010,
           "rotates": false
         },
         {
@@ -18186,6 +18214,12 @@
           "id": "t_mdoor_frame",
           "fg": 3120,
           "bg": 987,
+          "rotates": false
+        },
+        {
+          "id": "t_mdoor_frame",
+          "fg": 3120,
+          "bg": 5010,
           "rotates": false
         },
         {
@@ -19222,6 +19256,12 @@
           "rotates": false
         },
         {
+          "id": "t_door_metal_lab_o",
+          "fg": 3042,
+          "bg": 5010,
+          "rotates": false
+        },
+        {
           "id": "t_door_metal_o_peep",
           "fg": 3042,
           "bg": 993,
@@ -19231,6 +19271,12 @@
           "id": ["t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control"],
           "fg": 3071,
           "bg": 993,
+          "rotates": false
+        },
+        {
+          "id": "t_gates_mech_control_lab",
+          "fg": 3071,
+          "bg": 5010,
           "rotates": false
         },
         {
@@ -20200,8 +20246,8 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3987,
-              "bg": 4134,
+              "fg": 23516,
+              "bg": 1005,
 			  "rotates": true
             }
           ]
@@ -31884,11 +31930,23 @@
           "fg": 4965,
 		  "bg": 993,
           "rotates": false
+        },
+		{
+          "id": "t_door_glass_frosted_lab_c",
+          "fg": 4965,
+		  "bg": 5010,
+          "rotates": false
         },	
 		{
           "id": "t_door_glass_frosted_o",
           "fg": 4966,
 		  "bg": 993,
+          "rotates": false
+        },
+		{
+          "id": "t_door_glass_frosted_lab_o",
+          "fg": 4966,
+		  "bg": 5010,
           "rotates": false
         },		
 		{
@@ -33593,7 +33651,7 @@
           "fg": 2030
         },
         {
-          "id": "hk_mp5",
+          "id": ["hk_mp5", "hk_mp5sd"],
           "fg": 2031,
           "rotates": false
         },
@@ -34573,7 +34631,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_hk_mp5",
+          "id": ["overlay_wielded_hk_mp5", "overlay_wielded_hk_mp5sd"],
           "fg": 2110,
           "rotates": false
         },
@@ -36622,7 +36680,7 @@
         {
           "id": "mon_centipede",
           "fg": 2368,
-		  "bg": 967,
+		  "bg": 0,
           "rotates": false
         },
         {
@@ -38404,12 +38462,22 @@
           "rotates": false
         },
         {
+          "id": "t_door_glass_lab_c",
+          "fg": 3036,
+          "rotates": false
+        },
+        {
           "id": "t_door_makeshift_c",
           "fg": 3038,
           "rotates": false
         },
         {
           "id": "t_door_metal_c",
+          "fg": 3040,
+          "rotates": true
+        },
+        {
+          "id": "t_door_metal_lab_c",
           "fg": 3040,
           "rotates": true
         },
@@ -44079,7 +44147,7 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3987,
+              "fg": 23518,
               "bg": 4146
             }
           ]
@@ -44092,7 +44160,7 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3987,
+              "fg": 23517,
               "bg": 4147
             }
           ]
@@ -44671,6 +44739,11 @@
           "rotates": false
         },
         {
+          "id": "t_door_lab_c",
+          "fg": 4017,
+          "rotates": false
+        },
+        {
           "id": "t_door_locked",
           "fg": 4017,
           "rotates": false
@@ -44687,6 +44760,11 @@
         },
         {
           "id": "t_door_b",
+          "fg": 4018,
+          "rotates": false
+        },
+        {
+          "id": "t_door_lab_b",
           "fg": 4018,
           "rotates": false
         },
@@ -46336,7 +46414,7 @@
           "rotates": true
         },
         {
-          "id": "vp_wheel_motorbike",
+          "id": ["vp_wheel_motorbike", "vp_wheel_bicycle_or", "vp_wheel_motorbike_or", "vp_wheel_slick", "vp_wheel_wide_or"],
           "fg": 4187,
           "rotates": true
         },
@@ -48065,7 +48143,65 @@
 		{ "id": "overlay_mutation_FLARM_BLACKOUT", "fg": 10435, "rotates": false },
 		{ "id": "overlay_mutation_FLLEG_BARBEDWIRE", "fg": 10436, "rotates": false },
 		{ "id": "overlay_mutation_FRARM_FLAME", "fg": 10437, "rotates": false },
-		{ "id": "overlay_mutation_FRLEG_FLOWER", "fg": 10438, "rotates": false }		
+		{ "id": "overlay_mutation_FRLEG_FLOWER", "fg": 10438, "rotates": false },
+		
+		{ "id": "overlay_male_mutation_bio_ads", "fg": 10480, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_ads", "fg": 10481, "rotates": false },
+		{ "id": "overlay_male_mutation_active_bio_ads", "fg": 10482, "rotates": false },
+		{ "id": "overlay_female_mutation_active_bio_ads", "fg": 10483, "rotates": false },	
+		
+		{ "id": "overlay_male_mutation_bio_night_vision", "fg": 10484, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_night_vision", "fg": 10485, "rotates": false },
+		{ "id": "overlay_male_mutation_active_bio_night_vision", "fg": 10486, "rotates": false },
+		{ "id": "overlay_female_mutation_active_bio_night_vision", "fg": 10487, "rotates": false },
+
+		{ "id": "overlay_male_mutation_bio_infrared", "fg": 10488, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_infrared", "fg": 10489, "rotates": false },
+		{ "id": "overlay_male_mutation_active_bio_infrared", "fg": 10490, "rotates": false },
+		{ "id": "overlay_female_mutation_active_bio_infrared", "fg": 10491, "rotates": false },
+
+		{ "id": "overlay_male_mutation_bio_ods", "fg": 10492, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_ods", "fg": 10493, "rotates": false },
+		{ "id": "overlay_male_mutation_active_bio_ods", "fg": 10494, "rotates": false },
+		{ "id": "overlay_female_mutation_active_bio_ods", "fg": 10495, "rotates": false },
+
+		{ "id": "overlay_male_mutation_bio_adrenaline", "fg": 10496, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_adrenaline", "fg": 10497, "rotates": false },
+		{ "id": "overlay_male_mutation_bio_advreactor", "fg": 10498, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_advreactor", "fg": 10499, "rotates": false },	
+		{ "id": "overlay_male_mutation_bio_evap", "fg": 10500, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_evap", "fg": 10501, "rotates": false },	
+		{ "id": "overlay_male_mutation_bio_purifier", "fg": 10502, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_purifier", "fg": 10503, "rotates": false },
+		{ "id": "overlay_male_mutation_bio_alarm", "fg": 10504, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_alarm", "fg": 10505, "rotates": false },	
+		{ "id": "overlay_male_mutation_active_bio_alarm", "fg": 10506, "rotates": false },
+		{ "id": "overlay_female_mutation_active_bio_alarm", "fg": 10507, "rotates": false },		
+		{ "id": "overlay_male_mutation_bio_blindfold", "fg": 10508, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_blindfold", "fg": 10509, "rotates": false },	
+		{ "id": "overlay_male_mutation_active_bio_blindfold", "fg": 10510, "rotates": false },
+		{ "id": "overlay_female_mutation_active_bio_blindfold", "fg": 10511, "rotates": false },	
+		{ "id": "overlay_male_mutation_bio_sunglasses", "fg": 10512, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_sunglasses", "fg": 10513, "rotates": false },
+		{ "id": "overlay_male_mutation_bio_armor_arms", "fg": 10514, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_armor_arms", "fg": 10515, "rotates": false },	
+		{ "id": "overlay_male_mutation_bio_night", "fg": 10516, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_night", "fg": 10517, "rotates": false },	
+		{ "id": "overlay_male_mutation_active_bio_night", "fg": 10518, "rotates": false },
+		{ "id": "overlay_female_mutation_active_bio_night", "fg": 10519, "rotates": false },
+		{ "id": "overlay_male_mutation_bio_surgical_razor", "fg": 10520, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_surgical_razor", "fg": 10521, "rotates": false },
+		{ "id": "overlay_male_mutation_bio_claws", "fg": 10521, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_claws", "fg": 10522, "rotates": false },
+		{ "id": "overlay_male_mutation_bio_blood_anal", "fg": 10523, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_blood_anal", "fg": 10524, "rotates": false },
+		{ "id": "overlay_male_mutation_bio_blood_filter", "fg": 10525, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_blood_filter", "fg": 10526, "rotates": false },	
+		{ "id": "overlay_male_mutation_bio_cable", "fg": 10527, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_cable", "fg": 10528, "rotates": false },	
+		{ "id": "overlay_male_mutation_active_bio_cable", "fg": 10529, "rotates": false },
+		{ "id": "overlay_female_mutation_bio_active_cable", "fg": 10530, "rotates": false }
+		
     ]
     },
 	{
@@ -58668,12 +58804,6 @@
 		  "bg": 0,
           "rotates": false
         },	
-		{
-          "id": "corpse_mon_wasp",
-          "fg": 23469,
-		  "bg": 0,
-          "rotates": false
-        },
         {
           "id": "corpse_mon_spider_jumping",
           "fg": 23469,
@@ -58695,78 +58825,6 @@
         {
           "id": "!corpse_mon_spider_trapdoor_giant",
           "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-        {
-          "id": "corpse_mon_spider_web",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-        {
-          "id": "corpse_mon_spider_web_giant",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-		        {
-          "id": "corpse_mon_spider_web_s",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-        {
-          "id": "corpse_mon_spider_widow",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-        {
-          "id": "corpse_mon_spider_widow_giant",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-		        {
-          "id": "corpse_mon_spider_widow_giant_s",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-        {
-          "id": "corpse_mon_spider_wolf",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-        {
-          "id": "corpse_mon_spider_wolf_giant",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },	 
-		{
-          "id": "corpse_mon_centipede_giant",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-		        {
-          "id": "corpse_mon_dragonfly_giant",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },
-		{
-          "id": "corpse_mon_dermatik",
-          "fg": 23469,
-          "bg": 0,
-          "rotates": false
-        },		
-				{
-          "id": "corpse_mon_dermatik_larva",
-          "fg": 23470,
           "bg": 0,
           "rotates": false
         },		
@@ -59154,6 +59212,387 @@
           "bg": 0,
           "rotates": false
         },
+		{
+          "id": "wind_turbine",
+          "fg": 23514,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "vp_wind_turbine",
+          "fg": 23515,
+          "bg": 0,
+          "rotates": true
+        },
+		{
+          "id": "corpse_mon_cockatrice",
+          "fg": 23519,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_chicken_chick",
+          "fg": 23520,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_grouse_chick",
+          "fg": 23521,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_crow_chick",
+          "fg": 23522,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_turkey_chick",
+          "fg": 23523,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_pheasant_chick",
+          "fg": 23524,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_cockatrice_chick",
+          "fg": 23525,
+          "bg": 0,
+          "rotates": false
+        },				
+		{
+          "id": "corpse_mon_duck_chick",
+          "fg": 23526,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_goose_canadian_chick",
+          "fg": 23527,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_fish_blinky",
+          "fg": 23528,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_fish_bluegill",
+          "fg": 23529,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_fish_bowfin",
+          "fg": 23530,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_fish_bullhead",
+          "fg": 23531,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_fish_carp",
+          "fg": 23532,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_fish_crayfish",
+          "fg": 23533,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_fish_eel",
+          "fg": 23534,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_fish_lbass",
+          "fg": 23535,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_fish_lobster",
+          "fg": 23536,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "t_reinforced_door_glass_lab_c",
+          "fg": 23537,
+          "bg": 5010
+        },
+        {
+          "id": "t_reinforced_door_glass_lab_o",
+          "fg": 23538,
+          "bg": 5010
+        },
+		{
+          "id": "t_door_glass_lab_c",
+          "fg": 23539,
+          "bg": 5010
+        },
+        {
+          "id": "t_door_glass_lab_o",
+          "fg": 23540,
+          "bg": 5010
+        },
+		{
+          "id": "t_door_glass_frosted_lab_c",
+          "fg": 23541,
+          "bg": 5010
+        },
+        {
+          "id": "t_door_glass_frosted_lab_o",
+          "fg": 23542,
+          "bg": 5010
+        },	
+		{
+          "id": "t_door_metal_lab_c",
+          "fg": 23543,
+          "bg": 5010
+        },
+        {
+          "id": "t_door_metal_lab_o",
+          "fg": 23544,
+          "bg": 5010
+        },
+				{
+          "id": "t_door_lab_c",
+          "fg": 23545,
+          "bg": 5010
+        },
+        {
+          "id": "t_door_lab_b",
+          "fg": 23546,
+          "bg": 5010
+        },			
+		{
+          "id": "t_door_lab_o",
+          "fg": 23547,
+          "bg": 5010
+        },
+        {
+          "id": "t_door_lab_frame",
+          "fg": 23548,
+          "bg": 5010
+        },  
+		{
+          "id": "t_mdoor_lab_frame",
+          "fg": 23549,
+          "bg": 5010
+        },		
+		{
+          "id": "t_gates_mech_control_lab",
+          "fg": 23550,
+          "bg": 5010
+        },
+				{
+          "id": "t_gates_control_concrete_lab",
+          "fg": 23551,
+          "bg": 5010
+        },
+						{
+          "id": "t_gates_control_brick_lab",
+          "fg": 23552,
+          "bg": 5010
+        },
+		{
+          "id": "t_gates_control_metal_lab",
+          "fg": 23553,
+          "bg": 5010
+        },	
+		{
+          "id": "corpse_mon_fish_pbass",
+          "fg": 23554,
+          "bg": 0,
+          "rotates": false
+        },   
+		{
+          "id": "corpse_mon_fish_perch",
+          "fg": 23555,
+          "bg": 0,
+          "rotates": false
+        }, 	
+		{
+          "id": "corpse_mon_fish_pickerel",
+          "fg": 23556,
+          "bg": 0,
+          "rotates": false
+        }, 	
+		{
+          "id": "corpse_mon_fish_pike",
+          "fg": 23557,
+          "bg": 0,
+          "rotates": false
+        }, 	
+		{
+          "id": "corpse_mon_fish_salmon",
+          "fg": 23558,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_fish_sbass",
+          "fg": 23559,
+          "bg": 0,
+          "rotates": false
+        }, 	
+		{
+          "id": "corpse_mon_fish_sunfish",
+          "fg": 23560,
+          "bg": 0,
+          "rotates": false
+        }, 	
+		{
+          "id": "corpse_mon_fish_trout",
+          "fg": 23561,
+          "bg": 0,
+          "rotates": false
+        }, 	
+		{
+          "id": "corpse_mon_fish_whitefish",
+          "fg": 23562,
+          "bg": 0,
+          "rotates": false
+        }, 	
+		{
+          "id": "corpse_mon_sewer_fish",
+          "fg": 23563,
+          "bg": 0,
+          "rotates": false
+        }, 			{
+          "id": "corpse_mon_plague_nymph",
+          "fg": 23564,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_skittering_plague",
+          "fg": 23565,
+		  "bg": 0,
+          "rotates": false
+        },
+		
+		{
+          "id": "corpse_mon_plague_vector",
+          "fg": 23566,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_bee",
+          "fg": 23567,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_centipede_giant",
+          "fg": 23568,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_dragonfly_giant",
+          "fg": 23569,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_fly",
+          "fg": 23570,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_mosquito_giant",
+          "fg": 23571,
+          "bg": 0,
+          "rotates": false
+        },  
+		{
+          "id": "corpse_mon_spider_web",
+          "fg": 23572,
+          "bg": 0,
+          "rotates": false
+        },	 
+		{
+          "id": "corpse_mon_spider_web_giant",
+          "fg": 23572,
+          "bg": 0,
+          "rotates": false
+        },	
+        {
+          "id": "corpse_mon_spider_web_s",
+          "fg": 23573,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_widow",
+          "fg": 23574,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_widow_giant",
+          "fg": 23574,
+          "bg": 0,
+          "rotates": false
+        },
+		        {
+          "id": "corpse_mon_spider_widow_giant_s",
+          "fg": 23575,
+          "bg": 0,
+          "rotates": false
+        }, 
+		{
+          "id": "corpse_mon_spider_wolf",
+          "fg": 23576,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_spider_wolf_giant",
+          "fg": 23576,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_wasp",
+          "fg": 23577,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_dermatik",
+          "fg": 23578,
+          "bg": 0,
+          "rotates": false
+        },		
+				{
+          "id": "corpse_mon_dermatik_larva",
+          "fg": 23579,
+          "bg": 0,
+          "rotates": false
+        }, 
+
+
 		{
           "id": "atlatl",
           "fg": 1986,

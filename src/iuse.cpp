@@ -140,6 +140,7 @@ const efftype_id effect_stimpack( "stimpack" );
 const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
@@ -811,7 +812,7 @@ int iuse::datura( player *p, item *it, bool, const tripoint & )
     p->add_effect( effect_datura, rng( 200_minutes, 800_minutes ) );
     p->add_msg_if_player( _( "You eat the datura seed." ) );
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false, it->type );
     }
     return it->type->charges_to_use();
 }
@@ -851,6 +852,8 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( m_neutral, _( "You breathe deeply from the %s" ), it->tname().c_str() );
     if( p->has_effect( effect_smoke ) ) {
         p->remove_effect( effect_smoke );
+    } else if( p->has_effect( effect_teargas ) ) {
+        p->remove_effect( effect_teargas );
     } else if( p->has_effect( effect_asthma ) ) {
         p->remove_effect( effect_asthma );
     } else if( p->stim < 16 ) {
@@ -886,7 +889,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->mod_stomach_water( 20 );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
                             it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 6_minutes, 3_minutes,
+        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
@@ -914,7 +917,7 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         p->mod_thirst( -it->type->comestible->quench * multiplier );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
                             it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
         return blech( p, it, true, pos );
@@ -1234,7 +1237,7 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
 int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
 {
     if( !query_yn( _( "Sure you want to eat the %s? You could plant it in a mound of dirt." ),
-                   it->tname().c_str() ) ) {
+                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return 0; // Save the seed for later!
     }
 
@@ -3648,7 +3651,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1_turns );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_turns, 2_turns );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes );
         // mp3 player reduces hearing
         if( volume == 0 ) {
             p.add_effect( effect_earphones, 1_turns );
@@ -3958,7 +3961,8 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
         if( map_it.is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ), map_it.tname().c_str() ) ) {
+            query_yn( _( "Draw blood from %s?" ),
+                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s..." ), map_it.tname().c_str() );
             drew_blood = true;
             auto bloodtype( map_it.get_mtype()->bloodType() );
@@ -4650,7 +4654,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                                string_format( _( "a disturbing scream from %s %s" ),
                                               p->disp_name( true ), it->tname() ) );
                 if( !p->is_deaf() ) {
-                    p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 5_turns );
+                    p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
                 }
                 break;
 
@@ -4786,7 +4790,8 @@ static bool heat_item( player &p )
         target.apply_freezerburn();
 
         if( target.has_flag( "EATEN_COLD" ) &&
-            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
+            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ),
+                       colorize( target.tname(), target.color_in_inventory() ) ) ) {
 
             // assume environment is warm; heat less to keep COLD longer
             int counter_mod = 550;
@@ -5110,6 +5115,11 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     sounds::ambient_sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text );
 
+    // Sound code doesn't describe noises at the player position
+    if( p->can_hear( p->pos(), speech.volume ) ) {
+        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
+    }
+
     return it->type->charges_to_use();
 }
 
@@ -5330,7 +5340,7 @@ int iuse::seed( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ||
         query_yn( _( "Sure you want to eat the %s? You could plant it in a mound of dirt." ),
-                  it->tname().c_str() ) ) {
+                  colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return it->type->charges_to_use(); //This eats the seed object.
     }
     return 0;
@@ -7357,8 +7367,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        int windpower = int( 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                             cur_om_ter, g->is_sheltered( g->u.pos() ) ) );
+        double windpower = int( 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
+                                cur_om_ter, p->pos(), g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),

@@ -511,12 +511,14 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
+        std::string food_tame = food.tname();
+        const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == "FOOD" ) {
-            req << string_format( _( "Eat your %s anyway?" ), food.tname().c_str() );
+            req << string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
         } else if( !eat_verb && comest->comesttype == "DRINK" ) {
-            req << string_format( _( "Drink your %s anyway?" ), food.tname().c_str() );
+            req << string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
         } else {
-            req << string_format( _( "Consume your %s anyway?" ), food.tname().c_str() );
+            req << string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
         }
 
         if( !query_yn( req.str() ) ) {
@@ -631,9 +633,9 @@ bool player::eat( item &food, bool force )
     const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
     if( food.has_flag( "HIDDEN_HALLU" ) ) {
         if( spiritual ) {
-            add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false );
         } else {
-            add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 18, 36, 1_hours, 30_minutes, false );
         }
         if( !has_effect( effect_hallu ) ) {
             add_effect( effect_hallu, 6_hours );

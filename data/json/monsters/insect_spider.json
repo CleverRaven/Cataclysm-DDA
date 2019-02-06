@@ -747,7 +747,7 @@
     "id": "mon_ant_acid",
     "type": "MONSTER",
     "name": "giant acidic ant",
-    "description": "A monstrous red ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid seems to drip out periodically.",
+    "description": "A monstrous brown ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid seems to drip out periodically.",
     "default_faction": "acid_ant",
     "species": [ "INSECT" ],
     "diff": 2,

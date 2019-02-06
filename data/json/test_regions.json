@@ -223,5 +223,10 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
     "examine_action": "flower_poppy"
+  },
+  {
+    "type": "region_settings",
+    "id": "river",
+    "swamp_river_influence": 50
   }
 ]

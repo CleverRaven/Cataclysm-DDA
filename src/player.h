@@ -408,6 +408,7 @@ class player : public Character
         long get_memorized_symbol( const tripoint &p ) const;
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
+        void clear_memorized_tile( const tripoint &pos );
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
@@ -1216,17 +1217,20 @@ class player : public Character
         void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity( const activity_id &type ) const;
         void cancel_activity();
+        void resume_backlog_activity();
 
         int get_morale_level() const; // Modified by traits, &c
         void add_morale( morale_type type, int bonus, int max_bonus = 0,
-                         const time_duration &duration = 6_minutes,
-                         const time_duration &decay_start = 3_minutes, bool capped = false,
+                         const time_duration &duration = 1_hours,
+                         const time_duration &decay_start = 30_minutes, bool capped = false,
                          const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
+        void clear_morale();
         bool has_morale_to_read() const;
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
+        void on_worn_item_transform( const item &it );
 
         /** Get the formatted name of the currently wielded item (if any) */
         std::string weapname() const;

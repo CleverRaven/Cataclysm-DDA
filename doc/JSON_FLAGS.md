@@ -65,6 +65,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
+- ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
@@ -930,6 +931,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
+- ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.

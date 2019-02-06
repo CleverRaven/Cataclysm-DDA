@@ -922,7 +922,7 @@ bool game::start_game()
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
         u.add_effect( effect_drunk, 270_minutes );
-        u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
+        u.add_morale( MORALE_FEELING_BAD, -100, -100, 50_minutes, 50_minutes );
     }
     if( scen->has_flag( "HELI_CRASH" ) ) {
         start_loc.handle_heli_crash( u );
@@ -1800,6 +1800,7 @@ bool game::cancel_activity_query( const std::string &text )
 
     if( query_yn( "%s %s", text.c_str(), u.activity.get_stop_phrase().c_str() ) ) {
         u.cancel_activity();
+        u.resume_backlog_activity();
         return true;
     }
     return false;
@@ -5924,10 +5925,17 @@ void game::control_vehicle()
             add_msg( _( "No vehicle there." ) );
             return;
         }
-        vehicle *const veh = &vp->vehicle();
+        veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
             veh->use_controls( *examp_ );
+        }
+    }
+    if( veh ) {
+        // If we reached here, we gained control of a vehicle.
+        // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
+        for( const tripoint &target : veh->get_points() ) {
+            u.clear_memorized_tile( m.getabs( target ) );
         }
     }
 }
@@ -7577,8 +7585,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             extended_description( lp );
             draw_sidebar();
         } else if( action == "CENTER" ) {
-            center = start_point;
-            lp = start_point;
+            center = u.pos();
+            lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             // Maximum mouse events before a forced graphics update
@@ -9651,25 +9659,46 @@ void game::butcher()
 void game::eat( int pos )
 {
     if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
-        m.ter( u.pos() ) == t_underbrush ) {
+        ( m.ter( u.pos() ) == t_underbrush || m.ter( u.pos() ) == t_shrub ) ) {
         if( u.get_hunger() < 20 ) {
-            add_msg( _( "You're too full to eat the underbrush." ) );
+            add_msg( _( "You're too full to eat the leaves from the %s." ), m.ter( u.pos() )->name() );
+            return;
         } else {
             u.moves -= 400;
             u.mod_hunger( -20 );
+            add_msg( _( "You eat the leaves from the %s." ), m.ter( u.pos() )->name() );
             m.ter_set( u.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
             return;
         }
     }
-    if( u.has_active_mutation( trait_GRAZER ) && m.ter( u.pos() ) == t_grass ) {
+    if( u.has_active_mutation( trait_GRAZER ) && ( m.ter( u.pos() ) == t_grass ||
+            m.ter( u.pos() ) == t_grass_long || m.ter( u.pos() ) == t_grass_tall ) ) {
         if( u.get_hunger() < 8 ) {
             add_msg( _( "You're too full to graze." ) );
+            return;
         } else {
             u.moves -= 400;
-            add_msg( _( "You eat the grass." ) );
+            add_msg( _( "You graze on the %s." ), m.ter( u.pos() )->name() );
             u.mod_hunger( -8 );
-            m.ter_set( u.pos(), t_dirt );
+            if( m.ter( u.pos() ) == t_grass_tall ) {
+                m.ter_set( u.pos(), t_grass_long );
+            } else if( m.ter( u.pos() ) == t_grass_long ) {
+                m.ter_set( u.pos(), t_grass );
+            } else {
+                m.ter_set( u.pos(), t_dirt );
+            }
+            return;
+        }
+    }
+    if( u.has_active_mutation( trait_GRAZER ) ) {
+        if( m.ter( u.pos() ) == t_grass_golf ) {
+            add_msg( _( "This grass is too short to graze." ) );
+            return;
+        } else if( m.ter( u.pos() ) == t_grass_dead ) {
+            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
+            return;
+        } else if( m.ter( u.pos() ) == t_grass_white ) {
+            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
             return;
         }
     }
@@ -10615,6 +10644,9 @@ bool game::walk_move( const tripoint &dest_loc )
             u.activity.values.push_back( amount );
         }
     }
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+        add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ).c_str() );
+    }
 
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
@@ -11154,7 +11186,12 @@ bool game::grabbed_move( const tripoint &dp )
 void game::on_move_effects()
 {
     // TODO: Move this to a character method
-    if( u.lifetime_stats.squares_walked % 2 == 0 ) {
+    if( u.lifetime_stats.squares_walked % 8 == 0 ) {
+        if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            u.charge_power( 1 );
+        }
+    }
+    if( u.lifetime_stats.squares_walked % 160 == 0 ) {
         if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power( 1 );
         }
@@ -11766,8 +11803,9 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( movez > 0 ) {
         if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
-            popup( _( "Halfway up, the way up becomes blocked off." ) );
-            return cata::nullopt;
+            if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                return cata::nullopt;
+            }
         }
         // Manhole covers need this to work
         // Maybe require manhole cover here and fail otherwise?
