@@ -294,10 +294,10 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
 }
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items,
-                               const tripoint &where )
+                               const tripoint &where, bool force_ground )
 {
-    if( const cata::optional<vpart_reference> vp =
-            g->m.veh_at( where ).part_with_feature( "CARGO", false ) ) {
+    const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( "CARGO", false );
+    if( vp && !force_ground ) {
         put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
     }
@@ -493,8 +493,17 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
 void activity_handlers::drop_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
+
+    bool force_ground = false;
+    for( auto &it : act->str_values ) {
+        if( it == "force_ground" ) {
+            force_ground = true;
+            break;
+        }
+    }
+
     put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
-                              pos );
+                              pos, force_ground );
 }
 
 void activity_on_turn_wear()
