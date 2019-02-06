@@ -1012,14 +1012,14 @@ std::string trim( const std::string &s, Prep prep )
 std::string trim( const std::string &s )
 {
     return trim( s, []( int c ) {
-        return std::isspace( c );
+        return isspace( c );
     } );
 }
 
 std::string trim_punctuation_marks( const std::string &s )
 {
     return trim( s, []( int c ) {
-        return std::ispunct( c );
+        return ispunct( c );
     } );
 }
 

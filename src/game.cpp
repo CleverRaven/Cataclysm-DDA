@@ -5925,10 +5925,17 @@ void game::control_vehicle()
             add_msg( _( "No vehicle there." ) );
             return;
         }
-        vehicle *const veh = &vp->vehicle();
+        veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
             veh->use_controls( *examp_ );
+        }
+    }
+    if( veh ) {
+        // If we reached here, we gained control of a vehicle.
+        // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
+        for( const tripoint &target : veh->get_points() ) {
+            u.clear_memorized_tile( m.getabs( target ) );
         }
     }
 }
@@ -7578,8 +7585,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             extended_description( lp );
             draw_sidebar();
         } else if( action == "CENTER" ) {
-            center = start_point;
-            lp = start_point;
+            center = u.pos();
+            lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             // Maximum mouse events before a forced graphics update
@@ -10637,6 +10644,9 @@ bool game::walk_move( const tripoint &dest_loc )
             u.activity.values.push_back( amount );
         }
     }
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+        add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ).c_str() );
+    }
 
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
@@ -11793,8 +11803,9 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( movez > 0 ) {
         if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
-            popup( _( "Halfway up, the way up becomes blocked off." ) );
-            return cata::nullopt;
+            if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                return cata::nullopt;
+            }
         }
         // Manhole covers need this to work
         // Maybe require manhole cover here and fail otherwise?
