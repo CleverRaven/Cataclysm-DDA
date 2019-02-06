@@ -3590,18 +3590,28 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     //do this with chance proportional to current load
     // But only if the player is actually there!
     if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
-        //charge bionics when using muscle engine
-        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            g->u.charge_power( 1 );
-        }
         //cost proportional to strain
         int mod = 1 + 4 * st;
+        //charge bionics when using muscle engine
+        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            g->u.charge_power( 2 );
+            mod = mod * 2;
+        }
+        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            if( one_in( 20 ) ) {
+                g->u.charge_power( 1 );
+            }
+        }
         if( one_in( 10 ) ) {
             g->u.mod_hunger( mod );
             g->u.mod_thirst( mod );
             g->u.mod_fatigue( mod );
         }
-        g->u.mod_stat( "stamina", -mod * 20 );
+        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            g->u.mod_stat( "stamina", -mod * 30 );
+        } else {
+            g->u.mod_stat( "stamina", -mod * 20 );
+        }
     }
 }
 
@@ -5181,8 +5191,9 @@ void vehicle::update_time( const time_point &update_to )
         //Wind Turbine less efficient in forests
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
-        int windpower = weatherPoint.windpower;
-        windpower = get_local_windpower( windpower, cur_om_ter, false );
+        double windpower = weatherPoint.windpower;
+        windpower = get_local_windpower( windpower, cur_om_ter, g->m.getabs( global_pos3() ),
+                                         weatherPoint.winddirection, false );
         double intensity = windpower / to_turns<double>( elapsed );
         int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {

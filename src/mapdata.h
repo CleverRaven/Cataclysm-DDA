@@ -106,6 +106,7 @@ struct map_deconstruct_info {
  * RAMP - Higher z-levels can be accessed from this tile
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
+ * BLOCK_WIND - This tile will partially block wind
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -167,6 +168,7 @@ enum ter_bitflags : int {
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP,
     TFLAG_HIDE_PLACE,
+    TFLAG_BLOCK_WIND,
 
     NUM_TERFLAGS
 };

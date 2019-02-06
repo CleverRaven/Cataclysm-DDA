@@ -520,6 +520,7 @@ void sfx::do_ambient()
     17: Stamina 35%
     18: Idle chainsaw
     19: Chainsaw theme
+    20: Outdoor blizzard
     Group Assignments:
     1: SFX related to weather
     2: SFX related to time of day

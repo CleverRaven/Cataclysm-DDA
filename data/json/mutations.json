@@ -4174,7 +4174,6 @@
         "name" : "Rapid Metabolism",
         "points" : -2,
         "valid" : false,
-        "purifiable" : false,
         "description" : "You require more resources than most, but heal more rapidly as well.  Provides weak regeneration even when not asleep.",
         "types" : ["HEALING"],
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],

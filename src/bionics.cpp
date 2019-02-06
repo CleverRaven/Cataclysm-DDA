@@ -77,6 +77,11 @@ const efftype_id effect_weed_high( "weed_high" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 
+static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+
 namespace
 {
 std::map<bionic_id, bionic_data> bionics;
@@ -362,6 +367,8 @@ bool player::activate_bionic( int b, bool eff_only )
         } else if( !g->consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
+    } else if( bio.id == "bio_torsionratchet" ) {
+        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
@@ -489,7 +496,7 @@ bool player::activate_bionic( int b, bool eff_only )
         const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                           cur_om_ter, g->is_sheltered( g->u.pos() ) );
+                           cur_om_ter, pos(), g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -1547,15 +1554,34 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "You settle into position, sliding your right wrist into the couch's strap." ),
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( anesthetic ) {
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the operation starts." ) );
+        }
+
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
-        add_msg_if_player( m_mixed,
-                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
-        ;
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
+        } else {
+            add_msg_if_player( m_mixed,
+                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+        }
     }
+
+    //Pain junkies feel sorry about missed pain from operation.
+    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+        has_trait( trait_CENOBITE ) ) {
+        add_msg_if_player( m_mixed,
+                           _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+    }
+
     add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }

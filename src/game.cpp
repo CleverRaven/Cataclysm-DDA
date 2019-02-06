@@ -11176,7 +11176,12 @@ bool game::grabbed_move( const tripoint &dp )
 void game::on_move_effects()
 {
     // TODO: Move this to a character method
-    if( u.lifetime_stats.squares_walked % 2 == 0 ) {
+    if( u.lifetime_stats.squares_walked % 8 == 0 ) {
+        if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            u.charge_power( 1 );
+        }
+    }
+    if( u.lifetime_stats.squares_walked % 160 == 0 ) {
         if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power( 1 );
         }

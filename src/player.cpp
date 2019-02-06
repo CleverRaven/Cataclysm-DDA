@@ -832,6 +832,12 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+    if( inp_mngr.get_previously_pressed_key() == KEY_LEFT ) {
+        facing = FD_LEFT;
+    }
+    else if( inp_mngr.get_previously_pressed_key() == KEY_RIGHT ) {
+        facing = FD_RIGHT;
+    }
 }
 
 void player::action_taken()
@@ -1024,7 +1030,7 @@ void player::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, cur_om_ter, sheltered );
+    double total_windpower = get_local_windpower( weather.windpower + vehwindspeed, cur_om_ter, pos(), weather.winddirection, sheltered );
 
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
@@ -6634,8 +6640,8 @@ void player::apply_wetness_morale( int temperature )
             morale_effect = -1;
         }
     }
-
-    add_morale( MORALE_WET, morale_effect, total_morale, 1_minutes, 1_minutes, true );
+    // 11_turns because decay is applied in 10_turn increments
+    add_morale( MORALE_WET, morale_effect, total_morale, 11_turns, 11_turns, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
@@ -6729,6 +6735,11 @@ int player::has_morale( morale_type type ) const
 void player::rem_morale(morale_type type, const itype* item_type)
 {
     morale->remove( type, item_type );
+}
+
+void player::clear_morale()
+{
+    morale->clear();
 }
 
 bool player::has_morale_to_read() const
@@ -11563,7 +11574,6 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-
     return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
@@ -11701,6 +11711,9 @@ void player::burn_move_stamina( int moves )
     // 7/turn walking
     // 20/turn running
     int burn_ratio = 7;
+    if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+        burn_ratio = burn_ratio * 2 - 3;
+    }
     burn_ratio += overburden_percentage;
     if( move_mode == "run" ) {
         burn_ratio = burn_ratio * 3 - 1;
@@ -12269,7 +12282,6 @@ float player::speed_rating() const
     if( move_mode != "run" ) {
         ret *= 1.0f + (static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ));
     }
-
     return ret;
 }
 

@@ -606,6 +606,12 @@ void monster::move()
         // Otherwise weird things happen
         destination.z = posz();
     }
+    // toggle facing direction for sdl flip
+    if( destination.x < pos().x ) {
+        facing = FD_LEFT;
+    } else {
+        facing = FD_RIGHT;
+    }
 
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
