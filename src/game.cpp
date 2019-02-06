@@ -7578,8 +7578,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             extended_description( lp );
             draw_sidebar();
         } else if( action == "CENTER" ) {
-            center = start_point;
-            lp = start_point;
+            center = u.pos();
+            lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             // Maximum mouse events before a forced graphics update
