@@ -86,7 +86,7 @@
     "id": "small_rail",
     "type": "GUNMOD",
     "name": "small sight rail",
-    "description": "A small rail, for attaching scopes and the like. This one can only fit smaller sights."
+    "description": "A small rail, for attaching scopes and the like.  This one can only fit smaller sights."
     "weight": 30,
     "volume": "75ml",
     "rail_size": "small",
