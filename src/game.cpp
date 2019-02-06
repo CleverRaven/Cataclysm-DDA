@@ -2106,7 +2106,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
 
-        if (oThisItem.is_favorite) {
+        if( oThisItem.is_favorite ) {
             addentry( 'f', pgettext( "action", "unfavorite" ), HINT_GOOD );
         } else {
             addentry( 'f', pgettext( "action", "favorite" ), HINT_GOOD );
