@@ -150,7 +150,7 @@
     "id": "sniper_scope",
     "type": "GUNMOD",
     "name": "sniper's scope",
-    "description": "A very large sight, this scope has a range of nearly 4000",
+    "description": "A very large sight, this scope has a range of nearly 4000 feet.",
     "weight": 750,
     "volume": 3.5,
     "price": 78000,
