@@ -104,7 +104,7 @@
     "id": "med_rail",
     "type": "GUNMOD",
     "name": "medium sight rail",
-    "description": "A medium sized rail, for attaching scopes and the like. This one fits medium sized sights."
+    "description": "A medium sized rail, for attaching scopes and the like.  This one fits medium sized sights."
     "weight": 30,
     "volume": "75ml",
     "rail_size": "medium",
