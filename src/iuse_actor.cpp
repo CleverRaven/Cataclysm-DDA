@@ -1246,7 +1246,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
                        it.tname() );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.placement = pos;
-    p.practice( skill_survival, moves_modifier + moves_cost_fast / 200 + 2, 5 );
+    p.practice( skill_survival, moves_modifier + moves_cost_fast / 400 + 2, 5 );
     return it.type->charges_to_use();
 }
 
