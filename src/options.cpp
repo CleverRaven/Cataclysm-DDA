@@ -1479,12 +1479,12 @@ void options_manager::add_options_graphics()
     add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
         translate_marker( "If true, fonts will look better." ),
         false
-    );
+       );
 
     add( "FONT_WIDTH", "graphics", translate_marker( "Font width" ),
         translate_marker( "Set the font width.  Requires restart." ),
         8, 100, 8
-    );
+       );
 
     add( "FONT_HEIGHT", "graphics", translate_marker( "Font height" ),
          translate_marker( "Set the font height.  Requires restart." ),
