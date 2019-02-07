@@ -142,7 +142,7 @@
     "goal": "MGOAL_FIND_ITEM_GROUP",
     "difficulty": 3,
     "value": 400000,
-    "item_group": "cannedfood",
+    "item_group": "foodintincan",
     "count": 40,
     "required_container": "can_food",
     "remove_container": true,
