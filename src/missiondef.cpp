@@ -290,6 +290,8 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "count", item_count, 1 );
     optional( jo, was_loaded, "required_container", container_id );
     optional( jo, was_loaded, "remove_container", remove_container );
+    //intended for situations where closed and open container are different
+    optional( jo, was_loaded, "empty_container", empty_container );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 

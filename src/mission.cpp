@@ -261,6 +261,7 @@ void mission::wrap_up()
             itype_id container = type->container_id;
             bool specific_container_required = container.compare( "null" ) != 0;
             bool remove_container = type->remove_container;
+            itype_id empty_container = type->empty_container;
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
@@ -276,8 +277,13 @@ void mission::wrap_up()
 
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
-                container_comp.push_back( item_comp( container, type->item_count ) );
-                u.consume_items( container_comp );
+                if( empty_container != "null" ) {
+                    container_comp.push_back( item_comp( empty_container, type->item_count ) );
+                    u.consume_items( container_comp );
+                } else {
+                    container_comp.push_back( item_comp( container, type->item_count ) );
+                    u.consume_items( container_comp );
+                }
             }
         }
         break;

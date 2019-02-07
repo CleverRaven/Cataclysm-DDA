@@ -206,6 +206,7 @@ struct mission_type {
     Group_tag group_id = "null";
     itype_id container_id = "null";
     bool remove_container = false;
+    itype_id empty_container = "null";
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;

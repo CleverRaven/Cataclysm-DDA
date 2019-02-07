@@ -145,7 +145,8 @@
     "item_group": "cannedfood",
     "count": 40,
     "required_container": "can_food",
-    "remove_container":  true,
+    "remove_container": true,
+    "empty_container": "can_food_unsealed",
     "end": "evac_construct_5",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
