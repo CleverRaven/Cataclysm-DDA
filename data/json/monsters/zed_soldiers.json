@@ -50,13 +50,10 @@
     "type": "MONSTER",
     "name": "black-ops zombie",
     "description": "This soldier zombie's skin radiates a sort of shadowy smoke that obscures its outline, making its camouflage even harder to see against the background.  In the darkness it would be nigh invisible.",
-    "copy_from": "mon_zombie_soldier",
+    "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "hp": 100,
-    "speed": 90,
-    "melee_skill": 6,
-    "dodge": 3,
-    "vision_night": 30,
+    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "dodge": 2, "vision_night": 30 },
+    "delete": { "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ] },
     "special_attacks": [
       {
         "type": "bite",
@@ -64,144 +61,114 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
       }
     ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY",
-      "NIGHT_INVISIBILITY"
-    ]
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "id": "mon_zombie_soldier_blackops_2",
     "type": "MONSTER",
     "name": "hunter-killer zombie",
     "description": "Fragments of visible uniform hint that this monstrosity was once a soldier.  Anything human is invisible, hidden inside a sheath of living shadow.  It moves with preternatural fluidity and grace.",
-    "copy_from": "mon_zombie_soldier_blackops_1",
+    "copy-from": "mon_zombie_soldier_blackops_1",
     "looks_like": "mon_zombie_soldier_blackops_1",
-    "hp": 120,
-    "speed": 110,
-    "melee_skill": 7,
-    "dodge": 4,
-    "vision_night": 50,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 8,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
-      }
-    ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "KEENNOSE",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY",
-      "NIGHT_INVISIBILITY"
-    ]
+    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "dodge": 1, "vision_night": 15 },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "scratch",
+          "cooldown": 10,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 } ]
+        },
+        { "type": "leap", "cooldown": 10, "max_range": 3 }
+      ],
+      "flags": [ "KEENNOSE" ]
+    }
   },
   {
     "id": "mon_zombie_soldier_acid_1",
     "type": "MONSTER",
     "name": "acid-sniper zombie",
     "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask comes some sort of hardened fleshy proboscis, with steaming corrosive fluid leaking from the end.",
-    "copy_from": "mon_zombie_soldier",
+    "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "hp": 100,
-    "melee_skill": 6,
-    "dodge": 2,
-    "vision_night": 5,
-    "special_attacks": [
-      [ "ACID_BARF", 10 ],
-      {
-        "type": "gun",
-        "cooldown": 10,
-        "move_cost": 90,
-        "gun_type": "acid_spit",
-        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
-        "fake_dex": 8,
-        "fake_per": 8,
-        "require_targeting_player": false,
-        "description": "The acid-sniper zombie launches a corrosive dart!",
-        "ranges": [ [ 2, 30, "DEFAULT" ] ]
-      }
-    ],
-    "death_function": [ "ACID", "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "ACIDPROOF",
-      "ACID_BLOOD",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
+    "delete": { "flags": [ "BLEED" ] },
+    "extend": {
+      "special_attacks": [
+        [ "ACID_BARF", 10 ],
+        {
+          "type": "gun",
+          "cooldown": 15,
+          "move_cost": 90,
+          "gun_type": "acid_sniper",
+          "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
+          "fake_dex": 8,
+          "fake_per": 8,
+          "require_targeting_player": false,
+          "description": "The acid-sniper zombie launches a corrosive dart!",
+          "ranges": [ [ 2, 20, "DEFAULT" ] ]
+        }
+      ],
+      "death_function": [ "ACID" ],
+      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+    }
+  },
+  {
+    "id": "acid_sniper",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": "acid dart gun",
+    "description": "Fake gun that fires acid globs.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 500,
+    "ranged_damage": { "damage_type": "acid", "amount": 6 }
   },
   {
     "id": "mon_zombie_soldier_acid_2",
     "type": "MONSTER",
     "name": "acid-support zombie",
     "description": "This zombie wears what appears to have once been a soldier's uniform and armor, now a series of cracked and melted plates that have fused to its skin and thickened hide.  Its face and arms blister with strange mutated tubes that pulse and drip with acid.",
-    "copy_from": "mon_zombie_soldier",
+    "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "hp": 160,
-    "melee_skill": 7,
-    "dodge": 2,
-    "armor_bash": 18,
-    "armor_cut": 30,
-    "special_attacks": [
-      [ "ACID_BARF", 5 ],
-      {
-        "type": "gun",
-        "cooldown": 10,
-        "move_cost": 20,
-        "gun_type": "acid_spit",
-        "fake_skills": [ [ "gun", 1 ], [ "rifle", 1 ] ],
-        "fake_dex": 4,
-        "fake_per": 8,
-        "require_targeting_player": false,
-        "description": "The acid-support zombie launches a hail of corrosive darts!",
-        "ranges": [ [ 2, 20, "DEFAULT" ] ]
-      }
-    ],
-    "death_function": [ "ACID", "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "ACIDPROOF",
-      "ACID_BLOOD",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "relative": { "hp": 80, "speed": -10, "melee_skill": 2, "armor_bash": 5, "armor_cut": 5 },
+    "delete": { "flags": [ "BLEED" ] },
+    "extend": {
+      "special_attacks": [
+        [ "ACID_BARF", 5 ],
+        {
+          "type": "gun",
+          "cooldown": 8,
+          "move_cost": 50,
+          "gun_type": "acid_spray",
+          "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
+          "fake_dex": 8,
+          "fake_per": 8,
+          "require_targeting_player": false,
+          "description": "The acid-support zombie launches a hail of corrosive darts!",
+          "ranges": [ [ 2, 8, "DEFAULT" ] ]
+        }
+      ],
+      "death_function": [ "ACID" ],
+      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+    }
+  },
+  {
+    "id": "acid_spray",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": "acid dart volley",
+    "description": "Fake gun that fires acid globs.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "skill": "rifle",
+    "durability": 10,
+    "burst": 8,
+    "range": 100,
+    "dispersion": 5000,
+    "ranged_damage": { "damage_type": "acid", "amount": 3, "armor_multiplier": 0.8 }
   },
   {
     "id": "mon_zombie_military_pilot",
