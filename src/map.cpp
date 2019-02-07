@@ -7067,9 +7067,9 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // TODO: what now? there is no possible place to spawn monsters, most
         // likely because the player can see all the places.
         const tripoint glp = getabs( gp );
-        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-                       " at " << gp.x << "," << gp.y << "," << gp.z <<
-                       " global " << glp.x << "," << glp.y << "," << glp.z;
+        dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
+                         " at " << gp.x << "," << gp.y << "," << gp.z <<
+                         " global " << glp.x << "," << glp.y << "," << glp.z;
         // Just kill the group. It's not like we're removing existing monsters
         // Unless it's a horde - then don't kill it and let it spawn behind a tree or smoke cloud
         if( !group.horde ) {
