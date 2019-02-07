@@ -4027,68 +4027,20 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
         }
     }
 
-    std::string product;
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
-        //dry products before smoked products to avoid override
-        if( item_it.typeId() == "meat_smoked" ) {
-            product = "dry_meat";
-        } else if( item_it.typeId() == "fish_smoked" ) {
-            product = "dry_fish";
-        } else if( item_it.typeId() == "raw_beans" ) {
-            product = "dry_beans";
-        } else if( item_it.typeId() == "sweet_fruit" || item_it.typeId() == "coconut" || item_it.typeId() == "can_coconut" ) {
-            product = "dry_fruit";
-        } else if( item_it.typeId() == "human_smoked" ) {
-            product = "dry_hflesh";
-        } else if( item_it.typeId() == "meat_tainted" ) {
-            product = "dry_meat_tainted";
-        } else if( item_it.typeId() == "mushroom" || item_it.typeId() == "mushroom_morel" ) {
-            product = "dry_mushroom";
-        } else if( item_it.typeId() == "mushroom_magic" ) {
-            product = "dry_mushroom_magic";
-        } else if( item_it.typeId() == "broccoli" ||
-            item_it.typeId() == "tomato" ||
-            item_it.typeId() == "pumpkin" ||
-            item_it.typeId() == "zucchini" ||
-            item_it.typeId() == "celery" ||
-            item_it.typeId() == "potato_raw" ||
-            item_it.typeId() == "onion" ||
-            item_it.typeId() == "carrot" ||
-            item_it.typeId() == "cabbage" ||
-            item_it.typeId() == "lettuce" ||
-            item_it.typeId() == "veggy" ||
-            item_it.typeId() == "veggy_wild" ||
-            item_it.typeId() == "dandelion_cooked" ) {
-            product = "dry_veggy";
-        } else if( item_it.typeId() == "veggy_tainted" ) {
-            product = "dry_veggy_tainted";
-        //smoked products after dried products to avoid override
-        } else if( item_it.typeId() == "meat" ) {
-            product = "meat_smoked";
-        } else if( item_it.typeId() == "fish" ) {
-            product = "fish_smoked";
-        } else if( item_it.typeId() == "sausage_wasteland_raw" ) {
-            product = "sausage_wasteland";
-        } else if( item_it.typeId() == "sausage_raw" ) {
-            product = "sausage";
-        } else if( item_it.typeId() == "mannwurst_raw" ) {
-            product = "mannwurst";
-        } else if( item_it.typeId() == "human_flesh" ) {
-            product = "human_smoked";
-        } else {
-            product.clear();
-            item_it.unset_flag( "SMOKING" );
-        }
-        if( !product.empty() ) {
-            item result( product, start_time + 6_hours );
-            result.charges = item_it.charges;
+        if( item_it.type->comestible ) {
+            if( item_it.type->comestible->smoking_result.empty() ) {
+                item_it.unset_flag( "SMOKING" );
+            } else {
+                item result( item_it.type->comestible->smoking_result, start_time + 6_hours, item_it.charges );
 
-            // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( "SMOKING_RESULT" );
-            result.set_relative_rot( item_it.get_relative_rot() );
-            result.unset_flag( "SMOKING_RESULT" );
-            item_it = result;
+                // Set flag to tell set_relative_rot() to calc from bday not now
+                result.set_flag( "SMOKING_RESULT" );
+                result.set_relative_rot( item_it.get_relative_rot() );
+                result.unset_flag( "SMOKING_RESULT" );
+                item_it = result;
+            }
         }
     }
     g->m.furn_set( examp, next_smoker_type );
