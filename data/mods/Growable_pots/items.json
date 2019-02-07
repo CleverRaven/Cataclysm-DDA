@@ -501,7 +501,7 @@
       "not_ready_msg": "It is growing quickly.",
       "msg": "Hops are ready to harvest!",
       "moves": 0,
-      "target": "gp_cucumber_ready"
+      "target": "gp_garlic_ready"
     }
   },
   {
