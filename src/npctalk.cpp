@@ -887,6 +887,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Lie about mission
             std::string msg;
             switch( miss->get_type().goal ) {
+                case MGOAL_FIND_ITEM_GROUP:
                 case MGOAL_FIND_ITEM:
                 case MGOAL_FIND_ANY_ITEM:
                     msg = _( "Yup!  Here it is!" );
