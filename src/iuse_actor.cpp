@@ -1141,11 +1141,11 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     if( !prep_firestarter_use( p, pos ) ) {
         return 0;
     }
-    int firestart_level = it.get_quality( quality_id( "FIRESTARTING" ) );
+    const int firestart_level = it.get_quality( quality_id( "FIRESTARTING" ) );
     const time_point update_to = calendar::turn;
     const time_point update_from = calendar::turn - DAYS( 1 );
     // get the general wetness of this area from history of rain
-    bool sheltered = g->is_sheltered( pos );
+    const bool sheltered = g->is_sheltered( pos );
     auto accum_weather = sum_conditions( update_from, update_to, pos );
     int wetness = 1;
     if( !sheltered ) {
@@ -1153,14 +1153,13 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( pos ) );
     const w_point weatherPoint = *g->weather_precise;
-    double windpower = weatherPoint.windpower;
-    windpower = get_local_windpower( windpower, cur_om_ter, pos,
-                                     weatherPoint.winddirection, sheltered );
-    float light = light_mod( pos );
+    double windpower = get_local_windpower( weatherPoint.windpower, cur_om_ter, pos,
+                                            weatherPoint.winddirection, sheltered );
+    const float light = light_mod( pos );
     double skill_level = p.get_skill_level( skill_survival );
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
-    int moves_base = moves_cost_by_fuel( pos );
+    const int moves_base = moves_cost_by_fuel( pos );
     int environment_modifier = 1;
     if( !sheltered && ( g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_FLURRIES ) ) {
         wetness += 2;
