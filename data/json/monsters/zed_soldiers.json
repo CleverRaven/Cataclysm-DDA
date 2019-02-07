@@ -140,7 +140,7 @@
         [ "ACID_BARF", 5 ],
         {
           "type": "gun",
-          "cooldown": 8,
+          "cooldown": 4,
           "move_cost": 50,
           "gun_type": "acid_spray",
           "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
@@ -162,13 +162,13 @@
     "name": "acid dart volley",
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
+    "modes": [ [ "DEFAULT", "auto", 3 ] ],
     "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
     "skill": "rifle",
     "durability": 10,
-    "burst": 8,
     "range": 100,
     "dispersion": 5000,
-    "ranged_damage": { "damage_type": "acid", "amount": 3, "armor_multiplier": 0.8 }
+    "ranged_damage": { "damage_type": "acid", "amount": 5, "armor_multiplier": 0.8 }
   },
   {
     "id": "mon_zombie_military_pilot",
