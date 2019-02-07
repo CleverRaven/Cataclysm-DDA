@@ -17,6 +17,7 @@
     "material": "flesh",
     "volume": 1,
     "flags": [ "SMOKABLE" ],
+    "smoking_result": "sausage",
     "vitamins": [ [ "iron", 1 ], [ "vitB", 9 ] ],
     "fun": -10
   },
@@ -157,7 +158,8 @@
     "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
     "healthy": 0,
     "quench": -7,
-    "flags": [ "SMOKABLE" ]
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "sausage_wasteland"
   },
   {
     "type": "COMESTIBLE",
