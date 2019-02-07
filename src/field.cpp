@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <queue>
+#include <tuple>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -683,29 +684,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
         // Then, spread to a nearby point.
         // If not possible (or randomly), try to spread up
         // Wind direction will block the field spreading into the wind.
-        double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-        float fx, fy;
-        fy = -cos( raddir );
-        fx = sin( raddir );
-        int roundedx;
-        int roundedy;
-        if( fx > 0.5 ) {
-            roundedx = 1;
-        } else if( fx < -0.5 ) {
-            roundedx = -1;
-        } else {
-            roundedx = 0;
-        }
-        if( fy > 0.5 ) {
-            roundedy = 1;
-        } else if( fy < -0.5 ) {
-            roundedy = -1;
-        } else {
-            roundedy = 0;
-        }
-        tripoint removepoint( p - point( roundedx, roundedy ) );
-        tripoint removepoint2;
-        tripoint removepoint3;
         spread.reserve( 8 );
         for( size_t i = ( end_it + 1 ) % neighs.size() ;
              // Start at end_it + 1, then wrap around until i == end_it
@@ -716,29 +694,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 spread.push_back( i );
             }
         }
-        if( roundedy != 0 && roundedx == 0 ) {
-            removepoint2 = removepoint - point( 1, 0 );
-            removepoint3 = removepoint + point( 1, 0 );
-        } else if( roundedy == 0 && roundedx != 0 ) {
-            removepoint2 = removepoint - point( 0, 1 );
-            removepoint3 = removepoint + point( 0, 1 );
-        } else if( roundedy > 0 && roundedx > 0 ) {
-            removepoint2 = removepoint - point( 1, 0 );
-            removepoint3 = removepoint - point( 0, 1 );
-        } else if( roundedy < 0 && roundedx > 0 ) {
-            removepoint2 = removepoint - point( 1, 0 );
-            removepoint3 = removepoint + point( 0, 1 );
-        } else if( roundedy < 0 && roundedx < 0 ) {
-            removepoint2 = removepoint + point( 1, 0 );
-            removepoint3 = removepoint + point( 0, 1 );
-        } else if( roundedy > 0 && roundedx < 0 ) {
-            removepoint2 = removepoint + point( 1, 0 );
-            removepoint3 = removepoint - point( 0, 1 );
-        }
+        auto maptiles = get_wind_blockers( winddirection, p );
+        maptile remove_tile = std::get<0>( maptiles );
+        maptile remove_tile2 = std::get<1>( maptiles );
+        maptile remove_tile3 = std::get<2>( maptiles );
         // three map tiles that are facing th wind direction.
-        const maptile remove_tile = maptile_at( removepoint );
-        const maptile remove_tile2 = maptile_at( removepoint2 );
-        const maptile remove_tile3 = maptile_at( removepoint3 );
         if( !zlevels || one_in( spread.size() ) ) {
             // Construct the destination from offset and p
             if( g->is_sheltered( p ) || windpower < 5 ) {
@@ -1109,52 +1069,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // This should probably be done more globally, because large fires will re-do it a lot
                         auto neighs = get_neighbors( p );
                         // get the neighbours that are allowed due to wind direction
-                        double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-                        float fx, fy;
-                        fy = -cos( raddir );
-                        fx = sin( raddir );
-                        int roundedx;
-                        int roundedy;
-                        if( fx > 0.5 ) {
-                            roundedx = 1;
-                        } else if( fx < -0.5 ) {
-                            roundedx = -1;
-                        } else {
-                            roundedx = 0;
-                        }
-                        if( fy > 0.5 ) {
-                            roundedy = 1;
-                        } else if( fy < -0.5 ) {
-                            roundedy = -1;
-                        } else {
-                            roundedy = 0;
-                        }
-                        tripoint removepoint( p - point( roundedx, roundedy ) );
-                        tripoint removepoint2;
-                        tripoint removepoint3;
-                        if( roundedy != 0 && roundedx == 0 ) {
-                            removepoint2 = removepoint - point( 1, 0 );
-                            removepoint3 = removepoint + point( 1, 0 );
-                        } else if( roundedy == 0 && roundedx != 0 ) {
-                            removepoint2 = removepoint - point( 0, 1 );
-                            removepoint3 = removepoint + point( 0, 1 );
-                        } else if( roundedy > 0 && roundedx > 0 ) {
-                            removepoint2 = removepoint - point( 1, 0 );
-                            removepoint3 = removepoint - point( 0, 1 );
-                        } else if( roundedy < 0 && roundedx > 0 ) {
-                            removepoint2 = removepoint - point( 1, 0 );
-                            removepoint3 = removepoint + point( 0, 1 );
-                        } else if( roundedy < 0 && roundedx < 0 ) {
-                            removepoint2 = removepoint + point( 1, 0 );
-                            removepoint3 = removepoint + point( 0, 1 );
-                        } else if( roundedy > 0 && roundedx < 0 ) {
-                            removepoint2 = removepoint + point( 1, 0 );
-                            removepoint3 = removepoint - point( 0, 1 );
-                        }
-                        // three map tiles that are facing th wind direction.
-                        const maptile remove_tile = maptile_at( removepoint );
-                        const maptile remove_tile2 = maptile_at( removepoint2 );
-                        const maptile remove_tile3 = maptile_at( removepoint3 );
+                        auto maptiles = get_wind_blockers( winddirection, p );
+                        maptile remove_tile = std::get<0>( maptiles );
+                        maptile remove_tile2 = std::get<1>( maptiles );
+                        maptile remove_tile3 = std::get<2>( maptiles );
                         std::vector<maptile> neighbour_vec;
                         size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                         for( size_t i = ( end_it + 1 ) % neighs.size() ;
@@ -2681,6 +2599,57 @@ field_id field_entry::getFieldType() const
 int field_entry::getFieldDensity() const
 {
     return density;
+}
+
+std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
+        const tripoint &pos )
+{
+    double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+    float fx, fy;
+    fy = -cos( raddir );
+    fx = sin( raddir );
+    int roundedx;
+    int roundedy;
+    if( fx > 0.5 ) {
+        roundedx = 1;
+    } else if( fx < -0.5 ) {
+        roundedx = -1;
+    } else {
+        roundedx = 0;
+    }
+    if( fy > 0.5 ) {
+        roundedy = 1;
+    } else if( fy < -0.5 ) {
+        roundedy = -1;
+    } else {
+        roundedy = 0;
+    }
+    tripoint removepoint( pos - point( roundedx, roundedy ) );
+    tripoint removepoint2;
+    tripoint removepoint3;
+    if( roundedy != 0 && roundedx == 0 ) {
+        removepoint2 = removepoint - point( 1, 0 );
+        removepoint3 = removepoint + point( 1, 0 );
+    } else if( roundedy == 0 && roundedx != 0 ) {
+        removepoint2 = removepoint - point( 0, 1 );
+        removepoint3 = removepoint + point( 0, 1 );
+    } else if( roundedy > 0 && roundedx > 0 ) {
+        removepoint2 = removepoint - point( 1, 0 );
+        removepoint3 = removepoint - point( 0, 1 );
+    } else if( roundedy < 0 && roundedx > 0 ) {
+        removepoint2 = removepoint - point( 1, 0 );
+        removepoint3 = removepoint + point( 0, 1 );
+    } else if( roundedy < 0 && roundedx < 0 ) {
+        removepoint2 = removepoint + point( 1, 0 );
+        removepoint3 = removepoint + point( 0, 1 );
+    } else if( roundedy > 0 && roundedx < 0 ) {
+        removepoint2 = removepoint + point( 1, 0 );
+        removepoint3 = removepoint - point( 0, 1 );
+    }
+    const maptile remove_tile = maptile_at( removepoint );
+    const maptile remove_tile2 = maptile_at( removepoint2 );
+    const maptile remove_tile3 = maptile_at( removepoint3 );
+    return std::make_tuple( remove_tile, remove_tile2, remove_tile3 );
 }
 
 time_duration field_entry::getFieldAge() const

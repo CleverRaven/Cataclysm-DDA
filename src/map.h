@@ -297,6 +297,9 @@ class map
 
         bool apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const;
 
+        std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
+                const tripoint &pos ); //see field.cpp
+
         /** Draw a visible part of the map into `w`.
          *
          * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
