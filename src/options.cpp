@@ -1476,6 +1476,58 @@ void options_manager::add_options_graphics()
 
     mOptionsSort["graphics"]++;
 
+    add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
+        translate_marker( "If true, fonts will look better." ),
+        false
+    );
+
+    add( "FONT_WIDTH", "graphics", translate_marker( "Font width" ),
+        translate_marker( "Set the font width.  Requires restart." ),
+        8, 100, 8
+    );
+
+    add( "FONT_HEIGHT", "graphics", translate_marker( "Font height" ),
+         translate_marker( "Set the font height.  Requires restart." ),
+         8, 100, 16
+       );
+
+    add( "FONT_SIZE", "graphics", translate_marker( "Font size" ),
+         translate_marker( "Set the font size.  Requires restart." ),
+         8, 100, 16
+       );
+
+    add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
+         translate_marker( "Set the map font width.  Requires restart." ),
+         8, 100, 8
+       );
+
+    add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
+         translate_marker( "Set the map font height.  Requires restart." ),
+         8, 100, 16
+       );
+
+    add( "MAP_FONT_SIZE", "graphics", translate_marker( "Map font size" ),
+         translate_marker( "Set the map font size.  Requires restart." ),
+         8, 100, 16
+       );
+
+    add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
+         translate_marker( "Set the overmap font width.  Requires restart." ),
+         8, 100, 8
+       );
+
+    add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),
+         translate_marker( "Set the overmap font height.  Requires restart." ),
+         8, 100, 16
+       );
+
+    add( "OVERMAP_FONT_SIZE", "graphics", translate_marker( "Overmap font size" ),
+         translate_marker( "Set the overmap font size.  Requires restart." ),
+         8, 100, 16
+       );
+
+    mOptionsSort["graphics"]++;
+
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
          translate_marker( "If true, replaces some TTF rendered text with tiles." ),
          true, COPT_CURSES_HIDE
