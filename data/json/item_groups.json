@@ -5220,6 +5220,7 @@
     "type" : "item_group",
     "id" : "chem_school",
     "items":[
+      ["ether", 5],
       ["iodine", 5],
       ["prussian_blue", 5],
       ["pocket_firstaid", 2],
@@ -5267,6 +5268,7 @@
     "type" : "item_group",
     "id" : "chem_home",
     "items":[
+      ["ether", 5],
       ["iodine", 5],
       ["prussian_blue", 5],
       ["textbook_chemistry", 8],
@@ -5308,6 +5310,7 @@
     "type" : "item_group",
     "id" : "chem_lab",
     "items":[
+      ["ether", 5],
       ["iodine", 5],
       ["prussian_blue", 5],
       ["adv_chemistry", 4],
@@ -7544,6 +7547,7 @@
     "type" : "item_group",
     "id" : "science",
     "items":[
+      ["ether", 5],
       ["water_clean", 90],
       ["bleach", 20],
       ["ammonia", 24],
