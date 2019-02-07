@@ -144,6 +144,8 @@
     "value": 400000,
     "item_group": "cannedfood",
     "count": 40,
+    "required_container": "can_food",
+    "remove_container":  true,
     "end": "evac_construct_5",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

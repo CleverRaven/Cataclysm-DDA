@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include <unordered_map>
+#include <numeric>
 
 #include "debug.h"
 #include "game.h"
@@ -257,30 +258,27 @@ void mission::wrap_up()
             tmp_inv.dump( items );
             int num_in_group = 0;
             Group_tag grp_type = type->group_id;
+            itype_id container = type->container_id;
+            bool specific_container_required = container.compare( "null" ) != 0;
+            bool remove_container = type->remove_container;
 
-            std::vector<item *> matches = std::vector<item *>();
-            get_all_item_group_matches( &items, &grp_type, &matches );
-            matches.resize( type->item_count );
-
-            std::map<std::string, int> count_by_type = std::map<std::string, int>();
-
-            for( int i = 0; i < ( type->item_count ); i++ ) {
-                item *itm = matches.at( i );
-                std::string id = itm->typeId();
-
-                std::map<std::string, int>::iterator it = count_by_type.find( id );
-                if( it != count_by_type.end() ) {
-                    it->second = ( it->second ) + 1;
-                } else {
-                    count_by_type.insert( std::make_pair( id, 1 ) );
-                }
-            }
+            std::map<itype_id, int> matches = std::map<itype_id, int>();
+            get_all_item_group_matches(
+                items, grp_type, matches,
+                container, itype_id( "null" ), specific_container_required );
 
             std::map<std::string, int>::iterator cnt_it;
-            for( cnt_it = count_by_type.begin(); cnt_it != count_by_type.end(); cnt_it++ ) {
+            for( cnt_it = matches.begin(); cnt_it != matches.end(); cnt_it++ ) {
                 comps.push_back( item_comp( cnt_it->first, cnt_it->second ) );
             }
+
             u.consume_items( comps );
+
+            if( remove_container ) {
+                std::vector<item_comp> container_comp = std::vector<item_comp>();
+                container_comp.push_back( item_comp( container, type->item_count ) );
+                u.consume_items( container_comp );
+            }
         }
         break;
         case MGOAL_FIND_ITEM:
@@ -322,15 +320,24 @@ bool mission::is_complete( const int _npc_id ) const
             tmp_inv.dump( items );
             int num_in_group = 0;
             Group_tag grp_type = type -> group_id;
+            itype_id container = type->container_id;
+            bool specific_container_required = container.compare( "null" ) != 0;
 
-            std::vector<item *> matches = std::vector<item *>();
-            get_all_item_group_matches( &items, &grp_type, &matches );
+            std::map<itype_id, int> matches = std::map<itype_id, int>();
+            get_all_item_group_matches(
+                items, grp_type, matches,
+                container, itype_id( "null" ), specific_container_required );
 
-            if( matches.size() >= ( type -> item_count ) ) {
+            int total_match = std::accumulate( matches.begin(), matches.end(), 0,
+            []( const std::size_t previous, const std::pair<const std::string, std::size_t> &p ) {
+                return previous + p.second;
+            } );
+
+            if( total_match >= ( type -> item_count ) ) {
                 return true;
             }
-            return false;
         }
+        return false;
 
         case MGOAL_FIND_ITEM: {
             inventory tmp_inv = u.crafting_inventory();
@@ -394,35 +401,48 @@ bool mission::is_complete( const int _npc_id ) const
     }
 }
 
-std::vector<item *> *mission::get_all_item_group_matches( std::vector<item *> *items,
-        Group_tag *grp_type, std::vector<item *> *matches )
+void mission::get_all_item_group_matches( std::vector<item *> &items,
+        Group_tag &grp_type, std::map<itype_id, int> &matches,
+        itype_id &required_container, itype_id &actual_container,
+        bool &specific_container_required )
 {
-    for( std::vector<int>::size_type i = 0; i < ( *items ).size(); i++ ) {
-        item *itm = ( *items ).at( i );
-        std::string tId = itm -> typeId(); //TODO: delete debug once error fixed
+    for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
+        item *itm = items [i];
+
+        bool correct_container = ( ( required_container ) == ( actual_container ) ) ||
+                                 !specific_container_required;
+
+        bool item_in_group = item_group::group_contains_item( grp_type, itm ->typeId() );
 
         //check whether item itself is target
-        if( item_group::group_contains_item( *grp_type, itm->typeId() ) ) {
-            ( *matches ).push_back( itm );
+        if( item_in_group && correct_container ) {
+            std::map<std::string, int>::iterator it = matches.find( itm -> typeId() );
+            if( it != matches.end() ) {
+                it->second = ( it->second ) + 1;
+            } else {
+                matches.insert( std::make_pair( itm->typeId(), 1 ) );
+            }
         }
 
         //recursivly check item contents for target
         if( ( itm->is_container() ) && !( itm-> is_container_empty() ) ) {
-            std::list<item> content_list = itm->contents;
+            std::list<item> content_list = itm-> contents;
 
-            std::vector<item *> content;
+            std::vector<item *> content = std::vector<item *>();
+
             //list of item into list item*
             std::transform(
                 content_list.begin(), content_list.end(),
                 std::back_inserter( content ),
-            []( item p ) {
+            []( item p ) -> item* {
                 return &p;
             } );
 
-            get_all_item_group_matches( &content, grp_type, matches );
+            get_all_item_group_matches(
+                content, grp_type, matches,
+                required_container, ( itm-> typeId() ), specific_container_required );
         }
     }
-    return matches;
 }
 
 bool mission::has_deadline() const

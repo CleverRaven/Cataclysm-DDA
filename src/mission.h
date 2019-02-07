@@ -204,6 +204,8 @@ struct mission_type {
     std::vector<mission_origin> origins; // Points of origin
     itype_id item_id = "null";
     Group_tag group_id = "null";
+    itype_id container_id = "null";
+    bool remove_container = false;
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
@@ -408,10 +410,13 @@ class mission
 
         void set_target_to_mission_giver();
 
-        static std::vector<item *> *get_all_item_group_matches(
-            std::vector<item *> *items,
-            Group_tag   *grp_type,
-            std::vector<item *> *out );
+        static void get_all_item_group_matches(
+            std::vector<item *> &items,
+            Group_tag   &grp_type,
+            std::map<itype_id, int> &matches,
+            itype_id &required_container,
+            itype_id &actual_container,
+            bool &specific_container_required );
 };
 
 #endif

@@ -288,6 +288,8 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "item", item_id );
     optional( jo, was_loaded, "item_group", group_id );
     optional( jo, was_loaded, "count", item_count, 1 );
+    optional( jo, was_loaded, "required_container", container_id );
+    optional( jo, was_loaded, "remove_container", remove_container );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
