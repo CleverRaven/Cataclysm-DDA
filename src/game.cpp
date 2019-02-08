@@ -10534,7 +10534,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !prompt_dangerous_tile( dest_loc ) ) {
+    if( !shifting_furniture && !pushing && !prompt_dangerous_tile( dest_loc ) ) {
         return true;
     }
 
