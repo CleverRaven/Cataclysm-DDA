@@ -43,7 +43,7 @@
     "id": "default_zombie_items_bags",
     "entries": [
       { "group": "bags", "damage": [ 1, 4 ] },
-      { "group": "default_zombie_items_pockets" },
+      { "group": "default_zombie_items_pockets", "prob": 50 },
       { "group": "homebooks", "prob": 30 },
       { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 25 },
@@ -96,7 +96,7 @@
           { "item": "knife_swissarmy", "prob": 10 },
           { "item": "switchblade", "prob": 10 }
         ],
-        "prob": 10
+        "prob": 5
       },
       {
         "distribution": [
@@ -135,7 +135,8 @@
       { "item": "heroin", "prob": 2 },
       { "item": "mobile_memory_card", "prob": 10 },
       { "item": "flyer", "prob": 30 },
-      { "item": "multitool", "prob": 20 },
+      { "item": "multitool", "prob": 5 },
+      { "item": "permanent_marker", "prob": 10 },
       { "group": "softdrugs", "prob": 10 },
       { "group": "harddrugs", "prob": 5 },
       { "group": "phones", "prob": 85 },
@@ -163,11 +164,11 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth (always), a cash card (10% chance), and a random item (75% chance)",
+    "//": "contains cloth (always), a cash card (10% chance), and a random item (50% chance)",
     "id": "default_zombie_death_drops",
     "entries": [
       { "group": "default_zombie_clothes" },
-      { "group": "default_zombie_items", "prob": 75 },
+      { "group": "default_zombie_items", "prob": 50 },
       { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 }
     ]
   },
