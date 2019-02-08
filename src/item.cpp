@@ -6070,7 +6070,8 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     return res;
 }
 
-bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used )
+bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used,
+                       const std::function<bool( const item & )> &filter )
 {
     // Remember quantity so that we can unseal self
     long old_quantity = quantity;
@@ -6088,7 +6089,7 @@ bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used
     }
 
     // Now check the item itself
-    if( typeId() == it && quantity > 0 && allow_crafting_component() ) {
+    if( typeId() == it && quantity > 0 && filter( *this ) ) {
         used.push_back( *this );
         quantity--;
         return true;
@@ -6115,9 +6116,6 @@ bool item::allow_crafting_component() const
         } );
     }
 
-    if( is_filthy() ) {
-        return false;
-    }
     return contents.empty();
 }
 
