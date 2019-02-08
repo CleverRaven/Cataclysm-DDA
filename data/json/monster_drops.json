@@ -136,6 +136,7 @@
       { "item": "mobile_memory_card", "prob": 10 },
       { "item": "flyer", "prob": 30 },
       { "item": "multitool", "prob": 5 },
+      { "item": "permanent_marker", "prob": 10 },
       { "group": "softdrugs", "prob": 10 },
       { "group": "harddrugs", "prob": 5 },
       { "group": "phones", "prob": 85 },
