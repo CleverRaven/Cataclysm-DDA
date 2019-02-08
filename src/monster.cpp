@@ -2014,7 +2014,7 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                                                  calendar::time_of_cataclysm );
+                         calendar::time_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
