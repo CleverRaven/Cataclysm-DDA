@@ -412,12 +412,10 @@
         "4": "f_null",
         "7": "f_null",
         "C": "f_null",
-        "P": "f_plant_harvest",
         "S": "f_null",
         "T": "f_null",
         "W": "f_null",
         "_": "f_null",
-        "a": "f_plant_harvest",
         "b": "f_brazier",
         "c": "f_cattails",
         "d": "f_null",
@@ -450,6 +448,10 @@
         { "chance": 10, "item": "field", "x": 2, "y": 16 },
         { "chance": 10, "item": "field", "x": 1, "y": 13 }
       ],
+      "sealed_item": {
+        "P": { "item": { "item": "seed_raw_dandelion" }, "furniture": "f_plant_harvest" },
+        "a": { "item": { "item": "seed_sunflower" }, "furniture": "f_plant_harvest" }
+      },
       "rows": [
         "._____...........d......",
         "._____..................",
