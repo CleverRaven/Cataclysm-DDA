@@ -1628,7 +1628,7 @@
     "type": "monstergroup",
     "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 500, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie", "freq": 500, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zombie_crawler", "freq": 300, "cost_multiplier": 1 },
       { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 100, "cost_multiplier": 1 },
