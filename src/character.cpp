@@ -2703,8 +2703,7 @@ float calc_mutation_value_additive( const std::vector<const mutation_branch *> &
 {
     float ret = 0.0f;
     for( const mutation_branch *mut : mutations ) {
-        float val1 = mut->*member;
-        ret += val1;
+        ret += mut->*member;
     }
     return ret;
 }
@@ -2714,8 +2713,7 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 {
     float ret = 1.0f;
     for( const mutation_branch *mut : mutations ) {
-        float val = mut->*member;
-        ret *= val;
+        ret *= mut->*member;
     }
     return ret;
 }
