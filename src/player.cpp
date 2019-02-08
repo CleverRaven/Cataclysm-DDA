@@ -6640,8 +6640,8 @@ void player::apply_wetness_morale( int temperature )
             morale_effect = -1;
         }
     }
-
-    add_morale( MORALE_WET, morale_effect, total_morale, 1_minutes, 1_minutes, true );
+    // 11_turns because decay is applied in 10_turn increments
+    add_morale( MORALE_WET, morale_effect, total_morale, 11_turns, 11_turns, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
@@ -6737,6 +6737,11 @@ void player::rem_morale(morale_type type, const itype* item_type)
     morale->remove( type, item_type );
 }
 
+void player::clear_morale()
+{
+    morale->clear();
+}
+
 bool player::has_morale_to_read() const
 {
     return get_morale_level() >= -40;
@@ -6774,6 +6779,10 @@ void player::check_and_recover_morale()
         *morale = player_morale( test_morale ); // Recover consistency
         add_msg( m_debug, "%s morale was recovered.", disp_name( true ).c_str() );
     }
+}
+
+void player::on_worn_item_transform( const item &it ) {
+	morale->on_worn_item_transform( it );
 }
 
 void player::process_active_items()
@@ -11822,6 +11831,11 @@ size_t player::max_memorized_tiles() const
         }
     }
     return current_map_memory_capacity;
+}
+
+void player::clear_memorized_tile( const tripoint &pos )
+{
+    player_map_memory.clear_memorized_tile( pos );
 }
 
 bool player::sees( const tripoint &t, bool ) const
