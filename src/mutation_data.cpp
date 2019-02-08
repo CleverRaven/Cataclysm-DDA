@@ -300,9 +300,6 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
     optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
-    optional( jo, was_loaded, "dex_modifier", dex_modifier, 0.0f );
-    optional( jo, was_loaded, "int_modifier", int_modifier, 0.0f );
-    optional( jo, was_loaded, "per_modifier", per_modifier, 0.0f );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
     optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );

@@ -1271,7 +1271,9 @@
         "prereqs" : ["PER_UP"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["BIRD"],
-        "per_modifier" : 4
+        "passive_mods" : {
+            "per_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "INFRARED",
@@ -1608,7 +1610,9 @@
             { "part" : "TORSO", "ignored" : 30 }
         ],
         "armor" : [ { "parts" : "ALL", "cut" : 4 } ],
-        "dex_modifier" : -2
+        "passive_mods" : {
+            "dex_mod" : -2
+        }
     },{
         "type" : "mutation",
         "id" : "SLEEK_SCALES",
@@ -1806,7 +1810,9 @@
             { "part" : "TORSO", "ignored" : 18 }
         ],
         "armor" : [ { "parts" : "ALL", "bash" : 4, "cut" : 4 } ],
-        "dex_modifier" : -1
+        "passive_mods" : {
+            "dex_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "CHITIN3",
@@ -1845,7 +1851,9 @@
         ],
         "restricts_gear" : [ "HEAD" ],
         "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ],
-        "dex_modifier" : -1
+        "passive_mods" : {
+            "dex_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR",
@@ -1860,8 +1868,7 @@
         "prereqs" : ["CHITIN", "LIGHTFUR"],
         "category" : ["SPIDER"],
         "changes_to" : ["CHITIN_FUR2"],
-        "armor" : [ { "parts" : "ALL", "bash" : 2, "cut" : 2 } ],
-        "dex_modifier" : -1
+        "armor" : [ { "parts" : "ALL", "bash" : 2, "cut" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR2",
@@ -1904,7 +1911,10 @@
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["SPIDER"],
         "restricts_gear" : [ "HEAD" ],
-        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ]
+        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ],
+        "passive_mods" : {
+            "dex_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "CF_HAIR",
@@ -4427,7 +4437,9 @@
             [ "HAND_L", 50 ],
             [ "HAND_R", 50 ]
         ],
-        "dex_modifier" : -1
+        "passive_mods" : {
+            "dex_mod" : -4
+        }
     },{
         "type" : "mutation",
         "id" : "PAWS",
@@ -5014,7 +5026,9 @@
         "threshreq" : ["THRESH_INSECT", "THRESH_SPIDER"],
         "category" : ["INSECT", "SPIDER"],
         "restricts_gear" : [ "TORSO" ],
-        "dex_modifier" : -2
+        "passive_mods" : {
+            "dex_mod" : -2
+        }
     },{
         "type" : "mutation",
         "id" : "INSECT_ARMS_OK",
@@ -5051,7 +5065,9 @@
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["SPIDER"],
         "restricts_gear" : [ "TORSO" ],
-        "dodge_modifier" : -4
+        "passive_mods" : {
+            "dex_mod" : -4
+        }
     },{
         "type" : "mutation",
         "id" : "ARACHNID_ARMS_OK",
@@ -5107,7 +5123,9 @@
                 "hardcoded_effect" : true
             }
         ],
-        "dex_modifier" : 1
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES_4",
@@ -5147,7 +5165,9 @@
                 "hardcoded_effect" : true
             }
         ],
-        "dex_modifier" : 1
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES_8",
@@ -5187,7 +5207,9 @@
                 "hardcoded_effect" : true
             }
         ],
-        "dex_modifier" : 1
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "SHELL",

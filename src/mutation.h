@@ -132,11 +132,8 @@ struct mutation_branch {
         float hp_modifier_secondary = 0.0f;
         // Flat bonus/penalty to hp.
         float hp_adjustment = 0.0f;
-        // Stat bonuses
+        // Modify strength stat without changing HP
         float str_modifier = 0.0f;
-        float int_modifier = 0.0f;
-        float dex_modifier = 0.0f;
-        float per_modifier = 0.0f;
         // Additional bonuses
         float dodge_modifier = 0.0f;
         float speed_modifier = 1.0f;

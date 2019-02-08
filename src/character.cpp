@@ -1330,9 +1330,6 @@ void Character::reset_stats()
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
-    mod_dex_bonus( std::floor( mutation_value( "dex_modifier" ) ) );
-    mod_int_bonus( std::floor( mutation_value( "int_modifier" ) ) );
-    mod_per_bonus( std::floor( mutation_value( "per_modifier" ) ) );
     mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
@@ -2746,12 +2743,6 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value<&mutation_branch::stealth_modifier>( cached_mutations );
     } else if( val == "str_modifier" ) {
         return calc_mutation_value_additive<&mutation_branch::str_modifier>( cached_mutations );
-    } else if( val == "dex_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::dex_modifier>( cached_mutations );
-    } else if( val == "int_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::int_modifier>( cached_mutations );
-    } else if( val == "per_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::per_modifier>( cached_mutations );
     } else if( val == "dodge_modifier" ) {
         return calc_mutation_value_additive<&mutation_branch::dodge_modifier>( cached_mutations );
     } else if( val == "speed_modifier" ) {
