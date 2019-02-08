@@ -857,14 +857,14 @@ std::string get_freshness_description( const item &food_item )
     }
 }
 
-item::sizing item::get_sizing( const Character &p, bool wearable ) const 
+item::sizing item::get_sizing( const Character &p, bool wearable ) const
 {
     if( wearable ) {
         const bool small = p.has_trait( trait_small2 ) ||
-                        p.has_trait( trait_small_ok );
+                           p.has_trait( trait_small_ok );
 
         const bool big = p.has_trait( trait_huge ) ||
-                        p.has_trait( trait_huge_ok );
+                         p.has_trait( trait_huge_ok );
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
@@ -872,11 +872,11 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( "UNDERSIZE" );
         const bool oversize = has_flag( "OVERSIZE" );
-    
+
         if( undersize ) {
             if( small ) {
                 return sizing::small_sized_small_char;
-            } else if ( big ) {
+            } else if( big ) {
                 return sizing::small_sized_big_char;
             } else {
                 return sizing::small_sized_human_char;
@@ -884,7 +884,7 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
         } else if( oversize ) {
             if( big ) {
                 return sizing::big_sized_big_char;
-            } else if ( small ) {
+            } else if( small ) {
                 return sizing::big_sized_small_char;
             } else {
                 return sizing::big_sized_human_char;
@@ -1791,17 +1791,19 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else if( has_flag( "VARSIZE" ) && encumbrance ) {
                 format = _( "<num> <bad>(poor fit)</bad>" );
             }
-            
+
             //If we have the wrong size, we do not fit so alert the player
-            if( sizing_level == sizing::big_sized_human_char || sizing_level == sizing::human_sized_small_char )  {
+            if( sizing_level == sizing::big_sized_human_char ||
+                sizing_level == sizing::human_sized_small_char )  {
                 format = _( "<num> <bad>(too big)</bad>" );
             } else if( sizing_level == sizing::big_sized_small_char ) {
                 format = _( "<num> <bad>(huge!)</bad>" );
-            } else if( sizing_level == sizing::small_sized_human_char || sizing_level == sizing::human_sized_big_char )  {
+            } else if( sizing_level == sizing::small_sized_human_char ||
+                       sizing_level == sizing::human_sized_big_char )  {
                 format = _( "<num> <bad>(too small)</bad>" );
             } else if( sizing_level == sizing::small_sized_big_char )  {
                 format = _( "<num> <bad>(tiny!)</bad>" );
-            } 
+            }
 
             info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
                                       iteminfo::no_newline | iteminfo::lower_is_better,
@@ -2244,71 +2246,75 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
                 if( has_flag( "FIT" ) ) {
-                    if ( sizing_level == sizing::human_sized_human_char ) {
+                    if( sizing_level == sizing::human_sized_human_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
-                    } else if ( sizing_level == sizing::big_sized_big_char) {
+                                                  _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
+                    } else if( sizing_level == sizing::big_sized_big_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>fits</info> your large frame perfectly." ) ) );
-                    } else if ( sizing_level == sizing::small_sized_small_char) {
+                                                  _( "* This piece of clothing <info>fits</info> your large frame perfectly." ) ) );
+                    } else if( sizing_level == sizing::small_sized_small_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>fits</info> your small frame perfectly." ) ) );
+                                                  _( "* This piece of clothing <info>fits</info> your small frame perfectly." ) ) );
                     }
                 }
 
-                if ( sizing_level == sizing::big_sized_human_char) {
+                if( sizing_level == sizing::big_sized_human_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
-                } else if ( sizing_level == sizing::big_sized_small_char) {
+                                              _( "* This piece of clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
+                } else if( sizing_level == sizing::big_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
-                } else if ( sizing_level == sizing::human_sized_big_char ) {
+                                              _( "* This piece of clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                } else if( sizing_level == sizing::human_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
-                } else if ( sizing_level == sizing::human_sized_small_char) {
+                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                } else if( sizing_level == sizing::human_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
-                } else if ( sizing_level == sizing::small_sized_big_char) {
+                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                } else if( sizing_level == sizing::small_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing is hilariously <bad>undersized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
-                } else if ( sizing_level == sizing::small_sized_human_char) {
-                        info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing is <bad>undersized</bad> and does <bad>not fit</info> you." ) ) );
+                                              _( "* This piece of clothing is hilariously <bad>undersized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                } else if( sizing_level == sizing::small_sized_human_char ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "* This piece of clothing is <bad>undersized</bad> and does <bad>not fit</info> you." ) ) );
                 }
             }
 
             if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE ) ) {
                 if( has_flag( "VARSIZE" ) ) {
-                    if ( has_flag( "FIT" )) {
-                        if (sizing_level == sizing::small_sized_human_char) {
+                    if( has_flag( "FIT" ) ) {
+                        if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>can be upsized</info>." ) ) );
-                        } else if (sizing_level == sizing::human_sized_small_char) {
+                                                      _( "* This piece of clothing <info>can be upsized</info>." ) ) );
+                        } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>can be downsized</info>." ) ) );
-                        } else if (sizing_level == sizing::big_sized_human_char || sizing_level == sizing::big_sized_small_char) {
+                                                      _( "* This piece of clothing <info>can be downsized</info>." ) ) );
+                        } else if( sizing_level == sizing::big_sized_human_char ||
+                                   sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <bad>can not be downsized.</bad>" ) ) );
-                        } else if (sizing_level == sizing::small_sized_big_char || sizing_level == sizing::human_sized_big_char) {
+                                                      _( "* This piece of clothing <bad>can not be downsized.</bad>" ) ) );
+                        } else if( sizing_level == sizing::small_sized_big_char ||
+                                   sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <bad>can not not upsized.</bad>" ) ) );
+                                                      _( "* This piece of clothing <bad>can not not upsized.</bad>" ) ) );
                         }
                     } else {
-                        if (sizing_level == sizing::small_sized_human_char) {
+                        if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
-                        } else if (sizing_level == sizing::human_sized_small_char) {
+                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
+                        } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
-                        } else if (sizing_level == sizing::big_sized_human_char || sizing_level == sizing::big_sized_small_char) {
+                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
+                        } else if( sizing_level == sizing::big_sized_human_char ||
+                                   sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
-                        } else if (sizing_level == sizing::small_sized_big_char || sizing_level == sizing::human_sized_big_char) {
+                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
+                        } else if( sizing_level == sizing::small_sized_big_char ||
+                                   sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
+                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
                         } else {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                _( "* This piece of clothing <info>can be refitted</info>." ) ) );
+                                                      _( "* This piece of clothing <info>can be refitted</info>." ) ) );
                         }
                     }
                 } else {
@@ -3032,15 +3038,17 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
-    const sizing sizing_level = get_sizing(g->u, get_encumber( g->u ) != 0);
-    
-    if( sizing_level == sizing::big_sized_human_char || sizing_level == sizing::human_sized_small_char ) {
+    const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
+
+    if( sizing_level == sizing::big_sized_human_char ||
+        sizing_level == sizing::human_sized_small_char ) {
         ret << _( " (too big)" );
     } else if( sizing_level == sizing::big_sized_small_char ) {
         ret << _( " (huge!)" );
-    } else if( sizing_level == sizing::human_sized_big_char || sizing_level == sizing::small_sized_human_char ) {        
+    } else if( sizing_level == sizing::human_sized_big_char ||
+               sizing_level == sizing::small_sized_human_char ) {
         ret << _( " (too small)" );
-    } else if ( sizing_level == sizing::small_sized_big_char ) {
+    } else if( sizing_level == sizing::small_sized_big_char ) {
         ret << _( " (tiny!)" );
     } else if( !has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
         ret << _( " (poor fit)" );
@@ -3836,19 +3844,21 @@ int item::get_encumber_when_containing(
     if( !type->rigid ) {
         encumber += contents_volume / 250_ml;
     }
-    
+
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
         encumber = std::max( encumber / 2, encumber - 10 );
-    } 
+    }
 
     //TODO: Should probably have sizing affect coverage
     const sizing sizing_level = get_sizing( p, encumber != 0 );
-    if( sizing_level == sizing::human_sized_big_char || sizing_level == sizing::small_sized_human_char ) {
+    if( sizing_level == sizing::human_sized_big_char ||
+        sizing_level == sizing::small_sized_human_char ) {
         encumber *= 3; // clothes for small creatures are hard to wear for larger creatures
-    } else if( sizing_level == sizing::small_sized_big_char) {
+    } else if( sizing_level == sizing::small_sized_big_char ) {
         encumber *= 4; // clothes for small character while a huge character is nearly impossible to wear
-    } else if( sizing_level == sizing::human_sized_small_char || sizing_level == sizing::big_sized_human_char ) {
+    } else if( sizing_level == sizing::human_sized_small_char ||
+               sizing_level == sizing::big_sized_human_char ) {
         encumber *= 2; // clothes for large creatures bag up around smaller creatures and encumber them more
     } else if( sizing_level == sizing::big_sized_small_char ) {
         encumber *= 3; // clothes for a huge character on a small character basically swallow them whole

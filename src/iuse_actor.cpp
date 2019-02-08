@@ -2662,8 +2662,9 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
 
     const bool resizing_matters = fix.get_encumber( pl ) != 0;
     const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
-    const bool can_resize = ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small && fix.has_flag( "UNDERSIZE" ) );
-    if( can_be_refitted && resizing_matters && can_resize) {
+    const bool can_resize = ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small &&
+                            fix.has_flag( "UNDERSIZE" ) );
+    if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
     }
 
@@ -2758,12 +2759,12 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     const bool resizing_matters = fix.get_encumber( g->u ) != 0;
 
     const bool too_big_while_smol = smol && !is_undersized && !is_oversized;
-    if ( too_big_while_smol && can_be_refitted && resizing_matters ) {
+    if( too_big_while_smol && can_be_refitted && resizing_matters ) {
         return RT_DOWNSIZING;
     }
 
     const bool too_small_while_big = !smol && is_undersized && !is_oversized;
-    if ( too_small_while_big && can_be_refitted && resizing_matters ) {
+    if( too_small_while_big && can_be_refitted && resizing_matters ) {
         return RT_UPSIZING;
     }
 
@@ -2877,7 +2878,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         //We dont need to check for smallness or undersize because DOWNSIZING already guarantees that
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
-                                      fix.tname().c_str() );
+                                  fix.tname().c_str() );
             fix.item_tags.insert( "UNDERSIZE" );
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
@@ -2889,7 +2890,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         //We dont need to check for smallness or undersize because UPSIZING already guarantees that
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
-                                      fix.tname().c_str() );
+                                  fix.tname().c_str() );
             fix.item_tags.erase( "UNDERSIZE" );
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
