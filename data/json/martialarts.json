@@ -126,9 +126,10 @@
         "type" : "martial_art",
         "id" : "style_judo",
         "name" : "Judo",
-        "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
+        "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down. Your focus on disrupting an enemies balance means you can attack quickly, but not with the brute force of normal attacks.",
         "arm_block" : 99,
         "leg_block" : 99,
+        "mult_bonuses" : [["damage", "bash", 0.7]],
         "static_buffs" : [
             {
                 "id" : "judo_recovery",
@@ -138,6 +139,18 @@
                 "buff_duration" : 2,
                 "throw_immune" : true,
                 "description" : "Immune to throws and knockdowns."
+            }
+        ],
+			        "onhit_buffs" : [
+            {
+                "id" : "judo_hit_buff",
+                "name" : "Judo Deflection",
+                "description" : "+Boosts your attack speed",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 1,
+                "buff_duration" : 5,
+                "max_stacks" : 1,
+                "flat_bonuses" : [["movecost", -15]]
             }
         ],
         "techniques" : ["tec_judo_grab", "tec_judo_throw"]
@@ -165,38 +178,38 @@
         "type" : "martial_art",
         "id" : "style_capoeira",
         "name" : "Capoeira",
-        "description" : "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving a tile will boost attack and damage and attacking boosts dodge.  These bonuses stack up to three times each.",
+        "description" : "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks. Moving will build up momentum, but attacking will use it up. recharge your momentum in between attacks to build up lethal spinning kicks.",
         "arm_block" : 99,
         "leg_block" : 99,
         "onhit_buffs" : [
             {
                 "id" : "capoeira_hit_buff",
-                "name" : "Capoeira Tempo",
-                "description" : "+1 dodge and +1 blocks per stack",
+                "name" : "Capoeira No Momentum",
+                "description" : "Attacking uses up your momentum and reduces damage by 30 temporarily, this stacks up to 3 times",
                 "unarmed_allowed" : true,
-                "min_unarmed" : 3,
-                "buff_duration" : 5,
+                "min_unarmed" : 1,
+                "buff_duration" : 4,
                 "max_stacks" : 3,
-                "bonus_blocks" : 1,
-                "flat_bonuses" : [["dodge", 1.0]]
+				"mult_bonuses" : [["damage", "bash", 0.3]]
             }
         ],
         "onmove_buffs" : [
             {
                 "id" : "capoeira_move_buff",
                 "name" : "Capoeira Momentum",
-                "description" : "+2 bash and +1 acc per stack",
+                "description" : "+Large bonus damage if you have not lost your momentum",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
-                "buff_duration" : 3,
-                "max_stacks" : 3,
-                "flat_bonuses" : [
-                    ["damage", "bash", 2.0],
-                    ["hit", 1.0]
-                ]
+                "buff_duration" : 10,
+                "max_stacks" : 1,
+				"mult_bonuses" : [["damage", "bash", 2.0]]
+                
             }
         ],
-        "techniques" : ["tec_capoeira_feint"]
+        "techniques" : [
+            "tec_capoeira_feint",
+            "SPIN"
+        ]
     },{
         "type" : "martial_art",
         "id" : "style_krav_maga",
@@ -349,7 +362,7 @@
         "type" : "martial_art",
         "id" : "style_zui_quan",
         "name" : "Zui Quan",
-        "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
+        "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge 3 extra attacks without penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
@@ -368,7 +381,7 @@
                 "description" : "Unlimited dodges after attacking",
                 "buff_duration" : 4,
                 "unarmed_allowed" : true,
-                "bonus_dodges" : 100
+                "bonus_dodges" : 3
             }
         ],
         "ondodge_buffs" : [
@@ -377,7 +390,7 @@
                 "name" : "Counter Strike",
                 "description" : "Extra damage and to-hit after successful dodge",
                 "unarmed_allowed" : true,
-                "max_stacks": 2,
+                "max_stacks": 1,
                 "flat_bonuses" : [
                     ["damage", "bash", "int", 0.5],
                     ["hit", "int", 0.2]
@@ -722,7 +735,7 @@
         "type" : "martial_art",
         "id" : "style_dragon",
         "name" : "Dragon Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage dealt, as does moving.",
+        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Dexterity determines the majority of your damage, rather than Strength, and increases accuracy, moving increases damage and accuracy.",
         "arm_block" : 2,
         "leg_block" : 99,
         "static_buffs" : [
@@ -731,7 +744,10 @@
                 "name" : "Dragon Style",
                 "description" : "Bonus damage from intelligence.",
                 "unarmed_allowed" : true,
-                "flat_bonuses" : [["damage", "bash", "int", 0.8]]
+                "flat_bonuses" : [
+                    ["damage", "bash", "int", 0.8],
+                    ["damage", "bash", "str", -0.2]
+				]
             }
         ],
         "onmove_buffs" : [
@@ -802,7 +818,10 @@
                 "name" : "Tiger Strength",
                 "description" : "Strength provides additional damage bonus.",
                 "unarmed_allowed" : true,
-                "flat_bonuses" : [["damage", "bash", "str", 0.8]]
+                "flat_bonuses" : [
+                    ["damage", "bash", -5.0],
+                    ["damage", "bash", "str", 0.8]
+				]
             }
         ],
         "onhit_buffs" : [
@@ -833,7 +852,10 @@
                 "name" : "Snake Sight",
                 "description" : "Perception provides a bonus to damage.",
                 "unarmed_allowed" : true,
-                "flat_bonuses" : [["damage", "bash", "per", 0.8]]
+                "flat_bonuses" : [
+                    ["damage", "bash", "per", 0.8],
+                    ["damage", "bash", "str", -0.2]
+				]
             }
         ],
         "techniques" : [
@@ -937,7 +959,7 @@
         "type" : "martial_art",
         "id" : "style_venom_snake",
         "name" : "Viper Kung Fu",
-        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
+        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike. Currently does nothing until someone codes it in and makes a pull request(yes, you)",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [

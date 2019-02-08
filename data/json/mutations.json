@@ -537,8 +537,8 @@
         "id": "MARTIAL_ARTS4",
         "name": "Venom Mob Protege",
         "points": 2,
-        "description": "You are a pupil of the Venom Clan.  You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
-        "starting_trait" : true,
+        "description": "You are a pupil of the Venom Clan.  You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad. This has been obsoleted but is still functional",
+        "starting_trait" : false,
         "initial_ma_styles" : [ "style_centipede", "style_venom_snake", "style_scorpion", "style_lizard", "style_toad" ],
         "valid" : false
     },{
