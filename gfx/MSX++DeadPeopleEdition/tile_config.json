@@ -17907,19 +17907,9 @@
           "bg": 985
         },
         {
-          "id": "t_reinforced_door_glass_lab_o",
-          "fg": 3183,
-          "bg": 5010
-        },
-        {
           "id": "t_reinforced_door_glass_c",
           "fg": 3182,
           "bg": 985
-        },
-        {
-          "id": "t_reinforced_door_glass_lab_c",
-          "fg": 3182,
-          "bg": 5010
         },
         {
           "id": "t_scrap_wall",
@@ -18176,33 +18166,15 @@
           "rotates": false
         },
         {
-          "id": "t_door_lab_frame",
-          "fg": 3035,
-          "bg": 5010,
-          "rotates": false
-        },
-        {
           "id": "t_door_glass_o",
           "fg": 3037,
           "bg": 987,
           "rotates": false
         },
         {
-          "id": "t_door_glass_lab_o",
-          "fg": 3037,
-          "bg": 5010,
-          "rotates": false
-        },
-        {
           "id": "t_door_o",
           "fg": 3044,
           "bg": 987,
-          "rotates": false
-        },
-        {
-          "id": "t_door_lab_o",
-          "fg": 3044,
-          "bg": 5010,
           "rotates": false
         },
         {
@@ -18214,12 +18186,6 @@
           "id": "t_mdoor_frame",
           "fg": 3120,
           "bg": 987,
-          "rotates": false
-        },
-        {
-          "id": "t_mdoor_frame",
-          "fg": 3120,
-          "bg": 5010,
           "rotates": false
         },
         {
@@ -19256,12 +19222,6 @@
           "rotates": false
         },
         {
-          "id": "t_door_metal_lab_o",
-          "fg": 3042,
-          "bg": 5010,
-          "rotates": false
-        },
-        {
           "id": "t_door_metal_o_peep",
           "fg": 3042,
           "bg": 993,
@@ -19271,12 +19231,6 @@
           "id": ["t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control"],
           "fg": 3071,
           "bg": 993,
-          "rotates": false
-        },
-        {
-          "id": "t_gates_mech_control_lab",
-          "fg": 3071,
-          "bg": 5010,
           "rotates": false
         },
         {
@@ -31930,23 +31884,11 @@
           "fg": 4965,
 		  "bg": 993,
           "rotates": false
-        },
-		{
-          "id": "t_door_glass_frosted_lab_c",
-          "fg": 4965,
-		  "bg": 5010,
-          "rotates": false
         },	
 		{
           "id": "t_door_glass_frosted_o",
           "fg": 4966,
 		  "bg": 993,
-          "rotates": false
-        },
-		{
-          "id": "t_door_glass_frosted_lab_o",
-          "fg": 4966,
-		  "bg": 5010,
           "rotates": false
         },		
 		{
@@ -32054,7 +31996,6 @@
 		{
           "id": "mon_dog",
           "fg": [
-            { "weight":3, "sprite":4986},
             { "weight":3, "sprite":2408}
             ],
           "rotates": false
@@ -37790,25 +37731,25 @@
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_infantry",
+          "id": ["mon_zombie_bio_infantry", "mon_zombie_bio_infantry_rifle"],
           "fg": 2673,
 		  "bg": 967,
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_knight",
+          "id": ["mon_zombie_bio_knight", "mon_zombie_bio_knight_lmg"],
           "fg": 2674,
 		  "bg": 967,
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_scout",
+          "id": ["mon_zombie_bio_scout", "mon_zombie_bio_scout_sniper"],
           "fg": 2676,
 		  "bg": 967,
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_tool",
+          "id": ["mon_zombie_bio_tool", "mon_zombie_bio_tool_pistol"],
           "fg": 2677,
 		  "bg": 967,
           "rotates": false
@@ -37911,7 +37852,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_panties_on",
+          "id": "!overlay_worn_panties_on",
           "fg": 2706,
           "rotates": false
         },
@@ -38462,22 +38403,12 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_lab_c",
-          "fg": 3036,
-          "rotates": false
-        },
-        {
           "id": "t_door_makeshift_c",
           "fg": 3038,
           "rotates": false
         },
         {
           "id": "t_door_metal_c",
-          "fg": 3040,
-          "rotates": true
-        },
-        {
-          "id": "t_door_metal_lab_c",
           "fg": 3040,
           "rotates": true
         },
@@ -44739,11 +44670,6 @@
           "rotates": false
         },
         {
-          "id": "t_door_lab_c",
-          "fg": 4017,
-          "rotates": false
-        },
-        {
           "id": "t_door_locked",
           "fg": 4017,
           "rotates": false
@@ -44760,11 +44686,6 @@
         },
         {
           "id": "t_door_b",
-          "fg": 4018,
-          "rotates": false
-        },
-        {
-          "id": "t_door_lab_b",
           "fg": 4018,
           "rotates": false
         },
@@ -59591,8 +59512,324 @@
           "bg": 0,
           "rotates": false
         }, 
-
-
+						{
+          "id": "corpse_mon_ant_larva",
+          "fg": 23580,
+          "bg": 0,
+          "rotates": false
+        }, 
+		{
+          "id": "corpse_mon_ant",
+          "fg": 23581,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_ant_soldier",
+          "fg": 23582,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_ant_queen",
+          "fg": 23583,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_ant_acid_larva",
+          "fg": 23584,
+          "bg": 0,
+          "rotates": false
+        }, 
+		{
+          "id": "corpse_mon_ant_acid",
+          "fg": 23585,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_ant_acid_soldier",
+          "fg": 23586,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_ant_acid_queen",
+          "fg": 23587,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_ant_fungus",
+          "fg": 23588,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_locust",
+          "fg": 23589,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_locust_nymph",
+          "fg": 23590,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_bear",
+          "fg": 23591,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_beaver",
+          "fg": 23592,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_bobcat",
+          "fg": 23593,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_chipmunk",
+          "fg": 23594,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_cougar",
+          "fg": 23595,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_cow_calf",
+          "fg": 23596,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_cow",
+          "fg": 23597,
+          "bg": 0,
+          "rotates": false
+        },    
+		{
+          "id": "corpse_mon_coyote",
+          "fg": 23598,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_coyote_wolf",
+          "fg": 23599,
+          "bg": 0,
+          "rotates": false
+        },  
+		{
+          "id": "corpse_mon_deer_fawn",
+          "fg": 23600,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_deer",
+          "fg": 23601,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_dog",
+          "fg": 23602,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_pup",
+          "fg": 23603,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_dog_bull",
+          "fg": 23604,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_bull_pup",
+          "fg": 23605,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "FMCNote",
+          "fg": 23606,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "FlatCoin",
+          "fg": 23607,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "reading_light",
+          "fg": 23608,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "reading_light_on",
+          "fg": 23609,
+          "bg": 0,
+          "rotates": false
+        },      
+		{
+          "id": "mon_zombie_bio_tool_smg",
+          "fg": 23610,
+		  "bg": 967,
+          "rotates": false
+        },	
+		{
+          "id": "mon_zombie_bio_infantry_shotgun",
+          "fg": 23611,
+		  "bg": 967,
+          "rotates": false
+        },		
+		{
+          "id": "mon_zombie_bio_knight_lauhcher",
+          "fg": 23612,
+		  "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_pitbullmix",
+          "fg": 23613,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_pitbullmix_pup",
+          "fg": 23614,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_beagle",
+          "fg": 23615,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_beagle_pup",
+          "fg": 23616,
+		  "bg": 0,
+          "rotates": false
+        },												
+		{
+          "id": "corpse_mon_dog_bcollie",
+          "fg": 23617,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_bcollie_pup",
+           "fg": 23618,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_boxer",
+          "fg": 23619,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_boxer_pup",
+          "fg": 23620,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_chihuahua",
+          "fg": 23621,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_chihuahua_pup",
+          "fg": 23622,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_dachshund",
+          "fg": 23623,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_dachshund_pup",
+          "fg": 23624,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gshepherd",
+          "fg": 23625,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gshepherd_pup",
+          "fg": 23626,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gpyrenees",
+          "fg": 23627,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gpyrenees_pup",
+          "fg": 23628,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_rottweiler",
+          "fg": 23629,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_rottweiler_pup",
+          "fg": 23630,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_auscattle",
+          "fg": 23631,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_auscattle_pup",
+          "fg": 23632,
+		  "bg": 0,
+          "rotates": false
+        },
 		{
           "id": "atlatl",
           "fg": 1986,
