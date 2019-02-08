@@ -9991,9 +9991,21 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "phones",
-    "items": [ 
-      { "item": "cell_phone", "prob": 50, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 50, "charges-min": 0, "charges-max": 15 } 
+    "entries": [
+      {
+        "distribution": [
+          { "item": "cell_phone", "prob": 90, "charges": 0 },
+          { "item": "cell_phone", "prob": 10, "charges-min": 0, "charges-max": 15 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "smart_phone", "prob": 90, "charges": 0 },
+          { "item": "smart_phone", "prob": 10, "charges-min": 0, "charges-max": 15 }
+        ],
+        "prob": 50
+      }
     ]
   },
   {

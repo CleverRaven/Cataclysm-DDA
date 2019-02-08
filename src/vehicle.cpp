@@ -5205,26 +5205,28 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
     if( !wind_turbines.empty() ) {
+        const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
+        const w_point weatherPoint = *g->weather_precise;
+        double basewindpower = weatherPoint.windpower;
+        double windpower;
         int epower_w = 0;
         for( int part : wind_turbines ) {
             if( parts[ part ].is_unavailable() ) {
                 continue;
             }
 
-            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            if( g->is_sheltered( global_part_pos3( part ) ) ) {
                 continue;
             }
 
-            epower_w += part_epower_w( part );
+            windpower = get_local_windpower( basewindpower, cur_om_ter, global_part_pos3( part ),
+                                             weatherPoint.winddirection, false );
+            if( windpower <= ( basewindpower / 10 ) ) {
+                continue;
+            }
+            epower_w += part_epower_w( part ) * windpower;
         }
-        //Wind Turbine less efficient in forests
-        const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
-        const w_point weatherPoint = *g->weather_precise;
-        double windpower = weatherPoint.windpower;
-        windpower = get_local_windpower( windpower, cur_om_ter, g->m.getabs( global_pos3() ),
-                                         weatherPoint.winddirection, false );
-        double intensity = windpower / to_turns<double>( elapsed );
-        int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
+        int energy_bat = power_to_energy_bat( epower_w, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from wind turbines", name, energy_bat );
             charge_battery( energy_bat );

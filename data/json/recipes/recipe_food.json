@@ -6185,8 +6185,6 @@
       [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
       [
         [ "meat_nofish", 1, "LIST" ],
-        [ "meat_smoked", 1 ],
-        [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
@@ -7738,11 +7736,8 @@
       [ [ "broth", 12 ], [ "broth_bone", 12 ], [ "pine_tea", 12 ] ],
       [
         [ "meat_nofish", 12, "LIST" ],
-        [ "meat_smoked", 12 ],
-        [ "dry_meat", 12 ],
         [ "rehydrated_meat", 12 ],
         [ "meat_canned", 12 ],
-        [ "can_chicken", 12 ],
         [ "fish", 12 ],
         [ "fish_smoked", 12 ],
         [ "dry_fish", 12 ],
