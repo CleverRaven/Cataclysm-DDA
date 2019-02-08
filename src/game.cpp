@@ -10487,6 +10487,9 @@ bool game::walk_move( const tripoint &dest_loc )
     bool pulling = false; // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
+    const tripoint furn_pos = u.pos() + u.grab_point;
+    const tripoint furn_dest = dest_loc + u.grab_point;
+
     bool grabbed = u.get_grab_type() != OBJECT_NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
@@ -10495,7 +10498,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( grabbed && dest_loc.z != u.posz() ) {
-        add_msg( m_warning, _( "You let go of the grabbed object" ) );
+        add_msg( m_warning, _( "You let go of the grabbed object." ) );
         grabbed = false;
         u.grab( OBJECT_NONE );
     }
@@ -10653,6 +10656,15 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     place_player( dest_loc );
+
+    if( pulling ) {
+        const time_duration fire_age = m.get_field_age( furn_pos, fd_fire );
+        const int fire_str = m.get_field_strength( furn_pos, fd_fire );
+        m.remove_field( furn_pos, fd_fire );
+        m.set_field_strength( furn_dest, fd_fire, fire_str );
+        m.set_field_age( furn_dest, fd_fire, fire_age );
+    }
+
     on_move_effects();
 
     return true;
@@ -11057,7 +11069,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
                          !m.has_flag( "SWIMMABLE", fdest ) &&
                          !m.has_flag( "DESTROY_ITEM", fdest ) );
     bool src_item_ok = ( m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+                         m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                          m.furn( fpos ).obj().has_flag( "SEALED" ) );
+
+    const int fire_str = m.get_field_strength( fpos, fd_fire );
+    time_duration fire_age = m.get_field_age( fpos, fd_fire );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -11114,6 +11130,12 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
+    if( fire_str == 1 && !pulling_furniture ) {
+        m.remove_field( fpos, fd_fire );
+        m.set_field_strength( fdest, fd_fire, fire_str );
+        m.set_field_age( fdest, fd_fire, fire_age );
+    }
+
     if( src_items > 0 ) { // and the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
@@ -11140,7 +11162,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         if( abs( d_sum.x ) < 2 && abs( d_sum.y ) < 2 ) {
             u.grab_point = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
-            add_msg( _( "You let go of the %s" ), furntype.name().c_str() );
+            add_msg( _( "You let go of the %s." ), furntype.name().c_str() );
             u.grab( OBJECT_NONE );
         }
         return true; // We moved furniture but stayed still.
@@ -11148,7 +11170,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     if( pushing_furniture && m.impassable( fpos ) ) {
         // Not sure how that chair got into a wall, but don't let player follow.
-        add_msg( _( "You let go of the %1$s as it slides past %2$s" ),
+        add_msg( _( "You let go of the %1$s as it slides past %2$s." ),
                  furntype.name().c_str(), m.tername( fdest ).c_str() );
         u.grab( OBJECT_NONE );
         return true;
