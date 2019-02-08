@@ -1394,6 +1394,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     // we can go ahead and merge
     const point mount_zero = point_zero;
     if( found_all_parts ) {
+        decltype( loot_zones ) new_zones;
         for( auto carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
@@ -1408,12 +1409,20 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
 
-            std::unordered_multimap<point, zone_data>::iterator it = carry_veh->loot_zones.find(
-                        carry_map.old_mount );
-            if( it != carry_veh->loot_zones.end() ) {
-                zone_manager::get_manager().create_vehicle_loot_zone( *this, carry_map.carry_mount, it->second );
+            const std::pair<std::unordered_multimap<point, zone_data>::iterator, std::unordered_multimap<point, zone_data>::iterator> zones_on_point = carry_veh->loot_zones.equal_range( carry_map.old_mount );
+            for(std::unordered_multimap<point, zone_data>::const_iterator it = zones_on_point.first; it != zones_on_point.second; ++it ) {
+                new_zones.emplace( carry_map.carry_mount, it->second );
             }
         }
+
+        for ( std::unordered_multimap<point, zone_data>::iterator it = new_zones.begin(); it != new_zones.end(); ++it ) {
+            zone_manager::get_manager().create_vehicle_loot_zone( *this, it->first, it->second );
+        }
+
+        // Now that we've added zones to this vehicle, we need to make sure their positions 
+        // update when we next interact with them
+        zones_dirty = true;
+
         //~ %1$s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
         g->m.destroy_vehicle( carry_veh );
@@ -1529,7 +1538,9 @@ bool vehicle::remove_part( int p )
     const bool no_zone = lz_iter != loot_zones.end();
 
     if( no_zone && part_flag( p, "CARGO" ) ) {
-        loot_zones.erase( lz_iter );
+        // Using the key here (instead of the iterator) will remove all zones on 
+        // this mount points regardless of how many there are
+        loot_zones.erase( parts[p].mount );
         zones_dirty = true;
     }
 
@@ -1875,15 +1886,18 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 labels.erase( iter );
                 new_labels.insert( label( new_mount, label_str ) );
             }
-            // remove loot zones associated with the mov_part
-            const auto lz_iter = loot_zones.find( cur_mount );
-            if( lz_iter != loot_zones.end() ) {
+            // Prepare the zones to be moved to the new vehicle
+            const std::pair<std::unordered_multimap<point, zone_data>::iterator, std::unordered_multimap<point, zone_data>::iterator> zones_on_point = loot_zones.equal_range( cur_mount );
+            for(std::unordered_multimap<point, zone_data>::const_iterator lz_iter = zones_on_point.first; lz_iter != zones_on_point.second; ++lz_iter ) {
                 new_zones.emplace( new_mount, lz_iter->second );
-
-                // We have to call remove here before the parts are actually
-                // removed or we can't remove the zone
-                zone_manager::get_manager().remove( lz_iter->second );
             }
+
+            // Erasing on the key removes all the zones from the point at once
+            loot_zones.erase(cur_mount);
+
+            // The zone manager will be updated when we next interact with it through get_vehicle_zones
+            zones_dirty = true;
+
             // remove the passenger from the old vehicle
             if( passenger ) {
                 parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
@@ -1900,6 +1914,11 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         for( std::pair<point, zone_data> zone : new_zones ) {
             zone_manager::get_manager().create_vehicle_loot_zone( *new_vehicle, zone.first, zone.second );
         }
+
+        // create_vehicle_loot_zone marks the vehicle as not dirty but since we got these zones
+        // in an unknown state from the previous vehicle, we need to let the cache rebuild next
+        // time we interact with them
+        new_vehicle->zones_dirty = true;
 
         g->m.dirty_vehicle_list.insert( new_vehicle );
         g->m.set_transparency_cache_dirty( smz );
