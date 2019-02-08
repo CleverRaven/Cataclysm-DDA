@@ -98,9 +98,7 @@
         ]
       },
       "b": { "items": [ { "item": "bed", "chance": 50 } ] },
-      "]": {
-        "items": [ { "group": "lab_bookshelves", "prob": 50 } ]
-      },
+      "]": { "item": "lab_bookshelves", "chance": 50 },
       "l": {
         "items": [
           { "item": "office", "chance": 10 },
