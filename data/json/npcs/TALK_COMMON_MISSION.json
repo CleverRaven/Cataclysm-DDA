@@ -155,7 +155,7 @@
         "text": "Yup! Here it is!",
         "topic": "TALK_MISSION_SUCCESS",
         "condition": {
-          "and": [ { "or": [ { "mission_goal": "MGOAL_FIND_ITEM" }, { "mission_goal": "MGOAL_FIND_ANY_ITEM" } ] }, "mission_complete" ]
+          "and": [ { "or": [ { "mission_goal": "MGOAL_FIND_ITEM" }, { "mission_goal": "MGOAL_FIND_ANY_ITEM" }, {"mission_goal": "MGOAL_FIND_ITEM_GROUP"} ] }, "mission_complete" ]
         },
         "switch": true,
         "effect": "mission_success"
