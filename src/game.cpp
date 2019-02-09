@@ -5510,19 +5510,30 @@ bool game::spawn_hallucination( const tripoint &p )
         monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
         phantasm.hallucination = true;
         phantasm.spawn( p );
+
+        //Don't attempt to place phantasms inside of other creatures
+        if (!critter_at(phantasm.pos(), true)) {
+            return critter_tracker->add(phantasm);
+        }
+        else {
+            return false;
+        }
     } else {
         std::shared_ptr<npc> phantasm = std::make_shared<npc>();
         phantasm->normalize();
         phantasm->randomize( NC_HALLU );
         phantasm->spawn_at_precise( { get_levx(), get_levy() }, p );
+
+        //Don't attempt to place phantasms inside of other creatures
+        if (!critter_at(phantasm.pos(), true)) {
+            return critter_tracker->add(phantasm);
+        }
+        else {
+            return false;
+        }
+
     }
 
-    //Don't attempt to place phantasms inside of other creatures
-    if( !critter_at( phantasm.pos(), true ) ) {
-        return critter_tracker->add( phantasm );
-    } else {
-        return false;
-    }
 }
 
 void game::rebuild_mon_at_cache()

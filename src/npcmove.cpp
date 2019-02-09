@@ -2915,8 +2915,9 @@ void npc::mug_player( player &mark )
         moves -= 100;
         return;
     }
+    item stolen;
     if ( !is_hallucination() ) {
-        item stolen = mark.i_rem( item_index );
+        stolen = mark.i_rem( item_index );
         i_add(stolen);
     }
     if( mark.is_npc() ) {
