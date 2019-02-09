@@ -319,9 +319,7 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            static auto eng = std::default_random_engine(
-                                  std::chrono::system_clock::now().time_since_epoch().count() );
-            std::shuffle( tiles.begin(), tiles.end(), eng );
+            std::shuffle( tiles.begin(), tiles.end(), rng_get_engine() );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {
@@ -477,10 +475,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
             int damage = ballistic_damage( cloud.velocity, fragment_mass );
             auto critter = critter_at( target );
             if( damage > 0 && critter && !critter->is_dead_state() ) {
-                static std::default_random_engine eng(
-                    std::chrono::system_clock::now().time_since_epoch().count() );
                 std::poisson_distribution<> d( cloud.density );
-                int hits = d( eng );
+                int hits = d( rng_get_engine() );
                 dealt_projectile_attack frag;
                 frag.proj = proj;
                 frag.proj.speed = cloud.velocity;
