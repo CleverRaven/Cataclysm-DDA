@@ -2175,6 +2175,10 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 
 void npc::drop_items( int weight, int volume )
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
              name.c_str(), weight, volume, inv.size(), to_gram( weight_carried() ),
              to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
