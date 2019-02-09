@@ -5421,7 +5421,16 @@ bool vehicle::refresh_zones()
             zone_data zone = z.second;
             //Get the global position of the first cargo part at the relative coordinate
 
-            tripoint zone_pos = global_part_pos3( part_with_feature( z.first, "CARGO", false ) );
+            const int part_idx = part_with_feature( z.first, "CARGO", false );
+            if( part_idx == -1 ) {
+                debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone. Removing loot zone.",
+                          z.first.x, z.first.y, this->name.c_str() );
+
+                // If this loot zone refers to a part that no longer exists at this location, then its unattached somehow.
+                // By continuing here and not adding to new_zones, we effectively remove it
+                continue;
+            }
+            tripoint zone_pos = global_part_pos3( part_idx );
             zone_pos = g->m.getabs( zone_pos );
             //Set the position of the zone to that part
             zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ), false );
