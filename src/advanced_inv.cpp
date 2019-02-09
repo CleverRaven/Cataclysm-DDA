@@ -1574,6 +1574,10 @@ void advanced_inventory::display()
             if( !query_destination( destarea ) ) {
                 continue;
             }
+            // Not necessarily equivalent to spane.in_vehicle() if using AIM_ALL
+            bool from_vehicle = sitem->from_vehicle;
+            bool to_vehicle = dpane.in_vehicle();
+            
             // AIM_ALL should disable same area check and handle it with proper filtering instead.
             // This is a workaround around the lack of vehicle location info in
             // either aim_location or advanced_inv_listitem.
@@ -1598,13 +1602,13 @@ void advanced_inventory::display()
             assert( amount_to_move > 0 );
             if( destarea == AIM_CONTAINER ) {
                 if( !move_content( *sitem->items.front(),
-                                   *squares[destarea].get_container( dpane.in_vehicle() ) ) ) {
+                                   *squares[destarea].get_container( to_vehicle ) ) ) {
                     redraw = true;
                     continue;
                 }
             } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
-                // make sure advanced inventory is reopend after activity completion.
+                // make sure advanced inventory is reopened after activity completion.
                 do_return_entry();
 
                 g->u.assign_activity( activity_id( "ACT_WEAR" ) );
@@ -1622,7 +1626,7 @@ void advanced_inventory::display()
 
             } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
 
-                // make sure advanced inventory is reopend after activity completion.
+                // make sure advanced inventory is reopened after activity completion.
                 do_return_entry();
 
                 // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
@@ -1631,42 +1635,54 @@ void advanced_inventory::display()
                 if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
                     // this is ok because worn items are never stacked (can't move more than 1).
                     g->u.takeoff( idx );
+
+                    // exit so that the action can be carried out
+                	exit = true;
                 } else {
-                    std::list<std::pair<int, int>> dropped;
-                    dropped.emplace_back( idx, amount_to_move );
-                    g->u.drop( dropped, g->u.pos() + squares[destarea].off );
+                	// important if item is worn
+                    if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
+	                    g->u.assign_activity( activity_id( "ACT_DROP" ) );
+	                    g->u.activity.placement = squares[destarea].off;
+
+	                    // incase there is vehicle cargo space at dest but the player wants to drop to ground
+	                    if( !to_vehicle ) {
+	                    	g->u.activity.str_values.push_back( "force_ground" );
+	                    }
+
+	                    g->u.activity.values.push_back( idx );
+	                    g->u.activity.values.push_back( amount_to_move );
+
+	                    // exit so that the activity can be carried out
+                		exit = true;
+	                }
                 }
-
-                // exit so that the action can be carried out
-                exit = true;
-
             } else { // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
 
-                // Make sure advanced inventory is reopend after activity completion.
+                // Make sure advanced inventory is reopened after activity completion.
                 do_return_entry();
 
                 if( destarea == AIM_INVENTORY ) {
                     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    g->u.activity.values.push_back( from_vehicle );
                 } else if( destarea == AIM_WORN ) {
                     g->u.assign_activity( activity_id( "ACT_WEAR" ) );
                     // Wearing from map/vehicle not inventory
                     g->u.activity.values.push_back( false );
-                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    g->u.activity.values.push_back( from_vehicle );
                 } else { // Vehicle and map destinations are handled similarly.
 
                     g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
                     // store whether the source is from a vehicle (first entry)
-                    g->u.activity.values.push_back( spane.in_vehicle() );
+                    g->u.activity.values.push_back( from_vehicle );
                     // store whether the destination is a vehicle
-                    g->u.activity.values.push_back( dpane.in_vehicle() );
+                    g->u.activity.values.push_back( to_vehicle );
                     // Stash the destination
                     g->u.activity.coords.push_back( squares[destarea].off );
                 }
                 g->u.activity.placement = squares[srcarea].off;
 
                 std::list<item>::iterator begin, end;
-                if( spane.in_vehicle() ) {
+                if( from_vehicle ) {
                     begin = squares[srcarea].veh->get_items( squares[srcarea].vstor ).begin();
                     end = squares[srcarea].veh->get_items( squares[srcarea].vstor ).end();
                 } else {

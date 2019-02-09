@@ -5220,6 +5220,7 @@
     "type" : "item_group",
     "id" : "chem_school",
     "items":[
+      ["ether", 5],
       ["iodine", 5],
       ["prussian_blue", 5],
       ["pocket_firstaid", 2],
@@ -5276,8 +5277,6 @@
       ["salt_water", 30],
       ["bleach", 20],
       ["ammonia", 24],
-      ["mutagen", 2],
-      ["purifier", 2],
       ["yeast", 2],
       ["royal_jelly", 8],
       ["superglue", 20],
@@ -5308,6 +5307,7 @@
     "type" : "item_group",
     "id" : "chem_lab",
     "items":[
+      ["ether", 5],
       ["iodine", 5],
       ["prussian_blue", 5],
       ["adv_chemistry", 4],
@@ -7544,6 +7544,7 @@
     "type" : "item_group",
     "id" : "science",
     "items":[
+      ["ether", 5],
       ["water_clean", 90],
       ["bleach", 20],
       ["ammonia", 24],
@@ -9991,9 +9992,21 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "phones",
-    "items": [ 
-      { "item": "cell_phone", "prob": 50, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 50, "charges-min": 0, "charges-max": 15 } 
+    "entries": [
+      {
+        "distribution": [
+          { "item": "cell_phone", "prob": 90, "charges": 0 },
+          { "item": "cell_phone", "prob": 10, "charges-min": 0, "charges-max": 15 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "smart_phone", "prob": 90, "charges": 0 },
+          { "item": "smart_phone", "prob": 10, "charges-min": 0, "charges-max": 15 }
+        ],
+        "prob": 50
+      }
     ]
   },
   {
