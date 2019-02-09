@@ -2915,8 +2915,10 @@ void npc::mug_player( player &mark )
         moves -= 100;
         return;
     }
-
-    item stolen = mark.i_rem( item_index );
+    if ( !is_hallucination() ) {
+        item stolen = mark.i_rem( item_index );
+        i_add(stolen);
+    }
     if( mark.is_npc() ) {
         if( u_see ) {
             add_msg( _( "%1$s takes %2$s's %3$s." ), name.c_str(),
@@ -2927,7 +2929,6 @@ void npc::mug_player( player &mark )
         add_msg( m_bad, _( "%1$s takes your %2$s." ),
                  name.c_str(), stolen.tname().c_str() );
     }
-    i_add( stolen );
     moves -= 100;
     if( !mark.is_npc() ) {
         op_of_u.value -= rng( 0, 1 );  // Decrease the value of the player
