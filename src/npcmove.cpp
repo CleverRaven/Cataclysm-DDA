@@ -2282,7 +2282,7 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) {
+    if( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) || is_hallucination() ) {
         return false;
     }
 
@@ -2359,10 +2359,6 @@ bool npc::find_corpse_to_pulp()
 
 bool npc::do_pulp()
 {
-    if ( is_hallucination() ) { // hallucinations only pretend to pulp
-        return true;
-    }
-
     if( !pulp_location ) {
         return false;
     }
