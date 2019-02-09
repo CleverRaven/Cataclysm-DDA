@@ -4,7 +4,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "EMP grenade",
-    "description": "This is a grenade that generates a electromagnetic pulse with a tiny nuclear explosion.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three turns before it detonates, creating an EMP field that damages robots and drains bionic energy.",
+    "description": "This is a grenade that generates a electromagnetic pulse with a low-inductance capacitor bank discharged into a single-loop antenna.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three turns before it detonates, creating an EMP field that damages robots and drains bionic energy.",
     "weight": 400,
     "volume": 1,
     "price": 6000,
