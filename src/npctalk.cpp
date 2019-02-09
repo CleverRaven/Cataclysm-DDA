@@ -238,7 +238,7 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
-    if( sees( spos ) ) {
+    if( sees( spos ) || is_hallucination() ) {
         return;
     }
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
