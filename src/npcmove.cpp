@@ -2499,7 +2499,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 
 bool npc::alt_attack()
 {
-    if( is_following() && !rules.has_flag( ally_rule::use_grenades ) ) {
+    if( is_following() && !rules.has_flag( ally_rule::use_grenades ) || is_hallucination() ) {
         return false;
     }
 
