@@ -1925,8 +1925,10 @@ void npc::die( Creature *nkiller )
     dead = true;
     Character::die( nkiller );
 
-    if( g->u.sees( *this ) ) {
+    if( g->u.sees( *this ) && !is_hallucination() ) {
         add_msg( _( "%s dies!" ), name.c_str() );
+    } else if( g->u.sees(*this) && is_hallucination() ) {
+        add_msg(_("%s disappears."), name.c_str());
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player || is_hallucination() ) ) {
