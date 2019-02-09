@@ -2018,6 +2018,10 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
+    if ( is_hallucination() ) {
+         return;
+    }
+
     if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name.c_str() );
         fetching_item = false;
