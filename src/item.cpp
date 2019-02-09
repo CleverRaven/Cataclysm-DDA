@@ -2295,7 +2295,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         } else if( sizing_level == sizing::small_sized_big_char ||
                                    sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <bad>can not not upsized.</bad>" ) ) );
+                                                      _( "* This piece of clothing <bad>can not be upsized.</bad>" ) ) );
                         }
                     } else {
                         if( sizing_level == sizing::small_sized_human_char ) {
