@@ -2175,10 +2175,6 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 
 void npc::drop_items( int weight, int volume )
 {
-    if( is_hallucination() ) {
-        return;
-    }
-
     add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
              name.c_str(), weight, volume, inv.size(), to_gram( weight_carried() ),
              to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
@@ -2265,7 +2261,9 @@ void npc::drop_items( int weight, int volume )
         } else if( num_items_dropped == 2 ) {
             item_name << _( " and " ) << dropped.tname();
         }
-        g->m.add_item_or_charges( pos(), dropped );
+        if( !is_hallucination() ) { // hallucinations can't drop real items
+            g->m.add_item_or_charges( pos(), dropped );
+        }
     }
     // Finally, describe the action if u can see it
     if( g->u.sees( *this ) ) {
