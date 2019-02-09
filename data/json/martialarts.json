@@ -735,7 +735,7 @@
         "type" : "martial_art",
         "id" : "style_dragon",
         "name" : "Dragon Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Dexterity determines the majority of your damage, rather than Strength, and increases accuracy, moving increases damage and accuracy.",
+        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence determines the majority of your damage, rather than Strength, and increases accuracy, moving increases damage and accuracy.",
         "arm_block" : 2,
         "leg_block" : 99,
         "static_buffs" : [
@@ -843,7 +843,7 @@
         "type" : "martial_art",
         "id" : "style_snake",
         "name" : "Snake Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines the majority of your damage, rather than Strength.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
