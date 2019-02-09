@@ -2869,8 +2869,10 @@ void npc::mug_player( player &mark )
 
     const bool u_see = g->u.sees( *this ) || g->u.sees( mark );
     if( mark.cash > 0 ) {
-        cash += mark.cash;
-        mark.cash = 0;
+        if( !is_hallucination() ) { // hallucinations can't take items
+            cash += mark.cash;
+            mark.cash = 0;
+        }
         moves = 0;
         // Describe the action
         if( mark.is_npc() ) {
