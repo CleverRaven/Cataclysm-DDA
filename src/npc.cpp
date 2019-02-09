@@ -911,10 +911,9 @@ bool npc::wear_if_wanted( const item &it )
 {
     // Note: this function isn't good enough to use with NPC AI alone
     // Restrict it to player's orders for now
-    if( !it.is_armor() ) {
+    if( !it.is_armor() || is_hallucination() ) { // Hallucinations can't wear real item
         return false;
     }
-
     // TODO: Make it depend on stuff
     static const std::array<int, num_bp> max_encumb = {{
             30, // bp_torso - Higher if ranged?
@@ -1021,7 +1020,9 @@ bool npc::wield( item &it )
                 moves -= 15;
             } else { // No room for weapon, so we drop it
                 add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
-                g->m.add_item_or_charges( pos(), remove_weapon() );
+                if( !is_hallucination() ) { // Hallucinations can't drop real item
+                    g->m.add_item_or_charges( pos(), remove_weapon() );
+                }
             }
         }
     }
