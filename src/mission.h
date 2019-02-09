@@ -424,8 +424,8 @@ class mission
             std::vector<item *> &items,
             Group_tag   &grp_type,
             std::map<itype_id, int> &matches,
-            itype_id &required_container,
-            itype_id &actual_container,
+            const itype_id &required_container,
+            const itype_id &actual_container,
             bool &specific_container_required );
 };
 

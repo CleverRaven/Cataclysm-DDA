@@ -409,7 +409,7 @@ bool mission::is_complete( const int _npc_id ) const
 
 void mission::get_all_item_group_matches( std::vector<item *> &items,
         Group_tag &grp_type, std::map<itype_id, int> &matches,
-        itype_id &required_container, itype_id &actual_container,
+        const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
     for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
