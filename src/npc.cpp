@@ -2088,6 +2088,9 @@ void npc::on_load()
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
     }
+    if( has_trait( trait_id "HALLUCINATION" ) ) {
+        hallucination = true;
+    }
 }
 
 void npc_chatbin::add_new_mission( mission *miss )
