@@ -256,7 +256,6 @@ void mission::wrap_up()
             inventory tmp_inv = u.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            int num_in_group = 0;
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
             bool specific_container_required = container.compare( "null" ) != 0;
@@ -324,7 +323,6 @@ bool mission::is_complete( const int _npc_id ) const
             inventory tmp_inv = u.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
-            int num_in_group = 0;
             Group_tag grp_type = type -> group_id;
             itype_id container = type->container_id;
             bool specific_container_required = container.compare( "null" ) != 0;
@@ -440,7 +438,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
             std::transform(
                 content_list.begin(), content_list.end(),
                 std::back_inserter( content ),
-            []( item p ) -> item* {
+            []( item & p ) -> item* {
                 return &p;
             } );
 
