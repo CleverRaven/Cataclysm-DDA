@@ -1929,7 +1929,7 @@ void npc::die( Creature *nkiller )
         add_msg( _( "%s dies!" ), name.c_str() );
     }
 
-    if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
+    if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player || is_hallucination() ) ) {
         g->record_npc_kill( *this );
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
