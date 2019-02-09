@@ -2361,6 +2361,10 @@ bool npc::find_corpse_to_pulp()
 
 bool npc::do_pulp()
 {
+    if ( is_hallucination() ) { // hallucinations only pretend to pulp
+        return true;
+    }
+
     if( !pulp_location ) {
         return false;
     }
