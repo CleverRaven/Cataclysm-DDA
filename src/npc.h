@@ -575,6 +575,7 @@ class npc : public player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
+        bool is_hallucination() const override; // true if the NPC isn't actually real
         /** Standing in one spot, moving back if removed from it. */
         bool is_guarding() const;
         /** Trusts you a lot. */
@@ -897,6 +898,7 @@ class npc : public player
         npc_follower_rules rules;
         bool marked_for_death; // If true, we die as soon as we respawn!
         bool hit_by_player;
+        bool hallucination; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;
