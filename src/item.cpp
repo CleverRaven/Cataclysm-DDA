@@ -3044,7 +3044,8 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    if( is_map() ) {
+    // This is a hack to prevent possible crashing when displaying maps as items during character creation
+    if( is_map() && calendar::turn != calendar::time_of_cataclysm ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
         if( c != nullptr ) {
