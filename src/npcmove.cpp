@@ -1883,7 +1883,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
 void npc::find_item()
 {
-    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
+    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) || is_hallucination() ) {
         // Grabbing stuff not allowed by our "owner"
         return;
     }
