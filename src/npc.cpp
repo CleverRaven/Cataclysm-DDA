@@ -1961,8 +1961,9 @@ void npc::die( Creature *nkiller )
             g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }
-
-    place_corpse();
+    if( !is_hallucination() ) {
+        place_corpse();
+    }
 }
 
 std::string npc_attitude_name( npc_attitude att )
