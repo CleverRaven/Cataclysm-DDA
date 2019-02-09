@@ -2270,6 +2270,10 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need )
 
 bool npc::will_accept_from_player( const item &it ) const
 {
+    if ( is_hallucination() ) {
+        return false;
+    }
+
     if( is_minion() || g->u.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) ||
         it.has_flag( "NPC_SAFE" ) ) {
         return true;
