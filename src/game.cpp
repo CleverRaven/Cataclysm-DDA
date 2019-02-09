@@ -5523,15 +5523,7 @@ bool game::spawn_hallucination( const tripoint &p )
         phantasm->normalize();
         phantasm->randomize( NC_HALLU );
         phantasm->spawn_at_precise( { get_levx(), get_levy() }, p );
-
-        //Don't attempt to place phantasms inside of other creatures
-        if (!critter_at(phantasm.pos(), true)) {
-            return critter_tracker->add(phantasm);
-        }
-        else {
-            return false;
-        }
-
+        return true;
     }
 
 }
