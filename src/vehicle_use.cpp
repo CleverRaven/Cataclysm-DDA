@@ -349,7 +349,6 @@ void vehicle::control_engines()
 int vehicle::select_engine()
 {
     uilist tmenu;
-    std::string name;
     tmenu.text = _( "Toggle which?" );
     int i = 0;
     for( size_t x = 0; x < engines.size(); x++ ) {
@@ -924,11 +923,8 @@ void vehicle::reload_seeds( const tripoint &pos )
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
-        const char *msg = nullptr;
         int amount = 0;
-        std::string popupmsg;
-        msg = _( "Move how many? [Have %d] (0 to cancel)" );
-        popupmsg = string_format( msg, count );
+        const std::string popupmsg = string_format( _( "Move how many? [Have %d] (0 to cancel)" ), count );
 
         amount = string_input_popup()
                  .title( popupmsg )
@@ -945,7 +941,7 @@ void vehicle::reload_seeds( const tripoint &pos )
             } else {
                 used_seed = p.use_amount( seed_id, actual_amount );
             }
-            used_seed.front().set_age( 0 );
+            used_seed.front().set_age( 0_turns );
             //place seeds into the planter
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, used_seed, pos );
         }
@@ -994,7 +990,7 @@ void vehicle::operate_plow()
 {
     for( const vpart_reference &vp : get_enabled_parts( "PLOW" ) ) {
         const tripoint start_plow = vp.pos();
-        if( g->m.has_flag( "DIGGABLE", start_plow ) ) {
+        if( g->m.has_flag( "PLOWABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
             const int speed = velocity;
@@ -1073,19 +1069,19 @@ void vehicle::operate_planter()
                     break;
                 } else if( g->m.ter( loc ) == t_dirtmound ) {
                     g->m.set( loc, t_dirt, f_plant_seed );
-                } else if( !g->m.has_flag( "DIGGABLE", loc ) ) {
-                    //If it isn't diggable terrain, then it will most likely be damaged.
+                } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
+                    //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ) );
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
-                    i->set_age( 0 );
+                    i->set_age( 0_turns );
                     g->m.add_item( loc, *i );
                     v.erase( i );
                 } else {
                     item tmp = *i;
                     tmp.charges = 1;
-                    tmp.set_age( 0 );
+                    tmp.set_age( 0_turns );
                     g->m.add_item( loc, tmp );
                     i->charges--;
                 }
@@ -1191,9 +1187,9 @@ void vehicle::open( int part_index )
 }
 
 /**
- * Opens an openable part at the specified index. If it's a multipart, opens
+ * Closes an openable part at the specified index. If it's a multipart, closes
  * all attached parts as well.
- * @param part_index The index in the parts list of the part to open.
+ * @param part_index The index in the parts list of the part to close.
  */
 void vehicle::close( int part_index )
 {
@@ -1223,40 +1219,26 @@ void vehicle::open_all_at( int p )
     }
 }
 
+
+/**
+ * Opens or closes an openable part at the specified index based on the @opening value passed.
+ * If it's a multipart, opens or closes all attached parts as well.
+ * @param part_index The index in the parts list of the part to open or close.
+ */
 void vehicle::open_or_close( const int part_index, const bool opening )
 {
+    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
 
-    if( !part_info( part_index ).has_flag( "MULTISQUARE" ) ) {
-        return;
-    }
-
-    const point origin = parts[part_index].mount;
-    /* Find all other closed parts with the same ID in adjacent squares.
-     * This is a tighter restriction than just looking for other Multisquare
-     * Openable parts, and stops trunks from opening side doors and the like. */
-    // FIXME let's not recursively call get_all_parts
-    for( const vpart_reference &vp : get_all_parts() ) {
-        const size_t next_index = vp.part_index();
-        if( vp.part().removed ) {
-            continue;
-        }
-
-        //Look for parts 1 square off in any cardinal direction
-        const int dx = vp.mount().x - origin.x;
-        const int dy = vp.mount().y - origin.y;
-        const int delta = dx * dx + dy * dy;
-
-        const bool is_near = ( delta == 1 );
-        const bool is_id = part_info( next_index ).get_id() == part_info( part_index ).get_id();
-        const bool do_next = !!vp.part().open ^ opening;
-
-        if( is_near && is_id && do_next ) {
-            open_or_close( next_index, opening );
+    for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
+        for( auto const &partID : vec ) {
+            parts[partID].open = opening;
         }
     }
+
+    coeff_air_changed = true;
 }
 
 void vehicle::use_washing_machine( int p )
@@ -1283,7 +1265,7 @@ void vehicle::use_washing_machine( int p )
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
-            n.set_age( 0 );
+            n.set_age( 0_turns );
         }
 
         if( fuel_left( "water" ) >= 24 ) {
@@ -1368,7 +1350,7 @@ void vehicle::use_bike_rack( int part )
             }
         }
     } else {
-        success = find_rackable_vehicle( racks_parts );
+        success = try_to_rack_nearby_vehicle( racks_parts );
     }
     if( success ) {
         g->refresh_all();

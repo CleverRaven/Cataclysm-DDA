@@ -726,7 +726,7 @@ class vehicle
         int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks );
+        bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
@@ -838,12 +838,12 @@ class vehicle
          *  Get all enabled, available, unbroken vehicle parts at specified position
          *  @param pos position to check
          *  @param flag if set only flags with this part will be considered
-         *  @param conditions enum to include unabled, unavailable, and broken parts
+         *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
-                const part_status_flag e );
+                const part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
-                const std::string &flag, const part_status_flag e ) const;
+                const std::string &flag, const part_status_flag condition ) const;
 
         /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
         bool can_enable( const vehicle_part &pt, bool alert = false ) const;
@@ -1078,7 +1078,9 @@ class vehicle
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
          */
-        float wheel_area() const;
+        int wheel_area() const;
+        // average off-road rating for displaying off-road perfomance
+        float average_or_rating() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
@@ -1455,6 +1457,7 @@ class vehicle
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
+        std::vector<int> wind_turbines;     // List of wind turbine indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels

@@ -190,6 +190,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
+        p.on_worn_item_transform( *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -418,11 +419,11 @@ long unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &
         return 0;
     }
 
-    for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
+    for( const auto &tool : tools_needed ) {
         // Amount == -1 means need one, but don't consume it.
-        if( !p.has_amount( tool->first, 1 ) ) {
+        if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_if_player( _( "You need %s to do it!" ),
-                                 item::nname( tool->first ).c_str() );
+                                 item::nname( tool.first ).c_str() );
             return 0;
         }
     }
@@ -553,24 +554,23 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         need_these.erase( "syringe" ); // no need for a syringe with bionics like these!
     }
     // Check prerequisites first.
-    for( auto tool = need_these.cbegin(); tool != need_these.cend(); ++tool ) {
+    for( const auto &tool : need_these ) {
         // Amount == -1 means need one, but don't consume it.
-        if( !p.has_amount( tool->first, 1 ) ) {
+        if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
                                      _( "I need a %1$s to consume %2$s!" ),
-                                     item::nname( tool->first ).c_str(),
+                                     item::nname( tool.first ).c_str(),
                                      it.type_name( 1 ).c_str() );
             return -1;
         }
     }
-    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
-         ++consumable ) {
+    for( const auto &consumable : charges_needed ) {
         // Amount == -1 means need one, but don't consume it.
-        if( !p.has_charges( consumable->first, ( consumable->second == -1 ) ?
-                            1 : consumable->second ) ) {
+        if( !p.has_charges( consumable.first, ( consumable.second == -1 ) ?
+                            1 : consumable.second ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
                                      _( "I need a %1$s to consume %2$s!" ),
-                                     item::nname( consumable->first ).c_str(),
+                                     item::nname( consumable.first ).c_str(),
                                      it.type_name( 1 ).c_str() );
             return -1;
         }
@@ -585,14 +585,14 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
         p.add_effect( eff.id, dur, eff.bp, eff.permanent );
     }
-    for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
-        p.mod_stat( stat->first, stat->second );
+    for( const auto &stat_adjustment : stat_adjustments ) {
+        p.mod_stat( stat_adjustment.first, stat_adjustment.second );
     }
-    for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
-        const field_id fid = field_from_ident( field->first );
+    for( const auto &field : fields_produced ) {
+        const field_id fid = field_from_ident( field.first );
         for( int i = 0; i < 3; i++ ) {
             g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid,
-                            field->second );
+                            field.second );
         }
     }
 
@@ -606,10 +606,9 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     // Output message.
     p.add_msg_if_player( _( activation_message.c_str() ), it.type_name( 1 ) );
     // Consume charges.
-    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
-         ++consumable ) {
-        if( consumable->second != -1 ) {
-            p.use_charges( consumable->first, consumable->second );
+    for( const auto &consumable : charges_needed ) {
+        if( consumable.second != -1 ) {
+            p.use_charges( consumable.first, consumable.second );
         }
     }
 
@@ -935,6 +934,15 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
     if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info,
                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
+        return 0;
+    }
+
+    optional_vpart_position veh_there = g->m.veh_at( pnt );
+    if( veh_there.has_value() ) {
+        // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
+        // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
+        p.add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
+                             veh_there.value().vehicle().disp_name(), it.tname().c_str() );
         return 0;
     }
 
@@ -2026,7 +2034,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
         p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes );
     }
 
     return 0;
@@ -2075,7 +2083,7 @@ bool holster_actor::can_holster( const item &obj ) const
     if( obj.volume() > max_volume || obj.volume() < min_volume ) {
         return false;
     }
-    if( max_weight > 0 && obj.weight() > max_weight ) {
+    if( max_weight > 0_gram && obj.weight() > max_weight ) {
         return false;
     }
     if( obj.active ) {
@@ -2107,7 +2115,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-    if( max_weight > 0 && obj.weight() > max_weight ) {
+    if( max_weight > 0_gram && obj.weight() > max_weight ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too heavy to fit in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
@@ -2132,7 +2140,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname().c_str(), holster.tname().c_str() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, draw_cost, false );
+    p.store( holster, obj, false, draw_cost );
     return true;
 }
 
@@ -2209,7 +2217,7 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        iteminfo::is_decimal,
                        convert_volume( max_volume.value() ) );
 
-    if( max_weight > 0 ) {
+    if( max_weight > 0_gram ) {
         dump.emplace_back( "TOOL", "Max item weight: ",
                            string_format( _( "<num> %s" ), weight_units() ),
                            iteminfo::is_decimal,
@@ -2537,6 +2545,15 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
 
+    std::function<bool( const item & )> filter;
+    if( fix.is_filthy() ) {
+        filter = []( const item & component ) {
+            return component.allow_crafting_component();
+        };
+    } else {
+        filter = is_crafting_component;
+    }
+
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
         const auto component_id = entry.obj().repaired_with();
@@ -2544,7 +2561,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
             }
-        } else if( crafting_inv.has_amount( component_id, items_needed ) ) {
+        } else if( crafting_inv.has_amount( component_id, items_needed, false, filter ) ) {
             comps.emplace_back( component_id, items_needed );
         }
     }
@@ -2573,7 +2590,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             debugmsg( "Attempted repair with no components" );
         }
 
-        pl.consume_items( comps );
+        pl.consume_items( comps, 1, filter );
     }
 
     return true;
@@ -3558,7 +3575,7 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
         return ret_val<bool>::make_failure( _( "It's not a gun." ) );
     }
 
-    if( target.type->gun->barrel_length <= 0 ) {
+    if( target.type->gun->barrel_length <= 0_ml ) {
         return ret_val<bool>::make_failure( _( "The barrel is too short." ) );
     }
 

@@ -1374,7 +1374,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             recoil_pc = pc.recoil;
             recoil_pos = dst;
-            int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
                 if( action == it->action ) {
@@ -1385,7 +1384,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 debugmsg( "Could not find a valid aim_type for %s", action.c_str() );
                 aim_mode = aim_types.begin();
             }
-            aim_threshold = it->threshold;
+            int aim_threshold = it->threshold;
             set_last_target( dst );
             do {
                 do_aim( pc, *relevant );

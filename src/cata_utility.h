@@ -8,16 +8,11 @@
 #include <utility>
 #include <vector>
 
+#include "units.h"
+
 class item;
 class Creature;
 struct tripoint;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-}
 class JsonIn;
 class JsonOut;
 
@@ -507,5 +502,11 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  * \brief Returns true iff s1 ends with s2
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/** Used as a default in function declarations in visitable.h, inventory.h, and player.h */
+const std::function<bool( const item & )> return_true = []( const item & )
+{
+    return true;
+};
 
 #endif // CAT_UTILITY_H

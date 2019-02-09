@@ -127,7 +127,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         }
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
-            r.push_back( obj.tname( false ) );
+            r.push_back( obj.tname( 1, false ) );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
@@ -204,7 +204,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
                 dump( test_npcs[ "S1" ], gun );
 
-                if( gun.type->gun->barrel_length > 0 ) {
+                if( gun.type->gun->barrel_length > 0_ml ) {
                     gun.emplace_back( "barrel_small" );
                     dump( test_npcs[ "S1" ], gun );
                 }

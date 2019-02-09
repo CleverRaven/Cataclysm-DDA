@@ -126,14 +126,13 @@ void talk_function::companion_mission( npc &p )
 
 void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
                            "Assigning one of your allies to patrol the surrounding wilderness "
                            "and isolated buildings presents the opportunity to build survival "
                            "skills while engaging in relatively safe combat against isolated "
                            "creatures." );
     mission_key.add( "Assign Scavenging Patrol", _( "Assign Scavenging Patrol" ), entry );
-    npc_list = companion_list( p, "_scavenging_patrol" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_scavenging_patrol" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -147,15 +146,13 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
 
 void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
-    std::string entry;
-    entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
-               "Scavenging raids target formerly populated areas to loot as many valuable items as "
-               "possible before being surrounded by the undead.  Combat is to be expected and "
-               "assistance from the rest of the party can't be guaranteed.  The rewards are "
-               "greater and there is a chance of the companion bringing back items." );
+    std::string entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+                           "Scavenging raids target formerly populated areas to loot as many valuable items as "
+                           "possible before being surrounded by the undead.  Combat is to be expected and "
+                           "assistance from the rest of the party can't be guaranteed.  The rewards are "
+                           "greater and there is a chance of the companion bringing back items." );
     mission_key.add( "Assign Scavenging Raid", _( "Assign Scavenging Raid" ), entry );
-    npc_list = companion_list( p, "_scavenging_raid" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_scavenging_raid" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -169,13 +166,12 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 
 void talk_function::commune_menial( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
                            "Assigning one of your allies to menial labor is a safe way to teach "
                            "them basic skills and build reputation with the outpost.  Don't expect "
                            "much of a reward though." );
     mission_key.add( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
-    npc_list = companion_list( p, "_labor" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_labor" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -190,13 +186,12 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
 
 void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
                            "Carpentry work requires more skill than menial labor while offering "
                            "modestly improved pay.  It is unlikely that your companions will face "
                            "combat but there are hazards working on makeshift buildings." );
     mission_key.add( "Assign Ally to Carpentry Work", _( "Assign Ally to Carpentry Work" ), entry );
-    npc_list = companion_list( p, "_carpenter" );
+    std::vector<std::shared_ptr<npc>>  npc_list = companion_list( p, "_carpenter" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -280,7 +275,6 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 
 void talk_function::commune_forage( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \n"
                            "Foraging for food involves dispatching a companion to search the "
                            "surrounding wilderness for wild edibles.  Combat will be avoided but "
@@ -289,7 +283,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
                            "hauls." );
     mission_key.add( "Assign Ally to Forage for Food", _( "Assign Ally to Forage for Food" ),
                      entry );
-    npc_list = companion_list( p, "_forage" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_forage" );
     if( !npc_list.empty() ) {
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
@@ -303,7 +297,6 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
 
 void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
 {
-    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                            "Adding companions to the caravan team increases the likelihood of "
                            "success.  By nature, caravans are extremely tempting targets for "
@@ -314,7 +307,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                            "Center as part of a tax and in exchange for skilled labor." );
     mission_key.add( "Caravan Commune-Refugee Center", _( "Caravan Commune-Refugee Center" ),
                      entry );
-    npc_list = companion_list( p, "_commune_refugee_caravan" );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_commune_refugee_caravan" );
     std::vector<std::shared_ptr<npc>> npc_list_aux;
     if( !npc_list.empty() ) {
         entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
@@ -957,7 +950,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                 } else {
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
-                used_seed.front().set_age( 0 );
+                used_seed.front().set_age( 0_turns );
                 bay.add_item_or_charges( x, y, used_seed.front() );
                 bay.set( x, y, t_dirt, f_plant_seed );
                 limiting_number--;
@@ -976,7 +969,6 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20, false );
     tinymap bay;
     item tmp;
-    bool check;
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
@@ -988,7 +980,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
                     tmp = item( seed_data.fruit_id, calendar::turn );
-                    check = false;
+                    bool check = false;
                     for( const std::string &elem : plant_names ) {
                         if( elem == tmp.type_name( 3 ) ) {
                             check = true;

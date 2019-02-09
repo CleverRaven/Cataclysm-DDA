@@ -77,14 +77,15 @@ void companion_mission( npc & );
  * Send a companion on an individual mission or attaches them to a group to depart later
  * Set @ref submap_coords and @ref pos.
  * @param desc is the description in the popup window
- * @param id is the value stored with the NPC when it is offloaded
+ * @param miss_id is the value stored with the NPC when it is offloaded
  * @param group is whether the NPC is waiting for additional members before departing together
  * @param equipment is placed in the NPC's special inventory and dropped when they return
  * @param skill_tested is the main skill for the quest
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
-std::shared_ptr<npc> individual_mission( npc &p, const std::string &desc, const std::string &id,
+std::shared_ptr<npc> individual_mission( npc &p, const std::string &desc,
+        const std::string &miss_id,
         bool group = false, const std::vector<item *> &equipment = {},
         const std::string &skill_tested = "", int skill_level = 0 );
 

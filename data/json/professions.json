@@ -23,6 +23,17 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "army_mags_rm25",
+    "entries": [
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_rm11b",
     "entries": [
       { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
@@ -1436,7 +1447,9 @@
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
           { "item": "rm11b_sniper_rifle", "ammo-item": "8mm_fmj", "contents-item": [ "shoulder_strap" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "chestrig", "contents-group": [ "army_mags_rm51", "army_mags_usp45" ] }
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "chestrig", "contents-group": [ "army_mags_rm25" ] }
         ]
       },
       "male": [ "boxer_shorts" ],

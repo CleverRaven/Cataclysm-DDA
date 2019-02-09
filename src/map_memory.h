@@ -6,7 +6,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "enums.h"
+#include "enums.h" // IWYU pragma: keep
 
 class JsonOut;
 class JsonObject;
@@ -25,6 +25,7 @@ class lru_cache
 
         void insert( int limit, const tripoint &, const T & );
         T get( const tripoint &, const T &default_ ) const;
+        void remove( const tripoint & );
 
         void clear();
         const std::list<Pair> &list() const;
@@ -48,10 +49,12 @@ class map_memory
         void memorize_tile( int limit, const tripoint &pos, const std::string &ter,
                             const int subtile, const int rotation );
         /** Returns last stored map tile in given location */
-        memorized_terrain_tile get_tile( const tripoint &p ) const;
+        memorized_terrain_tile get_tile( const tripoint &pos ) const;
 
         void memorize_symbol( int limit, const tripoint &pos, const long symbol );
-        long get_symbol( const tripoint &p ) const;
+        long get_symbol( const tripoint &pos ) const;
+
+        void clear_memorized_tile( const tripoint &pos );
     private:
         lru_cache<memorized_terrain_tile> tile_cache;
         lru_cache<long> symbol_cache;

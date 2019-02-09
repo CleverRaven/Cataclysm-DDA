@@ -12,6 +12,7 @@
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "units.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -48,15 +49,6 @@ struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-}
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -64,6 +56,12 @@ enum m_size : int {
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
     MS_HUGE     // TAAAANK
+};
+
+enum FacingDirection {
+    FD_NONE = 0,
+    FD_LEFT = 1,
+    FD_RIGHT = 2
 };
 
 class Creature
@@ -87,7 +85,8 @@ class Creature
         virtual bool is_monster() const {
             return false;
         }
-
+        /** return the direction the creature is facing, for sdl horizontal flip **/
+        FacingDirection facing = FD_RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
@@ -222,7 +221,7 @@ class Creature
          * Does not call @ref check_dead_state.
          * @param source The attacking creature, can be null.
          * @param bp The attacked body part
-         * @param d The damage dealt
+         * @param dam The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
                 const damage_instance &dam );
@@ -409,9 +408,9 @@ class Creature
         virtual body_part get_random_body_part( bool main = false ) const = 0;
         /**
          * Returns body parts in order in which they should be displayed.
-         * @param main If true, only displays parts that can have hit points
+         * @param only_main If true, only displays parts that can have hit points
          */
-        virtual std::vector<body_part> get_all_body_parts( bool main = false ) const = 0;
+        virtual std::vector<body_part> get_all_body_parts( bool only_main = false ) const = 0;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;

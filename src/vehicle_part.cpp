@@ -217,11 +217,13 @@ long vehicle_part::ammo_remaining() const
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
     const itype *liquid = item::find_type( ammo );
-    if( is_tank() && liquid->phase >= LIQUID ) {
+
+    // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
+    if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear();
         auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         long limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base.emplace_back( ammo, calendar::turn, qty >= 0 ? std::min( qty, limit ) : limit );
+        base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
         return qty;
     }
 
@@ -330,7 +332,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     if( base.is_food_container() ) {
         int temp = g->get_temperature( pos );
         if( e_heater ) {
-            temp = std::max( temp, temperatures::cold + 1 );
+            temp = std::max( temp, temperatures::normal );
         }
         base.process( nullptr, pos, false, temp, 1 );
     }
@@ -367,7 +369,7 @@ bool vehicle_part::fault_set( const fault_id &f )
 
 int vehicle_part::wheel_area() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
+    return info().wheel_area();
 }
 
 /** Get wheel diameter (inches) or return 0 if part is not wheel */
@@ -455,7 +457,7 @@ bool vehicle_part::is_battery() const
 
 bool vehicle_part::is_reactor() const
 {
-    return info().has_flag( "REACTOR" );
+    return info().has_flag( VPFLAG_REACTOR );
 }
 
 bool vehicle_part::is_turret() const

@@ -25,6 +25,7 @@ void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );
 void mutation_wish();
+void draw_benchmark( const int max_difference );
 
 class mission_debug;
 

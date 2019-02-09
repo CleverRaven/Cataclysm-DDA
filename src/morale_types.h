@@ -98,6 +98,7 @@ extern const morale_type MORALE_HAIRCUT;
 extern const morale_type MORALE_SHAVE;
 extern const morale_type MORALE_CHAT;
 extern const morale_type MORALE_VOMITED;
+extern const morale_type MORALE_PLAY_WITH_PET;
 extern const morale_type MORALE_PYROMANIA_STARTFIRE;
 extern const morale_type MORALE_PYROMANIA_NEARFIRE;
 extern const morale_type MORALE_PYROMANIA_NOFIRE;

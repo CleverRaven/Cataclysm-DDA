@@ -105,6 +105,8 @@ struct map_deconstruct_info {
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
+ * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
+ * BLOCK_WIND - This tile will partially block wind
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -127,7 +129,7 @@ struct map_deconstruct_info {
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
  *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
+ * To add a new ter_bitflag, add below and add to ter_bitflags_map in mapdata.cpp
  * Order does not matter.
  */
 enum ter_bitflags : int {
@@ -165,6 +167,8 @@ enum ter_bitflags : int {
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP,
+    TFLAG_HIDE_PLACE,
+    TFLAG_BLOCK_WIND,
 
     NUM_TERFLAGS
 };
@@ -352,7 +356,7 @@ extern ter_id t_null,
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,

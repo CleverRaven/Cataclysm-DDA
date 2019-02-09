@@ -75,6 +75,30 @@
         ]
     },{
         "type" : "snippet",
+        "category" : "<noticedbooze>",
+        "text" : [
+            "Yeah sure, can't help but notice you got beer with you!  Let's crack a cold one and chat, <name_g>, how goes it?",
+            "Oh definitely, how about one of those beers I see on you?  What's up anyway?",
+            "Yeah you share those beers I see you hoarding and then we chat all you like!  Only joking, what's up <name_g>?"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<neutralchitchat>",
+        "text" : [
+            "Hey, sure thing, <name_g>, I need a break anyway, how are you?",
+            "Yeah OK, <name_g>, how's it going?",
+            "Sure, let's shoot the shit!  You OK?",
+            "Why not?  How you doing?",
+            "I'm OK with that, what's up?",
+            "I can spare a few minutes, how's things?",
+            "Sure thing <name_g>, you good?",
+            "Alright, you got something to get off your chest?",
+            "Always ready for a good chat!  But why, you OK?",
+            "OK <name_g>, we should get to know each other, how are you coping?",
+            "Definitely, I'm game.  How you holding up?"
+        ]
+    },{
+        "type" : "snippet",
         "category" : "<swear!>",
         "text" : [
             "darn",
@@ -526,6 +550,19 @@
     },
     {
       "type" : "snippet",
+      "category" : "<cramped_vehicle>",
+      "text" : [
+        "Can I get out and walk?  This vehicle is too small.",
+        "How about we make the next vehicle a convertible?",
+        "This vehicle is too small.",
+        "I'm not a cortionist!",
+        "I can't fit in your tiny human vehicle.",
+        "This sucks.  I'm too big.",
+        "I don't like being a mutant crammed into your tiny little vehicle."
+      ]
+    },
+    {
+      "type" : "snippet",
       "category" : "<fire_in_the_hole_h>",
       "text" : [
         "<swear!> Fire in the hole!",
@@ -750,18 +787,18 @@
     },{
         "type": "snippet",
         "category": "<done_conversation_section>",
-        "text": [ 
-            "Let's talk about something else.", 
-            "Let's change the subject.", 
-            "I'd like to ask you about something else." 
+        "text": [
+            "Let's talk about something else.",
+            "Let's change the subject.",
+            "I'd like to ask you about something else."
         ]
     },{
         "type": "snippet",
         "category": "<end_talking>",
-        "text": [ 
-            "We should probably get going.", 
-            "We'd better get moving.", 
-            "Let's head out." 
+        "text": [
+            "We should probably get going.",
+            "We'd better get moving.",
+            "Let's head out."
         ]
     },{
         "type": "snippet",
@@ -782,39 +819,39 @@
     },{
         "type": "snippet",
         "category": "<dumb>",
-            "text": [ 
-            "stupid", 
-            "idiotic", 
-            "dumb", 
-            "dumb-ass", 
-            "moronic", 
-            "mickey mouse", 
-            "shit-for-brains" 
+            "text": [
+            "stupid",
+            "idiotic",
+            "dumb",
+            "dumb-ass",
+            "moronic",
+            "mickey mouse",
+            "shit-for-brains"
         ]
     },{
         "type": "snippet",
         "category": "<zombie>",
-        "text": [ 
-            "zombie", 
-            "Z", 
-            "shambler", 
-            "goo-puker", 
-            "walker", 
-            "walking corpse", 
-            "<swear> <zombie>", 
+        "text": [
+            "zombie",
+            "Z",
+            "shambler",
+            "goo-puker",
+            "walker",
+            "walking corpse",
+            "<swear> <zombie>",
             "undead",
-            "living dead" 
+            "living dead"
         ]
     },{
         "type": "snippet",
         "category": "<zombies>",
-        "text": [ 
-            "zombies", 
-            "Z", 
+        "text": [
+            "zombies",
+            "Z",
             "Z's",
-            "undead", 
-            "<swear> <zombies>", 
-            "living dead" 
+            "undead",
+            "<swear> <zombies>",
+            "living dead"
         ]
     },{
         "type": "snippet",
@@ -834,12 +871,12 @@
     },{
         "type": "snippet",
         "category": "<the_cataclysm>",
-        "text": [ 
-            "the cataclysm", 
-            "the apocalypse", 
-            "the end of the world", 
-            "Armageddon", 
-            "the end of days" 
+        "text": [
+            "the cataclysm",
+            "the apocalypse",
+            "the end of the world",
+            "Armageddon",
+            "the end of days"
         ]
     }
 ]

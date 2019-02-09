@@ -5,9 +5,11 @@
 #include <array>
 
 #include "calendar.h"
-#include "enums.h"
+#include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
 #include "optional.h"
+
+static constexpr int SCENT_MAP_Z_REACH = 1;
 
 class map;
 class game;
@@ -52,6 +54,9 @@ class scent_map
         /**@}*/
 
         bool inbounds( const tripoint &p ) const;
+        bool inbounds( const point &p ) const {
+            return inbounds( tripoint( p, 0 ) );
+        }
 };
 
 #endif

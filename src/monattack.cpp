@@ -115,13 +115,9 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // shared utility functions
-int within_visual_range( monster *z, int max_range )
+bool within_visual_range( monster *z, int max_range )
 {
-    int dist = rl_dist( z->pos(), g->u.pos() );
-    if( dist > max_range || !z->sees( g->u ) ) {
-        return -1;    // Out of range
-    }
-    return dist;
+    return !( rl_dist( z->pos(), g->u.pos() ) > max_range || !z->sees( g->u ) );
 }
 
 bool within_target_range( const monster *const z, const Creature *const target, int range )
@@ -142,7 +138,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
         return nullptr;
     }
 
-    return trig_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
+    return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
 bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
@@ -2690,7 +2686,7 @@ bool mattack::fear_paralyze( monster *z )
 
 bool mattack::photograph( monster *z )
 {
-    if( within_visual_range( z, 6 ) < 0 ) {
+    if( !within_visual_range( z, 6 ) ) {
         return false;
     }
 
@@ -3199,8 +3195,7 @@ bool mattack::flamethrower( monster *z )
         return true;
     }
 
-    int dist = within_visual_range( z, 5 );
-    if( dist < 0 ) {
+    if( !within_visual_range( z, 5 ) ) {
         return false;
     }
 
@@ -3931,7 +3926,7 @@ bool mattack::parrot( monster *z )
         return false;
     } else if( one_in( 20 ) ) {
         z->moves -= 100;  // It takes a while
-        const SpeechBubble speech = get_speech( z->type->id.str() );
+        const SpeechBubble &speech = get_speech( z->type->id.str() );
         sounds::sound( z->pos(), speech.volume, sounds::sound_t::speech, speech.text );
         return true;
     }
@@ -4709,17 +4704,18 @@ bool mattack::stretch_attack( monster *z )
     z->moves -= 100;
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
         if( g->m.impassable( pnt ) ) {
-            add_msg( _( "The %1$s thrusts its arm at you but bounces off the %2$s" ), z->name().c_str(),
-                     g->m.obstacle_name( pnt ).c_str() );
+            target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
+                                           _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
+                                           z->name(), g->m.obstacle_name( pnt ) );
             return true;
         }
     }
 
     auto msg_type = target == &g->u ? m_warning : m_info;
     target->add_msg_player_or_npc( msg_type,
-                                   _( "The %s thrusts its arm at you, stretching to reach you from afar" ),
-                                   _( "The %s thrusts its arm at <npcname>" ),
-                                   z->name().c_str() );
+                                   _( "The %s thrusts its arm at you, stretching to reach you from afar." ),
+                                   _( "The %s thrusts its arm at <npcname>." ),
+                                   z->name() );
     if( dodge_check( z, target ) || g->u.uncanny_dodge() ) {
         target->add_msg_player_or_npc( msg_type, _( "You evade the stretched arm and it sails past you!" ),
                                        _( "<npcname> evades the stretched arm!" ) );
@@ -4738,15 +4734,15 @@ bool mattack::stretch_attack( monster *z )
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %1$s's arm pierces your %2$s!" ),
                                        _( "The %1$s arm pierces <npcname>'s %2$s!" ),
-                                       z->name().c_str(),
-                                       body_part_name_accusative( hit ).c_str() );
+                                       z->name(),
+                                       body_part_name_accusative( hit ) );
 
         target->check_dead_state();
     } else {
         target->add_msg_player_or_npc( _( "The %1$s arm hits your %2$s, but glances off your armor!" ),
                                        _( "The %1$s hits <npcname>'s %2$s, but glances off armor!" ),
-                                       z->name().c_str(),
-                                       body_part_name_accusative( hit ).c_str() );
+                                       z->name(),
+                                       body_part_name_accusative( hit ) );
     }
 
     target->on_hit( z, hit,  z->type->melee_skill );

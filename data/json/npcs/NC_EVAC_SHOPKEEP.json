@@ -16,6 +16,7 @@
     "type" : "item_group",
     "id" : "NC_EVAC_SHOPKEEP_misc",
     "items":[
+        { "item": "FMCNote", "count-min": 50, "count-max": 300, "prob": 100 },
         ["vest", 40],
         ["kevlar", 15],
         ["jacket_army", 30],

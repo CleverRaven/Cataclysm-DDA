@@ -74,6 +74,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_vomited" ),
 
+            morale_type( "morale_play_with_pet" ),
+
             morale_type( "morale_pyromania_startfire" ),
             morale_type( "morale_pyromania_nearfire" ),
             morale_type( "morale_pyromania_nofire" ),
@@ -153,6 +155,7 @@ const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_CHAT( "morale_chat" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
+const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
 const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );
 const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );

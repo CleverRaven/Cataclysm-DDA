@@ -184,7 +184,7 @@ void DynamicDataLoader::initialize()
     add( "dream", &dream::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
-    add( "mutation", &mutation_branch::load );
+    add( "mutation", &mutation_branch::load_trait );
     add( "furniture", &load_furniture );
     add( "terrain", &load_terrain );
     add( "monstergroup", &MonsterGroupManager::LoadMonsterGroup );
@@ -584,6 +584,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Materials" ), &materials::check },
             { _( "Engine faults" ), &fault::check_consistency },
             { _( "Vehicle parts" ), &vpart_info::check },
+            { _( "Mapgen definitions" ), &check_mapgen_definitions },
             {
                 _( "Monster types" ), []()
                 {

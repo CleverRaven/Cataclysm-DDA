@@ -3,11 +3,6 @@
 #define SDL_SOUND_H
 
 #ifdef SDL_SOUND
-#    if defined(_MSC_VER) && defined(USE_VCPKG)
-#        include <SDL2/SDL_mixer.h>
-#    else
-#        include <SDL_mixer.h>
-#    endif
 #    include "sounds.h"
 
 /**

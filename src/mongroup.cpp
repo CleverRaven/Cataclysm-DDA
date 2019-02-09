@@ -381,8 +381,8 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
                 pack_max = packarr.next_int();
             }
             static const time_duration tdfactor = 1_hours;
-            time_duration starts = 0;
-            time_duration ends = 0;
+            time_duration starts = 0_turns;
+            time_duration ends = 0_turns;
             if( mon.has_member( "starts" ) ) {
                 starts = tdfactor * mon.get_int( "starts" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
             }

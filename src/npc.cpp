@@ -27,7 +27,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
+#include "vpart_reference.h" // IWYU pragma: keep
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -61,18 +61,10 @@ const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
 
-static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
-static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
-static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_DEFORMED2( "DEFORMED2" );
-static const trait_id trait_DEFORMED3( "DEFORMED3" );
-static const trait_id trait_DEFORMED( "DEFORMED" );
-static const trait_id trait_PRETTY( "PRETTY" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
-static const trait_id trait_UGLY( "UGLY" );
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
@@ -1416,7 +1408,7 @@ void npc::shop_restock()
     units::volume total_space = volume_capacity();
     std::list<item> ret;
 
-    while( total_space > 0 && !one_in( 50 ) ) {
+    while( total_space > 0_ml && !one_in( 50 ) ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             ret.push_back( tmpit );
@@ -1663,7 +1655,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_following() || rules.allow_bash ) {
+    if( !is_following() || rules.has_flag( ally_rule::allow_bash ) ) {
         ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.damage_melee( DT_BASH );
     }
@@ -2077,7 +2069,7 @@ void npc::on_load()
         update_body( cur, cur + 1_turns );
     }
 
-    if( dt > 0 ) {
+    if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
         process_active_items();
@@ -2446,4 +2438,45 @@ void npc::set_attitude( npc_attitude new_attitude )
         }
     }
     attitude = new_attitude;
+}
+
+npc_follower_rules::npc_follower_rules()
+{
+    engagement = ENGAGE_CLOSE;
+    aim = AIM_WHEN_CONVENIENT;
+    set_flag( ally_rule::use_guns );
+    set_flag( ally_rule::use_grenades );
+    clear_flag( ally_rule::use_silent );
+    set_flag( ally_rule::avoid_friendly_fire );
+
+    clear_flag( ally_rule::allow_pick_up );
+    clear_flag( ally_rule::allow_bash );
+    clear_flag( ally_rule::allow_sleep );
+    set_flag( ally_rule::allow_complain );
+    set_flag( ally_rule::allow_pulp );
+    clear_flag( ally_rule::close_doors );
+}
+
+bool npc_follower_rules::has_flag( ally_rule test ) const
+{
+    return static_cast<int>( test ) & static_cast<int>( flags );
+}
+
+void npc_follower_rules::set_flag( ally_rule setit )
+{
+    flags = static_cast<ally_rule>( static_cast<int>( flags ) | static_cast<int>( setit ) );
+}
+
+void npc_follower_rules::clear_flag( ally_rule clearit )
+{
+    flags = static_cast<ally_rule>( static_cast<int>( flags ) & ~static_cast<int>( clearit ) );
+}
+
+void npc_follower_rules::toggle_flag( ally_rule toggle )
+{
+    if( has_flag( toggle ) ) {
+        clear_flag( toggle );
+    } else {
+        set_flag( toggle );
+    }
 }

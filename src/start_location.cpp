@@ -1,6 +1,8 @@
 #include "start_location.h"
 
 #include <algorithm>
+#include <chrono>
+#include <random>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -376,7 +378,7 @@ void start_location::burn( const tripoint &omtstart,
             }
         }
     }
-    random_shuffle( valid.begin(), valid.end() );
+    std::shuffle( valid.begin(), valid.end(), rng_get_engine() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
         m.add_field( valid[i], fd_fire, 3 );
     }

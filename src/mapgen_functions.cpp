@@ -258,7 +258,7 @@ ter_id grass_or_dirt()
 
 ter_id clay_or_sand()
 {
-    if( one_in( 4 ) ) {
+    if( one_in( 16 ) ) {
         return t_sand;
     }
     return t_clay;
@@ -1950,7 +1950,7 @@ void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, cons
             if( circle_edge <= 8 ) {
                 m->ter_set( x, y, grass_or_dirt() );
             }
-            if( circle_edge == 9 && one_in( 100 ) ) {
+            if( circle_edge == 9 && one_in( 25 ) ) {
                 m->ter_set( x, y, clay_or_sand() );
             } else if( circle_edge <= 36 ) {
                 m->ter_set( x, y, t_water_sh );
@@ -1979,7 +1979,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), x, 0, x, ground_edge );
-        if( one_in( 100 ) ) {
+        if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
         line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
@@ -2005,7 +2005,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), x, 0, x, ground_edge );
-        if( one_in( 100 ) ) {
+        if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
         line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
@@ -2014,7 +2014,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
         line( m, grass_or_dirt(), ground_edge, y, SEEX * 2 - 1, y );
-        if( one_in( 100 ) ) {
+        if( one_in( 25 ) ) {
             m->ter_set( --ground_edge, y, clay_or_sand() );
         }
         line( m, t_water_sh, shallow_edge, y, --ground_edge, y );
@@ -4324,7 +4324,7 @@ void mtrap_set( map *m, int x, int y, trap_id type )
 void madd_field( map *m, int x, int y, field_id type, int density )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
-    m->add_field( actual_location, type, density, 0 );
+    m->add_field( actual_location, type, density, 0_turns );
 }
 
 bool is_suitable_for_stairs( const map *const m, const tripoint &p )
@@ -4392,9 +4392,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     }
 
     // Shuffle tripoints so that the stairs are not always similarly placed.
-    static auto eng = std::default_random_engine(
-                          std::chrono::system_clock::now().time_since_epoch().count() );
-    std::shuffle( std::begin( tripoints ), std::end( tripoints ), eng );
+    std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
 
     bool all_can_be_placed = false;
     tripoint shift( 0, 0, 0 );

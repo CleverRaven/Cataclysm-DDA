@@ -11,6 +11,7 @@
 #include "input.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
@@ -154,7 +155,7 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     }
 
     bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
-    age = 0; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
+    age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
 time_duration player_morale::morale_point::pick_time( const time_duration current_time,
@@ -431,7 +432,7 @@ void player_morale::display( double focus_gain )
             const morale_mult mult = get_temper_mult();
 
             int line = 0;
-            for( size_t i = offset; i < static_cast<unsigned int>( rows_total ); ++i ) {
+            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
                 const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
 
@@ -563,6 +564,16 @@ void player_morale::on_item_wear( const item &it )
 void player_morale::on_item_takeoff( const item &it )
 {
     set_worn( it, false );
+}
+
+void player_morale::on_worn_item_transform( const item &it )
+{
+    item dummy = it;
+    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
+                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
+
+    set_worn( dummy, false );
+    set_worn( it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )

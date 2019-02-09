@@ -10,6 +10,12 @@
 #include <unordered_map>
 #include <vector>
 
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#    include <SDL2/SDL_mixer.h>
+#else
+#    include <SDL_mixer.h>
+#endif
+
 #include "debug.h"
 #include "init.h"
 #include "json.h"
@@ -17,6 +23,7 @@
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
+#include "sdl_wrappers.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -364,7 +371,8 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
     Uint32 s_in = s->alen / 4;
     Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
     float pitch_real = static_cast<float>( s_out ) / static_cast<float>( s_in );
-    Uint32 i, j;
+    Uint32 i;
+    Uint32 j;
     result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
     result->allocated = 1;
     result->alen = s_out * 4;
