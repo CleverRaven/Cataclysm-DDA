@@ -382,8 +382,7 @@
       { "monster" : "mon_worm", "freq" :  1, "cost_multiplier" : 0, "starts" : 336, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_worm", "freq" :  1, "cost_multiplier" : 0, "starts" : 504, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_worm", "freq" :  1, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_nakedmolerat_giant", "freq" : 1, "cost_multiplier" : 3,                 "conditions" : ["DUSK", "NIGHT"] },
-      { "monster" : "mon_bear_smoky", "freq" :  1, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] }
+      { "monster" : "mon_nakedmolerat_giant", "freq" : 1, "cost_multiplier" : 3,                 "conditions" : ["DUSK", "NIGHT"] }
     ]
   },{
     "type":"monstergroup",
@@ -460,20 +459,19 @@
       { "monster" : "mon_fish_sbass", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
       { "monster" : "mon_fish_perch", "freq" :  30, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_perch", "freq" :  55, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
-      { "monster" : "mon_fish_salmon", "freq" :  15, "cost_multiplier" : 8, "pack_size" : [1,3] },
-      { "monster" : "mon_fish_salmon", "freq" :  20, "cost_multiplier" : 8, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
+      { "monster" : "mon_fish_salmon", "freq" :  15, "cost_multiplier" : 8, "pack_size" : [4,6] },
+      { "monster" : "mon_fish_salmon", "freq" :  20, "cost_multiplier" : 8, "conditions" : ["DAWN", "DUSK"], "pack_size" : [4,6] },
       { "monster" : "mon_fish_lbass", "freq" :  25, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_lbass", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
       { "monster" : "mon_fish_pbass", "freq" :  25, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_pbass", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
       { "monster" : "mon_fish_bluegill", "freq" :  25, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_bluegill", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
-      { "monster" : "mon_fish_whitefish", "freq" :  30, "cost_multiplier" : 2, "pack_size" : [1,3] },
-      { "monster" : "mon_fish_whitefish", "freq" :  55, "cost_multiplier" : 2, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
+      { "monster" : "mon_fish_whitefish", "freq" :  30, "cost_multiplier" : 2, "pack_size" : [4,6] },
+      { "monster" : "mon_fish_whitefish", "freq" :  55, "cost_multiplier" : 2, "conditions" : ["DAWN", "DUSK"], "pack_size" : [4,6] },
       { "monster" : "mon_fish_pickerel", "freq" :  15, "cost_multiplier" : 10, "pack_size" : [1,3] },
       { "monster" : "mon_fish_pickerel", "freq" :  20, "cost_multiplier" : 10, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
-      { "monster" : "mon_fish_blinky", "freq": 5, "cost_multiplier": 3, "pack_size": [1, 3] },
-      { "monster" : "mon_bear_smoky", "freq" :  1, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] }
+      { "monster" : "mon_fish_blinky", "freq": 5, "cost_multiplier": 3, "pack_size": [1, 3] }
     ]
   },{
     "type":"monstergroup",
@@ -483,8 +481,7 @@
       { "monster" : "mon_bat", "freq" : 600, "cost_multiplier" : 5, "pack_size" : [6,32] },
       { "monster" : "mon_bear", "freq" : 100, "cost_multiplier" : 10, "pack_size" : [1,3] },
       { "monster" : "mon_cougar", "freq" : 100, "cost_multiplier" : 20, "pack_size" : [1,2] },
-      { "monster" : "mon_nakedmolerat_giant", "freq" : 100, "cost_multiplier" : 3 },
-      { "monster" : "mon_bear_smoky", "freq" :  100, "cost_multiplier" : 0, "starts" : 672 }
+      { "monster" : "mon_nakedmolerat_giant", "freq" : 100, "cost_multiplier" : 3 }
     ]
   },{
     "type":"monstergroup",
@@ -934,8 +931,7 @@
       { "monster" : "mon_giant_crayfish", "freq" :  1, "cost_multiplier" : 0, "starts" : 720, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_giant_crayfish", "freq" :  4, "cost_multiplier" : 0, "starts" : 720, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_giant_crayfish", "freq" :  1, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_giant_crayfish", "freq" :  4, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_bear_smoky", "freq" :  1, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] }
+      { "monster" : "mon_giant_crayfish", "freq" :  4, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] }
     ]
   },{
     "type":"monstergroup",
@@ -949,41 +945,13 @@
       { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0 },
       { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0, "pack_size" : [2,3] },
       { "monster" : "mon_skitterbot", "freq" : 1, "cost_multiplier" : 0, "pack_size" : [8,12] },
-      { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
-      { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
-      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5}
-    ]
-  },{
-    "type":"monstergroup",
-    "name" : "GROUP_ICE_LAB",
-    "default" : "mon_zombie_scientist",
-    "monsters" : [
-      { "monster" : "mon_blob_small", "freq" : 25, "cost_multiplier" : 0, "pack_size" : [1,4] },
-      { "monster" : "mon_manhack", "freq" : 200, "cost_multiplier" : 0 },
-      { "monster" : "mon_manhack", "freq" : 45, "cost_multiplier" : 0, "pack_size" : [2,3] },
-      { "monster" : "mon_nakedmolerat_giant", "freq" : 15, "cost_multiplier" : 3 },
-      { "monster" : "mon_skitterbot", "freq" : 100, "cost_multiplier" : 0 },
-      { "monster" : "mon_skitterbot", "freq" : 145, "cost_multiplier" : 0, "pack_size" : [2,3] },
-      { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
-      { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
-      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5}
-    ]
-  },{
-    "type":"monstergroup",
-    "name" : "GROUP_TOWER_LAB",
-    "default" : "mon_zombie_scientist",
-    "monsters" : [
-      { "monster" : "mon_zombie_soldier", "freq" : 25, "cost_multiplier" : 0, "pack_size" : [1,4] },
-      { "monster" : "mon_manhack", "freq" : 200, "cost_multiplier" : 0 },
-      { "monster" : "mon_manhack", "freq" : 45, "cost_multiplier" : 0, "pack_size" : [2,3] },
-      { "monster" : "mon_skitterbot", "freq" : 100, "cost_multiplier" : 0 },
-      { "monster" : "mon_skitterbot", "freq" : 145, "cost_multiplier" : 0, "pack_size" : [2,3] },
+      { "monster" : "mon_secubot", "freq" : 1, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
       { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
       { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5},
       { "monster" : "mon_zombie_technician", "freq" : 50, "cost_multiplier" : 3},
       { "monster" : "mon_zombie_electric", "freq" : 50, "cost_multiplier" : 3},
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 20, "cost_multiplier" : 5}
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 10, "cost_multiplier" : 5}
     ]
   },{
     "type":"monstergroup",
@@ -995,14 +963,15 @@
       { "monster" : "mon_manhack", "freq" : 45, "cost_multiplier" : 0, "pack_size" : [2,3] },
       { "monster" : "mon_skitterbot", "freq" : 100, "cost_multiplier" : 0 },
       { "monster" : "mon_skitterbot", "freq" : 145, "cost_multiplier" : 0, "pack_size" : [2,3] },
-      { "monster" : "mon_secubot", "freq" : 5, "cost_multiplier" : 5 },
-      { "monster" : "mon_chickenbot", "freq" : 1, "cost_multiplier" : 50 },
+      { "monster" : "mon_skitterbot", "freq" : 1, "cost_multiplier" : 0, "pack_size" : [8,12] },
+      { "monster" : "mon_secubot", "freq" : 5, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
       { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
       { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5},
       { "monster" : "mon_zombie_technician", "freq" : 50, "cost_multiplier" : 3},
       { "monster" : "mon_zombie_electric", "freq" : 50, "cost_multiplier" : 3},
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 20, "cost_multiplier" : 5},
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 10, "cost_multiplier" : 5},
+      { "monster" : "mon_chickenbot", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_skeleton_hulk", "freq" : 1, "cost_multiplier" : 50 }
     ]
@@ -1265,7 +1234,8 @@
       { "monster" : "mon_zombie_soldier", "freq" : 35, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_grenadier", "freq" : 10, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_grenadier_elite", "freq" : 5, "cost_multiplier" : 80 },
-      { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 50 }
+      { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 50 },
+      { "monster" : "mon_zombie_military_pilot", "freq" : 0, "cost_multiplier" : 1 }
     ]
   },{
     "type":"monstergroup",
@@ -1472,16 +1442,16 @@
       { "monster" : "mon_fish_sbass", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
       { "monster" : "mon_fish_perch", "freq" :  30, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_perch", "freq" :  55, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
-      { "monster" : "mon_fish_salmon", "freq" :  15, "cost_multiplier" : 8, "pack_size" : [1,3] },
-      { "monster" : "mon_fish_salmon", "freq" :  20, "cost_multiplier" : 8, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
+      { "monster" : "mon_fish_salmon", "freq" :  15, "cost_multiplier" : 8, "pack_size" : [4,6] },
+      { "monster" : "mon_fish_salmon", "freq" :  20, "cost_multiplier" : 8, "conditions" : ["DAWN", "DUSK"], "pack_size" : [4,6] },
       { "monster" : "mon_fish_lbass", "freq" :  25, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_lbass", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
       { "monster" : "mon_fish_pbass", "freq" :  25, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_pbass", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
       { "monster" : "mon_fish_bluegill", "freq" :  25, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_bluegill", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
-      { "monster" : "mon_fish_whitefish", "freq" :  30, "cost_multiplier" : 2, "pack_size" : [1,3] },
-      { "monster" : "mon_fish_whitefish", "freq" :  55, "cost_multiplier" : 2, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
+      { "monster" : "mon_fish_whitefish", "freq" :  30, "cost_multiplier" : 2, "pack_size" : [4,6] },
+      { "monster" : "mon_fish_whitefish", "freq" :  55, "cost_multiplier" : 2, "conditions" : ["DAWN", "DUSK"], "pack_size" : [4,6] },
       { "monster" : "mon_fish_pickerel", "freq" :  15, "cost_multiplier" : 10, "pack_size" : [1,3] },
       { "monster" : "mon_fish_pickerel", "freq" :  20, "cost_multiplier" : 10, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
       { "monster" : "mon_fish_blinky", "freq": 5, "cost_multiplier": 3, "pack_size": [1, 3] }

@@ -2,13 +2,12 @@
 #ifndef BIONICS_H
 #define BIONICS_H
 
+#include <map>
+#include <set>
+#include <vector>
+
 #include "bodypart.h"
 #include "string_id.h"
-
-#include <set>
-#include <string>
-#include <vector>
-#include <map>
 
 class player;
 class JsonObject;
@@ -108,7 +107,7 @@ struct bionic {
     bionic( bionic_id pid, char pinvlet )
         : id( std::move( pid ) ), invlet( pinvlet ) { }
 
-    bionic_data const &info() const {
+    const bionic_data &info() const {
         return *id;
     }
 

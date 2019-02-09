@@ -1,7 +1,8 @@
 #include "morale_types.h"
+
 #include "generic_factory.h"
-#include "json.h"
 #include "itype.h"
+#include "json.h"
 #include "string_formatter.h"
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
@@ -38,6 +39,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_lactose" ),
             morale_type( "morale_antijunk" ),
             morale_type( "morale_antiwheat" ),
+            morale_type( "morale_sweettooth" ),
             morale_type( "morale_no_digest" ),
             morale_type( "morale_wet" ),
             morale_type( "morale_dried_off" ),
@@ -68,8 +70,11 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_haircut" ),
             morale_type( "morale_shave" ),
+            morale_type( "morale_chat" ),
 
             morale_type( "morale_vomited" ),
+
+            morale_type( "morale_play_with_pet" ),
 
             morale_type( "morale_pyromania_startfire" ),
             morale_type( "morale_pyromania_nearfire" ),
@@ -83,7 +88,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
         }
     };
 
-    if( lmt >= 0 && ( size_t )lmt <= legacy_morale_types.size() ) {
+    if( lmt >= 0 && static_cast<size_t>( lmt ) <= legacy_morale_types.size() ) {
         return legacy_morale_types[ lmt ];
     }
 
@@ -121,6 +126,7 @@ const morale_type MORALE_ANTIFRUIT( "morale_antifruit" );
 const morale_type MORALE_LACTOSE( "morale_lactose" );
 const morale_type MORALE_ANTIJUNK( "morale_antijunk" );
 const morale_type MORALE_ANTIWHEAT( "morale_antiwheat" );
+const morale_type MORALE_SWEETTOOTH( "morale_sweettooth" );
 const morale_type MORALE_NO_DIGEST( "morale_no_digest" );
 const morale_type MORALE_WET( "morale_wet" );
 const morale_type MORALE_DRIED_OFF( "morale_dried_off" );
@@ -147,7 +153,9 @@ const morale_type MORALE_PERM_CONSTRAINED( "morale_perm_constrained" );
 const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
+const morale_type MORALE_CHAT( "morale_chat" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
+const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
 const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );
 const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );

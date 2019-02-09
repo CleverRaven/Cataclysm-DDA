@@ -13,8 +13,8 @@
     "material": ["plastic"],
     "symbol": ";",
     "color": "green",
-    "max_charges": 400,
-    "initial_charges": 400,
+    "max_charges": 576,
+    "initial_charges": 576,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -25,7 +25,7 @@
         "need_charges": 1,
         "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [ "RADIO_MODABLE" ]
+    "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "electric_lantern_on",
@@ -33,7 +33,7 @@
     "type": "TOOL",
     "name": "electric lantern (on)",
     "name_plural": "electric lanterns (on)",
-    "turns_per_charge": 45,
+    "turns_per_charge": 42,
     "revert_to": "electric_lantern",
     "use_action": {
         "menu_text": "Turn off",
@@ -41,7 +41,7 @@
         "target": "electric_lantern",
         "msg": "You turn the lamp off."
     },
-    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID" ]
+    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "flashlight",
@@ -74,7 +74,7 @@
     "type": "TOOL",
     "name": "flashlight (on)",
     "name_plural": "flashlights (on)",
-    "turns_per_charge": 20,
+    "turns_per_charge": 24,
     "revert_to": "flashlight",
     "use_action": {
         "menu_text": "Turn off",
@@ -132,8 +132,8 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "max_charges": 200,
-    "initial_charges": 200,
+    "max_charges": 205,
+    "initial_charges": 205,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -151,7 +151,7 @@
     "type": "TOOL",
     "name": "heavy duty flashlight (on)",
     "name_plural": "heavy duty flashlights (on)",
-    "turns_per_charge": 12,
+    "turns_per_charge": 9,
     "revert_to": "heavy_flashlight",
     "use_action": {
         "menu_text": "Turn off",

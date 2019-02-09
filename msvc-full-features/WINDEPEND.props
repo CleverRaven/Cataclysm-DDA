@@ -3,10 +3,10 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <WINDEPEND>$(SolutionDir)..\WinDepend\</WINDEPEND>
-    <SDL2ROOT>$(WINDEPEND)SDL2-2.0.4\</SDL2ROOT>
+    <SDL2ROOT>$(WINDEPEND)SDL2-2.0.9\</SDL2ROOT>
     <SDL2TTF>$(WINDEPEND)SDL2_ttf-2.0.14\</SDL2TTF>
-    <SDL2MIXER>$(WINDEPEND)SDL2_mixer-2.0.1\</SDL2MIXER>
-    <SDL2IMAGE>$(WINDEPEND)SDL2_image-2.0.1\</SDL2IMAGE>
+    <SDL2MIXER>$(WINDEPEND)SDL2_mixer-2.0.4\</SDL2MIXER>
+    <SDL2IMAGE>$(WINDEPEND)SDL2_image-2.0.4\</SDL2IMAGE>
     <GETTEXT>$(WINDEPEND)gettext\</GETTEXT>
     <LUADIR>$(WINDEPEND)lua-5.3.3\</LUADIR>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

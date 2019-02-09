@@ -1,24 +1,22 @@
-#include "game.h"
+#include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <iostream>
 #include <iterator>
 
-#include "compatibility.h"
+#include "ammo.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
-#include "recipe_dictionary.h"
-#include "player.h"
-#include "vehicle.h"
-#include "string_formatter.h"
-#include "veh_type.h"
-#include "skill.h"
-#include "vitamin.h"
-#include "npc.h"
-#include "ammo.h"
-#include "crafting.h"
 #include "loading_ui.h"
+#include "npc.h"
+#include "player.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vitamin.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -60,7 +58,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     if( what == "AMMO" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Stack",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce", "Damage multiplier"
         };
         auto dump = [&rows]( const item & obj ) {
             // a common task is comparing ammo by type so ammo has multiple repeat the entry
@@ -77,6 +75,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 damage_instance damage = obj.type->ammo->damage;
                 r.push_back( to_string( damage.total_damage() ) );
                 r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
+                r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
                 rows.push_back( r );
             }
         };
@@ -93,7 +92,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber() ) );
+            r.push_back( to_string( obj.get_encumber( g->u ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
@@ -128,7 +127,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         }
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
-            r.push_back( obj.tname( false ) );
+            r.push_back( obj.tname( 1, false ) );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
@@ -163,7 +162,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
-                                []( const std::pair<gunmod_location, int>& q ) { return q.first.name(); } );
+                []( const std::pair<gunmod_location, int> &q ) {
+                    return q.first.name();
+                } );
             }
         }
         for( const auto &e : locations ) {
@@ -203,7 +204,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
                 dump( test_npcs[ "S1" ], gun );
 
-                if( gun.type->gun->barrel_length > 0 ) {
+                if( gun.type->gun->barrel_length > 0_ml ) {
                     gun.emplace_back( "barrel_small" );
                     dump( test_npcs[ "S1" ], gun );
                 }
@@ -215,8 +216,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         // optionally filter recipes to include only those using specified skills
         recipe_subset dict;
         for( const auto &r : recipe_dict ) {
-            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string &s ) {
-                if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
+            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string & s ) {
+            if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
                     return true;
                 }
                 auto iter = r.second.required_skills.find( skill_id( s ) );
@@ -228,9 +229,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         // only consider skills that are required by at least one recipe
         std::vector<Skill> sk;
-        std::copy_if( Skill::skills.begin(), Skill::skills.end(), std::back_inserter( sk ), [&dict]( const Skill &s ) {
-            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe *r ) {
-                return r->skill_used == s.ident() || r->required_skills.find( s.ident() ) != r->required_skills.end();
+        std::copy_if( Skill::skills.begin(), Skill::skills.end(),
+        std::back_inserter( sk ), [&dict]( const Skill & s ) {
+            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe * r ) {
+                return r->skill_used == s.ident() ||
+                       r->required_skills.find( s.ident() ) != r->required_skills.end();
             } );
         } );
 
@@ -258,8 +261,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Weight (empty)", "Weight (fueled)",
             "Max velocity (mph)", "Safe velocity (mph)", "Acceleration (mph/turn)",
-            "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
-            "Traction coeff % (grass)"
+            "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
             auto veh_empty = vehicle( obj, 0, 0 );
@@ -272,11 +274,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_mass() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_aerodynamics() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_friction() ) ) );
-            r.push_back( to_string( ( int )( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
-                                                 false ) / 2.0f ) ) ) );
+            r.push_back( to_string( veh_fueled.coeff_air_drag() ) );
+            r.push_back( to_string( veh_fueled.coeff_rolling_drag() ) );
+            r.push_back( to_string( veh_fueled.static_drag( false ) ) );
+            r.push_back( to_string( static_cast<int>( 50 *
+                                    veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {
@@ -304,12 +306,13 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         return false;
     }
 
-    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string> &e ) {
         return e.empty();
     } ), rows.end() );
 
     if( scol >= 0 ) {
-        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string> &lhs,
+        const std::vector<std::string> &rhs ) {
             return lhs[ scol ] < rhs[ scol ];
         } );
     }

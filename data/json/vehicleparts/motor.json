@@ -6,11 +6,34 @@
     "item": "motor",
     "location": "engine_block",
     "description": "An electric motor.",
+    "noise_factor": 3,
+    "m2c": 90,
     "fuel_type": "battery",
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "TOOL_WRENCH" ]
+    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL", "E_HEATER" ]
+  },
+  {
+    "id": "engine_electric_tiny",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "tiny electric motor",
+    "item": "motor_tiny",
+    "looks_like": "motor_small",
+    "difficulty": 1,
+    "durability": 80,
+    "power": 1492,
+    "energy_consumption": 1750,
+    "damage_modifier": 80,
+    "folded_volume": 1,
+    "breaks_into": [
+      { "item": "plastic_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 3 ] }
+    ],
+    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
+    "delete": { "flags": [ "TOOL_WRENCH" ] }
   },
   {
     "id": "engine_electric_small",
@@ -20,8 +43,8 @@
     "item": "motor_small",
     "difficulty": 1,
     "durability": 120,
-    "power": 20,
-    "epower": -1000,
+    "power": 7460,
+    "energy_consumption": 8500,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [
@@ -41,8 +64,8 @@
     "item": "motor",
     "difficulty": 2,
     "durability": 200,
-    "power": 100,
-    "epower": -5000,
+    "power": 37300,
+    "energy_consumption": 41500,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [
@@ -60,8 +83,8 @@
     "item": "motor_large",
     "difficulty": 3,
     "durability": 400,
-    "power": 400,
-    "epower": -40000,
+    "power": 149200,
+    "energy_consumption": 166000,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
@@ -78,8 +101,8 @@
     "item": "motor_enhanced",
     "difficulty": 4,
     "durability": 200,
-    "power": 500,
-    "epower": -60000,
+    "power": 186500,
+    "energy_consumption": 207250,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },

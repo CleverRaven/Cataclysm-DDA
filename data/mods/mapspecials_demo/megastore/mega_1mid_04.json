@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "mega_1mid",
+    "comment": "ground floor. middle area",
+    "weight": 100,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        ".RR..RR..RR.............",
+        ".RR..RR..RR....FFFFFFF..",
+        "...............FFFFFFF..",
+        "........................",
+        ".RR..RR..RR....FFFFFFF..",
+        ".RR..IR..RR....FFFIFFF..",
+        "........................",
+        "...............FFFFFFF..",
+        ".RR..RR..RR....FFFFFFF..",
+        ".RR..RR..RR.............",
+        "........................",
+        "........................",
+        ".....k..k..kk..k..k.....",
+        ".....k..k..kk..k..k.....",
+        ".....k..k..kk..k..k.....",
+        ".....k..k..kk..k..k.....",
+        ".....k..k..kk..k..k.....",
+        ".....k..k..kk..k..k.....",
+        ".....I..k..kk..k..I.....",
+        ".....k..k..kk..K..k.....",
+        ".....k..k..kk..K..k.....",
+        ".....k..k..kk..k..k.....",
+        "........................",
+        "........................"
+      ],
+      "rotation": [ 0, 3 ],
+      "palettes": [ "megastore", "mega_goods_d" ],
+      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+    }
+  }
+]

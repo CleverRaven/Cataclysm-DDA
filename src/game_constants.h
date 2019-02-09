@@ -2,6 +2,8 @@
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+#include "units.h"
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -31,18 +33,28 @@
 #define MAX_WORN_PER_TYPE 2
 
 #define MAPSIZE 11
+#define HALF_MAPSIZE static_cast<int>( MAPSIZE / 2 )
 
 // SEEX/SEEY define the size of a nonant, or grid.
 // All map segments will need to be at least this wide.
 #define SEEX 12
 #define SEEY SEEX
 
-#define MAX_VIEW_DISTANCE ( SEEX * int( MAPSIZE / 2 ) )
+#define MAPSIZE_X (SEEX * MAPSIZE)
+#define MAPSIZE_Y (SEEY * MAPSIZE)
+
+#define HALF_MAPSIZE_X (SEEX * HALF_MAPSIZE)
+#define HALF_MAPSIZE_Y (SEEY * HALF_MAPSIZE)
+
+#define MAX_VIEW_DISTANCE ( SEEX * HALF_MAPSIZE )
 
 // Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
 // it's just like SEEX/SEEY for submaps.
 #define OMAPX 180
 #define OMAPY 180
+
+// Size of a square unit of terrain saved to a directory.
+#define SEG_SIZE 32
 
 // Items on the map with at most this distance to the player are considered available for crafting,
 // see inventory::form_from_map
@@ -67,14 +79,27 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
+/** Temperature constants */
+namespace temperatures
+{
+/** temperature at which something starts warming and can become HOT */
+constexpr int hot = 100; // ~ 38 Celsius
+
+/** the "normal" temperature midpoint between cold and hot */
+constexpr int normal = 70; // ~ 21 Celsius
+
 /** Temperature inside an active fridge in Fahrenheit  */
-#define FRIDGE_TEMPERATURE 37 // 5 Celsius
+constexpr int fridge = 37; // ~ 2.7 Celsius
+
+/** Temperature at which things are considered "cold" */
+constexpr int cold = 40;
 
 /** Temperature inside an active freezer in Fahrenheit  */
-#define FREEZER_TEMPERATURE 27 // -5 Celsius
+constexpr int freezer = 23; // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
-#define FREEZING_TEMPERATURE 32 // 0 Celsius
+constexpr int freezing = 32; // 0 Celsius
+}
 
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
@@ -120,5 +145,8 @@ constexpr double accuracy_grazing  = 1.0;
 /** Base starting spring temperature in F used for climate, weather and temperature calculation */
 /** New England base spring temperature = 65F/18C rounded to int */
 #define SPRING_TEMPERATURE 65
+
+/** Character's base weight in units::mass */
+constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
 
 #endif

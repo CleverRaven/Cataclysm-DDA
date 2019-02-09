@@ -1,20 +1,19 @@
 #include "profession.h"
-#include <iostream>
-#include <sstream>
+
+#include <cmath>
 #include <iterator>
 #include <map>
 
+#include "addiction.h"
 #include "debug.h"
+#include "generic_factory.h"
+#include "item_group.h"
+#include "itype.h"
 #include "json.h"
 #include "player.h"
-#include "text_snippets.h"
-#include "rng.h"
-#include "translations.h"
-#include "addiction.h"
-#include "item_group.h"
 #include "pldata.h"
-#include "itype.h"
-#include "generic_factory.h"
+#include "text_snippets.h"
+#include "translations.h"
 
 namespace
 {
@@ -68,7 +67,7 @@ bool string_id<profession>::is_valid() const
 }
 
 profession::profession()
-    : id(), _name_male( "null" ), _name_female( "null" ),
+    : _name_male( "null" ), _name_female( "null" ),
       _description_male( "null" ), _description_female( "null" ), _point_cost( 0 )
 {
 }
@@ -258,7 +257,7 @@ void profession::check_definition() const
         debugmsg( "_starting_items_female group is undefined" );
     }
 
-    for( auto const &a : _starting_CBMs ) {
+    for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
         }
@@ -407,11 +406,7 @@ bool profession::has_flag( const std::string &flag ) const
 
 bool profession::can_pick( const player &u, const int points ) const
 {
-    if( point_cost() - u.prof->point_cost() > points ) {
-        return false;
-    }
-
-    return true;
+    return point_cost() - u.prof->point_cost() <= points;
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const
@@ -581,10 +576,10 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
         return ret;
     }
 
-    const long old_amt = it.count_by_charges() ? it.charges : 1l;
+    const long old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item );
-        const long new_amt = std::max( 1l, ( long )std::round( inf.ratio * old_amt ) );
+        const long new_amt = std::max( 1l, static_cast<long>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {
             for( long i = 0; i < new_amt; i++ ) {

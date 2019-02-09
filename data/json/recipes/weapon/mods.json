@@ -1,26 +1,5 @@
 [
   {
-    "result": "beltfeed",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "rifle", 2 ],
-    "time": 200000,
-    "book_learn": [ [ "manual_rifle", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "pipe", 2 ] ],
-      [ [ "spring", 4 ] ]
-    ]
-  },
-  {
     "result": "improve_sights",
     "type": "recipe",
     "category": "CC_WEAPON",

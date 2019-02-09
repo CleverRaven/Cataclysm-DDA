@@ -7,6 +7,7 @@ class monster;
 namespace mdeath
 {
 void normal( monster &z );        // Drop a body
+void splatter( monster &z );      // Overkill splatter (also part of normal under conditions)
 void acid( monster &z );          // Acid instead of a body
 void boomer( monster &z );        // Explodes in vomit :3
 void boomer_glow( monster &z );   // Explodes in vomit :3

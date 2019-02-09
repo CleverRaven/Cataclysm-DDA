@@ -2,7 +2,7 @@
 #ifndef DISPERSION_H
 #define DISPERSION_H
 
-#include<iosfwd>
+#include <iosfwd>
 #include <vector>
 
 class dispersion_sources

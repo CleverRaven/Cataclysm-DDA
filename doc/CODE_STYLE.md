@@ -36,8 +36,8 @@ int foo( int arg1, int *arg2 )
     } else if( arg1 > 17 ) {
         int i = 0;
         while( i < arg1 ) {
-            printf( _("Really long message that's pointless except for the number %d and for its "
-                      "length as it's illustrative of how to break strings properly.\n"), i );
+            printf( _( "Really long message that's pointless except for the number %d and for its "
+                       "length as it's illustrative of how to break strings properly.\n" ), i );
         }
     }
     return 0;

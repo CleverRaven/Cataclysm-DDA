@@ -2,12 +2,10 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
-#include "string_id.h"
-
-#include <string>
-#include <vector>
-#include <map>
 #include <set>
+#include <vector>
+
+#include "string_id.h"
 
 class scenario;
 class profession;

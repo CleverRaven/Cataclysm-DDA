@@ -1,0 +1,142 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "________________________",
+        "________________________",
+        "----__------------------",
+        "|...__................u-",
+        "|...__.................-",
+        "|...__ddd....t.T.7d7...|",
+        "|.www+wwdd.............|",
+        "|pwCcccwudd...d........|",
+        "|.wCcccWdbd..t.T.7.7...|",
+        "|.WcccHwdbdd...........|",
+        "|.wCccHW.dd.....d......|",
+        "|pwDccHwu#...t.T.7.7...|",
+        "|.wwwWww...............|",
+        "|..##..p..u............|",
+        "|.......a....t.Td7.7...|",
+        "|..#.d.....#.....d.....|",
+        "|.a..u4d.d.............|",
+        "|ud...d......t.T.7.7...|",
+        "|..#4.au4.#...dd.......|",
+        "|.4..dd.p.d............|",
+        "|....#4.d....7.7.7.7...|",
+        "|.4u.u.d4d..#...d......|",
+        "|#..4...d..............|",
+        "||||||||||||||||||||||||"
+      ],
+      "terrain": {
+        "#": "t_underbrush_harvested_spring",
+        "+": "t_door_c",
+        "-": "t_fence_h",
+        ".": "t_grass",
+        "4": "t_tree_pine",
+        "7": "t_tree_apple",
+        "C": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "H": "t_thconc_floor",
+        "T": "t_tree_cherry",
+        "W": "t_window_domestic",
+        "_": "t_sidewalk",
+        "a": "t_tree_birch",
+        "b": "t_grass",
+        "c": "t_thconc_floor",
+        "d": "t_dirt",
+        "p": "t_grass",
+        "t": "t_tree_plum",
+        "u": "t_underbrush",
+        "w": "t_wall_log",
+        "|": "t_fence_v"
+      },
+      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench" },
+      "place_items": [
+        { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
+        { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
+        { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 },
+        { "item": "supplies_farming", "x": 3, "y": 9, "chance": 99 }
+      ],
+      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "________________________",
+        "________________________",
+        "----__------------------",
+        "|..&__................U-",
+        "|...__.................-",
+        "|...__ddd........7dt...|",
+        "|.www+wwdd.............|",
+        "|pwCcccwUdd..#.s.......|",
+        "|.wCcccWdbd..#.s.7.t...|",
+        "|.WcccHwdbdd...........|",
+        "|.wCccHW.ad............|",
+        "|pwDccHwUu...#.s.7.t...|",
+        "|.wwwWww#....#.s.......|",
+        "|..uu..p..U..#.s.......|",
+        "|.......T....#.s.7.t...|",
+        "|..u.d.....u...........|",
+        "|.T..U4d.d.............|",
+        "|Ud...d......#.s.7.t...|",
+        "|..u4.TU4.u..#.s.......|",
+        "|.4..dd.p.d..#.s.......|",
+        "|....u4.d....#.s.7.t...|",
+        "|.4U.U.d4d..u...d......|",
+        "|u..4...d..............|",
+        "||||||||||||||||||||||||"
+      ],
+      "terrain": {
+        "#": "t_shrub_strawberry",
+        "&": "t_grass",
+        "+": "t_door_c",
+        "-": "t_fence_h",
+        ".": "t_grass",
+        "4": "t_tree_pine",
+        "7": "t_tree_cherry",
+        "C": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "H": "t_thconc_floor",
+        "T": "t_tree_birch",
+        "U": "t_underbrush",
+        "W": "t_window_domestic",
+        "_": "t_sidewalk",
+        "a": "t_dirt",
+        "b": "t_grass",
+        "c": "t_thconc_floor",
+        "d": "t_dirt",
+        "p": "t_grass",
+        "s": "t_shrub_blueberry",
+        "t": "t_tree_apricot",
+        "u": "t_underbrush_harvested_spring",
+        "w": "t_wall_log",
+        "|": "t_fence_v"
+      },
+      "furniture": { "&": "f_trashcan", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "a": "f_trashcan", "b": "f_bench" },
+      "place_items": [
+        { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
+        { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
+        { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 }
+      ],
+      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 2 }
+      ]
+    }
+  }
+]

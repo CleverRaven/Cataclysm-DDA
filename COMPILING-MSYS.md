@@ -4,10 +4,10 @@ This guide contains steps required to allow compilation of Cataclysm-DDA on Wind
 
 Steps from current guide were tested on Windows 10 (64 bit) and MSYS2 (64 bit), but should work for other versions of Windows and also MSYS2 (32 bit) if you download 32 bit version of all files.
 
-## Preqrequisites:
+## Prerequisites:
 
-* Computer with 64 bit version of modern Windows operating system installed;
-* NTFS partition with ~10 Gb free space (~2 Gb from MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache);
+* Computer with 64 bit version of modern Windows operating system installed (Windows 10, Windows 8.1 or Windows 7);
+* NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache);
 * 64 bit version of MSYS2 (installer can be downloaded from [MSYS2 homepage](http://www.msys2.org/));
 
 **Note:** Windows XP is unsupported!
@@ -16,7 +16,7 @@ Steps from current guide were tested on Windows 10 (64 bit) and MSYS2 (64 bit), 
 
 1. Go to [MSYS2 homepage](http://www.msys2.org/) and download 64 bit installer (e.g. [msys2-x86_64-20180531.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20180531.exe)).
 
-2. Run downloaded file and install MSYS2 (click `Next` button, specifiy directory where MSYS2 64 bit will be installed (e.g. `C:\msys64`), click `Next` button again, specify Start Menu folder name and click `Install` button).
+2. Run downloaded file and install MSYS2 (click `Next` button, specify directory where MSYS2 64 bit will be installed (e.g. `C:\msys64`), click `Next` button again, specify Start Menu folder name and click `Install` button).
 
 3. After MSYS2 installation is complete press `Next` button, tick `Run MSYS2 64 bit now` checkbox and press `Finish` button.
 
@@ -76,19 +76,19 @@ and
 
 ## Cloning and compilation:
 
-1. Clone with following command-line:
+1. Clone Cataclysm-DDA repository with following command line:
 
 **Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
 
 ```bash
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
-``` 
+```
 
 2. Compile with following command line:
 
 ```bash
-make CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 LUA=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0 
+make CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 LUA=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0
 ```
 
 **Note**: This will compile release version with Lua, Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.

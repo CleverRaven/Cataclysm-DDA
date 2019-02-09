@@ -1,0 +1,12 @@
+[
+  {
+    "id": "test_npc",
+    "type": "TOOL",
+    "symbol": "?",
+    "color": "white",
+    "name": "NPC test(LUA)",
+    "description": "You check NPC's opinion.",
+    "material": ["plastic"],
+    "use_action": ["TEST_NPC"]
+  }
+]

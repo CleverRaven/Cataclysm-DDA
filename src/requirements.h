@@ -3,10 +3,8 @@
 #define REQUIREMENTS_H
 
 #include <functional>
-#include <string>
-#include <vector>
 #include <map>
-#include <memory>
+#include <vector>
 
 #include "string_id.h"
 
@@ -58,17 +56,23 @@ struct component {
     component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
         type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
     void check_consistency( const std::string &display_name ) const;
+    int operator==( const component &rhs ) const {
+        return type == rhs.type && count == rhs.count;
+    }
+    int operator!=( const component &rhs ) const {
+        return !( *this == rhs );
+    }
 };
 
 struct tool_comp : public component {
     tool_comp() : component() { }
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
     bool by_charges() const;
 };
 
@@ -76,11 +80,11 @@ struct item_comp : public component {
     item_comp() : component() { }
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int batch = 1,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
 };
 
 struct quality_requirement {
@@ -90,16 +94,16 @@ struct quality_requirement {
     mutable available_status available = a_false;
     bool requirement = false; // Currently unused, but here for consistency and templates
 
-    quality_requirement() { }
+    quality_requirement() = default;
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 
-    void load( JsonArray &jarr );
+    void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
+    nc_color get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
 };
 
 /**
@@ -129,7 +133,7 @@ struct quality_requirement {
  *   void check_consistency(const std::string &display_name) const;
  * Color to be used for displaying the requirement. has_one is true of the
  * player fulfills an alternative requirement:
- *   std::string get_color(bool has_one, const inventory &crafting_inv) const;
+ *   nc_color get_color(bool has_one, const inventory &crafting_inv) const;
 */
 struct requirement_data {
         // temporarily break encapsulation pending migration of legacy parts
@@ -153,7 +157,7 @@ struct requirement_data {
 
         /** null requirements are always empty (were never initialized) */
         bool is_null() const {
-            return id_ == requirement_id( "null" );
+            return id_.is_null();
         }
 
         /** empty requirements are not necessary null */
@@ -178,14 +182,16 @@ struct requirement_data {
          * @param jsobj Object to load data from
          * @param id provide (or override) unique id for this instance
          */
-        static void load_requirement( JsonObject &jsobj, const std::string &id = "" );
+        static void load_requirement( JsonObject &jsobj,
+                                      const requirement_id &id = requirement_id::NULL_ID() );
 
         /**
          * Store requirement data for future lookup
          * @param req Data to save
          * @param id provide (or override) unique id for this instance
          */
-        static void save_requirement( const requirement_data &req, const std::string &id = "" );
+        static void save_requirement( const requirement_data &req,
+                                      const requirement_id &id = requirement_id::NULL_ID() );
 
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
@@ -210,7 +216,7 @@ struct requirement_data {
          * @note if the last available component of a grouping is removed the recipe
          * will be marked as @ref blacklisted
          */
-        void blacklist_item( const std::string &id );
+        void blacklist_item( const itype_id &id );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
@@ -232,7 +238,7 @@ struct requirement_data {
         requirement_data disassembly_requirements() const;
 
     private:
-        requirement_id id_ = requirement_id( "null" );
+        requirement_id id_ = requirement_id::NULL_ID();
 
         bool blacklisted = false;
 

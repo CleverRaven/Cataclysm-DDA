@@ -1,22 +1,22 @@
 #include "requirements.h"
 
-#include "json.h"
-#include "translations.h"
-#include "output.h"
-#include "game.h"
-#include "player.h"
-#include "debug.h"
-#include "inventory.h"
-#include "string_formatter.h"
-#include "itype.h"
-#include "item_factory.h"
-#include "calendar.h"
-#include "generic_factory.h"
-
 #include <algorithm>
 #include <cmath>
 #include <limits>
 #include <sstream>
+
+#include "calendar.h"
+#include "debug.h"
+#include "game.h"
+#include "generic_factory.h"
+#include "inventory.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -227,7 +227,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
+void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 
@@ -239,8 +239,8 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     jsarr = jsobj.get_array( "tools" );
     req.load_obj_list( jsarr, req.tools );
 
-    if( !id.empty() ) {
-        req.id_ = requirement_id( id );
+    if( !id.is_null() ) {
+        req.id_ = id;
     } else if( jsobj.has_string( "id" ) ) {
         req.id_ = requirement_id( jsobj.get_string( "id" ) );
     } else {
@@ -250,11 +250,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     save_requirement( req );
 }
 
-void requirement_data::save_requirement( const requirement_data &req, const std::string &id )
+void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
 {
     auto dup = req;
-    if( !id.empty() ) {
-        dup.id_ = requirement_id( id );
+    if( !id.is_null() ) {
+        dup.id_ = id;
     }
 
     requirements_all[ dup.id_ ] = dup;
@@ -338,7 +338,6 @@ const std::map<requirement_id, requirement_data> &requirement_data::all()
 {
     return requirements_all;
 }
-
 
 void requirement_data::check_consistency()
 {
@@ -433,17 +432,26 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     if( components.empty() ) {
         return out_buffer;
     }
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Components required:" ) <<
-                 "</color>";
-    out_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    out_buffer.push_back( colorize( _( "Components required:" ), col ) );
 
     std::vector<std::string> folded_buffer =
         get_folded_list( width, crafting_inv, components, batch, hilite );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
+}
+
+static std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+{
+    std::ostringstream buffer;
+
+    for( auto a = strings.begin(); a != strings.end(); ++a ) {
+        if( a != strings.begin() ) {
+            buffer << joiner;
+        }
+        buffer << *a;
+    }
+    return buffer.str();
 }
 
 template<typename T>
@@ -457,35 +465,29 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
-        std::ostringstream buffer;
+        std::vector<std::string> list_as_string;
         std::vector<std::string> buffer_has;
-        bool already_has;
-        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            already_has = false;
-            for( auto cont : buffer_has ) {
-                if( cont == a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) ) {
-                    already_has = true;
-                    break;
-                }
-            }
-            if( already_has ) {
+        for( const T &component : comp_list ) {
+            nc_color color = component.get_color( has_one, crafting_inv, batch );
+            const std::string color_tag = get_tag_from_color( color );
+            const std::string text = component.to_string( batch );
+
+            if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
                 continue;
             }
 
-            if( a != comp_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
+            if( !hilite.empty() && lcmatch( text, hilite ) ) {
+                color = yellow_background( color );
             }
-            const std::string col = a->get_color( has_one, crafting_inv, batch );
 
-            if( !hilite.empty() && lcmatch( a->to_string( batch ), hilite ) ) {
-                buffer << get_tag_from_color( yellow_background( color_from_string( col ) ) );
-            } else {
-                buffer << "<color_" << col << ">";
-            }
-            buffer << a->to_string( batch ) << "</color>" << "</color>";
-            buffer_has.push_back( a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) );
+            list_as_string.push_back( colorize( text, color ) );
+            buffer_has.push_back( text + color_tag );
         }
-        std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
+        std::sort( list_as_string.begin(), list_as_string.end() );
+
+        const std::string separator = colorize( std::string( " " ) + _( "OR" ) + " ", c_white );
+        const std::string unfolded = join( list_as_string, separator );
+        std::vector<std::string> folded = foldstring( unfolded, width - 2 );
 
         for( size_t i = 0; i < folded.size(); i++ ) {
             if( i == 0 ) {
@@ -502,15 +504,9 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const inventory &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Tools required:" ) <<
-                 "</color>";
-    output_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    output_buffer.push_back( colorize( _( "Tools required:" ), col ) );
     if( tools.empty() && qualities.empty() ) {
-        current_line << "<color_" << string_from_color( col ) << ">" << "> " << "</color>";
-        current_line << "<color_" << string_from_color( c_green ) << ">" << _( "NONE" ) << "</color>";
-        output_buffer.push_back( current_line.str() );
+        output_buffer.push_back( colorize( "> ", col ) + colorize( _( "NONE" ), c_green ) );
         return output_buffer;
     }
 
@@ -589,9 +585,12 @@ bool quality_requirement::has( const inventory &crafting_inv, int,
     return crafting_inv.has_quality( type, level, count );
 }
 
-std::string quality_requirement::get_color( bool, const inventory &, int ) const
+nc_color quality_requirement::get_color( bool has_one, const inventory &, int ) const
 {
-    return available == a_true ? "green" : "red";
+    if( available == a_true ) {
+        return c_green;
+    }
+    return has_one ? c_dark_gray : c_red;
 }
 
 bool tool_comp::has( const inventory &crafting_inv, int batch,
@@ -635,14 +634,14 @@ bool tool_comp::has( const inventory &crafting_inv, int batch,
     }
 }
 
-std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
+nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
     if( available == a_insufficent ) {
-        return "brown";
+        return c_brown;
     } else if( has( crafting_inv, batch ) ) {
-        return "green";
+        return c_green;
     }
-    return has_one ? "dark_gray" : "red";
+    return has_one ? c_dark_gray : c_red;
 }
 
 bool item_comp::has( const inventory &crafting_inv, int batch, std::function<void( int )> ) const
@@ -659,14 +658,14 @@ bool item_comp::has( const inventory &crafting_inv, int batch, std::function<voi
     }
 }
 
-std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
+nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
     if( available == a_insufficent ) {
-        return "brown";
+        return c_brown;
     } else if( has( crafting_inv, batch ) ) {
-        return "green";
+        return c_green;
     }
-    return has_one ? "dark_gray" : "red";
+    return has_one ? c_dark_gray  : c_red;
 }
 
 template<typename T, typename ID>

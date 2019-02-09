@@ -28,7 +28,7 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 1500,
-    "description": "A mounting frame on springs, intended to cushion the effects of collisions on the interior of your vehicle.",
+    "description": "A system of springs and pads, intended to cushion the effects of collisions on the interior of your vehicle.",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
     "flags": [ "ARMOR" ]
   }

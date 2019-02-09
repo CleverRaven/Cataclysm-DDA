@@ -24,11 +24,12 @@
     "description": "A sturdy, heavy stick.  Makes a decent melee weapon, and can be cut into two by fours for crafting.",
     "material": "wood",
     "techniques": [ "WBLOCK_1" ],
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
     "weight": 1700,
     "volume": 5,
     "bashing": 14,
-    "to_hit": -2
+    "to_hit": -2,
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -39,12 +40,13 @@
     "description": "A long stick.  Makes a decent melee weapon, and can be broken into heavy sticks for crafting.",
     "material": "wood",
     "techniques": [ "WBLOCK_1" ],
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
     "weight": 3400,
     "volume": 10,
     "bashing": 18,
     "to_hit": -1,
-    "use_action": "BREAK_STICK"
+    "use_action": "BREAK_STICK",
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -62,7 +64,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "cutting": 8,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
   {
     "id": "bokken",
@@ -81,6 +83,42 @@
     "bashing": 25,
     "cutting": 1,
     "to_hit": 1,
+    "category": "weapons"
+  },
+  {
+    "id": "bokken_fake",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "looks_like": "bokken",
+    "name": "bokken",
+    "description": "This is a solid wood 'training' katana, but feels far too light to make an effective weapon.",
+    "price": 12500,
+    "material": "wood",
+    "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
+    "flags": [ "SHEATH_SWORD" ],
+    "weight": 680,
+    "volume": 8,
+    "bashing": 10,
+    "cutting": 1,
+    "category": "weapons"
+  },
+  {
+    "id": "bokken_inferior",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "looks_like": "bokken",
+    "name": "bokken",
+    "description": "This is a solid wood 'training' katana, but it looks to be mass produced, and not quite as effective as the real deal.",
+    "price": 12500,
+    "material": "wood",
+    "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
+    "flags": [ "SHEATH_SWORD" ],
+    "weight": 1133,
+    "volume": 8,
+    "bashing": 18,
+    "cutting": 1,
     "category": "weapons"
   },
   {
@@ -133,7 +171,8 @@
     "volume": 12,
     "bashing": 25,
     "category": "weapons",
-    "to_hit": 3
+    "to_hit": 3,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -150,7 +189,8 @@
     "volume": 26,
     "bashing": 4,
     "cutting": 26,
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
   },
   {
     "type": "GENERIC",
@@ -231,7 +271,8 @@
     "volume": 1,
     "bashing": 5,
     "cutting": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "BUTCHER", -66 ] ]
   },
   {
     "type": "GENERIC",
@@ -239,6 +280,7 @@
     "symbol": "*",
     "color": "white",
     "name": "baseball",
+    "category": "other",
     "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
     "price": 1000,
     "material": "leather",
@@ -253,6 +295,7 @@
     "symbol": "*",
     "color": "dark_gray",
     "name": "hockey puck",
+    "category": "other",
     "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
     "price": 1000,
     "material": "plastic",
@@ -267,6 +310,7 @@
     "symbol": "*",
     "color": "brown",
     "name": "football",
+    "category": "other",
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "material": "leather",
@@ -281,6 +325,7 @@
     "symbol": "*",
     "color": "brown",
     "name": "basketball",
+    "category": "other",
     "description": "A high-quality indoor basketball.  You may throw it at zombies.",
     "price": 1200,
     "material": "leather",
@@ -350,6 +395,7 @@
     "cutting": 14,
     "to_hit": -1,
     "flags": [ "SHEATH_SWORD" ],
+    "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -396,7 +442,7 @@
     "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentially one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
     "material": [ "iron", "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": 5,
     "bashing": 20,
     "cutting": 20,
@@ -503,6 +549,7 @@
     "volume": 5,
     "bashing": 28,
     "cutting": 2,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "STAB", "NONCONDUCTIVE" ],
     "price": 8000
   },
@@ -521,7 +568,8 @@
     "volume": 6,
     "bashing": 10,
     "price": 1000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -534,6 +582,7 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
+    "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "volume": 4,
     "bashing": 12,
@@ -599,6 +648,7 @@
     "symbol": "/",
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": 7,
     "bashing": 20,
@@ -731,7 +781,7 @@
     "bashing": 16,
     "cutting": 36,
     "to_hit": 2,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ]
   },
   {
     "id": "halberd_fake",
@@ -760,6 +810,7 @@
     "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
     "price": 50000,
     "material": [ "steel", "wood" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": 2100,
@@ -783,6 +834,7 @@
     "volume": 10,
     "bashing": 6,
     "cutting": 37,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 80000
   },
@@ -804,7 +856,7 @@
     "flags": [ "STAB", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ], [ "BUTCHER", -24 ] ]
   },
   {
     "type": "GENERIC",
@@ -915,7 +967,7 @@
     "symbol": "/",
     "material": [ "iron", "wood" ],
     "techniques": [ "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": 5,
     "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
     "bashing": 37,
@@ -971,6 +1023,7 @@
     "bashing": 2,
     "cutting": 6,
     "flags": [ "STAB" ],
+    "qualities": [ [ "BUTCHER", -42 ] ],
     "price_postapoc": 500
   },
   {
@@ -1025,7 +1078,7 @@
     "bashing": 8,
     "cutting": 16,
     "flags": [ "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "qualities": [ [ "BUTCHER", 12 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   },
   {
     "type": "GENERIC",
@@ -1075,7 +1128,7 @@
     "cutting": 6,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "price": 20000,
-    "qualities": [ [ "BUTCHER", 14 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
     "type": "GENERIC",
@@ -1089,6 +1142,7 @@
     "volume": 1,
     "weight": 430,
     "bashing": 8,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
@@ -1103,6 +1157,7 @@
     "weight": 1150,
     "cutting": 16,
     "to_hit": 2,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "UNARMED_WEAPON" ],
     "techniques": [ "WBLOCK_1" ]
   },
@@ -1118,6 +1173,7 @@
     "volume": 2,
     "weight": 970,
     "bashing": 12,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -1174,14 +1230,15 @@
     "color": "white",
     "name": "rock in a sock",
     "name_plural": "rocks in socks",
-    "description": "A sock with a rock tied into the end of it.  A true weapon of desperation.",
+    "description": "A pair of nested socks filled with a stone.  A true weapon of despair.",
     "price": 1000,
     "price_postapoc": 300,
     "material": [ "cotton", "stone" ],
     "weight": 1007,
     "volume": 2,
     "bashing": 8,
-    "to_hit": 1
+    "to_hit": 1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1338,6 +1395,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "name": "grenade launcher buttstock",
+    "category": "spare_parts",
     "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a stand alone weapon",
     "price": 10000,
     "material": [ "plastic", "steel" ],
@@ -1531,7 +1589,8 @@
     "bashing": 13,
     "cutting": 35,
     "to_hit": 1,
-    "category": "weapons"
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ]
   },
   {
     "id": "broadsword_fake",
@@ -1685,7 +1744,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [ [ "AXE", 2 ] ]
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ]
   },
   {
     "id": "nodachi_fake",
@@ -1702,8 +1761,28 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
     "weight": 1882,
     "volume": 13,
-    "bashing": 8,
-    "cutting": 2,
+    "bashing": 2,
+    "cutting": 8,
+    "to_hit": 1,
+    "category": "weapons"
+  },
+  {
+    "id": "nodachi_inferior",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "nodachi",
+    "name_plural": "nodachi",
+    "description": "This is a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size, but also much bendier than a sword should be.",
+    "price": 15000,
+    "price_postapoc": 0,
+    "material": "budget_steel",
+    "flags": "SHEATH_SWORD",
+    "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
+    "weight": 1882,
+    "volume": 13,
+    "bashing": 5,
+    "cutting": 15,
     "to_hit": 1,
     "category": "weapons"
   },
@@ -1711,6 +1790,7 @@
     "type": "GENERIC",
     "id": "pitchfork",
     "name": "pitchfork",
+    "category": "tools",
     "description": "An agricultural tool with long wooden shaft and four spikes.  Is used to lift hay.",
     "weight": 1000,
     "to_hit": 1,
@@ -1721,6 +1801,7 @@
     "volume": 7,
     "bashing": 5,
     "cutting": 18,
+    "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 2000
   },
@@ -1872,7 +1953,8 @@
     "bashing": 4,
     "cutting": 38,
     "to_hit": 2,
-    "category": "weapons"
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "estoc_fake",
@@ -2006,5 +2088,157 @@
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+  },
+  {
+    "id": "pike_fake",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "awl pike",
+    "description": "This is a dull, cheaply made replica of a medieval weapon consisting of a wood shaft tipped with an iron spike.",
+    "weight": 2000,
+    "volume": 14,
+    "price": 4000,
+    "to_hit": -2,
+    "bashing": 6,
+    "cutting": 15,
+    "material": [ "aluminum", "wood" ],
+    "symbol": "/",
+    "color": "brown",
+    "looks_like": "pike",
+    "techniques": [ "IMPALE", "WBLOCK_2" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "pike_inferior",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "awl pike",
+    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike.  The spike seems to be pretty dull, and the whole thing feels poorly made.",
+    "weight": 2500,
+    "volume": 14,
+    "price": 40000,
+    "to_hit": -2,
+    "bashing": 8,
+    "cutting": 25,
+    "material": [ "budget_steel", "wood" ],
+    "symbol": "/",
+    "color": "brown",
+    "looks_like": "pike",
+    "techniques": [ "IMPALE", "WBLOCK_2" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mace_fake",
+    "name": "mace",
+    "description": "A light, cheaply made replica of a medieval weapon that would normally consist of a wood handle with a heavy iron end.",
+    "weight": 750,
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "looks_like": "mace",
+    "material": [ "aluminum", "wood" ],
+    "techniques": [ "SWEEP" ],
+    "flags": [ "NONCONDUCTIVE" ],
+    "volume": 5,
+    "bashing": 8,
+    "price": 10000
+  },
+  {
+    "type": "GENERIC",
+    "id": "mace_inferior",
+    "name": "mace",
+    "description": "A medieval weapon consisting of a wood handle with a heavy iron end.  That iron end feels a bit loose.",
+    "weight": 1000,
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "looks_like": "mace",
+    "material": [ "budget_steel", "wood" ],
+    "techniques": [ "SWEEP" ],
+    "flags": [ "NONCONDUCTIVE" ],
+    "volume": 5,
+    "bashing": 22,
+    "price": 10000,
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "morningstar_fake",
+    "name": "morningstar",
+    "description": "A light, cheaply made replica of a medieval weapon that would normally consist of a wood handle with a heavy, spiked iron ball on the end.",
+    "weight": 700,
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "looks_like": "morningstar",
+    "material": [ "aluminum", "wood" ],
+    "techniques": [ "SWEEP" ],
+    "volume": 6,
+    "bashing": 8,
+    "cutting": 1,
+    "flags": [ "SPEAR", "NONCONDUCTIVE" ],
+    "price": 12000
+  },
+  {
+    "type": "GENERIC",
+    "id": "morningstar_inferior",
+    "name": "morningstar",
+    "description": "A medieval weapon consisting of a wood handle with a heavy, spiked iron ball on the end.  That end feels lighter than it should.",
+    "weight": 1000,
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "looks_like": "morningstar",
+    "material": [ "budget_steel", "wood" ],
+    "techniques": [ "SWEEP" ],
+    "volume": 6,
+    "bashing": 11,
+    "cutting": 1,
+    "flags": [ "SPEAR", "NONCONDUCTIVE" ],
+    "price": 12000,
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "tanto_fake",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "tanto",
+    "description": "This is a dull, cheaply made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
+    "weight": 374,
+    "volume": 2,
+    "price": 1800,
+    "to_hit": 1,
+    "bashing": 1,
+    "cutting": 5,
+    "material": "aluminum",
+    "symbol": "/",
+    "color": "dark_gray",
+    "looks_like": "tanto",
+    "techniques": "RAPID",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "tanto_inferior",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "tanto",
+    "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced",
+    "weight": 3,
+    "volume": 2,
+    "price": 18000,
+    "to_hit": 2,
+    "bashing": 1,
+    "cutting": 10,
+    "material": "budget_steel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "looks_like": "tanto",
+    "techniques": "RAPID",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   }
 ]

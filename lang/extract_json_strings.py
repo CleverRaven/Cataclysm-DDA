@@ -3,8 +3,9 @@
 
 import json
 import os
-import subprocess 
+import subprocess
 from optparse import OptionParser
+from sys import platform
 
 # Must parse command line arguments here
 # 'options' variable is referenced in our defined functions below
@@ -23,19 +24,19 @@ class WrongJSONItem(Exception):
         return ("---\nJSON error\n{0}\n--- JSON Item:\n{1}\n---".format(self.msg, self.item))
 
 # there may be some non-json files in data/raw
-not_json = {
+not_json = {os.path.normpath(i) for i in {
     "sokoban.txt",
     "main.lua",
     "preload.lua",
     "LOADING_ORDER.md"
-}
+}}
 
-git_files_list = {
+git_files_list = {os.path.normpath(i) for i in {
     ".",
-}
+}}
 
 # no warning will be given if an untranslatable object is found in those files
-warning_suppressed_list = {
+warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/overmap_terrain.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
@@ -46,7 +47,7 @@ warning_suppressed_list = {
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
     "data/mods/Tanks/monsters.json"
-}
+}}
 
 def warning_supressed(filename):
     for i in warning_suppressed_list:
@@ -55,11 +56,11 @@ def warning_supressed(filename):
     return False
 
 # these files will not be parsed. Full related path.
-ignore_files = {
+ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
-}
+}}
 
 # these objects have no translatable strings
 ignorable = {
@@ -74,11 +75,13 @@ ignorable = {
     "ITEM_OPTION",
     "ITEM_WHITELIST",
     "MIGRATION",
+    "mod_tileset",
     "monitems",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "monstergroup",
     "MONSTER_WHITELIST",
+    "mutation_type",
     "overlay_order",
     "overmap_connection",
     "overmap_location",
@@ -151,7 +154,8 @@ automatically_convertible = {
     "vehicle",
     "vehicle_part",
     "vitamin",
-    "WHEEL"
+    "WHEEL",
+    "help"
 }
 
 # for these objects a plural form is needed
@@ -237,21 +241,24 @@ def extract_martial_art(item):
 def extract_effect_type(item):
     # writestr will not write string if it is None.
     outfile = get_outfile("effects")
-    name = item.get("name", ())
+    ctxt_name = item.get("name", ())
 
-    if name:
-        if len(name) == len(item.get("desc", ())):
-            for nm_desc in zip(name, item.get("desc", ())):
+    if ctxt_name:
+        if len(ctxt_name) == len(item.get("desc", ())):
+            for nm_desc in zip(ctxt_name, item.get("desc", ())):
                 writestr(outfile, nm_desc[0])
                 writestr(outfile, nm_desc[1], format_strings=True,
                          comment="Description of effect '{}'.".format(nm_desc[0]))
         else:
-            for i in item.get("name", ()):
+            for i in ctxt_name:
                 writestr(outfile, i)
             for f in ["desc", "reduced_desc"]:
                 for i in item.get(f, ()):
                     writestr(outfile, i, format_strings=True)
 
+    name = None
+    if ctxt_name:
+        name = [i["str"] if type(i) is dict else i for i in ctxt_name]
     # apply_message
     msg = item.get("apply_message")
     if not name:
@@ -474,6 +481,8 @@ def extract_recipes(item):
         for arr in item["book_learn"]:
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
+    if "description" in item:
+        writestr(outfile, item["description"])
 
 
 def extract_recipe_group(item):
@@ -673,14 +682,15 @@ extract_specials = {
 ##  PREPARATION
 ##
 
-directories = {
+directories = {os.path.normpath(i) for i in {
     "data/raw",
     "data/json",
     "data/mods",
     "data/core",
-    "data/legacy"
-}
-to_dir = "lang/json"
+    "data/legacy",
+    "data/help",
+}}
+to_dir = os.path.normpath("lang/json")
 
 print("==> Preparing the work space")
 
@@ -724,11 +734,17 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
         for entry in string:
             writestr(filename, entry, None, context, format_strings, comment)
         return
+    elif type(string) is dict and plural is None:
+        if "ctxt" in string:
+            writestr(filename, string["str"], None, string["ctxt"], format_strings, comment)
+        else:
+            writestr(filename, string["str"], None, None, format_strings, comment)
+        return
 
     # don't write empty strings
     if not string: return
 
-    with open(filename,'a') as fs:
+    with open(filename, 'a', encoding="utf-8") as fs:
         # Append developers comment
         if comment:
             tlcomment(fs, comment)
@@ -890,6 +906,12 @@ def extract(item, infilename):
     if "stop_phrase" in item:
        writestr(outfile, item["stop_phrase"], **kwargs)
        wrote = True
+    if "special_attacks" in item:
+        special_attacks = item["special_attacks"]
+        for special_attack in special_attacks:
+            if "description" in special_attack:
+                writestr(outfile, special_attack["description"], **kwargs)
+                wrote = True
     if not wrote:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
@@ -906,7 +928,7 @@ def extract_all_from_dir(json_dir):
     allfiles = os.listdir(json_dir)
     allfiles.sort()
     dirs = []
-    skiplist = [ ".gitkeep" ]
+    skiplist = [ os.path.normpath(".gitkeep") ]
     for f in allfiles:
         full_name = os.path.join(json_dir, f)
         if os.path.isdir(full_name):
@@ -930,7 +952,7 @@ def extract_all_from_file(json_file):
     if options.verbose:
         print("Loading {}".format(json_file))
 
-    with open(json_file) as fp:
+    with open(json_file, encoding="utf-8") as fp:
         jsondata = json.load(fp)
     # it's either an array of objects, or a single object
     try:
@@ -947,7 +969,7 @@ def extract_all_from_file(json_file):
 def add_fake_types():
     """Add names of fake items and monsters. This is done by hand and must be updated
     manually each time something is added to itypedef.cpp or mtypedef.cpp."""
-    outfile = os.path.join(to_dir, "faketypes.py")
+    outfile = os.path.join(to_dir, os.path.normpath("faketypes.py"))
 
     # fake item types
 
@@ -956,15 +978,19 @@ def add_fake_types():
 
 def prepare_git_file_list():
     command_str = "git ls-files"
-    res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True) 
-    output = res.stdout.readlines() 
+    res = None;
+    if platform == "win32":
+        res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+    output = res.stdout.readlines()
     res.communicate()
     if res.returncode != 0:
         print("'git ls-files' command exited with non-zero exit code: {}".format(res.returncode))
         exit(1)
     for f in output:
         if len(f) > 0:
-            git_files_list.add(f[:-1].decode('utf8'))
+            git_files_list.add(os.path.normpath(f[:-1].decode('utf8')))
 
 ##
 ##  EXTRACTION

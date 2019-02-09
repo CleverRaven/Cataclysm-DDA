@@ -1,12 +1,12 @@
 [
   {
-    "id" : "hflesh_drink",
+    "id": "hflesh_drink",
     "copy-from": "protein_drink",
-    "type" : "COMESTIBLE",
-    "name" : "soylent green drink",
-    "name_plural" : "soylent green drinks",
+    "type": "COMESTIBLE",
+    "name": "soylent green drink",
+    "name_plural": "soylent green drinks",
     "description": "A thin slurry of refined human protein mixed with water.  While quite nutritious, it is not particularly tasty.",
-    "material" : "hflesh"
+    "material": "hflesh"
   },
   {
     "id": "hflesh_powder",
@@ -14,7 +14,7 @@
     "type": "COMESTIBLE",
     "name": "soylent green powder",
     "name_plural": "servings of soylent green powder",
-    "description": "Raw, refined protein made out of people!  While quite nutritious, it is difficult to enjoy in its pure form.",
+    "description": "Raw, refined protein made out of people!  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
     "material": [ "powder", "hflesh" ]
   },
   {
@@ -50,7 +50,7 @@
     "quench": 40,
     "healthy": 2,
     "fun": -1,
-    "vitamins": [],
+    "vitamins": [ [ "calcium", 7 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -59,7 +59,7 @@
     "comestible_type": "FOOD",
     "name": "protein powder",
     "name_plural": "servings of protein powder",
-    "description": "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in its pure form.",
+    "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
     "weight": 38,
     "volume": 1,
     "price": 1100,
@@ -70,7 +70,7 @@
     "color": "white",
     "container": "bottle_plastic_small",
     "calories": 100,
-    "vitamins": []
+    "vitamins": [  ]
   },
   {
     "id": "protein_shake",
@@ -79,14 +79,13 @@
     "name": "protein shake",
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
     "material": "fruit",
-    "proportional": {
-        "weight": 1.2,
-        "price": 2.0
-    },
-    "relative": { "calories": 50 },
+    "calories": 150,
     "healthy": 4,
     "fun": 4,
-    "vitamins": [ [ "vitC", 20 ] ]
+    "volume": 2,
+    "charges": 2,
+    "quench": 20,
+    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
   },
   {
     "id": "protein_shake_fortified",

@@ -1,0 +1,49 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "FEMA_le",
+    "comment": "left edge",
+    "weight": 200,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "ffffffffffffffffffffffff",
+        "........................",
+        "........................",
+        "..--------------------..",
+        "..|~~~~~~~~~~~~~~~~~~|..",
+        "..|~%%%%%%%%%%%%%%%%~|..",
+        "..|~%~~%~Z%~~%~Z%~~%~|..",
+        "..|~%~Z%~~%~Z%~~%Z~%~|..",
+        "..|~%!%%!%%!%%!%%1%%~|..",
+        "..|~~~~~~~~~~~~~~~~~~|..",
+        "..|L~~~~~~~~~~~XX~~XX|..",
+        "..|BB~~TT~~~~~~XX~~XX|..",
+        "..|~~~~TTc~~~~~~~~~~~|..",
+        "..|L~~~T6~~z~~L~~L~~~|..",
+        "..|BB~~T6~~~~~L~~L~~C|..",
+        "..|~~~~TT~~z~~L~~L~~s|..",
+        "..|L~~~TT~~~~~L~~L~~s|..",
+        "..|BB~~~~~~~~~~~~~~~C|..",
+        "..|~~~~~~~~~~~~~~~~~~|..",
+        "..|CC6C7CCC~~~~~rrrrr|..",
+        "..----------++--------..",
+        "........................",
+        "........................"
+      ],
+      "rotation": 3,
+      "palettes": [ "FEMA_camp" ],
+      "terrain": { "!": "t_door_bar_locked", "%": "t_bars" },
+      "items": {
+        "r": { "item": "drugs_emergency", "chance": 30 },
+        "T": { "item": "science", "chance": 30 },
+        "L": { "item": "surgery", "chance": 30 },
+        "X": { "item": "hospital_lab", "chance": 80 }
+      },
+      "item": { "B": { "item": "rag_bloody", "amount": [ 0, 5 ] } },
+      "monster": { "Z": { "monster": "mon_zombie_brute" }, "z": { "monster": "mon_zombie_scientist" } }
+    }
+  }
+]

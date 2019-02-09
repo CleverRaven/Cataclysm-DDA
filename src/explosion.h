@@ -10,7 +10,7 @@ class JsonObject;
 
 struct shrapnel_data {
     int casing_mass = 0;
-    float fragment_mass = 0.05;
+    float fragment_mass = 0.005;
     // Percentage
     int recovery        = 0;
     itype_id drop       = "null";

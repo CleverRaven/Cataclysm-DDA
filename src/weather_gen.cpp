@@ -1,13 +1,20 @@
 #include "weather_gen.h"
-#include "weather.h"
-#include "enums.h"
-#include "calendar.h"
-#include "simplexnoise.h"
-#include "json.h"
 
+#include <algorithm>
+#include <chrono>
 #include <cmath>
-#include <fstream>
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <random>
+#include <string>
+
+#include "enums.h"
+#include "json.h"
+#include "messages.h"
+#include "rng.h"
+#include "simplexnoise.h"
+#include "weather.h"
 
 namespace
 {
@@ -17,6 +24,7 @@ constexpr double tau = 2 * PI;
 } //namespace
 
 weather_generator::weather_generator() = default;
+int weather_generator::current_winddir = 1000;
 
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
@@ -33,19 +41,18 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
     const unsigned modSEED = seed % 32768;
-
     // Noise factors
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
-    double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
+    double P( raw_noise_4d( x / 2.5, y / 2.5, z / 30, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
-    double W;
+    double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
-
+    const season_type season = season_of_year( now );
     // Temperature variation
     const double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
     const double current_t( base_temperature +
@@ -76,13 +83,29 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, 1020 - ( int )P );
-
+    W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
+                                       base_wind_distrib_peaks ) ) +
+                                       ( seasonal_variation / base_wind_season_variation ) * rng( 1, 2 ) * W ) );
+    // Wind direction
+    // initial static variable
+    if( current_winddir == 1000 ) {
+        current_winddir = get_wind_direction( season, seed );
+        current_winddir = convert_winddir( current_winddir );
+    } else {
+        //when wind strength is low, wind direction is more variable
+        bool changedir = one_in( W * 360 );
+        if( changedir == true ) {
+            current_winddir = get_wind_direction( season, seed );
+            current_winddir = convert_winddir( current_winddir );
+        }
+    }
+    std::string dirstring = get_dirstring( current_winddir );
+    std::string shortdirstring = get_shortdirstring( current_winddir );
+    std::string wind_desc = get_wind_desc( W );
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-
-    return w_point {T, H, P, W, acid};
+    return w_point {T, H, P, W, wind_desc, current_winddir, dirstring, shortdirstring, acid};
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -124,7 +147,8 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             r = WEATHER_FLURRIES;
         } else if( r > WEATHER_DRIZZLE ) {
             r = WEATHER_SNOW;
-        } else if( r > WEATHER_THUNDER ) { // @todo: that is always false!
+        }
+        if( r == WEATHER_SNOW && w.pressure < 960 && w.windpower > 15 ) {
             r = WEATHER_SNOWSTORM;
         }
     }
@@ -138,6 +162,70 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
+int weather_generator::get_wind_direction( const season_type season, unsigned seed ) const
+{
+    unsigned dirseed = seed;
+    std::default_random_engine wind_dir_gen( dirseed );
+    //assign chance to angle direction
+    if( season == SPRING ) {
+        std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
+        return distribution( wind_dir_gen );
+    } else if( season == SUMMER ) {
+        std::discrete_distribution<int> distribution {3, 4, 4, 8, 8, 9, 8, 3, 7, 8, 10, 7, 7, 7, 5, 3};
+        return distribution( wind_dir_gen );
+    } else if( season == AUTUMN ) {
+        std::discrete_distribution<int> distribution {4, 6, 6, 7, 6, 5, 4, 3, 5, 6, 8, 8, 10, 10, 8, 5};
+        return distribution( wind_dir_gen );
+    } else if( season == WINTER ) {
+        std::discrete_distribution<int> distribution {5, 3, 2, 3, 2, 2, 2, 2, 4, 6, 10, 8, 12, 19, 13, 9};
+        return distribution( wind_dir_gen );
+    } else {
+        return 0;
+    }
+}
+
+//Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
+std::string weather_generator::get_wind_desc( double windpower ) const
+{
+    std::string winddesc;
+    if( windpower < 1 ) {
+        winddesc = "Calm";
+    } else if( windpower < 3 ) {
+        winddesc = "Light Air";
+    } else if( windpower < 7 ) {
+        winddesc = "Light Breeze";
+    } else if( windpower < 12 ) {
+        winddesc = "Gentle Breeze";
+    } else if( windpower < 18 ) {
+        winddesc = "Moderate Breeze";
+    } else if( windpower < 24 ) {
+        winddesc = "Fresh Breeze";
+    } else if( windpower < 31 ) {
+        winddesc = "Moderate Breeze";
+    } else if( windpower < 38 ) {
+        winddesc = "Moderate Gale";
+    } else if( windpower < 46 ) {
+        winddesc = "Gale";
+    } else if( windpower < 54 ) {
+        winddesc = "Strong Gale";
+    } else if( windpower < 63 ) {
+        winddesc = "Whole Gale";
+    } else if( windpower < 72 ) {
+        winddesc = "Violent Storm";
+    } else if( windpower > 72 ) {
+        winddesc =
+            "Hurricane";  //Anything above Whole Gale is very unlikely to happen and has no additional effects.
+    }
+    return winddesc;
+}
+
+int weather_generator::convert_winddir( const int inputdir ) const
+{
+    //convert from discrete distribution output to angle
+    float finputdir = inputdir * 22.5;
+    return static_cast<int>( finputdir );
+}
+
 int weather_generator::get_water_temperature() const
 {
     /**
@@ -149,6 +237,7 @@ int weather_generator::get_water_temperature() const
     int season_length = to_days<int>( calendar::season_length() );
     int day = calendar::turn.day_of_year();
     int hour = hour_of_day<int>( calendar::turn );
+
     int water_temperature = 0;
 
     if( season_length == 0 ) {
@@ -166,6 +255,31 @@ int weather_generator::get_water_temperature() const
     return water_temperature;
 }
 
+std::string weather_generator::get_dirstring( int angle ) const
+{
+    //convert angle to cardinal directions
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ( "North" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "North-East" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "East" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "South-East" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "South" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "South-West" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "West" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "North-West" );
+    }
+    return dirstring;
+}
+
 void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
@@ -175,16 +289,42 @@ void weather_generator::test_weather() const
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
     testfile.open( "weather.output", std::ofstream::trunc );
-    testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
+    testfile << "turn;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
+             << std::endl;
 
     const time_point begin = calendar::turn;
     const time_point end = begin + 2 * calendar::year_length();
     for( time_point i = begin; i < end; i += 200_turns ) {
-        //@todo: a new random value for each call to get_weather? Is this really intended?
-        w_point w = get_weather( tripoint( 0, 0, 0 ), to_turn<int>( i ), rand() );
-        testfile << to_turn<int>( i ) << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
-                 std::endl;
+        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
+        weather_type c =  get_weather_conditions( w );
+        weather_datum wd = weather_data( c );
+        testfile << to_turn<int>( i ) << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure <<
+                 ";" << wd.name << ";" << w.windpower << ";" << w.dirstring << std::endl;
     }
+}
+
+std::string weather_generator::get_shortdirstring( int angle ) const
+{
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ( "N" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "NE" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "E" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "SE" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "S" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "SW" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "W" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "NW" );
+    }
+    return dirstring;
 }
 
 weather_generator weather_generator::load( JsonObject &jo )
@@ -194,5 +334,8 @@ weather_generator weather_generator::load( JsonObject &jo )
     ret.base_humidity = jo.get_float( "base_humidity", 66.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 1015.0 );
     ret.base_acid = jo.get_float( "base_acid", 1015.0 );
+    ret.base_wind = jo.get_float( "base_wind", 5.7 );
+    ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 30 );
+    ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 64 );
     return ret;
 }

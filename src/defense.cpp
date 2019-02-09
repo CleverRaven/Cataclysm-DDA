@@ -1,34 +1,30 @@
-#include "gamemode.h"
-#include "action.h"
-#include "color.h"
-#include "enums.h"
-#include "game.h"
-#include "map.h"
-#include "debug.h"
-#include "itype.h"
-#include "mtype.h"
-#include "overmapbuffer.h"
-#include "crafting.h"
-#include "recipe_dictionary.h"
-#include "monstergenerator.h"
-#include "construction.h"
-#include "messages.h"
-#include "map_iterator.h"
-#include "rng.h"
-#include "mongroup.h"
-#include "translations.h"
-#include "input.h"
-#include "overmap.h"
-#include "output.h"
-#include "player.h"
-#include "string_input_popup.h"
-#include "string_formatter.h"
-#include "item_group.h"
+#include "gamemode.h" // IWYU pragma: associated
 
-#include <string>
-#include <vector>
 #include <ostream>
 #include <sstream>
+
+#include "action.h"
+#include "color.h"
+#include "construction.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "item_group.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "mongroup.h"
+#include "monstergenerator.h"
+#include "mtype.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -149,29 +145,29 @@ void defense_game::pre_action( action_id &act )
     }
 
     // Big ugly block for movement
-    if( ( act == ACTION_MOVE_N && g->u.posy() == SEEX * int( MAPSIZE / 2 ) &&
+    if( ( act == ACTION_MOVE_N && g->u.posy() == HALF_MAPSIZE_X &&
           g->get_levy() <= 93 ) ||
-        ( act == ACTION_MOVE_NE && ( ( g->u.posy() == SEEY * int( MAPSIZE / 2 ) &&
+        ( act == ACTION_MOVE_NE && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
                                        g->get_levy() <=  93 ) ||
-                                     ( g->u.posx() == SEEX * ( 1 + int( MAPSIZE / 2 ) ) - 1 &&
+                                     ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
                                        g->get_levx() >= 98 ) ) ) ||
-        ( act == ACTION_MOVE_E && g->u.posx() == SEEX * ( 1 + int( MAPSIZE / 2 ) ) - 1 &&
+        ( act == ACTION_MOVE_E && g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
           g->get_levx() >= 98 ) ||
-        ( act == ACTION_MOVE_SE && ( ( g->u.posy() == SEEY * ( 1 + int( MAPSIZE / 2 ) ) - 1 &&
+        ( act == ACTION_MOVE_SE && ( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
                                        g->get_levy() >= 98 ) ||
-                                     ( g->u.posx() == SEEX * ( 1 + int( MAPSIZE / 2 ) ) - 1 &&
+                                     ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
                                        g->get_levx() >= 98 ) ) ) ||
-        ( act == ACTION_MOVE_S && g->u.posy() == SEEY * ( 1 + int( MAPSIZE / 2 ) ) - 1 &&
+        ( act == ACTION_MOVE_S && g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
           g->get_levy() >= 98 ) ||
-        ( act == ACTION_MOVE_SW && ( ( g->u.posy() == SEEY * ( 1 + int( MAPSIZE / 2 ) ) - 1 &&
+        ( act == ACTION_MOVE_SW && ( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
                                        g->get_levy() >= 98 ) ||
-                                     ( g->u.posx() == SEEX * int( MAPSIZE / 2 ) &&
+                                     ( g->u.posx() == HALF_MAPSIZE_X &&
                                        g->get_levx() <=  93 ) ) ) ||
-        ( act == ACTION_MOVE_W && g->u.posx() == SEEX * int( MAPSIZE / 2 ) &&
+        ( act == ACTION_MOVE_W && g->u.posx() == HALF_MAPSIZE_X &&
           g->get_levx() <= 93 ) ||
-        ( act == ACTION_MOVE_NW && ( ( g->u.posy() == SEEY * int( MAPSIZE / 2 ) &&
+        ( act == ACTION_MOVE_NW && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
                                        g->get_levy() <=  93 ) ||
-                                     ( g->u.posx() == SEEX * int( MAPSIZE / 2 ) &&
+                                     ( g->u.posx() == HALF_MAPSIZE_X &&
                                        g->get_levx() <=  93 ) ) ) ) {
         add_msg( m_info, _( "You cannot leave the %s behind!" ),
                  defense_location_name( location ).c_str() );
@@ -971,7 +967,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                                     item_selected );
                 draw_caravan_borders( w, current_window );
             } else if( !items[category_selected].empty() ) { // Items
-                if( item_selected < ( int )items[category_selected].size() - 1 ) {
+                if( item_selected < static_cast<int>( items[category_selected].size() ) - 1 ) {
                     item_selected++;
                 } else {
                     item_selected = 0;
@@ -1306,7 +1302,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         mvwprintz( w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
     // THEN print it--if item_selected is valid
-    if( item_selected < ( int )items->size() ) {
+    if( item_selected < static_cast<int>( items->size() ) ) {
         item tmp( ( *items )[item_selected], 0 ); // Dummy item to get info
         fold_and_print( w, 12, 1, 38, c_white, tmp.info() );
     }
@@ -1315,7 +1311,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         mvwprintz( w, i, 40, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
     // Finally, print the item list on the right
-    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < ( int )items->size(); i++ ) {
+    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 &&
+         i < static_cast<int>( items->size() ); i++ ) {
         mvwprintz( w, i - offset + 1, 40, ( item_selected == i ? h_white : c_white ),
                    item::nname( ( *items )[i], ( *counts )[i] ).c_str() );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
@@ -1422,16 +1419,16 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
     while( true ) {
         if( location == DEFLOC_HOSPITAL || location == DEFLOC_MALL ) {
             // Always spawn to the north!
-            pnt = point( rng( SEEX * ( MAPSIZE / 2 ), SEEX * ( 1 + MAPSIZE / 2 ) ), SEEY );
+            pnt = point( rng( HALF_MAPSIZE_X, HALF_MAPSIZE_X + SEEX ), SEEY );
         } else if( one_in( 2 ) ) {
-            pnt = point( rng( SEEX * ( MAPSIZE / 2 ), SEEX * ( 1 + MAPSIZE / 2 ) ), rng( 1, SEEY ) );
+            pnt = point( rng( HALF_MAPSIZE_X, HALF_MAPSIZE_X + SEEX ), rng( 1, SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( pnt.x, SEEY * MAPSIZE - 1 - pnt.y );
+                pnt = point( pnt.x, MAPSIZE_Y - 1 - pnt.y );
             }
         } else {
-            pnt = point( rng( 1, SEEX ), rng( SEEY * ( MAPSIZE / 2 ), SEEY * ( 1 + MAPSIZE / 2 ) ) );
+            pnt = point( rng( 1, SEEX ), rng( HALF_MAPSIZE_Y, HALF_MAPSIZE_Y + SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
+                pnt = point( MAPSIZE_X - 1 - pnt.x, pnt.y );
             }
         }
         if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {

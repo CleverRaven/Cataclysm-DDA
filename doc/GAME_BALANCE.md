@@ -97,7 +97,7 @@ A measure of how well-suited the item is for being swung/thrust/etc. This factor
 
 +1 - Well-balanced for swinging or stabbing.  Baseball bat, golf club, swords, quarterstaff, knives.
 
-##Damage
+## Damage
 Weapon's relative strength is based on an approximate formula involving its damage, to-hit, techniques and few other factors.
 This strength will be expressed in "points" or dpt (damage per turn) as damage per turn is the most significant balancing factor.
 

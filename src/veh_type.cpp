@@ -1,25 +1,26 @@
 #include "veh_type.h"
-#include "requirements.h"
-#include "vehicle.h"
-#include "debug.h"
-#include "item_group.h"
-#include "json.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "color.h"
-#include "itype.h"
-#include "ammo.h"
-#include "vehicle_group.h"
-#include "init.h"
-#include "output.h"
-#include "generic_factory.h"
-#include "character.h"
-#include "flag.h"
 
+#include <numeric>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
-#include <sstream>
-#include <numeric>
+
+#include "ammo.h"
+#include "character.h"
+#include "color.h"
+#include "debug.h"
+#include "flag.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item_group.h"
+#include "itype.h"
+#include "json.h"
+#include "output.h"
+#include "requirements.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vehicle_group.h"
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -51,6 +52,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "EVENTURN", VPFLAG_EVENTURN },
     { "ODDTURN", VPFLAG_ODDTURN },
     { "CONE_LIGHT", VPFLAG_CONE_LIGHT },
+    { "WIDE_CONE_LIGHT", VPFLAG_WIDE_CONE_LIGHT },
+    { "HALF_CIRCLE_LIGHT", VPFLAG_HALF_CIRCLE_LIGHT },
     { "CIRCLE_LIGHT", VPFLAG_CIRCLE_LIGHT },
     { "BOARDABLE", VPFLAG_BOARDABLE },
     { "AISLE", VPFLAG_AISLE },
@@ -78,6 +81,29 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
+    { "FLUIDTANK", VPFLAG_FLUIDTANK },
+    { "REACTOR", VPFLAG_REACTOR },
+};
+
+static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
+        { "FLAT", 4 }, { "ROAD", 2 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> rigid_terrain_mod = {{
+        { "FLAT", 6 }, { "ROAD", 3 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> racing_terrain_mod = {{
+        { "FLAT", 5 }, { "ROAD", 2 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> off_road_terrain_mod = {{
+        { "FLAT", 3 }, { "ROAD", 1 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> treads_terrain_mod = {{
+        { "FLAT", 3 }
+    }
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -138,11 +164,78 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         }
 
     } else {
-        auto req_id = string_format( "inline_%s_%s", key.c_str(), id.c_str() );
+        const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
         requirement_data::load_requirement( src, req_id );
-        reqs = { { requirement_id( req_id ), 1 } };
+        reqs = { { req_id, 1 } };
     }
-};
+}
+
+/**
+ * Reads engine info from a JsonObject.
+ */
+void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+                              const itype_id &fuel_type )
+{
+    vpslot_engine e_info;
+    if( eptr ) {
+        e_info = *eptr;
+    }
+    assign( jo, "backfire_threshold", e_info.backfire_threshold );
+    assign( jo, "backfire_freq", e_info.backfire_freq );
+    assign( jo, "noise_factor", e_info.noise_factor );
+    assign( jo, "damaged_power_factor", e_info.damaged_power_factor );
+    assign( jo, "m2c", e_info.m2c );
+    assign( jo, "muscle_power_factor", e_info.muscle_power_factor );
+    auto excludes = jo.get_array( "exclusions" );
+    if( !excludes.empty() ) {
+        e_info.exclusions.clear();
+        while( excludes.has_more() ) {
+            e_info.exclusions.push_back( excludes.next_string() );
+        }
+    }
+    auto fuel_opts = jo.get_array( "fuel_options" );
+    if( !fuel_opts.empty() ) {
+        e_info.fuel_opts.clear();
+        while( fuel_opts.has_more() ) {
+            e_info.fuel_opts.push_back( itype_id( fuel_opts.next_string() ) );
+        }
+    } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
+        e_info.fuel_opts.push_back( fuel_type );
+    }
+    eptr = e_info;
+    assert( eptr );
+}
+
+void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo )
+{
+    vpslot_wheel wh_info;
+    if( whptr ) {
+        wh_info = *whptr;
+    }
+    assign( jo, "rolling_resistance", wh_info.rolling_resistance );
+    assign( jo, "contact_area", wh_info.contact_area );
+    wh_info.terrain_mod = standard_terrain_mod;
+    wh_info.or_rating = 0.5f;
+    if( jo.has_string( "wheel_type" ) ) {
+        const std::string wheel_type = jo.get_string( "wheel_type" );
+        if( wheel_type == "rigid" ) {
+            wh_info.terrain_mod = rigid_terrain_mod;
+            wh_info.or_rating = 0.1;
+        } else if( wheel_type == "off-road" ) {
+            wh_info.terrain_mod = off_road_terrain_mod;
+            wh_info.or_rating = 0.7;
+        } else if( wheel_type == "racing" ) {
+            wh_info.terrain_mod = racing_terrain_mod;
+            wh_info.or_rating = 0.3;
+        } else if( wheel_type == "treads" ) {
+            wh_info.terrain_mod = treads_terrain_mod;
+            wh_info.or_rating = 0.9;
+        }
+    }
+
+    whptr = wh_info;
+    assert( whptr );
+}
 
 /**
  * Reads in a vehicle part from a JsonObject.
@@ -152,8 +245,8 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     vpart_info def;
 
     if( jo.has_string( "copy-from" ) ) {
-        auto const base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
-        auto const ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        const auto base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        const auto ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
         if( base != vpart_info_all.end() ) {
             def = base->second;
             def.looks_like = base->second.id.str();
@@ -179,6 +272,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "location", def.location );
     assign( jo, "durability", def.durability );
     assign( jo, "damage_modifier", def.dmg_mod );
+    assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
@@ -241,6 +335,14 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
         def.damage_reduction.fill( 0.0f );
     }
 
+    if( def.has_flag( "ENGINE" ) ) {
+        load_engine( def.engine_info, jo, def.fuel_type );
+    }
+
+    if( def.has_flag( "WHEEL" ) ) {
+        load_wheel( def.wheel_info, jo );
+    }
+
     if( jo.has_string( "abstract" ) ) {
         abstract_parts[def.id] = def;
     } else {
@@ -268,7 +370,7 @@ void vpart_info::finalize()
             e.second.name_ = _( e.second.name_.c_str() );
         }
 
-        if( e.second.folded_volume > 0 ) {
+        if( e.second.folded_volume > 0_ml ) {
             e.second.set_flag( "FOLDABLE" );
         }
 
@@ -376,9 +478,9 @@ void vpart_info::check()
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 
-        std::string ins_id = std::string( "inline_vehins_base_" ) += part.id.str();
+        const requirement_id ins_id( std::string( "inline_vehins_base_" ) + part.id.str() );
         requirement_data::save_requirement( ins, ins_id );
-        part.install_reqs.emplace_back( requirement_id( ins_id ), 1 );
+        part.install_reqs.emplace_back( ins_id, 1 );
 
         if( part.removal_moves < 0 ) {
             part.removal_moves = part.install_moves / 2;
@@ -447,16 +549,16 @@ void vpart_info::check()
         if( part.dmg_mod < 0 ) {
             debugmsg( "vehicle part %s has negative damage modifier", part.id.c_str() );
         }
-        if( part.folded_volume < 0 ) {
+        if( part.folded_volume < 0_ml ) {
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
+        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
         }
-        if( part.size < 0 ) {
+        if( part.size < 0_ml ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
         if( !item::type_is_defined( part.item ) ) {
@@ -490,7 +592,7 @@ void vpart_info::check()
         static const std::vector<std::string> handled = {{
                 "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
-                "REACTOR"
+                "REACTOR", "WIND_TURBINE"
             }
         };
         if( part.epower != 0 &&
@@ -523,7 +625,7 @@ std::string vpart_info::name() const
     return name_;
 }
 
-int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
+int vpart_info::format_description( std::ostringstream &msg, const std::string &format_color,
                                     int width ) const
 {
     int lines = 1;
@@ -533,7 +635,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
     class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
-        long_descrip << description;
+        long_descrip << _( description.c_str() );
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -544,16 +646,16 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
             if( ! long_descrip.str().empty() ) {
                 long_descrip << "  ";
             }
-            long_descrip << flag.info();
+            long_descrip << _( flag.info().c_str() );
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << nobelt.info();
+        long_descrip << "  " << _( nobelt.info().c_str() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << nobelt.info();
+        long_descrip << "  " << _( nobelt.info().c_str() );
     }
     if( has_flag( "TURRET" ) ) {
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -579,7 +681,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
                 qual.second, qual.first.obj().name.c_str() );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
-                                  ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ),
+                                  static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
         msg << ".</color>\n";
@@ -611,7 +713,6 @@ requirement_data vpart_info::repair_requirements() const
         return lhs + ( *rhs.first * rhs.second );
     } );
 }
-
 
 bool vpart_info::is_repairable() const
 {
@@ -646,6 +747,76 @@ int vpart_info::removal_time( const Character &ch ) const
 int vpart_info::repair_time( const Character &ch ) const
 {
     return scale_time( repair_skills, repair_moves, ch );
+}
+
+/**
+ * @name Engine specific functions
+ *
+ */
+float vpart_info::engine_backfire_threshold() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
+}
+
+int vpart_info::engine_backfire_freq() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
+}
+
+int vpart_info::engine_muscle_power_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->muscle_power_factor : false;
+}
+
+float vpart_info::engine_damaged_power_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
+}
+
+int vpart_info::engine_noise_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
+}
+
+int vpart_info::engine_m2c() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
+}
+
+std::vector<std::string> vpart_info::engine_excludes() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
+}
+
+std::vector<itype_id> vpart_info::engine_fuel_opts() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
+}
+
+/**
+ * @name Wheel specific functions
+ *
+ */
+float vpart_info::wheel_rolling_resistance() const
+{
+    // caster wheels return 29, so if a part rolls worse than a caster wheel...
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->rolling_resistance : 50;
+}
+
+int vpart_info::wheel_area() const
+{
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
+}
+
+std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
+{
+    std::vector<std::pair<std::string, int>> null_map;
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
+}
+
+float vpart_info::wheel_or_rating() const
+{
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
 }
 
 /** @relates string_id */
@@ -693,12 +864,9 @@ void vehicle_prototype::load( JsonObject &jo )
 
     vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    JsonArray parts = jo.get_array( "parts" );
-    while( parts.has_more() ) {
-        JsonObject part = parts.next_object();
-
+    const auto add_part_obj = [&]( JsonObject part, point pos ) {
         part_def pt;
-        pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        pt.pos = pos;
         pt.part = vpart_id( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
@@ -707,6 +875,34 @@ void vehicle_prototype::load( JsonObject &jo )
         assign( part, "fuel", pt.fuel, true );
 
         vproto.parts.push_back( pt );
+    };
+
+    const auto add_part_string = [&]( std::string part, point pos ) {
+        part_def pt;
+        pt.pos = pos;
+        pt.part = vpart_id( part );
+        vproto.parts.push_back( pt );
+    };
+
+    JsonArray parts = jo.get_array( "parts" );
+    while( parts.has_more() ) {
+        JsonObject part = parts.next_object();
+        point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+
+        if( part.has_string( "part" ) ) {
+            add_part_obj( part, pos );
+        } else if( part.has_array( "parts" ) ) {
+            JsonArray subparts = part.get_array( "parts" );
+            while( subparts.has_more() ) {
+                if( subparts.test_string() ) {
+                    std::string part_name = subparts.next_string();
+                    add_part_string( part_name, pos );
+                } else {
+                    JsonObject subpart = subparts.next_object();
+                    add_part_obj( subpart, pos );
+                }
+            }
+        }
     }
 
     JsonArray items = jo.get_array( "items" );
@@ -782,7 +978,7 @@ void vehicle_prototype::finalize()
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
+            if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name.c_str(), pt.part.c_str(),
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );
@@ -812,13 +1008,13 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( base->container ) {
+            if( base->container || base->magazine ) {
                 if( !item::type_is_defined( pt.fuel ) ) {
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             } else {
                 if( pt.fuel != "null" ) {
-                    debugmsg( "init_vehicles: non-tank %s with fuel in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }
 

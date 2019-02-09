@@ -1,6 +1,6 @@
-# This message may be 16 lines long at maximum.
-# Max length of a line is 72 characters; the following line is for reference
-########################################################################
+# Die maximale Zeilenlänge beträgt 78 Zeichen. Die folgende Linie dient als Referenz.
+# Zu lange Zeilen werden automatisch umgebrochen.
+##############################################################################
 Ur-Autor:                Projekt-Manager:    Webpräsenz/Forum:
 Whales (ausgestiegen)    KevinGranade        GlyphGryph
 

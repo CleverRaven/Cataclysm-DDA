@@ -1,0 +1,561 @@
+[
+  {
+    "abstract": "broken_turret_base",
+    "type": "GENERIC",
+    "override": "true",
+    "symbol": ",",
+    "looks_like": "bot_turret",
+    "color": "light_gray",
+    "name": "broken turret",
+    "category": "other",
+    "description": "A broken turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": 50000,
+    "price_postapoc": 10000,
+    "material": [ "steel", "plastic" ],
+    "weight": 1507,
+    "volume": 12,
+    "to_hit": -3,
+    "bashing": 8,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "broken_milturret_base",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "name": "broken military turret",
+    "price": 50000,
+    "price_postapoc": 10000
+  },
+  {
+    "abstract": "broken_advturret_base",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "name": "broken advanced turret",
+    "price": 50000,
+    "price_postapoc": 10000
+  },
+  {
+    "id": "broken_turret_disarmed",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "light_gray",
+    "name": "broken defense turret",
+    "description": "A broken defense turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_disarmed",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "light_gray",
+    "name": "broken military turret",
+    "description": "A broken military turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_disarmed",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "light_gray",
+    "name": "broken advanced turret",
+    "description": "A broken 9mm defense turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret_9mm",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "light_gray",
+    "name": "broken 9mm turret",
+    "description": "A broken 9mm defense turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "light_gray",
+    "name": "broken 9mm turret",
+    "description": "A broken 9mm defense turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret_shot",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "red",
+    "name": "broken 9mm turret",
+    "description": "A broken shotgun defense turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret_teargas",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "blue",
+    "name": "broken riot control turret",
+    "description": "A broken riot control turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret_beanbag",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "blue",
+    "name": "broken riotcontrol turret",
+    "description": "A broken 9mm defense turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_556",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "light_green",
+    "name": "broken 5.56mm turret",
+    "description": "A broken military-grade 5.56mm turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret_rifle",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "light_green",
+    "name": "broken 5.56mm turret",
+    "description": "A broken military-grade 5.56mm turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_308",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "light_green",
+    "name": "broken 7.62mm turret",
+    "description": "A broken military-grade 7.62mm turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_50bmg",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "green",
+    "name": "broken 50cal turret",
+    "description": "A broken military-grade 50 caliber turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret_bmg",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "green",
+    "name": "broken 50cal turret",
+    "description": "A broken military-grade 50 caliber turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_40mm",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "light_green",
+    "name": "broken 40mm turret",
+    "description": "A broken military-grade 40mm grenade turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_needle",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "light_red",
+    "name": "broken 5.56mm turret",
+    "description": "A broken military-grade 5x50 flechette turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_8x40mm",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "red",
+    "name": "broken 8x40mm turret",
+    "description": "A broken military-grade 8x40mm turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_milturret_flame",
+    "type": "GENERIC",
+    "copy-from": "broken_milturret_base",
+    "color": "red",
+    "name": "broken flamethrower turret",
+    "description": "A broken military-grade flamethrower turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_laser",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "yellow",
+    "name": "broken laser turret",
+    "description": "A broken advanced laser emitter turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_laserturret",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "yellow",
+    "name": "broken laser turret",
+    "description": "A broken advanced laser emitter turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_acid",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "light_green",
+    "name": "broken acid turret",
+    "description": "A broken advanced acid thrower turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_plasma",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "magenta",
+    "name": "broken plasma turret",
+    "description": "A broken advanced plasma ejector turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_rail",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "yellow",
+    "name": "broken rail gun turret",
+    "description": "A broken advanced rail gun turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_acid",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "light_green",
+    "name": "broken acid turret",
+    "description": "A broken advanced acid projector turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_lightning",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "white",
+    "name": "broken electro turret",
+    "description": "A broken advanced electro caster turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_advturret_emp",
+    "type": "GENERIC",
+    "copy-from": "broken_advturret_base",
+    "color": "yellow",
+    "name": "broken EMP turret",
+    "description": "A broken advanced EMP generator turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+  },
+  {
+    "id": "broken_turret_gnome",
+    "type": "GENERIC",
+    "copy-from": "broken_turret_base",
+    "color": "light_gray",
+    "name": "broken gaurdin gnome",
+    "description": "A broken and completely harmless garden gnome."
+  },
+  {
+    "abstract": "broken_hack_base",
+    "type": "GENERIC",
+    "override": "true",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "broken hack",
+    "looks_like": "broken_manhack",
+    "category": "other",
+    "description": "A broken manhack.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": 9000,
+    "price_postapoc": 1000,
+    "material": [ "aluminum", "plastic" ],
+    "weight": 5400,
+    "volume": 3,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_manhack",
+    "copy-from": "broken_hack_base",
+    "color": "light_green",
+    "name": "broken manhack",
+    "description": "A broken manhack.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": 1000,
+    "weight": 5400
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_grenade_hack",
+    "copy-from": "broken_hack_base",
+    "color": "green",
+    "name": "broken grenade hack",
+    "description": "A broken grenade hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
+    "weight": 4480
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_mininuke_hack",
+    "copy-from": "broken_hack_base",
+    "color": "magenta",
+    "name": "broken mininuke hack",
+    "description": "A broken magenta hack.  Just looking at the wreck makes you shiver.  Could be gutted for parts.",
+    "price": 18000,
+    "weight": 12670
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_gasbomb_hack",
+    "copy-from": "broken_hack_base",
+    "color": "dark_gray",
+    "name": "broken tear gas hack",
+    "description": "A broken tear gas hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
+    "weight": 5360
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_EMP_hack",
+    "copy-from": "broken_hack_base",
+    "color": "cyan",
+    "name": "broken EMP hack",
+    "description": "A broken EMP hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
+    "weight": 4700
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_flashbang_hack",
+    "copy-from": "broken_hack_base",
+    "color": "dark_gray",
+    "name": "broken flashbang hack",
+    "description": "A broken flashbang hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
+    "weight": 4700
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_c4_hack",
+    "copy-from": "broken_hack_base",
+    "color": "light_gray",
+    "name": "broken C-4 hack",
+    "description": "A broken C-4 hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
+    "weight": 5870
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_eyebot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken eyebot",
+    "category": "other",
+    "description": "A broken eyebot.  Much less threatening now that it won't be calling for backup.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 31520,
+    "volume": 60,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_eyebot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken eyebot",
+    "looks_like": "broken_eyebot",
+    "category": "other",
+    "description": "A broken eyebot, now dark and motionless.  Could be stripped down for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 31520,
+    "volume": 60,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_eyebot_disarmed",
+    "copy-from": "broken_eyebot",
+    "name": "broken disarmed eyebot",
+    "description": "A broken eyebot.  Its integrated weapon module has been removed.  Could be gutted for parts or crafted into a salvaged robot."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_cleanerbot",
+    "name": "broken utility robot",
+    "category": "other",
+    "description": "A broken utility robot, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_hazmatbot",
+    "name": "broken utility robot",
+    "copy-from": "broken_utilibot",
+    "color": "green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_skitterbot_disarmed",
+    "symbol": ",",
+    "color": "green",
+    "looks_like": "broken_skitterbot",
+    "name": "broken disarmed skitterbot",
+    "category": "other",
+    "description": "A broken skitterbot. Its internal weapon modules have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 62650,
+    "volume": 120,
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_skitterbot",
+    "copy-from": "broken_skitterbot_disarmed",
+    "color": "light_blue",
+    "name": "broken skitterbot",
+    "description": "A broken skitterbot, now harmless and inert.  Could be stripped of integral weapon modules."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_defbot_disarmed",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_riotbot",
+    "name": "broken disarmed defense bot",
+    "category": "other",
+    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_secubot",
+    "copy-from": "broken_defbot_disarmed",
+    "color": "light_gray",
+    "name": "broken security robot",
+    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_riotbot",
+    "copy-from": "broken_defbot_disarmed",
+    "color": "light_gray",
+    "name": "broken riotcontrol robot",
+    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_defbot_riotcontrol",
+    "copy-from": "broken_defbot_disarmed",
+    "color": "light_gray",
+    "name": "broken riotcontrol robot",
+    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_copbot",
+    "copy-from": "broken_defbot_disarmed",
+    "color": "light_gray",
+    "name": "broken riotcontrol robot",
+    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_molebot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken miner bot",
+    "category": "other",
+    "description": "A broken miner bot.  Much less threatening now that it's no longer capable of drilling anything.  Could be gutted for parts.",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 170200,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 10,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_chickenbot",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "broken chickenwalker",
+    "category": "other",
+    "description": "A broken chickenwalker.  Could be stripped for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 430000,
+    "volume": 750,
+    "bashing": 10,
+    "cutting": 6,
+    "to_hit": -2,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_chickenbot_disarmed",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_chickenbot",
+    "name": "broken disarmed chickenwalker",
+    "category": "other",
+    "description": "A broken chickenwalker. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 430000,
+    "volume": 750,
+    "bashing": 10,
+    "cutting": 6,
+    "to_hit": -2,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_tankbot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken tank drone",
+    "category": "other",
+    "description": "A broken tank drone.  Could be stripped down for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 1223850,
+    "volume": 3500,
+    "bashing": 20,
+    "cutting": 15,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_tankbot_disarmed",
+    "symbol": ",",
+    "color": "green",
+    "looks_like": "broken_tankbot",
+    "name": "broken disarmed tank drone",
+    "category": "other",
+    "description": "A broken tank drone.  Could be gutted for parts or recrafted into a salvaged robot.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 1223850,
+    "volume": 3500,
+    "bashing": 20,
+    "cutting": 15,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  }
+]

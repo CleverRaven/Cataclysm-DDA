@@ -1,0 +1,172 @@
+import org.gradle.internal.os.OperatingSystem;
+
+def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
+def buildAsApplication = !buildAsLibrary
+if (buildAsApplication) {
+    apply plugin: 'com.android.application'
+}
+else {
+    apply plugin: 'com.android.library'
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def njobs = getProperty("j")
+def luaBinary = 'lua'
+if( localProperties.getProperty('luaBinary') != null ) {
+	luaBinary = localProperties.getProperty('luaBinary') 
+}
+
+task unzipDeps(type: Copy) {
+    def zipFile = new File('./deps.zip')
+    def outputDir = new File('.')
+    from zipTree(zipFile)
+    into outputDir
+}
+
+preBuild.dependsOn unzipDeps
+
+switch(OperatingSystem.current()) {
+    case OperatingSystem.LINUX:
+        task makeLocalization(type: Exec) {
+            workingDir './../..'
+            commandLine 'make', 'localization', 'LANGUAGES=all'
+        }
+
+        task makeLuaBindings(type: Exec) {
+            workingDir './jni/src/lua'
+            commandLine luaBinary, 'generate_bindings.lua'
+        }
+
+        preBuild.dependsOn makeLocalization
+        preBuild.dependsOn makeLuaBindings
+        break
+    case OperatingSystem.WINDOWS:
+        task makeLocalization(type: Exec) {
+            workingDir './../..'
+            commandLine 'sh.exe', 'android/app/makelocalizations.sh'
+        }
+
+        task makeLuaBindings(type: Exec) {
+            workingDir './../../src/lua'
+            commandLine luaBinary, 'generate_bindings.lua'
+        }
+        unzipDeps.dependsOn makeLocalization
+        preBuild.dependsOn makeLuaBindings
+        break
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "28.0.1"
+
+
+    if(OperatingSystem.current().isLinux()) {
+        exec {
+            workingDir './../..'
+            commandLine 'make', 'version'
+        }
+    }
+    if(OperatingSystem.current().isWindows()) {
+        exec {
+            workingDir './../..'
+            commandLine 'sh.exe', '-c', 'make version'
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 1
+        versionName new File('app/jni/src/version.h').text.split("\"")[1]
+        if (buildAsApplication) {
+            applicationId "com.cleverraven.cataclysmdda"
+            setProperty("archivesBaseName", "cataclysmdda-" + versionName)
+        }
+	ndk {
+		abiFilters "armeabi-v7a"
+        //abiFilters "x86" // use this for testing on emulators
+	}
+    externalNativeBuild {
+        ndkBuild {
+            arguments "APP_PLATFORM=android-16", "-j$njobs"
+        }
+    }
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        if( localProperties.getProperty('storeFile') != null ) {
+            if( file(localProperties.getProperty('storeFile')).exists() ) {
+                release {
+                    storeFile file(localProperties.getProperty("storeFile"))
+                    storePassword localProperties.getProperty("storePassword")
+                    keyAlias localProperties.getProperty("keyAlias")
+                    keyPassword localProperties.getProperty("keyPassword")
+                }
+            } else {
+                throw new GradleException("Keystore file " + localProperties.getProperty("storeFile") + " was not found.\n")
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if( signingConfigs.hasProperty("release") ) {
+                signingConfig signingConfigs.release
+            }
+            externalNativeBuild {
+                ndkBuild {
+                    cFlags "-DNDEBUG", "-DRELEASE", "-Os"
+                }
+            }
+        }
+        
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        
+            externalNativeBuild {
+                ndkBuild {
+
+                }
+            }
+        }
+    }
+    if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
+        sourceSets.main {
+            jniLibs.srcDir 'libs'
+        }
+        externalNativeBuild {
+            ndkBuild {
+                path 'jni/Android.mk'
+            }
+        }
+       
+    }
+    lintOptions {
+        abortOnError false
+    }
+    
+    if (buildAsLibrary) {
+        libraryVariants.all { variant ->
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith(".aar")) {
+                    def fileName = "com.cleverraven.cataclysmdda.aar";
+                    output.outputFile = new File(outputFile.parent, fileName);
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+}

@@ -1,18 +1,20 @@
 #include "projectile.h"
 
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
 #include "explosion.h"
 #include "field.h"
-#include "rng.h"
+#include "game.h"
 #include "item.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "rng.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
+
+projectile::projectile( projectile && ) = default;
 
 projectile::projectile( const projectile &other )
 {
@@ -133,7 +135,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         }
     }
 
-
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
         // @todo: double-check if this is sensible.
         g->explosion( p, 600 );
@@ -197,7 +198,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         }
     }
 }
-
 
 int aoe_size( const std::set<std::string> &tags )
 {

@@ -1,4 +1,4 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
 
 #include "coordinate_conversions.h"
 #include "overmap.h"
@@ -13,5 +13,5 @@ bool mission_place::near_town( const tripoint &pos_omt )
         return false; // no nearby city at all.
     }
     // distance was calculated in submap coordinates
-    return cref.distance / 2 - cref.city->s <= 40;
+    return cref.distance / 2 - cref.city->size <= 40;
 }

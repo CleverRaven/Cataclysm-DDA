@@ -1,52 +1,47 @@
 #include "construction.h"
 
+#include <algorithm>
+#include <sstream>
+
+#include "action.h"
+#include "cata_utility.h"
 #include "coordinate_conversions.h"
+#include "debug.h"
 #include "game.h"
+#include "input.h"
+#include "inventory.h"
+#include "item_group.h"
+#include "iuse.h"
+#include "json.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "debug.h"
-#include "input.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "player.h"
-#include "inventory.h"
-#include "mapdata.h"
+#include "requirements.h"
+#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "action.h"
+#include "string_input_popup.h"
 #include "translations.h"
-#include "messages.h"
-#include "json.h"
-#include "rng.h"
-#include "requirements.h"
 #include "trap.h"
-#include "overmapbuffer.h"
-#include "options.h"
-#include "npc.h"
-#include "iuse.h"
+#include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "item_group.h"
-#include "cata_utility.h"
-#include "uistate.h"
-#include "string_input_popup.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <map>
-#include <sstream>
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
-static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
+const trap_str_id tr_practice_target( "tr_practice_target" );
 
 // Construction functions.
 namespace construct
@@ -73,28 +68,28 @@ void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
-void done_extract_sand( const tripoint & );
-void done_extract_clay( const tripoint & );
+void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
+void done_mark_practice_target( const tripoint & );
 
 void failure_standard( const tripoint & );
-void failure_deconstruct(const tripoint & );
-};
+void failure_deconstruct( const tripoint & );
+}
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
 static bool can_construct( const construction &con );
 static bool player_can_build( player &p, const inventory &inv, const construction &con );
-static bool player_can_build( player &p, const inventory &pinv, const std::string &desc );
+static bool player_can_build( player &p, const inventory &inv, const std::string &desc );
 static void place_construction( const std::string &desc );
 
 std::vector<construction> constructions;
 
-// Color standarization for string streams
-static const std::string color_title = "<color_c_light_red>"; //color for titles
-static const std::string color_data = "<color_c_cyan>"; //color for data parts
+// Color standardization for string streams
+static const deferred_color color_title = def_c_light_red; //color for titles
+static const deferred_color color_data = def_c_cyan; //color for data parts
 
-void standardize_construction_times( int const time )
+void standardize_construction_times( const int time )
 {
     for( auto &c : constructions ) {
         c.time = time;
@@ -195,7 +190,7 @@ void construction_menu()
     }
 
     int w_height = TERMY;
-    if( ( int )available.size() + 2 < w_height ) {
+    if( static_cast<int>( available.size() ) + 2 < w_height ) {
         w_height = available.size() + 2;
     }
     if( w_height < FULL_SCREEN_HEIGHT ) {
@@ -211,7 +206,7 @@ void construction_menu()
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width,
-                                                    w_y0 + 3, w_x0 + w_list_x0 );
+                                w_y0 + 3, w_x0 + w_list_x0 );
 
     draw_grid( w_con, w_list_width + w_list_x0 );
 
@@ -231,7 +226,7 @@ void construction_menu()
     int select = 0;
     int offset = 0;
     bool exit = false;
-    std::string category_name = "";
+    std::string category_name;
     std::vector<std::string> constructs;
     //storage for the color text so it can be scrolled
     std::vector< std::vector < std::string > > construct_buffers;
@@ -304,10 +299,10 @@ void construction_menu()
                 constructs.clear();
                 previous_select = -1;
                 std::copy_if( available.begin(), available.end(),
-                    std::back_inserter( constructs ),
-                    [&](const std::string &a){
-                        return lcmatch(a, filter);
-                    } );
+                              std::back_inserter( constructs ),
+                [&]( const std::string & a ) {
+                    return lcmatch( _( a.c_str() ), filter );
+                } );
             } else {
                 constructs = cat_available[category_name];
                 previous_index = tabindex;
@@ -322,6 +317,7 @@ void construction_menu()
                 filter = uistate.construction_filter;
             }
         }
+        isnew = false;
         // Erase existing tab selection & list of constructions
         mvwhline( w_con, 1, 1, ' ', w_list_width );
         werase( w_list );
@@ -330,14 +326,14 @@ void construction_menu()
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        for( size_t i = 0; ( int )i < w_list_height && ( i + offset ) < constructs.size(); i++ ) {
+        for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
+             ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             std::string con_name = constructs[current];
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ),
-                            con_name );
+                            construction_color( con_name, highlight ), _( con_name.c_str() ) );
         }
 
         if( update_info ) {
@@ -360,23 +356,23 @@ void construction_menu()
                                             ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
 
             //leave room for top and bottom UI text
-            const int available_buffer_height = w_height - 3 - 3 - ( int )notes.size();
+            const int available_buffer_height = w_height - 3 - 3 - static_cast<int>( notes.size() );
 
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
-                trim_and_print( w_con, w_height - 1 - ( int )notes.size() + ( int )i, pos_x,
+                trim_and_print( w_con, w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ),
+                                pos_x,
                                 available_window_width, c_white, notes[i] );
             }
 
             if( !constructs.empty() ) {
                 nc_color color_stage = c_white;
-                if( select >= ( int ) constructs.size() ) {
+                if( select >= static_cast<int>( constructs.size() ) ) {
                     select = 0;
                 }
                 std::string current_desc = constructs[select];
                 // Print construction name
-                trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
-                                current_desc );
+                trim_and_print( w_con, 1, pos_x, available_window_width, c_white, _( current_desc.c_str() ) );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -423,37 +419,47 @@ void construction_menu()
                             } else {
                                 result_string = ter_str_id( current_con->post_terrain ).obj().name();
                             }
-                            current_line << color_title << result_string.c_str() << "</color>";
+                            current_line << colorize( result_string, color_title );
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
-                            
+
                             // display description of the result for multi-stages
                             current_line.str( "" );
-                            current_line << _( "Result: " ) << color_data;
+                            current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
-                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 furn_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             } else {
-                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 ter_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             }
-                            current_line << "</color>";
                             folded_result_string = foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
-                            
-                        // display description of the result for single stages
+
+                            // display description of the result for single stages
                         } else if( !current_con->post_terrain.empty() ) {
                             current_line.str( "" );
-                            current_line << _( "Result: " ) << color_data;
+                            current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
-                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 furn_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             } else {
-                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
+                                current_line << colorize(
+                                                 ter_str_id( current_con->post_terrain ).obj().description,
+                                                 color_data
+                                             );
                             }
-                            current_line << "</color>";
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
-                                available_window_width );
+                                    available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
@@ -464,9 +470,9 @@ void construction_menu()
                             current_line << _( "N/A" );
                         } else {
                             current_line << _( "Required skills: " ) <<
-                                enumerate_as_string( current_con->required_skills.begin(),
-                                                     current_con->required_skills.end(),
-                                                     []( const std::pair<skill_id, int> &skill ) {
+                                         enumerate_as_string( current_con->required_skills.begin(),
+                                                              current_con->required_skills.end(),
+                            []( const std::pair<skill_id, int> &skill ) {
                                 nc_color col;
                                 int s_lvl = g->u.get_skill_level( skill.first );
                                 if( s_lvl < skill.second ) {
@@ -480,7 +486,7 @@ void construction_menu()
                                 std::string color_s = "<color_" + string_from_color( col ) + ">";
                                 return string_format( "%s%s (%d)</color>", color_s.c_str(),
                                                       skill.first.obj().name().c_str(), skill.second );
-                            }, false );
+                            }, enumeration_conjunction::none );
                         }
 
                         current_buffer.push_back( current_line.str() );
@@ -495,17 +501,17 @@ void construction_menu()
                             } else {
                                 require_string = ter_str_id( current_con->pre_terrain ).obj().name();
                             }
-                            current_line << _( "Requires: " ) << color_data 
-                                << require_string.c_str() << "</color>";
+                            current_line << _( "Requires: " )
+                                         << colorize( require_string, color_data );
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
                         if( !current_con->pre_note.empty() ) {
-                            current_line.str( "" ); 
-                            current_line << _( "Annotation: " ) << color_data 
-                                << _( current_con->pre_note.c_str() ) << "</color>";
+                            current_line.str( "" );
+                            current_line << _( "Annotation: " )
+                                         << colorize( _( current_con->pre_note.c_str() ), color_data );
                             std::vector<std::string> folded_result_string =
                                 foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -558,7 +564,8 @@ void construction_menu()
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    trim_and_print( w_con, w_height - 2 - ( int )notes.size(), pos_x, available_window_width,
+                    trim_and_print( w_con, w_height - 2 - static_cast<int>( notes.size() ), pos_x,
+                                    available_window_width,
                                     c_white, _( "Press %s to show next stage(s)." ),
                                     ctxt.get_desc( "PAGE_DOWN" ).c_str() );
                 }
@@ -603,7 +610,7 @@ void construction_menu()
             uistate.construction_filter = filter;
         } else if( action == "DOWN" ) {
             update_info = true;
-            if( select < ( int )constructs.size() - 1 ) {
+            if( select < static_cast<int>( constructs.size() ) - 1 ) {
                 select++;
             } else {
                 select = 0;
@@ -656,7 +663,7 @@ void construction_menu()
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
-            if( constructs.empty() || select >= ( int ) constructs.size() ) {
+            if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
                 continue;// Nothing to be done here
             }
             if( player_can_build( g->u, total_inv, constructs[select] ) ) {
@@ -676,12 +683,12 @@ void construction_menu()
     g->refresh_all();
 }
 
-bool player_can_build( player &p, const inventory &pinv, const std::string &desc )
+bool player_can_build( player &p, const inventory &inv, const std::string &desc )
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
-        if( player_can_build( p, pinv, *con ) ) {
+        if( player_can_build( p, inv, *con ) ) {
             return true;
         }
     }
@@ -696,7 +703,7 @@ bool character_has_skill_for( const Character &c, const construction &con )
     } );
 }
 
-bool player_can_build( player &p, const inventory &pinv, const construction &con )
+bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -705,7 +712,7 @@ bool player_can_build( player &p, const inventory &pinv, const construction &con
     if( !character_has_skill_for( p, con ) ) {
         return false;
     }
-    return con.requirements->can_make_with_inventory( pinv );
+    return con.requirements->can_make_with_inventory( inv );
 }
 
 bool can_construct( const std::string &desc )
@@ -736,7 +743,7 @@ bool can_construct( const construction &con, const tripoint &p )
     }
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
-        [&p] ( const std::string &flag ) {
+    [&p]( const std::string & flag ) {
         return g->m.has_flag( flag, p );
     } );
 
@@ -784,19 +791,20 @@ void place_construction( const std::string &desc )
     }
     wrefresh( g->w_terrain );
 
-    tripoint dirp;
-    if( !choose_adjacent( _( "Construct where?" ), dirp ) ) {
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    if( !pnt_ ) {
+        return;
+    }
+    const tripoint pnt = *pnt_;
+
+    if( valid.find( pnt ) == valid.end() ) {
+        cons.front()->explain_failure( pnt );
         return;
     }
 
-    if( valid.find( dirp ) == valid.end() ) {
-        cons.front()->explain_failure( dirp );
-        return;
-    }
-
-    const construction &con = *valid.find( dirp )->second;
+    const construction &con = *valid.find( pnt )->second;
     g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
-    g->u.activity.placement = dirp;
+    g->u.activity.placement = pnt;
 }
 
 void complete_construction()
@@ -804,10 +812,10 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    const auto award_xp = [&]( player &c ) {
+    const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, ( int )( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
-                        ( int )( pr.second * 1.25 ) );
+            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
+                        static_cast<int>( pr.second * 1.25 ) );
         }
     };
 
@@ -842,7 +850,12 @@ void complete_construction()
         }
     }
 
-    add_msg( m_info, _( "You finish your construction: %s." ), built.description.c_str() );
+    // Spawn byproducts
+    if( built.byproduct_item_group ) {
+        g->m.spawn_items( u.pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
+    }
+
+    add_msg( m_info, _( "You finish your construction: %s." ), _( built.description.c_str() ) );
 
     // clear the activity
     u.activity.set_to_null();
@@ -862,11 +875,11 @@ bool construct::check_empty( const tripoint &p )
 inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
-        tripoint( p.x, p.y - 1, p.z ),
-        tripoint( p.x, p.y + 1, p.z ),
-        tripoint( p.x - 1, p.y, p.z ),
-        tripoint( p.x + 1, p.y, p.z )
-    }};
+            tripoint( p.x, p.y - 1, p.z ),
+            tripoint( p.x, p.y + 1, p.z ),
+            tripoint( p.x - 1, p.y, p.z ),
+            tripoint( p.x + 1, p.y, p.z )
+        }};
 }
 
 bool construct::check_support( const tripoint &p )
@@ -958,7 +971,7 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( 0, 0, vpart_from_item( g->u.lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( g->u.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1009,7 +1022,7 @@ void construct::done_deconstruct( const tripoint &p )
     }
 }
 
-void unroll_digging( int const numer_of_2x4s )
+void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
     item rope( "rope_30" );
@@ -1020,11 +1033,11 @@ void unroll_digging( int const numer_of_2x4s )
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
-    tripoint const abs_pos = g->m.getabs( p );
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    const tripoint abs_pos = g->m.getabs( p );
+    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
-    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
@@ -1075,8 +1088,8 @@ void construct::done_mine_downstair( const tripoint &p )
 
 void construct::done_mine_upstair( const tripoint &p )
 {
-    tripoint const abs_pos = p;
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    const tripoint abs_pos = p;
+    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
@@ -1125,26 +1138,30 @@ void construct::done_window_curtains( const tripoint & )
         _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
 
-void construct::done_extract_sand( const tripoint &p )
+void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
 {
-    g->m.spawn_item( g->u.pos(), "material_sand", 1, rng( 300, 600 ) );
     if( one_in( 10 ) ) {
         g->m.ter_set( p, t_dirt );
     }
-    g->u.add_msg_if_player( _( "You gather some sand." ) );
-}
-void construct::done_extract_clay( const tripoint &p )
-{
-    g->m.spawn_item( g->u.pos(), "clay_lump", rng( 6, 12 ) );
-    if( one_in( 10 ) ) {
-        g->m.ter_set( p, t_dirt );
+
+    if( g->m.ter( p ) == t_clay ) {
+        add_msg( _( "You gather some clay." ) );
+    } else if( g->m.ter( p ) == t_sand ) {
+        add_msg( _( "You gather some sand." ) );
+    } else {
+        // Fall through to an undefined material.
+        add_msg( _( "You gather some materials." ) );
     }
-    g->u.add_msg_if_player( _( "You gather some clay." ) );
 }
 
 void construct::done_mark_firewood( const tripoint &p )
 {
     g->m.trap_set( p, tr_firewood_source );
+}
+
+void construct::done_mark_practice_target( const tripoint &p )
+{
+    g->m.trap_set( p, tr_practice_target );
 }
 
 void construct::failure_standard( const tripoint & )
@@ -1172,14 +1189,14 @@ void assign_or_debugmsg( T &dest, const std::string &fun_id,
         } );
         debugmsg( "Unknown function: %s, available values are %s", fun_id.c_str(), list_available.c_str() );
     }
-};
+}
 
 void load_construction( JsonObject &jo )
 {
     construction con;
     con.id = constructions.size();
 
-    con.description = _( jo.get_string( "description" ).c_str() );
+    con.description = jo.get_string( "description" );
     if( jo.has_member( "required_skills" ) ) {
         auto sk = jo.get_array( "required_skills" );
         while( sk.has_more() ) {
@@ -1201,9 +1218,9 @@ void load_construction( JsonObject &jo )
         con.requirements = requirement_id( jo.get_string( "using" ) );
     } else {
         // Warning: the IDs may change!
-        std::string req_id = string_format( "inline_construction_%u", con.id );
+        const requirement_id req_id( string_format( "inline_construction_%u", con.id ) );
         requirement_data::load_requirement( jo, req_id );
-        con.requirements = requirement_id( req_id );
+        con.requirements = req_id;
     }
     con.pre_note = jo.get_string( "pre_note", "" );
     con.pre_terrain = jo.get_string( "pre_terrain", "" );
@@ -1226,6 +1243,11 @@ void load_construction( JsonObject &jo )
 
     con.pre_flags = jo.get_tags( "pre_flags" );
 
+    if( jo.has_member( "byproducts" ) ) {
+        JsonIn &stream = *jo.get_raw( "byproducts" );
+        con.byproduct_item_group = item_group::load_item_group( stream, "collection" );
+    }
+
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
@@ -1245,16 +1267,16 @@ void load_construction( JsonObject &jo )
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_window_curtains", construct::done_window_curtains },
-            { "done_extract_sand", construct::done_extract_sand },
-            { "done_extract_clay", construct::done_extract_clay },
-            { "done_mark_firewood", construct::done_mark_firewood }
+            { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
+            { "done_mark_firewood", construct::done_mark_firewood },
+            { "done_mark_practice_target", construct::done_mark_practice_target }
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;
-    if ( jo.has_string( "pre_special" ) && jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
+    if( jo.has_string( "pre_special" ) &&
+        jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
         explain_fail_map[""] = construct::failure_deconstruct;
-    }
-    else {
+    } else {
         explain_fail_map[""] = construct::failure_standard;
     }
 
@@ -1357,9 +1379,7 @@ int construction::adjusted_time() const
 std::string construction::get_time_string() const
 {
     const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
-    std::ostringstream time_text;
-    time_text << _( "Time to complete: " ) << color_data << to_string( turns ) << "</color>";
-    return time_text.str();
+    return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 
 std::vector<std::string> construction::get_folded_time_string( int width ) const
@@ -1391,8 +1411,8 @@ void finalize_constructions()
     }
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
-        [&]( const construction &c ) {
-            return c.requirements->is_blacklisted();
+    [&]( const construction & c ) {
+        return c.requirements->is_blacklisted();
     } ), constructions.end() );
 
     for( size_t i = 0; i < constructions.size(); i++ ) {

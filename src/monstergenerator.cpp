@@ -1,28 +1,28 @@
-#include "monstergenerator.h"
+#include "mattack_common.h" // IWYU pragma: associated
+#include "monstergenerator.h" // IWYU pragma: associated
+
+#include <algorithm>
 
 #include "catacharset.h"
 #include "color.h"
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
+#include "json.h"
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
-#include "json.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "material.h"
-#include "options.h"
-#include "harvest.h"
-
-#include <algorithm>
 
 extern bool test_mode;
 
@@ -102,6 +102,20 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
+m_size volume_to_size( const units::volume vol )
+{
+    if( vol <= 7500_ml ) {
+        return MS_TINY;
+    } else if( vol <= 46250_ml ) {
+        return MS_SMALL;
+    } else if( vol <= 77500_ml ) {
+        return MS_MEDIUM;
+    } else if( vol <= 483750_ml ) {
+        return MS_LARGE;
+    }
+    return MS_HUGE;
+}
+
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
@@ -110,6 +124,7 @@ void MonsterGenerator::finalize_mtypes()
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
+        mon.size = volume_to_size( mon.volume );
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
@@ -166,9 +181,8 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
-    m_flag nflag;
     for( std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag ) {
-        nflag = m_flag( *flag );
+        m_flag nflag = m_flag( *flag );
         mon.bitflags[nflag] = true;
     }
     monster_trigger ntrig;
@@ -224,6 +238,7 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_death()
 {
     death_map["NORMAL"] = &mdeath::normal;// Drop a body
+    death_map["SPLATTER"] = &mdeath::splatter;//Explodes in gibs and chunks
     death_map["ACID"] = &mdeath::acid;// Acid instead of a body
     death_map["BOOMER"] = &mdeath::boomer;// Explodes in vomit :3
     death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;// Explodes in glowing vomit :3
@@ -278,6 +293,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
     add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
     add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
+    add_hardcoded_attack( "SHOCKING_REVEAL", mattack::shocking_reveal );
     add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
     add_hardcoded_attack( "BOOMER", mattack::boomer );
     add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
@@ -290,6 +306,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SPIT_SAP", mattack::spit_sap );
     add_hardcoded_attack( "TRIFFID_HEARTBEAT", mattack::triffid_heartbeat );
     add_hardcoded_attack( "FUNGUS", mattack::fungus );
+    add_hardcoded_attack( "FUNGUS_CORPORATE", mattack::fungus_corporate );
     add_hardcoded_attack( "FUNGUS_HAZE", mattack::fungus_haze );
     add_hardcoded_attack( "FUNGUS_BIG_BLOSSOM", mattack::fungus_big_blossom );
     add_hardcoded_attack( "FUNGUS_INJECT", mattack::fungus_inject );
@@ -342,6 +359,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RANGED_PULL", mattack::ranged_pull );
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
+    add_hardcoded_attack( "DOOT", mattack::doot );
 }
 
 void MonsterGenerator::init_defense()
@@ -363,6 +381,10 @@ void MonsterGenerator::init_trigger()
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
     trigger_map["FRIEND_ATTACKED"] = MTRIG_FRIEND_ATTACKED;// // A monster of the same type attacked
     trigger_map["SOUND"] = MTRIG_SOUND;//  // Heard a sound
+    trigger_map["PLAYER_NEAR_BABY"] =
+        MTRIG_PLAYER_NEAR_BABY; // // Player/npc is near a baby monster of this type
+    trigger_map["MATING_SEASON"] =
+        MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
 }
 
 void MonsterGenerator::init_flags()
@@ -402,6 +424,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
+    flag_map["SHORTACIDTRAIL"] = MF_SHORTACIDTRAIL;
     flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
@@ -440,6 +463,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
+    flag_map["FILTHY"] = MF_FILTHY;
     flag_map["SWARMS"] = MF_SWARMS;
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
@@ -457,8 +481,11 @@ void MonsterGenerator::init_flags()
     flag_map["BIRDFOOD"] = MF_BIRDFOOD;
     flag_map["DOGFOOD"] = MF_DOGFOOD;
     flag_map["MILKABLE"] = MF_MILKABLE;
+    flag_map["NO_BREED"] = MF_NO_BREED;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
+    flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
+    flag_map["LOUDMOVES"] = MF_LOUDMOVES;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -540,12 +567,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "color", color );
-    const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
-    optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
+    assign( jo, "volume", volume, strict, 0_ml );
+    assign( jo, "weight", weight, strict, 0_gram );
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
-    assign( jo, "diff", difficulty, strict, 0 );
+    assign( jo, "diff", difficulty_base, strict, 0 );
     assign( jo, "hp", hp, strict, 1 );
     assign( jo, "speed", speed, strict, 0 );
     assign( jo, "aggression", agro, strict, -100, 100 );
@@ -566,7 +593,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
-
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
@@ -580,8 +606,9 @@ void mtype::load( JsonObject &jo, const std::string &src )
         melee_damage = load_damage_instance( jo );
     }
 
+    int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
-        int bonus_cut = jo.get_int( "melee_cut" );
+        bonus_cut = jo.get_int( "melee_cut" );
         melee_damage.add_damage( DT_CUT, bonus_cut );
     }
 
@@ -657,14 +684,16 @@ void mtype::load( JsonObject &jo, const std::string &src )
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
                   "null" );
-        if( jo.has_member( "baby_flags" ) ) {
-            baby_flags.clear();
-            JsonArray baby_tags = jo.get_array( "baby_flags" );
-            while( baby_tags.has_more() ) {
-                baby_flags.push_back( baby_tags.next_string() );
-            }
-        }
         reproduces = true;
+    }
+
+    if( jo.has_member( "baby_flags" ) ) {
+        // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
+        baby_flags.clear();
+        JsonArray baby_tags = jo.get_array( "baby_flags" );
+        while( baby_tags.has_more() ) {
+            baby_flags.push_back( baby_tags.next_string() );
+        }
     }
 
     if( jo.has_member( "biosignature" ) ) {
@@ -698,6 +727,11 @@ void mtype::load( JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
     }
+    difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
+                 ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
+                 ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
+    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) / 10 ) * 0.01 +
+                  ( vision_day + 2 * vision_night ) * 0.01;
 }
 
 void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
@@ -755,7 +789,6 @@ class mattack_hardcoded_wrapper : public mattack_actor
 
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
     : mtype_special_attack( new mattack_hardcoded_wrapper( id, f ) ) {}
-
 
 void MonsterGenerator::add_hardcoded_attack( const std::string &type, const mon_action_attack f )
 {
@@ -922,6 +955,9 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
+        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+            debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
+        }
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );

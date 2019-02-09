@@ -1,11 +1,15 @@
 #include "mtype.h"
-#include "creature.h"
-#include "translations.h"
-#include "monstergenerator.h"
-#include "mondeath.h"
-#include "field.h"
 
 #include <algorithm>
+#include <cmath>
+
+#include "creature.h"
+#include "field.h"
+#include "item.h"
+#include "itype.h"
+#include "mondeath.h"
+#include "monstergenerator.h"
+#include "translations.h"
 
 const species_id MOLLUSK( "MOLLUSK" );
 
@@ -17,6 +21,8 @@ mtype::mtype()
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
+    volume = 62499_ml;
+    weight = 81499_gram;
     mat = { material_id( "flesh" ) };
     phase = SOLID;
     def_chance = 0;
@@ -81,19 +87,30 @@ bool mtype::made_of( const material_id &material ) const
     return std::find( mat.begin(), mat.end(),  material ) != mat.end();
 }
 
-bool mtype::has_anger_trigger( monster_trigger trig ) const
+bool mtype::made_of_any( const std::set<material_id> &materials ) const
 {
-    return bitanger[trig];
+    if( mat.empty() ) {
+        return false;
+    }
+
+    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
+        return materials.count( e );
+    } );
 }
 
-bool mtype::has_fear_trigger( monster_trigger trig ) const
+bool mtype::has_anger_trigger( monster_trigger trigger ) const
 {
-    return bitfear[trig];
+    return bitanger[trigger];
 }
 
-bool mtype::has_placate_trigger( monster_trigger trig ) const
+bool mtype::has_fear_trigger( monster_trigger trigger ) const
 {
-    return bitplacate[trig];
+    return bitfear[trigger];
+}
+
+bool mtype::has_placate_trigger( monster_trigger trigger ) const
+{
+    return bitplacate[trigger];
 }
 
 bool mtype::in_category( const std::string &category ) const
@@ -200,19 +217,9 @@ itype_id mtype::get_meat_itype() const
 
 int mtype::get_meat_chunks_count() const
 {
-    switch( size ) {
-        case MS_TINY:
-            return 1;
-        case MS_SMALL:
-            return 16;
-        case MS_MEDIUM:
-            return 32;
-        case MS_LARGE:
-            return 48;
-        case MS_HUGE:
-            return 80;
-    }
-    return 0;
+    float ch = to_gram( weight ) * ( 0.40f - 0.02f * log10f( to_gram( weight ) ) );
+    const itype *chunk = item::find_type( get_meat_itype() );
+    return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
 
 std::string mtype::get_description() const

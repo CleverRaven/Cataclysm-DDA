@@ -6,6 +6,7 @@
     "authors": [ "Spencer Michaels" ],
     "description": "Add an NPC class that spawns with starting traits, like the player does.",
     "category": "misc_additions",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

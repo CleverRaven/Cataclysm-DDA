@@ -2,11 +2,16 @@
 #ifndef ACTION_H
 #define ACTION_H
 
-#include <vector>
 #include <map>
-#include <string>
 #include <set>
+#include <string>
+#include <vector>
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 struct tripoint;
 
 /**
@@ -54,8 +59,10 @@ enum action_id : int {
     ACTION_TOGGLE_MOVE,
     /**@}*/
 
-    // Viewport movement actions
+    // Viewport movement actions and related
     /**@{*/
+    /** Toggle memorized tiles being shown */
+    ACTION_TOGGLE_MAP_MEMORY,
     /** Center the viewport on character */
     ACTION_CENTER,
     /** Move viewport north */
@@ -90,6 +97,8 @@ enum action_id : int {
     ACTION_PICKUP,
     /** Grab or let go of an object */
     ACTION_GRAB,
+    /** Haul pile of items, or let go of them */
+    ACTION_HAUL,
     /** Butcher or disassemble objects in current square */
     ACTION_BUTCHER,
     /** Chat with something */
@@ -102,6 +111,8 @@ enum action_id : int {
     ACTION_LIST_ITEMS,
     /** Open the zone manager */
     ACTION_ZONES,
+    /** Sort out the loot */
+    ACTION_LOOT,
     /**@}*/
 
     // Inventory Interaction (including quasi-inventories like bionics)
@@ -250,8 +261,16 @@ enum action_id : int {
     ACTION_ITEMACTION,
     /** Turn pixel minimap on/off */
     ACTION_TOGGLE_PIXEL_MINIMAP,
-    /** Turn auto pulp or butcher on/off */
+    /** Reload current tileset */
+    ACTION_RELOAD_TILESET,
+    /** Turn auto features on/off */
+    ACTION_TOGGLE_AUTO_FEATURES,
+    /** Change auto pulp/butcher mode */
     ACTION_TOGGLE_AUTO_PULP_BUTCHER,
+    /** Turn auto mining on/off */
+    ACTION_TOGGLE_AUTO_MINING,
+    /** Turn auto foraging on/off */
+    ACTION_TOGGLE_AUTO_FORAGING,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/
@@ -356,15 +375,9 @@ action_id action_from_key( char ch );
  * an examine or directional item drop.  This version of the function assumes that the requested
  * tile will be on the player's current z-level.
  *
- * Note: If this function returns 'false' to indicate an invalid choice, then the x/y parameters
- * will both be set to "-2".  Using these values anyway may result in strange behavior.
- *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[out] x X coordinate of requested tile
- * @param[out] y Y coordinate of requested tile
- * @returns true if player input was valid, otherwise returns false
  */
-bool choose_adjacent( const std::string &message, int &x, int &y );
+cata::optional<tripoint> choose_adjacent( const std::string &message );
 
 /**
  * Request player input of adjacent tile, possibly including vertical tiles
@@ -373,16 +386,10 @@ bool choose_adjacent( const std::string &message, int &x, int &y );
  * an examine or directional item drop.  This version of the function supports selection of tiles
  * above and below the player if an appropriate flag is set.
  *
- * Note: If this function returns 'false' to indicate an invalid choice, then the x/y components
- * of the tripoint will both be set to "-2", and the z-component will be left as the (possibly not
- * initialized) value that was passed in.  Using these values anyway may result in strange behavior.
- *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[out] p The tripoint of the selected tile
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
- * @returns true if player input was valid, otherwise returns false
  */
-bool choose_adjacent( const std::string &message, tripoint &p, bool allow_vertical = false );
+cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical );
 
 /**
  * Request player input of a direction on current z-level
@@ -392,15 +399,9 @@ bool choose_adjacent( const std::string &message, tripoint &p, bool allow_vertic
  * coordinate of a tile. This version of the function assumes the requested z-level is the same
  * as the player's current z-level.
  *
- * Note: If this function returns 'false' to indicate an invalid choice, then the x/y parameters
- * will both be set to "-2".  Using these values anyway may result in strange behavior.
- *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[out] x X offset from player position requested tile, either -1, 0, or 1
- * @param[out] y Y offset from player position requested tile, either -1, 0, or 1
- * @returns true if player input was valid, otherwise returns false
  */
-bool choose_direction( const std::string &message, int &x, int &y );
+cata::optional<tripoint> choose_direction( const std::string &message );
 
 /**
  * Request player input of adjacent tile on current z-level with highlighting
@@ -412,17 +413,11 @@ bool choose_direction( const std::string &message, int &x, int &y );
  * This function is identical to @ref choose_adjacent except that squares are highlighted for
  * the player to indicate valid squares for a given @ref action_id
  *
- * Note: If this function returns 'false' to indicate an invalid choice, then the x/y parameters
- * will both be set to "-2".  Using these values anyway may result in strange behavior.
- *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[out] x X coordinate of requested tile
- * @param[out] y Y coordinate of requested tile
  * @param[in] action_to_highlight An action ID to drive the highlighting output
- * @returns true if player input was valid, otherwise returns false
  */
-bool choose_adjacent_highlight( const std::string &message, int &x, int &y,
-                                action_id action_to_highlight );
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        action_id action_to_highlight );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -432,16 +427,10 @@ bool choose_adjacent_highlight( const std::string &message, int &x, int &y,
  * coordinate of a tile.  This version of the function allows selection of the tile above and below
  * the player if the appropriate flag is set.
  *
- * Note: If this function returns 'false' to indicate an invalid choice, then the x/y components
- * of the tripoint will both be set to "-2", and the z-component will be left as the (possibly not
- * initialized) value that was passed in.  Using these values anyway may result in strange behavior.
- *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[out] offset The tripoint containing offsets from player position to the selected tile
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
- * @returns true if player input was valid, otherwise returns false
  */
-bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical = false );
+cata::optional<tripoint> choose_direction( const std::string &message, bool allow_vertical );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -453,17 +442,11 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
  * This function is identical to @ref choose_adjacent except that squares are highlighted for
  * the player to indicate valid squares for a given @ref action_id
  *
- * Note: If this function returns 'false' to indicate an invalid choice, then the x/y components
- * of the tripoint will both be set to "-2", and the z-component will be left as the (possibly not
- * initialized) value that was passed in.  Using these values anyway may result in strange behavior.
- *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[out] p The tripoint of the selected tile.
  * @param[in] action_to_highlight An action ID to drive the highlighting output
- * @returns true if player input was valid, otherwise returns false
  */
-bool choose_adjacent_highlight( const std::string &message, tripoint &p,
-                                action_id action_to_highlight );
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        action_id action_to_highlight, bool allow_vertical );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );

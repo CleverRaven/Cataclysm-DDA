@@ -124,6 +124,22 @@
     ]
   },
   {
+    "result": "faux_fur_cat_ears",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "faux_fur", 2 ] ],
+      [ [ "plastic_chunk", 3 ] ]
+    ]
+  },
+  {
     "result": "glasses_safety",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -247,6 +263,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
     "components": [ [ [ "fur", 3 ] ] ]
+  },
+  {
+    "result": "hat_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 40000,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "recipe_fauxfur", 1 ] ],
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "faux_fur", 3 ] ] ]
   },
   {
     "result": "hat_hard",
@@ -1345,5 +1373,20 @@
       [ [ "wire", 1 ] ],
       [ [ "fur", 4 ], [ "leather", 4 ] ]
     ]
+  },
+  {
+    "result": "pot_xlhelmet",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "pot_canning", 1 ] ]
+    ],
+    "flags": [ "BLIND_HARD" ]
   }
 ]

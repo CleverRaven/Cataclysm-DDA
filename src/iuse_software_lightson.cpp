@@ -1,16 +1,15 @@
 #include "iuse_software_lightson.h"
 
-#include "output.h"
-#include "ui.h"
-#include "rng.h"
-#include "input.h"
-#include "cursesdef.h"
-#include "translations.h"
-
+#include <algorithm>
 #include <string>
 #include <vector>
-#include <map>
-#include <algorithm>
+
+#include "cursesdef.h"
+#include "input.h"
+#include "output.h"
+#include "rng.h"
+#include "translations.h"
+#include "ui.h"
 
 void lightson_game::new_level()
 {
@@ -153,8 +152,6 @@ int lightson_game::start_game()
 
     wrefresh( w_border );
 
-    int iDirY = 0;
-    int iDirX = 0;
     win = true;
     int hasWon = 0;
 
@@ -164,9 +161,9 @@ int lightson_game::start_game()
             draw_level();
         }
         std::string action = ctxt.handle_input();
-        if( ctxt.get_direction( iDirX, iDirY, action ) ) {
-            position.first = std::min( std::max( position.first + iDirY, 0 ), level_size.first - 1 );
-            position.second = std::min( std::max( position.second + iDirX, 0 ), level_size.second - 1 );
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            position.first = std::min( std::max( position.first + vec->y, 0 ), level_size.first - 1 );
+            position.second = std::min( std::max( position.second + vec->y, 0 ), level_size.second - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {
             toggle_lights();
             win = check_win();

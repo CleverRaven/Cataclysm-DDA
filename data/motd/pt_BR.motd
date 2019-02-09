@@ -1,6 +1,6 @@
-# Essa mensagem deve ter no máximo 21 linhas, mas quanto menos, melhor.
-# Máximo de 72 caracteres por linha; a linha seguinte é para referência.
-########################################################################
+# Máximo de 78 caracteres por linha; a linha seguinte é para referência.
+# Longer lines will be automatically folded
+##############################################################################
 Principais aspectos em "V0.C Cooper":
 * Lutas entre monstros.
 * Melhoria no sistema de mira.

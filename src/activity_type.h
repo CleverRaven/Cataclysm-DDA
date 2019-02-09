@@ -4,8 +4,6 @@
 
 #include "string_id.h"
 
-#include <map>
-
 class activity_type;
 class JsonObject;
 class player;

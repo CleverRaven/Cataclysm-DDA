@@ -1,16 +1,20 @@
+#include "translations.h"
+
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
-#include <stdlib.h>
+#include <cstdlib>
+
 #define __STRICT_ANSI__
 #endif
 
-#include "translations.h"
-#include "path_info.h"
-#include "name.h"
-
-#include <string>
-#include <set>
 #include <algorithm>
+#include <set>
+#include <string>
+
+#include "cata_utility.h"
+#include "json.h"
+#include "name.h"
+#include "path_info.h"
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -22,7 +26,8 @@ static void reload_names()
 }
 
 #ifdef LOCALIZE
-#include <stdlib.h> // for getenv()/setenv()/putenv()
+#include <cstdlib> // for getenv()/setenv()/putenv()
+
 #include "options.h"
 #include "debug.h"
 #include "ui.h"
@@ -48,7 +53,11 @@ const char *pgettext( const char *context, const char *msgid )
     context_id += msgid;
     // null domain, uses global translation domain
     const char *msg_ctxt_id = context_id.c_str();
+#ifdef __ANDROID__
+    const char *translation = gettext( msg_ctxt_id );
+#else
     const char *translation = dcgettext( NULL, msg_ctxt_id, LC_MESSAGES );
+#endif
     if( translation == msg_ctxt_id ) {
         return msgid;
     } else {
@@ -61,7 +70,11 @@ const char *npgettext( const char *const context, const char *const msgid,
 {
     const std::string context_id = std::string( context ) + '\004' + msgid;
     const char *const msg_ctxt_id = context_id.c_str();
+#ifdef __ANDROID__
+    const char *const translation = ngettext( msg_ctxt_id, msgid_plural, n );
+#else
     const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
+#endif
     if( translation == msg_ctxt_id ) {
         return n == 1 ? msgid : msgid_plural;
     } else {
@@ -73,7 +86,7 @@ bool isValidLanguage( const std::string &lang )
 {
     const auto languages = get_options().get_option( "USE_LANG" ).getItems();
     return std::find_if( languages.begin(),
-    languages.end(), [&lang]( const std::pair<std::string, std::string> &pair ) {
+    languages.end(), [&lang]( const options_manager::id_and_option & pair ) {
         return pair.first == lang || pair.first == lang.substr( 0, pair.first.length() );
     } ) != languages.end();
 }
@@ -115,17 +128,17 @@ void select_language()
     auto languages = get_options().get_option( "USE_LANG" ).getItems();
 
     languages.erase( std::remove_if( languages.begin(),
-    languages.end(), []( const std::pair<std::string, std::string> &lang ) {
+    languages.end(), []( const options_manager::id_and_option & lang ) {
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 
     wrefresh( catacurses::stdscr );
 
-    uimenu sm;
-    sm.selected = 0;
+    uilist sm;
+    sm.allow_cancel = false;
     sm.text = _( "Select your language" );
     for( size_t i = 0; i < languages.size(); i++ ) {
-        sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second );
+        sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second.translated() );
     }
     sm.query();
 
@@ -135,7 +148,7 @@ void select_language()
 
 void set_language()
 {
-    std::string win_or_mac_lang = "";
+    std::string win_or_mac_lang;
 #if (defined _WIN32 || defined WINDOWS)
     win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
 #endif
@@ -176,7 +189,13 @@ void set_language()
 
     // Step 2. Bind to gettext domain.
     std::string locale_dir;
-#if (defined __linux__ || (defined MACOSX && !defined TILES))
+#if defined __ANDROID__
+    // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
+    // This is because of our hacky libintl-lite bindtextdomain() implementation.
+    auto env = getenv( "LANGUAGE" );
+    locale_dir = std::string( FILENAMES["base_path"] + "lang/mo/" + ( env ? env : "none" ) +
+                              "/LC_MESSAGES/cataclysm-dda.mo" );
+#elif (defined __linux__ || (defined MACOSX && !defined TILES))
     if( !FILENAMES["base_path"].empty() ) {
         locale_dir = FILENAMES["base_path"] + "share/locale";
     } else {
@@ -184,7 +203,7 @@ void set_language()
     }
 #else
     locale_dir = "lang/mo";
-#endif // __linux__
+#endif
 
     const char *locale_dir_char = locale_dir.c_str();
     bindtextdomain( "cataclysm-dda", locale_dir_char );
@@ -195,11 +214,6 @@ void set_language()
 }
 
 #if (defined MACOSX)
-bool string_starts_with( std::string s, std::string prefix )
-{
-    return s.compare( 0, prefix.length(), prefix ) == 0;
-}
-
 std::string getOSXSystemLang()
 {
     // Get the user's language list (in order of preference)
@@ -262,3 +276,82 @@ void set_language()
 }
 
 #endif // LOCALIZE
+
+translation::translation()
+    : ctxt( cata::nullopt )
+{
+}
+
+translation::translation( const std::string &ctxt, const std::string &raw )
+    : ctxt( ctxt ), raw( raw ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &raw )
+    : ctxt( cata::nullopt ), raw( raw ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &str, const no_translation_tag )
+    : ctxt( cata::nullopt ), raw( str )
+{
+}
+
+translation translation::no_translation( const std::string &str )
+{
+    return { str, no_translation_tag() };
+}
+
+void translation::deserialize( JsonIn &jsin )
+{
+    if( jsin.test_string() ) {
+        ctxt = cata::nullopt;
+        raw = jsin.get_string();
+        needs_translation = true;
+    } else {
+        JsonObject jsobj = jsin.get_object();
+        if( jsobj.has_string( "ctxt" ) ) {
+            ctxt = jsobj.get_string( "ctxt" );
+        } else {
+            ctxt = cata::nullopt;
+        }
+        raw = jsobj.get_string( "str" );
+        needs_translation = true;
+    }
+}
+
+std::string translation::translated() const
+{
+    if( !needs_translation || raw.empty() ) {
+        return raw;
+    } else if( !ctxt ) {
+        return _( raw.c_str() );
+    } else {
+        return pgettext( ctxt->c_str(), raw.c_str() );
+    }
+}
+
+bool translation::empty() const
+{
+    return raw.empty();
+}
+
+bool translation::operator<( const translation &that ) const
+{
+    return translated() < that.translated();
+}
+
+bool translation::operator==( const translation &that ) const
+{
+    return translated() == that.translated();
+}
+
+bool translation::operator!=( const translation &that ) const
+{
+    return !operator==( that );
+}
+
+translation no_translation( const std::string &str )
+{
+    return translation::no_translation( str );
+}

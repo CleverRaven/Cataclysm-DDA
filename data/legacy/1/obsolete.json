@@ -88,7 +88,7 @@
     "container" : "jug_plastic",
     "flags" : "TRADER_AVOID",
     "symbol" : "~",
-    "nutrition" : 2,
+    "calories" : 17,
     "quench" : 6,
     "fun" : -15,
     "price" : 0,

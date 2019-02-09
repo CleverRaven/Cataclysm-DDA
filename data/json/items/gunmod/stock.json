@@ -15,7 +15,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
-    "dispersion_modifier": -30,
+    "dispersion_modifier": -1,
     "handling_modifier": 1
   },
   {
@@ -86,7 +86,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "rifle" ],
-    "dispersion_modifier": -10,
+    "dispersion_modifier": -1,
     "handling_modifier": 2,
     "min_skills": [ [ "weapon", 2 ] ]
   }

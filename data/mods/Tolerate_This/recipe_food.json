@@ -79,7 +79,7 @@
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_vac", 1 ],
+        [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -136,7 +136,7 @@
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_vac", 1 ],
+        [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -439,6 +439,7 @@
     "time": 45000,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "barley", 2 ], [ "oats", 2 ] ] ]
   },
@@ -779,7 +780,7 @@
       [
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
-        [ "veggy_vac", 2 ],
+        [ "veggy_salted", 2 ],
         [ "celery", 2 ],
         [ "irradiated_celery", 2 ],
         [ "cabbage", 2 ],
@@ -840,13 +841,13 @@
         [ "meat", 2 ],
         [ "meat_canned", 2 ],
         [ "can_chicken", 2 ],
-        [ "meat_vac", 2 ],
+        [ "meat_salted", 2 ],
         [ "rehydrated_meat", 2 ],
         [ "dry_meat", 2 ],
         [ "fish", 3 ],
         [ "fish_canned", 3 ],
         [ "can_tuna", 3 ],
-        [ "fish_vac", 3 ],
+        [ "salted_fish", 3 ],
         [ "rehydrated_fish", 3 ],
         [ "dry_fish", 3 ]
       ],
@@ -1116,7 +1117,7 @@
         [ "bologna", 5 ],
         [ "fish_cooked", 1 ],
         [ "bacon", 2 ],
-        [ "meat_vac", 2 ],
+        [ "meat_salted", 2 ],
         [ "fried_spam", 2 ],
         [ "rehydrated_meat", 2 ],
         [ "fish_smoked", 1 ],
@@ -1140,7 +1141,7 @@
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_vac", 1 ],
+        [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -1208,7 +1209,7 @@
         [ "bologna", 5 ],
         [ "fish_cooked", 1 ],
         [ "bacon", 2 ],
-        [ "meat_vac", 2 ],
+        [ "meat_salted", 2 ],
         [ "fried_spam", 2 ],
         [ "rehydrated_meat", 2 ],
         [ "fish_smoked", 1 ],
@@ -1232,7 +1233,7 @@
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_vac", 1 ],
+        [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -1653,6 +1654,7 @@
     "time": 45000,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "dry_rice", 6 ] ] ]
   },
@@ -1694,6 +1696,7 @@
     "time": 45000,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "barley", 2 ] ] ]
   },
@@ -1721,6 +1724,7 @@
     "time": 45000,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "buckwheat", 2 ], [ "acorns_cooked", 2 ], [ "oats", 2 ], [ "starch", 2 ] ] ]
   }

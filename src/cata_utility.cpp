@@ -1,26 +1,41 @@
 #include "cata_utility.h"
 
-#include "options.h"
-#include "material.h"
-#include "enums.h"
-#include "creature.h"
-#include "translations.h"
-#include "debug.h"
-#include "mapsharing.h"
-#include "output.h"
-#include "json.h"
-#include "filesystem.h"
-#include "rng.h"
-#include "units.h"
-
 #include <algorithm>
 #include <cmath>
-#include <string>
 #include <locale>
+#include <string>
+
+#include "debug.h"
+#include "enums.h"
+#include "filesystem.h"
+#include "json.h"
+#include "mapsharing.h"
+#include "material.h"
+#include "options.h"
+#include "output.h"
+#include "rng.h"
+#include "translations.h"
+#include "units.h"
+
+static double pow10( unsigned int n )
+{
+    double ret = 1;
+    double tmp = 10;
+    while( n ) {
+        if( n & 1 ) {
+            ret *= tmp;
+        }
+        tmp *= tmp;
+        n >>= 1;
+    }
+    return ret;
+}
 
 double round_up( double val, unsigned int dp )
 {
-    const double denominator = std::pow( 10.0, double( dp ) );
+    // Some implementations of std::pow does not return the accurate result even
+    // for small powers of 10, so we use a specialized routine to calculate them.
+    const double denominator = pow10( dp );
     return std::ceil( denominator * val ) / denominator;
 }
 
@@ -52,7 +67,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
     }
 
     do {
-        iPos = filter.find( "," );
+        iPos = filter.find( ',' );
 
         std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
         const bool exclude = term.substr( 0, 1 ) == "-";
@@ -74,12 +89,6 @@ bool match_include_exclude( const std::string &text, std::string filter )
     } while( iPos != std::string::npos );
 
     return found;
-}
-
-bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
-                                   const std::pair<int, tripoint> &b ) const
-{
-    return a.first > b.first;
 }
 
 // --- Library functions ---
@@ -139,6 +148,9 @@ const char *velocity_units( const units_type vel_units )
 {
     if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
+    } else if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "t/t" ) {
+        //~ vehicle speed tiles per turn
+        return _( "t/t" );
     } else {
         switch( vel_units ) {
             case VU_VEHICLE:
@@ -181,10 +193,11 @@ const char *volume_units_long()
 
 double convert_velocity( int velocity, const units_type vel_units )
 {
+    const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     // internal units to mph conversion
     double ret = double( velocity ) / 100;
 
-    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
+    if( type == "km/h" ) {
         switch( vel_units ) {
             case VU_VEHICLE:
                 // mph to km/h conversion
@@ -195,7 +208,10 @@ double convert_velocity( int velocity, const units_type vel_units )
                 ret *= 0.447f;
                 break;
         }
+    } else if( type == "t/t" ) {
+        ret /= 4;
     }
+
     return ret;
 }
 
@@ -212,7 +228,7 @@ double convert_weight( const units::mass &weight )
 
 double convert_volume( int volume )
 {
-    return convert_volume( volume, NULL );
+    return convert_volume( volume, nullptr );
 }
 
 double convert_volume( int volume, int *out_scale )
@@ -230,7 +246,7 @@ double convert_volume( int volume, int *out_scale )
         ret *= 0.00105669;
         scale = 2;
     }
-    if( out_scale != NULL ) {
+    if( out_scale != nullptr ) {
         *out_scale = scale;
     }
     return ret;
@@ -241,14 +257,19 @@ double temp_to_celsius( double fahrenheit )
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
 }
 
+double temp_to_kelvin( double fahrenheit )
+{
+    return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
 double clamp_to_width( double value, int width, int &scale )
 {
-    return clamp_to_width( value, width, scale, NULL );
+    return clamp_to_width( value, width, scale, nullptr );
 }
 
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
 {
-    if( out_truncated != NULL ) {
+    if( out_truncated != nullptr ) {
         *out_truncated = false;
     }
     if( value >= std::pow( 10.0, width ) ) {
@@ -257,7 +278,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
         // flag as truncated
         value = std::pow( 10.0, width ) - 1.0;
         scale = 0;
-        if( out_truncated != NULL ) {
+        if( out_truncated != nullptr ) {
             *out_truncated = true;
         }
     } else if( scale > 0 ) {
@@ -393,7 +414,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
                 }
                 return ins;
             default:
-                str += ( char )c;
+                str += static_cast<char>( c );
         }
     }
 }
@@ -508,4 +529,15 @@ void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const
     std::istringstream buffer( data );
     JsonIn jsin( buffer );
     callback( jsin );
+}
+
+bool string_starts_with( const std::string &s1, const std::string &s2 )
+{
+    return s1.compare( 0, s2.size(), s2 ) == 0;
+}
+
+bool string_ends_with( const std::string &s1, const std::string &s2 )
+{
+    return s1.size() >= s2.size() &&
+           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
 }

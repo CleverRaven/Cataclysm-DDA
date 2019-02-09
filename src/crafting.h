@@ -3,7 +3,6 @@
 #define CRAFTING_H
 
 #include <list>
-#include <vector>
 
 class item;
 class inventory;
@@ -18,10 +17,5 @@ void remove_ammo( item &dis_item, player &p );
 void remove_ammo( std::list<item> &dis_items, player &p );
 
 const recipe *select_crafting_recipe( int &batch_size );
-
-void set_item_spoilage( item &newit, float used_age_tally, int used_age_count );
-void set_item_food( item &newit );
-void set_item_inventory( item &newit );
-void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count );
 
 #endif

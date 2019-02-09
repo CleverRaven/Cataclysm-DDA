@@ -49,5 +49,25 @@
     "size": 1000,
     "breaks_into": [  ],
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
+  },
+  {
+    "id": "bike_rack",
+    "type": "vehicle_part",
+    "name": "bike rack",
+    "item": "bike_rack",
+    "location": "anywhere",
+    "symbol": "=",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "difficulty": 1,
+    "durability": 150,
+    "description": "A collection of pipes and frames for supporting a bike or other small vehicle and carrying it on your vehicle.  Move a single tile wide vehicle so that all of that vehicle's tiles are next to bike racks, and then 'e'xamine any bike rack to mount that vehicle onto the bike rack.  'e'xamine the bike rack to unmount the carried vehicle.",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 8 ] },
+      { "item": "steel_chunk", "count": [ 6, 8 ] },
+      { "item": "scrap", "count": [ 6, 8 ] }
+    ],
+    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE", "TOOL_WRENCH" ]
   }
 ]

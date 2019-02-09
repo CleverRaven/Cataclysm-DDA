@@ -3,6 +3,7 @@
 #define MATTACK_COMMON_H
 
 #include <memory>
+#include <string>
 
 class JsonObject;
 class monster;
@@ -39,9 +40,9 @@ struct mtype_special_attack {
 
     public:
         mtype_special_attack( const mattack_id &id, mon_action_attack f );
-        mtype_special_attack( mattack_actor *f ) : actor( f ) { };
+        mtype_special_attack( mattack_actor *f ) : actor( f ) { }
         mtype_special_attack( const mtype_special_attack &other ) :
-            mtype_special_attack( other.actor->clone() ) { };
+            mtype_special_attack( other.actor->clone() ) { }
 
         ~mtype_special_attack() = default;
 

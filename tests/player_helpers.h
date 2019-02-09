@@ -4,7 +4,10 @@
 
 #include <string>
 
-int get_remaining_charges( std::string tool_id );
+struct itype;
+
+int get_remaining_charges( const std::string &tool_id );
+bool player_has_item_of_type( const std::string & );
 void clear_player();
 
 #endif

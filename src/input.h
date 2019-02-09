@@ -2,11 +2,22 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <string>
+#include <functional>
 #include <map>
+#include <string>
 #include <vector>
-#include <utility>
 
+#ifdef __ANDROID__
+#include <list>
+#include <algorithm>
+#endif
+
+struct tripoint;
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 namespace catacurses
 {
 class window;
@@ -78,14 +89,25 @@ struct input_event {
     std::string edit;
     bool edit_refresh;
 
+#ifdef __ANDROID__
+    // Used exclusively by the quick shortcuts to determine how stale a shortcut is
+    int shortcut_last_used_action_counter;
+#endif
+
     input_event() {
         mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
+#ifdef __ANDROID__
+        shortcut_last_used_action_counter = 0;
+#endif
     }
     input_event( long s, input_event_t t )
         : type( t ) {
         mouse_x = mouse_y = 0;
         sequence.push_back( s );
+#ifdef __ANDROID__
+        shortcut_last_used_action_counter = 0;
+#endif
     }
 
     long get_first_input() const;
@@ -93,6 +115,19 @@ struct input_event {
     void add_input( const long input ) {
         sequence.push_back( input );
     }
+
+#ifdef __ANDROID__
+    input_event &operator=( const input_event &other ) {
+        type = other.type;
+        modifiers = other.modifiers;
+        sequence = other.sequence;
+        mouse_x = other.mouse_x;
+        mouse_y = other.mouse_y;
+        text = other.text;
+        shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
+        return *this;
+    }
+#endif
 
     bool operator==( const input_event &other ) const {
         if( type != other.type ) {
@@ -176,7 +211,7 @@ class input_manager
          *                           keybinding is overridden by something else in the given context.
          */
         const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
-                const std::string &context = "default", bool *overwrites_default = NULL );
+                const std::string &context = "default", bool *overwrites_default = nullptr );
 
         /**
          * Return first char associated with an action ID in a given context.
@@ -229,13 +264,10 @@ class input_manager
          */
         void wait_for_any_key();
 
-        bool translate_to_window_position();
-
         /**
-         * Sets input polling timeout as appropriate for the current interface system.
-         * Use this method to set timeouts when using input_manager, rather than calling
-         * the old timeout() method, as using this method will cause CATA_INPUT_TIMEOUT
-         * events to be generated correctly.
+         * Sets global input polling timeout as appropriate for the current interface system.
+         * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
+         * reset when entering a new input context.
          */
         void set_timeout( int delay );
         void reset_timeout() {
@@ -300,7 +332,7 @@ class input_manager
         const action_attributes &get_action_attributes(
             const std::string &action_id,
             const std::string &context = "default",
-            bool *overwrites_default = NULL );
+            bool *overwrites_default = nullptr );
 
         /**
          * Get a value to be used as the default name for a newly created action.
@@ -332,12 +364,111 @@ extern input_manager inp_mngr;
 class input_context
 {
     public:
+#ifdef __ANDROID__
+        // Whatever's on top is our current input context.
+        static std::list<input_context *> input_context_stack;
+#endif
+
         input_context() : registered_any_input( false ), category( "default" ),
-            handling_coordinate_input( false ) {};
+            handling_coordinate_input( false ) {
+#ifdef __ANDROID__
+            input_context_stack.push_back( this );
+            allow_text_entry = false;
+#endif
+        }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
-            category( category ), handling_coordinate_input( false ) {};
+            category( category ), handling_coordinate_input( false ) {
+#ifdef __ANDROID__
+            input_context_stack.push_back( this );
+            allow_text_entry = false;
+#endif
+        }
+
+#ifdef __ANDROID__
+        virtual ~input_context() {
+            input_context_stack.remove( this );
+        }
+
+        // hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
+        struct manual_key {
+            manual_key( long _key, const std::string &_text ) : key( _key ), text( _text ) {}
+            long key;
+            std::string text;
+            bool operator==( const manual_key &other ) const {
+                return key == other.key && text == other.text;
+            }
+        };
+
+        std::vector<manual_key> registered_manual_keys;
+
+        // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
+        // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
+        bool allow_text_entry;
+
+        void register_manual_key( manual_key mk );
+        void register_manual_key( long key, const std::string text = "" );
+
+        std::string get_action_name_for_manual_key( long key ) {
+            for( const auto &manual_key : registered_manual_keys ) {
+                if( manual_key.key == key ) {
+                    return manual_key.text;
+                }
+            }
+            return std::string();
+        }
+        std::vector<manual_key> &get_registered_manual_keys() {
+            return registered_manual_keys;
+        }
+
+        std::string &get_category() {
+            return category;
+        }
+        std::vector<std::string> &get_registered_actions() {
+            return registered_actions;
+        }
+        bool is_action_registered( const std::string &action_descriptor ) const {
+            return std::find( registered_actions.begin(), registered_actions.end(),
+                              action_descriptor ) != registered_actions.end();
+        }
+
+        input_context &operator=( const input_context &other ) {
+            registered_actions = other.registered_actions;
+            registered_manual_keys = other.registered_manual_keys;
+            allow_text_entry = other.allow_text_entry;
+            registered_any_input = other.registered_any_input;
+            category = other.category;
+            coordinate_x = other.coordinate_x;
+            coordinate_y = other.coordinate_y;
+            coordinate_input_received = other.coordinate_input_received;
+            handling_coordinate_input = other.handling_coordinate_input;
+            next_action = other.next_action;
+            iso_mode = other.iso_mode;
+            action_name_overrides = other.action_name_overrides;
+            timeout = other.timeout;
+            return *this;
+        }
+
+        bool operator==( const input_context &other ) const {
+            return category == other.category &&
+                   registered_actions == other.registered_actions &&
+                   registered_manual_keys == other.registered_manual_keys &&
+                   allow_text_entry == other.allow_text_entry &&
+                   registered_any_input == other.registered_any_input &&
+                   coordinate_x == other.coordinate_x &&
+                   coordinate_y == other.coordinate_y &&
+                   coordinate_input_received == other.coordinate_input_received &&
+                   handling_coordinate_input == other.handling_coordinate_input &&
+                   next_action == other.next_action &&
+                   iso_mode == other.iso_mode &&
+                   action_name_overrides == other.action_name_overrides &&
+                   timeout == other.timeout;
+        }
+        bool operator!=( const input_context &other ) const {
+            return !( *this == other );
+        }
+#endif
 
         /**
          * Register an action with this input context.
@@ -389,7 +520,8 @@ class input_context
         /**
          * Get a description text for the key/other input method associated
          * with the given action. If there are multiple bound keys, no more
-         * than max_limit will be described in the result.
+         * than max_limit will be described in the result. In addition, only
+         * keys satisfying evt_filter will be described.
          *
          * @param action_descriptor The action descriptor for which to return
          *                          a description of the bound keys.
@@ -397,9 +529,37 @@ class input_context
          * @param max_limit No more than max_limit bound keys will be
          *                  described in the returned description. A value of
          *                  0 indicates no limit.
+         *
+         * @param evt_filter Only keys satisfying this function will be
+         *                   described.
          */
         const std::string get_desc( const std::string &action_descriptor,
-                                    const unsigned int max_limit = 0 ) const;
+                                    const unsigned int max_limit = 0,
+                                    const std::function<bool( const input_event & )> evt_filter =
+        []( const input_event & ) {
+            return true;
+        } ) const;
+
+        /**
+         * Get a description based on `text`. If a bound key for `action_descriptor`
+         * satisfying `evt_filter` is contained in `text`, surround the key with
+         * brackets and change the case if necessary (e.g. "(Y)es"). Otherwise
+         * prefix `text` with description of the first bound key satisfying
+         * `evt_filter`, surrounded in square brackets (e.g "[RETURN] Yes").
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param text The base text for action description
+         *
+         * @param evt_filter Only keys satisfying this function will be considered
+         */
+        const std::string get_desc( const std::string &action_descriptor,
+                                    const std::string &text,
+                                    const std::function<bool( const input_event & )> evt_filter =
+        []( const input_event & ) {
+            return true;
+        } ) const;
 
         /**
          * Handles input and returns the next action in the queue.
@@ -417,29 +577,22 @@ class input_context
         const std::string &handle_input( int timeout );
 
         /**
-         * Convert a direction action(UP, DOWN etc) to a delta x and y.
+         * Convert a direction action (UP, DOWN etc) to a delta vector.
          *
-         * @return True if the action is a movement action (UP, DOWN, ...),
-         * the delta values of associated with it have been stored in (dx,dy).
-         * False if the action is not a movement action (CONFIRM, QUIT, ...),
-         * (dx,dy) has been set to (-2,-2).
-         *
-         * @param action Action to convert.
-         * @param dx Output parameter for x delta.
-         * @param dy Output parameter for y delta.
+         * @return If the action is a movement action (UP, DOWN, ...),
+         * the delta vector associated with it. Otherwise returns an empty value.
+         * The returned vector will always have a z component of 0.
          */
-        bool get_direction( int &dx, int &dy, const std::string &action );
+        cata::optional<tripoint> get_direction( const std::string &action ) const;
 
         /**
-         * Get the coordinates associated with the last mouse click.
+         * Get the coordinates associated with the last mouse click (if any).
          *
          * TODO: This right now is more or less specific to the map window,
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
-         *
-         * @return true if we could process a click inside the window, false otherwise.
          */
-        bool get_coordinates( const catacurses::window &window, int &x, int &y );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &window );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -486,10 +639,20 @@ class input_context
         /**
         * Get/Set edittext to display IME unspecified string.
         */
-        void set_edittext( std::string s );
+        void set_edittext( const std::string &s );
         std::string get_edittext();
 
         void set_iso( bool mode = true );
+
+        /**
+         * Sets input polling timeout as appropriate for the current interface system.
+         * Use this method to set timeouts when using input_context, rather than calling
+         * the old timeout() method or using input_manager::(re)set_timeout, as using
+         * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
+         * and will reset timeout correctly when a new input context is entered.
+         */
+        void set_timeout( int timeout );
+        void reset_timeout();
     private:
 
         std::vector<std::string> registered_actions;
@@ -505,6 +668,7 @@ class input_context
         bool handling_coordinate_input;
         input_event next_action;
         bool iso_mode = false; // should this context follow the game's isometric settings?
+        int timeout = -1;
 
         /**
          * When registering for actions within an input_context, callers can

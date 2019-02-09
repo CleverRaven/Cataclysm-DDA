@@ -2,11 +2,11 @@
 #ifndef GAMEMODE_H
 #define GAMEMODE_H
 
-#include <vector>
-#include <string>
 #include <memory>
-#include "enums.h"
+#include <vector>
+
 #include "calendar.h"
+#include "enums.h"
 #include "string_id.h"
 
 enum action_id : int;
@@ -26,20 +26,20 @@ struct special_game {
     virtual ~special_game() = default;
     virtual special_game_id id() {
         return SGAME_NULL;
-    };
+    }
     // init is run when the game begins
     virtual bool init() {
         return true;
-    };
+    }
     // per_turn is run every turn--before any player actions
-    virtual void per_turn() { };
+    virtual void per_turn() { }
     // pre_action is run after a keypress, but before the game handles the action
     // It may modify the action, e.g. to cancel it
-    virtual void pre_action( action_id & ) { };
+    virtual void pre_action( action_id & ) { }
     // post_action is run after the game handles the action
-    virtual void post_action( action_id ) { };
+    virtual void post_action( action_id ) { }
     // game_over is run when the player dies (or the game otherwise ends)
-    virtual void game_over() { };
+    virtual void game_over() { }
 
 };
 
@@ -73,19 +73,18 @@ enum tut_lesson {
 struct tutorial_game : public special_game {
         special_game_id id() override {
             return SGAME_TUTORIAL;
-        };
+        }
         bool init() override;
         void per_turn() override;
         void pre_action( action_id &act ) override;
         void post_action( action_id act ) override;
-        void game_over() override { };
+        void game_over() override { }
 
     private:
         void add_message( tut_lesson lesson );
 
         bool tutorials_seen[NUM_LESSONS];
 };
-
 
 // DEFENSE
 
@@ -130,7 +129,7 @@ struct defense_game : public special_game {
 
         special_game_id id() override {
             return SGAME_DEFENSE;
-        };
+        }
         bool init() override;
         void per_turn() override;
         void pre_action( action_id &act ) override;
@@ -139,14 +138,12 @@ struct defense_game : public special_game {
 
     private:
         void init_to_style( defense_style new_style );
-        void load_style( std::string style_name );
 
         void setup();
         void refresh_setup( const catacurses::window &w, int selection );
         void init_mtypes();
         void init_constructions();
         void init_map();
-        std::vector<itype_id> carvan_items( caravan_category cat );
 
         void spawn_wave();
         void caravan();
@@ -154,7 +151,6 @@ struct defense_game : public special_game {
         void spawn_wave_monster( const mtype_id &type );
 
         std::string special_wave_message( std::string name );
-
 
         // DATA
         int current_wave;

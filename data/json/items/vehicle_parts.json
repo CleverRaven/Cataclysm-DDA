@@ -77,7 +77,8 @@
         "volume" : 90,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -93,7 +94,8 @@
         "volume" : 90,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -109,7 +111,8 @@
         "volume" : 20,
         "bashing" : 20,
         "category" : "veh_parts",
-        "price" : 3500
+        "price" : 3500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -159,7 +162,8 @@
         "volume" : 80,
         "bashing" : 25,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "qualities": [ [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -235,7 +239,8 @@
         "volume" : 14,
         "bashing" : 19,
         "category" : "veh_parts",
-        "price" : 3000
+        "price" : 3000,
+        "qualities": [ [ "HAMMER", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -243,7 +248,7 @@
         "name" : "vehicle controls",
         "name_plural" : "sets of vehicle controls",
         "description" : "A set of various vehicle controls.  Useful for crafting.",
-        "weight" : 2721,
+        "weight" : 6000,
         "to_hit" : -4,
         "color" : "light_cyan",
         "symbol" : "$",
@@ -258,7 +263,7 @@
         "id" : "vehicle_dashboard",
         "name" : "dashboard",
         "description" : "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
-        "weight" : 6000,
+        "weight" : 2721,
         "to_hit" : -2,
         "color" : "cyan",
         "symbol" : "$",
@@ -335,10 +340,23 @@
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel"],
-        "volume" : 1,
+        "volume" : 2,
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 2000
+    },
+    {
+        "type": "GENERIC",
+        "id": "motor_tiny",
+        "name": "tiny electric motor",
+        "description": "A tiny electric motor.  Useful for crafting.",
+        "weight": 800,
+        "color": "light_cyan",
+        "symbol": ",",
+        "material": [ "steel", "plastic"],
+        "volume": 1,
+        "category": "veh_parts",
+        "price": 2000
     },
     {
         "type":"GENERIC",
@@ -389,6 +407,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "wide_headlight_reinforced",
+        "name" : "reinforced wide-angle headlight",
+        "description" : "A wide-angle vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
+        "weight" : 1400,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel", "plastic"],
+        "volume" : 5,
+        "bashing" : 4,
+        "category" : "veh_parts",
+        "price" : 40000
+    },
+    {
+        "type":"GENERIC",
         "id" : "it_battery_mount",
         "name" : "storage battery case",
         "name_plural" : "storage battery cases",
@@ -402,6 +435,22 @@
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 1000
+    },
+    {
+        "type": "TOOL",
+        "id": "black_box",
+        "category": "other",
+        "name": "military black box",
+        "name_plural": "military black boxes",
+        "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this you may find something of interest.",
+        "weight": 4535,
+        "volume": 2,
+        "price": 0,
+        "to_hit": -1,
+        "bashing": 4,
+        "material": ["steel"],
+        "symbol": ";",
+        "color": "light_gray"
     },
     {
         "type": "TOOL",
@@ -434,6 +483,21 @@
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 90000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "wind_turbine",
+        "name" : "wind turbine",
+        "description" : "A small turbine that can convert wind into electric power.",
+        "weight" : 50000,
+        "to_hit" : -4,
+        "color" : "yellow",
+        "symbol" : "T",
+        "material" : ["steel"],
+        "volume" : 80,
+        "bashing" : 1,
+        "category" : "veh_parts",
+        "price" : 60000
     },
     {
         "type":"GENERIC",
@@ -499,7 +563,7 @@
         "type": "GENERIC",
         "id": "minifridge",
         "name": "minifridge",
-        "description": "A very small fridge for keeping food cool.",
+        "description": "A very small fridge for keeping food cool.  Provides some insulation from outside weather.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",
@@ -508,13 +572,14 @@
         "volume": 20,
         "bashing": 8,
         "category" : "veh_parts",
-        "price": 60000
+        "price": 60000,
+        "insulation": 2
     },
     {
         "type": "GENERIC",
         "id": "minifreezer",
         "name": "minifreezer",
-        "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.",
+        "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",
@@ -523,7 +588,8 @@
         "volume": 20,
         "bashing": 8,
         "category" : "veh_parts",
-        "price": 70000
+        "price": 70000,
+        "insulation": 4
     },
     {
         "type": "GENERIC",
@@ -552,7 +618,7 @@
         "material" : ["glass"],
         "volume" : 1,
         "bashing" : 1,
-        "category" : "veh_parts",
+        "category" : "spare_parts",
         "price" : 5000
     },
     {
@@ -560,22 +626,24 @@
         "id" : "sheet_metal",
         "name" : "sheet metal",
         "description" : "A thin sheet of metal.",
-        "weight" : 1000,
+        "//" : "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
+        "weight" : 6000,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : "]",
         "material" : ["steel"],
         "volume" : 4,
         "bashing" : 5,
-        "category" : "veh_parts",
-        "price" : 6000
+        "category" : "spare_parts",
+        "price" : 6000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
         "id" : "sheet_metal_lit",
         "name" : "wired sheet metal",
         "description" : "Sheet metal that has had light housing wired into it.",
-        "weight" : 1200,
+        "weight" : 6200,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : "]",
@@ -613,7 +681,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -628,13 +697,14 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 18500
+        "price" : 18500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
         "id" : "alloy_sheet",
         "name" : "superalloy sheet",
-        "description" : "A sheet sturdy superalloy, incredibly hard, yet incredibly malleable.",
+        "description" : "A sheet of sturdy superalloy, incredibly hard, yet incredibly malleable.",
         "weight" : 900,
         "to_hit" : -2,
         "color" : "light_cyan",
@@ -642,13 +712,14 @@
         "material" : ["superalloy"],
         "volume" : 2,
         "category" : "veh_parts",
-        "price" : 8500
+        "price" : 8500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
         "id" : "spiked_plate",
         "name" : "spiked plating",
-        "description" : "A piece of armor plating made of steel.  It is covered by menacing spikes.",
+        "description" : "A piece of armor plating made of steel.  It is covered with menacing spikes.",
         "weight" : 12240,
         "to_hit" : -1,
         "color" : "light_cyan",
@@ -659,7 +730,8 @@
         "cutting" : 3,
         "flags" : ["STAB"],
         "category" : "veh_parts",
-        "price" : 18500
+        "price" : 18500,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -674,7 +746,8 @@
         "volume" : 12,
         "bashing" : 6,
         "category" : "veh_parts",
-        "price" : 16000
+        "price" : 16000,
+        "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -689,7 +762,8 @@
         "volume" : 12,
         "bashing" : 8,
         "category" : "veh_parts",
-        "price" : 16000
+        "price" : 16000,
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -710,7 +784,7 @@
         "type":"GENERIC",
         "id": "veh_tracker",
         "name": "vehicle tracking device",
-        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle.",
+        "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",
         "weight": 400,
         "color": "red",
         "symbol": ";",
@@ -816,6 +890,21 @@
       "flags": [ "TRADER_AVOID", "USE_PART_ITEM" ]
     },
     {
+      "id": "bike_rack",
+      "type": "GENERIC",
+      "name": "bike rack",
+      "description": "A collection of pipes, cams, and straps, mounted on the edge of a vehicle and used to support another vehicle for transport.  It must be mounted on a vehicle to be used.",
+      "weight": 4000,
+      "volume": 25,
+      "price": 16000,
+      "category": "veh_parts",
+      "material": [ "steel", "plastic" ],
+      "symbol": "]",
+      "color": "light_gray",
+      "looks_like": "foldframe",
+      "flags": [ "TRADER_AVOID" ]
+    },
+    {
         "type":"GENERIC",
         "id": "floodlight",
         "name": "floodlight",
@@ -832,9 +921,25 @@
     },
     {
         "type":"GENERIC",
+        "id": "directed_floodlight",
+        "name": "directed floodlight",
+        "description": "A large and heavy light designed to illuminate a wide area in a half-circular cone.",
+        "weight": 2500,
+        "to_hit": 1,
+        "color": "white",
+        "symbol": ";",
+        "material": ["plastic", "steel"],
+        "volume": 8,
+        "bashing": 5,
+        "category" : "veh_parts",
+        "price": 90000,
+        "looks_like": "floodlight"
+    },
+    {
+        "type":"GENERIC",
         "id": "recharge_station",
         "name": "UPS-compatible recharging station",
-        "description": "An Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from vehicle controls, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
+        "description": "A Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from a dashboard or electronics control unit, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
         "weight": 10000,
         "to_hit": 1,
         "color": "light_blue",
@@ -995,7 +1100,7 @@
         "to_hit" : -3,
         "color" : "light_blue",
         "symbol" : "#",
-        "material" : ["steel"],
+        "material" : ["plastic"],
         "volume" : 16,
         "category" : "veh_parts",
         "price" : 10000
@@ -1128,6 +1233,19 @@
         "volume": 4,
         "price": 3000
     },{
+        "id": "car_wide_headlight",
+        "type":"GENERIC",
+        "name": "wide-angle car headlight",
+        "description": "A wide-angle vehicle headlight to light up the way.",
+        "symbol": ";",
+        "color": "white",
+        "material": "plastic",
+        "category": "veh_parts",
+        "looks_like": "car_headlight",
+        "weight": 2000,
+        "volume": 5,
+        "price": 4000
+    },{
         "id": "cargo_lock",
         "type":"GENERIC",
         "name": "cargo lock set",
@@ -1151,5 +1269,23 @@
         "weight": 10000,
         "volume": 10,
         "price": 5500
-    }
+  },
+  {
+    "id": "fuel_bunker",
+    "type": "MAGAZINE",
+    "name": "fuel bunker",
+    "description": "A bin for holding solid fuel.",
+    "symbol": "]",
+    "color": "white",
+    "looks_like": "cargo_rack",
+    "material": "steel",
+    "category": "veh_parts",
+    "weight": 22000,
+    "volume": 220,
+    "capacity": 2000,
+    "reliability": 10,
+    "//": "mods will need to expand",
+    "ammo_type": "charcoal",
+    "price": 3000
+  }
 ]

@@ -1,12 +1,12 @@
-#include "mod_manager.h"
-#include "input.h"
-#include "output.h"
-#include "debug.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "dependency_tree.h"
+#include "mod_manager.h" // IWYU pragma: associated
 
 #include <algorithm>
+
+#include "debug.h"
+#include "dependency_tree.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
@@ -16,7 +16,7 @@ mod_ui::mod_ui( mod_manager &mman )
 
 std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 {
-    if( mod == NULL ) {
+    if( mod == nullptr ) {
         return "";
     }
 
@@ -178,8 +178,6 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     // eliminates 'uninitialized variable' warning
     size_t newsel = 0;
     size_t oldsel = 0;
-    mod_id selstring;
-    mod_id modstring;
     int selshift = 0;
 
     // shift up (towards 0)
@@ -196,14 +194,12 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         oldsel = selection + 1;
 
         selshift = +1;
-    }
-
-    if( !selshift ) { // false if selshift is 0, true if selshift is +/- 1: bool(int(0)) evaluates to false and bool(int(!0)) evaluates to true
+    } else {
         return;
     }
 
-    modstring = active_list[newsel];
-    selstring = active_list[oldsel];
+    mod_id modstring = active_list[newsel];
+    mod_id selstring = active_list[oldsel];
 
     // we can shift!
     // switch values!
@@ -216,7 +212,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
 bool mod_ui::can_shift_up( long selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
-    if( selection < 0 || selection >= ( int )active_list.size() ) {
+    if( selection < 0 || selection >= static_cast<int>( active_list.size() ) ) {
         return false;
     }
     // dependencies of this active element
@@ -249,27 +245,22 @@ bool mod_ui::can_shift_up( long selection, const std::vector<mod_id> &active_lis
 bool mod_ui::can_shift_down( long selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
-    if( selection < 0 || selection >= ( int )active_list.size() ) {
+    if( selection < 0 || selection >= static_cast<int>( active_list.size() ) ) {
         return false;
     }
     std::vector<mod_id> dependents = mm_tree.get_dependents_of_X_as_strings(
                                          active_list[selection] );
 
-    int newsel;
-    int oldsel;
-    mod_id selstring;
-    mod_id modstring;
-
     // figure out if we can move down!
-    if( selection == ( int )active_list.size() - 1 ) {
+    if( selection == static_cast<int>( active_list.size() ) - 1 ) {
         // can't move down, don't bother trying
         return false;
     }
-    newsel = selection;
-    oldsel = selection + 1;
+    int newsel = selection;
+    int oldsel = selection + 1;
 
-    modstring = active_list[newsel];
-    selstring = active_list[oldsel];
+    mod_id modstring = active_list[newsel];
+    mod_id selstring = active_list[oldsel];
 
     if( modstring->core ||
         std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {

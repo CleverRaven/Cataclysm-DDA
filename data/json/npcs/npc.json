@@ -31,6 +31,18 @@
     "faction" : "old_guard"
   },{
     "type" : "npc",
+    "id" : "science_rep",
+    "//" : "Appears in the refugee center as a source of missions and info.  Faction critical.",
+    "name_suffix" : "Doctor",
+    "class" : "NC_DOCTOR",
+    "attitude" : 0,
+    "//" : "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
+    "mission" : 7,
+    "chat" : "TALK_SCIENCE_REP",
+    "faction" : "old_guard",
+    "mission_offered" : "MISSION_SCIENCE_REP_1"
+  },{
+    "type" : "npc",
     "id" : "old_guard_necropolis_cpt",
     "//" : "Commander in Necropolis",
     "name_suffix" : "CPT",
@@ -39,7 +51,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_CPT",
     "faction" : "old_guard",
-    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_1"
+    "mission_offered" : "MISSION_OLD_GUARD_NEC_1"
   },{
       "type" : "npc",
     "id" : "old_guard_necropolis_commo",
@@ -302,7 +314,7 @@
     "id" : "scavenger_merc",
     "//" : "Appears in the refugee center as a partner for hire.",
     "name_suffix" : "Merc",
-    "class" : "NC_COWBOY",
+    "class" : "NC_SCAVENGER_MERC",
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_SCAVENGER_MERC",
@@ -351,5 +363,80 @@
     "mission" : 7,
     "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
+  },{
+    "type": "npc",
+    "id": "derelict_dweller",
+    "//": "Crazy Person.",
+    "name_suffix": "Psycho",
+    "class": "NC_THUG",
+    "attitude": 8,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "refugee_beggar1",
+    "//": "Hungry beggar in the refugee center.",
+    "name_unique": "Reena Sandhu",
+    "gender": "female",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_1",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_1",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "refugee_beggar2",
+    "//": "Schizophrenic beggar in the refugee center.",
+    "name_unique": "Dino Dave",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_2",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_2",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "refugee_beggar3",
+    "//": "Angry beggar in the refugee center.",
+    "name_unique": "Luo Meizhen",
+    "gender": "female",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_3",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_3",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "refugee_beggar4",
+    "//": "Sickly beggar in the refugee center.",
+    "name_unique": "Brandon Garder",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_4",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_4",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "refugee_beggar5",
+    "//": "Mutant beggar in the refugee center.",
+    "name_unique": "Yusuke Taylor",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_5",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_5",
+    "faction": "wasteland_scavengers"
   }
 ]

@@ -2,13 +2,17 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include "pldata.h"
-#include "calendar.h"
-#include "enums.h"
-#include "string_id.h"
 #include <unordered_map>
 #include <tuple>
 #include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "translations.h"
+#include "tuple_hash.h"
 
 class effect_type;
 class Creature;
@@ -72,9 +76,9 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jsobj, const std::string &member );
-        bool load_miss_msgs( JsonObject &jsobj, const std::string &member );
-        bool load_decay_msgs( JsonObject &jsobj, const std::string &member );
+        bool load_mod_data( JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( JsonObject &jo, const std::string &member );
+        bool load_decay_msgs( JsonObject &jo, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
@@ -113,7 +117,7 @@ class effect_type
         // It needs to be set for monster::move_effects
         bool impairs_movement;
 
-        std::vector<std::string> name;
+        std::vector<translation> name;
         std::string speed_mod_name;
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
@@ -138,7 +142,7 @@ class effect
         effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
             permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
         }
-        effect( const effect_type *peff_type, const time_duration dur, body_part part,
+        effect( const effect_type *peff_type, const time_duration &dur, body_part part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
@@ -156,6 +160,8 @@ class effect
         std::string disp_name() const;
         /** Returns the description displayed in the player status window. */
         std::string disp_desc( bool reduced = false ) const;
+        /** Returns the short description as set in json. */
+        std::string disp_short_desc( bool reduced = false ) const;
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
         bool use_part_descs() const;
 
@@ -173,9 +179,9 @@ class effect
         /** Returns the maximum duration of an effect. */
         time_duration get_max_duration() const;
         /** Sets the duration, capping at max_duration if it exists. */
-        void set_duration( time_duration dur, bool alert = false );
+        void set_duration( const time_duration &dur, bool alert = false );
         /** Mods the duration, capping at max_duration if it exists. */
-        void mod_duration( time_duration dur, bool alert = false );
+        void mod_duration( const time_duration &dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration( double dur, bool alert = false );
 
@@ -283,6 +289,9 @@ class effect
 
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
+
+std::string texitify_base_healing_power( const int power );
+std::string texitify_healing_power( const int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

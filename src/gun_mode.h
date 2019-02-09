@@ -2,8 +2,8 @@
 #ifndef GUN_MODE_H
 #define GUN_MODE_H
 
-#include <string>
 #include <set>
+#include <string>
 
 class item;
 

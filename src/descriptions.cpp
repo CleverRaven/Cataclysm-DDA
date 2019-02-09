@@ -1,16 +1,16 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 
 #include "calendar.h"
-#include "game.h"
-#include "output.h"
-#include "player.h"
-#include "monster.h"
+#include "harvest.h"
+#include "input.h"
 #include "map.h"
 #include "mapdata.h"
+#include "output.h"
+#include "player.h"
 #include "string_formatter.h"
-#include "input.h"
 #include "ui.h"
-#include "harvest.h"
 
 const skill_id skill_survival( "survival" );
 
@@ -141,7 +141,7 @@ std::string map_data_common_t::extended_description() const
                 continue;
             }
 
-            identical_harvest.insert( std::make_pair( hv, ( season_type )season ) );
+            identical_harvest.insert( std::make_pair( hv, static_cast<season_type>( season ) ) );
         }
         // Now print them in order of seasons
         // @todo: Highlight current season

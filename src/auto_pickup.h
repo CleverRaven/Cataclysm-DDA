@@ -3,21 +3,22 @@
 #define AUTO_PICKUP_H
 
 #include <array>
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include <locale>
-#include <algorithm>
 #include <iosfwd>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include "enums.h"
+#include "material.h"
 
 class JsonOut;
 class JsonIn;
+class item;
 
 class auto_pickup
 {
     private:
-        void test_pattern( const int iCurrentPage, const int iCurrentLine );
+        void test_pattern( const int iTab, const int iRow );
         void load( const bool bCharacter );
         bool save( const bool bCharacter );
         bool load_legacy( const bool bCharacter );
@@ -72,10 +73,13 @@ class auto_pickup
     public:
         auto_pickup() : bChar( false ), ready( false ) {}
 
-        bool has_rule( const std::string &sRule );
-        void add_rule( const std::string &sRule );
-        void remove_rule( const std::string &sRule );
         void create_rule( const std::string &to_match );
+        void create_rule( const item *it );
+        bool has_rule( const item *it );
+        void add_rule( const item *it );
+        void remove_rule( const item *it );
+        bool check_special_rule( const std::vector<material_id> &materials, const std::string &rule ) const;
+
         void clear_character_rules();
         rule_state check_item( const std::string &sItemName ) const;
 

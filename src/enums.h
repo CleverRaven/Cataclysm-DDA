@@ -2,9 +2,9 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <utility>
 #include <climits>
 #include <ostream>
+#include <utility>
 
 class JsonOut;
 class JsonIn;
@@ -15,72 +15,6 @@ constexpr inline int sgn( const T x )
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
 
-// By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
-// This is taken almost directly from the boost library code.
-// Function has to live in the std namespace
-// so that it is picked up by argument-dependent name lookup (ADL).
-namespace std{
-    namespace
-    {
-
-        // Code from boost
-        // Reciprocal of the golden ratio helps spread entropy
-        //     and handles duplicates.
-        // See Mike Seymour in magic-numbers-in-boosthash-combine:
-        //     http://stackoverflow.com/questions/4948780
-
-        template <class T>
-        inline void hash_combine(std::size_t& seed, T const& v)
-        {
-            seed ^= hash<T>()(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
-        }
-
-        // Recursive template code derived from Matthieu M.
-        template <class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1>
-        struct HashValueImpl
-        {
-            static void apply(size_t& seed, Tuple const& tuple)
-            {
-                HashValueImpl<Tuple, Index-1>::apply(seed, tuple);
-                hash_combine(seed, get<Index>(tuple));
-            }
-        };
-
-        template <class Tuple>
-        struct HashValueImpl<Tuple,0>
-        {
-            static void apply(size_t& seed, Tuple const& tuple)
-            {
-                hash_combine(seed, get<0>(tuple));
-            }
-        };
-    }
-
-    template <typename ... TT>
-    struct hash<std::tuple<TT...>>
-    {
-        size_t
-        operator()(std::tuple<TT...> const& tt) const
-        {
-            size_t seed = 0;
-            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);
-            return seed;
-        }
-
-    };
-
-    template <class A, class B>
-    struct hash<std::pair<A, B>>
-    {
-        std::size_t operator() (const std::pair<A, B>& v) const {
-            std::size_t seed = 0;
-            hash_combine(seed, v.first);
-            hash_combine(seed, v.second);
-            return seed;
-        }
-    };
-}
-
 //Used for autopickup and safemode rules
 enum rule_state : int {
     RULE_NONE,
@@ -89,12 +23,12 @@ enum rule_state : int {
 };
 
 enum visibility_type {
-  VIS_HIDDEN,
-  VIS_CLEAR,
-  VIS_LIT,
-  VIS_BOOMER,
-  VIS_DARK,
-  VIS_BOOMER_DARK
+    VIS_HIDDEN,
+    VIS_CLEAR,
+    VIS_LIT,
+    VIS_BOOMER,
+    VIS_DARK,
+    VIS_BOOMER_DARK
 };
 
 enum special_game_id : int {
@@ -196,28 +130,54 @@ enum object_type {
     NUM_OBJECTS,
 };
 
-struct point {
-    int x;
-    int y;
-    point() : x(0), y(0) {}
-    point(int X, int Y) : x (X), y (Y) {}
+/**
+ *  Possible layers that a piece of clothing/armor can occupy
+ *
+ *  Every piece of clothing occupies one distinct layer on the body-part that
+ *  it covers.  This is used for example by @ref Character to calculate
+ *  encumbrance values, @ref player to calculate time to wear/remove the item,
+ *  and by @ref profession to place the characters' clothing in a sane order
+ *  when starting the game.
+ */
+enum layer_level {
+    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
+    UNDERWEAR = 0,
+    /* "Normal" layer, default if no flags set */
+    REGULAR_LAYER,
+    /* "Waist" layer, corresponds to WAIST flag. */
+    WAIST_LAYER,
+    /* "Outer" layer, corresponds to OUTER flag. */
+    OUTER_LAYER,
+    /* "Strapped" layer, corresponds to BELTED flag */
+    BELTED_LAYER,
+    /* Not a valid layer; used for C-style iteration through this enum */
+    MAX_CLOTHING_LAYER
+};
 
-    point operator+(const point &rhs) const
-    {
+inline layer_level &operator++( layer_level &l )
+{
+    l = static_cast<layer_level>( l + 1 );
+    return l;
+}
+
+struct point {
+    int x = 0;
+    int y = 0;
+    constexpr point() = default;
+    constexpr point( int X, int Y ) : x( X ), y( Y ) {}
+
+    constexpr point operator+( const point &rhs ) const {
         return point( x + rhs.x, y + rhs.y );
     }
-    point &operator+=(const point &rhs)
-    {
+    point &operator+=( const point &rhs ) {
         x += rhs.x;
         y += rhs.y;
         return *this;
     }
-    point operator-(const point &rhs) const
-    {
+    constexpr point operator-( const point &rhs ) const {
         return point( x - rhs.x, y - rhs.y );
     }
-    point &operator-=(const point &rhs)
-    {
+    point &operator-=( const point &rhs ) {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
@@ -229,79 +189,74 @@ void deserialize( point &p, JsonIn &jsin );
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
-namespace std {
-  template <>
-  struct hash<point> {
-      std::size_t operator()(const point& k) const {
-          // Circular shift y by half its width so hash(5,6) != hash(6,5).
-          return std::hash<int>()(k.x) ^ std::hash<int>()( (k.y << 16) | (k.y >> 16) );
-      }
-  };
+namespace std
+{
+template <>
+struct hash<point> {
+    std::size_t operator()( const point &k ) const {
+        constexpr uint64_t a = 2862933555777941757;
+        size_t result = k.y;
+        result *= a;
+        result += k.x;
+        return result;
+    }
+};
 }
 
-inline bool operator<(const point &a, const point &b)
+inline constexpr bool operator<( const point &a, const point &b )
 {
-    return a.x < b.x || (a.x == b.x && a.y < b.y);
+    return a.x < b.x || ( a.x == b.x && a.y < b.y );
 }
-inline bool operator==(const point &a, const point &b)
+inline constexpr bool operator==( const point &a, const point &b )
 {
     return a.x == b.x && a.y == b.y;
 }
-inline bool operator!=(const point &a, const point &b)
+inline constexpr bool operator!=( const point &a, const point &b )
 {
-    return !(a == b);
+    return !( a == b );
 }
 
 struct tripoint {
-    int x;
-    int y;
-    int z;
-    tripoint() : x(0), y(0), z(0) {}
-    tripoint(int X, int Y, int Z) : x (X), y (Y), z (Z) {}
-    explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    constexpr tripoint() = default;
+    constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
+    explicit constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
 
-    tripoint operator+(const tripoint &rhs) const
-    {
+    constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
     }
-    tripoint operator-(const tripoint &rhs) const
-    {
+    constexpr tripoint operator-( const tripoint &rhs ) const {
         return tripoint( x - rhs.x, y - rhs.y, z - rhs.z );
     }
-    tripoint &operator+=(const tripoint &rhs)
-    {
+    tripoint &operator+=( const tripoint &rhs ) {
         x += rhs.x;
         y += rhs.y;
         z += rhs.z;
         return *this;
     }
-    tripoint operator-() const
-    {
+    constexpr tripoint operator-() const {
         return tripoint( -x, -y, -z );
     }
     /*** some point operators and functions ***/
-    tripoint operator+(const point &rhs) const
-    {
-        return tripoint(x + rhs.x, y + rhs.y, z);
+    constexpr tripoint operator+( const point &rhs ) const {
+        return tripoint( x + rhs.x, y + rhs.y, z );
     }
-    tripoint operator-(const point &rhs) const
-    {
-        return tripoint(x - rhs.x, y - rhs.y, z);
+    constexpr tripoint operator-( const point &rhs ) const {
+        return tripoint( x - rhs.x, y - rhs.y, z );
     }
-    tripoint &operator+=(const point &rhs)
-    {
+    tripoint &operator+=( const point &rhs ) {
         x += rhs.x;
         y += rhs.y;
         return *this;
     }
-    tripoint &operator-=(const point &rhs)
-    {
+    tripoint &operator-=( const point &rhs ) {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
     }
-    tripoint &operator-=( const tripoint &rhs )
-    {
+    tripoint &operator-=( const tripoint &rhs ) {
         x -= rhs.x;
         y -= rhs.y;
         z -= rhs.z;
@@ -319,51 +274,113 @@ inline std::ostream &operator<<( std::ostream &os, const tripoint &pos )
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
-namespace std {
-  template <>
-  struct hash<tripoint> {
-      std::size_t operator()(const tripoint& k) const {
-          // Circular shift y and z so hash(5,6,7) != hash(7,6,5).
-          return std::hash<int>()(k.x) ^
-              std::hash<int>()( (k.y << 10) | (k.y >> 10) ) ^
-              std::hash<int>()( (k.z << 20) | (k.z >> 20) );
-      }
-  };
+namespace std
+{
+template <>
+struct hash<tripoint> {
+    std::size_t operator()( const tripoint &k ) const {
+        constexpr uint64_t a = 2862933555777941757;
+        size_t result = k.z;
+        result *= a;
+        result += k.y;
+        result *= a;
+        result += k.x;
+        return result;
+    }
+};
 }
 
-inline bool operator==(const tripoint &a, const tripoint &b)
+inline constexpr bool operator==( const tripoint &a, const tripoint &b )
 {
     return a.x == b.x && a.y == b.y && a.z == b.z;
 }
-inline bool operator!=(const tripoint &a, const tripoint &b)
+inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
 {
-    return !(a == b);
+    return !( a == b );
 }
-inline bool operator<(const tripoint &a, const tripoint &b)
+inline bool operator<( const tripoint &a, const tripoint &b )
 {
-    if (a.x != b.x) {
+    if( a.x != b.x ) {
         return a.x < b.x;
     }
-    if (a.y != b.y) {
+    if( a.y != b.y ) {
         return a.y < b.y;
     }
-    if (a.z != b.z) {
+    if( a.z != b.z ) {
         return a.z < b.z;
     }
     return false;
 }
 
-static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-static const tripoint tripoint_zero { 0, 0, 0 };
+struct rectangle {
+    point p_min;
+    point p_max;
+    constexpr rectangle() = default;
+    constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+};
 
-struct sphere
+struct box {
+    tripoint p_min;
+    tripoint p_max;
+    constexpr box() = default;
+    constexpr box( const tripoint &P_MIN, const tripoint &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+    explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
+        p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
+};
+
+static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+static constexpr tripoint tripoint_zero { 0, 0, 0 };
+static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
+
+static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
+static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
+static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
+
+static constexpr box box_zero( tripoint_zero, tripoint_zero );
+static constexpr rectangle rectangle_zero( point_zero, point_zero );
+
+/** Checks if given tripoint is inbounds of given min and max tripoints using given clearance **/
+inline bool generic_inbounds( const tripoint &p,
+                              const box &boundaries,
+                              const box &clearance = box_zero )
 {
-    int radius;
-    tripoint center;
+    return p.x >= boundaries.p_min.x + clearance.p_min.x &&
+           p.x <= boundaries.p_max.x - clearance.p_max.x &&
+           p.y >= boundaries.p_min.y + clearance.p_min.y &&
+           p.y <= boundaries.p_max.y - clearance.p_max.y &&
+           p.z >= boundaries.p_min.z + clearance.p_min.z &&
+           p.z <= boundaries.p_max.z - clearance.p_max.z;
+}
 
-    sphere() : radius( 0 ), center() {}
+/** Checks if given point is inbounds of given min and max point using given clearance **/
+inline bool generic_inbounds( const point &p,
+                              const rectangle &boundaries,
+                              const rectangle &clearance = rectangle_zero )
+{
+    return generic_inbounds( tripoint( p, 0 ),
+                             box( boundaries, 0, 0 ),
+                             box( clearance, 0, 0 ) );
+}
+
+struct sphere {
+    int radius = 0;
+    tripoint center = tripoint_zero;
+
+    sphere() = default;
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
+};
+
+/** Possible reasons to interrupt an activity. */
+enum class distraction_type {
+    noise,
+    pain,
+    attacked,
+    hostile_spotted,
+    talked_to,
+    asthma,
+    motion_alarm,
+    weather_change,
 };
 
 #endif

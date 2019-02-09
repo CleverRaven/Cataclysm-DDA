@@ -27,7 +27,10 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 50000,
-    "start": "open_sarcophagus",
+    "start": {
+      "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
+      "assign_mission_target": { "om_terrain": "haz_sar", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "haz_sar_b1",
     "dialogue": {
@@ -215,7 +218,10 @@
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
-    "start": "reveal_lab_black_box",
+    "start": {
+      "effect": { "u_buy_item": "black_box" },
+      "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
@@ -281,7 +287,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
-    "start": "reveal_office_tower",
+    "start": { "reveal_om_ter": "office_tower_1" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
@@ -304,7 +310,7 @@
     "difficulty": 2,
     "value": 60000,
     "item": "record_patient",
-    "start": "reveal_doctors_office",
+    "start": { "reveal_om_ter": [ "office_doctor", "hospital_2" ] },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_REACH_FEMA_CAMP",
     "dialogue": {
@@ -327,7 +333,7 @@
     "difficulty": 2,
     "value": 50000,
     "item": "record_weather",
-    "start": "reveal_weather_station",
+    "start": { "reveal_om_ter": "station_radio" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "I wonder if a retreat might exist...",
@@ -349,7 +355,7 @@
     "difficulty": 2,
     "value": 100000,
     "item": "small_relic",
-    "start": "reveal_cathedral",
+    "start": { "reveal_om_ter": [ "cathedral_1", "museum" ] },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
@@ -418,7 +424,10 @@
     "difficulty": 8,
     "value": 250000,
     "item": "software_blood_data",
-    "start": "reveal_hospital",
+    "start": {
+      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "It could be very informative to perform an analysis of zombie blood...",
@@ -440,7 +449,9 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": "point_cabin_strange",
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -463,11 +474,13 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": "point_prison",
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
-      "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet... it seems the man has prophesied  events accurately before concerning the Church of Starry Wisdom.",
+      "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet... it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path...  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
       "rejected": "Ya, I guess the stress may just be getting to me...",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
@@ -480,13 +493,13 @@
   {
     "id": "MISSION_JOIN_TRACKER",
     "type": "mission_definition",
-    "name": "Tracker",
+    "name": "Find Deputy Badge",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 0,
     "urgent": true,
     "item": "badge_deputy",
-    "start": "join",
+    "start": { "effect": "follow" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Well damn, you must be the guys here to pick me up...",
@@ -509,7 +522,7 @@
     "monster_kill_goal": 100,
     "difficulty": 5,
     "value": 250000,
-    "start": "kill_100_z",
+    "start": { "effect": "follow" },
     "end": "leave",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_KILL_HORDE_MASTER",
@@ -646,7 +659,10 @@
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "difficulty": 5,
     "value": 250000,
-    "start": "kill_20_nightmares",
+    "monster_type": "mon_charred_nightmare",
+    "start": {
+      "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 }
+    },
     "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -669,12 +685,15 @@
     "difficulty": 2,
     "value": 250000,
     "item": "radio_repeater_mod",
-    "start": "radio_repeater",
+    "start": {
+       "effect": { "u_buy_item": "repeater_mod_guide" },
+       "assign_mission_target": { "om_terrain": "necropolis_c_23", "om_special": "Necropolis", "reveal_radius": 3, "z": -2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_2",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "My chief responsibility is to monitor radio traffic and locate potential targets to secure or rescue.  The majority of radio repeaters are down and those that are working have only emergency power.  If you have a basic understanding of electronics you should be able to fabricate  the 'radio repeater mod' found in these plans.  When this mod is attached to a radio station's main terminal, all short range radio traffic on emergency channels is boosted so we can pick it up at much longer ranges.  I really need you make me one.",
+      "offer": "My chief responsibility is to monitor radio traffic and locate potential targets to secure or rescue.  The majority of radio repeaters are down and those that are working have only emergency power.  If you have a basic understanding of electronics you should be able to fabricate the 'radio repeater mod' found in these plans.  When this mod is attached to a radio station's main terminal, all short range radio traffic on emergency channels is boosted so we can pick it up at much longer ranges.  I really need you make me one.",
       "accepted": "Thanks, I know the labs on the other side of the complex have electronic parts sitting around.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
       "advice": "I'm sure the motorpool has a truck battery you could salvage.",
@@ -990,7 +1009,7 @@
     "followup": "MISSION_RANCH_FOREMAN_11",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 3 full kits I'm sure we could supplement them to make them last a bit longer.",
+      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 full kits I'm sure we could supplement them to make them last a bit longer.",
       "accepted": "We'll do our best to make them last...",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "Homes, hospitals, labs, and doctor offices would be where I'd check.",
@@ -1656,7 +1675,7 @@
     "followup": "MISSION_RANCH_SCAVENGER_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five head torches for them?  Keeping both hands free greatly helps during combat.",
+      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five headlamps for them?  Keeping both hands free greatly helps during combat.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "You should be able to make them with the most basic of skills.",
@@ -1721,7 +1740,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": "join",
+    "start": { "effect": "follow" },
     "end": "leave",
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "farm",
@@ -1744,7 +1763,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": "join",
+    "start": { "effect": "follow" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REACH_FARM_HOUSE",
     "destination": "fema",
@@ -1857,5 +1876,122 @@
     "start": "reveal_refugee_center",
     "origins": [ "ORIGIN_COMPUTER" ],
     "destination": "evac_center"
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_1",
+    "type": "mission_definition",
+    "name": "Analyze Zombie Blood",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_blood_data",
+    "start": {
+      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_2",
+    "dialogue": {
+      "describe": "It could be very informative to perform an analysis of zombie blood...",
+      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
+      "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
+      "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
+      "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
+      "inquire": "Well, do you have the data yet?",
+      "success": "Excellent!  This may be the key to removing the infection.",
+      "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
+      "failure": "What a shame, that data could have proved invaluable..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_2",
+    "type": "mission_definition",
+    "name": "Download Workstation Data",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_lab_data",
+    "start": "create_lab_console",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_3",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.",
+      "accepted": "Great!  I've mapped out a route to the address.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "If the laboratory is locked, maybe you can find an id card from employees who died in the evacuation.  Also brush up on your computer skills, any computers will have some security on them.  Bring back anything you find on a USB drive.",
+      "inquire": "Have you completed your mission?",
+      "success": "Thanks!  This data looks damaged, but maybe I can make something out of it.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_3",
+    "type": "mission_definition",
+    "name": "Download Encryption Codes",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_lab_data",
+    "start": "create_hidden_lab_console",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Unfortunately the data you got was incomplete and mostly encrypted.  There may be a way to get encryption codes, though.  I found a complaint by the infosec team that they were unable to deliver critical security updates to one research site.  It was some kind of more restricted secondary site hidden beneath a town, they weren't allowed in.  That means it should have unsecured computers we can get the codes from.",
+      "accepted": "Great!  I've mapped out a route, it should look like a normal house.  Bring back anything you find on a USB drive.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "Expect the lab to be locked as usual.",
+      "inquire": "Have you completed your mission?",
+      "success": "Wonderful!  Now I just need to get an undamaged, complete archive, and we can really figure out what happened.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_4",
+    "type": "mission_definition",
+    "name": "Download Research Archives",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_lab_data",
+    "start": "create_ice_lab_console",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_5",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did found communications from a lab that had some kind of freezing portal open during the cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
+      "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "That lab is going to start freezing and just get colder the deeper you go.  You'll really need special equipment to survive that far down.  Bring back anything you find on a USB drive.",
+      "inquire": "Have you completed your mission?",
+      "success": "Thanks!  This is a lot of data to go through.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_5",
+    "type": "mission_definition",
+    "name": "Find Lab Tunnels",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_train_data",
+    "start": "reveal_lab_train_depot",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
+      "accepted": "So glad for your help.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",
+      "inquire": "Have you completed your mission?",
+      "success": "Fantastic!  I should be able to reconstruct what cargo moved between which labs.  I wonder what was really going on down there.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
   }
 ]

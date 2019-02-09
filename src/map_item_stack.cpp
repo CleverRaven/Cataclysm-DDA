@@ -1,11 +1,11 @@
 #include "map_item_stack.h"
 
+#include <algorithm>
+
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
 #include "line.h"
-
-#include <algorithm>
 
 map_item_stack::item_group::item_group() : pos( 0, 0, 0 ), count( 0 )
 {
@@ -21,15 +21,15 @@ map_item_stack::map_item_stack() : example( nullptr ), totalcount( 0 )
     vIG.push_back( item_group() );
 }
 
-map_item_stack::map_item_stack( item const *const it, const tripoint &pos ) : example( it ),
-    totalcount( it->count_by_charges() ? it->charges : 1 )
+map_item_stack::map_item_stack( const item *const it, const tripoint &pos ) : example( it ),
+    totalcount( it->count() )
 {
     vIG.emplace_back( pos, totalcount );
 }
 
-void map_item_stack::add_at_pos( item const *const it, const tripoint &pos )
+void map_item_stack::add_at_pos( const item *const it, const tripoint &pos )
 {
-    const int amount = it->count_by_charges() ? it->charges : 1;
+    const int amount = it->count();
 
     if( vIG.empty() || vIG.back().pos != pos ) {
         vIG.emplace_back( pos, amount );
@@ -43,8 +43,8 @@ void map_item_stack::add_at_pos( item const *const it, const tripoint &pos )
 bool map_item_stack::map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs )
 {
     if( lhs.example->get_category() == rhs.example->get_category() ) {
-        return square_dist( tripoint( 0, 0, 0 ), lhs.vIG[0].pos ) <
-               square_dist( tripoint( 0, 0, 0 ), rhs.vIG[0].pos );
+        return square_dist( tripoint_zero, lhs.vIG[0].pos ) <
+               square_dist( tripoint_zero, rhs.vIG[0].pos );
     }
 
     return lhs.example->get_category() < rhs.example->get_category();

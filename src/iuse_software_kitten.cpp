@@ -1,13 +1,12 @@
 #include "iuse_software_kitten.h"
 
-#include "output.h"
-#include "translations.h"
-#include "posix_time.h"
+#include <cstdlib>  // Needed for rand()
+
 #include "cursesdef.h"
 #include "input.h"
-
-#include <cstdlib>  // Needed for rand()
-#include <iostream>
+#include "output.h"
+#include "posix_time.h"
+#include "translations.h"
 
 #define EMPTY -1
 #define ROBOT 0
@@ -226,6 +225,10 @@ std::string robot_finds_kitten::getmessage( int idx )
 
 robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 {
+#ifdef __ANDROID__
+    input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
+#endif
+
     ret = false;
     char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
@@ -440,25 +443,24 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                         draw_kitten( w );
                     }
                     wrefresh( w );
-                    nanosleep( &ts, NULL );
+                    refresh_display();
+                    nanosleep( &ts, nullptr );
                 }
 
                 /* They're in love! */
                 mvwprintz( w, 0, ( ( rfkCOLS - 6 ) / 2 ) - 1, c_light_red, "<3<3<3" );
                 wrefresh( w );
-                nanosleep( &ts, NULL );
+                refresh_display();
+                nanosleep( &ts, nullptr );
                 for( int c = 0; c < rfkCOLS; c++ ) {
                     mvwputch( w, 0, c, c_white, ' ' );
                     mvwputch( w, 1, c, c_white, ' ' );
                 }
                 mvwprintz( w, 0, 0, c_white, _( "You found kitten! Way to go, robot!" ) );
                 wrefresh( w );
+                refresh_display();
                 ret = true;
-                int ech = input;
-                do {
-                    // TODO: use input context
-                    ech = inp_mngr.get_input_event().get_first_input();
-                } while( ech == input );
+                inp_mngr.wait_for_any_key();
             }
             break;
 

@@ -1,34 +1,30 @@
 #include "player_activity.h"
 
+#include <algorithm>
+
+#include "activity_handlers.h"
 #include "activity_type.h"
-#include "construction.h"
 #include "craft_command.h"
 #include "player.h"
-#include "requirements.h"
-#include "translations.h"
-#include "activity_handlers.h"
-#include "messages.h"
-#include "mapdata.h"
-
-#include <algorithm>
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
-                                  std::string name_in ) :
+                                  const std::string &name_in ) :
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
-    position( pos ), name( name_in ), ignore_trivial( false ), values(), str_values(),
-    placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false )
+    position( pos ), name( name_in ),
+    placement( tripoint_min ), auto_resume( false )
 {
 }
 
 player_activity::player_activity( const player_activity &rhs )
-    : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+    : type( rhs.type ), ignored_distractions( rhs.ignored_distractions ),
+      moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
-      ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
+      values( rhs.values ), str_values( rhs.str_values ),
       coords( rhs.coords ), placement( rhs.placement ),
-      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
+      auto_resume( rhs.auto_resume )
 {
     targets.clear();
     targets.reserve( rhs.targets.size() );
@@ -46,12 +42,11 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     index = rhs.index;
     position = rhs.position;
     name = rhs.name;
-    ignore_trivial = rhs.ignore_trivial;
+    ignored_distractions = rhs.ignored_distractions;
     values = rhs.values;
     str_values = rhs.str_values;
     coords = rhs.coords;
     placement = rhs.placement;
-    warned_of_proximity = rhs.warned_of_proximity;
     auto_resume = rhs.auto_resume;
 
     targets.clear();
@@ -89,7 +84,7 @@ bool player_activity::is_suspendable() const
     return type->suspendable();
 }
 
-std::string player_activity::get_str_value( size_t index, std::string def ) const
+std::string player_activity::get_str_value( size_t index, const std::string &def ) const
 {
     return ( index < str_values.size() ) ? str_values[index] : def;
 }
@@ -132,10 +127,11 @@ void player_activity::do_turn( player &p )
     if( !*this ) {
         // Make sure data of previous activity is cleared
         p.activity = player_activity();
-        if( !p.backlog.empty() && p.backlog.front().auto_resume ) {
-            p.activity = p.backlog.front();
-            p.backlog.pop_front();
-        }
+        p.resume_backlog_activity();
+
+        // If whatever activity we were doing forced us to pick something up to
+        // handle it, drop any overflow that may have caused
+        p.drop_invalid_inventory();
     }
 }
 
@@ -162,8 +158,16 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     }
 
     if( id() == activity_id( "ACT_CRAFT" ) || id() == activity_id( "ACT_LONGCRAFT" ) ) {
-        if( !containers_equal( values, other.values ) ||
-            !containers_equal( coords, other.coords ) ) {
+        // The last value is a time stamp, and the last coord is the player
+        // position.  We want to allow either to have changed.
+        // (This would be much less hacky in the hypothetical future of
+        // activity_handler_actors).
+        if( !( values.size() == other.values.size() &&
+               values.size() >= 1 &&
+               std::equal( values.begin(), values.end() - 1, other.values.begin() ) &&
+               coords.size() == other.coords.size() &&
+               coords.size() >= 1 &&
+               std::equal( coords.begin(), coords.end() - 1, other.coords.begin() ) ) ) {
             return false;
         }
     } else if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
@@ -188,4 +192,42 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     return !auto_resume && id() == other.id() && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
+}
+
+void player_activity::resume_with( const player_activity &other )
+{
+    if( id() == activity_id( "ACT_CRAFT" ) || id() == activity_id( "ACT_LONGCRAFT" ) ) {
+        // For crafting actions, we need to update the start turn and position
+        // to the resumption time values.  These are stored in the last
+        // elements of values and coords respectively.
+        if( !( values.size() >= 1 && values.size() == other.values.size() &&
+               coords.size() >= 1 && coords.size() == other.coords.size() ) ) {
+            debugmsg( "Activities incompatible; should not have resumed" );
+            return;
+        }
+        values.back() = other.values.back();
+        coords.back() = other.coords.back();
+    }
+}
+
+bool player_activity::is_distraction_ignored( distraction_type type ) const
+{
+    return ignored_distractions.find( type ) != ignored_distractions.end();
+}
+
+void player_activity::ignore_distraction( distraction_type type )
+{
+    ignored_distractions.emplace( type );
+}
+
+void player_activity::allow_distractions()
+{
+    ignored_distractions.clear();
+}
+
+void player_activity::inherit_distractions( const player_activity &other )
+{
+    for( auto &type : other.ignored_distractions ) {
+        ignore_distraction( type );
+    }
 }

@@ -144,7 +144,7 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
-void load_json_dir(std::string const &dirname)
+void load_json_dir(const std::string &dirname)
 {
     // get a list of all files in the directory
     std::vector<std::string> dir =

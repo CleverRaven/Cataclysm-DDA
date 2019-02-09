@@ -2,12 +2,11 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include <string>
 #include <array>
 #include <bitset>
 
-#include "string_id.h"
 #include "int_id.h"
+#include "string_id.h"
 
 class JsonObject;
 
@@ -38,7 +37,7 @@ enum class side : int {
  * Contains all valid @ref body_part values in the order they are
  * defined in. Use this to iterate over them.
  */
-const constexpr std::array<body_part, 12> all_body_parts = {{
+constexpr std::array<body_part, 12> all_body_parts = {{
         bp_torso, bp_head, bp_eyes, bp_mouth,
         bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
@@ -56,6 +55,7 @@ struct body_part_struct {
 
         // Those are stored untranslated
         std::string name;
+        std::string name_multiple;
         std::string name_as_heading_singular;
         std::string name_as_heading_multiple;
         std::string hp_bar_ui_text;
@@ -175,11 +175,11 @@ side opposite_side( side s );
 const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10}};
 
 /** Returns the matching name of the body_part token. */
-std::string body_part_name( body_part bp );
+std::string body_part_name( body_part bp, int number = 1 );
 
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
  *  These are identical to body_part_name above in English, but not in some other languages. */
-std::string body_part_name_accusative( body_part bp );
+std::string body_part_name_accusative( body_part bp, int number = 1 );
 
 /** Returns the name of the body parts in a context where the name is used as
  * a heading or title e.g. "Left Arm". */
@@ -204,6 +204,5 @@ std::string get_body_part_id( body_part bp );
 
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
-
 
 #endif

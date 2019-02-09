@@ -1,23 +1,20 @@
-#include "catch/catch.hpp"
-
-#include "creature.h"
-#include "creature_tracker.h"
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "monster.h"
-#include "mtype.h"
-#include "options.h"
-#include "player.h"
-#include "vehicle.h"
-
-#include "map_helpers.h"
-#include "test_statistics.h"
-
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
+
+#include "catch/catch.hpp"
+#include "creature.h"
+#include "game.h"
+#include "map.h"
+#include "map_helpers.h"
+#include "monster.h"
+#include "options.h"
+#include "player.h"
+#include "test_statistics.h"
+#include "vehicle.h"
+
+typedef statistics<int> move_statistics;
 
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
@@ -35,7 +32,7 @@ static int moves_to_destination( const std::string &monster_type,
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
             test_monster.anger = 100;
-            int moves_before = test_monster.moves;
+            const int moves_before = test_monster.moves;
             test_monster.move();
             moves_spent += moves_before - test_monster.moves;
             if( test_monster.pos() == test_monster.move_target() ) {
@@ -66,7 +63,7 @@ std::ostream &operator << ( std::ostream &os, track const &value )
     return os;
 }
 
-std::ostream &operator << ( std::ostream &os, std::vector<track> vec )
+std::ostream &operator << ( std::ostream &os, const std::vector<track> &vec )
 {
     for( auto &track_instance : vec ) {
         os << track_instance << " ";
@@ -132,7 +129,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
-            int moves_before = test_monster.moves;
+            const int moves_before = test_monster.moves;
             test_monster.move();
             tracker.push_back( {'m', moves_before - test_monster.moves,
                                 rl_dist( test_monster.pos(), test_player.pos() ),
@@ -157,7 +154,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 
 // Verify that the named monster has the expected effective speed, not reduced
 // due to wasted motion from shambling.
-static void check_shamble_speed( const std::string monster_type, const tripoint &destination )
+static void check_shamble_speed( const std::string &monster_type, const tripoint &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
     const float slope = get_normalized_angle( {0, 0}, {destination.x, destination.y} );
@@ -165,7 +162,7 @@ static void check_shamble_speed( const std::string monster_type, const tripoint 
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
-    statistics move_stats;
+    move_statistics move_stats;
     for( int i = 0; i < 10; ++i ) {
         move_stats.add( moves_to_destination( monster_type, {0, 0, 0}, destination ) );
         if( ( move_stats.avg() / ( 10000.0 * diagonal_multiplier ) ) ==
@@ -180,11 +177,11 @@ static void check_shamble_speed( const std::string monster_type, const tripoint 
            Approx( 1.0 ).epsilon( 0.02 ) );
 }
 
-static void test_moves_to_squares( std::string monster_type, bool write_data = false )
+static void test_moves_to_squares( const std::string &monster_type, const bool write_data = false )
 {
-    std::map<int, statistics> turns_at_distance;
-    std::map<int, statistics> turns_at_slope;
-    std::map<int, statistics> turns_at_angle;
+    std::map<int, move_statistics> turns_at_distance;
+    std::map<int, move_statistics> turns_at_slope;
+    std::map<int, move_statistics> turns_at_angle;
     // For the regression test we want just enough samples, for data we want a lot more.
     const int required_samples = write_data ? 100 : 20;
     const int sampling_resolution = write_data ? 1 : 20;
@@ -297,7 +294,7 @@ static void monster_check()
 // Write out a map of slope at which monster is moving to time required to reach their destination.
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -306,7 +303,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -317,7 +314,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
     trigdist = false;
     monster_check();
@@ -325,7 +322,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
     trigdist = true;
     monster_check();

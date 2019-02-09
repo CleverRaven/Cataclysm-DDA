@@ -13,13 +13,14 @@
   {
     "type": "MONSTER_BLACKLIST",
     "monsters": [
-	  "mon_beekeeper",
 	  "mon_boomer",
 	  "mon_boomer_fungus",
 	  "mon_boomer_huge",
+	  "mon_zombie_flamer",
       "mon_flesh_angel",
 	  "mon_homunculus",
 	  "mon_shia",
+	  "mon_zombear",
 	  "mon_zombie_acidic",
 	  "mon_zombie_armored",
 	  "mon_zombie_bio_op",
@@ -28,6 +29,7 @@
 	  "mon_zombie_brute_grappler",
 	  "mon_zombie_brute_ninja",
 	  "mon_zombie_brute_shocker",
+	  "mon_zombie_nullfield",
 	  "mon_zombie_corrosive",
 	  "mon_zombie_dancer",
 	  "mon_zombie_electric",
@@ -53,6 +55,7 @@
 	  "mon_zombie_spitter",
 	  "mon_zombie_survivor",
 	  "mon_zombie_technician",
+	  "mon_skeleton_hulk",
 	  
 	  "mon_zombie_anklebiter",
 	  "mon_zombie_child_scorched",

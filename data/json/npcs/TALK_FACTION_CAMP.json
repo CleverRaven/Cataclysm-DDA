@@ -1,0 +1,92 @@
+[
+  {
+    "id": "TALK_CAMP_GENERAL",
+    "type": "talk_topic",
+    "dynamic_line": "What about faction camps?",
+    "responses": [
+      { "text": "Tell me how faction camps work.", "topic": "TALK_CAMP_TUTORIAL_1" },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_DONE",
+        "effect": "start_camp",
+        "condition": { "and": [ { "u_at_om_location": "field" }, { "npc_allies": 2 } ] }
+      },
+      {
+        "text": "I want you to take over the camp here.",
+        "topic": "TALK_DONE",
+        "effect": "recover_camp",
+        "condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": { "npc_role_nearbby": "FACTION_CAMP" } } ] }
+      },
+      { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "Nothing.  Lets' get back to work.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_1",
+    "type": "talk_topic",
+    "dynamic_line": "The faction camp system is designed to give you greater control over your companions by allowing you to assign them to their own missions.  These missions can range from gathering and crafting to eventual combat patrols.",
+    "responses": [
+      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_2" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_2",
+    "type": "talk_topic",
+    "dynamic_line": "Food is required for or produced during every mission.  Missions that are for a fixed amount of time will require you to pay in advance while repeating missions, like gathering firewood, are paid upon completion.  Not having the food needed to pay a companion will result in a loss of reputation across the faction.  Which can lead to VERY bad things if it gets too low.",
+    "responses": [
+      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_3" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_3",
+    "type": "talk_topic",
+    "dynamic_line": "For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it.  Forests are your primary source of construction materials in the early game while fields can be used for farming.  You don't have to be too picky, you can build as many camps as you want.  Each camp requires at least two NPCs: one to be the camp manager and an additional NPC to task out.",
+    "responses": [
+      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_4" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_4",
+    "type": "talk_topic",
+    "dynamic_line": "After you pick a site you will need to find or make materials to upgrade the camp further to access new missions.  The first new missions are focused on gathering materials to upgrade the camp so you don't have to.  After two or three upgrades you will have access to the <color_yellow>[Menial Labor]</color> mission which will allow you to task companions with sorting all of the items around your camp into categories.  Later upgrades allow you to send companions to recruit new members, build overmap fortifications, or even conduct combat patrols",
+    "responses": [
+      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_5" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_5",
+    "type": "talk_topic",
+    "dynamic_line": "When you upgrade your first tent all the way you will unlock the ability to construct expansions.  Expansions allow you to specialize each camp you build by focusing on the industries that you need.  A <color_light_green>[Farm]</color> is recommended for players that want to pursue a large faction while a <color_light_green>[Kitchen]</color> is better for players that just want the quality of life improvement of having an NPC do all of their cooking.  A <color_light_green>[Garage]</color> is useful for chop shop type missions that let you trade vehicles for large amounts of parts and resources.  All those resources can be turning into valuable equipment in the <color_light_green>[Blacksmith Shop]</color>. You can build an additional expansion every other level after the first is unlocked and when one camp is full you can just as easily build another.",
+    "responses": [
+      { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_OVERSEER",
+    "type": "talk_topic",
+    "dynamic_line": "Hey Boss...",
+    "responses": [
+      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } },
+      { "text": "We're abandoning this camp.", "topic": "TALK_DONE", "effect": "remove_overseer" },
+      { "text": "See you around.", "topic": "TALK_DONE" }
+    ]
+  }
+]

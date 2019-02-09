@@ -20,7 +20,7 @@
     "category": "veh_parts",
     "name": "shock absorber",
     "description": "This makeshift combination of springs and scrap, when attached to a vehicle section, protects that section from impacts.  The springs can absorb a surprising amount of damage.",
-    "weight": 14880,
+    "weight": 22540,
     "volume": 12,
     "price": 1300,
     "to_hit": -1,

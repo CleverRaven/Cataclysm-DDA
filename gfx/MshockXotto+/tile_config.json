@@ -7881,7 +7881,7 @@
         },
         {
           "id": "atomic_coffeepot",
-          "fg": 1633,
+          "fg": 4265,
           "bg": 957,
           "rotates": false
         },
@@ -7958,7 +7958,7 @@
           "rotates": false
         },
         {
-          "id": "bio_dis_acid",
+          "id": ["bio_dis_acid", "bio_syringe", "bio_weight", "bio_shock_absorber"],
           "fg": 1016,
           "bg": 957,
           "rotates": false
@@ -9899,6 +9899,12 @@
         {
           "id": "sheet_metal",
           "fg": 1916,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "sheet_metal_small",
+          "fg": 4285,
           "bg": 957,
           "rotates": false
         },
@@ -13495,6 +13501,12 @@
           "rotates": false
         },
         {
+          "id": "booklet_firstaid",
+          "fg": 1032,
+          "bg": 963,
+          "rotates": false
+        },
+        {
           "id": "textbook_firstaid",
           "fg": 1032,
           "bg": 960,
@@ -13510,6 +13522,12 @@
           "id": "textbook_speech",
           "fg": 1063,
           "bg": 960,
+          "rotates": false
+        },
+        {
+          "id": "dnd_handbook",
+          "fg": 1066,
+          "bg": 959,
           "rotates": false
         },
         {
@@ -13879,6 +13897,12 @@
         },
         {
           "id": "manual_dodge",
+          "fg": 1043,
+          "bg": 962,
+          "rotates": false
+        },
+        {
+          "id": "manual_dodge_kid",
           "fg": 1043,
           "bg": 962,
           "rotates": false
@@ -14685,8 +14709,14 @@
           "bg": 967,
           "rotates": false
         },
-		{
-          "id": ["mon_null", "fd_null", "tr_null", "null", "vp_null", "tr_temple_toggle", "tr_glow", "tr_hum", "tr_shadow", "tr_snake", "TANK", "acid_spit", "apparatus", "clairvoyance_plus_rod", "fire", "generic_folded_vehicle", "gloople_act", "gray_act", "money", "muscle", "oozle_act", "oxyacetylene", "pseuso_bio_picklock", "software", "toolset", "upstest", "vp_plating_acidchitin", "vp_plating_bone", "vp_plating_chitin", "vp_plating_diamond", "vp_plating_hard", "vp_plating_military", "vp_plating_spiked", "vp_plating_steel", "vp_plating_superalloy", "vp_plating_wood", "vp_gloople_plate", "vp_gray_plate", "vp_oozle_plate"],
+        {
+          "id": ["generic_folded_vehicle", "tourist_table", "metal_butcher_rack"],
+          "fg": 4190,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": ["mon_null", "fd_null", "tr_null", "null", "vp_null", "tr_temple_toggle", "tr_glow", "tr_hum", "tr_shadow", "tr_snake", "TANK", "acid_spit", "apparatus", "clairvoyance_plus_rod", "fire", "gloople_act", "gray_act", "money", "muscle", "oozle_act", "oxyacetylene", "pseuso_bio_picklock", "software", "toolset", "upstest", "vp_plating_acidchitin", "vp_plating_bone", "vp_plating_chitin", "vp_plating_diamond", "vp_plating_hard", "vp_plating_military", "vp_plating_spiked", "vp_plating_steel", "vp_plating_superalloy", "vp_plating_wood", "vp_gloople_plate", "vp_gray_plate", "vp_oozle_plate"],
           "fg": 972,
           "rotates": false
         },
@@ -15688,6 +15718,12 @@
         {
           "id": "mon_zombie_soldier",
           "fg": 2757,
+          "bg": 967,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_military_pilot",
+          "fg": 4266,
           "bg": 967,
           "rotates": false
         },
@@ -17484,9 +17520,19 @@
           "bg": 985
         },
         {
+          "id": "t_reinforced_door_glass_lab_o",
+          "fg": 3183,
+          "bg": 993
+        },
+        {
           "id": "t_reinforced_door_glass_c",
           "fg": 3182,
           "bg": 985
+        },
+        {
+          "id": "t_reinforced_door_glass_lab_c",
+          "fg": 3182,
+          "bg": 993
         },
         {
           "id": "t_scrap_wall",
@@ -17704,15 +17750,33 @@
           "rotates": false
         },
         {
+          "id": "t_door_lab_frame",
+          "fg": 3035,
+          "bg": 993,
+          "rotates": false
+        },
+        {
           "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 3037,
           "bg": 987,
           "rotates": false
         },
         {
+          "id": [ "t_door_glass_lab_o", "t_door_glass_frosted_lab_o" ],
+          "fg": 3037,
+          "bg": 993,
+          "rotates": false
+        },
+        {
           "id": "t_door_o",
           "fg": 3044,
           "bg": 987,
+          "rotates": false
+        },
+        {
+          "id": "t_door_lab_o",
+          "fg": 3044,
+          "bg": 993,
           "rotates": false
         },
         {
@@ -17724,6 +17788,12 @@
           "id": "t_mdoor_frame",
           "fg": 3120,
           "bg": 987,
+          "rotates": false
+        },
+        {
+          "id": "t_mdoor_lab_frame",
+          "fg": 3120,
+          "bg": 993,
           "rotates": false
         },
         {
@@ -18588,7 +18658,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_metal_o",
+          "id": [ "t_door_metal_o", "t_door_metal_lab_o" ],
           "fg": 3042,
           "bg": 993,
           "rotates": false
@@ -18600,7 +18670,7 @@
           "rotates": false
         },
         {
-          "id": ["t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control"],
+          "id": [ "t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control", "t_gates_mech_control_lab" ],
           "fg": 3071,
           "bg": 993,
           "rotates": false
@@ -20957,7 +21027,7 @@
           "rotates": false
         },
         {
-          "id": "bio_blade",
+          "id": ["bio_blade", "bio_blindfold"],
           "fg": 1016,
           "rotates": false
         },
@@ -21022,12 +21092,12 @@
           "rotates": false
         },
         {
-          "id": "bio_ears",
+          "id": ["bio_ears", "bio_earplugs"],
           "fg": 1016,
           "rotates": false
         },
         {
-          "id": "bio_emp",
+          "id": ["bio_emp", "bio_emp_armgun"],
           "fg": 1016,
           "rotates": false
         },
@@ -21267,7 +21337,7 @@
           "rotates": false
         },
         {
-          "id": "bio_str_enhancer",
+          "id": ["bio_str_enhancer", "bio_surgical_razor"],
           "fg": 1016,
           "rotates": false
         },
@@ -21332,7 +21402,7 @@
           "rotates": false
         },
         {
-          "id": "bio_plut_filter",
+          "id": ["bio_plut_filter", "bio_plutdump"],
           "fg": 1016,
           "rotates": false
         },
@@ -21427,7 +21497,7 @@
           "fg": 1069
         },
         {
-          "id": "adrenaline_injector",
+          "id": ["adrenaline_injector", "purifier_smart_shot"],
           "fg": 1071,
           "rotates": false
         },
@@ -21470,7 +21540,7 @@
           "rotates": false
         },
         {
-          "id": "apple_vac",
+          "id": "apple_sugar",
           "fg": 1078,
           "rotates": false
         },
@@ -22364,7 +22434,7 @@
           "rotates": false
         },
         {
-          "id": "fish_vac",
+          "id": "salted_fish",
           "fg": 1190,
           "rotates": false
         },
@@ -22479,7 +22549,7 @@
           "rotates": false
         },
         {
-          "id": "hflesh_vac",
+          "id": "hflesh_salted",
           "fg": 1209,
           "rotates": false
         },
@@ -22752,7 +22822,7 @@
           "rotates": false
         },
         {
-          "id": "meat_vac",
+          "id": "meat_salted",
           "fg": 1259,
           "rotates": false
         },
@@ -23480,7 +23550,7 @@
           "rotates": false
         },
         {
-          "id": "veggy_vac",
+          "id": "veggy_salted",
           "fg": 1366,
           "rotates": false
         },
@@ -23685,6 +23755,11 @@
         {
           "id": "bottle_plastic_small",
           "fg": 1393
+        },
+        {
+          "id": "bottle_twoliter",
+          "fg": 4283,
+          "rotates": false
         },
         {
           "id": "bowl_pewter",
@@ -24318,6 +24393,38 @@
           ]
         },
         {
+          "id": "f_recycle_bin",
+          "fg": 1499,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "unconnected",
+              "fg": 1499
+            },
+            {
+              "id": "center",
+              "fg": 1500
+            },
+            {
+              "id": "corner",
+              "fg": 1501
+            },
+            {
+              "id": "edge",
+              "fg": 1502
+            },
+            {
+              "id": "end_piece",
+              "fg": 1503
+            },
+            {
+              "id": "t_connection",
+              "fg": 1504
+            }
+          ]
+        },
+        {
           "id": "f_egg_sackbw",
           "fg": 1505,
           "rotates": false
@@ -24387,7 +24494,7 @@
         {
           "id": "f_file_cabinet",
           "fg": 1511,
-          "rotates": true
+          "rotates": false
         },
         {
           "id": "f_locker",
@@ -24934,6 +25041,11 @@
         },
         {
           "id": "3006_casing",
+          "fg": 1604,
+          "rotates": false
+        },
+        {
+          "id": "762_51_casing",
           "fg": 1607,
           "rotates": false
         },
@@ -25132,28 +25244,8 @@
           "fg": 1637
         },
         {
-          "id": "bag_apple_vac",
+          "id": "plastic_bag_vac",
           "fg": 1639,
-          "rotates": false
-        },
-        {
-          "id": "bag_fish_vac",
-          "fg": 1640,
-          "rotates": false
-        },
-        {
-          "id": "bag_hflesh_vac",
-          "fg": 1641,
-          "rotates": false
-        },
-        {
-          "id": "bag_meat_vac",
-          "fg": 1642,
-          "rotates": false
-        },
-        {
-          "id": "bag_veggy_vac",
-          "fg": 1643,
           "rotates": false
         },
         {
@@ -31825,7 +31917,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c" ],
           "fg": 3036,
           "rotates": false
         },
@@ -31835,7 +31927,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_metal_c",
+          "id": [ "t_door_metal_c", "t_door_metal_lab_c" ],
           "fg": 3040,
           "rotates": true
         },
@@ -31901,17 +31993,17 @@
           "fg": 3068
         },
         {
-          "id": "t_gates_control_brick",
+          "id": [ "t_gates_control_brick", "t_gates_control_brick_lab" ],
           "fg": 3069,
           "rotates": false
         },
         {
-          "id": ["t_gates_control_concrete", "t_reinforced_glass_control", "t_containment_control"],
+          "id": ["t_gates_control_concrete", "t_reinforced_glass_control", "t_containment_control", "t_gates_control_concrete_lab" ],
           "fg": 3070,
           "rotates": false
         },
         {
-          "id": "t_gates_control_metal",
+          "id": [ "t_gates_control_metal", "t_gates_control_metal_lab" ],
           "fg": 3070
         },
         {
@@ -37983,7 +38075,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_c",
+          "id": [ "t_door_c", "t_door_lab_c" ],
           "fg": 4017,
           "rotates": false
         },
@@ -38003,7 +38095,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_b",
+          "id": [ "t_door_b", "t_door_lab_b" ],
           "fg": 4018,
           "rotates": false
         },
@@ -40178,33 +40270,53 @@
         },
 		{
           "id": "t_railroad_rubble",
-          "bg": 5189,
+          "bg": 4272,
           "rotates": true
         },
 		{
           "id": "t_railroad_track",
-          "fg": [5193, 5191, 5193, 5191],
-          "bg": 5189,
-          "rotates": true
-        },
-		{
-          "id": "t_railroad_track_on_tie",
-          "fg": [5192, 5195, 5192, 5195],
-          "bg": 5189,
-          "rotates": false
-        },
-		{
-          "id": "t_railroad_tie",
-          "fg": [5190, 5194, 5190, 5194],
-          "bg": 5189,
+          "fg": [4273, 4274, 4273, 4274],
           "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
-              "id": "end_piece",
-              "fg": [5190, 5194, 5190, 5194]
+              "id": "center",
+              "fg": 4282
             }
-          ]
+	  ]
+        },
+		{
+          "id": "t_railroad_track_d",
+          "fg": 4275,
+          "bg": 4272,
+          "rotates": true
+        },
+		{
+          "id": "t_railroad_track_on_tie",
+          "fg": [4277, 4276, 4277, 4276],
+          "rotates": true
+        },
+		{
+          "id": "t_railroad_tie",
+          "fg": [4278, 4279, 4278, 4279],
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "unconnected",
+              "fg": 4272
+            }
+	  ]
+        },
+		{
+          "id": "t_railroad_tie_v",
+          "fg": 4278,
+          "rotates": false
+        },
+		{
+          "id": "t_railroad_tie_h",
+          "fg": 4279,
+          "rotates": false
         },
 		{
           "id": ["chess", "checkers"],
@@ -40971,8 +41083,262 @@
             ],
           "bg": 967,
           "rotates": false
+        },
+        {
+          "id": "t_grass_long_season_winter",
+          "fg": 4199,
+          "bg": 992,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 4200,
+              "bg": 992
+            },
+            {
+              "id": "corner",
+              "fg": 4201,
+              "bg": 992
+            },
+            {
+              "id": "edge",
+              "fg": 4202,
+              "bg": 992
+            },
+            {
+              "id": "end_piece",
+              "fg": 4203,
+              "bg": 992
+            },
+            {
+              "id": "t_connection",
+              "fg": 4204,
+              "bg": 992
+            },
+            {
+              "id": "unconnected",
+              "fg": 4199,
+              "bg": 992
+            }
+          ]
+	},
+        {
+          "id": "t_grass_long",
+          "fg": 4239,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 4260
+            },
+            {
+              "id": "corner",
+              "fg": 4261
+            },
+            {
+              "id": "edge",
+              "fg": 4262
+            },
+            {
+              "id": "end_piece",
+              "fg": 4263
+            },
+            {
+              "id": "t_connection",
+              "fg": 4264
+            },
+            {
+              "id": "unconnected",
+              "fg": 4239
+            }
+          ]
+	},
+        {
+          "id": "mon_skittering_plague",
+          "fg": 4205,
+          "rotates": false
+        },
+        {
+          "id": "mon_plague_vector",
+          "fg": 4206,
+          "rotates": false
+        },
+        {
+          "id": "mon_plague_nymph",
+          "fg": 4207,
+          "rotates": false
+        },
+        {
+          "id": "t_grass_tall",
+          "fg": 4254,
+          "rotates": false
+	},
+        {
+          "id": "t_grass_tall_season_winter",
+          "fg": 4198,
+          "rotates": false
+	},
+        {
+          "id": "f_lily",
+          "fg": 4255,
+          "rotates": false
+        },
+        {
+          "id": "f_lilypad",
+          "fg": 4269,
+          "rotates": false
+        },
+        {
+          "id": "f_rack_coat",
+          "fg": 4268,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "pot_canning",
+          "fg": 4267,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "t_stump",
+          "fg": 4270,
+          "rotates": false
+        },
+        {
+          "id": "t_stump_season_winter",
+          "fg":  4271,
+          "rotates": false
+        },
+        {
+          "id": "thermos",
+          "fg": 4256,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "smart_phone",
+          "fg": 4257,
+          "rotates": false
+        },
+        {
+          "id": "smart_phone_flashlight",
+          "fg": 4258,
+          "rotates": false
+        },
+        {
+          "id": "f_mailbox",
+          "fg": 4259,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "basket_laundry",
+          "fg": 4284,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "paintballgun",
+          "fg": 4286,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "weak_antibiotic",
+          "fg": 4287,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "f_rubble_landfill",
+          "fg": 4288,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 4289
+            },
+            {
+              "id": "edge",
+              "fg": 4290
+            },
+            {
+              "id": "t_connection",
+              "fg": 4291
+            },
+            {
+              "id": "end_piece",
+              "fg": 4292
+            },
+            {
+              "id": "center",
+              "fg": 4293
+            }
+          ]
+        },
+        {
+          "id": "f_rubble_landfill_season_winter",
+          "fg": 4294,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 4295
+            },
+            {
+              "id": "edge",
+              "fg": 4296
+            },
+            {
+              "id": "t_connection",
+              "fg": 4297
+            },
+            {
+              "id": "end_piece",
+              "fg": 4298
+            },
+            {
+              "id": "center",
+              "fg": 4299
+            }
+          ]
+        },
+        {
+          "id": "f_target",
+          "fg": 4300,
+          "bg": 967,
+          "rotates": false
+        },
+        {
+          "id": "golf_shoes",
+          "fg": 4301,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "gloves_golf",
+          "fg": 4302,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "golf_ball",
+          "fg": 4303,
+          "bg": 957,
+          "rotates": false
+        },
+        {
+          "id": "feces_bird",
+          "fg": 4321,
+          "bg": 957,
+          "rotates": false
         }
-    ]
+      ]
     },
     {
     "file": "expan2.png",
@@ -41451,6 +41817,11 @@
           ]
         },
         {
+          "id": "mon_skeleton_hulk",
+          "fg": 5447,
+          "rotates": false
+        },
+        {
           "id": "hulk_weapon",
           "fg": 5448,
           "rotates": false
@@ -41569,8 +41940,116 @@
           "id": "mon_utahraptor",
           "fg": 5471,
           "rotates": false
+        },
+        {
+          "id": ["t_tree_mulberry", "t_tree_elderberry", "t_tree_mulberry_harvested", "t_tree_elderberry_harvested"],
+          "fg": 5394,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_mulberry_season_winter", "t_tree_elderberry_season_winter", "t_tree_mulberry_harvested_season_winter", "t_tree_elderberry_harvested_season_winter"],
+          "fg": 5395,
+          "bg": 5403,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_mulberry_season_summer",
+          "fg": 5396,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_elderberry_season_summer",
+          "fg": 5397,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_chestnut", "t_tree_walnut", "t_tree_pecan", "t_tree_beech"],
+          "fg": 5472,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_chestnut_harvested_season_autumn", "t_tree_walnut_harvested_season_autumn", "t_tree_pecan_harvested_season_autumn", "t_tree_beech_harvested_season_autumn"],
+          "fg": 5473,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_chestnut_season_winter", "t_tree_walnut_season_winter", "t_tree_pecan_season_winter", "t_tree_beech_season_winter", "t_tree_chestnut_harvested_season_winter", "t_tree_walnut_harvested_season_winter", "t_tree_pecan_harvested_season_winter", "t_tree_beech_harvested_season_winter"],
+          "fg": 5474,
+          "bg": 5403,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_chestnut_season_autumn",
+          "fg": 5475,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_walnut_season_autumn",
+          "fg": 5476,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_pecan_season_autumn",
+          "fg": 5477,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_beech_season_autumn",
+          "fg": 5478,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_hazelnut", "t_tree_almond", "t_tree_pistachio"],
+          "fg": 5479,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_hazelnut_harvested", "t_tree_almond_harvested", "t_tree_pistachio_harvested"],
+          "fg": 5480,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_hazelnut_season_winter", "t_tree_almond_season_winter", "t_tree_pistachio_season_winter", "t_tree_hazelnut_harvested_season_winter", "t_tree_almond_harvested_season_winter", "t_tree_pistachio_harvested_season_winter"],
+          "fg": 5481,
+          "bg": 5403,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hazelnut_season_autumn",
+          "fg": 5482,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_almond_season_spring",
+          "fg": 5483,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_almond_season_autumn",
+          "fg": 5484,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_pistachio_season_autumn",
+          "fg": 5485,
+          "bg": 5402,
+          "rotates": false
         }
-    ]
+      ]
     },
     {
       "file": "fallback.png",

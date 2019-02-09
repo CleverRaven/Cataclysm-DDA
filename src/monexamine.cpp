@@ -1,13 +1,15 @@
 #include "monexamine.h"
-#include "monster.h"
-#include "item.h"
-#include "game.h"
-#include "translations.h"
-#include "messages.h"
-#include "mtype.h"
-#include "calendar.h"
-#include "player.h"
+
 #include <utility>
+
+#include "calendar.h"
+#include "game.h"
+#include "item.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "player.h"
+#include "translations.h"
 
 const efftype_id effect_milked( "milked" );
 
@@ -24,7 +26,7 @@ void monexamine::milk_source( monster &source_mon )
 
     if( remaining_milk > 0 ) {
         item milk( milked_item.begin()->first, calendar::turn, remaining_milk );
-        if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, &source_mon ) ) {
+        if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name().c_str() );
             long transferred_milk = remaining_milk - milk.charges;
             source_mon.add_effect( effect_milked, milking_freq * transferred_milk );

@@ -116,7 +116,7 @@ string.
 ### Translation Functions
 
 In order to mark a string for translation and to obtain its translation at
-runtime, you should use one of the following three functions.
+runtime, you should use one of the following functions and classes.
 
 String *literals* that are used in any of these functions are automatically
 extracted. Non-literal strings are still translated at run time, but they won't
@@ -137,7 +137,9 @@ add_msg( _( "You drop the %s." ), the_item_name );
 ```
 
 Strings from the JSON files are extracted by the `lang/extract_json_strings.py`
-script, and can be translated at run time using `_()`.
+script, and can be translated at run time using `_()`. If translation context
+is desired for a JSON string, `class translation` can be used instead, which is
+documented below.
 
 #### `pgettext()`
 
@@ -164,6 +166,40 @@ should be used at run time:
 
 ```c++
 const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
+```
+
+### `translation`
+
+There are times when you want to store a string for translation, maybe with
+translation context; Sometimes you may also want to store a string that needs no
+translation. `class translation` in `translations.h|cpp` offers the above
+functionality in a single wrapper.
+
+```c++
+const translation text = translation( "Context", "Text" );
+```
+
+```c++
+const translation text = translation( "Text without context" );
+```
+
+```c++
+const translation text = no_translation( "This string will not be translated" );
+```
+
+The string can then be translated/retrieved with
+
+```c++
+const std::string translated = text.translated();
+```
+
+`class translation` can also be read from JSON. The method `translation::deserialize()`
+handles deserialization from a `JsonIn` object, so it can be read from JSON
+using the appropriate JSON functions. The corresponding JSON syntax for strings
+with context is as follows:
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar" }
 ```
 
 ### Recommendations
@@ -193,7 +229,7 @@ There are scripts available for these, so usually the process will be as follows
 1. Download the translations in `.po` format.
 2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
 3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
-4. Run `lang/merge_po.sh` to update `lang/po/*.po`.
+4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
 
     This will also merge the translations from `lang/incoming/`.
 

@@ -105,7 +105,7 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [
-      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 1 ] ],
       [ [ "spring", 1 ] ],
       [ [ "duct_tape", 40 ] ]
     ]
@@ -126,7 +126,7 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [
-      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 1 ] ],
       [ [ "spring", 1 ] ],
       [ [ "duct_tape", 40 ] ]
     ]

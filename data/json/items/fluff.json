@@ -1,0 +1,32 @@
+[
+  {
+    "id": "magic_8_ball",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "Magic 8-Ball",
+    "name_plural": "Magic 8-Balls",
+    "description": "A fortune-telling device from the 1950s.  The kind of moral support you didn't know you needed.",
+    "weight": 40,
+    "volume": 1,
+    "price": 1000,
+    "material": [ "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "use_action": "MAGIC_8_BALL"
+  },
+  {
+    "id": "coin_quarter",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "coin",
+    "name_plural": "coins",
+    "description": "A now-ancient form of currency.  Stripped of its original purpose, it now serves, faithfully, flippant Flippists for free.",
+    "weight": 6,
+    "volume": 0,
+    "price": 25,
+    "material": [ "silver" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "use_action": "COIN_FLIP"
+  }
+]

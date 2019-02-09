@@ -8,7 +8,8 @@
   {
     "type": "uncraft",
     "result": "1cyl_combustion",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 40000,
     "components": [
@@ -26,7 +27,8 @@
   {
     "type": "uncraft",
     "result": "1cyl_combustion_small",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 40000,
     "components": [
@@ -44,7 +46,8 @@
   {
     "type": "uncraft",
     "result": "i4_combustion",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 40000,
     "components": [
@@ -62,7 +65,8 @@
   {
     "type": "uncraft",
     "result": "i6_diesel",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 50000,
     "components": [
@@ -82,7 +86,8 @@
   {
     "type": "uncraft",
     "result": "v2_combustion",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 40000,
     "components": [
@@ -100,7 +105,8 @@
   {
     "type": "uncraft",
     "result": "v6_combustion",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 40000,
     "components": [
@@ -118,7 +124,8 @@
   {
     "type": "uncraft",
     "result": "v6_diesel",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 50000,
     "components": [
@@ -138,7 +145,8 @@
   {
     "type": "uncraft",
     "result": "v8_combustion",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 40000,
     "components": [
@@ -156,7 +164,8 @@
   {
     "type": "uncraft",
     "result": "v8_diesel",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 50000,
     "components": [
@@ -176,7 +185,8 @@
   {
     "type": "uncraft",
     "result": "v12_combustion",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 40000,
     "components": [
@@ -194,7 +204,8 @@
   {
     "type": "uncraft",
     "result": "v12_diesel",
-    "copy-from": "engine_disassembly",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
     "time": 50000,
     "components": [

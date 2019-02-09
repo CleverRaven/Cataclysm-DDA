@@ -1,25 +1,26 @@
 #include "item_location.h"
 
-#include "game_constants.h"
-#include "enums.h"
-#include "debug.h"
-#include "game.h"
-#include "map.h"
-#include "map_selector.h"
-#include "json.h"
-#include "character.h"
-#include "player.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "veh_type.h"
-#include "itype.h"
-#include "iuse_actor.h"
-#include "vpart_position.h"
-#include "translations.h"
-
 #include <climits>
 #include <list>
 #include <algorithm>
+
+#include "character.h"
+#include "debug.h"
+#include "enums.h"
+#include "game.h"
+#include "game_constants.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "map.h"
+#include "map_selector.h"
+#include "output.h"
+#include "player.h"
+#include "translations.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -123,6 +124,11 @@ class item_location::impl
         mutable int idx = -1;
         //Only used for stacked cash card currently, needed to be able to process a stack of different items
         mutable std::list<item> *whatstart = nullptr;
+
+    public:
+        //Flag that controls whether functions like obtain() should stack the obtained item
+        //with similar existing items in the inventory or create a new stack for the item
+        bool should_stack = true;
 };
 
 class item_location::impl::nowhere : public item_location::impl
@@ -182,9 +188,9 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();
                 return inv;
             }
@@ -214,6 +220,20 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 };
 
+static bool gun_has_item( const item &gun, const item *it )
+{
+    if( !gun.is_gun() ) {
+        return false;
+    }
+
+    if( gun.magazine_current() == it ) {
+        return true;
+    }
+
+    auto gms = gun.gunmods();
+    return !gms.empty() && std::find( gms.begin(), gms.end(), it ) != gms.end();
+}
+
 class item_location::impl::item_on_person : public item_location::impl
 {
     private:
@@ -225,7 +245,10 @@ class item_location::impl::item_on_person : public item_location::impl
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
 
         bool valid() const override {
-            return target() && who.has_item( *target() );
+            const item *targ = target();
+            return targ && who.has_item_with( [targ]( const item & it ) {
+                return &it == targ || gun_has_item( it, targ );
+            } );
         }
 
         void serialize( JsonOut &js ) const override {
@@ -279,9 +302,9 @@ class item_location::impl::item_on_person : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();  // This also takes off the item from whoever wears it.
                 return inv;
             }
@@ -385,9 +408,18 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = cur.veh.parts[ cur.part ].name();
+            vpart_position part_pos( cur.veh, cur.part );
+            std::string res;
+            if( auto label = part_pos.get_label() ) {
+                res = colorize( *label, c_light_blue ) + " ";
+            }
+            if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
+                res += cargo_part->part().name();
+            } else {
+                debugmsg( "item in vehicle part without cargo storage" );
+            }
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
             }
             return res;
         }
@@ -397,9 +429,9 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();
                 return inv;
             }
@@ -588,4 +620,9 @@ item_location item_location::clone() const
     item_location res;
     res.ptr = ptr;
     return res;
+}
+
+void item_location::set_should_stack( bool should_stack ) const
+{
+    ptr->should_stack = should_stack;
 }

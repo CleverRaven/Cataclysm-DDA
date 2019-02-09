@@ -12,7 +12,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "metal_butcher_rack",
@@ -58,5 +59,20 @@
     "symbol": "*",
     "color": "brown",
     "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
+  },
+  {
+    "id": "fiber_mat",
+    "type": "TOOL",
+    "name": "fiber mat",
+    "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be used as a comfortable sleeping place.  It's rolled and ready for carrying.",
+    "weight": 1000,
+    "volume": 10,
+    "price": 1000,
+    "to_hit": -3,
+    "bashing": 1,
+    "material": [ "veggy" ],
+    "symbol": "*",
+    "color": "yellow",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
   }
 ]

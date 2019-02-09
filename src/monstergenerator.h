@@ -1,16 +1,15 @@
 #pragma once
-#ifndef MONSTER_GENERATOR_H
-#define MONSTER_GENERATOR_H
-
-#include "enums.h"
-#include "string_id.h"
-#include "mattack_common.h"
-#include "pimpl.h"
+#ifndef MONSTERGENERATOR_H
+#define MONSTERGENERATOR_H
 
 #include <map>
-#include <memory>
-#include <vector>
 #include <set>
+#include <vector>
+
+#include "enums.h"
+#include "mattack_common.h"
+#include "pimpl.h"
+#include "string_id.h"
 
 class JsonObject;
 class Creature;
@@ -66,11 +65,17 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
-
         void check_monster_definitions() const;
 
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
+        /**
+         * Registers a LUA based monster attack function.
+         * @param name The name that is used in the json data to refer to the LUA function.
+         * It is stored in @ref attack_map
+         * @param lua_function The LUA id of the LUA function.
+         */
+        void register_monattack_lua( const std::string &name, int lua_function );
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
@@ -87,7 +92,6 @@ class MonsterGenerator
         void init_defense();
         void init_trigger();
         void init_flags();
-        void init_mf_attitude();
 
         void add_hardcoded_attack( const std::string &type, const mon_action_attack f );
         void add_attack( mattack_actor *ptr );

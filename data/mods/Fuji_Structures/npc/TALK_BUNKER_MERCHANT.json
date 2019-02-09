@@ -1,0 +1,46 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_BUNKER_MERCHANT",
+    "dynamic_line": "Heya, scav.",
+    "responses": [
+      { "text": "Did you build this place?", "topic": "TALK_BUNKER_MERCHANT_HERE" },
+      { "text": "Who are you?", "topic": "TALK_BUNKER_MERCHANT_WHO" },
+      { "text": "Why do you still use cash?", "topic": "TALK_BUNKER_MERCHANT_WHY" },
+      { "text": "You're a trader?", "topic": "TALK_BUNKER_MERCHANT_TRADE" },
+      { "text": "I need some supplies.", "effect": "start_trade", "topic": "TALK_BUNKER_MERCHANT" },
+      { "text": "Need help with anything?", "topic": "TALK_BUNKER_MERCHANT_MISSION" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BUNKER_MERCHANT_HERE",
+    "dynamic_line": "No, no... Well, maybe a little.  It was just as wrecked down here as it is up top when I found it, wasn't too hard to fix up.  You're welcome to stay in the spare room awhile, just don't hog it.  You're not the only scav out there.",
+    "responses": [ { "text": "Interesting...", "topic": "TALK_BUNKER_MERCHANT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BUNKER_MERCHANT_WHO",
+    "dynamic_line": "Just a scav who got lucky.  Now I'm content to sit around here on my pile of treasure.  I'm more than willing to trade if you've got the cash.",
+    "responses": [ { "text": "I see...", "topic": "TALK_BUNKER_MERCHANT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BUNKER_MERCHANT_WHY",
+    "dynamic_line": "Why not?  Everyone else does, so I suppose that's all that matters.  My ATM over there still works, connected to the bank servers and everything.",
+    "responses": [ { "text": "Hmm...", "topic": "TALK_BUNKER_MERCHANT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BUNKER_MERCHANT_TRADE",
+    "dynamic_line": "I suppose I am.  Scavs like you need supplies, right?  And I could always use more money.",
+    "responses": [ { "text": "Alright...", "topic": "TALK_BUNKER_MERCHANT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BUNKER_MERCHANT_MISSION",
+    "dynamic_line": "Not at the moment, check back later perhaps.",
+    "responses": [ { "text": "Sure...", "topic": "TALK_BUNKER_MERCHANT" } ]
+  }
+]

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 "Strip line numbers from comments in input .pot or .po file."
 
 from __future__ import print_function
@@ -14,7 +14,7 @@ def strip_pot_file(filename):
         print("Invalid filename: %s" % filename)
         sys.exit(1)
     try:
-        to_write = open(filename, 'r').readlines()
+        to_write = open(filename, 'r', encoding="utf-8").readlines()
     except IOError as read_exc:
         print(read_exc)
         sys.exit(1)
@@ -25,7 +25,7 @@ def strip_pot_file(filename):
 
     # Write the file back out with the line numbers stripped
     try:
-        open(filename, 'w').writelines(to_write)
+        open(filename, 'w', encoding="utf-8").writelines(to_write)
     except IOError as write_exc:
         print(write_exc)
         sys.exit(1)

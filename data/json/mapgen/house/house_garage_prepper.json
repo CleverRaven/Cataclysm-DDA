@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_carpet_red",
       "rows": [
-        "..............sssssss...",
+        ".............Psssssss...",
         ".--yy--;--yy--=======--.",
         ".|oooo   o  o|'''''''e|.",
         ".|           |r'''''''|.",
@@ -59,6 +59,7 @@
         "H": "t_thconc_floor",
         "J": "t_window_reinforced",
         "N": "t_thconc_floor",
+        "P": "t_grass",
         "T": "t_tree",
         "U": "t_linoleum_white",
         "c": "t_thconc_floor",
@@ -79,6 +80,7 @@
         "H": "f_chair",
         "N": "f_table",
         "O": "f_oven",
+        "P": "f_mailbox",
         "S": "f_sink",
         "U": "f_sink",
         "c": "f_counter",
@@ -91,6 +93,7 @@
         "r": "f_rack"
       },
       "toilets": { "t": {} },
+      "items": { "P": { "item": "mail", "chance": 35, "repeat": [ 2, 8 ] } },
       "place_loot": [
         { "group": "bed", "x": [ 13, 14 ], "y": [ 20, 21 ], "chance": 95, "repeat": [ 1, 3 ] },
         { "group": "bedroom", "x": [ 6, 21 ], "y": [ 13, 20 ], "chance": 85, "repeat": [ 1, 4 ] },

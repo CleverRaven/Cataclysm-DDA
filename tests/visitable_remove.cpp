@@ -1,16 +1,15 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
-#include "player.h"
-#include "visitable.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
+#include "player.h"
 #include "rng.h"
-#include "vpart_position.h"
-#include "vpart_reference.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )
@@ -21,7 +20,7 @@ static int count_items( const T &src, const itype_id &id )
         return VisitResponse::NEXT;
     } );
     return n;
-};
+}
 
 TEST_CASE( "visitable_remove", "[visitable]" )
 {
@@ -40,7 +39,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
 
     // check if all tiles within radius are loaded within current submap and passable
-    auto suitable = []( const tripoint & pos, int radius ) {
+    const auto suitable = []( const tripoint & pos, const int radius ) {
         auto tiles = closest_tripoints_first( radius, pos );
         return std::all_of( tiles.begin(), tiles.end(), []( const tripoint & e ) {
             if( !g->m.inbounds( e ) ) {
@@ -62,7 +61,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     item temp_liquid( liquid_id );
-    item obj = temp_liquid.in_container( temp_liquid.type->default_container );
+    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
     REQUIRE( obj.contents.size() == 1 );
     REQUIRE( obj.contents.front().typeId() == liquid_id );
 
@@ -404,7 +403,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( g->m.veh_at( e ) );
         } ) == 1 );
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO" );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

@@ -1,14 +1,12 @@
 #include "mongroup.h"
-#include <vector>
 
-#include "rng.h"
+#include "assign.h"
+#include "calendar.h"
 #include "debug.h"
-#include "options.h"
-#include "monstergenerator.h"
 #include "json.h"
 #include "mtype.h"
-#include "calendar.h"
-#include "assign.h"
+#include "options.h"
+#include "rng.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
@@ -53,6 +51,29 @@ void mongroup::clear()
 {
     population = 0;
     monsters.clear();
+}
+
+float mongroup::avg_speed() const
+{
+    float avg_speed = 0;
+    if( monsters.empty() ) {
+        const MonsterGroup &g = type.obj();
+        int remaining_frequency = 1000;
+        for( auto &elem : g.monsters ) {
+            avg_speed += elem.frequency * elem.name.obj().speed;
+            remaining_frequency -= elem.frequency;
+        }
+        if( remaining_frequency > 0 ) {
+            avg_speed += g.defaultMonster.obj().speed * remaining_frequency;
+        }
+        avg_speed /= 1000;
+    } else {
+        for( auto &it : monsters ) {
+            avg_speed += it.type->speed;
+        }
+        avg_speed /= monsters.size();
+    }
+    return avg_speed;
 }
 
 const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id &group )
@@ -360,8 +381,8 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
                 pack_max = packarr.next_int();
             }
             static const time_duration tdfactor = 1_hours;
-            time_duration starts = 0;
-            time_duration ends = 0;
+            time_duration starts = 0_turns;
+            time_duration ends = 0_turns;
             if( mon.has_member( "starts" ) ) {
                 starts = tdfactor * mon.get_int( "starts" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
             }
@@ -429,11 +450,11 @@ const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_i
 {
     const auto &group = group_name.obj();
     int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
-    for( auto it = group.monsters.begin(); it != group.monsters.end(); ++it ) {
-        if( it->frequency >= spawn_chance ) {
-            return it->name;
+    for( const auto &monster_type : group.monsters ) {
+        if( monster_type.frequency >= spawn_chance ) {
+            return monster_type.name;
         } else {
-            spawn_chance -= it->frequency;
+            spawn_chance -= monster_type.frequency;
         }
     }
 

@@ -2,21 +2,18 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include "iuse.h"
-#include "game_constants.h"
+#include <map>
+#include <set>
+#include <vector>
+
+#include "calendar.h"
 #include "color.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
-#include "int_id.h"
-#include "explosion.h"
 #include "units.h"
-#include "calendar.h"
-
-#include <limits.h>
-#include <set>
-#include <map>
-#include <string>
-#include <vector>
 
 class vitamin;
 using vitamin_id = string_id<vitamin>;
@@ -42,6 +39,8 @@ using emit_id = string_id<emit>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 struct furn_t;
+struct itype;
+class item_location;
 
 /**
  * Transform an item into a specific type.
@@ -202,8 +201,8 @@ struct effect_data {
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
-        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
+    effect_data( const efftype_id &nid, const time_duration &dur, body_part nbp, bool perm ) :
+        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
 /**
@@ -372,8 +371,10 @@ class reveal_map_actor : public iuse_actor
     public:
         /**
          * The radius of the overmap area that gets revealed.
-         * This is in overmap terrain coordinates. A radius of 1 means all terrains directly around
-         * the character are revealed.
+         * This is in overmap terrain coordinates.
+         * A radius of 1 means all terrains directly around center are revealed.
+         * The center is location of nearest city defined in `reveal_map_center_omt` variable of
+         * activated item (or current player global omt location if variable is not set).
          */
         int radius = 0;
         /**
@@ -385,7 +386,7 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( tripoint const &center, const std::string &target, int reveal_distance ) const;
+        void reveal_targets( const tripoint &center, const std::string &target, int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -447,6 +448,7 @@ class salvage_actor : public iuse_actor
             material_id( "cotton" ),
             material_id( "leather" ),
             material_id( "fur" ),
+            material_id( "faux_fur" ),
             material_id( "nomex" ),
             material_id( "kevlar" ),
             material_id( "plastic" ),
@@ -456,10 +458,11 @@ class salvage_actor : public iuse_actor
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
-        int cut_up( player &p, item &it, item &cut ) const;
+        int cut_up( player &p, item &it, item_location &cut ) const;
+        int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 
-        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type, 0 ) {}
+        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
         ~salvage_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -498,7 +501,7 @@ class inscribe_actor : public iuse_actor
 
         bool item_inscription( item &cut ) const;
 
-        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type, 0 ) {}
+        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type ) {}
 
         ~inscribe_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -532,7 +535,7 @@ class cauterize_actor : public iuse_actor
 class enzlave_actor : public iuse_actor
 {
     public:
-        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type, 0 ) {}
+        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type ) {}
 
         ~enzlave_actor() override = default;
         void load( JsonObject &jo ) override;
@@ -554,7 +557,8 @@ class fireweapon_off_actor : public iuse_actor
         std::string failure_message; // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
-        int success_chance = INT_MIN; // Lower is better: rng(0, 10) - item.damage > this variable
+        // Lower is better: rng(0, 10) - item.damage_level( 4 ) > this variable
+        int success_chance = INT_MIN;
 
         fireweapon_off_actor() : iuse_actor( "fireweapon_off" ) {}
 
@@ -642,7 +646,7 @@ class musical_instrument_actor : public iuse_actor
         /**
          * Display description once per this duration (@ref calendar::once_every).
          */
-        time_duration description_frequency = 0;
+        time_duration description_frequency = 0_turns;
 
         musical_instrument_actor( const std::string &type = "musical_instrument" ) : iuse_actor( type ) {}
 
@@ -691,6 +695,8 @@ class holster_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        units::volume max_stored_volume() const;
 };
 
 /**
@@ -708,6 +714,9 @@ class bandolier_actor : public iuse_actor
         /** Base cost of accessing/storing an item. Scales down to half of that with skills. */
         int draw_cost = INVENTORY_HANDLING_PENALTY;
 
+        /** Can this type of ammo ever be stored */
+        bool is_valid_ammo_type( const itype & ) const;
+
         /** Check if obj could be stored in the bandolier */
         bool can_store( const item &bandolier, const item &obj ) const;
 
@@ -721,6 +730,8 @@ class bandolier_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        units::volume max_stored_volume() const;
 };
 
 class ammobelt_actor : public iuse_actor
@@ -765,13 +776,14 @@ class repair_item_actor : public iuse_actor
             AS_FAILURE,         // Failed hard, don't retry
             AS_DESTROYED,       // Failed and destroyed item
             AS_CANT,            // Couldn't attempt
+            AS_CANT_USE_TOOL,   // Cannot use tool
             AS_CANT_YET         // Skill too low
         };
 
         enum repair_type : int {
             RT_NOTHING = 0,
             RT_REPAIR,          // Just repairing damage
-            RT_REFIT,           // Adding (fits) tag
+            RT_REFIT,           // Refitting
             RT_REINFORCE,       // Getting damage below 0
             RT_PRACTICE,        // Wanted to reinforce, but can't
             NUM_REPAIR_TYPES
@@ -779,9 +791,12 @@ class repair_item_actor : public iuse_actor
 
         /** Attempts to repair target item with selected tool */
         attempt_hint repair( player &pl, item &tool, item &target ) const;
-        /** Checks if repairs are possible.
+        /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
-        bool can_repair( player &pl, const item &tool, const item &target, bool print_msg ) const;
+        bool can_repair_target( player &pl, const item &target, bool print_msg ) const;
+        /** Checks if we are allowed to use the tool. */
+        bool can_use_tool( const player &p, const item &tool, bool print_msg ) const;
+
         /** Returns if components are available. Consumes them if `just_check` is false. */
         bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
         /** Returns the chance to repair and to damage an item. */
@@ -955,7 +970,7 @@ class install_bionic_actor : public iuse_actor
     public:
         install_bionic_actor( const std::string &type = "install_bionic" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -967,7 +982,7 @@ class detach_gunmods_actor : public iuse_actor
     public:
         detach_gunmods_actor( const std::string &type = "detach_gunmods" ) : iuse_actor( type ) {}
 
-        void load( JsonObject & ) override {};
+        void load( JsonObject & ) override {}
         long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<bool> can_use( const player &, const item &it, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -1001,4 +1016,26 @@ class mutagen_iv_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
+
+class deploy_tent_actor : public iuse_actor
+{
+    public:
+        string_id<furn_t> wall;
+        string_id<furn_t> floor;
+        cata::optional<string_id<furn_t>> floor_center;
+        string_id<furn_t> door_opened;
+        string_id<furn_t> door_closed;
+        int radius = 1;
+        cata::optional<itype_id> broken_type;
+
+        deploy_tent_actor() : iuse_actor( "deploy_tent" ) {}
+
+        ~deploy_tent_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+
+        bool check_intact( const tripoint &pos ) const;
+};
+
 #endif

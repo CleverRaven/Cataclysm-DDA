@@ -445,5 +445,80 @@
     "id": "1st_aid_survivor",
     "type": "MIGRATION",
     "replace": "1st_aid"
+  },
+  {
+    "id": "mushroom_poison",
+    "type": "MIGRATION",
+    "replace": "mushroom"
+  },
+  {
+    "id": "mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "mushroom"
+  },
+  {
+    "id": "seed_mushroom_poison",
+    "type": "MIGRATION",
+    "replace": "seed_mushroom"
+  },
+  {
+    "id": "seed_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "seed_mushroom"
+  },
+  {
+    "id": "lasagne_cooked",
+    "type": "MIGRATION",
+    "replace": "spaghetti_cooked"
+  },
+  {
+    "id": "fish_vac",
+    "type": "MIGRATION",
+    "replace": "salted_fish"
+  },
+  {
+    "id": "apple_vac",
+    "type": "MIGRATION",
+    "replace": "apple_sugar"
+  },
+  {
+    "id": "hflesh_vac",
+    "type": "MIGRATION",
+    "replace": "hflesh_salted"
+  },
+  {
+    "id": "meat_vac",
+    "type": "MIGRATION",
+    "replace": "meat_salted"
+  },
+  {
+    "id": "veggy_vac",
+    "type": "MIGRATION",
+    "replace": "veggy_salted"
+  },
+  {
+    "id": "bag_fish_vac",
+    "type": "MIGRATION",
+    "replace": "salted_fish"
+  },
+  {
+    "id": "bag_apple_vac",
+    "type": "MIGRATION",
+    "replace": "apple_sugar"
+  },
+  {
+    "id": "bag_hflesh_vac",
+    "type": "MIGRATION",
+    "replace": "hflesh_salted"
+  },
+  {
+    "id": "bag_meat_vac",
+    "type": "MIGRATION",
+    "replace": "meat_salted"
+  },
+  {
+    "id": "bag_veggy_vac",
+    "type": "MIGRATION",
+    "replace": "veggy_salted"
   }
 ]

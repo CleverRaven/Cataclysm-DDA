@@ -1,5 +1,6 @@
-#ifndef SRC_OVERMAP_UI_H_
-#define SRC_OVERMAP_UI_H_
+#pragma once
+#ifndef OVERMAP_UI_H
+#define OVERMAP_UI_H
 
 #include "enums.h"
 
@@ -28,7 +29,7 @@ void display_scents();
 /**
  * Display overmap like with @ref display() and display the given zone.
  */
-void display_zones( const tripoint &center, const tripoint &select, int const iZoneIndex );
+void display_zones( const tripoint &center, const tripoint &select, const int iZoneIndex );
 /**
  * Display overmap like with @ref display() and enable the overmap editor.
  */
@@ -59,4 +60,4 @@ tripoint choose_point( const tripoint &origin );
 
 } // namespace ui
 
-#endif /* SRC_OVERMAP_UI_H_ */
+#endif /* OVERMAP_UI_H */

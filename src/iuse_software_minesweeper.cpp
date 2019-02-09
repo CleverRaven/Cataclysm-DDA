@@ -1,17 +1,16 @@
 #include "iuse_software_minesweeper.h"
 
-#include "output.h"
-#include "ui.h"
-#include "rng.h"
-#include "input.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "string_input_popup.h"
-
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
-#include <cstdlib>
+
+#include "catacharset.h"
+#include "input.h"
+#include "output.h"
+#include "rng.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
@@ -37,7 +36,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
     mLevel.clear();
     mLevelReveal.clear();
 
-    auto set_num = [&]( const std::string sType, int &iVal, const int iMin, const int iMax ) {
+    auto set_num = [&]( const std::string & sType, int &iVal, const int iMin, const int iMax ) {
         std::ostringstream ssTemp;
         ssTemp << _( "Min:" ) << iMin << " " << _( "Max:" ) << " " << iMax;
 
@@ -54,12 +53,13 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
         } while( iVal < iMin || iVal > iMax );
     };
 
-    uimenu difficulty;
+    uilist difficulty;
+    difficulty.allow_cancel = false;
     difficulty.text = _( "Game Difficulty" );
-    difficulty.entries.push_back( uimenu_entry( 0, true, 'b', _( "Beginner" ) ) );
-    difficulty.entries.push_back( uimenu_entry( 1, true, 'i', _( "Intermediate" ) ) );
-    difficulty.entries.push_back( uimenu_entry( 2, true, 'e', _( "Expert" ) ) );
-    difficulty.entries.push_back( uimenu_entry( 3, true, 'c', _( "Custom" ) ) );
+    difficulty.entries.emplace_back( 0, true, 'b', _( "Beginner" ) );
+    difficulty.entries.emplace_back( 1, true, 'i', _( "Intermediate" ) );
+    difficulty.entries.emplace_back( 2, true, 'e', _( "Expert" ) );
+    difficulty.entries.emplace_back( 3, true, 'c', _( "Custom" ) );
     difficulty.query();
 
     switch( difficulty.ret ) {
@@ -101,19 +101,19 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
         do {
             iRandX = rng( 0, iLevelX - 1 );
             iRandY = rng( 0, iLevelY - 1 );
-        } while( mLevel[iRandY][iRandX] == ( int )bomb );
+        } while( mLevel[iRandY][iRandX] == static_cast<int>( bomb ) );
 
-        mLevel[iRandY][iRandX] = ( int )bomb;
+        mLevel[iRandY][iRandX] = static_cast<int>( bomb );
     }
 
     for( int y = 0; y < iLevelY; y++ ) {
         for( int x = 0; x < iLevelX; x++ ) {
-            if( mLevel[y][x] == ( int )bomb ) {
+            if( mLevel[y][x] == static_cast<int>( bomb ) ) {
                 const auto circle = closest_tripoints_first( 1, {x, y, 0} );
 
                 for( const auto &p : circle ) {
                     if( p.x >= 0 && p.x < iLevelX && p.y >= 0 && p.y < iLevelY ) {
-                        if( mLevel[p.y][p.x] != ( int )bomb ) {
+                        if( mLevel[p.y][p.x] != static_cast<int>( bomb ) ) {
                             mLevel[p.y][p.x]++;
                         }
                     }
@@ -128,7 +128,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
 
     mvwputch( w_minesweeper, iOffsetY, iOffsetX, hilite( c_white ), "#" );
 
-    draw_custom_border( w_minesweeper, true, true, true, true, true, true, true, true,
+    draw_custom_border( w_minesweeper, 1, 1, 1, 1, 1, 1, 1, 1,
                         BORDER_COLOR, iOffsetY - 1, iLevelY + 2, iOffsetX - 1, iLevelX + 2 );
 }
 
@@ -137,7 +137,7 @@ bool minesweeper_game::check_win()
     for( int y = 0; y < iLevelY; y++ ) {
         for( int x = 0; x < iLevelX; x++ ) {
             if( ( mLevelReveal[y][x] == flag || mLevelReveal[y][x] == unknown ) &&
-                mLevel[y][x] != ( int )bomb ) {
+                mLevel[y][x] != static_cast<int>( bomb ) ) {
                 return false;
             }
         }
@@ -232,9 +232,6 @@ int minesweeper_game::start_game()
         }
     };
 
-    int iDirY = 0;
-    int iDirX = 0;
-
     std::string action = "NEW";
 
     do {
@@ -257,15 +254,14 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( ctxt.get_direction( iDirX, iDirY, action ) ) {
-            if( iPlayerX + iDirX >= 0 && iPlayerX + iDirX < iLevelX && iPlayerY + iDirY >= 0 &&
-                iPlayerY + iDirY < iLevelY ) {
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            if( iPlayerX + vec->x >= 0 && iPlayerX + vec->x < iLevelX && iPlayerY + vec->y >= 0 &&
+                iPlayerY + vec->y < iLevelY ) {
 
                 std::string sGlyph;
-                nc_color cColor;
 
                 for( int i = 0; i < 2; i++ ) {
-                    cColor = c_white;
+                    nc_color cColor = c_white;
                     if( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
                         sGlyph = "!";
                         cColor = c_yellow;
@@ -282,11 +278,11 @@ int minesweeper_game::start_game()
                     }
 
                     mvwputch( w_minesweeper, iOffsetY + iPlayerY, iOffsetX + iPlayerX,
-                              ( i == 0 ) ? cColor : hilite( cColor ), sGlyph.c_str() );
+                              ( i == 0 ) ? cColor : hilite( cColor ), sGlyph );
 
                     if( i == 0 ) {
-                        iPlayerX += iDirX;
-                        iPlayerY += iDirY;
+                        iPlayerX += vec->x;
+                        iPlayerY += vec->y;
                     }
                 }
             }
@@ -301,10 +297,10 @@ int minesweeper_game::start_game()
             }
         } else if( action == "CONFIRM" ) {
             if( mLevelReveal[iPlayerY][iPlayerX] != seen ) {
-                if( mLevel[iPlayerY][iPlayerX] == ( int )bomb ) {
+                if( mLevel[iPlayerY][iPlayerX] == static_cast<int>( bomb ) ) {
                     for( int y = 0; y < iLevelY; y++ ) {
                         for( int x = 0; x < iLevelX; x++ ) {
-                            if( mLevel[y][x] == ( int )bomb ) {
+                            if( mLevel[y][x] == static_cast<int>( bomb ) ) {
                                 mvwputch( w_minesweeper, iOffsetY + y, iOffsetX + x, hilite( c_red ),
                                           ( mLevelReveal[y][x] == flag ) ? "!" : "*" );
                             }

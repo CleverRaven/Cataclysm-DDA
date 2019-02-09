@@ -69,6 +69,7 @@ extern const morale_type MORALE_ANTIFRUIT;
 extern const morale_type MORALE_LACTOSE;
 extern const morale_type MORALE_ANTIJUNK;
 extern const morale_type MORALE_ANTIWHEAT;
+extern const morale_type MORALE_SWEETTOOTH;
 extern const morale_type MORALE_NO_DIGEST;
 extern const morale_type MORALE_WET;
 extern const morale_type MORALE_DRIED_OFF;
@@ -95,7 +96,9 @@ extern const morale_type MORALE_PERM_CONSTRAINED;
 extern const morale_type MORALE_GAME_FOUND_KITTEN;
 extern const morale_type MORALE_HAIRCUT;
 extern const morale_type MORALE_SHAVE;
+extern const morale_type MORALE_CHAT;
 extern const morale_type MORALE_VOMITED;
+extern const morale_type MORALE_PLAY_WITH_PET;
 extern const morale_type MORALE_PYROMANIA_STARTFIRE;
 extern const morale_type MORALE_PYROMANIA_NEARFIRE;
 extern const morale_type MORALE_PYROMANIA_NOFIRE;
@@ -104,4 +107,3 @@ extern const morale_type MORALE_PERM_DEBUG;
 extern const morale_type MORALE_BUTCHER;
 
 #endif
-

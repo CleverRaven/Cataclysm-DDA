@@ -1,14 +1,13 @@
 #include "recipe_groups.h"
-#include "game.h" // TODO: This is a circular dependency
-#include "generic_factory.h"
-#include "player.h"
-#include "output.h"
-#include "messages.h"
-#include "json.h"
 
 #include <string>
-#include <algorithm>
 #include <vector>
+
+#include "game.h" // TODO: This is a circular dependency
+#include "generic_factory.h"
+#include "json.h"
+#include "messages.h"
+#include "player.h"
 
 // recipe_groups namespace
 
@@ -36,8 +35,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "nam
 void recipe_group_data::load( JsonObject &jo, const std::string & )
 {
     building_type = jo.get_string( "building_type" );
-    JsonArray jsarr;
-    jsarr = jo.get_array( "recipes" );
+    JsonArray jsarr = jo.get_array( "recipes" );
     while( jsarr.has_more() ) {
         JsonObject ordering = jsarr.next_object();
         std::string name_id = ordering.get_string( "id" );

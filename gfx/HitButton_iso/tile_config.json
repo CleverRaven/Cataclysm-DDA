@@ -90,12 +90,12 @@
           "fg": 18
         },
         {
-          "id": ["t_door_c", "t_door_makeshift_c", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior" ],
+          "id": ["t_door_c", "t_door_makeshift_c", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior", "t_door_lab_c" ],
           "multitile": true,
           "fg": [ 19, 20 ]
         },
         {
-          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o", "t_door_frame" ],
+          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o", "t_door_frame", "t_door_lab_o", "t_door_lab_frame" ],
           "multitile": true,
           "fg": [ 21, 22 ]
         },
@@ -1937,7 +1937,7 @@
           "fg": 525
         },
         {
-          "id": [ "t_door_b", "t_door_b_peep" ],
+          "id": [ "t_door_b", "t_door_b_peep", "t_door_lab_b" ],
           "multitile": true,
           "fg": [ 526 , 527 ]
         },
@@ -2063,12 +2063,12 @@
           ]
         },
         {
-          "id": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_pickable" ],
+          "id": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_pickable", "t_door_metal_lab_c" ],
           "multitile": true,
           "fg": [ 587 , 588 ]
         },
         {
-          "id": ["t_door_metal_o", "t_mdoor_frame" ],
+          "id": ["t_door_metal_o", "t_mdoor_frame", "t_mdoor_lab_frame", "t_door_metal_lab_o" ],
           "multitile": true,
           "fg": [ 589 , 590 ]
         },
@@ -2077,12 +2077,12 @@
           "fg": 591
         },
         {
-          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_door_glass_c", "t_reinforced_door_glass_lab_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c" ],
           "multitile": true,
           "fg": [ 592 , 593 ]
         },
         {
-          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o", "t_reinforced_door_glass_o", "t_reinforced_door_glass_lab_o", "t_door_glass_lab_o", "t_door_glass_frosted_lab_o" ],
           "multitile": true,
           "fg": [ 594 , 595 ]
         },
@@ -2149,7 +2149,7 @@
           "fg": 622
         },
         {
-          "id": ["t_gates_control_concrete", "t_gates_control_metal", "t_gates_mech_control", "t_switch_even" ],
+          "id": ["t_gates_control_concrete", "t_gates_control_metal", "t_gates_mech_control", "t_switch_even", "t_gates_control_concrete_lab", "t_gates_control_metal_lab", "t_gates_mech_control_lab", "t_gates_control_brick", "t_gates_control_brick_lab" ],
           "fg": 623
         },
         {
@@ -6343,7 +6343,7 @@
           "fg": 1908
         },
         {
-          "id": ["fish_bait_veggy", "veggy", "veggy_wild", "dandelion_cooked", "veggy_tainted", "veggy_cooked", "veggy_wild_cooked", "veggy_aspic", "broccoli", "irradiated_broccoli", "seasoning_italian", "wild_herbs", "mre_veggy", "mre_chicken", "tea_raw", "veggy_canned", "veggy_vac", "spaghetti_pesto", "weed", "seed_weed", "sauerkraut", "chaw", "dry_veggy", "veggy_salad", "dried_salad", "insta_salad", "dry_veggy_tainted", "seed_thyme", "seed_canola", "seed_dogbane", "seed_bee_balm", "seed_mugwort", "seed_buckwheat", "seed_wild_herbs", "seed_veggy_wild", "seed_raw_dandelion", "seed_rhubarb", "seed_mushroom", "seed_mushroom_morel", "seed_mushroom_magic", "seed_mushroom_poison", "seed_pumpkin" ],
+          "id": ["fish_bait_veggy", "veggy", "veggy_wild", "dandelion_cooked", "veggy_tainted", "veggy_cooked", "veggy_wild_cooked", "veggy_aspic", "broccoli", "irradiated_broccoli", "seasoning_italian", "wild_herbs", "mre_veggy", "mre_chicken", "tea_raw", "veggy_canned", "veggy_salted", "spaghetti_pesto", "weed", "seed_weed", "sauerkraut", "chaw", "dry_veggy", "veggy_salad", "dried_salad", "insta_salad", "dry_veggy_tainted", "seed_thyme", "seed_canola", "seed_dogbane", "seed_bee_balm", "seed_mugwort", "seed_buckwheat", "seed_wild_herbs", "seed_veggy_wild", "seed_raw_dandelion", "seed_rhubarb", "seed_mushroom", "seed_mushroom_morel", "seed_mushroom_magic", "seed_mushroom_poison", "seed_pumpkin" ],
           "//": "powder green",
           "fg": 1909
         },
@@ -6373,7 +6373,7 @@
           "fg": 1914
         },
         {
-          "id": ["fish_bait_meat", "fish_bait_fish", "powder_candy", "mre_ravioli", "bologna", "hfleshbologna", "human_flesh", "meat_aspic", "hflesh_aspic", "candy2", "chilly-p", "curry_powder", "macaroni_helper", "hobo_helper", "chili", "chili_human", "apple_canned", "apple_vac", "spaghetti_bolognese", "spaghetti_human", "lasagne", "luigilasagne", "fried_spam", "rhubarb", "irradiated_rhubarb" ],
+          "id": ["fish_bait_meat", "fish_bait_fish", "powder_candy", "mre_ravioli", "bologna", "hfleshbologna", "human_flesh", "meat_aspic", "hflesh_aspic", "candy2", "chilly-p", "curry_powder", "macaroni_helper", "hobo_helper", "chili", "chili_human", "apple_canned", "apple_sugar", "spaghetti_bolognese", "spaghetti_human", "lasagne", "luigilasagne", "fried_spam", "rhubarb", "irradiated_rhubarb" ],
           "//": "powder red",
           "fg": 1915
         },
@@ -6511,11 +6511,11 @@
           "fg": 1957
         },
         {
-          "id": ["royal_beef", "stomach", "hstomach", "stomach_large", "hstomach_large", "meat", "fchicken", "lunchmeat", "meat_cooked", "stomach_boiled", "hstomach_boiled", "small_stomach_boiled", "small_hstomach_boiled", "human_cooked", "meat_canned", "human_canned", "meat_vac", "hflesh_vac", "dry_meat", "dry_hflesh" ],
+          "id": ["royal_beef", "stomach", "hstomach", "stomach_large", "hstomach_large", "meat", "fchicken", "lunchmeat", "meat_cooked", "stomach_boiled", "hstomach_boiled", "small_stomach_boiled", "small_hstomach_boiled", "human_cooked", "meat_canned", "human_canned", "meat_salted", "hflesh_salted", "dry_meat", "dry_hflesh" ],
           "fg": 1958
         },
         {
-          "id": ["fish_cooked", "rehydrated_fish", "fish_pickled", "fish_vac", "can_herring" ],
+          "id": ["fish_cooked", "rehydrated_fish", "fish_pickled", "can_herring" ],
           "fg": 1959
         },
         {
@@ -7279,11 +7279,7 @@
           "fg": 2149
         },
         {
-          "id": ["bag_meat_vac", "bag_hflesh_vac" ],
-          "fg": 2150
-        },
-        {
-          "id": ["bag_fish_vac" ],
+          "id": ["plastic_bag_vac" ],
           "fg": 2151
         },
         {
@@ -7357,10 +7353,6 @@
         {
           "id": ["e_handcuffs" ],
           "fg": 2169
-        },
-        {
-          "id": ["bag_veggy_vac", "bag_apple_vac" ],
-          "fg": 2170
         },
         {
           "id": ["steel_chunk" ],

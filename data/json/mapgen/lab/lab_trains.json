@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_train_depot" ],
+    "om_terrain": [ "lab_train_depot", "central_lab_train_depot" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -38,9 +38,9 @@
           "name": "Laboratory Train Controls", "security": 2,
           "options": [
             { "name": "Request Subway Train", "action": "disconnect", "security": 0 },
-            { "name": "Download Subway Routes", "action": "map_subway", "security": 0 }
+            { "name": "View Subway Routes", "action": "map_subway", "security": 0 }
           ],
-          "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "shutdown" } ]
+          "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "manhacks" } ]
         }
       },
       "terrain": {

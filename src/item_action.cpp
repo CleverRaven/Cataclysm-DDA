@@ -1,28 +1,24 @@
 #include "item_action.h"
-#include "action.h"
-#include "output.h"
-#include "json.h"
-#include "options.h"
-#include "path_info.h"
-#include "debug.h"
-#include "game.h"
-#include "options.h"
-#include "messages.h"
-#include "inventory.h"
-#include "item_factory.h"
-#include "iuse_actor.h"
-#include "translations.h"
-#include "item.h"
-#include "input.h"
-#include "itype.h"
-#include "ui.h"
-#include "player.h"
-#include "ret_val.h"
 
 #include <algorithm>
-#include <istream>
-#include <sstream>
 #include <iterator>
+#include <sstream>
+
+#include "action.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "output.h"
+#include "player.h"
+#include "ret_val.h"
+#include "translations.h"
+#include "ui.h"
 
 static item_action nullaction;
 static const std::string errstring( "ERROR" );
@@ -38,7 +34,7 @@ char key_bound_to( const input_context &ctxt, const item_action_id &act )
     return keys.empty() ? '\0' : keys[0];
 }
 
-class actmenu_cb : public uimenu_callback
+class actmenu_cb : public uilist_callback
 {
     private:
         const action_map am;
@@ -47,8 +43,8 @@ class actmenu_cb : public uimenu_callback
         ~actmenu_cb() override = default;
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
-                  uimenu * /*menu*/ ) override {
-            const std::string action = ctxt.input_to_action( event );
+                  uilist * /*menu*/ ) override {
+            const std::string &action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
             auto itemless_action = am.find( action );
@@ -156,7 +152,7 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
 {
     const auto &act = get_action( id );
     if( !act.name.empty() ) {
-        return _( act.name.c_str() );
+        return act.name.translated();
     }
 
     return id;
@@ -183,11 +179,8 @@ void item_action_generator::load_item_action( JsonObject &jo )
     item_action ia;
 
     ia.id = jo.get_string( "id" );
-    ia.name = jo.get_string( "name", "" );
-    if( !ia.name.empty() ) {
-        ia.name = _( ia.name.c_str() );
-    } else {
-        ia.name = ia.id;
+    if( !jo.read( "name", ia.name ) || ia.name.empty() ) {
+        ia.name = no_translation( ia.id );
     }
 
     item_actions[ia.id] = ia;
@@ -221,14 +214,13 @@ void game::item_action_menu()
         popup( _( "You don't have any items with registered uses" ) );
     }
 
-    uimenu kmenu;
+    uilist kmenu;
     kmenu.text = _( "Execute which action?" );
-    kmenu.return_invalid = true;
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name );
-        kmenu.additional_actions.emplace_back( id.first, id.second.name );
+        ctxt.register_action( id.first, id.second.name.translated() );
+        kmenu.additional_actions.emplace_back( id.first, id.second.name.translated() );
     }
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
@@ -296,7 +288,7 @@ void game::item_action_menu()
     }
 
     kmenu.query();
-    if( kmenu.ret < 0 || kmenu.ret >= ( int )iactions.size() ) {
+    if( kmenu.ret < 0 || kmenu.ret >= static_cast<int>( iactions.size() ) ) {
         return;
     }
 
