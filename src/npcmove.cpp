@@ -2672,9 +2672,14 @@ void npc::heal_player( player &patient )
         debugmsg( "%s tried to heal you but has no healing item", disp_name().c_str() );
         return;
     }
-
-    long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
-    consume_charges( used, charges_used );
+    if( !is_hallucination() ) {
+        long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
+        consume_charges( used, charges_used );
+    } else if( patient.is_npc() ) {
+        add_msg( _( "%1$s heals %2$s." ), name.c_str(), patient.name.c_str() ); // you can't tell that it's not real
+    } else {
+        add_msg( _( "%s heals you but you don't feal any different." ), name.c_str() ); // you can tell that you don't feel better
+    }
 
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
