@@ -1231,6 +1231,9 @@ void npc::make_angry()
 
 void npc::on_attacked( const Creature &attacker )
 {
+    if( is_hallucination() ) {
+        die(attacker.~Creature);
+    }
     if( attacker.is_player() && !is_enemy() ) {
         make_angry();
         hit_by_player = true;
