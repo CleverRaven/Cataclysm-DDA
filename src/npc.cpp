@@ -98,6 +98,7 @@ npc::npc()
     death_drops = true;
     dead = false;
     hit_by_player = false;
+    hallucination = false;
     moves = 100;
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
@@ -2479,4 +2480,9 @@ void npc_follower_rules::toggle_flag( ally_rule toggle )
     } else {
         set_flag( toggle );
     }
+}
+
+bool npc::is_hallucination() const
+{
+    return hallucination;
 }
