@@ -464,7 +464,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                                        bool print_messages )
 {
     const double missed_by = attack.missed_by;
-    if( missed_by >= 1.0 ) {
+    if( missed_by >= 1.0 || source->is_hallucination() ) {
         // Total miss
         return;
     }
