@@ -22,6 +22,14 @@
     "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
   },
   {
+    "abstract": "bionic_general_faulty",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "abstract faulty bionic module",
+    "price": 0,
+    "description": "This is a faulty bionic, seeing this is a bug."
+  },
+  {
     "id": "bio_adrenaline",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -872,146 +880,128 @@
   },
   {
     "id": "bio_ankles",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Squeaky Ankles",
-    "price": 0,
     "difficulty": 4
   },
   {
     "id": "bio_deformity",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Bionic-Induced Deformity",
-    "price": 0,
     "difficulty": 5
   },
   {
     "id": "bio_dis_acid",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Acidic Discharge",
-    "price": 0,
     "difficulty": 11
   },
   {
     "id": "bio_dis_shock",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Electrical Discharge",
-    "price": 0,
     "difficulty": 5
   },
   {
     "id": "bio_drain",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Electrical Drain",
-    "price": 0,
     "difficulty": 5
   },
   {
     "id": "bio_itchy",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Itchy Metal Thing",
-    "price": 0,
     "difficulty": 3
   },
   {
     "id": "bio_leaky",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Leaky Bionic",
-    "price": 0,
     "difficulty": 7
   },
   {
     "id": "bio_noise",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Noisemaker",
-    "price": 0,
     "difficulty": 3
   },
   {
     "id": "bio_nostril",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Bionic Nostril",
-    "price": 0,
     "difficulty": 3
   },
   {
     "id": "bio_pokedeye",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Bionic Visual Impairment",
-    "price": 0,
     "difficulty": 8
   },
   {
     "id": "bio_power_weakness",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Power Overload",
-    "price": 0,
     "difficulty": 7
   },
   {
     "id": "bio_shakes",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Bionic Short Circuit",
-    "price": 0,
     "difficulty": 7
   },
   {
     "id": "bio_sleepy",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Endocrine Enervator",
-    "price": 0,
     "difficulty": 11
   },
   {
     "id": "bio_spasm",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Motor Control Overstimulator",
-    "price": 0,
     "difficulty": 11
   },
   {
     "id": "bio_stiff",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Wire-Induced Stiffness",
-    "price": 0,
     "difficulty": 7
   },
   {
     "id": "bio_thumbs",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Self-Locking Thumbs",
-    "price": 0,
     "difficulty": 5
   },
   {
     "id": "bio_trip",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Visual Disruptor",
-    "price": 0,
     "difficulty": 8
   },
   {
     "id": "bio_voice",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Voice Remodulator",
-    "price": 0,
     "difficulty": 5
   }
 ]
