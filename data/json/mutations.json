@@ -1647,7 +1647,8 @@
         "category" : ["MOUSE"],
         "changes_to" : ["HOLLOW_BONES"],
         "movecost_modifier" : 0.9,
-        "attackcost_modifier" : 0.9
+        "attackcost_modifier" : 0.9,
+        "weight_capacity_modifier" : 0.8
     },{
         "type" : "mutation",
         "id" : "FEATHERS",
@@ -4438,7 +4439,7 @@
             [ "HAND_R", 50 ]
         ],
         "passive_mods" : {
-            "dex_mod" : -4
+            "dex_mod" : -1
         }
     },{
         "type" : "mutation",
