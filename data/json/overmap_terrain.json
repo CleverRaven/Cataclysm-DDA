@@ -657,6 +657,7 @@
     "id": "s_gun",
     "name": "gun store",
     "copy-from": "generic_city_building",
+    "sym": 103,
     "color": "red"
   },
   {
