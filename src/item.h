@@ -160,6 +160,8 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
     return l = l | r;
 }
 
+inline bool is_crafting_component( const item &component );
+
 class item : public visitable<item>
 {
     public:
@@ -540,9 +542,10 @@ class item : public visitable<item>
          * @param quantity How much to consumed.
          * @param used On success all consumed items will be stored here.
          */
-        bool use_amount( const itype_id &it, long &quantity, std::list<item> &used );
+        bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
+                         const std::function<bool( const item & )> &filter = is_crafting_component );
 
-        /** Can item can be used as crafting component in current state? */
+        /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
         /**
@@ -1895,5 +1898,10 @@ enum hint_rating {
  * and stays valid until the program ends.
  */
 item &null_item_reference();
+
+inline bool is_crafting_component( const item &component )
+{
+    return component.allow_crafting_component() && !component.is_filthy();
+}
 
 #endif

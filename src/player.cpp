@@ -6968,7 +6968,7 @@ std::vector<item *> player::inv_dump()
     return ret;
 }
 
-std::list<item> player::use_amount(itype_id it, int _quantity)
+std::list<item> player::use_amount( itype_id it, int _quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     long quantity = _quantity; // Don't want to change the function signature right now
@@ -6976,7 +6976,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity)
         remove_weapon();
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, ret ) ) {
+        if( a->use_amount( it, quantity, ret, filter ) ) {
             a->on_takeoff( *this );
             a = worn.erase( a );
         } else {
@@ -6986,7 +6986,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity)
     if (quantity <= 0) {
         return ret;
     }
-    std::list<item> tmp = inv.use_amount(it, quantity);
+    std::list<item> tmp = inv.use_amount( it, quantity, filter );
     ret.splice(ret.end(), tmp);
     return ret;
 }
@@ -7162,12 +7162,12 @@ int player::amount_worn(const itype_id &id) const
     return amount;
 }
 
-bool player::has_charges(const itype_id &it, long quantity) const
+bool player::has_charges(const itype_id &it, long quantity, const std::function<bool( const item & )> &filter ) const
 {
     if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
     }
-    return charges_of( it, quantity ) == quantity;
+    return charges_of( it, quantity, filter ) == quantity;
 }
 
 int  player::leak_level( const std::string &flag ) const

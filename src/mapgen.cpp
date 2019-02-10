@@ -6057,9 +6057,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             for( int a = 0; a < 21; a++ ) {
                 vset.push_back( a );
             }
-            static auto eng = std::default_random_engine(
-                                  std::chrono::system_clock::now().time_since_epoch().count() );
-            std::shuffle( vset.begin(), vset.end(), eng );
+            std::shuffle( vset.begin(), vset.end(), rng_get_engine() );
             for( int a = 0; a < vnum; a++ ) {
                 if( vset[a] < 12 ) {
                     if( one_in( 2 ) ) {
