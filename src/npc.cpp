@@ -1353,8 +1353,11 @@ void npc::say( const std::string &line ) const
     if( g->u.sees( *this ) && g->u.is_deaf() ) {
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
-    // Sound happens even if we can't hear it
-    sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    // Hallucinations don't make noise when they speak
+    if( !is_hallucination() ) {
+        // Sound happens even if we can't hear it
+        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    }
 }
 
 bool npc::wants_to_sell( const item &it ) const
