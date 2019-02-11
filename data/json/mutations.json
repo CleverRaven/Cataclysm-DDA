@@ -2482,7 +2482,6 @@
         "name" : "Saprovore",
         "points" : 2,
         "description" : "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-        "prereqs" : ["CARNIVORE"],
         "cancels" : ["HERBIVORE", "RUMINANT"],
         "category" : ["TROGLOBITE", "CHIMERA"]
     },{
