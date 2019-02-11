@@ -1,8 +1,0 @@
-[
-  {
-    "type" : "scenario",
-    "ident" : "heli_crash",
-    "copy-from" : "heli_crash",
-    "extend": { "professions" : [ "crt_rotc", "crt_rifleman", "crt_medic", "crt_saw", "crt_nco", "crt_officer", "crt"] }
-  }
-]
