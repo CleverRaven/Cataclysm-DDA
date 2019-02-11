@@ -200,7 +200,7 @@
     "name": "Saw down barrel"
   },
   {
-    "type": "item_actiom",
+    "type": "item_action",
     "id": "saw_stock",
     "name": "saw off stock"
   },
