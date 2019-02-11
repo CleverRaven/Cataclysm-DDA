@@ -388,7 +388,7 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
             line_furn( &m, f_barricade_road, 3, 4, 3, 10 );
             line_furn( &m, f_barricade_road, 3, 13, 3, 19 );
             m.add_spawn( mon_turret, 1, 1, 12 );
-        }        
+        }
         m.add_vehicle( vproto_id( "policecar" ), 8, 5, 20 );
         m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145 );
 
