@@ -846,7 +846,7 @@ void npc::choose_target()
         }
 
         if( att == MATT_ATTACK ) {
-            critter_danger += 5.0;
+            critter_danger = std::max( critter_danger, static_cast<float>( NPC_DANGER_VERY_LOW ) );
         }
 
         ai_cache.total_danger += critter_danger / scaled_distance;
