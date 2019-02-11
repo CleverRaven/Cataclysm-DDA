@@ -1492,11 +1492,12 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
+    // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 &&
             (
                 g->m.passable( p ) ||
                 ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
-                g->m.open_door( p, !g->m.is_outside( pos() ), true )
+                ( g->m.open_door( p, !g->m.is_outside( pos() ), true ) && !is_hallucination() )
             )
           );
 }
@@ -1617,8 +1618,15 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
         moved = true;
-    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
-        moves -= 100;
+    } else if( g->m.open_door( p, !g->m.is_outside( pos() ), true ) ) {
+        if( !is_hallucination() ) { // hallucinations don't open doors
+            g->m.open_door( p, !g->m.is_outside( pos() ) );
+            moves -= 100;
+        }
+        else { // hallucinations teleport through doors
+            moves -= 100;
+            moved = true;
+        }
     } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
@@ -3103,7 +3111,7 @@ void npc::go_to_destination()
               //Needs 20% chance of bashing success to be considered for pathing
               g->m.bash_rating( smash_ability(), dest ) >= 2 ||
               g->m.open_door( dest, true, true ) ) &&
-            ( one_in( 4 ) || sees( dest ) ) ) {
+              ( one_in( 4 ) || sees( dest ) ) ) {
             update_path( dest );
             if( !path.empty() && can_move_to( path[0] ) ) {
                 move_to_next();
