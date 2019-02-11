@@ -51,6 +51,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
+const efftype_id effect_hallu("hallu");
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_infected( "infected" );
@@ -1215,6 +1216,12 @@ npc_action npc::address_needs( float danger )
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
             return npc_sleep;
+        }
+    }
+    //Does the hallucination needs to disappear ?
+    if ( g->u.sees( *this ) && is_hallucination() ) {
+        if ( !g->u.has_effect( effect_hallu ) ) {
+            die( nullptr );
         }
     }
 
