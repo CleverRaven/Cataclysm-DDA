@@ -965,6 +965,18 @@ class saw_barrel_actor : public iuse_actor
         ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
 };
 
+class saw_stock_actor : public iuse_actor
+{
+    public:
+        saw_stock_actor( const std::string &type = "saw_stock" ) : iuse_actor( type ) {}
+
+        void load( JsonObject &jo ) override;
+        long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
+        iuse_actor *clone() const override;
+
+        ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
+};
+
 class install_bionic_actor : public iuse_actor
 {
     public:
