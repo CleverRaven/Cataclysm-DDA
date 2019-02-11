@@ -1633,38 +1633,38 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
 }
 
 const std::pair<std::string, nc_color>
-get_bar( float cur, float max, int width, std::vector<nc_color> colors, char destroyed_symbol )
+get_bar( float cur, float max, int width, bool extra_resolution, std::vector<nc_color> colors )
 {
-    using pair_t = std::pair<std::string, nc_color>;
     std::string result = "";
     float status = cur/max;
     status = status > 1 ? 1 : status; status = status <0 ? 0 : status;
     float sw = status * width;
 
-    nc_color col = colors[int((1 - status) * (colors.size() - 1))];
+    nc_color col = colors[int((1 - status) * colors.size())];
     if ( status == 0 ) {
-        result += std::string( width, destroyed_symbol );
         col = colors.back();
     } else if ( (sw < 0.5) && (sw > 0) ) {
         result = ":";
     } else {
         result += std::string( sw, '|' );
-        if ( (sw) - int(sw) >= 0.5 ) result += "\\";
+        if ( extra_resolution && (sw - int(sw) >= 0.5) ) result += "\\";
     }
 
-    return pair_t { result, col };
+    return std::make_pair( result, col );
 }
 
 
 const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
 {
-    return get_bar(cur_hp, max_hp, 5);
+    if (cur_hp == 0) return std::make_pair( "-----", c_light_gray );
+    return get_bar( cur_hp, max_hp, 5, !is_mon );
 }
 
 
 const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 {
-    return get_bar(cur_stam, max_stam, 5, { c_cyan, c_light_cyan, c_yellow, c_light_red, c_red, c_light_gray } );
+    if (cur_stam == 0) return std::make_pair( "-----", c_light_gray );
+    return get_bar( cur_stam, max_stam, 5, true, { c_cyan, c_light_cyan, c_yellow, c_light_red, c_red } );
 }
 
 std::pair<std::string, nc_color> get_light_level( const float light )
