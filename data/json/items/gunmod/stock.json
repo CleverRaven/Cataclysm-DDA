@@ -19,6 +19,23 @@
     "handling_modifier": 1
   },
   {
+    "id": "sawed_stock",
+    "type": "GUNMOD",
+    "name": "sawed off stock",
+    "description": "What used to be a stock is gone.",
+    "integral_volume": -2,
+    "price": -200,
+    "material": [ "steel", "wood" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
+    "dispersion_modifier": 100,
+    "handling_modifier": 1,
+    "aiming_modifier": -20,
+    "flags": [ "IRREMOVABLE" ]
+  },
+  {
     "id": "folding_stock",
     "type": "GUNMOD",
     "name": "folding stock",

@@ -200,6 +200,11 @@
     "name": "Saw down barrel"
   },
   {
+    "type": "item_actiom",
+    "id": "saw_stock",
+    "name": "saw off stock"
+  },
+  {
     "type": "item_action",
     "id": "ACIDBOMB_ACT",
     "name": "Activate"
