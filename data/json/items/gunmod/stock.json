@@ -31,8 +31,8 @@
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
     "dispersion_modifier": 100,
-    "handling_modifier": 1,
-    "aiming_modifier": -20,
+    "handling_modifier": -8,
+    "aiming_modifier": -10,
     "flags": [ "IRREMOVABLE" ]
   },
   {
