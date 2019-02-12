@@ -860,58 +860,64 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
 
+            auto update_note_preview = [&]( std::string note ) {
+                auto om_symbol = get_note_display_info( new_note );
+                const nc_color note_color = std::get<1>( om_symbol );
+                const char symbol = std::get<0>( om_symbol );
+                const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+
+                catacurses::window w_preview = catacurses::newwin( 5, 42 - 5, 2, 5 );
+                draw_border( w_preview );
+                mvwprintz( w_preview, 1, 1, c_white, _( "Note preview" ) );
+                wrefresh( w_preview );
+
+                catacurses::window w_preview_title = catacurses::newwin( 2, 42, 0, 0 );
+                werase( w_preview_title );
+                mvwprintz( w_preview_title, 0, 0, c_yellow, note_text );
+                mvwputch( w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
+                for( size_t i = 0; i < note_text.length(); i++ ) {
+                    mvwputch( w_preview_title, 1, i, c_white, LINE_OXOX );
+                }
+                mvwputch( w_preview_title, 1, note_text.length(), c_white, LINE_XOOX );
+                wrefresh( w_preview_title );
+
+                catacurses::window w_preview_map = catacurses::newwin( 5, 5, 2, 0 );
+                draw_border( w_preview_map, c_yellow );
+                mvwputch( w_preview_map, 2, 2, note_color, symbol );
+                wrefresh( w_preview_map );
+            };
+
 #ifdef __ANDROID__
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }
 #endif
 
-            bool done = false, esc_pressed = false;
+            bool esc_pressed = false;
+            string_input_popup input_popup;
+            input_popup
+            .title( title )
+            .width( 45 )
+            .text( new_note )
+            .description( color_notes )
+            .title_color( c_white )
+            .desc_color( c_light_gray )
+            .string_color( c_yellow );
+
             do {
-                // Popup must be created anew because the description is only
-                // printed when the window is created. This only happens once
-                // every keystroke, however.
-                string_input_popup input_popup;
-                input_popup.callbacks['\n'] = [&]() {
-                    done = true;
-                    return true;
-                };
-                input_popup.callbacks[KEY_ESCAPE] = [&]() {
-                    done = esc_pressed = true;
-                    return true;
-                };
-
-                auto om_symbol = get_note_display_info( new_note );
-                if( new_note.length() > 0 ) {
-                    tmp_note = string_format( "%s%c</color> <color_yellow>%s</color>",
-                                              get_tag_from_color( std::get<1>( om_symbol ) ),
-                                              std::get<0>( om_symbol ),
-                                              new_note.substr( std::get<2>( om_symbol ), std::string::npos ) );
-                } else {
-                    tmp_note.clear();
-                }
-
-                input_popup
-                .title( title )
-                .width( 45 )
-                .text( new_note )
-                .description( string_format( "%s%s%s\n",
-                                             color_notes,
-                                             std::string( title.length() - 1, ' ' ),
-                                             tmp_note ) )
-                .title_color( c_white )
-                .desc_color( c_light_gray )
-                .string_color( c_yellow );
-
                 new_note = input_popup.query_string( false );
-                if( esc_pressed ) {
+                if( input_popup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
                     new_note = old_note;
+                    esc_pressed = true;
                     break;
-                } else if( done ) {
+                } else if( input_popup.context().get_raw_input().get_first_input() == '\n' ) {
                     break;
+                } else {
+                    update_note_preview( new_note );
                 }
 
-            } while( true );
+            } while( input_popup.context().get_raw_input().get_first_input() != '\n' &&
+                     input_popup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
 
             if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
                 if( query_yn( _( "Really delete note?" ) ) ) {
