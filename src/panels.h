@@ -18,8 +18,7 @@ enum face_type : int {
     face_cat,
     num_face_types
 };
-//int power;
-//const std::map<std::string, std::string> drug_map;
+
 void decorate_panel( const std::string name, const catacurses::window &w );
 void draw_limb( player &p, const catacurses::window &w );
 void draw_char( player &p, const catacurses::window &w );
@@ -48,6 +47,7 @@ std::string wind_string();
 std::pair<nc_color, int> morale_stat( const player &u );
 std::pair<nc_color, std::string> hunger_stat( const player &u );
 std::pair<nc_color, std::string> temp_stat( const player &u );
+int define_temp_level( const int lvl );
 std::pair<nc_color, std::string> thirst_stat( const player &u );
 std::pair<nc_color, std::string> rest_stat( const player &u );
 std::pair<nc_color, std::string> pain_stat( const player &u );

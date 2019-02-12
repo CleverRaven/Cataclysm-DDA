@@ -492,7 +492,8 @@ void draw_messages( const catacurses::window &w )
 
 void draw_mminimap( const catacurses::window &w )
 {
-    if( use_tiles ) {
+    std::string type = get_option<std::string>( "MINIMAP_MODE" );
+    if( type == "pixel" ) {
         werase( w );
         wrefresh( w );
         g->draw_pixel_minimap();
@@ -667,9 +668,9 @@ std::string time_approx()
     if( iHour >= 22 ) {
         time_approx = "Around midnight";
     } else if( iHour >= 20 ) {
-        time_approx = "It's getting darker";
+        time_approx = "The night is young";
     } else if( iHour >= 16 ) {
-        time_approx = "This is the Evening";
+        time_approx = "It's getting darker";
     } else if( iHour >= 13 ) {
         time_approx = "In the afternoon";
     } else if( iHour >= 11 ) {
@@ -847,7 +848,51 @@ std::pair<nc_color, std::string> temp_stat( const player &u )
         temp_color  = c_blue;
         temp_string = _( "Freezing!" );
     }
+
+    // Assign zones for comparisons
+    const int cur_zone = define_temp_level( u.temp_cur[current_bp_extreme] );
+    const int conv_zone = define_temp_level( u.temp_conv[conv_bp_extreme] );
+
+    // delta will be positive if temp_cur is rising
+    const int delta = conv_zone - cur_zone;
+    // Decide if temp_cur is rising or falling
+    std::string temp_message;
+    if( delta > 2 ) {
+        temp_message = _( " (\u2191)" );
+    } else if( delta ==  2 ) {
+        temp_message = _( " (\u2191)" );
+    } else if( delta ==  1 ) {
+        temp_message = _( " (\u2191)" );
+    } else if( delta ==  0 ) {
+        temp_message = "";
+    } else if( delta == -1 ) {
+        temp_message = _( " (\u2193)" );
+    } else if( delta == -2 ) {
+        temp_message = _( " (\u2193)" );
+    } else {
+        temp_message = _( " (\u2193)" );
+    }
+
+    temp_string += temp_message;
     return std::make_pair( temp_color, temp_string );
+}
+
+int define_temp_level( const int lvl )
+{
+    if( lvl > BODYTEMP_SCORCHING ) {
+        return 7;
+    } else if( lvl > BODYTEMP_VERY_HOT ) {
+        return 6;
+    } else if( lvl > BODYTEMP_HOT ) {
+        return 5;
+    } else if( lvl > BODYTEMP_COLD ) {
+        return 4;
+    } else if( lvl > BODYTEMP_VERY_COLD ) {
+        return 3;
+    } else if( lvl > BODYTEMP_FREEZING ) {
+        return 2;
+    }
+    return 1;
 }
 
 std::pair<nc_color, std::string> pain_stat( const player &u )

@@ -1488,6 +1488,13 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
+    add( "MINIMAP_MODE", "graphics", translate_marker( "Minimap drawing mode" ),
+    translate_marker( "Specify the mode in which the minimap is drawn." ), {
+        { "pixel", translate_marker( "Pixel" ) },
+        { "ascii", translate_marker( "Ascii" ) }
+    }, "pixel", COPT_CURSES_HIDE
+       );
+
     add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel minimap" ),
          translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
          true, COPT_CURSES_HIDE
