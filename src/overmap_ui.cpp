@@ -859,6 +859,32 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
+            const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+
+            std::vector<std::pair<nc_color, long>> map_around;
+            map_around.reserve( 9 );
+            for( int i = 1; i < 4; i++ ) {
+                for( int j = 1; j < 4; j++ ) {
+                    const int omy = curs.y + i - 2;
+                    const int omx = curs.x + j - 2;
+                    const bool see = has_debug_vision || overmap_buffer.seen( omx, omy, curs.z );
+
+                    nc_color ter_color = c_black;
+                    long ter_sym = ' ';
+                    if( see ) {
+                        // Only load terrain if we can actually see it
+                        oter_t const *info = nullptr;
+                        oter_id cur_ter = overmap_buffer.ter( omx, omy, curs.z );
+                        info = &cur_ter.obj();
+                        ter_color = info->get_color();
+                        ter_sym = info->get_sym();
+                    } else {
+                        ter_color = c_dark_gray;
+                        ter_sym   = '#';
+                    }
+                    map_around.push_back( std::make_pair( ter_color, ter_sym ) );
+                }
+            }
 
             auto update_note_preview = [&]( std::string note ) {
                 auto om_symbol = get_note_display_info( new_note );
@@ -883,6 +909,12 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
                 catacurses::window w_preview_map = catacurses::newwin( 5, 5, 2, 0 );
                 draw_border( w_preview_map, c_yellow );
+                for( int i = 1; i < 4; i++ ) {
+                    for( int j = 1; j < 4; j++ ) {
+                        const auto &ter = map_around.at( ( i - 1 ) * 3 + j - 1 );
+                        mvwputch( w_preview_map, i, j, ter.first, ter.second );
+                    }
+                }
                 mvwputch( w_preview_map, 2, 2, note_color, symbol );
                 wrefresh( w_preview_map );
             };
@@ -904,6 +936,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             .desc_color( c_light_gray )
             .string_color( c_yellow );
 
+            update_note_preview( old_note );
+
             do {
                 new_note = input_popup.query_string( false );
                 if( input_popup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
@@ -915,7 +949,6 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 } else {
                     update_note_preview( new_note );
                 }
-
             } while( input_popup.context().get_raw_input().get_first_input() != '\n' &&
                      input_popup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
 
