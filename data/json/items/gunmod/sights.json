@@ -161,7 +161,7 @@
     "mod_targets": [ "med_rail" ],
     "install_time": 50000,
     "sight_dispersion": -2,
-    "aim_speed": +10,
+    "aim_speed": 10,
     "min_skills": [ [ "weapon", 4 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
