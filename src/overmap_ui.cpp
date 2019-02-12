@@ -934,7 +934,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             .description( color_notes )
             .title_color( c_white )
             .desc_color( c_light_gray )
-            .string_color( c_yellow );
+            .string_color( c_yellow )
+            .identifier( "map_note" );
 
             update_note_preview( old_note );
 
