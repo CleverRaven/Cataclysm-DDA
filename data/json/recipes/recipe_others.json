@@ -2583,17 +2583,12 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "using": [
-      [ "soldering_standard", 10 ],
-      [ "surface_heat", 10 ]
-    ],
-    "tools": [
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "lens", 1 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
+      [ [ "lens", 1], [ "lens_small",1 ] ],
       [ [ "spring", 1 ] ]
     ]
   },
