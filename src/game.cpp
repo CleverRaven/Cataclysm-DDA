@@ -269,7 +269,6 @@ void game::load_static_data()
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
     DynamicDataLoader::get_instance();
-    narrow_sidebar = get_option<std::string>( "SIDEBAR_STYLE" ) == "narrow";
     fullscreen = false;
     reinitmap = false;
     was_fullscreen = false;
@@ -539,11 +538,6 @@ void game::init_ui( const bool resized )
     if( resized && u.getID() != -1 ) {
         refresh_all();
     }
-}
-
-void game::toggle_sidebar_style()
-{
-    narrow_sidebar = !narrow_sidebar;
 }
 
 void game::toggle_fullscreen()
@@ -2277,7 +2271,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
-    ctxt.register_action( "toggle_sidebar_style" );
 #ifndef __ANDROID__
     ctxt.register_action( "toggle_fullscreen" );
 #endif

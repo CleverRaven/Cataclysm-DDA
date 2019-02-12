@@ -1337,12 +1337,6 @@ void options_manager::add_options_interface()
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "right"
        );
 
-    add( "SIDEBAR_STYLE", "interface", translate_marker( "Sidebar style" ),
-         translate_marker( "Switch between a narrower or wider sidebar." ),
-         //~ sidebar style
-    { { "wider", translate_marker( "Wider" ) }, { "narrow", translate_marker( "Narrow" ) } }, "narrow"
-       );
-
     add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),
          translate_marker( "Where new log messages should show." ),
          //~ sidebar/message log flow direction
@@ -2464,7 +2458,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     bool lang_changed = false;
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
-    bool sidebar_style_changed = false;
     bool terminal_size_changed = false;
 
     for( auto &iter : OPTIONS_OLD ) {
@@ -2479,9 +2472,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 || iter.first == "PIXEL_MINIMAP_RATIO"
                 || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
-
-            } else if( iter.first == "SIDEBAR_STYLE" ) {
-                sidebar_style_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
                 used_tiles_changed = true;
@@ -2519,16 +2509,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     if( lang_changed ) {
         set_language();
-    }
-
-    if( sidebar_style_changed ) {
-        if( !ingame ) {
-#ifdef TILES
-            tilecontext->reinit_minimap();
-#endif
-            g->narrow_sidebar = !g->narrow_sidebar;
-            g->init_ui();
-        }
     }
 
 #if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
@@ -2685,11 +2665,6 @@ bool options_manager::load_legacy()
 
     return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
            read_from_file_optional( FILENAMES["legacy_options2"], reader );
-}
-
-bool use_narrow_sidebar()
-{
-    return TERMY < 25 || g->narrow_sidebar;
 }
 
 bool options_manager::has_option( const std::string &name ) const

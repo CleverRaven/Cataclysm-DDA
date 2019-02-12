@@ -243,8 +243,6 @@ enum action_id : int {
 
     // Debug Functions
     /**@{*/
-    /** Toggle sidebar layout type */
-    ACTION_TOGGLE_SIDEBAR_STYLE,
     /** Toggle full-screen mode */
     ACTION_TOGGLE_FULLSCREEN,
     /** Open debug menu */

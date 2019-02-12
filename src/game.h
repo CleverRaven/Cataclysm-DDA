@@ -634,7 +634,6 @@ class game
         bool has_gametype() const;
         special_game_id gametype() const;
 
-        void toggle_sidebar_style();
         void toggle_fullscreen();
         void toggle_pixel_minimap();
         void toggle_panel_adm();
@@ -859,7 +858,6 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
-        bool narrow_sidebar;
         bool show_panel_adm;
         bool right_sidebar;
         bool reinitmap;
@@ -1082,10 +1080,7 @@ class game
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void draw_minimap();     // Draw the 5x5 minimap
-        /** Draws the sidebar (if it's visible), including all windows there */
-        void draw_sidebar();
     public:
-        void draw_sidebar_messages();
         // Draws the pixel minimap based on the player's current location
         void draw_pixel_minimap( const catacurses::window &w );
     private:
