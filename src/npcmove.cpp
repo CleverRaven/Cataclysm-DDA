@@ -1903,9 +1903,9 @@ void npc::find_item()
             if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
                 for( const item &it : g->m.i_at( p ) ) {
                     if( one_in(10) && lcmatch( it.tname(), "Thorazine" ) ) {
-                        say( _( "<no_to_thorazine>" ) );
+                        say( "<no_to_thorazine>" );
                     } else if( one_in(10) && lcmatch( it.tname(), "Pink" ) ) {
-                        say( _( "<yes_to_lsd>" ) );
+                        say( "<yes_to_lsd>" );
                     }
                 }
             }
