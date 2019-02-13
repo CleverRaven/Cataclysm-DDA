@@ -17572,7 +17572,7 @@
         {
           "id": ["motor_enhanced", "vp_engine_electric_enhanced", "motor_large", "vp_engine_electric_large", "vp_engine_electric"],
           "fg": 1812,
-          "bg": 984
+          "bg": 0
         },
         {
           "id": "sheet_metal_lit",
@@ -17907,19 +17907,9 @@
           "bg": 985
         },
         {
-          "id": "t_reinforced_door_glass_lab_o",
-          "fg": 3183,
-          "bg": 5010
-        },
-        {
           "id": "t_reinforced_door_glass_c",
           "fg": 3182,
           "bg": 985
-        },
-        {
-          "id": "t_reinforced_door_glass_lab_c",
-          "fg": 3182,
-          "bg": 5010
         },
         {
           "id": "t_scrap_wall",
@@ -18176,33 +18166,15 @@
           "rotates": false
         },
         {
-          "id": "t_door_lab_frame",
-          "fg": 3035,
-          "bg": 5010,
-          "rotates": false
-        },
-        {
           "id": "t_door_glass_o",
           "fg": 3037,
           "bg": 987,
           "rotates": false
         },
         {
-          "id": "t_door_glass_lab_o",
-          "fg": 3037,
-          "bg": 5010,
-          "rotates": false
-        },
-        {
           "id": "t_door_o",
           "fg": 3044,
           "bg": 987,
-          "rotates": false
-        },
-        {
-          "id": "t_door_lab_o",
-          "fg": 3044,
-          "bg": 5010,
           "rotates": false
         },
         {
@@ -18214,12 +18186,6 @@
           "id": "t_mdoor_frame",
           "fg": 3120,
           "bg": 987,
-          "rotates": false
-        },
-        {
-          "id": "t_mdoor_frame",
-          "fg": 3120,
-          "bg": 5010,
           "rotates": false
         },
         {
@@ -19256,12 +19222,6 @@
           "rotates": false
         },
         {
-          "id": "t_door_metal_lab_o",
-          "fg": 3042,
-          "bg": 5010,
-          "rotates": false
-        },
-        {
           "id": "t_door_metal_o_peep",
           "fg": 3042,
           "bg": 993,
@@ -19271,12 +19231,6 @@
           "id": ["t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control"],
           "fg": 3071,
           "bg": 993,
-          "rotates": false
-        },
-        {
-          "id": "t_gates_mech_control_lab",
-          "fg": 3071,
-          "bg": 5010,
           "rotates": false
         },
         {
@@ -31930,23 +31884,11 @@
           "fg": 4965,
 		  "bg": 993,
           "rotates": false
-        },
-		{
-          "id": "t_door_glass_frosted_lab_c",
-          "fg": 4965,
-		  "bg": 5010,
-          "rotates": false
         },	
 		{
           "id": "t_door_glass_frosted_o",
           "fg": 4966,
 		  "bg": 993,
-          "rotates": false
-        },
-		{
-          "id": "t_door_glass_frosted_lab_o",
-          "fg": 4966,
-		  "bg": 5010,
           "rotates": false
         },		
 		{
@@ -32054,7 +31996,6 @@
 		{
           "id": "mon_dog",
           "fg": [
-            { "weight":3, "sprite":4986},
             { "weight":3, "sprite":2408}
             ],
           "rotates": false
@@ -37790,25 +37731,25 @@
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_infantry",
+          "id": ["mon_zombie_bio_infantry", "mon_zombie_bio_infantry_rifle"],
           "fg": 2673,
 		  "bg": 967,
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_knight",
+          "id": ["mon_zombie_bio_knight", "mon_zombie_bio_knight_lmg"],
           "fg": 2674,
 		  "bg": 967,
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_scout",
+          "id": ["mon_zombie_bio_scout", "mon_zombie_bio_scout_sniper"],
           "fg": 2676,
 		  "bg": 967,
           "rotates": false
         },
         {
-          "id": "mon_zombie_bio_tool",
+          "id": ["mon_zombie_bio_tool", "mon_zombie_bio_tool_pistol"],
           "fg": 2677,
 		  "bg": 967,
           "rotates": false
@@ -37911,7 +37852,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_panties_on",
+          "id": "!overlay_worn_panties_on",
           "fg": 2706,
           "rotates": false
         },
@@ -38462,22 +38403,12 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_lab_c",
-          "fg": 3036,
-          "rotates": false
-        },
-        {
           "id": "t_door_makeshift_c",
           "fg": 3038,
           "rotates": false
         },
         {
           "id": "t_door_metal_c",
-          "fg": 3040,
-          "rotates": true
-        },
-        {
-          "id": "t_door_metal_lab_c",
           "fg": 3040,
           "rotates": true
         },
@@ -44739,11 +44670,6 @@
           "rotates": false
         },
         {
-          "id": "t_door_lab_c",
-          "fg": 4017,
-          "rotates": false
-        },
-        {
           "id": "t_door_locked",
           "fg": 4017,
           "rotates": false
@@ -44760,11 +44686,6 @@
         },
         {
           "id": "t_door_b",
-          "fg": 4018,
-          "rotates": false
-        },
-        {
-          "id": "t_door_lab_b",
           "fg": 4018,
           "rotates": false
         },
@@ -46414,7 +46335,7 @@
           "rotates": true
         },
         {
-          "id": ["vp_wheel_motorbike", "vp_wheel_bicycle_or", "vp_wheel_motorbike_or", "vp_wheel_slick", "vp_wheel_wide_or"],
+          "id": ["vp_wheel_motorbike", "vp_wheel_bicycle_or", "vp_wheel_wide_or_steerable", "vp_wheel_bicycle_or_steerable", "vp_wheel_motorbike_or_steerable", "vp_wheel_slick_steerable", "vp_wheel_motorbike_or", "vp_wheel_slick", "vp_wheel_wide_or"],
           "fg": 4187,
           "rotates": true
         },
@@ -47648,34 +47569,55 @@
 		{ "id": "overlay_male_mutation_EYE_YELLOW", "fg": 9599, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_HAIR_BLONDE", "fg": 9600, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_blond_long", "fg": 9600, "rotates": false },
 		{ "id": "overlay_male_mutation_HAIR_BLONDE", "fg": 9601, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_blond_short", "fg": 9601, "rotates": false },
 		{ "id": "overlay_female_mutation_HAIR_RED", "fg": 9602, "rotates": false },
-		{ "id": "overlay_male_mutation_HAIR_RED", "fg": 9603, "rotates": false },	
+		{ "id": "overlay_female_mutation_hair_red_long", "fg": 9602, "rotates": false },
+		{ "id": "overlay_male_mutation_HAIR_RED", "fg": 9603, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_red_short", "fg": 9603, "rotates": false },		
 		{ "id": "overlay_female_mutation_HAIR_BROWN", "fg": 9604, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_brown_long", "fg": 9604, "rotates": false },
 		{ "id": "overlay_male_mutation_HAIR_BROWN", "fg": 9605, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_brown_short", "fg": 9605, "rotates": false },
 		{ "id": "overlay_female_mutation_HAIR_BLACK", "fg": 9606, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_black_long", "fg": 9606, "rotates": false },
 		{ "id": "overlay_male_mutation_HAIR_BLACK", "fg": 9607, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_black_short", "fg": 9607, "rotates": false },
 		{ "id": "overlay_female_mutation_HAIR_WHITE", "fg": 9608, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_white_long", "fg": 9608, "rotates": false },
 		{ "id": "overlay_male_mutation_HAIR_WHITE", "fg": 9609, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_white_short", "fg": 9609, "rotates": false },
 		{ "id": "overlay_female_mutation_HAIR_GRAY", "fg": 9610, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_gray_long", "fg": 9610, "rotates": false },
 		{ "id": "overlay_male_mutation_HAIR_GRAY", "fg": 9611, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_gray_short", "fg": 9611, "rotates": false },
 		{ "id": "overlay_female_mutation_HAIR_PINK", "fg": 9612, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_pink_long", "fg": 9612, "rotates": false },
 		{ "id": "overlay_male_mutation_HAIR_PINK", "fg": 9613, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_pink_short", "fg": 9613, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_hair2blond", "fg": 9616, "rotates": false },
 		{ "id": "overlay_male_mutation_hair2blond", "fg": 9617, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_blond_short", "fg": 9617, "rotates": false },
 		{ "id": "overlay_female_mutation_hair2red", "fg": 9618, "rotates": false },		
 		{ "id": "overlay_male_mutation_hair2red", "fg": 9619, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_red_short", "fg": 9619, "rotates": false },
 		{ "id": "overlay_female_mutation_hair2brown", "fg": 9620, "rotates": false },		
 		{ "id": "overlay_male_mutation_hair2brown", "fg": 9621, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_brown_short", "fg": 9621, "rotates": false },
 		{ "id": "overlay_female_mutation_hair2black", "fg": 9622, "rotates": false },		
 		{ "id": "overlay_male_mutation_hair2black", "fg": 9623, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_black_short", "fg": 9623, "rotates": false },
 		{ "id": "overlay_female_mutation_hair2white", "fg": 9624, "rotates": false },		
 		{ "id": "overlay_male_mutation_hair2white", "fg": 9625, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_white_short", "fg": 9625, "rotates": false },
 		{ "id": "overlay_female_mutation_hair2gray", "fg": 9626, "rotates": false },	
 		{ "id": "overlay_male_mutation_hair2gray", "fg": 9627, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_gray_short", "fg": 9627, "rotates": false },
 		{ "id": "overlay_female_mutation_hair2pink", "fg": 9628, "rotates": false },
 		{ "id": "overlay_male_mutation_hair2pink", "fg": 9629, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_pink_short", "fg": 9629, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_hair3blond", "fg": 9632, "rotates": false },
 		{ "id": "overlay_male_mutation_hair3blond", "fg": 9633, "rotates": false },
@@ -47692,36 +47634,64 @@
 		{ "id": "overlay_female_mutation_hair3pink", "fg": 9644, "rotates": false },
 		{ "id": "overlay_male_mutation_hair3pink", "fg": 9645, "rotates": false },
 		
-		{ "id": "overlay_mutation_hair4blond", "fg": 9648, "rotates": false },		
-		{ "id": "overlay_mutation_hair4red", "fg": 9649, "rotates": false },		
-		{ "id": "overlay_mutation_hair4brown", "fg": 9650, "rotates": false },		
-		{ "id": "overlay_mutation_hair4black", "fg": 9651, "rotates": false },		
-		{ "id": "overlay_mutation_hair4white", "fg": 9652, "rotates": false },		
+		{ "id": "overlay_mutation_hair4blond", "fg": 9648, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_blond_crewcut", "fg": 9648, "rotates": false },
+		{ "id": "overlay_mutation_hair4red", "fg": 9649, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_red_crewcut", "fg": 9649, "rotates": false },
+		{ "id": "overlay_mutation_hair4brown", "fg": 9650, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_brown_crewcut", "fg": 9650, "rotates": false },		
+		{ "id": "overlay_mutation_hair4black", "fg": 9651, "rotates": false },	
+		{ "id": "overlay_male_mutation_hair_black_crewcut", "fg": 9651, "rotates": false },		
+		{ "id": "overlay_mutation_hair4white", "fg": 9652, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_white_crewcut", "fg": 9652, "rotates": false },		
 		{ "id": "overlay_mutation_hair4gray", "fg": 9653, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_gray_crewcut", "fg": 9653, "rotates": false },
 		{ "id": "overlay_mutation_hair4pink", "fg": 9654, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_pink_crewcut", "fg": 9654, "rotates": false },
 		
 		{ "id": "overlay_mutation_hair5blond", "fg": 9655, "rotates": false },
+		{ "id": "overlay_mutation_hair_blond_mohawk", "fg": 9655, "rotates": false },
 		{ "id": "overlay_mutation_hair5red", "fg": 9656, "rotates": false },
+		{ "id": "overlay_mutation_hair_red_mohawk", "fg": 9656, "rotates": false },
 		{ "id": "overlay_mutation_hair5brown", "fg": 9657, "rotates": false },
+		{ "id": "overlay_mutation_hair_brown_mohawk", "fg": 9657, "rotates": false },
 		{ "id": "overlay_mutation_hair5black", "fg": 9658, "rotates": false },
+		{ "id": "overlay_mutation_hair_black_mohawk", "fg": 9658, "rotates": false },
 		{ "id": "overlay_mutation_hair5white", "fg": 9659, "rotates": false },
+		{ "id": "overlay_mutation_hair_white_mohawk", "fg": 9659, "rotates": false },
 		{ "id": "overlay_mutation_hair5gray", "fg": 9660, "rotates": false },
+		{ "id": "overlay_mutation_hair_gray_mohawk", "fg": 9660, "rotates": false },
 		{ "id": "overlay_mutation_hair5pink", "fg": 9661, "rotates": false },
+		{ "id": "overlay_mutation_hair_pink_mohawk", "fg": 9661, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_hair6blond", "fg": 9664, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_blond_medium", "fg": 9664, "rotates": false },
 		{ "id": "overlay_male_mutation_hair6blond", "fg": 9665, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_blond_crewcut", "fg": 9665, "rotates": false },
 		{ "id": "overlay_female_mutation_hair6red", "fg": 9666, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_red_medium", "fg": 9666, "rotates": false },
 		{ "id": "overlay_male_mutation_hair6red", "fg": 9667, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_red_crewcut", "fg": 9667, "rotates": false },
 		{ "id": "overlay_female_mutation_hair6brown", "fg": 9668, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_brown_medium", "fg": 9668, "rotates": false },
 		{ "id": "overlay_male_mutation_hair6brown", "fg": 9669, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_brown_crewcut", "fg": 9669, "rotates": false },
 		{ "id": "overlay_female_mutation_hair6black", "fg": 9670, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_black_medium", "fg": 9670, "rotates": false },
 		{ "id": "overlay_male_mutation_hair6black", "fg": 9671, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_black_crewcut", "fg": 9671, "rotates": false },
 		{ "id": "overlay_female_mutation_hair6white", "fg": 9672, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_white_medium", "fg": 9672, "rotates": false },
 		{ "id": "overlay_male_mutation_hair6white", "fg": 9673, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_white_crewcut", "fg": 9673, "rotates": false },
 		{ "id": "overlay_female_mutation_hair6gray", "fg": 9674, "rotates": false },
-		{ "id": "overlay_male_mutation_hair6gray", "fg": 9675, "rotates": false },		
+		{ "id": "overlay_female_mutation_hair_gray_medium", "fg": 9674, "rotates": false },
+		{ "id": "overlay_male_mutation_hair6gray", "fg": 9675, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_gray_crewcut", "fg": 9675, "rotates": false },		
 		{ "id": "overlay_female_mutation_hair6pink", "fg": 9676, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_pink_medium", "fg": 9676, "rotates": false },
 		{ "id": "overlay_male_mutation_hair6pink", "fg": 9677, "rotates": false },
+		{ "id": "overlay_female_mutation_hair_pink_crewcut", "fg": 9677, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_hair7blond", "fg": 9680, "rotates": false },
 		{ "id": "overlay_male_mutation_hair7blond", "fg": 9681, "rotates": false },
@@ -47739,33 +47709,54 @@
 		{ "id": "overlay_male_mutation_hair7pink", "fg": 9693, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_hair8blond", "fg": 9696, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_blond_medium", "fg": 9696, "rotates": false },
 		{ "id": "overlay_male_mutation_hair8blond", "fg": 9697, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_blond_long", "fg": 9697, "rotates": false },
 		{ "id": "overlay_female_mutation_hair8red", "fg": 9698, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_red_medium", "fg": 9698, "rotates": false },
 		{ "id": "overlay_male_mutation_hair8red", "fg": 9699, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_red_long", "fg": 9699, "rotates": false },
 		{ "id": "overlay_female_mutation_hair8brown", "fg": 9700, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_brown_medium", "fg": 9700, "rotates": false },
 		{ "id": "overlay_male_mutation_hair8brown", "fg": 9701, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_brown_long", "fg": 9701, "rotates": false },
 		{ "id": "overlay_female_mutation_hair8black", "fg": 9702, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_black_medium", "fg": 9702, "rotates": false },
 		{ "id": "overlay_male_mutation_hair8black", "fg": 9703, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_black_long", "fg": 9703, "rotates": false },
 		{ "id": "overlay_female_mutation_hair8white", "fg": 9704, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_white_medium", "fg": 9704, "rotates": false },
 		{ "id": "overlay_male_mutation_hair8white", "fg": 9705, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_white_long", "fg": 9705, "rotates": false },
 		{ "id": "overlay_female_mutation_hair8gray", "fg": 9706, "rotates": false },
-		{ "id": "overlay_male_mutation_hair8gray", "fg": 9707, "rotates": false },		
+		{ "id": "overlay_male_mutation_hair_gray_medium", "fg": 9706, "rotates": false },
+		{ "id": "overlay_male_mutation_hair8gray", "fg": 9707, "rotates": false },	
+		{ "id": "overlay_male_mutation_hair_gray_long", "fg": 9707, "rotates": false },		
 		{ "id": "overlay_female_mutation_hair8pink", "fg": 9708, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_blond_medium", "fg": 9708, "rotates": false },
 		{ "id": "overlay_male_mutation_hair8pink", "fg": 9709, "rotates": false },
+		{ "id": "overlay_male_mutation_hair_pink_long", "fg": 9709, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_hair9blond", "fg": 9712, "rotates": false },
+		{ "id": "overlay_mutation_hair_blond_fro", "fg": 9712, "rotates": false },
 		{ "id": "overlay_male_mutation_hair9blond", "fg": 9713, "rotates": false },
 		{ "id": "overlay_female_mutation_hair9red", "fg": 9714, "rotates": false },
+		{ "id": "overlay_mutation_hair_red_fro", "fg": 9714, "rotates": false },
 		{ "id": "overlay_male_mutation_hair9red", "fg": 9715, "rotates": false },
 		{ "id": "overlay_female_mutation_hair9brown", "fg": 9716, "rotates": false },
+		{ "id": "overlay_mutation_hair_brown_fro", "fg": 9716, "rotates": false },
 		{ "id": "overlay_male_mutation_hair9brown", "fg": 9717, "rotates": false },
 		{ "id": "overlay_female_mutation_hair9black", "fg": 9718, "rotates": false },
+		{ "id": "overlay_mutation_hair_black_fro", "fg": 9718, "rotates": false },
 		{ "id": "overlay_male_mutation_hair9black", "fg": 9719, "rotates": false },
 		{ "id": "overlay_female_mutation_hair9white", "fg": 9720, "rotates": false },
+		{ "id": "overlay_mutation_hair_white_fro", "fg": 9720, "rotates": false },
 		{ "id": "overlay_male_mutation_hair9white", "fg": 9721, "rotates": false },
 		{ "id": "overlay_female_mutation_hair9gray", "fg": 9722, "rotates": false },
+		{ "id": "overlay_mutation_hair_gray_fro", "fg": 9722, "rotates": false },
 		{ "id": "overlay_male_mutation_hair9gray", "fg": 9723, "rotates": false },		
 		{ "id": "overlay_female_mutation_hair9pink", "fg": 9724, "rotates": false },
+		{ "id": "overlay_mutation_hair_pink_fro", "fg": 9724, "rotates": false },
 		{ "id": "overlay_male_mutation_hair9pink", "fg": 9725, "rotates": false },
 		
 		{ "id": "overlay_female_mutation_hair10blond", "fg": 9728, "rotates": false },
@@ -59591,8 +59582,475 @@
           "bg": 0,
           "rotates": false
         }, 
-
-
+						{
+          "id": "corpse_mon_ant_larva",
+          "fg": 23580,
+          "bg": 0,
+          "rotates": false
+        }, 
+		{
+          "id": "corpse_mon_ant",
+          "fg": 23581,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_ant_soldier",
+          "fg": 23582,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_ant_queen",
+          "fg": 23583,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_ant_acid_larva",
+          "fg": 23584,
+          "bg": 0,
+          "rotates": false
+        }, 
+		{
+          "id": "corpse_mon_ant_acid",
+          "fg": 23585,
+          "bg": 0,
+          "rotates": false
+        }, 
+				{
+          "id": "corpse_mon_ant_acid_soldier",
+          "fg": 23586,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_ant_acid_queen",
+          "fg": 23587,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_ant_fungus",
+          "fg": 23588,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_locust",
+          "fg": 23589,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_locust_nymph",
+          "fg": 23590,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_bear",
+          "fg": 23591,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_beaver",
+          "fg": 23592,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_bobcat",
+          "fg": 23593,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_chipmunk",
+          "fg": 23594,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_cougar",
+          "fg": 23595,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_cow_calf",
+          "fg": 23596,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_cow",
+          "fg": 23597,
+          "bg": 0,
+          "rotates": false
+        },    
+		{
+          "id": "corpse_mon_coyote",
+          "fg": 23598,
+          "bg": 0,
+          "rotates": false
+        },
+        {
+          "id": "corpse_mon_coyote_wolf",
+          "fg": 23599,
+          "bg": 0,
+          "rotates": false
+        },  
+		{
+          "id": "corpse_mon_deer_fawn",
+          "fg": 23600,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "corpse_mon_deer",
+          "fg": 23601,
+          "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "corpse_mon_dog",
+          "fg": 23602,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_pup",
+          "fg": 23603,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "corpse_mon_dog_bull",
+          "fg": 23604,
+          "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_bull_pup",
+          "fg": 23605,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "FMCNote",
+          "fg": 23606,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "FlatCoin",
+          "fg": 23607,
+          "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": "reading_light",
+          "fg": 23608,
+          "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "reading_light_on",
+          "fg": 23609,
+          "bg": 0,
+          "rotates": false
+        },      
+		{
+          "id": "mon_zombie_bio_tool_smg",
+          "fg": 23610,
+		  "bg": 967,
+          "rotates": false
+        },	
+		{
+          "id": "mon_zombie_bio_infantry_shotgun",
+          "fg": 23611,
+		  "bg": 967,
+          "rotates": false
+        },		
+		{
+          "id": "mon_zombie_bio_knight_lauhcher",
+          "fg": 23612,
+		  "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_pitbullmix",
+          "fg": 23613,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_pitbullmix_pup",
+          "fg": 23614,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_beagle",
+          "fg": 23615,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_beagle_pup",
+          "fg": 23616,
+		  "bg": 0,
+          "rotates": false
+        },												
+		{
+          "id": "corpse_mon_dog_bcollie",
+          "fg": 23617,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_bcollie_pup",
+           "fg": 23618,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_boxer",
+          "fg": 23619,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_boxer_pup",
+          "fg": 23620,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_chihuahua",
+          "fg": 23621,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_chihuahua_pup",
+          "fg": 23622,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_dachshund",
+          "fg": 23623,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_dachshund_pup",
+          "fg": 23624,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gshepherd",
+          "fg": 23625,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gshepherd_pup",
+          "fg": 23626,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gpyrenees",
+          "fg": 23627,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_gpyrenees_pup",
+          "fg": 23628,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_rottweiler",
+          "fg": 23629,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_rottweiler_pup",
+          "fg": 23630,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_auscattle",
+          "fg": 23631,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": "corpse_mon_dog_auscattle_pup",
+          "fg": 23632,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "large_space_heater",
+          "fg": 23633,
+		  "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "large_space_heater_on",
+          "fg": 23634,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": "small_space_heater",
+          "fg": 23635,
+		  "bg": 0,
+          "rotates": false
+        },
+				{
+          "id": "small_space_heater_on",
+          "fg": 23636,
+		  "bg": 0,
+          "rotates": false
+        },
+		{
+          "id": ["motor_super", "vp_engine_electric_super"],
+          "fg": 23637,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_tomato_harvested"],
+          "fg": 23638,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_tomato"],
+          "fg": 23639,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_bean_harvested"],
+          "fg": 23640,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_bean"],
+          "fg": 23641,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": ["t_hydrop_cabbage_harvested"],
+          "fg": 23642,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_cabbage"],
+          "fg": 23643,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_carrot_harvested"],
+          "fg": 23644,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_carrot"],
+          "fg": 23645,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": ["t_hydrop_celery_harvested"],
+          "fg": 23646,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_celery"],
+          "fg": 23647,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_corn_harvested"],
+          "fg": 23648,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_corn"],
+          "fg": 23649,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": ["t_hydrop_cucumber_harvested"],
+          "fg": 23650,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_cucumber"],
+          "fg": 23651,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": ["t_hydrop_onion_harvested"],
+          "fg": 23652,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_onion"],
+          "fg": 23653,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": ["t_hydrop_weed_harvested"],
+          "fg": 23656,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_weed"],
+          "fg": 23657,
+		  "bg": 0,
+          "rotates": false
+        },		
+		{
+          "id": ["t_hydrop_potato_harvested"],
+          "fg": 23654,
+		  "bg": 0,
+          "rotates": false
+        },	
+		{
+          "id": ["t_hydrop_potato"],
+          "fg": 23655,
+		  "bg": 0,
+          "rotates": false
+        },
+		
 		{
           "id": "atlatl",
           "fg": 1986,
