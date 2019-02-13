@@ -157,7 +157,7 @@
     "id": "TALK_REFUGEE_Aleesha_2_veryearly",
     "dynamic_line": "I don't know what's up.  I'm not sure what we've even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything.",
     "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_Story1" },
+      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_/1" },
       { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_Refugees1" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -195,7 +195,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_Story1",
+    "id": "TALK_REFUGEE_Aleesha_Story1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [
@@ -205,7 +205,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_Refugees1",
+    "id": "TALK_REFUGEE_Aleesha_Refugees1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [
