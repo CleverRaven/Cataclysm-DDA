@@ -1898,7 +1898,22 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
 void npc::find_item()
 {
-    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) || is_hallucination() ) {
+    if( is_hallucination() ) {
+        for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
+            if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
+                for( const item &it : g->m.i_at( p ) ) {
+                    if( one_in(10) && lcmatch( it.tname(), "Thorazine" ) ) {
+                        say( _( "<no_to_thorazine>" ) );
+                    } else if( one_in(10) && lcmatch( it.tname(), "Pink" ) ) {
+                        say( _( "<yes_to_lsd>" ) );
+                    }
+                }
+            }
+        }
+        return;
+    }
+
+    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         // Grabbing stuff not allowed by our "owner"
         return;
     }
