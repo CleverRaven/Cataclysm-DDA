@@ -7010,7 +7010,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
                 const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w_info ) - 1 );
                 mvwprintz( w_info, 0, start_pos, c_white, title_prefix );
-                wprintz( w_info, c_blue, title );
+                wprintz( w_info, c_green, title );
                 wprintz( w_info, c_white, title_suffix );
 
                 int first_line = 1;
