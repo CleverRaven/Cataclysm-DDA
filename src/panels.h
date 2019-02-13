@@ -1,10 +1,11 @@
 #pragma once
 #ifndef PANELS_H
 #define PANELS_H
-#include "color.h"
-#include "game.h"
-#include "input.h"
-#include "string_id.h"
+
+#include "json.h"
+
+#include <functional>
+#include <map>
 #include <string>
 
 class player;
@@ -31,6 +32,7 @@ class window_panel
         int get_width() const;
         std::string get_name() const;
         bool toggle;
+
     private:
         int height;
         int width;
@@ -38,8 +40,39 @@ class window_panel
         std::string name;
 };
 
-std::map<std::string, std::vector<window_panel>> initialize_panel_layouts();
+class panel_manager
+{
+    public:
+        panel_manager();
+        ~panel_manager() = default;
+        panel_manager( panel_manager && ) = default;
+        panel_manager( const panel_manager & ) = default;
+        panel_manager &operator=( panel_manager && ) = default;
+        panel_manager &operator=( const panel_manager & ) = default;
 
-void draw_panel_adm( const catacurses::window &w, size_t column = 0, size_t index = 1 );
+        static panel_manager &get_manager() {
+            static panel_manager single_instance;
+            return single_instance;
+        }
 
-#endif
+        std::map<std::string, std::vector<window_panel>> initialize_panel_layouts();
+
+        std::vector<window_panel> &get_current_layout();
+        const std::string get_current_layout_id() const;
+
+        void draw_adm( const catacurses::window &w, size_t column = 0, size_t index = 1 );
+
+        void init();
+
+    private:
+        bool save();
+        bool load();
+        void serialize( JsonOut &json );
+        void deserialize( JsonIn &jsin );
+
+        std::string current_layout_id;
+        std::map<std::string, std::vector<window_panel>> layouts;
+
+};
+
+#endif //PANELS_H

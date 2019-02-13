@@ -700,8 +700,6 @@ class game
 
         catacurses::window w_panel_adm_ptr;
         catacurses::window w_panel_adm;
-        std::map<std::string, std::vector<window_panel>> layouts;
-        std::string current_layout = "compact";
 
         catacurses::window w_blackspace;
 

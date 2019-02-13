@@ -273,6 +273,7 @@ void game::load_static_data()
     reinitmap = false;
     was_fullscreen = false;
     show_panel_adm = false;
+    panel_manager::get_manager().init();
 
     // These functions do not load stuff from json.
     // The content they load/initialize is hardcoded into the program.
@@ -525,9 +526,6 @@ void game::init_ui( const bool resized )
     w_minimap = w_minimap_ptr =
                     catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX );
     werase( w_minimap );
-
-    layouts = initialize_panel_layouts();
-    current_layout = "classic";
 
     w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 15, 65, ( TERMY / 2 ) - 8, ( TERMX / 2 ) - 33 );
     werase( w_panel_adm );
@@ -3560,8 +3558,9 @@ void game::draw_panels()
 
 void game::draw_panels( size_t column, size_t index )
 {
+    auto &mgr = panel_manager::get_manager();
     int y = 0;
-    for( const auto &panel : layouts[current_layout] ) {
+    for( const auto &panel : mgr.get_current_layout() ) {
         if( panel.toggle ) {
             panel.draw( u, catacurses::newwin( panel.get_height(), panel.get_width(), y,
                                                TERMX - panel.get_width() ) );
@@ -3588,7 +3587,7 @@ void game::draw_panels( size_t column, size_t index )
         }
     }
     if( show_panel_adm ) {
-        draw_panel_adm( w_panel_adm, column, index );
+        mgr.draw_adm( w_panel_adm, column, index );
     }
 }
 

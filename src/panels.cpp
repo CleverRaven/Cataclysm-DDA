@@ -6,7 +6,9 @@
 #include "effect.h"
 #include "game.h"
 #include "gun_mode.h"
+#include "input.h"
 #include "item.h"
+#include "json.h"
 #include "map.h"
 #include "martialarts.h"
 #include "options.h"
@@ -15,6 +17,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "output.h"
+#include "path_info.h"
 #include "player.h"
 #include "translations.h"
 #include "vehicle.h"
@@ -900,7 +903,6 @@ int get_int_digits( const int &digits )
 // panels code
 // ===============================
 
-
 void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
 {
     const bool is_self_aware = u.has_trait( trait_SELFAWARE );
@@ -1639,7 +1641,7 @@ void draw_time_classic( player &u, const catacurses::window &w )
 // INITIALIZERS
 // ============
 
-std::vector<window_panel> initialize_classic_panels()
+std::vector<window_panel> initialize_default_classic_panels()
 {
     std::vector<window_panel> ret;
 
@@ -1658,7 +1660,7 @@ std::vector<window_panel> initialize_classic_panels()
     return ret;
 }
 
-std::vector<window_panel> initialize_compact_panels()
+std::vector<window_panel> initialize_default_compact_panels()
 {
     std::vector<window_panel> ret;
 
@@ -1678,7 +1680,7 @@ std::vector<window_panel> initialize_compact_panels()
     return ret;
 }
 
-std::vector<window_panel> initialize_label_panels()
+std::vector<window_panel> initialize_default_label_panels()
 {
     std::vector<window_panel> ret;
 
@@ -1699,18 +1701,137 @@ std::vector<window_panel> initialize_label_panels()
     return ret;
 }
 
-std::map<std::string, std::vector<window_panel>> initialize_panel_layouts()
+std::map<std::string, std::vector<window_panel>> initialize_default_panel_layouts()
 {
     std::map<std::string, std::vector<window_panel>> ret;
 
-    ret.emplace( std::make_pair( "classic", initialize_classic_panels() ) );
-    ret.emplace( std::make_pair( "compact", initialize_compact_panels() ) );
-    ret.emplace( std::make_pair( "labels", initialize_label_panels() ) );
+    ret.emplace( std::make_pair( "classic", initialize_default_classic_panels() ) );
+    ret.emplace( std::make_pair( "compact", initialize_default_compact_panels() ) );
+    ret.emplace( std::make_pair( "labels", initialize_default_label_panels() ) );
 
     return ret;
 }
 
-void draw_panel_adm( const catacurses::window &w, size_t column, size_t index )
+panel_manager::panel_manager()
+{
+    current_layout_id = "classic";
+    layouts = initialize_default_panel_layouts();
+}
+
+
+std::vector<window_panel> &panel_manager::get_current_layout()
+{
+    auto kv = layouts.find( current_layout_id );
+    if( kv != layouts.end() ) {
+        return kv->second;
+    }
+    debugmsg( "Invalid current panel layout, defaulting to classic" );
+    current_layout_id = "classic";
+    return get_current_layout();
+}
+
+
+const std::string panel_manager::get_current_layout_id() const
+{
+    return current_layout_id;
+}
+
+void panel_manager::init()
+{
+    load();
+}
+
+bool panel_manager::save()
+{
+    return write_to_file( FILENAMES["panel_options"], [&]( std::ostream & fout ) {
+        JsonOut jout( fout, true );
+        serialize( jout );
+    }, _( "panel_options" ) );
+}
+
+bool panel_manager::load()
+{
+    return read_from_file_optional_json( FILENAMES["panel_options"], [&]( JsonIn & jsin ) {
+        deserialize( jsin );
+    } );
+}
+
+void panel_manager::serialize( JsonOut &json )
+{
+    json.start_array();
+    json.start_object();
+
+    json.member( "current_layout_id", current_layout_id );
+    json.member( "layouts" );
+
+    json.start_array();
+
+    for( auto kv : layouts ) {
+        json.start_object();
+
+        json.member( "layout_id", kv.first );
+        json.member( "panels" );
+
+        json.start_array();
+
+        for( auto panel : kv.second ) {
+            json.start_object();
+
+            json.member( "name", panel.get_name() );
+            json.member( "toggle", panel.toggle );
+
+            json.end_object();
+        }
+
+        json.end_array();
+        json.end_object();
+    }
+
+    json.end_array();
+
+    json.end_object();
+    json.end_array();
+}
+
+void panel_manager::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    JsonObject joLayouts( jsin.get_object() );
+
+    current_layout_id = joLayouts.get_string( "current_layout_id" );
+    JsonArray jaLayouts = joLayouts.get_array( "layouts" );
+
+    while( jaLayouts.has_more() ) {
+        JsonObject joLayout = jaLayouts.next_object();
+
+        std::string layout_id = joLayout.get_string( "layout_id" );
+        auto &layout = layouts.find( layout_id )->second;
+        auto it = layout.begin();
+
+        JsonArray jaPanels = joLayout.get_array( "panels" );
+
+        while( jaPanels.has_more() ) {
+            JsonObject joPanel = jaPanels.next_object();
+
+            std::string name = joPanel.get_string( "name" );
+            for( auto it2 = layout.begin() + std::distance( layout.begin(), it ); it2 != layout.end(); ++it2 ) {
+                if( it2->get_name() == name ) {
+                    if( it->get_name() != name ) {
+                        window_panel panel = *it2;
+                        layout.erase( it2 );
+                        layout.insert( it, panel );
+                    }
+                    it->toggle = joPanel.get_bool( "toggle" );
+                    ++it;
+                    break;
+                }
+            }
+        }
+    }
+    jsin.end_array();
+}
+
+void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t index )
 {
 
     input_context ctxt( "PANEL_MGMT" );
@@ -1734,8 +1855,8 @@ void draw_panel_adm( const catacurses::window &w, size_t column, size_t index )
     bool redraw = true;
     bool exit = false;
     while( !exit ) {
-        auto &panels = g->layouts[g->current_layout];
-        column == 0 ? max_index = panels.size() : max_index = g->layouts.size();
+        auto &panels = layouts[current_layout_id];
+        column == 0 ? max_index = panels.size() : max_index = layouts.size();
 
         if( redraw ) {
             redraw = false;
@@ -1752,8 +1873,8 @@ void draw_panel_adm( const catacurses::window &w, size_t column, size_t index )
 
             }
             int i = 1;
-            for( const auto &layout : g->layouts ) {
-                mvwprintz( w, i, 47, g->current_layout == layout.first ? c_light_blue : c_white, layout.first );
+            for( const auto &layout : layouts ) {
+                mvwprintz( w, i, 47, current_layout_id == layout.first ? c_light_blue : c_white, layout.first );
                 i++;
             }
             mvwprintz( w, index, 1 + ( column_width * column ), c_yellow, ">>" );
@@ -1809,11 +1930,11 @@ void draw_panel_adm( const catacurses::window &w, size_t column, size_t index )
             }
             redraw = true;
         } else if( action == "MOVE_PANEL" && column == 1 ) {
-            auto iter = g->layouts.begin();
+            auto iter = layouts.begin();
             for( size_t i = 1; i < index; i++ ) {
                 iter++;
             }
-            g->current_layout = iter->first;
+            current_layout_id = iter->first;
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;
@@ -1823,13 +1944,13 @@ void draw_panel_adm( const catacurses::window &w, size_t column, size_t index )
             // there are only two columns
             if( column == 0 ) {
                 column = 1;
-                if( index > g->layouts.size() ) {
-                    index = g->layouts.size();
+                if( index > layouts.size() ) {
+                    index = layouts.size();
                 }
             } else {
                 column = 0;
-                if( index > g->layouts[g->current_layout].size() ) {
-                    index = g->layouts[g->current_layout].size();
+                if( index > get_current_layout().size() ) {
+                    index = get_current_layout().size();
                 }
             }
             redraw = true;
@@ -1844,6 +1965,7 @@ void draw_panel_adm( const catacurses::window &w, size_t column, size_t index )
         } else if( action == "QUIT" ) {
             exit = true;
             g->show_panel_adm = false;
+            save();
         }
     }
 }
