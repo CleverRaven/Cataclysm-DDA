@@ -1503,6 +1503,13 @@ void draw_compass( player &, const catacurses::window &w )
     wrefresh( w );
 }
 
+void draw_compass_padding( player &, const catacurses::window &w )
+{
+    werase( w );
+    g->mon_info( w, 1 );
+    wrefresh( w );
+}
+
 void draw_veh_compact( player &u, const catacurses::window &w )
 {
     werase( w );
@@ -1530,6 +1537,39 @@ void draw_veh_compact( player &u, const catacurses::window &w )
             mvwprintz( w, 0, 19, c_light_green, "%d", t_speed );
             mvwprintz( w, 0, 20 + offset, c_light_gray, "%s", ">" );
             mvwprintz( w, 0, 22 + offset, col_vel, "%d", c_speed );
+        }
+    }
+
+    wrefresh( w );
+}
+
+void draw_veh_padding( player &u, const catacurses::window &w )
+{
+    werase( w );
+
+    // vehicle display
+    vehicle *veh = g->remoteveh();
+    if( veh == nullptr && u.in_vehicle ) {
+        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+    }
+    if( veh ) {
+        veh->print_fuel_indicators( w, 0, 1 );
+        mvwprintz( w, 0, 7, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        // target speed > current speed
+        const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        if( veh->cruise_on ) {
+            int t_speed = int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+            int c_speed = int( convert_velocity( veh->velocity, VU_VEHICLE ) );
+            int offset = get_int_digits( t_speed );
+            mvwprintz( w, 0, 13, c_light_gray, "%s :", type );
+            mvwprintz( w, 0, 20, c_light_green, "%d", t_speed );
+            mvwprintz( w, 0, 21 + offset, c_light_gray, "%s", ">" );
+            mvwprintz( w, 0, 23 + offset, col_vel, "%d", c_speed );
         }
     }
 
@@ -1651,7 +1691,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_lighting_classic, "Lighting", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_compass, "Compass", 5, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 5, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", 11, 44, true ) );
 #ifdef TILES
     ret.emplace_back( window_panel( draw_mminimap, "Map", 22, 44, true ) );
@@ -1684,18 +1724,18 @@ std::vector<window_panel> initialize_default_label_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_limb, "limb", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_char, "char", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_stat, "stat", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_veh_compact, "Vehicle", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_env1, "env1", 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_mod1, "mod1", 6, 32, true ) );
-    ret.emplace_back( window_panel( draw_messages, "msg", 12, 32, true ) );
-    ret.emplace_back( window_panel( draw_env2, "env2", 2, 32, false ) );
-    ret.emplace_back( window_panel( draw_mod2, "mod2", 5, 32, false ) );
-    ret.emplace_back( window_panel( draw_compass, "com", 8, 32, true ) );
+    ret.emplace_back( window_panel( draw_limb, "Limbs", 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_char, "Movement", 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_stat, "Stats", 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_veh_padding, "Vehicle", 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_env1, "Location", 5, 32, true ) );
+    ret.emplace_back( window_panel( draw_mod1, "Needs", 6, 32, true ) );
+    ret.emplace_back( window_panel( draw_messages, "Log", 12, 32, true ) );
+    ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );
 #ifdef TILES
-    ret.emplace_back( window_panel( draw_mminimap, "map", 16, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, "Map", 16, 32, true ) );
 #endif // TILES
 
     return ret;
@@ -1714,7 +1754,7 @@ std::map<std::string, std::vector<window_panel>> initialize_default_panel_layout
 
 panel_manager::panel_manager()
 {
-    current_layout_id = "classic";
+    current_layout_id = "labels";
     layouts = initialize_default_panel_layouts();
 }
 
