@@ -499,13 +499,13 @@ void Pickup::pick_up( const tripoint &p, int min )
         }
     } else {
         int pickupH = maxitems + pickupBorderRows;
-        int pickupW = 60;
+        int pickupW = 44;
 
         int itemsW = pickupW;
 
-        catacurses::window w_pickup = catacurses::newwin( pickupH, 32, 0, 0 );
+        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, 0, 0 );
         catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH,
-                                         32,  pickupH,  0 );
+                                         pickupW,  pickupH,  0 );
 
         std::string action;
         long raw_input_char = ' ';
