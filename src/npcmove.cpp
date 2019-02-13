@@ -1902,9 +1902,9 @@ void npc::find_item()
         for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
             if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
                 for( const item &it : g->m.i_at( p ) ) {
-                    if( one_in(50) && lcmatch( it.tname(), "Thorazine" ) ) {
+                    if( one_in(100) && lcmatch( it.tname(), "Thorazine" ) ) {
                         say( "<no_to_thorazine>" );
-                    } else if( one_in(50) && lcmatch( it.tname(), "Pink" ) ) {
+                    } else if( one_in(100) && lcmatch( it.tname(), "Pink" ) ) {
                         say( "<yes_to_lsd>" );
                     }
                 }

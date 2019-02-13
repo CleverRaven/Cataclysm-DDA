@@ -5506,12 +5506,17 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
-    if ( one_in(100) ) {
+    if( one_in( 100 ) ) {
         std::shared_ptr<npc> tmp = std::make_shared<npc>();
         tmp->normalize();
-        tmp->randomize(NC_HALLU);
-        tmp->spawn_at_precise({ get_levx(), get_levy() }, p);
-        return true;
+        tmp->randomize( NC_HALLU );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
+        if( !critter_at( p, true ) ) {
+            overmap_buffer.insert_npc( tmp );
+            return true;
+        } else {
+            return false;
+        }
     }
 
     monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
