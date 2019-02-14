@@ -52,6 +52,7 @@
     "material": "veggy",
     "volume": 1,
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -95,6 +96,7 @@
     "charges": 9,
     "fun": -2,
     "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 1 ], [ "iron", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -117,6 +119,7 @@
     "charges": 6,
     "fun": -1,
     "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 15 ], [ "vitC", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -176,6 +179,7 @@
     "material": "veggy",
     "volume": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -351,6 +355,7 @@
     "volume": 10,
     "charges": 10,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -387,6 +392,7 @@
     "volume": 1,
     "fun": -1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
     "vitamins": [ [ "vitC", 3 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -427,6 +433,7 @@
     "volume": "375 ml",
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 11 ], [ "iron", 2 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -554,6 +561,7 @@
     "material": "tomato",
     "volume": "375 ml",
     "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 5 ], [ "iron", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -572,6 +580,7 @@
     "price": 600,
     "material": "veggy",
     "flags": [ "TRADER_AVOID", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
@@ -587,7 +596,8 @@
     "spoils_in": "10 hours",
     "use_action": "POISON",
     "description": "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
-    "price": 0
+    "price": 0,
+    "smoking_result": "dry_veggy_tainted"
   },
   {
     "type": "COMESTIBLE",
@@ -616,6 +626,7 @@
     "material": "veggy",
     "volume": 1,
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 9 ], [ "iron", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },

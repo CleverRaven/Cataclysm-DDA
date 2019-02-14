@@ -3914,7 +3914,8 @@
         "description" : "Your skin is rather pale.",
         "changes_to" : ["ALBINO"],
         "leads_to" : ["TROGLO"],
-        "category" : ["LUPINE"]
+        "category": [ "LUPINE" ],
+        "types": [ "skin_tone" ]
     },{
         "type" : "mutation",
         "id" : "SPOTS",

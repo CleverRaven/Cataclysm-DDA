@@ -401,6 +401,7 @@
     "fun": -1,
     "cooks_like": "beans_cooked",
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
+    "smoking_result": "dry_beans",
     "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },

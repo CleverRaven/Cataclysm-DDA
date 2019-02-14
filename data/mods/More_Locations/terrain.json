@@ -105,7 +105,7 @@
         "id" : "t_ind_press",
         "name": "hydraulic press",
         "symbol": "9",
-        "color": "black_light_red",
+        "color": "black_red",
         "move_cost": 0,
         "flags": [ "WALL", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
         "bash": {
@@ -161,7 +161,7 @@
         "id" : "t_ind_assembler",
         "name": "robotic assembler",
         "symbol": "3",
-        "color": "magenta_light_cyan",
+        "color": "magenta_cyan",
         "move_cost": 0,
         "flags": [ "WALL", "TRANSPARENT", "PERMEABLE", "NOITEM", "BASHABLE", "DECONSTRUCT" ],
         "bash": {

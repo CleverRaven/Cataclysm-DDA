@@ -157,6 +157,9 @@ struct islot_comestible {
     /** Reference to other item that replaces this one as a component in recipe results */
     itype_id cooks_like;
 
+    /** Reference to item that will be received after smoking current item */
+    itype_id smoking_result;
+
     /** @todo: add documentation */
     int healthy = 0;
 

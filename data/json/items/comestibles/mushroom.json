@@ -29,6 +29,7 @@
     "volume": 1,
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_mushroom",
     "vitamins": [ [ "iron", 12 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -101,6 +102,7 @@
     "volume": 1,
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_mushroom",
     "vitamins": [ [ "vitC", 1 ], [ "iron", 1 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -123,6 +125,7 @@
     "copy-from": "mushroom",
     "stim": -4,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
-    "flags": [ "HIDDEN_HALLU", "FREEZERBURN", "SMOKABLE" ]
+    "flags": [ "HIDDEN_HALLU", "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_mushroom_magic"
   }
 ]
