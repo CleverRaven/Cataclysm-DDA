@@ -3441,7 +3441,7 @@
     "color": "i_black",
     "move_cost_mod": 6,
     "required_str": 10,
-    "//": "While heavy, most large pianos have casters for relatively easy movement."
+    "//": "While heavy, most large pianos have casters for relatively easy movement.",
     "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { 
       "items": [ 
@@ -3517,7 +3517,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -3558,7 +3558,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -3588,6 +3588,218 @@
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
         { "item": "water_faucet", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arc_furnace",
+    "name": "electric arc furnace",
+    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.",
+    "symbol": "0",
+    "color": "white_red",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "ter_set": "t_thconc_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "sheet_metal", "count": [ 4, 6 ] },
+        { "item": "element", "count": [ 10, 25 ] },
+        { "item": "scrap", "count": [ 12, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drill_press",
+    "name": "drill press",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "explosive": 1,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "spike", "count": 1 },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydraulic_press",
+    "name": "hydraulic press",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  If, you know, it had power.",
+    "symbol": "9",
+    "color": "black_red",
+    "move_cost": -1,
+    "required_str": 20,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "chain", "count": [ 0, 1 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_heavy_lathe",
+    "name": "power lathe",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "symbol": "4",
+    "color": "cyan_red",
+    "move_cost": -1,
+    "required_str": 16,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "circsaw_blade", "count": [ 4, 6 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "circsaw_blade", "count": [ 2, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_robotic_assembler",
+    "name": "robotic assembler",
+    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.",
+    "symbol": "3",
+    "color": "magenta_cyan",
+    "move_cost": -1,
+    "required_str": -1,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 5, 8 ] },
+        { "item": "circuit", "count": [ 3, 5 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 2, 4 ] },
+        { "item": "RAM", "count": [ 8, 16 ] },
+        { "item": "cable", "charges": [ 8, 12 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chemical_mixer",
+    "description": "When chemicals need to be mixed in large quantities at just the right combinations and temperatures, this is the tool for the job.",
+    "name": "chemical mixer",
+    "symbol": "0",
+    "color": "red_green",
+    "move_cost": -1,
+    "required_str": 16,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "explosive": 1,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "metal_tank_little", "count": [ 0, 2 ] },
+        { "item": "jerrycan", "count": [ 0, 2 ] },
+        { "item": "metal_tank", "count": [ 0, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "metal_tank_little", "count": [ 2, 4 ] },
+        { "item": "jerrycan", "count": [ 2, 4 ] },
+        { "item": "metal_tank", "count": [ 2, 4 ] },
+        { "item": "motor_small", "count": 1 }
       ]
     }
   }
