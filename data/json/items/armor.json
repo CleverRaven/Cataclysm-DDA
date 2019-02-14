@@ -5565,7 +5565,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "Kevlar vest",
-    "description": "A lightweight, bullet resistant vest.  Suitable for wearing under clothing.",
+    "description": "A lightweight, bullet resistant vest.",
     "weight": 2860,
     "volume": 24,
     "price": 80000,
