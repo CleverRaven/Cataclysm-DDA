@@ -146,6 +146,8 @@ enum layer_level {
     REGULAR_LAYER,
     /* "Waist" layer, corresponds to WAIST flag. */
     WAIST_LAYER,
+    /* "Mid" layer, corresponds to MID flag.*/
+    MID_LAYER,
     /* "Outer" layer, corresponds to OUTER flag. */
     OUTER_LAYER,
     /* "Strapped" layer, corresponds to BELTED flag */

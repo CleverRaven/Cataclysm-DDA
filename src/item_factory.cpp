@@ -335,6 +335,8 @@ void Item_factory::finalize_pre( itype &obj )
         obj.layer = UNDERWEAR;
     } else if( obj.item_tags.count( "WAIST" ) ) {
         obj.layer = WAIST_LAYER;
+    } else if( obj.item_tags.count( "MID" ) ) {
+        obj.layer = MID_LAYER;
     } else if( obj.item_tags.count( "OUTER" ) ) {
         obj.layer = OUTER_LAYER;
     } else if( obj.item_tags.count( "BELTED" ) ) {

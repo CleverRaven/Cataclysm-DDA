@@ -180,6 +180,8 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                     return _( "of <color_light_blue>normal</color> clothing" );
                 case WAIST_LAYER:
                     return _( "on your <color_light_blue>waist</color>" );
+                case MID_LAYER:
+                    return _( "of <color_light_blue>mid</color> layer clothing" );
                 case OUTER_LAYER:
                     return _( "of <color_light_blue>outer</color> clothing" );
                 case BELTED_LAYER:
@@ -241,6 +243,8 @@ std::string clothing_layer( const item &worn_item )
         layer = _( "This is worn next to the skin." );
     } else if( worn_item.has_flag( "WAIST" ) ) {
         layer = _( "This is worn on or around your waist." );
+    } else if( worn_item.has_flag( "MID" ) ) {
+        layer = _( "This is worn over regular clothing, but under outerwear." );
     } else if( worn_item.has_flag( "OUTER" ) ) {
         layer = _( "This is worn over your other clothes." );
     } else if( worn_item.has_flag( "BELTED" ) ) {

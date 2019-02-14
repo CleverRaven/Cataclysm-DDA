@@ -1714,6 +1714,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 temp1 << _( "<stat>Strapped</stat>. " );
             } else if( has_flag( "OUTER" ) ) {
                 temp1 << _( "<stat>Outer</stat>. " );
+            } else if( has_flag( "MID" ) ) {
+                temp1 << _( "<stat>Mid</stat>. " );
             } else if( has_flag( "WAIST" ) ) {
                 temp1 << _( "<stat>Waist</stat>. " );
             } else {
@@ -3766,6 +3768,8 @@ layer_level item::get_layer() const
         return UNDERWEAR;
     } else if( has_flag( "WAIST" ) ) {
         return WAIST_LAYER;
+    } else if( has_flag( "MID" ) ) {
+        return MID_LAYER;
     } else if( has_flag( "OUTER" ) ) {
         return OUTER_LAYER;
     } else if( has_flag( "BELTED" ) ) {
