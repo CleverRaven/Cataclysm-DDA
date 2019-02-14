@@ -36,11 +36,11 @@
       "terrain": {
         "p": "t_floor",
         "W": "t_floor"
-      }
+      },
       "furniture": {
         "p": "f_piano",
         "W": "f_wardrobe"
-      }
+      },
       "palettes": [ "church" ],
       "mapping": { "b": { "furniture": "f_brazier" } },
       "items": {
