@@ -20,7 +20,7 @@
         " |c..M#MM#M....M#MM#M.| ",
         " |c..M#MM#M....M#MM#M.| ",
         " |c..MMMMMMMMMMMMMMMM.| ",
-        " |....................| ",
+        " A....................| ",
         " |---l..........pHHHHH| ",
         " |ts| ...........HLLLL| ",
         " |-+|............Hbbbb| ",
@@ -42,6 +42,7 @@
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
+        "A": "t_m_frame",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
         "|": "t_wall",
@@ -51,6 +52,7 @@
         "#": "t_grate"
       },
       "furniture": {
+        "A": "f_air_conditioner",
         "L": "f_locker",
         "b": "f_bench",
         "c": "f_counter",
@@ -164,7 +166,7 @@
         " |..M#MM#M..|b........|X",
         " :..M#MM#M..:b..|-ddd-|X",
         " :..M#MM#M..:b..|..h..|X",
-        " :..M#MM#M..:b..|--.--|X",
+        " A..M#MM#M..:b..|--.--|X",
         " |..M#MM#M..|b..|...hd|X",
         " |..MMMMMM..|...+f6ddd|X",
         " |..........|...|-----|X",
@@ -191,6 +193,7 @@
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
+        "A": "t_m_frame",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
         "|": "t_wall",
@@ -200,6 +203,7 @@
         "#": "t_grate"
       },
       "furniture": {
+        "A": "f_air_conditioner",
         "L": "f_locker",
         "T": "f_rack",
         "b": "f_bench",
