@@ -3583,5 +3583,17 @@
         { "item": "pilot_light", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lab_bench",
+    "name": "lab workbench",
+    "description": "A metal storage cabinet topped by a durable resin countertop resistant to most chemical spills and burns.  It has wired in electrical and gas fittings.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "required_str": 16,
+    "max_volume": 4000,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ]
   }
 ]
