@@ -530,6 +530,12 @@ int main( int argc, char *argv[] )
         }
     }
 
+    if( !dir_exist( FILENAMES["datadir"] ) ) {
+        printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct. Perhaps you meant to start \"cataclysm-launcher\"?\n",
+                FILENAMES["datadir"].c_str() );
+        exit( 1 );
+    }
+
     if( !assure_dir_exist( FILENAMES["user_dir"] ) ) {
         printf( "Can't open or create %s. Check permissions.\n",
                 FILENAMES["user_dir"].c_str() );
