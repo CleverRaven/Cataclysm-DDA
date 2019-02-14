@@ -3555,7 +3555,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
