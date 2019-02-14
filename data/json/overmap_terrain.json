@@ -9136,7 +9136,7 @@
     "id": "s_petstore",
     "copy-from": "generic_city_building",
     "name": "pet supply store",
-    "color": "yellow"
+    "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
