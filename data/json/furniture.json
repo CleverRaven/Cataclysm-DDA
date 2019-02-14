@@ -3604,7 +3604,6 @@
     "bash": {
       "str_min": 40,
       "str_max": 150,
-      "ter_set": "t_thconc_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
@@ -3637,7 +3636,6 @@
     "bash": {
       "str_min": 40,
       "str_max": 150,
-      "explosive": 1,
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
@@ -3780,7 +3778,6 @@
     "bash": {
       "str_min": 40,
       "str_max": 150,
-      "explosive": 1,
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
