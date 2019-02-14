@@ -8457,15 +8457,16 @@
   {
     "type": "terrain",
     "id": "t_ind_furnace",
-    "name": "electric furnace",
+    "name": "industrial furnace",
+    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial crafting processes.",
     "symbol": "0",
     "color": "white_red",
     "move_cost": 0,
     "flags": [ "WALL", "BASHABLE", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
     "bash": {
-      "str_min": 20,
+      "str_min": 30,
       "str_max": 150,
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
@@ -8475,13 +8476,13 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 4, 6 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "element", "count": [ 1, 15 ] },
+        { "item": "sheet_metal", "count": [ 4, 6 ] },
+        { "item": "element", "count": [ 10, 25 ] },
         { "item": "scrap", "count": [ 12, 16 ] }
       ]
     }
@@ -8489,7 +8490,8 @@
   {
     "type": "terrain",
     "id": "t_ind_drill",
-    "name": "industrial drill",
+    "name": "drill press",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost": 0,
@@ -8498,7 +8500,7 @@
       "str_min": 20,
       "str_max": 150,
       "explosive": 1,
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
@@ -8508,13 +8510,15 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "motor_small", "count": 1 },
+        { "item": "spike", "count": 1 },
+        { "item": "motor_small", "count": 1 }
       ]
     }
   },
@@ -8522,6 +8526,7 @@
     "type": "terrain",
     "id": "t_ind_press",
     "name": "hydraulic press",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  If, you know, it had power.",
     "symbol": "9",
     "color": "black_red",
     "move_cost": 0,
@@ -8529,23 +8534,27 @@
     "bash": {
       "str_min": 20,
       "str_max": 150,
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_plate", "count": [ 1, 2 ] }
       ]
     },
     "deconstruct": {
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "motor_small", "count": 1 },
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "chain", "count": [ 0, 1 ] },
+        { "item": "motor_small", "count": 1 }
       ]
     }
   },
@@ -8553,6 +8562,7 @@
     "type": "terrain",
     "id": "t_ind_lathe",
     "name": "power lathe",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
     "symbol": "4",
     "color": "cyan_red",
     "move_cost": 0,
@@ -8560,23 +8570,26 @@
     "bash": {
       "str_min": 20,
       "str_max": 150,
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "circsaw_blade", "count": [ 4, 6 ] }
       ]
     },
     "deconstruct": {
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "circsaw_blade", "count": [ 2, 3 ] },
-        { "item": "motor_small", "count": 1 },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "motor_small", "count": 1 }
       ]
     }
   },
@@ -8584,6 +8597,7 @@
     "type": "terrain",
     "id": "t_ind_assembler",
     "name": "robotic assembler",
+    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.",
     "symbol": "3",
     "color": "magenta_cyan",
     "move_cost": 0,
@@ -8591,7 +8605,7 @@
     "bash": {
       "str_min": 20,
       "str_max": 150,
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
@@ -8607,7 +8621,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "items": [
         { "item": "processor", "count": [ 2, 4 ] },
         { "item": "RAM", "count": [ 8, 16 ] },
@@ -8619,13 +8633,14 @@
         { "item": "amplifier", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 10, 12 ] },
         { "item": "scrap", "count": [ 6, 8 ] },
-        { "item": "motor_small", "count": [ 0, 1 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] }
       ]
     }
   },
   {
     "type": "terrain",
     "id": "t_ind_mixer",
+    "description": "When chemicals need to be mixed in large quantities at just the right combinations and temperatures, this is the tool for the job.",
     "name": "chemical mixer",
     "symbol": "0",
     "color": "red_green",
@@ -8635,7 +8650,7 @@
       "str_min": 20,
       "str_max": 150,
       "explosive": 1,
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
@@ -8647,7 +8662,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_concrete_floor",
+      "ter_set": "t_thconc_floor",
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -8655,7 +8670,7 @@
         { "item": "metal_tank_little", "count": [ 2, 4 ] },
         { "item": "jerrycan", "count": [ 2, 4 ] },
         { "item": "metal_tank", "count": [ 2, 4 ] },
-        { "item": "motor_small", "count": 1 },
+        { "item": "motor_small", "count": 1 }
       ]
     }
   }
