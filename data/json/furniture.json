@@ -3386,7 +3386,7 @@
     "type": "furniture",
     "id": "f_file_cabinet",
     "name": "filing cabinet",
-    "description": "A set of drawers in a sturdy metal cabinet, used to hold files.  It can be locked to protect important information.",
+    "description": "A set of drawers in a sturdy metal cabinet, used to hold files.  It can be locked to protect important information.  If you're lucky, there are often keys nearby.",
     "symbol": "}",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -3396,7 +3396,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "clockworks", "count": [ 0, 2 ] }
+        { "item": "lock", "count": [ 0, 1 ] }
       ]
     },
     "max_volume": 4000,
@@ -3438,16 +3438,18 @@
     "description": "The ol' ebony and ivory.",
     "symbol": "P",
     "color": "i_black",
-    "move_cost_mod": 2,
-    "required_str": -1,
+    "move_cost_mod": 6,
+    "required_str": 10,
+    "//": "While heavy, most large pianos have casters for relatively easy movement."
     "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { 
       "items": [ 
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 8, 12 ] },
         { "item": "wire", "count": [ 2, 10 ] },
-        { "item": "cable", "count": [ 2, 10 ] },
         { "item": "string_36", "count": [ 2, 10 ] },
+        { "item": "wheel_caster", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 10 ] }
       ]
     },
@@ -3473,7 +3475,7 @@
     "symbol": "0",
     "bgcolor": "white",
     "move_cost_mod": -1,
-    "required_str": 16,
+    "required_str": -1,
     "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -3484,6 +3486,7 @@
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "thermometer", "count": 1 },
         { "item": "motor_small", "count": 1 }        
       ]
     },
@@ -3511,7 +3514,7 @@
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
-    "required_str": 16,
+    "required_str": -1,
     "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -3522,6 +3525,7 @@
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
         { "item": "thermometer", "count": 1 },
         { "item": "refrigerant_tank", "count": 1 },
         { "item": "motor_small", "count": 1 }
@@ -3551,7 +3555,7 @@
     "symbol": "0",
     "bgcolor": "white",
     "move_cost_mod": -1,
-    "required_str": 16,
+    "required_str": -1,
     "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -3562,8 +3566,10 @@
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
         { "item": "pilot_light", "count": 1 },
         { "item": "thermometer", "count": 1 },
+        { "item": "water_faucet", "count": 1 },  
         { "item": "metal_tank", "count": 1 }
       ]
     },
@@ -3580,7 +3586,7 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "pilot_light", "count": [ 0, 1 ] }
+        { "item": "water_faucet", "count": [ 0, 1 ] }
       ]
     }
   }
