@@ -1109,7 +1109,7 @@
     "storage": 2,
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "MID" ]
   },
   {
     "id": "blindfold",
@@ -1574,7 +1574,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "MID" ]
   },
   {
     "id": "chainmail_hood",
@@ -1613,7 +1613,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "MID" ]
   },
   {
     "id": "chainmail_suit",
@@ -1632,7 +1632,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "MID" ]
   },
   {
     "id": "chainmail_vest",
@@ -1651,7 +1651,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "MID" ]
   },
   {
     "id": "chaps_leather",
@@ -1935,7 +1935,7 @@
     "storage": 14,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "MID" ]
   },
   {
     "id": "coat_rain",
@@ -2767,7 +2767,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "MID" ]
   },
   {
     "id": "fitover_sunglasses",
@@ -2995,7 +2995,7 @@
     "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "gauntlets_bone",
@@ -4920,7 +4920,7 @@
     "storage": 9,
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "MID", "POCKETS", "HOOD" ]
   },
   {
     "id": "hot_pants",
@@ -5579,7 +5579,7 @@
     "encumbrance": 5,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "STURDY", "SKINTIGHT" ]
+    "flags": [ "STURDY", "MID" ]
   },
   {
     "id": "kilt",
@@ -8728,7 +8728,7 @@
     "encumbrance": 10,
     "warmth": 40,
     "material_thickness": 3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "MID" ]
   },
   {
     "id": "sweatshirt",
@@ -8746,7 +8746,7 @@
     "encumbrance": 10,
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "MID" ]
   },
   {
     "id": "tabi_dress",
@@ -9414,7 +9414,7 @@
     "storage": 12,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WAIST" ]
+    "flags": [ "VARSIZE", "MID" ]
   },
   {
     "id": "vest_leather",
@@ -9656,7 +9656,7 @@
     "storage": 9,
     "warmth": 45,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "MID", "POCKETS", "HOOD" ]
   },
   {
     "id": "wool_suit",
