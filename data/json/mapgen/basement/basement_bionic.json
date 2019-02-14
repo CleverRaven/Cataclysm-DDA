@@ -70,6 +70,7 @@
         { "item": "towel", "x": 2, "y": 7, "chance": 60 },
         { "item": "stereo", "x": 1, "y": 7, "chance": 50 }
       ],
+      "place_liquids": [ { "liquid": "water_clean", "x": 9, "y": 14, "amount": [ 0, 100 ] } ],
       "place_monster": [ { "monster": "mon_broken_cyborg", "x": 14, "y": 3, "chance": 100 } ]
     }
   },
@@ -139,6 +140,7 @@
         { "item": "towel", "x": 2, "y": 7, "chance": 60 },
         { "item": "stereo", "x": 1, "y": 7, "chance": 50 }
       ],
+      "place_liquids": [ { "liquid": "water_clean", "x": 9, "y": 14, "amount": [ 0, 100 ] } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 17 ], "y": [ 9, 11 ], "chance": 2 } ]
     }
   }
