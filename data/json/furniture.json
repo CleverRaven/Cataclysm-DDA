@@ -3423,7 +3423,7 @@
     "required_str": 14,
     "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 12 ] } ] },
-    "max_volume": 16000,
+    "max_volume": 8000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
