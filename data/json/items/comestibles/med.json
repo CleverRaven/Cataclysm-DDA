@@ -1384,7 +1384,7 @@
     "material": "oil",
     "phase": "liquid",
     "symbol": "~",
-    "color": "light blue",
+    "color": "light_blue",
     "use_action": {
       "type": "heal",
       "disinfectant_power": 3,
