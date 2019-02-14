@@ -1097,6 +1097,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "lock", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
