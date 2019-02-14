@@ -3796,5 +3796,103 @@
         { "item": "motor_small", "count": 1 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_utlity_shelf",
+    "name": "utility shelf",
+    "symbol": "{",
+    "description": "A simple heavy-duty plastic and metal shelving unit.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 9,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] }
+      ]
+    },
+    "max_volume": 8000,
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_cabinet",
+    "name": "glass-fronted cabinet",
+    "symbol": "[",
+    "description": "A tall storage cabinet with a clear glass window.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 9,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "count": [ 4, 16 ] },
+        { "item": "glass_sheet", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": 8000,
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "glass breaking!",
+      "sound_fail": "crunch!",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "nail", "count": [ 4, 8 ] },
+        { "item": "glass_shard", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_lamp",
+    "name": "floor lamp",
+    "symbol": "T",
+    "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": 4,
+    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "amplifier_circuit", "count": [ 1, 4 ] },
+        { "item": "light_bulb", "count": [ 1, 4 ] },
+        { "item": "lump_steel", "count": 1 },
+        { "item": "pipe", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "bonk!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "cable", "count": [ 0, 1 ] },
+        { "item": "escrap", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    }
   }
 ]
