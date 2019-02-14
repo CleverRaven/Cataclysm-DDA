@@ -3406,10 +3406,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "sheet_metal", "count": [ 0, 4 ] }
-      ]
+      "items": [ { "item": "scrap", "count": [ 0, 6 ] }, { "item": "sheet_metal", "count": [ 0, 4 ] } ]
     }
   },
   {
@@ -3443,8 +3440,8 @@
     "required_str": 10,
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
     "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { 
-      "items": [ 
+    "deconstruct": {
+      "items": [
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 8, 12 ] },
         { "item": "wire", "count": [ 2, 10 ] },
@@ -3488,7 +3485,7 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
         { "item": "thermometer", "count": 1 },
-        { "item": "motor_small", "count": 1 }        
+        { "item": "motor_small", "count": 1 }
       ]
     },
     "bash": {
@@ -3570,7 +3567,7 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "pilot_light", "count": 1 },
         { "item": "thermometer", "count": 1 },
-        { "item": "water_faucet", "count": 1 },  
+        { "item": "water_faucet", "count": 1 },
         { "item": "metal_tank", "count": 1 }
       ]
     },
