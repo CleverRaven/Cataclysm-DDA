@@ -4643,8 +4643,8 @@ bool player::is_hibernating() const
     // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
-    return has_effect( effect_sleep ) && get_hunger() <= -60 && get_thirst() <= 80 &&
-           has_active_mutation( trait_id( "HIBERNATE" ) );
+    return has_effect( effect_sleep ) && get_kcal_percent() < 0.8f &&
+           get_thirst() <= 80 && has_active_mutation( trait_id( "HIBERNATE" ) );
 }
 
 void player::add_addiction( add_type type, int strength )
@@ -6852,7 +6852,7 @@ void player::check_and_recover_morale()
         }
     }
 
-    test_morale.on_stat_change( "hunger", get_hunger() + get_starvation() );
+    test_morale.on_stat_change( "hunger", get_hunger() );
     test_morale.on_stat_change( "thirst", get_thirst() );
     test_morale.on_stat_change( "fatigue", get_fatigue() );
     test_morale.on_stat_change( "pain", get_pain() );
@@ -10455,7 +10455,8 @@ void player::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name.c_str() );
         }
     }
-    if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
+    if( has_active_mutation( trait_id( "HIBERNATE" ) ) &&
+        get_kcal_percent() < 0.8f ) {
         add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
                           pgettext( "memorial_female", "Entered hibernation." ) );
         // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.

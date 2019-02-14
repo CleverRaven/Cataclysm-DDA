@@ -219,6 +219,7 @@ class Character : public Creature, public visitable<Character>
         /** Getter for need values exclusive to characters */
         virtual int get_stored_kcal() const;
         virtual int get_healthy_kcal() const;
+        virtual float get_kcal_percent() const;
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;

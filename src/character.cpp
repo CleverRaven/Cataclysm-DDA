@@ -1922,6 +1922,11 @@ int Character::get_healthy_kcal() const
     return healthy_calories;
 }
 
+float Character::get_kcal_percent() const
+{
+    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( get_healthy_kcal() );
+}
+
 int Character::get_hunger() const
 {
     return hunger;
