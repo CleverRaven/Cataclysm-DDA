@@ -182,7 +182,7 @@
       "items": {
         ".": { "item": "badge_deputy", "chance": 2 },
         "$": { "item": "cleaning", "chance": 50 },
-        "!": { "item": "alcohol", "chance": 95 },
+        "!": { "item": "alcohol_bottled_canned", "chance": 95 },
         "t": { "item": "trash_cart", "chance": 50 },
         "1": { "item": "cop_gear", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
