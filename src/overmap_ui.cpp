@@ -887,18 +887,20 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 }
             }
 
+            catacurses::window w_preview = catacurses::newwin( 5, max_note_length - 4, 2, 5 );
+            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+            catacurses::window w_preview_map = catacurses::newwin( 5, 5, 2, 0 );
+
             auto update_note_preview = [&]( std::string note ) {
                 auto om_symbol = get_note_display_info( new_note );
                 const nc_color note_color = std::get<1>( om_symbol );
                 const char symbol = std::get<0>( om_symbol );
                 const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-                catacurses::window w_preview = catacurses::newwin( 5, max_note_length - 4, 2, 5 );
                 draw_border( w_preview );
                 mvwprintz( w_preview, 1, 1, c_white, _( "Note preview" ) );
                 wrefresh( w_preview );
 
-                catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
                 werase( w_preview_title );
                 mvwprintz( w_preview_title, 0, 0, c_yellow, note_text );
                 mvwputch( w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
@@ -908,7 +910,6 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 mvwputch( w_preview_title, 1, note_text.length(), c_white, LINE_XOOX );
                 wrefresh( w_preview_title );
 
-                catacurses::window w_preview_map = catacurses::newwin( 5, 5, 2, 0 );
                 draw_border( w_preview_map, c_yellow );
                 for( int i = 1; i < 4; i++ ) {
                     for( int j = 1; j < 4; j++ ) {
