@@ -1460,6 +1460,7 @@ bool drink_nectar( player &p )
     return false;
 }
 
+
 /**
  * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
  *
@@ -3044,6 +3045,22 @@ void iexamine::water_source(player &p, const tripoint &examp)
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 
+void iexamine::gather_snow(player &p, const tripoint &examp)
+{
+    if(!query_yn(_("Gather snow?"))) {
+        none( p, examp );
+        return;
+    }
+    if( p.can_pickWeight( item( "snow" ), true ) && p.can_pickVolume( item( "snow" ), true ) ){
+        p.i_add( item( "snow" ) );
+        p.add_msg_if_player( _( "You gathered some snow" ) );
+    } else {
+        g->m.add_item_or_charges( p.pos(), item( "snow" ) );
+        p.add_msg_if_player( _( "You pick up and drop some snow" ) );
+    }
+}
+
+
 const itype * furn_t::crafting_pseudo_item_type() const
 {
     if (crafting_pseudo_item.empty()) {
@@ -4022,7 +4039,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
     }
 
     for( auto &it : items ) {
-        if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal 
+        if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal
             it.calc_rot_while_smoking( examp, 6_hours );
         }
     }
@@ -4415,6 +4432,7 @@ iexamine_function iexamine_function_from_string(const std::string &function_name
         { "recycle_compactor", &iexamine::recycle_compactor },
         { "trap", &iexamine::trap },
         { "water_source", &iexamine::water_source },
+        { "gather_snow", &iexamine::gather_snow},
         { "reload_furniture", &iexamine::reload_furniture },
         { "curtains", &iexamine::curtains },
         { "sign", &iexamine::sign },

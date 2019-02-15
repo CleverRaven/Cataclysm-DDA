@@ -1684,8 +1684,12 @@ bool game::do_turn()
 
     if( calendar::once_every( 9_turns ) ) {
         u.check_and_recover_morale();
+        m.update_terrain_weather();
+        m.add_snow();
     }
-
+    if( calendar::once_every( 60_minutes ) ) {
+        m.clear_snow();
+    }
     if( !u.is_deaf() ) {
         sfx::remove_hearing_loss();
     }
@@ -10564,9 +10568,11 @@ bool game::walk_move( const tripoint &dest_loc )
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters
+    const bool snowslow = m.has_flag_ter_or_furn( "SNOW", u.pos() ) ||
+                          m.has_flag_ter_or_furn( "SNOW", dest_loc );
     const bool slowed = ( ( !u.has_trait( trait_PARKOUR ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
-                        !( u.has_trait( trait_M_IMMUNE ) && fungus );
+                        !( u.has_trait( trait_M_IMMUNE ) && fungus ) && !( u.worn_with_flag( "SNOW_SHOE" ) && snowslow );
     if( slowed ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {

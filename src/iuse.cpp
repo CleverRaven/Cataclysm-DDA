@@ -2488,6 +2488,36 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     }
 }
 
+int iuse::clear_snow( player *p, item *it, bool t, const tripoint & )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Clear snow where?" ) );
+    if( !pnt_ ) {
+        return 0;
+    }
+    tripoint pnt = *pnt_;
+
+    if( pnt == p->pos() ) {
+        add_msg( m_info, _( "You clear your sinuses." ) );
+        return 0;
+    }
+    int moves;
+    if( g->m.furn( pnt ) == f_snow ) {
+        moves = MINUTES( 120 ) / it->get_quality( DIG ) * 100;
+    } else {
+        p->add_msg_if_player( _( "There isn't any snow there." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_CLEAR_SNOW" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = pnt;
+
+    return it->type->charges_to_use();
+}
+
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
 {
     if( !p || t ) {

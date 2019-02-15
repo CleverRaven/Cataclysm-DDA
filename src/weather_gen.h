@@ -18,7 +18,7 @@ struct w_point {
     int winddirection;
     std::string dirstring;
     std::string shortdirstring;
-    bool   acidic;
+    bool acidic;
 };
 
 class weather_generator

@@ -75,6 +75,7 @@ void fswitch( player &p, const tripoint &examp );
 void flower_tulip( player &p, const tripoint &examp );
 void flower_spurge( player &p, const tripoint &examp );
 void flower_poppy( player &p, const tripoint &examp );
+void gather_snow( player &p, const tripoint &examp );
 void flower_bluebell( player &p, const tripoint &examp );
 void flower_dahlia( player &p, const tripoint &examp );
 void flower_marloss( player &p, const tripoint &examp );

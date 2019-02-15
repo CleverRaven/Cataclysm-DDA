@@ -53,8 +53,8 @@ enum weather_type : int {
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
     WEATHER_FLURRIES,     //!< Light snow
-    WEATHER_SNOW,         //!< Medium snow glare effects
-    WEATHER_SNOWSTORM,    //!< Heavy snow glare effects, sight penalties
+    WEATHER_SNOW,         //!< Medium snow glare effects, if it settles on ground. ( see map::add_snow )
+    WEATHER_SNOWSTORM,    //!< Heavy snow glare effects, if it settles on ground. ( see map::add_snow ), sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -95,7 +95,7 @@ struct weather_printable {
 namespace weather_effect
 {
 void none();        //!< Fallback weather.
-void glare( bool );
+void glare( );
 void wet();
 void very_wet();
 void thunder();
@@ -105,7 +105,6 @@ void acid();
 void flurry();      //!< Currently flurries have no additional effects.
 void snow();
 void sunny();
-void snow_glare();
 void snowstorm();
 } //namespace weather_effect
 
@@ -124,6 +123,8 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
+    int snow_amount = 0;
+    int averagetemperature = 0;
 };
 
 weather_datum const weather_data( weather_type const type );

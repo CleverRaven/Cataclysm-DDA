@@ -396,6 +396,11 @@
   },
   {
     "type": "item_action",
+    "id": "CLEAR_SNOW",
+    "name": "Clear snow"
+  },
+  {
+    "type": "item_action",
     "id": "DIRECTIONAL_ANTENNA",
     "name": "Find direction"
   },

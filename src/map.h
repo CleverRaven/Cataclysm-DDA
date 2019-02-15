@@ -283,6 +283,7 @@ class map
         };
         /** Helper function for light claculation; exposed here for map editor
          */
+
         static apparent_light_info apparent_light_helper( const level_cache &map_cache,
                 const tripoint &p );
         /** Determine the visible light level for a tile, based on light_at
@@ -1299,6 +1300,8 @@ class map
          * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
+        static int snowfall;
+        static int percent_settled;
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
@@ -1390,6 +1393,10 @@ class map
         void build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
+        // update terrain based on snowfall etc
+        void update_terrain_weather();
+        void add_snow();
+        void clear_snow();
 
     protected:
         void generate_lightmap( int zlev );

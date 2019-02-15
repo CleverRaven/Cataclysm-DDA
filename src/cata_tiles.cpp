@@ -22,6 +22,7 @@
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "mod_tileset.h"
 #include "monster.h"
 #include "monstergenerator.h"
@@ -1654,9 +1655,18 @@ const tile_type *cata_tiles::find_tile_with_season( std::string &id )
     constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
     };
-
-    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
-
+    int seasonnum = season_of_year( calendar::turn );
+    if( ( seasonnum == 3 ) && ( id == "t_grass" || id == "t_grass_dead" || id == "t_grass_long" ||
+                                id == "t_dirt" || id == "t_dirtmound" ) ) {
+        seasonnum = 2;
+    } else if( seasonnum == 3 && map::snowfall < 10000 ) {
+        seasonnum = 2;
+    }
+    if( seasonnum == 2 && map::snowfall > 10000 && !( id == "t_grass" || id == "t_grass_dead" ||
+            id == "t_grass_long" || id == "t_dirt" || id == "t_dirtmound" ) ) {
+        seasonnum = 3;
+    }
+    std::string seasonal_id = id + season_suffix[seasonnum];
     const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
     if( tt ) {
         id = seasonal_id;
@@ -2153,7 +2163,8 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
     return true;
 }
 
-bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
+bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand,
+                               int rota,
                                lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
     draw_sprite_at( tile, tile.bg, x, y, loc_rand, false, rota, ll, apply_night_vision_goggles );

@@ -52,11 +52,10 @@ static bool is_player_outside()
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  */
 
-void weather_effect::glare( bool snowglare )
+void weather_effect::glare( )
 {
-    season_type season = season_of_year( calendar::turn );
     if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == false &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
@@ -72,9 +71,10 @@ void weather_effect::glare( bool snowglare )
             }
         }
     }
-    if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == true &&
-        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
+    if( is_player_outside() && !g->u.in_sleep_state() && map::snowfall > 15000 &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
+        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) &&
+        g->is_in_sunlight( g->u.pos() ) ) {
         if( !g->u.has_effect( effect_snow_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
                 g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 4_turns );
@@ -139,6 +139,15 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
         case WEATHER_ACID_RAIN:
             data.acid_amount += 8 * to_turns<int>( tick_size );
             break;
+        case WEATHER_FLURRIES:
+            data.snow_amount += 4 * to_turns<int>( tick_size );
+            break;
+        case WEATHER_SNOW:
+            data.snow_amount += 8 * to_turns<int>( tick_size );
+            break;
+        case WEATHER_SNOWSTORM:
+            data.snow_amount += 12 * to_turns<int>( tick_size );
+            break;
         default:
             break;
     }
@@ -157,6 +166,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
     weather_sum data;
 
     const auto wgen = g->get_cur_weather_gen();
+    int count = 0;
     for( time_point t = start; t < end; t += tick_size ) {
         const time_duration diff = end - t;
         if( diff < 10_turns ) {
@@ -166,7 +176,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
         } else {
             tick_size = 1_minutes;
         }
-
+        w_point w = wgen.get_weather( location, t, g->get_seed() );
+        data.averagetemperature += w.temperature;
         weather_type wtype;
         if( g->weather_override == WEATHER_NULL ) {
             wtype = wgen.get_weather_conditions( location, t, g->get_seed() );
@@ -174,8 +185,9 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             wtype = g->weather_override;
         }
         proc_weather_sum( wtype, data, t, tick_size );
+        count += 1;
     }
-
+    data.averagetemperature = static_cast<int>( data.averagetemperature / count );
     return data;
 }
 
@@ -419,7 +431,7 @@ void weather_effect::flurry()    {}
 
 void weather_effect::sunny()
 {
-    glare( false );
+    glare( );
 }
 
 /**
@@ -443,7 +455,6 @@ void weather_effect::very_wet()
 void weather_effect::snow()
 {
     wet_player( 10 );
-    glare( true );
 }
 
 void weather_effect::snowstorm()

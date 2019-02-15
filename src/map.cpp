@@ -51,6 +51,7 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "weather_gen.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -72,7 +73,10 @@ static std::list<item>  nulitems;          // Returned when &i_at() is asked for
 static field            nulfield;          // Returned when &field_at() is asked for an OOB value
 static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
-
+// level of snowfall
+int map::snowfall = 0;
+// how much of it has settled
+int map::percent_settled = 0;
 // Map stack methods.
 std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
 {
@@ -5652,6 +5656,79 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 }
 
+void map::update_terrain_weather()
+{
+    const w_point weatherPoint = *g->weather_precise;
+    if( g->weather == WEATHER_FLURRIES ) {
+        snowfall += 2;
+    } else if( g->weather == WEATHER_SNOW ) {
+        snowfall += 4;
+    } else if( g->weather == WEATHER_SNOWSTORM ) {
+        snowfall += 8;
+    } else {
+        snowfall -= std::max( 0, ( static_cast<int>( weatherPoint.temperature - 32 ) ) );
+    }
+    snowfall = std::max( 0, snowfall );
+    snowfall = std::min( 172800, snowfall );
+}
+
+void map::add_snow()
+{
+    if( g->weather >= WEATHER_FLURRIES && snowfall > 3000 ) {
+        tripoint gp( 0, 0, 0 );
+        int total_grid = 0;
+        int snowfall_settled = 0;
+        int &gx = gp.x;
+        int &gy = gp.y;
+        int snowfactor = std::min( 15000, snowfall );
+        snowfactor = 15001 - snowfactor;
+        for( gx = 0; gx < my_MAPSIZE * SEEX; ++gx ) {
+            for( gy = 0; gy < my_MAPSIZE * SEEY; ++gy ) {
+                total_grid += 1;
+                const auto grid_offset = point {gx, gy};
+                const tripoint map_location = tripoint( grid_offset, 0 );
+                if( ( !ter( map_location )->has_flag( TFLAG_INDOORS ) ) &&
+                    ( !ter( map_location )->has_flag( "TREE" ) ) && ( is_outside( map_location ) ) &&
+                    ( furn( map_location ) == f_null ) ) {
+                    if( one_in( std::max( 2, static_cast<int>( snowfactor / 2 ) ) ) ) {
+                        furn_set( map_location, f_snow );
+                        snowfall_settled += 1;
+                    }
+                }
+            }
+        }
+        percent_settled = std::min( 100, static_cast<int>( ( snowfall_settled / total_grid ) * 100 ) );
+    }
+}
+
+void map::clear_snow()
+{
+    if( g->weather < WEATHER_FLURRIES && g->temperature > 32 ) {
+        tripoint gp( 0, 0, 0 );
+        int &gx = gp.x;
+        int &gy = gp.y;
+        int total_grid = 0;
+        int snowfall_settled = 0;
+        int tempfactor = std::max( 1, 200 - ( static_cast<int>( g->temperature * 2 ) ) );
+        if( g->temperature > 32 ) {
+            for( gx = 0; gx < my_MAPSIZE * SEEX; ++gx ) {
+                for( gy = 0; gy < my_MAPSIZE * SEEY; ++gy ) {
+                    total_grid += 1;
+                    const auto grid_offset = point {gx, gy};
+                    const tripoint map_location = tripoint( grid_offset, 0 );
+                    if( furn( map_location ) == f_snow ) {
+                        if( one_in( tempfactor * std::max( 1, static_cast<int>( snowfall / 4000 ) ) ) ) {
+                            furn_set( map_location, f_null );
+                            snowfall_settled -= 1;
+                        }
+                    }
+                }
+            }
+        }
+        percent_settled = std::max( 0, static_cast<int>( ( snowfall_settled / total_grid ) * 100 ) );
+    }
+}
+
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
                   const bool invert, const bool show_items ) const
 {
@@ -6504,6 +6581,19 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
             dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << abs_sub.z;
             debugmsg( "failed to generate a submap at %d,%d,%d", absx, absy, abs_sub.z );
             return;
+        }
+    }
+    // Adding snow to new submaps
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            const tripoint pnt( gridx * SEEX + i, gridy * SEEY + j, gridz );
+            const point p( i, j );
+            if( ( !tmpsub->get_ter( p ).obj().has_flag( TFLAG_INDOORS ) ) &&
+                ( !tmpsub->get_ter( p ).obj().has_flag( "TREE" ) )  &&
+                ( tmpsub->get_furn( p ) == f_null ) && ( is_outside( pnt ) ) &&
+                x_in_y( percent_settled, 100 ) ) {
+                tmpsub->frn[i][j] = furn_id( "f_snow" );
+            }
         }
     }
 

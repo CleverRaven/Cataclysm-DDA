@@ -612,6 +612,7 @@ void Item_factory::init()
     add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
+    add_iuse( "CLEAR_SNOW", &iuse::clear_snow );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "DOGFOOD", &iuse::dogfood );

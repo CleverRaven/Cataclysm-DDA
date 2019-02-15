@@ -233,6 +233,28 @@
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
+    "id": "snow_shoes",
+    "type": "ARMOR",
+    "name": "pair of makeshift snow shoes",
+    "name_plural": "pairs of makeshift snow shoes",
+    "description": "Wood and rags strapped together to provide more surface area when walking on snow.",
+    "weight": 500,
+    "volume": 15,
+    "price": 14000,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [ "wood", "cotton" ],
+    "symbol": "H",
+    "color": "brown",
+    "covers": [ "FEET" ],
+    "coverage": 95,
+    "encumbrance": 25,
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 5,
+    "flags": [ "VARSIZE", "SNOW_SHOE", "BELTED", "OVERSIZE" ]
+  },
+  {
     "id": "boots_hsurvivor",
     "type": "ARMOR",
     "category": "armor",

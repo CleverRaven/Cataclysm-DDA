@@ -1744,6 +1744,7 @@ class player : public Character
 
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
+        bool walking_over_snow() const;
         /**
          * Warmth from terrain, furniture, vehicle furniture and traps.
          * Can be negative.

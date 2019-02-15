@@ -1042,6 +1042,7 @@ void player::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = g->m.furn( pos() );
+    const bool snowonground = walking_over_snow();
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
@@ -1159,7 +1160,53 @@ void player::update_bodytemp()
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
         temp_conv[bp] -= blood_loss( bp ) * temp_conv[bp] / 200;
-
+        bool waterproof_shoes = false;
+        for( const item &worn_item : worn ) {
+            if (worn_item.covers(bp) && worn_item.has_flag("WATERPROOF") ){
+                waterproof_shoes = true;
+            }
+        }
+        bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
+                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
+        switch( bp ) {
+            case bp_eyes:
+            case bp_head:
+            case bp_torso:
+            case bp_mouth:
+            case bp_leg_l:
+            case bp_leg_r:
+            case bp_arm_l:
+            case bp_arm_r:
+            case bp_hand_l:
+            case bp_hand_r:
+                break;
+            case bp_foot_l:
+                if( snowonground ){
+                    if( waterproof_shoes ){
+                        break;
+                    } else if( wearing_shoes || mutfeet ){
+                        temp_conv[bp] -= 300;
+                    } else {
+                        temp_conv[bp] -= 450;
+                    }
+                }
+                break;
+            case bp_foot_r:
+                if( snowonground ){
+                    if( waterproof_shoes ){
+                        break;
+                    } else if( wearing_shoes || mutfeet ){
+                        temp_conv[bp] -= 300;
+                    } else {
+                        temp_conv[bp] -= 450;
+                    }
+                }
+                break;
+            default:
+                debugmsg( "Feet on snow calculation" );
+                break;
+        }
         // EQUALIZATION
         switch( bp ) {
             case bp_torso:
@@ -1484,6 +1531,14 @@ bool player::can_use_floor_warmth() const
     return in_sleep_state();
 }
 
+bool player::walking_over_snow() const
+{
+    if( g->m.furn( pos() ) == f_snow ){
+        return true;
+    }
+    return false;
+}
+
 int player::floor_bedding_warmth( const tripoint &pos )
 {
     const trap &trap_at_pos = g->m.tr_at( pos );
@@ -1743,7 +1798,15 @@ int player::run_cost( int base_cost, bool diag ) const
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
     const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS" , pos() );
+    const bool on_snow = g->m.has_flag_ter_or_furn( "SNOW" , pos() );
 
+    if( worn_with_flag( "SNOW_SHOE" ) ) {
+        if( on_snow ) {
+            movecost *= 0.6f;
+        } else {
+            movecost *= 1.4f;
+        }
+    }
     if( has_trait( trait_PARKOUR ) && movecost > 100 ) {
         movecost *= .5f;
         if( movecost < 100 ) {

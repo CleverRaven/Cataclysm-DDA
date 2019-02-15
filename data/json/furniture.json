@@ -1771,6 +1771,19 @@
   },
   {
     "type": "furniture",
+    "id": "f_snow",
+    "name": "deep snow",
+    "symbol": "'",
+    "color": "white",
+    "move_cost_mod": 2,
+    "floor_bedding_warmth": -3000,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "NOCOLLIDE", "SNOW" ],
+    "examine_action": "gather_snow",
+    "bash": { "str_min": 50, "str_max": 200, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
     "id": "f_flower_fungal",
     "name": "fungal flower",
     "symbol": "f",
