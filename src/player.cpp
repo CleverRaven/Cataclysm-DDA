@@ -1637,6 +1637,24 @@ int player::hunger_speed_penalty( int hunger )
     return static_cast<int>( multi_lerp( hunger_thresholds, hunger ) );
 }
 
+int player::kcal_speed_penalty()
+{
+    // these numbers are taken directly from the old hunger speed penalties
+    static const std::vector<std::pair<float, float>> starv_thresholds = { {
+            std::make_pair( 1.0f - ( 100.0f / 6000.0f ), 0.0f ),
+            std::make_pair( 1.0f - ( 300.0f / 6000.0f ), -15.0f ),
+            std::make_pair( 1.0f - ( 1000.0f / 6000.0f ), -40.0f ),
+            std::make_pair( 0.0f, -75.0f )
+        }
+    };
+    if( get_kcal_percent() > 1.0f ) {
+        // @TODO: get speed penalties for being too fat, too
+        return 0;
+    } else {
+        return static_cast<int>( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+    }
+}
+
 int player::thirst_speed_penalty( int thirst )
 {
     // We die at 1200 thirst
@@ -1665,9 +1683,9 @@ void player::recalc_speed_bonus()
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
-    if( ( get_hunger() + get_starvation() ) > 100 ) {
-        mod_speed_bonus( hunger_speed_penalty( get_hunger() + get_starvation() ) );
-    }
+    // fat or underweight, you get slower
+    mod_speed_bonus( kcal_speed_penalty() );
+
 
     for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
