@@ -74,7 +74,8 @@ void weather_effect::glare( bool snowglare )
     }
     if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == true &&
-        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
+        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) &&
+        !calendar( to_turn<int>( calendar::turn ) ).is_night() ) {
         if( !g->u.has_effect( effect_snow_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
                 g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 4_turns );
