@@ -3385,7 +3385,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_file_cabinet",
+    "id": "f_filing_cabinet",
     "name": "filing cabinet",
     "description": "A set of drawers in a sturdy metal cabinet, used to hold files.  It can be locked to protect important information.  If you're lucky, there are often keys nearby.",
     "symbol": "}",
@@ -3799,7 +3799,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_utlity_shelf",
+    "id": "f_utility_shelf",
     "name": "utility shelf",
     "symbol": "{",
     "description": "A simple heavy-duty plastic and metal shelving unit.",
@@ -3875,9 +3875,9 @@
     "deconstruct": {
       "items": [
         { "item": "cable", "count": [ 1, 2 ] },
-        { "item": "amplifier_circuit", "count": [ 1, 4 ] },
+        { "item": "amplifier", "count": [ 1, 4 ] },
         { "item": "light_bulb", "count": [ 1, 4 ] },
-        { "item": "lump_steel", "count": 1 },
+        { "item": "steel_lump", "count": 1 },
         { "item": "pipe", "count": 1 }
       ]
     },
@@ -3889,7 +3889,7 @@
       "items": [
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "cable", "count": [ 0, 1 ] },
-        { "item": "escrap", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "glass_shard", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]

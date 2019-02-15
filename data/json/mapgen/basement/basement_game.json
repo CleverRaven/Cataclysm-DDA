@@ -6,6 +6,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",
@@ -53,7 +54,7 @@
         { "group": "tools_common", "x": [ 16, 17 ], "y": 18, "chance": 30 },
         { "group": "tools_mechanic", "x": 17, "y": [ 17, 18 ], "chance": 20 }
       ],
-      "place_liquids": [ { "liquid": "water_clean", "x": 19, "y": 18, "amount": [ 0, 100 ] } ],
+      "place_liquids": [ { "liquid": "water_clean", "x": 15, "y": 18, "amount": [ 0, 100 ] } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
       ]
@@ -66,6 +67,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",
@@ -124,6 +126,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",
@@ -167,7 +170,7 @@
         { "group": "tools_common", "x": [ 16, 17 ], "y": 18, "chance": 40 },
         { "group": "tools_mechanic", "x": 17, "y": [ 17, 18 ], "chance": 15 }
       ],
-      "place_liquids": [ { "liquid": "water_clean", "x": 19, "y": 18, "amount": [ 0, 100 ] } ],
+      "place_liquids": [ { "liquid": "water_clean", "x": 15, "y": 18, "amount": [ 0, 100 ] } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
       ]
@@ -180,6 +183,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "|----|                  ",
         "|...i|                  ",

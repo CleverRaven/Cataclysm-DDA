@@ -6,6 +6,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "     |----------        ",
         "     |?..i|..LL|        ",
@@ -81,6 +82,7 @@
     "weight": 500,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "          ------        ",
         "          |..LL|        ",
