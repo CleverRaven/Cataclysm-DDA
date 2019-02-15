@@ -1641,6 +1641,7 @@ int player::kcal_speed_penalty()
 {
     // these numbers are taken directly from the old hunger speed penalties
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
+            std::make_pair( 1.0f, 0.0f ),
             std::make_pair( 1.0f - ( 100.0f / 6000.0f ), 0.0f ),
             std::make_pair( 1.0f - ( 300.0f / 6000.0f ), -15.0f ),
             std::make_pair( 1.0f - ( 1000.0f / 6000.0f ), -40.0f ),
