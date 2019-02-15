@@ -92,7 +92,7 @@
     "volume": "65000 ml",
     "weight": 100000,
     "hp": 80,
-    "speed": 75,
+    "speed": 100,
     "material": [ "steel" ],
     "symbol": "A",
     "color": "light_blue",
