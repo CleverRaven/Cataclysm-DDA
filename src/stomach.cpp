@@ -58,9 +58,9 @@ void stomach_contents::bowel_movement( stomach_pass_rates rates )
                                     std::min( static_cast<int>( calories * rates.percent_kcal ),
                                             calories - calories_absorbed ) ), calories );
     calories_absorbed = 0;
-    contents -= std::min( std::max( rates.min_vol,
-                                    units::from_milliliter<int>( units::to_milliliter<float>( contents ) * rates.percent_vol ) ),
-                          contents );
+    mod_contents( -std::min( std::max( rates.min_vol,
+                                       units::from_milliliter<int>( units::to_milliliter<float>( contents ) * rates.percent_vol ) ),
+                             contents ) );
     // water is a special case.
     water = 0_ml;
 
@@ -111,9 +111,9 @@ void stomach_contents::bowel_movement( stomach_pass_rates rates, stomach_content
     move_to.calories += std::min( std::max( rates.min_kcal,
                                             std::min( static_cast<int>( calories * rates.percent_kcal ),
                                                     calories - calories_absorbed ) ), calories );
-    move_to.contents += std::min( std::max( rates.min_vol,
-                                            units::from_milliliter<int>( units::to_milliliter<float>( contents ) * rates.percent_vol ) ),
-                                  contents );
+    move_to.mod_contents( std::min( std::max( rates.min_vol,
+                                    units::from_milliliter<int>( units::to_milliliter<float>( contents ) * rates.percent_vol ) ),
+                                    contents ) );
     move_to.water += water;
 
     for( auto &vit : vitamins ) {
@@ -166,7 +166,7 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
         mod_quench( -comest_t->quench );
     }
     // @TODO: Move quench values to mL and remove the magic number here
-    contents += ( comest.volume() * charges / comest.charges ) - add_water;
+    mod_contents( ( comest.volume() * charges / comest.charges ) - add_water );
 
     food.mod_charges( -charges );
     last_ate = calendar::turn;

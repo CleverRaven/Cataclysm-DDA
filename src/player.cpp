@@ -4073,10 +4073,11 @@ void player::update_stomach( const time_point &from, const time_point &to )
         // that's really all the food you need to feel full
         set_hunger( -1 );
     } else if( stomach.contains() == 0_ml ) {
-        if( guts.calories == 0 && guts.calories_absorbed == 0 && get_stored_kcal() < get_healthy_kcal() ) {
+        if( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
+            get_stored_kcal() < get_healthy_kcal() ) {
             // there's no food except what you have stored in fat
             set_hunger( 300 );
-        } else if( ( guts.calories == 0 && guts.calories_absorbed == 0 &&
+        } else if( ( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
                      get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) {
             set_hunger( 100 );
         } else if( get_hunger() < 0 ) {
@@ -4206,7 +4207,6 @@ void player::check_needs_extremes()
     }
 
     // check if we've starved
-    // other starving messages are in player::update_stomach()
     if( is_player() && get_stored_kcal() == 0 ) {
         add_msg_if_player( m_bad, _( "You have starved to death." ) );
         add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
@@ -4215,7 +4215,8 @@ void player::check_needs_extremes()
     }
 
     // Check if we're dying of thirst
-    if( is_player() && get_thirst() >= 600 && ( stomach.water == 0_ml || guts.water == 0_ml ) ) {
+    if( is_player() && get_thirst() >= 600 && ( stomach.get_water() == 0_ml ||
+            guts.get_water() == 0_ml ) ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             add_memorial_log( pgettext( "memorial_male", "Died of thirst." ),
@@ -5175,7 +5176,8 @@ void player::suffer()
                 tdata.charge = mdata.cooldown - 1;
             }
             if( mdata.hunger ) {
-                mod_hunger( mdata.cost );
+                // does not directly modify hunger, but burns kcal
+                mod_stored_nutr( mdata.cost );
                 // pretty well on your way to starving at 75% your healthy kcal storage
                 if( get_healthy_kcal() >= 3 * get_stored_kcal() / 4 ) {
                     add_msg_if_player( m_warning, _( "You're too malnourished to keep your %s going." ), mdata.name() );
@@ -5241,6 +5243,8 @@ void player::suffer()
             add_msg_if_player( m_good, _( "This soil is delicious!" ) );
             if( get_hunger() > -20 ) {
                 mod_hunger( -2 );
+                // absorbs kcal directly
+                mod_stored_nutr( -2 );
             }
             if( get_thirst() > -20 ) {
                 mod_thirst( -2 );
@@ -5255,6 +5259,8 @@ void player::suffer()
         } else if( one_in( 50 ) ) {
             if( get_hunger() > -20 ) {
                 mod_hunger( -1 );
+                // absorbs kcal directly
+                mod_stored_nutr( -1 );
             }
             if( get_thirst() > -20 ) {
                 mod_thirst( -1 );
@@ -5739,6 +5745,8 @@ void player::suffer()
 
     if( has_trait( trait_LEAVES ) && g->is_in_sunlight( pos() ) && one_in( 600 ) ) {
         mod_hunger( -1 );
+        // photosynthesis absorbs kcal directly
+        mod_stored_nutr( -1 );
     }
 
     if( get_pain() > 0 ) {
@@ -7441,6 +7449,8 @@ void player::rooted()
         if( one_in( 20.0 / ( 1.0 - shoe_factor ) ) ) {
             if( get_hunger() > -20 ) {
                 mod_hunger( -1 );
+                // absorbs nutrients from soil directly
+                mod_stored_nutr( -1 );
             }
             if( get_thirst() > -20 ) {
                 mod_thirst( -1 );

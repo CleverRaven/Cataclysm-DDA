@@ -1503,7 +1503,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         }
         p.moves -= 150; // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
-        p.mod_hunger( -25 );
+        p.eat( item( "poppy_nectar", calendar::turn, 1 ) );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
