@@ -96,7 +96,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "police" ],
-    "weight": 100000000,
+    "weight": 100,
     "object": {
       "rows": [
         "___________________,,,,,",
