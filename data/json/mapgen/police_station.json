@@ -1,0 +1,100 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "police" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "|www**|--ww---ww---ww--|",
+        "|.....|................|",
+        "|.....*...............6|",
+        "|..xxx|---|---|---|--=-|",
+        "|...C.|bbb|bbb|bbb|....|",
+        "|-+---|...|...|...|LLLL|",
+        "|.....|#*#|#*#|#*#|----|",
+        "|5.....................|",
+        "|-=-|..|+-|-+|-+--|-+--|",
+        "|..1|..|.S|S.|t..c|....|",
+        "|..1|..|.t|t.|...c|Ccc.|",
+        "|..1|..|+-|-+|...c|.cc.|",
+        "|lll|..|.&|&.|cccc|.C..|",
+        "|----**----------------|",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "terrain": {
+        "-": "t_wall",
+        "|": "t_wall",
+        ".": "t_floor",
+        "&": "t_floor",
+        "1": "t_floor",
+        "5": "t_floor",
+        "6": "t_floor",
+        "b": "t_floor",
+        "c": "t_floor",
+        "t": "t_floor",
+        "C": "t_floor",
+        "l": "t_floor",
+        "x": "t_floor",
+        "L": "t_floor",
+        "S": "t_floor",
+        "_": "t_sidewalk",
+        ",": "t_pavement",
+        "*": "t_door_locked",
+        "+": "t_door_c",
+        "=": "t_door_metal_locked",
+        "w": "t_window",
+        "#": "t_bars"
+      },
+      "furniture": {
+        "c": "f_counter",
+        "x": "f_counter",
+        "1": "f_locker",
+        "l": "f_locker",
+        "L": "f_locker",
+        "C": "f_chair",
+        "S": "f_sink",
+        "t": "f_trashcan",
+        "b": "f_bench"
+      },
+      "items": {
+        ".": { "item": "badge_deputy", "chance": 5 },
+        "t": { "item": "trash_cart", "chance": 50 },
+        "c": { "item": "kitchen", "chance": 40 },
+        "1": { "item": "cop_gear", "chance": 70 },
+        "l": { "item": "cop_armory", "chance": 70 },
+        "L": { "item": "cop_evidence", "chance": 60 }
+      },
+      "toilets": { "&": {  } },
+      "computers": {
+        "5": {
+          "name": "PolCom OS v1.47 - Supply Room Access",
+          "security": 3,
+          "options": [ { "name": "Unlock Supply Room", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        },
+        "6": {
+          "name": "PolCom OS v1.47 - Evidence Locker Access",
+          "security": 3,
+          "options": [ { "name": "Unlock Evidence Locker", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        }
+      },
+      "place_monsters": [ { "monster": "GROUP_POLICE", "x": [ 1, 22 ], "y": [ 0, 23 ], "repeat": 4 } ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "badge_deputy",
+    "items": [ [ "badge_deputy", 100 ] ]
+  }
+]
