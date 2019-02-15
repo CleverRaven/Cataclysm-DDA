@@ -1476,7 +1476,7 @@ bool drink_nectar( player &p )
     if( can_drink_nectar( p ) ) {
         p.moves -= 50; // Takes 30 seconds
         add_msg( _( "You drink some nectar." ) );
-        p.mod_hunger( -15 );
+        p.eat( item( "nectar", calendar::turn, 1 ) );
         return true;
     }
 

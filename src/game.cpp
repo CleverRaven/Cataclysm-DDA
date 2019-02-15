@@ -9315,9 +9315,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            u.mod_hunger( -20 );
-            add_msg( _( "You eat the leaves from the %s." ), m.ter( u.pos() )->name() );
             m.ter_set( u.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            u.eat( food );
             return;
         }
     }
@@ -9328,8 +9329,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            add_msg( _( "You graze on the %s." ), m.ter( u.pos() )->name() );
-            u.mod_hunger( -8 );
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            u.eat( food );
+            m.ter_set( u.pos(), t_dirt );
             if( m.ter( u.pos() ) == t_grass_tall ) {
                 m.ter_set( u.pos(), t_grass_long );
             } else if( m.ter( u.pos() ) == t_grass_long ) {
