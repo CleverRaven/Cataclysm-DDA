@@ -21,12 +21,12 @@
         " |c..M#MM#M....M#MM#M.| ",
         " |c..MMMMMMMMMMMMMMMM.| ",
         " A....................| ",
-        " |---l..........pHHHHH| ",
-        " |ts| ...........HLLLL| ",
-        " |-+|............Hbbbb| ",
+        " |---l..........SHHHHH| ",
+        " |ts|c..........SHLLLL| ",
+        " |-+|p..........SHbbbb| ",
         " |...............$....+ ",
         " |^W|............Hhbbb| ",
-        " |xx|ccccccccccccH6LLL| ",
+        " |xx|cccccSScccccH6LLL| ",
         " |----::::--::::------| ",
         "                        ",
         "                        ",
@@ -57,6 +57,7 @@
         "b": "f_bench",
         "c": "f_counter",
         "s": "f_sink",
+        "S": "f_utility_shelf",
         "p": "f_hydraulic_press",
         "l": "f_heavy_lathe",
         "t": "f_toilet",
@@ -66,6 +67,7 @@
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
         "c": { "item": "mechanics", "chance": 20 },
+        "S": { "item": "mechanics", "chance": 20 },
         "x": { "item": "mechanics", "chance": 10 }
       },
       "place_vehicles": [
@@ -221,7 +223,7 @@
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
         "c": { "item": "mechanics", "chance": 10 },
-        "S": { "item": "mechanics", "chance": 15 },
+        "S": { "item": "mechanics", "chance": 20 },
         "x": { "item": "mechanics", "chance": 20 },
         "f": { "item": "office", "chance": 50 },
         "d": { "item": "office", "chance": 70 },
