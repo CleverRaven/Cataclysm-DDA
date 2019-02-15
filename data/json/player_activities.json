@@ -82,6 +82,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_DISMEMBER",
+    "type": "activity_type",
+    "stop_phrase": "Stop dismembering?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_DISSECT",
     "type": "activity_type",
     "stop_phrase": "Stop dissecting?",
