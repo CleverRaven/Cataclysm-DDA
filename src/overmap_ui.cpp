@@ -859,6 +859,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
+            const int max_note_length = 45;
             const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
 
             std::vector<std::pair<nc_color, long>> map_around;
@@ -892,12 +893,12 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 const char symbol = std::get<0>( om_symbol );
                 const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-                catacurses::window w_preview = catacurses::newwin( 5, 42 - 5, 2, 5 );
+                catacurses::window w_preview = catacurses::newwin( 5, max_note_length - 4, 2, 5 );
                 draw_border( w_preview );
                 mvwprintz( w_preview, 1, 1, c_white, _( "Note preview" ) );
                 wrefresh( w_preview );
 
-                catacurses::window w_preview_title = catacurses::newwin( 2, 42, 0, 0 );
+                catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
                 werase( w_preview_title );
                 mvwprintz( w_preview_title, 0, 0, c_yellow, note_text );
                 mvwputch( w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
@@ -929,7 +930,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             string_input_popup input_popup;
             input_popup
             .title( title )
-            .width( 45 )
+            .width( max_note_length )
             .text( new_note )
             .description( color_notes )
             .title_color( c_white )
