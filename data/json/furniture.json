@@ -3879,7 +3879,7 @@
     "id": "f_floor_lamp",
     "name": "floor lamp",
     "symbol": "T",
-    "looks_like": "f_rack_coat"
+    "looks_like": "f_rack_coat",
     "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
     "color": "light_gray",
     "move_cost_mod": 2,
