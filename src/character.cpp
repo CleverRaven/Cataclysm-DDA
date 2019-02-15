@@ -108,7 +108,6 @@ Character::Character() :
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
-    starvation = 0;
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
@@ -172,8 +171,6 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_healthy( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
-    } else if( stat == "starvation" ) {
-        mod_starvation( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -1946,22 +1943,19 @@ void Character::set_hunger( int nhunger )
     }
 }
 
+// this is a translation from a legacy value
 int Character::get_starvation() const
 {
-    return starvation;
-}
-
-void Character::mod_starvation( int nstarvation )
-{
-    set_starvation( starvation + nstarvation );
-}
-
-void Character::set_starvation( int nstarvation )
-{
-    if( starvation != nstarvation ) {
-        starvation = std::max( 0, nstarvation );
-        on_stat_change( "starvation", starvation );
+    static const std::vector<std::pair<float, float>> starv_thresholds = { {
+            std::make_pair( 0.0f, 6000.0f ),
+            std::make_pair( 0.8f, 300.0f ),
+            std::make_pair( 0.95f, 100.0f )
+        }
+    };
+    if( get_kcal_percent() < 0.95f ) {
+        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
+    return 0;
 }
 
 int Character::get_thirst() const

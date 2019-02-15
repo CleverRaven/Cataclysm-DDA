@@ -1637,19 +1637,17 @@ int player::hunger_speed_penalty( int hunger )
 
 int player::kcal_speed_penalty()
 {
-    // these numbers are taken directly from the old hunger speed penalties
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
-            std::make_pair( 1.0f, 0.0f ),
-            std::make_pair( 1.0f - ( 300.0f / 6000.0f ), 0.0f ),
-            std::make_pair( 1.0f - ( 1000.0f / 6000.0f ), -25.0f ),
-            std::make_pair( 0.0f, -60.0f )
+            std::make_pair( 0.0f, -60.0f ),
+            std::make_pair( 0.8f, -25.0f ),
+            std::make_pair( 0.95f, 0.0f )
         }
     };
-    if( get_kcal_percent() > 1.0f ) {
+    if( get_kcal_percent() > 0.95f ) {
         // @TODO: get speed penalties for being too fat, too
         return 0;
     } else {
-        return static_cast<int>( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
 }
 
@@ -4925,16 +4923,6 @@ void player::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "HUNGER", val, reduced, mod ) ) {
             mod_hunger( bound_mod_to_vals( get_hunger(), val, it.get_max_val( "HUNGER", reduced ),
                                            it.get_min_val( "HUNGER", reduced ) ) );
-        }
-    }
-
-    // Handle starvation
-    val = get_effect( "STARVATION", reduced );
-    if( val != 0 ) {
-        mod = 1;
-        if( is_new || it.activated( calendar::turn, "STARVATION", val, reduced, mod ) ) {
-            mod_starvation( bound_mod_to_vals( get_starvation(), val, it.get_max_val( "STARVATION", reduced ),
-                                               it.get_min_val( "STARVATION", reduced ) ) );
         }
     }
 

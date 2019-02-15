@@ -233,7 +233,6 @@ class Character : public Creature, public visitable<Character>
         virtual void mod_stored_kcal( int nkcal );
         virtual void mod_stored_nutr( int nnutr );
         virtual void mod_hunger( int nhunger );
-        virtual void mod_starvation( int nstarvation );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_sleep_deprivation( int nsleep_deprivation );
@@ -241,7 +240,6 @@ class Character : public Creature, public visitable<Character>
         /** Setters for need values exclusive to characters */
         virtual void set_stored_kcal( int kcal );
         virtual void set_hunger( int nhunger );
-        virtual void set_starvation( int nstarvation );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
@@ -831,7 +829,6 @@ class Character : public Creature, public visitable<Character>
         int healthy_calories;
 
         int hunger;
-        int starvation;
         int thirst;
 
         int fatigue;
