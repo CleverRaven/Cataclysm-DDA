@@ -3660,7 +3660,7 @@
     "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  If, you know, it had power.",
     "symbol": "9",
     "color": "black_red",
-    "move_cost": -1,
+    "move_cost_mod": -1,
     "required_str": 20,
     "flags": [ "BLOCKSDOOR" ],
     "bash": {
@@ -3695,7 +3695,7 @@
     "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
     "symbol": "4",
     "color": "cyan_red",
-    "move_cost": -1,
+    "move_cost_mod": -1,
     "required_str": 16,
     "bash": {
       "str_min": 40,
@@ -3728,7 +3728,7 @@
     "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.",
     "symbol": "3",
     "color": "magenta_cyan",
-    "move_cost": -1,
+    "move_cost_mod": -1,
     "required_str": -1,
     "bash": {
       "str_min": 40,
@@ -3770,7 +3770,7 @@
     "name": "chemical mixer",
     "symbol": "0",
     "color": "red_green",
-    "move_cost": -1,
+    "move_cost_mod": -1,
     "required_str": 16,
     "bash": {
       "str_min": 40,
