@@ -6468,7 +6468,7 @@ void game::zones_manager()
                                       TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1 );
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
             TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX );
-    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
+    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width,
                                          TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1 );
 
     zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
@@ -7348,7 +7348,7 @@ int game::get_user_action_counter() const
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
-    const int width = 35;
+    const int width = 44;
     for( int i = 1; i < TERMX; i++ ) {
         if( i < width ) {
             mvwputch( window, 0, i, c_light_gray, LINE_OXOX ); // -
@@ -7467,7 +7467,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
 
     catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                 width, VIEW_OFFSET_Y + 1, offsetX + 1 );
+                                 width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
     catacurses::window w_items_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2,
                                         width, VIEW_OFFSET_Y, offsetX );
     catacurses::window w_item_info = catacurses::newwin( iInfoHeight, width,
