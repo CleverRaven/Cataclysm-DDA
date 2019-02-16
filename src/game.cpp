@@ -2990,12 +2990,15 @@ void game::debug()
 
             add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
             std::string stom =
-                _( "\nStomach Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+                _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
             add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
                      units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
-                     units::to_milliliter( u.stomach.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
+                     units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
+            stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
+                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
+                     units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
                      u.get_healthy_kcal() );
-
             disp_NPCs();
             break;
         }

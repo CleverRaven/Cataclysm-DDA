@@ -4080,33 +4080,30 @@ void player::update_stomach( const time_point &from, const time_point &to )
         stomach.bowel_movement( stomach.get_pass_rates( true ), guts );
     }
 
-    if( stomach.contains() >= stomach.capacity() ) {
+    if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
         // you're engorged! your stomach is full to bursting!
         set_hunger( -61 );
-    } else if( stomach.contains() >= stomach.capacity() / 2 ) {
+    } else if( stomach.contains() >= stomach.capacity() / 2 && get_hunger() > -21 ) {
         // sated
         set_hunger( -21 );
-    } else if( stomach.contains() >= stomach.capacity() / 8 ) {
+    } else if( stomach.contains() >= stomach.capacity() / 8 && get_hunger() > -1 ) {
         // that's really all the food you need to feel full
         set_hunger( -1 );
     } else if( stomach.contains() == 0_ml ) {
         if( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
-            get_stored_kcal() < get_healthy_kcal() ) {
+            get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
             // there's no food except what you have stored in fat
             set_hunger( 300 );
-        } else if( ( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
-                     get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) {
+        } else if( get_hunger() < 100 && ( ( guts.get_calories() == 0 &&
+                                             guts.get_calories_absorbed() == 0 &&
+                                             get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) ) {
             set_hunger( 100 );
         } else if( get_hunger() < 0 ) {
             set_hunger( 0 );
         }
     }
-    if( stomach.contains() < stomach.capacity() / 8 && get_hunger() < 250 ) {
-        const int rolled_hunger = divide_roll_remainder( rates.hunger * five_mins, 1.0 );
-        mod_hunger( rolled_hunger );
-    }
-
     if( !foodless && rates.hunger > 0.0f ) {
+        mod_hunger( divide_roll_remainder( rates.hunger * five_mins, 1.0 ) );
         // instead of hunger keeping track of how you're living, burn calories instead
         mod_stored_kcal( divide_roll_remainder( rates.hunger * five_mins, 1.0 ) * -kcal_per_nutr );
     }
@@ -4224,7 +4221,7 @@ void player::check_needs_extremes()
     }
 
     // check if we've starved
-    if( is_player() && get_stored_kcal() == 0 ) {
+    if( is_player() && get_stored_kcal() <= 0 ) {
         add_msg_if_player( m_bad, _( "You have starved to death." ) );
         add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
                           pgettext( "memorial_female", "Died of starvation." ) );
@@ -5632,7 +5629,8 @@ void player::suffer()
         if( has_trait( trait_JITTERY ) && !has_effect( effect_shakes ) ) {
             if( stim > 50 && one_in( 300 - stim ) ) {
                 add_effect( effect_shakes, 30_minutes + 1_turns * stim );
-            } else if( get_hunger() > 80 && one_in( 500 - get_hunger() ) ) {
+            } else if( ( get_hunger() > 80 || get_kcal_percent() < 1.0f ) && get_hunger() > 0 &&
+                       one_in( 500 - get_hunger() ) ) {
                 add_effect( effect_shakes, 40_minutes );
             }
         }
