@@ -160,6 +160,8 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
     return l = l | r;
 }
 
+inline bool is_crafting_component( const item &component );
+
 class item : public visitable<item>
 {
     public:
@@ -430,9 +432,6 @@ class item : public visitable<item>
          */
         bool merge_charges( const item &rhs );
 
-        // The number of charges a recipe creates.  Used for comestible consumption.
-        int recipe_charges = 1;
-
         units::mass weight( bool include_contents = true ) const;
 
         /**
@@ -543,9 +542,10 @@ class item : public visitable<item>
          * @param quantity How much to consumed.
          * @param used On success all consumed items will be stored here.
          */
-        bool use_amount( const itype_id &it, long &quantity, std::list<item> &used );
+        bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
+                         const std::function<bool( const item & )> &filter = is_crafting_component );
 
-        /** Can item can be used as crafting component in current state? */
+        /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
         /**
@@ -657,6 +657,16 @@ class item : public visitable<item>
         void calc_rot( const tripoint &p );
 
         /**
+         * Accumulate rot of the item since starting smoking.
+         * This is part of a workaround so that items don't rot away to nothing if the smoking rack
+         * is outside the reality bubble.
+         * @param p The absolute, global location (in map square coordinates) of the item to
+         * check for temperature.
+         * @param smoking_duration
+         */
+        void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
+
+        /**
          * Update temperature item_counters for things like food
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
@@ -712,41 +722,6 @@ class item : public visitable<item>
         /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
         void apply_freezerburn();
 
-    private:
-        /**
-         * Accumulated rot, expressed as time the item has been in standard temperature.
-         * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
-         * the item is rotten.
-         */
-        time_duration rot = 0_turns;
-        /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::time_of_cataclysm;
-
-        /**
-         * Calculate temperature differential and handle FROZEN/COLD/HOT states
-         * @param temp Temperature of surroundings
-         * @param insulation Amount of insulation item has
-         * @param time Duration of time at which to process at temperature
-         */
-        void calc_temp( const int temp, const float insulation, const time_duration &time );
-
-        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
-        int get_static_temp_counter() const;
-
-        /** Set temperature tags and counter according to a static counter */
-        void set_temp_from_static( const int counter );
-
-        /** the last time the temperature was updated for this item */
-        time_point last_temp_check = calendar::time_of_cataclysm;
-
-        /**
-         * Current phase state, inherits a default at room temperature from
-         * itype and can be changed through item processing.  This is a static
-         * cast to avoid importing the entire enums.h header here, zero is
-         * PNULL.
-         */
-        phase_id current_phase = static_cast<phase_id>( 0 );
-    public:
         time_duration get_rot() const {
             return rot;
         }
@@ -977,20 +952,7 @@ class item : public visitable<item>
          */
         bool process( player *carrier, const tripoint &pos, bool activate );
         bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation );
-    protected:
-        // Sub-functions of @ref process, they handle the processing for different
-        // processing types, just to make the process function cleaner.
-        // The interface is the same as for @ref process.
-        bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
-        bool process_corpse( player *carrier, const tripoint &pos );
-        bool process_wet( player *carrier, const tripoint &pos );
-        bool process_litcig( player *carrier, const tripoint &pos );
-        bool process_extinguish( player *carrier, const tripoint &pos );
-        // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( player *carrier, const tripoint &pos );
-        bool process_cable( player *carrier, const tripoint &pos );
-        bool process_tool( player *carrier, const tripoint &pos );
-    public:
+
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
@@ -1089,10 +1051,6 @@ class item : public visitable<item>
         bool is_reloadable_with( const itype_id &ammo ) const;
         /** Returns true if not empty if it's liquid, it's not currently frozen in resealable container */
         bool can_unload_liquid() const;
-    private:
-        /** Helper for checking reloadability. **/
-        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
-    public:
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
@@ -1130,9 +1088,6 @@ class item : public visitable<item>
 
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
-
-        const itype *type;
-        std::list<item> contents;
 
         /**
          * Return a contained item (if any and only one).
@@ -1818,50 +1773,106 @@ class item : public visitable<item>
         /* add the monster at target to this item, despawning it */
         int contain_monster( const tripoint &target );
 
-    private:
-        int damage_ = 0;
-        const itype *curammo = nullptr;
-        std::map<std::string, std::string> item_vars;
-        const mtype *corpse = nullptr;
-        std::string corpse_name;       // Name of the late lamented
-        std::set<matec_id> techniques; // item specific techniques
-        light_emission light = nolight;
-
-    public:
-        static const long INFINITE_CHARGES;
-
-        char invlet = 0;      // Inventory letter
-        long charges;
-        bool active = false; // If true, it has active effects to be processed
-
-        int burnt = 0;           // How badly we're burnt
-    private:
-        /// The time the item was created.
-        time_point bday;
-    public:
         time_duration age() const;
         void set_age( const time_duration &age );
         time_point birthday() const;
         void set_birthday( const time_point &bday );
 
+        int get_gun_ups_drain() const;
+
+        int get_min_str() const;
+
+    private:
+        /**
+         * Calculate temperature differential and handle FROZEN/COLD/HOT states
+         * @param temp Temperature of surroundings
+         * @param insulation Amount of insulation item has
+         * @param time Duration of time at which to process at temperature
+         */
+        void calc_temp( const int temp, const float insulation, const time_duration &time );
+
+        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
+        int get_static_temp_counter() const;
+
+        /** Set temperature tags and counter according to a static counter */
+        void set_temp_from_static( const int counter );
+
+        /** Helper for checking reloadability. **/
+        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+
+    protected:
+        // Sub-functions of @ref process, they handle the processing for different
+        // processing types, just to make the process function cleaner.
+        // The interface is the same as for @ref process.
+        bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
+        bool process_corpse( player *carrier, const tripoint &pos );
+        bool process_wet( player *carrier, const tripoint &pos );
+        bool process_litcig( player *carrier, const tripoint &pos );
+        bool process_extinguish( player *carrier, const tripoint &pos );
+        // Place conditions that should remove fake smoke item in this sub-function
+        bool process_fake_smoke( player *carrier, const tripoint &pos );
+        bool process_cable( player *carrier, const tripoint &pos );
+        bool process_tool( player *carrier, const tripoint &pos );
+
+    public:
+        static const long INFINITE_CHARGES;
+        typedef std::vector<item> t_item_vector;
+
+        const itype *type;
+        std::list<item> contents;
+        t_item_vector components;
+        /** What faults (if any) currently apply to this item */
+        std::set<fault_id> faults;
+        std::set<std::string> item_tags; // generic item specific flags
+
+    private:
+        const itype *curammo = nullptr;
+        std::map<std::string, std::string> item_vars;
+        const mtype *corpse = nullptr;
+        std::string corpse_name;       // Name of the late lamented
+        std::set<matec_id> techniques; // item specific techniques
+
+    public:
+        long charges;
+
+        // The number of charges a recipe creates.  Used for comestible consumption.
+        int recipe_charges = 1;
+        int burnt = 0;           // How badly we're burnt
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
         int note = 0;            // Associated dynamic text snippet.
         int irridation = 0;      // Tracks radiation dosage.
-
-        /** What faults (if any) currently apply to this item */
-        std::set<fault_id> faults;
-
-        std::set<std::string> item_tags; // generic item specific flags
         int item_counter = 0; // generic counter to be used with item flags
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!
-        typedef std::vector<item> t_item_vector;
-        t_item_vector components;
 
-        int get_gun_ups_drain() const;
+    private:
+        /**
+         * Accumulated rot, expressed as time the item has been in standard temperature.
+         * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
+         * the item is rotten.
+         */
+        time_duration rot = 0_turns;
+        /** Time when the rot calculation was last performed. */
+        time_point last_rot_check = calendar::time_of_cataclysm;
+        /** the last time the temperature was updated for this item */
+        time_point last_temp_check = calendar::time_of_cataclysm;
+        /// The time the item was created.
+        time_point bday;
+        /**
+         * Current phase state, inherits a default at room temperature from
+         * itype and can be changed through item processing.  This is a static
+         * cast to avoid importing the entire enums.h header here, zero is
+         * PNULL.
+         */
+        phase_id current_phase = static_cast<phase_id>( 0 );
 
-        int get_min_str() const;
+        int damage_ = 0;
+        light_emission light = nolight;
+
+    public:
+        char invlet = 0;      // Inventory letter
+        bool active = false; // If true, it has active effects to be processed
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
@@ -1887,5 +1898,10 @@ enum hint_rating {
  * and stays valid until the program ends.
  */
 item &null_item_reference();
+
+inline bool is_crafting_component( const item &component )
+{
+    return component.allow_crafting_component() && !component.is_filthy();
+}
 
 #endif

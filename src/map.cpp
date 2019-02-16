@@ -4641,11 +4641,12 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity )
+std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
+                                  const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( a->use_amount( type, quantity, ret ) ) {
+        if( a->use_amount( type, quantity, ret, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4655,7 +4656,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quanti
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
-                                        long &quantity )
+                                        long &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     // Handle infinite map sources.
@@ -4668,22 +4669,22 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
 
     if( const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO", true ) ) {
         std::list<item> tmp = use_amount_stack( vp->vehicle().get_items( vp->part_index() ), type,
-                                                quantity );
+                                                quantity, filter );
         ret.splice( ret.end(), tmp );
     }
-    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity );
+    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, filter );
     ret.splice( ret.end(), tmp );
     return ret;
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
-                                 long &quantity )
+                                 long &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         for( const tripoint &p : points_in_radius( origin, radius ) ) {
             if( rl_dist( origin, p ) >= radius ) {
-                std::list<item> tmp = use_amount_square( p, type, quantity );
+                std::list<item> tmp = use_amount_square( p, type, quantity, filter );
                 ret.splice( ret.end(), tmp );
             }
         }
@@ -5826,7 +5827,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         tercol = veh->part_color( veh_part );
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
-        if( !veh->forward_velocity() ) {
+        if( !veh->forward_velocity() && !veh->player_in_control( g->u ) ) {
             memory_sym = sym;
         }
     }
@@ -7067,9 +7068,9 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // TODO: what now? there is no possible place to spawn monsters, most
         // likely because the player can see all the places.
         const tripoint glp = getabs( gp );
-        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-                       " at " << gp.x << "," << gp.y << "," << gp.z <<
-                       " global " << glp.x << "," << glp.y << "," << glp.z;
+        dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
+                         " at " << gp.x << "," << gp.y << "," << gp.z <<
+                         " global " << glp.x << "," << glp.y << "," << glp.z;
         // Just kill the group. It's not like we're removing existing monsters
         // Unless it's a horde - then don't kill it and let it spawn behind a tree or smoke cloud
         if( !group.horde ) {

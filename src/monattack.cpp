@@ -4704,17 +4704,18 @@ bool mattack::stretch_attack( monster *z )
     z->moves -= 100;
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
         if( g->m.impassable( pnt ) ) {
-            add_msg( _( "The %1$s thrusts its arm at you but bounces off the %2$s" ), z->name().c_str(),
-                     g->m.obstacle_name( pnt ).c_str() );
+            target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
+                                           _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
+                                           z->name(), g->m.obstacle_name( pnt ) );
             return true;
         }
     }
 
     auto msg_type = target == &g->u ? m_warning : m_info;
     target->add_msg_player_or_npc( msg_type,
-                                   _( "The %s thrusts its arm at you, stretching to reach you from afar" ),
-                                   _( "The %s thrusts its arm at <npcname>" ),
-                                   z->name().c_str() );
+                                   _( "The %s thrusts its arm at you, stretching to reach you from afar." ),
+                                   _( "The %s thrusts its arm at <npcname>." ),
+                                   z->name() );
     if( dodge_check( z, target ) || g->u.uncanny_dodge() ) {
         target->add_msg_player_or_npc( msg_type, _( "You evade the stretched arm and it sails past you!" ),
                                        _( "<npcname> evades the stretched arm!" ) );
@@ -4733,15 +4734,15 @@ bool mattack::stretch_attack( monster *z )
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %1$s's arm pierces your %2$s!" ),
                                        _( "The %1$s arm pierces <npcname>'s %2$s!" ),
-                                       z->name().c_str(),
-                                       body_part_name_accusative( hit ).c_str() );
+                                       z->name(),
+                                       body_part_name_accusative( hit ) );
 
         target->check_dead_state();
     } else {
         target->add_msg_player_or_npc( _( "The %1$s arm hits your %2$s, but glances off your armor!" ),
                                        _( "The %1$s hits <npcname>'s %2$s, but glances off armor!" ),
-                                       z->name().c_str(),
-                                       body_part_name_accusative( hit ).c_str() );
+                                       z->name(),
+                                       body_part_name_accusative( hit ) );
     }
 
     target->on_hit( z, hit,  z->type->melee_skill );

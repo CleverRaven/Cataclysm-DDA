@@ -835,7 +835,6 @@ void npc::choose_target()
         float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
         float hp_percent = static_cast<float>( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
         float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
-
         auto att = mon.attitude( this );
         if( att == MATT_FRIEND ) {
             ai_cache.friends.emplace_back( g->shared_from( mon ) );
@@ -847,7 +846,7 @@ void npc::choose_target()
         }
 
         if( att == MATT_ATTACK ) {
-            critter_danger++;
+            critter_danger = std::max( critter_danger, static_cast<float>( NPC_DANGER_VERY_LOW ) );
         }
 
         ai_cache.total_danger += critter_danger / scaled_distance;

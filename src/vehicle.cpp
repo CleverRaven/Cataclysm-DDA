@@ -1262,7 +1262,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
-bool vehicle::find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks )
+bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks )
 {
     for( auto this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
@@ -1294,17 +1294,28 @@ bool vehicle::find_rackable_vehicle( const std::vector<std::vector<int>> &list_o
 
 bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts )
 {
+    // Mapping between the old vehicle and new vehicle mounting points
     struct mapping {
+        // All the parts attached to this mounting point
         std::vector<int> carry_parts_here;
+
+        // the index where the racking part is on the vehicle with the rack
         int rack_part;
+
+        // the mount point we are going to add to the vehicle with the rack
         point carry_mount;
+
+        // the mount point on the old vehicle (carry_veh) that will be destroyed
         point old_mount;
     };
+
+    // By structs, we mean all the parts of the carry vehicle that are at the structure location
+    // of the vehicle (i.e. frames)
     std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
-    bool found_all_parts = true;
-    const point mount_zero = point_zero;
+
+    //X is forward/backward, Y is left/right
     std::string axis;
     if( carry_veh_structs.size() == 1 ) {
         axis = "X";
@@ -1315,6 +1326,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             }
         }
     }
+
     int relative_dir = modulo( carry_veh->face.dir() - face.dir(), 360 );
     int relative_180 = modulo( relative_dir, 180 );
     int face_dir_180 = modulo( face.dir(), 180 );
@@ -1331,8 +1343,15 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         }
     }
 
+    // We look at each of the structure parts (mount points, i.e. frames) for the
+    // carry vehicle and then find a rack part adjacent to it. If we dont find a rack part,
+    // then we cant merge.
+    bool found_all_parts = true;
     for( auto carry_part : carry_veh_structs ) {
+
+        // The current position on the original vehicle for this part
         tripoint carry_pos = carry_veh->global_part_pos3( carry_part );
+
         bool merged_part = false;
         for( int rack_part : rack_parts ) {
             size_t j = 0;
@@ -1346,7 +1365,12 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                     break;
                 }
             }
-            if( j < 4 ) {
+
+            // We checked the adjacent points from the mounting rack and managed
+            // to find the current structure part were looking for nearby. If the part was not
+            // near this particular rack, we would look at each in the list of rack_parts
+            const bool carry_part_next_to_this_rack = j < 4;
+            if( carry_part_next_to_this_rack ) {
                 mapping carry_map;
                 point old_mount = carry_veh->parts[ carry_part ].mount;
                 carry_map.carry_parts_here = carry_veh->parts_at_relative( old_mount, true );
@@ -1358,12 +1382,19 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 break;
             }
         }
+
+        // We checked all the racks and could not find a place for this structure part.
         if( !merged_part ) {
             found_all_parts = false;
             break;
         }
     }
+
+    // Now that we have mapped all the parts of the carry vehicle to the vehicle with the rack
+    // we can go ahead and merge
+    const point mount_zero = point_zero;
     if( found_all_parts ) {
+        decltype( loot_zones ) new_zones;
         for( auto carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
@@ -1377,7 +1408,24 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 carried_part.set_flag( vehicle_part::carried_flag );
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
+
+            const std::pair<std::unordered_multimap<point, zone_data>::iterator, std::unordered_multimap<point, zone_data>::iterator>
+            zones_on_point = carry_veh->loot_zones.equal_range( carry_map.old_mount );
+            for( std::unordered_multimap<point, zone_data>::const_iterator it = zones_on_point.first;
+                 it != zones_on_point.second; ++it ) {
+                new_zones.emplace( carry_map.carry_mount, it->second );
+            }
         }
+
+        for( std::unordered_multimap<point, zone_data>::iterator it = new_zones.begin();
+             it != new_zones.end(); ++it ) {
+            zone_manager::get_manager().create_vehicle_loot_zone( *this, it->first, it->second );
+        }
+
+        // Now that we've added zones to this vehicle, we need to make sure their positions
+        // update when we next interact with them
+        zones_dirty = true;
+
         //~ %1$s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
         g->m.destroy_vehicle( carry_veh );
@@ -1493,7 +1541,9 @@ bool vehicle::remove_part( int p )
     const bool no_zone = lz_iter != loot_zones.end();
 
     if( no_zone && part_flag( p, "CARGO" ) ) {
-        loot_zones.erase( lz_iter );
+        // Using the key here (instead of the iterator) will remove all zones on
+        // this mount points regardless of how many there are
+        loot_zones.erase( parts[p].mount );
         zones_dirty = true;
     }
 
@@ -1839,12 +1889,20 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 labels.erase( iter );
                 new_labels.insert( label( new_mount, label_str ) );
             }
-            // remove loot zones associated with the mov_part
-            const auto lz_iter = loot_zones.find( cur_mount );
-            if( lz_iter != loot_zones.end() ) {
+            // Prepare the zones to be moved to the new vehicle
+            const std::pair<std::unordered_multimap<point, zone_data>::iterator, std::unordered_multimap<point, zone_data>::iterator>
+            zones_on_point = loot_zones.equal_range( cur_mount );
+            for( std::unordered_multimap<point, zone_data>::const_iterator lz_iter = zones_on_point.first;
+                 lz_iter != zones_on_point.second; ++lz_iter ) {
                 new_zones.emplace( new_mount, lz_iter->second );
-                loot_zones.erase( lz_iter );
             }
+
+            // Erasing on the key removes all the zones from the point at once
+            loot_zones.erase( cur_mount );
+
+            // The zone manager will be updated when we next interact with it through get_vehicle_zones
+            zones_dirty = true;
+
             // remove the passenger from the old vehicle
             if( passenger ) {
                 parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
@@ -1854,13 +1912,23 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             parts[ mov_part].removed = true;
             removed_part_count++;
         }
+
+        // We want to create the vehicle zones after we've setup the parts
+        // because we need only to move the zone once per mount, not per part. If we move per
+        // part, we will end up with duplicates of the zone per part on the same mount
+        for( std::pair<point, zone_data> zone : new_zones ) {
+            zone_manager::get_manager().create_vehicle_loot_zone( *new_vehicle, zone.first, zone.second );
+        }
+
+        // create_vehicle_loot_zone marks the vehicle as not dirty but since we got these zones
+        // in an unknown state from the previous vehicle, we need to let the cache rebuild next
+        // time we interact with them
+        new_vehicle->zones_dirty = true;
+
         g->m.dirty_vehicle_list.insert( new_vehicle );
         g->m.set_transparency_cache_dirty( smz );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
-        }
-        if( !new_zones.empty() ) {
-            new_vehicle->loot_zones = new_zones;
         }
 
         if( split_mounts.empty() ) {
@@ -3590,18 +3658,28 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     //do this with chance proportional to current load
     // But only if the player is actually there!
     if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
-        //charge bionics when using muscle engine
-        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            g->u.charge_power( 1 );
-        }
         //cost proportional to strain
         int mod = 1 + 4 * st;
+        //charge bionics when using muscle engine
+        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            g->u.charge_power( 2 );
+            mod = mod * 2;
+        }
+        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            if( one_in( 20 ) ) {
+                g->u.charge_power( 1 );
+            }
+        }
         if( one_in( 10 ) ) {
             g->u.mod_hunger( mod );
             g->u.mod_thirst( mod );
             g->u.mod_fatigue( mod );
         }
-        g->u.mod_stat( "stamina", -mod * 20 );
+        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
+            g->u.mod_stat( "stamina", -mod * 30 );
+        } else {
+            g->u.mod_stat( "stamina", -mod * 20 );
+        }
     }
 }
 
@@ -3869,14 +3947,28 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
 
 int vehicle::charge_battery( int amount, bool include_other_vehicles )
 {
-    for( auto &p : parts ) {
-        if( amount <= 0 ) {
-            break;
+    // Key parts by percentage charge level.
+    std::multimap<int, vehicle_part *> chargeable_parts;
+    for( vehicle_part &p : parts ) {
+        if( p.is_available() && p.is_battery() && p.ammo_capacity() > p.ammo_remaining() ) {
+            chargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity(), &p } );
         }
-        if( p.is_available() && p.is_battery() ) {
-            int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
-            p.ammo_set( fuel_type_battery, p.ammo_remaining() + qty );
-            amount -= qty;
+    }
+    while( amount > 0 && !chargeable_parts.empty() ) {
+        // Grab first part, charge until it reaches the next %, then re-insert with new % key.
+        auto iter = chargeable_parts.begin();
+        int charge_level = iter->first;
+        vehicle_part *p = iter->second;
+        chargeable_parts.erase( iter );
+        // Calculate number of charges to reach the next %, but insure it's at least
+        // one more than current charge.
+        long next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity() ) / 100;
+        next_charge_level = std::max( next_charge_level, p->ammo_remaining() + 1 );
+        long qty = std::min( static_cast<long>( amount ), next_charge_level - p->ammo_remaining() );
+        p->ammo_set( fuel_type_battery, p->ammo_remaining() + qty );
+        amount -= qty;
+        if( p->ammo_capacity() > p->ammo_remaining() ) {
+            chargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity(), p } );
         }
     }
 
@@ -3894,12 +3986,27 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
 
 int vehicle::discharge_battery( int amount, bool recurse )
 {
-    for( auto &p : parts ) {
-        if( amount <= 0 ) {
-            break;
+    // Key parts by percentage charge level.
+    std::multimap<int, vehicle_part *> dischargeable_parts;
+    for( vehicle_part &p : parts ) {
+        if( p.is_available() && p.is_battery() && p.ammo_remaining() > 0 ) {
+            dischargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity(), &p } );
         }
-        if( p.is_available() && p.is_battery() ) {
-            amount -= p.ammo_consume( amount, global_part_pos3( p ) );
+    }
+    while( amount > 0 && !dischargeable_parts.empty() ) {
+        // Grab first part, discharge until it reaches the next %, then re-insert with new % key.
+        auto iter = std::prev( dischargeable_parts.end() );
+        int charge_level = iter->first;
+        vehicle_part *p = iter->second;
+        dischargeable_parts.erase( iter );
+        // Calculate number of charges to reach the previous %.
+        long prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity() ) / 100;
+        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level,
+                                            static_cast<long>( amount ) );
+        p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
+        amount -= amount_to_discharge;
+        if( p->ammo_remaining() > 0 ) {
+            dischargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity(), p } );
         }
     }
 
@@ -5166,25 +5273,28 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
     if( !wind_turbines.empty() ) {
+        const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
+        const w_point weatherPoint = *g->weather_precise;
+        double basewindpower = weatherPoint.windpower;
+        double windpower;
         int epower_w = 0;
         for( int part : wind_turbines ) {
             if( parts[ part ].is_unavailable() ) {
                 continue;
             }
 
-            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            if( g->is_sheltered( global_part_pos3( part ) ) ) {
                 continue;
             }
 
-            epower_w += part_epower_w( part );
+            windpower = get_local_windpower( basewindpower, cur_om_ter, global_part_pos3( part ),
+                                             weatherPoint.winddirection, false );
+            if( windpower <= ( basewindpower / 10 ) ) {
+                continue;
+            }
+            epower_w += part_epower_w( part ) * windpower;
         }
-        //Wind Turbine less efficient in forests
-        const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
-        const w_point weatherPoint = *g->weather_precise;
-        int windpower = weatherPoint.windpower;
-        windpower = get_local_windpower( windpower, cur_om_ter, false );
-        double intensity = windpower / to_turns<double>( elapsed );
-        int energy_bat = power_to_energy_bat( epower_w * intensity, 6 * to_turns<int>( elapsed ) );
+        int energy_bat = power_to_energy_bat( epower_w, 6 * to_turns<int>( elapsed ) );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from wind turbines", name, energy_bat );
             charge_battery( energy_bat );
@@ -5311,7 +5421,16 @@ bool vehicle::refresh_zones()
             zone_data zone = z.second;
             //Get the global position of the first cargo part at the relative coordinate
 
-            tripoint zone_pos = global_part_pos3( part_with_feature( z.first, "CARGO", false ) );
+            const int part_idx = part_with_feature( z.first, "CARGO", false );
+            if( part_idx == -1 ) {
+                debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone. Removing loot zone.",
+                          z.first.x, z.first.y, this->name.c_str() );
+
+                // If this loot zone refers to a part that no longer exists at this location, then its unattached somehow.
+                // By continuing here and not adding to new_zones, we effectively remove it
+                continue;
+            }
+            tripoint zone_pos = global_part_pos3( part_idx );
             zone_pos = g->m.getabs( zone_pos );
             //Set the position of the zone to that part
             zone.set_position( std::pair<tripoint, tripoint>( zone_pos, zone_pos ), false );

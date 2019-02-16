@@ -211,7 +211,7 @@
     "move_cost_mod": -1,
     "description": "A few stacked sandbags.",
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
     "deconstruct": {
       "items": [ { "item": "bag_canvas", "count": 4 }, { "item": "material_sand", "charges": 40 } ],
       "furn_set": "f_sandbag_half"
@@ -1492,7 +1492,7 @@
     "color": "blue",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1510,7 +1510,7 @@
     "color": "blue",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1529,7 +1529,7 @@
     "color": "blue",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
     "open": "f_canvas_door_o",
     "bash": {
       "str_min": 1,
@@ -1567,7 +1567,7 @@
     "color": "blue",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
     "open": "f_large_canvas_door_o",
     "bash": {
       "str_min": 1,
@@ -1688,7 +1688,7 @@
     "color": "brown",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1706,7 +1706,7 @@
     "color": "white",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "open": "f_skin_door_o",
     "bash": {
       "str_min": 1,
@@ -3009,7 +3009,7 @@
     "color": "dark_gray",
     "move_cost_mod": -1,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE" ],
+    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 64,
       "str_max": 160,

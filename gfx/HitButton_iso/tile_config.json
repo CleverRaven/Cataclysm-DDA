@@ -90,12 +90,12 @@
           "fg": 18
         },
         {
-          "id": ["t_door_c", "t_door_makeshift_c", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior" ],
+          "id": ["t_door_c", "t_door_makeshift_c", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior", "t_door_lab_c" ],
           "multitile": true,
           "fg": [ 19, 20 ]
         },
         {
-          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o", "t_door_frame" ],
+          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o", "t_door_frame", "t_door_lab_o", "t_door_lab_frame" ],
           "multitile": true,
           "fg": [ 21, 22 ]
         },
@@ -1937,7 +1937,7 @@
           "fg": 525
         },
         {
-          "id": [ "t_door_b", "t_door_b_peep" ],
+          "id": [ "t_door_b", "t_door_b_peep", "t_door_lab_b" ],
           "multitile": true,
           "fg": [ 526 , 527 ]
         },
@@ -2063,12 +2063,12 @@
           ]
         },
         {
-          "id": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_pickable" ],
+          "id": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_pickable", "t_door_metal_lab_c" ],
           "multitile": true,
           "fg": [ 587 , 588 ]
         },
         {
-          "id": ["t_door_metal_o", "t_mdoor_frame" ],
+          "id": ["t_door_metal_o", "t_mdoor_frame", "t_mdoor_lab_frame", "t_door_metal_lab_o" ],
           "multitile": true,
           "fg": [ 589 , 590 ]
         },
@@ -2077,12 +2077,12 @@
           "fg": 591
         },
         {
-          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_door_glass_c", "t_reinforced_door_glass_lab_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c" ],
           "multitile": true,
           "fg": [ 592 , 593 ]
         },
         {
-          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o", "t_reinforced_door_glass_o", "t_reinforced_door_glass_lab_o", "t_door_glass_lab_o", "t_door_glass_frosted_lab_o" ],
           "multitile": true,
           "fg": [ 594 , 595 ]
         },
@@ -2149,7 +2149,7 @@
           "fg": 622
         },
         {
-          "id": ["t_gates_control_concrete", "t_gates_control_metal", "t_gates_mech_control", "t_switch_even" ],
+          "id": ["t_gates_control_concrete", "t_gates_control_metal", "t_gates_mech_control", "t_switch_even", "t_gates_control_concrete_lab", "t_gates_control_metal_lab", "t_gates_mech_control_lab", "t_gates_control_brick", "t_gates_control_brick_lab" ],
           "fg": 623
         },
         {

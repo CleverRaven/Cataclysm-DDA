@@ -178,7 +178,6 @@
     "material": "wood",
     "symbol": ";",
     "color": "brown",
-    "count": 4,
     "ammo_type": "thrown",
     "range": 0,
     "damage": 0,

@@ -783,7 +783,7 @@ void player::complete_craft()
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
 comp_selection<item_comp> player::select_item_component( const std::vector<item_comp> &components,
-        int batch, inventory &map_inv, bool can_cancel )
+        int batch, inventory &map_inv, bool can_cancel, const std::function<bool( const item & )> &filter )
 {
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
@@ -822,7 +822,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         } else { // Counting by units, not charges
 
             // Can't use pseudo items as components
-            if( has_amount( type, count, false ) ) {
+            if( has_amount( type, count, false, filter ) ) {
                 player_has.push_back( component );
                 found = true;
             }
@@ -830,7 +830,10 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                 map_has.push_back( component );
                 found = true;
             }
-            if( !found && amount_of( type, false ) + map_inv.amount_of( type, false ) >= count ) {
+            if( !found &&
+                amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
+                map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
+                                   filter ) >= count ) {
                 mixed.push_back( component );
             }
         }
@@ -856,7 +859,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ? map_inv.charges_of( map_ha.type ) : map_inv.amount_of(
-                                                    map_ha.type ) );
+                                                    map_ha.type, false, std::numeric_limits<int>::max(), filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
@@ -864,14 +867,16 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ? charges_of( player_ha.type ) : amount_of(
-                                                    player_ha.type ) );
+                                                    player_ha.type, false, std::numeric_limits<int>::max(), filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             long available = item::count_by_charges( component.type ) ?
                              map_inv.charges_of( component.type ) + charges_of( component.type ) :
-                             map_inv.amount_of( component.type ) + amount_of( component.type );
+                             map_inv.amount_of( component.type, false, std::numeric_limits<int>::max(),
+                                                filter ) +
+                             amount_of( component.type, false, std::numeric_limits<int>::max(), filter );
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( component.type ),
                                                 component.count * batch,
@@ -939,7 +944,8 @@ void empty_buckets( player &p )
     }
 }
 
-std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch )
+std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
 
@@ -961,7 +967,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
             ret.splice( ret.end(), tmp );
         } else {
             std::list<item> tmp = g->m.use_amount( loc, PICKUP_RANGE, selected_comp.type,
-                                                   real_count );
+                                                   real_count, filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -971,7 +977,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
             std::list<item> tmp = use_charges( selected_comp.type, real_count );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -993,11 +999,13 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
-std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch )
+std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch,
+                                       const std::function<bool( const item & )> &filter )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE );
-    return consume_items( select_item_component( components, batch, map_inv ), batch );
+    return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
+                          filter );
 }
 
 comp_selection<tool_comp>
@@ -1231,13 +1239,13 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
-                    obj.tname().c_str(),
-                    list.str().c_str() ) ) {
+                    colorize( obj.tname(), obj.color_in_inventory() ),
+                    list.str() ) ) {
                 return false;
             }
         } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
-                              obj.tname().c_str(),
-                              list.str().c_str() ) ) {
+                              colorize( obj.tname(), obj.color_in_inventory() ),
+                              list.str() ) ) {
             return false;
         }
     }

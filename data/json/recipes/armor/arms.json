@@ -29,21 +29,6 @@
     "components": [ [ [ "rag", 4 ] ] ]
   },
   {
-    "result": "armguard_bone",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
-    "skill_used": "tailor",
-    "difficulty": 4,
-    "time": 30000,
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 11 ] ],
-    "components": [
-      [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ],
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
-    ]
-  },
-  {
     "result": "armguard_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
+#include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
@@ -941,9 +942,9 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                           long &quantity );
+                                           long &quantity, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount );
+                                    long &amount, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
                                      long &amount );
         /*@}*/

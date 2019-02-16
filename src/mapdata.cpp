@@ -75,7 +75,7 @@ bool string_id<ter_t>::is_valid() const
 
 /** @relates int_id */
 template<>
-inline bool int_id<furn_t>::is_valid() const
+bool int_id<furn_t>::is_valid() const
 {
     return furniture_data.is_valid( *this );
 }
@@ -155,6 +155,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
         { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
         { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
+        { "BLOCK_WIND",               TFLAG_BLOCK_WIND},      // This tile will partially block the wind.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
     }
 };
@@ -438,7 +439,7 @@ ter_id t_null,
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
@@ -567,6 +568,8 @@ void set_ter_ids()
     t_pit_glass_covered = ter_id( "t_pit_glass_covered" );
     t_rock_floor = ter_id( "t_rock_floor" );
     t_grass = ter_id( "t_grass" );
+    t_grass_long = ter_id( "t_grass_long" );
+    t_grass_tall = ter_id( "t_grass_tall" );
     t_metal_floor = ter_id( "t_metal_floor" );
     t_pavement = ter_id( "t_pavement" );
     t_pavement_y = ter_id( "t_pavement_y" );

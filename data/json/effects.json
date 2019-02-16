@@ -253,7 +253,7 @@
     "id": "blind",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
-    "removes_effects": [ "glare", "darkness" ],
+    "removes_effects": [ "glare", "snow_glare", "darkness" ],
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
@@ -424,6 +424,15 @@
   },
   {
     "type": "effect_type",
+    "id": "snow_glare",
+    "name": [ "Snow glare" ],
+    "desc": [ "The sunlight is reflecting off the snow." ],
+    "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
+    "rating": "bad",
+    "base_mods": { "per_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "laserlocked",
     "name": [ "Laser-targeted" ],
     "desc": [ "A laser sight is targeting you!" ],
@@ -462,7 +471,8 @@
     "rating": "bad",
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
     "harmful_cough": true,
-    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "cough_chance": [ 3 ] },
+    "max_duration": 1800,
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "show_in_info": true
   },
   {

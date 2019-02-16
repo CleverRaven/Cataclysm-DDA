@@ -196,6 +196,30 @@
     ]
   },
   {
+    "result": "basket_laundry",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "book_learn": [
+      [ "textbook_fabrication", 4 ],
+      [ "welding_book", 4 ]
+    ],
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "WELD", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "tools": [
+      [ [ "surface_heat", 5, "LIST" ] ]
+    ],
+    "components": [
+      [ [ "plastic_chunk", 20 ] ]
+    ]
+  },
+  {
     "result": "leather_cat_tail",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -1150,7 +1150,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( food_item->has_flag( "FREEZERBURN" ) && !food_item->rotten() &&
                 !food_item->has_flag( "MUSHY" ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out.</neutral>." ) );
+                                   _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out</neutral>." ) );
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
                 info.emplace_back( "DESCRIPTION",
@@ -3044,7 +3044,8 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    if( is_map() ) {
+    // This is a hack to prevent possible crashing when displaying maps as items during character creation
+    if( is_map() && calendar::turn != calendar::time_of_cataclysm ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
         if( c != nullptr ) {
@@ -3557,7 +3558,10 @@ void item::set_relative_rot( double val )
         rot = type->comestible->spoils * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
-        last_rot_check = calendar::turn;
+        // if this item is the result of smoking don't do this, we want to start from bday.
+        if( !has_flag( "SMOKING_RESULT" ) ) {
+            last_rot_check = calendar::turn;
+        }
         active = true;
     }
 }
@@ -3609,7 +3613,8 @@ void item::calc_rot( const tripoint &location )
         last_rot_check = now;
 
         // Frozen food do not rot, so no change to rot variable
-        if( item_tags.count( "FROZEN" ) ) {
+        // Smoking food will be checked for rot in smoker_finalize
+        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) ) {
             return;
         }
 
@@ -3636,6 +3641,18 @@ void item::calc_rot( const tripoint &location )
         }
 
     }
+}
+
+void item::calc_rot_while_smoking( const tripoint &location, time_duration smoking_duration )
+{
+    if( !item_tags.count( "SMOKING" ) ) {
+        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname().c_str() );
+        return;
+    }
+
+    // Apply rot at 1/2 normal rate while smoking
+    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
+    last_rot_check += smoking_duration;
 }
 
 units::volume item::get_storage() const
@@ -5428,7 +5445,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )std::toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )toupper );
 
                 auto qty = m.second.qty();
 
@@ -6054,7 +6071,8 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     return res;
 }
 
-bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used )
+bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used,
+                       const std::function<bool( const item & )> &filter )
 {
     // Remember quantity so that we can unseal self
     long old_quantity = quantity;
@@ -6072,7 +6090,7 @@ bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used
     }
 
     // Now check the item itself
-    if( typeId() == it && quantity > 0 && allow_crafting_component() ) {
+    if( typeId() == it && quantity > 0 && filter( *this ) ) {
         used.push_back( *this );
         quantity--;
         return true;
@@ -6099,9 +6117,6 @@ bool item::allow_crafting_component() const
         } );
     }
 
-    if( is_filthy() ) {
-        return false;
-    }
     return contents.empty();
 }
 
@@ -6779,8 +6794,8 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
         return true; //destroy fake smoke
     }
 
-    if( item_counter == 0 ) {
-        iexamine::on_smoke_out( pos ); //activate effects when timers goes to zero
+    if( age() >= 6_hours || item_counter == 0 ) {
+        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 
@@ -6877,6 +6892,9 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool in_inv = carrier != nullptr && carrier->has_item( *this );
     bool submerged = false;
     bool precipitation = false;
+    bool windtoostrong = false;
+    w_point weatherPoint = *g->weather_precise;
+    double windpower = weatherPoint.windpower;
     switch( g->weather ) {
         case WEATHER_DRIZZLE:
         case WEATHER_FLURRIES:
@@ -6902,6 +6920,11 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
+    if( in_inv && windpower > 5.0 && !g->is_sheltered( pos ) &&
+        this->has_flag( "WIND_EXTINGUISH" ) ) {
+        windtoostrong = true;
+        extinguish = true;
+    }
     if( !extinguish ||
         ( in_inv && precipitation && carrier->weapon.has_flag( "RAIN_PROTECT" ) ) ) {
         return false; //nothing happens
@@ -6911,6 +6934,9 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), tname().c_str() );
         } else if( precipitation ) {
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ),
+                                        tname().c_str() );
+        } else if( windtoostrong ) {
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is blown out by the wind." ),
                                         tname().c_str() );
         }
     }
@@ -7127,7 +7153,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
     }
-    if( has_flag( "WATER_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
+    if( ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "WIND_EXTINGUISH" ) ) &&
+        process_extinguish( carrier, pos ) ) {
         return false;
     }
     if( has_flag( "CABLE_SPOOL" ) ) {

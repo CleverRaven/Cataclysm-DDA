@@ -6,6 +6,7 @@
 #include <cstring>
 #include <map>
 #include <sstream>
+#include <stack>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -155,6 +156,24 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
+static void update_color_stack( std::stack<nc_color> &color_stack, const std::string &seg )
+{
+    color_tag_parse_result tag = get_color_from_tag( seg );
+    switch( tag.type ) {
+        case color_tag_parse_result::open_color_tag:
+            color_stack.push( tag.color );
+            break;
+        case color_tag_parse_result::close_color_tag:
+            if( !color_stack.empty() ) {
+                color_stack.pop();
+            }
+            break;
+        case color_tag_parse_result::non_color_tag:
+            // Do nothing
+            break;
+    }
+}
+
 void print_colored_text( const catacurses::window &w, int y, int x, nc_color &color,
                          nc_color base_color, const std::string &text )
 {
@@ -162,16 +181,20 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
         wmove( w, y, x );
     }
     const auto color_segments = split_by_color( text );
+    std::stack<nc_color> color_stack;
+    color_stack.push( color );
+
     for( auto seg : color_segments ) {
         if( seg.empty() ) {
             continue;
         }
 
         if( seg[0] == '<' ) {
-            color = get_color_from_tag( seg, base_color );
+            update_color_stack( color_stack, seg );
             seg = rm_prefix( seg );
         }
 
+        color = color_stack.empty() ? base_color : color_stack.top();
         wprintz( w, color, seg );
     }
 }
@@ -268,7 +291,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
                          int begin_line, nc_color base_color, const std::string &text )
 {
     const int iWinHeight = getmaxy( w );
-    nc_color color = base_color;
+    std::stack<nc_color> color_stack;
     std::vector<std::string> textformatted;
     textformatted = foldstring( text, width );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
@@ -284,11 +307,12 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
             if( !it->empty() && it->at( 0 ) == '<' ) {
-                color = get_color_from_tag( *it, base_color );
+                update_color_stack( color_stack, *it );
             }
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
                 if( l != "--" ) { // -- is a separation line!
+                    nc_color color = color_stack.empty() ? base_color : color_stack.top();
                     wprintz( w, color, rm_prefix( *it ) );
                 } else {
                     for( int i = 0; i < width; i++ ) {
@@ -581,11 +605,12 @@ bool query_yn( const std::string &text )
     return query_popup()
            .context( "YESNO" )
            .message( force_uc ?
-                     pgettext( "query_yn", "<color_light_red>%s (Case Sensitive)</color>" ) :
-                     pgettext( "query_yn", "<color_light_red>%s</color>" ), text )
+                     pgettext( "query_yn", "%s (Case Sensitive)" ) :
+                     pgettext( "query_yn", "%s" ), text )
            .option( "YES", allow_key )
            .option( "NO", allow_key )
            .cursor( 1 )
+           .default_color( c_light_red )
            .query()
            .action == "YES";
 }
@@ -987,14 +1012,14 @@ std::string trim( const std::string &s, Prep prep )
 std::string trim( const std::string &s )
 {
     return trim( s, []( int c ) {
-        return std::isspace( c );
+        return isspace( c );
     } );
 }
 
 std::string trim_punctuation_marks( const std::string &s )
 {
     return trim( s, []( int c ) {
-        return std::ispunct( c );
+        return ispunct( c );
     } );
 }
 

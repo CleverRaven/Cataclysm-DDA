@@ -1250,7 +1250,7 @@
     "damage_modifier": 10,
     "durability": 15,
     "description": "A small wind turbine.  Will slowly recharge the vehicle's electrical power when exposed to the wind.",
-    "epower": 60,
+    "epower": 10,
     "item": "wind_turbine",
     "location": "on_roof",
     "requirements": {

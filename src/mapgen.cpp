@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "game.h"
 #include "item_group.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -264,6 +265,20 @@ void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup
     for( auto &pr : nested_mapgen ) {
         for( auto &ptr : pr.second ) {
             ptr->setup();
+        }
+    }
+}
+
+void check_mapgen_definitions()
+{
+    for( auto &oter_definition : oter_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
+        }
+    }
+    for( auto &oter_definition : nested_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
         }
     }
 }
@@ -1286,6 +1301,98 @@ class jmapgen_computer : public jmapgen_piece
         }
 };
 
+/**
+ * Place an item in furniture (expected to be used with NOITEM SEALED furniture like plants).
+ * "item": item to spawn (object with usual parameters).
+ * "items": item group to spawn (object with usual parameters).
+ * "furniture": furniture to create around it.
+ */
+class jmapgen_sealed_item : public jmapgen_piece
+{
+    public:
+        furn_id furniture;
+        cata::optional<jmapgen_spawn_item> item_spawner;
+        cata::optional<jmapgen_item_group> item_group_spawner;
+        jmapgen_sealed_item( JsonObject &jsi ) : jmapgen_piece()
+            , furniture( jsi.get_string( "furniture" ) ) {
+            if( jsi.has_object( "item" ) ) {
+                JsonObject item_obj = jsi.get_object( "item" );
+                item_spawner = jmapgen_spawn_item( item_obj );
+            }
+            if( jsi.has_object( "items" ) ) {
+                JsonObject items_obj = jsi.get_object( "items" );
+                item_group_spawner = jmapgen_item_group( items_obj );
+            }
+        }
+
+        void check( const std::string &oter_name ) const override {
+            const furn_t &furn = furniture.obj();
+            std::string summary = string_format(
+                                      "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
+                                      oter_name, furn.id.str() );
+
+            if( !furniture.is_valid() ) {
+                debugmsg( "%s which is not valid furniture", summary );
+            }
+
+            if( !item_spawner && !item_group_spawner ) {
+                debugmsg( "%s specifies neither an item nor an item group.  "
+                          "It should specify at least one.",
+                          summary );
+                return;
+            }
+
+            if( furn.has_flag( "PLANT" ) ) {
+                // plant furniture requires exactly one seed item within it
+                if( item_spawner && item_group_spawner ) {
+                    debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
+                              "It should specify exactly one.",
+                              summary );
+                    return;
+                }
+
+                if( item_spawner ) {
+                    int count = item_spawner->amount.get();
+                    if( count != 1 ) {
+                        debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn exactly "
+                                  "one.", summary, count );
+                        return;
+                    }
+                    const itype *spawned_type = item::find_type( item_spawner->type );
+                    if( !spawned_type->seed ) {
+                        debugmsg( "%s (with flag PLANT) spawns item type %s which is not a seed.",
+                                  summary, spawned_type->get_id() );
+                        return;
+                    }
+                }
+
+                if( item_group_spawner ) {
+                    int chance = item_group_spawner->chance.get();
+                    if( chance != 100 ) {
+                        debugmsg( "%s (with flag PLANT) spawns an item group with chance %d.  "
+                                  "It should have chance 100.",
+                                  summary, chance );
+                        return;
+                    }
+
+                    /// @todo: Somehow check that the item group always produces exactly one seed.
+                }
+            }
+        }
+
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float mon_density ) const override {
+            dat.m.furn_set( x.get(), y.get(), f_null );
+            if( item_spawner ) {
+                item_spawner->apply( dat, x, y, mon_density );
+            }
+            if( item_group_spawner ) {
+                item_group_spawner->apply( dat, x, y, mon_density );
+            }
+            dat.m.furn_set( x.get(), y.get(), furniture );
+        }
+};
+
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
@@ -1751,6 +1858,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
+    new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
 
     return new_pal;
@@ -1923,6 +2031,59 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
 
     is_ready = true; // skip setup attempts from any additional pointers
+}
+
+void mapgen_function_json::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
+}
+
+void mapgen_function_json_nested::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
+}
+
+void mapgen_function_json_base::check_common( const std::string &oter_name ) const
+{
+    auto check_furn = [&]( const furn_id & id ) {
+        const furn_t &furn = id.obj();
+        if( furn.has_flag( "PLANT" ) ) {
+            debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
+                      "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
+                      oter_name, furn.id.str() );
+            // Only report once per mapgen object, otherwise the reports are
+            // very repetitive
+            return true;
+        }
+        return false;
+    };
+
+    for( const ter_furn_id &id : format ) {
+        if( check_furn( id.furn ) ) {
+            return;
+        }
+    }
+
+    for( const jmapgen_setmap &setmap : setmap_points ) {
+        if( setmap.op != JMAPGEN_SETMAP_FURN &&
+            setmap.op != JMAPGEN_SETMAP_LINE_FURN &&
+            setmap.op != JMAPGEN_SETMAP_SQUARE_FURN ) {
+            continue;
+        }
+        furn_id id( setmap.val.get() );
+        if( check_furn( id ) ) {
+            return;
+        }
+    }
+
+    objects.check( oter_name );
+}
+
+void jmapgen_objects::check( const std::string &oter_name ) const
+{
+    for( const jmapgen_obj &obj : objects ) {
+        obj.second->check( oter_name );
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -5896,9 +6057,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             for( int a = 0; a < 21; a++ ) {
                 vset.push_back( a );
             }
-            static auto eng = std::default_random_engine(
-                                  std::chrono::system_clock::now().time_since_epoch().count() );
-            std::shuffle( vset.begin(), vset.end(), eng );
+            std::shuffle( vset.begin(), vset.end(), rng_get_engine() );
             for( int a = 0; a < vnum; a++ ) {
                 if( vset[a] < 12 ) {
                     if( one_in( 2 ) ) {

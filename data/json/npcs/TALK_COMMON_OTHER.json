@@ -291,7 +291,7 @@
         "text": "I'll give it back!",
         "switch": true,
         "default": true,
-        "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 2 ], [ "VALUE", 5 ], [ "ALTRUISM", 3 ] ] },
+        "trial": { "type": "LIE", "difficulty": 0, "mod": [ [ "TRUST", 2 ], [ "VALUE", 5 ], [ "ALTRUISM", 3 ] ] },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
           "effect": [ { "add_debt": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] }, "give_equipment" ],

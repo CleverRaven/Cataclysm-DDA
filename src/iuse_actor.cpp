@@ -190,6 +190,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
+        p.on_worn_item_transform( *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -933,6 +934,15 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
     if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info,
                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
+        return 0;
+    }
+
+    optional_vpart_position veh_there = g->m.veh_at( pnt );
+    if( veh_there.has_value() ) {
+        // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
+        // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
+        p.add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
+                             veh_there.value().vehicle().disp_name(), it.tname().c_str() );
         return 0;
     }
 
@@ -2535,6 +2545,15 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
 
+    std::function<bool( const item & )> filter;
+    if( fix.is_filthy() ) {
+        filter = []( const item & component ) {
+            return component.allow_crafting_component();
+        };
+    } else {
+        filter = is_crafting_component;
+    }
+
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
         const auto component_id = entry.obj().repaired_with();
@@ -2542,7 +2561,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
             }
-        } else if( crafting_inv.has_amount( component_id, items_needed ) ) {
+        } else if( crafting_inv.has_amount( component_id, items_needed, false, filter ) ) {
             comps.emplace_back( component_id, items_needed );
         }
     }
@@ -2571,7 +2590,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             debugmsg( "Attempted repair with no components" );
         }
 
-        pl.consume_items( comps );
+        pl.consume_items( comps, 1, filter );
     }
 
     return true;

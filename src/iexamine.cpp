@@ -384,8 +384,21 @@ private:
 
     //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
+        //We may want to use visit_items here but thats fairly heavy.
+        //For now, just check weapon if we didnt find it in the inventory.
         int pos = u.inv.position_by_type( "cash_card" );
-        item *dst = &u.i_at( pos );
+        item *dst;
+        if (pos == INT_MIN) {
+            dst = &u.weapon;
+        } else {
+            dst = &u.i_at( pos );
+        }
+
+        if (dst->is_null()) {
+            //Just in case we run into an edge case
+            popup(_("You do not have a cash card to withdraw money!"));
+            return false;
+        }
 
         const int amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
@@ -763,7 +776,8 @@ void iexamine::crate( player &p, const tripoint &examp )
     }
 
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        return it.has_quality( quality_id( "PRY" ), 1 );
+        item temporary_item( it.type );
+        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
     iuse dummy;
@@ -1171,7 +1185,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     }
 
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        return it.has_quality( quality_id( "PRY" ), 2 );
+        item temporary_item( it.type );
+        return temporary_item.has_quality( quality_id( "PRY" ), 2 );
     } );
 
     iuse dummy;
@@ -1499,7 +1514,14 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( p.pos(), "poppy_bud", 1, 0, calendar::turn );
+
+    if( p.can_pickWeight( item( "poppy_bud" ), true ) && p.can_pickVolume( item( "poppy_bud" ), true ) ){
+        p.i_add( item( "poppy_bud" ) );
+        p.add_msg_if_player( _( "You harvest: poppy bud" ) );
+    } else {
+        g->m.add_item_or_charges( p.pos(), item( "poppy_bud" ) );
+        p.add_msg_if_player( _( "You harvest and drop: poppy bud" ) );
+    }
 }
 
 /**
@@ -1576,7 +1598,14 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( p.pos(), "dahlia_root", 1, 0, calendar::turn );
+
+    if( p.can_pickWeight( item( "dahlia_root" ), true ) && p.can_pickVolume( item( "dahlia_root" ), true ) ){
+        p.i_add( item( "dahlia_root" ) );
+        p.add_msg_if_player( _( "You harvest: dahlia root" ) );
+    } else {
+        g->m.add_item_or_charges( p.pos(), item( "dahlia_root" ) );
+        p.add_msg_if_player( _( "You harvest and drop: dahlia root" ) );
+    }
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1612,8 +1641,13 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
         int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
         for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
-            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
+            if( p.can_pickWeight( item( entry.drop ), true ) && p.can_pickVolume( item( entry.drop ), true ) ){
+                p.i_add( item( entry.drop ) );
+                p.add_msg_if_player( _( "You harvest: %s" ), item( entry.drop ).tname().c_str() );
+            } else {
+                g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
+                p.add_msg_if_player( _( "You harvest and drop: %s" ), item( entry.drop ).tname().c_str() );
+            }
             got_anything = true;
         }
     }
@@ -1622,6 +1656,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
+    p.mod_moves( -rng( 100, 300 ) );
     return true;
 }
 
@@ -1701,10 +1736,9 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         none( p, examp );
         return;
     }
-    g->m.spawn_item( p.pos(), "spider_egg", rng( 1, 4 ), 0, calendar::turn );
     g->m.furn_set( examp, f_egg_sacke );
+    int monster_count = 0;
     if( one_in( 2 ) ) {
-        int monster_count = 0;
         const std::vector<tripoint> pts = closest_tripoints_first( 1, examp );
         for( const auto &pt : pts ) {
             if( g->is_empty( pt ) && one_in( 3 ) ) {
@@ -1712,11 +1746,21 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
                 monster_count++;
             }
         }
-        if( monster_count == 1 ) {
-            add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name.c_str() );
-        } else if( monster_count >= 1 ) {
-            add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name.c_str() );
+    }
+    int roll = round( rng_float( 1, 5 ) );
+    for( int i = 0; i < roll; i++ ) {
+        if( monster_count == 0 && p.can_pickWeight( item( "spider_egg" ), true ) && p.can_pickVolume( item( "spider_egg" ), true ) ){
+            p.i_add( item( "spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest: spider egg" ) );
+        } else {
+            g->m.add_item_or_charges( p.pos(), item( "spider_egg" ) );
+            p.add_msg_if_player( _( "You harvest and drop: spider egg" ) );
         }
+    }
+    if( monster_count == 1 ) {
+        add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name.c_str() );
+    } else if( monster_count >= 1 ) {
+        add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name.c_str() );
     }
 }
 
@@ -3940,6 +3984,13 @@ void smoker_activate(player &p, const tripoint &examp)
     }
 
     p.use_charges( "fire", 1 );
+    for( auto &it : g->m.i_at( examp ) ) {
+        if( it.has_flag( "SMOKABLE" ) ) {
+            // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
+            it.calc_rot( examp );
+            it.set_flag( "SMOKING" );
+        }
+    }
     g->m.furn_set( examp, next_smoker_type );
     if( charcoal->charges == char_charges ) {
         g->m.i_rem( examp, charcoal );
@@ -3953,7 +4004,7 @@ void smoker_activate(player &p, const tripoint &examp)
     add_msg( _("You light a small fire under the rack and it starts to smoke.") );
 }
 
-void smoker_finalize(player &, const tripoint &examp)
+void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
@@ -3970,63 +4021,26 @@ void smoker_finalize(player &, const tripoint &examp)
         return;
     }
 
-    std::string product;
+    for( auto &it : items ) {
+        if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal 
+            it.calc_rot_while_smoking( examp, 6_hours );
+        }
+    }
+
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
-        //dry products before smoked products to avoid override
-        if( item_it.typeId() == "meat_smoked" ) {
-            product = "dry_meat";
-        } else if( item_it.typeId() == "fish_smoked" ) {
-            product = "dry_fish";
-        } else if( item_it.typeId() == "raw_beans" ) {
-            product = "dry_beans";
-        } else if( item_it.typeId() == "sweet_fruit" || item_it.typeId() == "coconut" || item_it.typeId() == "can_coconut" ) {
-            product = "dry_fruit";
-        } else if( item_it.typeId() == "human_smoked" ) {
-            product = "dry_hflesh";
-        } else if( item_it.typeId() == "meat_tainted" ) {
-            product = "dry_meat_tainted";
-        } else if( item_it.typeId() == "mushroom" || item_it.typeId() == "mushroom_morel" ) {
-            product = "dry_mushroom";
-        } else if( item_it.typeId() == "mushroom_magic" ) {
-            product = "dry_mushroom_magic";
-        } else if( item_it.typeId() == "broccoli" ||
-            item_it.typeId() == "tomato" ||
-            item_it.typeId() == "pumpkin" ||
-            item_it.typeId() == "zucchini" ||
-            item_it.typeId() == "celery" ||
-            item_it.typeId() == "potato_raw" ||
-            item_it.typeId() == "onion" ||
-            item_it.typeId() == "carrot" ||
-            item_it.typeId() == "cabbage" ||
-            item_it.typeId() == "lettuce" ||
-            item_it.typeId() == "veggy" ||
-            item_it.typeId() == "veggy_wild" ||
-            item_it.typeId() == "dandelion_cooked" ) {
-            product = "dry_veggy";
-        } else if( item_it.typeId() == "veggy_tainted" ) {
-            product = "dry_veggy_tainted";
-        //smoked products after dried products to avoid override
-        } else if( item_it.typeId() == "meat" ) {
-            product = "meat_smoked";
-        } else if( item_it.typeId() == "fish" ) {
-            product = "fish_smoked";
-        } else if( item_it.typeId() == "sausage_wasteland_raw" ) {
-            product = "sausage_wasteland";
-        } else if( item_it.typeId() == "sausage_raw" ) {
-            product = "sausage";
-        } else if( item_it.typeId() == "mannwurst_raw" ) {
-            product = "mannwurst";
-        } else if( item_it.typeId() == "human_flesh" ) {
-            product = "human_smoked";
-        } else {
-            product.clear();
-        }
-        if( !product.empty() ) {
-            item result( product, calendar::turn );
-            result.charges = item_it.charges;
-            //g->m.add_item( examp, result );
-            item_it = result;
+        if( item_it.type->comestible ) {
+            if( item_it.type->comestible->smoking_result.empty() ) {
+                item_it.unset_flag( "SMOKING" );
+            } else {
+                item result( item_it.type->comestible->smoking_result, start_time + 6_hours, item_it.charges );
+
+                // Set flag to tell set_relative_rot() to calc from bday not now
+                result.set_flag( "SMOKING_RESULT" );
+                result.set_relative_rot( item_it.get_relative_rot() );
+                result.unset_flag( "SMOKING_RESULT" );
+                item_it = result;
+            }
         }
     }
     g->m.furn_set( examp, next_smoker_type );
@@ -4155,10 +4169,10 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     p.invalidate_crafting_inventory();
 }
 
-void iexamine::on_smoke_out( const tripoint &examp )
+void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time )
 {
     if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
-        smoker_finalize( g->u, examp );
+        smoker_finalize( g->u, examp, start_time );
     }
 }
 

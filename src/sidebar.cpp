@@ -458,9 +458,18 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     // display mood smiley
-    mvwprintz( w, sideStyle ? 6 : 3, sideStyle ? getmaxx( w ) - 2 : 0, col_morale,
-               morale_emotion( morale_cur, fc,
-                               get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
+    const bool mood_style_hor = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
+    int mood_x = 0;
+    if( sideStyle ) {
+        if( mood_style_hor ) {
+            //Currently, mood is next to current temp but we have space
+            mood_x = getmaxx( w ) - 3;
+        } else {
+            mood_x = getmaxx( w ) - 2;
+        }
+    }
+    mvwprintz( w, sideStyle ? 6 : 3, mood_x, col_morale,
+               morale_emotion( morale_cur, fc, mood_style_hor ) );
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -612,7 +621,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         wmove( sideStyle ? w : g->w_HP,
                sideStyle ? 4 : 21,
-               sideStyle ? 17 - offset : 7 - offset );
+               sideStyle ? getmaxx( sideStyle ? w : g->w_HP ) - offset : 7 - offset );
         std::string power_value = std::to_string( display_power ) + unit;
         wprintz( sideStyle ? w : g->w_HP, color, power_value );
     }
