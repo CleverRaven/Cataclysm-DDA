@@ -275,7 +275,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
                             // to avoid errors with undefined keys, and to initialize numbers to 1 if undefined
                             mat_vit_map.emplace( vit.first, 1 );
                             // finally edit the vitamin value that will be returned
-                            res.operator[]( vit.first ) *= mat_vit_map.operator[]( vit.first );
+                            res[ vit.first ] *= mat_vit_map.operator[]( vit.first );
                         }
                     }
                 }
