@@ -2699,8 +2699,8 @@
     "ident": "bionic_student",
     "name": "Bionic Student",
     "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to make you smarter and never forget anything.  And now, you are facing the most dire test yet, and once again you had better succeed, or else.",
-    "points": 3,
-    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_int_enhancer", "bio_memory" ],
+    "points": 4,
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_int_enhancer", "bio_memory", "bio_reading" ],
     "items": {
       "both": [
         "dress_shirt",
