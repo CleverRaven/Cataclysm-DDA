@@ -3560,17 +3560,19 @@ void game::draw_panels( size_t column, size_t index )
 {
     auto &mgr = panel_manager::get_manager();
     int y = 0;
+    const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     for( const auto &panel : mgr.get_current_layout() ) {
         if( panel.toggle ) {
             panel.draw( u, catacurses::newwin( panel.get_height(), panel.get_width(), y,
-                                               TERMX - panel.get_width() ) );
+                                               sidebar_right ? TERMX - panel.get_width() : 0 ) );
             if( show_panel_adm ) {
-                auto label = catacurses::newwin( 1, panel.get_name().length(), y,
-                                                 TERMX - panel.get_width() - panel.get_name().length() - 1 );
+                auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
+                                                 TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
                 werase( label );
                 mvwprintz( label, 0, 0, c_light_red, panel.get_name() );
                 wrefresh( label );
-                label = catacurses::newwin( panel.get_height(), 1, y, TERMX - panel.get_width() - 1 );
+                label = catacurses::newwin( panel.get_height(), 1, y,
+                                            sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
                 werase( label );
                 if( panel.get_height() == 1 ) {
                     mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
@@ -3579,7 +3581,7 @@ void game::draw_panels( size_t column, size_t index )
                     for( int i = 1; i < panel.get_height() - 1; i++ ) {
                         mvwputch( label, i, 0, c_light_red, LINE_XOXO );
                     }
-                    mvwputch( label, panel.get_height() - 1, 0, c_light_red, LINE_XXOO );
+                    mvwputch( label, panel.get_height() - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
                 }
                 wrefresh( label );
             }
