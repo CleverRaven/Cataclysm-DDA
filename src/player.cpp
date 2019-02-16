@@ -218,6 +218,7 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
+static const bionic_id bio_reading("bio_reading");
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -3056,6 +3057,15 @@ int player::read_speed(bool return_stat_effect) const
     if( has_trait( trait_SLOWREADER ) ) {
         ret *= 1.3;
     }
+
+	if (has_bionic(bio_reading)) {
+		if (!has_active_bionic(bio_reading)) { // Inactive - small speed boost
+			ret *= 0.9;
+		}
+		else { // Active - very high boost!
+			ret *= 0.3;
+		}
+	}
 
     if( ret < 100 ) {
         ret = 100;
@@ -9397,7 +9407,7 @@ int player::time_to_read( const item &book, const player &reader, const player *
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     const int effective_int = std::min( {int_cur, reader.get_int(), learner ? learner->get_int() : INT_MAX } );
-    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
+    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) && !reader.has_active_bionic( bio_reading ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     if( !has_identified( book.typeId() ) ) {
@@ -9617,6 +9627,9 @@ bool player::read( int inventory_position, const bool continuous )
         }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
                  it.type_name().c_str(), press_x( ACTION_PAUSE ).c_str() );
+		if (has_active_bionic(bio_reading)) {
+			add_msg_if_player(m_good, _("Words fly past your eyes at freakish speed as your augmented comprehension kicks in."));
+		}
     }
 
     // Print some informational messages, but only the first time or if the information changes
@@ -9669,7 +9682,7 @@ bool player::read( int inventory_position, const bool continuous )
                  reader->disp_name().c_str() );
     }
 
-    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() ) && !reader->has_trait( trait_PROF_DICEMASTER );
+    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() ) && !reader->has_trait( trait_PROF_DICEMASTER ) && !reader->has_active_bionic( bio_reading );
     const player *complex_player = reader->get_int() < int_cur ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,

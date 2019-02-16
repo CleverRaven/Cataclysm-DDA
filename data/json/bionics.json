@@ -1093,5 +1093,16 @@
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_reading",
+    "type": "bionic",
+    "name": "Heightened Comprehension",
+    "description": "Fiber optics in your eyes link to an information processor hooked into your hippocampus.  In addition to a small increase in reading speed, the processor can be activated to tremendously increase your reading speed while active, and allow you to understand books that you normally couldn't.",
+    "occupied_bodyparts": [ [ "HEAD", 3 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 25,
+    "react_cost": 5,
+    "time": 10
   }
 ]

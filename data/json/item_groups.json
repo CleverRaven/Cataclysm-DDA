@@ -5880,7 +5880,8 @@
       ["bio_cable", 10],
       ["bio_syringe", 10],
       ["bio_weight", 10],
-      ["bio_shock_absorber", 10]
+      ["bio_shock_absorber", 10],
+	  ["bio_reading", 10]
     ]
   },{
     "type" : "item_group",
@@ -5973,7 +5974,8 @@
       ["bio_leukocyte", 20],
       ["bio_speed", 5],
       ["bio_faraday", 15],
-      ["bio_syringe", 8]
+      ["bio_syringe", 8],
+	  ["bio_reading", 15]
     ]
   },{
     "type" : "item_group",
@@ -9028,7 +9030,8 @@
       ["bio_chain_lightning", 15],
       ["bio_adrenaline", 20],
       ["bio_ods", 10],
-      ["bio_weight", 15]
+      ["bio_weight", 15],
+	  ["bio_reading", 15]
     ]
   },{
     "type" : "item_group",
