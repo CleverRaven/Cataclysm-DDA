@@ -1815,6 +1815,7 @@
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_safe_o",
+    "examine_action": "open_safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,
