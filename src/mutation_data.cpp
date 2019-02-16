@@ -293,7 +293,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
                                time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
-    auto vam = jo.get_array( "vitamin_absorb_multi" );
+    auto vam = jo.get_array( "vitamins_absorb_multi" );
     while( vam.has_more() ) {
         auto pair = vam.next_array();
         std::map<vitamin_id, float> vit;
