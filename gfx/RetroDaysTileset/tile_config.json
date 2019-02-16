@@ -16051,7 +16051,7 @@
           "rotates": false
         },
         {
-          "id": "t_grass_season_winter",
+          "id": ["f_snow", "t_grass_season_winter"],
           "fg": 2915,
           "rotates": false
         },
@@ -21806,4 +21806,3 @@
     }
   ]
 }
-
