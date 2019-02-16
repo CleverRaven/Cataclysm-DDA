@@ -6456,7 +6456,7 @@ void game::zones_manager()
     int zone_options_height = 7;
 
     const int width = 45;
-    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? VIEW_OFFSET_X -
+    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? TERMX + VIEW_OFFSET_X -
                         width : VIEW_OFFSET_X;
     catacurses::window w_zones = catacurses::newwin( TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2,
                                  width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
