@@ -250,7 +250,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
             for( const auto &vit : component_map ) {
-                res.operator[]( vit.first ) += byproduct_multiplier * ceil( static_cast<float>
+                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>
                                                ( vit.second ) / static_cast<float>
                                                ( it.type->charges_default() ) );
             }
