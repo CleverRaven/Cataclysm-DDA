@@ -4433,7 +4433,7 @@ iexamine_function iexamine_function_from_string(const std::string &function_name
         { "climb_down", &iexamine::climb_down },
         { "autodoc", &iexamine::autodoc },
         { "smoker_options", &iexamine::smoker_options },
-		{ "open_safe", &iexamine::open_safe }
+        { "open_safe", &iexamine::open_safe }
     }};
 
     auto iter = function_map.find( function_name );
