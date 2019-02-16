@@ -5284,7 +5284,7 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            if( g->is_sheltered( global_part_pos3( part ) ) ) {
+            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
                 continue;
             }
 
