@@ -6456,10 +6456,10 @@ void game::zones_manager()
     int zone_options_height = 7;
 
     const int width = 45;
-    const int offsetX = VIEW_OFFSET_X;
+    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? VIEW_OFFSET_X -
+                        width : VIEW_OFFSET_X;
     catacurses::window w_zones = catacurses::newwin( TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2,
-                                 width - 2,
-                                 VIEW_OFFSET_Y + 1, offsetX + 1 );
+                                 width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
     catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2,
                                         width,
                                         VIEW_OFFSET_Y, offsetX );
@@ -6881,10 +6881,9 @@ void game::zones_manager()
             ctxt.reset_timeout();
         }
 
-        wrefresh( w_terrain );
+        draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
-        draw_panels();
 
         //Wait for input
         action = ctxt.handle_input();
@@ -6957,9 +6956,9 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     bool bNewWindow = false;
     if( !w_info ) {
         int la_y = 0;
-        int la_x = TERMX - 32; // w_panel_msg.get<cata_cursesport::WINDOW>()->x;
+        int la_x = TERMX - 32;
         int la_h = 16;
-        int la_w = 32; // w_panel_msg.get<cata_cursesport::WINDOW>()->width;
+        int la_w = 32;
         w_info = catacurses::newwin( la_h, la_w, la_y, la_x );
         bNewWindow = true;
     }
