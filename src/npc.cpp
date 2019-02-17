@@ -1933,13 +1933,18 @@ void npc::die( Creature *nkiller )
     dead = true;
     Character::die( nkiller );
 
-    if( g->u.sees( *this ) && !is_hallucination() ) {
-        add_msg( _( "%s dies!" ), name.c_str() );
-    } else if( g->u.sees(*this) && is_hallucination() ) {
-        add_msg(_("%s disappears."), name.c_str());
+    if ( is_hallucination() ) {
+        if( g->u.sees( *this ) ) {
+            add_msg(_("%s disappears."), name.c_str() );
+        }
+        return;
     }
 
-    if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player || is_hallucination() ) ) {
+    if( g->u.sees( *this ) ) {
+        add_msg( _( "%s dies!" ), name.c_str() );
+    }
+
+    if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
         g->record_npc_kill( *this );
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
@@ -1971,9 +1976,8 @@ void npc::die( Creature *nkiller )
             g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }
-    if( !is_hallucination() ) {
         place_corpse();
-    }
+
 }
 
 std::string npc_attitude_name( npc_attitude att )
