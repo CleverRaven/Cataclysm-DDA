@@ -1593,6 +1593,11 @@ class vehicle
         void leak_fuel( vehicle_part &pt );
 
         /*
+         * The co-ordinates of the bounding box of the vehicle's mount points
+         */
+        mutable point mount_max;
+        mutable point mount_min;
+        /*
          * Fire turret at automatically acquired targets
          * @return number of shots actually fired (which may be zero)
          */

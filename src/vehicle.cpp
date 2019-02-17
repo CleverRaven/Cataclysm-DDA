@@ -3242,18 +3242,7 @@ double vehicle::coeff_air_drag() const
     constexpr double windmill_height = 0.7;
 
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
-    int min_x = 0;
-    int max_x = 0;
-    int min_y = 0;
-    int max_y = 0;
-    // find how many rows and columns the vehicle has
-    for( int p : structure_indices ) {
-        min_x = std::min( min_x, parts[p].mount.x );
-        max_x = std::max( max_x, parts[p].mount.x );
-        min_y = std::min( min_y, parts[p].mount.y );
-        max_y = std::max( max_y, parts[p].mount.y );
-    }
-    int width = max_y - min_y + 1;
+    int width = mount_max.y - mount_min.y + 1;
 
     // a mess of lambdas to make the next bit slightly easier to read
     const auto d_exposed = [&]( const vehicle_part & p ) {
@@ -3274,10 +3263,10 @@ double vehicle::coeff_air_drag() const
         }
     };
     const auto d_check_min = [&]( int &value, const vehicle_part & p, bool test ) {
-        value = std::min( value, test ? p.mount.x - min_x : maxrow );
+        value = std::min( value, test ? p.mount.x - mount_min.x : maxrow );
     };
     const auto d_check_max = [&]( int &value, const vehicle_part & p, bool test ) {
-        value = std::max( value, test ? p.mount.x - min_x : minrow );
+        value = std::max( value, test ? p.mount.x - mount_min.x : minrow );
     };
 
     // raycast down each column. the least drag vehicle has halfboard, windshield, seat with roof,
@@ -3288,7 +3277,7 @@ double vehicle::coeff_air_drag() const
         if( parts[ p ].removed ) {
             continue;
         }
-        int col = parts[ p ].mount.y - min_y;
+        int col = parts[ p ].mount.y - mount_min.y;
         std::vector<int> parts_at = parts_at_relative( parts[ p ].mount, true );
         d_check_min( drag[ col ].pro, parts[ p ], d_protrusion( parts_at ) );
         for( int pa_index : parts_at ) {
@@ -3329,9 +3318,9 @@ double vehicle::coeff_air_drag() const
         // missing roofs and open doors severely worsen air drag
         c_air_drag_c += ( dc.exposed > minrow ) ? 3 * c_air_mod : 0;
         // being twice as long as wide mildly reduces air drag
-        c_air_drag_c -= ( 2 * ( max_x - min_x ) > width ) ? c_air_mod : 0;
+        c_air_drag_c -= ( 2 * ( mount_max.x - mount_min.x ) > width ) ? c_air_mod : 0;
         // trunk doors and halfboards at the tail mildly reduce air drag
-        c_air_drag_c -= ( dc.last == min_x ) ? c_air_mod : 0;
+        c_air_drag_c -= ( dc.last == mount_min.x ) ? c_air_mod : 0;
         // turrets severely worsen air drag
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
         // having a windmill is terrible for your drag
@@ -3431,21 +3420,10 @@ double vehicle::coeff_water_drag() const
     }
     double hull_coverage = static_cast<double>( floating.size() ) / structure_indices.size();
 
-    int min_x = 0;
-    int max_x = 0;
-    int min_y = 0;
-    int max_y = 0;
-    // find how many rows and columns the vehicle has
-    for( int p : structure_indices ) {
-        min_x = std::min( min_x, parts[p].mount.x );
-        max_x = std::max( max_x, parts[p].mount.x );
-        min_y = std::min( min_y, parts[p].mount.y );
-        max_y = std::max( max_y, parts[p].mount.y );
-    }
     // assume a rectangular footprint instead of doing a stepwise integration by row
-    double width = tile_to_width( max_y - min_y + 1 );
+    double width = tile_to_width( mount_max.y - mount_min.y + 1 );
     // only count board board tiles to determine area.
-    double area =  width * ( max_x - min_x + 1 ) * std::max( 0.1, hull_coverage );
+    double area =  width * ( mount_max.x - mount_min.x + 1 ) * std::max( 0.1, hull_coverage );
     // treat the hullform as a tetrahedron for half it's length, and a rectangular block
     // for the rest.  the mass of the water displaced by those shapes is equal to the mass
     // of the vehicle (Archimedes principle, eh?) and the volume of that water is the volume
@@ -4487,6 +4465,11 @@ void vehicle::refresh()
     } svpv = { this };
     std::vector<int>::iterator vii;
 
+    mount_min.x = 123;
+    mount_min.y = 123;
+    mount_max.x = -123;
+    mount_max.y = -123;
+
     // Main loop over all vehicle parts.
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
@@ -4497,10 +4480,20 @@ void vehicle::refresh()
 
         // Build map of point -> all parts in that point
         const point pt = vp.mount();
+        mount_min.x = std::min( mount_min.x, pt.x );
+        mount_min.y = std::min( mount_min.y, pt.y );
+        mount_max.x = std::max( mount_max.x, pt.x );
+        mount_max.y = std::max( mount_max.y, pt.y );
+
         // This will keep the parts at point pt sorted
         vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(),
                                 static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
+
+
+        if( vpi.has_flag( VPFLAG_FLOATS ) ) {
+            floating.push_back( p );
+        }
 
         if( vp.part().is_unavailable() ) {
             continue;
@@ -4540,9 +4533,6 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "SECURITY" ) ) {
             speciality.push_back( p );
-        }
-        if( vpi.has_flag( VPFLAG_FLOATS ) ) {
-            floating.push_back( p );
         }
         if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
             extra_drag += vpi.power;
