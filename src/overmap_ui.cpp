@@ -7,6 +7,8 @@
 #include "game.h"
 #include "input.h"
 #include "line.h"
+#include "map_iterator.h"
+#include "map.h"
 #include "mapbuffer.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -81,6 +83,68 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
 
     return result;
 }
+
+std::array<std::pair<nc_color, long>, 9> get_overmap_neighbors( const tripoint &current )
+{
+    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+
+    std::array<std::pair<nc_color, long>, 9> map_around;
+    int index = 0;
+    for( const tripoint &dest : g->m.points_in_radius( current, 1 ) ) {
+        nc_color ter_color = c_black;
+        long ter_sym = ' ';
+        const bool see = has_debug_vision || overmap_buffer.seen( dest.x, dest.y, dest.z );
+        if( see ) {
+            // Only load terrain if we can actually see it
+            oter_id cur_ter = overmap_buffer.ter( dest );
+            ter_color = cur_ter->get_color();
+            ter_sym = cur_ter->get_sym();
+        } else {
+            ter_color = c_dark_gray;
+            ter_sym   = '#';
+        }
+        map_around[index++] = std::make_pair( ter_color, ter_sym );
+    }
+    return map_around;
+}
+
+void update_note_preview( const std::string &note,
+                          const std::array<std::pair<nc_color, long>, 9> map_around,
+                          const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
+                          &preview_windows )
+{
+    auto om_symbol = get_note_display_info( note );
+    const nc_color note_color = std::get<1>( om_symbol );
+    const char symbol = std::get<0>( om_symbol );
+    const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+
+    auto w_preview       = std::get<0>( preview_windows );
+    auto w_preview_title = std::get<1>( preview_windows );
+    auto w_preview_map   = std::get<2>( preview_windows );
+
+    draw_border( *w_preview );
+    mvwprintz( *w_preview, 1, 1, c_white, _( "Note preview" ) );
+    wrefresh( *w_preview );
+
+    werase( *w_preview_title );
+    mvwprintz( *w_preview_title, 0, 0, c_yellow, note_text );
+    mvwputch( *w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
+    for( size_t i = 0; i < note_text.length(); i++ ) {
+        mvwputch( *w_preview_title, 1, i, c_white, LINE_OXOX );
+    }
+    mvwputch( *w_preview_title, 1, note_text.length(), c_white, LINE_XOOX );
+    wrefresh( *w_preview_title );
+
+    draw_border( *w_preview_map, c_yellow );
+    for( int i = 1; i < 4; i++ ) {
+        for( int j = 1; j < 4; j++ ) {
+            const auto &ter = map_around.at( ( i - 1 ) * 3 + j - 1 );
+            mvwputch( *w_preview_map, i, j, ter.first, ter.second );
+        }
+    }
+    mvwputch( *w_preview_map, 2, 2, note_color, symbol );
+    wrefresh( *w_preview_map );
+};
 
 bool get_weather_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
 {
@@ -859,67 +923,13 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
+            std::array<std::pair<nc_color, long>, 9> map_around = get_overmap_neighbors( curs );
+
             const int max_note_length = 45;
-            const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
-
-            std::vector<std::pair<nc_color, long>> map_around;
-            map_around.reserve( 9 );
-            for( int i = 1; i < 4; i++ ) {
-                for( int j = 1; j < 4; j++ ) {
-                    const int omy = curs.y + i - 2;
-                    const int omx = curs.x + j - 2;
-                    const bool see = has_debug_vision || overmap_buffer.seen( omx, omy, curs.z );
-
-                    nc_color ter_color = c_black;
-                    long ter_sym = ' ';
-                    if( see ) {
-                        // Only load terrain if we can actually see it
-                        oter_t const *info = nullptr;
-                        oter_id cur_ter = overmap_buffer.ter( omx, omy, curs.z );
-                        info = &cur_ter.obj();
-                        ter_color = info->get_color();
-                        ter_sym = info->get_sym();
-                    } else {
-                        ter_color = c_dark_gray;
-                        ter_sym   = '#';
-                    }
-                    map_around.push_back( std::make_pair( ter_color, ter_sym ) );
-                }
-            }
-
             catacurses::window w_preview = catacurses::newwin( 5, max_note_length - 4, 2, 5 );
             catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
             catacurses::window w_preview_map = catacurses::newwin( 5, 5, 2, 0 );
-
-            auto update_note_preview = [&]( std::string note ) {
-                auto om_symbol = get_note_display_info( new_note );
-                const nc_color note_color = std::get<1>( om_symbol );
-                const char symbol = std::get<0>( om_symbol );
-                const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
-
-                draw_border( w_preview );
-                mvwprintz( w_preview, 1, 1, c_white, _( "Note preview" ) );
-                wrefresh( w_preview );
-
-                werase( w_preview_title );
-                mvwprintz( w_preview_title, 0, 0, c_yellow, note_text );
-                mvwputch( w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
-                for( size_t i = 0; i < note_text.length(); i++ ) {
-                    mvwputch( w_preview_title, 1, i, c_white, LINE_OXOX );
-                }
-                mvwputch( w_preview_title, 1, note_text.length(), c_white, LINE_XOOX );
-                wrefresh( w_preview_title );
-
-                draw_border( w_preview_map, c_yellow );
-                for( int i = 1; i < 4; i++ ) {
-                    for( int j = 1; j < 4; j++ ) {
-                        const auto &ter = map_around.at( ( i - 1 ) * 3 + j - 1 );
-                        mvwputch( w_preview_map, i, j, ter.first, ter.second );
-                    }
-                }
-                mvwputch( w_preview_map, 2, 2, note_color, symbol );
-                wrefresh( w_preview_map );
-            };
+            auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
 #ifdef __ANDROID__
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -939,7 +949,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             .string_color( c_yellow )
             .identifier( "map_note" );
 
-            update_note_preview( old_note );
+            update_note_preview( old_note, map_around, preview_windows );
 
             do {
                 new_note = input_popup.query_string( false );
@@ -950,7 +960,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 } else if( input_popup.context().get_raw_input().get_first_input() == '\n' ) {
                     break;
                 } else {
-                    update_note_preview( new_note );
+                    update_note_preview( new_note, map_around, preview_windows );
                 }
             } while( input_popup.context().get_raw_input().get_first_input() != '\n' &&
                      input_popup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
