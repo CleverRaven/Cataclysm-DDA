@@ -1127,13 +1127,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         case DISMEMBER:
             switch( rng( 1, 3 ) ) {
                 case 1:
-                    p->add_msg_if_player( m_good, _( "You hack the %s apart." ), corpse_item.tname().c_str() );
+                    p->add_msg_if_player( m_good, _( "You hack the %s apart." ), corpse_item.tname() );
                     break;
                 case 2:
-                    p->add_msg_if_player( m_good, _( "You lop the limbs off the %s." ), corpse_item.tname().c_str() );
+                    p->add_msg_if_player( m_good, _( "You lop the limbs off the %s." ), corpse_item.tname() );
                     break;
                 case 3:
-                    p->add_msg_if_player( m_good, _( "You cleave the %s into pieces." ), corpse_item.tname().c_str() );
+                    p->add_msg_if_player( m_good, _( "You cleave the %s into pieces." ), corpse_item.tname() );
             }
             g->m.i_rem( p->pos(), act->index );
             break;
