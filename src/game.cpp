@@ -3193,8 +3193,7 @@ void game::debug()
             wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override == -1 ?
                                           _( "Keep normal wind direction" ) : _( "Disable direction forcing" ) );
             int count = 1;
-            std::vector<int> angles { 0, 45, 90, 135, 180, 225, 270, 315 };
-            for( auto &angle : angles ) {
+            for( int angle = 0; angle <= 315; angle += 45 ) {
                 wind_direction_menu.addentry( count, true, MENU_AUTOASSIGN, get_wind_arrow( angle ) );
                 count += 1;
             }
@@ -3216,8 +3215,7 @@ void game::debug()
             wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override == -1 ?
                                       _( "Keep normal wind speed" ) : _( "Disable speed forcing" ) );
             int count = 1;
-            std::vector<int> speeds { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
-            for( auto &speed : speeds ) {
+            for( int speed = 0; speed <= 100; speed += 10 ) {
                 std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
                 wind_speed_menu.addentry( count, true, MENU_AUTOASSIGN, speedstring );
                 count += 1;
@@ -3226,7 +3224,7 @@ void game::debug()
             if( wind_speed_menu.ret == 0 ) {
                 windspeed_override = -1;
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
-                int selected_wind_speed = ( speeds[wind_speed_menu.ret - 1] );
+                int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 windspeed_override = selected_wind_speed;
                 nextweather = calendar::turn;
                 update_weather();
