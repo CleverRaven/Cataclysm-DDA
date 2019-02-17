@@ -97,7 +97,7 @@
   {
     "id": "BGSS_HOSPITAL_2_ROOF",
     "type": "talk_topic",
-    "dynamic_line": "My hospital was the tallest building in town, so I saw quite a bit.  The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up.  I think it was mostly automated turrets and robots, I didn't hear much shouting.  I saw a few cars and trucks try to run the barricade and get blown to high hell.  There were swarms of <zombies> in the streets, travelling in packs towards sounds and noises.  I watched them rip a few running cars to shreds, including the people inside who were trying to get away.  You know.  The usual stuff.  I was pretty numb by that point.",
+    "dynamic_line": "My hospital was the tallest building in town, so I saw quite a bit.  The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up.  I think it was mostly automated turrets and robots, I didn't hear much shouting.  I saw a few cars and trucks try to run the barricade and get blown to high hell.  There were swarms of <zombies> in the streets, traveling in packs towards sounds and noises.  I watched them rip a few running cars to shreds, including the people inside who were trying to get away.  You know.  The usual stuff.  I was pretty numb by that point.",
     "responses": [
       { "text": "How did you get down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

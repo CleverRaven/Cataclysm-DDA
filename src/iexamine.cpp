@@ -1292,7 +1292,7 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
         }
     }
     add_msg( _( "The pedestal sinks into the ground..." ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous griding noise...") );
+    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise...") );
     g->m.ter_set(examp, t_rock_floor);
     g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 5_turns, 10_turns ) );
 }

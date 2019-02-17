@@ -7021,7 +7021,7 @@
     "type": "terrain",
     "id": "t_water_pump",
     "name": "water pump",
-    "description": "Deep well collecting ground water.  Installed water pump allowes to draw water from it.",
+    "description": "Deep well collecting ground water.  Installed water pump allows to draw water from it.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 6,
