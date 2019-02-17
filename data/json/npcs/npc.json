@@ -438,5 +438,14 @@
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_5",
     "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "hallucination",
+    "//": "This NPC is not real, but looks like it is.",
+    "class": "NC_HALLU",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_FRIEND_CONVERSATION"
   }
 ]
