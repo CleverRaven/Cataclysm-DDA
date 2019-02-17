@@ -1130,9 +1130,9 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
     public:
+        cata::optional<int> wind_direction_override;
+        cata::optional<int> windspeed_override;
         weather_type weather_override;
-        int wind_direction_override;
-        int windspeed_override;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

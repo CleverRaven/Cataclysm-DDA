@@ -250,9 +250,10 @@ game::game() :
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( 16 ),
-    weather_override( WEATHER_NULL ),
-    wind_direction_override( -1 ),
-    windspeed_override( -1 )
+    wind_direction_override(),
+    windspeed_override(),
+    weather_override( WEATHER_NULL )
+
 {
     temperature = 0;
     player_was_sleeping = false;
@@ -1833,18 +1834,8 @@ void game::set_critter_died()
 void game::update_weather()
 {
     w_point &w = *weather_precise;
-    int old_wind_direction = w.winddirection;
-    int old_wind_speed = w.windpower;
-    if( wind_direction_override != -1 ) {
-        winddirection = wind_direction_override;
-    } else {
-        winddirection = old_wind_direction;
-    }
-    if( windspeed_override != -1 ) {
-        windspeed = windspeed_override;
-    } else {
-        windspeed = old_wind_speed;
-    }
+    winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+    windspeed = windspeed_override ? *windspeed_override : w.windpower;
     if( weather == WEATHER_NULL || calendar::turn >= nextweather ) {
         const weather_generator &weather_gen = get_cur_weather_gen();
         w = weather_gen.get_weather( u.global_square_location(), calendar::turn, seed );
@@ -3190,8 +3181,8 @@ void game::debug()
         case 18: {
             uilist wind_direction_menu;
             wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override == -1 ?
-                                          _( "Keep normal wind direction" ) : _( "Disable direction forcing" ) );
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
+                                          _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
             int count = 1;
             for( int angle = 0; angle <= 315; angle += 45 ) {
                 wind_direction_menu.addentry( count, true, MENU_AUTOASSIGN, get_wind_arrow( angle ) );
@@ -3199,7 +3190,7 @@ void game::debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                wind_direction_override = -1;
+                wind_direction_override = cata::nullopt;
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 nextweather = calendar::turn;
@@ -3211,8 +3202,8 @@ void game::debug()
         case 19: {
             uilist wind_speed_menu;
             wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override == -1 ?
-                                      _( "Keep normal wind speed" ) : _( "Disable speed forcing" ) );
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
+                                      _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;
             for( int speed = 0; speed <= 100; speed += 10 ) {
                 std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
@@ -3221,7 +3212,7 @@ void game::debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                windspeed_override = -1;
+                windspeed_override = cata::nullopt;
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 windspeed_override = selected_wind_speed;
