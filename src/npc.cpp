@@ -1358,8 +1358,8 @@ void npc::say( const std::string &line ) const
         add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
         return;
     }
-        // Sound happens even if we can't hear it
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    // Sound happens even if we can't hear it
+    sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
 }
 
 bool npc::wants_to_sell( const item &it ) const
