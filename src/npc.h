@@ -554,7 +554,7 @@ class npc : public player
         bool turned_hostile() const; // True if our anger is at least equal to...
         int hostile_anger_level() const; // ... this value!
         void make_angry(); // Called if the player attacks us
-        void pretend_fire( int shots, item &gun ); // fake ranged attack for hallucination
+        void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
         /*
         * Angers and makes the NPC consider the creature an attacker
         * if the creature is a player and the NPC is not already hostile

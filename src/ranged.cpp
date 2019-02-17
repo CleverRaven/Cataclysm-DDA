@@ -191,7 +191,7 @@ bool player::handle_gun_damage( item &it )
     return true;
 }
 
-void npc::pretend_fire( int shots, item &gun )
+void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
     while( curshot != shots ) {
@@ -199,10 +199,13 @@ void npc::pretend_fire( int shots, item &gun )
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
             break;
         }
+
         item *weapon = &gun;
-        const auto data = weapon->gun_noise(shots>1);
-        add_msg( data.sound );
+        const auto data = weapon->gun_noise( shots>1 );
+        add_msg( _( "%1$s shoots something." ), source->disp_name().c_str() );
+        add_msg( _( "You hear %s" ), data.sound );
         curshot++;
+        moves-=100;
     }
 
 }

@@ -605,7 +605,7 @@ void npc::execute_action( npc_action action )
             if( !is_hallucination() ) {
                 fire_gun( tar, mode.qty, *mode );
             } else {
-                pretend_fire( mode.qty, *mode );
+                pretend_fire( this, mode.qty, *mode );
             }
             break;
         }
