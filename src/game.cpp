@@ -5509,12 +5509,11 @@ bool game::spawn_hallucination( const tripoint &p )
     if( one_in( 100 ) ) {
         std::shared_ptr<npc> tmp = std::make_shared<npc>();
         const string_id<npc_template> npc_hallucination( "hallucination" );
-        const int halluc_id = g->m.place_npc( get_levx(), get_levy(), npc_hallucination, true );
-        g->load_npcs();
+        const int halluc_id = m.place_npc( get_levx(), get_levy(), npc_hallucination, true );
+        load_npcs();
 
-        npc *halluc_npc = g->find_npc( halluc_id );
+        npc *halluc_npc = find_npc( halluc_id );
         if( halluc_npc ) {
-            overmap_buffer.insert_npc( tmp );
             return true;
         }
         else {
