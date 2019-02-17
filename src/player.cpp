@@ -6205,6 +6205,12 @@ void player::suffer()
             }
         }
     }
+
+    // Recalculate, as it might have changed (by mod_*_bonus above)
+    str_cur = get_str();
+    int_cur = get_int();
+    dex_cur = get_dex();
+    per_cur = get_per();
 }
 
 bool player::irradiate( float rads, bool bypass )
