@@ -264,10 +264,10 @@ void map::update_vehicle_list( submap *const to, const int zlev )
 {
     // Update vehicle data
     auto &ch = get_cache( zlev );
-    for( auto &elem : to->vehicles ) {
-        ch.vehicle_list.insert( elem );
+    for( const auto &elem : to->vehicles ) {
+        ch.vehicle_list.insert( elem.get() );
         if( !elem->loot_zones.empty() ) {
-            ch.zone_vehicles.insert( elem );
+            ch.zone_vehicles.insert( elem.get() );
         }
     }
 }
@@ -289,17 +289,18 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     submap *const current_submap = get_submap_at_grid( {veh->smx, veh->smy, veh->smz} );
     auto &ch = get_cache( veh->smz );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
-        if( current_submap->vehicles[i] == veh ) {
+        if( current_submap->vehicles[i].get() == veh ) {
             const int zlev = veh->smz;
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
             reset_vehicle_cache( zlev );
+            std::unique_ptr<vehicle> result = std::move( current_submap->vehicles[i] );
             current_submap->vehicles.erase( current_submap->vehicles.begin() + i );
             if( veh->tracking_on ) {
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase( veh );
-            return std::unique_ptr<vehicle>( veh );
+            return result;
         }
     }
     debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx,
@@ -797,11 +798,11 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
         for( int cy = chunk_sy; cy <= chunk_ey; ++cy ) {
             for( int cz = chunk_sz; cz <= chunk_ez; ++cz ) {
                 submap *current_submap = get_submap_at_grid( { cx, cy, cz } );
-                for( auto &elem : current_submap->vehicles ) {
+                for( const auto &elem : current_submap->vehicles ) {
                     // Ensure the vehicle z-position is correct
                     elem->smz = cz;
                     wrapped_vehicle w;
-                    w.v = elem;
+                    w.v = elem.get();
                     w.x = w.v->posx + cx * SEEX;
                     w.y = w.v->posy + cy * SEEY;
                     w.z = cz;
@@ -928,7 +929,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
 
     point src_offset;
     point dst_offset;
-    submap *const src_submap = get_submap_at( src, src_offset );
+    submap *src_submap = get_submap_at( src, src_offset );
     submap *const dst_submap = get_submap_at( dst, dst_offset );
 
     // first, let's find our position in current vehicles vector
@@ -944,9 +945,9 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         vehicle *v = veh_pointer_or_null( veh_at( p ) );
         for( auto &smap : grid ) {
             for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
-                if( smap->vehicles[i] == v ) {
+                if( smap->vehicles[i].get() == v ) {
                     our_i = i;
-                    const_cast<submap *&>( src_submap ) = smap;
+                    src_submap = smap;
                     break;
                 }
             }
@@ -957,7 +958,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         return nullptr;
     }
     // move the vehicle
-    vehicle *veh = src_submap->vehicles[our_i];
+    vehicle *veh = src_submap->vehicles[our_i].get();
     // don't let it go off grid
     if( !inbounds( p2 ) ) {
         veh->stop();
@@ -1031,8 +1032,9 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     veh->occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
         veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
-        dst_submap->vehicles.push_back( veh );
-        src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
+        auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
+        dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
+        src_submap->vehicles.erase( src_submap_veh_it );
         dst_submap->is_uniform = false;
     }
 
@@ -4508,13 +4510,15 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 void map::process_items_in_vehicles( submap &current_submap, const int gridz,
                                      map::map_process_func processor, const std::string &signal )
 {
-    const std::vector<vehicle *> &veh_in_nonant = current_submap.vehicles;
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
-    const std::vector<vehicle *> vehicles = veh_in_nonant;
+    std::vector<vehicle *> vehicles;
+    for( const auto &veh : current_submap.vehicles ) {
+        vehicles.push_back( veh.get() );
+    }
     for( auto &cur_veh : vehicles ) {
-        if( std::find( begin( veh_in_nonant ), end( veh_in_nonant ), cur_veh ) == veh_in_nonant.end() ) {
+        if( !current_submap.contains_vehicle( cur_veh ) ) {
             // vehicle not in the vehicle list of the nonant, has been
             // destroyed (or moved to another nonant?)
             // Can't be sure that it still exists, so skip it
@@ -4583,8 +4587,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
 
         // item does not exist anymore, might have been an exploding bomb,
         // check if the vehicle is still valid (does exist)
-        const auto &veh_in_nonant = current_submap.vehicles;
-        if( std::find( begin( veh_in_nonant ), end( veh_in_nonant ), &cur_veh ) == veh_in_nonant.end() ) {
+        if( !current_submap.contains_vehicle( &cur_veh ) ) {
             // Nope, vehicle is not in the vehicle list of the submap,
             // it might have moved to another submap (unlikely)
             // or be destroyed, anyway it does not need to be processed here
@@ -6517,7 +6520,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
-        auto *veh = *iter;
+        vehicle *veh = iter->get();
         if( !veh->parts.empty() ) {
             // Always fix submap coordinates for easier Z-level-related operations
             veh->smx = gridx;
@@ -6530,7 +6533,6 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase( veh );
-            delete( veh );
             iter = veh_vec.erase( iter );
         }
     }
@@ -6538,14 +6540,14 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     // Update vehicle data
     if( update_vehicles ) {
         auto &map_cache = get_cache( gridz );
-        for( auto it : tmpsub->vehicles ) {
+        for( const auto &veh : tmpsub->vehicles ) {
             // Only add if not tracking already.
-            if( map_cache.vehicle_list.find( it ) == map_cache.vehicle_list.end() ) {
-                map_cache.vehicle_list.insert( it );
-                if( !it->loot_zones.empty() ) {
-                    map_cache.zone_vehicles.insert( it );
+            if( map_cache.vehicle_list.find( veh.get() ) == map_cache.vehicle_list.end() ) {
+                map_cache.vehicle_list.insert( veh.get() );
+                if( !veh->loot_zones.empty() ) {
+                    map_cache.zone_vehicles.insert( veh.get() );
                 }
-                add_vehicle_to_cache( it );
+                add_vehicle_to_cache( veh.get() );
             }
         }
     }
