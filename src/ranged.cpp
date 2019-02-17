@@ -191,6 +191,22 @@ bool player::handle_gun_damage( item &it )
     return true;
 }
 
+void npc::pretend_fire( int shots, item &gun )
+{
+    int curshot = 0;
+    while( curshot != shots ) {
+        if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
+            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+            break;
+        }
+        item *weapon = &gun;
+        const auto data = weapon->gun_noise(shots>1);
+        add_msg( data.sound );
+        curshot++;
+    }
+
+}
+
 int player::fire_gun( const tripoint &target, int shots )
 {
     return fire_gun( target, shots, weapon );
