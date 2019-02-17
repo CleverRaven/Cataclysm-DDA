@@ -3201,8 +3201,7 @@ void game::debug()
             if( wind_direction_menu.ret == 0 ) {
                 wind_direction_override = -1;
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                int selected_wind_direction = ( wind_direction_menu.ret - 1 ) * 45;
-                wind_direction_override = selected_wind_direction;
+                wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 nextweather = calendar::turn;
                 update_weather();
             }
