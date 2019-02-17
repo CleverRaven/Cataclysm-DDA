@@ -6469,7 +6469,7 @@ void game::zones_manager()
                                       TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1 );
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
             TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX );
-    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width,
+    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
                                          TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1 );
 
     zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
@@ -6882,6 +6882,10 @@ void game::zones_manager()
             ctxt.reset_timeout();
         }
 
+        wrefresh( w_terrain );
+        zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+        zones_manager_shortcuts( w_zones_info );
+        redraw_info = true;
         draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
