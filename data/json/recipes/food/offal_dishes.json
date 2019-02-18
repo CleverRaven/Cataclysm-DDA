@@ -99,7 +99,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
-    "components": [ [ [ "flour", 2 ] ], [ [ "liver", 4 ], [ "lung", 4 ], [ "kidney", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 20 ] ], [ [ "meat_offal", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
