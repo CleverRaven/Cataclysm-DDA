@@ -7372,11 +7372,9 @@ void player::rooted()
 item::reload_option player::select_ammo( const item &base,
         std::vector<item::reload_option> opts ) const
 {
-    using reload_option = item::reload_option;
-
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
-        return reload_option();
+        return item::reload_option();
     }
 
     uilist menu;
@@ -7389,7 +7387,7 @@ item::reload_option player::select_ammo( const item &base,
     // Construct item names
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( names ), [&]( const reload_option & e ) {
+    std::back_inserter( names ), [&]( const item::reload_option & e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -7414,7 +7412,7 @@ item::reload_option player::select_ammo( const item &base,
     // Get location descriptions
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( where ), []( const reload_option & e ) {
+    std::back_inserter( where ), []( const item::reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
             if( is_ammo_container && g->u.is_worn( *e.ammo ) ) {
@@ -7586,7 +7584,7 @@ item::reload_option player::select_ammo( const item &base,
     menu.query();
     if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= opts.size() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
-        return reload_option();
+        return item::reload_option();
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
@@ -7595,11 +7593,9 @@ item::reload_option player::select_ammo( const item &base,
     return std::move( opts[ menu.ret ] );
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt ) const
+bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty ) const
 {
-    using reload_option = item::reload_option;
-    std::vector<reload_option> ammo_list;
-
     auto opts = base.gunmods();
     opts.push_back( &base );
 
@@ -7615,7 +7611,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
 
     bool ammo_match_found = false;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e ) ) {
+        for( item_location &ammo : find_ammo( *e, empty ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -7634,6 +7630,13 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
             }
         }
     }
+    return ammo_match_found;
+}
+
+item::reload_option player::select_ammo( const item &base, bool prompt, bool empty ) const
+{
+    std::vector<item::reload_option> ammo_list;
+    bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
         if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
@@ -7654,20 +7657,20 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
             add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
                                name.c_str(), base.tname() );
         }
-        return reload_option();
+        return item::reload_option();
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return lhs.moves() < rhs.moves();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
