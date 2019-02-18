@@ -23,7 +23,7 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 }
 
 void mdefense::zapback( monster &m, Creature *const source,
-    dealt_projectile_attack const *proj )
+                        dealt_projectile_attack const *proj )
 {
     if( source == nullptr ) {
         return;
@@ -52,7 +52,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     if( g->u.sees( source->pos() ) ) {
         const auto msg_type = ( source == &g->u ) ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
-            m.name().c_str(), source->disp_name().c_str() );
+                 m.name().c_str(), source->disp_name().c_str() );
     }
 
     damage_instance const shock {
