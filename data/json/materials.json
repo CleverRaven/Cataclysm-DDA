@@ -35,7 +35,7 @@
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "compacts_into": [ "material_aluminium_ingot" , "aluminum_foil" ]
+    "compacts_into": [ "material_aluminium_ingot", "aluminum_foil" ]
   },
   {
     "type": "material",
@@ -73,6 +73,48 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
     "vitamins": [ [ "calcium", 2 ] ],
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250_ml" },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "bone_hardened",
+    "name": "Hardened Bone",
+    "density": 7,
+    "edible": false,
+    "bash_resist": 1,
+    "cut_resist": 4,
+    "acid_resist": 7,
+    "fire_resist": 0,
+    "elec_resist": 1,
+    "chip_resist": 8,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250_ml" },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "bone_reinforced",
+    "name": "Reinforced Boneplate",
+    "density": 11,
+    "edible": false,
+    "bash_resist": 4,
+    "cut_resist": 8,
+    "acid_resist": 8,
+    "fire_resist": 0,
+    "elec_resist": 3,
+    "chip_resist": 14,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250_ml" },
@@ -176,7 +218,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_copper", 1 ] ],
-    "compacts_into": [ "scrap_copper" , "copper" ]
+    "compacts_into": [ "scrap_copper", "copper" ]
   },
   {
     "type": "material",
@@ -1064,4 +1106,3 @@
     ]
   }
 ]
-

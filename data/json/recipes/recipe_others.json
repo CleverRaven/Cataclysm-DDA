@@ -4239,5 +4239,38 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
     "components": [ [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bone_hardened_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 3 ],
+    "difficulty": 3,
+    "autolearn": true,
+    "time": 25000,
+    "batch_time_factors": [ 35, 3 ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "bone_hardened", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bone_reinforced_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 5 ],
+    "difficulty": 5,
+    "autolearn": true,
+    "time": 40000,
+    "batch_time_factors": [ 25, 3 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "components": [ [ [ "bone_reinforced", 1 ] ] ]
   }
 ]

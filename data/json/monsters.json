@@ -4884,7 +4884,7 @@
     "armor_cut": 45,
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "mr_bones",
+    "harvest": "skeletal_jugg",
     "special_attacks": [ [ "SMASH", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ],
     { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] } ],
     "death_drops": "mon_zombie_hulk_death_drops",

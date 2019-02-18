@@ -1006,5 +1006,35 @@
     "weight": 1,
     "ammo_type": "components",
     "count": 150
+  },
+  {
+    "type": "AMMO",
+    "id": "bone_hardened_plate",
+    "category": "spare_parts",
+    "price": 25,
+    "name": "small hardened boneplating",
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "Small plates made from hardened bone, worked into shape. While brittle, they still offer decent protection when sewn onto clothing.",
+    "material": "bone_hardened",
+    "volume": 1,
+    "weight": 3,
+    "ammo_type": "components",
+    "count": 25
+  },
+  {
+    "type": "AMMO",
+    "id": "bone_reinforced_plate",
+    "category": "spare_parts",
+    "price": 50,
+    "name": "small reinforced boneplating",
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "Small, intricate plates worked from bone plating that had no right to be as tough to work on than it turned out to be. It still is nearly as durable as the plate it was sawn out of.",
+    "material": "bone_reinforced",
+    "volume": 1,
+    "weight": 7,
+    "ammo_type": "components",
+    "count": 25
   }
 ]

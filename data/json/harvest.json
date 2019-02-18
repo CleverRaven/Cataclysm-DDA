@@ -394,7 +394,17 @@
     "type": "harvest",
     "entries": [
       { "drop": "bone_tainted", "type": "flesh", "mass_ratio": 0.5 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 }
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "bone_hardened", "type": "bone", "mass_ratio": 0.02 }
+    ]
+  },
+  {
+    "id": "skeletal_jugg",
+    "type": "harvest",
+    "entries": [
+      { "drop": "bone_tainted", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "bone_reinforced", "type": "bone", "mass_ratio": 0.08 }
     ]
   },
   {
