@@ -426,8 +426,8 @@ void game::init_ui( const bool resized )
     TERMY = get_terminal_height();
 
     if( resized ) {
-        get_options().get_option( "TERMINAL_X" ).setValue( TERMX );
-        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY );
+        get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
+        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
         get_options().save();
     }
 #else
