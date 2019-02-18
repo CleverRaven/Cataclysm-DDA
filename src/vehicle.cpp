@@ -3299,9 +3299,9 @@ double vehicle::coeff_air_drag() const
                          pa.info().has_flag( "HALF_BOARD" ) );
         }
     }
-    double height = 1;
-    double c_air_drag = c_air_base;
-    // tally the results of each row, and take the worst height and worst c_air_drag
+    double height = 0;
+    double c_air_drag = 0;
+    // tally the results of each row and prorate them relative to vehicle width
     for( drag_column &dc : drag ) {
         // even as m_debug you rarely want to see this
         // add_msg( m_debug, "veh %: pro %d, hboard %d, fboard %d, shield %d, seat %d, roof %d, aisle %d, turret %d, panel %d, exposed %d, last %d\n", name, dc.pro, dc.hboard, dc.fboard, dc.shield, dc.seat, dc.roof, dc.aisle, dc.turret, dc.panel, dc.exposed, dc.last );
@@ -3325,7 +3325,7 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
         // having a windmill is terrible for your drag
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
-        c_air_drag = std::max( c_air_drag, c_air_drag_c );
+        c_air_drag += c_air_drag_c;
         // vehicles are 1.4m tall
         double c_height = base_height;
         // plus a bit for a roof
@@ -3340,15 +3340,18 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
         // windmills are tall, too
         c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
-        height = std::max( height, c_height );
+        height += c_height;
     }
     constexpr double air_density = 1.29; // kg/m^3
-    double area = height * tile_to_width( width );
+    // prorate per row height and c_air_drag
+    height /= width;
+    c_air_drag /= width;
+    double cross_area = height * tile_to_width( width );
     add_msg( m_debug, "%s: height %3.2fm, width %3.2fm (%d tiles), c_air %3.2f\n", name, height,
              tile_to_width( width ), width, c_air_drag );
     // F_air_drag = c_air_drag * cross_area * 1/2 * air_density * v^2
     // coeff_air_resistance = c_air_drag * cross_area * 1/2 * air_density
-    coefficient_air_resistance = std::max( 0.1, c_air_drag * area * 0.5 * air_density );
+    coefficient_air_resistance = std::max( 0.1, c_air_drag * cross_area * 0.5 * air_density );
     coeff_air_dirty = false;
     return coefficient_air_resistance;
 }
@@ -3420,10 +3423,21 @@ double vehicle::coeff_water_drag() const
     }
     double hull_coverage = static_cast<double>( floating.size() ) / structure_indices.size();
 
-    // assume a rectangular footprint instead of doing a stepwise integration by row
-    double width = tile_to_width( mount_max.y - mount_min.y + 1 );
-    // only count board board tiles to determine area.
-    double area =  width * ( mount_max.x - mount_min.x + 1 ) * std::max( 0.1, hull_coverage );
+    int tile_width = mount_max.y - mount_min.y + 1;
+    double width_m = tile_to_width( tile_width );
+
+    // actual area of the hull in m^2 (handles non-rectangular shapes)
+    // footprint area in tiles = tile width * tile length
+    // effective footprint percent = # of structure tiles / footprint area in tiles
+    // actual hull area in m^2 = footprint percent * length in meters * width in meters
+    // length in meters = length in tiles
+    // actual area in m = # of structure tiles * length in tiles * width in meters /
+    //                    ( length in tiles * width in tiles )
+    // actual area in m = # of structure tiles * width in meters / width in tiles
+    double actual_area_m = width_m * structure_indices.size() / tile_width;
+
+    // effective hull area is actual hull area * hull coverage
+    double hull_area_m =  actual_area_m * std::max( 0.1, hull_coverage );
     // treat the hullform as a tetrahedron for half it's length, and a rectangular block
     // for the rest.  the mass of the water displaced by those shapes is equal to the mass
     // of the vehicle (Archimedes principle, eh?) and the volume of that water is the volume
@@ -3439,14 +3453,14 @@ double vehicle::coeff_water_drag() const
     // 7/12 * length * width * depth = vehicle_mass / water_density
     // depth = 12/7 * vehicle_mass / water_density / ( length * width )
     constexpr double water_density = 1000.0; // kg/m^3
-    draft_m = 12 / 7 * to_kilogram( total_mass() ) / water_density / area;
+    draft_m = 12 / 7 * to_kilogram( total_mass() ) / water_density / hull_area_m;
     // increase the streamlining as more of the boat is covered in boat boards
     double c_water_drag = 1.25 - hull_coverage;
     // hull height starts at 0.3m and goes up as you add more boat boards
     hull_height = 0.3 + 0.5 * hull_coverage;
     // F_water_drag = c_water_drag * cross_area * 1/2 * water_density * v^2
     // coeff_water_resistance = c_water_drag * cross_area * 1/2 * water_density
-    coefficient_water_resistance = c_water_drag * width * draft_m * 0.5 * water_density;
+    coefficient_water_resistance = c_water_drag * width_m * draft_m * 0.5 * water_density;
     coeff_water_dirty = false;
     return coefficient_water_resistance;
 }
