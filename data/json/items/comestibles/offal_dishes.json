@@ -77,7 +77,7 @@
     "description": "Also known as 'Umble' pie, made with chopped organ meats.  Not half bad, and really good for you!",
     "price": 1350,
     "material": [ "wheat", "flesh" ],
-    "volume": 1,
+    "volume": "750ml",
     "weight": 249,
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
