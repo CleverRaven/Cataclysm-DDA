@@ -1520,6 +1520,7 @@ class player : public Character
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
         bool keep_hands_free;
+        bool reach_attacking;
 
         std::vector <addiction> addictions;
 
