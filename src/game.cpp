@@ -9310,7 +9310,7 @@ void game::reload( int pos, bool prompt )
     reload( loc, prompt );
 }
 
-void game::reload( item_location &loc, bool prompt )
+void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
     bool use_loc = true;
@@ -9377,7 +9377,7 @@ void game::reload( item_location &loc, bool prompt )
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
                               item::reload_option( &u, it, it, u.ammo_location.clone() ) :
-                              u.select_ammo( *it, prompt );
+                              u.select_ammo( *it, prompt, empty );
 
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
@@ -9423,7 +9423,49 @@ void game::reload()
         reload( item_loc );
 
     } else {
-        reload( -1 );
+        // As a special streamlined activity, hitting reload repeatedly should:
+        // Reload wielded gun
+        // First reload a magazine if necessary.
+        // Then load said magazine into gun.
+        // Reload magazines that are compatible with the current gun.
+        // Reload other guns in inventory.
+        // Reload misc magazines in inventory.
+        std::vector<item_location> reloadables = u.find_reloadables();
+        std::sort( reloadables.begin(), reloadables.end(),
+        [this]( const item_location & a, const item_location & b ) {
+            const item *ap = a.get_item();
+            const item *bp = b.get_item();
+            // Current wielded weapon comes first.
+            if( this->u.is_wielding( *ap ) ) {
+                return true;
+            }
+            if( this->u.is_wielding( *bp ) ) {
+                return false;
+            }
+            // Second sort by afiliation with wielded gun
+            const std::set<itype_id> compatible_magazines = this->u.weapon.magazine_compatible();
+            const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
+            const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
+            if( mag_ap != mag_bp ) {
+                return mag_ap;
+            }
+            // Third sort by gun vs magazine,
+            if( ap->is_gun() != bp->is_gun() ) {
+                return ap->is_gun();
+            }
+            // Finally sort by speed to reload.
+            return ap->get_reload_time() > bp->get_reload_time();
+
+        } );
+        for( item_location &candidate : reloadables ) {
+            std::vector<item::reload_option> ammo_list;
+            u.list_ammo( *candidate.get_item(), ammo_list, false );
+            if( !ammo_list.empty() ) {
+                reload( candidate, false, false );
+                return;
+            }
+            add_msg( _( "Nothing to reload." ) );
+        }
     }
 }
 

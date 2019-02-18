@@ -967,7 +967,7 @@ class game
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
-        void reload( item_location &loc, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
