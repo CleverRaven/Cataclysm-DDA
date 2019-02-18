@@ -203,7 +203,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         item *weapon = &gun;
         const auto data = weapon->gun_noise( shots>1 );
         add_msg( _( "%1$s shoots something." ), source->disp_name().c_str() );
-        add_msg( _( "You hear %s" ), data.sound );
+        add_msg( _( "You hear %s." ), data.sound );
         curshot++;
         moves-=100;
     }
