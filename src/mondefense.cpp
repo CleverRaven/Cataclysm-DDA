@@ -41,7 +41,7 @@ void mdefense::zapback( monster &m, Creature *const source,
             return;
         }
         if( !foe->used_weapon().is_null() ) {
-             return;
+            return;
         }
     }
 
