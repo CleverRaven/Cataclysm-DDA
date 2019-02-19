@@ -442,10 +442,8 @@ std::list<item> player::consume_some_components_for_craft( const recipe &making,
     int cou = 0;
     for( const auto &it : req.get_components() ) {
         // Each component currently has 50% chance of not being consumed
-        int chc = 1;
-        int ran = rng( 0, chc );
         // Skip first item so failed craft with one item recipe always loses component
-        if( cou > 0 && ran == chc ) {
+        if( cou > 0 && one_in( 2 ) ) {
             std::list<item> tmp = consume_items( it, batch_size );
             used.splice( used.end(), tmp );
         }
