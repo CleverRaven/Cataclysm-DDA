@@ -3942,7 +3942,7 @@
         "points" : -2,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You're minorly deformed.  Some people will react badly to your appearance.",
+        "description" : "You're slightly deformed.  Some people will react badly to your appearance.",
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs" : ["UGLY"],
         "changes_to" : ["DEFORMED2"],
@@ -5429,7 +5429,7 @@
         "id" : "AMPHIBIAN",
         "name" : "Amphibious",
         "points" : 5,
-        "description" : "You're as comfortable in water as on land, and your body has adapated around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
+        "description" : "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
         "category" : ["FISH"],
         "threshreq" : ["THRESH_FISH"],
         "purifiable": false

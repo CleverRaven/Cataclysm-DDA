@@ -9948,7 +9948,10 @@ void game::wield( item_location &loc )
         add_msg( m_info, "%s", ret.c_str() );
     }
 
-    u.wield( u.i_at( loc.obtain( u ) ) );
+    // Can't use loc.obtain() here because that would cause things to spill
+    u.mod_moves( -loc.obtain_cost( u ) );
+    u.wield( *loc.get_item() );
+    loc.remove_item();
 }
 
 void game::wield()
