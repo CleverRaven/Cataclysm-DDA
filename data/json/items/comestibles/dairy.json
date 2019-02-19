@@ -67,7 +67,6 @@
     "name_plural": "hard cheese",
     "weight": 34,
     "color": "yellow",
-    "spoils_in": "180 days",
     "stim": 1,
     "container": "wrapper",
     "comestible_type": "FOOD",
