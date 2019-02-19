@@ -1519,7 +1519,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     farm_map.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    bool done_planting = false;
     for( const tripoint &pos : farm_map.points_in_rectangle( mapmin, mapmax ) ) {
+        if( done_planting ) {
+            break;
+        }
         switch( op ) {
             case farm_ops::plow:
                 //Needs to be plowed to match json
@@ -1533,7 +1537,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
             case farm_ops::plant:
                 if( is_dirtmound( pos, farm_map, farm_map ) ) {
                     plots_cnt += 1;
-                    if( comp && !seed_inv.empty() ) {
+                    if( comp ) {
+                        if( seed_inv.empty() ) {
+                            done_planting = true;
+                            break;
+                        }
                         item *tmp_seed = seed_inv.back();
                         seed_inv.pop_back();
                         std::list<item> used_seed;
@@ -2181,7 +2189,7 @@ bool basecamp::survey_return( npc &p )
 bool basecamp::farm_return( npc &p, const std::string &task, const tripoint &omt_tgt, farm_ops op )
 {
     const std::string msg = _( "returns from working your fields... " );
-    npc_ptr comp = mission_return( p, task, 15_minutes, true, msg, "survival", 2 );
+    npc_ptr comp = companion_choose_return( p, task, 15_minutes );
     if( comp == nullptr ) {
         return false;
     }
@@ -2196,7 +2204,7 @@ bool basecamp::farm_return( npc &p, const std::string &task, const tripoint &omt
             }
         }
     }
-    comp->companion_mission_inv.clear();
+    finish_return( *comp, true, msg, "survival", 2 );
     return true;
 }
 
