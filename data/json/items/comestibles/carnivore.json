@@ -521,13 +521,12 @@
     "name": "tallow",
     "weight": 110,
     "color": "white",
-    "spoils_in": "60 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -10,
     "healthy": -5,
     "calories": 992,
-    "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible indefinitely, and can be used as an ingredient in many foods and projects.",
     "price": 500,
     "//": "*May* have been commercially traded.",
     "material": "flesh",
@@ -542,7 +541,7 @@
     "id": "lard",
     "name": "lard",
     "copy-from": "tallow",
-    "description": "A smooth white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+    "description": "A smooth white block of dry-rendered animal fat.  It will remain edible indefinitely, and can be used as an ingredient in many foods and projects."
   },
   {
     "type": "COMESTIBLE",
