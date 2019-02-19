@@ -28,6 +28,11 @@
 #include <SDL_keyboard.h>
 #endif
 
+/** Note preview map width without borders */
+static const int npm_width = 3;
+/** Note preview map height without borders */
+static const int npm_height = 3;
+
 namespace
 {
 
@@ -84,11 +89,12 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
     return result;
 }
 
-std::array<std::pair<nc_color, long>, 9> get_overmap_neighbors( const tripoint &current )
+std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbors(
+    const tripoint &current )
 {
     const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
 
-    std::array<std::pair<nc_color, long>, 9> map_around;
+    std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around;
     int index = 0;
     for( const tripoint &dest : g->m.points_in_radius( current, 1 ) ) {
         nc_color ter_color = c_black;
@@ -101,7 +107,7 @@ std::array<std::pair<nc_color, long>, 9> get_overmap_neighbors( const tripoint &
             ter_sym = cur_ter->get_sym();
         } else {
             ter_color = c_dark_gray;
-            ter_sym   = '#';
+            ter_sym = '#';
         }
         map_around[index++] = std::make_pair( ter_color, ter_sym );
     }
@@ -109,7 +115,7 @@ std::array<std::pair<nc_color, long>, 9> get_overmap_neighbors( const tripoint &
 }
 
 void update_note_preview( const std::string &note,
-                          const std::array<std::pair<nc_color, long>, 9> map_around,
+                          const std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around,
                           const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                           &preview_windows )
 {
@@ -135,14 +141,17 @@ void update_note_preview( const std::string &note,
     mvwputch( *w_preview_title, 1, note_text.length(), c_white, LINE_XOOX );
     wrefresh( *w_preview_title );
 
+    const int npm_offset_x = 1;
+    const int npm_offset_y = 1;
     draw_border( *w_preview_map, c_yellow );
-    for( int i = 1; i < 4; i++ ) {
-        for( int j = 1; j < 4; j++ ) {
-            const auto &ter = map_around.at( ( i - 1 ) * 3 + j - 1 );
-            mvwputch( *w_preview_map, i, j, ter.first, ter.second );
+    for( int i = 0; i < npm_height; i++ ) {
+        for( int j = 0; j < npm_width; j++ ) {
+            const auto &ter = map_around[i * npm_width + j];
+            mvwputch( *w_preview_map, i + npm_offset_y, j + npm_offset_x, ter.first, ter.second );
         }
     }
-    mvwputch( *w_preview_map, 2, 2, note_color, symbol );
+    mvwputch( *w_preview_map, npm_height / 2 + npm_offset_y, npm_width / 2 + npm_offset_x,
+              note_color, symbol );
     wrefresh( *w_preview_map );
 };
 
@@ -923,12 +932,12 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
-            std::array<std::pair<nc_color, long>, 9> map_around = get_overmap_neighbors( curs );
+            const auto map_around = get_overmap_neighbors( curs );
 
             const int max_note_length = 45;
-            catacurses::window w_preview = catacurses::newwin( 5, max_note_length - 4, 2, 5 );
+            catacurses::window w_preview = catacurses::newwin( 5, max_note_length - 4, 2, npm_height + 2 );
             catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
-            catacurses::window w_preview_map = catacurses::newwin( 5, 5, 2, 0 );
+            catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
 #ifdef __ANDROID__
@@ -953,17 +962,17 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             do {
                 new_note = input_popup.query_string( false );
-                if( input_popup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
+                const long first_input = input_popup.context().get_raw_input().get_first_input();
+                if( first_input == KEY_ESCAPE ) {
                     new_note = old_note;
                     esc_pressed = true;
                     break;
-                } else if( input_popup.context().get_raw_input().get_first_input() == '\n' ) {
+                } else if( first_input == '\n' ) {
                     break;
                 } else {
                     update_note_preview( new_note, map_around, preview_windows );
                 }
-            } while( input_popup.context().get_raw_input().get_first_input() != '\n' &&
-                     input_popup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
+            } while( true );
 
             if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
                 if( query_yn( _( "Really delete note?" ) ) ) {
