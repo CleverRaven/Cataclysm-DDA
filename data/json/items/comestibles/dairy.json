@@ -79,7 +79,7 @@
     "material": [ "milk" ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "volume": 1,
-    "charges": 7,
+    "charges": 1,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 7 ] ],
     "fun": 5
   },
