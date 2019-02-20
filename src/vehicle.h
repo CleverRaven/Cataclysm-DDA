@@ -38,6 +38,9 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+typedef enum {
+    DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
+} veh_interact_results;
 namespace vehicles
 {
 extern point cardinal_d[5];
@@ -1434,6 +1437,8 @@ class vehicle
         void use_washing_machine( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
+
+        veh_interact_results interact_with( const tripoint &pos, int interact_part );
 
         const std::string disp_name() const;
 
