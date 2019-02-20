@@ -1896,14 +1896,14 @@ bool basecamp::gathering_return( npc &p, const std::string &task, time_duration 
         favor = 1;
         danger = 15;
         skill_group = "trapping";
-        skill = comp->get_skill_level( skill_traps );
+        skill = 2 * comp->get_skill_level( skill_traps ) + comp->per_cur;
         checks_per_cycle = 4;
     } else if( task == "_faction_camp_hunting" ) {
         task_description = _( "hunting for meat" );
         danger = 10;
         favor = 0;
         skill_group = "hunting";
-        skill = comp->get_skill_level( skill_gun );
+        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2;
         threat = 12;
         checks_per_cycle = 2;
     }
@@ -1938,7 +1938,7 @@ bool basecamp::gathering_return( npc &p, const std::string &task, time_duration 
         }
     }
     if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
-        camp_hunting_results( skill, task, checks_per_cycle * mission_time / min_time, 25 );
+        camp_hunting_results( skill, task, checks_per_cycle * mission_time / min_time, 30 );
     } else {
         camp_search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15 );
     }
