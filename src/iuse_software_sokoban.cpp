@@ -1,5 +1,7 @@
 #include "iuse_software_sokoban.h"
 
+#include <sstream>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
@@ -10,11 +12,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#include <sstream>
-
-sokoban_game::sokoban_game()
-{
-}
+sokoban_game::sokoban_game() = default;
 
 void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore, int iMoves )
 {
@@ -308,7 +306,9 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( ctxt.get_direction( iDirX, iDirY, action ) ) {
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            iDirX = vec->x;
+            iDirY = vec->y;
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;

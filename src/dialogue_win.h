@@ -2,9 +2,9 @@
 #ifndef DIALOGUE_WIN_H
 #define DIALOGUE_WIN_H
 
-#include "ui.h"
-
 #include <vector>
+
+#include "ui.h"
 
 using talk_data = std::pair<nc_color, std::string>;
 

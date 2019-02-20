@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -26,11 +25,10 @@ TEST_CASE( "vehicle_power" )
 
         g->m.build_map_cache( 0, true );
 
-        tripoint test_origin( 15, 15, 0 );
+        const tripoint test_origin( 15, 15, 0 );
         g->u.setpos( test_origin );
-        tripoint vehicle_origin = tripoint( 10, 10, 0 );
-        VehicleList vehs;
-        vehs = g->m.get_vehicles();
+        const tripoint vehicle_origin = tripoint( 10, 10, 0 );
+        VehicleList vehs = g->m.get_vehicles();
         vehicle *veh_ptr;
         for( auto &vehs_v : vehs ) {
             veh_ptr = vehs_v.v;
@@ -54,12 +52,12 @@ TEST_CASE( "vehicle_power" )
         g->m.destroy_vehicle( veh_ptr );
         g->refresh_all();
         REQUIRE( g->m.get_vehicles().empty() );
-        tripoint solar_origin = tripoint( 5, 5, 0 );
+        const tripoint solar_origin = tripoint( 5, 5, 0 );
         veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
         calendar::turn = to_turns<int>( calendar::turn.season_length() ) + DAYS( 1 );
-        time_point start_time = calendar::turn.sunrise() + 3_hours;
+        const time_point start_time = calendar::turn.sunrise() + 3_hours;
         veh_ptr->update_time( start_time );
         veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );

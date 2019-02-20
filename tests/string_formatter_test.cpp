@@ -1,9 +1,8 @@
-#include "catch/catch.hpp"
+#include <limits>
 
+#include "catch/catch.hpp"
 #include "output.h"
 #include "string_formatter.h"
-
-#include <limits>
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>

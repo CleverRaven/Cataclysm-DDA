@@ -681,7 +681,6 @@
         "-": "f_null",
         ".": "f_null",
         "C": "f_counter",
-        "^": "f_plant_seed",
         "_": "f_null",
         "b": "f_null",
         "c": "f_chair",
@@ -708,6 +707,7 @@
         { "chance": 55, "item": "fridgesnacks", "x": [ 15, 16 ], "y": 21 },
         { "chance": 35, "item": "fridge", "x": [ 18, 19 ], "y": 21 }
       ],
+      "sealed_item": { "^": { "item": { "item": "seed_sugar_beet" }, "furniture": "f_plant_seed" } },
       "place_monster": [
         { "monster": "mon_crow", "x": 9, "y": 3 },
         { "monster": "mon_crow", "x": 11, "y": 3 },

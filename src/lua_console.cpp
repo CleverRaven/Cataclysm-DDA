@@ -1,10 +1,10 @@
 #include "lua_console.h"
 
+#include <map>
+
 #include "catalua.h"
 #include "input.h"
 #include "string_input_popup.h"
-
-#include <map>
 
 lua_console::lua_console() : cWin( catacurses::newwin( lines, width, 0, 0 ) ),
     iWin( catacurses::newwin( 1, width, lines, 0 ) )

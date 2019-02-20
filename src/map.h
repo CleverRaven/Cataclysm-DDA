@@ -2,22 +2,25 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "calendar.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item_stack.h"
-#include "lightmap.h"
-#include "shadowcasting.h"
-#include "string_id.h"
-
 #include <array>
+#include <bitset>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
 #include <utility>
 #include <vector>
+
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "lightmap.h"
+#include "shadowcasting.h"
+#include "string_id.h"
+#include "units.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -32,13 +35,6 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-} // namespace units
 class emit;
 using emit_id = string_id<emit>;
 class vpart_position;
@@ -64,6 +60,7 @@ struct mapgendata;
 class map_cursor;
 class Character;
 class item_location;
+class zone_data;
 struct trap;
 struct oter_t;
 enum direction : unsigned;
@@ -133,11 +130,11 @@ class map_stack : public item_stack
 
 struct visibility_variables {
     bool variables_set; // Is this struct initialized for current z-level
+    bool u_sight_impaired;
+    bool u_is_boomered;
     // cached values for map visibility calculations
     int g_light_level;
     int u_clairvoyance;
-    bool u_sight_impaired;
-    bool u_is_boomered;
     float vision_threshold;
 };
 
@@ -159,6 +156,12 @@ struct bash_params {
     bool success; // Was anything destroyed?
 
     bool bashed_solid; // Did we bash furniture, terrain or vehicle
+
+    // Are we bashing this location from above?
+    // Used in determining what sort of terrain the location will turn into,
+    // since if we bashed from above and destroyed it, it probably shouldn't
+    // have a roof either.
+    bool bashing_from_above;
 };
 
 struct level_cache {
@@ -169,22 +172,24 @@ struct level_cache {
     bool outside_cache_dirty;
     bool floor_cache_dirty;
 
-    four_quadrants lm[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float sm[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
+    float sm[MAPSIZE_X][MAPSIZE_Y];
     // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
     // This is only valid for the duration of generate_lightmap
-    float light_source_buffer[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    bool outside_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
-    lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+    bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
+    bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
+    float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    float seen_cache[MAPSIZE_X][MAPSIZE_Y];
+    float camera_cache[MAPSIZE_X][MAPSIZE_Y];
+    lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
 
     bool veh_in_active_range;
-    bool veh_exists_at[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
+    std::set<vehicle *> zone_vehicles;
 };
 
 /**
@@ -217,7 +222,7 @@ class map
         // Constructors & Initialization
         map( int mapsize = MAPSIZE, bool zlev = false );
         map( bool zlev ) : map( MAPSIZE, zlev ) { }
-        ~map();
+        virtual ~map();
 
         map &operator=( map && ) = default;
 
@@ -249,6 +254,23 @@ class map
 
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
+
+        void set_memory_seen_cache_dirty( const tripoint &p ) {
+            const int offset = p.x + ( p.y * MAPSIZE_Y );
+            if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
+                get_cache( p.z ).map_memory_seen_cache.reset( offset );
+            }
+        }
+
+        bool check_and_set_seen_cache( const tripoint &p ) const {
+            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            if( !memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] ) {
+                memory_seen_cache.set( static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) );
+                return true;
+            }
+            return false;
+        }
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -476,7 +498,6 @@ class map
                                      const pathfinding_settings &settings,
         const std::set<tripoint> &pre_closed = {{ }} ) const;
 
-        int coord_to_angle( const int x, const int y, const int tgtx, const int tgty ) const;
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
@@ -485,6 +506,11 @@ class map
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( submap *const to, const int zlev );
+        //Returns true if vehicle zones are dirty and need to be recached
+        bool check_vehicle_zones( const int zlev );
+        std::vector<zone_data *> get_vehicle_zones( const int zlev );
+        void register_vehicle_zone( vehicle *, const int zlev );
+        bool deregister_vehicle_zone( zone_data &zone );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
@@ -493,8 +519,6 @@ class map
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
         bool vehproceed();
-        // Actually moves a vehicle
-        bool vehact( vehicle &veh );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -518,14 +542,6 @@ class map
         // Returns the wheel area of the vehicle multiplied by traction of the surface
         // TODO: Remove the ugly sinking vehicle hack
         float vehicle_wheel_traction( const vehicle &veh ) const;
-
-        // Like traction, except for water
-        // TODO: Actually implement (this is a stub)
-        // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
-        float vehicle_buoyancy( const vehicle &veh ) const;
-
-        // Returns if the vehicle should fall down a z-level
-        bool vehicle_falling( vehicle &veh );
 
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
@@ -579,6 +595,13 @@ class map
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
         ter_id ter( const tripoint &p ) const;
+
+        // Return a bitfield of the adjacent tiles which connect to the given
+        // connect_group.  From least-significant bit the order is south, east,
+        // west, north (because that's what cata_tiles expects).
+        // Based on a combination of visibility and memory, not simply the true
+        // terrain.
+        uint8_t get_known_connections( const tripoint &p, int connect_group ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -733,20 +756,20 @@ class map
         // mapgen
 
         void draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 );
-        void draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 );
-        void draw_fill_background( ter_id type );
+        void draw_line_furn( const furn_id type, int x1, int y1, int x2, int y2 );
+        void draw_fill_background( const ter_id type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
-        void draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 );
-        void draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 );
+        void draw_square_ter( const ter_id type, int x1, int y1, int x2, int y2 );
+        void draw_square_furn( const furn_id type, int x1, int y1, int x2, int y2 );
         void draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 );
         void draw_square_ter( const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
-        void draw_rough_circle_ter( ter_id type, int x, int y, int rad );
-        void draw_rough_circle_furn( furn_id type, int x, int y, int rad );
-        void draw_circle_ter( ter_id type, double x, double y, double rad );
-        void draw_circle_ter( ter_id type, int x, int y, int rad );
-        void draw_circle_furn( furn_id type, int x, int y, int rad );
+        void draw_rough_circle_ter( const ter_id type, int x, int y, int rad );
+        void draw_rough_circle_furn( const furn_id type, int x, int y, int rad );
+        void draw_circle_ter( const ter_id type, double x, double y, double rad );
+        void draw_circle_ter( const ter_id type, int x, int y, int rad );
+        void draw_circle_furn( const furn_id type, int x, int y, int rad );
 
         void add_corpse( const tripoint &p );
 
@@ -799,7 +822,7 @@ class map
         * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
         * Washable fields are decayed only by 1/3 of the amount fire is.
         */
-        void decay_fields_and_scent( const time_duration amount );
+        void decay_fields_and_scent( const time_duration &amount );
 
         // Signs
         const std::string get_signage( const tripoint &p ) const;
@@ -834,7 +857,7 @@ class map
         // Items: 2D
         map_stack i_at( int x, int y );
         void i_clear( const int x, const int y );
-        std::list<item>::iterator i_rem( const point location, std::list<item>::iterator it );
+        std::list<item>::iterator i_rem( const point &location, std::list<item>::iterator it );
         int i_rem( const int x, const int y, const int index );
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
@@ -919,9 +942,9 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                           long &quantity );
+                                           long &quantity, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount );
+                                    long &amount, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
                                      long &amount );
         /*@}*/
@@ -974,15 +997,15 @@ class map
         item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
         // Traps: 3D
-        void trap_set( const tripoint &p, const trap_id id );
+        void trap_set( const tripoint &p, const trap_id type );
 
         const trap &tr_at( const tripoint &p ) const;
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
-        const std::vector<tripoint> &trap_locations( trap_id t ) const;
+        const std::vector<tripoint> &trap_locations( const trap_id type ) const;
 
         //Spawns byproducts from items destroyed in fire.
-        void create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass );
+        void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp
@@ -1015,55 +1038,58 @@ class map
          * Get the age of a field entry (@ref field_entry::age), if there is no
          * field of that type, returns `-1_turns`.
          */
-        time_duration get_field_age( const tripoint &p, const field_id t ) const;
+        time_duration get_field_age( const tripoint &p, const field_id type ) const;
         /**
          * Get the density of a field entry (@ref field_entry::density),
          * if there is no field of that type, returns 0.
          */
-        int get_field_strength( const tripoint &p, const field_id t ) const;
+        int get_field_strength( const tripoint &p, const field_id type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration adjust_field_age( const tripoint &p, field_id t, time_duration offset );
+        time_duration adjust_field_age( const tripoint &p, const field_id type,
+                                        const time_duration &offset );
         /**
          * Increment/decrement density of field entry at point, creating if not present,
          * removing if density becomes 0.
          * @return resulting density, or 0 for not present (either removed or not created at all).
          */
-        int adjust_field_strength( const tripoint &p, const field_id t, const int offset );
+        int adjust_field_strength( const tripoint &p, const field_id type, const int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
-         * @param t ID of field
+         * @param type ID of field
          * @param age New age of specified field
          * @param isoffset If true, the given age value is added to the existing value,
          * if false, the existing age is ignored and overridden.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration set_field_age( const tripoint &p, field_id t, time_duration age,
+        time_duration set_field_age( const tripoint &p, const field_id type, const time_duration &age,
                                      bool isoffset = false );
         /**
          * Set density of field entry at point, creating if not present,
          * removing if density becomes 0.
          * @param p Location of field
-         * @param t ID of field
+         * @param type ID of field
          * @param str New strength of field
          * @param isoffset If true, the given str value is added to the existing value,
          * if false, the existing density is ignored and overridden.
          * @return resulting density, or 0 for not present (either removed or not created at all).
          */
-        int set_field_strength( const tripoint &p, const field_id t, const int str, bool isoffset = false );
+        int set_field_strength( const tripoint &p, const field_id type, const int str,
+                                bool isoffset = false );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, const field_id t );
+        field_entry *get_field( const tripoint &p, const field_id type );
         /**
          * Add field entry at point, or set density if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, field_id t, int density, time_duration age = 0_turns );
+        bool add_field( const tripoint &p, const field_id type, int density,
+                        const time_duration &age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
@@ -1074,7 +1100,7 @@ class map
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
 
-        void propagate_field( const tripoint &center, field_id fid,
+        void propagate_field( const tripoint &center, const field_id type,
                               int amount, int max_density = MAX_FIELD_DENSITY );
 
         /**
@@ -1092,8 +1118,8 @@ class map
          * Build the map of scent-resistant tiles.
          * Should be way faster than if done in `game.cpp` using public map functions.
          */
-        void scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPSIZE> &blocks_scent,
-                             std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPSIZE> &reduces_scent,
+        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
+                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
                              int minx, int miny, int maxx, int maxy );
 
         // Computers
@@ -1177,7 +1203,7 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                   fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] );
+                                   fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -1221,7 +1247,7 @@ class map
          * Output is in the same scale, but in global system.
          */
         point getabs( const int x, const int y ) const;
-        point getabs( const point p ) const {
+        point getabs( const point &p ) const {
             return getabs( p.x, p.y );
         }
         /**
@@ -1234,13 +1260,14 @@ class map
          * Inverse of @ref getabs
          */
         point getlocal( const int x, const int y ) const;
-        point getlocal( const point p ) const {
+        point getlocal( const point &p ) const {
             return getlocal( p.x, p.y );
         }
         tripoint getlocal( const tripoint &p ) const;
-        bool inbounds( const int x, const int y ) const;
-        bool inbounds( const int x, const int y, const int z ) const;
-        bool inbounds( const tripoint &p ) const;
+        virtual bool inbounds( const tripoint &p ) const;
+        bool inbounds( const point &p ) const {
+            return inbounds( tripoint( p, 0 ) );
+        }
 
         bool inbounds_z( const int z ) const {
             return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
@@ -1395,36 +1422,30 @@ class map
         submap *getsubmap( size_t grididx ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
-         * (x,y) must be a valid coordinate, check with @ref inbounds.
+         * (p) must be a valid coordinate, check with @ref inbounds.
          */
-        submap *get_submap_at( int x, int y ) const;
-        submap *get_submap_at( int x, int y, int z ) const;
+        submap *get_submap_at( const point &p ) const;
         submap *get_submap_at( const tripoint &p ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
-         * The same as other get_submap_at, (x,y,z) must be valid (@ref inbounds).
-         * Also writes the position within the submap to offset_x, offset_y
-         * offset_z would always be 0, so it is not used here
+         * The same as other get_submap_at, (p) must be valid (@ref inbounds).
+         * Also writes the position within the submap to offset_p
          */
-        submap *get_submap_at( const int x, const int y, int &offset_x, int &offset_y ) const;
-        submap *get_submap_at( const int x, const int y, const int z,
-                               int &offset_x, int &offset_y ) const;
-        submap *get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const;
+        submap *get_submap_at( const point &p, point &offset_p ) const;
+        submap *get_submap_at( const tripoint &p, point &offset_p ) const;
         /**
          * Get submap pointer in the grid at given grid coordinates. Grid coordinates must
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          * z must be between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        submap *get_submap_at_grid( int gridx, int gridy ) const;
-        submap *get_submap_at_grid( int gridx, int gridy, int gridz ) const;
+        submap *get_submap_at_grid( const point &gridp ) const;
         submap *get_submap_at_grid( const tripoint &gridp ) const;
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
          * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        size_t get_nonant( int gridx, int gridy ) const;
-        size_t get_nonant( const int gridx, const int gridy, const int gridz ) const;
+        size_t get_nonant( const point &gridp ) const;
         size_t get_nonant( const tripoint &gridp ) const;
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
@@ -1452,8 +1473,9 @@ class map
                            bool invert, bool show_items,
                            const tripoint &view_center,
                            bool low_light, bool bright_light, bool inorder ) const;
-        void draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                       const tripoint &view_center ) const;
+        bool draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                       const tripoint &view_center,
+                                       bool move_cursor = true ) const;
         /**
          * Draws the tile as seen from above.
          */
@@ -1471,11 +1493,12 @@ class map
         // Handle just cardinal directions and 45 deg angles.
         void apply_directional_light( const tripoint &p, int direction, float luminance );
         void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
-        void apply_light_ray( bool lit[MAPSIZE * SEEX][MAPSIZE * SEEY],
+        void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
                                    std::list<item>::iterator end );
-        vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
+        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh,
+                bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct
@@ -1503,13 +1526,13 @@ class map
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
-        void process_items( bool active, map_process_func processor, std::string const &signal );
+        void process_items( bool active, map_process_func processor, const std::string &signal );
         void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      map::map_process_func processor, std::string const &signal );
+                                      map::map_process_func processor, const std::string &signal );
         void process_items_in_vehicles( submap &current_submap, const int gridz,
-                                        map_process_func processor, std::string const &signal );
+                                        map_process_func processor, const std::string &signal );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
-                                       map::map_process_func processor, std::string const &signal );
+                                       map::map_process_func processor, const std::string &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {
@@ -1555,7 +1578,7 @@ class map
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
 
         // Note: no bounds check
-        level_cache &get_cache( int zlev ) {
+        level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }
 
@@ -1596,6 +1619,7 @@ class tinymap : public map
         friend class editmap;
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
+        bool inbounds( const tripoint &p ) const;
 };
 
 #endif

@@ -1,5 +1,8 @@
 #include "skill.h"
 
+#include <algorithm>
+#include <iterator>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
@@ -7,9 +10,6 @@
 #include "recipe.h"
 #include "rng.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <iterator>
 
 // TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
@@ -54,17 +54,17 @@ Skill::Skill( skill_id ident, std::string name, std::string description,
 {
 }
 
-std::vector<Skill const *> Skill::get_skills_sorted_by(
-    std::function<bool ( Skill const &, Skill const & )> pred )
+std::vector<const Skill *> Skill::get_skills_sorted_by(
+    std::function<bool ( const Skill &, const Skill & )> pred )
 {
-    std::vector<Skill const *> result;
+    std::vector<const Skill *> result;
     result.reserve( skills.size() );
 
-    std::transform( begin( skills ), end( skills ), back_inserter( result ), []( Skill const & s ) {
+    std::transform( begin( skills ), end( skills ), back_inserter( result ), []( const Skill & s ) {
         return &s;
     } );
 
-    std::sort( begin( result ), end( result ), [&]( Skill const * lhs, Skill const * rhs ) {
+    std::sort( begin( result ), end( result ), [&]( const Skill * lhs, const Skill * rhs ) {
         return pred( *lhs, *rhs );
     } );
 
@@ -80,7 +80,7 @@ void Skill::reset()
 void Skill::load_skill( JsonObject &jsobj )
 {
     skill_id ident = skill_id( jsobj.get_string( "ident" ) );
-    skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( Skill const & s ) {
+    skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( const Skill & s ) {
         return s._ident == ident;
     } ), end( skills ) );
 
@@ -179,7 +179,7 @@ bool SkillLevel::isRusting() const
 bool SkillLevel::rust( bool charged_bio_mem )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0 || delta % rustRate( _level ) != 0 ) {
+    if( _level <= 0 || delta <= 0_turns || delta % rustRate( _level ) != 0_turns ) {
         return false;
     }
 
@@ -188,7 +188,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
     }
 
     _exercise -= _level;
-    auto const &rust_type = get_option<std::string>( "SKILL_RUST" );
+    const auto &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
             _exercise = ( 100 * _level * _level ) - 1;

@@ -1,5 +1,10 @@
 #include "requirements.h"
 
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <sstream>
+
 #include "calendar.h"
 #include "debug.h"
 #include "game.h"
@@ -12,11 +17,6 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cmath>
-#include <limits>
-#include <sstream>
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -100,7 +100,7 @@ bool tool_comp::by_charges() const
 std::string tool_comp::to_string( int batch ) const
 {
     if( by_charges() ) {
-        //~ <tool-name> (<numer-of-charges> charges)
+        //~ <tool-name> (<number-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
                               item::nname( type ).c_str(), count * batch );
     } else {

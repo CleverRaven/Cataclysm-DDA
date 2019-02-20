@@ -29,6 +29,16 @@
     "price": 8000
   },
   {
+    "id": "alternator_bicycle",
+    "copy-from": "vehicle_alternator",
+    "type": "GENERIC",
+    "name": "bicycle alternator",
+    "description": "A very lightweight alternator used to power a bicycle's headlights.",
+    "weight": 1100,
+    "volume": 4,
+    "price": 8000
+  },
+  {
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",

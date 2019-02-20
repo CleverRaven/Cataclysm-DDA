@@ -208,6 +208,26 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
+    "result": "460_fmj",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 3 ] ], [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 10 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "460_rowland",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 3 ] ], [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 10 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
     "result": "500_Magnum",
     "type": "uncraft",
     "skill_used": "gun",
@@ -858,7 +878,7 @@
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
   },
   {
     "result": "ceramic_bowl",
@@ -1207,6 +1227,13 @@
     ]
   },
   {
+    "result": "basket_laundry",
+    "type": "uncraft",
+    "time": 5000,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
+  },
+  {
     "result": "lawnmower",
     "type": "uncraft",
     "time": 1000,
@@ -1530,6 +1557,13 @@
     "time": 60000,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
+  },
+  {
+    "result": "stick_fiber",
+    "type": "uncraft",
+    "time": 60000,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plant_fibre", 80 ] ] ]
   },
   {
     "result": "ref_lighter",
@@ -2040,5 +2074,28 @@
     "time": 4000,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "result": "muffler",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 800,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 7 ] ], [ [ "steel_chunk", 1 ] ], [ [ "platinum_small", 8 ] ], [ [ "pipe", 2 ] ] ]
+  },
+  {
+    "result": "fluid_preserved_brain",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "trailmap",
+    "type": "uncraft",
+    "time": 500,
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

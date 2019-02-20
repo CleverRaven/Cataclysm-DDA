@@ -23,6 +23,17 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "army_mags_rm25",
+    "entries": [
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_rm11b",
     "entries": [
       { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
@@ -57,6 +68,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "shotgun_d_roadwarrior",
+    "entries": [ { "item": "shotgun_d", "ammo-item": "reloaded_shot_00", "contents-item": [ "barrel_small" ] } ]
+  },
+  {
     "type": "profession_item_substitutions",
     "substitutions": [
       {
@@ -70,6 +87,7 @@
           [ "boots_winter", "boots_fur" ],
           [ "cloak_wool", "cloak_leather" ],
           [ "gloves_wool", "gloves_leather" ],
+          [ "socks_wool", "socks" ],
           [ "kilt", "kilt_leather" ],
           [ "mask_ski", "balclava" ]
         ]
@@ -136,6 +154,42 @@
       { "item": "cookbook_human", "bonus": [ [ "CANNIBAL" ] ] },
       { "item": "teleumbrella", "bonus": [ [ "ALBINO" ] ] }
     ]
+  },
+  {
+    "type": "profession",
+    "ident": "vagabond",
+    "name": "Vagabond",
+    "description": "Circumstances left you wandering, with no home, no family, no friends.  But the world you knew is gone, and maybe your experiences relying on yourself to survive could be useful in this new one.",
+    "points": 2,
+    "skills": [
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "tailor" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "cooking" }
+    ],
+    "items": {
+      "both": [
+        "jeans",
+        "tshirt",
+        "gloves_light",
+        "hat_ball",
+        "duffelbag",
+        "backpack",
+        "long_underpants",
+        "boots",
+        "socks_wool",
+        "socks",
+        "hoodie",
+        "folding_poncho_on",
+        "knit_scarf",
+        "jug_plastic",
+        "can_beans",
+        "pockknife",
+        "matches"
+      ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -323,25 +377,21 @@
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
-      "both": [
-        "slingpack",
-        "tank_top",
-        "jeans",
-        "socks",
-        "boots_steel",
-        "tool_belt",
-        "wrench",
-        "duct_tape",
-        "screwdriver",
-        "welder",
-        "battery",
-        "battery",
-        "battery",
-        "battery",
-        "battery",
-        "goggles_welding",
-        "mag_cars"
-      ],
+      "both": {
+        "items": [
+          "slingpack",
+          "tank_top",
+          "jeans",
+          "socks",
+          "boots_steel",
+          "tool_belt",
+          "wrench",
+          "duct_tape",
+          "screwdriver",
+          "mag_cars"
+        ],
+        "entries": [ { "item": "welder", "charges": 500 }, { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -1397,7 +1447,9 @@
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
           { "item": "rm11b_sniper_rifle", "ammo-item": "8mm_fmj", "contents-item": [ "shoulder_strap" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "chestrig", "contents-group": [ "army_mags_rm51", "army_mags_usp45" ] }
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "chestrig", "contents-group": [ "army_mags_rm25" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1616,7 +1668,7 @@
     "type": "profession",
     "ident": "firefighter",
     "name": "Firefighter",
-    "description": "As a first responder you were direct witness to the gutwrenching horrors of the apocalypse.  Separated from most of your equipment and your unit while on call, you were forced to fight your way to safety with little more than your trusty iron and bunker gear to protect you.",
+    "description": "As a first responder you were direct witness to the gut-wrenching horrors of the apocalypse.  Separated from most of your equipment and your unit while on call, you were forced to fight your way to safety with little more than your trusty iron and bunker gear to protect you.",
     "points": 2,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "swimming" } ],
     "items": {
@@ -2276,7 +2328,7 @@
         ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "shotgun_d", "ammo-item": "reloaded_shot_00", "container-item": "back_holster" },
+          { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
           { "item": "reloaded_shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "reloaded_shot_00", "charges": 6 }
         ]
@@ -2967,7 +3019,7 @@
     "type": "profession",
     "ident": "bio_medic",
     "name": "Bionic Surgeon",
-    "description": "As one of the top surgeons in the country, you were chosen for an augmentation program to expand the medical field.  With your expertise and augmentations, you can perform precise surgery with little assitance.",
+    "description": "As one of the top surgeons in the country, you were chosen for an augmentation program to expand the medical field.  With your expertise and augmentations, you can perform precise surgery with little assistance.",
     "points": 6,
     "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 8, "name": "firstaid" } ],

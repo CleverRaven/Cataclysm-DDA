@@ -1,5 +1,8 @@
 #include "effect.h"
 
+#include <map>
+#include <sstream>
+
 #include "debug.h"
 #include "json.h"
 #include "messages.h"
@@ -7,9 +10,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-
-#include <map>
-#include <sstream>
 
 namespace
 {
@@ -195,10 +195,10 @@ static void extract_effect( JsonObject &j,
     }
 }
 
-bool effect_type::load_mod_data( JsonObject &jsobj, const std::string &member )
+bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
 {
-    if( jsobj.has_object( member ) ) {
-        JsonObject j = jsobj.get_object( member );
+    if( jo.has_object( member ) ) {
+        JsonObject j = jo.get_object( member );
 
         // Stats first
         //                          json field                  type key    arg key
@@ -712,7 +712,7 @@ time_duration effect::get_max_duration() const
 {
     return eff_type->max_duration;
 }
-void effect::set_duration( const time_duration dur, bool alert )
+void effect::set_duration( const time_duration &dur, bool alert )
 {
     duration = dur;
     // Cap to max_duration if it exists
@@ -728,7 +728,7 @@ void effect::set_duration( const time_duration dur, bool alert )
 
     add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), to_turns<int>( duration ) );
 }
-void effect::mod_duration( const time_duration dur, bool alert )
+void effect::mod_duration( const time_duration &dur, bool alert )
 {
     set_duration( duration + dur, alert );
 }
@@ -1082,7 +1082,8 @@ bool effect::activated( const time_point &when, std::string arg, int val, bool r
     // mod multiplies the overall percentage chances
 
     // has to be an && here to avoid undefined behavior of turn % 0
-    if( tick > 0 && ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0 ) {
+    if( tick > 0 &&
+        ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0_turns ) {
         if( bot_base != 0 && bot_scale != 0 ) {
             if( bot_base + bot_scale == 0 ) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"
@@ -1317,15 +1318,15 @@ void effect::deserialize( JsonIn &jsin )
 std::string texitify_base_healing_power( const int power )
 {
     if( power == 1 ) {
-        return _( "very poor" );
+        return colorize( _( "very poor" ), c_red );
     } else if( power == 2 ) {
-        return _( "poor" );
+        return colorize( _( "poor" ), c_light_red );
     } else if( power == 3 ) {
-        return _( "decent" );
+        return colorize( _( "average" ), c_yellow );
     } else if( power == 4 ) {
-        return _( "good" );
+        return colorize( _( "good" ), c_light_green );
     } else if( power >= 5 ) {
-        return _( "great" );
+        return colorize( _( "great" ), c_green );
     }
     if( power < 1 ) {
         debugmsg( "Tried to convert zero or negative value." );
@@ -1336,21 +1337,21 @@ std::string texitify_base_healing_power( const int power )
 std::string texitify_healing_power( const int power )
 {
     if( power >= 1 && power <= 2 ) {
-        return _( "poor" );
+        return colorize( _( "very poor" ), c_red );
     } else if( power >= 3 && power <= 4 ) {
-        return _( "decent" );
+        return colorize( _( "poor" ), c_light_red );
     } else if( power >= 5 && power <= 6 ) {
-        return _( "average" );
+        return colorize( _( "average" ), c_yellow );
     } else if( power >= 7 && power <= 8 ) {
-        return _( "good" );
+        return colorize( _( "good" ), c_yellow );
     } else if( power >= 9 && power <= 10 ) {
-        return _( "very good" );
+        return colorize( _( "very good" ), c_light_green );
     } else if( power >= 11 && power <= 12 ) {
-        return _( "great" );
+        return colorize( _( "great" ), c_light_green );
     } else if( power >= 13 && power <= 14 ) {
-        return _( "outstanding" );
+        return colorize( _( "outstanding" ), c_green );
     } else if( power >= 15 ) {
-        return _( "perfect" );
+        return colorize( _( "perfect" ), c_green );
     }
     if( power < 1 ) {
         debugmsg( "Converted value out of bounds." );

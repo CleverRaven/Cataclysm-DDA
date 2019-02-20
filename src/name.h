@@ -18,7 +18,7 @@ enum nameFlags {
 namespace Name
 {
 /// Load names from given json file to use for generation
-void load_from_file( std::string const &filename );
+void load_from_file( const std::string &filename );
 
 /// Return a random name given search flags
 std::string get( nameFlags searchFlags );

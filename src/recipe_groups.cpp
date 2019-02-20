@@ -1,13 +1,13 @@
 #include "recipe_groups.h"
 
+#include <string>
+#include <vector>
+
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "json.h"
 #include "messages.h"
 #include "player.h"
-
-#include <string>
-#include <vector>
 
 // recipe_groups namespace
 

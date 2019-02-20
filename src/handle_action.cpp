@@ -1,4 +1,9 @@
+#include "game.h" // IWYU pragma: associated
+
+#include <chrono>
+
 #include "action.h"
+#include "advanced_inv.h"
 #include "auto_pickup.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -8,7 +13,6 @@
 #include "debug.h"
 #include "faction.h"
 #include "field.h"
-#include "game.h"
 #include "game_inventory.h"
 #include "gamemode.h"
 #include "gates.h"
@@ -40,11 +44,7 @@
 #include "weather.h"
 #include "worldfactory.h"
 
-#include <chrono>
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-void advanced_inv();
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -125,7 +125,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        auto const weather_info = get_weather_animation( weather );
+        const auto weather_info = get_weather_animation( weather );
         int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
         int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
@@ -133,8 +133,8 @@ input_context game::get_player_input( std::string &action )
         if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
-            iEndX = MAPSIZE * SEEX;
-            iEndY = MAPSIZE * SEEY;
+            iEndX = MAPSIZE_X;
+            iEndY = MAPSIZE_Y;
             offset_x = 0;
             offset_y = 0;
         }
@@ -340,11 +340,12 @@ static void rcdrive( int dx, int dy )
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
-        sounds::sound( dest, 7, _( "sound of a collision with an obstacle." ) );
+        sounds::sound( dest, 7, sounds::sound_t::combat,
+                       _( "sound of a collision with an obstacle." ) );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
         //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, _( "zzz..." ) );
+        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ) );
         u.moves -= 50;
         m.i_rem( src, rc_car );
         car_location_string.clear();
@@ -594,7 +595,7 @@ static void smash()
 
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, "" );
+        sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;
@@ -627,7 +628,7 @@ static void smash()
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
-            sounds::sound( u.pos(), 24, "" );
+            sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!" );
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
@@ -735,7 +736,7 @@ static void sleep()
         }
     }
     for( int i = 0; i < g->u.num_bionics(); i++ ) {
-        bionic const &bio = u.bionic_at_index( i );
+        const bionic &bio = u.bionic_at_index( i );
         if( !bio.powered ) {
             continue;
         }
@@ -746,7 +747,7 @@ static void sleep()
             continue;
         }
 
-        auto const &info = bio.info();
+        const auto &info = bio.info();
         if( info.power_over_time > 0 ) {
             active.push_back( info.name );
         }
@@ -816,7 +817,9 @@ static void loot()
         None = 1,
         SortLoot = 2,
         TillPlots = 4,
-        PlantPlots = 8
+        PlantPlots = 8,
+        FertilizePlots = 16,
+        HarvestPlots = 32,
     };
 
     auto just_one = []( int flags ) {
@@ -830,11 +833,14 @@ static void loot()
     const bool has_seeds = u.has_item_with( []( const item & itm ) {
         return itm.is_seed();
     } );
+    const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
         flags |= TillPlots;
         flags |= PlantPlots;
+        flags |= FertilizePlots;
+        flags |= HarvestPlots;
     }
 
     if( flags == 0 ) {
@@ -852,7 +858,7 @@ static void loot()
 
         if( flags & SortLoot ) {
             menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                                _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
         }
 
         if( flags & TillPlots ) {
@@ -866,6 +872,16 @@ static void loot()
                                 !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
                                 !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
+        }
+        if( flags & FertilizePlots ) {
+            menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
+                                !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
+                                _( "Fertilize any nearby Farm: Plot zones." ) );
+        }
+
+        if( flags & HarvestPlots ) {
+            menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
+                                _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
         }
 
         menu.query();
@@ -894,6 +910,12 @@ static void loot()
             } else {
                 u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
             }
+            break;
+        case FertilizePlots:
+            u.assign_activity( activity_id( "ACT_FERTILIZE_PLOT" ) );
+            break;
+        case HarvestPlots:
+            u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1566,7 +1588,18 @@ bool game::handle_action()
 
             case ACTION_SELECT_FIRE_MODE:
                 if( u.is_armed() ) {
-                    u.weapon.gun_cycle_mode();
+                    if( u.weapon.is_gun() && !u.weapon.is_gunmod() && u.weapon.gun_all_modes().size() > 1 ) {
+                        u.weapon.gun_cycle_mode();
+                    } else if( u.weapon.has_flag( "RELOAD_ONE" ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
+                        item::reload_option opt = u.select_ammo( u.weapon, false );
+                        if( !opt ) {
+                            break;
+                        } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+                            u.ammo_location = item_location();
+                        } else {
+                            u.ammo_location = opt.ammo.clone();
+                        }
+                    }
                 }
                 break;
 

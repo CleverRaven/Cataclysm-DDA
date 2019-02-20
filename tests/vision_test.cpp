@@ -1,16 +1,17 @@
-#include "catch/catch.hpp"
+#include <iomanip>
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
 #include "field.h"
 #include "string.h"
 #include "map.h"
-
 #include "map_helpers.h"
 
 void full_map_test( const std::vector<std::string> &setup,
                     const std::vector<std::string> &expected_results,
-                    calendar time )
+                    const calendar time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -20,6 +21,7 @@ void full_map_test( const std::vector<std::string> &setup,
 
     g->place_player( tripoint( 60, 60, 0 ) );
     g->reset_light_level();
+    g->u.worn.clear(); // Remove any light-emitting clothing
     g->u.clear_effects();
     clear_map();
 
@@ -47,9 +49,16 @@ void full_map_test( const std::vector<std::string> &setup,
     tripoint origin;
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
-            if( setup[y][x] == 'U' || setup[y][x] == 'u' ) {
-                origin = g->u.pos() - point( x, y );
-                break;
+            switch( setup[y][x] ) {
+                case 'V':
+                case 'U':
+                case 'u':
+                    origin = g->u.pos() - point( x, y );
+                    if( setup[y][x] == 'V' ) {
+                        item headlamp( "wearable_light_on" );
+                        g->u.worn.push_back( headlamp );
+                    }
+                    break;
             }
         }
     }
@@ -62,7 +71,7 @@ void full_map_test( const std::vector<std::string> &setup,
         REQUIRE( player_offset.x >= 0 );
         REQUIRE( player_offset.x < width );
         char player_char = setup[player_offset.y][player_offset.x];
-        REQUIRE( ( player_char == 'U' || player_char == 'u' ) );
+        REQUIRE( ( player_char == 'U' || player_char == 'u' || player_char == 'V' ) );
     }
 
     for( int y = 0; y < height; ++y ) {
@@ -85,6 +94,7 @@ void full_map_test( const std::vector<std::string> &setup,
                     g->m.ter_set( p, t_floor );
                     break;
                 case 'U':
+                case 'V':
                     // Already handled above
                     break;
                 default:
@@ -93,7 +103,7 @@ void full_map_test( const std::vector<std::string> &setup,
         }
     }
 
-    // We have to run thw whole thing twice, because the first time through the
+    // We have to run the whole thing twice, because the first time through the
     // player's vision_threshold is based on the previous lighting level (so
     // they might, for example, have poor nightvision due to having just been
     // in daylight)
@@ -119,7 +129,7 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            map::apparent_light_info al = g->m.apparent_light_helper( cache, p );
+            const map::apparent_light_info al = g->m.apparent_light_helper( cache, p );
             for( auto &pr : g->m.field_at( p ) ) {
                 fields << pr.second.name() << ',';
             }
@@ -158,13 +168,13 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            lit_level level = g->m.apparent_light_at( p, vvcache );
+            const lit_level level = g->m.apparent_light_at( p, vvcache );
             const char exp_char = expected_results[y][x];
             if( exp_char < '0' || exp_char > '9' ) {
                 FAIL( "unexpected result char '" <<
                       expected_results[y][x] << "'" );
             }
-            int expected_level = exp_char - '0';
+            const int expected_level = exp_char - '0';
 
             observed << level << ' ';
             expected << expected_level << ' ';
@@ -268,6 +278,7 @@ static constexpr int midday = HOURS( 12 );
 // '-' - empty, indoors
 // 'U' - player, outdoors
 // 'u' - player, indoors
+// 'V' - player, with light in inventory
 // 'L' - light, indoors
 // '#' - wall
 // '=' - window frame
@@ -386,6 +397,30 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
             "666",
             "111",
             "141",
+        },
+        midnight,
+        true
+    };
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
+{
+    vision_test_case t {
+        {
+            " V",
+            "  ",
+            "  ",
+            "##",
+            "--",
+        },
+        {
+            "44",
+            "44",
+            "44",
+            "44",
+            "66",
         },
         midnight,
         true

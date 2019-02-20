@@ -77,7 +77,7 @@ class selection_column_preset: public inventory_selector_preset
     public:
         selection_column_preset() {}
 
-        virtual std::string get_caption( const inventory_entry &entry ) const override {
+        std::string get_caption( const inventory_entry &entry ) const override {
             std::ostringstream res;
             const size_t available_count = entry.get_available_count();
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
@@ -87,7 +87,7 @@ class selection_column_preset: public inventory_selector_preset
             }
             if( entry.location->ammo_type() == "money" ) {
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    //~ In the following string, the %s is the ammount of money on the selected cards as passed by the display money function, out of the total ammount of money on the cards, which is specified by the format_money function")
+                    //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                     res << string_format( _( "%s of %s" ), entry.location->display_money( entry.chosen_count,
                                           entry.location.charges_in_stack( entry.chosen_count ) ),
                                           format_money( entry.location.charges_in_stack( available_count ) ) );
@@ -101,7 +101,7 @@ class selection_column_preset: public inventory_selector_preset
             return res.str();
         }
 
-        virtual nc_color get_color( const inventory_entry &entry ) const override {
+        nc_color get_color( const inventory_entry &entry ) const override {
             if( &*entry.location == &g->u.weapon ) {
                 return c_light_blue;
             } else if( g->u.is_worn( *entry.location ) ) {
@@ -919,14 +919,14 @@ void selection_column::on_change( const inventory_entry &entry )
 
 // @todo: Move it into some 'item_stack' class.
 std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
-                            const std::list<item>::const_iterator &to )
+                            const std::list<item>::const_iterator &to, bool check_components = false )
 {
     std::vector<std::list<item *>> res;
 
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
-        [ &it ]( const std::list<item *> &e ) {
-            return it->stacks_with( *const_cast<item *>( e.back() ) );
+        [ &it, check_components ]( const std::list<item *> &e ) {
+            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
@@ -1034,7 +1034,9 @@ void inventory_selector::add_character_items( Character &character )
         if( ( &elem->front() )->ammo_type() == "money" ) {
             add_item( own_inv_column, item_location( character, elem ), elem->size() );
         } else {
-            add_item( own_inv_column, item_location( character, &elem->front() ), elem->size() );
+            add_items( own_inv_column, [&character]( item * it ) {
+                return item_location( character, it );
+            }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );
         }
     }
 }
@@ -1048,7 +1050,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
-        }, restack_items( items.begin(), items.end() ), &map_cat );
+        }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
     }
 }
 
@@ -1064,9 +1066,11 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     const std::string name = to_upper_case( veh->parts[part].name() );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
+    const auto check_components = this->preset.get_checking_components();
+
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
-    }, restack_items( items.begin(), items.end() ), &vehicle_cat );
+    }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
 }
 
 void inventory_selector::add_nearby_items( int radius )
@@ -1686,7 +1690,7 @@ item_location inventory_pick_selector::execute()
             on_input( input );
         }
 
-        if( input.action == "HELP_KEYBINDINGS" ) {
+        if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
         }
@@ -1779,12 +1783,16 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
-inventory_iuse_selector::inventory_iuse_selector( const player &p,
-        const std::string &selector_title,
-        const inventory_selector_preset &preset
-                                                ) :
+inventory_iuse_selector::inventory_iuse_selector(
+    const player &p,
+    const std::string &selector_title,
+    const inventory_selector_preset &preset,
+    const GetStats &get_st
+) :
     inventory_multiselector( p, preset, selector_title ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {}
+    get_stats( get_st ),
+    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
+{}
 
 std::list<std::pair<int, int>> inventory_iuse_selector::execute()
 {
@@ -1870,7 +1878,9 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
 
 inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 {
-    /// @todo Calculate required water and cleansing product
+    if( get_stats ) {
+        return get_stats( to_use );
+    }
     return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }
 
@@ -1973,5 +1983,5 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_carried_with_tweaks( { dropping } ),
                u.weight_capacity(),
                u.volume_carried_with_tweaks( { dropping } ),
-               u.volume_capacity_reduced_by( 0, dropping ) );
+               u.volume_capacity_reduced_by( 0_ml, dropping ) );
 }

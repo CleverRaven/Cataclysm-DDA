@@ -4,10 +4,10 @@
     "type": "harvest",
     "message": "You butcher the fallen zombie and hack off its head",
     "entries": [
-      { "drop": "necro_head", "base_num": 1 },
-      { "drop": "meat_tainted", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 8 },
-      { "drop": "sinew", "base_num": [ 5, 15 ], "scale_num": [ 0.6, 0.9 ], "max": 20 },
-      { "drop": "bone_tainted", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10 }
+      { "drop": "necro_head", "base_num": 1, "type": "flesh" },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
     ]
   }
 ]

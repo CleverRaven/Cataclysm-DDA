@@ -1,7 +1,8 @@
 #include "messages.h"
 
 #include "calendar.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -12,8 +13,9 @@
 #include "translations.h"
 
 #ifdef __ANDROID__
-#include "options.h"
 #include <SDL_keyboard.h>
+
+#include "options.h"
 #endif
 
 #include <deque>
@@ -105,12 +107,12 @@ class messages_impl
             return !messages.empty() && messages.back().turn() > curmes;
         }
 
-        game_message const &history( int const i ) const {
+        const game_message &history( const int i ) const {
             return messages[messages.size() - i - 1];
         }
 
         // coalesce recent like messages
-        bool coalesce_messages( std::string const &msg, game_message_type const type ) {
+        bool coalesce_messages( const std::string &msg, game_message_type const type ) {
             if( messages.empty() ) {
                 return false;
             }
@@ -165,7 +167,7 @@ class messages_impl
             const int offset = static_cast<std::ptrdiff_t>( messages.size() - count );
 
             std::transform( begin( messages ) + offset, end( messages ), back_inserter( result ),
-            []( game_message const & msg ) {
+            []( const game_message & msg ) {
                 return std::make_pair( to_string_time_of_day( msg.timestamp_in_turns ),
                                        msg.get_with_count() );
             } );
@@ -388,9 +390,9 @@ void Messages::dialog::init()
         const size_t msg_ind = log_from_top ? ind : msg_count - 1 - ind;
         const game_message &msg = player_messages.history( msg_ind );
         const auto &folded = foldstring( msg.get_with_count(), msg_width );
-        for( auto it = folded.begin(); it != folded.end(); ++it ) {
+        for( const auto &it : folded ) {
             folded_filtered.emplace_back( folded_all.size() );
-            folded_all.emplace_back( msg_ind, *it );
+            folded_all.emplace_back( msg_ind, it );
         }
     }
 
@@ -649,14 +651,14 @@ void Messages::display_messages()
     player_messages.curmes = calendar::turn;
 }
 
-void Messages::display_messages( const catacurses::window &ipk_target, int const left,
-                                 int const top, int const right, int const bottom )
+void Messages::display_messages( const catacurses::window &ipk_target, const int left,
+                                 const int top, const int right, const int bottom )
 {
     if( !size() ) {
         return;
     }
 
-    int const maxlength = right - left;
+    const int maxlength = right - left;
     int line = log_from_top ? top : bottom;
 
     if( log_from_top ) {

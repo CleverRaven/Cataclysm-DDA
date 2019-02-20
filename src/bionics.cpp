@@ -1,5 +1,8 @@
 #include "bionics.h"
 
+#include <algorithm> //std::min
+#include <sstream>
+
 #include "action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
@@ -30,9 +33,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm> //std::min
-#include <sstream>
+#include "weather_gen.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -76,6 +77,11 @@ const efftype_id effect_weed_high( "weed_high" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 
+static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+
 namespace
 {
 std::map<bionic_id, bionic_data> bionics;
@@ -93,14 +99,14 @@ bool string_id<bionic_data>::is_valid() const
 template<>
 const bionic_data &string_id<bionic_data>::obj() const
 {
-    auto const it = bionics.find( *this );
+    const auto it = bionics.find( *this );
     if( it != bionics.end() ) {
         return it->second;
     }
 
     debugmsg( "bad bionic id %s", c_str() );
 
-    static bionic_data const null_value;
+    static const bionic_data null_value;
     return null_value;
 }
 
@@ -166,7 +172,7 @@ bool player::activate_bionic( int b, bool eff_only )
     }
 
     item tmp_item;
-    w_point const weatherPoint = *g->weather_precise;
+    const w_point weatherPoint = *g->weather_precise;
 
     // On activation effects go here
     if( bionics[bio.id].gun_bionic ) {
@@ -213,7 +219,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
+        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ) );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
             g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
@@ -361,6 +367,8 @@ bool player::activate_bionic( int b, bool eff_only )
         } else if( !g->consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
+    } else if( bio.id == "bio_torsionratchet" ) {
+        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
@@ -398,7 +406,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_hydraulics" ) {
         add_msg( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
         //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
         for( auto it = g->m.i_at( pos() ).begin();
@@ -406,7 +414,9 @@ bool player::activate_bionic( int b, bool eff_only )
             static const auto volume_per_water_charge = units::from_milliliter( 500 );
             if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
-                if( avail > 0 && query_yn( _( "Extract water from the %s" ), it->tname().c_str() ) ) {
+                if( avail > 0 &&
+                    query_yn( _( "Extract water from the %s" ),
+                              colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
                     if( g->consume_liquid( water ) ) {
                         extracted = true;
@@ -486,7 +496,7 @@ bool player::activate_bionic( int b, bool eff_only )
         const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                           cur_om_ter, g->is_sheltered( g->u.pos() ) );
+                           cur_om_ter, pos(), weatherPoint.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -501,7 +511,8 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + player_local_temp ).c_str() );
+                                       windpower / 100 ) + player_local_temp ).c_str() );
+        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )
@@ -641,7 +652,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
  */
 bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
 {
-    bionic_data const &info = bio.info();
+    const bionic_data &info = bio.info();
     const int armor_power_cost = 1;
     int power_cost = info.power_over_time * factor;
     bool recharged = false;
@@ -715,7 +726,7 @@ void player::process_bionic( int b )
         }
     } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
@@ -873,7 +884,7 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     return chance_of_success;
 }
 
-bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool autodoc,
+bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
                                int skill_level )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
@@ -1149,7 +1160,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             add_msg( m_bad, _( "The installation is faulty!" ) );
             std::vector<bionic_id> valid;
             std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
-            [&]( bionic_id const & id ) {
+            [&]( const bionic_id & id ) {
                 return !has_bionic( id );
             } );
 
@@ -1213,7 +1224,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
 std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bioid )
 {
     std::map<body_part, int> issues;
-    if( !has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+    if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
     for( auto &elem : bioid->occupied_bodyparts ) {
@@ -1268,7 +1279,7 @@ int player::get_free_bionics_slots( const body_part bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-void player::add_bionic( bionic_id const &b )
+void player::add_bionic( const bionic_id &b )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
@@ -1295,7 +1306,7 @@ void player::add_bionic( bionic_id const &b )
     recalc_sight_limits();
 }
 
-void player::remove_bionic( bionic_id const &b )
+void player::remove_bionic( const bionic_id &b )
 {
     bionic_collection new_my_bionics;
     for( auto &i : *my_bionics ) {
@@ -1373,6 +1384,11 @@ bool player::remove_random_bionic()
     return numb;
 }
 
+void player::clear_bionics()
+{
+    my_bionics->clear();
+}
+
 void reset_bionics()
 {
     bionics.clear();
@@ -1445,7 +1461,7 @@ void load_bionic( JsonObject &jsobj )
                            new_bionic.power_activate > 0 ||
                            new_bionic.charge_time > 0;
 
-    auto const result = bionics.insert( std::make_pair( id, new_bionic ) );
+    const auto result = bionics.insert( std::make_pair( id, new_bionic ) );
 
     if( !result.second ) {
         debugmsg( "duplicate bionic id" );
@@ -1498,14 +1514,14 @@ void finalize_bionics()
     }
 }
 
-int bionic::get_quality( const quality_id &q ) const
+int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
     if( i.fake_item.empty() ) {
         return INT_MIN;
     }
 
-    return item( i.fake_item ).get_quality( q );
+    return item( i.fake_item ).get_quality( quality );
 }
 
 void bionic::serialize( JsonOut &json ) const
@@ -1527,7 +1543,7 @@ void bionic::deserialize( JsonIn &jsin )
     charge = jo.get_int( "charge" );
 }
 
-void player::introduce_into_anesthesia( time_duration const &duration, player &installer,
+void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool anesthetic ) //used by the Autodoc
 {
     installer.add_msg_player_or_npc( m_info,
@@ -1538,15 +1554,34 @@ void player::introduce_into_anesthesia( time_duration const &duration, player &i
                            _( "You settle into position, sliding your right wrist into the couch's strap." ),
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( anesthetic ) {
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the operation starts." ) );
+        }
+
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
-        add_msg_if_player( m_mixed,
-                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
-        ;
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
+        } else {
+            add_msg_if_player( m_mixed,
+                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+        }
     }
+
+    //Pain junkies feel sorry about missed pain from operation.
+    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+        has_trait( trait_CENOBITE ) ) {
+        add_msg_if_player( m_mixed,
+                           _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+    }
+
     add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }

@@ -2,10 +2,10 @@
 #ifndef MONFACTION_H
 #define MONFACTION_H
 
+#include <unordered_map>
+
 #include "int_id.h"
 #include "string_id.h"
-
-#include <unordered_map>
 
 class monfaction;
 class JsonObject;

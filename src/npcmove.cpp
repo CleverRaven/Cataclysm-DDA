@@ -1,4 +1,9 @@
-#include "npc.h"
+#include "npc.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <memory>
+#include <numeric>
+#include <sstream>
 
 #include "ammo.h"
 #include "cata_algo.h"
@@ -31,11 +36,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
-
-#include <algorithm>
-#include <memory>
-#include <numeric>
-#include <sstream>
 
 // @todo: Get rid of this include
 
@@ -238,10 +238,9 @@ void npc::assess_danger()
     for( const monster &critter : g->all_monsters() ) {
         if( sees( critter ) ) {
             assessment += critter.type->difficulty;
-            if( critter.type->difficulty > 10 ) {
-                const std::string speech = string_format( _( "<monster_warning> %s." ),
-                                           critter.type->nname() );
-                complain_about( "warning_" + critter.type->nname(), 10_minutes, speech, true );
+            if( critter.type->difficulty > ( 8 + personality.bravery + rng( 0, 5 ) ) &&
+                ( is_enemy() || !critter.friendly ) ) {
+                warn_about( "monster", 10_minutes, critter.type->nname() );
             }
         }
     }
@@ -314,6 +313,7 @@ float npc::character_danger( const Character &uc ) const
 
 void npc::regen_ai_cache()
 {
+    float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
     ai_cache.danger = 0.0f;
@@ -321,7 +321,11 @@ void npc::regen_ai_cache()
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
     assess_danger();
-
+    if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
+        warn_about( "relax", 30_minutes );
+    } else if( old_assessment <= 0.0f && ai_cache.danger_assessment > NPC_DANGER_VERY_LOW ) {
+        warn_about( "general_danger" );
+    }
     choose_target();
 }
 
@@ -794,7 +798,7 @@ void npc::choose_target()
     const int max_range = std::max( weapon.reach_range( *this ),
                                     confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) );
 
-    constexpr static int def_radius = 6;
+    static constexpr int def_radius = 6;
 
     const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
         if( !is_following() ) {
@@ -831,7 +835,6 @@ void npc::choose_target()
         float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
         float hp_percent = static_cast<float>( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
         float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
-
         auto att = mon.attitude( this );
         if( att == MATT_FRIEND ) {
             ai_cache.friends.emplace_back( g->shared_from( mon ) );
@@ -843,7 +846,7 @@ void npc::choose_target()
         }
 
         if( att == MATT_ATTACK ) {
-            critter_danger++;
+            critter_danger = std::max( critter_danger, static_cast<float>( NPC_DANGER_VERY_LOW ) );
         }
 
         ai_cache.total_danger += critter_danger / scaled_distance;
@@ -904,6 +907,7 @@ void npc::choose_target()
         } else if( att == Creature::A_NEUTRAL ) {
             // Nothing
         } else if( sees( np ) && check_hostile_character( np ) ) {
+            warn_about( "kill_npc", 1_minutes, np.disp_name() );
             ai_cache.target = g->shared_from( np );
         }
     }
@@ -912,6 +916,7 @@ void npc::choose_target()
         ai_cache.friends.emplace_back( g->shared_from( g->u ) );
     } else if( is_enemy() ) {
         if( sees( g->u ) && check_hostile_character( g->u ) ) {
+            warn_about( "kill_player", 1_minutes );
             ai_cache.target = g->shared_from( g->u );
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
@@ -960,7 +965,7 @@ npc_action npc::method_of_attack()
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
     std::vector<std::pair<gun_mode_id, gun_mode>> modes;
-    if( rules.use_guns || !is_following() ) {
+    if( rules.has_flag( ally_rule::use_guns ) || !is_following() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
             modes.push_back( e );
         }
@@ -973,7 +978,8 @@ npc_action npc::method_of_attack()
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
                    ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
-                   ( rules.use_silent && is_following() && !m.target->is_silent() );
+                   ( rules.has_flag( ally_rule::use_silent ) && is_following() &&
+                     !m.target->is_silent() );
 
         } ), modes.end() );
     }
@@ -1203,7 +1209,7 @@ npc_action npc::address_needs( float danger )
             return npc_undecided;
         }
 
-        if( rules.allow_sleep || get_fatigue() > MASSIVE_FATIGUE ) {
+        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
@@ -1374,7 +1380,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    int target_angle = g->m.coord_to_angle( posx(), posy(), tar.x, tar.y );
+    int target_angle = coord_to_angle( pos(), tar );
 
     // @todo: Base on dispersion
     int safe_angle = 30;
@@ -1393,7 +1399,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
             safe_angle_ally += ( 3 - ally_dist ) * 30;
         }
 
-        int ally_angle = g->m.coord_to_angle( posx(), posy(), ally.posx(), ally.posy() );
+        int ally_angle = coord_to_angle( pos(), ally.pos() );
         int angle_diff = abs( ally_angle - target_angle );
         angle_diff = std::min( 360 - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
@@ -1592,7 +1598,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     bool moved = false;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         const optional_vpart_position ovp = g->m.veh_at( p );
-        if( abs( vp->vehicle().velocity ) > 0 &&
+        if( vp->vehicle().is_moving() &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
               !ovp.part_with_feature( VPFLAG_BOARDABLE, true ) ) ) {
             move_pause();
@@ -1654,7 +1660,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         // Close doors behind self (if you can)
-        if( is_friend() && rules.close_doors ) {
+        if( is_friend() && rules.has_flag( ally_rule::close_doors ) ) {
             doors::close_door( g->m, *this, old_pos );
         }
 
@@ -1736,9 +1742,7 @@ void npc::escape_explosion()
         return;
     }
 
-    if( is_following() && one_in( 10 ) ) {
-        say( "<fire_in_the_hole>" );
-    }
+    warn_about( "explosion", 1_minutes );
 
     move_away_from( ai_cache.dangerous_explosives, true );
 }
@@ -1878,7 +1882,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
 void npc::find_item()
 {
-    if( is_following() && !rules.allow_pick_up ) {
+    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -1899,7 +1903,7 @@ void npc::find_item()
 
     const bool whitelisting = has_item_whitelist();
 
-    if( volume_allowed <= 0 || weight_allowed <= 0 ) {
+    if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         return;
     }
 
@@ -1964,7 +1968,7 @@ void npc::find_item()
         consider_terrain( p );
 
         const optional_vpart_position vp = g->m.veh_at( p );
-        if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
+        if( !vp || vp->vehicle().is_moving() || !sees( p ) ) {
             continue;
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
@@ -2013,7 +2017,7 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
-    if( is_following() && !rules.allow_pick_up ) {
+    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name.c_str() );
         fetching_item = false;
         moves -= 1;
@@ -2271,7 +2275,7 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && ( !rules.allow_pulp || g->u.in_vehicle ) ) {
+    if( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) {
         return false;
     }
 
@@ -2292,7 +2296,7 @@ bool npc::find_corpse_to_pulp()
             if( it.can_revive() ) {
                 // If the first encountered corpse bleeds something dangerous then
                 // it is not safe to bash.
-                if( is_dangerous_field( field_entry( it.get_mtype()->bloodType(), 1, 0 ) ) ) {
+                if( is_dangerous_field( field_entry( it.get_mtype()->bloodType(), 1, 0_turns ) ) ) {
                     return nullptr;
                 }
 
@@ -2367,8 +2371,8 @@ bool npc::do_pulp()
 bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
-    bool can_use_gun = ( !is_following() || rules.use_guns );
-    bool use_silent = ( is_following() && rules.use_silent );
+    bool can_use_gun = ( !is_following() || rules.has_flag( ally_rule::use_guns ) );
+    bool use_silent = ( is_following() && rules.has_flag( ally_rule::use_silent ) );
     invslice slice = inv.slice();
 
     // Check if there's something better to wield
@@ -2437,10 +2441,11 @@ bool npc::wield_better_weapon()
 bool npc::scan_new_items()
 {
     add_msg( m_debug, "%s scanning new items", name.c_str() );
-    if( !wield_better_weapon() ) {
+    if( wield_better_weapon() ) {
+        return true;
+    } else {
         // Stop "having new items" when you no longer do anything with them
         has_new_items = false;
-        return true;
     }
 
     return false;
@@ -2481,7 +2486,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 
 bool npc::alt_attack()
 {
-    if( is_following() && !rules.use_grenades ) {
+    if( is_following() && !rules.has_flag( ally_rule::use_grenades ) ) {
         return false;
     }
 
@@ -2911,6 +2916,7 @@ void npc::mug_player( player &mark )
 
 void npc::look_for_player( player &sought )
 {
+    complain_about( "look_for_player", 5_minutes, "<wait>", false );
     update_path( sought.pos() );
     move_to_next();
     return;
@@ -2930,8 +2936,8 @@ void npc::look_for_player( player &sought )
         path.clear();
     }
     std::vector<point> possibilities;
-    for (int x = 1; x < SEEX * MAPSIZE; x += 11) { // 1, 12, 23, 34
-        for (int y = 1; y < SEEY * MAPSIZE; y += 11) {
+    for (int x = 1; x < MAPSIZE_X; x += 11) { // 1, 12, 23, 34
+        for (int y = 1; y < MAPSIZE_Y; y += 11) {
             if( sees( x, y ) ) {
                 possibilities.push_back(point(x, y));
             }
@@ -3195,6 +3201,36 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
+void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
+{
+    std::string snip;
+    if( type == "monster" ) {
+        snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
+    } else if( type == "explosion" ) {
+        snip = is_enemy() ? "<fire_in_the_hole_h>" : "<fire_in_the_hole>";
+    } else if( type == "general_danger" ) {
+        snip = is_enemy() ? "<general_danger_h>" : "<general_danger>";
+    } else if( type == "relax" ) {
+        snip = is_enemy() ? "<its_safe_h>" : "<its_safe>";
+    } else if( type == "kill_npc" ) {
+        snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
+    } else if( type == "kill_player" ) {
+        snip = is_enemy() ? "<kill_player_h>" : "";
+    } else if( type == "speech_noise" ) {
+        snip = "<speech_warning>";
+    } else if( type == "combat_noise" ) {
+        snip = "<combat_noise_warning>";
+    } else if( type == "movement_noise" ) {
+        snip = "<movement_noise_warning>";
+    } else {
+        return;
+    }
+    const std::string warning_name = "warning_" + type + name;
+    const std::string speech = name.empty() ? snip :
+                               string_format( _( "%s %s<punc>" ), snip, name );
+    complain_about( warning_name, d, speech, is_enemy() );
+}
+
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
                           const std::string &speech, const bool force )
 {
@@ -3214,7 +3250,9 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
     };
 
     // Don't wake player up with non-serious complaints
-    const bool do_complain = ( rules.allow_complain && !g->u.in_sleep_state() ) || force;
+    // Stop complaining while asleep
+    const bool do_complain = force || ( rules.has_flag( ally_rule::allow_complain ) &&
+                                        !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
         say( speech );

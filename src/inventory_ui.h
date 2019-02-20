@@ -2,6 +2,10 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <functional>
+#include <limits>
+#include <memory>
+
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -9,10 +13,6 @@
 #include "item_location.h"
 #include "pimpl.h"
 #include "units.h"
-
-#include <functional>
-#include <limits>
-#include <memory>
 
 class Character;
 
@@ -159,6 +159,10 @@ class inventory_selector_preset
         size_t get_cells_count() const {
             return cells.size();
         }
+        /** Whether items should make new stacks if components differ */
+        bool get_checking_components() const {
+            return check_components;
+        }
 
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
         const;
@@ -178,6 +182,7 @@ class inventory_selector_preset
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = std::string(),
                           const std::string &stub = std::string() );
+        bool check_components = false;
 
     private:
         class cell_t
@@ -390,18 +395,18 @@ class selection_column : public inventory_column
         selection_column( const std::string &id, const std::string &name );
         ~selection_column() override;
 
-        virtual bool activatable() const override {
+        bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
         }
 
-        virtual bool allows_selecting() const override {
+        bool allows_selecting() const override {
             return false;
         }
 
-        virtual void prepare_paging( const std::string &filter = "" ) override;
+        void prepare_paging( const std::string &filter = "" ) override;
 
-        virtual void on_change( const inventory_entry &entry ) override;
-        virtual void on_mode_change( navigation_mode ) override {
+        void on_change( const inventory_entry &entry ) override;
+        void on_mode_change( navigation_mode ) override {
             // Intentionally ignore mode change.
         }
 
@@ -580,6 +585,9 @@ class inventory_selector
         bool layout_is_valid = false;
 };
 
+inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
+                                       const std::function<std::string( int )> &disp_func );
+
 class inventory_pick_selector : public inventory_selector
 {
     public:
@@ -596,8 +604,8 @@ class inventory_multiselector : public inventory_selector
         inventory_multiselector( const player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
-        virtual void rearrange_columns( size_t client_width ) override;
-        virtual void on_entry_add( const inventory_entry &entry ) override;
+        void rearrange_columns( size_t client_width ) override;
+        void on_entry_add( const inventory_entry &entry ) override;
 
     private:
         std::unique_ptr<inventory_column> selection_col;
@@ -620,9 +628,11 @@ class inventory_compare_selector : public inventory_multiselector
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
+        using GetStats = std::function<stats( const std::map<const item *, int> & )>;
         inventory_iuse_selector( const player &p,
                                  const std::string &selector_title,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const inventory_selector_preset &preset = default_preset,
+                                 const GetStats & = {} );
         std::list<std::pair<int, int>> execute();
 
     protected:
@@ -630,6 +640,7 @@ class inventory_iuse_selector : public inventory_multiselector
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
+        GetStats get_stats;
         std::map<const item *, int> to_use;
         size_t max_chosen_count;
 };

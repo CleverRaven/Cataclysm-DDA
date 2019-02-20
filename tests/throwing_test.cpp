@@ -1,5 +1,7 @@
-#include "catch/catch.hpp"
+#include <ostream>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "dispersion.h"
 #include "game.h"
 #include "item.h"
@@ -12,12 +14,9 @@
 #include "projectile.h"
 #include "test_statistics.h"
 
-#include <ostream>
-#include <vector>
-
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
-    standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
+    const standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
     item grenade( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );
@@ -71,7 +70,6 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
 // In that order.
 constexpr int min_throw_test_iterations = 100;
 constexpr int max_throw_test_iterations = 10000;
-constexpr double no_epsilon = -1;
 
 // tighter thresholds here will increase accuracy but also increase average test
 // time since more samples are required to get a more accurate test
@@ -221,7 +219,6 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
     }
 }
 
-constexpr int default_player_moves = 100;
 void test_player_kills_monster( player &p, const std::string &mon_id, const std::string &item_id,
                                 const int range, const int dist_thresh, const throw_test_pstats &pstats,
                                 const int iterations )

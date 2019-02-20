@@ -2,27 +2,21 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"
 #include "color.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <sstream>
-#include <string>
-#include <vector>
+#include "units.h"
 
 struct input_event;
 struct iteminfo;
 enum direction : unsigned;
 class input_context;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-} // namespace units
 namespace catacurses
 {
 class window;
@@ -138,8 +132,6 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = fa
  * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
-
-std::string tag_colored_string( const std::string &s, nc_color color );
 
 /*@{*/
 /**
@@ -480,7 +472,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
-std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+const std::pair<std::string, nc_color> &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
 std::pair<std::string, nc_color> get_light_level( const float light );
 
@@ -706,8 +698,8 @@ class scrollingcombattext
                 std::string getType() const {
                     return sType;
                 }
-                std::string getText( std::string const &type = "full" ) const;
-                game_message_type getMsgType( std::string const &type = "first" ) const;
+                std::string getText( const std::string &type = "full" ) const;
+                game_message_type getMsgType( const std::string &type = "first" ) const;
         };
 
         std::vector<cSCT> vSCT;
@@ -761,10 +753,6 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
-
-void play_music( std::string playlist );
-
-void update_music_volume();
 
 /**
  * Make changes made to the display visible to the user immediately.

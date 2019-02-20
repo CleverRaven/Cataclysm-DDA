@@ -1,5 +1,8 @@
 #include "craft_command.h"
 
+#include <sstream>
+#include <algorithm>
+
 #include "debug.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -11,9 +14,6 @@
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
-
-#include <sstream>
-#include <algorithm>
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -199,7 +199,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
             // Counting by units, not charges.
             switch( item_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_amount( type, count ) ) {
+                    if( !crafter->has_amount( type, count, false, is_crafting_component ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
@@ -209,7 +209,10 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     }
                     break;
                 case use_from_both:
-                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) ) {
+                    if( !( crafter->amount_of( type, false, std::numeric_limits<int>::max(),
+                                               is_crafting_component ) +
+                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
+                                              is_crafting_component ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;

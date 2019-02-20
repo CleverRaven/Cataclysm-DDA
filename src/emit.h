@@ -2,10 +2,10 @@
 #ifndef EMIT_H
 #define EMIT_H
 
+#include <map>
+
 #include "field.h"
 #include "string_id.h"
-
-#include <map>
 
 class JsonObject;
 

@@ -7,7 +7,6 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "diff": 10,
     "volume": "750 ml",
     "weight": 1000,
     "hp": 8,
@@ -22,11 +21,12 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 4,
+    "harvest": "bird_tiny",
     "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 5 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT", "BIRDFOOD" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BIRDFOOD" ]
   },
   {
     "id": "mon_grouse",
@@ -49,7 +49,6 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "diff": 1,
     "volume": "750 ml",
     "weight": 1000,
     "hp": 4,
@@ -63,12 +62,13 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 4,
+    "harvest": "bird_tiny",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_crow", "baby_count": 3, "baby_timer": 8 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_duck",
@@ -78,7 +78,6 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "diff": 1,
     "volume": "750 ml",
     "weight": 1000,
     "hp": 4,
@@ -92,12 +91,13 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 4,
+    "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_goose_canadian",
@@ -119,7 +119,6 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "diff": 10,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 15,
@@ -133,13 +132,14 @@
     "melee_dice_sides": 1,
     "melee_cut": 0,
     "dodge": 3,
+    "harvest": "bird_small",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_pheasant",
@@ -163,7 +163,6 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "diff": 10,
     "volume": "750 ml",
     "weight": 1000,
     "hp": 20,
@@ -179,11 +178,12 @@
     "melee_dice_sides": 1,
     "melee_cut": 3,
     "dodge": 6,
+    "harvest": "bird_tiny",
     "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
     "id": "mon_chicken_chick",
@@ -193,7 +193,6 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "diff": 10,
     "volume": "750 ml",
     "weight": 1000,
     "hp": 1,
@@ -209,6 +208,7 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 1,
+    "harvest": "bird_tiny",
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD" ]

@@ -2,6 +2,13 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <vector>
+
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -11,16 +18,6 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "posix_time.h"
-
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <unordered_map>
-#include <vector>
-
-extern const int savegame_version;
-extern int save_loading_version;
 
 extern bool test_mode;
 
@@ -131,9 +128,19 @@ enum liquid_dest : int {
 
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
+    tripoint pos;
     item_location item_loc;
     vehicle *veh = nullptr;
-    tripoint pos;
+};
+
+enum peek_act : int {
+    PA_BLIND_THROW
+    // obvious future additional value is PA_BLIND_FIRE
+};
+
+struct look_around_result {
+    cata::optional<tripoint> position;
+    cata::optional<peek_act> peek_action;
 };
 
 class game
@@ -303,7 +310,7 @@ class game
         template<typename T = Creature>
         T * critter_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
-        T const * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
         /**
          * Returns a shared pointer to the given critter (which can be of any of the subclasses of
          * @ref Creature). The function may return an empty pointer if the given critter
@@ -519,8 +526,14 @@ class game
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
-        /** Returns the list of currently fishable monsters within distance of the player. */
-        std::vector<monster *> get_fishable( int distance );
+        /**
+         * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
+         * out to the specificed distance.
+         * @param distance Distance around the fish_pos to examine for contiguous fishable terrain.
+         * @param fish_pos The location being fished.
+         * @return Fishable monsters within the specified contiguous fishable terrain.
+         */
+        std::vector<monster *> get_fishable( int distance, const tripoint &fish_pos );
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
@@ -558,11 +571,16 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        cata::optional<tripoint> look_around( catacurses::window w_info, tripoint &center,
-                                              tripoint start_point, bool has_first_point, bool select_zone );
+        look_around_result look_around( catacurses::window w_info, tripoint &center,
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+                                      int &line, int last_line, const visibility_variables &cache );
+
+        // Shared method to print "look around" info
+        void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+                                  const std::string &area_name, int column,
                                   int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
 
         /** Long description of (visible) things at tile. */
@@ -637,6 +655,7 @@ class game
         std::vector<npc *> allies();
 
     private:
+        std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
         int ter_view_x;
@@ -650,6 +669,7 @@ class game
         catacurses::window w_HP_ptr;
         catacurses::window w_messages_short_ptr;
         catacurses::window w_messages_long_ptr;
+        catacurses::window w_location_wider_ptr;
         catacurses::window w_location_ptr;
         catacurses::window w_status_ptr;
         catacurses::window w_status2_ptr;
@@ -665,6 +685,7 @@ class game
         catacurses::window w_messages;
         catacurses::window w_messages_short;
         catacurses::window w_messages_long;
+        catacurses::window w_location_wider;
         catacurses::window w_location;
         catacurses::window w_status;
         catacurses::window w_status2;
@@ -770,7 +791,7 @@ class game
              * These are helper functions for transfer liquid, for times when you just want to
              * get the target of the transfer, or know the target and just want to transfer the
              * liquid. They take the same arguments as handle_liquid, plus
-             * @param liquid_target structure containing information about the target
+             * @param target structure containing information about the target
              */
         bool get_liquid_target( item &liquid, item *const source, const int radius,
                                 const tripoint *source_pos, const vehicle *const source_veh,
@@ -799,15 +820,15 @@ class game
                         bool ignore_player );
 
         // Animation related functions
-        void draw_explosion( const tripoint &p, int radius, nc_color col );
+        void draw_explosion( const tripoint &p, int radius, const nc_color &col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );
-        void draw_hit_player( player const &p, int dam );
-        void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
-        void draw_line( const tripoint &p, std::vector<tripoint> const &ret );
-        void draw_weather( weather_printable const &wPrint );
+        void draw_hit_player( const player &p, int dam );
+        void draw_line( const tripoint &p, const tripoint &center_point, const std::vector<tripoint> &ret );
+        void draw_line( const tripoint &p, const std::vector<tripoint> &ret );
+        void draw_weather( const weather_printable &wPrint );
         void draw_sct();
         void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         // Draw critter (if visible!) on its current position into w_terrain.
@@ -958,12 +979,14 @@ class game
         void wield( item_location &loc );
 
         void chat(); // Talk to a nearby NPC  'C'
-        void plthrow( int pos = INT_MIN ); // Throw an item  't'
+        void plthrow( int pos = INT_MIN,
+                      const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt ); // Throw an item  't'
 
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                 int &line );
-        void print_terrain_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
+                                 const std::string &area_name, int column,
                                  int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                               int &line );
@@ -1059,7 +1082,6 @@ class game
 
         // ########################## DATA ################################
 
-        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;

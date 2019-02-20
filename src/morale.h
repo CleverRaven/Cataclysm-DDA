@@ -2,13 +2,13 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "bodypart.h"
-#include "calendar.h"
-#include "morale_types.h"
-
 #include <functional>
 #include <map>
 #include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "morale_types.h"
 
 class item;
 class JsonIn;
@@ -57,6 +57,7 @@ class player_morale
         void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
+        void on_worn_item_transform( const item &it );
         void on_worn_item_washed( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
@@ -111,7 +112,7 @@ class player_morale
                  * Returns either new_time or remaining time (which one is greater).
                  * Only returns new time if same_sign is true
                  */
-                time_duration pick_time( time_duration cur_time, time_duration new_time, bool same_sign ) const;
+                time_duration pick_time( time_duration current_time, time_duration new_time, bool same_sign ) const;
                 /**
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */

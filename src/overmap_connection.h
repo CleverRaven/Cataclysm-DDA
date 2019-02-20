@@ -2,13 +2,13 @@
 #ifndef OVERMAP_CONNECTION_H
 #define OVERMAP_CONNECTION_H
 
+#include <list>
+#include <vector>
+
 #include "enums.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
-
-#include <list>
-#include <vector>
 
 class JsonObject;
 class JsonIn;

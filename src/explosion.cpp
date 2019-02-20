@@ -1,14 +1,18 @@
-#include "explosion.h"
+#include "explosion.h" // IWYU pragma: associated
+#include "fragment_cloud.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <chrono>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "field.h"
-#include "fragment_cloud.h"
 #include "game.h"
 #include "item_factory.h"
 #include "json.h"
+#include "math_defines.h"
 #include "map.h"
 #include "messages.h"
 #include "output.h"
@@ -20,11 +24,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-#include <algorithm>
-#include <chrono>
-// For M_PI
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include <queue>
 #include <random>
 
@@ -284,13 +283,13 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
 {
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
-        sounds::sound( p, noise, _( "a huge explosion!" ) );
+        sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ) );
         sfx::play_variant_sound( "explosion", "huge", 100 );
     } else if( noise >= 4 ) {
-        sounds::sound( p, noise, _( "an explosion!" ) );
+        sounds::sound( p, noise, sounds::sound_t::combat, _( "an explosion!" ) );
         sfx::play_variant_sound( "explosion", "default", 100 );
     } else if( noise > 0 ) {
-        sounds::sound( p, 3, _( "a loud pop!" ) );
+        sounds::sound( p, 3, sounds::sound_t::combat, _( "a loud pop!" ) );
         sfx::play_variant_sound( "explosion", "small", 100 );
     }
 
@@ -320,7 +319,7 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
             int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            std::random_shuffle( tiles.begin(), tiles.end() );
+            std::shuffle( tiles.begin(), tiles.end(), rng_get_engine() );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {
@@ -441,8 +440,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    fragment_cloud obstacle_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
-    fragment_cloud visited_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
+    fragment_cloud obstacle_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
+    fragment_cloud visited_cache[ MAPSIZE_X ][ MAPSIZE_Y ];
 
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
@@ -476,10 +475,8 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
             int damage = ballistic_damage( cloud.velocity, fragment_mass );
             auto critter = critter_at( target );
             if( damage > 0 && critter && !critter->is_dead_state() ) {
-                static std::default_random_engine eng(
-                    std::chrono::system_clock::now().time_since_epoch().count() );
                 std::poisson_distribution<> d( cloud.density );
-                int hits = d( eng );
+                int hits = d( rng_get_engine() );
                 dealt_projectile_attack frag;
                 frag.proj = proj;
                 frag.proj.speed = cloud.velocity;

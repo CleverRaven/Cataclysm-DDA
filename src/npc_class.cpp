@@ -1,5 +1,7 @@
 #include "npc_class.h"
 
+#include <list>
+
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
@@ -7,8 +9,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
-
-#include <list>
 
 static const std::array<npc_class_id, 17> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
@@ -308,7 +308,7 @@ const npc_class_id &npc_class::random_common()
         }
     }
 
-    if( common_classes.empty() ) {
+    if( common_classes.empty() || one_in( common_classes.size() ) ) {
         return NC_NONE;
     }
 

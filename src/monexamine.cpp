@@ -1,5 +1,7 @@
 #include "monexamine.h"
 
+#include <utility>
+
 #include "calendar.h"
 #include "game.h"
 #include "item.h"
@@ -8,7 +10,6 @@
 #include "mtype.h"
 #include "player.h"
 #include "translations.h"
-#include <utility>
 
 const efftype_id effect_milked( "milked" );
 

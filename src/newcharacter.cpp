@@ -1,3 +1,5 @@
+#include "player.h" // IWYU pragma: associated
+
 #include "addiction.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -14,7 +16,6 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
@@ -702,12 +703,11 @@ template <class Compare>
 void draw_sorting_indicator( const catacurses::window &w_sorting, const input_context &ctxt,
                              Compare sorter )
 {
-    auto const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
-    auto const sort_help = string_format( _( "(Press <color_light_green>%s</color> to change)" ),
-                                          ctxt.get_desc( "SORT" ).c_str() );
-    wprintz( w_sorting, COL_HEADER, _( "Sort by:" ) );
-    wprintz( w_sorting, c_light_gray, " %s", sort_order );
-    fold_and_print( w_sorting, 0, 16, ( TERMX / 2 ), c_light_gray, sort_help );
+    const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
+    const auto sort_text = string_format(
+                               _( "<color_white>Sort by: </color>%1$s (Press <color_light_green>%2$s</color> to change)" ),
+                               sort_order, ctxt.get_desc( "SORT" ).c_str() );
+    fold_and_print( w_sorting, 0, 0, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
 tab_direction set_points( const catacurses::window &w, player &, points_left &points )
@@ -1028,30 +1028,30 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
-        if( mutation_branch::trait_is_blacklisted( traits_iter.first ) ) {
+        if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
             continue;
         }
 
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
-                                             traits_iter.first ) != proftraits.end();
+                                             traits_iter.id ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) || is_proftrait ) {
-            if( traits_iter.second.points > 0 ) {
-                vStartingTraits[0].push_back( traits_iter.first );
+        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+            if( traits_iter.points > 0 ) {
+                vStartingTraits[0].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.first ) ) {
-                    num_good += traits_iter.second.points;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_good += traits_iter.points;
                 }
-            } else if( traits_iter.second.points < 0 ) {
-                vStartingTraits[1].push_back( traits_iter.first );
+            } else if( traits_iter.points < 0 ) {
+                vStartingTraits[1].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.first ) ) {
-                    num_bad += traits_iter.second.points;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_bad += traits_iter.points;
                 }
             } else {
-                vStartingTraits[2].push_back( traits_iter.first );
+                vStartingTraits[2].push_back( traits_iter.id );
             }
         }
     }
@@ -1492,7 +1492,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
 
         // Profession bionics, active bionics shown first
         auto prof_CBMs = sorted_profs[cur_id]->CBMs();
-        std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( bionic_id const & a, bionic_id const & b ) {
+        std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
             return a->activated && !b->activated;
         } );
         buffer << "<color_light_blue>" << _( "Profession bionics:" ) << "</color>\n";
@@ -1500,7 +1500,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {
             for( const auto &b : prof_CBMs ) {
-                auto const &cbm = b.obj();
+                const auto &cbm = b.obj();
 
                 if( cbm.activated && cbm.toggled ) {
                     buffer << cbm.name << " (" << _( "toggled" ) << ")\n";
@@ -1622,7 +1622,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
     catacurses::window w_description = catacurses::newwin( iContentHeight, TERMX - 35,
                                        5 + getbegy( w ), 31 + getbegx( w ) );
 
-    auto sorted_skills = Skill::get_skills_sorted_by( []( Skill const & a, Skill const & b ) {
+    auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
         return a.name() < b.name();
     } );
 
@@ -2231,9 +2231,9 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
 
             mvwprintz( w_skills, 0, 0, COL_HEADER, _( "Skills:" ) );
 
-            auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
-                int const level_a = u.get_skill_level_object( a.ident() ).exercised_level();
-                int const level_b = u.get_skill_level_object( b.ident() ).exercised_level();
+            auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
+                const int level_a = u.get_skill_level_object( a.ident() ).exercised_level();
+                const int level_b = u.get_skill_level_object( b.ident() ).exercised_level();
                 return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
             } );
 
@@ -2433,11 +2433,13 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations() const
+std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
     for( auto &t : my_mutations ) {
-        result.push_back( t.first );
+        if( include_hidden || t.first.obj().player_display ) {
+            result.push_back( t.first );
+        }
     }
     return result;
 }
@@ -2478,8 +2480,8 @@ trait_id Character::random_good_trait()
     std::vector<trait_id> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points >= 0 && g->scen->traitquery( traits_iter.first ) ) {
-            vTraitsGood.push_back( traits_iter.first );
+        if( traits_iter.points >= 0 && g->scen->traitquery( traits_iter.id ) ) {
+            vTraitsGood.push_back( traits_iter.id );
         }
     }
 
@@ -2491,8 +2493,8 @@ trait_id Character::random_bad_trait()
     std::vector<trait_id> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points < 0 && g->scen->traitquery( traits_iter.first ) ) {
-            vTraitsBad.push_back( traits_iter.first );
+        if( traits_iter.points < 0 && g->scen->traitquery( traits_iter.id ) ) {
+            vTraitsBad.push_back( traits_iter.id );
         }
     }
 
@@ -2618,7 +2620,13 @@ void reset_scenario( player &u, const scenario *scen )
     u.per_max = 8;
     g->scen = scen;
     u.prof = &default_prof.obj();
+    for( auto &t : u.get_mutations() ) {
+        if( t.obj().hp_modifier != 0 ) {
+            u.toggle_trait( t );
+        }
+    }
     u.empty_traits();
+    u.recalc_hp();
     u.empty_skills();
     u.add_traits();
 }

@@ -1,4 +1,9 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <set>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -15,11 +20,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <set>
-
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
 /*-----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ static const itype_id fuel_type_battery( "battery" );
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj )
+vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
@@ -145,6 +145,32 @@ bool vehicle_part::is_available( const bool carried ) const
     return !is_unavailable( carried );
 }
 
+itype_id vehicle_part::fuel_current() const
+{
+    if( is_engine() ) {
+        if( ammo_pref == "null" ) {
+            return info().fuel_type != "muscle" ? info().fuel_type : "null";
+        } else {
+            return ammo_pref;
+        }
+    }
+
+    return "null";
+}
+
+bool vehicle_part::fuel_set( const itype_id &fuel )
+{
+    if( is_engine() ) {
+        for( const itype_id &avail : info().engine_fuel_opts() ) {
+            if( fuel == avail ) {
+                ammo_pref = fuel;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {
@@ -157,10 +183,6 @@ itype_id vehicle_part::ammo_current() const
 
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_current();
-    }
-
-    if( is_engine() ) {
-        return info().fuel_type != "muscle" ? info().fuel_type : "null";
     }
 
     return "null";
@@ -195,11 +217,13 @@ long vehicle_part::ammo_remaining() const
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
     const itype *liquid = item::find_type( ammo );
-    if( is_tank() && liquid->phase >= LIQUID ) {
+
+    // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
+    if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear();
         auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         long limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base.emplace_back( ammo, calendar::turn, qty >= 0 ? std::min( qty, limit ) : limit );
+        base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
         return qty;
     }
 
@@ -238,7 +262,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint &pos )
     return base.ammo_consume( qty, pos );
 }
 
-float vehicle_part::consume_energy( const itype_id &ftype, float energy )
+double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 {
     if( base.contents.empty() || !is_fuel_store() ) {
         return 0.0f;
@@ -247,16 +271,18 @@ float vehicle_part::consume_energy( const itype_id &ftype, float energy )
     item &fuel = base.contents.back();
     if( fuel.typeId() == ftype ) {
         assert( fuel.is_fuel() );
-        float energy_per_unit = fuel.fuel_energy();
-        long charges_to_use = static_cast<int>( std::ceil( energy / energy_per_unit ) );
+        // convert energy density in MJ/L to J/ml
+        double energy_per_mL = fuel.fuel_energy() * 1000;
+        long charges_to_use = static_cast<int>( std::ceil( energy_j / energy_per_mL ) );
+
         if( charges_to_use > fuel.charges ) {
             long had_charges = fuel.charges;
             base.contents.clear();
-            return had_charges * energy_per_unit;
+            return had_charges * energy_per_mL;
         }
 
         fuel.charges -= charges_to_use;
-        return charges_to_use * energy_per_unit;
+        return charges_to_use * energy_per_mL;
     }
     return 0.0f;
 }
@@ -306,7 +332,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     if( base.is_food_container() ) {
         int temp = g->get_temperature( pos );
         if( e_heater ) {
-            temp = std::max( temp, temperatures::cold + 1 );
+            temp = std::max( temp, temperatures::normal );
         }
         base.process( nullptr, pos, false, temp, 1 );
     }
@@ -343,7 +369,7 @@ bool vehicle_part::fault_set( const fault_id &f )
 
 int vehicle_part::wheel_area() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
+    return info().wheel_area();
 }
 
 /** Get wheel diameter (inches) or return 0 if part is not wheel */
@@ -403,6 +429,8 @@ bool vehicle_part::is_light() const
 {
     const auto &vp = info();
     return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
            vp.has_flag( VPFLAG_DOME_LIGHT ) ||
@@ -429,7 +457,7 @@ bool vehicle_part::is_battery() const
 
 bool vehicle_part::is_reactor() const
 {
-    return info().has_flag( "REACTOR" );
+    return info().has_flag( VPFLAG_REACTOR );
 }
 
 bool vehicle_part::is_turret() const

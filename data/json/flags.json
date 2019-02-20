@@ -241,6 +241,12 @@
     "inherit": false
   },
   {
+    "id": "NUTRIENT_OVERRIDE",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "description": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -470,6 +476,12 @@
     "context": [ "GENERIC", "TOOL" ],
     "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
+  },
+  {
+    "id": "NANOFAB_TEMPLATE",
+    "type": "json_flag",
+    "context": [ "generic", "TOOL" ],
+    "info": "This item contains a nanofabricator recipe."
   },
   {
     "id": "BIONIC_FAULTY",

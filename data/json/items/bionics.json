@@ -794,7 +794,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Integrated Toolset CBM",
-    "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
     "price": 800000,
     "difficulty": 6
   },
@@ -803,7 +803,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Joint Torsion Ratchet CBM",
-    "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move.",
+    "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "price": 380000,
     "difficulty": 4
   },
@@ -854,7 +854,7 @@
   },
   {
     "id": "bio_weight",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Titanium Skeletal Bracing CBM",
     "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing you to carry more weight.",

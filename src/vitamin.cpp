@@ -1,12 +1,12 @@
 #include "vitamin.h"
 
+#include <map>
+
 #include "assign.h"
 #include "calendar.h"
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
-
-#include <map>
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 

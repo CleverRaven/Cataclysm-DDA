@@ -1,14 +1,15 @@
 #include "damage.h"
 
+#include <algorithm>
+#include <map>
+#include <numeric>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "monster.h"
 #include "mtype.h"
-
-#include <algorithm>
-#include <map>
-#include <numeric>
+#include "translations.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -19,7 +20,7 @@ bool damage_unit::operator==( const damage_unit &other ) const
            damage_multiplier == other.damage_multiplier;
 }
 
-damage_instance::damage_instance() { }
+damage_instance::damage_instance() = default;
 damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
 {
     damage_instance d;
@@ -84,9 +85,9 @@ bool damage_instance::empty() const
     return damage_units.empty();
 }
 
-void damage_instance::add( const damage_instance &b )
+void damage_instance::add( const damage_instance &added_di )
 {
-    for( auto &added_du : b.damage_units ) {
+    for( auto &added_du : added_di.damage_units ) {
         add( added_du );
     }
 }
@@ -215,15 +216,15 @@ resistances &resistances::operator+=( const resistances &other )
 }
 
 static const std::map<std::string, damage_type> dt_map = {
-    { "true", DT_TRUE },
-    { "biological", DT_BIOLOGICAL },
-    { "bash", DT_BASH },
-    { "cut", DT_CUT },
-    { "acid", DT_ACID },
-    { "stab", DT_STAB },
-    { "heat", DT_HEAT },
-    { "cold", DT_COLD },
-    { "electric", DT_ELECTRIC }
+    { translate_marker_context( "damage type", "true" ), DT_TRUE },
+    { translate_marker_context( "damage type", "biological" ), DT_BIOLOGICAL },
+    { translate_marker_context( "damage type", "bash" ), DT_BASH },
+    { translate_marker_context( "damage type", "cut" ), DT_CUT },
+    { translate_marker_context( "damage type", "acid" ), DT_ACID },
+    { translate_marker_context( "damage type", "stab" ), DT_STAB },
+    { translate_marker_context( "damage type", "heat" ), DT_HEAT },
+    { translate_marker_context( "damage type", "cold" ), DT_COLD },
+    { translate_marker_context( "damage type", "electric" ), DT_ELECTRIC }
 };
 
 damage_type dt_by_name( const std::string &name )
@@ -236,12 +237,12 @@ damage_type dt_by_name( const std::string &name )
     return iter->second;
 }
 
-const std::string &name_by_dt( const damage_type &dt )
+const std::string name_by_dt( const damage_type &dt )
 {
     auto iter = dt_map.cbegin();
     while( iter != dt_map.cend() ) {
         if( iter->second == dt ) {
-            return iter->first;
+            return pgettext( "damage type", iter->first.c_str() );
         }
         iter++;
     }

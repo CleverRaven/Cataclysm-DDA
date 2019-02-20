@@ -27,7 +27,10 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 50000,
-    "start": "open_sarcophagus",
+    "start": {
+      "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
+      "assign_mission_target": { "om_terrain": "haz_sar", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "haz_sar_b1",
     "dialogue": {
@@ -215,7 +218,10 @@
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
-    "start": "reveal_lab_black_box",
+    "start": {
+      "effect": { "u_buy_item": "black_box" },
+      "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
@@ -281,7 +287,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
-    "start": "reveal_office_tower",
+    "start": { "reveal_om_ter": "office_tower_1" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
@@ -304,7 +310,7 @@
     "difficulty": 2,
     "value": 60000,
     "item": "record_patient",
-    "start": "reveal_doctors_office",
+    "start": { "reveal_om_ter": [ "office_doctor", "hospital_2" ] },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_REACH_FEMA_CAMP",
     "dialogue": {
@@ -327,7 +333,7 @@
     "difficulty": 2,
     "value": 50000,
     "item": "record_weather",
-    "start": "reveal_weather_station",
+    "start": { "reveal_om_ter": "station_radio" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "I wonder if a retreat might exist...",
@@ -349,7 +355,7 @@
     "difficulty": 2,
     "value": 100000,
     "item": "small_relic",
-    "start": "reveal_cathedral",
+    "start": { "reveal_om_ter": [ "cathedral_1", "museum" ] },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
@@ -418,7 +424,10 @@
     "difficulty": 8,
     "value": 250000,
     "item": "software_blood_data",
-    "start": "reveal_hospital",
+    "start": {
+      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "It could be very informative to perform an analysis of zombie blood...",
@@ -440,7 +449,9 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": "point_cabin_strange",
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -463,7 +474,9 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": "point_prison",
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
@@ -486,7 +499,7 @@
     "value": 0,
     "urgent": true,
     "item": "badge_deputy",
-    "start": "join",
+    "start": { "effect": "follow" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Well damn, you must be the guys here to pick me up...",
@@ -509,7 +522,7 @@
     "monster_kill_goal": 100,
     "difficulty": 5,
     "value": 250000,
-    "start": "kill_100_z",
+    "start": { "effect": "follow" },
     "end": "leave",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_KILL_HORDE_MASTER",
@@ -646,7 +659,10 @@
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "difficulty": 5,
     "value": 250000,
-    "start": "kill_20_nightmares",
+    "monster_type": "mon_charred_nightmare",
+    "start": {
+      "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 }
+    },
     "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -669,7 +685,10 @@
     "difficulty": 2,
     "value": 250000,
     "item": "radio_repeater_mod",
-    "start": "radio_repeater",
+    "start": {
+       "effect": { "u_buy_item": "repeater_mod_guide" },
+       "assign_mission_target": { "om_terrain": "necropolis_c_23", "om_special": "Necropolis", "reveal_radius": 3, "z": -2 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_2",
     "dialogue": {
@@ -1721,7 +1740,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": "join",
+    "start": { "effect": "follow" },
     "end": "leave",
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "farm",
@@ -1744,7 +1763,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": "join",
+    "start": { "effect": "follow" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REACH_FARM_HOUSE",
     "destination": "fema",
@@ -1866,7 +1885,10 @@
     "difficulty": 5,
     "value": 50000,
     "item": "software_blood_data",
-    "start": "reveal_hospital",
+    "start": {
+      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_2",
     "dialogue": {

@@ -1,5 +1,11 @@
 #include "input.h"
 
+#include <algorithm>
+#include <cctype>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+
 #include "action.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -18,16 +24,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 
-#include <algorithm>
-#include <cctype>
-#include <fstream>
-#include <sstream>
-#include <stdexcept>
-
 using std::min; // from <algorithm>
 using std::max;
-
-extern bool tile_iso;
 
 static const std::string default_context_id( "default" );
 
@@ -884,41 +882,36 @@ void rotate_direction_cw( int &dx, int &dy )
     dy = ( dir_num / 3 ) - 1;
 }
 
-bool input_context::get_direction( int &dx, int &dy, const std::string &action )
+cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
+    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+        return p;
+    } );
+    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+        rotate_direction_cw( p.x, p.y );
+        return p;
+    } );
+    const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
+
     if( action == "UP" ) {
-        dx = 0;
-        dy = -1;
+        return transform( tripoint( 0, -1, 0 ) );
     } else if( action == "DOWN" ) {
-        dx = 0;
-        dy = 1;
+        return transform( tripoint( 0, +1, 0 ) );
     } else if( action == "LEFT" ) {
-        dx = -1;
-        dy = 0;
+        return transform( tripoint( -1, 0, 0 ) );
     } else if( action ==  "RIGHT" ) {
-        dx = 1;
-        dy = 0;
+        return transform( tripoint( +1, 0, 0 ) );
     } else if( action == "LEFTUP" ) {
-        dx = -1;
-        dy = -1;
+        return transform( tripoint( -1, -1, 0 ) );
     } else if( action == "RIGHTUP" ) {
-        dx = 1;
-        dy = -1;
+        return transform( tripoint( +1, -1, 0 ) );
     } else if( action == "LEFTDOWN" ) {
-        dx = -1;
-        dy = 1;
+        return transform( tripoint( -1, +1, 0 ) );
     } else if( action == "RIGHTDOWN" ) {
-        dx = 1;
-        dy = 1;
+        return transform( tripoint( +1, +1, 0 ) );
     } else {
-        dx = -2;
-        dy = -2;
-        return false;
+        return cata::nullopt;
     }
-    if( iso_mode && tile_iso && use_tiles ) {
-        rotate_direction_cw( dx, dy );
-    }
-    return true;
 }
 
 // Custom set of hotkeys that explicitly don't include the hardcoded

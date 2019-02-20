@@ -198,5 +198,13 @@
     "name": "Zui Quan and You",
     "name_plural": "Zui Quan and You",
     "description": "A complete guide to Zui Quan."
+  },
+  {
+    "id": "manual_sojutsu",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "The Way of the Spear",
+    "name_plural": "The Way of the Spear",
+    "description": "A complete guide to Sōjutsu."
   }
 ]

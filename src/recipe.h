@@ -2,12 +2,12 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "requirements.h"
-#include "string_id.h"
-
 #include <map>
 #include <set>
 #include <vector>
+
+#include "requirements.h"
+#include "string_id.h"
 
 class recipe_dictionary;
 class Skill;
@@ -80,10 +80,15 @@ class recipe
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
 
-        //Create a string list to describe the skill requirements fir this recipe
-        // Format: skill_name(amount), skill_name(amount)
+        // Create a string list to describe the skill requirements for this recipe
+        // Format: skill_name(level/amount), skill_name(level/amount)
         // Character object (if provided) used to color levels
+        std::string required_skills_string( const Character *, bool print_skill_level ) const;
         std::string required_skills_string( const Character * ) const;
+
+        // Create a string to describe the time savings of batch-crafting, if any.
+        // Format: "N% at >M units" or "none"
+        std::string batch_savings_string() const;
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
@@ -98,6 +103,10 @@ class recipe
         int batch_time( int batch, float multiplier, size_t assistants ) const;
 
         bool has_flag( const std::string &flag_name ) const;
+
+        bool is_reversible() const {
+            return reversible;
+        }
 
         void load( JsonObject &jo, const std::string &src );
         void finalize();

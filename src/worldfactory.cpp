@@ -1,5 +1,7 @@
 #include "worldfactory.h"
 
+#include <algorithm>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "char_validity_check.h"
@@ -17,8 +19,6 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
 
 using namespace std::placeholders;
 
@@ -361,8 +361,14 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     else if( world_names.empty() ) {
         return make_new_world( show_prompt );
     }
-    // If we're skipping prompts, just return the first one.
+    // If we're skipping prompts, return the world with 0 save if there is one
     else if( !show_prompt ) {
+        for( const auto &name : world_names ) {
+            if( get_world( name )->world_saves.empty() ) {
+                return get_world( name );
+            }
+        }
+        // if there isn't any, adhere to old logic: return the alphabetically first one
         return get_world( world_names[0] );
     }
 
@@ -820,7 +826,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     bool recalc_tabs = true;
 
     // Helper function for determining the currently selected mod
-    auto const get_selected_mod = [&]() -> const MOD_INFORMATION* {
+    const auto get_selected_mod = [&]() -> const MOD_INFORMATION* {
         if( current_tab_mods.empty() )
         {
             return nullptr;
@@ -835,7 +841,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     };
 
     // Helper function to trigger full redraw on mod selection screen
-    auto const redraw_all = [&]() {
+    const auto redraw_all = [&]() {
         redraw_headers = true;
         redraw_list = true;
         redraw_active = true;

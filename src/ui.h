@@ -2,15 +2,15 @@
 #ifndef UI_H
 #define UI_H
 
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "string_formatter.h"
-
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "string_formatter.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -152,6 +152,7 @@ class uilist_callback
 /**
  * uilist: scrolling vertical list menu
  */
+
 class ui_element;
 class ui_element_input;
 
@@ -209,13 +210,13 @@ class uilist: public ui_container
         // query() will be called at the end of these convenience constructors
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
-        uilist( const std::string &msg, std::initializer_list<char const *const> opts );
+        uilist( const std::string &msg, std::initializer_list<const char *const> opts );
         uilist( int startx, int width, int starty, const std::string &msg,
                 const std::vector<uilist_entry> &opts );
         uilist( int startx, int width, int starty, const std::string &msg,
                 const std::vector<std::string> &opts );
         uilist( int startx, int width, int starty, const std::string &msg,
-                std::initializer_list<char const *const> opts );
+                std::initializer_list<const char *const> opts );
 
         void init();
         void setup();

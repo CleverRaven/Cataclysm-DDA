@@ -1,12 +1,6 @@
 #include "debug.h"
 
-#include "cursesdef.h"
-#include "filesystem.h"
-#include "get_version.h"
-#include "input.h"
-#include "output.h"
-#include "path_info.h"
-
+#include <sys/stat.h>
 #include <algorithm>
 #include <cassert>
 #include <cstdarg>
@@ -18,20 +12,31 @@
 #include <iomanip>
 #include <iosfwd>
 #include <streambuf>
-#include <sys/stat.h>
+
+#include "cursesdef.h"
+#include "filesystem.h"
+#include "get_version.h"
+#include "input.h"
+#include "output.h"
+#include "path_info.h"
 
 #ifndef _MSC_VER
 #include <sys/time.h>
 #endif
 
-#ifdef BACKTRACE
-#if defined _WIN32 || defined _WIN64
+#if (defined _WIN32 || defined _WIN64)
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
+#endif
+#endif
+
+#ifdef BACKTRACE
+#if (defined _WIN32 || defined _WIN64)
 #include <dbghelp.h>
 #else
-#include <cstdlib>
 #include <execinfo.h>
 #include <unistd.h>
+#include <cstdlib>
 #endif
 #endif
 
@@ -187,12 +192,12 @@ void limitDebugClass( int class_bitmask )
 
 #ifdef BACKTRACE
 #if defined _WIN32 || defined _WIN64
-int constexpr module_path_len = 512;
+constexpr int module_path_len = 512;
 // on some systems the number of frames to capture have to be less than 63 according to the documentation
-int constexpr bt_cnt = 62;
-int constexpr max_name_len = 512;
+constexpr int bt_cnt = 62;
+constexpr int max_name_len = 512;
 // ( max_name_len - 1 ) because SYMBOL_INFO already contains a TCHAR
-int constexpr sym_size = sizeof( SYMBOL_INFO ) + ( max_name_len - 1 ) * sizeof( TCHAR );
+constexpr int sym_size = sizeof( SYMBOL_INFO ) + ( max_name_len - 1 ) * sizeof( TCHAR );
 static char mod_path[module_path_len];
 static PVOID bt[bt_cnt];
 static struct {
@@ -222,14 +227,62 @@ struct NullBuf : public std::streambuf {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
+struct time_info {
+    int hours;
+    int minutes;
+    int seconds;
+    int mseconds;
+
+    template <typename Stream>
+    friend Stream &operator<<( Stream &out, const time_info &t ) {
+        using char_t = typename Stream::char_type;
+        using base   = std::basic_ostream<char_t>;
+
+        static_assert( std::is_base_of<base, Stream>::value, "" );
+
+        out << std::setfill( '0' );
+        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
+            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
+
+        return out;
+    }
+};
+
+#ifdef _MSC_VER
+time_info get_time() noexcept
+{
+    SYSTEMTIME time {};
+
+    GetLocalTime( &time );
+
+    return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
+                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds )
+                     };
+}
+#else
+time_info get_time() noexcept
+{
+    timeval tv;
+    gettimeofday( &tv, nullptr );
+
+    const auto tt      = time_t {tv.tv_sec};
+    const auto current = localtime( &tt );
+
+    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
+                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                     };
+}
+#endif
+
 struct DebugFile {
     DebugFile();
     ~DebugFile();
-    void init( const std::string &filename );
+    void init( DebugOutput, const std::string &filename );
     void deinit();
 
-    std::ofstream &currentTime();
-    std::ofstream file;
+    // Using shared_ptr for the type-erased deleter support, not because
+    // it needs to be shared.
+    std::shared_ptr<std::ostream> file;
     std::string filename;
 };
 
@@ -241,48 +294,61 @@ static std::ostream nullStream( &nullBuf );
 
 static DebugFile debugFile;
 
-DebugFile::DebugFile()
-{
-}
+DebugFile::DebugFile() = default;
 
 DebugFile::~DebugFile()
 {
-    if( file.is_open() ) {
-        deinit();
-    }
+    deinit();
 }
 
 void DebugFile::deinit()
 {
-    file << "\n";
-    currentTime() << " : Log shutdown.\n";
-    file << "-----------------------------------------\n\n";
-    file.close();
+    if( file && file.get() != &std::cerr ) {
+        *file << "\n";
+        *file << get_time() << " : Log shutdown.\n";
+        *file << "-----------------------------------------\n\n";
+    }
+    file.reset();
 }
 
-void DebugFile::init( const std::string &filename )
+void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
-    this->filename = filename;
-    const std::string oldfile = filename + ".prev";
-    bool rename_failed = false;
-    struct stat buffer;
-    if( stat( filename.c_str(), &buffer ) == 0 ) {
-        // Continue with the old log file if it's smaller than 1 MiB
-        if( buffer.st_size >= 1024 * 1024 ) {
-            rename_failed = !rename_file( filename, oldfile );
+    switch( output_mode ) {
+        case DebugOutput::std_err:
+            file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
+            return;
+        case DebugOutput::file: {
+            this->filename = filename;
+            const std::string oldfile = filename + ".prev";
+            bool rename_failed = false;
+            struct stat buffer;
+            if( stat( filename.c_str(), &buffer ) == 0 ) {
+                // Continue with the old log file if it's smaller than 1 MiB
+                if( buffer.st_size >= 1024 * 1024 ) {
+                    rename_failed = !rename_file( filename, oldfile );
+                }
+            }
+            file = std::make_shared<std::ofstream>(
+                       filename.c_str(), std::ios::out | std::ios::app );
+            *file << "\n\n-----------------------------------------\n";
+            *file << get_time() << " : Starting log.";
+            DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
+            if( rename_failed ) {
+                DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
+                                            << oldfile << " failed.\n"
+                                            << "Check the file permissions. This "
+                                            "program will continue to use the "
+                                            "previous log file.";
+            }
         }
-    }
-    file.open( filename.c_str(), std::ios::out | std::ios::app );
-    file << "\n\n-----------------------------------------\n";
-    currentTime() << " : Starting log.";
-    DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
-    if( rename_failed ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to " << oldfile << " failed.\n" <<
-                                    "Check the file permissions. This program will continue to use the previous log file.";
+        return;
+        default:
+            std::cerr << "Unexpected debug output mode " << static_cast<int>( output_mode )
+                      << std::endl;
     }
 }
 
-void setupDebug()
+void setupDebug( DebugOutput output_mode )
 {
     int level = 0;
 
@@ -328,7 +394,7 @@ void setupDebug()
         limitDebugClass( cl );
     }
 
-    debugFile.init( FILENAMES["debug"] );
+    debugFile.init( output_mode, FILENAMES["debug"] );
 }
 
 void deinitDebug()
@@ -383,58 +449,6 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
     return out;
 }
 
-struct time_info {
-    int hours;
-    int minutes;
-    int seconds;
-    int mseconds;
-
-    template <typename Stream>
-    friend Stream &operator<<( Stream &out, time_info const &t ) {
-        using char_t = typename Stream::char_type;
-        using base   = std::basic_ostream<char_t>;
-
-        static_assert( std::is_base_of<base, Stream>::value, "" );
-
-        out << std::setfill( '0' );
-        out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
-            std::setw( 2 ) << t.seconds << '.' << std::setw( 3 ) << t.mseconds;
-
-        return out;
-    }
-};
-
-#ifdef _MSC_VER
-time_info get_time() noexcept
-{
-    SYSTEMTIME time {};
-
-    GetLocalTime( &time );
-
-    return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
-                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds )
-                     };
-}
-#else
-time_info get_time() noexcept
-{
-    timeval tv;
-    gettimeofday( &tv, nullptr );
-
-    auto const tt      = time_t {tv.tv_sec};
-    auto const current = localtime( &tt );
-
-    return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
-                     };
-}
-#endif
-
-std::ofstream &DebugFile::currentTime()
-{
-    return ( file << get_time() );
-}
-
 #ifdef BACKTRACE
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
@@ -442,7 +456,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
 {
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
-                                         "01234567890_./-";
+                                         "01234567890_./-+";
     using std::begin;
     using std::end;
     const auto is_safe_char =
@@ -519,7 +533,7 @@ cata::optional<uintptr_t> debug_compute_load_offset(
         char buf[1024];
         while( fgets( buf, sizeof( buf ), nm ) ) {
             std::string line( buf );
-            while( !line.empty() && std::isspace( line.end()[-1] ) ) {
+            while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
             if( string_ends_with( line, string_sought ) ) {
@@ -560,7 +574,7 @@ void debug_write_backtrace( std::ostream &out )
             DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
             // mod_len == module_path_len means insufficient buffer
             if( mod_len > 0 && mod_len < module_path_len ) {
-                char const *mod_name = mod_path + mod_len;
+                const char *mod_name = mod_path + mod_len;
                 for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
                 }
                 out << mod_name;
@@ -707,26 +721,40 @@ void debug_write_backtrace( std::ostream &out )
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
+    // If debugging has not been initialized then stop
+    // (we could instead use std::cerr in this case?)
+    if( !debugFile.file ) {
+        return nullStream;
+    }
+
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
-        debugFile.file << std::endl;
-        debugFile.currentTime() << " ";
-        debugFile.file << lev;
+        std::ostream &out = *debugFile.file;
+        out << std::endl;
+        out << get_time() << " ";
+        out << lev;
         if( cl != debugClass ) {
-            debugFile.file << cl;
+            out << cl;
         }
-        debugFile.file << ": ";
+        out << ": ";
 
         // Backtrace on error.
 #ifdef BACKTRACE
-        if( lev == D_ERROR ) {
-            debugFile.file << "(error message will follow backtrace)";
-            debug_write_backtrace( debugFile.file );
+        // Push the first retrieved value back by a second so it won't match.
+        static time_t next_backtrace = time( nullptr ) - 1;
+        time_t now = time( nullptr );
+        if( lev == D_ERROR && now >= next_backtrace ) {
+            out << "(error message will follow backtrace)";
+            debug_write_backtrace( out );
+            time_t after = time( nullptr );
+            // Cool down for 60s between backtrace emissions.
+            next_backtrace = after + 60;
+            out << "Backtrace emission took " << after - now << " seconds." << std::endl;
         }
 #endif
 
-        return debugFile.file;
+        return out;
     }
     return nullStream;
 }

@@ -1,10 +1,10 @@
 #include "dependency_tree.h"
 
-#include "debug.h"
-#include "output.h"
-
 #include <algorithm>
 #include <set>
+
+#include "debug.h"
+#include "output.h"
 
 std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 

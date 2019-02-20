@@ -2,9 +2,9 @@
 #ifndef FACTION_H
 #define FACTION_H
 
-#include "string_id.h"
-
 #include <vector>
+
+#include "string_id.h"
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40

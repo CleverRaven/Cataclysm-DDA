@@ -1,5 +1,9 @@
 #include "action.h"
 
+#include <algorithm>
+#include <istream>
+#include <iterator>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -18,12 +22,6 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
-#include <istream>
-#include <iterator>
-
-extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -97,7 +95,7 @@ action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
     input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
-    const std::string action = ctxt.input_to_action( event );
+    const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
 
@@ -896,11 +894,10 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     popup( query_text, PF_NO_WAIT_ON_TOP );
 
     const std::string action = ctxt.handle_input();
-    tripoint offset;
-    if( ctxt.get_direction( offset.x, offset.y, action ) ) {
-        return offset;
+    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        return vec;
     } else if( action == "pause" ) {
-        return tripoint( 0, 0, 0 );
+        return tripoint_zero;
     } else if( action == "LEVEL_UP" ) {
         return tripoint( 0, 0, 1 );
     } else if( action == "LEVEL_DOWN" ) {

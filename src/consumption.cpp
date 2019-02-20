@@ -1,3 +1,8 @@
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <string>
+
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -12,14 +17,10 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
-
-#include <algorithm>
-#include <string>
 
 namespace
 {
@@ -34,6 +35,7 @@ const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_visuals( "visuals" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -96,7 +98,19 @@ int player::nutrition_for( const item &comest ) const
     }
 
     // As float to avoid rounding too many times
-    float nutr = comest.type->comestible->nutr;
+    float nutr = 0;
+
+    // if item has components, will derive calories from that instead.
+    if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        int byproduct_multiplier;
+        for( item component : comest.components ) {
+            component.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
+            nutr += this->nutrition_for( component ) * component.charges * byproduct_multiplier;
+        }
+        nutr /= comest.recipe_charges;
+    } else {
+        nutr = comest.type->comestible->nutr;
+    }
 
     if( has_trait( trait_GIZZARD ) ) {
         nutr *= 0.6f;
@@ -163,7 +177,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     float fun_max = fun < 0 ? fun * 6 : fun * 3;
     if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
         if( fun > 0 ) {
-            fun *= 3;
+            fun *= 2;
         } else {
             fun = 1;
             fun_max = 5;
@@ -205,14 +219,27 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // food to which the player is allergic to never contains any vitamins
-    if( allergy_type( it ) != MORALE_NULL ) {
-        return res;
-    }
-
     // @todo: bionics and mutations can affect vitamin absorption
-    for( const auto &e : it.type->comestible->vitamins ) {
-        res.emplace( e.first, e.second );
+    if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        // if an item is a byproduct, it should subtract the calories and vitamins instead of add
+        int byproduct_multiplier = 1;
+        for( const auto &comp : it.components ) {
+            comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
+            std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
+            for( const auto &vit : component_map ) {
+                res.operator[]( vit.first ) += byproduct_multiplier * ceil( static_cast<float>
+                                               ( vit.second ) / static_cast<float>
+                                               ( it.type->charges_default() ) );
+            }
+        }
+    } else {
+        // food to which the player is allergic to never contains any vitamins
+        if( allergy_type( it ) != MORALE_NULL ) {
+            return res;
+        }
+        for( const auto &e : it.type->comestible->vitamins ) {
+            res.emplace( e );
+        }
     }
 
     return res;
@@ -484,12 +511,14 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
+        std::string food_tame = food.tname();
+        const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == "FOOD" ) {
-            req << string_format( _( "Eat your %s anyway?" ), food.tname().c_str() );
+            req << string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
         } else if( !eat_verb && comest->comesttype == "DRINK" ) {
-            req << string_format( _( "Drink your %s anyway?" ), food.tname().c_str() );
+            req << string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
         } else {
-            req << string_format( _( "Consume your %s anyway?" ), food.tname().c_str() );
+            req << string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
         }
 
         if( !query_yn( req.str() ) ) {
@@ -604,9 +633,9 @@ bool player::eat( item &food, bool force )
     const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
     if( food.has_flag( "HIDDEN_HALLU" ) ) {
         if( spiritual ) {
-            add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false );
         } else {
-            add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false );
+            add_morale( MORALE_FOOD_GOOD, 18, 36, 1_hours, 30_minutes, false );
         }
         if( !has_effect( effect_hallu ) ) {
             add_effect( effect_hallu, 6_hours );
@@ -861,6 +890,26 @@ void player::consume_effects( const item &food )
         } else {
             stim = std::min( comest.stim * 3, stim + comest.stim );
         }
+    }
+    if( has_trait( trait_id( "STIMBOOST" ) ) && ( stim > 30 ) && ( ( comest.add == ADD_CAFFEINE )
+            || ( comest.add == ADD_SPEED ) || ( comest.add == ADD_COKE ) || ( comest.add == ADD_CRACK ) ) ) {
+        int hallu_duration = ( stim - comest.stim < 30 ) ? stim - 30 : comest.stim;
+        add_effect( effect_visuals, hallu_duration * 30_minutes );
+        std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
+                                                _( "You have a bad feeling about this." ),
+                                                _( "A powerful sense of dread comes over you." ),
+                                                _( "Your skin starts crawling." ),
+                                                _( "They're coming to get you." ),
+                                                _( "This might've been a bad idea..." ),
+                                                _( "You've really done it this time, haven't you?" ),
+                                                _( "You have to stay vigilant. They're always watching..." ),
+                                                _( "mistake mistake mistake mistake mistake" ),
+                                                _( "Just gotta stay calm, and you'll make it through this." ),
+                                                _( "You're starting to feel very jumpy." ),
+                                                _( "Something is twitching at the edge of your vision." ),
+                                                _( "They know what you've done..." ),
+                                                _( "You're feeling even more paranoid than usual." ) };
+        add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
     }
     add_addiction( comest.add, comest.addict );
     if( addiction_craving( comest.add ) != MORALE_NULL ) {

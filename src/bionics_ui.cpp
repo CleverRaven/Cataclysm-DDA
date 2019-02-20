@@ -1,15 +1,16 @@
-#include "bionics.h"
+#include "player.h" // IWYU pragma: associated
 
+#include <algorithm> //std::min
+#include <sstream>
+
+#include "bionics.h"
 #include "catacharset.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm> //std::min
-#include <sstream>
+#include "options.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -56,8 +57,9 @@ void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_
 {
     werase( window );
 
-    const int pwr_str_pos = right_print( window, 0, 1, c_white, string_format( _( "Power: %i/%i" ),
-                                         p->power_level, p->max_power_level ) );
+    const int pwr_str_pos = right_print( window, 0, 1, c_white,
+                                         string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
+                                                 p->power_level, p->max_power_level ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -72,7 +74,7 @@ void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_
 }
 
 //builds the power usage string of a given bionic
-std::string build_bionic_poweronly_string( bionic const &bio )
+std::string build_bionic_poweronly_string( const bionic &bio )
 {
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
@@ -97,7 +99,7 @@ std::string build_bionic_poweronly_string( bionic const &bio )
 }
 
 //generates the string that show how much power a bionic uses
-std::string build_bionic_powerdesc_string( bionic const &bio )
+std::string build_bionic_powerdesc_string( const bionic &bio )
 {
     std::ostringstream power_desc;
     const std::string power_string = build_bionic_poweronly_string( bio );
@@ -127,7 +129,7 @@ void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
     wrefresh( win );
 }
 
-void draw_description( const catacurses::window &win, bionic const &bio )
+void draw_description( const catacurses::window &win, const bionic &bio )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -140,7 +142,7 @@ void draw_description( const catacurses::window &win, bionic const &bio )
     ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
     // @todo: Unhide when enforcing limits
-    if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+    if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
@@ -158,7 +160,7 @@ void draw_connectors( const catacurses::window &win, const int start_y, const in
     for( const auto &elem : bio_id->occupied_bodyparts ) {
         pos_and_num.emplace_back( static_cast<int>( elem.first ) + LIST_START_Y, elem.second );
     }
-    if( pos_and_num.empty() || !g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+    if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return;
     }
 
@@ -230,7 +232,7 @@ void draw_connectors( const catacurses::window &win, const int start_y, const in
 }
 
 //get a text color depending on the power/powering state of the bionic
-nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBionic )
+nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
     if( bio.id->activated ) {
@@ -404,7 +406,7 @@ void player::power_bionics()
                 max_width = std::max( max_width, utf8_width( s ) );
             }
             const int pos_x = WIDTH - 2 - max_width;
-            if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+            if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                 for( size_t i = 0; i < bps.size(); ++i ) {
                     mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, bps[i] );
                 }
@@ -434,7 +436,7 @@ void player::power_bionics()
                                                                     *( *current_bionic_list )[i] ).c_str() );
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
                                     desc );
-                    if( is_highlighted && menu_mode != EXAMINING && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+                    if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                         const bionic_id bio_id = ( *current_bionic_list )[i]->id;
                         draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
                                          pos_x - 2, bio_id );

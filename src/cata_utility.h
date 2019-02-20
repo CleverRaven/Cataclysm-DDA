@@ -8,16 +8,11 @@
 #include <utility>
 #include <vector>
 
+#include "units.h"
+
 class item;
 class Creature;
 struct tripoint;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-}
 class JsonIn;
 class JsonOut;
 
@@ -30,6 +25,15 @@ struct pair_greater_cmp_first {
         return a.first > b.first;
     }
 
+};
+
+/**
+ * For use with smart pointers when you don't actually want the deleter to do
+ * anything.
+ */
+struct null_deleter {
+    template<typename T>
+    void operator()( T * ) const {}
 };
 
 /**
@@ -59,6 +63,26 @@ inline int fast_floor( double v )
  * @return Rounded value.
  */
 double round_up( double val, unsigned int dp );
+
+/** Divide @p num by @p den, rounding up
+*
+* @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+*/
+template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+T divide_round_up( T num, T den )
+{
+    return ( num + den - 1 ) / den;
+}
+
+/** Divide @p num by @p den, rounding up
+ *
+ * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+ */
+template<typename T, typename U>
+T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
+{
+    return divide_round_up( num.value(), den.value() );
+}
 
 /**
  * Determine whether a value is between two given boundaries.
@@ -478,5 +502,11 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  * \brief Returns true iff s1 ends with s2
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/** Used as a default in function declarations in visitable.h, inventory.h, and player.h */
+const std::function<bool( const item & )> return_true = []( const item & )
+{
+    return true;
+};
 
 #endif // CAT_UTILITY_H

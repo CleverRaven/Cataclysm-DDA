@@ -64,6 +64,8 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
+- ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
+- ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
@@ -94,6 +96,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```PERMEABLE``` Permeable for gases.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
+- ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP``` Can be used to move up a z-level
 - ```RAMP_END```
 - ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
@@ -506,6 +509,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FRIDGE``` Can refrigerate items.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FUNNEL```
+- ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.
@@ -557,6 +561,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
 - ```WELDRIG``` Acts as a welder for crafting.
+- ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
 - ```WINDOW``` Can see through this part and can install curtains over it.
@@ -926,6 +931,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
+- ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.
@@ -1136,6 +1142,17 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
 
+## Overmap specials
+
+### Flags
+
+- ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
+- ```CLASSIC``` Location is allowed when classic zombies are enabled.
+- ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- ```BEE``` Location is related to bees. Used to classify location.
+- ```FUNGAL``` Location is related to fungi. Used to classify location.
+- ```TRIFFID``` Location is related to triffids. Used to classify location.
+
 ## TODO
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
@@ -1164,3 +1181,4 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_pond``` ... A small pond.
+- ```mx_clay_deposit``` ... A small surface clay deposit.

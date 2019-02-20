@@ -2,10 +2,10 @@
 #ifndef CURSESDEF_H
 #define CURSESDEF_H
 
-#include "string_formatter.h"
-
 #include <memory>
 #include <string>
+
+#include "string_formatter.h"
 
 class nc_color;
 

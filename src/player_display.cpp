@@ -1,4 +1,6 @@
-#include "player.h"
+#include "player.h" // IWYU pragma: associated
+
+#include <algorithm>
 
 #include "addiction.h"
 #include "bionics.h"
@@ -13,8 +15,6 @@
 #include "string_formatter.h"
 #include "units.h"
 #include "weather.h"
-
-#include <algorithm>
 
 const skill_id skill_swimming( "swimming" );
 
@@ -225,10 +225,9 @@ void player::disp_info()
     unsigned line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
-    std::string tmp;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            tmp = _effect_it.second.disp_name();
+            const std::string tmp = _effect_it.second.disp_name();
             if( !tmp.empty() ) {
                 effect_name.push_back( tmp );
                 effect_text.push_back( _effect_it.second.disp_desc() );
@@ -317,15 +316,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
 
-    std::vector<trait_id> traitslist = get_mutations();
+    std::vector<trait_id> traitslist = get_mutations( false );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
 
     std::vector<bionic> bionicslist = *my_bionics;
     unsigned bionics_win_size_y = 2 + bionicslist.size();
 
-    const auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
-        int const level_a = get_skill_level_object( a.ident() ).exercised_level();
-        int const level_b = get_skill_level_object( b.ident() ).exercised_level();
+    const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
+        const int level_a = get_skill_level_object( a.ident() ).exercised_level();
+        const int level_b = get_skill_level_object( b.ident() ).exercised_level();
         return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
     } );
     unsigned skill_win_size_y = 1 + skillslist.size();
@@ -580,7 +579,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     const std::string title_BIONICS = _( "BIONICS" );
     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
         trim_and_print( w_bionics, int( i ) + 2, 1, getmaxx( w_bionics ) - 1, c_white,
                         bionicslist[i].info().name );
@@ -683,7 +682,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
     if( get_hunger() + get_starvation() > 100 ) {
         pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Inanition           -%s%d%%" ),
+        mvwprintz( w_speed, line, 1, c_red, _( "Under-Fed           -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
@@ -985,7 +984,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_bionics, 0, 0, h_light_gray, header_spaces );
                 center_print( w_bionics, 0, h_light_gray, title_BIONICS );
                 trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                                string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                                string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
 
                 if( line <= ( ( bionics_useful_size_y - 1 ) / 2 ) ) {
                     min = 0;
@@ -1024,7 +1023,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
                     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                                    string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
+                                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
                     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
                         mvwprintz( w_bionics, int( i + 2 ), 1, c_black, "                         " );
                         trim_and_print( w_bionics, int( i + 2 ), 1, getmaxx( w_bionics ) - 1,

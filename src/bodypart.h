@@ -2,11 +2,11 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include "int_id.h"
-#include "string_id.h"
-
 #include <array>
 #include <bitset>
+
+#include "int_id.h"
+#include "string_id.h"
 
 class JsonObject;
 
@@ -37,7 +37,7 @@ enum class side : int {
  * Contains all valid @ref body_part values in the order they are
  * defined in. Use this to iterate over them.
  */
-const constexpr std::array<body_part, 12> all_body_parts = {{
+constexpr std::array<body_part, 12> all_body_parts = {{
         bp_torso, bp_head, bp_eyes, bp_mouth,
         bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r

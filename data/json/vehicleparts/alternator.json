@@ -9,6 +9,27 @@
     "flags": [ "ALTERNATOR" ]
   },
   {
+    "id": "alternator_bicycle",
+    "copy-from": "vehicle_alternator",
+    "type": "vehicle_part",
+    "name": "bicycle alternator",
+    "//": "3.0A @12VDC ~ 0.1HP drain @ 48% effficiency",
+    "item": "alternator_bicycle",
+    "looks_like": "alternator_motorbike",
+    "difficulty": 2,
+    "durability": 250,
+    "power": -75,
+    "epower": 36,
+    "damage_modifier": 80,
+    "folded_volume": 5,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 5 ] },
+      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "scrap", "count": [ 2, 5 ] }
+    ],
+    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] }
+  },
+  {
     "id": "alternator_motorbike",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",

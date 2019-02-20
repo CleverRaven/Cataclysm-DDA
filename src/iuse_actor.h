@@ -2,6 +2,10 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
+#include <map>
+#include <set>
+#include <vector>
+
 #include "calendar.h"
 #include "color.h"
 #include "explosion.h"
@@ -10,10 +14,6 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
-
-#include <map>
-#include <set>
-#include <vector>
 
 class vitamin;
 using vitamin_id = string_id<vitamin>;
@@ -201,7 +201,7 @@ struct effect_data {
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration &dur, body_part nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
@@ -371,8 +371,10 @@ class reveal_map_actor : public iuse_actor
     public:
         /**
          * The radius of the overmap area that gets revealed.
-         * This is in overmap terrain coordinates. A radius of 1 means all terrains directly around
-         * the character are revealed.
+         * This is in overmap terrain coordinates.
+         * A radius of 1 means all terrains directly around center are revealed.
+         * The center is location of nearest city defined in `reveal_map_center_omt` variable of
+         * activated item (or current player global omt location if variable is not set).
          */
         int radius = 0;
         /**
@@ -384,7 +386,7 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( tripoint const &center, const std::string &target, int reveal_distance ) const;
+        void reveal_targets( const tripoint &center, const std::string &target, int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -446,6 +448,7 @@ class salvage_actor : public iuse_actor
             material_id( "cotton" ),
             material_id( "leather" ),
             material_id( "fur" ),
+            material_id( "faux_fur" ),
             material_id( "nomex" ),
             material_id( "kevlar" ),
             material_id( "plastic" ),
@@ -643,7 +646,7 @@ class musical_instrument_actor : public iuse_actor
         /**
          * Display description once per this duration (@ref calendar::once_every).
          */
-        time_duration description_frequency = 0;
+        time_duration description_frequency = 0_turns;
 
         musical_instrument_actor( const std::string &type = "musical_instrument" ) : iuse_actor( type ) {}
 
@@ -773,6 +776,7 @@ class repair_item_actor : public iuse_actor
             AS_FAILURE,         // Failed hard, don't retry
             AS_DESTROYED,       // Failed and destroyed item
             AS_CANT,            // Couldn't attempt
+            AS_CANT_USE_TOOL,   // Cannot use tool
             AS_CANT_YET         // Skill too low
         };
 
@@ -787,9 +791,12 @@ class repair_item_actor : public iuse_actor
 
         /** Attempts to repair target item with selected tool */
         attempt_hint repair( player &pl, item &tool, item &target ) const;
-        /** Checks if repairs are possible.
+        /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
-        bool can_repair( player &pl, const item &tool, const item &target, bool print_msg ) const;
+        bool can_repair_target( player &pl, const item &target, bool print_msg ) const;
+        /** Checks if we are allowed to use the tool. */
+        bool can_use_tool( const player &p, const item &tool, bool print_msg ) const;
+
         /** Returns if components are available. Consumes them if `just_check` is false. */
         bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
         /** Returns the chance to repair and to damage an item. */

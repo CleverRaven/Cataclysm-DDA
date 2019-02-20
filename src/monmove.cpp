@@ -1,5 +1,9 @@
 // Monster movement code; essentially, the AI
 
+#include "monster.h" // IWYU pragma: associated
+
+#include <cmath>
+
 #include "cursesdef.h"
 #include "debug.h"
 #include "field.h"
@@ -10,7 +14,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monfaction.h"
-#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -19,8 +22,6 @@
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <cmath>
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -332,7 +333,7 @@ void monster::plan( const mfactions &factions )
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
     const auto actual_faction = friendly == 0 ? faction : mfaction_str_id( "player" );
-    auto const &myfaction_iter = factions.find( actual_faction );
+    const auto &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
         DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
                                     << actual_faction.id().str()
@@ -605,6 +606,12 @@ void monster::move()
         // Otherwise weird things happen
         destination.z = posz();
     }
+    // toggle facing direction for sdl flip
+    if( destination.x < pos().x ) {
+        facing = FD_LEFT;
+    } else {
+        facing = FD_RIGHT;
+    }
 
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
@@ -772,7 +779,7 @@ void monster::footsteps( const tripoint &p )
 tripoint monster::scent_move()
 {
     // @todo: Remove when scentmap is 3D
-    if( abs( posz() - g->get_levz() ) > 1 ) {
+    if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
 
@@ -796,7 +803,7 @@ tripoint monster::scent_move()
         return next;
     }
     const bool can_bash = bash_skill() > 0;
-    for( const auto &dest : g->m.points_in_radius( pos(), 1, 1 ) ) {
+    for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = g->scent.get( dest );
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
             continue;
@@ -1172,6 +1179,13 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
         g->m.add_field( pos(), fd_acid, 3 );
+    }
+
+    // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
+    if( has_flag( MF_SHORTACIDTRAIL ) ) {
+        if( one_in( 5 ) ) {
+            g->m.add_field( pos(), fd_acid, 3 );
+        }
     }
 
     if( has_flag( MF_SLUDGETRAIL ) ) {

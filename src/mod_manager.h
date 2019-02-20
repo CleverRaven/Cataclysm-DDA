@@ -2,15 +2,13 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
-#include "pimpl.h"
-#include "string_id.h"
-
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
+#include "pimpl.h"
+#include "string_id.h"
 
 struct WORLD;
 typedef WORLD *WORLDPTR;

@@ -2,11 +2,11 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include "calendar.h"
-#include "enums.h"
-
 #include <climits>
 #include <list>
+
+#include "calendar.h"
+#include "enums.h"
 
 enum event_type : int {
     EVENT_NULL,
@@ -31,9 +31,9 @@ struct event {
     /** Which faction is responsible for handling this event. */
     int faction_id = -1;
     /** Where the event happens, in global submap coordinates */
-    tripoint map_point = tripoint( INT_MIN, INT_MIN, INT_MIN );
+    tripoint map_point = tripoint_min;
 
-    event( event_type e_t, const time_point &w, int f_id, tripoint map_point );
+    event( event_type e_t, const time_point &w, int f_id, tripoint p );
 
     void actualize(); // When the time runs out
     void per_turn();  // Every turn
@@ -54,7 +54,7 @@ class event_manager
          * Add an entry to the event queue. Parameters are basically passed
          * through to @ref event::event.
          */
-        void add( event_type type, const time_point &when, int faction_id, tripoint where );
+        void add( event_type type, const time_point &when, int faction_id, const tripoint &where );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`

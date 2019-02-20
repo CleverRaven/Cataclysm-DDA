@@ -348,6 +348,7 @@
   {
     "id": "boots_steel",
     "type": "ARMOR",
+    "category" : "armor",
     "name": "pair of steeltoed boots",
     "name_plural": "pairs of steeltoed boots",
     "description": "Leather boots with a steel toe.  Extremely durable.",

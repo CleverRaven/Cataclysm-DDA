@@ -68,7 +68,6 @@
     },
     "om_terrain": "communitygarden",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -199,7 +198,7 @@
       },
       "place_signs": [
         { "signage": "<city> Community Garden, sign up for your own plot!", "x": 1, "y": 2 },
-        { "signage": "<city> Community Garden, grow your own vegtable!", "x": 22, "y": 2 }
+        { "signage": "<city> Community Garden, grow your own vegetables!", "x": 22, "y": 2 }
       ]
     },
     "om_terrain": "communitygarden",

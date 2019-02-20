@@ -1,0 +1,80 @@
+[
+  {
+    "type": "item_group",
+    "id": "gs_rocks",
+    "items": [ [ "rock", 50 ], [ "sharp_rock", 50 ] ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_giant_sinkhole_1" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        ".....................Y..",
+        ".,....,.......,......,..",
+        "..T....XXX..f.....T.....",
+        "....,.XXXXX...,.........",
+        "..Y..XXXXXXX...XXXXXX...",
+        "....XXXXXXXXXXXXXXXXXX,.",
+        "..,XXXXXXXXXXXXXXXXXXX..",
+        "...XXXXXXXXXXXXXXXXXX...",
+        "..XXXXXXXXXXXXXXXXXX....",
+        "..XXXXXXXXXXXXXXXXX.....",
+        "..XXXXXXXXXXXXXXXX.T....",
+        "..XXXXXXXXXXXXXXXXX,....",
+        "...XXXXXXXXXXXXXXXXX.f..",
+        "...XXXXXXXXXXXXXXXXXX...",
+        "..,.XXXXXXXXXXXXXXXXX...",
+        "..T..XXXXXXXXXXXXXXXX...",
+        "....XXXXXXXXXXXXXXXXXX,.",
+        "....XXXXXXXXXXXXXXXXXXX.",
+        "..,XXXXXXXXXXXXXXXXXXXX.",
+        "..XXXXXXXXXXXXXXXXXXXX..",
+        "....TXXXXXXXXXXXXXXXXX..",
+        "..Y...........,XXXXXX...",
+        ".....T...........XX...,.",
+        "........,..........,...."
+      ],
+      "terrain": { "X": "t_open_air", ".": "t_grass", "f": "t_grass", ",": "t_dirt", "T": "t_tree", "Y": "t_tree_young" },
+      "furniture": { "f": "f_bluebell" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_giant_sinkhole_2" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        "++++++++++++++++++++++++",
+        "++++++++++++++++++++++++",
+        "+++++++B..++++++++++++++",
+        "++++++..,.,+++++++++++++",
+        "+++++...w..,+++,B.,.,+++",
+        "++++.,.wwww..,.......b++",
+        "+++b...wWwww..........++",
+        "+++...wwWWWww........+++",
+        "++.,.wwWWWWww.....,,++++",
+        "++B...wwWWWwww.....+++++",
+        "++....wwWWWWww...B++++++",
+        "++,...wWWWWWww..,.,+++++",
+        "+++..wwwwWWWwww.....++++",
+        "+++..,wwwWWWwww...,..+++",
+        "++++..,.wwwWWww.....,+++",
+        "+++++...BwwWWwww.....+++",
+        "++++..,...wwWWww....bb++",
+        "++++,.....wwWWww.....,b+",
+        "+++,.b.....wwww........+",
+        "++B.....,..,ww.....b..++",
+        "+++++B...,.....,....,B++",
+        "+++++++++++++++,.,..,+++",
+        "+++++++++++++++++.,+++++",
+        "++++++++++++++++++++++++"
+      ],
+      "terrain": { ".": "t_dirt", ",": "t_dirt", "+": "t_rock", "W": "t_water_dp", "w": "t_water_sh", "B": "t_dirt", "b": "t_dirt" },
+      "furniture": {  },
+      "items": { ",": { "item": "gs_rocks", "chance": 80 } }
+    }
+  }
+]

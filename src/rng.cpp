@@ -1,11 +1,10 @@
-#include "output.h"
 #include "rng.h"
 
 #include <chrono>
-#define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdlib>
-#include <random>
+
+#include "output.h"
 
 long rng( long val1, long val2 )
 {
@@ -66,13 +65,13 @@ int divide_roll_remainder( double dividend, double divisor )
 
 // http://www.cse.yorku.ca/~oz/hash.html
 // for world seeding.
-int djb2_hash( const unsigned char *str )
+int djb2_hash( const unsigned char *input )
 {
     unsigned long hash = 5381;
-    unsigned char c = *str++;
+    unsigned char c = *input++;
     while( c != '\0' ) {
         hash = ( ( hash << 5 ) + hash ) + c; /* hash * 33 + c */
-        c = *str++;
+        c = *input++;
     }
     return hash;
 }
@@ -91,7 +90,7 @@ double rng_normal( double lo, double hi )
     return std::max( std::min( val, hi ), lo );
 }
 
-std::default_random_engine &get_engine()
+std::default_random_engine &rng_get_engine()
 {
     static std::default_random_engine eng(
         std::chrono::system_clock::now().time_since_epoch().count() );
@@ -101,11 +100,11 @@ std::default_random_engine &get_engine()
 void rng_set_engine_seed( uintmax_t seed )
 {
     if( seed != 0 ) {
-        get_engine().seed( seed );
+        rng_get_engine().seed( seed );
     }
 }
 
 double normal_roll( double mean, double stddev )
 {
-    return std::normal_distribution<double>( mean, stddev )( get_engine() );
+    return std::normal_distribution<double>( mean, stddev )( rng_get_engine() );
 }

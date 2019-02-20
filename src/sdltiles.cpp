@@ -1,10 +1,27 @@
 #if (defined TILES)
+
+#include "cursesdef.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <cassert>
+#include <cstring>
+#include <fstream>
+#include <limits>
+#include <memory>
+#include <stdexcept>
+#include <vector>
+
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL_image.h>
+#else
+#   include <SDL_image.h>
+#endif
+
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
-#include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -20,54 +37,36 @@
 #include "path_info.h"
 #include "player.h"
 #include "rng.h"
+#include "sdlsound.h"
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_image.h>
-#else
-#   include <SDL_image.h>
-#endif
-
-#include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
 
 #ifdef __linux__
 #   include <cstdlib> // getenv()/setenv()
 #endif
 
 #if (defined _WIN32 || defined WINDOWS)
-#   include "platform_win.h"
+#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#endif
 #   include <shlwapi.h>
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
 #   endif
-#endif
-
-#ifdef SDL_SOUND
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#      include <SDL2/SDL_mixer.h>
-#   else
-#      include <SDL_mixer.h>
-#   endif
-#   include "sounds.h"
+#else
+#   include <strings.h> // for strcasecmp
 #endif
 
 #ifdef __ANDROID__
+#include <jni.h>
+
 #include "worldfactory.h"
 #include "action.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "inventory.h"
-#include <jni.h>
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -80,50 +79,10 @@ std::unique_ptr<cata_tiles> tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
-extern bool tile_iso;
 
-#ifdef SDL_SOUND
-/** The music we're currently playing. */
-Mix_Music *current_music = NULL;
-std::string current_playlist;
-size_t current_playlist_at = 0;
-size_t absolute_playlist_at = 0;
-std::vector<std::size_t> playlist_indexes;
-bool sounds::sound_enabled = false;
-static bool sound_init_success = false;
-
-struct sound_effect {
-    int volume;
-
-    struct deleter {
-        // Operator overloaded to leverage deletion API.
-        void operator()( Mix_Chunk* const c ) const {
-            Mix_FreeChunk( c );
-        }
-    };
-    std::unique_ptr<Mix_Chunk, deleter> chunk;
-};
-
-using id_and_variant = std::pair<std::string, std::string>;
-std::map<id_and_variant, std::vector<sound_effect>> sound_effects_p;
-
-struct music_playlist {
-    // list of filenames relative to the soundpack location
-    struct entry {
-        std::string file;
-        int volume;
-    };
-    std::vector<entry> entries;
-    bool shuffle;
-
-    music_playlist() : shuffle(false) {
-    }
-};
-
-std::map<std::string, music_playlist> playlists;
-
-std::string current_soundpack_path;
-#endif
+// used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
+SDL_Texture_Ptr alt_rect_tex = NULL;
+bool alt_rect_tex_enabled = false;
 
 /**
  * A class that draws a single character on screen.
@@ -142,8 +101,8 @@ public:
      */
     virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
-    bool draw_window( const catacurses::window &win );
-    bool draw_window( const catacurses::window &win, int offsetx, int offsety );
+    bool draw_window( const catacurses::window &w );
+    bool draw_window( const catacurses::window &w, int offsetx, int offsety );
 
     static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, bool fontblending);
 public:
@@ -164,7 +123,7 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -176,7 +135,7 @@ protected:
         unsigned char color;
 
         // Operator overload required to use in std::map.
-        bool operator<(key_t const &rhs) const noexcept {
+        bool operator<(const key_t &rhs) const noexcept {
             return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
         }
     };
@@ -197,12 +156,12 @@ protected:
  */
 class BitmapFont : public Font {
 public:
-    BitmapFont( int w, int h, const std::string &path );
+    BitmapFont( int w, int h, const std::string &typeface_path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
+    void OutputChar(const std::string &ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
+    void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
     std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
@@ -250,52 +209,54 @@ static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the fr
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
 
-/**
- * Attempt to initialize an audio device.  Returns false if initialization fails.
- */
-static bool init_sound()
-{
-#ifdef SDL_SOUND
-    int audio_rate = 44100;
-    Uint16 audio_format = AUDIO_S16;
-    int audio_channels = 2;
-    int audio_buffers = 2048;
-
-    // We should only need to init once
-    if( !sound_init_success ) {
-        // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
-        if( !Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) ) {
-            Mix_AllocateChannels(128);
-            Mix_ReserveChannels(20);
-
-            // For the sound effects system.
-            Mix_GroupChannels( 2, 9, 1 );
-            Mix_GroupChannels( 0, 1, 2 );
-            Mix_GroupChannels( 11, 14, 3 );
-            Mix_GroupChannels( 15, 17, 4 );
-
-            sound_init_success = true;
-        } else {
-            dbg( D_ERROR ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
-        }
-    }
-
-    return sound_init_success;
-#else
-    return false;
-#endif /* SDL_SOUND */
-}
-
-#ifdef SDL_SOUND
-static inline bool check_sound( const int volume = 1 )
-{
-    return( sound_init_success && sounds::sound_enabled && volume > 0 );
-}
-#endif /* SDL_SOUND */
-
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
+void generate_alt_rect_texture()
+{
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
+#else
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
+#endif
+
+    SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
+    if( alt_surf ) {
+        FillRect( alt_surf, NULL, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+
+        alt_rect_tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
+        alt_surf.reset();
+
+        // Test to make sure color modulation is supported by renderer
+        alt_rect_tex_enabled = !SetTextureColorMod( alt_rect_tex, 0, 0, 0 );
+        if( !alt_rect_tex_enabled ) {
+            alt_rect_tex.reset();
+        }
+        DebugLog( D_INFO, DC_ALL ) << "generate_alt_rect_texture() = " << ( alt_rect_tex_enabled ? "FAIL" : "SUCCESS" ) << ". alt_rect_tex_enabled = " << alt_rect_tex_enabled;
+    } else {
+        DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
+    }
+}
+
+void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, unsigned char color )
+{
+    SetTextureColorMod( alt_rect_tex, windowsPalette[color].r, windowsPalette[color].g,
+                        windowsPalette[color].b );
+    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+}
+
+void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                    Uint32 r, Uint32 g, Uint32 b )
+{
+    SetTextureColorMod( alt_rect_tex, r, g, b );
+    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+}
 
 static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
 {
@@ -438,11 +399,34 @@ void WinCreate()
     format.reset( SDL_AllocFormat( wformat ) );
     throwErrorIf( !format, "SDL_AllocFormat failed" );
 
+    int renderer_id = -1;
+#ifndef __ANDROID__
+    bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
+    std::string renderer_name;
+    if( software_renderer ) {
+       renderer_name = "software";
+    } else {
+       renderer_name = get_option<std::string>( "RENDERER" );
+    }
+
+    const int numRenderDrivers = SDL_GetNumRenderDrivers();
+    for( int i = 0; i < numRenderDrivers; i++ ) {
+        SDL_RendererInfo ri;
+        SDL_GetRenderDriverInfo( i, &ri );
+        if( renderer_name == ri.name ) {
+            renderer_id = i;
+            DebugLog( D_INFO, DC_ALL ) << "Active renderer: " << renderer_id << "/" << ri.name;
+            break;
+        }
+    }
+#else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
+#endif
+
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_ACCELERATED |
+        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
         if( printErrorIf( !renderer, "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
@@ -453,7 +437,9 @@ void WinCreate()
             renderer.reset();
         }
     }
+    
     if( software_renderer ) {
+        alt_rect_tex_enabled = false;
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
@@ -502,10 +488,15 @@ void WinCreate()
 
     // Set up audio mixer.
     init_sound();
-}
 
-// forward declaration
-void load_soundset();
+    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
+                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
+    //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
+    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) ) {
+        generate_alt_rect_texture();
+    }
+
+}
 
 void WinDestroy()
 {
@@ -513,16 +504,13 @@ void WinDestroy()
     touch_joystick.reset();
 #endif
 
-#ifdef SDL_SOUND
-    // De-allocate all loaded sound.
-    sound_effects_p.clear();
-    playlists.clear();
-    Mix_CloseAudio();
-#endif
+    shutdown_sound();
     tilecontext.reset();
 
     if(joystick) {
         SDL_JoystickClose(joystick);
+        alt_rect_tex.reset();
+
         joystick = 0;
     }
     format.reset();
@@ -531,9 +519,16 @@ void WinDestroy()
     ::window.reset();
 }
 
-inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 );
-    RenderFillRect( renderer, &rect );
+inline void FillRectDIB( SDL_Rect &rect, unsigned char color )
+{
+    if( alt_rect_tex_enabled ) {
+        draw_alt_rect( renderer, rect, windowsPalette[color].r, windowsPalette[color].g,
+                       windowsPalette[color].b );
+    } else {
+        SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
+                            windowsPalette[color].b, 255 );
+        RenderFillRect( renderer, &rect );
+    }
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -614,7 +609,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return CreateTextureFromSurface( renderer, sglyph );
 }
 
-void CachedTTFFont::OutputChar(const std::string &ch, int const x, int const y, unsigned char const color)
+void CachedTTFFont::OutputChar(const std::string &ch, const int x, const int y, const unsigned char color)
 {
     key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
 
@@ -752,6 +747,10 @@ void refresh_display()
     needupdate = false;
     lastupdate = SDL_GetTicks();
 
+    if( test_mode ) {
+        return;
+    }
+
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, NULL );
@@ -866,8 +865,8 @@ void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, 
 
 void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
-    for( unsigned int i = 0; i < framebuffer.size(); i++ ) {
-        std::fill_n( framebuffer[i].chars.begin(), framebuffer[i].chars.size(), cursecell( "" ) );
+    for( auto &i : framebuffer ) {
+        std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
     }
 }
 
@@ -1082,12 +1081,12 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     }
 }
 
-bool Font::draw_window( const catacurses::window &win )
+bool Font::draw_window( const catacurses::window &w )
 {
-    cata_cursesport::WINDOW *const w = win.get<cata_cursesport::WINDOW>();
+    cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( win, w->x * ::fontwidth, w->y * ::fontheight );
+    return draw_window( w, win->x * ::fontwidth, win->y * ::fontheight );
 }
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
@@ -3196,11 +3195,11 @@ int get_terminal_height() {
     return TERMINAL_HEIGHT;
 }
 
-BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
+BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_path )
 : Font( w, h )
 {
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
-    SDL_Surface_Ptr asciiload = load_image( typeface.c_str() );
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "]." ;
+    SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
     assert( asciiload );
     if (asciiload->w * asciiload->h < (fontwidth * fontheight * 256)) {
         throw std::runtime_error("bitmap for font is to small");
@@ -3209,12 +3208,12 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
     SDL_SetColorKey( asciiload.get(),SDL_TRUE,key );
     SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), true );
+    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();
 
     for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), true );
+        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
     }
 
     for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {
@@ -3368,378 +3367,6 @@ SDL_Color cursesColorToSDL( const nc_color &color ) {
     }
 
     return windowsPalette[palette_index];
-}
-
-#ifdef SDL_SOUND
-
-void musicFinished();
-
-void play_music_file( const std::string &filename, int volume ) {
-    if( !check_sound( volume ) ) {
-        return;
-    }
-
-    const std::string path = ( current_soundpack_path + "/" + filename );
-    current_music = Mix_LoadMUS(path.c_str());
-    if( current_music == nullptr ) {
-        dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
-        return;
-    }
-    Mix_VolumeMusic( volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
-    if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
-        dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
-        return;
-    }
-    Mix_HookMusicFinished(musicFinished);
-}
-
-/** Callback called when we finish playing music. */
-void musicFinished() {
-    Mix_HaltMusic();
-    Mix_FreeMusic(current_music);
-    current_music = NULL;
-
-    const auto iter = playlists.find( current_playlist );
-    if( iter == playlists.end() ) {
-        return;
-    }
-    const music_playlist &list = iter->second;
-    if( list.entries.empty() ) {
-        return;
-    }
-
-    // Load the next file to play.
-    absolute_playlist_at++;
-
-    // Wrap around if we reached the end of the playlist.
-    if( absolute_playlist_at >= list.entries.size() ) {
-        absolute_playlist_at = 0;
-    }
-
-    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
-
-    const auto &next = list.entries[current_playlist_at];
-    play_music_file( next.file, next.volume );
-}
-#endif
-
-void play_music(std::string playlist) {
-#ifdef SDL_SOUND
-    const auto iter = playlists.find( playlist );
-    if( iter == playlists.end() ) {
-        return;
-    }
-    const music_playlist &list = iter->second;
-    if( list.entries.empty() ) {
-        return;
-    }
-
-    // Don't interrupt playlist that's already playing.
-    if(playlist == current_playlist) {
-        return;
-    }
-
-    for( size_t i = 0; i < list.entries.size(); i++ ) {
-        playlist_indexes.push_back( i );
-    }
-    if( list.shuffle ) {
-        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
-    }
-
-    current_playlist = playlist;
-    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
-
-    const auto &next = list.entries[current_playlist_at];
-    play_music_file( next.file, next.volume );
-#else
-    (void)playlist;
-#endif
-}
-
-void update_music_volume() {
-#ifdef SDL_SOUND
-    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
-
-    if ( !check_sound() ) {
-        return;
-    }
-
-    Mix_VolumeMusic( get_option<int>( "MUSIC_VOLUME" ) );
-#endif
-}
-
-#ifdef SDL_SOUND
-static std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
-
-// Allocate new Mix_Chunk as copy of input, sets ::allocated to 0 so copy's 
-// ::abuf is not freed during Mix_FreeChunk at EOL of struct sound_effect
-static Mix_Chunk* copy_chunk(const Mix_Chunk* ref){
-    // SDL_malloc to match up with Mix_FreeChunk's SDL_free call
-    // to free the Mix_Chunk object memory
-    Mix_Chunk *nchunk = static_cast<Mix_Chunk*>( SDL_malloc( sizeof( Mix_Chunk ) ) );
-
-    // Assign as copy of ref
-    (*nchunk) = *ref;
-    // nchunk does not own ::abuf memory, set ::allocated to 0 to prevent
-    // deallocation
-    nchunk->allocated = 0;
-    return nchunk;
-}
-
-// Searches for path in loaded sfx resources.
-// - Found: Returns a copy of the Mix_Chunk loaded from path
-// - Not Found: Loads Resource and stores path and resource Mix_Chunk pointer
-static Mix_Chunk* load_chunk(const std::string& path){
-    Mix_Chunk *result = nullptr;
-
-    auto find_result = unique_chunks.find( path );
-    if ( find_result != unique_chunks.end() ){
-        result = copy_chunk( find_result->second );
-    } else{
-        result = Mix_LoadWAV( path.c_str() );
-        // Store only if valid
-        if ( result != nullptr ){
-            unique_chunks[path] = result;
-        }
-    }
-
-    return result;
-}
-
-void sfx::load_sound_effects( JsonObject &jsobj ) {
-    if ( !sound_init_success ) {
-        return;
-    }
-
-    const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant", "default" ) );
-    const int volume = jsobj.get_int( "volume", 100 );
-    auto &effects = sound_effects_p[key];
-
-    JsonArray jsarr = jsobj.get_array( "files" );
-    while( jsarr.has_more() ) {
-        sound_effect new_sound_effect;
-        const std::string file = jsarr.next_string();
-        std::string path = ( current_soundpack_path + "/" + file );
-        new_sound_effect.chunk.reset( load_chunk( path ) );
-        if( !new_sound_effect.chunk ) {
-            dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
-            continue; // don't want empty chunks in the map
-        }
-        new_sound_effect.volume = volume;
-
-        effects.push_back( std::move( new_sound_effect ) );
-    }
-}
-
-void sfx::load_playlist( JsonObject &jsobj )
-{
-    if( !sound_init_success ) {
-        return;
-    }
-
-    JsonArray jarr = jsobj.get_array( "playlists" );
-    while( jarr.has_more() ) {
-        JsonObject playlist = jarr.next_object();
-
-        const std::string playlist_id = playlist.get_string( "id" );
-        music_playlist playlist_to_load;
-        playlist_to_load.shuffle = playlist.get_bool( "shuffle", false );
-
-        JsonArray files = playlist.get_array( "files" );
-        while( files.has_more() ) {
-            JsonObject entry = files.next_object();
-            const music_playlist::entry e{ entry.get_string( "file" ),  entry.get_int( "volume" ) };
-            playlist_to_load.entries.push_back( e );
-        }
-
-        playlists[playlist_id] = std::move( playlist_to_load );
-    }
-}
-
-// Returns a random sound effect matching given id and variant or `nullptr` if there is no
-// matching sound effect.
-const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
-{
-    const auto iter = sound_effects_p.find( id_variants_pair );
-    if( iter == sound_effects_p.end() ) {
-        return nullptr;
-    }
-    return &random_entry_ref( iter->second );
-}
-
-// Same as above, but with fallback to "default" variant. May still return `nullptr`
-const sound_effect* find_random_effect( const std::string &id, const std::string& variant )
-{
-    const auto eff = find_random_effect( id_and_variant( id, variant ) );
-    if( eff != nullptr ) {
-        return eff;
-    }
-    return find_random_effect( id_and_variant( id, "default" ) );
-}
-
-// Deletes the dynamically created chunk (if such a chunk had been played).
-void cleanup_when_channel_finished( int /* channel */, void *udata )
-{
-    Mix_Chunk *chunk = static_cast<Mix_Chunk *>( udata );
-    free( chunk->abuf );
-    free( chunk );
-}
-
-// empty effect, as we cannot change the size of the output buffer,
-// therefore we cannot do the math from do_pitch_shift here
-void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /* udata */ )
-{
-}
-
-Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
-{
-    Mix_Chunk *result;
-    Uint32 s_in = s->alen / 4;
-    Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
-    float pitch_real = static_cast<float>( s_out ) / static_cast<float>( s_in );
-    Uint32 i, j;
-    result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
-    result->allocated = 1;
-    result->alen = s_out * 4;
-    result->abuf = static_cast<Uint8 *>( malloc( result->alen * sizeof( Uint8 ) ) );
-    result->volume = s->volume;
-    for( i = 0; i < s_out; i++ ) {
-        Sint16 lt = 0;
-        Sint16 rt = 0;
-        Sint16 lt_out = 0;
-        Sint16 rt_out = 0;
-        Sint64 lt_avg = 0;
-        Sint64 rt_avg = 0;
-        Uint32 begin = static_cast<Uint32>( static_cast<float>( i ) / pitch_real );
-        Uint32 end = static_cast<Uint32>( static_cast<float>( i + 1 ) / pitch_real );
-
-        // check for boundary case
-        if( end > 0 && ( end >= ( s->alen / 4 ) ) ) {
-            end = begin;
-        }
-
-        for( j = begin; j <= end; j++ ) {
-            lt = ( s->abuf[( 4 * j ) + 1] << 8 ) | ( s->abuf[( 4 * j ) + 0] );
-            rt = ( s->abuf[( 4 * j ) + 3] << 8 ) | ( s->abuf[( 4 * j ) + 2] );
-            lt_avg += lt;
-            rt_avg += rt;
-        }
-        lt_out = static_cast<Sint16>( static_cast<float>( lt_avg ) / static_cast<float>( end - begin + 1 ) );
-        rt_out = static_cast<Sint16>( static_cast<float>( rt_avg ) / static_cast<float>( end - begin + 1 ) );
-        result->abuf[( 4 * i ) + 1] = static_cast<Uint8>( ( lt_out >> 8 ) & 0xFF );
-        result->abuf[( 4 * i ) + 0] = static_cast<Uint8>( lt_out & 0xFF );
-        result->abuf[( 4 * i ) + 3] = static_cast<Uint8>( ( rt_out >> 8 ) & 0xFF );
-        result->abuf[( 4 * i ) + 2] = static_cast<Uint8>( rt_out & 0xFF );
-    }
-    return result;
-}
-
-void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
-{
-    if( !check_sound( volume ) ) {
-        return;
-    }
-
-    const sound_effect *eff = find_random_effect( id, variant );
-    if( eff == nullptr ) {
-        eff = find_random_effect( id, "default" );
-        if( eff == nullptr ) {
-            return;
-        }
-    }
-    const sound_effect &selected_sound_effect = *eff;
-
-    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
-    Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    Mix_PlayChannel( -1, effect_to_play, 0 );
-}
-
-void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
-                              int angle,
-                              float pitch_min, float pitch_max )
-{
-    if( !check_sound( volume ) ) {
-        return;
-    }
-
-    const sound_effect *eff = find_random_effect( id, variant );
-    if( eff == nullptr ) {
-        return;
-    }
-    const sound_effect &selected_sound_effect = *eff;
-
-    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
-    float pitch_random = rng_float( pitch_min, pitch_max );
-    Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
-    Mix_VolumeChunk( shifted_effect,
-                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
-    Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished, shifted_effect );
-    Mix_SetPosition( channel, angle, 1 );
-}
-
-void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume, int channel,
-                                      int duration ) {
-    if( !check_sound( volume ) ) {
-        return;
-    }
-
-    const sound_effect* eff = find_random_effect( id, variant );
-    if( eff == nullptr ) {
-        return;
-    }
-    const sound_effect& selected_sound_effect = *eff;
-
-    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
-    Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
-    }
-}
-
-#endif
-
-void load_soundset() {
-#ifdef SDL_SOUND
-    const std::string default_path = FILENAMES["defaultsounddir"];
-    const std::string default_soundpack = "basic";
-    std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
-    std::string soundpack_path;
-
-    // Get current soundpack and it's directory path.
-    if (current_soundpack.empty()) {
-        dbg( D_ERROR ) << "Soundpack not set in options or empty.";
-        soundpack_path = default_path;
-        current_soundpack = default_soundpack;
-    } else {
-        dbg( D_INFO ) << "Current soundpack is: " << current_soundpack;
-        soundpack_path = SOUNDPACKS[current_soundpack];
-    }
-
-    if (soundpack_path.empty()) {
-        dbg( D_ERROR ) << "Soundpack with name " << current_soundpack << " can't be found or empty string";
-        soundpack_path = default_path;
-        current_soundpack = default_soundpack;
-    } else {
-        dbg( D_INFO ) << '"' << current_soundpack << '"' << " soundpack: found path: " << soundpack_path;
-    }
-
-    current_soundpack_path = soundpack_path;
-    try {
-        loading_ui ui( false );
-        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
-    } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to load sounds: " << err.what();
-    }
-
-    unique_chunks.clear();
-    // Memory of unique_chunks no longer required, swap with locally scoped unordered_map
-    // to force deallocation of resources.
-    std::unordered_map<std::string, Mix_Chunk*> t_swap;
-    unique_chunks.swap(t_swap);
-#endif
 }
 
 #endif // TILES

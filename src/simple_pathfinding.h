@@ -2,11 +2,11 @@
 #ifndef SIMPLE_PATHFINDINDING_H
 #define SIMPLE_PATHFINDINDING_H
 
-#include "enums.h"
-
 #include <limits>
 #include <queue>
 #include <vector>
+
+#include "enums.h"
 
 namespace pf
 {
@@ -92,7 +92,7 @@ path find_path( const point &source,
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );
-    std::priority_queue<node, std::deque<node>> nodes[2];
+    std::priority_queue<node, std::vector<node>> nodes[2];
 
     int i = 0;
     nodes[i].push( first_node );

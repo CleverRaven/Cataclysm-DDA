@@ -17,7 +17,11 @@
     "material": "alcohol",
     "symbol": "~",
     "color": "white",
-    "ammo_type": "conc_alcohol"
+    "ammo_type": "conc_alcohol",
+    "fuel": {
+      "energy": 15.6,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
   },
   {
     "id": "denat_alcohol",
@@ -27,6 +31,15 @@
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
     "price": 10,
     "price_postapoc": 300
+  },
+  {
+    "id": "chem_methanol",
+    "name": "methanol",
+    "copy-from": "chem_ethanol",
+    "type": "AMMO",
+    "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",
+    "price": 5,
+    "price_postapoc": 100
   },
   {
     "id": "diesel",
@@ -105,6 +118,11 @@
     "color": "yellow",
     "material": "hydrocarbons",
     "ammo_type": "lamp_oil",
+    "fuel": {
+      "//": "Roughly equivalent to LPG",
+      "energy": 26,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    },
     "range": 6,
     "damage": 2,
     "pierce": 2,

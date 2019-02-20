@@ -1,5 +1,8 @@
 #include "auto_pickup.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -17,9 +20,6 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <sstream>
 
 auto_pickup &get_auto_pickup()
 {
@@ -377,7 +377,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 void auto_pickup::test_pattern( const int iTab, const int iRow )
 {
     std::vector<std::string> vMatchingItems;
-    std::string sItemName;
 
     if( vRules[iTab][iRow].sRule.empty() ) {
         return;
@@ -386,7 +385,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     //Loop through all itemfactory items
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( const itype *e : item_controller->all() ) {
-        sItemName = e->nname( 1 );
+        const std::string sItemName = e->nname( 1 );
         if( !check_special_rule( e->materials, vRules[iTab][iRow].sRule ) &&
             !wildcard_match( sItemName, vRules[iTab][iRow].sRule ) ) {
             continue;
@@ -617,13 +616,13 @@ void auto_pickup::refresh_map_items() const
             } else {
                 //only re-exclude items from the existing mapping for now
                 //new exclusions will process during pickup attempts
-                for( auto iter = map_items.begin(); iter != map_items.end(); ++iter ) {
-                    if( !check_special_rule( temp_items[ iter->first ]->materials, elem.sRule ) &&
-                        !wildcard_match( iter->first, elem.sRule ) ) {
+                for( auto &map_item : map_items ) {
+                    if( !check_special_rule( temp_items[ map_item.first ]->materials, elem.sRule ) &&
+                        !wildcard_match( map_item.first, elem.sRule ) ) {
                         continue;
                     }
 
-                    map_items[ iter->first ] = RULE_BLACKLISTED;
+                    map_items[ map_item.first ] = RULE_BLACKLISTED;
                 }
             }
         }

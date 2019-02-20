@@ -2,17 +2,17 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "calendar.h"
-#include "faction.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player.h"
-
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "calendar.h"
+#include "faction.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
 
 class JsonObject;
 class JsonIn;
@@ -179,6 +179,16 @@ enum combat_engagement {
     ENGAGE_ALL,
     ENGAGE_NO_MOVE
 };
+const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
+        { "ENGAGE_NONE", ENGAGE_NONE },
+        { "ENGAGE_CLOSE", ENGAGE_CLOSE },
+        { "ENGAGE_WEAK", ENGAGE_WEAK },
+        { "ENGAGE_HIT", ENGAGE_HIT },
+        { "ENGAGE_ALL", ENGAGE_ALL },
+        { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
+    }
+};
+
 
 enum aim_rule {
     // Aim some
@@ -190,21 +200,45 @@ enum aim_rule {
     // If you can't aim, don't shoot
     AIM_STRICTLY_PRECISE
 };
+const std::unordered_map<std::string, aim_rule> aim_rule_strs = { {
+        { "AIM_WHEN_CONVENIENT", AIM_WHEN_CONVENIENT },
+        { "AIM_SPRAY", AIM_SPRAY },
+        { "AIM_PRECISE", AIM_PRECISE },
+        { "AIM_STRICTLY_PRECISE", AIM_STRICTLY_PRECISE }
+    }
+};
+
+enum class ally_rule {
+    DEFAULT = 0,
+    use_guns = 1,
+    use_grenades = 2,
+    use_silent = 4,
+    avoid_friendly_fire = 8,
+    allow_pick_up = 16,
+    allow_bash = 32,
+    allow_sleep = 64,
+    allow_complain = 128,
+    allow_pulp = 256,
+    close_doors = 512
+};
+const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
+        { "use_guns", ally_rule::use_guns },
+        { "use_grenades", ally_rule::use_grenades },
+        { "use_silent", ally_rule::use_silent },
+        { "avoid_friendly_fire", ally_rule::avoid_friendly_fire },
+        { "allow_pick_up", ally_rule::allow_pick_up },
+        { "allow_bash", ally_rule::allow_bash },
+        { "allow_sleep", ally_rule::allow_sleep },
+        { "allow_complain", ally_rule::allow_complain },
+        { "allow_pulp", ally_rule::allow_pulp },
+        { "close_doors", ally_rule::close_doors }
+    }
+};
 
 struct npc_follower_rules {
     combat_engagement engagement;
     aim_rule aim = AIM_WHEN_CONVENIENT;
-    bool use_guns;
-    bool use_grenades;
-    bool use_silent;
-
-    bool allow_pick_up;
-    bool allow_bash;
-    bool allow_sleep;
-    bool allow_complain;
-    bool allow_pulp;
-
-    bool close_doors;
+    ally_rule flags;
 
     pimpl<auto_pickup> pickup_whitelist;
 
@@ -212,6 +246,12 @@ struct npc_follower_rules {
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
+
+    bool has_flag( ally_rule test ) const;
+    void set_flag( ally_rule setit );
+    void clear_flag( ally_rule clearit );
+    void toggle_flag( ally_rule toggle );
+
 };
 
 // Data relevant only for this action
@@ -492,7 +532,7 @@ class npc : public player
 
         // Save & load
         void load_info( std::string data ) override; // Overloaded from player
-        virtual std::string save_info() const override;
+        std::string save_info() const override;
 
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &jsout ) const override;
@@ -500,7 +540,6 @@ class npc : public player
         // Display
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
-        std::string short_description() const;
         std::string opinion_text() const;
 
         // Goal / mission functions
@@ -603,9 +642,17 @@ class npc : public player
         // @param dur time duration between complaints
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
-        bool complain_about( const std::string &issue, const time_duration &dur, const std::string &speech,
-                             const bool force = false );
+        bool complain_about( const std::string &issue, const time_duration &dur,
+                             const std::string &speech, const bool force = false );
+        // wrapper for complain_about that warns about a specific type of threat, with
+        // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
+        void warn_about( const std::string &type, const time_duration &d = 10_minutes,
+                         const std::string &name = "" );
         bool complain(); // Finds something to complain about and complains. Returns if complained.
+
+        void handle_sound( int priority, const std::string &description, int heard_volume,
+                           const tripoint &spos );
+
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.

@@ -12,6 +12,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "sdlsound.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -92,9 +93,8 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
     if( it != post_json_verify.end() ) {
         auto ot = options.find( lvar );
         if( ot != options.end() && ot->second.sType == "string_select" ) {
-            for( auto eit = ot->second.vItems.begin();
-                 eit != ot->second.vItems.end(); ++eit ) {
-                if( eit->first == lval ) { // already in
+            for( auto &vItem : ot->second.vItems ) {
+                if( vItem.first == lval ) { // already in
                     return;
                 }
             }
@@ -111,7 +111,25 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 options_manager::cOpt::cOpt()
 {
     sType = "VOID";
+    eType = CVT_VOID;
     hide = COPT_NO_HIDE;
+}
+
+static options_manager::cOpt::COPT_VALUE_TYPE get_value_type( const std::string &sType )
+{
+    using CVT = options_manager::cOpt::COPT_VALUE_TYPE;
+
+    static std::unordered_map<std::string, CVT> vt_map = {
+        { "float", CVT::CVT_FLOAT },
+        { "bool", CVT::CVT_BOOL },
+        { "int", CVT::CVT_INT },
+        { "int_map", CVT::CVT_INT },
+        { "string_select", CVT::CVT_STRING },
+        { "string_input", CVT::CVT_STRING },
+        { "VOID", CVT::CVT_VOID }
+    };
+    auto result = vt_map.find( sType );
+    return result != vt_map.end() ? result->second : options_manager::cOpt::CVT_UNKNOWN;
 }
 
 //add hidden external option with value
@@ -126,6 +144,8 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
+
+    thisOpt.eType = get_value_type( thisOpt.sType );
 
     thisOpt.iMin = INT_MIN;
     thisOpt.iMax = INT_MAX;
@@ -152,6 +172,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "string_select";
+    thisOpt.eType = get_value_type( thisOpt.sType );
 
     thisOpt.hide = opt_hide;
     thisOpt.vItems = sItemsIn;
@@ -181,6 +202,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "string_input";
+    thisOpt.eType = get_value_type( thisOpt.sType );
 
     thisOpt.hide = opt_hide;
 
@@ -206,6 +228,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "bool";
+    thisOpt.eType = get_value_type( thisOpt.sType );
 
     thisOpt.hide = opt_hide;
 
@@ -230,6 +253,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int";
+    thisOpt.eType = get_value_type( thisOpt.sType );
 
     thisOpt.format = format;
 
@@ -257,7 +281,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 //add int map option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           const std::map<int, std::string> mIntValuesIn, int iInitialIn,
+                           const std::map<int, std::string> &mIntValuesIn, int iInitialIn,
                            int iDefaultIn, copt_hide_t opt_hide )
 {
     cOpt thisOpt;
@@ -267,6 +291,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int_map";
+    thisOpt.eType = get_value_type( thisOpt.sType );
 
     thisOpt.format = "%i";
 
@@ -305,6 +330,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "float";
+    thisOpt.eType = get_value_type( thisOpt.sType );
 
     thisOpt.format = format;
 
@@ -330,16 +356,32 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     options[sNameIn] = thisOpt;
 }
 
-void options_manager::cOpt::setPrerequisite( const std::string &sOption )
+void options_manager::cOpt::setPrerequisites( const std::string &sOption,
+        const std::vector<std::string> &sAllowedValues )
 {
-    if( !get_options().has_option( sOption ) ) {
+    const bool hasOption = get_options().has_option( sOption );
+    if( !hasOption ) {
         debugmsg( "setPrerequisite: unknown option %s", sType.c_str() );
+        return;
+    }
 
-    } else if( get_options().get_option( sOption ).getType() != "bool" ) {
-        debugmsg( "setPrerequisite: option %s not of type bool", sType.c_str() );
+    const cOpt &existingOption = get_options().get_option( sOption );
+    const std::string &existingOptionType = existingOption.getType();
+    bool isOfSupportType = false;
+    for( const std::string &sSupportedType : getPrerequisiteSupportedTypes() ) {
+        if( existingOptionType == sSupportedType ) {
+            isOfSupportType = true;
+            break;
+        }
+    }
+
+    if( !isOfSupportType ) {
+        debugmsg( "setPrerequisite: option %s not of supported type", sType.c_str() );
+        return;
     }
 
     sPrerequisite = sOption;
+    sPrerequisiteAllowedValues = sAllowedValues;
 }
 
 std::string options_manager::cOpt::getPrerequisite() const
@@ -350,6 +392,22 @@ std::string options_manager::cOpt::getPrerequisite() const
 bool options_manager::cOpt::hasPrerequisite() const
 {
     return !sPrerequisite.empty();
+}
+
+bool options_manager::cOpt::checkPrerequisite() const
+{
+    if( !hasPrerequisite() ) {
+        return true;
+    }
+    bool isPrerequisiteFulfilled = false;
+    const std::string prerequisite_option_value = get_options().get_option( sPrerequisite ).getValue();
+    for( const std::string &sAllowedPrerequisiteValue : sPrerequisiteAllowedValues ) {
+        if( prerequisite_option_value == sAllowedPrerequisiteValue ) {
+            isPrerequisiteFulfilled = true;
+            break;
+        }
+    }
+    return isPrerequisiteFulfilled;
 }
 
 //helper functions
@@ -482,7 +540,7 @@ std::string options_manager::cOpt::getValue( bool classis_locale ) const
 template<>
 std::string options_manager::cOpt::value_as<std::string>() const
 {
-    if( sType != "string_select" && sType != "string_input" ) {
+    if( eType != CVT_STRING ) {
         debugmsg( "%s tried to get string value from option of type %s", sName.c_str(), sType.c_str() );
     }
     return sSet;
@@ -491,7 +549,7 @@ std::string options_manager::cOpt::value_as<std::string>() const
 template<>
 bool options_manager::cOpt::value_as<bool>() const
 {
-    if( sType != "bool" ) {
+    if( eType != CVT_BOOL ) {
         debugmsg( "%s tried to get boolean value from option of type %s", sName.c_str(), sType.c_str() );
     }
     return bSet;
@@ -500,7 +558,7 @@ bool options_manager::cOpt::value_as<bool>() const
 template<>
 float options_manager::cOpt::value_as<float>() const
 {
-    if( sType != "float" ) {
+    if( eType != CVT_FLOAT ) {
         debugmsg( "%s tried to get float value from option of type %s", sName.c_str(), sType.c_str() );
     }
     return fSet;
@@ -509,7 +567,7 @@ float options_manager::cOpt::value_as<float>() const
 template<>
 int options_manager::cOpt::value_as<int>() const
 {
-    if( sType != "int" && sType != "int_map" ) {
+    if( eType != CVT_INT ) {
         debugmsg( "%s tried to get integer value from option of type %s", sName.c_str(), sType.c_str() );
     }
     return iSet;
@@ -766,7 +824,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
-    auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
+    const auto resource_dirs = get_directories_with( FILENAMES[filename_label],
                                FILENAMES[dirname_label], true );
 
     for( auto &resource_dir : resource_dirs ) {
@@ -1055,6 +1113,11 @@ void options_manager::add_options_general()
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
          translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
          1, 100, 50
+       );
+
+    add( "SAFEMODEIGNORETURNS", "general", translate_marker( "Turns to remember ignored monsters" ),
+         translate_marker( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
+         0, 600, 200
        );
 
     mOptionsSort["general"]++;
@@ -1420,7 +1483,7 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-         build_tilesets_list(), "ChestHole", COPT_CURSES_HIDE
+         build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -1483,22 +1546,43 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+#ifndef __ANDROID__
+#   ifndef TILES
+    // No renderer selection in non-TILES mode
+    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
+    translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
+    "software", COPT_CURSES_HIDE );
+#   else
+    std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
+    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
+         translate_marker( "Set which renderer to use.  Requires restart." ), renderer_list,
+         renderer_list.front().first, COPT_CURSES_HIDE );
+#   endif
+
+#else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
-#ifdef __ANDROID__
+         // take default setting from pre-game settings screen - important as both software + hardware rendering have issues with specific devices
          android_get_default_setting( "Software rendering", false ),
-         COPT_CURSES_HIDE // take default setting from pre-game settings screen - important as both software + hardware rendering have issues with specific devices
-#else
-         false, COPT_CURSES_HIDE
-#endif
+         COPT_CURSES_HIDE
        );
+#endif
 
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
          translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
        );
 
+#ifdef __ANDROID__
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
+#else
+    get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
+#endif
+
+    add( "USE_COLOR_MODULATED_TEXTURES", "graphics", translate_marker( "Use color modulated textures" ),
+         translate_marker( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
+         false, COPT_CURSES_HIDE
+       );
 
     add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
          translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
@@ -1599,7 +1683,7 @@ void options_manager::add_options_world_default()
 
     add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
          translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
-         0, 16, 4
+         0, 16, 8
        );
 
     add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
@@ -1771,7 +1855,7 @@ void options_manager::add_options_android()
     mOptionsSort["android"]++;
 
     add( "ANDROID_VIBRATION", "android", translate_marker( "Vibration duration" ),
-         translate_marker( "If non-zero, vibrate the device for this long on input, in millisconds. Ignored if hardware keyboard connected." ),
+         translate_marker( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
          0, 200, 10
        );
 
@@ -1800,7 +1884,7 @@ void options_manager::add_options_android()
     add( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW", "android",
          translate_marker( "Virtual joystick follows finger" ),
          translate_marker( "If true, the virtual joystick will follow when sliding beyond its range." ),
-         true
+         false
        );
 
     add( "ANDROID_REPEAT_DELAY_MAX", "android",
@@ -1827,7 +1911,7 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_HIDE_HOLDS", "android", translate_marker( "Virtual joystick hides shortcuts" ),
-         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while travelling long distances and navigating menus." ),
+         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while traveling long distances and navigating menus." ),
          true
        );
 
@@ -2151,9 +2235,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             nc_color cLineColor = c_light_green;
             const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
-            bool hasPrerequisite = current_opt.hasPrerequisite();
-            bool prerequisiteEnabled = !hasPrerequisite ||
-                                       cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
+            const bool hasPrerequisite = current_opt.hasPrerequisite();
+            const bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
             int line_pos = i - iStartPos; // Current line position in window.
 
@@ -2169,9 +2252,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
             mvwprintz( w_options, line_pos, name_col + 3, !hasPrerequisite ||
-                       prerequisiteEnabled ? c_white : c_light_gray, name );
+                       hasPrerequisiteFulfilled ? c_white : c_light_gray, name );
 
-            if( hasPrerequisite && !prerequisiteEnabled ) {
+            if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 cLineColor = c_light_gray;
 
             } else if( current_opt.getValue() == "false" ) {
@@ -2270,10 +2353,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
         bool hasPrerequisite = current_opt.hasPrerequisite();
-        bool prerequisiteEnabled = !hasPrerequisite ||
-                                   cOPTIONS[ current_opt.getPrerequisite() ].value_as<bool>();
+        bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
-        if( hasPrerequisite && !prerequisiteEnabled &&
+        if( hasPrerequisite && !hasPrerequisiteFulfilled &&
             ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
             popup( _( "Prerequisite for this option not met!\n(%s)" ),
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );

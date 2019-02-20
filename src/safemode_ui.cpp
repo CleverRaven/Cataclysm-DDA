@@ -1,5 +1,10 @@
 #include "safemode_ui.h"
 
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
+#include <string>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -15,11 +20,6 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
-#include <string>
 
 safemode &get_safemode()
 {
@@ -561,14 +561,14 @@ void safemode::add_rules( std::vector<rules_class> &rules_in )
             }
         } else {
             //exclude monsters from the existing mapping
-            for( auto iter = safemode_rules.begin(); iter != safemode_rules.end(); ++iter ) {
-                set_rule( rule, iter->first, RULE_WHITELISTED );
+            for( const auto &safemode_rule : safemode_rules ) {
+                set_rule( rule, safemode_rule.first, RULE_WHITELISTED );
             }
         }
     }
 }
 
-void safemode::set_rule( const rules_class rule_in, const std::string &name_in, rule_state rs_in )
+void safemode::set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in )
 {
     static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
 
@@ -585,13 +585,13 @@ void safemode::set_rule( const rules_class rule_in, const std::string &name_in, 
 
 rule_state safemode::check_monster( const std::string &creature_name_in,
                                     const Creature::Attitude attitude_in,
-                                    const int proximity ) const
+                                    const int proximity_in ) const
 {
     const auto iter = safemode_rules.find( creature_name_in );
     if( iter != safemode_rules.end() ) {
         const auto &tmp = ( iter->second )[static_cast<int>( attitude_in )];
         if( tmp.state == RULE_BLACKLISTED ) {
-            if( tmp.proximity == 0 || proximity <= tmp.proximity ) {
+            if( tmp.proximity == 0 || proximity_in <= tmp.proximity ) {
                 return RULE_BLACKLISTED;
             }
 

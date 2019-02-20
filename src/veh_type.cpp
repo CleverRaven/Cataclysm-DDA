@@ -1,5 +1,10 @@
 #include "veh_type.h"
 
+#include <numeric>
+#include <sstream>
+#include <unordered_map>
+#include <unordered_set>
+
 #include "ammo.h"
 #include "character.h"
 #include "color.h"
@@ -16,11 +21,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-
-#include <numeric>
-#include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -52,6 +52,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "EVENTURN", VPFLAG_EVENTURN },
     { "ODDTURN", VPFLAG_ODDTURN },
     { "CONE_LIGHT", VPFLAG_CONE_LIGHT },
+    { "WIDE_CONE_LIGHT", VPFLAG_WIDE_CONE_LIGHT },
+    { "HALF_CIRCLE_LIGHT", VPFLAG_HALF_CIRCLE_LIGHT },
     { "CIRCLE_LIGHT", VPFLAG_CIRCLE_LIGHT },
     { "BOARDABLE", VPFLAG_BOARDABLE },
     { "AISLE", VPFLAG_AISLE },
@@ -80,6 +82,28 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
+    { "REACTOR", VPFLAG_REACTOR },
+};
+
+static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
+        { "FLAT", 4 }, { "ROAD", 2 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> rigid_terrain_mod = {{
+        { "FLAT", 6 }, { "ROAD", 3 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> racing_terrain_mod = {{
+        { "FLAT", 5 }, { "ROAD", 2 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> off_road_terrain_mod = {{
+        { "FLAT", 3 }, { "ROAD", 1 }
+    }
+};
+static const std::vector<std::pair<std::string, int>> treads_terrain_mod = {{
+        { "FLAT", 3 }
+    }
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -149,7 +173,8 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 /**
  * Reads engine info from a JsonObject.
  */
-void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo )
+void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+                              const itype_id &fuel_type )
 {
     vpslot_engine e_info;
     if( eptr ) {
@@ -168,8 +193,48 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
             e_info.exclusions.push_back( excludes.next_string() );
         }
     }
+    auto fuel_opts = jo.get_array( "fuel_options" );
+    if( !fuel_opts.empty() ) {
+        e_info.fuel_opts.clear();
+        while( fuel_opts.has_more() ) {
+            e_info.fuel_opts.push_back( itype_id( fuel_opts.next_string() ) );
+        }
+    } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
+        e_info.fuel_opts.push_back( fuel_type );
+    }
     eptr = e_info;
     assert( eptr );
+}
+
+void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo )
+{
+    vpslot_wheel wh_info;
+    if( whptr ) {
+        wh_info = *whptr;
+    }
+    assign( jo, "rolling_resistance", wh_info.rolling_resistance );
+    assign( jo, "contact_area", wh_info.contact_area );
+    wh_info.terrain_mod = standard_terrain_mod;
+    wh_info.or_rating = 0.5f;
+    if( jo.has_string( "wheel_type" ) ) {
+        const std::string wheel_type = jo.get_string( "wheel_type" );
+        if( wheel_type == "rigid" ) {
+            wh_info.terrain_mod = rigid_terrain_mod;
+            wh_info.or_rating = 0.1;
+        } else if( wheel_type == "off-road" ) {
+            wh_info.terrain_mod = off_road_terrain_mod;
+            wh_info.or_rating = 0.7;
+        } else if( wheel_type == "racing" ) {
+            wh_info.terrain_mod = racing_terrain_mod;
+            wh_info.or_rating = 0.3;
+        } else if( wheel_type == "treads" ) {
+            wh_info.terrain_mod = treads_terrain_mod;
+            wh_info.or_rating = 0.9;
+        }
+    }
+
+    whptr = wh_info;
+    assert( whptr );
 }
 
 /**
@@ -180,8 +245,8 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     vpart_info def;
 
     if( jo.has_string( "copy-from" ) ) {
-        auto const base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
-        auto const ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        const auto base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        const auto ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
         if( base != vpart_info_all.end() ) {
             def = base->second;
             def.looks_like = base->second.id.str();
@@ -271,7 +336,11 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     }
 
     if( def.has_flag( "ENGINE" ) ) {
-        load_engine( def.engine_info, jo );
+        load_engine( def.engine_info, jo, def.fuel_type );
+    }
+
+    if( def.has_flag( "WHEEL" ) ) {
+        load_wheel( def.wheel_info, jo );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -301,7 +370,7 @@ void vpart_info::finalize()
             e.second.name_ = _( e.second.name_.c_str() );
         }
 
-        if( e.second.folded_volume > 0 ) {
+        if( e.second.folded_volume > 0_ml ) {
             e.second.set_flag( "FOLDABLE" );
         }
 
@@ -480,16 +549,16 @@ void vpart_info::check()
         if( part.dmg_mod < 0 ) {
             debugmsg( "vehicle part %s has negative damage modifier", part.id.c_str() );
         }
-        if( part.folded_volume < 0 ) {
+        if( part.folded_volume < 0_ml ) {
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
+        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
         }
-        if( part.size < 0 ) {
+        if( part.size < 0_ml ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
         if( !item::type_is_defined( part.item ) ) {
@@ -523,7 +592,7 @@ void vpart_info::check()
         static const std::vector<std::string> handled = {{
                 "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
-                "REACTOR"
+                "REACTOR", "WIND_TURBINE"
             }
         };
         if( part.epower != 0 &&
@@ -717,6 +786,37 @@ int vpart_info::engine_m2c() const
 std::vector<std::string> vpart_info::engine_excludes() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
+}
+
+std::vector<itype_id> vpart_info::engine_fuel_opts() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
+}
+
+/**
+ * @name Wheel specific functions
+ *
+ */
+float vpart_info::wheel_rolling_resistance() const
+{
+    // caster wheels return 29, so if a part rolls worse than a caster wheel...
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->rolling_resistance : 50;
+}
+
+int vpart_info::wheel_area() const
+{
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
+}
+
+std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
+{
+    std::vector<std::pair<std::string, int>> null_map;
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
+}
+
+float vpart_info::wheel_or_rating() const
+{
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
 }
 
 /** @relates string_id */

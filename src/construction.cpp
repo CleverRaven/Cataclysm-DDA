@@ -1,5 +1,8 @@
 #include "construction.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "action.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -30,9 +33,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-#include <algorithm>
-#include <sstream>
-
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
 
@@ -41,6 +41,7 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
+const trap_str_id tr_practice_target( "tr_practice_target" );
 
 // Construction functions.
 namespace construct
@@ -69,6 +70,7 @@ void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
 void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
+void done_mark_practice_target( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -78,7 +80,7 @@ void failure_deconstruct( const tripoint & );
 static bool can_construct( const std::string &desc );
 static bool can_construct( const construction &con );
 static bool player_can_build( player &p, const inventory &inv, const construction &con );
-static bool player_can_build( player &p, const inventory &pinv, const std::string &desc );
+static bool player_can_build( player &p, const inventory &inv, const std::string &desc );
 static void place_construction( const std::string &desc );
 
 std::vector<construction> constructions;
@@ -87,7 +89,7 @@ std::vector<construction> constructions;
 static const deferred_color color_title = def_c_light_red; //color for titles
 static const deferred_color color_data = def_c_cyan; //color for data parts
 
-void standardize_construction_times( int const time )
+void standardize_construction_times( const int time )
 {
     for( auto &c : constructions ) {
         c.time = time;
@@ -315,6 +317,7 @@ void construction_menu()
                 filter = uistate.construction_filter;
             }
         }
+        isnew = false;
         // Erase existing tab selection & list of constructions
         mvwhline( w_con, 1, 1, ' ', w_list_width );
         werase( w_list );
@@ -680,12 +683,12 @@ void construction_menu()
     g->refresh_all();
 }
 
-bool player_can_build( player &p, const inventory &pinv, const std::string &desc )
+bool player_can_build( player &p, const inventory &inv, const std::string &desc )
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
-        if( player_can_build( p, pinv, *con ) ) {
+        if( player_can_build( p, inv, *con ) ) {
             return true;
         }
     }
@@ -700,7 +703,7 @@ bool character_has_skill_for( const Character &c, const construction &con )
     } );
 }
 
-bool player_can_build( player &p, const inventory &pinv, const construction &con )
+bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -709,7 +712,7 @@ bool player_can_build( player &p, const inventory &pinv, const construction &con
     if( !character_has_skill_for( p, con ) ) {
         return false;
     }
-    return con.requirements->can_make_with_inventory( pinv );
+    return con.requirements->can_make_with_inventory( inv );
 }
 
 bool can_construct( const std::string &desc )
@@ -968,7 +971,7 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point( 0, 0 ), vpart_from_item( g->u.lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( g->u.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1019,7 +1022,7 @@ void construct::done_deconstruct( const tripoint &p )
     }
 }
 
-void unroll_digging( int const numer_of_2x4s )
+void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
     item rope( "rope_30" );
@@ -1030,11 +1033,11 @@ void unroll_digging( int const numer_of_2x4s )
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
-    tripoint const abs_pos = g->m.getabs( p );
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    const tripoint abs_pos = g->m.getabs( p );
+    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
-    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
@@ -1085,8 +1088,8 @@ void construct::done_mine_downstair( const tripoint &p )
 
 void construct::done_mine_upstair( const tripoint &p )
 {
-    tripoint const abs_pos = p;
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    const tripoint abs_pos = p;
+    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
@@ -1154,6 +1157,11 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
 void construct::done_mark_firewood( const tripoint &p )
 {
     g->m.trap_set( p, tr_firewood_source );
+}
+
+void construct::done_mark_practice_target( const tripoint &p )
+{
+    g->m.trap_set( p, tr_practice_target );
 }
 
 void construct::failure_standard( const tripoint & )
@@ -1260,7 +1268,8 @@ void load_construction( JsonObject &jo )
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
-            { "done_mark_firewood", construct::done_mark_firewood }
+            { "done_mark_firewood", construct::done_mark_firewood },
+            { "done_mark_practice_target", construct::done_mark_practice_target }
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;

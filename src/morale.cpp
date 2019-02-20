@@ -1,5 +1,8 @@
 #include "morale.h"
 
+#include <algorithm>
+#include <set>
+
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -8,13 +11,11 @@
 #include "input.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <set>
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -89,10 +90,10 @@ namespace morale_mults
 {
 // Optimistic characters focus on the good things in life,
 // and downplay the bad things.
-static const morale_mult optimist( 1.25, 0.75 );
+static const morale_mult optimist( 1.2, 0.8 );
 // Again, those grouchy Bad-Tempered folks always focus on the negative.
 // They can't handle positive things as well.  They're No Fun.  D:
-static const morale_mult badtemper( 0.75, 1.25 );
+static const morale_mult badtemper( 0.8, 1.2 );
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
@@ -154,7 +155,7 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     }
 
     bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
-    age = 0; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
+    age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
 time_duration player_morale::morale_point::pick_time( const time_duration current_time,
@@ -220,10 +221,10 @@ player_morale::player_morale() :
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
     mutations[trait_id( "OPTIMISTIC" )]    = mutation_data(
-                std::bind( set_optimist, _1, 4 ),
+                std::bind( set_optimist, _1, 9 ),
                 std::bind( set_optimist, _1, 0 ) );
     mutations[trait_id( "BADTEMPER" )]     = mutation_data(
-                std::bind( set_badtemper, _1, -4 ),
+                std::bind( set_badtemper, _1, -9 ),
                 std::bind( set_badtemper, _1, 0 ) );
     mutations[trait_id( "STYLISH" )]       = mutation_data(
                 std::bind( set_stylish, _1, true ),
@@ -431,7 +432,7 @@ void player_morale::display( double focus_gain )
             const morale_mult mult = get_temper_mult();
 
             int line = 0;
-            for( size_t i = offset; i < static_cast<unsigned int>( rows_total ); ++i ) {
+            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
                 const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
 
@@ -563,6 +564,16 @@ void player_morale::on_item_wear( const item &it )
 void player_morale::on_item_takeoff( const item &it )
 {
     set_worn( it, false );
+}
+
+void player_morale::on_worn_item_transform( const item &it )
+{
+    item dummy = it;
+    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
+                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
+
+    set_worn( dummy, false );
+    set_worn( it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )

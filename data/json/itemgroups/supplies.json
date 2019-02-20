@@ -40,6 +40,7 @@
     "items": [
       [ "chem_ethanol", 10 ],
       [ "denat_alcohol", 20 ],
+      [ "chem_methanol", 10 ],
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
       [ "lamp_oil", 100 ]

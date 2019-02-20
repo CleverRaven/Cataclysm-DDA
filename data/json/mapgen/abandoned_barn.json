@@ -204,13 +204,11 @@
         "0": "f_null",
         "1": "f_null",
         "=": "f_smoking_rack",
-        "P": "f_plant_seedling",
         "R": "f_rubble",
         "^": "f_rubble",
         "_": "f_null",
         "d": "f_null",
         "h": "f_hay",
-        "p": "f_plant_seedling",
         "r": "f_rubble",
         "|": "f_null"
       },
@@ -228,6 +226,10 @@
         { "chance": 25, "item": "trash", "x": 20, "y": 12 },
         { "chance": 25, "item": "trash", "x": 18, "y": 11 }
       ],
+      "sealed_item": {
+        "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" },
+        "P": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" }
+      },
       "place_monster": [ { "monster": "mon_cat", "chance": 30, "x": 19, "y": 10 } ],
       "rows": [
         ".....d...........d......",
@@ -589,16 +591,8 @@
   {
     "method": "json",
     "object": {
-      "furniture": {
-        "&": "f_null",
-        "+": "f_null",
-        ".": "f_null",
-        "^": "f_rubble",
-        "_": "f_null",
-        "d": "f_null",
-        "p": "f_plant_seedling",
-        "|": "f_null"
-      },
+      "furniture": { "&": "f_null", "+": "f_null", ".": "f_null", "^": "f_rubble", "_": "f_null", "d": "f_null", "|": "f_null" },
+      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" } },
       "place_items": [
         { "chance": 10, "item": "hand_tools", "x": 7, "y": 20 },
         { "chance": 10, "item": "hand_tools", "x": 6, "y": 19 },

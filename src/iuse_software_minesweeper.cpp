@@ -1,5 +1,9 @@
 #include "iuse_software_minesweeper.h"
 
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
@@ -7,10 +11,6 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <sstream>
-#include <string>
-#include <vector>
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
@@ -128,7 +128,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
 
     mvwputch( w_minesweeper, iOffsetY, iOffsetX, hilite( c_white ), "#" );
 
-    draw_custom_border( w_minesweeper, true, true, true, true, true, true, true, true,
+    draw_custom_border( w_minesweeper, 1, 1, 1, 1, 1, 1, 1, 1,
                         BORDER_COLOR, iOffsetY - 1, iLevelY + 2, iOffsetX - 1, iLevelX + 2 );
 }
 
@@ -232,9 +232,6 @@ int minesweeper_game::start_game()
         }
     };
 
-    int iDirY = 0;
-    int iDirX = 0;
-
     std::string action = "NEW";
 
     do {
@@ -257,9 +254,9 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( ctxt.get_direction( iDirX, iDirY, action ) ) {
-            if( iPlayerX + iDirX >= 0 && iPlayerX + iDirX < iLevelX && iPlayerY + iDirY >= 0 &&
-                iPlayerY + iDirY < iLevelY ) {
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            if( iPlayerX + vec->x >= 0 && iPlayerX + vec->x < iLevelX && iPlayerY + vec->y >= 0 &&
+                iPlayerY + vec->y < iLevelY ) {
 
                 std::string sGlyph;
 
@@ -284,8 +281,8 @@ int minesweeper_game::start_game()
                               ( i == 0 ) ? cColor : hilite( cColor ), sGlyph );
 
                     if( i == 0 ) {
-                        iPlayerX += iDirX;
-                        iPlayerY += iDirY;
+                        iPlayerX += vec->x;
+                        iPlayerY += vec->y;
                     }
                 }
             }

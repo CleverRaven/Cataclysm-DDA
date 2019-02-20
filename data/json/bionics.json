@@ -330,8 +330,7 @@
     "name": "Ethanol Burner",
     "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance.",
     "occupied_bodyparts": [ [ "TORSO", 26 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE" , "BIONIC_NPC_USABLE" ]
-
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_evap",
@@ -561,6 +560,7 @@
     "name": "Mini-Flamethrower",
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
+    "fake_item": "fake_firestarter",
     "act_cost": 75
   },
   {
@@ -1008,7 +1008,7 @@
     "id": "bio_tools",
     "type": "bionic",
     "name": "Integrated Toolset",
-    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "fake_item": "toolset"
@@ -1017,9 +1017,9 @@
     "id": "bio_torsionratchet",
     "type": "bionic",
     "name": "Joint Torsion Ratchet",
-    "description": "Your joints have been surgically equipped with torsion ratchets that generate power slowly when you move.",
+    "description": "Your joints have been surgically equipped with torsion ratchets that generate power slowly when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "occupied_bodyparts": [ [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_trip",
@@ -1083,7 +1083,8 @@
     "type": "bionic",
     "name": "Titanium Skeletal Bracing",
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
-    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ]
+    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_shock_absorber",

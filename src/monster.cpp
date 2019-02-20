@@ -1,5 +1,9 @@
 #include "monster.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -29,10 +33,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
@@ -472,6 +472,10 @@ std::string monster::name_with_armor() const
         ret = string_format( _( "thick hide" ) );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
         ret = string_format( _( "armor plating" ) );
+    } else if( made_of( LIQUID ) ) {
+        ret = string_format( _( "dense jelly mass" ) );
+    } else {
+        ret = string_format( _( "armor" ) );
     }
     return ret;
 }
@@ -545,6 +549,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
 
+    if( debug_mode ) {
+        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+    }
+
     std::string effects = get_effect_status();
     long long used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
@@ -566,16 +574,35 @@ std::string monster::extended_description() const
 {
     std::ostringstream ss;
     const auto att = get_attitude();
-    std::string att_colored = get_tag_from_color( att.second ) + att.first;
+    std::string att_colored = colorize( att.first, att.second );
+    std::string difficulty_str;
+    if( debug_mode ) {
+        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+    } else {
+        if( type->difficulty < 3 ) {
+            difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
+        } else if( type->difficulty < 10 ) {
+            difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
+        } else if( type->difficulty < 20 ) {
+            difficulty_str = _( "<color_light_red>Dangerous.</color>" );
+        } else if( type->difficulty < 30 ) {
+            difficulty_str = _( "<color_red>Very dangerous.</color>" );
+        } else if( type->difficulty < 50 ) {
+            difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
+        } else {
+            difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
+        }
+    }
 
-    ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
+    ss << string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
+                         difficulty_str ) << std::endl;
     if( !get_effect_status().empty() ) {
         ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
     }
 
     ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
-    ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
+    ss << colorize( hp_bar.first, hp_bar.second ) << std::endl;
 
     ss << "--" << std::endl;
     ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
@@ -622,22 +649,22 @@ std::string monster::extended_description() const
     };
 
     describe_flags( _( "It has the following senses: %s." ), {
-        {m_flag::MF_HEARS, _( "hearing" )},
-        {m_flag::MF_SEES, _( "sight" )},
-        {m_flag::MF_SMELLS, _( "smell" )},
+        {m_flag::MF_HEARS, pgettext( "Hearing as sense", "hearing" )},
+        {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
+        {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
 
     describe_flags( _( "It can %s." ), {
-        {m_flag::MF_SWIMS, _( "swim" )},
-        {m_flag::MF_FLIES, _( "fly" )},
-        {m_flag::MF_CAN_DIG, _( "dig" )},
-        {m_flag::MF_CLIMBS, _( "climb" )}
+        {m_flag::MF_SWIMS, pgettext( "Swim as an action", "swim" )},
+        {m_flag::MF_FLIES, pgettext( "Fly as an action", "fly" )},
+        {m_flag::MF_CAN_DIG, pgettext( "Dig as an action", "dig" )},
+        {m_flag::MF_CLIMBS, pgettext( "Climb as an action", "climb" )}
     } );
 
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
-        {m_flag::MF_GRABS, _( "grab" )},
-        {m_flag::MF_VENOM, _( "poison" )},
-        {m_flag::MF_PARALYZE, _( "paralyze" )},
+        {m_flag::MF_GRABS, pgettext( "Grab as an action", "grab" )},
+        {m_flag::MF_VENOM, pgettext( "Poison as an action", "poison" )},
+        {m_flag::MF_PARALYZE, pgettext( "Paralyze as an action", "paralyze" )},
         {m_flag::MF_BLEED, _( "cause bleed" )}
     } );
 
@@ -1199,13 +1226,13 @@ void monster::melee_attack( Creature &target, float accuracy )
         // Miss
         if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
-                add_msg( _( "You dodge %s." ), disp_name().c_str() );
+                add_msg( _( "You dodge %s." ), disp_name() );
             } else if( target.is_npc() ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name().c_str(), name().c_str() );
+                         target.disp_name(), name() );
             } else {
                 add_msg( _( "The %1$s misses %2$s!" ),
-                         name().c_str(), target.disp_name().c_str() );
+                         name(), target.disp_name() );
             }
         } else if( target.is_player() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
@@ -1218,49 +1245,49 @@ void monster::melee_attack( Creature &target, float accuracy )
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
-                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name().c_str(),
-                         body_part_name_accusative( bp_hit ).c_str() );
+                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
+                         body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
                 //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
-                add_msg( _( "The %1$s hits %2$s %3$s." ), name().c_str(),
-                         target.disp_name( true ).c_str(),
-                         body_part_name_accusative( bp_hit ).c_str() );
+                add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                         target.disp_name( true ),
+                         body_part_name_accusative( bp_hit ) );
             } else {
-                add_msg( _( "The %1$s hits %2$s!" ), name().c_str(), target.disp_name().c_str() );
+                add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
             }
         } else if( target.is_player() ) {
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "Something hits your %s." ),
-                     body_part_name_accusative( bp_hit ).c_str() );
+                     body_part_name_accusative( bp_hit ) );
         }
     } else {
         // No damage dealt
         if( u_see_me ) {
             if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name().c_str(),
-                         body_part_name_accusative( bp_hit ).c_str(), target.skin_name().c_str() );
+                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name(),
+                         body_part_name_accusative( bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
-                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name().c_str(),
-                         target.disp_name( true ).c_str(),
-                         body_part_name_accusative( bp_hit ).c_str(),
-                         target.disp_name( true ).c_str(),
-                         target.skin_name().c_str() );
+                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name(),
+                         target.disp_name( true ),
+                         body_part_name_accusative( bp_hit ),
+                         target.disp_name( true ),
+                         target.skin_name() );
             } else {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
                 add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
                          name().c_str(),
-                         target.disp_name( true ).c_str(),
-                         target.skin_name().c_str() );
+                         target.disp_name(),
+                         target.skin_name() );
             }
         } else if( target.is_player() ) {
             //~ 1$s is bodypart name in accusative, 2$s is armor name.
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
-                     body_part_name_accusative( bp_hit ).c_str(), target.skin_name().c_str() );
+                     body_part_name_accusative( bp_hit ), target.skin_name() );
         }
     }
 
@@ -1809,16 +1836,16 @@ void monster::process_turn()
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
-                sounds::sound( pos(), 5, _( "hummmmm." ) );
+                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ) );
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
-                for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
-                    if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                for( const auto &item : items ) {
+                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
-                        sounds::sound( pos(), 30, _( "fwoosh!" ) );
+                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
                         break;
                     }
                 }
@@ -1843,8 +1870,8 @@ void monster::process_turn()
             }
             if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
                 g->lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 300, _( "BOOOOOOOM!!!" ) );
-                sounds::sound( pos(), 20, _( "vrrrRRRUUMMMMMMMM!" ) );
+                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ) );
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name().c_str() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -1852,7 +1879,7 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 20, _( "VMMMMMMMMM!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ) );
             }
         }
     }
@@ -1924,8 +1951,8 @@ void monster::die( Creature *nkiller )
         const point abssub = ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
-            for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
-                for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
+            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
+                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
                     std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y,
                                                      g->get_levz() + z );
                     for( auto &mgp : groups ) {
@@ -1946,7 +1973,7 @@ void monster::die( Creature *nkiller )
     }
 
     //Not a hallucination, go process the death effects.
-    for( auto const &deathfunction : type->dies ) {
+    for( const auto &deathfunction : type->dies ) {
         deathfunction( *this );
     }
 
@@ -1986,7 +2013,8 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
+                         calendar::time_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
@@ -2033,7 +2061,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         if( dam > 0 ) {
             apply_damage( nullptr, bp_torso, dam );
         } else {
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
@@ -2484,7 +2512,7 @@ void monster::on_load()
     // Possible TODO: Integrate monster upgrade
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
-    if( dt <= 0 ) {
+    if( dt <= 0_turns ) {
         return;
     }
 

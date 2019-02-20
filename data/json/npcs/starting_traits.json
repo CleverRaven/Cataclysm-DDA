@@ -1,0 +1,254 @@
+[
+  {
+    "//": "Mainlined from a mod originally written by Spencer Michaels",
+    "//": "This group picks out several negative and positive traits",
+    "type": "trait_group",
+    "id": "NPC_starting_traits",
+    "subtype": "collection",
+    "traits": [
+      { "group": "trait_group_NONADDICTIVE", "prob": 10 },
+      { "group": "trait_group_EASYSLEEPER", "prob": 10 },
+      { "group": "trait_group_ANIMALEMPATH", "prob": 10 },
+      { "group": "trait_group_FASTHEALER", "prob": 15 },
+      { "group": "trait_group_FASTLEARNER", "prob": 15 },
+      { "group": "trait_group_FASTREADER", "prob": 10 },
+      { "group": "trait_group_FLEET", "prob": 15 },
+      { "group": "trait_group_GOODHEARING", "prob": 10 },
+      { "group": "trait_group_GOODMEMORY", "prob": 10 },
+      { "group": "trait_group_DRUNKEN", "prob": 10 },
+      { "group": "trait_group_GOODCARDIO", "prob": 10 },
+      { "group": "trait_group_WAKEFUL", "prob": 10 },
+      { "group": "trait_group_LIGHTSTEP", "prob": 10 },
+      { "group": "trait_group_OPTIMISTIC", "prob": 10 },
+      { "group": "trait_group_PACKMULE", "prob": 10 },
+      { "group": "trait_group_PARKOUR", "prob": 10 },
+      { "group": "trait_group_PRETTY", "prob": 10 },
+      { "group": "trait_group_PSYCHOPATH", "prob": 10 },
+      { "group": "trait_group_EAGLEEYED", "prob": 10 },
+      { "group": "trait_group_MARTIAL_ARTS", "prob": 15 },
+      { "group": "trait_group_LIAR", "prob": 40 },
+      { "group": "trait_group_STRONGBACK", "prob": 15 },
+      { "group": "trait_group_STRONGSTOMACH", "prob": 10 },
+      { "group": "trait_group_THICKSKIN", "prob": 10 },
+      { "group": "trait_group_TOUGH", "prob": 20 },
+      { "group": "trait_group_WEAKSCENT", "prob": 10 },
+      { "group": "trait_group_PAINRESIST", "prob": 10 },
+      { "trait": "DEFT", "prob": 10 },
+      { "trait": "DISRESISTANT", "prob": 10 },
+      { "trait": "ADRENALINE", "prob": 10 },
+      { "trait": "INFRESIST", "prob": 15 },
+      { "trait": "MASOCHIST", "prob": 10 },
+      { "trait": "NIGHTVISION", "prob": 10 },
+      { "trait": "OUTDOORSMAN", "prob": 10 },
+      { "trait": "POISRESIST", "prob": 10 },
+      { "trait": "QUICK", "prob": 10 },
+      { "trait": "ROBUST", "prob": 10 },
+      { "trait": "SELFAWARE", "prob": 10 },
+      { "trait": "SPIRITUAL", "prob": 10 },
+      { "trait": "STYLISH", "prob": 10 },
+      { "trait": "TERRIFYING", "prob": 10 },
+      { "trait": "TOUGH_FEET", "prob": 10 },
+      { "trait": "ALBINO", "prob": 1 },
+      { "trait": "ASTHMA", "prob": 10 },
+      { "trait": "CHEMIMBALANCE", "prob": 10 },
+      { "trait": "HEAVYSLEEPER", "prob": 10 },
+      { "trait": "HYPEROPIC", "prob": 10 },
+      { "trait": "GLASSJAW", "prob": 10 },
+      { "trait": "ANTIFRUIT", "prob": 10 },
+      { "trait": "MEATARIAN", "prob": 5 },
+      { "trait": "HOARDER", "prob": 10 },
+      { "trait": "JITTERY", "prob": 10 },
+      { "trait": "ANTIJUNK", "prob": 5 },
+      { "trait": "LACTOSE", "prob": 10 },
+      { "trait": "VEGETARIAN", "prob": 15 },
+      { "trait": "MOODSWINGS", "prob": 10 },
+      { "trait": "SAVANT", "prob": 10 },
+      { "trait": "SCHIZOPHRENIC", "prob": 1 },
+      { "trait": "SQUEAMISH", "prob": 20 },
+      { "trait": "TRIGGERHAPPY", "prob": 10 },
+      { "trait": "ANTIWHEAT", "prob": 5 },
+      { "trait": "WOOLALLERGY", "prob": 5 },
+      { "trait": "INCONSPICUOUS", "prob": 10 }
+    ]
+  },
+  {
+    "//": "This group picks out one of the exluding traits.",
+    "type": "trait_group",
+    "id": "trait_group_NONADDICTIVE",
+    "subtype": "distribution",
+    "traits": [ { "trait": "NONADDICTIVE" }, { "trait": "ADDICTIVE" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_EASYSLEEPER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "EASYSLEEPER" }, { "trait": "INSOMNIA" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_ANIMALEMPATH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "ANIMALEMPATH" }, { "trait": "ANIMALDISCORD" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FASTHEALER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FASTHEALER" }, { "trait": "SLOWHEALER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FASTLEARNER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FASTREADER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FLEET",
+    "subtype": "distribution",
+    "traits": [ { "trait": "FLEET" }, { "trait": "SLOWRUNNER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_GOODHEARING",
+    "subtype": "distribution",
+    "traits": [ { "trait": "GOODHEARING" }, { "trait": "BADHEARING" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_GOODMEMORY",
+    "subtype": "distribution",
+    "traits": [ { "trait": "GOODMEMORY" }, { "trait": "FORGETFUL" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_DRUNKEN",
+    "subtype": "distribution",
+    "traits": [
+      { "collection": [ { "trait": "DRUNKEN", "prob": 50 }, { "trait": "TOLERANCE", "prob": 50 } ] },
+      { "trait": "LIGHTWEIGHT" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_GOODCARDIO",
+    "subtype": "distribution",
+    "traits": [ { "trait": "GOODCARDIO" }, { "trait": "BADCARDIO" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_WAKEFUL",
+    "subtype": "distribution",
+    "traits": [ { "trait": "WAKEFUL" }, { "trait": "SLEEPY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_LIGHTEATER",
+    "subtype": "distribution",
+    "//": "currently not used as NPC needs are a bit out of whack and disabled by default.",
+    "traits": [ { "trait": "LIGHTEATER" }, { "trait": "HUNGER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_LIGHTSTEP",
+    "subtype": "distribution",
+    "traits": [ { "trait": "LIGHTSTEP" }, { "trait": "CLUMSY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_OPTIMISTIC",
+    "subtype": "distribution",
+    "traits": [ { "trait": "OPTIMISTIC" }, { "trait": "BADTEMPER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PACKMULE",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PACKMULE" }, { "trait": "DISORGANIZED" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PARKOUR",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PARKOUR" }, { "trait": "BADKNEES" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PRETTY",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PRETTY" }, { "trait": "UGLY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PSYCHOPATH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PSYCHOPATH" }, { "trait": "PACIFIST" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_EAGLEEYED",
+    "subtype": "distribution",
+    "traits": [ { "trait": "EAGLEEYED" }, { "trait": "MYOPIC" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_MARTIAL_ARTS",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "MARTIAL_ARTS" },
+      { "trait": "MARTIAL_ARTS2" },
+      { "trait": "MARTIAL_ARTS3" },
+      { "trait": "MARTIAL_ARTS4" },
+      { "trait": "MARTIAL_ARTS5" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_LIAR",
+    "subtype": "distribution",
+    "//": "NOTE: These traits should be used as conditionals to affect the difficulty of NPCs lying about the expertises they know.",
+    "traits": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_STRONGBACK",
+    "subtype": "distribution",
+    "traits": [ { "trait": "STRONGBACK" }, { "trait": "BADBACK" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_STRONGSTOMACH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "STRONGSTOMACH" }, { "trait": "WEAKSTOMACH" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_THICKSKIN",
+    "subtype": "distribution",
+    "traits": [ { "trait": "THICKSKIN" }, { "trait": "THINSKIN" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_TOUGH",
+    "subtype": "distribution",
+    "traits": [ { "trait": "TOUGH" }, { "trait": "FLIMSY" }, { "trait": "FLIMSY2" }, { "trait": "FLIMSY3" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_WEAKSCENT",
+    "subtype": "distribution",
+    "traits": [ { "trait": "WEAKSCENT" }, { "trait": "SMELLY" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PAINRESIST",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PAINRESIST" }, { "trait": "MORE_PAIN" } ]
+  }
+]

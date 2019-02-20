@@ -95,7 +95,15 @@
   {
     "type": "item_group",
     "id": "butcher_raw_meat",
-    "items": [ [ "meat", 1 ], [ "lunchmeat", 1 ] ]
+    "items": [
+      [ "meat", 8 ],
+      [ "lunchmeat", 6 ],
+      { "item": "lung", "prob": 1, "charges": 2 },
+      { "item": "kidney", "prob": 1, "charges": 2 },
+      { "item": "liver", "prob": 1, "charges": 1 },
+      { "item": "brain", "prob": 1, "charges": 1 },
+      { "item": "sweetbread", "prob": 2, "charges": 1 }
+    ]
   },
   {
     "type": "item_group",
@@ -108,6 +116,7 @@
       [ "hotdogs_frozen", 6 ],
       [ "sausage", 4 ],
       [ "sweet_sausage", 2 ],
+      [ "bratwurst_sausage", 4 ],
       [ "meat_salted", 2 ],
       [ "meat_canned", 2 ],
       [ "offal_canned", 2 ],
@@ -119,6 +128,194 @@
   {
     "type": "item_group",
     "id": "butcher_tools",
-    "items": [ [ "knife_steak", 20 ], [ "knife_butcher", 30 ], [ "tongs", 10 ], [ "carver_off", 5 ], [ "meat", 1 ] ]
+    "items": [
+      [ "knife_steak", 20 ],
+      [ "knife_butcher", 30 ],
+      [ "tongs", 10 ],
+      [ "carver_off", 5 ],
+      [ "meat", 1 ],
+      [ "hacksaw", 10 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_butcher" ],
+    "object": {
+      "rows": [
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "   addddddaeeadddddda   ",
+        "   akkkkkk....kkkkkka   ",
+        "   a................a   ",
+        "   a................a   ",
+        "   a................a   ",
+        "   a................a   ",
+        "   a................a   ",
+        "   ahhjhhhhhaeaaaaaaa   ",
+        "   a........e.e.....a   ",
+        "   ahhhhhhhha.am.Sata   ",
+        "   ak.......a.aaaaaaa   ",
+        "   ak...ff..a.a...lla   ",
+        "   ak.p.ff..a.a....ca   ",
+        "   ak.......e.e.....a   ",
+        "   a.iiiii.ma.am....a   ",
+        "   aaaaaaaaaaeaaaaaaa   ",
+        "              gggg      ",
+        "              gggg      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass", "t_grass", "t_grass" ],
+        ".": "t_floor",
+        "a": "t_wall",
+        "b": "t_sidewalk",
+        "c": "t_floor",
+        "d": "t_wall_glass",
+        "e": "t_door_c",
+        "f": "t_floor",
+        "g": "t_dirt",
+        "h": "t_floor",
+        "i": "t_floor",
+        "j": "t_console_broken",
+        "k": "t_floor",
+        "l": "t_floor",
+        "m": "t_floor",
+        "p": "t_floor",
+        "S": "t_floor",
+        "t": "t_floor"
+      },
+      "furniture": {
+        "c": "f_chair",
+        "f": "f_table",
+        "g": "f_dumpster",
+        "h": "f_counter",
+        "i": "f_fridge",
+        "k": "f_rack",
+        "l": "f_desk",
+        "m": "f_trashcan",
+        "p": "f_metal_butcher_rack",
+        "S": "f_sink"
+      },
+      "toilets": { "t": {  } },
+      "place_loot": [
+        { "group": "butcher_meat", "chance": 80, "x": [ 4, 5 ], "y": 3, "repeat": [ 1, 2 ] },
+        { "group": "butcher_meat", "chance": 80, "x": [ 6, 6 ], "y": 3 },
+        { "group": "butcher_meat", "chance": 80, "x": [ 7, 7 ], "y": 3 },
+        { "group": "butcher_meat", "chance": 80, "x": [ 8, 9 ], "y": 3, "repeat": [ 1, 2 ] },
+        { "group": "butcher_meat", "chance": 80, "x": [ 14, 15 ], "y": 3, "repeat": [ 1, 2 ] },
+        { "group": "butcher_meat", "chance": 80, "x": [ 16, 16 ], "y": 3 },
+        { "group": "butcher_meat", "chance": 80, "x": [ 17, 17 ], "y": 3 },
+        { "group": "butcher_meat", "chance": 80, "x": [ 18, 19 ], "y": 3, "repeat": [ 1, 2 ] },
+        { "group": "butcher_meat", "chance": 80, "x": 4, "y": [ 12, 15 ], "repeat": [ 0, 2 ] },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 5, "y": 16 },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 6, "y": 16 },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 7, "y": 16 },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 8, "y": 16 },
+        { "group": "trash", "chance": 80, "x": 11, "y": 16 },
+        { "group": "trash", "chance": 80, "x": 15, "y": 16 },
+        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
+        { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 8, 9 ], "y": [ 13, 14 ] },
+        { "group": "clothing_glasses", "chance": 80, "x": 18, "y": 13 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT", "chance": 1, "x": [ 9, 4 ], "y": [ 5, 13 ] } ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 5, 8 ], "y": [ 12, 14 ], "repeat": [ 8, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 5, 8 ], "y": [ 12, 15 ], "repeat": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_butcher" ],
+    "object": {
+      "rows": [
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "   addddddaeeadddddda   ",
+        "   akkkkkk..........a   ",
+        "   a............c...a   ",
+        "   ak....k......ffc.a   ",
+        "   ak....k.....cff..a   ",
+        "   ak....k.......c..a   ",
+        "   a................a   ",
+        "   ahhjhhaaaaeaaaeaaa   ",
+        "   a........e.aS....a   ",
+        "   aaaahhaaaa.am..ata   ",
+        "   ak.......a.aaaaaaa   ",
+        "   ak...ff..a.a...lla   ",
+        "   ak.p.ff..a.a....ca   ",
+        "   ak.......o.o.....a   ",
+        "   a.iiiii.ma.am....a   ",
+        "   aaaaaaaaaaoaaaaaaa   ",
+        "              gggg      ",
+        "              gggg      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass", "t_grass", "t_grass" ],
+        ".": "t_floor",
+        "a": "t_wall",
+        "b": "t_sidewalk",
+        "c": "t_floor",
+        "d": "t_wall_glass",
+        "e": "t_door_c",
+        "f": "t_floor",
+        "g": "t_dirt",
+        "h": "t_floor",
+        "i": "t_floor",
+        "j": "t_console_broken",
+        "k": "t_floor",
+        "l": "t_floor",
+        "m": "t_floor",
+        "o": "t_door_o",
+        "p": "t_floor",
+        "S": "t_floor",
+        "t": "t_floor"
+      },
+      "furniture": {
+        "c": "f_chair",
+        "f": "f_table",
+        "g": "f_dumpster",
+        "h": "f_counter",
+        "i": "f_fridge",
+        "k": "f_rack",
+        "l": "f_desk",
+        "m": "f_trashcan",
+        "p": "f_metal_butcher_rack",
+        "S": "f_sink"
+      },
+      "toilets": { "t": {  } },
+      "place_loot": [
+        { "group": "butcher_meat", "chance": 80, "x": [ 4, 5 ], "y": 3, "repeat": [ 1, 2 ] },
+        { "group": "butcher_meat", "chance": 80, "x": [ 6, 6 ], "y": 3 },
+        { "group": "butcher_meat", "chance": 80, "x": [ 7, 7 ], "y": 3 },
+        { "group": "butcher_meat", "chance": 80, "x": [ 8, 9 ], "y": 3, "repeat": [ 1, 2 ] },
+        { "group": "butcher_meat", "chance": 80, "x": 4, "y": [ 12, 15 ], "repeat": [ 0, 2 ] },
+        { "group": "butcher_meat", "chance": 80, "x": 4, "y": [ 5, 7 ], "repeat": [ 0, 3 ] },
+        { "group": "butcher_meat", "chance": 80, "x": 9, "y": [ 5, 7 ], "repeat": [ 0, 2 ] },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 5, "y": 16 },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 6, "y": 16 },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 7, "y": 16 },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 3 ], "x": 8, "y": 16 },
+        { "group": "trash", "chance": 80, "x": 11, "y": 16 },
+        { "group": "trash", "chance": 80, "x": 15, "y": 16 },
+        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
+        { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 8, 9 ], "y": [ 13, 14 ] },
+        { "group": "clothing_glasses", "chance": 80, "x": 18, "y": 13 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ANIMALPOUND_DOGS", "chance": 1, "x": [ 5, 10 ], "y": [ 13, 15 ] } ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 5, 8 ], "y": [ 12, 14 ], "repeat": [ 8, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 5, 8 ], "y": [ 12, 15 ], "repeat": [ 1, 5 ] }
+      ]
+    }
   }
 ]

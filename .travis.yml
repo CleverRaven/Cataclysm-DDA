@@ -38,10 +38,19 @@ jobs:
       # GCC 5 is the pre-installed compiler on Xenial
       env: COMPILER=g++ MODS=--mods=RL_Classes
 
-    # Then build different configurations and targets in parallell.
+    # Then build different configurations and targets in parallel.
     - stage: variants
+    # Linux Tiles
+      env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
+
+      # MXE variants using alternate repository http://mirror.mxe.cc/repos/apt
       # GCC MinGW
-      env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
       addons: &gcc
         apt:
           packages: ["wine"]
@@ -53,13 +62,20 @@ jobs:
         apt:
           packages: ["wine"]
 
-    # Linux Tiles
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
-      compiler: gcc
-      addons: &gcc8
+    # CMake Clang 6.0 Tiles
+    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1
+      dist: trusty
+      compiler: clang
+      addons: &clang60
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: *apt_sources
+          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: [*apt_sources, llvm-toolchain-trusty-6.0]
+
+    # macOS Tiles
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 LUA=1
+      os: osx
+      osx_image: xcode10.1
+      compiler: clang
 
     # Finally check the compiler variants
     - stage: compilers
@@ -141,9 +157,9 @@ jobs:
         apt:
           packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
-          
+
     # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
       dist: trusty
       compiler: clang
       addons: &clang60
@@ -158,9 +174,7 @@ before_script:
   - source build-scripts/requirements.sh
 
 script:
-  - make -j3 RELEASE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION"
-  - $WINE ./tests/cata_test -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
-  - if [ -n "$MODS" ]; then $WINE ./tests/cata_test -r cata --rng-seed `shuf -i 0-1000000000 -n 1` $MODS; fi
+  - build-scripts/build.sh
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi

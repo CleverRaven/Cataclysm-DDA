@@ -1,10 +1,9 @@
-#include "catch/catch.hpp"
+#include <sstream>
 
+#include "catch/catch.hpp"
 #include "item.h"
 #include "npc.h"
 #include "player.h"
-
-#include <sstream>
 
 static void test_diet( const time_duration dur, npc &dude,
                        const std::array<int, 4> hmod_changes_per_day, int min, int max )

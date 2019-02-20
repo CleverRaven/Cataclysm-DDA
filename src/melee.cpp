@@ -1,5 +1,9 @@
 #include "melee.h"
 
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "field.h"
@@ -21,10 +25,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <sstream>
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -75,7 +75,7 @@ static const trait_id trait_THORNS( "THORNS" );
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
 int  stumble( player &u, const item &weap );
-std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
+std::string melee_message( const ma_technique &tec, player &p, const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.
@@ -448,7 +448,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
-                sounds::sound( pos(), 8, "" );
+                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -513,6 +513,8 @@ void player::reach_attack( const tripoint &p )
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? critter->get_size() : 2;
+    // Reset last target pos
+    last_target_pos = cata::nullopt;
 
     int move_cost = attack_speed( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
@@ -553,7 +555,9 @@ void player::reach_attack( const tripoint &p )
         return;
     }
 
+    reach_attacking = true;
     melee_attack( *critter, false, force_technique, false );
+    reach_attacking = false;
 }
 
 int stumble( player &u, const item &weap )
@@ -962,13 +966,13 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip normal techniques if looking for a dodge counter
-        if( dodge_counter && !tec.dodge_counter ) {
+        // skip dodge counter techniques
+        if( ( dodge_counter && !tec.dodge_counter ) || ( !dodge_counter && tec.dodge_counter ) ) {
             continue;
         }
 
-        // skip normal techniques if looking for a block counter
-        if( block_counter && !tec.block_counter ) {
+        // skip block counter techniques
+        if( ( block_counter && !tec.block_counter ) || ( !block_counter && tec.block_counter ) ) {
             continue;
         }
 
@@ -1030,15 +1034,19 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         return false;
     }
 
+    // pre-computed matrix of adjacent squares
+    std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
+    std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
+
+    // filter the values to be between -1 and 1 to avoid indexing the array out of bounds
+    int dy = std::max( -1, std::min( 1, t.posy() - posy() ) );
+    int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
+    int lookup = dy + 1 + 3 * ( dx + 1 );
+
     //wide hits all targets adjacent to the attacker and the target
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
         //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
-        std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
-        std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
-
-        int lookup = t.posy() - posy() + 1 + ( 3 * ( t.posx() - posx() + 1 ) );
-
         tripoint left = pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint right = pos() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
 
@@ -1068,12 +1076,6 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         // Impale hits the target and a single target behind them
         // Check if the square cardinally behind our target, or to the left / right,
         // contains a possible target.
-        // Offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares.
-        std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
-        std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
-
-        int lookup = t.posy() - posy() + 1 + ( 3 * ( t.posx() - posx() + 1 ) );
-
         tripoint left = t.pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint target_pos = t.pos() + ( t.pos() - pos() );
         tripoint right = t.pos() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );
@@ -1581,7 +1583,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
                                    weap.tname().c_str() );
         }
 
-        sounds::sound( pos(), 16, "" );
+        sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!" );
         // Dump its contents on the ground
         for( auto &elem : weap.contents ) {
             g->m.add_item_or_charges( pos(), elem );
@@ -1787,9 +1789,9 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
-            message = tec.npc_message;
+            message = _( tec.npc_message.c_str() );
         } else {
-            message = tec.player_message;
+            message = _( tec.player_message.c_str() );
         }
         if( !message.empty() ) {
             return message;

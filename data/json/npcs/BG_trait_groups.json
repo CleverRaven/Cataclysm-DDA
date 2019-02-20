@@ -1,0 +1,148 @@
+[
+  {
+    "//": "This group picks out background traits that could apply to any survivor. Eventually these should be implemented as the catch-all for NPCs of an unknown class, eg those introduced by mods.",
+    "type": "trait_group",
+    "id": "BG_survival_story_UNIVERSAL",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "BGSS_Confused_1" },
+      { "trait": "BGSS_No_Past_1" },
+      { "trait": "BGSS_No_Past_2" },
+      { "trait": "BGSS_No_Past_3" },
+      { "trait": "BGSS_No_Past_4" },
+      { "trait": "BGSS_No_Past_5" },
+      { "trait": "BGSS_Religious_1" },
+      { "trait": "BGSS_Religious_2" },
+      { "trait": "BGSS_Dreamer" },
+      { "trait": "BGSS_Wedding_1" }
+    ]
+  },
+  {
+    "//": "This group picks out background traits for evacuees, and also includes survivors that should have evacuated but didn't. These backgrounds are not appropriate to rural survivors nor to emergency personnel who would not have been evacuated. Most other survivors should fit.",
+    "type": "trait_group",
+    "id": "BG_survival_story_EVACUEE",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Evacuee_1" },
+      { "trait": "BGSS_Evacuee_2" },
+      { "trait": "BGSS_Evacuee_3" },
+      { "trait": "BGSS_Evacuee_4" },
+      { "trait": "BGSS_Evacuee_5" },
+      { "trait": "BGSS_Evacuee_6" },
+      { "trait": "BGSS_FEMA_Evacuee_1" },
+      { "trait": "BGSS_Left_for_Dead_1" },
+      { "trait": "BGSS_Left_for_Dead_2" },
+      { "trait": "BGSS_Gung_Ho_1" },
+      { "trait": "BGSS_Gung_Ho_2" },
+      { "trait": "BGSS_Gung_Ho_3" },
+      { "trait": "BGSS_Prepper_1" },
+      { "trait": "BGSS_Prepper_2" },
+      { "trait": "BGSS_Out_of_Town_1" },
+      { "trait": "BGSS_Out_of_Town_2" },
+      { "trait": "BGSS_Lost_Partner_1" },
+      { "trait": "BGSS_Lost_Partner_2" },
+      { "trait": "BGSS_Codger" }
+    ]
+  },
+  {
+    "//": "This group is for NPCs that would have been out of town when the cataclysm hit.",
+    "type": "trait_group",
+    "id": "BG_survival_story_RURAL",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Gung_Ho_1" },
+      { "trait": "BGSS_Gung_Ho_2" },
+      { "trait": "BGSS_Gung_Ho_3" },
+      { "trait": "BGSS_Out_of_Town_1" },
+      { "trait": "BGSS_Out_of_Town_2" },
+      { "trait": "BGSS_Lost_Partner_1" },
+      { "trait": "BGSS_Hunter_1" },
+      { "trait": "BGSS_Hunter_2" },
+      { "trait": "BGSS_Rural_1" },
+      { "trait": "BGSS_Rural_2" },
+      { "trait": "BGSS_Codger" }
+    ]
+  },
+  {
+    "//": "This group is for NPCs that might need to explain why they didn't die working at the hospital.",
+    "type": "trait_group",
+    "id": "BG_survival_story_MEDICAL",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Hospital_1" },
+      { "trait": "BGSS_Hospital_2" },
+      { "trait": "BGSS_Hospital_3" }
+    ]
+  },
+  {
+    "//": "This group is for NPCs that would have been more likely to loot and riot than join the evacuation.",
+    "type": "trait_group",
+    "id": "BG_survival_story_CRIMINAL",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Gung_Ho_1" },
+      { "trait": "BGSS_Gung_Ho_2" },
+      { "trait": "BGSS_Gung_Ho_3" },
+      { "trait": "BGSS_Prepper_1" },
+      { "trait": "BGSS_Prepper_2" },
+      { "trait": "BGSS_Criminal_1" },
+      { "trait": "BGSS_Criminal_2" },
+      { "trait": "BGSS_Prisoner_1" }
+    ]
+  },
+  {
+    "//": "This group is for NPCs that might have been working the front lines during the cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_SOLDIER",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Soldier_1" }, { "trait": "BGSS_Soldier_2" } ]
+  },
+  {
+    "//": "This group is for NPCs that would have been attempting to maintain order during the cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_POLICE",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Cop_1" },
+      { "trait": "BGSS_Cop_2" },
+      { "trait": "BGSS_Cop_3" }
+    ]
+  },
+  {
+    "//": "This group is for NPCs that should be doing their homework instead of hunting zombies.",
+    "type": "trait_group",
+    "id": "BG_survival_story_TEENAGER",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Evacuee_1" },
+      { "trait": "BGSS_Evacuee_2" },
+      { "trait": "BGSS_Evacuee_3" },
+      { "trait": "BGSS_Evacuee_4" },
+      { "trait": "BGSS_Evacuee_5" },
+      { "trait": "BGSS_Evacuee_6" },
+      { "trait": "BGSS_High_School_1" },
+      { "trait": "BGSS_Burger_Flipper_1" },
+      { "trait": "BGSS_Nerd_1" }
+    ]
+  },
+  {
+    "//": "This group is for NPCs that worked in science, maybe in a lab, or maybe in a Lab. They don't necessarily know any more about the cataclysm than the rest of us.",
+    "type": "trait_group",
+    "id": "BG_survival_story_LAB",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Scientist_1" },
+      { "trait": "BGSS_Scientist_2" },
+      { "trait": "BGSS_Professor_1" },
+      { "trait": "BGSS_Grad_Student_1" },
+      { "trait": "BGSS_Lab_1" }
+    ]
+  }
+]

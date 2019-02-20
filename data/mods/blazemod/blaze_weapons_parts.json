@@ -87,7 +87,7 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "power": -5,
+    "power": -1750,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
     "location": "on_roof",
     "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
@@ -148,7 +148,7 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "power": -25,
+    "power": -8750,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
     "location": "on_roof",
     "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]

@@ -1,5 +1,12 @@
 #include "mapgen.h"
 
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <list>
+#include <random>
+#include <sstream>
+
 #include "ammo.h"
 #include "catalua.h"
 #include "computer.h"
@@ -10,6 +17,7 @@
 #include "enums.h"
 #include "game.h"
 #include "item_group.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -37,11 +45,6 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-
-#include <algorithm>
-#include <cassert>
-#include <list>
-#include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -101,14 +104,10 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-bool connects_to( const oter_id &there, int dir_from_here );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
 void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
-
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id t );
 
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
@@ -127,7 +126,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            setsubmap( get_nonant( gridx, gridy ), new submap() );
+            setsubmap( get_nonant( { gridx, gridy } ), new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -200,7 +199,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
             if( i <= 1 && j <= 1 ) {
                 saven( i, j, z );
             } else {
-                delete get_submap_at_grid( i, j, z );
+                delete get_submap_at_grid( { i, j, z } );
             }
         }
     }
@@ -242,23 +241,23 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup too
 {
     oter_mapgen_weights.clear();
-    for( auto oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
+    for( auto &omw : oter_mapgen ) {
         int funcnum = 0;
         int wtotal = 0;
-        oter_mapgen_weights[ oit->first ] = std::map<int, int>();
-        for( auto fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
+        oter_mapgen_weights[ omw.first ] = std::map<int, int>();
+        for( auto fit = omw.second.begin(); fit != omw.second.end(); ++fit ) {
             //
             int weight = ( *fit )->weight;
             if( weight < 1 ) {
-                dbg( D_INFO ) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
+                dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
                               wtotal;
                 ++funcnum;
                 continue; // rejected!
             }
             ( *fit )->setup();
             wtotal += weight;
-            oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
-            dbg( D_INFO ) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
+            oter_mapgen_weights[ omw.first ][ wtotal ] = funcnum;
+            dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): +" << weight << " = " << wtotal;
             ++funcnum;
         }
     }
@@ -266,6 +265,20 @@ void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup
     for( auto &pr : nested_mapgen ) {
         for( auto &ptr : pr.second ) {
             ptr->setup();
+        }
+    }
+}
+
+void check_mapgen_definitions()
+{
+    for( auto &oter_definition : oter_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
+        }
+    }
+    for( auto &oter_definition : nested_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
         }
     }
 }
@@ -457,8 +470,8 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
     : jdata( std::move( s ) )
     , do_format( false )
     , is_ready( false )
-    , mapgensize_x( 24 )
-    , mapgensize_y( 24 )
+    , mapgensize_x( SEEX * 2 )
+    , mapgensize_y( SEEY * 2 )
     , x_offset( 0 )
     , y_offset( 0 )
     , objects( 0, 0, mapgensize_x, mapgensize_y )
@@ -1288,6 +1301,98 @@ class jmapgen_computer : public jmapgen_piece
         }
 };
 
+/**
+ * Place an item in furniture (expected to be used with NOITEM SEALED furniture like plants).
+ * "item": item to spawn (object with usual parameters).
+ * "items": item group to spawn (object with usual parameters).
+ * "furniture": furniture to create around it.
+ */
+class jmapgen_sealed_item : public jmapgen_piece
+{
+    public:
+        furn_id furniture;
+        cata::optional<jmapgen_spawn_item> item_spawner;
+        cata::optional<jmapgen_item_group> item_group_spawner;
+        jmapgen_sealed_item( JsonObject &jsi ) : jmapgen_piece()
+            , furniture( jsi.get_string( "furniture" ) ) {
+            if( jsi.has_object( "item" ) ) {
+                JsonObject item_obj = jsi.get_object( "item" );
+                item_spawner = jmapgen_spawn_item( item_obj );
+            }
+            if( jsi.has_object( "items" ) ) {
+                JsonObject items_obj = jsi.get_object( "items" );
+                item_group_spawner = jmapgen_item_group( items_obj );
+            }
+        }
+
+        void check( const std::string &oter_name ) const override {
+            const furn_t &furn = furniture.obj();
+            std::string summary = string_format(
+                                      "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
+                                      oter_name, furn.id.str() );
+
+            if( !furniture.is_valid() ) {
+                debugmsg( "%s which is not valid furniture", summary );
+            }
+
+            if( !item_spawner && !item_group_spawner ) {
+                debugmsg( "%s specifies neither an item nor an item group.  "
+                          "It should specify at least one.",
+                          summary );
+                return;
+            }
+
+            if( furn.has_flag( "PLANT" ) ) {
+                // plant furniture requires exactly one seed item within it
+                if( item_spawner && item_group_spawner ) {
+                    debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
+                              "It should specify exactly one.",
+                              summary );
+                    return;
+                }
+
+                if( item_spawner ) {
+                    int count = item_spawner->amount.get();
+                    if( count != 1 ) {
+                        debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn exactly "
+                                  "one.", summary, count );
+                        return;
+                    }
+                    const itype *spawned_type = item::find_type( item_spawner->type );
+                    if( !spawned_type->seed ) {
+                        debugmsg( "%s (with flag PLANT) spawns item type %s which is not a seed.",
+                                  summary, spawned_type->get_id() );
+                        return;
+                    }
+                }
+
+                if( item_group_spawner ) {
+                    int chance = item_group_spawner->chance.get();
+                    if( chance != 100 ) {
+                        debugmsg( "%s (with flag PLANT) spawns an item group with chance %d.  "
+                                  "It should have chance 100.",
+                                  summary, chance );
+                        return;
+                    }
+
+                    /// @todo: Somehow check that the item group always produces exactly one seed.
+                }
+            }
+        }
+
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float mon_density ) const override {
+            dat.m.furn_set( x.get(), y.get(), f_null );
+            if( item_spawner ) {
+                item_spawner->apply( dat, x, y, mon_density );
+            }
+            if( item_group_spawner ) {
+                item_group_spawner->apply( dat, x, y, mon_density );
+            }
+            dat.m.furn_set( x.get(), y.get(), furniture );
+        }
+};
+
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
@@ -1394,9 +1499,9 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t mapsize_y )
-    : offset_x( off_x )
-    , offset_y( off_y )
+jmapgen_objects::jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_y )
+    : offset_x( offset_x )
+    , offset_y( offset_y )
     , mapgensize_x( mapsize_x )
     , mapgensize_y( mapsize_y )
 {}
@@ -1753,6 +1858,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
+    new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
 
     return new_pal;
@@ -1925,6 +2031,59 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
 
     is_ready = true; // skip setup attempts from any additional pointers
+}
+
+void mapgen_function_json::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
+}
+
+void mapgen_function_json_nested::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
+}
+
+void mapgen_function_json_base::check_common( const std::string &oter_name ) const
+{
+    auto check_furn = [&]( const furn_id & id ) {
+        const furn_t &furn = id.obj();
+        if( furn.has_flag( "PLANT" ) ) {
+            debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
+                      "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
+                      oter_name, furn.id.str() );
+            // Only report once per mapgen object, otherwise the reports are
+            // very repetitive
+            return true;
+        }
+        return false;
+    };
+
+    for( const ter_furn_id &id : format ) {
+        if( check_furn( id.furn ) ) {
+            return;
+        }
+    }
+
+    for( const jmapgen_setmap &setmap : setmap_points ) {
+        if( setmap.op != JMAPGEN_SETMAP_FURN &&
+            setmap.op != JMAPGEN_SETMAP_LINE_FURN &&
+            setmap.op != JMAPGEN_SETMAP_SQUARE_FURN ) {
+            continue;
+        }
+        furn_id id( setmap.val.get() );
+        if( check_furn( id ) ) {
+            return;
+        }
+    }
+
+    objects.check( oter_name );
+}
+
+void jmapgen_objects::check( const std::string &oter_name ) const
+{
+    for( const jmapgen_obj &obj : objects ) {
+        obj.second->check( oter_name );
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -3114,7 +3273,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                             ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
                             ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                            for( int i = 0; i <= 23; i++ ) {
+                            for( int i = 0; i < SEEX * 2; i++ ) {
                                 ter_set( 23, i, rw_type );
                                 furn_set( 23, i, f_null );
                                 i_clear( tripoint( 23, i, get_abs_sub().z ) );
@@ -3642,7 +3801,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                     ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
                     ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                    for( int i = 0; i <= 23; i++ ) {
+                    for( int i = 0; i < SEEX * 2; i++ ) {
                         ter_set( 23, i, rw_type );
                         furn_set( 23, i, f_null );
                         i_clear( tripoint( 23, i, get_abs_sub().z ) );
@@ -5262,8 +5421,8 @@ ___DEEE|.R.|...,,...|sss\n",
             add_spawn( mon_hazmatbot, 1, 10, 5 );
         }
         //lazy radiation mapping
-        for( int x = 0; x <= 23; x++ ) {
-            for( int y = 0; y <= 23; y++ ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            for( int y = 0; y < SEEY * 2; y++ ) {
                 adjust_radiation( x, y, rng( 10, 30 ) );
             }
         }
@@ -5332,8 +5491,8 @@ ___DEEE|.R.|...,,...|sss\n",
                 add_spawn( mon_hazmatbot, 1, 23, 18 );
             }
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5405,8 +5564,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             place_items( "office", 85,  11,  3, 13,  3, false, 0 );
             place_items( "office", 85,  17,  3, 19,  3, false, 0 );
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5470,8 +5629,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                 add_spawn( mon_hazmatbot, 1, 11, 16 );
             }
             //lazy radiation mapping
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     adjust_radiation( x, y, rng( 10, 30 ) );
                 }
             }
@@ -5537,8 +5696,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                             f_null,     f_null,                 f_null,    f_null,               f_null,
                                             f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                             f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-        for( int i = 0; i <= 23; i++ ) {
-            for( int j = 0; j <= 23; j++ ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
                 if( this->ter( i, j ) == t_rock_floor ) {
                     if( one_in( 250 ) ) {
                         add_item( i, j, item::make_corpse() );
@@ -5562,6 +5721,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     }
                     place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                     place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                    if( one_in( 40 ) ) {
+                        spawn_item( i, j, "nanomaterial", 1, 5 );
+                    }
                     if( one_in( 5 ) ) {
                         if( one_in( 10 ) ) {
                             add_spawn( mon_zombie_child, 1, i, j );
@@ -5625,8 +5787,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                                 f_null,     f_null,                 f_null,    f_null,               f_null,
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( i, j ) == f_rack ) {
                         place_items( "mechanics", 60,  i,  j, i,  j, false, 0 );
                     }
@@ -5653,6 +5815,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5712,8 +5877,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                                                 f_null,     f_null,                 f_null,    f_null,               f_null,
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->ter( i, j ) == t_rock_floor ) {
                         if( one_in( 250 ) ) {
                             add_item( i, j, item::make_corpse() );
@@ -5737,6 +5902,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 20 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5796,8 +5964,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                                                 f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                 f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet ) );
             spawn_item( 3, 16, "sarcophagus_access_code" );
-            for( int i = 0; i <= 23; i++ ) {
-                for( int j = 0; j <= 23; j++ ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( i, j ) == f_locker ) {
                         place_items( "cleaning", 60,  i,  j, i,  j, false, 0 );
                     }
@@ -5830,6 +5998,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         }
                         place_items( "trash", 50,  i,  j, i,  j, false, 0 );
                         place_items( "sewer", 50,  i,  j, i,  j, false, 0 );
+                        if( one_in( 40 ) ) {
+                            spawn_item( i, j, "nanomaterial", 1, 5 );
+                        }
                         if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
@@ -5886,7 +6057,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             for( int a = 0; a < 21; a++ ) {
                 vset.push_back( a );
             }
-            std::random_shuffle( vset.begin(), vset.end() );
+            std::shuffle( vset.begin(), vset.end(), rng_get_engine() );
             for( int a = 0; a < vnum; a++ ) {
                 if( vset[a] < 12 ) {
                     if( one_in( 2 ) ) {
@@ -6759,6 +6930,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }
@@ -6844,9 +7016,8 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y );
         return;
     }
-    int offset_x = 0;
-    int offset_y = 0;
-    submap *place_on_submap = get_submap_at( x, y, offset_x, offset_y );
+    point offset;
+    submap *place_on_submap = get_submap_at( { x, y }, offset );
 
     if( !place_on_submap ) {
         debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
@@ -6863,7 +7034,7 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset_x, offset_y, faction_id, mission_id, friendly, name );
+    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name );
     place_on_submap->spawns.push_back( tmp );
 }
 
@@ -6916,12 +7087,13 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     // that the mount at (0,0) is located at the spawn position.
     veh->precalc_mounts( 0, dir, point() );
     //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
-    vehicle *placed_vehicle = add_vehicle_to_map( std::move( veh ), merge_wrecks );
+    std::unique_ptr<vehicle> placed_vehicle_up =
+        add_vehicle_to_map( std::move( veh ), merge_wrecks );
+    vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy,
-                                  placed_vehicle->smz );
-        place_on_submap->vehicles.push_back( placed_vehicle );
+        submap *place_on_submap = get_submap_at_grid( { placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz} );
+        place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
 
         auto &ch = get_cache( placed_vehicle->smz );
@@ -6942,7 +7114,8 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
  * @param merge_wrecks Whether crashed vehicles become part of each other
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge_wrecks )
+std::unique_ptr<vehicle> map::add_vehicle_to_map(
+    std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
@@ -7018,7 +7191,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
             std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
 
             // Try again with the wreckage
-            vehicle *new_veh = add_vehicle_to_map( std::move( wreckage ), true );
+            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
             if( new_veh != nullptr ) {
                 new_veh->smash();
                 return new_veh;
@@ -7049,7 +7222,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
         veh->smash();
     }
 
-    return veh.release();
+    return veh;
 }
 
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
@@ -7079,7 +7252,7 @@ void map::rotate( int turns )
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
     // @todo: This radius can be smaller - how small?
-    const int radius = int( MAPSIZE / 2 ) + 3;
+    const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
                                          abs_sub.z, radius );
@@ -7133,7 +7306,7 @@ void map::rotate( int turns )
     int radrot [SEEX * 2][SEEY * 2];
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
-    std::vector<vehicle *> vehrot[MAPSIZE * MAPSIZE];
+    std::vector<std::unique_ptr<vehicle>> vehrot[MAPSIZE * MAPSIZE];
     std::vector<submap::cosmetic_t> cosmetics_rot[MAPSIZE * MAPSIZE];
     std::unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
@@ -7158,15 +7331,14 @@ void map::rotate( int turns )
                     new_y = old_x;
                     break;
             }
-            int new_lx = 0;
-            int new_ly = 0;
-            const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
+            point new_l;
+            const auto new_sm = get_submap_at( { new_x, new_y }, new_l );
             new_sm->is_uniform = false;
-            std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
-            std::swap( furnrot[old_x][old_y], new_sm->frn[new_lx][new_ly] );
-            std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
-            std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
-            std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
+            std::swap( rotated[old_x][old_y], new_sm->ter[new_l.x][new_l.y] );
+            std::swap( furnrot[old_x][old_y], new_sm->frn[new_l.x][new_l.y] );
+            std::swap( traprot[old_x][old_y], new_sm->trp[new_l.x][new_l.y] );
+            std::swap( fldrot[old_x][old_y], new_sm->fld[new_l.x][new_l.y] );
+            std::swap( radrot[old_x][old_y], new_sm->rad[new_l.x][new_l.y] );
             auto items = i_at( new_x, new_y );
             itrot[old_x][old_y].reserve( items.size() );
             // Copy items, if we move them, it'll wreck i_clear().
@@ -7178,64 +7350,64 @@ void map::rotate( int turns )
     //Next, spawn points and cosmetic strings
     for( int sx = 0; sx < 2; sx++ ) {
         for( int sy = 0; sy < 2; sy++ ) {
-            const auto from = get_submap_at_grid( sx, sy );
+            const auto from = get_submap_at_grid( { sx, sy } );
             size_t gridto = 0;
             switch( turns ) {
                 case 0:
-                    gridto = get_nonant( sx, sy );
+                    gridto = get_nonant( { sx, sy } );
                     break;
                 case 1:
-                    gridto = get_nonant( 1 - sy, sx );
+                    gridto = get_nonant( { 1 - sy, sx } );
                     break;
                 case 2:
-                    gridto = get_nonant( 1 - sx, 1 - sy );
+                    gridto = get_nonant( { 1 - sx, 1 - sy } );
                     break;
                 case 3:
-                    gridto = get_nonant( sy, 1 - sx );
+                    gridto = get_nonant( { sy, 1 - sx } );
                     break;
             }
             for( auto &spawn : from->spawns ) {
                 spawn_point tmp = spawn;
-                int new_x = tmp.posx;
-                int new_y = tmp.posy;
+                int new_x = tmp.pos.x;
+                int new_y = tmp.pos.y;
                 switch( turns ) {
                     case 1:
-                        new_x = SEEY - 1 - tmp.posy;
-                        new_y = tmp.posx;
+                        new_x = SEEY - 1 - tmp.pos.y;
+                        new_y = tmp.pos.x;
                         break;
                     case 2:
-                        new_x = SEEX - 1 - tmp.posx;
-                        new_y = SEEY - 1 - tmp.posy;
+                        new_x = SEEX - 1 - tmp.pos.x;
+                        new_y = SEEY - 1 - tmp.pos.y;
                         break;
                     case 3:
-                        new_x = tmp.posy;
-                        new_y = SEEX - 1 - tmp.posx;
+                        new_x = tmp.pos.y;
+                        new_y = SEEX - 1 - tmp.pos.x;
                         break;
                 }
-                tmp.posx = new_x;
-                tmp.posy = new_y;
+                tmp.pos.x = new_x;
+                tmp.pos.y = new_y;
                 sprot[gridto].push_back( tmp );
             }
             for( auto &cosm : from->cosmetics ) {
                 submap::cosmetic_t tmp = cosm;
-                int new_x = tmp.p.x;
-                int new_y = tmp.p.y;
+                int new_x = tmp.pos.x;
+                int new_y = tmp.pos.y;
                 switch( turns ) {
                     case 1:
-                        new_x = SEEY - 1 - tmp.p.y;
-                        new_y = tmp.p.x;
+                        new_x = SEEY - 1 - tmp.pos.y;
+                        new_y = tmp.pos.x;
                         break;
                     case 2:
-                        new_x = SEEX - 1 - tmp.p.x;
-                        new_y = SEEY - 1 - tmp.p.y;
+                        new_x = SEEX - 1 - tmp.pos.x;
+                        new_y = SEEY - 1 - tmp.pos.y;
                         break;
                     case 3:
-                        new_x = tmp.p.y;
-                        new_y = SEEX - 1 - tmp.p.x;
+                        new_x = tmp.pos.y;
+                        new_y = SEEX - 1 - tmp.pos.x;
                         break;
                 }
-                tmp.p.x = new_x;
-                tmp.p.y = new_y;
+                tmp.pos.x = new_x;
+                tmp.pos.y = new_y;
                 cosmetics_rot[gridto].push_back( tmp );
             }
             // as vehrot starts out empty, this clears the other vehicles vector
@@ -7249,9 +7421,9 @@ void map::rotate( int turns )
     // change vehicles' directions
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t i = get_nonant( gridx, gridy );
+            const size_t i = get_nonant( { gridx, gridy } );
             for( auto &v : vehrot[i] ) {
-                vehicle *veh = v;
+                vehicle *veh = v.get();
                 // turn the steering wheel, vehicle::turn does not actually
                 // move the vehicle.
                 veh->turn( turns * 90 );
@@ -7311,15 +7483,15 @@ void map::rotate( int turns )
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            int lx = 0;
-            int ly = 0;
-            const auto sm = get_submap_at( i, j, lx, ly );
+            point p( i, j );
+            point l;
+            const auto sm = get_submap_at( p, l );
             sm->is_uniform = false;
-            std::swap( rotated[i][j], sm->ter[lx][ly] );
-            std::swap( furnrot[i][j], sm->frn[lx][ly] );
-            std::swap( traprot[i][j], sm->trp[lx][ly] );
-            std::swap( fldrot[i][j], sm->fld[lx][ly] );
-            std::swap( radrot[i][j], sm->rad[lx][ly] );
+            std::swap( rotated[i][j], sm->ter[l.x][l.y] );
+            std::swap( furnrot[i][j], sm->frn[l.x][l.y] );
+            std::swap( traprot[i][j], sm->trp[l.x][l.y] );
+            std::swap( fldrot[i][j], sm->fld[l.x][l.y] );
+            std::swap( radrot[i][j], sm->rad[l.x][l.y] );
             for( auto &itm : itrot[i][j] ) {
                 add_item( i, j, itm );
             }
