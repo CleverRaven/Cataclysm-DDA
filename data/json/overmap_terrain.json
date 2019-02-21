@@ -10185,5 +10185,17 @@
     "copy-from": "generic_city_building",
     "sym": 70,
     "color": "green"
-  }
+  },
+  {
+		"type" : "overmap_terrain",
+	 	"id" : "craft_shop",
+		"name" : "Craft Shop",
+		"rotate" : true,
+		"sym" : 115,
+		"color" : "cyan",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true,
+		"flags" : [ "SIDEWALK" ]
+	}
 ]

@@ -626,7 +626,8 @@
         "s_vfw": 1,
         "s_daycare": 1,
         "s_thrift": 1,
-        "s_petstore": 1
+        "s_petstore": 1,
+        "craft_shop": 1
       }
     },
     "weather": {
