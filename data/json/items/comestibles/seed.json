@@ -407,7 +407,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "raw_lentil",
+    "id": "raw_lentils",
     "copy-from": "seed",
     "name": "raw lentils",
     "name_plural": "raw lentils",
@@ -420,9 +420,9 @@
     "fun": -1,
     "cooks_like": "lentils_cooked",
     "flags": [ "SMOKABLE" ],
-    "smoking_result": "dry_lentil",
+    "smoking_result": "dry_lentils",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ],
-    "seed_data": { "plant_name": "lentils", "fruit": "raw_lentil", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "lentils", "fruit": "raw_lentils", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
