@@ -407,7 +407,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "raw_lentils",
+    "id": "raw_lentil",
     "copy-from": "seed",
     "name": "raw lentils",
     "name_plural": "raw lentils",
@@ -419,9 +419,10 @@
     "price": 90,
     "fun": -1,
     "cooks_like": "lentils_cooked",
-    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
-    "smoking_result": "dry_beans",
-    "seed_data": { "plant_name": "lentils", "fruit": "raw_lentils", "byproducts": [ "withered" ], "grow": "91 days" }
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_lentil",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ],
+    "seed_data": { "plant_name": "lentils", "fruit": "raw_lentil", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
