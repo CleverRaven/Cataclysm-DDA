@@ -335,6 +335,7 @@
     "copy-from": "dry_lentil",
     "color": "light_gray",
     "spoils_in": "5 days",
+    "quench": 1,
     "description": "Some delicious cooked lentils. Humble but nutrient-rich.",
     "price": 0,
     "volume": 1,
