@@ -1821,34 +1821,42 @@ int Character::get_healthy_mod() const
 void Character::set_str_bonus( int nstr )
 {
     str_bonus = nstr;
+    str_cur = str_max + str_bonus;
 }
 void Character::set_dex_bonus( int ndex )
 {
     dex_bonus = ndex;
+    dex_cur = dex_max + dex_bonus;
 }
 void Character::set_per_bonus( int nper )
 {
     per_bonus = nper;
+    per_cur = per_max + per_bonus;
 }
 void Character::set_int_bonus( int nint )
 {
     int_bonus = nint;
+    int_cur = int_max + int_bonus;
 }
 void Character::mod_str_bonus( int nstr )
 {
     str_bonus += nstr;
+    str_cur = str_max + str_bonus;
 }
 void Character::mod_dex_bonus( int ndex )
 {
     dex_bonus += ndex;
+    dex_cur = dex_max + dex_bonus;
 }
 void Character::mod_per_bonus( int nper )
 {
     per_bonus += nper;
+    per_cur = per_max + per_bonus;
 }
 void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
+    int_cur = int_max + int_bonus;
 }
 
 void Character::set_healthy( int nhealthy )
