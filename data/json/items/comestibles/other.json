@@ -308,7 +308,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "dry_lentil",
+    "id": "dry_lentils",
     "name": "dried lentils",
     "weight": 132,
     "color": "light_gray",
@@ -332,7 +332,7 @@
     "name": "cooked lentils",
     "name_plural": "cooked lentils",
     "weight": 198,
-    "copy-from": "dry_lentil",
+    "copy-from": "dry_lentils",
     "color": "light_gray",
     "spoils_in": "5 days",
     "quench": 1,
