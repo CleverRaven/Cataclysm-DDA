@@ -1161,6 +1161,8 @@ std::string caravan_category_name( caravan_category cat )
             return _( "Clothing & Armor" );
         case CARAVAN_TOOLS:
             return _( "Tools, Traps & Grenades" );
+        case CARAVAN_BIONICS:
+            return _( "Bionics and Stuff" );
         case NUM_CARAVAN_CATEGORIES:
             break; // error message below
     }
@@ -1201,6 +1203,10 @@ std::vector<itype_id> caravan_items( caravan_category cat )
 
         case CARAVAN_TOOLS:
             item_list = item_group::items_from( "defense_caravan_tools" );
+            break;
+
+        case CARAVAN_BIONICS:
+            item_list = item_group::items_from( "defense_caravan_bionics" );
             break;
 
         case NUM_CARAVAN_CATEGORIES:

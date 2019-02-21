@@ -121,6 +121,7 @@ enum caravan_category {
     CARAVAN_FOOD,
     CARAVAN_CLOTHES,
     CARAVAN_TOOLS,
+    CARAVAN_BIONICS,
     NUM_CARAVAN_CATEGORIES
 };
 
