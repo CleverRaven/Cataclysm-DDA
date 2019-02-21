@@ -328,7 +328,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "cooked_lentil",
+    "id": "lentils_cooked",
     "name": "cooked lentils",
     "name_plural": "cooked lentils",
     "weight": 198,
