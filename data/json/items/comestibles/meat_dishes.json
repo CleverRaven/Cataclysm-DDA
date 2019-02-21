@@ -605,7 +605,7 @@
     "container": "can_food",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 100,
+    "calories": 400,
     "description": "Bright white chicken-paste.",
     "price": 400,
     "material": "flesh",
