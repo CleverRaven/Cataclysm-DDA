@@ -2528,6 +2528,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         int scaling_factor = get_scaling_factor();
         int TERMX = ::get_option<int>( "TERMINAL_X" );
         int TERMY = ::get_option<int>( "TERMINAL_Y" );
+        TERMX += TERMX % scaling_factor;
+        TERMY += TERMY % scaling_factor;
         get_option( "TERMINAL_X" ).setValue( std::max( 80 * scaling_factor, TERMX ) );
         get_option( "TERMINAL_Y" ).setValue( std::max( 24 * scaling_factor, TERMY ) );
         save();
@@ -2649,6 +2651,8 @@ void options_manager::load()
     }
     int TERMX = ::get_option<int>( "TERMINAL_X" );
     int TERMY = ::get_option<int>( "TERMINAL_Y" );
+    TERMX += TERMX % scaling_factor;
+    TERMY += TERMY % scaling_factor;
     get_option( "TERMINAL_X" ).setValue( std::max( 80 * scaling_factor, TERMX ) );
     get_option( "TERMINAL_Y" ).setValue( std::max( 24 * scaling_factor, TERMY ) );
     save();
