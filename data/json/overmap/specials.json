@@ -2066,7 +2066,7 @@
     "locations" : [ "land" ],
     "city_distance" : [10, -1],
     "city_sizes" : [ 4, 12 ],
-    "occurrences" : [ 0, 1 ],
+    "occurrences" : [ 1, 5 ],
     "flags" : [ "UNIQUE" ]
   },{
     "type" : "overmap_special",
@@ -2103,7 +2103,7 @@
     "locations" : [ "land" ],
     "city_distance" : [10, -1],
     "city_sizes" : [ 4, 12 ],
-    "occurrences" : [ 0, 1 ],
+    "occurrences" : [ 1, 5 ],
     "flags" : [ "UNIQUE" ]
   },{
     "type": "overmap_special",
