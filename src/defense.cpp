@@ -973,7 +973,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                     item_selected = 0;
                     offset = 0;
                 }
-                if( item_selected > offset + 22 ) {
+                if( item_selected > offset + 12 ) {
                     offset++;
                 }
                 draw_caravan_items( w, &( items[category_selected] ),
@@ -1003,7 +1003,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                     item_selected--;
                 } else {
                     item_selected = items[category_selected].size() - 1;
-                    offset = item_selected - 22;
+                    offset = item_selected - 12;
                     if( offset < 0 ) {
                         offset = 0;
                     }
