@@ -386,8 +386,8 @@ void WinCreate()
     if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
-        TERMINAL_WIDTH = WindowWidth / fontwidth;
-        TERMINAL_HEIGHT = WindowHeight / fontheight;
+        TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
+        TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
     }
 #endif
     // Initialize framebuffer caches
@@ -1460,8 +1460,8 @@ bool handle_resize(int w, int h)
 
 void toggle_fullscreen_window()
 {
-    static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth;
-    static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
+    static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth * scaling_factor;
+    static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight * scaling_factor;
 
     if ( fullscreen ) {
         if( printErrorIf( SDL_SetWindowFullscreen( window.get(), 0 ) != 0, "SDL_SetWindowFullscreen failed" ) ) {
@@ -1469,7 +1469,7 @@ void toggle_fullscreen_window()
         }
         SDL_RestoreWindow( window.get() );
         SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
-        SDL_SetWindowMinimumSize( window.get(), fontwidth * 80, fontheight * 24 );
+        SDL_SetWindowMinimumSize( window.get(), fontwidth * 80 * scaling_factor, fontheight * 24 * scaling_factor );
     } else {
         restore_win_w = WindowWidth;
         restore_win_h = WindowHeight;
