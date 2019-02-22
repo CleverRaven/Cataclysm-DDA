@@ -9948,7 +9948,20 @@ void game::wield( item_location &loc )
         add_msg( m_info, "%s", ret.c_str() );
     }
 
-    u.wield( u.i_at( loc.obtain( u ) ) );
+    // Can't use loc.obtain() here because that would cause things to spill.
+    // The item_location gets invalidated if wielding an item from the inventory due to updating of
+    // the cache, so we have to use u.i_rem() instead to avoid a debug message.
+    const item *target = loc.get_item();
+    item to_wield = *target;
+    bool from_inventory = loc.where() == item_location::type::character;
+    if( u.wield( to_wield ) ) {
+        u.mod_moves( -loc.obtain_cost( u ) );
+        if( from_inventory ) {
+            u.i_rem( target );
+        } else {
+            loc.remove_item();
+        }
+    }
 }
 
 void game::wield()

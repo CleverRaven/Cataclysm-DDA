@@ -1292,7 +1292,7 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
         }
     }
     add_msg( _( "The pedestal sinks into the ground..." ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous griding noise...") );
+    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise...") );
     g->m.ter_set(examp, t_rock_floor);
     g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 5_turns, 10_turns ) );
 }
@@ -4350,6 +4350,12 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     }
 }
 
+void iexamine::open_safe( player &, const tripoint &examp )
+{
+    add_msg( m_info, _( "You open the unlocked safe. " ) );
+    g->m.furn_set( examp, f_safe_o );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -4426,7 +4432,8 @@ iexamine_function iexamine_function_from_string(const std::string &function_name
         { "kiln_full", &iexamine::kiln_full },
         { "climb_down", &iexamine::climb_down },
         { "autodoc", &iexamine::autodoc },
-        { "smoker_options", &iexamine::smoker_options }
+        { "smoker_options", &iexamine::smoker_options },
+        { "open_safe", &iexamine::open_safe }
     }};
 
     auto iter = function_map.find( function_name );

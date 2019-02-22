@@ -911,7 +911,7 @@ rl_vec2d convert_wind_to_coord( const int angle )
 
     float fx, fy;
     rl_vec2d windvec;
-    fy = cos( angle * M_PI / 180.0f );
+    fy = -cos( angle * M_PI / 180.0f );
     fx = sin( angle * M_PI / 180.0f );
     int roundedx;
     int roundedy;

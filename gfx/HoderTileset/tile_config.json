@@ -653,12 +653,12 @@
             "rotates":false
         },
         {
-            "id": [ "t_door_c", "t_door_lab_c" ],
+            "id": [ "t_door_c", "t_door_lab_c", "t_door_red_c", "t_door_green_c", "t_door_white_c", "t_door_gray_c" ],
             "fg":74,
             "rotates":false
         },
         {
-            "id": [ "t_door_b", "t_door_lab_b" ],
+            "id": [ "t_door_b", "t_door_lab_b", "t_door_red_b", "t_door_green_b", "t_door_white_b", "t_door_gray_b" ],
             "fg":78,
             "rotates":false
         },
@@ -666,6 +666,30 @@
             "id":"t_door_o",
             "fg":75,
             "bg":11,
+            "rotates":false
+        },
+        {
+            "id":"t_door_red_o",
+            "fg":75,
+            "bg":429,
+            "rotates":false
+        },
+        {
+            "id":"t_door_green_o",
+            "fg":75,
+            "bg":430,
+            "rotates":false
+        },
+        {
+            "id":"t_door_white_o",
+            "fg":75,
+            "bg":53,
+            "rotates":false
+        },
+        {
+            "id":"t_door_gray_o",
+            "fg":75,
+            "bg":53,
             "rotates":false
         },
         {
@@ -693,6 +717,30 @@
             "id":"t_door_frame",
             "fg":76,
             "bg":11,
+            "rotates":false
+        },
+        {
+            "id":"t_door_red_frame",
+            "fg":76,
+            "bg":429,
+            "rotates":false
+        },
+        {
+            "id":"t_door_green_frame",
+            "fg":76,
+            "bg":430,
+            "rotates":false
+        },
+        {
+            "id":"t_door_white_frame",
+            "fg":76,
+            "bg":53,
+            "rotates":false
+        },
+        {
+            "id":"t_door_gray_frame",
+            "fg":76,
+            "bg":53,
             "rotates":false
         },
         {
@@ -783,7 +831,7 @@
             "rotates":false
         },
         {
-            "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_door_glass_c", "t_reinforced_door_glass_lab_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c" ],
+            "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_door_glass_c", "t_reinforced_door_glass_lab_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c", "t_door_glass_red_c", "t_door_glass_green_c", "t_door_glass_white_c", "t_door_glass_gray_c" ],
             "fg":358,
             "rotates":false
         },
@@ -797,6 +845,24 @@
             "id": [ "t_door_glass_lab_o", "t_door_glass_frosted_lab_o", "t_reinforced_door_glass_lab_o" ],
             "fg":359,
             "bg":82,
+            "rotates":false
+        },
+        {
+            "id": "t_door_glass_red_o",
+            "fg":359,
+            "bg":429,
+            "rotates":false
+        },
+        {
+            "id": "t_door_glass_green_o",
+            "fg":359,
+            "bg":430,
+            "rotates":false
+        },
+        {
+            "id": [ "t_door_glass_white_o", "t_door_glass_gray_o" ],
+            "fg":359,
+            "bg":53,
             "rotates":false
         },
         {
@@ -1539,6 +1605,21 @@
             "id":"t_rope_up",
             "bg":3,
             "fg":88,
+            "rotates":false
+        },
+        {
+            "id":"t_carpet_red",
+            "bg":429,
+            "rotates":false
+        },
+        {
+            "id":"t_carpet_green",
+            "bg":430,
+            "rotates":false
+        },
+        {
+            "id": [ "t_linoleum_gray", "t_linoleum_white" ],
+            "bg":53,
             "rotates":false
         },
         {
