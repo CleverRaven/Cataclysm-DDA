@@ -599,7 +599,7 @@
     "type": "COMESTIBLE",
     "id": "can_chicken",
     "name": "canned chicken",
-    "weight": 216,
+    "weight": 54,
     "color": "pink",
     "spoils_in": "1 day",
     "container": "can_food",
@@ -610,6 +610,7 @@
     "price": 400,
     "material": "flesh",
     "volume": 1,
+    "charges": 4,
     "fun": 1,
     "vitamins": [ [ "vitA", 3 ], [ "iron", 4 ], [ "vitB", 22 ] ],
     "rot_spawn": "GROUP_CARRION"
