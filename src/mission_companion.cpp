@@ -78,8 +78,6 @@ void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
-bool display_and_choose_opts( mission_data &mission_key, npc &p, const std::string &id,
-                              const std::string &title );
 bool handle_outpost_mission( mission_entry &cur_key, npc &p );
 }
 
@@ -87,40 +85,34 @@ void talk_function::companion_mission( npc &p )
 {
     mission_data mission_key;
 
-    std::string id = p.companion_mission_role_id;
+    std::string role_id = p.companion_mission_role_id;
+    const tripoint omt_pos = p.global_omt_location();
     std::string title = _( "Outpost Missions" );
-    if( id == "FACTION_CAMP" ) {
-        title = _( "Base Missions" );
-        camp_missions( mission_key, p );
+    if( role_id == "SCAVENGER" ) {
+        title = _( "Junk Shop Missions" );
+        scavenger_patrol( mission_key, p );
+        if( p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+            scavenger_raid( mission_key, p );
+        }
+    } else if( role_id == "COMMUNE CROPS" ) {
+        title = _( "Agricultural Missions" );
+        commune_farmfield( mission_key, p );
+        commune_forage( mission_key, p );
+        commune_refuge_caravan( mission_key, p );
+    } else if( role_id == "FOREMAN" ) {
+        title = _( "Construction Missions" );
+        commune_menial( mission_key, p );
+        if( p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+            commune_carpentry( mission_key, p );
+        }
+    } else if( role_id == "REFUGEE MERCHANT" ) {
+        title = _( "Free Merchant Missions" );
+        commune_refuge_caravan( mission_key, p );
     } else {
-        if( id == "SCAVENGER" ) {
-            title = _( "Junk Shop Missions" );
-            scavenger_patrol( mission_key, p );
-            if( p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
-                scavenger_raid( mission_key, p );
-            }
-        } else if( id == "COMMUNE CROPS" ) {
-            title = _( "Agricultural Missions" );
-            commune_farmfield( mission_key, p );
-            commune_forage( mission_key, p );
-            commune_refuge_caravan( mission_key, p );
-        } else if( id == "FOREMAN" ) {
-            title = _( "Construction Missions" );
-            commune_menial( mission_key, p );
-            if( p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
-                commune_carpentry( mission_key, p );
-            }
-        } else if( id == "REFUGEE MERCHANT" ) {
-            title = _( "Free Merchant Missions" );
-            commune_refuge_caravan( mission_key, p );
-        }
+        return;
     }
-    if( display_and_choose_opts( mission_key, p, id, title ) ) {
-        if( id == "FACTION_CAMP" ) {
-            handle_camp_mission( mission_key.cur_key, p );
-        } else {
-            handle_outpost_mission( mission_key.cur_key, p );
-        }
+    if( display_and_choose_opts( mission_key, omt_pos, role_id, title ) ) {
+        handle_outpost_mission( mission_key.cur_key, p );
     }
 }
 
@@ -345,8 +337,8 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     }
 }
 
-bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
-        const std::string &id, const std::string &title )
+bool talk_function::display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,
+        const std::string &role_id, const std::string &title )
 {
     if( mission_key.entries.empty() ) {
         popup( _( "There are no missions at this colony.  Press Spacebar..." ) );
@@ -354,7 +346,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
     }
 
     int TITLE_TAB_HEIGHT = 0;
-    if( id == "FACTION_CAMP" ) {
+    if( role_id == "FACTION_CAMP" ) {
         TITLE_TAB_HEIGHT = 1;
     }
 
@@ -412,7 +404,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
         if( redraw ) {
             werase( w_list );
             draw_border( w_list );
-            mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( p, id, title, tab_mode ) );
+            mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( omt_pos, role_id, title,
+                       tab_mode ) );
 
             calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
 
@@ -441,7 +434,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
             fold_and_print( w_info, 0, 0, maxlength, c_white, mission_key.cur_key.text );
             wrefresh( w_info );
 
-            if( id == "FACTION_CAMP" ) {
+            if( role_id == "FACTION_CAMP" ) {
                 werase( w_tabs );
                 draw_camp_tabs( w_tabs, tab_mode, mission_key.entries );
                 wrefresh( w_tabs );
@@ -465,7 +458,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
                 sel--;
             }
             redraw = true;
-        } else if( action == "NEXT_TAB" && id == "FACTION_CAMP" ) {
+        } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
@@ -479,7 +472,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, npc &p,
                     cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
-        } else if( action == "PREV_TAB" && id == "FACTION_CAMP" ) {
+        } else if( action == "PREV_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
@@ -579,11 +572,20 @@ bool talk_function::handle_outpost_mission( mission_entry &cur_key, npc &p )
     return true;
 }
 
-std::shared_ptr<npc> talk_function::individual_mission( npc &p, const std::string &desc,
+npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
         const std::string &miss_id, bool group, const std::vector<item *> &equipment,
         const std::string &skill_tested, int skill_level )
 {
-    std::shared_ptr<npc> comp = companion_choose( skill_tested, skill_level );
+    const tripoint omt_pos = p.global_omt_location();
+    return individual_mission( omt_pos, p.companion_mission_role_id, desc, miss_id, group,
+                               equipment, skill_tested, skill_level );
+}
+npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
+        const std::string &role_id, const std::string &desc,
+        const std::string &miss_id, bool group, const std::vector<item *> &equipment,
+        const std::string &skill_tested, int skill_level )
+{
+    npc_ptr comp = companion_choose( skill_tested, skill_level );
     if( comp == nullptr ) {
         return comp;
     }
@@ -602,7 +604,7 @@ std::shared_ptr<npc> talk_function::individual_mission( npc &p, const std::strin
         g->m.unboard_vehicle( comp->pos() );
     }
     popup( "%s %s", comp->name, desc );
-    comp->set_companion_mission( p, miss_id );
+    comp->set_companion_mission( omt_pos, role_id, miss_id );
     if( group ) {
         comp->companion_mission_time = calendar::before_time_starts;
     } else {
@@ -613,33 +615,9 @@ std::shared_ptr<npc> talk_function::individual_mission( npc &p, const std::strin
     return comp;
 }
 
-std::vector<item *> talk_function::individual_mission_give_equipment( std::vector<item *> equipment,
-        const std::string &message )
-{
-    std::vector<item *> equipment_lost;
-    do {
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-
-        std::vector<std::string> names;
-        for( auto &i : equipment ) {
-            names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
-        }
-
-        // Choose item if applicable
-        const int i_index = uilist( message, names );
-        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
-            return equipment_lost;
-        }
-        equipment_lost.push_back( equipment[i_index] );
-        equipment.erase( equipment.begin() + i_index );
-    } while( !equipment.empty() );
-    return equipment_lost;
-}
-
 void talk_function::caravan_depart( npc &p, const std::string &dest, const std::string &id )
 {
-    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
+    std::vector<npc_ptr> npc_list = companion_list( p, id );
     int distance = caravan_dist( dest );
     time_duration time = 20_minutes + distance * 10_minutes;
     popup( _( "The caravan departs with an estimated total travel time of %d hours..." ),
@@ -663,7 +641,7 @@ int talk_function::caravan_dist( const std::string &dest )
 
 void talk_function::caravan_return( npc &p, const std::string &dest, const std::string &id )
 {
-    std::shared_ptr<npc> comp = companion_choose_return( p, id, calendar::turn );
+    npc_ptr comp = companion_choose_return( p, id, calendar::turn );
     if( comp == nullptr ) {
         return;
     }
@@ -1696,17 +1674,17 @@ void talk_function::companion_return( npc &comp )
     g->reload_npcs();
 }
 
-std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p,
-                               const std::string &id, bool contains )
+std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::string &mission_id,
+        bool contains )
 {
-    std::vector<std::shared_ptr<npc>> available;
+    std::vector<npc_ptr> available;
     const tripoint omt_pos = p.global_omt_location();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( c_mission.position == omt_pos &&
-            c_mission.mission_id == id && c_mission.role_id == p.companion_mission_role_id ) {
+        if( c_mission.position == omt_pos && c_mission.mission_id == mission_id &&
+            c_mission.role_id == p.companion_mission_role_id ) {
             available.push_back( elem );
-        } else if( contains && c_mission.mission_id.find( id ) != std::string::npos ) {
+        } else if( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) {
             available.push_back( elem );
         }
     }
@@ -1740,7 +1718,7 @@ int companion_industry_rank( const npc &p )
     return industry * std::min( p.get_int(), 32 ) / 8 ;
 }
 
-bool companion_sort_compare( const std::shared_ptr<npc> &first, const std::shared_ptr<npc> &second )
+bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )
 {
     return companion_combat_rank( *first ) > companion_combat_rank( *second );
 }
@@ -1757,7 +1735,7 @@ comp_list talk_function::companion_sort( comp_list available, const std::string 
             this->skill_tested = skill_tested;
         }
 
-        bool operator()( const std::shared_ptr<npc> &first, const std::shared_ptr<npc> &second ) {
+        bool operator()( const npc_ptr &first, const npc_ptr &second ) {
             return first->get_skill_level( skill_id( skill_tested ) ) > second->get_skill_level(
                        skill_id( skill_tested ) );
         }
@@ -1862,15 +1840,23 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
     return available[npc_choice];
 }
 
-std::shared_ptr<npc> talk_function::companion_choose_return( const npc &p, const std::string &id,
+npc_ptr talk_function::companion_choose_return( const npc &p, const std::string &mission_id,
         const time_point &deadline )
 {
-    std::vector<std::shared_ptr<npc>> available;
     const tripoint omt_pos = p.global_omt_location();
-    for( std::shared_ptr<npc> &guy : overmap_buffer.get_companion_mission_npcs() ) {
+    const std::string &role_id = p.companion_mission_role_id;
+    return companion_choose_return( omt_pos, role_id, mission_id, deadline );
+}
+npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
+        const std::string &role_id,
+        const std::string &mission_id,
+        const time_point &deadline )
+{
+    std::vector<npc_ptr> available;
+    for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.position != omt_pos ||
-            c_mission.mission_id != id || c_mission.role_id != p.companion_mission_role_id ) {
+            c_mission.mission_id != mission_id || c_mission.role_id != role_id ) {
             continue;
         }
         if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {

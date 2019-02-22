@@ -84,7 +84,7 @@
     "type": "talk_topic",
     "dynamic_line": "Hey Boss...",
     "responses": [
-      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } },
+      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
       { "text": "We're abandoning this camp.", "topic": "TALK_DONE", "effect": "remove_overseer" },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]

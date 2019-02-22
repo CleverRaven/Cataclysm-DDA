@@ -72,11 +72,14 @@ namespace talk_function
  * adventures or tasks.  This is not meant to be a replacement for the existing system.
  */
 
-void camp_missions( mission_data &mission_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
-
 //Identifies which mission set the NPC draws from
-void companion_mission( npc & );
+void companion_mission( npc &p );
+void basecamp_mission( npc &p );
+
+// Display the available missions and let the player choose one
+bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,
+                              const std::string &role_id, const std::string &title );
+
 /**
  * Send a companion on an individual mission or attaches them to a group to depart later
  * Set @ref submap_coords and @ref pos.
@@ -88,8 +91,12 @@ void companion_mission( npc & );
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
-npc_ptr individual_mission( npc &p, const std::string &desc,
-                            const std::string &miss_id, bool group = false, const std::vector<item *> &equipment = {},
+npc_ptr individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
+                            bool group = false, const std::vector<item *> &equipment = {},
+                            const std::string &skill_tested = "", int skill_level = 0 );
+npc_ptr individual_mission( const tripoint &omt_pos, const std::string &role_id,
+                            const std::string &desc, const std::string &miss_id,
+                            bool group = false, const std::vector<item *> &equipment = {},
                             const std::string &skill_tested = "", int skill_level = 0 );
 ///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
 std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
@@ -134,11 +141,15 @@ npc_ptr temp_npc( const string_id<npc_template> &type );
 //Utility functions
 /// Returns npcs that have the given companion mission.
 comp_list companion_list( const npc &p, const std::string &mission_id, bool contains = false );
+comp_list companion_list( const tripoint &omt_pos, const std::string &role_id,
+                          const std::string &mission_id, bool contains = false );
 comp_list companion_sort( comp_list available, const std::string &skill_tested = "" );
 std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = true );
 npc_ptr companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
 npc_ptr companion_choose_return( const npc &p, const std::string &mission_id,
                                  const time_point &deadline );
+npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id, const time_point &deadline );
 
 //Return NPC to your party
 void companion_return( npc &comp );
