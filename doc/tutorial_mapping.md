@@ -89,21 +89,20 @@ There, now we have the start of a JSON file. Now let's put some shit in it. I'm 
 Let's go through that line-by-line.
 > I'm not going to help you too much with the JSON, I'm assuming you can follow along or read another guide. Basically, everything but numbers is enclosed in quotes, and you need a comma at the end of each item unless you're going to put in a closing } or ]. From there you can either blunder your way through like I did or get some help elsewhere. Clean up your code in http://dev.narc.ro/cataclysm/format.html to get it looking pretty, and if that says something useless like "syntax error" you could try www.jsonlint.com to tell you what error you actually have.
 
-**"type": "mapgen",
-"method": "json",** = This is a mapgen file in JSON. Tells the game how to read it. Critical.
-**"om_terrain":** = In this space you'll tell the game what this map is called on the overmap. Later on I'll show you how to make the overmap spawn list call on the map, based on the name you give it here.
-**"object":** = Everything between the upcoming { and closing } is going to be the map file itself. Everything before this entry is collectively all metadata about the map, ie. ways to tell the game how to handle it.
-**"fill_ter": "TK",** = "fill terrain". This is a huge timesaving measure that makes your maps much more robust. This tells the game "if I didn't tell you what kind of terrain to put in this tile, use the fill terrain". If you have a map with interiors, make sure this is whatever the most common floor you use is. Otherwise, just make it whatever the most common terrain type on your map is.
-**"rows": [** = This is the map itself. Currently our map is a 24x24 blank area. Everything between those [ ] is going to be a map.
-**"terrain": { "TK": "TK_id" },
-"furniture": { "TK": "TK_id" }** = These are going to tell the game what our letters and numbers and ~s mean. Let's define those now.
+- **"type": "mapgen", "method": "json",** = This is a mapgen file in JSON. Tells the game how to read it. Critical.
+- **"om_terrain":** = In this space you'll tell the game what this map is called on the overmap. Later on I'll show you how to make the overmap spawn list call on the map, based on the name you give it here.
+- **"object":** = Everything between the upcoming { and closing } is going to be the map file itself. Everything before this entry is collectively all metadata about the map, ie. ways to tell the game how to handle it.
+- **"fill_ter": "TK",** = "fill terrain". This is a huge timesaving measure that makes your maps much more robust. This tells the game "if I didn't tell you what kind of terrain to put in this tile, use the fill terrain". If you have a map with interiors, make sure this is whatever the most common floor you use is. Otherwise, just make it whatever the most common terrain type on your map is.
+- **"rows": [** = This is the map itself. Currently our map is a 24x24 blank area. Everything between those [ ] is going to be a map.
+- **"terrain": { "TK": "TK_id" }, "furniture": { "TK": "TK_id" }** = These are going to tell the game what our letters and numbers and ~s mean. Let's define those now.
 
 ### Defining Terrain and Furniture
 We're going to be making a map that goes out in the field, so our main terrain types are going to be t_dirt, t_grass, t_grass_long, and t_grass_tall. We're going to make a rough circle of long and tall grass surrounded by dirt and short grass, with scattered rocks here and there.
 
 Before we get going let's name our map "tall_grass_patch".
-```"om_terrain": [ "tall_grass_patch" ],```
-
+```
+"om_terrain": [ "tall_grass_patch" ],
+```
 
 Let's start with some easy definitions.
 ```
@@ -182,29 +181,102 @@ Needs work.
 I want a blobby shape in the middle made of bars, dithering out with semicolons, then commas, then periods, then spaces. I want to intersperse some boulders at random. Let's check this out. I'm going to load up my map in my text editor, change my cursor to "insert" mode, and just type kinda randomly on top of the map.
 ```
         "         ...            ",
-        "     ..........         ",
-        "   ...............      ",
-        "   .................    ",
-        "   ...................  ",
-        "  ..................... ",
-        "  ....................  ",
-        "   ..................   ",
-        "   .................    ",
-        "   ..................   ",
-        "  ..................... ",
-        "  ..................... ",
-        "   ..................   ",
-        "   ...................  ",
-        "    ................... ",
-        "    ................... ",
-        "   .................... ",
-        "  ..................... ",
-        "   .................... ",
-        "  ..................... ",
-        "  ...................   ",
+        "     .....,,...         ",
+        "   ...,,,;;;;,....      ",
+        "   .,,,;;;|||;;;,,,.    ",
+        "   ...,,;;||||;,,,,,..  ",
+        "  ..,,,;;;|||;;;;,,,,.. ",
+        "  ....,,,;;;;;;,,,,,..  ",
+        "   ......,,;;;;,,,,..   ",
+        "   ..,,,,,,,;;,,,...    ",
+        "   ....,,,;;,,,......   ",
+        "  ..,,,,;;||;;;,,,,,... ",
+        "  ....,,,,;;;;,,,,..... ",
+        "   .....,,,;;,,,.....   ",
+        "   ...,,,,;;||;;,,,...  ",
+        "    ....,;;||||;;,..... ",
+        "    ..,,,;;||||;;,,,,,. ",
+        "   ....,,;;||||;;,,,,.. ",
+        "  ...,,,,;;;||;;;,,,,.. ",
+        "   ...,,,,;;;;;,,,,,... ",
+        "  ......,,,,,,,,,...... ",
+        "  .........,,,.......   ",
         "     .............      ",
         "                        ",
         "                        "
 ```
 
-TK: Out of typing time, back soon
+As you can see, I settled on three central bits where tall grass is guaranteed, each surrounded by a margin that will be mixed tall and long grass, then mixed long and short grass, et cetera.  What I haven't done yet is boulders, and I'll explain why in a sec. First let's see how this renders up.
+
+TK: Image here.
+Not bad, I'm cool with that.
+
+Now, boulders. When I showed you how to design boulders, what I wasn't thinking of was that I really would like boulders to appear randomly throughout the map, not in pre-placed locations. So, I'm going to go back and do something crazy. I'm going to delete my "b" and "B" entries in furniture, and change my furniture to look like this. (brace yourselves, this will be ugly).
+
+```
+"furniture": {
+  " ": [ "f_boulder_small", "f_boulder_medium", "f_boulder_large", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null" ],
+  ".": [ -exactly the same stuff- ],
+  ",":  [ -exactly the same stuff- ],
+  ";":  [ -exactly the same stuff- ],
+  "|":  [ -exactly the same stuff- ]
+}
+```
+
+This horrifying mess is a temporary solution to a problem we're working on, which is that I can't define frequency of a terrain type appearing. Ugh. In the meantime I have three entries for the different boulder types, and twenty-seven entries for null, ie. no furniture. I've defined this for every terrain type I've defined, so my map will randomly place a boulder in 3/30 terrain tiles all over.  I suspect that will be too many boulders. There are 576 overmap tiles, so that will produce around 60 boulders in this scene. Well, let's see how it looks first.
+
+TK: Screenshot and commentary.
+
+All right. We're now done that map. The question is, how do we get it in game?
+
+### Adding your map to the overmap spawn list
+Let's navigate our way over to /data/json/overmap_terrain.json and open that file in our text editor. You'll see a whole bunch overmap terrain entries (a shock, I know).  Use your search function to find the phrase: 
+```
+"id": "field",
+```
+We're going to copy that entry, I'll explain what's in it, and then we'll add our new entry in.
+
+```
+  {
+    "type": "overmap_terrain",
+    "id": "field",
+    "name": "field",
+    "sym": 46,
+    "color": "brown",
+    "see_cost": 2,
+    "extras": "field",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "NO_ROTATE" ]
+  },
+```
+- **"type": "overmap_terrain",** = Same as the similar entry in our mapgen file, this tells the game we're making an overmap terrain entry. Necessary.
+- **"id": "field",** = This is the unique ID of the terrain entry from our mapgen file! Well, *this* isn't. This is "field". We don't want to make another field, so we'll replace that.
+- **"name": "field",** = This is the NON unique name that will be displayed to the player. In this case, we are going to keep the name "field", because we want our new map extra to appear to be just another normal field tile.
+- **"sym": 46,** = This is the ASCII tile the map will use. http://www.asciitable.com/ is a good quick reference for which tiles are which. 46 is a period. That's why field tiles are represented in game with a period.
+- **"color": "brown",** = I'm gonna get technical here: this is the colour that the game uses to display the tile. I don't know if there's a master list of colour choices, but most common colour names work. If there is I will link it here for you some time.
+- **"see_cost": 2,** = This tells the game how hard it is to see past this overmap tile. It helps determine how far you can explore. Don't just set this to some arbitrary number, copy an existing value from a similar overmap type - buildings for buildings, forest for treeish things, or 2 for an open field like we're about to add.
+- **"extras": "field",** = This tells the game that any map extras that belong in "fields" can spawn in our map tile type. We want that, because we want stuff like crashed helicopters to be able to crash in our grassy field too.
+- **"spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },** = This is a cool one. This tells the game what monsters can spawn in our tile. GROUP_FOREST is probably defined in monstergroup.json at the time of this writing, but that file is a damned mess so it might not be there when you're doing this. Check out monstergroup.json, and the subfolder json/monstergroups/ for a file that might apply to your region. Or use the "search multiple files" option in your fancy text editor for "id": "GROUP_FOREST" to find the file wherever it is. Chances are that if you want a monstergroup, there already is a good spawn group for your needs. Gonna be honest with you here, I don't know exactly how "population" and "chance" work. At some point I'll get a pro to break that down for us, but for our purposes here we'll do what I usually do: copy the spawn information from a location that is about what we want. This is generally a great idea anyway, because it keeps your location from being suddenly monsterrific compared to other similar areas.
+- **"flags": [ "NO_ROTATE" ]** = Sometimes you don't want your tile to rotate. We don't care if our tile rotates, so we'll delete that.
+ 
+ So now we have:
+ ```
+   {
+    "type": "overmap_terrain",
+    "id": "tall_grass_patch",
+    "name": "field",
+    "sym": 46,
+    "color": "brown",
+    "see_cost": 2,
+    "extras": "field",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+  },
+  ```
+
+This is all we would need ot add to the overmap_terrain file to make it possible to spawn our new field type in the game. For debug purposes when I'm testing, I make the name something I can work with in the terrain editor (something searchable) so for my WIP file here I've had that line set to:
+```
+"name": "field_erkerk"
+```
+and then when I want to check it out, I go to the debug menu, edit overmap terrain, press 't', press '/' and type 'erke' and see my new terrain.
+
+TK: Writing ongoing
