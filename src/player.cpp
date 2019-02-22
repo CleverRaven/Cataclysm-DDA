@@ -7827,7 +7827,7 @@ bool player::wield( item& target )
                                      target.get_contained().tname().c_str(),
                                      target.tname().c_str() ) ) ) {
             invoke_item( &target );
-            return true;
+            return false;
         }
     }
 
@@ -12418,6 +12418,7 @@ const targeting_data &player::get_targeting_data() {
         debugmsg( "Tried to get targeting data before setting it" );
         tdata.reset( new targeting_data() );
         tdata->relevant = nullptr;
+        g->u.cancel_activity();
     }
 
     return *tdata;

@@ -10,7 +10,7 @@
     "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ -1 ], "int_mod": [ -0.33 ], "per_mod": [ -0.33 ], "str_mod": [ -0.17 ], "dex_mod": [ -0.17 ] },
     "apply_message": "You feel weary, your body tired from lack of quality sleep.",
-    "remove_message": "You have finally catched up with your lost sleep, and you feel refreshingly awake for a change."
+    "remove_message": "You have finally caught up with your lost sleep, and you feel refreshed and awake for a change."
   },
   {
     "type": "effect_type",

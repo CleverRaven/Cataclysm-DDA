@@ -634,6 +634,9 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
 
+    // Make sure newly washed components show up as available if player attempts to craft immediately
+    p->invalidate_crafting_inventory();
+
     act->set_to_null();
 }
 

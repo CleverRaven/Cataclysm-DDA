@@ -1398,7 +1398,8 @@
     "components": [
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "lens", 2 ] ],
+      [ [ "lens", 1], [ "lens_small",1 ] ],
+      [ [ "lens", 1], [ "lens_small",1 ] ],
       [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
       [
         [ "scrap", 1 ],
@@ -1488,7 +1489,8 @@
     "components": [
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "lens", 2 ] ],
+      [ [ "lens", 1], [ "lens_small",1 ] ],
+      [ [ "lens", 1], [ "lens_small",1 ] ],
       [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
       [
         [ "scrap", 1 ],
