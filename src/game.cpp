@@ -9949,18 +9949,35 @@ void game::wield( item_location &loc )
     }
 
     // Can't use loc.obtain() here because that would cause things to spill.
-    // The item_location gets invalidated if wielding an item from the inventory due to updating of
-    // the cache, so we have to use u.i_rem() instead to avoid a debug message.
-    const item *target = loc.get_item();
-    bool from_inventory = loc.where() == item_location::type::character;
-    if( u.wield( *loc.get_item() ) ) {
-        u.mod_moves( -loc.obtain_cost( u ) );
-        if( from_inventory ) {
-            u.i_rem( target );
-        } else {
-            loc.remove_item();
+    item to_wield = *loc.get_item();
+    item_location::type location_type = loc.where();
+    tripoint pos = loc.position();
+    int move_cost = loc.obtain_cost( u );
+    loc.remove_item();
+    if( !u.wield( to_wield ) ) {
+        switch( location_type ) {
+            case item_location::type::character:
+                u.i_add( to_wield );
+                break;
+            case item_location::type::map:
+                m.add_item( pos, to_wield );
+                break;
+            case item_location::type::vehicle: {
+                const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
+                if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
+                    m.add_item( pos, to_wield );
+                }
+                break;
+            }
+            case item_location::type::invalid:
+                debugmsg( "Failed wield from invalid item location" );
+                break;
         }
+        return;
     }
+
+    u.mod_moves( -move_cost );
 }
 
 void game::wield()
