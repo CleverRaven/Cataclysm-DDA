@@ -65,8 +65,6 @@ const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 const skill_id skill_swimming( "swimming" );
 
-using npc_ptr = std::shared_ptr<npc>;
-using comp_list = std::vector<npc_ptr>;
 using mass_volume = std::pair<units::mass, units::volume>;
 
 static const int COMPANION_SORT_POINTS = 12;
