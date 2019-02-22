@@ -1790,7 +1790,8 @@ std::shared_ptr<npc> talk_function::companion_choose( const std::string &skill_t
 {
     std::vector<std::shared_ptr<npc>> available;
     for( std::shared_ptr<npc> &guy : overmap_buffer.get_npcs_near_player( 24 ) ) {
-        if( g->u.sees( guy->pos() ) && guy->is_friend() ) {
+        npc_companion_mission c_mission = guy->get_companion_mission();
+        if( g->u.sees( guy->pos() ) && guy->is_friend() && c_mission.role_id.empty() ) {
             available.push_back( guy );
         }
     }
