@@ -7827,7 +7827,7 @@ bool player::wield( item& target )
                                      target.get_contained().tname().c_str(),
                                      target.tname().c_str() ) ) ) {
             invoke_item( &target );
-            return true;
+            return false;
         }
     }
 
