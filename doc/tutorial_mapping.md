@@ -282,16 +282,105 @@ and then when I want to check it out, I go to the debug menu, edit overmap terra
 TK: Writing ongoing
 
 # Tutorial 2: a complex multitile map.
-Okay, you have the basics now, I hope. Let's get going on something real. We're going to make a map that spans two overmap tiles and three z-levels. It will use *nested mapgen* to place a *chunk* -
+Okay, you have the basics now, I hope. Let's get going on something real. We're going to make a map that spans two overmap tiles and three z-levels. We'll go into detail on item spawns and monster spawns, and I'll show you a few tricks for each. I'll also talk about good design and making your map look cool. We will use nested mapgen to place a chunk -
 ## What's a chunk?
 What do you mean "what's a chunk"? We talked about this back in the introduction.
 ### No we didn't, you said you'd explain later.
 Oh... I guess I did. OK. Chunks and nested mapgen.
 
 Nested mapgen is kinda what it sounds like, but I know that's not a very good explanation. Basically, you can tell the mapgen file to call up *another* mapgen file, typically a smaller one, inside of it. That smaller map is called a **chunk**. Why do this? Oh, only because it's *awesome*.
-generated
+
 When you call a chunk, you call it by its mapgen ID. If you have more than one chunk with the same ID, the game *selects a random one from the list*. Pause for a second and let that sink in: you can make buildings that are hollow shells of walls, put each room in a nested mapgen file, and have it mix and match rooms! This is a slick, easy way to create simple procedurally generated maps. Not only that, but each chunk has its own mapgen file, so it can use a different palette too. That's a surprisingly helpful trick to keep reusing common letters ... W can mean washing machine in the laundry room, water tank in the garage, and wardrobe in the bedroom.
 
 You can use chunks to make identical variants of maps with a chance for a rare spawn. Make a safe room that spawns with an NPC sometimes, an active turret others. Make a wall that is intact in some versions of the building, blown apart in the cataclysm in others. The possibilities are totally endless.
+
+## Starting a large map from template
+
+Here's a cool thing to know: when you make a map that spans two or more overmap tiles, you can use a single "rows" [] entry for them, and the game will understand to break them apart into two files. We could do this vertically or horizontally, but it's easier to copy and paste it vertically so that's what I'm going to go with. I'll pull up my template from before, edit it for two map files (named tut_map_erk1 and tut_map_erk2) and post it here. I'll post my standard "work in progress" map in its entirety. It has some extra stuff that we'll discuss.
+
+```
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [”tut_map_erk1"],["tut_map_erk2"] ],
+    "object": {
+      "fill_ter": "TK",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "TK": "TK_id" },
+      "furniture": { "TK": "TK_id" }
+    }
+  },
+ {
+    "type": "overmap_terrain",
+    "id": "tut_map_erk1",
+    "name": "erk tutorial map 1",
+    "sym": 66,
+    "color": "red",
+    "see_cost": 4
+},
+ {
+    "type": "overmap_terrain",
+    "id": "tut_map_erk2",
+    "name": "erk tutorial map 2",
+    "sym": 67,
+    "color": "red",
+    "see_cost": 4
+}
+```
+
+As you can see, I've added the overmap definitions right there in the file. They're only there while I'm testing. Keeping it all in one file lets me quickly copy it back and forth between my GitHub working folder and the copy of the game where I'm playtesting. When I'm done my final draft I'll split those out to the appropriate file.
+
+Look up at the om_terrain entry for the mapgen file.
 
 TK writing ongoing.
