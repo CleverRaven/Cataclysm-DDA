@@ -494,7 +494,6 @@ Now I'm going to start mapping. I will start by drawing the sidewalk around the 
         "]#     |              #]",
         "##     |||||||||||||||#]",
         "=      =             y#]",
-        
         "=      =             <#]",
         "##     |||||||||||||||#]",
         "]#     |              #]",
@@ -523,4 +522,35 @@ Now I'm going to start mapping. I will start by drawing the sidewalk around the 
       "palettes": "office_city"
     }
   },
+```
+
+Now I'm going to lay out some rooms in the north half. I'm going to make that area into a few enclosed rooms. I want to make these rooms into nested map chunks, and nested maps need to be squares, so I'll make sure all the rooms are square. I don't *have* to do it this way - I could make a 5x4 room and just make sure all the chunks I used in it had a wall along the bottom or placed "t_null" there.
+
+I'm also going to make sure to stick a bathroom in there. Never forget bathrooms.
+
+```
+        "]]]]]]]]]]]]]]]]]]]]]]]]",
+        "]######################]",
+        "]#     |ST|TS|8       #]",
+        "]#     |  |  |7       #]",
+        "]#     |r | r|6       #]",
+        "]#     |||||||5       #]",
+        "]#     |     |4       #]",
+        "]#||||||     |3       #]",
+        "]#     |     |2       #]",
+        "]#     |     |12345678#]",
+        "]#     |  ||||||||||||#]",
+        "]#     |  |1          #]",
+        "]#     |  |0          #]",
+        "]#||||||  |9          #]",
+        "]#    1|  |8          #]",
+        "]#    2|  |7          #]",
+        "]#    3|  |6          #]",
+        "]#    4|  |5          #]",
+        "]#12345|  |4          #]",
+        "]#||||||  |3          #]",
+        "]#     |  |2          #]",
+        "]#     |  |12345678901#]",
+        "##     |==||||||||||||#]",
+        "=      =             y#]",
 ```
