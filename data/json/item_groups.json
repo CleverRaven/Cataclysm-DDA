@@ -10118,6 +10118,7 @@
         [ "swage", 5 ],
         [ "apron_leather", 25 ],
         [ "charcoal", 25 ],
+        [ "welder", 10],
         [ "scrap", 70 ]
       ]
     },
@@ -10128,8 +10129,8 @@
         [ "pipe", 90 ],
         [ "glassblowing_book", 20 ],
         [ "tongs", 50 ],
-        [ "crucible", 60 ],
-        [ "chisel", 70 ],
+        [ "crucible", 40 ],
+        [ "chisel", 30 ],
         [ "glasses_safety", 25 ],
         [ "charcoal", 50 ],
         [ "glass_shard", 90 ],
