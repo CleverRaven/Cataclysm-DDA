@@ -2668,7 +2668,7 @@
         "visibility" : 8,
         "ugliness" : 2,
         "mixed_effect" : true,
-        "description" : "You have a pair of long, pointed horns, like those of an antelope.  They allow you to make a piercing headbutt attack, but prevent wearing headwear that is not made of fabric.",
+        "description" : "You have a pair of long, pointed horns, like those of an antelope.  They allow you to make a strong piercing headbutt attack, but prevent wearing headwear that is not made of fabric.",
         "types" : ["HORNS"],
         "prereqs" : ["HORNS"],
         "restricts_gear" : [ "HEAD" ],
@@ -2809,7 +2809,7 @@
             "attack_text_u" : "You whap %s with your tail",
             "attack_text_npc" : "%1$s whaps %2$s with their tail",
             "chance" : 20,
-            "base_damage" : { "damage_type" : "stab", "amount" : 8 }
+            "base_damage" : { "damage_type" : "bash", "amount" : 8 }
         }
     },{
         "type" : "mutation",
