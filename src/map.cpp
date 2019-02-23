@@ -2710,7 +2710,7 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
         if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
-        if( ter( pt ) == t_lava ) {
+        if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
             return true;
         }
     }
