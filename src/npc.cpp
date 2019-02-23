@@ -871,6 +871,24 @@ skill_id npc::best_skill() const
     return highest_skill;
 }
 
+int npc::best_skill_level() const
+{
+    int highest_level = std::numeric_limits<int>::min();
+    skill_id highest_skill( skill_id::NULL_ID() );
+
+    for( const auto &p : *_skills ) {
+        if( p.first.obj().is_combat_skill() ) {
+            const int level = p.second.level();
+            if( level > highest_level ) {
+                highest_level = level;
+                highest_skill = p.first;
+            }
+        }
+    }
+
+    return highest_level;
+}
+
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
@@ -2379,6 +2397,39 @@ void npc::set_companion_mission( npc &p, const std::string &mission_id )
 {
     const tripoint omt_pos = p.global_omt_location();
     set_companion_mission( omt_pos, p.companion_mission_role_id, mission_id );
+}
+
+std::pair<std::string, nc_color> npc::hp_description() const
+{
+    int cur_hp = hp_percentage();
+    std::string damage_info;
+    std::string pronoun;
+    if( male ) {
+        pronoun = _( "He " );
+    } else {
+        pronoun = _( "She " );
+    }
+    nc_color col;
+    if( cur_hp == 100 ) {
+        damage_info = pronoun + _( "is uninjured." );
+        col = c_green;
+    } else if( cur_hp >= 80 ) {
+        damage_info = pronoun + _( "is lightly injured." );
+        col = c_light_green;
+    } else if( cur_hp >= 60 ) {
+        damage_info = pronoun + _( "is moderately injured." );
+        col = c_yellow;
+    } else if( cur_hp >= 30 ) {
+        damage_info = pronoun + _( "is heavily injured." );
+        col = c_yellow;
+    } else if( cur_hp >= 10 ) {
+        damage_info = pronoun + _( "is severely injured." );
+        col = c_light_red;
+    } else {
+        damage_info = pronoun + _( "is nearly dead!" );
+        col = c_red;
+    }
+    return std::make_pair( damage_info, col );
 }
 void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
                                  const std::string &mission_id )

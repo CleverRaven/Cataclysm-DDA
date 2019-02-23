@@ -621,6 +621,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MIND_CONTROL" ) {
         p->companion_mission_role_id.clear();
         p->set_attitude( NPCATT_FOLLOW );
+        std::vector<int> followerlist = g->get_follower_list();
+        int npc_id = p->getID();
+        if( !std::any_of( followerlist.begin(), followerlist.end(), [npc_id]( int i ) {
+        return i == npc_id;
+    } ) )
+        g->add_npc_follower( npc_id );
         return _( "YES, MASTER!" );
     }
 
