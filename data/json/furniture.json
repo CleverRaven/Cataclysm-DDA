@@ -3382,5 +3382,45 @@
       "ter_set": "t_floor",
       "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaded_door",
+    "name": "beaded curtain",
+    "symbol": "+",
+    "color": "pink",
+    "looks_like": "f_canvas_door",
+    "move_cost_mod": 6,
+    "required_str": -1,
+    "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
+    "open": "f_beaded_door_o",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "clickity clack...clack...clack",
+      "sound_fail": "clickity clack...clack",
+      "sound_vol": 15,
+      "items": [ { "item": "string_36", "count": 20 }, { "item": "stick_long", "count": 1 }, { "item": "wooden_bead", "count": 2000 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaded_door_o",
+    "name": "open beaded curtain",
+    "symbol": ".",
+    "color": "pink",
+    "looks_like": "f_canvas_door_o",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT" ],
+    "close": "f_beaded_door",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "clickity clack...clack...clack!",
+      "sound_fail": "clickity clack...clack",
+      "sound_vol": 15,
+      "items": [ { "item": "string_36", "count": 20 }, { "item": "stick_long", "count": 1 }, { "item": "wooden_bead", "count": 2000 } ]
+    }
   }
 ]

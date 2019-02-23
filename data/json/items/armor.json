@@ -2035,6 +2035,32 @@
     "color": "brown"
   },
   {
+    "id": "bead_bracelet",
+    "type": "ARMOR",
+    "name": "beaded bracelet",
+    "description": "A simple bracelet of string and wooden beads, there is enough space to inscribe a name.",
+    "looks_like": "copper_bracelet",
+    "weight": 20,
+    "volume": 0,
+    "price": 100,
+    "material": [ "wood" ],
+    "symbol": "[",
+    "color": "brown"
+  },
+  {
+    "id": "bead_necklace",
+    "type": "ARMOR",
+    "name": "beaded necklace",
+    "description": "A simple necklace made of string and wooden beads, there is enough space to inscribe a name.",
+    "looks_like": "necklace",
+    "weight": 20,
+    "volume": 0,
+    "price": 100,
+    "material": [ "wood" ],
+    "symbol": "u",
+    "color": "brown"
+  },
+  {
     "id": "corset",
     "type": "ARMOR",
     "name": "leather corset",
