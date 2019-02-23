@@ -119,7 +119,7 @@ Let's start with some easy definitions.
 ```
 There. Now when I put a space on the mapgen file, it will make a patch of dirt. A period will make regular grass, a comma will make long grass, and a bar will make tall grass.
 
-> **How do I know what terrains to use, this file is thousands of lines long?** Well, there are two ways. You can either use *search* in the file to look for something, if you already know that terrain exists in-game; or, you can open up another mapgen file from the game folder and see what some of hte terrains used in it are. I recommend both methods.
+> **How do I know what terrains to use, this file is thousands of lines long?** Well, there are two ways. You can either use *search* in the file to look for something, if you already know that terrain exists in-game; or, you can open up another mapgen file from the game folder and see what some of the terrains used in it are. I recommend both methods.
 
 The only thing is, I want to make this map have some organic randomness to it. I don't want to have to draw a cool irregular shape, and have it always look identical when it appears in mapgen. Luckily, there's a crazy-ass way to do it in the game already! Check this shiznit out.
 
@@ -466,7 +466,7 @@ So, let's create a palette for our new map. We're going to be building a 3-floor
     "toilets": { "T": {  } }
   }
 ```
-Now I'm going to start mapping. I will start by drawing the sidewalk around the building, and outlining the exterior wall in concrete. Then I'll put a couple doors in the middle of the building and create a double-wide hallway running up the middle, using that convenient 
+Now I'm going to start mapping. I will start by drawing the sidewalk around the building, and outlining the exterior wall in concrete. Then I'll put a couple doors in the middle of the building and create a double-wide hallway running up the middle, using that convenient gap to define the edges to make sure it's right down the middle. When I'm done, I'll remove the gap because now I know where the seam is (ie. the middle of the hallway).
 ```
 [
   {
@@ -500,6 +500,7 @@ Now I'm going to start mapping. I will start by drawing the sidewalk around the 
         "]#     |              #]",
         "##     |||||||||||||||#]",
         "=      =             y#]",
+-----(this middle line is now deleted in my home version)-----
         "=      =             <#]",
         "##     |||||||||||||||#]",
         "]#     |              #]",
@@ -530,7 +531,7 @@ Now I'm going to start mapping. I will start by drawing the sidewalk around the 
   },
 ```
 
-Now I'm going to lay out some rooms in the north half. I'm going to make that area into a few enclosed rooms. I want to make these rooms into nested map chunks, and nested maps need to be squares, so I'll make sure all the rooms are square. I don't *have* to do it this way - I could make a 5x4 room and just make sure all the chunks I used in it had a wall along the bottom or placed "t_null" there.
+Now I'm going to lay out some rooms in the north half. I'm going to make that area into a few enclosed rooms. I want to make these rooms into nested map chunks, and nested maps need to be squares, so I'll make sure all the rooms are square. I don't *have* to do it this way - I could make a 5x4 room and just make sure all the chunks I used in it had a wall along the bottom or placed "t_null" there. I tend to run a row of numbers across and up one of the walls to make sure I know the size of the room. I'll delete those around the same time as I defined the nested maps.
 
 I'm also going to make sure to stick a bathroom in there. Never forget bathrooms.
 
