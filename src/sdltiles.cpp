@@ -2963,6 +2963,65 @@ int projected_window_height()
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
+void init_term_size_and_scaling_factor()
+{
+    SDL_DisplayMode current;
+    int display_width, display_height;
+    if( SDL_GetDesktopDisplayMode( get_option<int>( "DISPLAY" ), &current ) == 0 ) {
+        display_width = current.w;
+        display_height = current.h;
+    } else {
+        dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
+        display_width = INT_MAX;
+        display_height = INT_MAX;
+    }
+
+    if( get_option<std::string>( "SCALING_FACTOR" ) == "4" ) {
+        scaling_factor = 4;
+    } else if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
+        scaling_factor = 2;
+    } else {
+        scaling_factor = 1;
+    }
+
+    int TERMX = get_option<int>( "TERMINAL_X" );
+    int TERMY = get_option<int>( "TERMINAL_Y" );
+
+    if( TERMX * fontwidth > display_width || 80 * fontwidth * scaling_factor > display_width ) {
+        if( 80 * fontwidth * scaling_factor > display_width ) {
+            dbg( D_INFO ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+            scaling_factor = 1;
+            get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+        } else {
+            TERMX = display_width / fontwidth;
+        }
+    }
+
+    if( TERMY * fontheight > display_height || 24 * fontheight * scaling_factor > display_height ) {
+        if( 24 * fontheight * scaling_factor > display_height ) {
+            dbg( D_INFO ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+            scaling_factor = 1;
+            get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+        } else {
+            TERMY = display_height / fontheight;
+        }
+    }
+
+    TERMX -= TERMX % scaling_factor;
+    TERMY -= TERMY % scaling_factor;
+
+    TERMX = std::max( 80 * scaling_factor, TERMX );
+    TERMY = std::max( 24 * scaling_factor, TERMY );
+
+    get_options().get_option( "TERMINAL_X" ).setValue( std::max( 80 * scaling_factor, TERMX ) );
+    get_options().get_option( "TERMINAL_Y" ).setValue( std::max( 24 * scaling_factor, TERMY ) );
+
+    get_options().save();
+
+    TERMINAL_WIDTH = TERMX / scaling_factor;
+    TERMINAL_HEIGHT = TERMY / scaling_factor;
+}
+
 //Basic Init, create the font, backbuffer, etc
 void catacurses::init_interface()
 {
@@ -2978,16 +3037,7 @@ void catacurses::init_interface()
 
     find_videodisplays();
 
-    if( get_option<std::string>( "SCALING_FACTOR" ) == "4" ) {
-        scaling_factor = 4;
-    } else if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
-        scaling_factor = 2;
-    } else {
-        scaling_factor = 1;
-    }
-
-    TERMINAL_WIDTH = get_option<int>( "TERMINAL_X" ) / scaling_factor;
-    TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" ) / scaling_factor;
+    init_term_size_and_scaling_factor();
 
     WinCreate();
 

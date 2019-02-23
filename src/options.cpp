@@ -2528,8 +2528,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         int scaling_factor = get_scaling_factor();
         int TERMX = ::get_option<int>( "TERMINAL_X" );
         int TERMY = ::get_option<int>( "TERMINAL_Y" );
-        TERMX += TERMX % scaling_factor;
-        TERMY += TERMY % scaling_factor;
+        TERMX -= TERMX % scaling_factor;
+        TERMY -= TERMY % scaling_factor;
         get_option( "TERMINAL_X" ).setValue( std::max( 80 * scaling_factor, TERMX ) );
         get_option( "TERMINAL_Y" ).setValue( std::max( 24 * scaling_factor, TERMY ) );
         save();
@@ -2642,20 +2642,6 @@ void options_manager::load()
             }
         }
     }
-
-    int scaling_factor = 1;
-    if( ::get_option<std::string>( "SCALING_FACTOR" ) == "4" ) {
-        scaling_factor = 4;
-    } else if( ::get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
-        scaling_factor = 2;
-    }
-    int TERMX = ::get_option<int>( "TERMINAL_X" );
-    int TERMY = ::get_option<int>( "TERMINAL_Y" );
-    TERMX += TERMX % scaling_factor;
-    TERMY += TERMY % scaling_factor;
-    get_option( "TERMINAL_X" ).setValue( std::max( 80 * scaling_factor, TERMX ) );
-    get_option( "TERMINAL_Y" ).setValue( std::max( 24 * scaling_factor, TERMY ) );
-    save();
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
