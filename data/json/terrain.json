@@ -5508,7 +5508,7 @@
     "move_cost": 4,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "DESTROY_ITEM", "USABLE_FIRE" ],
-	"//": "lava-seared moose meat? yes, please"
+    "//": "lava-seared moose meat? yes, please"
   },
   {
     "type": "terrain",
