@@ -1155,6 +1155,8 @@ std::string caravan_category_name( caravan_category cat )
             return _( "Shopping Cart" );
         case CARAVAN_MELEE:
             return _( "Melee Weapons" );
+        case CARAVAN_ARCHAIC:
+            return _( "Archaic Weapons" );
         case CARAVAN_RANGED:
             return _( "Ranged Weapons" );
         case CARAVAN_AMMUNITION:
@@ -1169,6 +1171,8 @@ std::string caravan_category_name( caravan_category cat )
             return _( "Tools, Traps & Grenades" );
         case CARAVAN_BIONICS:
             return _( "Bionics and Stuff" );
+        case CARAVAN_BOOKS:
+            return _( "Books" );
         case NUM_CARAVAN_CATEGORIES:
             break; // error message below
     }
@@ -1185,6 +1189,10 @@ std::vector<itype_id> caravan_items( caravan_category cat )
 
         case CARAVAN_MELEE:
             item_list = item_group::items_from( "defense_caravan_melee" );
+            break;
+
+        case CARAVAN_ARCHAIC:
+            item_list = item_group::items_from( "defense_caravan_archaic" );
             break;
 
         case CARAVAN_RANGED:
@@ -1213,6 +1221,10 @@ std::vector<itype_id> caravan_items( caravan_category cat )
 
         case CARAVAN_BIONICS:
             item_list = item_group::items_from( "defense_caravan_bionics" );
+            break;
+
+        case CARAVAN_BOOKS:
+            item_list = item_group::items_from( "defense_caravan_books" );
             break;
 
         case NUM_CARAVAN_CATEGORIES:
