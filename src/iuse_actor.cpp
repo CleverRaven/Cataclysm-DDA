@@ -994,6 +994,9 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname().c_str() );
         return 0;
+    } else if( g->m.ambient_light_at( p.pos() ) > LIGHT_AMBIENT_LOW ) {
+        p.add_msg_if_player( _( "It's too dark to read." ) );
+        return 0;
     }
     const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
                              p.global_omt_location() ) );
