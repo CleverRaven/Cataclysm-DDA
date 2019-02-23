@@ -8,6 +8,10 @@ I'm going to walk you through the construction of a map that takes up two **over
 
 What I conspicuously *won't* do is add an NPC. We might get to that in another tutorial.
 
+Also not included in this tutorial is any more than a very, *very* cursory explanation of JSON. Personally, I think you can probably figure out JSON just by copying what you see everywhere, but if you want more than that you could check out mlangsdorf's guide to adding new content: https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-modders. This isn't required reading to understand this tutorial, but a lot of things I'm going to quickly gloss over are covered there in more detail.
+
+Finally, I will not be walking you through using GitHub. If you're able to play cataclysm, I have confidence you can figure out enough git to make your own repository, create a branch, and make a pull request from that branch (seriously those are basically the only steps you need to learn), but although I can make do those things, I don't know it well enough to explain it. Head to the github-wiki article above, and go to the section labelled **Getting your content merged in mainline** for a basic step-by-step guide. The best I can tell you is, *don't be intimidated*. Come on, if you can survive a night in Cataclysm, you can figure out how to submit with git, it's really not as bad as all that.
+
 ### Terminology 
 The big map, that you get pressing (m), is called the **overmap**.   One square on the overmap is an **overmap tile**.  
 
