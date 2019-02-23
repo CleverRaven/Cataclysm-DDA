@@ -303,7 +303,7 @@ Here's a cool thing to know: when you make a map that spans two or more overmap 
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [”tut_map_erk1"],["tut_map_erk2"] ],
+    "om_terrain": [ [ "tut_map_erk1" ], [ "tut_map_erk2" ] ],
     "object": {
       "fill_ter": "TK",
       "rows": [
@@ -331,7 +331,7 @@ Here's a cool thing to know: when you make a map that spans two or more overmap 
         "                        ",
         "                        ",
         "                        ",
-
+        
         "                        ",
         "                        ",
         "                        ",
@@ -358,29 +358,169 @@ Here's a cool thing to know: when you make a map that spans two or more overmap 
         "                        "
       ],
       "terrain": { "TK": "TK_id" },
-      "furniture": { "TK": "TK_id" }
+      "furniture": { "TK": "TK_id" },
+      "palettes": "TK"
     }
   },
- {
+  {
     "type": "overmap_terrain",
     "id": "tut_map_erk1",
     "name": "erk tutorial map 1",
     "sym": 66,
     "color": "red",
     "see_cost": 4
-},
- {
+  },
+  {
     "type": "overmap_terrain",
     "id": "tut_map_erk2",
     "name": "erk tutorial map 2",
     "sym": 67,
     "color": "red",
     "see_cost": 4
-}
+  }
+]
 ```
 
-As you can see, I've added the overmap definitions right there in the file. They're only there while I'm testing. Keeping it all in one file lets me quickly copy it back and forth between my GitHub working folder and the copy of the game where I'm playtesting. When I'm done my final draft I'll split those out to the appropriate file.
+As you can see, I've added the overmap definitions right there in the file. They're only there while I'm testing. Keeping it all in one file lets me quickly copy it back and forth between my GitHub working folder and the copy of the game where I'm playtesting. When I'm done my final draft I'll split those out to the appropriate file. Also note that I left a convenient line break between the two maps. I'll delete that at some point, but for now I want to know where the seam between the two maps is, because certain things can't cross that seam.
 
-Look up at the om_terrain entry for the mapgen file.
+Look up at the om_terrain entry for the mapgen file. It has two entries. Each square bracketed entry (each "array" if you talk the talk, which I don't normally) represents a different map ID vertically. If I had laid them out horizontally it would instead read:
+```
+"om_terrain": [ "tut_map_erk1", "tut_map_erk2" ],
+```
+and if I had four maps arranged in a 48x48 square, it would look like this:
+```
+"om_terrain": [
+  [ "tut_map_erk1", "tut_map_erk2" ],
+  [ "tut_map_erk3", "tut_map_erk4" ]
+] 
+```
+and on and on for as many map IDs as you need.
 
-TK writing ongoing.
+OK, that's all I think we need to know about the mapgen file except for one new addition since the last time: 
+```
+"palettes": "TK"
+```
+Since I plan to add a nested map this time, I would like a palette. Otherwise, I'd need to redefine my terrain and furniture every time I went into a nested mapgen file. So let's go on to that.
+
+### Working with a palette
+Palettes just contain the furniture and terrain definitions we talked about in tutorial 1, but in a portable format, so you can summon up the palette whenever you need and not have to redefine that stuff.
+
+> Sneaky trick: If you define specific furniture and terrain entries within the mapgen object *before you call the palette*, they will override any palette entries that might use . This can be handy on occasion, like when you want a nested mapgen file to be *almost* the same as the source but you're going to hijack that precious letter "W" for a different, more nefarious purpose.
+
+So, let's create a palette for our new map. We're going to be building a 3-floor office building with a downstairs lobby, so we'll need regular gyprock walls as well as concrete walls, windows, a linoleum floor, a bit of red carpet, and some office furnishings. I don't generally do this from scratch, I usually borrow entries from a similar file... but for today, let's make one from scratch. We'll make the fill_ter "t_linoleum_white" for this one, seems pretty officey to me. I'll keep this palette at the top of my map file, although if I start using it in more than one file I'll move it to data/json/mapgen_palettes and put it into its own file.
+
+```
+  {
+    "type": "palette",
+    "id": "office_city",
+    "terrain": {
+      ".": [ "t_dirt", "t_grass", "t_grass" ],
+      "*": "t_shrub",
+      "#": "t_sconc_wall",
+      "|": "t_wall",
+      " ": "t_linoleum_white",
+      "_": "t_carpet_red",
+      "+": "t_door_c",
+      "-": "t_door_locked_interior",
+      "=": "t_door_glass_gray_c",
+      "]": "t_sidewalk",
+      "0": "t_window_alarm",
+      "1": "t_window",
+      "2": "t_window_domestic",
+      ":": "t_door_glass_c",
+      ";": "t_door_locked",
+      "m": "t_door_metal",
+      "M": "t_door_metal_locked",
+      "X": "t_console_broken",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down"
+    },
+    "furniture": {
+      "$": "f_safe_l",
+      "A": "f_air_conditioner",
+      "b": "f_bench",
+      "B": "f_bookcase",
+      "c": "f_chair",
+      "C": "f_armchair",
+      "d": "f_desk",
+      "D": "f_counter",
+      "f": "f_fridge",
+      "g": "f_glass_cabinet",
+      "i": "f_filing_cabinet",
+      "l": "f_locker",
+      "o": "f_bookcase",
+      "r": "f_trashcan",
+      "s": "f_stool",
+      "S": "f_sink",
+      "U": "f_utility_shelf",
+      "W": "f_water_heater",
+      "t": "f_table",      
+      "y": [ "f_indoor_plant_y", "f_indoor_plant_x" ]
+    },
+    "toilets": { "T": {  } }
+  }
+```
+Now I'm going to start mapping. I will start by drawing the sidewalk around the building, and outlining the exterior wall in concrete. Then I'll put a couple doors in the middle of the building and create a double-wide hallway running up the middle, using that convenient 
+```
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "tut_map_erk1" ], [ "tut_map_erk2" ] ],
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "]]]]]]]]]]]]]]]]]]]]]]]]",
+        "]######################]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#||||||              #]",
+        "]#     |              #]",
+        "]#     |              #]",
+        "##     |||||||||||||||#]",
+        "=      =             y#]",
+        
+        "=      =             <#]",
+        "##     |||||||||||||||#]",
+        "]#     |              #]",
+        "]#     |              #]",
+        "]#||||||              #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]#                    #]",
+        "]######################]",
+        "]]]]]]]]]]]]]]]]]]]]]]]]"
+      ],
+      "palettes": "office_city"
+    }
+  },
+```
