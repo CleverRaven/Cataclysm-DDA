@@ -2664,7 +2664,7 @@
         "type" : "mutation",
         "id" : "HORNS_POINTED",
         "name" : "Pointed Horns",
-        "points" : -1,
+        "points" : 1,
         "visibility" : 8,
         "ugliness" : 2,
         "mixed_effect" : true,
@@ -2677,10 +2677,7 @@
             "attack_text_u" : "You stab %s with your pointed horns",
             "attack_text_npc" : "%1$s stabs %2$s with their pointed horns",
             "chance" : 22,
-            "base_damage" : [
-                { "damage_type" : "stab", "amount" : 13 },
-                { "damage_type" : "bash", "amount" : 5 }
-            ]
+            "base_damage" : { "damage_type" : "stab", "amount" : 24 }
         }
     },{
         "type" : "mutation",
