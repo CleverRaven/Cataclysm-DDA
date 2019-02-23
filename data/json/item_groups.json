@@ -10127,9 +10127,9 @@
       "type": "item_group",
       "items": [
         [ "pipe", 90 ],
-        [ "glassblowing_book", 20 ],
-        [ "tongs", 50 ],
-        [ "crucible", 40 ],
+        [ "glassblowing_book", 50 ],
+        [ "tongs", 30 ],
+        [ "crucible", 30 ],
         [ "chisel", 30 ],
         [ "glasses_safety", 25 ],
         [ "charcoal", 50 ],
