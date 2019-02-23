@@ -119,6 +119,8 @@ Let's start with some easy definitions.
 ```
 There. Now when I put a space on the mapgen file, it will make a patch of dirt. A period will make regular grass, a comma will make long grass, and a bar will make tall grass.
 
+> **How do I know what terrains to use, this file is thousands of lines long?** Well, there are two ways. You can either use *search* in the file to look for something, if you already know that terrain exists in-game; or, you can open up another mapgen file from the game folder and see what some of hte terrains used in it are. I recommend both methods.
+
 The only thing is, I want to make this map have some organic randomness to it. I don't want to have to draw a cool irregular shape, and have it always look identical when it appears in mapgen. Luckily, there's a crazy-ass way to do it in the game already! Check this shiznit out.
 
 ```
