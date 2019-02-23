@@ -2991,6 +2991,8 @@ void init_term_size_and_scaling_factor()
         if( 80 * fontwidth * scaling_factor > display_width ) {
             dbg( D_INFO ) << "SCALING_FACTOR set too high for display size, resetting to 1";
             scaling_factor = 1;
+            TERMX = display_width / fontwidth;
+            TERMY = display_height / fontheight;
             get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
         } else {
             TERMX = display_width / fontwidth;
@@ -3001,6 +3003,8 @@ void init_term_size_and_scaling_factor()
         if( 24 * fontheight * scaling_factor > display_height ) {
             dbg( D_INFO ) << "SCALING_FACTOR set too high for display size, resetting to 1";
             scaling_factor = 1;
+            TERMX = display_width / fontwidth;
+            TERMY = display_height / fontheight;
             get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
         } else {
             TERMY = display_height / fontheight;
