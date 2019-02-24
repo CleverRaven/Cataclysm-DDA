@@ -224,9 +224,7 @@
     "volume": "25 ml",
     "stack_size": 4,
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ],
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 20
+    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -264,8 +262,7 @@
     "volume": "125 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 3,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": 3
   },
   {
     "type": "COMESTIBLE",
@@ -280,8 +277,7 @@
     "price": 95,
     "material": "egg",
     "fun": 2,
-    "flags": [ "FREEZERBURN" ],
-    "rot_spawn": "GROUP_CARRION"
+    "flags": [ "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -295,7 +291,6 @@
     "description": "A pickled egg.  Rather salty, but tastes good and lasts for a long time.",
     "price": 95,
     "material": "egg",
-    "fun": 2,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": 2
   }
 ]

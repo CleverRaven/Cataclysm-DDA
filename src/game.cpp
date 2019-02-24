@@ -426,8 +426,8 @@ void game::init_ui( const bool resized )
     TERMY = get_terminal_height();
 
     if( resized ) {
-        get_options().get_option( "TERMINAL_X" ).setValue( TERMX );
-        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY );
+        get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
+        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
         get_options().save();
     }
 #else
@@ -9952,12 +9952,25 @@ void game::wield( item_location &loc )
     item to_wield = *loc.get_item();
     item_location::type location_type = loc.where();
     tripoint pos = loc.position();
+    int worn_index = INT_MIN;
+    if( u.is_worn( *loc.get_item() ) ) {
+        int item_pos = u.get_item_position( loc.get_item() );
+        if( item_pos != INT_MIN ) {
+            worn_index = Character::worn_position_to_index( item_pos );
+        }
+    }
     int move_cost = loc.obtain_cost( u );
     loc.remove_item();
     if( !u.wield( to_wield ) ) {
         switch( location_type ) {
             case item_location::type::character:
-                u.i_add( to_wield );
+                if( worn_index != INT_MIN ) {
+                    auto it = u.worn.begin();
+                    std::advance( it, worn_index );
+                    u.worn.insert( it, to_wield );
+                } else {
+                    u.i_add( to_wield );
+                }
                 break;
             case item_location::type::map:
                 m.add_item( pos, to_wield );
