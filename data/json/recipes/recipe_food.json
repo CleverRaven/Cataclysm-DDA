@@ -1869,7 +1869,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "veggy_any", 1, "LIST" ],
-        [ "powder_eggs", 5 ],
+        [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
         [ "egg_reptile", 1 ],
         [ "mushroom_cooked", 1 ],
@@ -4379,7 +4379,7 @@
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [
         [ "veggy_any", 2, "LIST" ],
-        [ "powder_eggs", 10 ],
+        [ "powder_eggs", 2 ],
         [ "eggs_bird", 2, "LIST" ],
         [ "egg_reptile", 2 ],
         [ "mushroom_cooked", 2 ],
@@ -8010,7 +8010,7 @@
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [
         [ "veggy_any", 12, "LIST" ],
-        [ "powder_eggs", 60 ],
+        [ "powder_eggs", 12 ],
         [ "eggs_bird", 12, "LIST" ],
         [ "egg_reptile", 12 ],
         [ "mushroom_cooked", 12 ],
