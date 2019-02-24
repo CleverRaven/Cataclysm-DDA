@@ -26,7 +26,9 @@
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "
+
+    ": "t_flat_roof",
     "trap": "tr_ledge",
     "flags": [ "TRANSPARENT", "NO_FLOOR" ],
     "examine_action": "climb_down"
@@ -7703,6 +7705,57 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tar_flat_roof",
+    "name": "tar paper flat roof",
+    "symbol": ".",
+    "color": "gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shingle_flat_roof",
+    "name": "shingle flat roof",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_flat_roof",
+    "name": "metal flat roof",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tile_flat_roof",
+    "name": "tile flat roof",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "FLAMMABLE" ],
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_glass_roof",
+    "name": "skylight",
+    "description": "A giant sheet of glass inserted into the roof, lets light pass through.",
+    "symbol": "o",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "bash": { "str_min": 3, "str_max": 6, "sound": "glass braking!", "sound_fail": "whack!", "ter_set": "t_null", "bash_below": true }
   },
   {
     "type": "terrain",
