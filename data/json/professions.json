@@ -1557,7 +1557,7 @@
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer" ],
-      "male": [ "briefs", "socks", "pants" ],
+      "male": [ "briefs", "socks", "dress_pants" ],
       "female": [ "bra", "panties", "stockings", "skirt" ]
     }
   },
@@ -1953,7 +1953,7 @@
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
-      "both": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol" ],
+      "both": [ "dress_pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1966,7 +1966,7 @@
     "points": 0,
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
     "items": {
-      "both": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
+      "both": [ "kariginu", "eboshi", "dress_pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1980,7 +1980,7 @@
     "//": "No knife, fire, or decent storage/armor.  Skill points are countered.",
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
     "items": {
-      "both": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
+      "both": [ "dress_pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1994,7 +1994,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": [
-        "pants",
+        "dress_pants",
         "leather_belt",
         "dress_shirt",
         "socks",
@@ -2034,7 +2034,7 @@
     "items": {
       "both": [
         "dress_shirt",
-        "pants",
+        "dress_pants",
         "socks",
         "dress_shoes",
         "wristwatch",
