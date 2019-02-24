@@ -111,3 +111,135 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     CHECK( gun_success );
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }
+
+TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
+{
+    player &dummy = g->u;
+
+    clear_player();
+    // Make sure the player doesn't drop anything :P
+    dummy.wear_item( item( "backpack", 0 ) );
+
+    GIVEN( "an unarmed player" ) {
+        REQUIRE( !dummy.is_armed() );
+        WHEN( "the player triggers auto reload" ) {
+            g->reload();
+            THEN( "No activity is generated" ) {
+                CHECK( !dummy.activity );
+            }
+        }
+    }
+
+    GIVEN( "a player armed with a revolver and ammo for it" ) {
+        item &ammo = dummy.i_add( item( "40sw", 0, item::default_charges_tag{} ) );
+        REQUIRE( ammo.is_ammo() );
+
+        dummy.weapon = item( "sw_610", 0, 0 );
+        REQUIRE( dummy.weapon.ammo_remaining() == 0 );
+        REQUIRE( dummy.weapon.can_reload_with( ammo.type->get_id() ) );
+
+        WHEN( "the player triggers auto reload until the revolver is full" ) {
+            while( dummy.weapon.ammo_remaining() < dummy.weapon.ammo_capacity() ) {
+                g->reload();
+                REQUIRE( dummy.activity );
+                process_activity( dummy );
+                CHECK( dummy.weapon.ammo_remaining() > 0 );
+                CHECK( dummy.weapon.ammo_current() == ammo.type->get_id() );
+            }
+            WHEN( "the player triggers auto reload again" ) {
+                g->reload();
+                THEN( "no activity is generated" ) {
+                    CHECK( !dummy.activity );
+                }
+            }
+        }
+    }
+
+    GIVEN( "a player wielding an unloaded gun, carrying an unloaded magazine, and carrying ammo for the magazine" ) {
+        item &ammo = dummy.i_add( item( "9mm", 0, 50 ) );
+        const cata::optional<islot_ammo> &ammo_type = ammo.type->ammo;
+        REQUIRE( ammo_type );
+
+        item &mag = dummy.i_add( item( "glockmag", 0, 0 ) );
+        const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
+        REQUIRE( magazine_type );
+        REQUIRE( ammo_type->type.count( magazine_type->type ) != 0 );
+        REQUIRE( mag.ammo_remaining() == 0 );
+
+        dummy.weapon = item( "glock_19", 0, 0 );
+        REQUIRE( dummy.weapon.ammo_remaining() == 0 );
+
+        WHEN( "the player triggers auto reload" ) {
+            g->reload();
+            REQUIRE( dummy.activity );
+            process_activity( dummy );
+
+            THEN( "the associated magazine is reloaded" ) {
+                CHECK( mag.ammo_remaining() > 0 );
+                CHECK( mag.contents.front().type == ammo.type );
+            }
+            WHEN( "the player triggers auto reload again" ) {
+                g->reload();
+                REQUIRE( dummy.activity );
+                process_activity( dummy );
+
+                THEN( "The magazine is loaded into the gun" ) {
+                    CHECK( dummy.weapon.ammo_remaining() > 0 );
+                }
+                WHEN( "the player triggers auto reload again" ) {
+                    g->reload();
+                    THEN( "No activity is generated" ) {
+                        CHECK( !dummy.activity );
+                    }
+                }
+            }
+        }
+        GIVEN( "the player also has an extended magazine" ) {
+            item &mag2 = dummy.i_add( item( "glockbigmag", 0, 0 ) );
+            const cata::optional<islot_magazine> &magazine_type2 = mag2.type->magazine;
+            REQUIRE( magazine_type2 );
+            REQUIRE( ammo_type->type.count( magazine_type2->type ) != 0 );
+            REQUIRE( mag2.ammo_remaining() == 0 );
+
+            WHEN( "the player triggers auto reload" ) {
+                g->reload();
+                REQUIRE( dummy.activity );
+                process_activity( dummy );
+
+                THEN( "the associated magazine is reloaded" ) {
+                    CHECK( mag.ammo_remaining() > 0 );
+                    CHECK( mag.contents.front().type == ammo.type );
+                }
+                WHEN( "the player triggers auto reload again" ) {
+                    g->reload();
+                    REQUIRE( dummy.activity );
+                    process_activity( dummy );
+
+                    THEN( "The magazine is loaded into the gun" ) {
+                        CHECK( dummy.weapon.ammo_remaining() > 0 );
+                    }
+                    WHEN( "the player triggers auto reload again" ) {
+                        g->reload();
+                        REQUIRE( dummy.activity );
+                        process_activity( dummy );
+
+                        THEN( "the second associated magazine is reloaded" ) {
+                            CHECK( mag2.ammo_remaining() > 0 );
+                            CHECK( mag2.contents.front().type == ammo.type );
+                        }
+                        WHEN( "the player triggers auto reload again" ) {
+                            g->reload();
+                            THEN( "No activity is generated" ) {
+                                CHECK( !dummy.activity );
+                            }
+                        }
+                    }
+                }
+            }
+            GIVEN( "the player also has another gun with ammo" ) {
+                item &mag2 = dummy.i_add( item( "glockbigmag", 0, 0 ) );
+                const cata::optional<islot_magazine> &magazine_type2 = mag2.type->magazine;
+            }
+        }
+    }
+}
