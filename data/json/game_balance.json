@@ -145,5 +145,12 @@
     "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_SWAMP_CLASH",
+    "info": "Disable monster clashes on swamps.",
+    "stype": "bool",
+    "value": false
   }
 ]
