@@ -3353,7 +3353,6 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
-    "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
