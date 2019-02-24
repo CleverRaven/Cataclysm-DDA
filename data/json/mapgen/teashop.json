@@ -21,9 +21,7 @@
     "id": "chair_torso",
     "type": "item_group",
     "items": [
-      [ "suit", 70 ],
-      [ "waistcoat", 70 ],
-      [ "dress_shirt", 70 ]
+      { "group": "one_suit", "prob": 70 }
     ]
   },
   {

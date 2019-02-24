@@ -504,7 +504,7 @@
   {
     "id": "wedding_suits",
     "type": "item_group",
-    "items": [ [ "tux", 100 ], [ "suit", 80 ], [ "waistcoat", 50 ], [ "dress_shirt", 100 ], [ "undershirt", 50 ] ]
+    "items": [ { "group": "one_tux", "prob": 100 }, { "group": "one_suit", "prob": 80 } ]
   },
   {
     "type": "mapgen",

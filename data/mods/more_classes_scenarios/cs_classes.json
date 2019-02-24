@@ -346,7 +346,17 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "bowhat", "suit", "dress_shoes", "knit_scarf", "cigar", "mag_porn" ],
+        "items": [
+          "socks",
+          "bowhat",
+          "dress_shirt",
+          "dress_pants",
+          "blazer",
+          "dress_shoes",
+          "knit_scarf",
+          "cigar",
+          "mag_porn"
+        ],
         "entries": [
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },

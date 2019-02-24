@@ -47,7 +47,7 @@
     "type" : "item_group",
     "id" : "refugee_suit",
     "items":[
-        { "item": "suit", "chance": 500 },
+        { "group": "one_suit", "chance": 500 },
         { "item": "jumpsuit", "chance": 100 },
         { "item": "clown_suit", "chance": 1 }
     ]

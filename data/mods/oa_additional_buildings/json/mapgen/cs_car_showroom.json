@@ -47,9 +47,10 @@
       [ "skinny_tie", 10 ],
       [ "tieclip", 10 ],
       [ "collarpin", 10 ],
-      [ "blazer", 35 ],
+      [ "blazer", 15 ],
+      [ "blazer_w", 20 ],
       [ "undershirt", 30 ],
-      [ "suit", 30 ],
+      { "group": "one_suit", "chance": 50 },
       [ "waistcoat", 30 ],
       [ "gold_watch", 5 ],
       [ "wristwatch", 10 ]

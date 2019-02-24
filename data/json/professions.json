@@ -79,7 +79,6 @@
       {
         "trait": "WOOLALLERGY",
         "sub": [
-          [ "blazer", "jacket_leather_red" ],
           [ "hat_hunting", "hat_cotton", 2 ],
           [ "hat_newsboy", "hat_cotton", 2 ],
           [ "peacoat", "jacket_flannel" ],
@@ -577,7 +576,16 @@
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
     "items": {
       "both": [ "pocketwatch", "knife_steak" ],
-      "male": [ "briefs", "socks", "dress_shoes", "tux" ],
+      "male": [
+        "briefs",
+        "socks",
+        "dress_shoes",
+        "tux_jacket",
+        "tux_shirt",
+        "dress_pants",
+        "cummerbund",
+        "bow_tie"
+      ],
       "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
     }
   },
@@ -623,7 +631,20 @@
     ],
     "items": {
       "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses" ],
+        "items": [ 
+          "dress_shirt",
+          "dress_pants",
+          "bow_tie",
+          "blazer",
+          "bowhat",
+          "socks",
+          "dress_shoes",
+          "knit_scarf",
+          "cig",
+          "switchblade",
+          "mag_porn",
+          "sunglasses"
+        ],
         "entries": [
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
           { "item": "9mm", "charges": 35 },
@@ -932,7 +953,18 @@
     "description": "You've been accused of being the sort of person who'd be willing to sell your own mother for a dollar.  It always left you insulted - you've been around the block a time or two, and you'd charge way more than a dollar - and get it, too!",
     "points": 0,
     "skills": [ { "level": 4, "name": "barter" } ],
-    "items": { "both": [ "suit", "knit_scarf", "socks", "dress_shoes" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": { 
+      "both": [
+        "dress_shirt",
+        "dress_pants",
+        "blazer",
+        "knit_scarf",
+        "socks",
+        "dress_shoes"
+      ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -1155,7 +1187,14 @@
     "skills": [ { "level": 2, "name": "dodge" } ],
     "items": {
       "both": [ "socks", "knit_scarf", "dance_shoes" ],
-      "male": [ "briefs", "tux" ],
+      "male": [
+        "briefs",
+        "tux_jacket",
+        "tux_shirt",
+        "dress_pants",
+        "cummerbund",
+        "bow_tie"
+      ],
       "female": [ "bra", "panties", "dress" ]
     }
   },
@@ -1353,7 +1392,19 @@
     "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "no_bonus": "teleumbrella",
     "items": {
-      "both": [ "socks", "suit", "dress_shoes", "gold_watch", "knit_scarf", "briefcase", "cell_phone", "file", "teleumbrella" ],
+      "both": [
+        "socks",
+        "dress_shirt",
+        "dress_pants",
+        "blazer",
+        "dress_shoes",
+        "gold_watch",
+        "knit_scarf",
+        "briefcase",
+        "cell_phone",
+        "file",
+        "teleumbrella"
+      ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -1472,7 +1523,19 @@
       "bio_power_storage_mkII"
     ],
     "skills": [ { "level": 2, "name": "speech" } ],
-    "items": { "both": [ "dress_shoes", "socks", "knit_scarf", "suit" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": {
+      "both": [
+        "dress_shoes",
+        "socks",
+        "knit_scarf",
+        "dress_shirt",
+        "dress_pants",
+        "tie",
+        "blazer"
+      ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -1648,7 +1711,16 @@
     "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
-      "male": [ "tux", "socks", "dress_shoes", "briefs" ],
+      "male": [ 
+        "tux_jacket",
+        "tux_shirt",
+        "dress_pants",
+        "cummerbund",
+        "bow_tie",
+        "socks",
+        "dress_shoes",
+        "briefs"
+      ],
       "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties" ]
     }
   },
@@ -1855,8 +1927,10 @@
     "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "items": {
       "both": [
-        "suit",
+        "dress_shirt",
+        "dress_pants",
         "skinny_tie",
+        "blazer",
         "tieclip",
         "socks",
         "dress_shoes",
@@ -2769,7 +2843,7 @@
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
-      "both": [ "dress_shirt", "blazer", "pants", "socks", "dress_shoes", "skinny_tie", "tieclip", "poetry_book", "permanent_marker" ],
+      "both": [ "dress_shirt", "skinny_tie", "blazer", "pants", "socks", "dress_shoes", "tieclip", "poetry_book", "permanent_marker" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
