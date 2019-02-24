@@ -580,11 +580,11 @@
         "briefs",
         "socks",
         "dress_shoes",
-        "tux_jacket",
         "tux_shirt",
         "dress_pants",
         "cummerbund",
-        "bow_tie"
+        "bow_tie",
+        "tux_jacket"
       ],
       "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
     }
@@ -1189,11 +1189,11 @@
       "both": [ "socks", "knit_scarf", "dance_shoes" ],
       "male": [
         "briefs",
-        "tux_jacket",
         "tux_shirt",
         "dress_pants",
         "cummerbund",
-        "bow_tie"
+        "bow_tie",
+        "tux_jacket"
       ],
       "female": [ "bra", "panties", "dress" ]
     }
@@ -1712,11 +1712,11 @@
     "points": -1,
     "items": {
       "male": [ 
-        "tux_jacket",
         "tux_shirt",
         "dress_pants",
         "cummerbund",
         "bow_tie",
+        "tux_jacket",
         "socks",
         "dress_shoes",
         "briefs"
