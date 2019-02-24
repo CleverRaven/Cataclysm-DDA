@@ -46,7 +46,8 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "looks_like": "mre_beef",
-    "fun": -1
+    "fun": -1,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "id": "mre_accessory",

@@ -14,7 +14,9 @@
     "material": "veggy",
     "symbol": ".",
     "color": "brown",
-    "flags": "NUTRIENT_OVERRIDE"
+    "rot_spawn": "GROUP_CROPS_GENERAL",
+    "flags": "NUTRIENT_OVERRIDE",
+    "rot_spawn_chance": 2
   },
   {
     "abstract": "seed_fruit",

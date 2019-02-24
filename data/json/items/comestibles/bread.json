@@ -79,7 +79,8 @@
     "volume": 3,
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
-    "fun": 2
+    "fun": 2,
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -96,7 +97,8 @@
     "price": 23,
     "material": "wheat",
     "volume": 1,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ]
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -117,7 +119,8 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -138,7 +141,8 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -158,7 +162,8 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -178,7 +183,8 @@
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -220,7 +226,8 @@
     "charges": 2,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -243,6 +250,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": -1,
     "vitamins": [ [ "calcium", 3 ] ],
-    "//": "this item will generally inherit its values, so it is essentially a copy of bread"
+    "//": "this item will generally inherit its values, so it is essentially a copy of bread",
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   }
 ]
