@@ -1027,11 +1027,10 @@
     "weight": 1,
     "volume": 1,
     "price": 1,
-    "to_hit": 1,
-    "bashing": 1,
     "material": "wood",
     "symbol": ".",
     "color": "brown",
+    "ammo_type" : "components",
     "stack_size": 200,
     "looks_like": "bb"
   }
