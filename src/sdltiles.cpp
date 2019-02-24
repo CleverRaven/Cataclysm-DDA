@@ -2965,49 +2965,76 @@ int projected_window_height()
 
 void init_term_size_and_scaling_factor()
 {
+    scaling_factor = 1;
+    int TERMX = get_option<int>( "TERMINAL_X" );
+    int TERMY = get_option<int>( "TERMINAL_Y" );
+
+#ifndef __ANDROID__
+
     SDL_DisplayMode current;
     int display_width, display_height;
+    bool windowed = get_option<std::string>( "FULLSCREEN" ) == "no";
+
     if( SDL_GetDesktopDisplayMode( get_option<int>( "DISPLAY" ), &current ) == 0 ) {
         display_width = current.w;
         display_height = current.h;
+
+        // Require extra space if not in fullscreen or borderless window mode to account for taskbar/whatever
+        // It would be better if there was a cross platform way to actually check for the maximum window size
+        if( windowed ) {
+            display_width -= display_width / 10;
+            display_height -= display_height / 10;
+        }
+
     } else {
         dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
         display_width = INT_MAX;
         display_height = INT_MAX;
     }
 
-    if( get_option<std::string>( "SCALING_FACTOR" ) == "4" ) {
-        scaling_factor = 4;
-    } else if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
-        scaling_factor = 2;
-    } else {
-        scaling_factor = 1;
-    }
+    std::cout << display_width << ", " << display_height << std::endl;
 
-    int TERMX = get_option<int>( "TERMINAL_X" );
-    int TERMY = get_option<int>( "TERMINAL_Y" );
+    if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
+        scaling_factor = 2;
+    } else if( get_option<std::string>( "SCALING_FACTOR" ) == "4" ) {
+        scaling_factor = 4;
+    }
 
     if( TERMX * fontwidth > display_width || 80 * fontwidth * scaling_factor > display_width ) {
         if( 80 * fontwidth * scaling_factor > display_width ) {
-            dbg( D_INFO ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+            dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
             scaling_factor = 1;
-            TERMX = display_width / fontwidth;
-            TERMY = display_height / fontheight;
+            TERMX = current.w / fontwidth;
+            TERMY = current.h / fontheight;
+            if( windowed ) {
+                TERMX -= TERMX / 10;
+                TERMY -= TERMY / 10;
+            }
             get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
         } else {
-            TERMX = display_width / fontwidth;
+            TERMX = current.w / fontwidth;
+            if( windowed ) {
+                TERMX -= TERMX / 10;
+            }
         }
     }
 
     if( TERMY * fontheight > display_height || 24 * fontheight * scaling_factor > display_height ) {
         if( 24 * fontheight * scaling_factor > display_height ) {
-            dbg( D_INFO ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+            dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
             scaling_factor = 1;
-            TERMX = display_width / fontwidth;
-            TERMY = display_height / fontheight;
+            TERMX = current.w / fontwidth;
+            TERMY = current.h / fontheight;
+            if( windowed ) {
+                TERMX -= TERMX / 10;
+                TERMY -= TERMY / 10;
+            }
             get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
         } else {
-            TERMY = display_height / fontheight;
+            TERMY = current.h / fontheight;
+            if( windowed ) {
+                TERMY -= TERMY / 10;
+            }
         }
     }
 
@@ -3021,6 +3048,8 @@ void init_term_size_and_scaling_factor()
     get_options().get_option( "TERMINAL_Y" ).setValue( std::max( 24 * scaling_factor, TERMY ) );
 
     get_options().save();
+
+#endif //__ANDROID__
 
     TERMINAL_WIDTH = TERMX / scaling_factor;
     TERMINAL_HEIGHT = TERMY / scaling_factor;

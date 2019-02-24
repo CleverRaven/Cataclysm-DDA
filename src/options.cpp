@@ -1595,6 +1595,7 @@ void options_manager::add_options_graphics()
     },
     "none", COPT_CURSES_HIDE );
 
+#ifndef __ANDROID__
     add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
     translate_marker( "Factor by which to scale the display. Requires restart." ), {
         { "1", translate_marker( "1x" ) },
@@ -1602,6 +1603,7 @@ void options_manager::add_options_graphics()
         { "4", translate_marker( "4x" )}
     },
     "1", COPT_CURSES_HIDE );
+#endif
 
 }
 
