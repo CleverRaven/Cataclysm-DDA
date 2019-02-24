@@ -3074,6 +3074,10 @@ void catacurses::init_interface()
 
     find_videodisplays();
 
+    // set minimum FULL_SCREEN sizes
+    FULL_SCREEN_WIDTH = 80;
+    FULL_SCREEN_HEIGHT = 24;
+
     init_term_size_and_scaling_factor();
 
     WinCreate();
