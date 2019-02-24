@@ -1143,6 +1143,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "lens_small",
+    "symbol": ".",
+    "color": "light_cyan",
+    "name": "small high-quality lens",
+    "name_plural": "small high-quality lenses",
+    "category": "spare_parts",
+    "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
+    "price": 6000,
+    "material": "glass",
+    "weight": 170,
+    "volume": 0
+  },
+  {
+    "type": "GENERIC",
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",

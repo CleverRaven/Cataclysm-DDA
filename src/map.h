@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
+#include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
@@ -941,9 +942,9 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                           long &quantity );
+                                           long &quantity, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount );
+                                    long &amount, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
                                      long &amount );
         /*@}*/
@@ -1496,7 +1497,8 @@ class map
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
                                    std::list<item>::iterator end );
-        vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
+        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh,
+                bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct

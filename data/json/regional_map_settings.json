@@ -497,7 +497,6 @@
           "mx_science": 12,
           "mx_collegekids": 15,
           "mx_portal": 5,
-          "mx_minefield": 5,
           "mx_crater": 60,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
@@ -538,7 +537,7 @@
         "duplex": 50,
         "emptyresidentiallot": 20
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 50, "basement_bionic": 50 },
+      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
       "parks": {
         "park": 4,
         "pool": 1,

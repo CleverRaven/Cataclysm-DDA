@@ -6075,9 +6075,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             for( int a = 0; a < 21; a++ ) {
                 vset.push_back( a );
             }
-            static auto eng = std::default_random_engine(
-                                  std::chrono::system_clock::now().time_since_epoch().count() );
-            std::shuffle( vset.begin(), vset.end(), eng );
+            std::shuffle( vset.begin(), vset.end(), rng_get_engine() );
             for( int a = 0; a < vnum; a++ ) {
                 if( vset[a] < 12 ) {
                     if( one_in( 2 ) ) {
@@ -7114,11 +7112,13 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     // that the mount at (0,0) is located at the spawn position.
     veh->precalc_mounts( 0, dir, point() );
     //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
-    vehicle *placed_vehicle = add_vehicle_to_map( std::move( veh ), merge_wrecks );
+    std::unique_ptr<vehicle> placed_vehicle_up =
+        add_vehicle_to_map( std::move( veh ), merge_wrecks );
+    vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
         submap *place_on_submap = get_submap_at_grid( { placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz} );
-        place_on_submap->vehicles.push_back( placed_vehicle );
+        place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
 
         auto &ch = get_cache( placed_vehicle->smz );
@@ -7139,7 +7139,8 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
  * @param merge_wrecks Whether crashed vehicles become part of each other
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge_wrecks )
+std::unique_ptr<vehicle> map::add_vehicle_to_map(
+    std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
@@ -7215,7 +7216,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
             std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
 
             // Try again with the wreckage
-            vehicle *new_veh = add_vehicle_to_map( std::move( wreckage ), true );
+            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
             if( new_veh != nullptr ) {
                 new_veh->smash();
                 return new_veh;
@@ -7246,7 +7247,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
         veh->smash();
     }
 
-    return veh.release();
+    return veh;
 }
 
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
@@ -7330,7 +7331,7 @@ void map::rotate( int turns )
     int radrot [SEEX * 2][SEEY * 2];
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
-    std::vector<vehicle *> vehrot[MAPSIZE * MAPSIZE];
+    std::vector<std::unique_ptr<vehicle>> vehrot[MAPSIZE * MAPSIZE];
     std::vector<submap::cosmetic_t> cosmetics_rot[MAPSIZE * MAPSIZE];
     std::unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
@@ -7447,7 +7448,7 @@ void map::rotate( int turns )
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             const size_t i = get_nonant( { gridx, gridy } );
             for( auto &v : vehrot[i] ) {
-                vehicle *veh = v;
+                vehicle *veh = v.get();
                 // turn the steering wheel, vehicle::turn does not actually
                 // move the vehicle.
                 veh->turn( turns * 90 );

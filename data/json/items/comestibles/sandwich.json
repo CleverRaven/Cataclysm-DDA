@@ -19,8 +19,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 12 ], [ "iron", 3 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 12 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -43,8 +42,7 @@
     "volume": 6,
     "charges": 2,
     "fun": 12,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 93 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 93 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -66,8 +64,7 @@
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 7 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -87,8 +84,7 @@
     "material": [ "milk", "wheat" ],
     "volume": 2,
     "fun": 8,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 12 ], [ "iron", 3 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 12 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -107,8 +103,7 @@
     "price": 200,
     "material": [ "fruit", "wheat" ],
     "volume": 2,
-    "fun": 15,
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "fun": 15
   },
   {
     "type": "COMESTIBLE",
@@ -129,8 +124,7 @@
     "material": [ "honey", "wheat" ],
     "volume": 2,
     "fun": 10,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -145,8 +139,7 @@
     "quench": 1,
     "description": "A simple sauce sandwich.  Not very filling but beats eating just the bread.",
     "price": 200,
-    "fun": 2,
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "fun": 2
   },
   {
     "type": "COMESTIBLE",
@@ -168,8 +161,7 @@
     "volume": 3,
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "calcium", 3 ], [ "iron", 7 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "calcium", 3 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -189,8 +181,7 @@
     "volume": 4,
     "charges": 2,
     "fun": 2,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 12 ], [ "vitB", 93 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 12 ], [ "vitB", 93 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -210,8 +201,7 @@
     "material": "wheat",
     "volume": 1,
     "fun": 3,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -231,8 +221,7 @@
     "material": [ "fruit", "wheat" ],
     "volume": 2,
     "fun": 6,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -252,8 +241,7 @@
     "material": [ "wheat", "honey" ],
     "volume": 2,
     "fun": 6,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -273,8 +261,7 @@
     "material": "wheat",
     "volume": 2,
     "fun": 6,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 7 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -293,9 +280,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": 3,
     "fun": 14,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 5 ], [ "iron", 4 ] ],
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 5
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 5 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -317,7 +302,6 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 4 ], [ "vitB", 5 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 4 ], [ "vitB", 5 ] ]
   }
 ]

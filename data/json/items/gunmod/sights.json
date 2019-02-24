@@ -3,7 +3,7 @@
     "id": "bow_sight",
     "type": "GUNMOD",
     "name": "five pin bow sight",
-    "description": "A set of adjustable optic fibre aiming pins with a bracket to mount on modern bows.  Improves accuracy substantially, but takes a bit longer to line up.",
+    "description": "A set of adjustable optic fiber aiming pins with a bracket to mount on modern bows.  Improves accuracy substantially, but takes a bit longer to line up.",
     "weight": 120,
     "volume": 1,
     "integral_volume": 0,
