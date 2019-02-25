@@ -1104,9 +1104,10 @@ bool Font::draw_window( const catacurses::window &w )
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
 {
-    // SDL_RenderSetScale( renderer.get(), 1.2, 1.2);
-    SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
-
+    if( scaling_factor > 1 ) {
+        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
+    }
+    
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     //Keeping track of the last drawn window
     const cata_cursesport::WINDOW *winBuffer = static_cast<cata_cursesport::WINDOW*>( ::winBuffer.lock().get() );
