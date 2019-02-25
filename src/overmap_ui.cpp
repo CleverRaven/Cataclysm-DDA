@@ -362,8 +362,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         // Ok, we found something
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
-            ter_color = explored ? c_dark_gray : info->get_color();
-            ter_sym = info->get_sym();
+            ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
+            ter_sym = info->get_sym( uistate.overmap_land_use_codes );
         }
     };
 
