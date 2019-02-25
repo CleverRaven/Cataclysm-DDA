@@ -48,6 +48,7 @@
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_relax_gas( "relax_gas" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -858,7 +859,7 @@ static void loot()
 
         if( flags & SortLoot ) {
             menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                                _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
         }
 
         if( flags & TillPlots ) {
@@ -1084,11 +1085,27 @@ static void fire()
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
-        int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+                reach_attach( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        }
     } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
-        int range = u.weapon.gun_current_mode().qty;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                int range = u.weapon.gun_current_mode().qty;
+                reach_attach( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        }
     }
 }
 

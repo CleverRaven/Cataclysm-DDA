@@ -316,42 +316,81 @@ void mx_collegekids( map &m, const tripoint & )
 
 void mx_roadblock( map &m, const tripoint &abs_sub )
 {
-    bool rotated = false;
     std::string north = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 - 1, abs_sub.z ).id().c_str();
     std::string south = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 + 1, abs_sub.z ).id().c_str();
     std::string west = overmap_buffer.ter( abs_sub.x / 2 - 1, abs_sub.y / 2, abs_sub.z ).id().c_str();
     std::string east = overmap_buffer.ter( abs_sub.x / 2 + 1, abs_sub.y / 2, abs_sub.z ).id().c_str();
 
+    bool northroad = false;
+    bool eastroad = false;
+    bool southroad = false;
+    bool westroad = false;
+
+    if( north.find( "road_" ) == 0 ) {
+        northroad = true;
+    }
+    if( east.find( "road_" ) == 0 ) {
+        eastroad = true;
+    }
+    if( south.find( "road_" ) == 0 ) {
+        southroad = true;
+    }
+    if( west.find( "road_" ) == 0 ) {
+        westroad = true;
+    }
+
+    const auto spawn_turret = [&]( int x, int y ) {
+        if( one_in( 2 ) ) {
+            m.add_spawn( mon_turret_bmg, 1, x, y );
+        } else {
+            m.add_spawn( mon_turret_rifle, 1, x, y );
+        }
+    };
     bool mil = false;
     if( one_in( 3 ) ) {
         mil = true;
     }
     if( mil ) { //Military doesn't joke around with their barricades!
 
-        if( north.find( "road_" ) == 0 && south.find( "road_" ) == 0 ) {
-            rotated = true;
-            //Rotate the terrain -90 so that all of the items will be in the correct position
-            //when the entire map is rotated at the end
-            m.rotate( 3 );
+        if( northroad ) {
+            line( &m, t_fence_barbed, 4, 3, 10, 3 );
+            line( &m, t_fence_barbed, 13, 3, 19, 3 );
         }
-
-        line( &m, t_fence_barbed, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10 );
-        line( &m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
-        line( &m, t_fence_barbed, 3, 4, 3, 10 );
-        line( &m, t_fence_barbed, 1, 13, 1, 19 );
+        if( eastroad ) {
+            line( &m, t_fence_barbed, SEEX * 2 - 3, 4, SEEX * 2 - 3, 10 );
+            line( &m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
+        }
+        if( southroad ) {
+            line( &m, t_fence_barbed, 4, SEEY * 2 - 3, 10, SEEY * 2 - 3 );
+            line( &m, t_fence_barbed, 13, SEEY * 2 - 3, 19, SEEY * 2 - 3 );
+        }
+        if( eastroad ) {
+            line( &m, t_fence_barbed, 3, 4, 3, 10 );
+            line( &m, t_fence_barbed, 3, 13, 3, 19 );
+        }
         if( one_in( 3 ) ) { // Chicken delivery
-            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 5, abs_sub.z ), 0, 70,
+            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 7, abs_sub.z ), 0, 70,
                            -1 );
             m.add_spawn( mon_chickenbot, 1, 12, 12 );
         } else if( one_in( 2 ) ) { // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1 );
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 8, 0, 70, -1 );
             m.add_spawn( mon_tankbot, 1, 12, 12 );
         } else {  // Vehicle & turrets
-            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 5, abs_sub.z ), 0, 70,
+            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
                            -1 );
-            m.add_spawn( mon_turret_bmg, 1, 12, 12 );
-            m.add_spawn( mon_turret_rifle, 1, 9, 12 );
+            if( northroad ) {
+                spawn_turret( 12, 6 );
+            }
+            if( eastroad ) {
+                spawn_turret( 18, 12 );
+            }
+            if( southroad ) {
+                spawn_turret( 12, 18 );
+            }
+            if( westroad ) {
+                spawn_turret( 6, 12 );
+            }
         }
 
         int num_bodies = dice( 2, 5 );
@@ -369,29 +408,29 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
         }
     } else { // Police roadblock
 
-        if( north.find( "road_" ) == 0 ) {
+        if( northroad ) {
             line_furn( &m, f_barricade_road, 4, 3, 10, 3 );
             line_furn( &m, f_barricade_road, 13, 3, 19, 3 );
             m.add_spawn( mon_turret, 1, 12, 1 );
         }
-        if( east.find( "road_" ) == 0 ) {
+        if( eastroad ) {
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 4, SEEX * 2 - 3, 10 );
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
             m.add_spawn( mon_turret, 1, SEEX * 2 - 1, 12 );
         }
-        if( south.find( "road_" ) == 0 ) {
+        if( southroad ) {
             line_furn( &m, f_barricade_road, 4, SEEY * 2 - 3, 10, SEEY * 2 - 3 );
             line_furn( &m, f_barricade_road, 13, SEEY * 2 - 3, 19, SEEY * 2 - 3 );
             m.add_spawn( mon_turret, 1, 12, SEEY * 2 - 1 );
         }
-        if( west.find( "road_" ) == 0 ) {
+        if( westroad ) {
             line_furn( &m, f_barricade_road, 3, 4, 3, 10 );
             line_furn( &m, f_barricade_road, 3, 13, 3, 19 );
             m.add_spawn( mon_turret, 1, 1, 12 );
         }
-        m.add_vehicle( vproto_id( "policecar" ), 8, 5, 20 );
-        m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145 );
 
+        m.add_vehicle( vproto_id( "policecar" ), 8, 6, 20 );
+        m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 6, 145 );
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -405,9 +444,6 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
                 }
             }
         }
-    }
-    if( rotated ) {
-        m.rotate( 1 );
     }
 }
 

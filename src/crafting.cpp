@@ -432,6 +432,29 @@ std::list<item> player::consume_components_for_craft( const recipe &making, int 
     return used;
 }
 
+std::list<item> player::consume_some_components_for_craft( const recipe &making, int batch_size )
+{
+    std::list<item> used;
+    if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        return used;
+    }
+    const auto &req = making.requirements();
+    int cou = 0;
+    for( const auto &it : req.get_components() ) {
+        // Each component currently has 50% chance of not being consumed
+        // Skip first item so failed craft with one item recipe always loses component
+        if( cou > 0 && one_in( 2 ) ) {
+            std::list<item> tmp = consume_items( it, batch_size );
+            used.splice( used.end(), tmp );
+        }
+        ++cou;
+    }
+    for( const auto &it : req.get_tools() ) {
+        consume_tools( it, batch_size );
+    }
+    return used;
+}
+
 static void set_item_food( item &newit )
 {
     //@todo: encapsulate this into some function
@@ -581,7 +604,7 @@ void player::complete_craft()
     // Messed up badly; waste some components.
     if( making.difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
         add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ), making.result_name() );
-        consume_components_for_craft( making, batch_size );
+        consume_some_components_for_craft( making, batch_size );
         activity.set_to_null();
         return;
         // Messed up slightly; no components wasted.
