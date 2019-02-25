@@ -1,0 +1,14 @@
+[
+  {
+    "id": "TOP_HEAVY",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item is top heavy, meaning that it will be swung slower compared to something with the same weight..",
+    "info": "This weapon <bad>is slower</bad> <info>than other weapons with similar weights</info>."
+  }
+]  
+
+
+  
+ 
+       
