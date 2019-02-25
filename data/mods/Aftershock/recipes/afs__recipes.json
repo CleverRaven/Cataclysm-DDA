@@ -106,7 +106,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-	  [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ],
+      [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ],
       [ [ "scrap_copper", 1 ], [ "copper", 25 ] ],
       [ [ "cu_pipe", 2 ] ],
       [ [ "scrap", 3 ] ],
@@ -156,9 +156,14 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 10000,
     "autolearn": true,
-	"byproducts": [ [ "sheet_metal_small" ] ],
+    "byproducts": [ [ "sheet_metal_small" ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ ["sheet_metal", 1 ] ], [ [ "leather", 6 ], [ "rag", 6 ], [ "string_36", 1 ] ], [ [ "blindfold", 1 ] ], [ [ "glass_tinted", 3 ] ] ]
+    "components": [
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "leather", 6 ], [ "rag", 6 ], [ "string_36", 1 ] ],
+      [ [ "blindfold", 1 ] ],
+      [ [ "glass_tinted", 3 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -167,7 +172,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "electronics",
     "time": 20000,
-	"difficulty": 3,
+    "difficulty": 3,
     "book_learn": [ [ "mag_electronics", 3 ], [ "manual_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],

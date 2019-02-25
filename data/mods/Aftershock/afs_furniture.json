@@ -12,7 +12,7 @@
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "afs_fridge", "count": 1 } ] },
     "max_volume": 4000,
-	"deployed_item": "afs_fridge",
+    "deployed_item": "afs_fridge",
     "examine_action": "deployed_furniture",
     "bash": {
       "str_min": 18,
@@ -31,7 +31,7 @@
         { "item": "motor_tiny", "prob": 25 }
       ]
     },
-	"looks_like": "f_fridge"
+    "looks_like": "f_fridge"
   },
   {
     "type": "construction",

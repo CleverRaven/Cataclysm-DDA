@@ -95,8 +95,8 @@
     "items": [ [ "afs_quilt", 10 ], [ "afs_quilt_patchwork", 8 ] ]
   },
   {
-	"id": "mechanics",
-	"type": "item_group",
-	"items": [ [ "afs_welding_mask", 30 ] ]
+    "id": "mechanics",
+    "type": "item_group",
+    "items": [ [ "afs_welding_mask", 30 ] ]
   }
 ]

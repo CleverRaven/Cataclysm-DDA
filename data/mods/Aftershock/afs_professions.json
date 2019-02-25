@@ -7,16 +7,7 @@
     "points": 2,
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
-      "both": [
-        "laptop",
-        "eink_tablet_pc",
-		"linuxtshirt",
-        "pants_cargo",
-        "socks",
-		"slingpack",
-        "sneakers",
-		"smart_phone"
-      ],
+      "both": [ "laptop", "eink_tablet_pc", "linuxtshirt", "pants_cargo", "socks", "slingpack", "sneakers", "smart_phone" ],
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
     }
@@ -30,14 +21,14 @@
     "skills": [ { "level": 2, "name": "electronics" }, { "level": 2, "name": "mechanics" } ],
     "items": {
       "both": [
-		"hat_hard",
+        "hat_hard",
         "toolbox",
         "technician_shirt_gray",
         "technician_pants_gray",
         "socks",
-		"gloves_work",
+        "gloves_work",
         "boots_steel",
-		"tool_belt"
+        "tool_belt"
       ],
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -49,24 +40,10 @@
     "name": "Radio Tower Technician",
     "description": "From your spot at the top of the tower you were working on, you had a good view of the end of the world; of streaks of light falling from the sky, blossoming into mushroom clouds.  You rushed to safety before the shockwaves could blast you from your perch.  The bionic implants included with your contract might come in handy now...",
     "points": 4,
-    "CBMs": [
-      "bio_weight",
-      "bio_shock_absorber",
-      "bn_bio_solar",
-      "bio_power_storage",
-	  "bio_flashlight",
-	  "bio_tools"
-    ],
+    "CBMs": [ "bio_weight", "bio_shock_absorber", "bn_bio_solar", "bio_power_storage", "bio_flashlight", "bio_tools" ],
     "skills": [ { "level": 4, "name": "electronics" } ],
     "items": {
-      "both": [
-		"hat_hard",
-        "jumpsuit",
-        "socks",
-		"rope_30",
-        "boots",
-		"tool_belt"
-      ],
+      "both": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "tool_belt" ],
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
     }
@@ -79,17 +56,7 @@
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" } ],
     "items": {
-      "both": [
-		"jihelucake",
-		"afs_rolling_pin",
-		"flour",
-		"cooking_oil",
-        "tshirt",
-        "socks",
-		"jeans",
-        "sneakers",
-		"slingpack"
-      ],
+      "both": [ "jihelucake", "afs_rolling_pin", "flour", "cooking_oil", "tshirt", "socks", "jeans", "sneakers", "slingpack" ],
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
     }
@@ -100,24 +67,29 @@
     "name": "Serial Killer",
     "description": "Whether due to insanity, a lack of conscience, or some other reason, your unorthodox employment centered around taking lives.  You pilfered a welding mask from the local garage, and an axe from a stopped fire truck, and created an identity for yourself painted in red.  But now, it seems, someone with skills like yours might actually have a chance.",
     "points": 3,
-    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "cutting" }, { "level": 1, "name": "survival" }, { "level": 1, "name": "mechanics" } ],
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "cutting" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "mechanics" }
+    ],
     "traits": [ "PSYCHOPATH" ],
     "items": {
       "both": [
         "afs_welding_mask",
         "crowbar",
-		"fire_ax",
-		"jacket_leather",
-		"undershirt",
+        "fire_ax",
+        "jacket_leather",
+        "undershirt",
         "pants_cargo",
         "socks",
-		"slingpack",
-		"mask_rioter",
+        "slingpack",
+        "mask_rioter",
         "gloves_leather",
         "boots_steel",
-		"crude_picklock",
-		"crude_picklock",
-		"crude_picklock"
+        "crude_picklock",
+        "crude_picklock",
+        "crude_picklock"
       ],
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
