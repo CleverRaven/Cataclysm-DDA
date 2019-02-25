@@ -17,8 +17,7 @@
     "phase": "liquid",
     "flags": [ "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "calcium", 8 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -38,8 +37,7 @@
     "phase": "liquid",
     "fun": 20,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "calcium", 2 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -101,8 +99,7 @@
     "volume": 1,
     "charges": 8,
     "fun": 7,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -123,8 +120,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 2 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
