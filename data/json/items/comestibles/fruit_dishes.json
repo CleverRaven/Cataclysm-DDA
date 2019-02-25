@@ -74,7 +74,8 @@
     "material": "fruit",
     "volume": 1,
     "fun": 5,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 2 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -94,7 +95,8 @@
     "material": "fruit",
     "volume": 1,
     "fun": 7,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -196,7 +198,8 @@
     "price": 900,
     "material": "fruit",
     "volume": 1,
-    "fun": 4
+    "fun": 4,
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -217,7 +220,8 @@
     "volume": 1,
     "charges": 4,
     "fun": 3,
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -239,6 +243,7 @@
     "volume": 1,
     "stack_size": 2,
     "fun": 1,
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   }
 ]

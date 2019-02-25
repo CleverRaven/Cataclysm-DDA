@@ -477,7 +477,8 @@
     "price": 0,
     "material": "hflesh",
     "volume": 1,
-    "fun": -60
+    "fun": -60,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -497,7 +498,8 @@
     "price": 0,
     "material": "hflesh",
     "volume": 8,
-    "fun": -20
+    "fun": -20,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -517,7 +519,8 @@
     "price": 0,
     "material": "hflesh",
     "volume": 20,
-    "fun": -20
+    "fun": -20,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",

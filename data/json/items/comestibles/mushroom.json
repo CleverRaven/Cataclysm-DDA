@@ -8,7 +8,8 @@
     "description": "A tasty cooked wild mushroom.",
     "price": 150,
     "fun": 1,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -29,7 +30,8 @@
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "iron", 12 ] ]
+    "vitamins": [ [ "iron", 12 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -40,7 +42,8 @@
     "description": "A tasty cooked morel mushroom.",
     "price": 1500,
     "fun": 4,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -52,7 +55,8 @@
     "price": 1500,
     "charges": 2,
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -99,7 +103,8 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "//": "Should be removed after 0.D.",

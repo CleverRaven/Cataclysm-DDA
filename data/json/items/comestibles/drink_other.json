@@ -19,7 +19,8 @@
     "charges": 8,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 1
+    "fun": 1,
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "id": "maple_sap",
