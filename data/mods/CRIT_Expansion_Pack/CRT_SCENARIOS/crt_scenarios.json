@@ -1,0 +1,20 @@
+[
+  {
+    "type" : "scenario",
+    "ident" : "heli_crash",
+    "copy-from" : "heli_crash",
+    "extend": { "professions" : [ "crt_rotc", "crt_rifleman", "crt_medic", "crt_saw", "crt_nco", "crt_officer", "crt_normie", "crt"] }
+  },
+  {
+     "type" : "scenario",
+     "ident": "lab_chal",
+     "copy-from" : "lab_chal",
+     "extend": { "professions" : [ "crt" ] }
+  },
+  {
+    "type" : "scenario",
+    "ident" : "wilderness",
+    "copy-from" : "wilderness",
+    "extend": { "professions" : [ "crt_normie", "crt"] }
+  }
+]
