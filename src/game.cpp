@@ -11780,7 +11780,7 @@ void game::vertical_move( int movez, bool force )
 
     // Wouldn't work and may do strange things
     if( u.is_hauling() && !m.has_zlevels() ) {
-        add_msg( _("You must enable experimental z-levels to haul across z-levels") );
+        add_msg( _( "You must enable experimental z-levels to haul across z-levels." ) );
         u.stop_hauling();
     }
 
