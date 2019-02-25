@@ -1,0 +1,305 @@
+[
+  {
+    "//": "https://docs.digital.mass.gov/dataset/massgis-data-land-use-2005",
+    "type": "overmap_land_use_code",
+    "id": "",
+    "color": "white"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "cropland",
+    "land_use_code": 1,
+    "name": "Cropland",
+    "detailed_definition": "Generally tilled land used to grow row crops.  Boundaries follow the shape of the fields and include associated buildings (e.g., barns).  This category also includes turf farms that grow sod.",
+    "sym": 46,
+    "color": "yellow_yellow"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "pasture",
+    "land_use_code": 2,
+    "name": "Pasture",
+    "detailed_definition": "Fields and associated facilities (barns and other outbuildings) used for animal grazing and for the growing of grasses for hay.",
+    "sym": 46,
+    "color": "green_yellow"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "forest",
+    "land_use_code": 3,
+    "name": "Forest",
+    "detailed_definition": "Areas where tree canopy covers at least 50% of the land.  Both coniferous and deciduous forests belong to this class.",
+    "sym": 70,
+    "color": "green_yellow"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "wetland",
+    "land_use_code": 4,
+    "name": "Non-Forested Wetland",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 4, 7, 8, 12, 23, 18, 20, and 21.",
+    "sym": 126,
+    "color": "light_blue_cyan"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "mining",
+    "land_use_code": 5,
+    "name": "Mining",
+    "detailed_definition": "Includes sand and gravel pits, mines and quarries.  The boundaries extend to the edges of the site’s activities, including on-site machinery, parking lots, roads and buildings.",
+    "sym": 77,
+    "color": "red_white"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "open_land",
+    "land_use_code": 6,
+    "name": "Open Land",
+    "detailed_definition": "Vacant land, idle agriculture, rock outcrops, and barren areas.  Vacant land is not maintained for any evident purpose and it does not support large plant growth.",
+    "sym": 46,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "recreation_participation",
+    "land_use_code": 7,
+    "name": "Participation Recreation",
+    "detailed_definition": "Facilities used by the public for active recreation.  Includes ball fields, tennis courts, basketball courts, athletic tracks, ski areas, playgrounds, and bike paths plus associated parking lots.  Primary and secondary school recreational facilities are in this category, but university stadiums and arenas are considered Spectator Recreation.  Recreation facilities not open to the public such as those belonging to private residences are mostly labeled with the associated residential land use class not participation recreation.  However, some private facilities may also be mapped.",
+    "sym": 33,
+    "color": "red_magenta"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "recreation_spectator",
+    "land_use_code": 8,
+    "name": "Spectator Recreation",
+    "detailed_definition": "University and professional stadiums designed for spectators as well as zoos, amusement parks, drive-in theaters, fairgrounds, race tracks and associated facilities and parking lots.",
+    "sym": 33,
+    "color": "green_magenta"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "recreation_water",
+    "land_use_code": 9,
+    "name": "Water-Based Recreation",
+    "detailed_definition": "Swimming pools, water parks, developed freshwater and saltwater sandy beach areas and associated parking lots.  Also included are scenic areas overlooking lakes or other water bodies, which may or may not include access to the water (such as a boat launch).  Water-based recreation facilities related to universities are in this class.  Private pools owned by individual residences are usually included in the Residential category.  Marinas are separated into code 29.",
+    "sym": 33,
+    "color": "cyan_magenta"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "residential_multi",
+    "land_use_code": 10,
+    "name": "Multi-Family Residential",
+    "detailed_definition": "Duplexes (usually with two front doors, two entrance pathways, and sometimes two driveways), apartment buildings, condominium complexes, including buildings and maintained lawns.  Note: This category was difficult to assess via photo interpretation, particularly in highly urban areas.",
+    "sym": 72,
+    "color": "light_green_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "residential_high",
+    "land_use_code": 11,
+    "name": "High Density Residential",
+    "detailed_definition": "Housing on smaller than 1/4 acre lots.  See notes below for details on Residential interpretation.",
+    "sym": 72,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "residential_medium",
+    "land_use_code": 12,
+    "name": "Medium Density Residential",
+    "detailed_definition": "Housing on 1/4 - 1/2 acre lots.  See notes below for details on Residential interpretation.",
+    "sym": 104,
+    "color": "light_green_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "residential_low",
+    "land_use_code": 13,
+    "name": "Low Density Residential",
+    "detailed_definition": "Housing on 1/2 - 1 acre lots.  See notes below for details on Residential interpretation.",
+    "sym": 104,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "wetland_saltwater",
+    "land_use_code": 14,
+    "name": "Saltwater Wetland",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 11 and 27.",
+    "sym": 126,
+    "color": "light_cyan"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "commercial",
+    "land_use_code": 15,
+    "name": "Commercial",
+    "detailed_definition": "Malls, shopping centers and larger strip commercial areas, plus neighborhood stores and medical offices (not hospitals).  Lawn and garden centers that do not produce or grow the product are also considered commercial.",
+    "sym": 36,
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "industrial",
+    "land_use_code": 16,
+    "name": "Industrial",
+    "detailed_definition": "Light and heavy industry, including buildings, equipment and parking areas.  ",
+    "sym": 35,
+    "color": "white"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "transitional",
+    "land_use_code": 17,
+    "name": "Transitional",
+    "detailed_definition": "Open areas in the process of being developed from one land use to another (if the future land use is at all uncertain).  Formerly identified as Urban Open.",
+    "sym": 63,
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "transportation",
+    "land_use_code": 18,
+    "name": "Transportation",
+    "detailed_definition": "Airports (including landing strips, hangars, parking areas and related facilities), railroads and rail stations, and divided highways (related facilities would include rest areas, highway maintenance areas, storage areas, and on/off ramps).  Also includes docks, warehouses, and related land-based storage facilities, and terminal freight and storage facilities.  Roads and bridges less than 200 feet in width that are the center of two differing land use classes will have the land use classes meet at the center line of the road (i.e., these roads/bridges themselves will not be separated into this class).",
+    "sym": 42,
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "waste_disposal",
+    "land_use_code": 19,
+    "name": "Waste Disposal",
+    "detailed_definition": "Landfills, dumps, and water and sewage treatment facilities such as pump houses, and associated parking lots.  Capped landfills that have been converted to other uses are coded with their present land use.",
+    "sym": 87,
+    "color": "red"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "water",
+    "land_use_code": 20,
+    "name": "Water",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 9 and 22.",
+    "sym": 126,
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "cranberry_bog",
+    "land_use_code": 23,
+    "name": "Cranberry bog",
+    "detailed_definition": "Both active and recently inactive cranberry bogs and the sandy areas adjacent to the bogs that are used in the growing process.  Impervious features associated with cranberry bogs such as parking lots and machinery are included.  Modified from DEP Wetlands (1:12,000) WETCODE 5.",
+    "sym": 126,
+    "color": "light_blue_red"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "powerline_utility",
+    "land_use_code": 24,
+    "name": "Powerline/Utility",
+    "detailed_definition": "Powerline and other maintained public utility corridors and associated facilities, including power plants and their parking areas.",
+    "sym": 122,
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "saltwater_sandy_beach",
+    "land_use_code": 25,
+    "name": "Saltwater Sandy Beach",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 1, 2, 3, 6, 10, 13, 17 and 19",
+    "sym": 126,
+    "color": "cyan_yellow"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "golf_course",
+    "land_use_code": 26,
+    "name": "Golf Course",
+    "detailed_definition": "Includes the greenways, sand traps, water bodies within the course, associated buildings and parking lots.  Large forest patches within the course greater than 1 acre are classified as Forest (class 3).  Does not include driving ranges or miniature golf courses.",
+    "sym": 71,
+    "color": "light_green_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "marina",
+    "land_use_code": 29,
+    "name": "Marina",
+    "detailed_definition": "Include parking lots and associated facilities but not docks (in class 18)",
+    "sym": 77,
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "urban_public_institutional",
+    "land_use_code": 31,
+    "name": "Urban Public/Institutional",
+    "detailed_definition": "Lands comprising schools, churches, colleges, hospitals, museums, prisons, town halls or court houses, police and fire stations, including parking lots, dormitories, and university housing.  Also may include public open green spaces like town commons.",
+    "sym": 35,
+    "color": "red"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "cemetery",
+    "land_use_code": 34,
+    "name": "Cemetery",
+    "detailed_definition": "Includes the gravestones, monuments, parking lots, road networks and associated buildings.",
+    "sym": 43,
+    "color": "white"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "orchard",
+    "land_use_code": 35,
+    "name": "Orchard",
+    "detailed_definition": "Fruit farms and associated facilities.",
+    "sym": 102,
+    "color": "red_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "nursery",
+    "land_use_code": 36,
+    "name": "Nursery",
+    "detailed_definition": "Greenhouses and associated buildings as well as any surrounding maintained lawn.  Christmas tree (small conifer) farms are also classified as Nurseries.",
+    "sym": 102,
+    "color": "light_green_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "wetland_forest",
+    "land_use_code": 37,
+    "name": "Forested Wetland",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 14, 15, 16, 24, 25 and 26.",
+    "sym": 70,
+    "color": "green_cyan"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "residential_very_low",
+    "land_use_code": 38,
+    "name": "Very Low Density Residential",
+    "detailed_definition": "Housing on > 1 acre lots and very remote, rural housing.  See notes below for details on Residential interpretation.",
+    "sym": 104,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "junkyard",
+    "land_use_code": 39,
+    "name": "Junkyard",
+    "detailed_definition": "Includes the storage of car, metal, machinery and other debris as well as associated buildings as a business.",
+    "sym": 35,
+    "color": "yellow_white"
+  },
+  {
+    "type": "overmap_land_use_code",
+    "id": "brushland",
+    "land_use_code": 40,
+    "name": "Brushland/Successional",
+    "detailed_definition": "Predominantly (> 25%) shrub cover, and some immature trees not large or dense enough to be classified as forest.  It also includes areas that are more permanently shrubby, such as heath areas, wild blueberries or mountain laurel.",
+    "sym": 102,
+    "color": "brown_green"
+  }
+]
