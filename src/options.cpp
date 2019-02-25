@@ -2535,8 +2535,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
         get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
         save();
-
-        handle_resize( projected_window_width(), projected_window_height() );
     }
 #else
     ( void ) terminal_size_changed;
