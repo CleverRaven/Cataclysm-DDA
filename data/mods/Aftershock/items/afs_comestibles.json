@@ -1,0 +1,47 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_cake",
+    "name": "plain cake",
+    "copy-from": "jihelucake",
+    "description": "A modest chocolate cake with no icing added.  Nothing special, but some of the best you can get nowadays.  Besides, cake is cake!",
+	"fun": 15
+  },
+  {
+    "id": "afs_calorie_pill",
+    "type": "COMESTIBLE",
+    "name": "nutriment",
+    "weight": 10,
+    "color": "white",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 2000,
+	"healthy": 3,
+    "quench": -5,
+    "description": "A crumbly white pill half the size of your thumb, packed with vitamins and calories.  Provides a whole day's nutrition in portable form, but it's a little hard to keep down, owing to the rancid taste and chalky texture.",
+    "price": 10000,
+    "volume": 0,
+    "charges": 5,
+    "looks_like": "multivitamin",
+    "fun": -8,
+	"vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+  },
+  {
+    "id": "afs_dough",
+    "type": "COMESTIBLE",
+    "name": "dough",
+    "weight": 10,
+    "color": "white",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 86,
+    "quench": -5,
+    "description": "Flour mixed with water, kneaded into a gooey paste.  Being made properly, this dough can be used to bake bread more efficiently than with just flour.",
+    "price": 100,
+    "volume": 2,
+    "charges": 2,
+    "flags": [ "EATEN_HOT" ],
+    "looks_like": "flour",
+    "fun": -5
+  }
+]

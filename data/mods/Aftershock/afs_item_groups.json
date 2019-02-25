@@ -1,0 +1,102 @@
+[
+  {
+    "id": "bionics",
+    "type": "item_group",
+    "items": [ [ "bn_bio_solar", 10 ] ]
+  },
+  {
+    "id": "bionics_common",
+    "type": "item_group",
+    "items": [ [ "bn_bio_solar", 10 ] ]
+  },
+  {
+    "id": "bionics_sci",
+    "type": "item_group",
+    "items": [ [ "bn_bio_solar", 5 ] ]
+  },
+  {
+    "id": "bionics_op",
+    "type": "item_group",
+    "items": [ [ "bn_bio_solar", 15 ] ]
+  },
+  {
+    "id": "chem_lab",
+    "type": "item_group",
+    "items": [ [ "panacea", 1 ], [ "afs_calorie_pill", 5 ] ]
+  },
+  {
+    "id": "rare",
+    "type": "item_group",
+    "items": [ [ "afs_calorie_pill", 10 ] ]
+  },
+  {
+    "id": "spider",
+    "type": "item_group",
+    "items": [ [ "afs_calorie_pill", 10 ], [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ] ]
+  },
+  {
+    "id": "survivorzed_extra",
+    "type": "item_group",
+    "items": [ [ "afs_calorie_pill", 1 ], [ "afs_daypack", 4 ], [ "afs_rolling_pin_barbed_wire", 5 ] ]
+  },
+  {
+    "id": "hydro",
+    "type": "item_group",
+    "items": [ [ "afs_calorie_pill", 1 ] ]
+  },
+  {
+    "id": "camping",
+    "type": "item_group",
+    "items": [ [ "afs_daypack", 20 ], [ "afs_rope_lighter", 10 ] ]
+  },
+  {
+    "id": "allsporting",
+    "type": "item_group",
+    "items": [ [ "afs_daypack", 30 ], [ "afs_rope_lighter", 10 ] ]
+  },
+  {
+    "id": "traveler",
+    "type": "item_group",
+    "items": [ [ "afs_daypack", 20 ], [ "afs_rope_lighter", 10 ] ]
+  },
+  {
+    "id": "shelter",
+    "type": "item_group",
+    "items": [ [ "afs_daypack", 10 ] ]
+  },
+  {
+    "id": "drugdealer",
+    "type": "item_group",
+    "items": [ [ "afs_daypack", 20 ] ]
+  },
+  {
+    "id": "college_camping",
+    "type": "item_group",
+    "items": [ [ "afs_daypack", 75 ] ]
+  },
+  {
+    "id": "kitchen",
+    "type": "item_group",
+    "items": [ [ "afs_rolling_pin", 25 ] ]
+  },
+  {
+    "id": "dollar_kitchen",
+    "type": "item_group",
+    "items": [ [ "afs_rolling_pin", 20 ] ]
+  },
+  {
+    "id": "oven",
+    "type": "item_group",
+    "items": [ [ "afs_rolling_pin", 25 ] ]
+  },
+  {
+    "id": "bed",
+    "type": "item_group",
+    "items": [ [ "afs_quilt", 10 ], [ "afs_quilt_patchwork", 8 ] ]
+  },
+  {
+	"id": "mechanics",
+	"type": "item_group",
+	"items": [ [ "afs_welding_mask", 30 ] ]
+  }
+]

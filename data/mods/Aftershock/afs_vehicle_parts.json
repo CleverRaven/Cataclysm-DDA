@@ -1,0 +1,50 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "afs_crude_plating",
+    "name": "crude plating",
+    "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
+    "symbol": ")",
+    "color": "gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 300,
+    "item": "sheet_metal",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
+    "damage_reduction": { "all": 4 }
+  },
+  {
+    "id": "laser_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted laser cannon",
+    "item": "laser_cannon",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "looks_like": "laser_rifle",
+    "difficulty": 4,
+    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_fridge",
+    "copy-from": "minifridge",
+    "name": "refrigerator",
+    "symbol": "{",
+    "color": "white",
+    "broken_color": "white",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
+    "epower": -100,
+    "size": 1000,
+    "item": "afs_fridge"
+  }
+]
