@@ -404,9 +404,6 @@ void game::init_ui( const bool resized )
     if( first_init ) {
         catacurses::clear();
 
-        // set minimum FULL_SCREEN sizes
-        FULL_SCREEN_WIDTH = 80;
-        FULL_SCREEN_HEIGHT = 24;
         // print an intro screen, making sure the terminal is the correct size
 
         first_init = false;
@@ -11724,17 +11721,16 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
-    if( u.is_hauling() ) {
-        u.stop_hauling();
-    }
-
     u.moves -= move_cost;
 
     const tripoint old_pos = g->u.pos();
+    point submap_shift = point_zero;
     vertical_shift( z_after );
     if( !force ) {
-        update_map( stairs.x, stairs.y );
+        submap_shift = update_map( stairs.x, stairs.y );
     }
+    const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
+                                 old_pos.z );
 
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
@@ -11780,6 +11776,29 @@ void game::vertical_move( int movez, bool force )
     if( m.ter( stairs ) == t_manhole_cover ) {
         m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), "manhole_cover" );
         m.ter_set( stairs, t_manhole );
+    }
+
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        // Whether the source is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Whether the destination is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Source relative to the player
+        u.activity.placement = adjusted_pos - u.pos();
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint_zero );
+        map_stack items = m.i_at( adjusted_pos );
+        if( items.empty() ) {
+            std::cout << "no items" << std::endl;
+            u.stop_hauling();
+        }
+        int index = 0;
+        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
+            int amount = it->count();
+            u.activity.values.push_back( index );
+            u.activity.values.push_back( amount );
+        }
     }
 
     refresh_all();
@@ -11995,7 +12014,7 @@ void game::update_map( player &p )
     update_map( x, y );
 }
 
-void game::update_map( int &x, int &y )
+point game::update_map( int &x, int &y )
 {
     int shiftx = 0;
     int shifty = 0;
@@ -12021,7 +12040,7 @@ void game::update_map( int &x, int &y )
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
         // Not actually shifting the submaps, all the stuff below would do nothing
-        return;
+        return point_zero;
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
@@ -12066,6 +12085,8 @@ void game::update_map( int &x, int &y )
 
     // Update what parts of the world map we can see
     update_overmap_seen();
+
+    return point( shiftx, shifty );
 }
 
 void game::update_overmap_seen()

@@ -2968,31 +2968,10 @@ int projected_window_height()
 void init_term_size_and_scaling_factor()
 {
     scaling_factor = 1;
-    int TERMX = get_option<int>( "TERMINAL_X" );
-    int TERMY = get_option<int>( "TERMINAL_Y" );
+    int terminal_x = get_option<int>( "TERMINAL_X" );
+    int terminal_y = get_option<int>( "TERMINAL_Y" );
 
 #ifndef __ANDROID__
-
-    SDL_DisplayMode current;
-    int display_width, display_height;
-    bool windowed = get_option<std::string>( "FULLSCREEN" ) == "no";
-
-    if( SDL_GetDesktopDisplayMode( get_option<int>( "DISPLAY" ), &current ) == 0 ) {
-        display_width = current.w;
-        display_height = current.h;
-
-        // Require extra space if not in fullscreen or borderless window mode to account for taskbar/whatever
-        // It would be better if there was a cross platform way to actually check for the maximum window size
-        if( windowed ) {
-            display_width -= display_width / 10;
-            display_height -= display_height / 10;
-        }
-
-    } else {
-        dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
-        display_width = INT_MAX;
-        display_height = INT_MAX;
-    }
 
     if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
         scaling_factor = 2;
@@ -3000,63 +2979,86 @@ void init_term_size_and_scaling_factor()
         scaling_factor = 4;
     }
 
-    if( TERMX * fontwidth > display_width ||
-        FULL_SCREEN_WIDTH * fontwidth * scaling_factor > display_width ) {
-        if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > display_width ) {
+    int max_width, max_height;
+
+    int current_display_id = get_option<int>( "DISPLAY" );
+    SDL_DisplayMode current_display;
+
+    if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
+        if( get_option<std::string>( "FULLSCREEN" ) == "no" ) {
+
+            // Make a maximized test window to determine maximum windowed size
+            SDL_Window_Ptr test_window;
+            test_window.reset( SDL_CreateWindow( "test_window",
+                SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
+                SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
+                FULL_SCREEN_WIDTH * fontwidth,
+                FULL_SCREEN_HEIGHT * fontheight,
+                SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED
+            ) );
+
+            SDL_GetWindowSize( test_window.get(), &max_width, &max_height );
+
+            // If the video subsystem isn't reset the test window messes things up later
+            test_window.reset();
+            SDL_QuitSubSystem(SDL_INIT_VIDEO);
+            SDL_InitSubSystem(SDL_INIT_VIDEO);
+
+        } else {
+            // For fullscreen or window borderless maximum size is the display size
+            max_width = current_display.w;
+            max_height = current_display.h;
+        }
+    } else {
+        dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
+        max_width = INT_MAX;
+        max_height = INT_MAX;
+    }
+
+    if( terminal_x * fontwidth > max_width ||
+        FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
+        if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
             dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
             scaling_factor = 1;
-            TERMX = current.w / fontwidth;
-            TERMY = current.h / fontheight;
-            if( windowed ) {
-                TERMX -= TERMX / 10;
-                TERMY -= TERMY / 10;
-            }
+            terminal_x = max_width / fontwidth;
+            terminal_y = max_height / fontheight;
             get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
         } else {
-            TERMX = current.w / fontwidth;
-            if( windowed ) {
-                TERMX -= TERMX / 10;
-            }
+            terminal_x = max_width / fontwidth;
         }
     }
 
-    if( TERMY * fontheight > display_height ||
-        FULL_SCREEN_HEIGHT * fontheight * scaling_factor > display_height ) {
-        if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > display_height ) {
+    if( terminal_y * fontheight > max_height ||
+        FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
+        if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
             dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
             scaling_factor = 1;
-            TERMX = current.w / fontwidth;
-            TERMY = current.h / fontheight;
-            if( windowed ) {
-                TERMX -= TERMX / 10;
-                TERMY -= TERMY / 10;
-            }
+            terminal_x = max_width / fontwidth;
+            terminal_y = max_height / fontheight;
             get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
         } else {
-            TERMY = current.h / fontheight;
-            if( windowed ) {
-                TERMY -= TERMY / 10;
-            }
+            terminal_y = max_height / fontheight;
         }
     }
 
-    TERMX -= TERMX % scaling_factor;
-    TERMY -= TERMY % scaling_factor;
+    terminal_x -= terminal_x % scaling_factor;
+    terminal_y -= terminal_y % scaling_factor;
 
-    TERMX = std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX );
-    TERMY = std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY );
+    terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
+    terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
+
 
     get_options().get_option( "TERMINAL_X" ).setValue(
-        std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
+        std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );
     get_options().get_option( "TERMINAL_Y" ).setValue(
-        std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
+        std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y ) );
 
     get_options().save();
 
 #endif //__ANDROID__
 
-    TERMINAL_WIDTH = TERMX / scaling_factor;
-    TERMINAL_HEIGHT = TERMY / scaling_factor;
+    TERMINAL_WIDTH = terminal_x / scaling_factor;
+    TERMINAL_HEIGHT = terminal_y / scaling_factor;
 }
 
 //Basic Init, create the font, backbuffer, etc
@@ -3073,6 +3075,10 @@ void catacurses::init_interface()
     InitSDL();
 
     find_videodisplays();
+
+    // set minimum FULL_SCREEN sizes
+    FULL_SCREEN_WIDTH = 80;
+    FULL_SCREEN_HEIGHT = 24;
 
     init_term_size_and_scaling_factor();
 
