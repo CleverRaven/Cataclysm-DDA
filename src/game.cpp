@@ -11778,6 +11778,12 @@ void game::vertical_move( int movez, bool force )
         m.ter_set( stairs, t_manhole );
     }
 
+    // Wouldn't work and may do strange things
+    if( u.is_hauling() && !m.has_zlevels() ) {
+        add_msg( _( "You cannot haul items here." ) );
+        u.stop_hauling();
+    }
+
     if( u.is_hauling() ) {
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the source is inside a vehicle (not supported)
