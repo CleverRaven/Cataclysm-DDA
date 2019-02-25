@@ -1,0 +1,98 @@
+[
+    {
+        "type" : "technique",
+        "id" : "tec_crt_cqb_normal",
+        "name" : "Measured Footwork",
+        "min_unarmed" : 1,
+        "unarmed_allowed" : true,
+        "mult_bonuses" : [
+            ["movecost", 0.85],
+            ["damage", "bash", 0.8],
+            ["damage", "cut", 1.0],
+            ["damage", "stab", 1.1]
+        ],
+        "flat_bonuses" : [
+            ["damage", "stab", "dex", 0.2],
+            ["damage", "cut", "dex", 0.1],
+            ["movecost", "dex", -0.15]
+        ],
+        "messages" : [
+            "You quickly batter %s",
+            "<npcname> batters %s"
+        ],
+        "stun_dur" : 0.1
+    },{
+        "type" : "technique",
+        "id" : "tec_crt_cqb_rapid",
+        "name" : "Rapid Burst",
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "mult_bonuses" : [
+            ["movecost", 0.70],
+            ["damage", "bash", 0.66],
+            ["damage", "cut", 0.7],
+            ["damage", "stab", 0.8]
+        ],
+        "flat_bonuses" : [
+            ["damage", "stab", "dex", 0.015],
+            ["damage", "cut", "dex", 0.0125],
+            ["movecost", "dex", -0.35]
+        ],
+        "messages" : [
+            "You swiftly impale your fingers into %s joints",
+            "<npcname> swiftly impales their fingers into %s"
+        ],
+        "stun_dur" : 0.05
+   },{
+        "type" : "technique",
+        "id" : "tec_crt_cqb_precise",
+        "name" : "Rapid Jab",
+        "min_unarmed": 3,
+        "unarmed_allowed" : true,
+        "mult_bonuses" : [
+            ["movecost",  0.80],
+            ["damage", "bash", 0.66],
+            ["damage", "cut", 1.1],
+            ["damage", "stab", 1.25]
+        ],
+        "flat_bonuses" : [
+            ["damage", "stab", "dex", 0.2],
+            ["damage", "cut", "dex", 0.01],
+            ["movecost", "dex", -0.20]
+        ],
+        "crit_tec" : true,
+        "messages" : [
+            "You steady your hand and release a piercing jab at %s",
+            "<npcname> releases a piercing jab at %s"
+        ],
+        "stun_dur" : 1
+    },{
+    "type" : "technique",
+        "id" : "tec_crt_cqb_arpen",
+        "name" : "Calculated Pierce",
+        "min_unarmed": 5,
+        "weighting": 2,
+        "unarmed_allowed" : true,
+        "mult_bonuses" : [
+            ["movecost",  0.90],
+            ["damage", "bash", 0.2],
+            ["damage", "cut", 1.25],
+            ["arpen", "cut", "dex", 0.15],
+            ["damage", "stab", 1.50],
+            ["arpen", "stab", "dex", 0.3]
+        ],
+        "flat_bonuses" : [
+            ["damage", "stab", "dex", 0.5],
+            ["damage", "cut", "dex", 0.25],
+            ["movecost", "dex", -0.5]
+        ],
+        "crit_tec" : true,
+        "messages" : [
+            "You envision a tempest in your hand and then land a piercing blow on %s's top half",
+            "<npcname> lands a piercing blow on %s's face"
+        ],
+        "stun_dur" : 1,
+        "down_dur" : 1.25
+
+    }
+]

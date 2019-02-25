@@ -1,0 +1,107 @@
+[
+  {
+    "id": "manual_crt_cqb",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "C.R.I.T CQB manual",
+    "name_plural": "C.R.I.T CQB manuals",
+    "description": "An advanced military manual on C.R.I.T general CQB."
+    },
+    {
+    "id": "book_martial",
+    "type": "item_group",
+    "items": [ [ "manual_crt_cqb", 5 ] ]
+    },
+    {
+        "type" : "mutation",
+        "id" : "MARTIAL_CRT",
+        "name" : "C.R.I.T Melee Training",
+        "points" : 3,
+        "description" : "You have received some defensive training. For every hit you land, gain various miniscule combat bonuses that scale off of your stats.",
+        "starting_trait" : true,
+        "initial_ma_styles" : [ "style_crt_cqb", "style_crt_blade", "style_crt_enforcement"],
+        "valid" : false
+    },
+    {
+        "type" : "martial_art",
+        "id" : "style_crt_cqb",
+        "name" : "C.R.I.T CQB",
+        "description": "A defensive style centered around rapid paralyzing strikes and piercing jabs.  Each attack landed increases your speed by 0.5 along with a slew of combat bonuses. 25 percent bash damage.",
+        "arm_block" : 3,
+        "leg_block" : 6,
+        "static_buffs" : [
+            {
+                "id" : "crt_cqb_static",
+                "name" : "C.R.I.T Initiative",
+                "description" : "DEX provides dodge ability, accuracy and minor cut /stab damage with slight piercing capability. 25 Percent Bash Damage that slightly increases per hit stack.",
+                "unarmed_allowed" : true,
+                "flat_bonuses" : [
+                    ["damage", "stab", "dex", 0.25],
+                    ["damage", "cut", "dex", 0.25],
+                    ["arpen", "stab", "dex", 0.10],
+                    ["arpen", "cut", "dex", 0.05],
+                    ["dodge", "dex", 0.05],
+                    ["hit", "dex", 0.3],
+                    ["movecost", "dex", -0.60]
+                ],
+                "mult_bonuses" : [
+                ["damage", "bash", 0.25]
+                ]
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "crt_cqb_hit_buff",
+                "name" : "C.R.I.T Tenacity",
+                "description" : "+0.5 Atk Speed and other small bonuses based on DEX per stack. Max of 100 stacks",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 1,
+                "buff_duration" : 100,
+                "max_stacks" : 100,
+                "flat_bonuses" : [
+                    ["hit", "dex", 0.015],
+                    ["damage", "bash", "dex", 0.0125],
+                    ["damage", "stab", "dex", 0.025],
+                    ["damage", "cut", "dex", 0.0125],
+                    ["arpen", "stab", "dex", 0.005],
+                    ["arpen", "stab", "dex", 0.005],
+                    ["dodge", "dex", 0.01],
+                    ["movecost", "dex", -0.125],
+                    ["movecost", -0.50]
+                ]
+            }
+        ],
+        "techniques" : [
+            "tec_crt_cqb_normal",
+            "tec_crt_cqb_rapid",
+            "tec_crt_cqb_precise",
+            "tec_crt_cqb_arpen",
+            "tec_feint"
+        ],
+        "weapons" : [
+            "sword_crt",
+            "blade_crt",
+            "knife_crt",
+            "knife_combat",
+            "knife_hunting",
+            "knife_rambo",
+            "knife_rm42",
+            "knife_steak",
+            "knife_swissarmy",
+            "knife_trench",
+            "knife_butter",
+            "knife_folding",
+            "makeshift_knife",
+            "primitive_knife",
+            "pockknife",
+            "copper_knife",
+            "diveknife",
+            "kris",
+            "switchblade",
+            "honey_scraper",
+            "fork",
+            "glass_shiv",
+            "scissors"
+        ]
+    }
+]	

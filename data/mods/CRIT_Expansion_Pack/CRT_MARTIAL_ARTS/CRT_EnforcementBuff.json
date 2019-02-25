@@ -1,0 +1,91 @@
+[
+  {
+    "id": "manual_crt_enforcement",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "C.R.I.T Enforcement manual",
+    "name_plural": "C.R.I.T Enforcement manuals",
+    "description": "An advanced military manual on C.R.I.T Enforcer melee."
+    },
+    {
+    "id": "book_martial",
+    "type": "item_group",
+    "items": [ [ "manual_crt_enforcement", 5 ] ]
+    },
+    {
+        "type" : "martial_art",
+        "id" : "style_crt_enforcement",
+        "name" : "C.R.I.T Enforcement",
+        "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor by 0.25 and offers other combat bonuses based on stats.",
+        "arm_block" : 2,
+        "leg_block" : 10,
+        "static_buffs" : [
+            {
+                "id" : "crt_enforcement_static",
+                "name" : "C.R.I.T Calculation",
+                "description" : "+1 armor. STR provides accuracy and minor bash damage and arpen.",
+                "unarmed_allowed" : true,
+                "flat_bonuses" : [
+                    ["damage", "bash", "str", 0.15],
+                    ["arpen", "bash", "str", 0.15],
+                    ["armor", "bash", 1],
+                    ["armor", "cut", 1],
+                    ["armor", "stab", 1],
+                    ["hit", "str", 0.4]
+                ]
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "crt_enforcement_hit_buff",
+                "name" : "C.R.I.T Endurance",
+                "description" : "+0.05 armor, +0.1 bash and other small bonuses per stack. Max of 10 stacks",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 1,
+                "buff_duration" : 10,
+                "max_stacks" : 10,
+                "flat_bonuses" : [
+                    ["hit", "dex", 0.015],
+                    ["damage", "bash", 0.10],
+                    ["damage", "bash", "str",  0.05],
+                    ["armor", "bash", 0.05],
+                    ["armor", "cut", 0.05],
+                    ["armor", "stab", 0.05],
+                    ["armor", "bash", "str", 0.1],
+                    ["armor", "cut", "str",  0.1],
+                    ["armor", "stab", "str",  0.1],
+                    ["movecost", "str", -0.05],
+                    ["movecost", "dex", -0.02]
+                ]
+            }
+        ],
+        "techniques" : [
+            "tec_crt_enforcement_normal",
+            "tec_crt_enforcement_rapid",
+            "tec_crt_enforcement_brutal",
+            "tec_feint"
+        ],
+        "weapons" : [
+            "knife_crt",
+            "crt_nstick",
+            "baton-extended",
+            "cudgel",
+            "sword_wood",
+            "sword_nail",
+            "2x4",
+            "pipe",
+            "bat",
+            "bwirebat",
+            "nailbat",
+            "nailboard",
+            "bat_metal",
+            "cane",
+            "mace",
+            "morningstar",
+            "tonfa",
+            "tonfa_wood",
+            "PR24-extended",
+            "glass_macuahuitl"
+        ]
+    }
+]	
