@@ -9454,8 +9454,8 @@ void game::reload()
                 return ap->is_gun();
             }
             // Finally sort by speed to reload.
-            return ap->get_reload_time() > bp->get_reload_time();
-
+            return ( ap->get_reload_time() * ( ap->ammo_capacity() - ap->ammo_remaining() ) ) <
+                   ( bp->get_reload_time() * ( bp->ammo_capacity() - bp->ammo_remaining() ) );
         } );
         for( item_location &candidate : reloadables ) {
             std::vector<item::reload_option> ammo_list;
