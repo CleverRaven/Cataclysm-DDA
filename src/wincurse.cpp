@@ -569,10 +569,6 @@ void catacurses::init_interface()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    // set minimum FULL_SCREEN sizes
-    FULL_SCREEN_WIDTH = 80;
-    FULL_SCREEN_HEIGHT = 24;
-
     WinCreate();    //Create the actual window, register it, etc
     timeBeginPeriod( 1 ); // Set Sleep resolution to 1ms
     CheckMessages();    //Let the message queue handle setting up the window
