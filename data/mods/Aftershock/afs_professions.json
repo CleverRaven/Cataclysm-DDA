@@ -1,6 +1,21 @@
 [
   {
     "type": "profession",
+    "ident": "afs_debug",
+    "name": "Debugger",
+    "description": "Your sole purpose in life is to test mods.  Did you exist before this?  Or were you brought into existence at this moment?  You scream - for you do not know.  (This profession is CHEATING!  Only use it if you're testing code and want to quickly jump in.)",
+    "points": 10,
+    "traits": [ "DEBUG_HS", "DEBUG_NODMG", "DEBUG_STORAGE", "DEBUG_BIONIC_POWER", "DEBUG_NOTEMP", "DEBUG_LS" ],
+    "CBMs": [ "bio_power_storage_mkII", "bio_power_storage_mkII", "bio_power_storage_mkII", "bio_power_storage_mkII", "bio_tools" ],
+    "skills": [ { "level": 8, "name": "fabrication" }, { "level": 8, "name": "mechanics" } ],
+    "items": {
+      "both": [ "linuxtshirt", "pants_cargo", "socks", "sneakers" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "afs_linux_patron",
     "name": "Linux Patron",
     "description": "You've grown up using Linux, have hacked together your own operating system out of Gentoo and a bunch of packages, and campaign for open source like it's a basic human right.  None of these things matter in the apocalypse, but your knowledge of the inner workings of 87% of the world's servers might.",

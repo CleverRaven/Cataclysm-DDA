@@ -1,6 +1,20 @@
 [
   {
     "type": "vehicle_part",
+    "id": "afs_cargo_trough",
+    "copy-from": "trunk",
+    "name": "cargo trough",
+    "color": "gray",
+    "broken_color": "gray",
+    "looks_like": "trunk",
+    "location": "center",
+    "durability": 200,
+    "description": "This is little more than a thin sheetmetal basin welded to the bottom of the car, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
+    "size": 1200,
+    "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "afs_crude_plating",
     "name": "crude plating",
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",

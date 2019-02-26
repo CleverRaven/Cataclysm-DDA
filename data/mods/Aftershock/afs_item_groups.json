@@ -128,5 +128,21 @@
     "id": "subway",
     "type": "item_group",
     "items": [ [ "afs_atomic_smartphone", 1 ] ]
+  },
+  {
+    "id": "hardware",
+    "type": "item_group",
+    "items": [ [ "afs_power_cutter", 5 ], [ "toolbox", 5 ] ]
+  },
+  {
+    "id": "hardware_bulk",
+    "type": "item_group",
+    "//": "Not something you get in bulk, but it makes sense to be out in the back area",
+    "items": [ [ "afs_power_cutter", 1 ] ]
+  },
+  {
+    "id": "mischw",
+    "type": "item_group",
+    "items": [ [ "afs_power_cutter", 5 ] ]
   }
 ]
