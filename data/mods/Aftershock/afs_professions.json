@@ -9,7 +9,7 @@
     "items": {
       "both": [ "laptop", "eink_tablet_pc", "linuxtshirt", "pants_cargo", "socks", "slingpack", "sneakers", "smart_phone" ],
       "male": [ "briefs" ],
-      "female": [ "panties" ]
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -31,7 +31,7 @@
         "tool_belt"
       ],
       "male": [ "briefs" ],
-      "female": [ "boy_shorts" ]
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -45,7 +45,7 @@
     "items": {
       "both": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "tool_belt" ],
       "male": [ "briefs" ],
-      "female": [ "boy_shorts" ]
+      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
@@ -71,7 +71,7 @@
     "items": {
       "both": [ "jihelucake", "afs_rolling_pin", "flour", "cooking_oil", "tshirt", "socks", "jeans", "sneakers", "slingpack" ],
       "male": [ "briefs" ],
-      "female": [ "panties" ]
+      "female": [ "bra", "panties" ]
     }
   },
   {
