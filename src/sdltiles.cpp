@@ -312,12 +312,7 @@ void InitSDL()
 bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
-    if( scaling_factor > 1 ) {
-        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
-        display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor, WindowHeight / scaling_factor ) );
-    } else {
-        display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
-    }
+    display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor, WindowHeight / scaling_factor ) );
     if( printErrorIf( !display_buffer, "Failed to create window buffer" ) ) {
         return false;
     }
@@ -761,9 +756,6 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, NULL );
-    if( scaling_factor > 1 ) {
-        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
-    }
 #ifdef __ANDROID__
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
     SetRenderDrawColor( renderer, 0, 0, 0, 255 );
