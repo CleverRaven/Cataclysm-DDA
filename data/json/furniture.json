@@ -2131,6 +2131,24 @@
   },
   {
     "type": "furniture",
+    "id": "f_rotary_clothesline",
+    "name": "rotary clothes dryer line",
+    "description": "A umbrella shaped clothes line mounted on a pole.",
+    "symbol": "X",
+    "color": "white",
+    "move_cost_mod": -2,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "BASHABLE", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "smash!",
+      "sound_fail": "clang!.",
+      "items": [ { "item": "pipe", "count": [ 1, 6 ] }, { "item": "wire", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_target",
     "name": "target",
     "description": "A metal shooting target in the rough shape of a human.",
