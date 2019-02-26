@@ -826,9 +826,23 @@ bool main_menu::new_character_tab()
 bool main_menu::load_character_tab()
 {
     bool start = false;
+    const auto all_worldnames = world_generator->all_worldnames();
+
+    const ptrdiff_t last_world_pos = std::find( all_worldnames.begin(), all_worldnames.end(),
+                                     world_generator->last_world_name ) - all_worldnames.begin();
+    if( last_world_pos < all_worldnames.size() ) {
+        sel2 = last_world_pos;
+    }
+    const ptrdiff_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
+    []( const auto & it ) {
+        return it.player_name() == world_generator->last_character_name;
+    } ) - savegames.begin();
+    if( last_character_pos < savegames.size() ) {
+        sel3 = last_character_pos;
+    }
+
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
         print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY );
-        const auto all_worldnames = world_generator->all_worldnames();
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
@@ -945,6 +959,9 @@ bool main_menu::load_character_tab()
                     werase( w_background );
                     wrefresh( w_background );
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
+                    world_generator->last_world_name = world->world_name;
+                    world_generator->last_character_name = savegames[sel3].player_name();
+                    world_generator->save_last_world_info();
                     world_generator->set_active_world( world );
                     try {
                         g->setup();

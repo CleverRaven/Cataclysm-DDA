@@ -117,6 +117,7 @@ void PATH_INFO::update_config_dir()
     update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
     update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
     update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
+    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
 }
 
 void PATH_INFO::set_standard_filenames()
@@ -201,6 +202,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
     update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
     update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
+    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
     update_pathname( "user_moddir", FILENAMES["user_dir"] + "mods/" );
     update_pathname( "worldoptions", "worldoptions.json" );
 
