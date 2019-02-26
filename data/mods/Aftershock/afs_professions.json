@@ -56,7 +56,19 @@
     "points": 2,
     "skills": [ { "level": 5, "name": "barter" } ],
     "items": {
-      "both": [ "dress_shirt", "pants", "dress_shoes", "socks", "mbag", "afs_atomic_smartphone", "atomic_coffeepot", "atomic_lamp_off", "atomic_light_off", "energy_drink_atomic", "smart_phone" ],
+      "both": [
+        "dress_shirt",
+        "pants",
+        "dress_shoes",
+        "socks",
+        "mbag",
+        "afs_atomic_smartphone",
+        "atomic_coffeepot",
+        "atomic_lamp_off",
+        "atomic_light_off",
+        "energy_drink_atomic",
+        "smart_phone"
+      ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
