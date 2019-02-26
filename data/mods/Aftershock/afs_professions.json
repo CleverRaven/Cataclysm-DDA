@@ -50,8 +50,8 @@
   },
   {
     "type": "profession",
-    "ident": "afs_rivtech_salesman",
-    "name": "Rivtech Salesman",
+    "ident": "afs_atomic_pitchman",
+    "name": "Atomic Pitchman",
     "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the end came.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
     "points": 2,
     "skills": [ { "level": 5, "name": "barter" } ],
