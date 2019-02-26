@@ -819,6 +819,10 @@ bool main_menu::new_character_tab()
 
     if( start ) {
         g->u.add_msg_if_player( g->scen->description( g->u.male ) );
+
+        world_generator->last_world_name = world_generator->active_world->world_name;
+        world_generator->last_character_name = g->u.name;
+        world_generator->save_last_world_info();
     }
     return start;
 }
