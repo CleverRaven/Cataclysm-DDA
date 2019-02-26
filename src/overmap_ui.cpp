@@ -28,9 +28,9 @@
 #include <SDL_keyboard.h>
 #endif
 
-/** Note preview map width without borders */
+/** Note preview map width without borders. Odd number. */
 static const int npm_width = 3;
-/** Note preview map height without borders */
+/** Note preview map height without borders. Odd number. */
 static const int npm_height = 3;
 
 namespace
@@ -96,7 +96,8 @@ std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbo
 
     std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around;
     int index = 0;
-    for( const tripoint &dest : g->m.points_in_radius( current, 1 ) ) {
+    const point shift( npm_width / 2, npm_height / 2 );
+    for( const tripoint &dest : g->m.points_in_rectangle( current - shift, current + shift ) ) {
         nc_color ter_color = c_black;
         long ter_sym = ' ';
         const bool see = has_debug_vision || overmap_buffer.seen( dest.x, dest.y, dest.z );
@@ -115,7 +116,7 @@ std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbo
 }
 
 void update_note_preview( const std::string &note,
-                          const std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around,
+                          const std::array<std::pair<nc_color, long>, npm_width *npm_height> &map_around,
                           const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                           &preview_windows )
 {
@@ -935,7 +936,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             const auto map_around = get_overmap_neighbors( curs );
 
             const int max_note_length = 45;
-            catacurses::window w_preview = catacurses::newwin( 5, max_note_length - 4, 2, npm_height + 2 );
+            catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+                                           2, npm_width + 2 );
             catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
             catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
