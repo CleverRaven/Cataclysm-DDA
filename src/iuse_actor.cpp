@@ -889,26 +889,17 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         if( it.inc_damage() ) {
             p.add_msg_if_player( m_bad,
                                  _( "The lock stumps your efforts to pick it, and you destroy your tool. "
-                                    "The picking needs a throw above %s and you made %s."
-                                    "Raising Mechanic skill, Dexterity stat or "
-                                    "improving the quality of your tool would help." ),
-                                 door_roll, ( int )( 1.5 * pick_roll ) );
+                                    "A higher mechanics skill would improve your chances. " ) );
             destroy = true;
         } else {
             p.add_msg_if_player( m_bad,
                                  _( "The lock stumps your efforts to pick it, and you damage your tool. "
-                                    "The picking needs a throw above %s and you made %s."
-                                    "Raising Mechanic skill, Dexterity stat or "
-                                    "improving the quality of your tool would help." ),
-                                 door_roll, ( int )pick_roll );
+                                    "A higher mechanics skill would improve your chances." ) );
         }
     } else {
         p.add_msg_if_player( m_bad,
                              _( "The lock stumps your efforts to pick it. "
-                                "The picking needs a throw above %s and you made %s. "
-                                "Raising Mechanic skill, Dexterity stat or "
-                                "improving the quality of your tool would help." ),
-                             door_roll, ( int )pick_roll );
+                                "A higher mechanics skill would improve your chances." ) );
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
