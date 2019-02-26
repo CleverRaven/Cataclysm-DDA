@@ -1228,6 +1228,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
         }
         restore_area = true;
     }
+    if( !squares[dpane.get_area()].canputitems() ) {
+        popup( _( "You can't put items there!" ) );
+        return false;
+    }
     if( spane.get_area() == AIM_INVENTORY &&
         !query_yn( _( "Really move everything from your inventory?" ) ) ) {
         return false;

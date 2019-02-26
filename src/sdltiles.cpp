@@ -93,7 +93,7 @@ public:
 #ifdef __ANDROID__
     opacity(1.0f),
 #endif
-    fontwidth(w), fontheight(h) { }
+    fontwidth( w ), fontheight( h ) { }
     virtual ~Font() = default;
     /**
      * Draw character t at (x,y) on the screen,
@@ -198,6 +198,7 @@ int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 bool fullscreen;
+int scaling_factor;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -311,7 +312,12 @@ void InitSDL()
 bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
-    display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
+    if( scaling_factor > 1 ) {
+        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
+        display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor, WindowHeight / scaling_factor ) );
+    } else {
+        display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
+    }
     if( printErrorIf( !display_buffer, "Failed to create window buffer" ) ) {
         return false;
     }
@@ -330,8 +336,8 @@ void WinCreate()
 
     // Common flags used for fulscreen and for windowed
     int window_flags = 0;
-    WindowWidth = TERMINAL_WIDTH * fontwidth;
-    WindowHeight = TERMINAL_HEIGHT * fontheight;
+    WindowWidth = TERMINAL_WIDTH * fontwidth * scaling_factor;
+    WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
     window_flags |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 
     if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
@@ -380,8 +386,8 @@ void WinCreate()
     if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
-        TERMINAL_WIDTH = WindowWidth / fontwidth;
-        TERMINAL_HEIGHT = WindowHeight / fontheight;
+        TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
+        TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
     }
 #endif
     // Initialize framebuffer caches
@@ -448,7 +454,8 @@ void WinCreate()
         throwErrorIf( !SetupRenderTarget(), "Failed to initialize display buffer under software rendering, unable to continue." );
     }
 
-    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
+    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * FULL_SCREEN_WIDTH * scaling_factor,
+                              fontheight * FULL_SCREEN_HEIGHT * scaling_factor );
 
 #ifdef __ANDROID__
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
@@ -754,6 +761,9 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, NULL );
+    if( scaling_factor > 1 ) {
+        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
+    }
 #ifdef __ANDROID__
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
     SetRenderDrawColor( renderer, 0, 0, 0, 255 );
@@ -954,6 +964,9 @@ void clear_window_area( const catacurses::window &win_ )
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    if( scaling_factor > 1 ) {
+        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
+    }
     WINDOW *const win = w.get<WINDOW>();
     bool update = false;
     if (g && w == g->w_terrain && use_tiles) {
@@ -1091,6 +1104,9 @@ bool Font::draw_window( const catacurses::window &w )
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
 {
+    // SDL_RenderSetScale( renderer.get(), 1.2, 1.2);
+    SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor, WindowHeight / scaling_factor );
+
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     //Keeping track of the last drawn window
     const cata_cursesport::WINDOW *winBuffer = static_cast<cata_cursesport::WINDOW*>( ::winBuffer.lock().get() );
@@ -1432,8 +1448,8 @@ bool handle_resize(int w, int h)
     if( ( w != WindowWidth ) || ( h != WindowHeight ) ) {
         WindowWidth = w;
         WindowHeight = h;
-        TERMINAL_WIDTH = WindowWidth / fontwidth;
-        TERMINAL_HEIGHT = WindowHeight / fontheight;
+        TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
+        TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         SetupRenderTarget();
         game_ui::init_ui();
         tilecontext->reinit_minimap();
@@ -1445,8 +1461,8 @@ bool handle_resize(int w, int h)
 
 void toggle_fullscreen_window()
 {
-    static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth;
-    static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
+    static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth * scaling_factor;
+    static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight * scaling_factor;
 
     if ( fullscreen ) {
         if( printErrorIf( SDL_SetWindowFullscreen( window.get(), 0 ) != 0, "SDL_SetWindowFullscreen failed" ) ) {
@@ -1454,7 +1470,8 @@ void toggle_fullscreen_window()
         }
         SDL_RestoreWindow( window.get() );
         SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
-        SDL_SetWindowMinimumSize( window.get(), fontwidth * 80, fontheight * 24 );
+        SDL_SetWindowMinimumSize( window.get(), fontwidth * FULL_SCREEN_WIDTH * scaling_factor,
+                                  fontheight * FULL_SCREEN_HEIGHT * scaling_factor );
     } else {
         restore_win_w = WindowWidth;
         restore_win_h = WindowHeight;
@@ -2948,6 +2965,102 @@ int projected_window_height()
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
+void init_term_size_and_scaling_factor()
+{
+    scaling_factor = 1;
+    int terminal_x = get_option<int>( "TERMINAL_X" );
+    int terminal_y = get_option<int>( "TERMINAL_Y" );
+
+#ifndef __ANDROID__
+
+    if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
+        scaling_factor = 2;
+    } else if( get_option<std::string>( "SCALING_FACTOR" ) == "4" ) {
+        scaling_factor = 4;
+    }
+
+    int max_width, max_height;
+
+    int current_display_id = get_option<int>( "DISPLAY" );
+    SDL_DisplayMode current_display;
+
+    if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
+        if( get_option<std::string>( "FULLSCREEN" ) == "no" ) {
+
+            // Make a maximized test window to determine maximum windowed size
+            SDL_Window_Ptr test_window;
+            test_window.reset( SDL_CreateWindow( "test_window",
+                SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
+                SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
+                FULL_SCREEN_WIDTH * fontwidth,
+                FULL_SCREEN_HEIGHT * fontheight,
+                SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED
+            ) );
+
+            SDL_GetWindowSize( test_window.get(), &max_width, &max_height );
+
+            // If the video subsystem isn't reset the test window messes things up later
+            test_window.reset();
+            SDL_QuitSubSystem(SDL_INIT_VIDEO);
+            SDL_InitSubSystem(SDL_INIT_VIDEO);
+
+        } else {
+            // For fullscreen or window borderless maximum size is the display size
+            max_width = current_display.w;
+            max_height = current_display.h;
+        }
+    } else {
+        dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
+        max_width = INT_MAX;
+        max_height = INT_MAX;
+    }
+
+    if( terminal_x * fontwidth > max_width ||
+        FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
+        if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
+            dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+            scaling_factor = 1;
+            terminal_x = max_width / fontwidth;
+            terminal_y = max_height / fontheight;
+            get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+        } else {
+            terminal_x = max_width / fontwidth;
+        }
+    }
+
+    if( terminal_y * fontheight > max_height ||
+        FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
+        if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
+            dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+            scaling_factor = 1;
+            terminal_x = max_width / fontwidth;
+            terminal_y = max_height / fontheight;
+            get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+        } else {
+            terminal_y = max_height / fontheight;
+        }
+    }
+
+    terminal_x -= terminal_x % scaling_factor;
+    terminal_y -= terminal_y % scaling_factor;
+
+    terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
+    terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
+
+
+    get_options().get_option( "TERMINAL_X" ).setValue(
+        std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );
+    get_options().get_option( "TERMINAL_Y" ).setValue(
+        std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y ) );
+
+    get_options().save();
+
+#endif //__ANDROID__
+
+    TERMINAL_WIDTH = terminal_x / scaling_factor;
+    TERMINAL_HEIGHT = terminal_y / scaling_factor;
+}
+
 //Basic Init, create the font, backbuffer, etc
 void catacurses::init_interface()
 {
@@ -2963,8 +3076,11 @@ void catacurses::init_interface()
 
     find_videodisplays();
 
-    TERMINAL_WIDTH = get_option<int>( "TERMINAL_X" );
-    TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
+    // set minimum FULL_SCREEN sizes
+    FULL_SCREEN_WIDTH = 80;
+    FULL_SCREEN_HEIGHT = 24;
+
+    init_term_size_and_scaling_factor();
 
     WinCreate();
 
@@ -3193,6 +3309,10 @@ int get_terminal_width() {
 
 int get_terminal_height() {
     return TERMINAL_HEIGHT;
+}
+
+int get_scaling_factor() {
+    return scaling_factor;
 }
 
 BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_path )

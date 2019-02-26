@@ -2677,7 +2677,7 @@
             "attack_text_u" : "You stab %s with your pointed horns",
             "attack_text_npc" : "%1$s stabs %2$s with their pointed horns",
             "chance" : 22,
-            "base_damage" : { "damage_type" : "bash", "amount" : 24 }
+            "base_damage" : { "damage_type" : "stab", "amount" : 24 }
         }
     },{
         "type" : "mutation",
@@ -2806,7 +2806,7 @@
             "attack_text_u" : "You whap %s with your tail",
             "attack_text_npc" : "%1$s whaps %2$s with their tail",
             "chance" : 20,
-            "base_damage" : { "damage_type" : "stab", "amount" : 8 }
+            "base_damage" : { "damage_type" : "bash", "amount" : 8 }
         }
     },{
         "type" : "mutation",
@@ -2873,7 +2873,7 @@
             "attack_text_u" : "You club %s with your tail",
             "attack_text_npc" : "%1$s clubs %2$s with their tail",
             "chance" : 20,
-            "base_damage" : { "damage_type" : "stab", "amount" : 18 }
+            "base_damage" : { "damage_type" : "bash", "amount" : 18 }
         }
     },{
         "type" : "mutation",
