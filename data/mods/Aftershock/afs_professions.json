@@ -9,7 +9,7 @@
     "items": {
       "both": [ "laptop", "eink_tablet_pc", "linuxtshirt", "pants_cargo", "socks", "slingpack", "sneakers", "smart_phone" ],
       "male": [ "briefs" ],
-      "female": [ "boy_shorts" ]
+      "female": [ "panties" ]
     }
   },
   {
@@ -50,6 +50,19 @@
   },
   {
     "type": "profession",
+    "ident": "afs_rivtech_salesman",
+    "name": "Rivtech Salesman",
+    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the end came.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
+    "points": 2,
+    "skills": [ { "level": 5, "name": "barter" } ],
+    "items": {
+      "both": [ "dress_shirt", "pants", "dress_shoes", "socks", "mbag", "afs_atomic_smartphone", "atomic_coffeepot", "atomic_lamp_off", "atomic_light_off", "energy_drink_atomic", "smart_phone" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "afs_baker",
     "name": "Baker",
     "description": "You worked at a modest bakery specializing in birthday cakes.  When the sirens sounded, you had one, decorated and all, in your hands, and by the time you got to relative safety, you were still holding it.",
@@ -58,7 +71,7 @@
     "items": {
       "both": [ "jihelucake", "afs_rolling_pin", "flour", "cooking_oil", "tshirt", "socks", "jeans", "sneakers", "slingpack" ],
       "male": [ "briefs" ],
-      "female": [ "boy_shorts" ]
+      "female": [ "panties" ]
     }
   },
   {

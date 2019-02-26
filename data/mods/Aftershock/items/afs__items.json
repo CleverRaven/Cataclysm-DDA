@@ -1,5 +1,44 @@
 [
   {
+    "id": "afs_atomic_smartphone",
+    "type": "TOOL",
+    "name": "atomic smartphone",
+    "description": "Never charge your phone again with the Rivtech atomic smartphone.  Rated for 10 million years of use, this cutting-edge gadget had been on public markets for less than a week when the Cataclysm hit, and their eye-watering price made them a rarity.  It includes an alarm clock, high-resolution camera, and a bright flashlight.",
+    "weight": 300,
+    "volume": "50 ml",
+    "price": 200000,
+    "price_postapoc": 2500,
+    "material": [ "plastic", "aluminum" ],
+    "looks_like": "cell_phone",
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": [
+      {
+        "target": "afs_atomic_smartphone_flashlight",
+        "msg": "You activate the flashlight app.",
+        "active": true,
+        "type": "transform"
+      },
+      { "revert_to": "afs_atomic_smartphone", "type": "CAMERA" }
+    ],
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "id": "afs_atomic_smartphone_flashlight",
+    "copy-from": "afs_atomic_smartphone",
+    "type": "TOOL",
+    "name": "atomic smartphone - Flashlight",
+    "name_plural": "atomic smartphones - Flashlight",
+    "revert_to": "afs_atomic_smartphone",
+    "use_action": {
+      "target": "afs_atomic_smartphone",
+      "msg": "You deactivate the flashlight app.",
+      "menu_text": "Turn off flashlight",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_30" ]
+  },
+  {
     "id": "afs_basin",
     "type": "CONTAINER",
     "name": "basin",

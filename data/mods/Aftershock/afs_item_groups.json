@@ -67,7 +67,7 @@
   {
     "id": "drugdealer",
     "type": "item_group",
-    "items": [ [ "afs_daypack", 20 ] ]
+    "items": [ [ "afs_daypack", 20 ], [ "afs_atomic_smartphone", 1 ] ]
   },
   {
     "id": "college_camping",
@@ -98,5 +98,35 @@
     "id": "mechanics",
     "type": "item_group",
     "items": [ [ "afs_welding_mask", 30 ] ]
+  },
+  {
+    "id": "livingroom",
+    "type": "item_group",
+    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+  },
+  {
+    "id": "bedroom",
+    "type": "item_group",
+    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+  },
+  {
+    "id": "consumer_electronics",
+    "type": "item_group",
+    "items": [ [ "afs_atomic_smartphone", 2 ] ]
+  },
+  {
+    "id": "electronics",
+    "type": "item_group",
+    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+  },
+  {
+    "id": "lab_dorm",
+    "type": "item_group",
+    "items": [ [ "afs_atomic_smartphone", 5 ] ]
+  },
+  {
+    "id": "subway",
+    "type": "item_group",
+    "items": [ [ "afs_atomic_smartphone", 1 ] ]
   }
 ]
