@@ -2979,81 +2979,84 @@ void init_term_size_and_scaling_factor()
         scaling_factor = 4;
     }
 
-    int max_width, max_height;
+    if( scaling_factor > 1 ) {
 
-    int current_display_id = get_option<int>( "DISPLAY" );
-    SDL_DisplayMode current_display;
+        int max_width, max_height;
 
-    if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
-        if( get_option<std::string>( "FULLSCREEN" ) == "no" ) {
+        int current_display_id = get_option<int>( "DISPLAY" );
+        SDL_DisplayMode current_display;
 
-            // Make a maximized test window to determine maximum windowed size
-            SDL_Window_Ptr test_window;
-            test_window.reset( SDL_CreateWindow( "test_window",
-                SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
-                SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
-                FULL_SCREEN_WIDTH * fontwidth,
-                FULL_SCREEN_HEIGHT * fontheight,
-                SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED
-            ) );
+        if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
+            if( get_option<std::string>( "FULLSCREEN" ) == "no" ) {
 
-            SDL_GetWindowSize( test_window.get(), &max_width, &max_height );
+                // Make a maximized test window to determine maximum windowed size
+                SDL_Window_Ptr test_window;
+                test_window.reset( SDL_CreateWindow( "test_window",
+                    SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
+                    SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
+                    FULL_SCREEN_WIDTH * fontwidth,
+                    FULL_SCREEN_HEIGHT * fontheight,
+                    SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED
+                ) );
 
-            // If the video subsystem isn't reset the test window messes things up later
-            test_window.reset();
-            SDL_QuitSubSystem(SDL_INIT_VIDEO);
-            SDL_InitSubSystem(SDL_INIT_VIDEO);
+                SDL_GetWindowSize( test_window.get(), &max_width, &max_height );
 
+                // If the video subsystem isn't reset the test window messes things up later
+                test_window.reset();
+                SDL_QuitSubSystem(SDL_INIT_VIDEO);
+                SDL_InitSubSystem(SDL_INIT_VIDEO);
+
+            } else {
+                // For fullscreen or window borderless maximum size is the display size
+                max_width = current_display.w;
+                max_height = current_display.h;
+            }
         } else {
-            // For fullscreen or window borderless maximum size is the display size
-            max_width = current_display.w;
-            max_height = current_display.h;
+            dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
+            max_width = INT_MAX;
+            max_height = INT_MAX;
         }
-    } else {
-        dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
-        max_width = INT_MAX;
-        max_height = INT_MAX;
-    }
 
-    if( terminal_x * fontwidth > max_width ||
-        FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
-        if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
-            dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
-            scaling_factor = 1;
-            terminal_x = max_width / fontwidth;
-            terminal_y = max_height / fontheight;
-            get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
-        } else {
-            terminal_x = max_width / fontwidth;
+        if( terminal_x * fontwidth > max_width ||
+            FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
+            if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
+                dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+                scaling_factor = 1;
+                terminal_x = max_width / fontwidth;
+                terminal_y = max_height / fontheight;
+                get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+            } else {
+                terminal_x = max_width / fontwidth;
+            }
         }
-    }
 
-    if( terminal_y * fontheight > max_height ||
-        FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
-        if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
-            dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
-            scaling_factor = 1;
-            terminal_x = max_width / fontwidth;
-            terminal_y = max_height / fontheight;
-            get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
-        } else {
-            terminal_y = max_height / fontheight;
+        if( terminal_y * fontheight > max_height ||
+            FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
+            if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
+                dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+                scaling_factor = 1;
+                terminal_x = max_width / fontwidth;
+                terminal_y = max_height / fontheight;
+                get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+            } else {
+                terminal_y = max_height / fontheight;
+            }
         }
+
+        terminal_x -= terminal_x % scaling_factor;
+        terminal_y -= terminal_y % scaling_factor;
+
+        terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
+        terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
+
+
+        get_options().get_option( "TERMINAL_X" ).setValue(
+            std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );
+        get_options().get_option( "TERMINAL_Y" ).setValue(
+            std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y ) );
+
+        get_options().save();
     }
-
-    terminal_x -= terminal_x % scaling_factor;
-    terminal_y -= terminal_y % scaling_factor;
-
-    terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
-    terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
-
-
-    get_options().get_option( "TERMINAL_X" ).setValue(
-        std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );
-    get_options().get_option( "TERMINAL_Y" ).setValue(
-        std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y ) );
-
-    get_options().save();
 
 #endif //__ANDROID__
 
