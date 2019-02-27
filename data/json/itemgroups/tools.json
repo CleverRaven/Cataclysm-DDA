@@ -115,7 +115,7 @@
       [ "jack_small", 100 ],
       [ "oxy_torch", 100 ],
       [ "polisher", 100 ],
-      [ "forge", 25 ],
+      [ "forge", 20 ],
       [ "welder", 30 ]
     ]
   },
