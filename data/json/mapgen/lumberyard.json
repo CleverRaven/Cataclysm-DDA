@@ -93,6 +93,7 @@
           }
         }
       },
+      "place_vehicles": [ { "vehicle": "forklift", "x": 18, "y": 6, "chance": 65, "fuel": 45, "status": 0, "rotation": 180 } ]
       "place_vehicles": [ { "vehicle": "semi_truck", "x": 12, "y": 18, "chance": 5, "fuel": 15, "status": 0, "rotation": 180 } ]
     }
   },
