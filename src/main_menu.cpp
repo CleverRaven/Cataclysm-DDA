@@ -832,14 +832,14 @@ bool main_menu::load_character_tab()
     bool start = false;
     const auto all_worldnames = world_generator->all_worldnames();
 
-    const ptrdiff_t last_world_pos = std::find( all_worldnames.begin(), all_worldnames.end(),
+    const size_t last_world_pos = std::find( all_worldnames.begin(), all_worldnames.end(),
                                      world_generator->last_world_name ) - all_worldnames.begin();
     if( last_world_pos < all_worldnames.size() ) {
         sel2 = last_world_pos;
         savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
     }
-    const ptrdiff_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
-    []( const auto & it ) {
+    const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
+    []( const save_t & it ) {
         return it.player_name() == world_generator->last_character_name;
     } ) - savegames.begin();
     if( last_character_pos < savegames.size() ) {
