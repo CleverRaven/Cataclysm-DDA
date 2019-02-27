@@ -34,17 +34,9 @@
       ],
       "palettes": [ "lumberyard" ],
       "mapping": {
-        "C": {
-          "items": {
-            "item": "lumberyard", "chance": 70, "repeat", 4
-          }
-        },
-        "x": {
-          "items": {
-            "item": "hardware_bulk", "chance": 70, "repeat", 3
-          }
-        }
-      },
+        "C": { "items": { "item": "lumberyard", "chance": 70, "repeat": 4 } },
+        "x": { "items": { "item": "hardware_bulk", "chance": 70, "repeat": 3 } }
+      }
     }
   },
   {
@@ -82,19 +74,13 @@
       ],
       "palettes": [ "lumberyard" ],
       "mapping": {
-        "C": {
-          "items": {
-            "item": "lumberyard", "chance": 70, "repeat", 5
-          }
-        },
-        "x": {
-          "items": {
-            "item": "hardware_bulk", "chance": 70, "repeat", 3
-          }
-        }
+        "C": { "items": { "item": "lumberyard", "chance": 70, "repeat": 5 } },
+        "x": { "items": { "item": "hardware_bulk", "chance": 70, "repeat": 3 } }
       },
-      "place_vehicles": [ { "vehicle": "forklift", "x": 18, "y": 6, "chance": 65, "fuel": 45, "status": 0, "rotation": 180 } ]
-      "place_vehicles": [ { "vehicle": "semi_truck", "x": 12, "y": 18, "chance": 5, "fuel": 15, "status": 0, "rotation": 180 } ]
+      "place_vehicles": [
+        { "vehicle": "forklift", "x": 18, "y": 6, "chance": 65, "fuel": 45, "status": 0, "rotation": 180 },
+        { "vehicle": "semi_truck", "x": 12, "y": 18, "chance": 5, "fuel": 15, "status": 0, "rotation": 180 }
+      ]
     }
   },
   {
@@ -132,16 +118,8 @@
       ],
       "palettes": [ "lumberyard" ],
       "mapping": {
-        "U": {
-          "items": {
-            "item": "hardware", "chance": 70, "repeat", 2
-          }
-        },
-        "C": {
-          "items": {
-            "item": "lumberyard", "chance": 70, "repeat", 3
-          }
-        }
+        "U": { "items": { "item": "hardware", "chance": 70, "repeat": 2 } },
+        "C": { "items": { "item": "lumberyard", "chance": 70, "repeat": 3 } }
       },
       "place_items": [
         { "item": "vending_food", "x": 16, "y": 10, "chance": 75 },
@@ -186,24 +164,17 @@
         "                        "
       ],
       "mapping": {
-        "U": {
-          "items": {
-            "item": "hardware", "chance": 70, "repeat", 2
-          }
-        },
-        "C": {
-          "items": {
-            "item": "lumberyard", "chance": 70, "repeat", 2
-          }
-        }
-      "palettes": [ "lumberyard" ],
-      "place_items": [
-        { "item": "snacks", "x": 6, "y": 11, "chance": 30 },
-        { "item": "fridge", "x": 5, "y": 9, "chance": 40 },
-        { "item": "cannedfood", "x": 7, "y": 11, "chance": 35 },
-        { "item": "trash", "x": 14, "y": 11, "chance": 50 },
-        { "item": "lumberyard", "x": [ 5, 15 ], "y": [ 3, 19 ], "chance": 50 }
-      ]
+        "U": { "items": { "item": "hardware", "chance": 70, "repeat": 2 } },
+        "C": { "items": { "item": "lumberyard", "chance": 70, "repeat": 2 } },
+        "palettes": [ "lumberyard" ],
+        "place_items": [
+          { "item": "snacks", "x": 6, "y": 11, "chance": 30 },
+          { "item": "fridge", "x": 5, "y": 9, "chance": 40 },
+          { "item": "cannedfood", "x": 7, "y": 11, "chance": 35 },
+          { "item": "trash", "x": 14, "y": 11, "chance": 50 },
+          { "item": "lumberyard", "x": [ 5, 15 ], "y": [ 3, 19 ], "chance": 50 }
+        ]
+      }
     }
   }
 ]
