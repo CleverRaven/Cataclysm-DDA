@@ -66,9 +66,9 @@
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 20 },
-        "S": { "item": "mechanics", "chance": 20 },
-        "x": { "item": "mechanics", "chance": 10 }
+        "c": { "item": "mechanics", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
         { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
@@ -140,9 +140,9 @@
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 10 },
-        "S": { "item": "mechanics", "chance": 15 },
-        "x": { "item": "mechanics", "chance": 20 }
+        "c": { "item": "mechanics", "chance": 45 },
+        "S": { "item": "mechanics", "chance": 25, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
         { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
@@ -222,12 +222,12 @@
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 10 },
-        "S": { "item": "mechanics", "chance": 20 },
-        "x": { "item": "mechanics", "chance": 20 },
-        "f": { "item": "office", "chance": 50 },
-        "d": { "item": "office", "chance": 70 },
-        "T": { "item": "cleaning", "chance": 70 }
+        "c": { "item": "mechanics", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 4 },
+        "f": { "item": "office", "chance": 50, "repeat": 2 },
+        "d": { "item": "office", "chance": 70, "repeat": 2 },
+        "T": { "item": "cleaning", "chance": 70, "repeat": 4 }
       },
       "place_vehicles": [
         { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 }
