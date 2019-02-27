@@ -900,7 +900,7 @@ bool main_menu::load_character_tab()
                 layer = 1;
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
                 if( sel2 >= 0 && sel2 < static_cast<int>( all_worldnames.size() ) ) {
-                    layer = 3;                    
+                    layer = 3;
                 }
             }
         } else if( layer == 3 && sel1 == 2 ) {
