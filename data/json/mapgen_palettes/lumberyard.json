@@ -19,7 +19,7 @@
       "r": "t_railing_v",
       "s": "t_sidewalk",
       "t": "t_floor",
-      "v": "t_chainfence_v",
+      "v": "t_chainfence_v"
     },
     "furniture": {
       "&": "f_trashcan",
