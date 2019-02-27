@@ -1063,7 +1063,8 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             _( "The %s shudders, letting out an eery metallic whining noise!" ),
             _( "The %s scratches its long legs along the floor, shooting sparks." ),
             _( "The %s bleeps inquiringly and focuses a red camera-eye on you." ),
-            _( "The %s's combat arms crackle with electricity." ), //special case; leave this last
+            _( "The %s's combat arms crackle with electricity." ),
+            //special case; leave the electricity last
         }
     };
 
