@@ -836,6 +836,7 @@ bool main_menu::load_character_tab()
                                      world_generator->last_world_name ) - all_worldnames.begin();
     if( last_world_pos < all_worldnames.size() ) {
         sel2 = last_world_pos;
+        savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
     }
     const ptrdiff_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
     []( const auto & it ) {
@@ -843,6 +844,8 @@ bool main_menu::load_character_tab()
     } ) - savegames.begin();
     if( last_character_pos < savegames.size() ) {
         sel3 = last_character_pos;
+    } else {
+        sel3 = 0;
     }
 
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
@@ -897,8 +900,7 @@ bool main_menu::load_character_tab()
                 layer = 1;
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
                 if( sel2 >= 0 && sel2 < static_cast<int>( all_worldnames.size() ) ) {
-                    layer = 3;
-                    sel3 = 0;
+                    layer = 3;                    
                 }
             }
         } else if( layer == 3 && sel1 == 2 ) {
