@@ -7823,9 +7823,7 @@ bool player::wield( item& target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( string_format( _( "Draw %s from %s?" ),
-                                     target.get_contained().tname().c_str(),
-                                     target.tname().c_str() ) ) ) {
+        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
             invoke_item( &target );
             return false;
         }

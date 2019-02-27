@@ -9945,6 +9945,15 @@ void game::wield( item_location &loc )
         add_msg( m_info, "%s", ret.c_str() );
     }
 
+    // Need to do this here because holster_actor::use() checks if/where the item is worn
+    item &target = *loc.get_item();
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+            u.invoke_item( &target );
+            return;
+        }
+    }
+
     // Can't use loc.obtain() here because that would cause things to spill.
     item to_wield = *loc.get_item();
     item_location::type location_type = loc.where();

@@ -3823,10 +3823,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            //~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient name
-            add_msg( _( "%1$s prepares to install the %2$s on %3$s." ), installer.name,
-                     it->display_name().c_str(), patient.name );
-
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
