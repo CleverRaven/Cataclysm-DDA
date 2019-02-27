@@ -3644,6 +3644,7 @@
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
     },
@@ -3655,6 +3656,225 @@
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] },
         { "item": "spike", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_tablesaw",
+    "name": "tablesaw",
+    "looks_like": "t_machinery_light",
+    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts.  One of the key tools in a carpenter's arsenal.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": 8,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "circsaw_blade", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mitresaw",
+    "name": "mitre saw",
+    "looks_like": "t_machinery_light",
+    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.",
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "circsaw_blade", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bandsaw",
+    "name": "bandsaw",
+    "looks_like": "t_machinery_light",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.",
+    "symbol": "7",
+    "color": "yellow_blue",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "wire", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_router",
+    "name": "router table",
+    "looks_like": "t_machinery_light",
+    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff.",
+    "symbol": "7",
+    "color": "yellow_green",
+    "move_cost_mod": 8,
+    "required_str": 14,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "spike", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_planer",
+    "name": "planer",
+    "looks_like": "t_machinery_light",
+    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
+    "symbol": "7",
+    "color": "yellow_white",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "blade", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_jointer",
+    "name": "jointer",
+    "looks_like": "t_machinery_light",
+    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed.",
+    "symbol": "7",
+    "color": "yellow_magenta",
+    "move_cost_mod": 8,
+    "required_str": 14,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "blade", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
       ]
     }
