@@ -1140,7 +1140,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             // if the player can see it
             if( g->u.sees( *z ) ) {
                 // TODO: mutate() doesn't like non-players right now
-                add_msg( m_bad, _( "The %1$s raises a dish-shaped limb, and a beam shoots towards %2$s!" ),
+                add_msg( m_bad, _( "The %1$s fires a shimmering beam towards %2$s!" ),
                          z->name().c_str(), target->disp_name().c_str() );
             }
 
@@ -1178,7 +1178,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
             // if the player can see it
             if( g->u.sees( *z ) ) {
-                add_msg( m_warning, _( "The %s opens one of the ports on its thorax, and a manhack flies out!" ),
+                add_msg( m_warning, _( "A manhack flies out of one of the holes on the %!" ),
                          z->name().c_str() );
             }
 
