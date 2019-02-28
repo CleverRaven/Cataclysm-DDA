@@ -1,0 +1,53 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_4x4",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "____",
+        "____",
+        "____",
+        "____"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_4x4",
+    "weight": 200,
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "____",
+        "_r__",
+        "__Rr",
+        "__R_"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_4x4",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "____",
+        "_h__",
+        "hhh_",
+        "____"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  }
+]

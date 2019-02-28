@@ -69,6 +69,9 @@
       "D": "t_door_boarded_damaged",
       "f": "t_grass",
       "h": "t_dirtfloor",
+      "I": "t_dirtfloor",
+      "m": "t_machinery_old",
+      "M": ""t_milking_machine",
       "O": "t_column",
       "p": "t_grass",
       "r": "t_grass",
@@ -78,10 +81,13 @@
       "S": "t_dirtfloor",
       "t": "t_tree",
       "T": "t_dirtfloor",
+      "u": "t_dirtfloor",
       "v": "t_fence_h",
       "w": "t_window_boarded_noglass",
       "W": "t_window",
-      "|": "t_wall_wood"
+      "|": "t_wall_wood",
+      ">": "t_ladder_up",
+      "<": "t_ladder_down"
     },
     "furniture": {
       "=": "f_smoking_rack",
@@ -93,15 +99,17 @@
       "c": "f_clay_kiln",
       "f": "f_dandelion",
       "h": "f_hay",
+      "I": "f_stool",
       "r": "f_rubble",
       "R": "f_rubble_rock",
       "s": "f_straw_bed",
       "S": "f_still",
-      "T": "f_table"
+      "T": "f_table",
+      "u": "f_utility_shelf"
     }
   },
   {
-    "om_terrain": "desolatebarn",
+    "om_terrain": "desolatebarn01",
     "type": "mapgen",
     "weight": 100,
     "method": "json",
@@ -140,8 +148,20 @@
         { "chance": 35, "item": "trash", "x": 7, "y": 11 },
         { "chance": 10, "item": "hand_tools", "x": 12, "y": 19 },
         { "chance": 10, "item": "hand_tools", "x": 13, "y": 12 }
+      ],
+      "place_nested": [
+        { "chunks": [ "desolate_barn_4x4" ], "x": 6, "y": 11 },
+        { "chunks": [ "desolate_barn_4x4" ], "x": 10, "y": 16 }
       ]
     }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "desolatebarn01",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "desolate barn erk1",
+    "sym": 66,
+    "color": "brown"
   },
   {
     "method": "json",
