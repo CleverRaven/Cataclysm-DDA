@@ -1118,7 +1118,7 @@ void talk_function::start_camp( npc &p )
 void talk_function::recover_camp( npc &p )
 {
     if ( p.is_hallucination() ) {
-        p.say( _("No thanks. I don't really want to do that.") );
+        p.say( _( "No thanks. I don't really want to do that." ) );
         return;
     }
     const tripoint omt_pos = p.global_omt_location();
