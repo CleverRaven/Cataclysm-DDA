@@ -700,13 +700,6 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_LAND_USE_CODES",
-    "category": "OVERMAP",
-    "name": "Toggle Land Use Codes",
-    "bindings": [ { "input_method": "keyboard", "key": "A" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "TOGGLE_CITY_LABELS",
     "category": "OVERMAP",
     "name": "Toggle City Labels",
