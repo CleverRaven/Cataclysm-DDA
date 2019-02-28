@@ -30,7 +30,7 @@ os: linux
 branches:
   only:
   - master
-    development
+  - development
 
 jobs:
   include:
