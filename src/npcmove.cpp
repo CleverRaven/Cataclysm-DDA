@@ -3141,7 +3141,7 @@ void npc::go_to_destination()
               //Needs 20% chance of bashing success to be considered for pathing
               g->m.bash_rating( smash_ability(), dest ) >= 2 ||
               g->m.open_door( dest, true, true ) ) &&
-             ( one_in( 4 ) || sees( dest ) ) ) {
+            ( one_in( 4 ) || sees( dest ) ) ) {
             update_path( dest );
             if( !path.empty() && can_move_to( path[0] ) ) {
                 move_to_next();
