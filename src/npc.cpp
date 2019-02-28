@@ -911,7 +911,7 @@ bool npc::wear_if_wanted( const item &it )
 {
     // Note: this function isn't good enough to use with NPC AI alone
     // Restrict it to player's orders for now
-    if( !it.is_armor() ) { 
+    if( !it.is_armor() ) {
         return false;
     }
 
