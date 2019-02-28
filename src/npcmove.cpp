@@ -1161,11 +1161,11 @@ const item_location npc::find_usable_ammo( const item &weap ) const
 
 npc_action npc::address_needs( float danger )
 {
-    if( need_heal( *this ) && has_healing_item() && !is_hallucination() ) {
+    if( need_heal( *this ) && has_healing_item() ) {
         return npc_heal;
     }
 
-    if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() && !is_hallucination() ) {
+    if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() ) {
         return npc_use_painkiller;
     }
 
