@@ -911,9 +911,10 @@ bool npc::wear_if_wanted( const item &it )
 {
     // Note: this function isn't good enough to use with NPC AI alone
     // Restrict it to player's orders for now
-    if( !it.is_armor() || is_hallucination() ) { // Hallucinations can't wear real item
+    if( !it.is_armor() ) { 
         return false;
     }
+
     // TODO: Make it depend on stuff
     static const std::array<int, num_bp> max_encumb = {{
             30, // bp_torso - Higher if ranged?
