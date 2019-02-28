@@ -8,10 +8,20 @@
     "traits": [ "DEBUG_HS", "DEBUG_NODMG", "DEBUG_STORAGE", "DEBUG_BIONIC_POWER", "DEBUG_NOTEMP", "DEBUG_LS" ],
     "CBMs": [ "bio_power_storage_mkII", "bio_power_storage_mkII", "bio_power_storage_mkII", "bio_power_storage_mkII", "bio_tools" ],
     "skills": [ { "level": 8, "name": "fabrication" }, { "level": 8, "name": "mechanics" } ],
+    "items": { "both": [ "linuxtshirt", "pants_cargo", "socks", "sneakers" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_skiier",
+    "name": "Skiier",
+    "description": "The slopes of New England are nice this time of year, and you were spending the month on vacation at a resort when you were evacuated.",
+    "points": 2,
+    "traits": [ "AFS_PROF_SKIIER" ],
+    "skills": [ { "level": 3, "name": "dodge" }, { "level": 2, "name": "survival" } ],
     "items": {
-      "both": [ "linuxtshirt", "pants_cargo", "socks", "sneakers" ],
+      "both": [ "afs_ski_jacket", "pants_ski", "socks_wool", "boots_winter", "mask_ski", "goggles_ski", "gloves_wool", "duffelbag" ],
       "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "female": [ "sports_bra", "boy_shorts" ]
     }
   },
   {
@@ -66,7 +76,7 @@
   {
     "type": "profession",
     "ident": "afs_atomic_pitchman",
-    "name": "Atomic Pitchman",
+    "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
     "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the end came.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
     "points": 2,
     "skills": [ { "level": 5, "name": "barter" } ],
@@ -130,6 +140,27 @@
         "crude_picklock",
         "crude_picklock",
         "crude_picklock"
+      ],
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_planar_frontiersman",
+    "name": { "male": "Planar Frontiersman", "female": "Planar Frontierswoman" },
+    "description": "When the Cataclysm came, you were getting into your gear, prepared for the first manned entrance through a stabilized portal in the lab - just a quick five-minute scouting trip.  You were the last one left in the room when the portal snapped shut and all hell broke loose.  Now that you know what was on the other end, maybe that was a mercy.",
+    "points": 4,
+    "items": {
+      "both": [
+        "afs_blatant_half_life_reference",
+        "afs_hev_helmet",
+        "socks",
+        "afs_sundew",
+        "afs_calorie_pill",
+        "crowbar",
+        "afs_atomic_smartphone",
+        "undershirt"
       ],
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]

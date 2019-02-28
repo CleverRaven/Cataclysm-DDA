@@ -27,12 +27,12 @@
   {
     "id": "rare",
     "type": "item_group",
-    "items": [ [ "afs_calorie_pill", 10 ] ]
+    "items": [ [ "afs_calorie_pill", 10 ], [ "afs_bag_of_holding", 1 ] ]
   },
   {
     "id": "spider",
     "type": "item_group",
-    "items": [ [ "afs_calorie_pill", 10 ], [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ] ]
+    "items": [ [ "afs_calorie_pill", 10 ], [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ] ]
   },
   {
     "id": "survivorzed_extra",
@@ -52,7 +52,7 @@
   {
     "id": "allsporting",
     "type": "item_group",
-    "items": [ [ "afs_daypack", 30 ], [ "afs_rope_lighter", 10 ] ]
+    "items": [ [ "afs_daypack", 30 ], [ "afs_rope_lighter", 10 ], [ "afs_ski_jacket", 5 ] ]
   },
   {
     "id": "traveler",
@@ -144,5 +144,20 @@
     "id": "mischw",
     "type": "item_group",
     "items": [ [ "afs_power_cutter", 5 ] ]
+  },
+  {
+    "id": "winter",
+    "type": "item_group",
+    "items": [ [ "afs_ski_jacket", 40 ] ]
+  },
+  {
+    "id": "allclothes",
+    "type": "item_group",
+    "items": [ [ "afs_ski_jacket", 40 ] ]
+  },
+  {
+    "id": "shelter",
+    "type": "item_group",
+    "items": [ [ "afs_ski_jacket", 40 ] ]
   }
 ]

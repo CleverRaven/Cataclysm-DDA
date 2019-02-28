@@ -82,5 +82,37 @@
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "afs_calorie_water",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "time": 500,
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [
+      [ [ "afs_calorie_pill", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "afs_fried_donut_holes",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "charges": 4,
+    "components": [
+      [ [ "afs_dough", 1 ] ],
+      [ [ "salt", 5 ] ],
+      [ [ "sugar", 16 ] ]
+    ]
   }
 ]
