@@ -5529,7 +5529,6 @@ bool game::spawn_hallucination( const tripoint &p )
     } else {
         return false;
     }
-
 }
 
 void game::rebuild_mon_at_cache()
