@@ -2,25 +2,24 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4",
-    "weight": 500,
+    "nested_mapgen_id": "desolate_barn_4x4_front",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rotation": [ 0, 0 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "____",
         "____",
         "____",
         "____"
       ],
-      "palettes": [ "desolatebarn_palette" ]
+      "palettes": [ "desolatebarn_palette" ],
+      "place_vehicles": [ { "chance": 10, "fuel": 0, "rotation": 180, "status": 1, "vehicle": "tractor_plow", "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4",
-    "weight": 200,
+    "nested_mapgen_id": "desolate_barn_4x4_junk",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
@@ -36,16 +35,63 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4",
-    "weight": 100,
+    "nested_mapgen_id": "desolate_barn_4x4_junk",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rotation": [ 0, 0 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "____",
         "_h__",
         "hhh_",
         "____"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_4x4_junk",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "___r",
+        "____",
+        "____",
+        "_m__"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_4x4_camp",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__b_",
+        "N!N_",
+        "NnN_",
+        "NNN_"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_4x4_camp",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "r___",
+        "N!N_",
+        "NnNr",
+        "NNNr"
       ],
       "palettes": [ "desolatebarn_palette" ]
     }

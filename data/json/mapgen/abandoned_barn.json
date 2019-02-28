@@ -61,6 +61,7 @@
       "=": "t_dirtfloor",
       "{": "t_dirtfloor",
       "%": "t_wall_wood_broken",
+      "!": "t_dirtfloor",
       "a": "t_grass",
       "b": "t_dirtfloor",
       "B": "t_door_boarded",
@@ -72,6 +73,8 @@
       "I": "t_dirtfloor",
       "m": "t_machinery_old",
       "M": "t_milking_machine",
+      "n": "t_dirtfloor",
+      "N": "t_dirtfloor",
       "O": "t_column",
       "p": "t_grass",
       "r": "t_grass",
@@ -100,6 +103,9 @@
       "f": "f_dandelion",
       "h": "f_hay",
       "I": "f_stool",
+      "!": "f_canvas_door_o",
+      "n": "f_canvas_floor",
+      "N": "f_canvas_wall",
       "r": "f_rubble",
       "R": "f_rubble_rock",
       "s": "f_straw_bed",
@@ -125,7 +131,7 @@
         ".d........#.d.....d.....",
         "........................",
         "......................d.",
-        "..d..----++-||-.........",
+        "..d..--++++-||-.........",
         ".....-______RR|...d...t.",
         ".....w______RRw..#......",
         ".#...w_______Rw......d..",
@@ -150,8 +156,12 @@
         { "chance": 10, "item": "hand_tools", "x": 13, "y": 12 }
       ],
       "place_nested": [
-        { "chunks": [ "desolate_barn_4x4" ], "x": 6, "y": 11 },
-        { "chunks": [ "desolate_barn_4x4" ], "x": 10, "y": 16 }
+        { "chunks": [ [ "desolate_barn_4x4_front", 80 ], [ "desolate_barn_4x4_junk", 20 ] ], "x": 6, "y": 11 },
+        {
+          "chunks": [ [ "null", 80 ], [ "desolate_barn_4x4_junk", 15 ], [ "desolate_barn_4x4_camp", 5 ] ],
+          "x": 10,
+          "y": 16
+        }
       ]
     }
   },
