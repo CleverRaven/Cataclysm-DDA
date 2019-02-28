@@ -2849,6 +2849,50 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::drill( player *p, item *it, bool, const tripoint & )
+{
+    // use has_enough_charges to check for UPS availability
+    // p is assumed to exist for iuse cases
+    if( !p->has_enough_charges( *it, false ) ) {
+        return 0;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Drill where?" ) );
+    if( !pnt_ ) {
+        return 0;
+    }
+    const tripoint pnt = *pnt_;
+
+    if( pnt == p->pos() ) {
+        p->add_msg_if_player( _( "Don't you have enough holes already?" ) );
+        p->add_msg_if_player( _( "You don't need to tear yourself a new one." ) );
+        return 0;
+    }
+    const ter_id type = g->m.ter( pnt );
+    const furn_id furn = g->m.furn( pnt );
+    time_duration duration = 5_minutes;
+    if( type == t_chaingate_l || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior || type == t_door_locked_peep || type == t_door_metal_pickable || type == t_door_bar_locked ) {
+        duration = 5_minutes;
+    } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el ||
+             furn == f_gunsafe_mj ) {
+        duration = 30_minutes;
+    } else {
+        p->add_msg_if_player( m_info, _( "You can't drill this." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_DRILL" ), to_turns<int>( duration ) * 100, -1,
+                        p->get_item_position( it ) );
+    p->activity.placement = pnt;
+
+    return it->type->charges_to_use();
+}
+
 int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {

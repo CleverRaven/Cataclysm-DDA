@@ -416,6 +416,11 @@
   },
   {
     "type": "item_action",
+    "id": "DRILL",
+    "name": "Drill"
+  },
+  {
+    "type": "item_action",
     "id": "ECIG",
     "name": { "ctxt": "ECIG", "str": "Smoke" }
   },

@@ -16,6 +16,7 @@
 #include "debug.h"
 #include "event.h"
 #include "fungal_effects.h"
+#include "field.h"
 #include "game.h"
 #include "harvest.h"
 #include "input.h"
@@ -1059,117 +1060,283 @@ void iexamine::slot_machine( player &p, const tripoint& )
 }
 
 /**
- * Attempt to crack safe through audio-feedback manual lock manipulation.
- *
- * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
- * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
- * Small chance of just guessing the combo without listening device.
+ * Attempt to unlock safe through various methods of manipulation.
  */
 void iexamine::safe(player &p, const tripoint &examp)
 {
-    if ( !( p.has_amount("stethoscope", 1) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
-        p.moves -= 100;
-        // one_in(30^3) chance of guessing
-        if (one_in(27000)) {
-            p.add_msg_if_player(m_good, _("You mess with the dial for a little bit... and it opens!"));
-            g->m.furn_set(examp, f_safe_o);
-            return;
+    enum options {
+        AUDIOFEEDBACK,
+        DRILL,
+        JACKHAMMER,
+        PICKAXE,
+        ACETHYLENE_TORCH,
+        THERMITE,
+        LOCKPICK,
+        HACK,
+        GUESS,
+        ABANDON,
+    };
+    enum safe_types {
+        DIAL,
+        KEYHOLE,
+        ELECTRONIC,
+        JAMMED,
+    };
+
+    safe_types type = DIAL;
+    const furn_id safe = g->m.furn( examp );
+    if( safe == f_safe_l ) {
+        type = DIAL;
+    } else if ( safe == f_gunsafe_ml ) {
+        type = KEYHOLE;
+    } else if( safe == f_gunsafe_el ) {
+        type = ELECTRONIC;
+    } else if( safe == f_gunsafe_mj ) {
+        type = JAMMED;
+    }
+
+    bool skilled_mechanic = p.get_skill_level( skill_mechanics ) > 3;
+  
+    uilist smenu;
+    smenu.text = string_format( _( "This is a %s. How to open it?"), safe->name() ); 
+    smenu.desc_enabled = true;
+    
+    if( type == DIAL && ( p.has_amount("stethoscope", 1) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+        if( !p.is_deaf() ) {
+            smenu.addentry_desc( AUDIOFEEDBACK, true, 'a', _( "Listen to the moving dial." ), 
+                _( "By using a stethoscope or keen hearing ability you may try to operate the dial to crack the safe." ) ); 
         } else {
-            p.add_msg_if_player(m_info, _("You mess with the dial for a little bit."));
-            return;
+            smenu.addentry_desc( ABANDON, true, 'a', _( "Crack safe... deaf." ),
+                _( "You cannot hear, and will not be able to listen to the silent sounds of moving dial." ) );
         }
     }
 
-    if (query_yn(_("Attempt to crack the safe?"))) {
-        if (p.is_deaf()) {
-            add_msg(m_info, _("You can't crack a safe while deaf!"));
-            return;
+    if( p.has_charges( "cordless_drill", 200 ) ) {
+        if( skilled_mechanic ) {
+            smenu.addentry_desc( DRILL, true, 'd', _( "Drill the lock mechanism." ),
+                _( "With the cordless drill you may attempt to drill holes in the locking mechanism disabling it in the process." ) );
+        } else {
+            smenu.addentry_desc( ABANDON, true, 'd', _( "Drill... inufficient knowledge." ),
+                _( "You have a drill, but your expertise in mechanics is not enough to tell you where you should drill to disable the locks." ) );
         }
-         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
-
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
-
-         p.assign_activity( activity_id( "ACT_CRACKING" ), to_moves<int>( time ) );
-         p.activity.placement = examp;
-    }
-}
-
-/**
- * Attempt to pick the gunsafe's lock and open it.
- */
-void iexamine::gunsafe_ml(player &p, const tripoint &examp)
-{
-    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) || p.has_amount("fc_hairpin", 1) ||
-           p.has_amount("picklocks", 1) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
-        add_msg(m_info, _("You need a lockpick to open this gun safe."));
-        return;
-    } else if( !query_yn(_("Pick the gun safe?")) ) {
-        return;
     }
 
-    int pick_quality = 1;
-    if( p.has_amount("picklocks", 1) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
-        pick_quality = 5;
-    } else if (p.has_amount("fc_hairpin",1)) {
-        pick_quality = 1;
-    } else {
-        pick_quality = 3;
+    if( p.has_charges( "jackhammer", 10 ) || p.has_charges( "elec_jackhammer", 10 ) ) {
+        smenu.addentry_desc( JACKHAMMER, true, 'd', _( "Hammer to pieces." ),
+            _( "With the jackhammer you may punish the safe until it breaks open." ) );
+    }
+    
+    if( p.has_charges( "pickaxe", 1 ) ) {
+        smenu.addentry_desc( PICKAXE, true, 'd', _( "Smash to pieces." ),
+            _( "With the pickaxe you may punish the safe until it breaks open." ) );
     }
 
-    p.practice( skill_mechanics, 1);
-    ///\EFFECT_DEX speeds up lock picking gun safe
-
-    ///\EFFECT_MECHANICS speeds up lock picking gun safe
-    p.moves -= (1000 - (pick_quality * 100)) - (p.dex_cur + p.get_skill_level( skill_mechanics )) * 5;
-    ///\EFFECT_DEX increases chance of lock picking gun safe
-
-    ///\EFFECT_MECHANICS increases chance of lock picking gun safe
-    int pick_roll = (dice(2, p.get_skill_level( skill_mechanics )) + dice(2, p.dex_cur)) * pick_quality;
-    int door_roll = dice(4, 30);
-    if (pick_roll >= door_roll) {
-        p.practice( skill_mechanics, 1);
-        add_msg(_("You successfully unlock the gun safe."));
-        g->m.furn_set(examp, furn_str_id( "f_safe_o" ) );
-    } else if (door_roll > (3 * pick_roll)) {
-        add_msg(_("Your clumsy attempt jams the lock!"));
-        g->m.furn_set(examp, furn_str_id( "f_gunsafe_mj" ) );
-    } else {
-        add_msg(_("The gun safe stumps your efforts to pick it."));
+    if( p.has_charges( "oxy_torch", 30 ) ) {
+        if( skilled_mechanic ) {
+            smenu.addentry_desc( ACETHYLENE_TORCH, true, 'o', _( "Cut with acethylene torch." ),
+                _( "With the acethylene torch you may attempt to cut open the door, hinges or walls to get inside. It may destroy the contents." ) );
+        } else {
+            smenu.addentry_desc( ABANDON, true, 'o', _( "Acethylene torch... insufficient knowledge." ),
+                _( "You have an acethylene torch, but without some expertise in mechanics you don't know where you should safely cut without risking certain destruction of contents." ) );
+        }
     }
-}
 
-/**
- * Attempt to "hack" the gunsafe's electronic lock and open it.
- */
-void iexamine::gunsafe_el(player &p, const tripoint &examp)
-{
-    switch( hack_attempt( p ) ) {
-        case HACK_FAIL:
-            p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p.pos(), 60, sounds::sound_t::music, _("an alarm sound!"));
-            if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+    if( p.has_charges( "thermite", 50 ) ) {
+        if( skilled_mechanic && p.has_charges( "fire", 1 ) ) {
+            smenu.addentry_desc( THERMITE, true, 'o', _( "Cut open with thermite charge." ),
+                _( "With a handful of thermite you may attempt to melt the lock to get inside. It may destroy the contents." ) );
+        } else if( skilled_mechanic && !p.has_charges( "fire", 1 ) ) {
+            smenu.addentry_desc( ABANDON, true, 'o', _( "Thermite... no fire source." ),
+                _( "You have some thermite, but it's useless if you cannot light it up." ) );
+        } else {
+            smenu.addentry_desc( ABANDON, true, 'o', _( "Thermite... insufficient knowledge." ),
+                _( "You have some thermite, but your expertise in mechanics is not enough to safely use it without risking certain destruction of contents." ) );
+        }
+    }
+
+    if( type == KEYHOLE && ( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) || p.has_amount( "fc_hairpin", 1 ) ||
+           p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
+        smenu.addentry_desc( LOCKPICK, true, 'l', _( "Pick the lock." ),
+            _( "With a lockpick or an equal tool you can try to manipulate the lock in an attempt to get it open." ) );
+    }
+
+    if( type == ELECTRONIC && ( p.has_charges( "electrohack", 25 ) || p.has_bionic( bionic_id( "bio_fingerhack" ) ) ) ) {
+        if( !p.has_trait( trait_ILLITERATE ) ) {
+            smenu.addentry_desc( HACK, true, 'l', _( "Hack the pinpad." ),
+                _( "You may attach the probes of your electronic hacking device to the safe's pinpad and try to hack it." ) );
+        } else {
+            smenu.addentry_desc( ABANDON, true, 'l', _( "Hack... illiterate." ),
+                _( "You don't know what the symbols mean, both on the safe's pinpad and your strange hacking device." ) );
+        }
+    }
+    if( type != KEYHOLE && type != JAMMED ) {
+            smenu.addentry_desc( GUESS, true, 'g', _( "Guess code." ),
+                _( "You may try to guess the correct code but the odds are against you." ) );
+    }
+
+    smenu.addentry_desc( ABANDON, true, 'q', _( "Abandon." ),
+        _( "Abandon attempts to open the safe." ) );
+
+    smenu.query();
+
+    // general time for mechanical actions
+    // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
+    // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
+    ///\EFFECT_PER speeds up safe cracking
+    ///\EFFECT_MECHANICS speeds up safe cracking
+    const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+
+    switch( smenu.ret ) {
+        case AUDIOFEEDBACK: 
+        {
+            p.assign_activity( activity_id( "ACT_CRACKING" ), to_moves<int>( time ) );
+            p.activity.placement = examp;
+            break;
+        }
+        case DRILL:
+        {
+            p.assign_activity( activity_id( "ACT_DRILL" ), to_moves<int>( time ) );
+            p.activity.placement = examp;
+            break;
+        }
+        case JACKHAMMER:
+        {
+            p.assign_activity( activity_id( "ACT_JACKHAMMER" ), to_moves<int>( time ) );
+            p.activity.placement = examp;
+            break;
+        }
+        case PICKAXE:
+        {
+            p.assign_activity( activity_id( "ACT_PICKAXE" ), to_moves<int>( time ) );
+            p.activity.placement = examp;
+            break;
+        }
+        case ACETHYLENE_TORCH:
+        {
+            p.assign_activity( activity_id( "ACT_OXYTORCH" ), to_moves<int>( time ) );
+            p.activity.placement = examp;
+            break;
+        }
+        case THERMITE:
+        {
+            p.moves -= 1000 - ( ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
+            //~Sound of burning thermite
+            sounds::sound( p.pos(), 15, sounds::sound_t::activity, _( "sizzling of metal!" ) );
+            if ( rng( 1, 15) < p.dex_cur / 2 + p.get_skill_level( skill_mechanics ) ) {
+                if( g->m.flammable_items_at( examp ) ) {
+                    g->u.add_msg_if_player( m_bad, _( "The flame sets everything inside on fire!" ) );
+                    g->m.add_field( examp, fd_fire, 2 );
+                }                
+                       
+                if( g->m.i_at( examp ).size() > 0 ) {
+                    g->u.add_msg_if_player( m_bad, _( "Burning thermite damages the contents badly!" ) );
+                    for( item &i : g->m.i_at( examp ) ) {
+                        i.mod_damage( rng( rng( 1, i.max_damage() ), i.max_damage() ) );
+                    }                
+                }
             }
             break;
-        case HACK_NOTHING:
-            add_msg(_("Nothing happens."));
+        }
+        case LOCKPICK:
+        {
+            int pick_quality = 1;
+            if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
+                pick_quality = 5;
+            } else if ( p.has_amount( "fc_hairpin", 1 ) ) {
+                pick_quality = 1;
+            } else {
+                pick_quality = 3;
+            }
+
+            p.practice( skill_mechanics, 1);
+
+            ///\EFFECT_DEX speeds up lock picking gun safe
+            ///\EFFECT_MECHANICS speeds up lock picking gun safe
+            p.moves -= ( 1000 - ( pick_quality * 100 ) ) - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5;
+
+            ///\EFFECT_DEX increases chance of lock picking gun safe
+            ///\EFFECT_MECHANICS increases chance of lock picking gun safe
+            int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2, p.dex_cur ) ) * pick_quality;
+            int door_roll = dice( 4, 30 );
+            if ( pick_roll >= door_roll) {
+                p.practice( skill_mechanics, 1 );
+                add_msg( _( "You successfully unlock the safe." ) );
+                g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
+            } else if ( door_roll > (3 * pick_roll)) {
+                add_msg(_( "Your clumsy attempt jams the lock!" ) );
+                g->m.furn_set( examp, furn_str_id( "f_gunsafe_mj" ) );
+            } else {
+                add_msg( _( "The safe stumps your efforts to pick it." ) );
+            }
             break;
-        case HACK_SUCCESS:
-            add_msg(_("You successfully hack the gun safe."));
-            g->m.furn_set(examp, furn_str_id( "f_safe_o" ) );
-            break;
-        case HACK_UNABLE:
-            add_msg(
-                m_info,
-                p.get_skill_level( skill_computer ) > 0 ?
-                    _("You can't hack this gun safe without a hacking tool.") :
-                    _("This electronic safe looks too complicated to open.")
-            );
-            break;
+        }
+        case HACK:
+        {
+            p.practice( skill_electronics, 1);
+            switch( hack_attempt( p ) ) {
+                case HACK_FAIL:
+                    p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
+                                        pgettext("memorial_female", "Set off an alarm." ) );
+                    sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ) );
+                    if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                        g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+                    }
+                    break;
+                case HACK_NOTHING:
+                    add_msg( _( "Nothing happens." ) );
+                    break;
+                case HACK_SUCCESS:
+                    add_msg( _( "You successfully hack the safe." ) );
+                    g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
+                    break;
+                case HACK_UNABLE:
+                    add_msg( m_info,
+                        p.get_skill_level( skill_computer ) > 0 ?
+                            _( "You can't hack this safe without a hacking tool." ) :
+                            _( "This electronic safe looks too complicated to open." )
+                    );
+                    break;
+            }
+        }
+        case GUESS:
+        {
+            p.moves -= 100;
+            if ( type == DIAL ) {
+                // one_in(30^3) chance of guessing
+                if ( one_in ( 27000 ) ) {
+                    p.add_msg_if_player ( m_good, _( "You mess with the dial for a little bit... and it opens!" ) );
+                    g->m.furn_set( examp, f_safe_o );
+                    return;
+                } else {
+                    p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+                    return;
+                }
+            } else { // electronic, assumption is 4 number code with ability to repeat numbers (ex. 1122 is a valid possible code)
+                if ( one_in( 10000 ) ) {
+                    p.add_msg_if_player( m_good, _( "You press random numbers... and it opens!" ) );
+                    g->m.furn_set( examp, f_safe_o );
+                    return;
+                } else {
+                    if( one_in( 10 ) ) {
+                        p.add_msg_if_player( m_info, _( "You press random numbers, and the lock displays: ERROR! NUMBER OF ATTEMPTS EXCEDED. LOCK BLOCKED. SEE USER MANUAL.") );
+                        g->m.furn_set(examp, furn_str_id( "f_gunsafe_mj" ) );
+                        p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                            pgettext("memorial_female", "Set off an alarm."));
+                        sounds::sound(p.pos(), 60, sounds::sound_t::music, _("an alarm sound!"));
+                        if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+                            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+                        }
+                    } else {
+                        p.add_msg_if_player( m_info, _( "You press random numbers, but the lock displays: ERROR!") );
+                        return;
+                    }
+                }
+            }
+        }
+        case ABANDON:
+        {
+            p.add_msg_if_player( m_info, _( "You abandon your attempt to open the safe." ) );
+        }
     }
 }
 
@@ -4425,8 +4592,6 @@ iexamine_function iexamine_function_from_string(const std::string &function_name
         { "curtains", &iexamine::curtains },
         { "sign", &iexamine::sign },
         { "pay_gas", &iexamine::pay_gas },
-        { "gunsafe_ml", &iexamine::gunsafe_ml },
-        { "gunsafe_el", &iexamine::gunsafe_el },
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },

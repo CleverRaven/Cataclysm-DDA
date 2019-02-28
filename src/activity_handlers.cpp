@@ -10,6 +10,7 @@
 #include "construction.h"
 #include "craft_command.h"
 #include "debug.h"
+#include "event.h"
 #include "fault.h"
 #include "field.h"
 #include "game.h"
@@ -45,6 +46,7 @@
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_electronics( "electronics" );
+const skill_id skill_mechanics( "mechanics" );
 
 const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
@@ -62,6 +64,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
+    { activity_id( "ACT_DRILL" ), drill_do_turn },
     { activity_id( "ACT_STASH" ), stash_do_turn },
     { activity_id( "ACT_PULP" ), pulp_do_turn },
     { activity_id( "ACT_GAME" ), game_do_turn },
@@ -2034,11 +2037,12 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     act->set_to_null();
     const tripoint &pos = act->placement;
     const ter_id ter = g->m.ter( pos );
+    const furn_id furn = g->m.furn( pos );
 
     // fast players might still have some charges left to be consumed
     p->i_at( act->position ).ammo_consume( act->values[0], p->pos() );
 
-    if( g->m.furn( pos ) == f_rack ) {
+    if( furn == f_rack ) {
         g->m.furn_set( pos, f_null );
         g->m.spawn_item( p->pos(), "steel_chunk", rng( 2, 6 ) );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
@@ -2078,6 +2082,24 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
+    } else if( furn == furn_id( "safe" ) || furn == furn_id( "gunsafe_ml" )
+                || furn == furn_id( "gunsafe_el" ) || furn == furn_id( "gunsafe_mj" ) ) {
+        g->m.furn_set( pos, furn_str_id( "f_safe_o" ) );
+        g->m.spawn_item( p->pos(), "steel_chunk", rng( 1, 3 ) );
+        g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), fd_smoke, 1 );
+        if ( rng( 1, 10) < p->dex_cur / 2 + p->get_skill_level( skill_mechanics ) ) {
+            if( g->m.flammable_items_at( pos ) ) {
+                p->add_msg_if_player( m_bad, _( "The flame sets something inside on fire!" ) );
+                g->m.add_field( pos, fd_fire, 1 );
+            }                
+            if( g->m.i_at( pos ).size() > 0 ) {
+                p->add_msg_if_player( m_bad, _( "Flame from the torch damages the contents!" ) );
+                for( item &i : g->m.i_at( pos ) ) {
+                    i.mod_damage( rng( 1, i.max_damage() ) );
+                }                
+            }
+
+        }      
     }
 }
 
@@ -2506,6 +2528,73 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
+    if( calendar::once_every( 2_minutes ) ) {
+        //~ Sound of a safe dial rotating.
+        sounds::sound( act->placement, 1, sounds::sound_t::activity, _( "click click." ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::drill_do_turn( player_activity *act, player *p )
+{
+    if( !p->has_amount( "cordless_drill", 1 ) ) {
+        // We lost our tool somehow, bail out.
+        act->set_to_null();
+        return;
+    }
+    if( calendar::once_every( 2_minutes ) ) {
+        //~ Sound of a drill drilling a hole.
+        sounds::sound( act->placement, 15, sounds::sound_t::activity, _( "whirrr whirrr." ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::drill_finish( player_activity *act, player *p )
+{
+    const tripoint &pos = act->placement;
+    const ter_id type = g->m.ter( act->placement );
+    const furn_id furn = g->m.furn( act->placement );
+    ter_id new_type;
+    std::string open_message;
+    
+    p->add_msg_if_player( m_good, _( "You finish drilling." ) );
+    
+    if( type == t_chaingate_l ) {
+        new_type = t_chaingate_c;
+        open_message = _( "You drill through the lock and the chain-link gate opens." );
+    } else if( type == t_door_locked || type == t_door_locked_alarm ||
+               type == t_door_locked_interior ) {
+        new_type = t_door_c;
+        open_message = _( "You drill through the lock and the door opens." );
+    } else if( type == t_door_locked_peep ) {
+        new_type = t_door_c_peep;
+        open_message = _( "You drill through the lock and the door opens." );
+    } else if( type == t_door_metal_pickable ) {
+        new_type = t_door_metal_c;
+        open_message = _( "You drill through the lock and the door opens." );
+    } else if( type == t_door_bar_locked ) {
+        new_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open..." );
+    } 
+    
+    if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el || furn == f_gunsafe_mj ) {
+        open_message = _( "You drill through the safe's lock mechanisms and it opens." );
+        g->m.furn_set( pos, f_safe_o );
+    } else {
+        g->m.ter_set( pos, new_type );
+    }
+    
+    p->practice( skill_mechanics, 1 );
+    p->add_msg_if_player( m_good, open_message );
+
+    if( type == t_door_locked_alarm || furn == f_gunsafe_el ) {
+        sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+        if( !g->events.queued( EVENT_WANTED ) ) {
+            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
+        }
+    }
+    act->set_to_null();
 }
 
 void activity_handlers::repair_item_do_turn( player_activity *act, player *p )

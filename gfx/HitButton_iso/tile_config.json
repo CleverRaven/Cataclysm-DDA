@@ -3394,7 +3394,7 @@
           "fg": [ 1125, 1131, 1132, 1128 ]
         },
         {
-          "id": ["f_gunsafe_ml", "f_gun_safe_el", "f_safe_c" ],
+          "id": ["f_gunsafe_ml", "f_gunsafe_el", "f_safe_c" ],
           "fg": 1133
         },
         {

@@ -1855,7 +1855,7 @@
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "gunsafe_ml",
+    "examine_action": "safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1875,6 +1875,7 @@
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "examine_action": "safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1885,7 +1886,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_gun_safe_el",
+    "id": "f_gunsafe_el",
     "name": "electronic gun safe",
     "description": "Can you hack it open to get the firearms?",
     "symbol": "X",
@@ -1894,7 +1895,7 @@
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "gunsafe_el",
+    "examine_action": "safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,

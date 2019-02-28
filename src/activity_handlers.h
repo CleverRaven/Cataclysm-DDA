@@ -55,6 +55,7 @@ void craft_do_turn( player_activity *act, player *p );
 void fill_liquid_do_turn( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
 void drop_do_turn( player_activity *act, player *p );
+void drill_do_turn( player_activity *act, player *p );
 void stash_do_turn( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void game_do_turn( player_activity *act, player *p );
@@ -136,6 +137,7 @@ void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
+void drill_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
