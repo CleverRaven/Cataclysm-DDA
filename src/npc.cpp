@@ -1979,7 +1979,6 @@ void npc::die( Creature *nkiller )
     }
 
     place_corpse();
-
 }
 
 std::string npc_attitude_name( npc_attitude att )
