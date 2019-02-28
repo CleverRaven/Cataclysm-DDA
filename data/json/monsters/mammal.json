@@ -1040,11 +1040,7 @@
     "id": "mon_dog_rottweiler_pup",
     "type": "MONSTER",
     "name": "rottweiler puppy",
-<<<<<<< HEAD
     "description": "An adorable, defenseless Rottweiler puppy.  Much safer to tame than an adult dog.",
-=======
-    "description": "An adorable, defenseless Rottweiler puppy.  Much safer to tame than adult counterparts.",
->>>>>>> 42c0007ee5... Fixing descriptions in mammal.json and dissecting description in game.cpp
     "default_faction": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
