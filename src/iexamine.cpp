@@ -1292,7 +1292,7 @@ void iexamine::pedestal_wyrm(player &p, const tripoint &examp)
         }
     }
     add_msg( _( "The pedestal sinks into the ground..." ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous griding noise...") );
+    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise...") );
     g->m.ter_set(examp, t_rock_floor);
     g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 5_turns, 10_turns ) );
 }
@@ -3822,10 +3822,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( &installer == &null_player ) {
                 return;
             }
-
-            //~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient name
-            add_msg( _( "%1$s prepares to install the %2$s on %3$s." ), installer.name,
-                     it->display_name().c_str(), patient.name );
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {

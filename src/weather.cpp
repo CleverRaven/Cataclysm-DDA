@@ -443,7 +443,6 @@ void weather_effect::very_wet()
 void weather_effect::snow()
 {
     wet_player( 10 );
-    glare( true );
 }
 
 void weather_effect::snowstorm()

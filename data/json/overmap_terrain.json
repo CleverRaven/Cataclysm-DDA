@@ -91,6 +91,7 @@
   {
     "type": "overmap_terrain",
     "id": "field",
+    "copy-from": "generic_open_land",
     "name": "field",
     "sym": 46,
     "color": "brown",
@@ -102,6 +103,7 @@
   {
     "type": "overmap_terrain",
     "id": "forest",
+    "copy-from": "generic_forest",
     "name": "forest",
     "sym": 70,
     "color": "green",
@@ -113,6 +115,7 @@
   {
     "type": "overmap_terrain",
     "id": "forest_thick",
+    "copy-from": "generic_forest",
     "name": "forest",
     "sym": 70,
     "color": "green",
@@ -125,6 +128,7 @@
   {
     "type": "overmap_terrain",
     "id": "forest_water",
+    "copy-from": "generic_wetland_forest",
     "name": "swamp",
     "sym": 70,
     "color": "cyan",
@@ -137,6 +141,7 @@
   {
     "type": "overmap_terrain",
     "id": "hiway_ns",
+    "copy-from": "generic_transportation",
     "name": "highway",
     "sym": 72,
     "color": "dark_gray",
@@ -148,6 +153,7 @@
   {
     "type": "overmap_terrain",
     "id": "hiway_ew",
+    "copy-from": "generic_transportation",
     "name": "highway",
     "sym": 61,
     "color": "dark_gray",
@@ -160,6 +166,7 @@
     "type": "overmap_terrain",
     "id": "road",
     "name": "road",
+    "copy-from": "generic_transportation",
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "road",
@@ -174,6 +181,7 @@
   {
     "type": "overmap_terrain",
     "id": "road_nesw_manhole",
+    "copy-from": "generic_transportation",
     "name": "road, manhole",
     "sym": 4194414,
     "color": "yellow",
@@ -185,6 +193,7 @@
   {
     "type": "overmap_terrain",
     "id": "bridge",
+    "copy-from": "generic_transportation",
     "name": "bridge",
     "sym": 4194424,
     "color": "white",
@@ -195,6 +204,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_center",
+    "copy-from": "generic_water",
     "name": "river",
     "sym": 82,
     "color": "blue",
@@ -205,6 +215,7 @@
   {
     "type": "overmap_terrain",
     "id": "river",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -215,6 +226,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_c_not_ne",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -225,6 +237,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_c_not_nw",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -235,6 +248,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_c_not_se",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -245,6 +259,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_c_not_sw",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -255,6 +270,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_ne",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -265,6 +281,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_se",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -275,6 +292,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_sw",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -285,6 +303,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_nw",
+    "copy-from": "generic_water",
     "name": "river bank",
     "sym": 82,
     "color": "light_blue",
@@ -295,10 +314,13 @@
   {
     "type": "overmap_terrain",
     "id": "house",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_residential_medium",
     "name": "house",
+    "sym": 94,
     "color": "light_green",
     "see_cost": 2,
+    "extras": "build",
+    "mondensity": 2,
     "mapgen": [
       { "method": "builtin", "name": "house_generic_boxy" },
       { "method": "builtin", "name": "house_generic_big_livingroom" },
