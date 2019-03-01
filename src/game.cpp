@@ -6539,7 +6539,11 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
 {
-    auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    visibility_type visibility = VIS_HIDDEN;
+    bool inbounds = m.inbounds( lp );
+    if( inbounds ) {
+        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    }
     switch( visibility ) {
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
@@ -6574,7 +6578,9 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             }
             break;
     }
-
+    if( !inbounds ) {
+        return;
+    }
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
         mvwprintw( w_look, ++line, 1, _( "You heard %s from here." ), this_sound.c_str() );
