@@ -560,7 +560,7 @@
     "purifiable": false,
     "player_display": false,
     "types": [ "facial_hair" ]
-  }, 
+  },
   {
     "id": "FACIAL_HAIR_CIRCLE",
     "type": "mutation",
