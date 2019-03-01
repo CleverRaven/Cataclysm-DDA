@@ -362,8 +362,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         // Ok, we found something
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
-            ter_color = explored ? c_dark_gray : info->get_color();
-            ter_sym = info->get_sym();
+            ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
+            ter_sym = info->get_sym( uistate.overmap_land_use_codes );
         }
     };
 
@@ -745,6 +745,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "LIST_NOTES" );
         print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
+        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_land_use_codes ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
@@ -808,6 +809,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "TOGGLE_BLINKING" );
     ictxt.register_action( "TOGGLE_OVERLAYS" );
     ictxt.register_action( "TOGGLE_HORDES" );
+    ictxt.register_action( "TOGGLE_LAND_USE_CODES" );
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
@@ -948,6 +950,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 show_explored = !show_explored;
             }
+        } else if( action == "TOGGLE_LAND_USE_CODES" ) {
+            uistate.overmap_land_use_codes = !uistate.overmap_land_use_codes;
         } else if( action == "TOGGLE_HORDES" ) {
             uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {

@@ -3165,6 +3165,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
     }
+    // Cap engine noise to avoid deafening.
+    noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double( fabs( velocity / 500.0 ) ) );
     int lvl = 0;
