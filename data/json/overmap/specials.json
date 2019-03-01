@@ -59,8 +59,8 @@
         ],
         "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
         "locations" : [ "land", "swamp" ],
-        "city_distance" : [8, 120],
-        "city_sizes" : [3, 12],
+        "city_distance" : [2, 120],
+        "city_sizes" : [1, 12],
         "occurrences" : [0, 3],
         "flags" : [ "CLASSIC" ]
 },{
@@ -515,7 +515,7 @@
         "locations" : [ "land" ],
         "city_distance" : [2, 10],
         "city_sizes" : [4, 12],
-        "occurrences" : [1, 2],
+        "occurrences" : [0, 3],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1891,7 +1891,7 @@
         "city_distance" : [5, 10],
         "city_sizes" : [4, 12],
         "rotate" : false,
-        "occurrences" : [1, 3]
+        "occurrences" : [0, 3]
     },
   {
     "type": "overmap_special",
@@ -2383,7 +2383,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 150 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 1, 2 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -2406,8 +2406,8 @@
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 1, 6 ],
-    "city_sizes": [ 4, 20 ],
-    "occurrences": [ 0, 3 ],
+    "city_sizes": [ 8, 20 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -2438,8 +2438,8 @@
     "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ -1, 4 ],
-    "city_sizes": [ 4, 20 ],
-    "occurrences": [ 0, 2 ],
+    "city_sizes": [ 8, 20 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -2459,7 +2459,7 @@
     "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 4 ],
-    "city_sizes": [ 4, 12 ],
+    "city_sizes": [ 5, 12 ],
     "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC" ]
   },
@@ -2500,7 +2500,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 5, 25 ],
     "city_sizes": [ 2, 10 ],
-    "occurrences": [ 1, 5 ],
+    "occurrences": [ 0, 15 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -2605,9 +2605,9 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
-    "city_distance": [ 8, 120 ],
-    "city_sizes": [ 3, 12 ],
-    "occurrences": [ 1, 3 ],
+    "city_distance": [ 2, 120 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC" ]
   }
 ]
