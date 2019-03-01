@@ -324,9 +324,12 @@ void sounds::process_sound_markers( player *p )
         }
 
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
-        if( p->is_npc() && !sound.ambient ) {
-            npc *guy = dynamic_cast<npc *>( p );
-            guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
+        if( p->is_npc() ) {
+            if( !sound.ambient ) {
+                npc *guy = dynamic_cast<npc *>( p );
+                guy->handle_sound( static_cast<int>( sound.category ), description,
+                                   heard_volume, pos );
+            }
             continue;
         }
 
