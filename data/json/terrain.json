@@ -5927,190 +5927,223 @@
     }
   },
   {
-  "type": "terrain",
-  "id": "t_glass_railing",
-  "aliases": [ "t_glass_railing_h", "t_glass_railing_v" ],
-  "name": "glass railing",
-  "symbol": "LINE_OXOX",
-  "color": "cyan",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
-  "connects_to": "RAILING",
-  "bash": {
-    "str_min": 10,
-    "str_max": 40,
-    "sound": "glass braking!",
-    "sound_fail": "ker-rash!.",
-    "ter_set": "t_rock_floor",
-    "items": [
-      { "item": "glass_shard", "prob": 50 },
-      { "item": "pipe", "charges": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "glass_sheet", "count": [ 1, 2 ] }
-    ]
-  }
-},
-{
-  "type": "terrain",
-  "id": "t_metal_railing",
-  "aliases": [ "t_metal__railing_h", "t_metal__railing_v" ],
-  "name": "metal railing",
-  "symbol": "LINE_OXOX",
-  "color": "gray",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
-  "connects_to": "RAILING",
-  "bash": {
-    "str_min": 20,
-    "str_max": 80,
-    "sound": "clang!",
-    "sound_fail": "whump.",
-    "ter_set": "t_rock_floor",
-    "items": [
-      { "item": "pipe", "prob": 50 },
-      { "item": "sheet_metal_small", "charges": [ 2, 6 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "sheet_metal", "count": [ 1, 2 ] }
-    ]
-  }
-},
-{
-  "type": "terrain",
-  "id": "t_gutter_north",
-  "description": "Channels water from the roof towards the ground, it looks flimsy.",
-  "name": "rain gutter",
-  "symbol": "LINE_OXOX",
-  "color": "white",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-  "connects_to": "RAILING",
-  "bash": {
-    "str_min": 5,
-    "str_max": 12,
-    "sound": "clang!",
-    "sound_fail": "clang.",
-    "ter_set": "t_flat_roof",
-    "items": [
-      { "item": "sheet_metal_small", "charges": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "sheet_metal", "count": [ 1, 2 ] }
-    ]
-  }
-},
-{
-  "type": "terrain",
-  "id": "t_gutter_south",
-  "description": "Channels water from the roof towards the ground, it looks flimsy.",
-  "name": "rain gutter",
-  "symbol": "LINE_OXOX",
-  "color": "white",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-  "connects_to": "RAILING",
-  "bash": {
-    "str_min": 5,
-    "str_max": 12,
-    "sound": "clang!",
-    "sound_fail": "clang.",
-    "ter_set": "t_flat_roof",
-    "items": [
-      { "item": "sheet_metal_small", "charges": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "sheet_metal", "count": [ 1, 2 ] }
-    ]
-  }
-},
-{
-  "type": "terrain",
-  "id": "t_gutter_east",
-  "description": "Channels water from the roof towards the ground, it looks flimsy.",
-  "name": "rain gutter",
-  "symbol": "LINE_OXOX",
-  "color": "white",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-  "connects_to": "RAILING",
-  "bash": {
-    "str_min": 5,
-    "str_max": 12,
-    "sound": "clang!",
-    "sound_fail": "clang.",
-    "ter_set": "t_flat_roof",
-    "items": [
-      { "item": "sheet_metal_small", "charges": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "sheet_metal", "count": [ 1, 2 ] }
-    ]
-  }
-},
-{
-  "type": "terrain",
-  "id": "t_gutter_west",
-  "description": "Channels water from the roof towards the ground, it looks flimsy.",
-  "name": "rain gutter",
-  "symbol": "LINE_OXOX",
-  "color": "white",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-  "connects_to": "RAILING",
-  "bash": {
-    "str_min": 5,
-    "str_max": 12,
-    "sound": "clang!",
-    "sound_fail": "clang.",
-    "ter_set": "t_flat_roof",
-    "items": [
-      { "item": "sheet_metal_small", "charges": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "sheet_metal", "count": [ 1, 2 ] }
-    ]
-  }
-},
-{
-  "type": "terrain",
-  "id": "t_gutter_drop",
-  "name": "gutter drop",
-  "description": "Funnels water from gutter system towards the ground, it looks flimsy. You may be able to climb down here.",
-  "symbol": "o",
-  "color": "white",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBS" ],
-  "connects_to": "RAILING",
-  "bash": {
-    "str_min": 5,
-    "str_max": 12,
-    "sound": "clang!",
-    "sound_fail": "clang.",
-    "ter_set": "t_flat_roof",
-    "items": [
-      { "item": "sheet_metal_small", "charges": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "sheet_metal", "count": [ 1, 2 ] }
-    ]
-  }
-},
-{
-  "type": "terrain",
-  "id": "t_gutter_downspout",
-  "name": "downspout",
-  "description": "A length of gutter running from the roof to the ground, it looks flimsy. You may be able to climb down here.",
-  "symbol": "|",
-  "color": "white",
-  "move_cost": 3,
-  "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "UNSTABLE", "CLIMBS" ],
-  "bash": {
-    "str_min": 5,
-    "str_max": 12,
-    "sound": "clang!",
-    "sound_fail": "clang.",
-    "ter_set": "t_dirt",
-    "items": [
-      { "item": "sheet_metal_small", "charges": [ 2, 6 ] },
-      { "item": "scrap", "count": [ 1, 6 ] },
-      { "item": "sheet_metal", "count": [ 1, 4 ] }
-    ]
-  }
-},
+    "type": "terrain",
+    "id": "t_glass_railing",
+    "aliases": [ "t_glass_railing_h", "t_glass_railing_v" ],
+    "name": "glass railing",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "glass braking!",
+      "sound_fail": "ker-rash!.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "glass_shard", "prob": 50 },
+        { "item": "pipe", "charges": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "glass_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_railing",
+    "aliases": [ "t_metal__railing_h", "t_metal__railing_v" ],
+    "name": "metal railing",
+    "symbol": "LINE_OXOX",
+    "color": "gray",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 20,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "pipe", "prob": 50 },
+        { "item": "sheet_metal_small", "charges": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gutter_north",
+    "description": "Channels water from the roof towards the ground, it looks flimsy.",
+    "name": "rain gutter",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "clang!",
+      "sound_fail": "clang.",
+      "ter_set": "t_flat_roof",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gutter_south",
+    "description": "Channels water from the roof towards the ground, it looks flimsy.",
+    "name": "rain gutter",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "clang!",
+      "sound_fail": "clang.",
+      "ter_set": "t_flat_roof",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gutter_east",
+    "description": "Channels water from the roof towards the ground, it looks flimsy.",
+    "name": "rain gutter",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "clang!",
+      "sound_fail": "clang.",
+      "ter_set": "t_flat_roof",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gutter_west",
+    "description": "Channels water from the roof towards the ground, it looks flimsy.",
+    "name": "rain gutter",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "clang!",
+      "sound_fail": "clang.",
+      "ter_set": "t_flat_roof",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gutter_drop",
+    "name": "gutter drop",
+    "description": "Funnels water from gutter system towards the ground, it looks flimsy. You may be able to climb down here.",
+    "symbol": "o",
+    "color": "white",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBS" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "clang!",
+      "sound_fail": "clang.",
+      "ter_set": "t_flat_roof",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gutter_downspout",
+    "name": "downspout",
+    "description": "A length of gutter running from the roof to the ground, it looks flimsy. You may be able to climb down here.",
+    "symbol": "|",
+    "color": "white",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "UNSTABLE", "CLIMBS" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "clang!",
+      "sound_fail": "clang.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ponywall",
+    "aliases": [ "t_ponywall_h", "t_ponywall_v" ],
+    "name": "pony wall",
+    "description": "A short divider wall with wooden support structure with drywall.  Paint job is the all too common and neutral off-white or cream color.  Appears as though the material is flammable.",
+    "symbol": "LINE_OXOX",
+    "looks_like": "f_counter",
+    "color": "light_gray",
+    "move_cost": 0,
+    "connects_to": "WALL",
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "INDOORS",
+      "AUTO_WALL_SYMBOL",
+      "BASHABLE",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "SHORT"
+    ],
+    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
   {
     "type": "terrain",
     "id": "t_marloss",

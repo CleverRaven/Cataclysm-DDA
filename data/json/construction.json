@@ -894,6 +894,18 @@
   },
   {
     "type": "construction",
+    "description": "Build Pony Wall",
+    "//": "a thin half-wall used to divide rooms.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 50,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_ponywall"
+  },
+  {
+    "type": "construction",
     "description": "Build Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
