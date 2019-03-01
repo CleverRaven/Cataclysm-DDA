@@ -1262,10 +1262,10 @@
     "extend": { "flags": [ "FIREPROOF" ] }
   },
   {
-    "id": "mon_milbot_gaurdian",
+    "id": "mon_milbot_guardian",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
-    "name": "robo-gaurdian",
+    "name": "robo-guardian",
     "description": "A salvaged military robot refitted with a pair of integrated 9mm firearms.  Multiple weapons provide a high rate of fire, but jury-rigged sensors limit the effective range and accuracy. It makes for a good close range bodyguard.",
     "diff": 10,
     "speed": 70,
@@ -1274,7 +1274,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "vision_day": 10,
-    "revert_to_itype": "bot_milbot_gaurdian",
+    "revert_to_itype": "bot_milbot_guardian",
     "starting_ammo": { "9mm": 200 },
     "special_attacks": [
       {
@@ -1294,7 +1294,7 @@
   {
     "id": "mon_milbot_deluxe",
     "type": "MONSTER",
-    "copy-from": "mon_milbot_gaurdian",
+    "copy-from": "mon_milbot_guardian",
     "name": "robote deluxe",
     "//": "the extra E makes it European.",
     "description": "A diamond-studded gold-plated robot armed with a pair of integrated 9mm firearms.  An opulent luxury-bot suitable for those who wish to survive the apocalypse in style.",

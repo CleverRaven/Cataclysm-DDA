@@ -433,7 +433,7 @@ void talk_function::camp_missions( mission_data &mission_key, npc &p )
     if( bcp->can_expand() ) {
         comp_list npc_list = companion_list( p, "_faction_camp_expansion" );
         entry = string_format( _( "Notes:\n"
-                                  "Your base has become large enough to support an expansion."
+                                  "Your base has become large enough to support an expansion. "
                                   "Expansions open up new opportunities but can be expensive and "
                                   "time consuming.  Pick them carefully, only 8 can be built at "
                                   "each camp.\n \n"

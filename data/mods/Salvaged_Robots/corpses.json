@@ -419,10 +419,10 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_milbot_gaurdian",
+    "id": "broken_milbot_guardian",
     "copy-from": "broken_milbot_disarmed",
     "color": "white",
-    "name": "broken robo-gaurdian",
+    "name": "broken robo-guardian",
     "description": "A broken salvaged robot. Could be stripped or recrafted."
   },
   {

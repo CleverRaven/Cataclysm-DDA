@@ -752,15 +752,15 @@
     }
   },
   {
-    "id": "bot_milbot_gaurdian",
+    "id": "bot_milbot_guardian",
     "type": "TOOL",
     "copy-from": "bot_milbot_base",
-    "name": "inactive robo-gaurdian",
+    "name": "inactive robo-guardian",
     "description": "A salvaged military robot refitted with a pair of integrated 9mm firearms.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
     "color": "green",
     "use_action": {
       "type": "place_monster",
-      "monster_id": "mon_milbot_gaurdian",
+      "monster_id": "mon_milbot_guardian",
       "difficulty": 1,
       "moves": 100,
       "skill1": "electronics",

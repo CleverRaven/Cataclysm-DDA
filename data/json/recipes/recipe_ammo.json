@@ -266,7 +266,7 @@
   ]
 },{
   "type" : "recipe",
-  "result" : "flamable_arrow",
+  "result" : "flammable_arrow",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",

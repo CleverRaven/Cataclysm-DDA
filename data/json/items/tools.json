@@ -2886,7 +2886,7 @@
     "flags": [ "FISH_GOOD" ]
   },
   {
-    "id": "flamable_arrow",
+    "id": "flammable_arrow",
     "type": "TOOL",
     "category": "ammo",
     "name": "flammable arrow",

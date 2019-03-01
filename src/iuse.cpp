@@ -3247,7 +3247,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-int iuse::arrow_flamable( player *p, item *it, bool, const tripoint & )
+int iuse::arrow_flammable( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );

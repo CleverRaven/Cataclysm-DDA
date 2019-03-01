@@ -593,7 +593,7 @@
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_flame", 1 ] ] ]
   },
   {
-    "result": "broken_milbot_gaurdian",
+    "result": "broken_milbot_guardian",
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
