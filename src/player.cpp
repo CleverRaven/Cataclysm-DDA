@@ -11263,7 +11263,7 @@ std::string player::weapname() const
                 }
             }
         }
-        return "Weapon  : " + str;
+        return _( "Weapon:" ) + std::string( " " ) + str;
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
@@ -11273,7 +11273,7 @@ std::string player::weapname() const
         return _( "Weapon  : fists" );
 
     } else {
-        return "Weapon  : " + weapon.tname();
+      return _( "Weapon:" ) + std::string( " " ) + weapon.tname();
     }
 }
 
