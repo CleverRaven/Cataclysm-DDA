@@ -66,6 +66,7 @@
       "d": "t_dirt",
       "D": "t_door_boarded_damaged",
       "f": "t_grass",
+      "g": "t_generator_broken",
       "h": "t_dirtfloor",
       "I": "t_dirtfloor",
       "m": "t_machinery_old",
@@ -74,6 +75,7 @@
       "N": "t_dirtfloor",
       "O": "t_column",
       "p": "t_grass",
+      "P": [ "t_covered_well", "t_water_pump", "t_water_pump" ],
       "r": "t_grass",
       "P": "t_dirtfloor",
       "R": "t_dirtfloor",
@@ -83,11 +85,12 @@
       "T": "t_dirtfloor",
       "u": "t_dirtfloor",
       "v": "t_fence_h",
+      "Q": "t_bulk_tank",
       "w": "t_window_boarded_noglass",
       "W": "t_window",
       "|": "t_wall_wood",
-      ">": "t_ladder_up",
-      "<": "t_ladder_down"
+      "<": "t_ladder_up",
+      ">": "t_ladder_down"
     },
     "furniture": {
       "=": "f_smoking_rack",

@@ -13,7 +13,6 @@
         "____"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "place_vehicles": [ { "chance": 10, "fuel": 0, "rotation": 180, "status": 1, "vehicle": "tractor_plow", "x": 0, "y": 0 } ]
     }
   },
   {
@@ -25,11 +24,13 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "____",
-        "_r__",
-        "__Rr",
+        "_^__",
+        "__R^",
         "__R_"
       ],
-      "palettes": [ "desolatebarn_palette" ]
+      "palettes": [ "desolatebarn_palette" ],
+      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] },
+      "R": { "items": [ { "item": "hardware", "chance": 25, "damage": [ 1, 4 ] } ] }
     }
   },
   {
@@ -56,12 +57,13 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "___r",
+        "___^",
         "____",
-        "____",
-        "_m__"
+        "_^__",
+        "_mg^"
       ],
-      "palettes": [ "desolatebarn_palette" ]
+      "palettes": [ "desolatebarn_palette" ],
+      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
     }
   },
   {
@@ -74,7 +76,7 @@
       "rows": [
         "__b_",
         "N!N_",
-        "NnN_",
+        "NnNg",
         "NNN_"
       ],
       "palettes": [ "desolatebarn_palette" ]
@@ -88,12 +90,101 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "r___",
+        "^___",
         "N!N_",
-        "NnNr",
-        "NNNr"
+        "NnN^",
+        "NNN^"
       ],
       "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "//": "yard with well",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "....d...",
+        ".rP.....",
+        "..r...d.",
+        "...d....",
+        "....#...",
+        "...#....",
+        "..#t##d.",
+        "....#..."
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "//": "yard with tractor",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "d.ddd.#.",
+        "ddd.d.t.",
+        ".d.d.d#.",
+        "d.ddd.#.",
+        ".ddd.dt.",
+        "d.d.d.t.",
+        ".dd.dd#.",
+        "...d...."
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "oldtractor", "x": 1, "y": 1 } ],
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "//": "yard with rusty tanks",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..d...#.",
+        "d...d...",
+        "..QQ....",
+        "..QQ....",
+        "..d....#",
+        "#.......",
+        "........",
+        "...d...."
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      ".": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] },
+      "//": "Replace hardware with an 'old industrial items' group at some point"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "//": "yard with shed",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..d...#.",
+        "d...d...",
+        ".r||w|&.",
+        "..|rrr&.",
+        "..|rdd.#",
+        "#.|&&ddd",
+        "......dd",
+        "...d...."
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
     }
   }
 ]

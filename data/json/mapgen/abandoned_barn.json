@@ -49,7 +49,8 @@
           "chunks": [ [ "null", 80 ], [ "desolate_barn_4x4_junk", 15 ], [ "desolate_barn_4x4_camp", 5 ] ],
           "x": 10,
           "y": 16
-        }
+        },
+        { "chunks": [ [ "null", 80 ], [ "desolate_barn_8x8_yard", 20 ] ], "x": 16, "y": 10 }
       ]
     }
   },
