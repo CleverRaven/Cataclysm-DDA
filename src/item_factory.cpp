@@ -571,7 +571,7 @@ void Item_factory::init()
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
-    add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flamable );
+    add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
     add_iuse( "BATTLETORCH_LIT", &iuse::battletorch_lit );
