@@ -187,6 +187,19 @@ Adds a corpse to gibbed creatures.
 Selfies can be made and stored on camera.
 NPC photos show visible mutations.
 Enable Loot Zones to bind to vehicle Cargo parts.
+Add support for amphibious vehicles.
+Adds Zone Activity to harvest plots.
+Specific guns can be targetted in json gunmods.
+Add a debug option to spawn map extras.
+Adds a context menu when examining seed drill and advanced seed drill: reload them with seeds.
+Adds a Morale boosting chitchat with friendly NPCs as an activity.
+Update bone mending machine to use mend mechanics instead of magic stemcell treatment.
+Add new pet menu option for survivor to play with certain tamed pets to increase morale.
+Improve traction handling and add new wheel types.
+Shout commands for NPC wake-up and relax.
+Food recipe results' calories and vitamins now based on components.
+Adds skinning butchery action.
+Forests now partially block wind turbines output.
 
 ## Content:
 
@@ -320,6 +333,15 @@ Mainline NPC traits mod.
 Added outbuildings to default farm.
 Regularize city grid and allow large in-city specials.
 Adds area_name into info box when looking_around.
+Adds gunmods that add slots for more gunmods.
+Adds four new NPC backstories available to all NPCs.
+Added Electroreceptors as a starting mutation to the Challenge-Lab scenario.
+Adds medicine to help nausea.
+Added new Martial Art: Sōjutsu.
+Upgrades the outer walls of the refugee center and fills the waiting area with beggars.
+Allow multiple inputs for rifle portion of rifle turret.
+Adds new vehicle part : a wind turbine.
+Generates wind direction and improves wind strength random-ness.
 
 ## Interface:
 
@@ -561,6 +583,18 @@ Play Now! loads a world with 0 character if available.
 Crafting-gui - colorize book enumeration.
 Veh_interact.cpp - colorize cargo volume.
 Sounds: add descriptions to player shouts.
+Allow installed bionics to be displayed in tiles mode.
+Allow separate tiles for activated mutations/bionics.
+Bionic power - equalize names and colorize values.
+Don't reveal wall connections the player should not know about.
+Automatically calculate monster difficulty.
+Player display: add support for hidden traits.
+Player character will open closed fence gates when walking, will vault over the fence gate when running.
+Allow multiple filters for crafting recipes in crafting menu.
+Status includes approximate times for NPC needs.
+Crafting GUI Filter saves history; possibility to move trough history with arrow keys.
+Changes text color to match map note color.
+Bind '?' to open keybindings window by default.
 
 ## Mods:
 
@@ -622,6 +656,10 @@ Partially moved Folding Parts Mod to base game.
 Convert Bright Nights region_settings to region_overlay.
 Added anthill, bee, and large zombie exclusion mods.
 MSX Dead People tileset update and make it default.
+Adds new mod Growable pots.
+Mainlined Tall Buildings mod.
+Add urban development buildings to city spawns.
+Salvaged Robots: More robot themed professions.
 
 ## Balance:
 
@@ -795,6 +833,16 @@ Modifies calorie amounts for flesh/fish and Fat products, including butchery pro
 Rework vehicle safe and max velocities based on physics.
 Adding more requirements to screwdriver set recipe.
 Causes corpse damage level to negatively affect butchery yields.
+Adjust PRY ability levels.
+MBR vests weight and recipe fixes.
+Reset aim of bows between shots.
+Refine forest trailhead placement.
+Adjust clay distribution in forests and on river banks.
+Rebalance comestibles' calories, vitamins, weight, and volume.
+Made vitamin deficiencies slower to accumulate.
+Rebalances recipes to be closer in calorie count for input and output.
+Increases duration of most morale effects
+Rapid metabolism made purifiable.
 
 ## Bugfixes:
 
@@ -929,6 +977,39 @@ Skip dodge and block techniques when looking for a normal technique.
 Fixed zombie necromancer was able to revive zombies pulped by a very hard hit.
 Fix aiming anywhere after player has moved.
 Applies radiation mitigation to all sources.
+Adds minireactor to electrical power calculation.
+Fixes gunmods that add non-auxiliary gun modes.
+Fix NPC weapon wielding turn cost.
+Fix monsters' special attack description not translated.
+Fix aiming via mouse click.
+Skinning animals smaller than Great Pyrenees now possible.
+vehicles: don't let drag stop vehicles in active cruise control.
+No map extras in refugee center (for now).
+Greater search range for refugee camp bandit missions.
+Allows vehicles with a seed-drill to plant seeds
+Fixed time cost for auto-mining.
+Fix crash related to null pointer in creature tracker.
+Make fire extinguishers work again.
+Fix ASCII fallback for corpses.
+vehicles: improve split logic.
+game: adjust vehicle driving offset based on the new speeds.
+Unloading ammunition belt can be interrupted.
+Fix HP not being recalculated during chargen.
+Restore ability to use recipes from eink tablet.
+Made Mycus Fireproofing and Mycogenesis consistent, and they will no longer prevent your clothes from burning.
+Correct several uses of distance metrics.
+basecamp: retrieve companions sent to do expansion crafting.
+Fix wall connectedness on tiles builds with tiles disabled.
+vehicles: only sink vehicles in deep water.
+Prevent NPC duplications when climbing stairs and colliding with a monster.
+Prevent zone activities from working across z-levels.
+Fix lighting of exterior walls by player-held light sources at night.
+Move control laptop time investment to be before hacking attempt.
+Respect `looks_like` for memorized tiles.
+Disallow pseudo items in crafting component selection.
+Fix calculation of chance to persuade NPCs to train.
+npc: fix NPC followers not closing doors.
+Serialize recipe charges.
 
 ## Performance:
 
@@ -975,6 +1056,10 @@ Faster item layer computation.
 Improve performance of encumbrance calculations.
 Lazily load sound effects as they are encountered instead of at application startup unless explicitly preloaded.
 Faster color name lookup.
+remove recursive call from open_or_close() .
+Performance boost for SDL drawing using color modulated textures.
+Improve sorting large numbers of items into zones.
+Optimize inbounds check and reactor lookup.
 
 ## Infrastructure:
 
@@ -1139,6 +1224,32 @@ Add tool qualities to the game for later use in scientific tools.
 Replace tag_colored_string with colorize.
 Run tests for CMake CI build.
 Simpler test randomness seeding.
+Enable functional boats phase.
+npctalk: add more conditions and dynamic line options.
+npc: remove hardcoded mutation modifiers to opinions and use JSON values
+Adds not-quite implemented basic analytical tools for chemistry.
+Fix city districts and increase default size.
+npctalk: add u_sell_item effect.
+npctalk: add a simple pseudo-switch for responses.
+Fix NPC class loadout selection.
+npctalk: add mutation threshold flags, static and starting NPC traits, and a basecamp count.
+Document units for power and energy_consumption.
+Replaced hardcoded terrain list with checking of terrain flag.
+Change within_visual_range function to reflect usage.
+Allow more specific control over tests run in CI.
+Improves structure of background stories to prepare for other types of inquiry.
+Improvements to player_activity regarding distractions.
+npctalk: add true/false responses and CONDITION trials to JSON.
+Allow flag-based blacklisting and whitelisting of overmap locations on a per-region basis.
+npctalk: add a bunch of new options to JSON.
+Rationalize Visual Studio compatibility code.
+Mutation loading now uses generic_factory.
+Make route_adjacent available to all activity handlers.
+Moved wind generation variables to regional_map_settings.json.
+npctalk: move NPC needs to JSON.
+npctalk: move NPC follower AI rules to JSON.
+npctalk: move almost all dialogue into JSON.
+JSONnizing CBM slot feature.
 
 ## Build:
 
