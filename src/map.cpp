@@ -1706,6 +1706,9 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const maptile up = maptile_at( up_p );
     const ter_t &up_ter = up.get_ter_t();
+    if( up_ter.id.is_null() ) {
+        return false;
+    }
     // Checking for ledge is a workaround for the case when mapgen doesn't
     // actually make a valid ledge drop location with zlevels on, this forces
     // at least one zlevel drop and if down_ter is impassible it's probably
@@ -1719,6 +1722,9 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const maptile down = maptile_at( down_p );
     const ter_t &down_ter = down.get_ter_t();
+    if( down_ter.id.is_null() ) {
+        return false;
+    }
 
     if( !up_is_ledge && down_ter.movecost == 0 ) {
         // Unpassable tile
