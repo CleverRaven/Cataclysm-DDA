@@ -263,7 +263,7 @@
         "locations": [ "wilderness" ],
         "city_distance": [ 10, -1 ],
         "city_sizes": [ 1, 20 ],
-        "occurrences": [ 1, 5 ]
+        "occurrences": [ 0, 5 ]
   },{
         "type": "overmap_special",
         "id": "Farm",
@@ -282,7 +282,7 @@
         "locations": [ "wilderness" ],
         "city_distance": [ 10, -1 ],
         "city_sizes": [ 1, 20 ],
-        "occurrences": [ 1, 5 ],
+        "occurrences": [ 0, 5 ],
         "flags": [ "CLASSIC" ]
   },{
         "type": "overmap_special",
@@ -305,7 +305,7 @@
         "locations": [ "wilderness" ],
         "city_distance": [ 10, -1 ],
         "city_sizes": [ 1, 20 ],
-        "occurrences": [ 1, 5 ],
+        "occurrences": [ 0, 5 ],
         "flags": [ "CLASSIC" ]
   },{
         "type" : "overmap_special",
@@ -1918,7 +1918,7 @@
         "locations" : [ "land" ],
         "city_distance" : [20, -1],
         "city_sizes" : [1, 12],
-        "occurrences" : [1, 5],
+        "occurrences" : [0, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },
