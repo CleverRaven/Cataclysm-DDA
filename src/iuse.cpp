@@ -7612,8 +7612,14 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
-    long available_water = std::max( crafting_inv.charges_of( "water" ),
-                                     crafting_inv.charges_of( "clean_water" ) );
+
+    auto is_liquid = []( const item & it ) {
+        return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
+    };
+    long available_water = std::max(
+                               crafting_inv.charges_of( "water", std::numeric_limits<long>::max(), is_liquid ),
+                               crafting_inv.charges_of( "clean_water", std::numeric_limits<long>::max(), is_liquid )
+                           );
     available_water = std::min<long>( available_water, INT_MAX );
     long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                         crafting_inv.charges_of( "detergent" ) );
@@ -7669,8 +7675,8 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
-    if( !crafting_inv.has_charges( "water", required.water ) &&
-        !crafting_inv.has_charges( "water_clean", required.water ) ) {
+    if( !crafting_inv.has_charges( "water", required.water, is_liquid ) &&
+        !crafting_inv.has_charges( "water_clean", required.water, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                               required.water );
         return 0;
