@@ -7270,21 +7270,16 @@ void centerlistview( const tripoint &active_item_position )
         if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {
             int xOffset = TERRAIN_WINDOW_WIDTH / 2;
             int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
-            if( !is_valid_in_w_terrain( xpos, ypos ) ) {
-                if( xpos < 0 ) {
-                    u.view_offset.x = xpos - xOffset;
-                } else {
-                    u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 ) + xOffset;
-                }
-
-                if( xpos < 0 ) {
-                    u.view_offset.y = ypos - yOffset;
-                } else {
-                    u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 ) + yOffset;
-                }
+            if( xpos < 0 ) {
+                u.view_offset.x = xpos - xOffset;
             } else {
-                u.view_offset.x = 0;
-                u.view_offset.y = 0;
+                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 ) + xOffset;
+            }
+
+            if( xpos < 0 ) {
+                u.view_offset.y = ypos - yOffset;
+            } else {
+                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 ) + yOffset;
             }
         } else {
             if( xpos < 0 ) {
@@ -7819,12 +7814,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 std::vector<iteminfo> vDummy;
                 activeItem->example->info( true, vThisItem );
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
-                // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
-                if( ( !iLastActive || active_pos != *iLastActive ) || action == "HELP_KEYBINDINGS" ) {
-                    iLastActive.emplace( active_pos );
-                    centerlistview( active_pos );
-                    draw_trail_to_square( active_pos, true );
-                }
+
+                iLastActive.emplace( active_pos );
+                centerlistview( active_pos );
+                draw_trail_to_square( active_pos, true );
             }
             draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, 1 );
             wrefresh( w_items_border );
@@ -8094,11 +8087,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
             // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
             tripoint iActivePos = cCurMon->pos() - u.pos();
-            if( ( !iLastActivePos || iActivePos != *iLastActivePos ) || action == "HELP_KEYBINDINGS" ) {
-                iLastActivePos.emplace( iActivePos );
-                centerlistview( iActivePos );
-                draw_trail_to_square( iActivePos, false );
-            }
+            iLastActivePos.emplace( iActivePos );
+            centerlistview( iActivePos );
+            draw_trail_to_square( iActivePos, false );
 
             draw_scrollbar( w_monsters_border, iActive, iMaxRows, int( monster_list.size() ), 1 );
             wrefresh( w_monsters_border );
