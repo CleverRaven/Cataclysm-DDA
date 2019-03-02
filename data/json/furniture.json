@@ -2188,7 +2188,6 @@
     "description": "A small satelitte dish for home entertainment.",
     "symbol": "(",
     "color": "gray",
-    "looks_like": "t_radio_tower",
     "move_cost_mod": -2,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "BASHABLE", "NOITEM" ],

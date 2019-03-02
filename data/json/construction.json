@@ -1050,6 +1050,40 @@
   },
   {
     "type": "construction",
+    "description": "Build Chickenwire Fence",
+    "//": "Step 1: 2x4 stud frame",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_chickenwire_fence_post"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Fence",
+    "//": "Step 2: chickenwire",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "components": [ [ [ "wire", 10 ] ] ],
+    "pre_terrain": "t_chickenwire_fence_post",
+    "post_terrain": "t_chickenwire_fence"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 45,
+    "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_special": "check_support",
+    "post_terrain": "t_chickenwire_gate_c"
+  },
+  {
+    "type": "construction",
     "description": "Seal Crate",
     "category": "FURN",
     "required_skills": [ [ "mechanics", 0 ] ],

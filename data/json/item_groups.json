@@ -58,6 +58,7 @@
       ["radiocontrol", 5],
       ["whistle", 3],
       ["slingshot", 10],
+      ["frisbee", 10 ],
       ["dnd_handbook", 1],
       ["milkshake_fastfood", 3]
     ]
@@ -2194,6 +2195,8 @@
       ["helmet_ball", 45],
       ["baseball", 35],
       ["football", 35],
+      ["frisbee", 10 ],
+      ["disc_golf", 10 ],
       ["manual_brawl", 30],
       ["manual_bashing", 1],
       ["manual_melee", 10],
@@ -2393,6 +2396,8 @@
       ["football_armor", 10],
       ["helmet_football", 10],
       ["football", 30],
+      ["frisbee", 10 ],
+      ["disc_golf", 10 ],
       ["basketball", 20],
       ["sneakers", 80],
       ["socks", 70],
@@ -2435,6 +2440,7 @@
       ["golf_bag", 20],
       ["golf_tee", 30],
       ["golf_ball", 40],
+      ["scorecard", 10],
       ["manual_brawl", 30],
       ["manual_melee", 6],
       ["manual_throw", 12],
@@ -2731,6 +2737,7 @@
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
       ["flyer", 10],
+      ["scorecard", 10],
       ["talking_doll", 60],
       ["marble", 65],
       ["55gal_drum", 1],
@@ -2756,6 +2763,7 @@
       ["bag_plastic", 15],
       ["wrapper", 30],
       ["flyer", 15],
+      ["scorecard", 10],
       ["eclipse_glasses", 1]
     ]
  },{
@@ -4326,6 +4334,8 @@
       [ "mag_comic", 20 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 2 ],
+      ["frisbee", 10 ],
+      ["disc_golf", 10 ],
       [ "football_armor", 5 ],
       [ "helmet_football", 5 ],
       [ "mouthpiece", 5 ],
@@ -9967,6 +9977,7 @@
       [ "golf_tee", 80 ],
       [ "golf_ball", 90 ],
       [ "towel", 40 ],
+      ["scorecard", 10],
       [ "golf_club", 75 ]
     ]
   },
