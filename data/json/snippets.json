@@ -1648,23 +1648,17 @@
   {
     "type": "snippet",
     "category": "flier",
-    "text": [
-      "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - augmentation has never been so easy, reliable, and safe.\""
-    ]
+    "text": [ "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - augmentation has never been so easy, reliable, and safe.\"" ]
   },
   {
     "type": "snippet",
     "category": "scores",
-    "text": [
-      "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9."
-    ]
+    "text": [ "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9." ]
   },
   {
     "type": "snippet",
     "category": "scores",
-    "text": [
-      "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint."
-    ]
+    "text": [ "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint." ]
   },
   {
     "type": "snippet",
