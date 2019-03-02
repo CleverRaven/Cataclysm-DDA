@@ -704,7 +704,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
 
-            lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(), overmap_buffer.get_description_at( sm_pos ) );
+            lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
+                                    overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
         mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
