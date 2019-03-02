@@ -79,6 +79,12 @@
     "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
   },
   {
+    "id": "meat_offal",
+    "type": "requirement",
+    "//": "Anything you might consider offal or intestines.",
+    "components": [ [ [ "lung", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "sweetbread", 4 ], [ "offal", 1 ] ] ]
+  },
+  {
     "id": "meat_red",
     "type": "requirement",
     "//": "Anything you might consider raw 'red' meat.  About 300-400kcal of meat.",

@@ -634,6 +634,9 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
 
+    // Make sure newly washed components show up as available if player attempts to craft immediately
+    p->invalidate_crafting_inventory();
+
     act->set_to_null();
 }
 
@@ -756,7 +759,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
         // Check that we can pick it up.
         if( !temp_item->made_of_from_type( LIQUID ) ) {
-            int distance = std::max( rl_dist( src, dest ), 1 );
+            // This is for hauling across zlevels, remove when going up and down stairs is no longer teleportation
+            int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
             g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) * distance );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, { *temp_item }, destination );

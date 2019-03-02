@@ -783,7 +783,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
             reset_terminal();
             print_line( _( "\
 SITE %d%d%d\n\
-PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
+PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
             print_line( _( "\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
@@ -792,7 +792,7 @@ FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
 DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
    VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
    SUBJECTS\n\
-QUALITIY OF FAULTLINE NOT COMPROMISED\n\
+QUALITY OF FAULTLINE NOT COMPROMISED\n\
 INITIATING STANDARD TREMOR TEST..." ) );
             print_gibberish_line();
             print_gibberish_line();

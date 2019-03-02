@@ -2482,7 +2482,6 @@
         "name" : "Saprovore",
         "points" : 2,
         "description" : "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-        "prereqs" : ["CARNIVORE"],
         "cancels" : ["HERBIVORE", "RUMINANT"],
         "category" : ["TROGLOBITE", "CHIMERA"]
     },{
@@ -2678,7 +2677,7 @@
             "attack_text_u" : "You stab %s with your pointed horns",
             "attack_text_npc" : "%1$s stabs %2$s with their pointed horns",
             "chance" : 22,
-            "base_damage" : { "damage_type" : "bash", "amount" : 24 }
+            "base_damage" : { "damage_type" : "stab", "amount" : 24 }
         }
     },{
         "type" : "mutation",
@@ -2807,7 +2806,7 @@
             "attack_text_u" : "You whap %s with your tail",
             "attack_text_npc" : "%1$s whaps %2$s with their tail",
             "chance" : 20,
-            "base_damage" : { "damage_type" : "stab", "amount" : 8 }
+            "base_damage" : { "damage_type" : "bash", "amount" : 8 }
         }
     },{
         "type" : "mutation",
@@ -2874,7 +2873,7 @@
             "attack_text_u" : "You club %s with your tail",
             "attack_text_npc" : "%1$s clubs %2$s with their tail",
             "chance" : 20,
-            "base_damage" : { "damage_type" : "stab", "amount" : 18 }
+            "base_damage" : { "damage_type" : "bash", "amount" : 18 }
         }
     },{
         "type" : "mutation",
@@ -3943,7 +3942,7 @@
         "points" : -2,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You're minorly deformed.  Some people will react badly to your appearance.",
+        "description" : "You're slightly deformed.  Some people will react badly to your appearance.",
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs" : ["UGLY"],
         "changes_to" : ["DEFORMED2"],
@@ -5430,7 +5429,7 @@
         "id" : "AMPHIBIAN",
         "name" : "Amphibious",
         "points" : 5,
-        "description" : "You're as comfortable in water as on land, and your body has adapated around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
+        "description" : "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
         "category" : ["FISH"],
         "threshreq" : ["THRESH_FISH"],
         "purifiable": false

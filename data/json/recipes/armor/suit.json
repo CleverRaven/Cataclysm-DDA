@@ -59,22 +59,6 @@
     ]
   },
   {
-    "result": "armor_bone",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "time": 30000,
-    "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 43 ] ],
-    "components": [
-      [ [ "bone", 40 ], [ "bone_human", 40 ], [ "bone_tainted", 80 ] ],
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
-    ]
-  },
-  {
     "result": "armor_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",
