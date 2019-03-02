@@ -7605,6 +7605,11 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
     long available_water = std::max( crafting_inv.charges_of( "water" ),
