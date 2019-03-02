@@ -1664,7 +1664,7 @@ void talk_function::companion_return( npc &comp )
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
-                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), it );
+                g->m.add_item_or_charges( g->u.pos(), it );
             }
         }
     }
