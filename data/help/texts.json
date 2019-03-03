@@ -95,7 +95,7 @@
       "Most bionics require a source of power, and you will need an internal battery to store energy for them. Your current amount of energy is displayed in the sidebar right below your health. Replenishing energy can be done in a variety of ways, but all require the installation of a special bionic just for fuel consumption.",
       "Installation of a bionic is only possible with trained professional or to specialized medical apparatus.  Using machinery to manipulate bionics requires high levels of Intelligence, first aid, mechanics, and electronics.  Beware, though, a failure may cripple you!  Many bionic modules are difficult to find, but may be purchased from certain wandering vagabonds for a very high price.",
       "Any bionic can be removed from your body but it's not any easier than its installation; and as well as installation, this non-trivial surgical procedure requires anesthesia.",
-      "Probably best choice of installing or uninstallings bionic for lone surviros is Autodoc.  Usually you can find those in hospipatls and clinincs (even in some 'unnoficial' ones).  Any procedure using it requires consuming of single Anesthesia kit.  You can bypass this restriction if you find the way to completely ignore pain.  But don't even try to bypass this restriction using drugs - it won't help.",
+      "For lone survivors, the standard choice for installing or uninstalling bionics is an Autodoc.  Usually you can find one in a hospital or clinic.  All Autodoc procedures require an anesthetic kit. However, you can bypass this restriction if you find a way to completely negate pain.  Don't even try without proper anesthesia - normal drugs won't help.",
       "Take note that bionic installation or uninstallation require narcosis, fixation of the patient and operation inself may take hours.  So you have to make sure that you will safe during this process."
     ]
   },
@@ -192,7 +192,7 @@
       "10-30 MPH, or 16-48 KPH, is a good speed for beginning drivers, who tend to fumble the controls. As your Driving skill improves, you will fumble less and less. To simply maintain course and speed, hit <press_pause>.",
       "It's a good idea to pull the handbrake - \"s\" - when parking, just to be safe. If you want to get out, hit the lights, toggle cruise control, turn the engine on or off, or otherwise use the vehicle controls, press <press_control_vehicle> to bring up the \"Vehicle Controls\" menu, which has options for things you'd do from the driver's seat.",
       "Vehicle menu presents the most important parameters of your car, such as safe and maximum speed, current mass, total capacity and used volume of available cargo space, various fuel level indicators, and so on.",
-      "Becoming a skilled mechanic, you may want to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency play significant roles in this process.  Named coefficients are measured in the range from 0%% (which means terrible inefficiency) to 100%% (ideal conditions)."
+      "Becoming a skilled mechanic, you may want to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency play significant roles in this process.  Named coefficients are measured in the range from 0% (which means terrible inefficiency) to 100% (ideal conditions)."
     ]
   },
   {

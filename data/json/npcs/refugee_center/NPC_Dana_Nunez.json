@@ -121,7 +121,7 @@
     "id": "TALK_REFUGEE_Dana_1_firstmeet",
     "dynamic_line": "We don't get many new faces around here.  How can I help you?",
     "responses": [
-      { "text": "What's up in your life these days", "topic": "TALK_REFUGEE_Dana_2_stub" },
+      { "text": "What's up in your life these days?", "topic": "TALK_REFUGEE_Dana_2_stub" },
       { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },

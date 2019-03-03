@@ -3247,7 +3247,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-int iuse::arrow_flamable( player *p, item *it, bool, const tripoint & )
+int iuse::arrow_flammable( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -3591,7 +3591,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
 
 std::string get_music_description()
 {
-    static const std::string no_description = "music";
+    static const std::string no_description = _( "a sweet guitar solo!" );
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
     static const std::array<std::string, 5> descriptions = {{
             _( "a sweet guitar solo!" ),
@@ -7368,7 +7368,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = int( 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                cur_om_ter, p->pos(), g->is_sheltered( p->pos() ) ) );
+                                cur_om_ter, p->pos(), weatherPoint.winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),

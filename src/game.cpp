@@ -404,9 +404,6 @@ void game::init_ui( const bool resized )
     if( first_init ) {
         catacurses::clear();
 
-        // set minimum FULL_SCREEN sizes
-        FULL_SCREEN_WIDTH = 80;
-        FULL_SCREEN_HEIGHT = 24;
         // print an intro screen, making sure the terminal is the correct size
 
         first_init = false;
@@ -426,8 +423,8 @@ void game::init_ui( const bool resized )
     TERMY = get_terminal_height();
 
     if( resized ) {
-        get_options().get_option( "TERMINAL_X" ).setValue( TERMX );
-        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY );
+        get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
+        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
         get_options().save();
     }
 #else
@@ -5936,10 +5933,17 @@ void game::control_vehicle()
             add_msg( _( "No vehicle there." ) );
             return;
         }
-        vehicle *const veh = &vp->vehicle();
+        veh = &vp->vehicle();
         veh_part = vp->part_index();
         if( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
             veh->use_controls( *examp_ );
+        }
+    }
+    if( veh ) {
+        // If we reached here, we gained control of a vehicle.
+        // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
+        for( const tripoint &target : veh->get_points() ) {
+            u.clear_memorized_tile( m.getabs( target ) );
         }
     }
 }
@@ -6546,7 +6550,11 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
 {
-    auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    visibility_type visibility = VIS_HIDDEN;
+    const bool inbounds = m.inbounds( lp );
+    if( inbounds ) {
+        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    }
     switch( visibility ) {
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
@@ -6581,7 +6589,9 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             }
             break;
     }
-
+    if( !inbounds ) {
+        return;
+    }
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
         mvwprintw( w_look, ++line, 1, _( "You heard %s from here." ), this_sound.c_str() );
@@ -7589,8 +7599,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             extended_description( lp );
             draw_sidebar();
         } else if( action == "CENTER" ) {
-            center = start_point;
-            lp = start_point;
+            center = u.pos();
+            lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             // Maximum mouse events before a forced graphics update
@@ -9383,7 +9393,7 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
     smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
                         _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
     smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
-                        _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
+                        _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
     switch( smenu.ret ) {
         case BUTCHER:
@@ -9952,7 +9962,58 @@ void game::wield( item_location &loc )
         add_msg( m_info, "%s", ret.c_str() );
     }
 
-    u.wield( u.i_at( loc.obtain( u ) ) );
+    // Need to do this here because holster_actor::use() checks if/where the item is worn
+    item &target = *loc.get_item();
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+            u.invoke_item( &target );
+            return;
+        }
+    }
+
+    // Can't use loc.obtain() here because that would cause things to spill.
+    item to_wield = *loc.get_item();
+    item_location::type location_type = loc.where();
+    tripoint pos = loc.position();
+    int worn_index = INT_MIN;
+    if( u.is_worn( *loc.get_item() ) ) {
+        int item_pos = u.get_item_position( loc.get_item() );
+        if( item_pos != INT_MIN ) {
+            worn_index = Character::worn_position_to_index( item_pos );
+        }
+    }
+    int move_cost = loc.obtain_cost( u );
+    loc.remove_item();
+    if( !u.wield( to_wield ) ) {
+        switch( location_type ) {
+            case item_location::type::character:
+                if( worn_index != INT_MIN ) {
+                    auto it = u.worn.begin();
+                    std::advance( it, worn_index );
+                    u.worn.insert( it, to_wield );
+                } else {
+                    u.i_add( to_wield );
+                }
+                break;
+            case item_location::type::map:
+                m.add_item( pos, to_wield );
+                break;
+            case item_location::type::vehicle: {
+                const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
+                if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
+                    m.add_item( pos, to_wield );
+                }
+                break;
+            }
+            case item_location::type::invalid:
+                debugmsg( "Failed wield from invalid item location" );
+                break;
+        }
+        return;
+    }
+
+    u.mod_moves( -move_cost );
 }
 
 void game::wield()
@@ -10647,6 +10708,9 @@ bool game::walk_move( const tripoint &dest_loc )
             u.activity.values.push_back( index );
             u.activity.values.push_back( amount );
         }
+    }
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+        add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ).c_str() );
     }
 
     if( dest_loc != u.pos() ) {
@@ -11683,17 +11747,16 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
-    if( u.is_hauling() ) {
-        u.stop_hauling();
-    }
-
     u.moves -= move_cost;
 
     const tripoint old_pos = g->u.pos();
+    point submap_shift = point_zero;
     vertical_shift( z_after );
     if( !force ) {
-        update_map( stairs.x, stairs.y );
+        submap_shift = update_map( stairs.x, stairs.y );
     }
+    const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
+                                 old_pos.z );
 
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
@@ -11739,6 +11802,35 @@ void game::vertical_move( int movez, bool force )
     if( m.ter( stairs ) == t_manhole_cover ) {
         m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), "manhole_cover" );
         m.ter_set( stairs, t_manhole );
+    }
+
+    // Wouldn't work and may do strange things
+    if( u.is_hauling() && !m.has_zlevels() ) {
+        add_msg( _( "You cannot haul items here." ) );
+        u.stop_hauling();
+    }
+
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        // Whether the source is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Whether the destination is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Source relative to the player
+        u.activity.placement = adjusted_pos - u.pos();
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint_zero );
+        map_stack items = m.i_at( adjusted_pos );
+        if( items.empty() ) {
+            std::cout << "no items" << std::endl;
+            u.stop_hauling();
+        }
+        int index = 0;
+        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
+            int amount = it->count();
+            u.activity.values.push_back( index );
+            u.activity.values.push_back( amount );
+        }
     }
 
     refresh_all();
@@ -11804,8 +11896,9 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( movez > 0 ) {
         if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
-            popup( _( "Halfway up, the way up becomes blocked off." ) );
-            return cata::nullopt;
+            if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                return cata::nullopt;
+            }
         }
         // Manhole covers need this to work
         // Maybe require manhole cover here and fail otherwise?
@@ -11953,7 +12046,7 @@ void game::update_map( player &p )
     update_map( x, y );
 }
 
-void game::update_map( int &x, int &y )
+point game::update_map( int &x, int &y )
 {
     int shiftx = 0;
     int shifty = 0;
@@ -11979,7 +12072,7 @@ void game::update_map( int &x, int &y )
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
         // Not actually shifting the submaps, all the stuff below would do nothing
-        return;
+        return point_zero;
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
@@ -12024,6 +12117,8 @@ void game::update_map( int &x, int &y )
 
     // Update what parts of the world map we can see
     update_overmap_seen();
+
+    return point( shiftx, shifty );
 }
 
 void game::update_overmap_seen()

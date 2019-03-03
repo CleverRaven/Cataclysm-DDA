@@ -294,10 +294,10 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
 }
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items,
-                               const tripoint &where )
+                               const tripoint &where, bool force_ground )
 {
-    if( const cata::optional<vpart_reference> vp =
-            g->m.veh_at( where ).part_with_feature( "CARGO", false ) ) {
+    const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( "CARGO", false );
+    if( vp && !force_ground ) {
         put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
     }
@@ -493,8 +493,17 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
 void activity_handlers::drop_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
+
+    bool force_ground = false;
+    for( auto &it : act->str_values ) {
+        if( it == "force_ground" ) {
+            force_ground = true;
+            break;
+        }
+    }
+
     put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
-                              pos );
+                              pos, force_ground );
 }
 
 void activity_on_turn_wear()
@@ -625,6 +634,9 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
 
+    // Make sure newly washed components show up as available if player attempts to craft immediately
+    p->invalidate_crafting_inventory();
+
     act->set_to_null();
 }
 
@@ -747,7 +759,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
         // Check that we can pick it up.
         if( !temp_item->made_of_from_type( LIQUID ) ) {
-            int distance = std::max( rl_dist( src, dest ), 1 );
+            // This is for hauling across zlevels, remove when going up and down stairs is no longer teleportation
+            int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
             g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) * distance );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, { *temp_item }, destination );

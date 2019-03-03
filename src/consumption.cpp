@@ -211,6 +211,30 @@ std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
     return vitamins_from( item( id ) );
 }
 
+// list of traits the player has that modifies vitamin absorption
+std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
+{
+    std::list<trait_id> traits;
+    for( auto &m : p.get_mutations() ) {
+        const auto &mut = m.obj();
+        if( !mut.vitamin_absorb_multi.empty() ) {
+            traits.push_back( m );
+        }
+    }
+    return traits;
+}
+
+// is the material associated with this item?
+bool material_exists( const material_id material, const item &item )
+{
+    for( material_id mat : item.type->materials ) {
+        if( mat == material ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
 {
     std::map<vitamin_id, int> res;
@@ -219,7 +243,6 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // @todo: bionics and mutations can affect vitamin absorption
     if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         // if an item is a byproduct, it should subtract the calories and vitamins instead of add
         int byproduct_multiplier = 1;
@@ -227,18 +250,36 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
             for( const auto &vit : component_map ) {
-                res.operator[]( vit.first ) += byproduct_multiplier * ceil( static_cast<float>
-                                               ( vit.second ) / static_cast<float>
-                                               ( it.type->charges_default() ) );
+                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>
+                                    ( vit.second ) / static_cast<float>
+                                    ( it.type->charges_default() ) );
             }
         }
     } else {
-        // food to which the player is allergic to never contains any vitamins
-        if( allergy_type( it ) != MORALE_NULL ) {
-            return res;
-        }
-        for( const auto &e : it.type->comestible->vitamins ) {
-            res.emplace( e );
+        // if we're here, whatever is returned is going to be based on the item's defined stats
+        res = it.type->comestible->vitamins;
+        std::list<trait_id> traits = mut_vitamin_absorb_modify( *this );
+        // traits modify the absorption of vitamins here
+        if( traits.size() > 0 ) {
+            // make sure to iterate over every trait that has an effect on vitamin absorption
+            for( const trait_id &trait : traits ) {
+                const auto &mut = trait.obj();
+                // make sure to iterate over every material defined for vitamin absorption
+                // @todo put this loop into a function and utilize it again for bionics
+                for( const auto &mat : mut.vitamin_absorb_multi ) {
+                    // this is where we are able to check if the food actually is changed by the trait
+                    if( mat.first == material_id( "all" ) || material_exists( mat.first, it ) ) {
+                        std::map<vitamin_id, float> mat_vit_map = mat.second;
+                        // finally iterate over every vitamin in each material
+                        for( const auto &vit : res ) {
+                            // to avoid errors with undefined keys, and to initialize numbers to 1 if undefined
+                            mat_vit_map.emplace( vit.first, 1 );
+                            // finally edit the vitamin value that will be returned
+                            res[ vit.first ] *= mat_vit_map[ vit.first ];
+                        }
+                    }
+                }
+            }
         }
     }
 

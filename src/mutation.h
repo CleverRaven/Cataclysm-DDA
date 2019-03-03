@@ -163,6 +163,9 @@ struct mutation_branch {
         /** Mutations may adjust one or more of the default vitamin usage rates */
         std::map<vitamin_id, time_duration> vitamin_rates;
 
+        // Mutations may affect absorption rates of vitamins based on material (or "all")
+        std::map<material_id, std::map<vitamin_id, float>> vitamin_absorb_multi;
+
         std::vector<trait_id> prereqs; // Prerequisites; Only one is required
         std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
         std::vector<trait_id> threshreq; // Prerequisites; dedicated slot to needing thresholds

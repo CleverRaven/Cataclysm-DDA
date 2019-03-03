@@ -98,14 +98,7 @@
         ]
       },
       "b": { "items": [ { "item": "bed", "chance": 50 } ] },
-      "]": {
-        "items": [
-          { "item": "manuals", "chance": 5 },
-          { "item": "textbooks", "chance": 10 },
-          { "item": "novels", "chance": 5 },
-          { "item": "magazines", "chance": 5 }
-        ]
-      },
+      "]": { "items": [ { "item": "lab_bookshelves", "chance": 50, "repeat": 3 } ] },
       "l": {
         "items": [
           { "item": "office", "chance": 10 },

@@ -75,7 +75,7 @@ bool string_id<ter_t>::is_valid() const
 
 /** @relates int_id */
 template<>
-inline bool int_id<furn_t>::is_valid() const
+bool int_id<furn_t>::is_valid() const
 {
     return furniture_data.is_valid( *this );
 }

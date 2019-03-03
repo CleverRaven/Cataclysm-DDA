@@ -217,11 +217,13 @@ long vehicle_part::ammo_remaining() const
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
     const itype *liquid = item::find_type( ammo );
-    if( is_tank() && liquid->phase >= LIQUID ) {
+
+    // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
+    if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear();
         auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         long limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base.emplace_back( ammo, calendar::turn, qty >= 0 ? std::min( qty, limit ) : limit );
+        base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
         return qty;
     }
 
