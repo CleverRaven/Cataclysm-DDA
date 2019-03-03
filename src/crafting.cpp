@@ -986,7 +986,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {
         if( by_charges ) {
-            std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count );
+            std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
             std::list<item> tmp = g->m.use_amount( loc, PICKUP_RANGE, selected_comp.type,
@@ -997,7 +997,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     }
     if( is.use_from & use_from_player ) {
         if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count );
+            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
             std::list<item> tmp = use_amount( selected_comp.type, real_count, filter );
