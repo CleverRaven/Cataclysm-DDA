@@ -375,7 +375,7 @@ void veh_interact::cache_tool_availability()
 
     has_wrench = crafting_inv.has_quality( quality_id( "WRENCH" ) );
 
-    has_wheel = crafting_inv.has_components( "any", 1, []( const item & it ){ return item::find_type( it.typeId() )->wheel ? true : false; } );
+    has_wheel = crafting_inv.has_components( "any", 1, []( const item & it ){ return !!item::find_type( it.typeId() )->wheel; } );
 
     cache_tool_availability_update_lifting(g->u.pos());
 
