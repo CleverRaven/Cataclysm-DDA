@@ -968,7 +968,8 @@ void empty_buckets( player &p )
 }
 
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter )
+                                       const std::function<bool( const item & )> &amount_filter,
+                                       const std::function<bool( const item & )> &charges_filter )
 {
     std::list<item> ret;
 
@@ -986,21 +987,22 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {
         if( by_charges ) {
-            std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count, filter );
+            std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count,
+                                                    charges_filter );
             ret.splice( ret.end(), tmp );
         } else {
             std::list<item> tmp = g->m.use_amount( loc, PICKUP_RANGE, selected_comp.type,
-                                                   real_count, filter );
+                                                   real_count, amount_filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
     if( is.use_from & use_from_player ) {
         if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+            std::list<item> tmp = use_charges( selected_comp.type, real_count, charges_filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, amount_filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -1023,12 +1025,13 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
 std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch,
-                                       const std::function<bool( const item & )> &filter )
+                                       const std::function<bool( const item & )> &amount_filter,
+                                       const std::function<bool( const item & )> &charges_filter )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE );
-    return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
-                          filter );
+    return consume_items( select_item_component( components, batch, map_inv, false, amount_filter ),
+                          batch, amount_filter, charges_filter );
 }
 
 comp_selection<tool_comp>

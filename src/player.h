@@ -1395,9 +1395,11 @@ class player : public Character
                                int batch, inventory &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &filter = is_crafting_component );
+                                       const std::function<bool( const item & )> &filter = is_crafting_component,
+                                       const std::function<bool( const item & )> &charges_filter = return_true );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &filter = is_crafting_component );
+                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
+                                       const std::function<bool( const item & )> &charges_filter = return_true );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
