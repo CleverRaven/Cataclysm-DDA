@@ -530,9 +530,10 @@ class map
         optional_vpart_position veh_at( const tripoint &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
-        // put player on vehicle at x,y
+        // Put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
-        void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
+        // Remove player from vehicle at p
+        void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
         vehicle *displace_vehicle( tripoint &p, const tripoint &dp );

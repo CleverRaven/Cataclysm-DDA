@@ -3591,7 +3591,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
 
 std::string get_music_description()
 {
-    static const std::string no_description = "music";
+    static const std::string no_description = _( "a sweet guitar solo!" );
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
     static const std::array<std::string, 5> descriptions = {{
             _( "a sweet guitar solo!" ),

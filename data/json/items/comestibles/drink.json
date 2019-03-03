@@ -507,13 +507,24 @@
   {
     "id": "mex_chocolate",
     "type": "COMESTIBLE",
+    "category": "food",
     "name": "Mexican hot chocolate",
     "name_plural": "Mexican hot chocolate",
-    "copy-from": "hot_chocolate",
     "description": "This semi-bitter chocolate drink made from cocoa, cinnamon, and chilies, traces its history to the Maya and Aztecs.  Perfect for a cold winter day.",
+    "weight": 263,
+    "volume": 1,
     "price": 335,
+    "phase": "liquid",
+    "container": "bottle_plastic",
     "material": [ "milk", "junk" ],
-    "fun": 10
+    "symbol": "~",
+    "color": "brown",
+    "comestible_type": "DRINK",
+    "calories": 78,
+    "quench": 35,
+    "fun": 10,
+    "spoils_in": "1 day",
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
