@@ -2543,7 +2543,9 @@ const std::string &item::symbol() const
 nc_color item::color_in_inventory() const
 {
     player &u = g->u; // TODO: make a const reference
-    nc_color ret = is_favorite ? c_white : c_light_gray; // Only item not otherwise colored gets colored as favorite
+
+    // Only item not otherwise colored gets colored as favorite
+    nc_color ret = is_favorite ? c_white : c_light_gray;
 
     if( has_flag( "WET" ) ) {
         ret = c_cyan;
