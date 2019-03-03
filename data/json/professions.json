@@ -143,7 +143,22 @@
           [ [ "ANTIWHEAT", "VEGETARIAN" ], "veggy_salad", "fork" ],
           [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
           [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2, "fork", 0.5 ],
-          [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]
+          [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]   
+        [
+      {
+        "type": "profession_item_substitutions",
+        "substitutions": [
+        {
+        "item": "grahmcrackers",
+        "sub": [
+          [ [ "ANTIJUNK" ], [ "ANTIWHEAT" ], "crackers" ],
+          [ [ "ANTIWHEAT" ], [ "ANTIJUNK" ], "neccowafers" ],
+          [ [ "ANTIJUNK", "ANTIWHEAT" ], "boiled_egg" ]
+        ]
+        }
+        ]
+      },
+            
         ]
       },
       { "item": "can_beans", "sub": [ [ [ "MEATARIAN" ], "can_spam" ] ] },
@@ -648,7 +663,46 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
-  },
+  }, 
+    {
+    "type": "profession",
+    "ident": "groundskeeper",
+    "name": "Landscaper",
+    "description": "You used to mow lawns and trim hedges for the wealthy. Contract work was getting scarce even before the zombies came, but now you've got nothing left but your tools and expertise.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "tank_top", "jacket_windbreaker", "hat_ball", "gloves_work", "glasses_safety", "socks", "sneakers", "pants_cargo" ],
+        "entries": [ { "item": "g_shovel" }, { "item": "scabbard", "contents-item": "machete" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+    },
+  {
+    "type": "profession",
+    "ident": "homemaker",
+    "name": "Nursing Assistant",
+    "description": "You were providing in-home care for the elderly, even as the whole world fell apart around you. You can only pray that you don't see your former clients among the walking dead...",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
+    "items": {
+      "both": [
+        "pants",
+        "dress_shirt",
+        "mask_dust",
+        "gloves_medical",
+        "socks",
+        "dress_shoes",
+        "coat_lab",
+        "water_clean",
+        "bandages",
+        "aspirin",
+        "grahmcrackers",
+        "stethoscope"
+      ], 
+    
   {
     "type": "profession",
     "ident": "survivalist",
