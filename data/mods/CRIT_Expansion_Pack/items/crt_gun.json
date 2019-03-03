@@ -14,12 +14,12 @@
     "color": "cyan",
     "skill": "pistol",
     "range": 22,
-    "ranged_damage": 7,
-    "pierce": 12,
+    "ranged_damage": 6,
+    "pierce": 10,
     "dispersion": 150,
     "durability": 9,
-    "loudness": 9,
-    "ups_charges": 10,
+    "loudness": 14,
+    "ups_charges": 11,
     "reload": 220,
     "modes": [
       [ "DEFAULT", "double", 2]
@@ -59,7 +59,7 @@
     "ranged_damage": 5,
     "dispersion": 120,
     "durability": 8,
-    "loudness": 5,
+    "loudness": 18,
     "clip_size": 1,
     "reload": 300,
     "modes": [
@@ -86,21 +86,49 @@
     "pierce": 12,
     "dispersion": 100,
     "durability": 10,
-    "loudness": -120,
+    "loudness": -150,
     "ups_charges": 40,
     "ammo": "plasma",
-    "clip_size": 10,
+    "clip_size": 12,
     "reload": 170,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ]
-    ],
     "valid_mod_locations": [
       [ "accessories", 1 ],
       [ "grip", 1 ],
       [ "sights", 1 ]
     ],
-    "ammo_effects": [ "PLASMA", "INCENDIARY" ],
+    "ammo_effects": [ "PLASMA", "INCENDIARY", "DRAW_LASER_BEAM"],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+  },
+  {
+    "id": "ds_rivet_gun",
+    "type": "GUN",
+    "name": "Rivet Driver",
+    "description": "Experimental double purpose tool under development in C.R.I.T R&D. It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards.",
+    "weight": 1650,
+    "volume": 3,
+    "price": 1000000,
+    "to_hit": -2,
+    "bashing": 3,
+    "material": [ "superalloy", "steel" ],
+    "symbol": "(",
+    "color": "gray",
+    "skill": "pistol",
+    "range": 4,
+    "ranged_damage" : {"damage_type": "stab", "amount": 1},
+    "pierce": 12,
+    "dispersion": 220,
+    "durability": 10,
+    "loudness": 12,
+    "ammo": "nail",
+    "clip_size": 25,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ]
+    ],
+    "ammo_effects": [ "EXPLOSIVE", "FRAG" ],
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "ds_line_gun",
@@ -134,14 +162,14 @@
       [ "grip", 1 ],
       [ "sights", 1 ]
     ],
-    "ammo_effects": [ "WIDE"],
+    "ammo_effects": [ "WIDE", "LASER"],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "SLOW_WIELD"]
   },
   {
     "id": "ds_pulse_rifle",
     "type": "GUN",
     "name": "Pulse Rifle",
-    "description": "Experimental tri-barrel sub-sonic rifle under development in C.R.I.T R&D. Great for enclosed spaces and mobs of enemies.",
+    "description": "Experimental tri-barrel sub-sonic rifle under development in C.R.I.T R&D. Great for enclosed spaces and mobs of enemies. Shoots charged rounds that deal light damage to nearby enemies.",
     "weight": 2250,
     "volume": 4,
     "price": 1000000,
@@ -152,26 +180,26 @@
     "color": "yellow",
     "skill": "rifle",
     "range": 12,
-    "ranged_damage" : {"damage_type": "biological", "amount": 3.5},
+    "ranged_damage" : {"damage_type": "electric", "amount": 2},
     "pierce": 5,
     "dispersion": 150,
     "durability": 10,
     "loudness": 10,
     "ammo": "pulsesb",
     "clip_size": 150,
-    "reload": 250,
+    "reload": 15,
     "modes": [
       [ "DEFAULT", "3 rd.", 3 ],
-      [ "AUTO", "auto", 9],
-      [ "BURST", "unload", 15, ["SIMULTANEOUS"] ]
+      [ "BURST", "9 rd.", 9 ],
+      [ "AUTO", "15 rd.", 15 ]
     ],
     "valid_mod_locations": [
       [ "accessories", 1 ],
       [ "grip", 1 ],
       [ "sights", 1 ],
-      ["stock", 1 ]
+      [ "stock", 1 ]
     ],
-    "ammo_effects": [ "LASER", "NOGIB", "BOUNCE"],
+    "ammo_effects": [ "LASER", "NOGIB", "BEANBAG", "BOUNCE"],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -188,7 +216,7 @@
     "symbol": "(",
     "color": "yellow",
     "skill": "rifle",
-    "range": 12,
+    "range": 10,
     "ranged_damage": 20,
     "pierce": 3,
     "dispersion": 150,

@@ -60,17 +60,17 @@
         "name" : "pulse round",
         "symbol" : "=",
         "color" : "light_blue",
-        "description" : "A helical magazine of small heavy grain flat-nosed bullets propelled by pockets of primer. Not the most lethal thing out there, but it still packs a punch without the worry of having a stray shot seriously injuring a bystander.",
-        "material" : ["lead", "powder"],
+        "description" : "A helical magazine of flat-nosed steel bullets propelled by pockets of primer. Not the most lethal thing out there, but it still packs a punch without the worry of having a stray shot seriously injuring a bystander. A series of conductive polymers are wound between every three rounds, allowing for minute amounts of electrical charge to stun targets via a gas powered generator.",
+        "material" : ["steel", "powder"],
         "volume" : "250ml",
         "weight" : 2,
         "ammo_type" : "pulsesb",
-        "damage" : {"damage_type": "bash", "amount": 3.5},
-        "dispersion" : 120,
+        "damage" : {"damage_type": "bash", "amount": 4},
+        "dispersion" : 150,
         "count" : 250,
         "stack_size": 200,
         "loudness": 20,
-        "recoil": 15,
-        "effects" : ["NOGIB", "NEVER_MISFIRES"]
+        "recoil": 75,
+        "effects" : ["NOGIB"]
   }
 ]
