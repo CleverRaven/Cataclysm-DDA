@@ -2533,7 +2533,7 @@ const std::string &item::symbol() const
 nc_color item::color_in_inventory() const
 {
     player &u = g->u; // TODO: make a const reference
-    nc_color ret = c_light_gray;
+    nc_color ret = is_favorite ? c_white : c_light_gray; // Only item not otherwise colored gets colored as favorite
 
     if( has_flag( "WET" ) ) {
         ret = c_cyan;
@@ -2968,6 +2968,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
+    }
+
+    if ( is_favorite ) {
+        ret << _(" *"); // Display asterisk for favorite items
     }
 
     const std::string tagtext = ret.str();
