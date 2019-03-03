@@ -2982,8 +2982,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (active)" );
     }
 
-    if ( is_favorite ) {
-        ret << _(" *"); // Display asterisk for favorite items
+    if( is_favorite ) {
+        ret << _( " *" ); // Display asterisk for favorite items
     }
 
     const std::string tagtext = ret.str();
