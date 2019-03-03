@@ -419,7 +419,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_milbot_guardian",
+    "id": "broken_milbot_gaurdian",
     "copy-from": "broken_milbot_disarmed",
     "color": "white",
     "name": "broken robo-guardian",

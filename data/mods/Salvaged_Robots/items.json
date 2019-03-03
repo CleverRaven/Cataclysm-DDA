@@ -752,7 +752,7 @@
     }
   },
   {
-    "id": "bot_milbot_guardian",
+    "id": "bot_milbot_gaurdian",
     "type": "TOOL",
     "copy-from": "bot_milbot_base",
     "name": "inactive robo-guardian",
@@ -760,7 +760,7 @@
     "color": "green",
     "use_action": {
       "type": "place_monster",
-      "monster_id": "mon_milbot_guardian",
+      "monster_id": "mon_milbot_gaurdian",
       "difficulty": 1,
       "moves": 100,
       "skill1": "electronics",

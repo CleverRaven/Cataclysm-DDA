@@ -890,7 +890,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
   },
   {
-    "result": "bot_milbot_guardian",
+    "result": "bot_milbot_gaurdian",
     "type": "recipe",
     "id_suffix": "from_parts",
     "copy-from": "bot_milbot_base",
@@ -906,12 +906,12 @@
     ]
   },
   {
-    "result": "bot_milbot_guardian",
+    "result": "bot_milbot_gaurdian",
     "type": "recipe",
     "id_suffix": "repair",
     "copy-from": "bot_milbot_base",
     "components": [
-      [ [ "broken_milbot_guardian", 1 ] ],
+      [ [ "broken_milbot_gaurdian", 1 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 2 ] ],
@@ -1011,7 +1011,7 @@
     "id_suffix": "repair",
     "copy-from": "bot_milbot_base",
     "components": [
-      [ [ "broken_milbot_guardian", 1 ] ],
+      [ [ "broken_milbot_gaurdian", 1 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 2 ] ],

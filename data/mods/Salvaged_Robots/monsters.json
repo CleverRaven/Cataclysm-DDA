@@ -1262,7 +1262,7 @@
     "extend": { "flags": [ "FIREPROOF" ] }
   },
   {
-    "id": "mon_milbot_guardian",
+    "id": "mon_milbot_gaurdian",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "robo-guardian",
@@ -1274,7 +1274,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "vision_day": 10,
-    "revert_to_itype": "bot_milbot_guardian",
+    "revert_to_itype": "bot_milbot_gaurdian",
     "starting_ammo": { "9mm": 200 },
     "special_attacks": [
       {
@@ -1294,7 +1294,7 @@
   {
     "id": "mon_milbot_deluxe",
     "type": "MONSTER",
-    "copy-from": "mon_milbot_guardian",
+    "copy-from": "mon_milbot_gaurdian",
     "name": "robote deluxe",
     "//": "the extra E makes it European.",
     "description": "A diamond-studded gold-plated robot armed with a pair of integrated 9mm firearms.  An opulent luxury-bot suitable for those who wish to survive the apocalypse in style.",
