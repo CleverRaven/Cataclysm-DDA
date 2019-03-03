@@ -7062,7 +7062,7 @@ void player::use_fire(const int quantity)
     }
 }
 
-std::list<item> player::use_charges( const itype_id& what, long qty, const std::function<bool( const item & )> &filter )
+std::list<item> player::use_charges( const itype_id& what, long qty )
 {
     std::list<item> res;
 
@@ -7102,11 +7102,11 @@ std::list<item> player::use_charges( const itype_id& what, long qty, const std::
     std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item *e ) {
-        if( filter( *e ) && e->use_charges( what, qty, res, pos() ) ) {
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS]( item *e ) {
+        if( e->use_charges( what, qty, res, pos() ) ) {
             del.push_back( e );
         }
-        if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
+        if( e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
             has_tool_with_UPS = true;
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
