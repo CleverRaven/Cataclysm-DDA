@@ -2828,7 +2828,7 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 
 bool player::has_alarm_clock() const
 {
-    return ( has_item_with_flag( "ALARMCLOCK" ) ||
+    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
