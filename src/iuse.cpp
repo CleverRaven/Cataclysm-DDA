@@ -3761,10 +3761,16 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
     } else { // activate
         if( it->charges == 0 ) {
             p->add_msg_if_player( _( "Your %s don't have a filter." ), it->tname().c_str() );
-        } else {
-            p->add_msg_if_player( _( "You prepared your %s." ), it->tname().c_str() );
-            it->active = true;
-            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+        } else { // toggle state
+            if( it->active ) {
+                p->add_msg_if_player( _( "You deactivated your %s." ), it->tname().c_str() );
+                it->active = false;
+                it->set_var( "overwrite_env_resist", 0 );
+            } else {
+                p->add_msg_if_player( _( "You prepared your %s." ), it->tname().c_str() );
+                it->active = true;
+                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+            }
         }
     }
     if( it->charges == 0 ) {
