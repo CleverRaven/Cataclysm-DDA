@@ -143,7 +143,9 @@
           [ [ "ANTIWHEAT", "VEGETARIAN" ], "veggy_salad", "fork" ],
           [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
           [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2, "fork", 0.5 ],
-          [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]   
+          [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]  
+        ]
+      },
         [
       {
         "type": "profession_item_substitutions",
@@ -701,8 +703,9 @@
         "aspirin",
         "grahmcrackers",
         "stethoscope"
-      ], 
-    
+      ],
+    }
+  },
   {
     "type": "profession",
     "ident": "survivalist",
