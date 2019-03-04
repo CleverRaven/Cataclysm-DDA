@@ -3484,7 +3484,7 @@
         "name" : "Extremely Strong",
         "points" : 4,
         "visibility" : 1,
-        "description" : "Your muscles are much stronger. Strength + 4",
+        "description" : "Your muscles are much stronger.  Strength + 4",
         "prereqs" : ["STR_UP_2"],
         "cancels" : ["DEX_UP_3", "DEX_UP_4"],
         "changes_to" : ["STR_UP_4"],
