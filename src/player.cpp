@@ -2836,7 +2836,7 @@ bool player::has_alarm_clock() const
 
 bool player::has_watch() const
 {
-    return ( has_item_with_flag( "WATCH" ) ||
+    return ( has_item_with_flag( "WATCH", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -12295,10 +12295,13 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     } );
 }
 
-bool player::has_item_with_flag( const std::string &flag ) const
+bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag]( const item & it ) {
-        return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+        }
+        return it.has_flag( flag );
     } );
 }
 
