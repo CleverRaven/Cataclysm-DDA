@@ -134,7 +134,7 @@ void update_note_preview( const std::string &note,
     wrefresh( *w_preview );
 
     werase( *w_preview_title );
-    mvwprintz( *w_preview_title, 0, 0, c_yellow, note_text );
+    mvwprintz( *w_preview_title, 0, 0, note_color, note_text );
     mvwputch( *w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
     for( size_t i = 0; i < note_text.length(); i++ ) {
         mvwputch( *w_preview_title, 1, i, c_white, LINE_OXOX );
