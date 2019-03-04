@@ -6160,7 +6160,7 @@
     "symbol": "o",
     "color": "white",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBS" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
     "connects_to": "RAILING",
     "bash": {
       "str_min": 5,
@@ -6183,7 +6183,7 @@
     "symbol": "|",
     "color": "white",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "UNSTABLE", "CLIMBS" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
     "bash": {
       "str_min": 5,
       "str_max": 12,
