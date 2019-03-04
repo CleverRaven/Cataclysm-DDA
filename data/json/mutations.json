@@ -1918,6 +1918,19 @@
         "prereqs" : ["SPINES"]
     },{
         "type" : "mutation",
+        "id" : "BARBS",
+        "name": "Assault barbs",
+        "points" : 2,
+        "visibility" : 2,
+        "ugliness" : 3,
+        "description" : "Some of the quills on your arms have become quite loose.  By flinging your arms, you can fire off these quills as projectiles.",
+        "active": true,
+        "cost": 10,
+        "hunger": true,
+        "ranged_mutation": { "type": "mut_quills", "message": "You fire off some of your quills." },
+        "prereqs" : ["QUILLS"]
+    },{
+        "type" : "mutation",
         "id" : "PLANTSKIN",
         "name" : "Phelloderm",
         "points" : 3,
