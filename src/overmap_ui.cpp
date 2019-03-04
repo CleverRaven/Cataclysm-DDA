@@ -97,7 +97,7 @@ std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbo
     std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around;
     int index = 0;
     const point shift( npm_width / 2, npm_height / 2 );
-    for( const tripoint &dest : g->m.points_in_rectangle( current - shift, current + shift ) ) {
+    for( const tripoint &dest : tripoint_range( current - shift, current + shift ) ) {
         nc_color ter_color = c_black;
         long ter_sym = ' ';
         const bool see = has_debug_vision || overmap_buffer.seen( dest.x, dest.y, dest.z );
