@@ -167,8 +167,8 @@
     "see_cost": 2,
     "mapgen": [ { "method": "builtin", "name": "bridge" } ],
     "flags": [ "RIVER" ]
-  {
   },
+  {
     "type": "overmap_terrain",
     "id": "house",
     "copy-from": "generic_residential_medium",
@@ -1504,7 +1504,6 @@
     "see_cost": 2,
     "flags": [ "KNOWN_UP", "NO_ROTATE" ]
   },
-
   {
     "type": "overmap_terrain",
     "id": "bunker",
