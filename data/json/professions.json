@@ -146,22 +146,13 @@
           [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]  
         ]
       },
-        [
       {
-        "type": "profession_item_substitutions",
-        "substitutions": [
-        {
         "item": "grahmcrackers",
         "sub": [
           [ [ "ANTIJUNK" ], [ "ANTIWHEAT" ], "crackers" ],
           [ [ "ANTIWHEAT" ], [ "ANTIJUNK" ], "neccowafers" ],
           [ [ "ANTIJUNK", "ANTIWHEAT" ], "boiled_egg" ]
-        ]
-        }
-        ]
-      },
-            
-        ]
+        ]    
       },
       { "item": "can_beans", "sub": [ [ [ "MEATARIAN" ], "can_spam" ] ] },
       { "item": "glasses_eye", "bonus": [ [ "MYOPIC" ], [ "HYPEROPIC" ] ] },
