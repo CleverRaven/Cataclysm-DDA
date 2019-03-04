@@ -852,7 +852,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
-        if( e->typeId() == id && filter( *e ) && ( pseudo || !e->has_flag( "PSEUDO" ) ) ) {
+        if( ( id == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
+                !e->has_flag( "PSEUDO" ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -875,13 +876,21 @@ int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int l
 {
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
-    if( iter == binned.end() ) {
+    if( iter == binned.end() && what != "any" ) {
         return 0;
     }
 
     int res = 0;
-    for( const item *it : iter->second ) {
-        res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+    if( what == "any" ) {
+        for( const auto kv : binned ) {
+            for( const item *it : kv.second ) {
+                res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+            }
+        }
+    } else {
+        for( const item *it : iter->second ) {
+            res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+        }
     }
 
     return std::min<long>( limit, res );
