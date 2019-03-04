@@ -3372,7 +3372,8 @@
       "REDUCE_SCENT",
       "EASY_DECONSTRUCT",
       "BASHABLE",
-      "HIDE_PLACE"
+      "HIDE_PLACE",
+      "NO_SIGHT"
     ],
     "bash": {
       "str_min": 1,
