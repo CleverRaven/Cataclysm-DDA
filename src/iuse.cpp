@@ -3591,7 +3591,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
 
 std::string get_music_description()
 {
-    static const std::string no_description = "music";
+    static const std::string no_description = _( "a sweet guitar solo!" );
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
     static const std::array<std::string, 5> descriptions = {{
             _( "a sweet guitar solo!" ),
@@ -7598,6 +7598,11 @@ washing_requirements washing_requirements_for_volume( units::volume vol )
 
 int iuse::washclothes( player *p, item *, bool, const tripoint & )
 {
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
     if( p->volume_capacity() < p->volume_carried() ) {

@@ -83,7 +83,7 @@ class visitable
 
         /**
          * Count items matching id including both this instance and any contained items
-         * @param what ID of items to count
+         * @param what ID of items to count. "any" will count all items (usually used with a filter)
          * @param pseudo whether pseudo-items (from map/vehicle tiles, bionics etc) are considered
          * @param limit stop searching after this many matches
          * @param filter only count items that match the filter
