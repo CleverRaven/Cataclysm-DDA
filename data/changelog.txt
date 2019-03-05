@@ -1,6 +1,7 @@
 # 0.D
 
 ## Highlights:
+
 Dynamic Lighting.
 Many quality of life enhancements such as auto-pulp, autopickup and batch actions.
 Guns accept magazines when appropriate.
