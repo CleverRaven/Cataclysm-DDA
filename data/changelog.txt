@@ -1371,6 +1371,32 @@ Allowed recoil level to be translated.
 34,168 commits
 ~700 contributors
 
+New game entities (core)
+Items:
+11 ammunition types, 84 armors, 13 bionics, 18 books, 258 foods, 18 constructibles, 21 containers,
+547 crafting recipes, 208 misc items, 52 guns, 33 gunmods, 75 tools, 22 wearable tools, 6 tool mods,
+303 uncraft recipes, 17 vehicle wheels
+Mapgen:
+52 epilogues, 46 furnitures, 496 item spawn groups, 1139 mapgen entries, 69 monster spawn lists,
+64 overmap specials, 730 overmap terrains, 34 mapgen palettes, 137 terrain types,
+52 vehicle blueprints, 30 vehicle spawn groups
+Misc:
+4 dreams, 66 effect types, 9 engine faults, 47 harvest entries, 3 martial arts, 14 materials,
+104 monsters, 16 monster factions, 211 mutations, 20 professions, 13 scenarios, 262 snippets,
+31 start locations, 455 talk topics, 8 martial art techniques, 153 vehicle parts, 17 vehicle wheels
+New game entities (mods)
+Items:
+102 ammunition types, 28 armors, 3 bionics, 17 books, 60 foods, 11 constructables, 12 containers,
+6 engines, 206 misc items, 118 guns, 6 gunmods, 43 magazines, 369 crafting recipes, 136 tools,
+158 uncraft recipes
+Mapgen
+12 furnitures, 348 item spawn groups, 1911 mapgen entries, 41 monster spawn groups,
+41 overmap specials, 2372 overmap terrains, 33 mapgen palettes, 11 start locations, 44 terrains,
+24 vehicle blueprints, 24 vehicle spawn groups
+Misc:
+2 harvest entries, 2 martial arts, 119 monsters, 2 mutations, 34 professions, 24 starting scenarios,
+93 snippets, 275 monster speech entries, 8 talk topics, 11 martial art techniques, 395 vehicle parts
+
 ======
 
 # 0.C
