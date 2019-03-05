@@ -1693,7 +1693,8 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 5, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", 11, 44, true ) );
 #ifdef TILES
-    ret.emplace_back( window_panel( draw_mminimap, "Map", 22, 44, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, "Map", get_option<int>( "PIXEL_MINIMAP_HEIGHT" ), 44,
+                                    true ) );
 #endif // TILES
 
     return ret;
@@ -1713,7 +1714,8 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_messages_classic, "Log", 13, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
 #ifdef TILES
-    ret.emplace_back( window_panel( draw_mminimap, "Map", 16, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, "Map", get_option<int>( "PIXEL_MINIMAP_HEIGHT" ), 32,
+                                    true ) );
 #endif // TILES
 
     return ret;
@@ -1734,7 +1736,8 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );
 #ifdef TILES
-    ret.emplace_back( window_panel( draw_mminimap, "Map", 16, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, "Map", get_option<int>( "PIXEL_MINIMAP_HEIGHT" ), 32,
+                                    true ) );
 #endif // TILES
 
     return ret;
