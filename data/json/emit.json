@@ -29,6 +29,13 @@
     "qty": 6
   },
   {
+    "id": "emit_small_smoke_plume",
+    "type": "emit",
+    "//": "Small plume of thick smoke (example: muzzle smoke)",
+    "field": "fd_smoke",
+    "qty": 3
+  },
+  {
     "id": "emit_smoke_stream",
     "type": "emit",
     "//": "Steady stream of thick smoke (example: smoke bomb)",
@@ -68,5 +75,19 @@
     "//": "Small amount of strong acid - will need more to melt anything",
     "field": "fd_acid",
     "chance": 50
+  },
+  {
+    "id": "emit_shock_cloud",
+    "type": "emit",
+    "//": "Thick cloud of lightning (example: incandescent husk)",
+    "field": "fd_electricity",
+    "qty": 20
+  },
+  {
+    "id": "emit_shock_cloud_big",
+    "type": "emit",
+    "//": "Large cloud of lightning (example: supercharged incandescent husk)",
+    "field": "fd_electricity",
+    "qty": 40
   }
 ]

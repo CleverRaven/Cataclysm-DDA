@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "growable-pots",
+    "name": "Growable pots",
+    "authors": [ "Honcharuk" ],
+    "description": "Allows you to grow some seeds in flower pots.",
+    "category": "items",
+    "dependencies": [ "dda" ]
+  }
+]

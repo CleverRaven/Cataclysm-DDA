@@ -81,7 +81,7 @@
     "type": "skill",
     "ident": "archery",
     "name": "archery",
-    "description": "Your skill in using bow weapons, from hand-carved self bows to complex hunting crossbows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
+    "description": "Your skill in using bow weapons, from hand-carved self bows to complex compound bows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
     "tags": [ "combat_skill" ]
   },
   {

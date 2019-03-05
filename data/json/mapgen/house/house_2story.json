@@ -1,0 +1,94 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_2story_base" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",,,,,,,WW,,,,,,,,,,,,,,,",
+        ",,,,,,,WWP,,,,,,,,,,,,,,",
+        ",,,,,,WWWW,,,,,,,,,,,,,,",
+        ",,===w=++=w=======w===,,",
+        ",,=b........Y.b-l..~~=,,",
+        ",,w............+.....w,,",
+        ",,w..--------..-ss..&=,,",
+        ",,=..-d....b-..------=,,",
+        ",,=<<-..BB..-....AAAb=,,",
+        ",,=---..Bb..-........=,,",
+        ",,=dd-......-a.......=,,",
+        ",,w..+......+.......A=,,",
+        ",,=---..TT..-.......A=,,",
+        ",,=L.-.cTTc.->>.....A=,,",
+        ",,=-+----------......=,,",
+        ",,=U..R-p............g,,",
+        ",,=o...CE...TTTTTTc..g,,",
+        ",,=s...CE...TTTTTT...*,,",
+        ",,=C........c........g,,",
+        ",,=CCCC-p............=,,",
+        ",,=========gggggg*gg==,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "multistory_house" ],
+      "items": {
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+        "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] }
+      },
+      "mapping": {
+        "B": { "items": { "item": "bed", "chance": 90, "repeat": [ 1, 3 ] } },
+        "R": { "items": { "item": "fridge", "chance": 90, "repeat": [ 1, 5 ] } },
+        "U": { "items": { "item": "kitchen", "chance": 75, "repeat": [ 1, 3 ] } },
+        "b": { "items": { "item": "homebooks", "chance": 75, "repeat": [ 1, 2 ] } },
+        "d": { "items": { "item": "dresser", "chance": 85, "repeat": [ 1, 4 ] } },
+        "o": { "items": { "item": "oven", "chance": 75, "repeat": [ 1, 3 ] } }
+      },
+      "toilets": { "&": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_2story_second" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "__==w=w=w=w=w===wwww==__",
+        "__=p................p=__",
+        "__=..................=__",
+        "__w..--+--------+--..=__",
+        "__w..-s..-d.d-....-..w__",
+        "__=>>-..s--+--T..B-..=__",
+        "__=---...-..b-...B-..w__",
+        "__=dd-S.&-B..-....-..=__",
+        "__=++-----B..---+--..=__",
+        "__=.....b-...-d..d-..w__",
+        "__w.BB...--+-------..=__",
+        "__w.BB...+...........w__",
+        "__=p.....-...........=__",
+        "__==www=====w===w==++=__",
+        "__FrrrrrrrrrrrrrrrrrrF__",
+        "__FrrrcrcrrrrrrrrrrrrF__",
+        "__FrcrrrrcrrrrrrrrrrrF__",
+        "__ffffffffffffffffffff__",
+        "________________________",
+        "________________________",
+        "________________________"
+      ],
+      "palettes": [ "multistory_house" ],
+      "mapping": {
+        "B": { "items": { "item": "bed", "chance": 90, "repeat": [ 1, 3 ] } },
+        "R": { "items": { "item": "fridge", "chance": 90, "repeat": [ 1, 5 ] } },
+        "U": { "items": { "item": "kitchen", "chance": 75, "repeat": [ 1, 3 ] } },
+        "b": { "items": { "item": "homebooks", "chance": 75, "repeat": [ 1, 2 ] } },
+        "d": { "items": { "item": "dresser", "chance": 85, "repeat": [ 1, 4 ] } },
+        "o": { "items": { "item": "oven", "chance": 75, "repeat": [ 1, 3 ] } }
+      },
+      "toilets": { "&": {  } }
+    }
+  }
+]

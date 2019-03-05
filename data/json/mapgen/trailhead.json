@@ -1,0 +1,210 @@
+[
+  {
+    "type": "palette",
+    "id": "trailhead",
+    "terrain": {
+      " ": "t_dirt",
+      ",": [ "t_grass", "t_grass", "t_dirt" ],
+      ";": [ "t_grass", "t_dirt" ],
+      ".": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+      "b": "t_dirt",
+      "t": "t_trunk",
+      "s": "t_dirt",
+      "=": "t_dirt",
+      "-": "t_wall_wood",
+      "|": "t_wall_wood",
+      "#": "t_floor",
+      "B": "t_floor",
+      "w": "t_floor",
+      "+": "t_door_c",
+      ":": "t_window_bars",
+      "c": "t_woodchips",
+      "W": "t_water_pump",
+      "T": "t_floor"
+    },
+    "furniture": { "b": "f_boulder_small", "s": "f_sign", "B": "f_bench", "=": "f_bench", "w": "f_woodstove" },
+    "toilets": { "T": {  } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "trailhead" ],
+    "weight": 5,
+    "object": {
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,;;......,,,,,,;,,",
+        ";,,;,,;;;......,,;;,;;;;",
+        ";;;;;;;;;......;;;;;;;;;",
+        ";;;;;;;;.......;;;;;;;;;",
+        ";;;;;;;;........;;;;;;;;",
+        ";;;;;............;;;;;;;",
+        ";;;..................;;;",
+        ";;....................;;",
+        ";;;...................;;",
+        "bt                    tb",
+        ";t                    t;",
+        ";t                    t;",
+        "bt                    tb",
+        ";;...              ..;;;",
+        ";;...              .;;;;",
+        ";;;..              ;;;;;",
+        ";;;;.              ;;;;;",
+        ";;;;;              ;;;;;",
+        ";;;;;tttt      tttt;;;;;",
+        ";;;;;b..b  ss  b..b;;;;;"
+      ],
+      "palettes": [ "trailhead" ],
+      "place_vehicles": [
+        { "chance": 20, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "campground_vehicles", "x": 7, "y": 19 },
+        { "chance": 20, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "campground_vehicles", "x": 17, "y": 19 }
+      ],
+      "place_signs": [ { "signage": "<family_name> Trail", "x": 11, "y": 23 }, { "snippet": "trailhead", "x": 12, "y": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "trailhead" ],
+    "weight": 5,
+    "object": {
+      "rows": [
+        ",,,,,,,;;......,,,,,,;,,",
+        ";,,;,,;;;......,,;;,;;;;",
+        ";;;;;;;;;......;;;;;;;;;",
+        ";;;;;;;;.......;;;;;;;;;",
+        ";;;;;;;;........;;;;;;;;",
+        ";;;;;............;;;;;;;",
+        ";;;..................;;;",
+        ";;.....             ..;;",
+        ";;;....              tb;",
+        ";;;....              t;;",
+        ";;;....              t;;",
+        ";;;...               tb;",
+        ";;;...               .;;",
+        ";;;...              ..;;",
+        ";;;...             ...;;",
+        ";;;...             ...;;",
+        ";;;...             ...;;",
+        ";;...              |-|;;",
+        ";;...  .     .   . +T|;;",
+        ";;;.. .            |-|;;",
+        ";;;;.   .      . . +T|;;",
+        ";;;;;             ;|-|;;",
+        ";;;;;====      sss;;;;;;",
+        ";;;;;;;;;      ;;;;;;;;;"
+      ],
+      "palettes": [ "trailhead" ],
+      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "campground_vehicles", "x": 17, "y": 9 } ],
+      "place_signs": [
+        { "snippet": "trailhead", "x": 15, "y": 22 },
+        { "signage": "<family_name> Trail", "x": 16, "y": 22 },
+        { "snippet": "trailhead", "x": 17, "y": 22 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "trailhead" ],
+    "weight": 5,
+    "object": {
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,;;......,,,,,,;,,",
+        ";,,;,,;;;......,,;;,;;;;",
+        ";;;;;;;;;......;;;;;;;;;",
+        ";;;;;;;;.......;;;;;;;;;",
+        ";;;;;;;;........;;;;;;;;",
+        ";;;;;............;;;;;;;",
+        ";;;..................;;;",
+        ";;....................;;",
+        ";;;...................;;",
+        ";;;...................;;",
+        ";;;...................;;",
+        ";;;...................;;",
+        ";;;...................;;",
+        ";;...              ..;;;",
+        ";;...  .     .   .  .;;;;",
+        ";;;.. .            ;;;;;",
+        ";;;;.   .      . . ;;;;;",
+        ";;;;;              ;;;;;",
+        ";;;;;tttt      tttt;;;;;",
+        ";;;;;b..b s  s b..b;;;;;"
+      ],
+      "palettes": [ "trailhead" ],
+      "place_vehicles": [
+        { "chance": 20, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "campground_vehicles", "x": 7, "y": 19 },
+        { "chance": 20, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "campground_vehicles", "x": 17, "y": 19 }
+      ],
+      "place_signs": [ { "signage": "<family_name> Trail", "x": 10, "y": 23 }, { "snippet": "trailhead", "x": 13, "y": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "trailhead" ],
+    "weight": 5,
+    "object": {
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,,,......,,,,,,,,,",
+        ",,,,,,,;;......,,,,,,;,,",
+        ";,,;,,;;;......,,;;,;;;;",
+        ";;;;;;;;;......;;;;;;;;;",
+        ";;;;;;;;.......;;;;;;;;;",
+        ";;;;;;;;........;;;;;;;;",
+        ";;;;;............;;;;;;;",
+        ";;;;;;,.........;;;;;;;;",
+        ";;;;;;,....... ;;;;;;;;;",
+        ";;;;;;,......   ;;;;;;;;",
+        ";;;;;;;         ...;;;;;",
+        ";;;;;;;        ....;;;;;",
+        ";;;;;;;        ...bsb;;;",
+        ";;;ccccccc     ...;W;;;;",
+        ";;;c|--:-|    ..;;b;b;;;",
+        ";;;c|BB##|s   ..;;;;;;;;",
+        ";;;c|B###+    ..;;;;;;;b",
+        ";;;c|BB#w|s   ..;;;;;;;;",
+        ";;;c|--:-|     ;;;;;;;;;",
+        ";;;ccccccc     ;;;;;;b;;",
+        ";;;b;b;b;      ;;b;;;;;;"
+      ],
+      "palettes": [ "trailhead" ],
+      "place_items": [ { "item": "camping", "x": [ 5, 5 ], "y": [ 18, 20 ], "chance": 70 } ],
+      "place_signs": [
+        { "snippet": "trailhead", "x": 10, "y": 18 },
+        { "signage": "<family_name> Trail", "x": 10, "y": 20 },
+        { "signage": "PLEASE  No fish cleaning or dish washing.", "x": 19, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "snippet",
+    "category": "trailhead",
+    "text": [
+      "Leave No Trace.",
+      "Plan Ahead and Prepare.",
+      "Travel and Camp on Durable Surfaces.",
+      "Dispose of Waste Properly.",
+      "Leave What You Find.",
+      "Minimize Campfire Impacts.",
+      "Respect Wildlife.",
+      "Be Considerate of Other Visitors.",
+      "WARNING!  BEAR COUNTRY.",
+      "For hiking, skiing, and enjoying nature.",
+      "Please stay on trail.",
+      "No motorized vehicles.",
+      "DANGER.  HIGH FIRE HAZARD AREA.  NO OPEN FIRE.  NO SMOKING.",
+      "No Overnight Camping."
+    ]
+  }
+]

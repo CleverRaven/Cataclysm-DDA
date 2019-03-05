@@ -1,21 +1,21 @@
 #include "mission.h"
-#include "game.h"
-#include "debug.h"
-#include "overmapbuffer.h"
-#include "translations.h"
-#include "requirements.h"
-#include "string_formatter.h"
-#include "overmap.h"
-#include "line.h"
-#include "io.h"
-#include "npc.h"
-#include "npc_class.h"
-#include "skill.h"
 
-#include <sstream>
+#include <algorithm>
 #include <memory>
 #include <unordered_map>
-#include <algorithm>
+
+#include "debug.h"
+#include "game.h"
+#include "io.h"
+#include "line.h"
+#include "npc.h"
+#include "npc_class.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "requirements.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -30,9 +30,11 @@ mission mission_type::create( const int npc_id ) const
     ret.value = value;
     ret.follow_up = follow_up;
     ret.monster_species = monster_species;
+    ret.monster_type = monster_type;
+    ret.monster_kill_goal = monster_kill_goal;
 
-    if( deadline_low != 0 || deadline_high != 0 ) {
-        ret.deadline = int( calendar::turn ) + rng( deadline_low, deadline_high );
+    if( deadline_low != 0_turns || deadline_high != 0_turns ) {
+        ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
     } else {
         ret.deadline = 0;
     }
@@ -42,7 +44,7 @@ mission mission_type::create( const int npc_id ) const
 
 static std::unordered_map<int, mission> world_missions;
 
-mission *mission::reserve_new( const mission_type_id type, const int npc_id )
+mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
     // @todo: Warn about overwrite?
@@ -185,6 +187,11 @@ void mission::assign( player &u )
     player_id = u.getID();
     u.on_mission_assignment( *this );
     if( status == mission_status::yet_to_start ) {
+        if( type->goal == MGOAL_KILL_MONSTER_TYPE && monster_type != mtype_id::NULL_ID() ) {
+            kill_count_to_reach = g->kill_count( monster_type ) + monster_kill_goal;
+        } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
+            kill_count_to_reach = g->kill_count( monster_species ) + monster_kill_goal;
+        }
         type->start( this );
         status = mission_status::in_progress;
     }
@@ -269,13 +276,11 @@ bool mission::is_complete( const int _npc_id ) const
             const tripoint cur_pos = g->u.global_omt_location();
             return ( rl_dist( cur_pos, target ) <= 1 );
         }
-        break;
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
             return is_ot_type( type->target_id.str(), cur_ter );
         }
-        break;
 
         case MGOAL_FIND_ITEM: {
             inventory tmp_inv = u.crafting_inventory();
@@ -326,10 +331,10 @@ bool mission::is_complete( const int _npc_id ) const
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
-            return g->kill_count( mtype_id( monster_type ) ) >= monster_kill_goal;
+            return g->kill_count( monster_type ) >= kill_count_to_reach;
 
         case MGOAL_KILL_MONSTER_SPEC:
-            return g->kill_count( monster_species ) >= monster_kill_goal;
+            return g->kill_count( monster_species ) >= kill_count_to_reach;
 
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
@@ -337,7 +342,6 @@ bool mission::is_complete( const int _npc_id ) const
         default:
             return false;
     }
-    return false;
 }
 
 bool mission::has_deadline() const
@@ -345,7 +349,7 @@ bool mission::has_deadline() const
     return deadline != 0;
 }
 
-calendar mission::get_deadline() const
+time_point mission::get_deadline() const
 {
     return deadline;
 }
@@ -416,7 +420,7 @@ void mission::process()
         return;
     }
 
-    if( deadline > 0 && calendar::turn.get_turn() > deadline ) {
+    if( deadline > 0 && calendar::turn > deadline ) {
         fail();
     } else if( npc_id < 0 && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();
@@ -428,9 +432,9 @@ int mission::get_npc_id() const
     return npc_id;
 }
 
-void mission::set_target( const tripoint &new_target )
+void mission::set_target( const tripoint &p )
 {
-    target = new_target;
+    target = p;
 }
 
 bool mission::is_assigned() const
@@ -455,7 +459,7 @@ void mission::set_player_id_legacy_0c( int id )
 
 std::string mission::name()
 {
-    if( type == NULL ) {
+    if( type == nullptr ) {
         return "NULL";
     }
     return _( type->name.c_str() );
@@ -463,7 +467,7 @@ std::string mission::name()
 
 mission_type_id mission::mission_id()
 {
-    if( type == NULL ) {
+    if( type == nullptr ) {
         return mission_type_id( "NULL" );
     }
     return type->id;
@@ -471,8 +475,16 @@ mission_type_id mission::mission_id()
 
 void mission::load_info( std::istream &data )
 {
-    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
-    std::string rew_item, itemid;
+    int type_id = 0;
+    int rewtype = 0;
+    int reward_id = 0;
+    int rew_skill = 0;
+    int tmpfollow = 0;
+    int item_num = 0;
+    int target_npc_id = 0;
+    int deadline_ = 0;
+    std::string rew_item;
+    std::string itemid;
     data >> type_id;
     type = mission_type::get( mission_type::from_legacy( type_id ) );
     std::string tmpdesc;
@@ -485,8 +497,9 @@ void mission::load_info( std::istream &data )
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
     bool failed; // Dummy, no one has saves this old
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
+         uid >> target.x >> target.y >> itemid >> item_num >> deadline_ >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
+    deadline = time_point::from_turn( deadline_ );
     target.z = 0;
     follow_up = mission_type::from_legacy( tmpfollow );
     reward.type = npc_favor_type( reward_id );
@@ -525,20 +538,20 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 }
 
 mission::mission()
+    : deadline( 0 )
 {
-    type = NULL;
+    type = nullptr;
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint( INT_MIN, INT_MIN, INT_MIN );
+    target = tripoint_min;
     item_id = "null";
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
     recruit_class = NC_NONE;
     target_npc_id = -1;
-    monster_type = "mon_null";
+    monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;
-    deadline = 0;
     npc_id = -1;
     good_fac_id = -1;
     bad_fac_id = -1;
@@ -546,7 +559,7 @@ mission::mission()
     player_id = -1;
 }
 
-mission_type::mission_type( mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF,
+mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF,
                             int VAL,
                             bool URGENT,
                             std::function<bool( const tripoint & )> PLACE,
@@ -556,7 +569,7 @@ mission_type::mission_type( mission_type_id ID, std::string NAME, mission_goal G
     id( ID ), name( NAME ), goal( GOAL ), difficulty( DIF ), value( VAL ),
     urgent( URGENT ), place( PLACE ), start( START ), end( END ), fail( FAIL )
 {
-};
+}
 
 namespace io
 {

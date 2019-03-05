@@ -1,12 +1,8 @@
-#include "catch/catch.hpp"
-
-#include "string_formatter.h"
-#include "output.h"
-
 #include <limits>
-#include <iostream>
-#include <vector>
-#include <cstdarg>
+
+#include "catch/catch.hpp"
+#include "output.h"
+#include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>

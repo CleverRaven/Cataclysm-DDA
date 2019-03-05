@@ -1,0 +1,42 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "mega_entrance",
+    "comment": "ground floor. entrance",
+    "weight": 100,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWW-gg++gg-++g++-WWWWW",
+        "WWWWW|......|.....|WWWWW",
+        "-ggg-|......g.....|ggggg",
+        "....%I......|mm-mmI.....",
+        "............g...........",
+        "............g...........",
+        ".........vvvg...........",
+        "...vvvvvvvvv|...........",
+        ".vvvvvvvvvvv|...........",
+        ".-----------|...........",
+        "..TTTT..!..U|6C..6C..6C.",
+        "........|..U|.C...C...C.",
+        "........C..C|.r...r...r.",
+        "........C..f|...........",
+        "........C..f|.6C..6C..6C",
+        "........6..s|..C...C...C",
+        ".....I-------..r..Ir...r",
+        "........................",
+        "........................",
+        "..R..R..R..R...FFFF.....",
+        "..R..R..R..R...FFFF.....",
+        "..R..R..R..R............"
+      ],
+      "rotation": 2,
+      "palettes": [ "megastore", "mega_goods_f" ],
+      "terrain": { "%": "t_atm", "m": "t_mdoor_frame" },
+      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 25, "status": 0 } }
+    }
+  }
+]

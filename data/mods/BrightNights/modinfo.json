@@ -6,6 +6,6 @@
     "authors": [ "Coolthulhu" ],
     "description": "More action-centered, sci-fi, experimental, Cataclysm.",
     "category": "content",
-    "dependencies": [ "dda", "craftgp" ]
+    "dependencies": [ "dda", "craftgp", "safeautodoc" ]
   }
 ]

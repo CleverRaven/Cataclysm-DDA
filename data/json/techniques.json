@@ -138,8 +138,8 @@
         "crit_tec" : true,
         "weighting" : -250,
         "messages" : [
-            "Snicker-snack!  You behead %s",
-            "Snicker-snack!  <npcname> beheads %s"
+            "Snicker-snack! You slice through %s like hot knife slices through butter",
+            "Snicker-snack! <npcname> slices through %s like hot knife slices through butter"
         ],
         "description" : "Cut damage multiply by 99, crit only"
     },{
@@ -188,8 +188,8 @@
         "melee_allowed" : true,
         "disarms" : true,
         "messages" : [
-            "You disarm %s using your whip!",
-            "<npcname> disarm %s using their whip!"
+            "You disarm %s using your whip",
+            "<npcname> disarms %s using their whip"
         ],
         "description" : "Unwield target's weapon"
     },{
@@ -244,7 +244,7 @@
             "You throw a heavy cross at %s",
             "<npcname> throws a cross at %s"
         ],
-        "bash_mult" : 1.2
+        "mult_bonuses" : [["damage", "bash", 1.2]]
     },{
         "type" : "technique",
         "id" : "tec_boxing_rapid",
@@ -272,7 +272,7 @@
             "You uppercut %s",
             "<npcname> uppercuts %s"
         ],
-        "bash_mult" : 1.4,
+        "mult_bonuses" : [["damage", "bash", 1.4]],
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -287,7 +287,7 @@
             "boxing_counter"
             ],
         "messages" : [
-            "You Cross-Counter %s",
+            "You cross-counter %s",
             "<npcname> throws a perfect counter at %s"
         ],
         "mult_bonuses" : [["movecost", 0.0]],
@@ -441,7 +441,7 @@
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "movecost_mult" : 0.5
+        "mult_bonuses" : [["movecost", 0.5]]
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_kick",
@@ -550,8 +550,10 @@
             "<npcname> surprise attacks %s"
         ],
         "stun_dur" : 2,
-        "bash_mult" : 1.4,
-        "cut_mult" : 2
+        "mult_bonuses" : [
+            ["damage", "bash", 1.4],
+            ["damage", "cut", 2]
+        ]
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_precise",
@@ -636,8 +638,10 @@
         "name" : "biojutsu impale",
         "min_melee" : 3,
         "crit_tec" : true,
-        "cut_mult" : 1.5,
-        "bash_mult" : 1.5,
+        "mult_bonuses" : [
+            ["damage", "bash", 1.5],
+            ["damage", "cut", 1.5]
+        ],
         "messages" : [
             "You brutally impale %s",
             "<npcname> brutally impales %s"
@@ -829,7 +833,7 @@
         "crit_tec" : true,
         "down_dur" : 3,
         "messages" : [
-            "You ground %s with a low blow!",
+            "You ground %s with a low blow",
             "<npcname> grounds %s with a low blow"
         ]
     },{
@@ -844,7 +848,7 @@
             ["damage", "stab", 1.5]
         ],
         "messages" : [
-            "You viciously wound %s!",
+            "You viciously wound %s",
             "<npcname> viciously wounds %s"
         ]
     },{
@@ -856,8 +860,8 @@
         "stun_dur" : 1,
         "knockback_dist" : 1,
         "messages" : [
-            "You send %s reeling backwards!",
-            "<npcname> sends %s reeling!"
+            "You send %s reeling backwards",
+            "<npcname> sends %s reeling"
         ]
     },{
         "type" : "technique",
@@ -870,8 +874,8 @@
             "silat_dodge_buff"
         ],
         "messages" : [
-            "You hit %s with a dirty blow!",
-            "<npcname> delivers a dirty blow to %s!"
+            "You hit %s with a dirty blow",
+            "<npcname> delivers a dirty blow to %s"
         ]
     },{
         "type" : "technique",
@@ -924,8 +928,8 @@
             "venom_snake_combo_continue"
         ],
         "messages" : [
-            "You Viper Strike %s!",
-            "<npcname> Viper Strikes %s!"
+            "You Viper Strike %s",
+            "<npcname> Viper Strikes %s"
         ]
     },{
         "type" : "technique",
@@ -943,12 +947,10 @@
         "crit_tec" : true,
         "stun_dur" : 3,
         "knockback_dist" : 3,
-        "mult_bonuses" : [
-            ["damage", "bash", 2]
-        ],
+        "mult_bonuses" : [["damage", "bash", 2]],
         "messages" : [
-            "Your Stinger Kick sends %s flying!",
-            "<npcname>'s Stinger Kick sends %s flying!"
+            "Your Stinger Kick sends %s flying",
+            "<npcname>'s Stinger Kick sends %s flying"
         ]
     },{
         "type" : "technique",
@@ -956,12 +958,10 @@
         "name" : "Pincer Strike",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
-        "mult_bonuses" : [
-            ["damage", "bash", 1.25]
-        ],
+        "mult_bonuses" : [["damage", "bash", 1.25]],
         "messages" : [
-            "You punch %s with your Pincer Fist!",
-            "<npcname> jabs %s with a Pincer Fist!"
+            "You punch %s with your Pincer Fist",
+            "<npcname> jabs %s with a Pincer Fist"
         ],
         "stun_dur" : 2
     },{
@@ -1029,8 +1029,8 @@
         "defensive" : true,
         "grab_break" : true,
         "messages" : [
-            "You slither free!",
-            "<npcname> slithers free!"
+            "You slither free",
+            "<npcname> slithers free"
         ]
     },{
         "type" : "technique",
@@ -1052,8 +1052,8 @@
         "unarmed_allowed" : true,
         "down_dur" : 1,
         "messages" : [
-            "You grab and ground %s!",
-            "<npcname> grabs and grounds %s!"
+            "You grab and ground %s",
+            "<npcname> grabs and grounds %s"
         ]
     },{
         "type" : "technique",
@@ -1063,8 +1063,8 @@
         "unarmed_allowed" : true,
         "crit_tec" : true,
         "messages" : [
-            "You strike out at %s with your Leopard Fist!",
-            "<npcname> strikes out at %s with a Leopard Fist!"
+            "You strike out at %s with your Leopard Fist",
+            "<npcname> strikes out at %s with a Leopard Fist"
         ],
         "stun_dur" : 2
     },{
@@ -1095,8 +1095,8 @@
             ["damage", "bash", 1.5]
         ],
         "messages" : [
-            "You dodge the attack and swipe at %s's exposed flank!",
-            "<npcname> dodges and catches %s exposed!"
+            "You dodge the attack and swipe at %s's exposed flank",
+            "<npcname> dodges and catches %s exposed"
         ]
     },{
         "type" : "technique",
@@ -1105,10 +1105,10 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "stun_dur" : 2,
-        "bash_mult" : 1.2,
+        "mult_bonuses" : [["damage", "bash", 1.2]],
         "messages" : [
-            "You grab and knee %s!",
-            "<npcname> grabs and knees %s!"
+            "You grab and knee %s",
+            "<npcname> grabs and knees %s"
         ]
     },{
         "type" : "technique",
@@ -1121,8 +1121,8 @@
         "mult_bonuses" : [["movecost", 0.0]],
         "stun_dur" : 2,
         "messages" : [
-            "You catch the attack and send %s spinning!",
-            "<npcname> catches and spins %s!"
+            "You catch the attack and send %s spinning",
+            "<npcname> catches and spins %s"
         ]
     },{
         "type" : "technique",
@@ -1132,8 +1132,8 @@
         "unarmed_allowed" : true,
         "down_dur" : 2,
         "messages" : [
-            "You low-roundhouse %s 's legs!",
-            "<npcname> low-roundhouses %s 's legs!"
+            "You low-roundhouse %s 's legs",
+            "<npcname> low-roundhouses %s 's legs"
         ]
     },{
         "type" : "technique",
@@ -1145,8 +1145,8 @@
         "stun_dur" : 1,
         "knockback_dist" : 1,
         "messages" : [
-            "You send %s reeling with a Dragon Strike!",
-            "<npcname> sends %s reeling with a Dragon Strike!"
+            "You send %s reeling with a Dragon Strike",
+            "<npcname> sends %s reeling with a Dragon Strike"
         ]
     },{
         "type" : "technique",
@@ -1157,8 +1157,8 @@
         "defensive" : true,
         "miss_recovery" : true,
         "messages" : [
-            "You raise your arms intimidatingly!",
-            "<npcname> performs the Crane Wing!"
+            "You raise your arms intimidatingly",
+            "<npcname> performs the Crane Wing"
         ]
     },{
         "type" : "technique",
@@ -1169,8 +1169,8 @@
         "defensive" : true,
         "grab_break" : true,
         "messages" : [
-            "You swing your arms and break free!",
-            "<npcname> flaps free!"
+            "You swing your arms and break free",
+            "<npcname> flaps free"
         ]
     },{
         "type" : "technique",
@@ -1220,8 +1220,8 @@
         "block_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
-            "You catch %s's attack, and hit back!",
-            "<npcname> catches %s, and counters!"
+            "You catch %s's attack, and hit back",
+            "<npcname> catches %s, and counters"
         ]
     },{
         "type" : "technique",
@@ -1269,8 +1269,8 @@
             ["damage", "cut", 1.5]
         ],
         "messages" : [
-            "You stun %s with the force of the blow!",
-            "<npcname> stuns %s with the force of the blow!"
+            "You stun %s with the force of the blow",
+            "<npcname> stuns %s with the force of the blow"
         ],
         "stun_dur" : 2
    },{
@@ -1282,8 +1282,8 @@
             "niten_set-up"
         ],
         "messages" : [
-            "You strike at %s's weaknesses!",
-            "<npcname> strikes %s's weaknesses!"
+            "You strike at %s's weaknesses",
+            "<npcname> strikes %s's weaknesses"
         ],
         "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
         "mult_bonuses" : [
@@ -1346,6 +1346,53 @@
         "messages" : [
             "You phase-strike %s",
             "<npcname> phase-strikes %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_sojutsu_push",
+        "name" : "Push",
+        "min_melee" : 1,
+        "mult_bonuses" : [
+            ["movecost", 0.0],
+            ["damage", "bash", 0.5],
+            ["damage", "cut", 0.5],
+            ["damage", "stab", 0.5]
+        ],
+        "unarmed_allowed" : false,
+        "block_counter": true,
+        "knockback_dist" : 1,
+        "messages" : [
+            "You push %s away",
+            "<npcname> pushes %s away"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_sojutsu_trip",
+        "name" : "Trip",
+        "min_melee" : 2,
+        "unarmed_allowed" : false,
+        "down_dur" : 2,
+        "messages" : [
+            "You deftly trip %s",
+            "<npcname> deftly trips %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_sojutsu_skewer",
+        "name" : "Skewer",
+        "min_melee" : 4,
+        "mult_bonuses" : [
+            ["damage", "bash", 0.0],
+            ["damage", "cut", 1.5],
+            ["damage", "stab", 1.5]
+        ],
+        "unarmed_allowed" : false,
+        "crit_tec" : true,
+        "knockback_dist" : 1,
+        "stun_dur" : 2,
+        "messages" : [
+            "You brutally skewer %s",
+            "<npcname> brutally skewers %s"
         ]
     }
 ]

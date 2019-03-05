@@ -1,14 +1,7 @@
 [
   {
     "type" : "item_group",
-    "id" : "NC_HUNTER_shirt_male",
-    "items":[
-      ["tshirt", 20],
-      ["tank_top", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_shirt_female",
+    "id" : "NC_HUNTER_shirt",
     "items":[
       ["tshirt", 20],
       ["tank_top", 20]

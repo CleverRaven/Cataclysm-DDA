@@ -1,0 +1,63 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5",
+    "dynamic_line": "Hey there, friend.",
+    "//": "STUB FILE: not all text implemented yet.  TK: different greetings and a whole segment on getting the beggars to join up.",
+    "responses": [
+      { "text": "What are you doing out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK1" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TALK1",
+    "dynamic_line": "I live here.  Too mutant to join the cool kids club, but not mutant enough to kill on sight.",
+    "responses": [
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TALK2",
+    "dynamic_line": "It's safer than making my own home.  I head out and forage when I have to.  As long as we keep it clean and do our part when a zombie comes, they let us squat here as an extra defense.  They don't like that I've been bringing food for the other squatters though...  I think they are trying to slowly starve us out, and even though I can't keep everyone's bellies full, I've been able to bring back enough to keep these folk in better shape.  I suspect they'll find an excuse kick me out eventually.",
+    "responses": [
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_FUR",
+    "dynamic_line": "Gross, isn't it? Feels like pubes.  I just started growing it everywhere a little while after the cataclysm.  No idea what caused it.  I can't blame them for hating it, I hate it.",
+    "responses": [
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL1",
+    "dynamic_line": "Well now, that's quite a kind offer, and I appreciate you looking past my full-body pubic hair.  Sorry though.  I've come to feel sort of responsible for this little gaggle of squatters.  As long as I'm the only one providing for them, I don't think I can leave.",
+    "responses": [
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -2,14 +2,15 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
+#include <string>
+#include <type_traits>
+#include <typeinfo>
+#include <utility>
+
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
 //@todo: replace with std::optional
 #include "optional.h"
-#include "compatibility.h"
-
-#include <string>
-#include <typeinfo>
-#include <type_traits>
-#include <utility>
 
 namespace cata
 {
@@ -20,7 +21,7 @@ class string_formatter;
 [[noreturn]]
 void throw_error( const string_formatter &, const std::string & );
 // wrapper to access string_formatter::temp_buffer before the definition of string_formatter
-const char *string_formatter_set_temp_buffer( const string_formatter &, std::string );
+const char *string_formatter_set_temp_buffer( const string_formatter &, const std::string & );
 // Handle currently active exception from string_formatter and return it as string
 std::string handle_string_format_error();
 
@@ -210,7 +211,7 @@ class string_formatter
         /// for printing non-strings through "%s". It *only* works because this prints each format
         /// specifier separately, so the content of @ref temp_buffer is only used once.
         friend const char *string_formatter_set_temp_buffer( const string_formatter &sf,
-                std::string text ) {
+                const std::string &text ) {
             sf.temp_buffer = text;
             return sf.temp_buffer.c_str();
         }
@@ -287,7 +288,6 @@ class string_formatter
                                          std::forward<Args>( args )... ) );
                 default:
                     throw_error( "Unsupported format conversion: " + std::string( 1, c ) );
-                    break;
             }
         }
 

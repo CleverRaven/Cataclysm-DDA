@@ -1,0 +1,30 @@
+version: '{branch}.{build}'
+os: Windows
+clone_folder: C:\Projects\Cataclysm-DDA
+shallow_clone: true
+pull_requests:
+    do_not_increment_build_number: false
+environment:
+    matrix:
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          PROJECT: /msvc-full-features/Cataclysm-vcpkg-static.sln
+          COMPILER: msvc2017
+          TOOLCHAIN: msvc15
+          PLATFORM: x64
+          CONFIGURATION: Release
+          APPVEYOR_SAVE_CACHE_ON_ERROR: true
+matrix:
+    fast_finish: false
+cache:
+  - 'c:\tools\vcpkg\installed'
+install:
+    # Install dependency packages
+    - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
+    # Add LUA binary folder to PATH
+    - cmd: set PATH=c:\tools\vcpkg\installed\%PLATFORM%-windows-static\tools\lua;%PATH%
+    # Report LUA binary version
+    - cmd: lua.exe -v
+build:
+  parallel: true
+  project: /msvc-full-features/Cataclysm-vcpkg-static.sln
+  verbosity: minimal

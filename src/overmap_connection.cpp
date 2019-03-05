@@ -1,11 +1,11 @@
 #include "overmap_connection.h"
 
-#include "generic_factory.h"
-#include "overmap_location.h"
-#include "json.h"
-
 #include <algorithm>
 #include <cassert>
+
+#include "generic_factory.h"
+#include "json.h"
+#include "overmap_location.h"
 
 namespace
 {
@@ -120,7 +120,7 @@ void overmap_connection::check() const
 
 void overmap_connection::finalize()
 {
-    cached_subtypes.resize( overmap_terrains::count() );
+    cached_subtypes.resize( overmap_terrains::get_all().size() );
 }
 
 void overmap_connections::load( JsonObject &jo, const std::string &src )

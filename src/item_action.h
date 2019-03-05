@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "translations.h"
+
 class item_action;
 class player;
 class item;
@@ -18,7 +20,7 @@ typedef std::map< item_action_id, item_action > action_map;
 class item_action
 {
     public:
-        std::string name;
+        translation name;
         item_action_id id;
 };
 
@@ -55,7 +57,5 @@ class item_action_generator
         void load_item_action( JsonObject &jo );
         void check_consistency() const;
 };
-
-
 
 #endif

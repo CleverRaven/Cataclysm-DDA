@@ -493,6 +493,14 @@
             "rotates":false
         },
         {
+            "id":"t_door_glass_frosted_c",
+            "rotates":false
+        },
+        {
+            "id":"t_door_glass_frosted_o",
+            "rotates":false
+        },
+        {
             "id":"t_portcullis",
             "rotates":false
         },
@@ -658,19 +666,19 @@
         },
         {
             "id":"t_fence_v",
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_fence_h",
-            "rotates":false
+            "id": [ "t_fence", "t_fence_h" ],
+            "rotates":true
         },
         {
-            "id":"t_chainfence_v",
-            "rotates":false
+            "id": "t_chainfence_v",
+            "rotates":true
         },
         {
-            "id":"t_chainfence_h",
-            "rotates":false
+            "id": [ "t_chainfence", "t_chainfence_h" ],
+            "rotates":true
         },
         {
             "id":"t_chainfence_posts",
@@ -694,11 +702,11 @@
         },
         {
             "id":"t_railing_v",
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_railing_h",
-            "rotates":false
+            "id": [ "t_railing", "t_railing_h" ],
+            "rotates":true
         },
         {
             "id":"t_marloss",

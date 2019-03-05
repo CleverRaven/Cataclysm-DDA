@@ -15,8 +15,6 @@
     "dispersion": 300,
     "durability": 8,
     "burst": 4,
-    "reload_noise": "slosh.",
-    "reload_noise_volume": 4,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ] ],
     "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
   },
@@ -53,7 +51,7 @@
     "dispersion": 300,
     "durability": 6,
     "relative": { "reload": 2 },
-    "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
+    "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
   },
   {
     "id": "rm451_flamethrower",

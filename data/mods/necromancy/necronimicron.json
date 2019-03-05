@@ -71,7 +71,7 @@
     "healthy" : -30,
     "addiction_type" : "none",
     "addiction_potential" : 0,
-    "nutrition" : -100,
+    "calories" : -868,
     "fun": -10,
     "color": "green",
     "description": "A potent drug, necessary when performing a revival operation on larger animals (including humans).  It induces a violent allergic reactions in living organisms, so using it on yourself is a REALLY bad idea.",
@@ -131,8 +131,7 @@
     "difficulty": 5,
     "time": 15000,
     "book_learn": [[ "abdul_necro", 4 ]],
-    "using": [ [ "filament", 30 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 30 ] ],
     "tools":[
       [ ["UPS_off", 1], ["adv_UPS_off", 1] ]
     ],
@@ -171,8 +170,7 @@
     "difficulty": 7,
     "time": 120000,
     "book_learn": [["abdul_necro", 7]],
-    "using": [ [ "filament", 240 ] ],
-    "qualities": [ { "id" : "SEW", "level" : 1 } ],
+    "using": [ [ "sewing_standard", 240 ] ],
     "tools": [
       [ ["syringe", -1] ]
     ],

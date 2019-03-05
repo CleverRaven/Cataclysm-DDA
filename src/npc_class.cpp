@@ -1,13 +1,14 @@
 #include "npc_class.h"
-#include "skill.h"
+
+#include <list>
+
 #include "debug.h"
-#include "rng.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "mutation.h"
+#include "rng.h"
+#include "skill.h"
 #include "trait_group.h"
-
-#include <list>
 
 static const std::array<npc_class_id, 17> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
@@ -250,17 +251,16 @@ void npc_class::load( JsonObject &jo, const std::string & )
             mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
-            auto mutcat = "MUTCAT_" + mutation;
             auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
-                return p.second.category == mutation;
+                return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
                               category_match ) == mutation_categories.end() ) {
-                debugmsg( "Unrecognized mutation category %s (i.e. %s)", mutation, mutcat );
+                debugmsg( "Unrecognized mutation category %s", mutation );
                 continue;
             }
             auto distrib = jo2.get_object( mutation );
-            mutation_rounds[mutcat] = load_distribution( distrib );
+            mutation_rounds[mutation] = load_distribution( distrib );
         }
     }
 
@@ -286,7 +286,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
 
 const npc_class_id &npc_class::from_legacy_int( int i )
 {
-    if( i < 0 || ( size_t )i >= legacy_ids.size() ) {
+    if( i < 0 || static_cast<size_t>( i ) >= legacy_ids.size() ) {
         debugmsg( "Invalid legacy class id: %d", i );
         return npc_class_id::NULL_ID();
     }
@@ -308,7 +308,7 @@ const npc_class_id &npc_class::random_common()
         }
     }
 
-    if( common_classes.empty() ) {
+    if( common_classes.empty() || one_in( common_classes.size() ) ) {
         return NC_NONE;
     }
 

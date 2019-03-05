@@ -9,7 +9,7 @@
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
-    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ] ] ]
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ], [ "platinum_small", 1 ] ] ]
   },
   {
     "id": "cordage",
@@ -28,6 +28,12 @@
     "type": "requirement",
     "//": "Materials required to apply diamond coating (per 250ml volume)",
     "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "nanofabricator",
+    "type": "requirement",
+    "//": "Materials required by the nanofabricator to create an item (per 250ml volume)",
+    "components": [ [ [ "nanomaterial", 5 ] ] ]
   },
   {
     "id": "fabric_standard",
@@ -86,5 +92,23 @@
     "type": "requirement",
     "//": "Materials for waterproofing leather and wooden items.",
     "components": [ [ [ "wax", 1 ], [ "pine_bough", 5 ] ] ]
+  },
+  {
+    "id": "fletching",
+    "type": "requirement",
+    "//": "Materials for fletching arrows.",
+    "components": [
+      [
+        [ "feather", 10 ],
+        [ "duct_tape", 40 ],
+        [ "paper", 40 ],
+        [ "bag_plastic", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "box_small", 1 ],
+        [ "plastic_chunk", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "cash_card", 2 ]
+      ]
+    ]
   }
 ]

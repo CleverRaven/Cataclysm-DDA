@@ -1,38 +1,38 @@
 #include "monexamine.h"
-#include "monster.h"
-#include "item.h"
-#include "game.h"
-#include "translations.h"
-#include "messages.h"
-#include "mtype.h"
-#include "calendar.h"
+
 #include <utility>
+
+#include "calendar.h"
+#include "game.h"
+#include "item.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "player.h"
+#include "translations.h"
 
 const efftype_id effect_milked( "milked" );
 
 void monexamine::milk_source( monster &source_mon )
 {
     const auto milked_item = source_mon.type->starting_ammo;
-    item milk( milked_item.begin()->first, calendar::turn.get_turn(), 1 );
+    const long milk_per_day = milked_item.begin()->second;
+    const time_duration milking_freq = 1_days / milk_per_day;
 
-    // Milked items must be liquids.
-    if( !milk.made_of( LIQUID ) ) {
-        debugmsg( "milked item must be a liquid" );
-    } else {
+    long remaining_milk = milk_per_day;
+    if( source_mon.has_effect( effect_milked ) ) {
+        remaining_milk -= source_mon.get_effect_dur( effect_milked ) / milking_freq;
+    }
 
-        const time_duration milk_per_day = 1_days / HOURS( milked_item.begin()->second );
-
-        if( !source_mon.has_effect( effect_milked ) ) {
-            g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, &source_mon );
-            source_mon.add_effect( effect_milked, milk_per_day );
+    if( remaining_milk > 0 ) {
+        item milk( milked_item.begin()->first, calendar::turn, remaining_milk );
+        if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name().c_str() );
-
-        } else if( 1_days - source_mon.get_effect_dur( effect_milked ) >= milk_per_day ) {
-            source_mon.add_effect( effect_milked, milk_per_day );
-            g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, &source_mon );
-            add_msg( _( "You milk the %s." ), source_mon.get_name().c_str() );
-        } else {
-            add_msg( _( "The %s's udders run dry." ), source_mon.get_name().c_str() );
+            long transferred_milk = remaining_milk - milk.charges;
+            source_mon.add_effect( effect_milked, milking_freq * transferred_milk );
+            g->u.mod_moves( -to_moves<int>( transferred_milk * 1_minutes / 5 ) );
         }
+    } else {
+        add_msg( _( "The %s's udders run dry." ), source_mon.get_name().c_str() );
     }
 }

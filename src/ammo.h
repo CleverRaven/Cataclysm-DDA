@@ -17,7 +17,7 @@ class ammunition_type
 
         std::string name() const;
 
-        itype_id const &default_ammotype() const {
+        const itype_id &default_ammotype() const {
             return default_ammotype_;
         }
 

@@ -1,0 +1,9 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MANUAL_BIONIC_INSTALLATION",
+    "info": "Permits manual self-installation of bionics.",
+    "stype": "bool",
+    "value": true
+  }
+]

@@ -105,7 +105,7 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [
-      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 1 ] ],
       [ [ "spring", 1 ] ],
       [ [ "duct_tape", 40 ] ]
     ]
@@ -126,7 +126,7 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [
-      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 1 ] ],
       [ [ "spring", 1 ] ],
       [ [ "duct_tape", 40 ] ]
     ]
@@ -141,8 +141,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 40000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "metal_tank_little", 1 ] ] ]
   }
 ]

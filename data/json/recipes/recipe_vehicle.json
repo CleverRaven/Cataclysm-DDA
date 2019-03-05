@@ -1,0 +1,169 @@
+[
+  {
+    "result": "steam_watts_small",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 240000,
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 16 ] ],
+      [ [ "scrap", 90 ], [ "steel_chunk", 30 ], [ "steel_lump", 10 ] ],
+      [ [ "chain", 4 ] ],
+      [ [ "spring", 4 ] ],
+      [ [ "30gal_drum", 3 ] ],
+      [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "steel_plate", 8 ] ],
+      [ [ "water", 150 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "fuel_bunker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 3 ] ] ]
+  },
+  {
+    "result": "bike_rack",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 30000,
+    "reversible": true,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ], [ [ "rope_6", 2 ] ] ]
+  },
+  {
+    "result": "rebar_plate",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "//": "sawing it down doesn't teach anything useful",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 8000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "rebar", 4 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "spring_plate",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "steel_plate", 1 ] ], [ [ "spring", 3 ] ] ]
+  },
+  {
+    "result": "tearer",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 18 ], [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ],
+      [ [ "hdframe", 1 ] ],
+      [ [ "rebar", 8 ], [ "pipe", 16 ] ],
+      [ [ "chain", 2 ] ],
+      [ [ "blade", 9 ] ]
+    ]
+  },
+  {
+    "result": "minifreezer",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 180000,
+    "book_learn": [ [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "welding_standard", 50 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_metal", 10 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ]
+    ]
+  },
+  {
+    "result": "minifridge",
+    "type": "recipe",
+    "copy-from": "minifreezer",
+    "components": [
+      [ [ "sheet_metal", 10 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ]
+    ]
+  },
+  {
+    "result": "washing_machine",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skill_required": [ "mechanics", 5 ],
+    "difficulty": 5,
+    "time": 170000,
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "components": [
+      [ [ "sheet_metal", 3 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "motor_small", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap", 6 ] ]
+  }
+]

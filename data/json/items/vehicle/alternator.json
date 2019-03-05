@@ -29,6 +29,16 @@
     "price": 8000
   },
   {
+    "id": "alternator_bicycle",
+    "copy-from": "vehicle_alternator",
+    "type": "GENERIC",
+    "name": "bicycle alternator",
+    "description": "A very lightweight alternator used to power a bicycle's headlights.",
+    "weight": 1100,
+    "volume": 4,
+    "price": 8000
+  },
+  {
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",
@@ -43,7 +53,7 @@
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",
     "name": "7.5kW generator",
-    "description": "An bulky but efficient electrical generator designed to be attached to an engine.",
+    "description": "A bulky but efficient electrical generator designed to be attached to an engine.",
     "weight": 48000,
     "volume": 30,
     "price": 30000

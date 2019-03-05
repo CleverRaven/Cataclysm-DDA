@@ -1,0 +1,29 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS",
+    "dynamic_line": "Hope you're here to trade.",
+    "responses": [ { "text": "Well, bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_NEW",
+    "dynamic_line": "I oversee the food stocks for the center.  There was significant looting during the panic when we first arrived so most of our food was carried away.  I manage what we have left and do everything I can to increase our supplies.  Rot and mold are more significant in the damp basement so I prioritize non-perishable food, such as cornmeal, jerky, and fruit wine.",
+    "responses": [ { "text": "Why cornmeal, jerky, and fruit wine?", "topic": "TALK_FREE_MERCHANT_STOCKS_WHY" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_WHY",
+    "dynamic_line": "All three are easy to locally produce in significant quantities and are non-perishable.  We have a local farmer or two and a few hunter types that have been making attempts to provide us with the nutritious supplies.  We do always need more suppliers though.  Because this stuff is rather cheap in bulk I can pay a premium for any you have on you.  Canned food and other edibles are handled by the merchant in the front.",
+    "responses": [
+      { "text": "Are you looking to buy anything else?", "topic": "TALK_FREE_MERCHANT_STOCKS_ALL" },
+      { "text": "Very well...", "topic": "TALK_FREE_MERCHANT_STOCKS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_ALL",
+    "dynamic_line": "I'm actually accepting a number of different foodstuffs: beer, sugar, flour, smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, and fruit wine.",
+    "responses": [ { "text": "Interesting...", "topic": "TALK_FREE_MERCHANT_STOCKS" } ]
+  }
+]

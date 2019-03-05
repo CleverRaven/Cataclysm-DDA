@@ -5,6 +5,7 @@
     "items": [
       [ "dogfood", 35 ],
       [ "catfood", 35 ],
+      [ "birdfood", 15 ],
       [ "dog_whistle", 15 ],
       [ "flashlight", 5 ]
     ]
@@ -15,6 +16,7 @@
     "items": [
       [ "dogfood", 30 ],
       [ "catfood", 30 ],
+      [ "birdfood", 15 ],
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ]
     ]

@@ -2,6 +2,7 @@
   {
     "id": "ak74",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "AK-74M",
     "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
     "description": "The successor to the well-known AK-47 rifle.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge.",
@@ -29,6 +30,7 @@
   {
     "id": "an94",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "AN-94",
     "description": "Intended to replace the AK-74, this rifle uses a sophisticated mechanism to delay felt recoil, along with a very fast two-round burst mode.  While its increased complexity prevented it from being adopted by the Russian military, it has seen service among their special forces.",
     "weight": 3620,

@@ -1,19 +1,20 @@
 #include "gates.h"
+
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "game.h" // TODO: This is a circular dependency
+#include "generic_factory.h"
+#include "iexamine.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
-#include "iexamine.h"
-#include "vpart_position.h"
-#include "generic_factory.h"
-#include "player.h"
-#include "output.h"
 #include "messages.h"
-#include "json.h"
+#include "output.h"
+#include "player.h"
 #include "vehicle.h"
-
-#include <string>
-#include <algorithm>
-#include <vector>
+#include "vpart_position.h"
 
 // Gates namespace
 
@@ -28,7 +29,7 @@ struct gate_data {
     gate_data() :
         moves( 0 ),
         bash_dmg( 0 ),
-        was_loaded( false ) {};
+        was_loaded( false ) {}
 
     gate_id id;
 
@@ -159,15 +160,17 @@ void gates::open_gate( const tripoint &pos )
     bool fail = false;
 
     for( int i = 0; i < 4; ++i ) {
-        static const tripoint dir[4] = { { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 } };
+        static constexpr tripoint dir[4] = {
+            { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 }
+        };
         const tripoint wall_pos = pos + dir[i];
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( int j = 0; j < 4; ++j ) {
-            const tripoint gate_pos = wall_pos + dir[j];
+        for( auto j : dir ) {
+            const tripoint gate_pos = wall_pos + j;
 
             if( gate_pos == pos ) {
                 continue; // Never comes back
@@ -178,7 +181,7 @@ void gates::open_gate( const tripoint &pos )
                 while( g->m.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
-                    cur_pos += dir[j];
+                    cur_pos += j;
                 }
             }
 
@@ -193,7 +196,7 @@ void gates::open_gate( const tripoint &pos )
                     } else if( ter != gate.floor.id() ) {
                         break;
                     }
-                    cur_pos += dir[j];
+                    cur_pos += j;
                 }
             }
         }

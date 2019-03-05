@@ -1,8 +1,7 @@
-#include "catch/catch.hpp"
-
-#include <random>
 #include <cmath>
+#include <random>
 
+#include "catch/catch.hpp"
 #include "cata_utility.h"
 
 TEST_CASE( "fast_floor", "[math]" )

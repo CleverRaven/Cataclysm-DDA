@@ -2,11 +2,19 @@
 #ifndef RNG_H
 #define RNG_H
 
-#include "compatibility.h"
+#include <array>
+#include <functional>
+#include <random>
+
 #include "optional.h"
 
-#include <functional>
-#include <array>
+// Some of the RNG functions are based on an engine.
+// By default, that engine is seeded by time on first call to such a function.
+// If this function is called with a non-zero seed then the engine will be
+// seeded (or re-seeded) with the given seed.
+void rng_set_engine_seed( uintmax_t seed );
+
+std::default_random_engine &rng_get_engine();
 
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
@@ -151,8 +159,5 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
 /// Same as other random_point with a range enclosing all valid points of the map.
 cata::optional<tripoint> random_point( const map &m,
                                        const std::function<bool( const tripoint & )> &predicate );
-
-/** Get random tile on circumference of a circle */
-tripoint random_perimeter( const tripoint &src, int radius );
 
 #endif

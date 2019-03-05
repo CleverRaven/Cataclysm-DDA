@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
@@ -17,7 +16,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     dummy.remove_weapon();
 
     item &ammo = dummy.i_add( item( "40sw", 0, item::default_charges_tag{} ) );
-    item &gun = dummy.i_add( item( "sw_610", 0, false ) );
+    item &gun = dummy.i_add( item( "sw_610", 0, item::default_charges_tag{} ) );
     int ammo_pos = dummy.inv.position_by_item( &ammo );
 
     REQUIRE( ammo_pos != INT_MIN );
@@ -83,12 +82,12 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     const cata::optional<islot_ammo> &ammo_type = ammo.type->ammo;
     REQUIRE( ammo_type );
 
-    item mag( "glockmag", 0, 0 );
+    const item mag( "glockmag", 0, 0 );
     const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
     REQUIRE( magazine_type );
     REQUIRE( ammo_type->type.count( magazine_type->type ) != 0 );
 
-    item &gun = dummy.i_add( item( "glock_19", 0, false ) );
+    item &gun = dummy.i_add( item( "glock_19", 0, item::default_charges_tag{} ) );
     REQUIRE( ammo_type->type.count( gun.ammo_type() ) != 0 );
 
     gun.put_in( mag );
@@ -115,5 +114,6 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 
     bool gun_success = gun.reload( dummy, item_location( dummy, &magazine ), 1 );
 
+    CHECK( gun_success );
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }

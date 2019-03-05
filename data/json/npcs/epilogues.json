@@ -29,7 +29,6 @@
     "group" : "male",
     "id" : "npc_male_5",
     "text" : "     Became a skilled mechanic and assisted a number of refugees searching for settlements.  He left one day on a routine trading run and failed to return.  His wrecked truck was located by a scavenger band but he was never seen again."
-
   },
   {
     "type" : "epilogue",
@@ -227,7 +226,7 @@
     "type" : "epilogue",
     "group" : "female",
     "id" : "npc_female_12",
-    "text" : "     Became a self-taught chemist and medic.  Her work eventually led her to a life of alcohol abuse and morphine addicion.  Overdosed one night when left unattended.  The community she helped said, 'I've never known a nicer woman nor one who had fought off depression for so long.'"
+    "text" : "     Became a self-taught chemist and medic.  Her work eventually led her to a life of alcohol abuse and morphine addiction.  Overdosed one night when left unattended.  The community she helped said, 'I've never known a nicer woman nor one who had fought off depression for so long.'"
   },
   {
     "type" : "epilogue",
@@ -281,7 +280,7 @@
     "type" : "epilogue",
     "group" : "female",
     "id" : "npc_female_21",
-    "text" : "     Worked hard following your death to build her own band of survivors.  Thanks to the skills she had acquired, she was able to turn a hefty profit looting abandoned towns.  After a series of heated contract disputes with her followers she found herself locked in her own car as a pair of molotovs were thrown through the windows.  Her last desire was that she could have taken the bastards out with her."
+    "text" : "     Worked hard following your death to build her own band of survivors.  Thanks to the skills she had acquired, she was able to turn a hefty profit looting abandoned towns.  After a series of heated contract disputes with her followers she found herself locked in her own car as a pair of Molotovs were thrown through the windows.  Her last desire was that she could have taken the bastards out with her."
   },
   {
     "type" : "epilogue",

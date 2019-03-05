@@ -1,16 +1,17 @@
 #include "recipe_dictionary.h"
 
-#include "itype.h"
-#include "generic_factory.h"
-#include "item_factory.h"
-#include "item.h"
-#include "init.h"
+#include <algorithm>
+
 #include "cata_utility.h"
 #include "crafting.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "output.h"
 #include "skill.h"
-
-#include <algorithm>
-#include <numeric>
+#include "uistate.h"
 
 recipe_dictionary recipe_dict;
 
@@ -41,6 +42,9 @@ const recipe &string_id<recipe>::obj() const
 {
     const auto iter = recipe_dict.recipes.find( *this );
     if( iter != recipe_dict.recipes.end() ) {
+        if( iter->second.obsolete ) {
+            return null_recipe;
+        }
         return iter->second;
     }
     if( *this != NULL_ID() ) {
@@ -84,18 +88,57 @@ bool search_reqs( std::vector<std::vector<item_comp> >  gp,
     } );
 }
 
+std::vector<const recipe *> recipe_subset::favorite() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r ) {
+            return false;
+        }
+        return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::recent() const
+{
+    std::vector<const recipe *> res;
+
+    for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
+         ++rec_id ) {
+        std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
+            if( !*r || *rec_id != r->ident() ) {
+                return false;
+            }
+
+            res.push_back( r );
+            return true;
+        } );
+    }
+
+    return res;
+}
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r ) {
+            return false;
+        }
         switch( key ) {
             case search_type::name:
                 return lcmatch( r->result_name(), txt );
 
             case search_type::skill:
-                return lcmatch( r->required_skills_string(), txt ) || lcmatch( r->skill_used->name(), txt );
+                return lcmatch( r->required_skills_string( nullptr ), txt ) ||
+                       lcmatch( r->skill_used->name(), txt );
+
+            case search_type::primary_skill:
+                return lcmatch( r->skill_used->name(), txt );
 
             case search_type::component:
                 return search_reqs( r->requirements().get_components(), txt );
@@ -113,6 +156,11 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 } );
             }
 
+            case search_type::description_result: {
+                const item result = r->create_result();
+                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+            }
+
             default:
                 return false;
         }
@@ -121,9 +169,54 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     return res;
 }
 
-bool recipe_subset::empty_category( const std::string &cat,
-                                    const std::string &subcat ) const
+recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
 {
+    for( const auto elem : recipes ) {
+        include( elem, src.get_custom_difficulty( elem ) );
+    }
+}
+
+recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+{
+    return recipe_subset( *this, search( txt, key ) );
+}
+recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
+{
+    std::vector<const recipe *> intersection_result;
+    std::set_intersection( this->begin(), this->end(), subset.begin(), subset.end(),
+                           std::back_inserter( intersection_result ) );
+    return recipe_subset( *this, intersection_result );
+}
+recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
+{
+    std::vector<const recipe *> difference_result;
+    std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(),
+                         std::back_inserter( difference_result ) );
+    return recipe_subset( *this, difference_result );
+}
+
+std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        return item == r->result() ||
+               ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
+    } );
+
+    return res;
+}
+
+bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
+{
+    if( subcat == "CSC_*_FAVORITE" ) {
+        return uistate.favorite_recipes.empty();
+    } else if( subcat == "CSC_*_RECENT" ) {
+        return uistate.recent_recipes.empty();
+    } else if( subcat == "CSC_*_HIDDEN" ) {
+        return uistate.hidden_recipes.empty();
+    }
+
     auto iter = category.find( cat );
     if( iter != category.end() ) {
         if( subcat.empty() ) {
@@ -174,25 +267,25 @@ void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
 }
 
 recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
-                                 std::map<recipe_id, recipe> &dest )
+                                 std::map<recipe_id, recipe> &out )
 {
     recipe r;
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
-        if( !dest.count( base ) ) {
+        if( !out.count( base ) ) {
             deferred.emplace_back( jo.str(), src );
             return null_recipe;
         }
-        r = dest[ base ];
+        r = out[ base ];
     }
 
     r.load( jo, src );
 
-    dest[ r.ident() ] = std::move( r );
+    out[ r.ident() ] = std::move( r );
 
-    return dest[ r.ident() ];
+    return out[ r.ident() ];
 }
 
 size_t recipe_dictionary::size() const
@@ -217,7 +310,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
-        if( elem.is_blacklisted() ) {
+        if( elem.is_blacklisted() || elem.obsolete ) {
             return true;
         }
 
@@ -254,7 +347,7 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.reversible && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
+        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
             recipe_dict.uncraft[ recipe_id( r.result() ) ] = r;
         }
     }
@@ -265,7 +358,7 @@ void recipe_dictionary::finalize()
         const recipe_id rid = recipe_id( id );
 
         // books that don't already have an uncrafting recipe
-        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0 ) {
+        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / units::from_milliliter( 12.5 );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;

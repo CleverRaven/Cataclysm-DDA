@@ -1,16 +1,16 @@
 #include "item_group.h"
-#include "item_factory.h"
-#include "rng.h"
-#include "item.h"
-#include "debug.h"
-#include "ammo.h"
-#include "itype.h"
-#include "game_constants.h"
-#include "json.h"
 
-#include <map>
 #include <algorithm>
 #include <cassert>
+#include <map>
+
+#include "ammo.h"
+#include "debug.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
+#include "json.h"
+#include "rng.h"
 
 static const std::string null_item_id( "null" );
 
@@ -30,7 +30,6 @@ Single_item_creator::Single_item_creator( const std::string &_id, Type _type, in
     : Item_spawn_data( _probability )
     , id( _id )
     , type( _type )
-    , modifier()
 {
 }
 
@@ -50,7 +49,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         }
         rec.push_back( id );
         Item_spawn_data *isd = item_controller->get_group( id );
-        if( isd == NULL ) {
+        if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
         }
@@ -76,8 +75,9 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     ItemList result;
     int cnt = 1;
     if( modifier ) {
-        cnt = ( modifier->count.first == modifier->count.second ) ? modifier->count.first : rng(
-                  modifier->count.first, modifier->count.second );
+        auto modifier_count = modifier->count;
+        cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
+                  modifier_count.first, modifier_count.second );
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
@@ -92,7 +92,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             }
             rec.push_back( id );
             Item_spawn_data *isd = item_controller->get_group( id );
-            if( isd == NULL ) {
+            if( isd == nullptr ) {
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
             }
@@ -122,7 +122,7 @@ void Single_item_creator::check_consistency() const
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
     } else {
-        debugmsg( "Unknown type of Single_item_creator: %d", ( int ) type );
+        debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
         modifier->check_consistency();
@@ -144,7 +144,7 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
         }
     } else if( type == S_ITEM_GROUP ) {
         Item_spawn_data *isd = item_controller->get_group( id );
-        if( isd != NULL ) {
+        if( isd != nullptr ) {
             isd->remove_item( itemid );
         }
     }
@@ -171,8 +171,6 @@ Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
     , charges( -1, -1 )
-    , ammo()
-    , container()
     , with_ammo( 0 )
     , with_magazine( 0 )
 {
@@ -209,7 +207,7 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-        if( ammo.get() == nullptr ) {
+        if( ammo == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( new_item.ammo_type() ) {
                 new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
@@ -237,7 +235,7 @@ void Item_modifier::modify( item &new_item ) const
         }
 
         if( spawn_ammo ) {
-            if( ammo.get() ) {
+            if( ammo ) {
                 const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
             } else {
@@ -246,7 +244,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( container.get() != NULL ) {
+    if( container != nullptr ) {
         item cont = container->create_single( new_item.birthday() );
         if( !cont.is_null() ) {
             if( new_item.made_of( LIQUID ) ) {
@@ -262,7 +260,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( contents.get() != NULL ) {
+    if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
     }
@@ -274,10 +272,10 @@ void Item_modifier::modify( item &new_item ) const
 
 void Item_modifier::check_consistency() const
 {
-    if( ammo.get() != NULL ) {
+    if( ammo != nullptr ) {
         ammo->check_consistency();
     }
-    if( container.get() != NULL ) {
+    if( container != nullptr ) {
         container->check_consistency();
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
@@ -290,12 +288,12 @@ void Item_modifier::check_consistency() const
 
 bool Item_modifier::remove_item( const Item_tag &itemid )
 {
-    if( ammo.get() != NULL ) {
+    if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
             ammo.reset();
         }
     }
-    if( container.get() != NULL ) {
+    if( container != nullptr ) {
         if( container->remove_item( itemid ) ) {
             container.reset();
             return true;
@@ -304,15 +302,12 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     return false;
 }
 
-
-
 Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
     : Item_spawn_data( probability )
     , type( t )
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
     , sum_prob( 0 )
-    , items()
 {
     if( probability <= 0 || ( t != Type::G_DISTRIBUTION && probability > 100 ) ) {
         debugmsg( "Probability %d out of range", probability );
@@ -341,7 +336,7 @@ void Item_group::add_group_entry( const Group_tag &groupid, int probability )
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
-    assert( ptr.get() != NULL );
+    assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
         return;
     }

@@ -2,10 +2,11 @@
 
 #include <map>
 
+#include "assign.h"
+#include "calendar.h"
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
-#include "calendar.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -54,9 +55,9 @@ void vitamin::load_vitamin( JsonObject &jo )
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
-    vit.rate_ = jo.get_int( "rate", MINUTES( 60 ) );
+    assign( jo, "rate", vit.rate_, false, 1_turns );
 
-    if( vit.rate_ < 0 ) {
+    if( vit.rate_ < 0_turns ) {
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
     }
 

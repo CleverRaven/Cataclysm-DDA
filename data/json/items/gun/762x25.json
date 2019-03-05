@@ -2,6 +2,7 @@
   {
     "id": "ppsh",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "PPSh-41",
     "description": "The Soviet-made PPSh-41 is a mass-produced selective-fire submachine gun.  It has a relatively high rate of fire.",
     "weight": 3630,

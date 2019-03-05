@@ -1,15 +1,13 @@
+#include <string>
+
 #include "catch/catch.hpp"
-
-#include "morale.h"
-#include "morale_types.h"
-
 #include "bodypart.h"
 #include "effect.h"
 #include "game.h"
-#include "itype.h"
 #include "item.h"
-
-#include <string>
+#include "itype.h"
+#include "morale.h"
+#include "morale_types.h"
 
 TEST_CASE( "player_morale" )
 {
@@ -109,8 +107,8 @@ TEST_CASE( "player_morale" )
 
     GIVEN( "OPTIMISTIC trait" ) {
         m.on_mutation_gain( trait_id( "OPTIMISTIC" ) );
-        CHECK( m.has( MORALE_PERM_OPTIMIST ) == 4 );
-        CHECK( m.get_level() == 5 );
+        CHECK( m.has( MORALE_PERM_OPTIMIST ) == 9 );
+        CHECK( m.get_level() == 10 );
 
         WHEN( "lost the trait" ) {
             m.on_mutation_loss( trait_id( "OPTIMISTIC" ) );
@@ -121,8 +119,8 @@ TEST_CASE( "player_morale" )
 
     GIVEN( "BADTEMPER trait" ) {
         m.on_mutation_gain( trait_id( "BADTEMPER" ) );
-        CHECK( m.has( MORALE_PERM_BADTEMPER ) == -4 );
-        CHECK( m.get_level() == -5 );
+        CHECK( m.has( MORALE_PERM_BADTEMPER ) == -9 );
+        CHECK( m.get_level() == -10 );
 
         WHEN( "lost the trait" ) {
             m.on_mutation_loss( trait_id( "BADTEMPER" ) );
@@ -152,9 +150,9 @@ TEST_CASE( "player_morale" )
     }
 
     GIVEN( "a set of super fancy bride's clothes" ) {
-        item dress_wedding( "dress_wedding", 0 ); // legs, torso | 8 + 2 | 10
-        item veil_wedding( "veil_wedding", 0 );   // eyes, mouth | 4 + 2 | 6
-        item heels( "heels", 0 );                 // feet        | 1 + 2 | 3
+        const item dress_wedding( "dress_wedding", 0 ); // legs, torso | 8 + 2 | 10
+        const item veil_wedding( "veil_wedding", 0 );   // eyes, mouth | 4 + 2 | 6
+        const item heels( "heels", 0 );                 // feet        | 1 + 2 | 3
 
         m.on_item_wear( dress_wedding );
         m.on_item_wear( veil_wedding );
@@ -192,7 +190,7 @@ TEST_CASE( "player_morale" )
                 }
             }
             AND_WHEN( "tries to be even fancier" ) {
-                item watch( "sf_watch", 0 );
+                const item watch( "sf_watch", 0 );
                 m.on_item_wear( watch );
                 THEN( "there's a limit" ) {
                     CHECK( m.get_level() == 20 );
@@ -252,7 +250,7 @@ TEST_CASE( "player_morale" )
         CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
 
         WHEN( "wearing a hat" ) {
-            item hat( "tinfoil_hat", 0 );
+            const item hat( "tinfoil_hat", 0 );
 
             m.on_item_wear( hat );
             THEN( "the flowers need sunlight" ) {
@@ -276,7 +274,7 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "wearing a pair of boots" ) {
-            item boots( "boots", 0 );
+            const item boots( "boots", 0 );
 
             m.on_item_wear( boots );
             THEN( "all of the roots are suffering" ) {
@@ -284,7 +282,7 @@ TEST_CASE( "player_morale" )
             }
 
             AND_WHEN( "even more constrains" ) {
-                item hat( "tinfoil_hat", 0 );
+                const item hat( "tinfoil_hat", 0 );
 
                 m.on_item_wear( hat );
                 THEN( "it can't be worse" ) {

@@ -147,6 +147,6 @@
         "locations" : [ "land" ],
         "city_distance" : [1, -1],
         "city_sizes" : [1, 20],
-        "occurrences" : [1, 3]
+        "occurrences" : [0, 3]
    }
 ]

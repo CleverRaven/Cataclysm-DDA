@@ -1,0 +1,11 @@
+[
+  {
+    "id": "bio_synaptic_regen",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Synaptic Regeneration System CBM",
+    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery.",
+    "price": 10000,
+    "difficulty": 8
+  }
+]

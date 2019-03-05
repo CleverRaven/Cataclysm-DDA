@@ -1,0 +1,254 @@
+[
+  {
+    "result": "milkshake",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ],
+        [ "cherries", 1 ],
+        [ "irradiated_cherries", 1 ]
+      ],
+      [ [ "sugar", 10 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "milkshake_deluxe",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": 12500,
+    "autolearn": true,
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [
+        [ "chocolate", 2 ],
+        [ "candy", 2 ],
+        [ "candy2", 2 ],
+        [ "candy3", 2 ],
+        [ "maple_candy", 2 ],
+        [ "syrup", 2 ],
+        [ "strawberries", 2 ],
+        [ "strawberries_cooked", 2 ],
+        [ "irradiated_strawberries", 2 ],
+        [ "blueberries", 2 ],
+        [ "blueberries_cooked", 2 ],
+        [ "irradiated_blueberries", 2 ],
+        [ "blackberries", 2 ],
+        [ "irradiated_blackberries", 2 ],
+        [ "cherries", 2 ],
+        [ "irradiated_cherries", 2 ]
+      ],
+      [ [ "sugar", 20 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "icecream",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ]
+      ],
+      [ [ "sugar", 20 ] ]
+    ]
+  },
+  {
+    "result": "icecream",
+    "id_suffix": "from_bags",
+    "//": "in real life, you can use some plastic bags with the correct materials and shake up to make ice cream!",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": 20000,
+    "book_learn": [ [ "mag_cooking", 0 ] ],
+    "components": [
+      [ [ "water_clean", 2 ] ],
+      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ]
+      ],
+      [ [ "sugar", 20 ] ],
+      [ [ "salt", 30 ] ],
+      [ [ "bag_plastic", 2 ] ]
+    ]
+  },
+  {
+    "result": "icecream_candy",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": 5000,
+    "autolearn": true,
+    "components": [
+      [ [ "icecream", 1 ], [ "icecream_artificial", 1 ] ],
+      [ [ "chocolate", 1 ], [ "candy", 1 ], [ "candy2", 1 ], [ "candy3", 1 ], [ "maple_candy", 1 ], [ "syrup", 1 ] ],
+      [ [ "sugar", 5 ] ]
+    ]
+  },
+  {
+    "result": "icecream_fruit",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": 5000,
+    "autolearn": true,
+    "components": [ [ [ "icecream", 1 ], [ "icecream_artificial", 1 ] ], [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ] ]
+  },
+  {
+    "result": "icecream_custard",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ]
+      ],
+      [ [ "sugar", 10 ] ],
+      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+    ]
+  },
+  {
+    "result": "icecream_yogurt",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "components": [ [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ], [ [ "yoghurt", 1 ] ], [ [ "sugar", 5 ] ] ]
+  },
+  {
+    "result": "icecream_sorbet",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "water_clean", 1 ], [ "kompot", 1 ] ],
+      [ [ "juice", 1 ], [ "oj", 1 ], [ "apple_cider", 1 ], [ "lemonade", 1 ], [ "cranberry_juice", 1 ] ],
+      [ [ "sugar", 5 ] ]
+    ]
+  },
+  {
+    "result": "icecream_gelato",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 20000,
+    "book_learn": [ [ "cookbook_italian", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "components": [
+      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ]
+      ],
+      [ [ "sugar", 15 ] ]
+    ]
+  }
+]

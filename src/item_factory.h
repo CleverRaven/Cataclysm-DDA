@@ -2,14 +2,13 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include <string>
-#include <memory>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <memory>
-#include <list>
 #include <functional>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "itype.h"
 
@@ -28,7 +27,6 @@ class JsonObject;
 class JsonArray;
 
 extern std::unique_ptr<Item_factory> item_controller;
-
 
 class migration
 {
@@ -71,7 +69,6 @@ class Item_factory
          * @param lua_function The LUA id of the LUA function.
          */
         void register_iuse_lua( const std::string &name, int lua_function );
-
 
         /**
          * @name Item groups
@@ -140,7 +137,6 @@ class Item_factory
          */
         bool add_item_to_group( const Group_tag group_id, const Item_tag item_id, int weight );
         /*@}*/
-
 
         /**
          * @name Item type loading
@@ -308,7 +304,7 @@ class Item_factory
         void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member,
+        void set_use_methods_from_json( JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
 
         use_function usage_from_string( const std::string &type ) const;
@@ -334,7 +330,6 @@ class Item_factory
         void add_entry( Item_group &sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
-        void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
         void set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def );
         void set_properties_from_json( JsonObject &jo, const std::string &member, itype &def );
 
@@ -354,6 +349,8 @@ class Item_factory
         std::map<Item_tag, use_function> iuse_function_list;
 
         void add_iuse( const std::string &type, const use_function_pointer f );
+        void add_iuse( const std::string &type, const use_function_pointer f,
+                       const std::string &info );
         void add_actor( iuse_actor *ptr );
 
         std::map<itype_id, migration> migrations;

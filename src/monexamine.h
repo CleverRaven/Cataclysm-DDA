@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONEXAMINE
-#define MONEXAMINE
+#ifndef MONEXAMINE_H
+#define MONEXAMINE_H
 
 class monster;
 

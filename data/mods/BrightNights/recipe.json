@@ -33,12 +33,7 @@
     "autolearn": [ [ "electronics", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 35 ], [ "toolset", 35 ] ] ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "scrap", 5 ] ],
-      [ [ "cable", 8 ] ]
-    ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
   },
   {
     "result": "bandages",
@@ -52,7 +47,13 @@
     "components": [
       [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
-      [ [ "disinfectant", 1 ], [ "thyme_oil", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "hard_liquor", 28, "LIST" ] ]
+      [
+        [ "disinfectant", 1 ],
+        [ "thyme_oil", 1 ],
+        [ "chem_ethanol", 250 ],
+        [ "denat_alcohol", 250 ],
+        [ "hard_liquor", 28, "LIST" ]
+      ]
     ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -67,7 +68,14 @@
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
-      [ [ "lamp_oil", 50 ], [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ], [ "hard_liquor", 14, "LIST" ], [ "gasoline", 250 ], [ "diesel", 250 ] ]
+      [
+        [ "lamp_oil", 50 ],
+        [ "chem_ethanol", 100 ],
+        [ "denat_alcohol", 100 ],
+        [ "hard_liquor", 14, "LIST" ],
+        [ "gasoline", 250 ],
+        [ "diesel", 250 ]
+      ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -83,7 +91,14 @@
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "chem_ethanol", 500 ], [ "hard_liquor", 52, "LIST" ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ] ]
+      [
+        [ "gasoline", 500 ],
+        [ "diesel", 500 ],
+        [ "chem_ethanol", 500 ],
+        [ "hard_liquor", 52, "LIST" ],
+        [ "denat_alcohol", 500 ],
+        [ "lamp_oil", 500 ]
+      ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -97,10 +112,7 @@
     "time": 5000,
     "autolearn": [ [ "electronics", 7 ] ],
     "book_learn": [ [ "textbook_atomic", 5 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 50 ] ] ],
     "components": [
       [ [ "nuclear_fuel", 2 ] ],

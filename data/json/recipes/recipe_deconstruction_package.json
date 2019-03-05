@@ -1,0 +1,402 @@
+[
+  {
+    "result": "mre_accessory",
+    "type": "uncraft",
+    "time": 60,
+    "components": [
+      [ [ "pur_tablets", 6 ] ],
+      [ [ "gummy_vitamins", 1 ] ],
+      [ [ "coffee_raw", 1 ] ],
+      [ [ "lemonade_powder", 2 ] ],
+      [ [ "matches", 1 ] ],
+      [ [ "protein_powder", 1 ] ],
+      [ [ "gum", 2 ] ],
+      [ [ "paper", 8 ] ],
+      [ [ "spork", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_dessert",
+    "type": "uncraft",
+    "time": 60,
+    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "chocolate", 1 ] ], [ [ "candy2", 2 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_chilibeans_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_chilibeans", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_bbqbeef_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_bbqbeef", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_chickennoodle_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_chickennoodle", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_spaghetti_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_spaghetti", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_chicken_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_chicken", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_beeftaco_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_beeftaco", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_beef_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_beef", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_meatball_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_meatball", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_beefstew_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_beefstew", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_chilimac_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_chilimac", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_veggy_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_veggy", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_macaronimarinara_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_macaronimarinara", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_cheesetort_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_cheesetort", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_mushroomfettuccine_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_mushroomfettuccine", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_mexicanchickenstew_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_mexicanchickenstew", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_chickenburritobowl_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_chickenburritobowl", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_maplesausage_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_maplesausage", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_ravioli_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_ravioli", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_pepperjackbeef_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_pepperjackbeef", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_hashbrownbacon_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_hashbrownbacon", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_lemontuna_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_lemontuna", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_asianbeef_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_asianbeef", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_chickenpesto_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_chickenpesto", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_southwestbeef_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_southwestbeef", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_hotdog_box",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "mre_hotdog", 4 ] ],
+      [ [ "crackers", 2 ] ],
+      [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  }
+]

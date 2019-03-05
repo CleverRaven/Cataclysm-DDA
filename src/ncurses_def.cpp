@@ -8,22 +8,17 @@
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
 #if (defined __CYGWIN__)
-#include "ncurses/curses.h"
+#include <ncurses/curses.h>
 #else
 #include <curses.h>
 #endif
 
-#ifndef A_ITALIC
-#define A_ITALIC 0x00800000 /* Added characters are italic. */
-#endif
+#include <stdexcept>
 
 #include "cursesdef.h"
-
 #include "catacharset.h"
 #include "color.h"
-
 #include "game_ui.h"
-#include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
@@ -363,26 +358,6 @@ nc_color nc_color::blink() const
 bool nc_color::is_blink() const
 {
     return attribute_value & A_BLINK;
-}
-
-nc_color nc_color::italic() const
-{
-    return nc_color( attribute_value | A_ITALIC );
-}
-
-bool nc_color::is_italic() const
-{
-    return attribute_value & A_ITALIC;
-}
-
-nc_color nc_color::underline() const
-{
-    return nc_color( attribute_value | A_UNDERLINE );
-}
-
-bool nc_color::is_underline() const
-{
-    return attribute_value & A_UNDERLINE;
 }
 
 #endif

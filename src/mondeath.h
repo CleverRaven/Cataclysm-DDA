@@ -7,6 +7,7 @@ class monster;
 namespace mdeath
 {
 void normal( monster &z );        // Drop a body
+void splatter( monster &z );      // Overkill splatter (also part of normal under conditions)
 void acid( monster &z );          // Acid instead of a body
 void boomer( monster &z );        // Explodes in vomit :3
 void boomer_glow( monster &z );   // Explodes in vomit :3
@@ -33,12 +34,13 @@ void broken( monster &z );        // Broken robot drop
 void ratking( monster &z );       // Cure verminitis
 void darkman( monster &z );       // sight returns to normal
 void gas( monster &z );           // Explodes in toxic gas
-void kill_breathers( monster &z ); // All breathers die
+void kill_breathers( monster &z );// All breathers die
 void smokeburst( monster &z );    // Explode like a huge smoke bomb.
 void jabberwock( monster &z );    // Snicker-snack!
 void detonate( monster &z );      // Take the enemy with you
 void broken_ammo( monster &z );   // Breaks ammo and then itself
-void preg_roach( monster &z );  // Spawns 1-3 roach nymphs
+void preg_roach( monster &z );    // Spawns 1-3 roach nymphs
+void fireball( monster &z );      // Explodes in fire
 
 void gameover( monster &z );      // Game over!  Defense mode
 } //namespace mdeath

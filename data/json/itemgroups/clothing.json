@@ -99,6 +99,36 @@
     ]
   },
   {
+    "id": "clothing_military_pilot",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard set of clothes worn by a military helicopter pilot.",
+    "items": [
+      { "distribution": [
+        { "item": "longshirt", "prob": 75 },
+        { "item": "tshirt", "prob": 25 }
+      ] },
+      { "item": "jacket_army" },
+      { "item": "pants_army" },
+      { "item": "boots_combat" },
+      { "collection": [
+        { "item": "helmet_army" },
+        { "item": "helmet_liner" }
+      ] },
+      { "group": "underwear" },
+      { "distribution": [
+        { "item": "socks", "prob": 10 },
+        { "item": "socks_wool", "prob": 90 }
+      ] },
+      { "distribution": [
+        { "item": "fancy_sunglasses", "prob": 95 },
+        { "item": "glasses_bal", "prob": 5 }
+      ] },
+      { "group": "clothing_watch", "prob": 85 },
+      { "item": "goggles_ir", "prob": 10 }
+    ]
+  },
+  {
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
@@ -258,8 +288,6 @@
     "//": "Pants often worn by technicians and tradesmen.",
     "subtype": "distribution",
     "entries": [
-        { "item": "technician_pants_blue", "prob": 100 },
-        { "item": "technician_pants_ltblue", "prob": 100 },
         { "item": "technician_pants_gray", "prob": 100 }
     ]
   },
@@ -269,11 +297,7 @@
     "//": "Shirts and jackets often worn by technicians and labourers.",
     "items": [
       { "collection": [
-        { "distribution": [
-          { "item": "technician_shirt_blue", "prob": 100 },
-          { "item": "technician_shirt_ltblue", "prob": 100 },
-          { "item": "technician_shirt_gray", "prob": 100 }
-        ] },
+        { "item": "technician_shirt_gray", "prob": 100 },
         { "distribution": [
           { "item": "coat_rain", "prob": 30 },
           { "item": "jacket_jean", "prob": 20 },
