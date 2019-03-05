@@ -1917,7 +1917,7 @@ void npc::die( Creature *nkiller )
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
-        g->m.unboard_vehicle( pos() );
+        g->m.unboard_vehicle( pos(), true );
     }
 
     dead = true;
