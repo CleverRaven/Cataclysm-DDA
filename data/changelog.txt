@@ -1,4 +1,17 @@
-# 0.D (2019-01-01)
+# 0.D
+
+## Highlights:
+Dynamic Lighting.
+Many quality of life enhancements such as auto-pulp, autopickup and batch actions.
+Guns accept magazines when appropriate.
+Player faction base.
+Map memory.
+Carrying racks for small vehicles.
+Vehicle performance overhaul.
+Overhauled food spoilage.
+Overhauled bomb fragment handling.
+Extensive jsonization of NPC dialogue.
+Roughly DOUBLED the amount of in-game content.
 
 ## Features:
 
@@ -123,7 +136,6 @@ Removed restriction to blood draw kit so centrifuge can work with any container 
 Update washing machine to be able to use clean water.
 Add the ability to soak rags and cotton balls on disinfectant.
 Autoattack: Wait a turn if there is nothing in range.
-Carrion monster spawning.
 Changed CBM install and uninstall to require an Autodoc or a NPC doctor.
 Added control over amount of houses with basements, and basements can have individual weights.
 Adds option to disable music and sound.
