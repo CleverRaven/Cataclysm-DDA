@@ -12298,7 +12298,7 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
 bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {
-        if( need_charges ) {
+        if( it.is_tool() && need_charges ) {
             return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
         }
         return it.has_flag( flag );
