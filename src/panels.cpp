@@ -37,7 +37,6 @@ static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
-//power = 0;
 
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
