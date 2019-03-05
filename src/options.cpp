@@ -1517,7 +1517,7 @@ void options_manager::add_options_graphics()
     get_option( "PIXEL_MINIMAP_BRIGHTNESS" ).setPrerequisite( "PIXEL_MINIMAP" );
 
     add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel minimap height" ),
-         translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing.  Requires game restart to take effect." ),
+         translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
          0, 100, 0, COPT_CURSES_HIDE
        );
 
