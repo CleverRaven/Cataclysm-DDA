@@ -7284,7 +7284,7 @@ void centerlistview( const tripoint &active_item_position )
         } else {
             if( xpos < 0 ) {
                 u.view_offset.x = xpos;
-            // magic number is because terrain window is drawn underneath the sidebar
+                // magic number is because terrain window is drawn underneath the sidebar
             } else if( xpos >= TERRAIN_WINDOW_WIDTH - 11 ) {
                 u.view_offset.x = xpos - 48;
             } else {
