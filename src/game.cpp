@@ -7276,7 +7276,7 @@ void centerlistview( const tripoint &active_item_position )
                 u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 ) + xOffset;
             }
 
-            if( xpos < 0 ) {
+            if( ypos < 0 ) {
                 u.view_offset.y = ypos - yOffset;
             } else {
                 u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 ) + yOffset;
@@ -7284,8 +7284,9 @@ void centerlistview( const tripoint &active_item_position )
         } else {
             if( xpos < 0 ) {
                 u.view_offset.x = xpos;
-            } else if( xpos >= TERRAIN_WINDOW_WIDTH ) {
-                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 );
+            // magic number is because terrain window is drawn underneath the sidebar
+            } else if( xpos >= TERRAIN_WINDOW_WIDTH - 11 ) {
+                u.view_offset.x = xpos - 48;
             } else {
                 u.view_offset.x = 0;
             }
