@@ -364,33 +364,26 @@ extern input_manager inp_mngr;
 class input_context
 {
     public:
-#ifdef __ANDROID__
         // Whatever's on top is our current input context.
         static std::list<input_context *> input_context_stack;
-#endif
 
         input_context() : registered_any_input( false ), category( "default" ),
             handling_coordinate_input( false ) {
-#ifdef __ANDROID__
             input_context_stack.push_back( this );
             allow_text_entry = false;
-#endif
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {
-#ifdef __ANDROID__
             input_context_stack.push_back( this );
             allow_text_entry = false;
-#endif
         }
 
-#ifdef __ANDROID__
+
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
-
         // hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
             manual_key( long _key, const std::string &_text ) : key( _key ), text( _text ) {}
@@ -468,7 +461,6 @@ class input_context
         bool operator!=( const input_context &other ) const {
             return !( *this == other );
         }
-#endif
 
         /**
          * Register an action with this input context.
