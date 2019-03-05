@@ -1367,8 +1367,8 @@ Allowed recoil level to be translated.
 
 ## Statistics:
 
-3062 files changed, 2748553 insertions(+), 1829082 deletions(-)
-34,168 commits
+3264 files changed, 2945021 insertions(+), 1830394 deletions(-)
+37,593 commits
 ~700 contributors
 
 New game entities (core)
