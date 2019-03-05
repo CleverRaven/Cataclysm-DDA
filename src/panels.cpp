@@ -1494,6 +1494,7 @@ void draw_messages_classic( player &, const catacurses::window &w )
 void draw_mminimap( player &, const catacurses::window &w )
 {
     werase( w );
+    mvwputch( w, 0, 0, c_black, " " ); // fakeout!
     g->draw_pixel_minimap( w );
     wrefresh( w );
 }
