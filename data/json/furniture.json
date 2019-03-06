@@ -2318,7 +2318,7 @@
     "type": "furniture",
     "id": "f_wild_oats",
     "name": "wild oats",
-    "description": "A bundel of wild oats, which was oftentimes considered to be an unwanted weed overgrowing fields. However, that was before the cataclysm struck.",
+    "description": "A bundel of wild oats which was oftentimes considered to be an unwanted weed overgrowing fields.  However that was before the cataclysm struck.",
     "symbol": ",",
     "color": "brown",
     "move_cost_mod": 1,

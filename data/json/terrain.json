@@ -5202,7 +5202,7 @@
     "type": "terrain",
     "id": "t_shrub_dead_bush",
     "name": "dead bush",
-    "description": "The dried out remains of a bush. You may be able to salvage some materials from it.",
+    "description": "The dried out remains of a bush.  You may be able to salvage some materials from it.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 4,
