@@ -671,7 +671,7 @@ bool veh_interact::can_install_part() {
     //~ %1$s is quality name, %2$d is quality level
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                             qual.obj().name.c_str(), lvl );
-    std::string str_string = string_format( _( "strength %d" ), str );
+    std::string str_string = string_format( _( "strength ( assisted ) %d" ), str );
     msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
                           colorize( aid_string, aid_color),
                           colorize( str_string, str_color) ) << "\n";
@@ -993,6 +993,10 @@ bool veh_interact::do_repair( std::string &msg )
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
             sel_vehicle_part = &pt;
             sel_vpart_info = &vp;
+            auto helpers = g->u.get_crafting_helpers();
+            for( const npc *np : helpers ) {
+                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            }
             sel_cmd = 'r';
             break;
 
@@ -1484,7 +1488,7 @@ bool veh_interact::can_remove_part( int idx ) {
         ok = false;
     }
     //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-    msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
+    msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
 
@@ -1547,6 +1551,10 @@ bool veh_interact::do_remove( std::string &msg )
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
+            auto helpers = g->u.get_crafting_helpers();
+            for( const npc *np : helpers ) {
+                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            }
             sel_cmd = 'o';
             break;
         } else if( action == "QUIT" ) {
@@ -1630,7 +1638,7 @@ bool veh_interact::do_tirechange( std::string &msg )
         case LACK_TOOLS:
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
             msg = string_format( _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                                    "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
+                                    "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
                                  status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
                                  status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
             return false;
@@ -1656,6 +1664,10 @@ bool veh_interact::do_tirechange( std::string &msg )
         const std::string action = main_context.handle_input();
         if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
             is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
+            auto helpers = g->u.get_crafting_helpers();
+            for( const npc *np : helpers ) {
+                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            }
             sel_cmd = 'c';
             break;
 
@@ -2366,7 +2378,7 @@ void veh_interact::display_details( const vpart_info *part )
             label = small_mode ? _( "NoisRed" ) : _( "Noise Reduction" );
         } else if( part->has_flag( VPFLAG_EXTENDS_VISION ) ) {
             label = _( "Range" );
-        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) || 
+        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) ||
                    part->has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                    part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
                    part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||

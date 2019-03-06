@@ -499,7 +499,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( "QUARTERED" ) ) {
         time_to_cut /= 4;
     }
-
+    auto helpers = g->u.get_crafting_helpers();
+    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    time_to_cut = time_to_cut * ( 1 - ( helpersize / 10 ) );
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
@@ -1641,27 +1643,27 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     const tripoint pos( act->placement );
     item &it = p->i_at( act->position );
-
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
-
+    auto helpers = g->u.get_crafting_helpers();
+    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_hunger( 15 );
-        p->mod_thirst( 15 );
+        p->mod_hunger( 15 - ( helpersize  * 3 ) );
+        p->mod_thirst( 15 - ( helpersize  * 3 ) );
         if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
-            p->mod_fatigue( 20 ); // Yep, dwarves can dig longer before tiring
+            p->mod_fatigue( 20 - ( helpersize  * 3 ) ); // Yep, dwarves can dig longer before tiring
         } else {
-            p->mod_fatigue( 30 );
+            p->mod_fatigue( 30 - ( helpersize  * 3 ) );
         }
-        p->mod_pain( 2 * rng( 1, 3 ) );
+        p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger( 5 );
-        p->mod_thirst( 5 );
-        p->mod_fatigue( 10 );
+        p->mod_hunger( 5 - ( helpersize ) );
+        p->mod_thirst( 5 - ( helpersize ) );
+        p->mod_fatigue( 10 - ( helpersize  * 2 ) );
     }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
@@ -2744,10 +2746,11 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    auto helpers = g->u.get_crafting_helpers();
+    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
 
     act->set_to_null();
@@ -2766,9 +2769,11 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_dirt );
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    auto helpers = g->u.get_crafting_helpers();
+    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
@@ -2789,9 +2794,11 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     g->m.destroy( pos, true );
 
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    auto helpers = g->u.get_crafting_helpers();
+    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
 
     act->set_to_null();
@@ -2816,9 +2823,11 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_pit_shallow );
     }
 
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    auto helpers = g->u.get_crafting_helpers();
+    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
 
     act->set_to_null();
@@ -2845,10 +2854,11 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_dirt );
     }
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    auto helpers = g->u.get_crafting_helpers();
+    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
     act->set_to_null();

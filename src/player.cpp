@@ -3245,6 +3245,16 @@ void player::on_hit( Creature *source, body_part bp_hit,
     lua_callback( "on_player_hit", lua_callback_args_info );
 }
 
+int player::get_lift_assist() const
+{
+    int result = 0;
+    auto helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        result += np->get_str();
+    }
+    return result;
+}
+
 void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&

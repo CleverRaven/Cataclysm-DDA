@@ -14,6 +14,7 @@
 #include "item.h"
 #include "map_memory.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -890,7 +891,7 @@ class player : public Character
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
-
+        int get_lift_assist() const;
         /**
          * Select suitable ammo with which to reload the item
          * @param base Item to select ammo for
@@ -906,12 +907,13 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
+            int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
             } else if( has_trait( trait_id( "BADBACK" ) ) ) {
                 str /= 1.35;
             }
-            return str >= obj.lift_strength();
+            return str + npc_str >= obj.lift_strength();
         }
 
         /**
