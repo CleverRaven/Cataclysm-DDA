@@ -76,7 +76,7 @@ std::vector<std::vector<item_comp>> recipe_permutations( const
     return output;
 }
 
-int byproduct_calories( recipe recipe_obj )
+int byproduct_calories( const recipe &recipe_obj )
 {
 
     std::vector<item> byproducts = recipe_obj.create_byproducts();
@@ -89,7 +89,7 @@ int byproduct_calories( recipe recipe_obj )
     return kcal;
 }
 
-void print_itemcomp( std::vector<item_comp> list )
+void print_itemcomp( const std::vector<item_comp> &list )
 {
     printf( "error in permutation. list of components:\n" );
     for( const item_comp &itc : list ) {
@@ -116,7 +116,7 @@ TEST_CASE( "recipe_permutations" )
 {
     for( auto i = recipe_dict.begin(); i != recipe_dict.end(); i++ ) {
         // the resulting item
-        recipe recipe_obj = i->first.obj();
+        const recipe &recipe_obj = i->first.obj();
         item res_it = food_or_food_container( recipe_obj.create_result() );
         const bool is_food = res_it.is_food();
         const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
