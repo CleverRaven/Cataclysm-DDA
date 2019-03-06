@@ -109,7 +109,7 @@ int player::nutrition_for( const item &comest ) const
         }
         nutr /= comest.recipe_charges;
     } else {
-        nutr = comest.type->comestible->nutr;
+        nutr = comest.type->comestible->get_nutr();
     }
 
     if( has_trait( trait_GIZZARD ) ) {
@@ -904,7 +904,7 @@ void player::consume_effects( const item &food )
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
-        int h_loss = -rottedness * comest.nutr;
+        int h_loss = -rottedness * comest.get_nutr();
         mod_healthy_mod( h_loss, -200 );
         add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
