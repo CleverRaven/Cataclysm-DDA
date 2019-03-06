@@ -1191,16 +1191,29 @@ bool player::feed_furnace_with( item &it )
             it.tname().c_str() );
     } else {
         const int profitable_energy = std::min( energy, max_power_level - power_level );
-        add_msg_player_or_npc( m_info,
-                               ngettext( "You digest your %s and recharge %d point of energy.",
-                                         "You digest your %s and recharge %d points of energy.",
-                                         profitable_energy
-                                       ),
-                               ngettext( "<npcname> digests a %s and recharges %d point of energy.",
-                                         "<npcname> digests a %s and recharges %d points of energy.",
-                                         profitable_energy
-                                       ), it.tname().c_str(), profitable_energy
-                             );
+        if( it.count_by_charges() ) {
+            add_msg_player_or_npc( m_info,
+                                   ngettext( "You digest %d %s and recharge %d point of energy.",
+                                             "You digest %d %s and recharge %d points of energy.",
+                                             profitable_energy
+                                           ),
+                                   ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
+                                             "<npcname> digests %d %s and recharges %d points of energy.",
+                                             profitable_energy
+                                           ), consumed_charges, it.tname().c_str(), profitable_energy
+                                 );
+        } else {
+            add_msg_player_or_npc( m_info,
+                                   ngettext( "You digest your %s and recharge %d point of energy.",
+                                             "You digest your %s and recharge %d points of energy.",
+                                             profitable_energy
+                                           ),
+                                   ngettext( "<npcname> digests a %s and recharges %d point of energy.",
+                                             "<npcname> digests a %s and recharges %d points of energy.",
+                                             profitable_energy
+                                           ), it.tname().c_str(), profitable_energy
+                                 );
+        }
         charge_power( profitable_energy );
     }
 
