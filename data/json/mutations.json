@@ -170,6 +170,7 @@
         "description" : "You're a quick reader, and can get through books a lot faster than most.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["ALPHA"],
         "cancels" : ["ILLITERATE", "SLOWREADER"]
     },{
         "type" : "mutation",
@@ -263,6 +264,7 @@
         "description" : "You have a flexible mind, allowing you to learn skills much faster than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["ALPHA"],
         "cancels" : ["SLOWLEARNER"]
     },{
         "type" : "mutation",
@@ -282,6 +284,7 @@
         "description" : "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["ALPHA"],
         "cancels" : ["FORGETFUL"]
     },{
         "type" : "mutation",
@@ -762,6 +765,7 @@
         "description" : "Your skin is fragile.  Cutting damage is slightly increased for you.",
         "starting_trait" : true,
         "cancels" : ["THICKSKIN"],
+        "category" : ["ALPHA"],
         "armor" : [ { "parts" : "ALL", "cut" : -1 } ]
     },{
         "type" : "mutation",
@@ -3832,8 +3836,8 @@
         "//" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
         "points" : -1,
         "description" : "Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
-        "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
-        "category" : ["MEDICAL", "CHIMERA"]
+        "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA", "THRESH_ALPHA"],
+        "category" : ["MEDICAL", "CHIMERA", "ALPHA"]
     },{
         "type" : "mutation",
         "id" : "HEADBUMPS",
@@ -4237,7 +4241,7 @@
         "starting_trait" : true,
         "changes_to" : ["THIRST2"],
         "cancels" : ["NO_THIRST" ],
-        "category" : ["SLIME", "CEPHALOPOD", "CHIMERA", "ELFA"],
+        "category" : ["SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "ALPHA"],
         "thirst_modifier": 0.5
     },{
         "type" : "mutation",
