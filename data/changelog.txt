@@ -183,8 +183,8 @@ Added autopickup rules based on material types.
 Artifacts can consume Portals.
 Update the fireman belt to allow attachments from fire axes, war hammers, and maces.
 Adds stealth modifier as JSON-ized mutation property.
-npctalk: add support for NPC backstories.
-npctalk: NPC group commands to guard and follow.
+Npctalk: add support for NPC backstories.
+Npctalk: NPC group commands to guard and follow.
 NPCs can hear monsters and warn the player about them.
 NPC: Warn the player about dangerous monsters.
 Background traits - framework for dialogue update.
@@ -219,7 +219,7 @@ Forests now partially block wind turbines output.
 Enabled snowstorms - wet and glare effects for snow.
 Made wind effects directional, including adding a lee side to structures.
 Added gunmods that wear out over time or quickly.
-Adds ranged attacks mutations (using fake guns).
+Adds ranged attack mutations (using fake guns).
 
 ## Content:
 
@@ -572,7 +572,7 @@ Allow viewing long mod descriptions.
 Amount of mods of an item is now displayed as an integer following its name.
 Android quick shortcut dimensions now account for screen density, defaulting to a sensible size on all devices.
 Many options for selecting units to display.
-npctalk: create a big dialogue window.
+Npctalk: create a big dialogue window.
 Even when only capital inputs are allowed, using lowercase inputs should still set the dialog cursor.
 Enhanced limb menu (body window) and textified healing related effects.
 B menu show butcher, disassemble and salvage times.
@@ -987,7 +987,7 @@ Prevent heat induced vomiting until dead.
 Folding vehicles: improve collision test when unfolding.
 Fix item category names not updated when switching the language.
 Fixed lightmap-related crashes in MinGW 64-bit executables.
-npc: NPCs on guard duty in a vehicle stay in the vehicle.
+Npc: NPCs on guard duty in a vehicle stay in the vehicle.
 Fixes isometric tile rendering.
 Npc: friendly NPCs only warn about hostile monsters.
 Fix bomb fragment placement with z-levels on.
@@ -1012,7 +1012,7 @@ Fix NPC weapon wielding turn cost.
 Fix monsters' special attack description not translated.
 Fix aiming via mouse click.
 Skinning animals smaller than Great Pyrenees now possible.
-vehicles: don't let drag stop vehicles in active cruise control.
+Vehicles: don't let drag stop vehicles in active cruise control.
 No map extras in refugee center (for now).
 Greater search range for refugee camp bandit missions.
 Allows vehicles with a seed-drill to plant seeds
@@ -1021,7 +1021,7 @@ Fix crash related to null pointer in creature tracker.
 Make fire extinguishers work again.
 Fix ASCII fallback for corpses.
 vehicles: improve split logic.
-game: adjust vehicle driving offset based on the new speeds.
+Game: adjust vehicle driving offset based on the new speeds.
 Unloading ammunition belt can be interrupted.
 Fix HP not being recalculated during chargen.
 Restore ability to use recipes from eink tablet.
@@ -1029,7 +1029,7 @@ Made Mycus Fireproofing and Mycogenesis consistent, and they will no longer prev
 Correct several uses of distance metrics.
 basecamp: retrieve companions sent to do expansion crafting.
 Fix wall connectedness on tiles builds with tiles disabled.
-vehicles: only sink vehicles in deep water.
+Vehicles: only sink vehicles in deep water.
 Prevent NPC duplications when climbing stairs and colliding with a monster.
 Prevent zone activities from working across z-levels.
 Fix lighting of exterior walls by player-held light sources at night.
@@ -1037,7 +1037,7 @@ Move control laptop time investment to be before hacking attempt.
 Respect `looks_like` for memorized tiles.
 Disallow pseudo items in crafting component selection.
 Fix calculation of chance to persuade NPCs to train.
-npc: fix NPC followers not closing doors.
+Npc: fix NPC followers not closing doors.
 Serialize recipe charges.
 Fixed NPC dialog around lying and succeeding at missions.
 More mall background tiles will match floor.
@@ -1092,7 +1092,7 @@ Faster item layer computation.
 Improve performance of encumbrance calculations.
 Lazily load sound effects as they are encountered instead of at application startup unless explicitly preloaded.
 Faster color name lookup.
-remove recursive call from open_or_close() .
+Remove recursive call from open_or_close().
 Performance boost for SDL drawing using color modulated textures.
 Improve sorting large numbers of items into zones.
 Optimize inbounds check and reactor lookup.
@@ -1262,30 +1262,30 @@ Replace tag_colored_string with colorize.
 Run tests for CMake CI build.
 Simpler test randomness seeding.
 Enable functional boats phase.
-npctalk: add more conditions and dynamic line options.
-npc: remove hardcoded mutation modifiers to opinions and use JSON values
+Npctalk: add more conditions and dynamic line options.
+Npc: remove hardcoded mutation modifiers to opinions and use JSON values
 Adds not-quite implemented basic analytical tools for chemistry.
 Fix city districts and increase default size.
-npctalk: add u_sell_item effect.
-npctalk: add a simple pseudo-switch for responses.
+Npctalk: add u_sell_item effect.
+Npctalk: add a simple pseudo-switch for responses.
 Fix NPC class loadout selection.
-npctalk: add mutation threshold flags, static and starting NPC traits, and a basecamp count.
+Npctalk: add mutation threshold flags, static and starting NPC traits, and a basecamp count.
 Document units for power and energy_consumption.
 Replaced hardcoded terrain list with checking of terrain flag.
 Change within_visual_range function to reflect usage.
 Allow more specific control over tests run in CI.
 Improves structure of background stories to prepare for other types of inquiry.
 Improvements to player_activity regarding distractions.
-npctalk: add true/false responses and CONDITION trials to JSON.
+Npctalk: add true/false responses and CONDITION trials to JSON.
 Allow flag-based blacklisting and whitelisting of overmap locations on a per-region basis.
-npctalk: add a bunch of new options to JSON.
+Npctalk: add a bunch of new options to JSON.
 Rationalize Visual Studio compatibility code.
 Mutation loading now uses generic_factory.
 Make route_adjacent available to all activity handlers.
 Moved wind generation variables to regional_map_settings.json.
-npctalk: move NPC needs to JSON.
-npctalk: move NPC follower AI rules to JSON.
-npctalk: move almost all dialogue into JSON.
+Npctalk: move NPC needs to JSON.
+Npctalk: move NPC follower AI rules to JSON.
+Npctalk: move almost all dialogue into JSON.
 JSONnizing CBM slot feature.
 Land Use Codes infrastructure.
 Moves allergen handling vitamin absorption to JSON.
@@ -1407,7 +1407,7 @@ Allowed recoil level to be translated.
 
 ## Statistics:
 3271 files changed, 4621405 insertions(+), 1700313 deletions(-)
-37,604
+37,604 commits
 ~700 contributors
 
 New game entities (core)
