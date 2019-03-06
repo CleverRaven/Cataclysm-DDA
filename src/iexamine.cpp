@@ -1035,7 +1035,7 @@ void iexamine::pit_covered(player &p, const tripoint &examp)
  */
 void iexamine::slot_machine( player &p, const tripoint& )
 {
-    if (p.cash < 10) {
+    if (p.cash < 1000) {
         add_msg(m_info, _("You need $10 to play."));
     } else if (query_yn(_("Insert $10?"))) {
         do {
@@ -1043,18 +1043,18 @@ void iexamine::slot_machine( player &p, const tripoint& )
                 popup(_("Three cherries... you get your money back!"));
             } else if (one_in(20)) {
                 popup(_("Three bells... you win $50!"));
-                p.cash += 40; // Minus the $10 we wagered
+                p.cash += 4000; // Minus the $10 we wagered
             } else if (one_in(50)) {
                 popup(_("Three stars... you win $200!"));
-                p.cash += 190;
+                p.cash += 19000;
             } else if (one_in(1000)) {
                 popup(_("JACKPOT!  You win $3000!"));
-                p.cash += 2990;
+                p.cash += 299000;
             } else {
                 popup(_("No win."));
-                p.cash -= 10;
+                p.cash -= 1000;
             }
-        } while (p.cash >= 10 && query_yn(_("Play again?")));
+        } while (p.cash >= 1000 && query_yn(_("Play again?")));
     }
 }
 
@@ -3822,10 +3822,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( &installer == &null_player ) {
                 return;
             }
-
-            //~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient name
-            add_msg( _( "%1$s prepares to install the %2$s on %3$s." ), installer.name,
-                     it->display_name().c_str(), patient.name );
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {

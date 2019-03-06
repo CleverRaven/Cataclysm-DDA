@@ -889,7 +889,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
 }
 
-void map::unboard_vehicle( const tripoint &p )
+void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 {
     const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
     player *passenger = nullptr;
@@ -904,14 +904,20 @@ void map::unboard_vehicle( const tripoint &p )
         return;
     }
     passenger = vp->vehicle().get_passenger( vp->part_index() );
+    // Mark the part as un-occupied regardless of whether there's a live passenger here.
+    vp->part().remove_flag( vehicle_part::passenger_flag );
     if( !passenger ) {
-        debugmsg( "map::unboard_vehicle: passenger not found" );
+        if( !dead_passenger ) {
+            debugmsg( "map::unboard_vehicle: passenger not found" );
+        }
         return;
     }
     passenger->in_vehicle = false;
+    // Only make vehicle go out of control if the driver is the one unboarding.
+    if( passenger->controlling_vehicle ) {
+        vp->vehicle().skidding = true;
+    }
     passenger->controlling_vehicle = false;
-    vp->part().remove_flag( vehicle_part::passenger_flag );
-    vp->vehicle().skidding = true;
     vp->vehicle().invalidate_mass();
 }
 
@@ -1706,6 +1712,9 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const maptile up = maptile_at( up_p );
     const ter_t &up_ter = up.get_ter_t();
+    if( up_ter.id.is_null() ) {
+        return false;
+    }
     // Checking for ledge is a workaround for the case when mapgen doesn't
     // actually make a valid ledge drop location with zlevels on, this forces
     // at least one zlevel drop and if down_ter is impassible it's probably
@@ -1719,6 +1728,9 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const maptile down = maptile_at( down_p );
     const ter_t &down_ter = down.get_ter_t();
+    if( down_ter.id.is_null() ) {
+        return false;
+    }
 
     if( !up_is_ledge && down_ter.movecost == 0 ) {
         // Unpassable tile

@@ -7823,9 +7823,7 @@ bool player::wield( item& target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( string_format( _( "Draw %s from %s?" ),
-                                     target.get_contained().tname().c_str(),
-                                     target.tname().c_str() ) ) ) {
+        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
             invoke_item( &target );
             return false;
         }
@@ -11265,7 +11263,7 @@ std::string player::weapname() const
                 }
             }
         }
-        return "Weapon  : " + str;
+        return _( "Weapon:" ) + std::string( " " ) + str;
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
@@ -11275,7 +11273,7 @@ std::string player::weapname() const
         return _( "Weapon  : fists" );
 
     } else {
-        return "Weapon  : " + weapon.tname();
+      return _( "Weapon:" ) + std::string( " " ) + weapon.tname();
     }
 }
 

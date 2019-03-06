@@ -6539,7 +6539,11 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
 {
-    auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    visibility_type visibility = VIS_HIDDEN;
+    const bool inbounds = m.inbounds( lp );
+    if( inbounds ) {
+        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    }
     switch( visibility ) {
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
@@ -6574,7 +6578,9 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             }
             break;
     }
-
+    if( !inbounds ) {
+        return;
+    }
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
         mvwprintw( w_look, ++line, 1, _( "You heard %s from here." ), this_sound.c_str() );
@@ -9945,6 +9951,15 @@ void game::wield( item_location &loc )
         add_msg( m_info, "%s", ret.c_str() );
     }
 
+    // Need to do this here because holster_actor::use() checks if/where the item is worn
+    item &target = *loc.get_item();
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+            u.invoke_item( &target );
+            return;
+        }
+    }
+
     // Can't use loc.obtain() here because that would cause things to spill.
     item to_wield = *loc.get_item();
     item_location::type location_type = loc.where();
@@ -11776,6 +11791,12 @@ void game::vertical_move( int movez, bool force )
     if( m.ter( stairs ) == t_manhole_cover ) {
         m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), "manhole_cover" );
         m.ter_set( stairs, t_manhole );
+    }
+
+    // Wouldn't work and may do strange things
+    if( u.is_hauling() && !m.has_zlevels() ) {
+        add_msg( _( "You cannot haul items here." ) );
+        u.stop_hauling();
     }
 
     if( u.is_hauling() ) {
