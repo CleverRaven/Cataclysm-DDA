@@ -77,6 +77,7 @@
         "points" : 3,
         "description" : "You're just generally quick!  You get a 10% bonus to action points.",
         "starting_trait" : true,
+        "changes_to" : ["QUICK2"],
         "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE"]
     },{
         "type" : "mutation",
@@ -109,7 +110,7 @@
         "starting_trait" : true,
         "cancels" : ["MET_RAT"],
         "types" : ["METABOLISM"],
-        "changes_to" : [ "GIZZARD", "COLDBLOOD" ],
+        "changes_to" : [ "COLDBLOOD" ],
         "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE"],
         "metabolism_modifier": -0.333
     },{
@@ -845,6 +846,14 @@
         "cancels" : ["ANTIJUNK"],
         "changes_to" : ["PROJUNK2"],
         "category" : ["MOUSE", "INSECT"]
+    },{
+        "type" : "mutation",
+        "id" : "PROGRAIN",
+        "name" : "Grain Guzzler",
+        "points" : 1,
+        "description" : "Your digestive system has changed to process grains better. You enjoy eating grains and flour more than most.",
+        "cancels" : ["ANTIWHEAT"],
+        "category" : ["MOUSE", "RAT", "BIRD"]
     },{
         "type" : "mutation",
         "id" : "PROJUNK2",
@@ -2537,14 +2546,84 @@
         "id" : "GIZZARD",
         "name" : "Gizzard",
         "points" : -5,
-        "description" : "You seem to get full faster now, and food goes through you more rapidly as well.",
+        "description" : "Your digestive system is well-adapted to digesting food, particularly grains. Slightly increases the energy gained through eating",
         "valid" : false,
         "purifiable" : false,
-        "prereqs" : ["BEAK", "BEAK_PECK", "BEAK_HUM"],
-        "prereqs2" : ["LIGHTEATER"],
+        "prereqs" : ["BEAK", "BEAK_PECK", "BEAK_HUM", "BEAK_FLAT"],
+        "prereqs2" : ["PROGRAIN"],
         "threshreq" : ["THRESH_BIRD"],
         "cancels" : ["GOURMAND"],
         "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "FLEET3",
+        "name" : "Sub-Sonic Sprinter",
+        "points" : 5,
+        "description" : "Your legs are insanely limber and fast-moving.  You move 40% faster on flat surfaces and 10% faster on uneven surfaces.",
+        "prereqs" : ["FLEET2"],
+        "types" : ["RUNNING"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "QUICK2",
+        "name" : "Quickerer",
+        "points" : 3,
+        "description" : "You're incredibly fast!  You get a 20% bonus to action points.",
+        "threshreq" : ["THRESH_BIRD"],
+        "prereqs" : ["QUICK"],
+        "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "TALONS_STIFF",
+        "name" : "Stiff Talons",
+        "points" : -2,
+        "visibility" : 4,
+        "ugliness" : 2,
+        "mixed_effect" : true,
+        "description" : "Your legs have become much thinner and harder, and your feet have changed to stiff talons. They prevent you from wearing footwear, but give extra protection. They're pretty sharp too.",
+        "valid" : false,
+        "types" : ["LEGS"],
+        "changes_to" : ["TALONS_FLEX"],
+        "category" : ["BIRD"],
+        "restricts_gear" : [ "FOOT_L", "FOOT_R" ],
+        "destroys_gear" : true,
+        "attacks" : {
+            "attack_text_u" : "You stab %s with a talon",
+            "attack_text_npc" : "%1$s stabs %2$s with a talon",
+            "chance" : 20,
+            "strength_damage" : { "damage_type" : "stab", "amount" : 4 }
+        }
+    },{
+        "type" : "mutation",
+        "id" : "TALONS_FLEX",
+        "name" : "Flexible Talons",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 2,
+        "mixed_effect" : false,
+        "description" : "The long talons on your feet have become shorter, and much more flexible, enabling you to wear shoes again. Provides a small boost to speed and dodging if nothing is worn over them.",
+        "valid" : false,
+        "types" : ["LEGS"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["BIRD"],
+        "attacks" : {
+            "attack_text_u" : "You stab %s with a talon",
+            "attack_text_npc" : "%1$s stabs %2$s with a talon",
+            "chance" : 20,
+            "strength_damage" : { "damage_type" : "stab", "amount" : 2 }
+        }
+    },{
+        "type" : "mutation",
+        "id" : "PREENING",
+        "name" : "Preening",
+        "points" : 3,
+        "description" : "There's nothing more delighting than having clean, straight feathers! Activate to preen yourself.",
+        "category" : ["BIRD"],
+        "prereqs" : ["FEATHERS", "ARM_FEATHERS"],
+        "valid" : false,
+        "active"     :    true,
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "M_DEPENDENT",
@@ -2554,7 +2633,7 @@
         "valid" : false,
         "purifiable" : false,
         "threshreq" : ["THRESH_MYCUS"],
-        "cancels" : ["GOURMAND", "BEAK", "BEAK_PECK", "BEAK_HUM"],
+        "cancels" : ["GOURMAND", "BEAK", "BEAK_PECK", "BEAK_HUM", "BEAK_FLAT"],
         "category" : ["MYCUS"]
     },{
         "type" : "mutation",
@@ -2752,6 +2831,7 @@
         "points" : 3,
         "description" : "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
         "prereqs" : ["FLEET"],
+        "changes_to" : ["FLEET3"],
         "types" : ["RUNNING"],
         "category" : ["BIRD"]
     },{
@@ -3169,13 +3249,29 @@
         "points" : 2,
         "visibility" : 4,
         "ugliness" : 2,
-        "description" : "You've grown stiff wings that sprout from your back. They don’t fold, making them an easy target, and making it harder to wear gear. Reduces fall damage.",
+        "description" : "You've grown stiff wings that sprout from your back. They don't fold, making them easier to damage, and making it harder to wear gear. Reduces fall damage.",
         "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
+        "changes_to" : ["WINGS_FOLDING"],
         "encumbrance_covered" : [
             [ "TORSO", 10 ]
         ],
         "armor" : [ { "parts" : "TORSO", "bash" : -2 } ],
+        "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "WINGS_FOLDING",
+        "name" : "Folding Wings",
+        "points" : 2,
+        "visibility" : 2,
+        "ugliness" : 2,
+        "description" : "Your wings have become more flexible, allowing you to fold them against your body. They no longer encumber you, and negate fall damage.",
+        "types" : ["WINGS"],
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : [WINGS_BIRD],
+        "threshreq" : ["THRESH_BIRD"],
+        "armor" : [ { "parts" : "TORSO", "bash" : 2 } ],
         "category" : ["BIRD"]
     },{
         "type" : "mutation",
@@ -4049,7 +4145,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing.  Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
+        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "BEAK_FLAT", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
         "category" : ["FELINE"]
     },{
         "type" : "mutation",
@@ -4454,7 +4550,7 @@
         "mixed_effect" : true,
         "description" : "You have a beak for a mouth.  You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
         "types" : ["TEETH", "MUZZLE"],
-        "changes_to" : ["BEAK_HUM", "BEAK_PECK"],
+        "changes_to" : ["BEAK_HUM", "BEAK_PECK", "BEAK_FLAT"],
         "category" : ["BIRD", "CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
@@ -4479,8 +4575,9 @@
         "valid" : false,
         "purifiable" : false,
         "types" : ["TEETH", "MUZZLE"],
-        "cancels" : ["MOUTH_TENTACLES"],
-        "prereqs" : ["BEAK"],
+        "cancels" : ["MOUTH_TENTACLES", "BEAK_FLAT", "BEAK_HUM"],
+        "changes_to" : ["BEAK_HUM", "BEAK_FLAT"],
+        "prereqs" : ["BEAK", "BEAK_FLAT", "BEAK_PECK"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["BIRD"],
         "wet_protection" : [
@@ -4508,8 +4605,9 @@
         "valid" : false,
         "purifiable" : false,
         "types" : ["TEETH", "MUZZLE"],
-        "cancels" : ["MOUTH_TENTACLES"],
-        "prereqs" : ["BEAK"],
+        "cancels" : ["MOUTH_TENTACLES", "BEAK_FLAT", "BEAK_PECK"],
+        "changes_to" : ["BEAK_PECK", "BEAK_FLAT"],
+        "prereqs" : ["BEAK", "BEAK_FLAT", "BEAK_PECK"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["BIRD"],
         "wet_protection" : [
@@ -4518,6 +4616,23 @@
         "active" : true,
         "restricts_gear" : [ "MOUTH" ],
         "destroys_gear" : true
+    },{
+        "type" : "mutation",
+        "id" : "BEAK_FLAT",
+        "name" : "Stumpy Beak",
+        "points" : -2,
+        "visibility" : 10,
+        "ugliness" : 5,
+        "description" : "Your beak has become flat, wide and short, and no longer restricts mouth gear.It provides a small amount of protection to your mouth.",
+        "valid" : false,
+        "purifiable" : false,
+        "types" : ["TEETH", "MUZZLE"],
+        "cancels" : ["MOUTH_TENTACLES", "BEAK_HUM", "BEAK_PECK"],
+        "changes_to" : ["BEAK_HUM", "BEAK_PECK"],
+        "prereqs" : ["BEAK", "BEAK_HUM", "BEAK_PECK"],
+        "armor" : [ { "parts" : "MOUTH", "bash" : 2 } ],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["BIRD"]
     },{
         "type" : "mutation",
         "id" : "UNSTABLE",
