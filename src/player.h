@@ -831,6 +831,8 @@ class player : public Character
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;
 
+        /** Handles the kcal value for a comestible **/
+        int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/

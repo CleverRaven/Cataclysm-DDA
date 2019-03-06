@@ -1079,9 +1079,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         food_item = &contents.front();
     }
     if( food_item != nullptr ) {
-        if( g->u.nutrition_for( *food_item ) != 0 || food_item->type->comestible->quench != 0 ) {
+        if( g->u.kcal_for( *food_item ) != 0 || food_item->type->comestible->quench != 0 ) {
             if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
-                auto value = g->u.nutrition_for( *food_item ) * islot_comestible::kcal_per_nutr;
+                auto value = g->u.kcal_for( *food_item );
                 info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
                                           "", iteminfo::no_newline, value ) );
             }
