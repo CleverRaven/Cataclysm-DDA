@@ -20,7 +20,7 @@
         "|": "t_wall",
         ";": "t_concrete_wall",
         "*": "t_ladder_up",
-        "=": "t_door_metal_pickable"
+        "=": "t_door_locked_interior"
     },
     "furniture": {
         "b": "f_bench",
