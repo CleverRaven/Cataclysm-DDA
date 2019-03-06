@@ -2318,12 +2318,15 @@
     "type": "furniture",
     "id": "f_wild_oats",
     "name": "wild oats",
+	"description": "A bundel of wild oats, which was oftentimes considered to be an unwanted weed overgrowing fields. However, that was before the cataclysm struck.",
     "symbol": ",",
     "color": "brown",
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
     "examine_action": "harvest_furn_nectar",
+	"looks_like": "wheat",
+	"//": "As there is no tile remotely looking distinct enough, I have to refer to the item.",
     "harvest_by_season": [
       {
         "seasons": [ "summer", "autumn" ],
@@ -2343,12 +2346,15 @@
     "type": "furniture",
     "id": "f_wild_wheat",
     "name": "wild wheat",
+	"description": "A small patch of wild wheat plants, one of the many 'roadside flowers' of rural areas, now able to grow more freely.",
     "symbol": ",",
     "color": "brown",
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
     "examine_action": "harvest_furn_nectar",
+	"looks_like": "wheat",
+	"//": "As there is no tile remotely looking distinct enough, I have to refer to the item.",
     "harvest_by_season": [
       {
         "seasons": [ "summer", "autumn" ],

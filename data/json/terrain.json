@@ -5202,12 +5202,14 @@
     "type": "terrain",
     "id": "t_shrub_dead_bush",
     "name": "dead bush",
+	"description": "The dried out remains of a bush. You may be able to salvage some materials from it.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_dead_bush_harvested",
     "examine_action": "harvest_ter_nectar",
+	"looks_like": "t_shrub",
     "harvest_by_season": [
       {
         "seasons": [ "spring", "summer", "autumn", "winter" ],
@@ -5233,6 +5235,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_dead_bush",
     "examine_action": "harvested_plant",
+	"looks_like": "t_shrub",
     "bash": {
       "str_min": 4,
       "str_max": 30,
