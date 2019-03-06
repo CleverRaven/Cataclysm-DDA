@@ -3,13 +3,16 @@
 ## Highlights:
 
 Dynamic Lighting.
-Many quality of life enhancements such as auto-pulp, autopickup and batch actions.
+Many quality of life enhancements such as auto-pulp, autopickup, batch actions,
+interacting with adjacent items and improved long-action handling.
 Guns accept magazines when appropriate.
-Player faction base.
-Map memory.
+Player stamina stat that is burned by running and other physical exertion.
+Player faction base that allows incremental growth and autonomous work by NPCs.
+The player remembers terrain and furniture they have seen,
+and can freely scroll through these remembered areas.
 Carrying racks for small vehicles.
-Vehicle performance overhaul.
-Overhauled food spoilage.
+Vehicle system (speed, fuel consumption, terrain effects) overhaul.
+Overhauled nutrition, food spoilage and food state changes.
 Overhauled bomb fragment handling.
 Extensive jsonization of NPC dialogue.
 Roughly DOUBLED the amount of in-game content.
