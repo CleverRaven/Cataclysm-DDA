@@ -141,8 +141,8 @@ TEST_CASE( "recipe_permutations" )
                             lower_bound, mystats.calories.avg(), upper_bound );
                 }
                 CHECK( mystats.calories.min() >= 0 );
-                REQUIRE( lower_bound < mystats.calories.avg() );
-                REQUIRE( mystats.calories.avg() < upper_bound );
+                CHECK( lower_bound < mystats.calories.avg() );
+                CHECK( mystats.calories.avg() < upper_bound );
             }
         }
     }
