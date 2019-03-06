@@ -2316,6 +2316,60 @@
   },
   {
     "type": "furniture",
+    "id": "f_wild_oats",
+    "name": "wild oats",
+    "symbol": ",",
+    "color": "brown",
+    "move_cost_mod": 1,
+	"required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer", "autumn" ],
+        "entries": [
+          { "drop": "wild_oats", "base_num": [ 1, 3 ], "scaled_num": [ 0, 0.5 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_wild_wheat",
+    "name": "wild wheat",
+    "symbol": ",",
+    "color": "brown",
+    "move_cost_mod": 1,
+	"required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer", "autumn" ],
+        "entries": [
+          { "drop": "wild_wheat", "base_num": [ 1, 3 ], "scaled_num": [ 0, 0.5 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_forge",
     "name": "forge",
     "description": "Metalworking station typically used in combination with an anvil.",
