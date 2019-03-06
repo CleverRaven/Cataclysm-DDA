@@ -1,4 +1,4 @@
-# 0.D
+# 0.D (Danny)
 
 ## Highlights:
 
@@ -216,6 +216,10 @@ Shout commands for NPC wake-up and relax.
 Food recipe results' calories and vitamins now based on components.
 Adds skinning butchery action.
 Forests now partially block wind turbines output.
+Enabled snowstorms - wet and glare effects for snow.
+Made wind effects directional, including adding a lee side to structures.
+Added gunmods that wear out over time or quickly.
+Adds ranged attacks mutations (using fake guns).
 
 ## Content:
 
@@ -357,7 +361,11 @@ Added new Martial Art: Sōjutsu.
 Upgrades the outer walls of the refugee center and fills the waiting area with beggars.
 Allow multiple inputs for rifle portion of rifle turret.
 Adds new vehicle part : a wind turbine.
-Generates wind direction and improves wind strength random-ness.
+Adds Free Merchant currency.
+Adds methanol and ether as a possible Molotov components.
+Add "classic literature" and "collector's edition" books, move choice book spawns to library, and adjust library/mansion book spawns overall.
+Adds the possiblitiy to find an evil moose in the kitten finding game.
+Adds new furniture flag that restricts vision when in the furniture.
 
 ## Interface:
 
@@ -611,6 +619,9 @@ Status includes approximate times for NPC needs.
 Crafting GUI Filter saves history; possibility to move trough history with arrow keys.
 Changes text color to match map note color.
 Bind '?' to open keybindings window by default.
+Display scenario description after game start.
+Alternative night vision intensity.
+Added scaling option to resize screen elements in SDL mode for use on large screens.
 
 ## Mods:
 
@@ -676,6 +687,7 @@ Adds new mod Growable pots.
 Mainlined Tall Buildings mod.
 Add urban development buildings to city spawns.
 Salvaged Robots: More robot themed professions.
+USABLE_FIRE tag makes terrain or furniture usable as a nearby fire for crafting.
 
 ## Balance:
 
@@ -859,6 +871,7 @@ Made vitamin deficiencies slower to accumulate.
 Rebalances recipes to be closer in calorie count for input and output.
 Increases duration of most morale effects
 Rapid metabolism made purifiable.
+Joint Torsion increases stamina usage when moving.
 
 ## Bugfixes:
 
@@ -1026,6 +1039,13 @@ Disallow pseudo items in crafting component selection.
 Fix calculation of chance to persuade NPCs to train.
 npc: fix NPC followers not closing doors.
 Serialize recipe charges.
+Fixed NPC dialog around lying and succeeding at missions.
+More mall background tiles will match floor.
+Stop people from randomly mutating new hair styles.
+Silence error message when monster AI traverses an off-map vehicle.
+Fix handling of NPC passenger removal.
+Fix check for available wheels when changing tires.
+Disallow washing in the dark.
 
 ## Performance:
 
@@ -1076,6 +1096,7 @@ remove recursive call from open_or_close() .
 Performance boost for SDL drawing using color modulated textures.
 Improve sorting large numbers of items into zones.
 Optimize inbounds check and reactor lookup.
+Large optimizations to dynamic lighting via a fast exp approximation.
 
 ## Infrastructure:
 
@@ -1266,6 +1287,9 @@ npctalk: move NPC needs to JSON.
 npctalk: move NPC follower AI rules to JSON.
 npctalk: move almost all dialogue into JSON.
 JSONnizing CBM slot feature.
+Land Use Codes infrastructure.
+Moves allergen handling vitamin absorption to JSON.
+Refactor advanced inventory item movement to use activities.
 
 ## Build:
 
@@ -1382,9 +1406,8 @@ Provide context for translating strings of monster abilities.
 Allowed recoil level to be translated.
 
 ## Statistics:
-
-3264 files changed, 2945021 insertions(+), 1830394 deletions(-)
-37,593 commits
+3271 files changed, 4621405 insertions(+), 1700313 deletions(-)
+37,604
 ~700 contributors
 
 New game entities (core)
