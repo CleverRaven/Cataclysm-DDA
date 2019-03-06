@@ -2346,7 +2346,7 @@
     "type": "furniture",
     "id": "f_wild_wheat",
     "name": "wild wheat",
-    "description": "A small patch of wild wheat plants, one of the many 'roadside flowers' of rural areas, now able to grow more freely.",
+    "description": "A small patch of wild wheat plants.  One of the many 'roadside flowers' of rural areas which is now able to grow more freely.",
     "symbol": ",",
     "color": "brown",
     "move_cost_mod": 1,
