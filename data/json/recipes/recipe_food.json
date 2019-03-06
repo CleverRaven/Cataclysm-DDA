@@ -2736,7 +2736,7 @@
     "time": 45000,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "oats", 2 ], [ "wild_oats", 4] ] ]
+    "components": [ [ [ "oats", 2 ], [ "wild_oats", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -4691,8 +4691,8 @@
         [ "oats", 4 ],
         [ "starch", 1 ],
         [ "dry_rice", 5 ],
-		[ "wild_wheat", 2],
-		[ "wild_oats", 8]
+        [ "wild_wheat", 2 ],
+        [ "wild_oats", 8 ]
       ]
     ]
   },
@@ -7055,7 +7055,7 @@
     "time": 11250,
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "oats", 2 ], [ "wild_oats", 4] ] ]
+    "components": [ [ [ "oats", 2 ], [ "wild_oats", 4 ] ] ]
   },
   {
     "result": "cornmeal",
@@ -7093,8 +7093,8 @@
         [ "oats", 4 ],
         [ "starch", 1 ],
         [ "dry_rice", 5 ],
-		[ "wild_wheat", 2 ],
-		[ "wild_oats", 8]
+        [ "wild_wheat", 2 ],
+        [ "wild_oats", 8 ]
       ]
     ]
   },
@@ -7313,7 +7313,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "oats", 2 ], [ "wild_oats", 4] ] ]
+    "components": [ [ [ "oats", 2 ], [ "wild_oats", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -7339,8 +7339,8 @@
         [ "oats", 4 ],
         [ "starch", 1 ],
         [ "dry_rice", 5 ],
-		[ "wild_wheat", 2 ],
-		[ "wild_oats", 8 ]
+        [ "wild_wheat", 2 ],
+        [ "wild_oats", 8 ]
       ]
     ]
   },
