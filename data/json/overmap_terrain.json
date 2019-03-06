@@ -1794,6 +1794,51 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "shelter_roof",
+    "name": "evac shelter roof",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_1",
+    "name": "evac shelter",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_roof_1",
+    "name": "evac shelter roof",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_2",
+    "name": "evac shelter",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_roof_2",
+    "name": "evac shelter roof",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+{
+    "type": "overmap_terrain",
     "id": "shelter_under",
     "name": "evac shelter",
     "sym": 43,
