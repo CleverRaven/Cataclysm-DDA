@@ -2321,15 +2321,13 @@
     "symbol": ",",
     "color": "brown",
     "move_cost_mod": 1,
-	"required_str": -1,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [
       {
         "seasons": [ "summer", "autumn" ],
-        "entries": [
-          { "drop": "wild_oats", "base_num": [ 1, 3 ], "scaled_num": [ 0, 0.5 ] }
-        ]
+        "entries": [ { "drop": "wild_oats", "base_num": [ 1, 3 ], "scaled_num": [ 0, 0.5 ] } ]
       }
     ],
     "bash": {
@@ -2348,15 +2346,13 @@
     "symbol": ",",
     "color": "brown",
     "move_cost_mod": 1,
-	"required_str": -1,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [
       {
         "seasons": [ "summer", "autumn" ],
-        "entries": [
-          { "drop": "wild_wheat", "base_num": [ 1, 3 ], "scaled_num": [ 0, 0.5 ] }
-        ]
+        "entries": [ { "drop": "wild_wheat", "base_num": [ 1, 3 ], "scaled_num": [ 0, 0.5 ] } ]
       }
     ],
     "bash": {
