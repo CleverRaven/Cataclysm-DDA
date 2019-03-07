@@ -22,8 +22,8 @@ public:
 
     std::vector<std::vector<std::string>> vNewGameHotkeys;
 
-    static std::list<input_context *> context_stack; // current input context that corresponds with keybinds
-    static std::stack<std::string> mctxt; // current input context, for menus
+    std::list<input_context *> context_stack; // current input context that corresponds with keybinds
+    std::stack<std::string> mctxt; // current input context, for menus
 
 private:
     // Blank constructor
