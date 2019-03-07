@@ -170,7 +170,6 @@
         "description" : "You're a quick reader, and can get through books a lot faster than most.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["ALPHA"],
         "cancels" : ["ILLITERATE", "SLOWREADER"]
     },{
         "type" : "mutation",
