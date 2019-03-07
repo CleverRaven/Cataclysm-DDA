@@ -483,6 +483,7 @@ void player::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_PREENING ) {
         add_morale( MORALE_PREENED, 5, 30, 30_minutes, 24_minutes );
+        moves -= 200;
         add_msg_if_player( m_good, _( "You preen yourself, straightening out all those ruffled feathers." ) );
         tdata.powered = false;
         return;

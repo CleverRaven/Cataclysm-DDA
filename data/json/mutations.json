@@ -422,7 +422,7 @@
         "id" : "INCONSPICUOUS",
         "name" : "Inconspicuous",
         "points" : 1,
-        "description" : "You blend into the surroundings better than others. Monsters will notice you from shorter distances.",
+        "description" : "You blend into the surroundings better than others.  Monsters will notice you from shorter distances.",
         "social_modifiers" : {
             "lie" : 2
         },
@@ -2539,7 +2539,7 @@
         "id" : "GIZZARD",
         "name" : "Gizzard",
         "points" : 2,
-        "description" : "Your stomach has split into a smaller stomach, and a gizzard. Slightly increases the energy gained through eating, and prevents you from eating as much.",
+        "description" : "Your digestive tract has grown a gizzard.  Slightly increases the energy gained through eating.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["BEAK", "BEAK_PECK", "BEAK_HUM", "BEAK_FLAT"],
@@ -2554,9 +2554,12 @@
         "valid" : false,
         "visibility" : 2,
         "ugliness" : 2,
-        "description" : "Your wings have become more flexible, allowing you to fold them against your body. They no longer encumber you, and negate fall damage.",
+        "description" : "Your wings have become more flexible, allowing you to fold them against your body.  They no longer encumber you if uncovered, and negate fall damage.",
         "types" : ["WINGS"],
         "purifiable" : false,
+        "encumbrance_covered" : [
+            [ "TORSO", 4 ]
+        ],
         "prereqs" : ["WINGS_BIRD"],
         "threshreq" : ["THRESH_BIRD"],
         "armor" : [ { "parts" : "TORSO", "bash" : 2 } ],
@@ -2580,6 +2583,7 @@
         "valid" : false,
         "description" : "You have a pleasant lilt to your voice.  Persuading NPCs will be easier, but threatening them will be slightly harder.",
        "category" : ["BIRD"],
+        "cancels" : ["GROWL", "SNARL", "HISS"],
        "changes_to" : ["BIRDSONG2"],
         "social_modifiers" : {
             "persuade" : 20,
@@ -2591,10 +2595,11 @@
         "name" : "Birdsong",
         "points" : 2,
         "valid" : false,
-        "description" : "Your voice is a mixture of song and words. Persuading NPCs will be much easier, but threatening them will be harder.",
+        "description" : "Your voice is a mixture of song and words.  Persuading NPCs will be much easier, but threatening them will be harder.",
         "prereqs" : ["BIRDSONG1"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["BIRD"],
+        "cancels" : ["GROWL", "SNARL", "HISS"],
         "social_modifiers" : {
             "persuade" : 30,
             "intimidate" : -10
@@ -2607,7 +2612,7 @@
         "valid" : false,
         "visibility" : 10,
         "ugliness" : -5,
-        "description" : "Some of the feathers on your head have become longer and rainbow-coloured. They're quite pretty.",
+        "description" : "Some of the feathers on your head have become longer and rainbow-coloured.  They're quite pretty.",
         "prereqs" : ["FEATHERS"],
         "category" : ["BIRD"]
     },{
@@ -2640,7 +2645,7 @@
         "visibility" : 4,
         "ugliness" : 2,
         "mixed_effect" : true,
-        "description" : "Your legs have become much thinner and harder, and your feet have changed to stiff talons. They prevent you from wearing footwear, but give extra protection. They're pretty sharp too.",
+        "description" : "Your legs have become much thinner and harder, and your feet have changed to stiff talons.  They prevent you from wearing footwear, but give extra protection. They're pretty sharp too.",
         "types" : ["LEGS"],
         "changes_to" : ["TALONS_FLEX"],
         "category" : ["BIRD"],
@@ -2650,6 +2655,7 @@
             "attack_text_u" : "You stab %s with a talon",
             "attack_text_npc" : "%1$s stabs %2$s with a talon",
             "chance" : 20,
+            "body_part" : [ "FOOT_L", "FOOT_R" ],
             "strength_damage" : { "damage_type" : "stab", "amount" : 4 }
         }
     },{
@@ -2669,6 +2675,7 @@
             "attack_text_u" : "You stab %s with a talon",
             "attack_text_npc" : "%1$s stabs %2$s with a talon",
             "chance" : 20,
+            "body_part" : [ "FOOT_L", "FOOT_R" ],
             "strength_damage" : { "damage_type" : "stab", "amount" : 2 }
         }
     },{
@@ -3308,11 +3315,11 @@
         "points" : 2,
         "visibility" : 4,
         "ugliness" : 2,
-        "description" : "You've grown stiff wings that sprout from your back. They don't fold, making them easier to damage, and making it harder to wear gear and utilise them. Sometimes negates fall damage.",
+        "description" : "You've grown stiff wings that sprout from your back.  They don't fold, making them easier to damage, and making it harder to wear gear and utilise them. Sometimes negates fall damage.",
         "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
         "changes_to" : ["WINGS_FOLDING"],
-        "encumbrance_covered" : [
+        "encumbrance_always" : [
             [ "TORSO", 10 ]
         ],
         "armor" : [ { "parts" : "TORSO", "bash" : -2 } ],
@@ -3991,8 +3998,8 @@
         "//" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
         "points" : -1,
         "description" : "Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
-        "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
-        "category" : ["MEDICAL", "CHIMERA"]
+        "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA", "THRESH_ALPHA"],
+        "category" : ["MEDICAL", "CHIMERA", "ALPHA"]
     },{
         "type" : "mutation",
         "id" : "HEADBUMPS",
@@ -4665,7 +4672,7 @@
         "points" : 1,
         "visibility" : 10,
         "ugliness" : 5,
-        "description" : "Your beak has become flat, wide and short, and no longer restricts mouth gear.It provides a small amount of protection to your mouth.",
+        "description" : "Your beak has become flat, wide and short, and no longer restricts mouth gear.  It provides a small amount of protection to your mouth.",
         "valid" : false,
         "types" : ["TEETH", "MUZZLE"],
         "cancels" : ["MOUTH_TENTACLES"],
@@ -5046,6 +5053,7 @@
         "mixed_effect" : true,
         "description" : "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
         "changes_to" : ["SNARL"],
+        "cancels" : ["BIRDSONG1", "BIRDSONG2"],
         "category" : ["RAT", "URSINE", "LUPINE"],
         "social_modifiers" : {
             "persuade" : -20,
@@ -5060,6 +5068,7 @@
         "mixed_effect" : true,
         "description" : "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
+        "cancels" : ["BIRDSONG1", "BIRDSONG2"],
         "category" : ["BEAST", "CHIMERA", "FELINE", "LUPINE"],
         "social_modifiers" : {
             "persuade" : -60,
@@ -5074,6 +5083,7 @@
         "points": -1,
         "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
         "category": ["LIZARD", "RAPTOR"],
+        "cancels" : ["BIRDSONG1", "BIRDSONG2"],
         "social_modifiers" : {
             "persuade" : -20,
             "lie" : -10,
