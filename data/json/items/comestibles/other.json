@@ -310,6 +310,7 @@
     "type": "COMESTIBLE",
     "id": "dry_lentils",
     "name": "dried lentils",
+    "name_plural": "dried lentils",
     "weight": 132,
     "color": "light_gray",
     "comestible_type": "FOOD",
