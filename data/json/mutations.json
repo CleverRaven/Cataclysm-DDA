@@ -87,7 +87,7 @@
         "description" : "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["ALPHA", "PLANT", "ELFA"],
+        "category" : ["PLANT", "ELFA"],
         "cancels" : ["BADTEMPER"]
     },{
         "type" : "mutation",
@@ -288,8 +288,8 @@
         "points" : 3,
         "description" : "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
         "starting_trait" : true,
-        "valid" : false,
-        "category" : ["ALPHA"],
+        "valid" : true,
+        "category" : ["PLANT"],
         "cancels" : ["FORGETFUL"]
     },{
         "type" : "mutation",
@@ -777,6 +777,7 @@
         "description" : "Your skin is fragile.  Cutting damage is slightly increased for you.",
         "starting_trait" : true,
         "cancels" : ["THICKSKIN"],
+        "category" : ["ALPHA"],
         "armor" : [ { "parts" : "ALL", "cut" : -1 } ]
     },{
         "type" : "mutation",
@@ -846,14 +847,6 @@
         "cancels" : ["ANTIJUNK"],
         "changes_to" : ["PROJUNK2"],
         "category" : ["MOUSE", "INSECT"]
-    },{
-        "type" : "mutation",
-        "id" : "PROGRAIN",
-        "name" : "Grain Guzzler",
-        "points" : 1,
-        "description" : "Your digestive system has changed to process grains better. You enjoy eating grains and flour more than most.",
-        "cancels" : ["ANTIWHEAT"],
-        "category" : ["MOUSE", "RAT", "BIRD"]
     },{
         "type" : "mutation",
         "id" : "PROJUNK2",
@@ -2546,13 +2539,56 @@
         "id" : "GIZZARD",
         "name" : "Gizzard",
         "points" : -5,
-        "description" : "Your digestive system is well-adapted to digesting food, particularly grains. Slightly increases the energy gained through eating",
+        "description" : "Your sotmach has split into a smaller stomach, and a gizzard. Slightly increases the energy gained through eating, and prevents you from eating as much.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["BEAK", "BEAK_PECK", "BEAK_HUM", "BEAK_FLAT"],
-        "prereqs2" : ["PROGRAIN"],
         "threshreq" : ["THRESH_BIRD"],
-        "cancels" : ["GOURMAND"],
+        "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "BIRDCROP",
+        "name" : "Bird Crop",
+        "points" : -5,
+        "description" : "Your body has grown a bird crop, allowing you to store excess food if you overeat.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["GIZZARD"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "BIRDSONG1",
+        "name" : "Lilting Voice",
+        "points" : 1,
+        "description" : "You have a pleasant lilt to your voice.  Persuading NPCs will be easier, but threatening them will be slightly harder.",
+       "category" : ["BIRD"],
+        "social_modifiers" : {
+            "persuade" : 20,
+            "intimidate" : -5
+        }
+    },{
+        "type" : "mutation",
+        "id" : "BIRDSONG2",
+        "name" : "Birdsong",
+        "points" : 2,
+        "description" : "Your voice is a mixture of song and words. Persuading NPCs will be much easier, but threatening them will be harder.",
+        "prereqs" : ["LILT"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["BIRD"],
+        "social_modifiers" : {
+            "persuade" : 30,
+            "intimidate" : -10
+        }
+    },{
+        "type" : "mutation",
+        "id" : "PLUMAGE",
+        "name" : "Colorful Plumage",
+        "points" : 1,
+        "visibility" : 10,
+	"ugliness" : -5,
+        "description" : "Some of the feathers on your head have become longer and rainbow-coloured. They're quite pretty.",
+        "prereqs" : ["FEATHERS"],
         "category" : ["BIRD"]
     },{
         "type" : "mutation",
@@ -2621,6 +2657,7 @@
         "description" : "There's nothing more delighting than having clean, straight feathers! Activate to preen yourself.",
         "category" : ["BIRD"],
         "prereqs" : ["FEATHERS", "ARM_FEATHERS"],
+        "prereqs2" : ["BEAK", "BEAK_PECK", "BEAK_HUM", "BEAK_FLAT"],
         "valid" : false,
         "active"     :    true,
         "cost"       :    0

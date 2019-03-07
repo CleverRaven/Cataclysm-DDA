@@ -69,8 +69,8 @@ const std::map<itype_id, int> plut_charges = {
 
 int player::stomach_capacity() const
 {
-    if( has_trait( trait_id( "GIZZARD" ) ) ) {
-        return 0;
+    if( has_trait( trait_id( "BIRDCROP" ) ) ) {
+        return -120;
     }
 
     if( has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
@@ -79,6 +79,10 @@ int player::stomach_capacity() const
 
     if( has_trait( trait_id( "GOURMAND" ) ) || has_trait( trait_id( "HIBERNATE" ) ) ) {
         return -60;
+    }
+
+    if( has_trait( trait_id( "GIZZARD" ) ) ) {
+        return 0;
     }
 
     return -20;
@@ -113,7 +117,7 @@ int player::nutrition_for( const item &comest ) const
     }
 
     if( has_trait( trait_GIZZARD ) ) {
-        nutr *= 0.6f;
+        nutr *= 1.1f;
     }
 
     if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
