@@ -2522,8 +2522,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "You can't dig a pit on this ground." ) );
         return 0;
     }
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
@@ -2565,8 +2565,8 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "There is nothing to fill." ) );
         return 0;
     }
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
@@ -2595,12 +2595,12 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 
     if( g->m.has_flag( "RUBBLE", pnt ) ) {
         int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-        const auto helpers = g->u.get_crafting_helpers();
+        const std::vector<npc *> helpers = g->u.get_crafting_helpers();
         for( const npc *np : helpers ) {
             add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
             break;
         }
-        const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+        const int helpersize = g->u.get_num_crafting_helpers( 3 );
         const int moves = 2500 * ( 1 - ( helpersize / 10 ) );
         player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), moves / bonus, bonus );
         p->assign_activity( act );
@@ -2861,8 +2861,8 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
@@ -2914,8 +2914,8 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     } else {
         turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
     }
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     turns = turns * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
@@ -4104,8 +4104,8 @@ static int chop_moves( player *p, item *it )
     const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
 
     int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     return moves;
 }
@@ -4135,7 +4135,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         add_msg( m_info, _( "You can't chop down that." ) );
         return 0;
     }
-    const auto helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
@@ -4167,7 +4167,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
         add_msg( m_info, _( "You can't chop that." ) );
         return 0;
     }
-    const auto helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
@@ -7734,8 +7734,8 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
                               required.cleanser );
         return 0;
     }
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     required.time = required.time * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );

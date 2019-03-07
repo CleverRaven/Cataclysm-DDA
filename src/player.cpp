@@ -3248,11 +3248,17 @@ void player::on_hit( Creature *source, body_part bp_hit,
 int player::get_lift_assist() const
 {
     int result = 0;
-    const auto helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         result += np->get_str();
     }
     return result;
+}
+
+int player::get_num_crafting_helpers( int max ) const
+{
+    std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    return std::min( max, static_cast<int>( helpers.size() ) );
 }
 
 void player::on_hurt( Creature *source, bool disturb /*= true*/ )

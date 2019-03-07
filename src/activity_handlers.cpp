@@ -499,9 +499,8 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( "QUARTERED" ) ) {
         time_to_cut /= 4;
     }
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
-    time_to_cut = time_to_cut * ( 1 - ( helpersize / 10 ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    time_to_cut = time_to_cut * ( 1 - ( g->u.get_num_crafting_helpers( 3 ) / 10 ) );
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
@@ -1644,8 +1643,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     const tripoint pos( act->placement );
     item &it = p->i_at( act->position );
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -2746,8 +2745,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2769,8 +2768,8 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_dirt );
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2794,8 +2793,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     g->m.destroy( pos, true );
 
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2823,8 +2822,8 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_pit_shallow );
     }
 
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2854,8 +2853,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_dirt );
     }
-    const auto helpers = g->u.get_crafting_helpers();
-    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
