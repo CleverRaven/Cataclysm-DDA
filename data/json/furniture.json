@@ -4346,8 +4346,8 @@
     "id": "f_water_purifier",
     "name": "water purifier",
     "description": "This removes ions dissolved in the water, making it pretty clean, if you care about that kind of thing.",
-    "symbol": "0",
-    "bgcolor": "white",
+    "symbol": "W",
+    "bgcolor": "blue",
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
@@ -4358,8 +4358,8 @@
     "id": "f_server",
     "name": "server stack",
     "description": "This is a big pile of computers.  They're all turned off.",
-    "symbol": "0",
-    "bgcolor": "white",
+    "symbol": ":",
+    "color": "blue_white",
     "move_cost_mod": 4,
     "required_str": 8,
     "max_volume": 4000,
@@ -4370,8 +4370,8 @@
     "id": "f_air_compressor",
     "name": "air compressor",
     "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.",
-    "symbol": "0",
-    "bgcolor": "white",
+    "symbol": "8",
+    "color": "black_yellow",
     "move_cost_mod": 4,
     "required_str": 12,
     "max_volume": 4000,
@@ -4381,13 +4381,42 @@
     "type": "furniture",
     "id": "f_satellite",
     "name": "large satellite dish",
+    "looks_like": "t_radio_tower"
     "description": "Somewhere up there, there are still satellites, orbiting and doing their thing, sending signals down to an Earth that is no longer listening.",
-    "symbol": "0",
-    "bgcolor": "white",
+    "symbol": ")",
+    "color": "white_green",
     "move_cost_mod": -1,
     "required_str": -1,
-    "max_volume": 4000,
-    "flags": [  ]
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "rebar", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 8, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 10 ] },
+        { "item": "rebar", "count": [ 1, 10 ] },
+        { "item": "scrap", "count": [ 6, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "steel_lump", "count": [ 0, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -4396,6 +4425,7 @@
     "description": "This metal box used to spray hot water and soap at dirty dishes to make them clean and to save people an unpleasant chore.  Now, with the power off and it sitting for a while, it is starting to smell a bit off.",
     "symbol": "{",
     "bgcolor": "white",
+    "looks_like": "f_oven",
     "move_cost_mod": -1,
     "required_str": 13,
     "max_volume": 800,
