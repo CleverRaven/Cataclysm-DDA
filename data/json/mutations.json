@@ -289,7 +289,7 @@
         "description" : "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
         "starting_trait" : true,
         "valid" : true,
-        "category" : ["PLANT"],
+        "category" : ["PLANT", "ALPHA"],
         "cancels" : ["FORGETFUL"]
     },{
         "type" : "mutation",
