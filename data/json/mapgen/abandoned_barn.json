@@ -1,8 +1,5 @@
 [
   {
-    "//": "TO COME: Slurry tanks, milking machines?, rusty old tractors, possibly cached sports cars, chance for wells, stills, chance for survivor camp"
-  },
-  {
     "om_terrain": "desolatebarn01",
     "type": "mapgen",
     "weight": 100,

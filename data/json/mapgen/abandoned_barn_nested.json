@@ -12,7 +12,7 @@
         "____",
         "____"
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": [ "desolatebarn_palette" ]
     }
   },
   {
@@ -139,7 +139,7 @@
         "...d...."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "oldtractor", "x": 1, "y": 1 } ],
+      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "oldtractor", "x": 1, "y": 1 } ]
     }
   },
   {
@@ -183,7 +183,7 @@
         "......dd",
         "...d...."
       ],
-      "palettes": [ "desolatebarn_palette" ]
+      "palettes": [ "desolatebarn_palette" ],
       "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
     }
   }
