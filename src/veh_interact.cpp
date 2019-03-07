@@ -993,7 +993,7 @@ bool veh_interact::do_repair( std::string &msg )
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
             sel_vehicle_part = &pt;
             sel_vpart_info = &vp;
-            auto helpers = g->u.get_crafting_helpers();
+            const auto helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
                 add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
             }
@@ -1551,7 +1551,7 @@ bool veh_interact::do_remove( std::string &msg )
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
-            auto helpers = g->u.get_crafting_helpers();
+            const auto helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
                 add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
             }
@@ -1664,7 +1664,7 @@ bool veh_interact::do_tirechange( std::string &msg )
         const std::string action = main_context.handle_input();
         if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
             is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
-            auto helpers = g->u.get_crafting_helpers();
+            const auto helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
                 add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
             }

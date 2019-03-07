@@ -3248,7 +3248,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
 int player::get_lift_assist() const
 {
     int result = 0;
-    auto helpers = g->u.get_crafting_helpers();
+    const auto helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         result += np->get_str();
     }

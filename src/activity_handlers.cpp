@@ -499,7 +499,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( "QUARTERED" ) ) {
         time_to_cut /= 4;
     }
-    auto helpers = g->u.get_crafting_helpers();
+    const auto helpers = g->u.get_crafting_helpers();
     const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     time_to_cut = time_to_cut * ( 1 - ( helpersize / 10 ) );
     return time_to_cut;
@@ -1644,8 +1644,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     const tripoint pos( act->placement );
     item &it = p->i_at( act->position );
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
-    auto helpers = g->u.get_crafting_helpers();
-    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const auto helpers = g->u.get_crafting_helpers();
+    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -2746,8 +2746,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-    auto helpers = g->u.get_crafting_helpers();
-    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const auto helpers = g->u.get_crafting_helpers();
+    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2769,8 +2769,8 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_dirt );
-    auto helpers = g->u.get_crafting_helpers();
-    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const auto helpers = g->u.get_crafting_helpers();
+    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2794,8 +2794,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     g->m.destroy( pos, true );
 
-    auto helpers = g->u.get_crafting_helpers();
-    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const auto helpers = g->u.get_crafting_helpers();
+    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2823,8 +2823,8 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_pit_shallow );
     }
 
-    auto helpers = g->u.get_crafting_helpers();
-    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const auto helpers = g->u.get_crafting_helpers();
+    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -2854,8 +2854,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_dirt );
     }
-    auto helpers = g->u.get_crafting_helpers();
-    int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
+    const auto helpers = g->u.get_crafting_helpers();
+    const int helpersize = std::max( 3, static_cast<int>( helpers.size() ) );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );

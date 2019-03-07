@@ -9613,7 +9613,7 @@ void game::butcher()
         }
         return;
     }
-    auto helpers = u.get_crafting_helpers();
+    const auto helpers = u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
