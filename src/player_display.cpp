@@ -750,7 +750,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
     if( has_trait( trait_id( "QUICK2" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Quickerer           +%s%d%%" ),
-                   ( quick_bonus < 10 ? " " : "" ), quick2_bonus );
+                   ( quick2_bonus < 10 ? " " : "" ), quick2_bonus );
         line++;
     }
     if( has_trait( trait_id( "QUICK" ) ) ) {

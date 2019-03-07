@@ -282,6 +282,7 @@ static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FLEET( "FLEET" );
 static const trait_id trait_FLEET2( "FLEET2" );
+static const trait_id trait_FLEET3( "FLEET3" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
@@ -361,6 +362,7 @@ static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_QUICK( "QUICK" );
+static const trait_id trait_QUICK2( "QUICK2" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
@@ -1719,6 +1721,9 @@ void player::recalc_speed_bonus()
     if( has_trait( trait_QUICK ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
+    if( has_trait( trait_QUICK2 ) ) { // multiply by 1.2
+        set_speed_bonus( int( get_speed() * 1.25 ) - get_speed_base() );
+    }
     if( has_bionic( bio_speed ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
@@ -1780,6 +1785,12 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_FLEET2 ) && flatground ) {
         movecost *= .7f;
+    }
+    if( has_trait( trait_FLEET3 ) && flatground ) {
+        movecost *= .6f;
+    }
+    if( has_trait( trait_FLEET3 ) && !flatground ) {
+        movecost *= .9f;
     }
     if( has_trait( trait_SLOWRUNNER ) && flatground ) {
         movecost *= 1.15f;

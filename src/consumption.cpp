@@ -81,10 +81,6 @@ int player::stomach_capacity() const
         return -60;
     }
 
-    if( has_trait( trait_id( "GIZZARD" ) ) ) {
-        return 0;
-    }
-
     return -20;
 }
 
