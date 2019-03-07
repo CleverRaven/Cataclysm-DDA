@@ -738,10 +738,20 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     int quick_bonus = int( newmoves - ( newmoves / 1.1 ) );
+    int quick2_bonus = int( newmoves - ( newmoves / 1.2 ) );
     int bio_speed_bonus = quick_bonus;
     if( has_trait( trait_id( "QUICK" ) ) && has_bionic( bionic_id( "bio_speed" ) ) ) {
         bio_speed_bonus = int( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
         std::swap( quick_bonus, bio_speed_bonus );
+    }
+    if( has_trait( trait_id( "QUICK2" ) ) && has_bionic( bionic_id( "bio_speed" ) ) ) {
+        bio_speed_bonus = int( newmoves / 1.1 - ( newmoves / 1.2 / 1.1 ) );
+        std::swap( quick2_bonus, bio_speed_bonus );
+    }
+    if( has_trait( trait_id( "QUICK2" ) ) ) {
+        mvwprintz( w_speed, line, 1, c_green, _( "Quickerer           +%s%d%%" ),
+                   ( quick_bonus < 10 ? " " : "" ), quick2_bonus );
+        line++;
     }
     if( has_trait( trait_id( "QUICK" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Quick               +%s%d%%" ),

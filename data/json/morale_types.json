@@ -150,6 +150,11 @@
     "text": "Enjoyed sugary food"
   },
   {
+    "id": "morale_preened",
+    "type": "morale_type",
+    "text": "Preened feathers"
+  },
+  {
     "id": "morale_no_digest",
     "type": "morale_type",
     "text": "Ate Indigestible Food"

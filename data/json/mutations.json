@@ -2547,6 +2547,22 @@
         "category" : ["BIRD"]
     },{
         "type" : "mutation",
+        "id" : "WINGS_FOLDING",
+        "name" : "Folding Wings",
+        "points" : 2,
+        "valid" : false,
+        "visibility" : 2,
+        "ugliness" : 2,
+        "description" : "Your wings have become more flexible, allowing you to fold them against your body. They no longer encumber you, and negate fall damage.",
+        "types" : ["WINGS"],
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : [WINGS_BIRD],
+        "threshreq" : ["THRESH_BIRD"],
+        "armor" : [ { "parts" : "TORSO", "bash" : 2 } ],
+        "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
         "id" : "BIRDCROP",
         "name" : "Bird Crop",
         "points" : -5,
@@ -2561,6 +2577,7 @@
         "id" : "BIRDSONG1",
         "name" : "Lilting Voice",
         "points" : 1,
+        "valid" : false,
         "description" : "You have a pleasant lilt to your voice.  Persuading NPCs will be easier, but threatening them will be slightly harder.",
        "category" : ["BIRD"],
         "social_modifiers" : {
@@ -2572,6 +2589,7 @@
         "id" : "BIRDSONG2",
         "name" : "Birdsong",
         "points" : 2,
+        "valid" : false,
         "description" : "Your voice is a mixture of song and words. Persuading NPCs will be much easier, but threatening them will be harder.",
         "prereqs" : ["LILT"],
         "threshreq" : ["THRESH_BIRD"],
@@ -2585,8 +2603,9 @@
         "id" : "PLUMAGE",
         "name" : "Colorful Plumage",
         "points" : 1,
+        "valid" : false,
         "visibility" : 10,
-	"ugliness" : -5,
+        "ugliness" : -5,
         "description" : "Some of the feathers on your head have become longer and rainbow-coloured. They're quite pretty.",
         "prereqs" : ["FEATHERS"],
         "category" : ["BIRD"]
@@ -2595,16 +2614,16 @@
         "id" : "FLEET3",
         "name" : "Sub-Sonic Sprinter",
         "points" : 5,
+        "valid" : false,
         "description" : "Your legs are insanely limber and fast-moving.  You move 40% faster on flat surfaces and 10% faster on uneven surfaces.",
         "prereqs" : ["FLEET2"],
-        "types" : ["RUNNING"],
-        "threshreq" : ["THRESH_BIRD"],
-        "category" : ["BIRD"]
+        "types" : ["RUNNING"]
     },{
         "type" : "mutation",
         "id" : "QUICK2",
         "name" : "Quickerer",
         "points" : 3,
+        "valid" : false,
         "description" : "You're incredibly fast!  You get a 20% bonus to action points.",
         "threshreq" : ["THRESH_BIRD"],
         "prereqs" : ["QUICK"],
@@ -2614,11 +2633,11 @@
         "id" : "TALONS_STIFF",
         "name" : "Stiff Talons",
         "points" : -2,
+        "valid" : true,
         "visibility" : 4,
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your legs have become much thinner and harder, and your feet have changed to stiff talons. They prevent you from wearing footwear, but give extra protection. They're pretty sharp too.",
-        "valid" : false,
         "types" : ["LEGS"],
         "changes_to" : ["TALONS_FLEX"],
         "category" : ["BIRD"],
@@ -3286,7 +3305,7 @@
         "points" : 2,
         "visibility" : 4,
         "ugliness" : 2,
-        "description" : "You've grown stiff wings that sprout from your back. They don't fold, making them easier to damage, and making it harder to wear gear. Reduces fall damage.",
+        "description" : "You've grown stiff wings that sprout from your back. They don't fold, making them easier to damage, and making it harder to wear gear and utilise them. Sometimes negates fall damage.",
         "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
         "changes_to" : ["WINGS_FOLDING"],
@@ -3294,21 +3313,6 @@
             [ "TORSO", 10 ]
         ],
         "armor" : [ { "parts" : "TORSO", "bash" : -2 } ],
-        "category" : ["BIRD"]
-    },{
-        "type" : "mutation",
-        "id" : "WINGS_FOLDING",
-        "name" : "Folding Wings",
-        "points" : 2,
-        "visibility" : 2,
-        "ugliness" : 2,
-        "description" : "Your wings have become more flexible, allowing you to fold them against your body. They no longer encumber you, and negate fall damage.",
-        "types" : ["WINGS"],
-        "valid" : false,
-        "purifiable" : false,
-        "prereqs" : [WINGS_BIRD],
-        "threshreq" : ["THRESH_BIRD"],
-        "armor" : [ { "parts" : "TORSO", "bash" : 2 } ],
         "category" : ["BIRD"]
     },{
         "type" : "mutation",

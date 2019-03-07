@@ -27,6 +27,7 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_PREENING( "PREENING" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -477,6 +478,11 @@ void player::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_SELFAWARE ) {
         print_health();
+        tdata.powered = false;
+        return;
+    } else if( mut == trait_PREENING ) {
+        add_morale( MORALE_PREENED, 5, 30, 30_minutes, 24_minutes );
+        add_msg_if_player( m_good, _( "You preen yourself, straightening out all those ruffled feathers." ) );
         tdata.powered = false;
         return;
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {

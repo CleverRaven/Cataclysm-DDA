@@ -32,6 +32,7 @@ const efftype_id effect_tetanus( "tetanus" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+static const trait_id trait_WINGS_FOLDING( "WINGS_FOLDING" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 // A pit becomes less effective as it fills with corpses.
@@ -634,8 +635,9 @@ void trapfunc::pit( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_FOLDING ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BIRD ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 n->add_msg_if_player( m_info,
@@ -678,8 +680,9 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
         if( n != nullptr ) {
             int dodge = n->get_dodge();
             int damage = pit_effectiveness( p ) * rng( 20, 50 );
-            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_FOLDING ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BIRD ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 n->add_msg_if_player( m_info,
@@ -756,8 +759,9 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
         if( n != nullptr ) {
             int dodge = n->get_dodge();
             int damage = pit_effectiveness( p ) * rng( 15, 35 );
-            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_FOLDING ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BIRD ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 n->add_msg_if_player( m_info,
@@ -971,8 +975,9 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
             g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                    pgettext( "memorial_female", "Fell down a ledge." ) );
             g->vertical_move( -1, true );
-            if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                    g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+            if( ( n->has_trait( trait_WINGS_FOLDING ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BIRD ) ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
             } else if( g->u.has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 add_msg( m_info,
@@ -1046,8 +1051,9 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     } else {
         pl->setpos( where );
     }
-    if( pl->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-            pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+            if( ( n->has_trait( trait_WINGS_FOLDING ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BIRD ) ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( pl->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
