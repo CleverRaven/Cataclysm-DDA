@@ -27,7 +27,7 @@
 #include "translations.h"
 #include "worldfactory.h"
 
-//#include "gamestateiface.h"
+#include "gamestateiface.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -303,9 +303,9 @@ void main_menu::init_strings()
         vSettingsHotkeys.push_back(get_hotkeys(item));
     }
 
-    //gsi::get().vMenuHotkeys = vMenuHotkeys;
-    //gsi::get().vWorldHotkeys = vWorldHotkeys;
-    //gsi::get().vSettingsHotkeys = vSettingsHotkeys;
+    gsi::get().vMenuHotkeys = vMenuHotkeys;
+    gsi::get().vWorldHotkeys = vWorldHotkeys;
+    gsi::get().vSettingsHotkeys = vSettingsHotkeys;
 
     loading_ui ui(false);
     g->load_core_data(ui);
@@ -672,7 +672,7 @@ bool main_menu::new_character_tab()
         vNewGameHotkeys.push_back(get_hotkeys(item));
     }
 
-    //gsi::get().vNewGameHotkeys = vNewGameHotkeys;
+    gsi::get().vNewGameHotkeys = vNewGameHotkeys;
     //if(gsi::get().mctxt.top() != "MAIN_NEW")
     //    gsi::get().mctxt.push("MAIN_NEW");
 
