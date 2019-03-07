@@ -1,0 +1,32 @@
+#include <vector>
+#include <string>
+#include <stack>
+
+class gsi
+{
+public:
+
+    // Singleton setup
+    static gsi& get()
+    {
+        static gsi instance; // Guaranteed to be destroyed.
+                                        // Instantiated on first use.
+        return instance;
+    }
+    gsi(gsi const&) = delete;
+    void operator=(gsi const&) = delete;
+
+    std::vector<std::vector<std::string>> vWorldHotkeys;
+    std::vector<std::vector<std::string>> vSettingsHotkeys;
+    std::vector<std::vector<std::string>> vMenuHotkeys; // hotkeys for the vMenuItems
+
+    std::vector<std::vector<std::string>> vNewGameHotkeys;
+
+    static std::list<input_context *> context_stack; // current input context that corresponds with keybinds
+    static std::stack<std::string> mctxt; // current input context, for menus
+
+private:
+    // Blank constructor
+    gsi() {}
+
+};
