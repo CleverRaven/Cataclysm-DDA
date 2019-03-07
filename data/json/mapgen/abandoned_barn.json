@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": "desolatebarn01",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100,
     "method": "json",
@@ -52,14 +52,6 @@
     }
   },
   {
-    "type": "overmap_terrain",
-    "id": "desolatebarn01",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "desolate barn erk1",
-    "sym": 66,
-    "color": "brown"
-  },
-  {
     "method": "json",
     "om_terrain": "desolatebarn",
     "//": "Desolate barn with peach trees",
@@ -93,7 +85,10 @@
         "...d......#.....d......."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "place_rubble": [ { "x": 10, "y": 5 }, { "x": 11, "y": 5 }, { "x": 11, "y": 8 } ]
+      "place_rubble": [ { "x": 10, "y": 5 }, { "x": 11, "y": 5 }, { "x": 11, "y": 8 } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 80 ], [ "desolate_barn_8x8_yard", 20 ] ], "x": 16, "y": 5 }
+      ]
     }
   },
   {
@@ -147,7 +142,10 @@
         "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" },
         "P": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" }
       },
-      "place_monster": [ { "monster": "mon_cat", "chance": 30, "x": 19, "y": 10 } ]
+      "place_monster": [ { "monster": "mon_cat", "chance": 30, "x": 19, "y": 10 } ],
+      "place_nested": [
+        { "chunks": [ [ "desolate_barn_4x4_front", 80 ], [ "desolate_barn_4x4_junk", 20 ] ], "x": 15, "y": 11 }
+      ]
     }
   },
   {
