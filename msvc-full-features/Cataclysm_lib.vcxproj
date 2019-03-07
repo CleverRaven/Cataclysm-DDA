@@ -220,7 +220,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h" />
-    <ClInclude Include="gamestate.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
