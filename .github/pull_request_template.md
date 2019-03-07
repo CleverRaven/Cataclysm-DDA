@@ -34,6 +34,7 @@ If it *fully* resolves an issue, link it like: ```Fixes #1234```
 Even if the issue describes the problem, please provide a few-sentence summary here.  
 Example: ```Fixes #1234 - XL mutants cannot wear arm/leg splints due to missing OVERSIZE flag.```  
 If there is no related issue, please describe the issue you are addressing, including how to trigger a bug if this is a bugfix.
+Don't put the backticks around the `#` and issue or pull request number to allow the GitHub automatically reference to it.
 -->
 
 #### Describe the solution
