@@ -5,11 +5,15 @@ Leave the headings unless they don't apply to your PR, replace commented out tex
 
 #### Summary
 <!--
-A one-line description of your change that will be extracted and added to the project changelog at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt
-The format is: ```SUMMARY: Category "description"```  
+A one-line description of your change that will be extracted and added to the [project changelog](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt).
+
+The format is: ```SUMMARY: Category "description"```
+
 The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N  
+
 Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
-See the Changelog Guidelines at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md for explanations of the categories.
+
+See the [Changelog Guidelines](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 -->
 
 #### Purpose of change
