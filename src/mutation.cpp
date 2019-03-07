@@ -11,6 +11,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "morale.h"
 #include "output.h"
 #include "player.h"
 #include "translations.h"

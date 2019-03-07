@@ -975,9 +975,9 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
             g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                    pgettext( "memorial_female", "Fell down a ledge." ) );
             g->vertical_move( -1, true );
-            if( ( n->has_trait( trait_WINGS_FOLDING ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BIRD ) ) ) ) {
+            if( ( g->u.has_trait( trait_WINGS_FOLDING ) ) || ( one_in( 2 ) &&
+                     g->u.has_trait( trait_WINGS_BIRD ) ) || ( one_in( 2 ) &&
+                     g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
             } else if( g->u.has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 add_msg( m_info,
@@ -1051,9 +1051,9 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     } else {
         pl->setpos( where );
     }
-            if( ( n->has_trait( trait_WINGS_FOLDING ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BIRD ) ) ) ) {
+    if( ( pl->has_trait( trait_WINGS_FOLDING ) ) || ( one_in( 2 ) &&
+              pl->has_trait( trait_WINGS_BIRD ) ) || ( one_in( 2 ) &&
+              pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( pl->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
