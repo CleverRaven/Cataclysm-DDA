@@ -1186,6 +1186,16 @@
   },
   {
     "type": "construction",
+    "description": "Place Table",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 1,
+    "components": [ [ [ "w_table", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_table"
+  },
+  {
+    "type": "construction",
     "description": "Build Chair",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
