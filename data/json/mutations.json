@@ -3836,7 +3836,7 @@
         "points" : -1,
         "description" : "Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
         "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA", "THRESH_ALPHA"],
-        "category" : ["MEDICAL", "CHIMERA", "ALPHA"]
+        "category" : ["MEDICAL", "CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "HEADBUMPS",
