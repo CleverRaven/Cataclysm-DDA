@@ -1,6 +1,6 @@
 <!--
 ### How to use
-Leave the headings unless they don't apply to your PR, replace commented out text ( surrounded with <!-- and -​-> ) with text describing your PR.
+Leave the headings unless they don't apply to your PR, replace commented out text ( surrounded with <!–– and ––> ) with text describing your PR.
 -->
 
 #### Summary
