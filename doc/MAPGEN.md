@@ -496,6 +496,14 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
     ".": [ "t_grass", "t_grass", "t_dirt" ]
 }
 ```
+It is also possible to specify the number of instances (and consequently their chance) directly, which is particularly useful for rare occurrences (rather than repeating the common value many times):
+```
+"terrain" : {
+    ".": [ [ "t_grass", 2 ], "t_dirt" ]
+}
+```
+
+
 Example (places a blood and a bile field on each '.' square):
 ```
 "fields" : {
