@@ -1163,7 +1163,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    if( it.volume() >= furnace_max_volume ) {
+    if( it.charges_per_volume( furnace_max_volume ) < 1 ) { // not even one charge fits
         return false;
     }
 
@@ -1176,6 +1176,7 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
+    const long consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
     const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
 
     if( energy == 0 ) {
@@ -1190,20 +1191,33 @@ bool player::feed_furnace_with( item &it )
             it.tname().c_str() );
     } else {
         const int profitable_energy = std::min( energy, max_power_level - power_level );
-        add_msg_player_or_npc( m_info,
-                               ngettext( "You digest your %s and recharge %d point of energy.",
-                                         "You digest your %s and recharge %d points of energy.",
-                                         profitable_energy
-                                       ),
-                               ngettext( "<npcname> digests a %s and recharges %d point of energy.",
-                                         "<npcname> digests a %s and recharges %d points of energy.",
-                                         profitable_energy
-                                       ), it.tname().c_str(), profitable_energy
-                             );
+        if( it.count_by_charges() ) {
+            add_msg_player_or_npc( m_info,
+                                   ngettext( "You digest %d %s and recharge %d point of energy.",
+                                             "You digest %d %s and recharge %d points of energy.",
+                                             profitable_energy
+                                           ),
+                                   ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
+                                             "<npcname> digests %d %s and recharges %d points of energy.",
+                                             profitable_energy
+                                           ), consumed_charges, it.tname().c_str(), profitable_energy
+                                 );
+        } else {
+            add_msg_player_or_npc( m_info,
+                                   ngettext( "You digest your %s and recharge %d point of energy.",
+                                             "You digest your %s and recharge %d points of energy.",
+                                             profitable_energy
+                                           ),
+                                   ngettext( "<npcname> digests a %s and recharges %d point of energy.",
+                                             "<npcname> digests a %s and recharges %d points of energy.",
+                                             profitable_energy
+                                           ), it.tname().c_str(), profitable_energy
+                                 );
+        }
         charge_power( profitable_energy );
     }
 
-    it.charges = 0;
+    it.charges -= consumed_charges;
     mod_moves( -250 );
 
     return true;
@@ -1245,7 +1259,15 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             break;
 
         case rechargeable_cbm::furnace: {
-            int amount = ( it.volume() / 250_ml + it.weight() / 1_gram ) / 9;
+            units::volume consumed_vol = it.volume();
+            units::mass consumed_mass = it.weight();
+            if( it.count_by_charges() && it.charges > it.charges_per_volume( furnace_max_volume ) ) {
+                const double n_stacks = static_cast<double>( it.charges_per_volume( furnace_max_volume ) ) /
+                                        it.type->stack_size;
+                consumed_vol = it.type->volume * n_stacks;
+                consumed_mass = it.type->weight * 10 * n_stacks; // it.type->weight is in 10g units?
+            }
+            int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
 
             // @todo: JSONize.
             if( it.made_of( material_id( "leather" ) ) ) {
