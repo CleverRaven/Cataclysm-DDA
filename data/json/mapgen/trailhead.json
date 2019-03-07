@@ -4,9 +4,9 @@
     "id": "trailhead",
     "terrain": {
       " ": "t_dirt",
-      ",": [ "t_grass", "t_grass", "t_dirt" ],
+      ",": [ [ "t_grass", 2 ], "t_dirt" ],
       ";": [ "t_grass", "t_dirt" ],
-      ".": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+      ".": [ [ "t_dirt", 5 ], "t_grass" ],
       "b": "t_dirt",
       "t": "t_trunk",
       "s": "t_dirt",
