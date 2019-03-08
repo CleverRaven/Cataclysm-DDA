@@ -1493,7 +1493,7 @@ bool game::handle_action()
 
             case ACTION_HIDE:
                 if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
-                    u.hide( pnt );
+                    u.hide( *pnt );
                 }
                 break;
 

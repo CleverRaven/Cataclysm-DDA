@@ -134,29 +134,29 @@ bool Creature::hide( const tripoint &target )
 
     // Can we fit in there
     if( g->m.has_flag_ter_or_furn( "MAX_TINY", target ) ) {
-        if( actor.get_size() != MS_TINY ) {
+        if( get_size() != MS_TINY ) {
             return false;
         }
     } else if( g->m.has_flag_ter_or_furn( "MAX_SMALL", target ) ) {
-        if( actor.get_size() > MS_SMALL ) {
+        if( get_size() > MS_SMALL ) {
             return false;
         }
     } else if( g->m.has_flag_ter_or_furn( "MAX_MEDIUM", target ) ) {
-        if( actor.get_size() > MS_MEDIUM ) {
+        if( get_size() > MS_MEDIUM ) {
             return false;
         }
     } else if( g->m.has_flag_ter_or_furn( "MAX_LARGE", target ) ) {
-        if( actor.get_size() > MS_LARGE ) {
+        if( get_size() > MS_LARGE ) {
             return false;
         }
     }
 
     setpos( target );
     moves -= g->m.move_cost( target ); // TODO : make cost specific to hiding
-    add_effect( effect_hidden, true );
+    add_effect( effect_hidden, 1_turns, num_bp, true );
 
     if( is_player() ) {
-        add_msg( m_good, _( "You are hiding in the %s." ), m.name( target ).c_str() );
+        add_msg( m_good, _( "You are hiding in the %s." ), g->m.name( target ).c_str() );
     }
 
     return true;
