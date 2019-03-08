@@ -1625,7 +1625,8 @@ void remove_ammo( item &dis_item, player &p )
 std::vector<npc *> player::get_crafting_helpers() const
 {
     return g->get_npcs_if( [this]( const npc & guy ) {
-        return rl_dist( guy.pos(), pos() ) < PICKUP_RANGE && guy.is_friend() &&
+        return rl_dist( guy.pos(), pos() ) < PICKUP_RANGE && ( guy.is_friend() ||
+                guy.mission == NPC_MISSION_GUARD_ALLY ) &&
                !guy.in_sleep_state() && g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
 }
