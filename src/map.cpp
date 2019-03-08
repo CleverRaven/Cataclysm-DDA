@@ -669,6 +669,64 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
 
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
+		
+		//Old code starts
+		// Collision_axis
+        point cof1 = veh .rotated_center_of_mass();
+        point cof2 = veh2.rotated_center_of_mass();
+        int &x_cof1 = cof1.x;
+        int &y_cof1 = cof1.y;
+        int &x_cof2 = cof2.x;
+        int &y_cof2 = cof2.y;
+        rl_vec2d collision_axis_y;
+		
+		collision_axis_y.x = ( veh.global_pos3().x + x_cof1 ) - ( veh2.global_pos3().x + x_cof2 );
+        collision_axis_y.y = ( veh.global_pos3().y + y_cof1 ) - ( veh2.global_pos3().y + y_cof2 );
+        collision_axis_y = collision_axis_y.normalized();
+        rl_vec2d collision_axis_x = collision_axis_y.rotated( M_PI / 2 );
+		
+		float vel1_y = collision_axis_y.dot_product( velo_veh1 );
+        float vel1_x = collision_axis_x.dot_product( velo_veh1 );
+        //velocity of veh2 before collision in the direction of collision_axis_y
+        float vel2_y = collision_axis_y.dot_product( velo_veh2 );
+        float vel2_x = collision_axis_x.dot_product( velo_veh2 );
+        // e = 0 -> inelastic collision
+        // e = 1 -> elastic collision
+        float e = get_collision_factor( vel1_y / 100 - vel2_y / 100 );
+		
+		// Velocity after collision
+        // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
+        float vel1_x_a = vel1_x;
+        float vel2_x_a = vel2_x;
+        // Transmission of force only in direction of collision_axix_y
+        // Equation: partially elastic collision
+        float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e ) ) / ( m1 + m2 );
+        float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e ) ) / ( m1 + m2 );
+        // Add both components; Note: collision_axis is normalized
+        rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
+        rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
+		
+		//Energy after collision
+        float E_a = 0.5 * m1 * final1.magnitude() * final1.magnitude() +
+                    0.5 * m2 * final2.magnitude() * final2.magnitude();
+        float d_E2 = E_before - E_a;  //Lost energy at collision -> deformation energy
+		float dmg2 = std::abs( d_E2 / 1000 / 2000 );
+		//Old code ends
+		
+		add_msg( m_good, _( "Velocity before" ));
+		add_msg( m_good, _( "A %fx, %fy" ), velo_veh1.x, velo_veh1.y );
+		add_msg( m_good, _( "B %fx, %fy" ), velo_veh2.x, velo_veh2.y );
+		//add_msg( m_good, _( "Speds in collision" ));
+		//add_msg( m_good, _( "V 1 A:%f, B:%f" ), c1_velo_veh1, c1_velo_veh2 );
+		//add_msg( m_good, _( "V 2 A:0, B:%f" ), c2_velo_veh2 );
+		//add_msg( m_good, _( "V 1 A:%f, B:%f" ), c1_velo_veh1_after, c1_velo_veh2_after );
+		//add_msg( m_good, _( "V 1 A:%f, B:%f" ), c2_velo_veh1_after, c2_velo_veh2_after );
+		add_msg( m_good, _( "Velocity after" ));
+		add_msg( m_good, _( "A %fx, %fy" ), velo_veh1_after.x, velo_veh1_after.y );
+		add_msg( m_good, _( "B %fx, %fy" ), velo_veh2_after.x, velo_veh2_after.y );
+		add_msg( m_good, _( "A_old %fx, %fy" ), final1.x, final1.y );
+		add_msg( m_good, _( "B_old %fx, %fy" ), final2.x, final2.y );
+		add_msg( m_good, _( "dmg %fx, %fy" ), dmg/2, dmg2/2 );
 
     } else {
         const float m1 = to_kilogram( veh.total_mass() );
