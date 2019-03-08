@@ -750,7 +750,8 @@
         ],
         "techniques" : [
             "tec_dragon_grab",
-            "tec_dragon_counter",
+            "tec_dragon_counterb",
+            "tec_dragon_counterd",
             "tec_dragon_sweep",
             "tec_dragon_brutal"
         ]
