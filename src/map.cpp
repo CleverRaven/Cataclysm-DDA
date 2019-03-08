@@ -602,59 +602,58 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     // Vertical collisions will be simpler for a while (1D)
     if( !vertical ) {
         // For reference, a cargo truck weighs ~25300, a bicycle 690,
-        //  and 38mph is 3800 'velocity'
+        // Velocities are in 1/100 mph
+        // Masses are in kilograms
         rl_vec2d velo_veh1 = veh.velo_vec();
         rl_vec2d velo_veh2 = veh2.velo_vec();
         const float m1 = to_kilogram( veh.total_mass() );
         const float m2 = to_kilogram( veh2.total_mass() );
         //Energy of vehicle1 and vehicle2 before collision
-        float E = 0.5 * m1 * velo_veh1.magnitude() * velo_veh1.magnitude() +
-                  0.5 * m2 * velo_veh2.magnitude() * velo_veh2.magnitude();
+        float E_before = 0.5 * m1 * velo_veh1.magnitude() * velo_veh1.magnitude() +
+                         0.5 * m2 * velo_veh2.magnitude() * velo_veh2.magnitude();
 
-        // Collision_axis
-        point cof1 = veh .rotated_center_of_mass();
-        point cof2 = veh2.rotated_center_of_mass();
-        int &x_cof1 = cof1.x;
-        int &y_cof1 = cof1.y;
-        int &x_cof2 = cof2.x;
-        int &y_cof2 = cof2.y;
-        rl_vec2d collision_axis_y;
 
-        collision_axis_y.x = ( veh.global_pos3().x + x_cof1 ) - ( veh2.global_pos3().x + x_cof2 );
-        collision_axis_y.y = ( veh.global_pos3().y + y_cof1 ) - ( veh2.global_pos3().y + y_cof2 );
-        collision_axis_y = collision_axis_y.normalized();
-        rl_vec2d collision_axis_x = collision_axis_y.rotated( M_PI / 2 );
-        // imp? & delta? & final? reworked:
-        // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
         // as per http://en.wikipedia.org/wiki/Elastic_collision
-        //velocity of veh1 before collision in the direction of collision_axis_y
-        float vel1_y = collision_axis_y.dot_product( velo_veh1 );
-        float vel1_x = collision_axis_x.dot_product( velo_veh1 );
-        //velocity of veh2 before collision in the direction of collision_axis_y
-        float vel2_y = collision_axis_y.dot_product( velo_veh2 );
-        float vel2_x = collision_axis_x.dot_product( velo_veh2 );
-        // e = 0 -> inelastic collision
-        // e = 1 -> elastic collision
-        float e = get_collision_factor( vel1_y / 100 - vel2_y / 100 );
+        // We calculate the collision as 1D collisions along and orthogonal to the vehicle 1 velocity vector
+        // The orthogonal direction is almost always zero
+        // c1_velo variables are the magnitudes of velocity components along vehicle 1 velocity vector
+        // c2_velo variables are the magnitudes of velocity components orthogonal to vehivle 1 velocity vector
 
-        // Velocity after collision
-        // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
-        float vel1_x_a = vel1_x;
-        float vel2_x_a = vel2_x;
-        // Transmission of force only in direction of collision_axix_y
-        // Equation: partially elastic collision
-        float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e ) ) / ( m1 + m2 );
-        float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e ) ) / ( m1 + m2 );
-        // Add both components; Note: collision_axis is normalized
-        rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
-        rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
+        // Unit vectors along and orthogonal to vehicle 1 velocity
+        const rl_vec2d unit1_velo_veh1 = velo_veh1.normalized();
+        const rl_vec2d unit2_velo_veh1 = unit1_velo_veh1.rotated( M_PI / 2 );
 
-        veh.move.init( final1.x, final1.y );
-        veh.velocity = final1.magnitude();
+        // Magnitudes of components of velocity along and orthogonal to vehicle 1 velocity
+        const float c1_velo_veh1 = velo_veh1.magnitude();
+        const float c1_velo_veh2 = velo_veh1.normalized().dot_product( velo_veh2 );
+        const float c2_velo_veh2 = ( unit1_velo_veh1 * c1_velo_veh2 - velo_veh2 ) .magnitude();
 
-        veh2.move.init( final2.x, final2.y );
-        veh2.velocity = final2.magnitude();
-        //give veh2 the initiative to proceed next before veh1
+        const float elasticity = get_collision_factor( c1_velo_veh1 / 100 -
+                                 c1_velo_veh2 / 100 );
+
+        const float c1_velo_veh1_after = ( elasticity * m2 * ( c1_velo_veh2 - c1_velo_veh1 ) + m1 *
+                                           c1_velo_veh1 + m2 * c1_velo_veh2 ) / ( m1 + m2 );
+        const float c1_velo_veh2_after = ( elasticity * m1 * ( c1_velo_veh1 - c1_velo_veh2 ) + m2 *
+                                           c1_velo_veh2 + m1 * c1_velo_veh1 ) / ( m1 + m2 );
+
+        const float c2_velo_veh1_after = ( elasticity * m2 * ( c2_velo_veh2 ) + m2 * c2_velo_veh2 ) /
+                                         ( m1 + m2 );
+        const float c2_velo_veh2_after = ( elasticity * m1 * ( c2_velo_veh2 ) + m2 * c2_velo_veh2 ) /
+                                         ( m1 + m2 );
+
+        // Make the 1D back to 2D
+        rl_vec2d velo_veh1_after = unit1_velo_veh1 * c1_velo_veh1_after + unit2_velo_veh1 *
+                                   c2_velo_veh1_after;
+        rl_vec2d velo_veh2_after = unit1_velo_veh1 * c1_velo_veh2_after + unit2_velo_veh1 *
+                                   c2_velo_veh2_after;
+
+        veh2.move.init( velo_veh2_after.x, velo_veh2_after.y );
+        veh2.velocity = velo_veh2_after.magnitude();
+
+        veh.move.init( velo_veh1_after.x, velo_veh1_after.y );
+        veh.velocity = velo_veh1_after.magnitude();
+
+        // Give veh2 the initiative to proceed next before veh1
         float avg_of_turn = ( veh2.of_turn + veh.of_turn ) / 2;
         if( avg_of_turn < .1f ) {
             avg_of_turn = .1f;
@@ -664,10 +663,13 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.of_turn = avg_of_turn * 1.1;
 
         //Energy after collision
-        float E_a = 0.5 * m1 * final1.magnitude() * final1.magnitude() +
-                    0.5 * m2 * final2.magnitude() * final2.magnitude();
-        float d_E = E - E_a;  //Lost energy at collision -> deformation energy
+        const float E_after = 0.5 * m1 * velo_veh1_after.magnitude() * velo_veh1_after.magnitude() +
+                              0.5 * m2 * velo_veh2_after.magnitude() * velo_veh2_after.magnitude();
+        const float d_E = E_before - E_after;  //Lost energy at collision -> deformation energy
+
+
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
+
     } else {
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
@@ -721,6 +723,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.damage_all( dmg2_part / 2, dmg2_part, DT_BASH, epicenter2 );
     }
 
+    // Skid if large hit. Skid allows the vehicle to move sideways.
     if( dmg_veh1 > 800 ) {
         veh.skidding = true;
     }
