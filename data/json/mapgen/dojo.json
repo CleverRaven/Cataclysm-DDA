@@ -27,24 +27,6 @@
     ]
   },
   {
-    "id": "dojo_manuals",
-    "type": "item_group",
-    "items": [
-      [ "manual_karate", 15 ],
-      [ "manual_judo", 15 ],
-      [ "manual_aikido", 15 ],
-      [ "manual_taekwondo", 15 ],
-      [ "manual_tai_chi", 15 ],
-      [ "mag_melee", 20 ],
-      [ "manual_melee", 10 ],
-      [ "mag_unarmed", 20 ],
-      [ "manual_brawl", 10 ],
-      [ "mag_cutting", 5 ],
-      [ "manual_niten", 1 ],
-      [ "textbook_weapeast", 1 ]
-    ]
-  },
-  {
     "id": "f_tatami",
     "type": "furniture",
     "name": "tatami mat",

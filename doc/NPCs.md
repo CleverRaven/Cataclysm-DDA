@@ -577,9 +577,7 @@ give_equipment | Allows your character to select items from the NPC's inventory 
 u_buy_item: item_string, (*optional* cost: cost_num, *optional* count: count_num, *optional* container: container_string) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.<br/>If cost isn't present, the NPC gives your character the item at no charge.
 u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_num) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
 u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
-add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br />The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value.<br />```
-{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ]
-```
+add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
 
 #### Behaviour / AI
 
@@ -640,8 +638,9 @@ trust, value, fear, and anger are optional keywords inside the opinion object. E
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
 ```
 
-#### mission_opinion: { }
-trust, value, fear, and anger are optional keywords inside the opinion object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value of the current mission divided by the value of the keyword.
+#### `mission_opinion`: { }
+trust, value, fear, and anger are optional keywords inside the `mission_opinion` object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value.
+
 ---
 
 ### response conditions

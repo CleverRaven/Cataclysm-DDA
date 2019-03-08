@@ -362,8 +362,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         // Ok, we found something
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
-            ter_color = explored ? c_dark_gray : info->get_color();
-            ter_sym = info->get_sym();
+            ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
+            ter_sym = info->get_sym( uistate.overmap_land_use_codes );
         }
     };
 
@@ -679,6 +679,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
 
     // Draw text describing the overmap tile at the cursor position.
+    int lines = 1;
     if( csee ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
@@ -703,19 +704,27 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
 
-            const std::vector<std::string> name = foldstring( overmap_buffer.get_description_at( sm_pos ), 25 );
-            for( size_t i = 0; i < name.size(); i++ ) {
-                mvwprintz( wbar, i + 1, 3, ter.get_color(), name[i] );
-            }
+            lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
+                                    overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
         mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
     }
 
     if( has_target ) {
-        // @todo: Add a note that the target is above/below us
-        int distance = rl_dist( orig, target );
-        mvwprintz( wbar, 3, 1, c_white, _( "Distance to target: %d" ), distance );
+        const int distance = rl_dist( orig, target );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to target: %d" ), distance );
+
+        const int above_below = target.z - orig.z;
+        std::string msg;
+        if( above_below > 0 ) {
+            msg = _( "Above us" );
+        } else if( above_below < 0 ) {
+            msg = _( "Below us" );
+        }
+        if( above_below != 0 ) {
+            mvwprintz( wbar, ++lines, 1, c_white, _( "%s" ), msg );
+        }
     }
     mvwprintz( wbar, 14, 1, c_magenta, _( "Use movement keys to pan." ) );
     if( inp_ctxt != nullptr ) {
@@ -745,6 +754,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "LIST_NOTES" );
         print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
+        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_land_use_codes ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
@@ -808,6 +818,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "TOGGLE_BLINKING" );
     ictxt.register_action( "TOGGLE_OVERLAYS" );
     ictxt.register_action( "TOGGLE_HORDES" );
+    ictxt.register_action( "TOGGLE_LAND_USE_CODES" );
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
@@ -948,6 +959,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 show_explored = !show_explored;
             }
+        } else if( action == "TOGGLE_LAND_USE_CODES" ) {
+            uistate.overmap_land_use_codes = !uistate.overmap_land_use_codes;
         } else if( action == "TOGGLE_HORDES" ) {
             uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {

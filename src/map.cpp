@@ -889,7 +889,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
 }
 
-void map::unboard_vehicle( const tripoint &p )
+void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 {
     const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
     player *passenger = nullptr;
@@ -904,14 +904,20 @@ void map::unboard_vehicle( const tripoint &p )
         return;
     }
     passenger = vp->vehicle().get_passenger( vp->part_index() );
+    // Mark the part as un-occupied regardless of whether there's a live passenger here.
+    vp->part().remove_flag( vehicle_part::passenger_flag );
     if( !passenger ) {
-        debugmsg( "map::unboard_vehicle: passenger not found" );
+        if( !dead_passenger ) {
+            debugmsg( "map::unboard_vehicle: passenger not found" );
+        }
         return;
     }
     passenger->in_vehicle = false;
+    // Only make vehicle go out of control if the driver is the one unboarding.
+    if( passenger->controlling_vehicle ) {
+        vp->vehicle().skidding = true;
+    }
     passenger->controlling_vehicle = false;
-    vp->part().remove_flag( vehicle_part::passenger_flag );
-    vp->vehicle().skidding = true;
     vp->vehicle().invalidate_mass();
 }
 
@@ -1706,6 +1712,9 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const maptile up = maptile_at( up_p );
     const ter_t &up_ter = up.get_ter_t();
+    if( up_ter.id.is_null() ) {
+        return false;
+    }
     // Checking for ledge is a workaround for the case when mapgen doesn't
     // actually make a valid ledge drop location with zlevels on, this forces
     // at least one zlevel drop and if down_ter is impassible it's probably
@@ -1719,6 +1728,9 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const maptile down = maptile_at( down_p );
     const ter_t &down_ter = down.get_ter_t();
+    if( down_ter.id.is_null() ) {
+        return false;
+    }
 
     if( !up_is_ledge && down_ter.movecost == 0 ) {
         // Unpassable tile
@@ -2712,7 +2724,7 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
         if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
-        if( ter( pt ) == t_lava ) {
+        if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
             return true;
         }
     }
@@ -4697,11 +4709,11 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 
 template <typename Stack>
 std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity,
-                                        const tripoint &pos )
+                                        const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
+        if( filter( *a ) && !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4736,14 +4748,14 @@ long remove_charges_in_list( const itype *type, map_stack stack, long quantity )
 }
 
 void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
-                            map *m, const tripoint &p, std::list<item> &ret )
+                            map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
 {
     if( m->has_flag( "LIQUIDCONT", p ) ) {
         auto item_list = m->i_at( p );
         auto current_item = item_list.begin();
         for( ; current_item != item_list.end(); ++current_item ) {
             // looking for a liquid that matches
-            if( current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
+            if( filter( *current_item ) && current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
                 ret.push_back( *current_item );
                 if( current_item->charges - quantity > 0 ) {
                     // Update the returned liquid amount to match the requested amount
@@ -4774,6 +4786,9 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         } );
         if( iter != stack.end() ) {
             item furn_item( itt, -1, iter->charges );
+            if( !filter( furn_item ) ) {
+                return;
+            }
             // The const itemructor limits the charges to the (type specific) maximum.
             // Setting it separately circumvents that it is synchronized with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
@@ -4788,7 +4803,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 }
 
 std::list<item> map::use_charges( const tripoint &origin, const int range,
-                                  const itype_id type, long &quantity )
+                                  const itype_id type, long &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
 
@@ -4816,14 +4831,14 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( has_furn( p ) ) {
-            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret );
+            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
             if( quantity <= 0 ) {
                 return ret;
             }
         }
 
         if( accessible_items( p ) ) {
-            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
+            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p, filter );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -4961,7 +4976,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
         if( cargo ) {
             std::list<item> tmp =
-                use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p );
+                use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p,
+                                        filter );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;

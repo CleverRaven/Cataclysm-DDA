@@ -1228,6 +1228,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
         }
         restore_area = true;
     }
+    if( !squares[dpane.get_area()].canputitems() ) {
+        popup( _( "You can't put items there!" ) );
+        return false;
+    }
     if( spane.get_area() == AIM_INVENTORY &&
         !query_yn( _( "Really move everything from your inventory?" ) ) ) {
         return false;
@@ -1693,7 +1697,7 @@ void advanced_inventory::display()
                 int index = 0;
                 if( by_charges ) {
                     for( auto item_it = begin; amount_to_move > 0 && item_it != end; ++item_it, ++index ) {
-                        if( item_it->typeId() == sitem->id ) {
+                        if( item_it->stacks_with( *sitem->items.front() ) ) {
                             g->u.activity.values.push_back( index );
                             g->u.activity.values.push_back( amount_to_move );
                             break;
