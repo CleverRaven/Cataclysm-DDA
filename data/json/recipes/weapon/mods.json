@@ -182,6 +182,31 @@
   },
   {
     "type": "recipe",
+    "result": "filter_suppressor",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 2,
+    "time": 2600,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bottle_suppressor",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 6000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "duct_tape", 75 ] ], [ [ "bottle_twoliter", 1 ] ], [ [ "bottle_plastic", 4 ], [ "bottle_plastic_small", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bow_silencer",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",

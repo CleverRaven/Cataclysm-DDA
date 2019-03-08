@@ -1989,8 +1989,8 @@
       { "point" : [1,-1,0], "terrain" : "road" }
     ],
     "locations" : [ "land" ],
-    "city_sizes" : [ 6, 12 ],
-    "occurrences" : [ 0, 1 ],
+    "city_sizes" : [4, 12],
+    "occurrences" : [1, 4],
     "flags" : [ "CLASSIC" ]
   },{
     "type" : "overmap_special",
@@ -2028,8 +2028,8 @@
       { "point" : [1,-1,0], "terrain" : "road" }
     ],
     "locations" : [ "land" ],
-    "city_sizes" : [ 6, 12 ],
-    "occurrences" : [ 0, 1 ],
+    "city_sizes" : [4, 12],
+    "occurrences" : [0, 4],
     "flags" : [ "CLASSIC" ]
   },{
     "type" : "overmap_special",

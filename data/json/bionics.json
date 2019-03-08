@@ -602,7 +602,7 @@
     "id": "bio_metabolics",
     "type": "bionic",
     "name": "Metabolic Interchange",
-    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be toggled on and off at will.",
+    "description": "Your digestive system and power supply are interconnected.  Bionic energy is replenished at the cost of increasing hunger.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },

@@ -532,6 +532,14 @@
   },
   {
     "type": "effect_type",
+    "id": "no_sight",
+    "name": [ "Poor sight" ],
+    "desc": [ "You can't see very far from this spot." ],
+    "apply_message": "Your sight distance is impaired.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "pkill1",
     "max_duration": 240,
     "base_mods": { "pkill_tick": [ 7 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }

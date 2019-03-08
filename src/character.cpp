@@ -48,6 +48,7 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_narcosis( "narcosis" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -534,7 +535,7 @@ void Character::recalc_sight_limits()
     } else if( has_effect( effect_boomered ) && ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) {
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
-    } else if( has_effect( effect_in_pit ) ||
+    } else if( has_effect( effect_in_pit ) || has_effect( effect_no_sight ) ||
                ( underwater && !has_bionic( bionic_id( "bio_membrane" ) ) &&
                  !has_trait( trait_MEMBRANE ) && !worn_with_flag( "SWIM_GOGGLES" ) &&
                  !has_trait( trait_CEPH_EYES ) && !has_trait( trait_PER_SLIME_OK ) ) ) {
@@ -1821,42 +1822,42 @@ int Character::get_healthy_mod() const
 void Character::set_str_bonus( int nstr )
 {
     str_bonus = nstr;
-    str_cur = str_max + str_bonus;
+    str_cur = std::max(0, str_max + str_bonus);
 }
 void Character::set_dex_bonus( int ndex )
 {
     dex_bonus = ndex;
-    dex_cur = dex_max + dex_bonus;
+    dex_cur = std::max(0, dex_max + dex_bonus);
 }
 void Character::set_per_bonus( int nper )
 {
     per_bonus = nper;
-    per_cur = per_max + per_bonus;
+    per_cur = std::max(0, per_max + per_bonus);
 }
 void Character::set_int_bonus( int nint )
 {
     int_bonus = nint;
-    int_cur = int_max + int_bonus;
+    int_cur = std::max(0, int_max + int_bonus);
 }
 void Character::mod_str_bonus( int nstr )
 {
     str_bonus += nstr;
-    str_cur = str_max + str_bonus;
+    str_cur = std::max(0, str_max + str_bonus);
 }
 void Character::mod_dex_bonus( int ndex )
 {
     dex_bonus += ndex;
-    dex_cur = dex_max + dex_bonus;
+    dex_cur = std::max(0, dex_max + dex_bonus);
 }
 void Character::mod_per_bonus( int nper )
 {
     per_bonus += nper;
-    per_cur = per_max + per_bonus;
+    per_cur = std::max(0, per_max + per_bonus);
 }
 void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
-    int_cur = int_max + int_bonus;
+    int_cur = std::max(0, int_max + int_bonus);
 }
 
 void Character::set_healthy( int nhealthy )
