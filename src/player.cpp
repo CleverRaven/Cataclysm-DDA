@@ -195,6 +195,7 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_itchy( "bio_itchy" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_lighter( "bio_lighter" );
@@ -1824,6 +1825,11 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_CRAFTY ) ) {
         movecost *= 0.75f;
+    }
+    if( has_active_bionic( bio_jointservo ) ) {
+        movecost *= 0.80f;
+    } else if ( has_bionic( bio_jointservo ) ) {
+        movecost *= 1.05f;
     }
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;

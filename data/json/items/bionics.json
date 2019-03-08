@@ -808,6 +808,15 @@
     "difficulty": 4
   },
   {
+    "id": "bio_jointservo",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": "Joint Servo CBM",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement, enhancing your speed. Moving requires less effort when bionic is online, but when it's offline it will slightly hamper your movement.",
+    "price": 450000,
+    "difficulty": 4
+  },
+  {
     "id": "bio_uncanny_dodge",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

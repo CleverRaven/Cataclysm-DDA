@@ -369,6 +369,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_torsionratchet" ) {
         add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
+    } else if( bio.id == "bio_jointservo" ) {
+        add_msg_if_player( m_info, _( "Your legs move easier, now assisted by joint servomotos." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
