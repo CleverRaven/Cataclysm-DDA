@@ -686,10 +686,10 @@ bool main_menu::new_character_tab()
 
     bool start = false;
     while (!start && sel1 == 1 && (layer == 2 || layer == 3)) {
-
+#ifdef GSI
         while (gsi::get().mctxt.top() != "MAIN_NEW")
             gsi::get().mctxt.pop(); // ensure a reset to MAIN_NEW context in event of 
-
+#endif
         print_menu(w_open, 1, iMenuOffsetX, iMenuOffsetY);
         if (layer == 2 && sel1 == 1) {
             // Then choose custom character, random character, preset, etc
@@ -734,17 +734,14 @@ bool main_menu::new_character_tab()
             }
             if (action == "UP" || action == "CONFIRM") {
                 if (sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4) {
-
+#ifdef GSI
                     if (gsi::get().mctxt.top() != "MAIN_NEW_WSEL")
                         gsi::get().mctxt.push("MAIN_NEW_WSEL");
-
+#endif
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
-
-                    // GSI NOTE: Takes to world generation dialogue
                     WORLDPTR world = world_generator->pick_world(sel2 != 3 && sel2 != 4);
-                    // GSI NOTE: Exit world gen dialogue
                     if (world == nullptr) {
                         continue;
                     }
@@ -892,7 +889,9 @@ bool main_menu::new_character_tab()
     if (start) {
         g->u.add_msg_if_player(g->scen->description(g->u.male));
     }
+#ifdef GSI
     gsi::get().mctxt.pop();
+#endif
     return start;
 }
 

@@ -1,10 +1,13 @@
 #include <vector>
 #include <string>
 #include <stack>
+#include <condition_variable>
 
 class gsi
 {
 public:
+
+    std::condition_variable gsi_update;
 
     // Singleton setup
     static gsi& get()
