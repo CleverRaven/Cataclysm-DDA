@@ -4174,25 +4174,89 @@
     "type": "furniture",
     "id": "f_HPLC",
     "name": "high performance liquid chromatographer",
-    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals based on their affinity to a solid state medium in a tube.  In other words, it's a fancy way to separate things.",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a liquid or aqueous phase based on their affinity to a solid state medium in a tube.  In other words, it's a fancy way to separate things.",
     "symbol": ":",
     "color": "red",
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "count": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
     "id": "f_GC",
     "name": "gas chromatographer",
-    "description": "",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a gaseous phase based on their affinity to a solid state medium in a tube.  In other words, it's a fancy way to separate things.",
     "symbol": ":",
     "color": "blue",
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": 18,
-    "flags": [ "BLOCKSDOOR" ]
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "count": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
