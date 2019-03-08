@@ -1,7 +1,2 @@
 src/advanced_inv.cpp
 src/character.cpp
-src/iexamine.cpp
-src/json.cpp
-src/npctalk.cpp
-src/player.cpp
-src/veh_interact.cpp
