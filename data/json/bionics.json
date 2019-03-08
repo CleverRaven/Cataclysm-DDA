@@ -117,6 +117,16 @@
     "flags": [ "BIONIC_GUN" ]
   },
   {
+    "id": "bio_shotgun",
+    "type": "bionic",
+    "name": "Shotgun Arm",
+    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel , that pops-up upon activation. Perfect in a pinch.",
+    "occupied_bodyparts": [ [ "ARM_L", 15 ] ],
+    "act_cost": 5,
+    "fake_item": "bio_shotgun_gun",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
+  },
+  {
     "id": "bio_blindfold",
     "type": "bionic",
     "name": "Optical Dampers",
