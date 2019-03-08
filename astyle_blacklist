@@ -1,4 +1,3 @@
 src/advanced_inv.cpp
-src/character.cpp
 src/sdltiles.cpp
 src/ui.cpp

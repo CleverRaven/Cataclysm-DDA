@@ -107,10 +107,14 @@ static const trait_id debug_nodmg( "DEBUG_NODMG" );
 Character::Character() :
     Creature(),
     visitable<Character>(),
-    hp_cur( {{0}} ),
-    hp_max( {{0}} ),
-    damage_bandaged( {{0}} ),
-    damage_disinfected( {{0}} )
+    hp_cur(
+{{
+        0
+    }
+} ),
+hp_max( {{0}} ),
+damage_bandaged( {{0}} ),
+damage_disinfected( {{0}} )
 {
     str_max = 0;
     dex_max = 0;
@@ -530,7 +534,8 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) ) || has_effect( effect_narcosis ) ) {
+    if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) ) ||
+        has_effect( effect_narcosis ) ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) {
         sight_max = 1;
@@ -624,7 +629,8 @@ float Character::get_vision_threshold( float light_level ) const
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) - LIGHT_AMBIENT_MINIMAL ) /
+    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) -
+                                     LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f - encumb( bp_eyes ) / 10.0f;
@@ -642,7 +648,8 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
-    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ), threshold_for_range( range ) * dimming_from_light );
+    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
+                     threshold_for_range( range ) * dimming_from_light );
 }
 
 bool Character::has_bionic( const bionic_id &b ) const
@@ -1034,14 +1041,14 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
             ret += i.weight();
         }
     }
-    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    const auto &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     ret += i.weight_without( without );
     return ret;
 }
 
 units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
-    const auto& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    const auto &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
 }
 
@@ -1504,9 +1511,9 @@ units::mass Character::get_weight() const
 {
     units::mass ret = 0_gram;
     units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), 0_gram,
-                     []( units::mass sum, const item &itm ) {
-                        return sum + itm.weight();
-                     } );
+    []( units::mass sum, const item & itm ) {
+        return sum + itm.weight();
+    } );
 
     ret += CHARACTER_WEIGHT;       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
@@ -1532,7 +1539,7 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
                  const item &it,
-                 std::array<layer_level, num_bp>& highest_layer_so_far,
+                 std::array<layer_level, num_bp> &highest_layer_so_far,
                  bool power_armor, const Character &c )
 {
     const auto item_layer = it.get_layer();
@@ -1554,7 +1561,7 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
         // Apply layering penalty to this layer, as well as any layer worn
         // within it that would normally be worn outside of it.
         for( layer_level penalty_layer = item_layer;
-                penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
+             penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
             vals[bp].layer( penalty_layer, layering_encumbrance );
         }
 
@@ -1594,14 +1601,16 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
-std::list<item>::iterator Character::position_to_wear_new_item( const item& new_item )
+std::list<item>::iterator Character::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
     return std::find_if(
-        worn.rbegin(), worn.rend(),
-        [&](const item& w) { return w.get_layer() <= new_item.get_layer(); }
-    ).base();
+               worn.rbegin(), worn.rend(),
+    [&]( const item & w ) {
+        return w.get_layer() <= new_item.get_layer();
+    }
+           ).base();
 }
 
 /*
@@ -1634,14 +1643,14 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
         // const_cast required to work around g++-4.8 library bug
         // see the commit that added this comment to understand why
         new_item_position =
-            const_cast<Character*>(this)->position_to_wear_new_item( new_item );
+            const_cast<Character *>( this )->position_to_wear_new_item( new_item );
     }
 
     // Track highest layer observed so far so we can penalise out-of-order
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
-               UNDERWEAR);
+               UNDERWEAR );
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
@@ -1822,42 +1831,42 @@ int Character::get_healthy_mod() const
 void Character::set_str_bonus( int nstr )
 {
     str_bonus = nstr;
-    str_cur = std::max(0, str_max + str_bonus);
+    str_cur = std::max( 0, str_max + str_bonus );
 }
 void Character::set_dex_bonus( int ndex )
 {
     dex_bonus = ndex;
-    dex_cur = std::max(0, dex_max + dex_bonus);
+    dex_cur = std::max( 0, dex_max + dex_bonus );
 }
 void Character::set_per_bonus( int nper )
 {
     per_bonus = nper;
-    per_cur = std::max(0, per_max + per_bonus);
+    per_cur = std::max( 0, per_max + per_bonus );
 }
 void Character::set_int_bonus( int nint )
 {
     int_bonus = nint;
-    int_cur = std::max(0, int_max + int_bonus);
+    int_cur = std::max( 0, int_max + int_bonus );
 }
 void Character::mod_str_bonus( int nstr )
 {
     str_bonus += nstr;
-    str_cur = std::max(0, str_max + str_bonus);
+    str_cur = std::max( 0, str_max + str_bonus );
 }
 void Character::mod_dex_bonus( int ndex )
 {
     dex_bonus += ndex;
-    dex_cur = std::max(0, dex_max + dex_bonus);
+    dex_cur = std::max( 0, dex_max + dex_bonus );
 }
 void Character::mod_per_bonus( int nper )
 {
     per_bonus += nper;
-    per_cur = std::max(0, per_max + per_bonus);
+    per_cur = std::max( 0, per_max + per_bonus );
 }
 void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
-    int_cur = std::max(0, int_max + int_bonus);
+    int_cur = std::max( 0, int_max + int_bonus );
 }
 
 void Character::set_healthy( int nhealthy )
@@ -2009,7 +2018,8 @@ void Character::set_fatigue( int nfatigue )
 
 void Character::set_sleep_deprivation( int nsleep_deprivation )
 {
-    sleep_deprivation = std::min(static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max(0, nsleep_deprivation));
+    sleep_deprivation = std::min( static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max( 0,
+                                  nsleep_deprivation ) );
 }
 
 int Character::get_fatigue() const
@@ -2118,7 +2128,7 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto color_name = []( const nc_color &col ) {
+    const auto color_name = []( const nc_color & col ) {
         return get_all_colors().get_name( col );
     };
 
@@ -2205,13 +2215,13 @@ hp_part Character::body_window( const std::string &menu_header,
         // BLEEDING block
         if( bleeding ) {
             desc << colorize( string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
-                                                    get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) << "\n";
+                                             get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) << "\n";
             if( bleed > 0.0f ) {
                 desc << colorize( string_format( _( "Chance to stop: %d %%" ),
-                                                     int( bleed * 100 ) ), c_light_green ) << "\n";
+                                                 int( bleed * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not stop the bleeding." ),
-                                                     c_yellow ) << "\n";
+                                  c_yellow ) << "\n";
             }
         }
         // BANDAGE block
@@ -2219,23 +2229,23 @@ hp_part Character::body_window( const std::string &menu_header,
             desc << string_format( _( "Bandaged [%s]" ), texitify_healing_power( b_power ) ) << "\n";
             if( new_b_power > b_power ) {
                 desc << colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                     texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+                                                 texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
             } else if( new_b_power > 0 ) {
                 desc << colorize( _( "You don't expect any improvement from using this." ), c_yellow ) << "\n";
             }
         } else if( new_b_power > 0 && e.allowed ) {
             desc << colorize( string_format( _( "Expected bandage quality: %s" ),
-                    texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+                                             texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
         }
         // BITTEN block
         if( bitten ) {
             desc << colorize( string_format( "%s: ", get_effect( effect_bite,
-                                        e.bp ).get_speed_name() ), c_red );
+                                             e.bp ).get_speed_name() ), c_red );
             desc << colorize( string_format( _( "It has a deep bite wound that needs cleaning." ) ),
-                                        c_red ) << "\n";
+                              c_red ) << "\n";
             if( bite > 0 ) {
                 desc << colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                     int( bite * 100 ) ), c_light_green ) << "\n";
+                                                 int( bite * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in cleaning this wound." ), c_yellow ) << "\n";
             }
@@ -2243,13 +2253,13 @@ hp_part Character::body_window( const std::string &menu_header,
         // INFECTED block
         if( infected ) {
             desc << colorize( string_format( "%s: ", get_effect( effect_infected,
-                                        e.bp ).get_speed_name() ), c_red );
+                                             e.bp ).get_speed_name() ), c_red );
             desc << colorize( string_format(
-                                            _( "It has a deep wound that looks infected. Antibiotics might be required." ) ),
-                                        c_red ) << "\n";
+                                  _( "It has a deep wound that looks infected. Antibiotics might be required." ) ),
+                              c_red ) << "\n";
             if( infect > 0 ) {
                 desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),
-                                                     int( infect * 100 ) ), c_light_green ) << "\n";
+                                                 int( infect * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in healing infection." ), c_yellow ) << "\n";
             }
@@ -2260,15 +2270,15 @@ hp_part Character::body_window( const std::string &menu_header,
                                    texitify_healing_power( d_power ) ) << "\n";
             if( new_d_power > d_power ) {
                 desc << colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                     texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+                                                 texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
             } else if( new_d_power > 0 ) {
                 desc << colorize( _( "You don't expect any improvement from using this." ),
-                                                     c_yellow ) << "\n";
+                                  c_yellow ) << "\n";
             }
         } else if( new_d_power > 0 && e.allowed ) {
             desc << colorize( string_format(
-                        _( "Expected disinfection quality: %s" ),
-                        texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+                                  _( "Expected disinfection quality: %s" ),
+                                  texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
         }
         // END of blocks
 
