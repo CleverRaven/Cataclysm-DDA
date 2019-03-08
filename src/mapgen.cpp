@@ -2188,7 +2188,7 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int off
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md,
-                                     const time_point &t, float d )
+                                     const time_point &, float d )
 {
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
