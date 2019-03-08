@@ -966,7 +966,7 @@
     "coverage": 40,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FANCY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FANCY" ]
   },
   {
     "id": "beret_wool",
@@ -983,7 +983,7 @@
     "coverage": 40,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
   },
   {
     "id": "bikini_bottom",
@@ -1781,7 +1781,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "HOOD", "OUTER" ]
   },
   {
     "id": "cloak_fur",
@@ -1801,7 +1801,7 @@
     "warmth": 60,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "cloak_leather",
@@ -1821,7 +1821,7 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "cloak_wool",
@@ -1841,7 +1841,7 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "HOOD", "OUTER" ]
   },
   {
     "id": "clown_suit",
@@ -6724,7 +6724,7 @@
       "activate_msg": "Your optical cloak flickers as it becomes transparent.",
       "deactive_msg": "Your optical cloak flickers for a moment as it becomes opaque."
     },
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
   },
   {
     "id": "panties",
