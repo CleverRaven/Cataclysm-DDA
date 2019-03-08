@@ -815,7 +815,7 @@
       [ [ "cable", 4 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "motor", 1 ] ],
-      [ [ "plut_cell", [ 0, 1 ] ] ],
+      [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
     ]
   },
