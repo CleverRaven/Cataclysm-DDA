@@ -296,6 +296,9 @@ class Creature
 
         virtual void setpos( const tripoint &pos ) = 0;
 
+        /**Checks if selected tile is elligible for hiding and if so moves and hide in it*/
+        virtual bool hide(const Creature actor,const tripoint &target);
+
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 

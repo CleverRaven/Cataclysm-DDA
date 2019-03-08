@@ -26,6 +26,7 @@
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_hidden( "hidden" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_sap( "sap" );
 const efftype_id effect_sleep( "sleep" );
@@ -122,6 +123,39 @@ void Creature::process_turn()
 
     // add an appropriate number of moves
     moves += get_speed();
+}
+
+bool Creature::hide( const Creature actor, const tripoint &target )
+{
+    // Is target a place to hide
+    if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, target ) ) {
+        return false;
+    }
+
+    // Can we fit in there
+    if( g->m.has_flag_ter_or_furn( "MAX_TINY", target ) ) {
+        if( actor.get_size() != MS_TINY ) {
+            return false;
+        }
+    } else if( g->m.has_flag_ter_or_furn( "MAX_SMALL", target ) ) {
+        if (actor.get_size() > MS_SMALL) {
+            return false;
+        }
+    } else if( g->m.has_flag_ter_or_furn( "MAX_MEDIUM", target ) ) {
+        if( actor.get_size() > MS_MEDIUM ) {
+            return false;
+        }
+    } else if( g->m.has_flag_ter_or_furn( "MAX_LARGE", target ) ) {
+        if( actor.get_size() > MS_LARGE ) {
+            return false;
+        }
+    }
+
+    actor.setpos( target );
+    actor.moves -= g->m.move_cost( target ); // TODO : make cost specific to hiding
+    actor.add_effect( effect_hidden, true);
+    return true;
+
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
