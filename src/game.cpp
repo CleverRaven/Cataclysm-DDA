@@ -23,7 +23,6 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "catalua.h"
 #include "clzones.h"
 #include "compatibility.h"
 #include "computer.h"
@@ -57,7 +56,6 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "lua_console.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -355,22 +353,12 @@ void game::load_core_data( loading_ui &ui )
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
-    init_lua();
     load_data_from_dir( FILENAMES[ "jsondir" ], "core", ui );
 }
 
 void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
 {
-    // Process a preload file before the .json files,
-    // so that custom IUSE's can be defined before
-    // the items that need them are parsed
-    lua_loadmod( path, "preload.lua" );
-
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
-
-    // main.lua will be executed after JSON, allowing to
-    // work with items defined by mod's JSON
-    lua_loadmod( path, "main.lua" );
 }
 
 game::~game()
@@ -965,10 +953,6 @@ bool game::start_game()
     u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
                         pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
                         u.name.c_str() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( u.getID() );
-    lua_callback( "on_new_player_created", lua_callback_args_info );
-
     return true;
 }
 
@@ -1500,21 +1484,7 @@ bool game::do_turn()
 
     if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
-        if( calendar::turn.day_of_year() == 0 ) {
-            lua_callback( "on_year_passed" );
-        }
-        lua_callback( "on_day_passed" );
     }
-
-    if( calendar::once_every( 1_hours ) ) {
-        lua_callback( "on_hour_passed" );
-    }
-
-    if( calendar::once_every( 1_minutes ) ) {
-        lua_callback( "on_minute_passed" );
-    }
-
-    lua_callback( "on_turn_passed" );
 
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
@@ -1846,12 +1816,6 @@ void game::update_weather()
         // Check weather every few turns, instead of every turn.
         //@todo: predict when the weather changes and use that time.
         nextweather = calendar::turn + 50_turns;
-        if( weather != old_weather ) {
-            CallbackArgumentContainer lua_callback_args_info;
-            lua_callback_args_info.emplace_back( weather_data( weather ).name );
-            lua_callback_args_info.emplace_back( weather_data( old_weather ).name );
-            lua_callback( "on_weather_changed", lua_callback_args_info );
-        }
         if( weather != old_weather && weather_data( weather ).dangerous &&
             get_levz() >= 0 && m.is_outside( u.pos() )
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -2706,8 +2670,6 @@ void game::load( const save_t &name )
 
     u.reset();
     draw();
-
-    lua_callback( "on_savegame_loaded" );
 }
 
 void game::load_world_modfiles( loading_ui &ui )
@@ -2975,20 +2937,19 @@ void game::debug()
         _( "Test Item Group" ),                 // 20
         _( "Damage Self" ),                     // 21
         _( "Show Sound Clustering" ),           // 22
-        _( "Lua Console" ),                     // 23
-        _( "Display weather" ),                 // 24
-        _( "Display overmap scents" ),          // 25
-        _( "Change time" ),                     // 26
-        _( "Set automove route" ),              // 27
-        _( "Show mutation category levels" ),   // 28
-        _( "Overmap editor" ),                  // 29
-        _( "Draw benchmark (X seconds)" ),      // 30
-        _( "Teleport - Adjacent overmap" ),     // 31
-        _( "Test trait group" ),                // 32
-        _( "Show debug message" ),              // 33
-        _( "Crash game (test crash handling)" ),// 34
-        _( "Spawn Map Extra" ),                 // 35
-        _( "Quit to Main Menu" ),               // 36
+        _( "Display weather" ),                 // 23
+        _( "Display overmap scents" ),          // 24
+        _( "Change time" ),                     // 25
+        _( "Set automove route" ),              // 26
+        _( "Show mutation category levels" ),   // 27
+        _( "Overmap editor" ),                  // 28
+        _( "Draw benchmark (X seconds)" ),      // 29
+        _( "Teleport - Adjacent overmap" ),     // 30
+        _( "Test trait group" ),                // 31
+        _( "Show debug message" ),              // 32
+        _( "Crash game (test crash handling)" ),// 33
+        _( "Spawn Map Extra" ),                 // 34
+        _( "Quit to Main Menu" ),               // 35
     } );
     refresh_all();
     switch( action ) {
@@ -3220,18 +3181,13 @@ void game::debug()
         }
         break;
 
-        case 23: {
-            lua_console console;
-            console.run();
-        }
-        break;
-        case 24:
+        case 23:
             ui::omap::display_weather();
             break;
-        case 25:
+        case 24:
             ui::omap::display_scents();
             break;
-        case 26: {
+        case 25: {
             auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
@@ -3289,7 +3245,7 @@ void game::debug()
             } while( smenu.ret != UILIST_CANCEL );
         }
         break;
-        case 27: {
+        case 26: {
             const cata::optional<tripoint> dest = look_around();
             if( !dest || *dest == u.pos() ) {
                 break;
@@ -3303,17 +3259,17 @@ void game::debug()
             }
         }
         break;
-        case 28:
+        case 27:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
             break;
 
-        case 29:
+        case 28:
             ui::omap::display_editor();
             break;
 
-        case 30: {
+        case 29: {
             const int ms = string_input_popup()
                            .title( _( "Enter benchmark length (in milliseconds):" ) )
                            .width( 20 )
@@ -3323,19 +3279,19 @@ void game::debug()
         }
         break;
 
-        case 31:
+        case 30:
             debug_menu::teleport_overmap();
             break;
-        case 32:
+        case 31:
             trait_group::debug_spawn();
             break;
-        case 33:
+        case 32:
             debugmsg( "Test debugmsg" );
             break;
-        case 34:
+        case 33:
             std::raise( SIGSEGV );
             break;
-        case 35: {
+        case 34: {
             oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
 
             map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -3360,7 +3316,7 @@ void game::debug()
             }
             break;
         }
-        case 36:
+        case 35:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;

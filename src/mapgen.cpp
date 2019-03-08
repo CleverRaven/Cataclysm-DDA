@@ -8,7 +8,6 @@
 #include <sstream>
 
 #include "ammo.h"
-#include "catalua.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -209,14 +208,6 @@ void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, con
                                         const time_point &t, float d )
 {
     ( *fptr )( m, terrain_type, mgd, t, d );
-
-    const std::string mapgen_generator_type = "builtin";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -322,29 +313,6 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
             }
-        } else if( mgtype == "lua" ) { // lua script
-            if( jio.has_string( "script" ) ) { // minified into one\nline
-                const std::string mgscript = jio.get_string( "script" );
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-            } else if( jio.has_array( "script" ) ) { // or 1 line per entry array
-                std::string mgscript;
-                JsonArray jascr = jio.get_array( "script" );
-                while( jascr.has_more() ) {
-                    mgscript += jascr.next_string();
-                    mgscript += "\n";
-                }
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-                // @todo: pass dirname current.json, because the latter two are icky
-                // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).",
-                          id_base.c_str() );
-            }
-#ifndef LUA
-            dbg( D_ERROR ) << "oter_t " << id_base << ": mapgen entry requires a build with LUA=1.";
-#endif
         } else if( mgtype == "json" ) {
             if( jio.has_object( "object" ) ) {
                 JsonObject jo = jio.get_object( "object" );
@@ -358,7 +326,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             debugmsg( "oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
         }
     } else {
-        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").",
+        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\" or \"json\").",
                   id_base.c_str() );
     }
     return ret;
@@ -1876,17 +1844,6 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
         fill_ter = ter_str_id( jo.get_string( "fill_ter" ) ).id();
     }
 
-    if( jo.has_string( "lua" ) ) { // minified into one\nline
-        luascript = jo.get_string( "lua" );
-    } else if( jo.has_array( "lua" ) ) { // or 1 line per entry array
-        luascript.clear();
-        JsonArray jascr = jo.get_array( "lua" );
-        while( jascr.has_more() ) {
-            luascript += jascr.next_string();
-            luascript += "\n";
-        }
-    }
-
     if( jo.has_member( "rotation" ) ) {
         rotation = jmapgen_int( jo, "rotation" );
     }
@@ -2242,9 +2199,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     for( auto &elem : setmap_points ) {
         elem.apply( md, 0, 0 );
     }
-    if( ! luascript.empty() ) {
-        lua_mapgen( m, terrain_type, md, t, d, luascript );
-    }
 
     place_stairs( m, terrain_type, md );
 
@@ -2255,14 +2209,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     if( terrain_type->is_rotatable() ) {
         mapgen_rotate( m, terrain_type, false );
     }
-
-    const std::string mapgen_generator_type = "json";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y,
@@ -2315,47 +2261,6 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
             what.apply( dat, where.x, where.y, density );
         }
     }
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-///// lua mapgen functions
-// wip: need more bindings. Basic stuff works
-
-#ifndef LUA
-int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &mgd, const time_point &t,
-                float d, const std::string & )
-{
-    mapgen_crater( m, terrain_type, mgd, to_turn<int>( t ), d );
-    mapf::formatted_set_simple( m, 0, 6,
-                                "\
-    *   *  ***\n\
-    **  * *   *\n\
-    * * * *   *\n\
-    *  ** *   *\n\
-    *   *  ***\n\
-\n\
- *     *   *   *\n\
- *     *   *  * *\n\
- *     *   *  ***\n\
- *     *   * *   *\n\
- *****  ***  *   *\n\
-", mapf::ter_bind( "*", t_paper ), mapf::furn_bind( "*", f_null ) );
-    return 0;
-}
-#endif
-
-void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
-                                    const time_point &t, float d )
-{
-    lua_mapgen( m, terrain_type, mgd, t, d, scr );
-
-    const std::string mapgen_generator_type = "lua";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////

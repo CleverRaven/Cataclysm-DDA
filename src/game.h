@@ -901,7 +901,6 @@ class game
 #endif
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
-        void init_lua();          // Initializes lua interpreter.
         void create_starting_npcs(); // Creates NPCs that start near you
 
         // V Menu Functions and helpers:
