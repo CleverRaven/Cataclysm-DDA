@@ -1196,7 +1196,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             if( g->u.sees( *z ) ) {
                 add_msg( m_warning,
                          _( "The %s shudders, and some sort of caustic fluid leaks from a its damaged shell!" ),
-                         z->name().c_str() );
+                         z->name() );
             }
 
             // fill empty tiles with acid
