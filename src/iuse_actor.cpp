@@ -190,6 +190,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         p.update_bodytemp();
+        p.on_worn_item_transform( *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
@@ -945,7 +946,8 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
         return 0;
     }
 
-    if( g->m.move_cost( pnt ) != 2 ) {
+    // For example: dirt = 2, long grass = 3
+    if( g->m.move_cost( pnt ) != 2 && g->m.move_cost( pnt ) != 3 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
         return 0;
     }
@@ -992,6 +994,9 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else if( g->get_levz() < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname().c_str() );
+        return 0;
+    } else if( p.fine_detail_vision_mod() > 4 ) {
+        p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
     const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
@@ -1413,7 +1418,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = verb;
+        std::string lower_verb = _( verb );
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb.c_str(), cut.display_name().c_str() );
@@ -2544,6 +2549,15 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
 
+    std::function<bool( const item & )> filter;
+    if( fix.is_filthy() ) {
+        filter = []( const item & component ) {
+            return component.allow_crafting_component();
+        };
+    } else {
+        filter = is_crafting_component;
+    }
+
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
         const auto component_id = entry.obj().repaired_with();
@@ -2551,7 +2565,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
             }
-        } else if( crafting_inv.has_amount( component_id, items_needed ) ) {
+        } else if( crafting_inv.has_amount( component_id, items_needed, false, filter ) ) {
             comps.emplace_back( component_id, items_needed );
         }
     }
@@ -2580,7 +2594,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             debugmsg( "Attempted repair with no components" );
         }
 
-        pl.consume_items( comps );
+        pl.consume_items( comps, 1, filter );
     }
 
     return true;

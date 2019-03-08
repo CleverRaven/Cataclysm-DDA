@@ -324,9 +324,12 @@ void sounds::process_sound_markers( player *p )
         }
 
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
-        if( p->is_npc() && !sound.ambient ) {
-            npc *guy = dynamic_cast<npc *>( p );
-            guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
+        if( p->is_npc() ) {
+            if( !sound.ambient ) {
+                npc *guy = dynamic_cast<npc *>( p );
+                guy->handle_sound( static_cast<int>( sound.category ), description,
+                                   heard_volume, pos );
+            }
             continue;
         }
 
@@ -609,6 +612,7 @@ void sfx::do_ambient()
             case WEATHER_SNOWSTORM:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume, 20,
                                             1000 );
+                break;
             case WEATHER_SNOW:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, 5,
                                             1000 );

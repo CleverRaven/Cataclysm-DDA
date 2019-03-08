@@ -271,7 +271,14 @@
     "id": "mansion_bookcase",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "novels", 50 ], [ "manuals", 30 ], [ "textbooks", 15 ], [ "mansion_books", 15 ] ]
+    "groups": [
+      [ "novels", 40 ],
+      [ "mansion_books", 50 ],
+      [ "homebooks", 30 ],
+      [ "manuals", 10 ],
+      [ "textbooks", 5 ],
+      [ "exotic_books", 5 ]
+    ]
   },
   {
     "id": "suit_of_armor",

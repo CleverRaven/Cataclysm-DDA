@@ -20,23 +20,8 @@
     "armor_cut": 14,
     "vision_day": 50,
     "starting_ammo": { "9mm": 100 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 2,
-        "gun_type": "hk_mp5",
-        "ranges": [
-          [ 0, 6, "AUTO" ],
-          [ 7, 12, "DEFAULT" ]
-        ]
-      }
-    ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "secubot", 1 ]
-      ]
-    },
+    "special_attacks": [ { "type": "gun", "cooldown": 2, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] } ],
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "secubot", 1 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
   },
@@ -63,22 +48,71 @@
     "revert_to_itype": "bot_turret",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 1,
-        "gun_type": "hk_mp5",
-        "ranges": [
-          [ 0, 6, "AUTO" ],
-          [ 7, 12, "DEFAULT" ]
-        ]
-      }, [ "PARROT", 40 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 10 ],
-        [ "turret", 1 ]
-      ]
-    },
+      { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] },
+      [ "PARROT", 40 ]
+    ],
+    "death_drops": { "groups": [ [ "robots", 10 ], [ "turret", 1 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+  },
+  {
+    "id": "mon_skitterbot",
+    "type": "MONSTER",
+    "name": "skitterbot",
+    "description": "A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 2,
+    "volume": "30000 ml",
+    "weight": 40750,
+    "hp": 40,
+    "speed": 130,
+    "material": [ "steel" ],
+    "symbol": "a",
+    "color": "light_blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_cut": 0,
+    "armor_bash": 12,
+    "armor_cut": 12,
+    "vision_day": 50,
+    "path_settings": { "max_dist": 5 },
+    "special_attacks": [ [ "TAZER", 5 ] ],
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_science_bot",
+    "type": "MONSTER",
+    "name": "experimental lab bot",
+    "description": "This robot looks like a large metal spider, a bit bigger than a person, with its thorax covered in tiny holes.  An ominous buzzing emanates from it.",
+    "default_faction": "defense_bot",
+    "looks-like": "mon_skitterbot",
+    "species": [ "ROBOT" ],
+    "volume": "65000 ml",
+    "weight": 100000,
+    "hp": 80,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "A",
+    "color": "light_blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 2,
+    "dodge": 2,
+    "armor_bash": 12,
+    "armor_cut": 12,
+    "vision_day": 50,
+    "vision_night": 10,
+    "starting_ammo": { "bot_manhack": 5 },
+    "path_settings": { "max_dist": 5 },
+    "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2" ]
   }
 ]

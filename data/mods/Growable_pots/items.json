@@ -163,7 +163,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Buckwheat ready to harvest!",
       "moves": 0,
       "target": "gp_buckwheat_ready"
     }
@@ -205,7 +205,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Broccoli is ready to harvest!",
       "moves": 0,
       "target": "gp_broccoli_ready"
     }
@@ -247,7 +247,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Oats are ready to harvest!",
       "moves": 0,
       "target": "gp_oats_ready"
     }
@@ -289,7 +289,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Barley is ready to harvest!",
       "moves": 0,
       "target": "gp_barley_ready"
     }
@@ -331,7 +331,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Carrots are ready to harvest!",
       "moves": 0,
       "target": "gp_carrot_ready"
     }
@@ -373,7 +373,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Cotton is ready to harvest!",
       "moves": 0,
       "target": "gp_cotton_boll_ready"
     }
@@ -415,7 +415,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Cabbage is ready to harvest!",
       "moves": 0,
       "target": "gp_cabbage_ready"
     }
@@ -457,7 +457,7 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Cucumbers are ready to harvest!",
       "moves": 0,
       "target": "gp_cucumber_ready"
     }
@@ -499,9 +499,9 @@
       "type": "delayed_transform",
       "transform_age": 432000,
       "not_ready_msg": "It is growing quickly.",
-      "msg": "Hops are ready to harvest!",
+      "msg": "Garlic is ready to harvest!",
       "moves": 0,
-      "target": "gp_cucumber_ready"
+      "target": "gp_garlic_ready"
     }
   },
   {

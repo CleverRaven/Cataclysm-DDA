@@ -64,6 +64,7 @@
     * 2.6.14 "rubble"
     * 2.6.15 "place_liquids"
     * 2.6.16 "loot"
+    * 2.6.17 "sealed_item"
   * 2.7 "rotation"
 * 3 Method: lua
   * 3.0 Tested functions
@@ -676,6 +677,27 @@ Places item(s) from an item group, or an individual item. An important distincti
 - "chance": (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
 - "ammo": (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 - "magazine": (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
+
+### 2.6.17 "sealed_item"
+Places an item or item group inside furniture that has special handling for items.
+
+This is intended for furniture such as `f_plant_harvest` with the `PLANT` flag, because placing items on such furniture via the other means will not work (since they have the `NOITEM` FLAG).
+
+On such furniture, there is supposed to be a single (hidden) seed item which dictates the species of plant.  Using `sealed_item`, you can create such plants by specifying the furniture and a seed item.
+- "furniture": (string) the id of the chosen furniture.
+- Exactly one of:
+  - "item": spawn an item as the "item" special.
+  - "items": spawn an item group as the "items" special.
+
+Example:
+```
+"sealed_item": {
+  "p": {
+    "items": { "item": "farming_seeds", "chance": 100 },
+    "furniture": "f_plant_harvest"
+  }
+},
+```
 
 # 2.7 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:

@@ -193,7 +193,7 @@
     "color": "green",
     "name": "composite crossbow",
     "reload_noise_volume": 4,
-    "description": "A slightly larger, more powerful crossbow utilising composite material limbs and somewhat more modern design practices.",
+    "description": "A slightly larger, more powerful crossbow utilizing composite material limbs and somewhat more modern design practices.",
     "price": 89000,
     "material": [ "steel", "wood", "bone" ],
     "flags": [ "STR_RELOAD", "PRIMITIVE_RANGED_WEAPON" ],

@@ -253,7 +253,7 @@
       "place_signs": [
         { "signage": "<family_name> Cemetery", "x": 2, "y": 9 },
         { "signage": "Please respect the cemetery", "x": 2, "y": 14 },
-        { "signage": "May <given_name> and thier family rest in peace", "x": 21, "y": 14 },
+        { "signage": "May <given_name> and their family rest in peace", "x": 21, "y": 14 },
         { "signage": "Please respect the cemetery", "x": 21, "y": 9 }
       ]
     },

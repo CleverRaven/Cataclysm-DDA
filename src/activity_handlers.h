@@ -44,7 +44,7 @@ enum class item_drop_reason {
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
-                               const tripoint &where );
+                               const tripoint &where, bool force_ground = false );
 
 namespace activity_handlers
 {

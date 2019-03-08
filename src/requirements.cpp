@@ -100,7 +100,7 @@ bool tool_comp::by_charges() const
 std::string tool_comp::to_string( int batch ) const
 {
     if( by_charges() ) {
-        //~ <tool-name> (<numer-of-charges> charges)
+        //~ <tool-name> (<number-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
                               item::nname( type ).c_str(), count * batch );
     } else {

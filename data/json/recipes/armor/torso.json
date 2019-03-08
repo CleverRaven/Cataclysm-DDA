@@ -1015,6 +1015,18 @@
     "components": [ [ [ "rag", 5 ] ] ]
   },
   {
+    "result": "tshirt",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": 2000,
+    "autolearn": true,
+    "byproducts": [ [ "rag", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "longshirt", 1 ] ] ]
+  },
+  {
     "result": "tunic",
     "type": "recipe",
     "category": "CC_ARMOR",

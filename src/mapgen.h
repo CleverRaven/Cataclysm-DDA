@@ -38,6 +38,7 @@ class mapgen_function
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
+        virtual void check( const std::string & /*oter_name*/ ) const { }
         virtual void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) = 0;
 };
 
@@ -148,6 +149,8 @@ class jmapgen_piece
     protected:
         jmapgen_piece() = default;
     public:
+        /** Sanity-check this piece */
+        virtual void check( const std::string &/*oter_name*/ ) const { };
         /** Place something on the map from mapgendata dat, at (x,y). mon_density */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                             float mon_density ) const = 0;
@@ -243,6 +246,8 @@ struct jmapgen_objects {
         template<typename PieceType>
         void load_objects( JsonObject &jsi, const std::string &member_name );
 
+        void check( const std::string &oter_name ) const;
+
         void apply( const mapgendata &dat, float density ) const;
         void apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
 
@@ -277,6 +282,8 @@ class mapgen_function_json_base
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
 
+        void check_common( const std::string &oter_name ) const;
+
         void formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const;
 
         bool do_format;
@@ -295,8 +302,9 @@ class mapgen_function_json_base
 class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function
 {
     public:
-        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
         void setup() override;
+        void check( const std::string &oter_name ) const override;
+        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
         mapgen_function_json( const std::string &s, int w,
                               const int x_grid_offset = 0, const int y_grid_offset = 0 );
         ~mapgen_function_json() override = default;
@@ -315,6 +323,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 {
     public:
         void setup();
+        void check( const std::string &oter_name ) const;
         mapgen_function_json_nested( const std::string &s );
         ~mapgen_function_json_nested() override = default;
 
@@ -362,6 +371,8 @@ extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
 void calculate_mapgen_weights(); // throws
+
+void check_mapgen_definitions();
 
 /// move to building_generation
 enum room_type {
