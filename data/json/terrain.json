@@ -7011,7 +7011,7 @@
     "type": "terrain",
     "id": "t_manhole",
     "name": "manhole",
-    "description": "a small tunnel with a metal steps interlaced into the wall allowing for (relatively) easy access downwards.  You could potentially squeeze through and climb down but do you really want to?",
+    "description": "A tight tunnel with a metal steps interlaced into the wall allowing for (relatively) easy access downwards.  You could potentially squeeze through and climb down but do you really want to?",
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
