@@ -125,7 +125,7 @@ void Creature::process_turn()
     moves += get_speed();
 }
 
-bool Creature::hide( const Creature actor, const tripoint &target )
+bool Creature::hide( const tripoint &target )
 {
     // Is target a place to hide
     if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, target ) ) {
@@ -138,7 +138,7 @@ bool Creature::hide( const Creature actor, const tripoint &target )
             return false;
         }
     } else if( g->m.has_flag_ter_or_furn( "MAX_SMALL", target ) ) {
-        if (actor.get_size() > MS_SMALL) {
+        if( actor.get_size() > MS_SMALL ) {
             return false;
         }
     } else if( g->m.has_flag_ter_or_furn( "MAX_MEDIUM", target ) ) {
@@ -151,11 +151,11 @@ bool Creature::hide( const Creature actor, const tripoint &target )
         }
     }
 
-    actor.setpos( target );
-    actor.moves -= g->m.move_cost( target ); // TODO : make cost specific to hiding
-    actor.add_effect( effect_hidden, true);
+    setpos( target );
+    moves -= g->m.move_cost( target ); // TODO : make cost specific to hiding
+    add_effect( effect_hidden, true );
 
-    if( actor.is_player() ) {
+    if( is_player() ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( target ).c_str() );
     }
 
