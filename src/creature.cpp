@@ -154,6 +154,11 @@ bool Creature::hide( const Creature actor, const tripoint &target )
     actor.setpos( target );
     actor.moves -= g->m.move_cost( target ); // TODO : make cost specific to hiding
     actor.add_effect( effect_hidden, true);
+
+    if( actor.is_player() ) {
+        add_msg( m_good, _( "You are hiding in the %s." ), m.name( target ).c_str() );
+    }
+
     return true;
 
 }
