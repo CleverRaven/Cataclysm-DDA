@@ -2427,7 +2427,6 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
         // Choose brew from list
         int b_index = 0;
-        g->draw_sidebar_messages(); // flush messages before popup
         if( b_types.size() > 1 ) {
             b_index = uilist( _( "Use which brew?" ), b_names );
         } else { //Only one brew type was in inventory, so it's automatically used
@@ -2553,7 +2552,6 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             return;
         }
 
-        g->draw_sidebar_messages(); // flush messages before popup
         if( query_yn( _( "Finish brewing?" ) ) ) {
             const auto results = brew_i.brewing_results();
 
