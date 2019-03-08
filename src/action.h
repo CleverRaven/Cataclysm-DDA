@@ -97,6 +97,8 @@ enum action_id : int {
     ACTION_PICKUP,
     /** Grab or let go of an object */
     ACTION_GRAB,
+    /** Move to a HIDE_PLACE tile and hide in it*/
+    ACTION_HIDE,
     /** Haul pile of items, or let go of them */
     ACTION_HAUL,
     /** Butcher or disassemble objects in current square */

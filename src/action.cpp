@@ -162,6 +162,8 @@ std::string action_ident( action_id act )
             return "pickup";
         case ACTION_GRAB:
             return "grab";
+        case ACTION_HIDE:
+            return "hide";
         case ACTION_HAUL:
             return "haul";
         case ACTION_BUTCHER:
