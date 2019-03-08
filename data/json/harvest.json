@@ -459,7 +459,6 @@
     "id": "CBM_SCI",
     "type": "harvest",
     "entries": [
-      { "drop": "bio_power_storage", "type": "bionic" },
       { "drop": "bionics_sci", "type": "bionic_group" },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
