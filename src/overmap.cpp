@@ -156,6 +156,7 @@ t_regional_settings_map region_settings_map;
 namespace
 {
 
+generic_factory<overmap_land_use_code> land_use_codes( "overmap land use codes" );
 generic_factory<oter_type_t> terrain_types( "overmap terrain type" );
 generic_factory<oter_t> terrains( "overmap terrain" );
 generic_factory<overmap_special> specials( "overmap special" );
@@ -171,6 +172,18 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "LINEAR",         line_drawing   },
     { "SUBWAY",         subway_connection }
 };
+
+template<>
+const overmap_land_use_code &overmap_land_use_code_id::obj() const
+{
+    return land_use_codes.obj( *this );
+}
+
+template<>
+bool overmap_land_use_code_id::is_valid() const
+{
+    return land_use_codes.is_valid( *this );
+}
 
 template<>
 const overmap_special &overmap_special_id::obj() const
@@ -303,6 +316,53 @@ void set_oter_ids()   // @todo: fixme constify
     ot_forest_thick = oter_id( "forest_thick" );
     ot_forest_water = oter_id( "forest_water" );
     ot_river_center = oter_id( "river_center" );
+}
+
+void overmap_land_use_code::load( JsonObject &jo, const std::string &src )
+{
+    const bool strict = src == "dda";
+    assign( jo, "land_use_code", land_use_code, strict );
+    assign( jo, "name", name, strict );
+    assign( jo, "detailed_definition", detailed_definition, strict );
+    assign( jo, "sym", sym, strict );
+    assign( jo, "color", color, strict );
+}
+
+void overmap_land_use_code::finalize()
+{
+
+}
+
+void overmap_land_use_code::check() const
+{
+
+}
+
+void overmap_land_use_codes::load( JsonObject &jo, const std::string &src )
+{
+    land_use_codes.load( jo, src );
+}
+
+void overmap_land_use_codes::finalize()
+{
+    for( const auto &elem : land_use_codes.get_all() ) {
+        const_cast<overmap_land_use_code &>( elem ).finalize(); // This cast is ugly, but safe.
+    }
+}
+
+void overmap_land_use_codes::check_consistency()
+{
+    land_use_codes.check();
+}
+
+void overmap_land_use_codes::reset()
+{
+    land_use_codes.reset();
+}
+
+const std::vector<overmap_land_use_code> &overmap_land_use_codes::get_all()
+{
+    return land_use_codes.get_all();
 }
 
 void overmap_specials::load( JsonObject &jo, const std::string &src )
@@ -452,6 +512,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "spawns", static_spawns, strict );
     assign( jo, "color", color, strict );
+    assign( jo, "land_use_code", land_use_code, strict );
 
     const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
@@ -538,19 +599,23 @@ oter_t::oter_t() : oter_t( oter_type_t::null_type ) {}
 oter_t::oter_t( const oter_type_t &type ) :
     type( &type ),
     id( type.id.str() ),
-    sym( type.sym ) {}
+    sym( type.sym ),
+    sym_alt( type.land_use_code ? type.land_use_code->sym : sym ) {}
 
 oter_t::oter_t( const oter_type_t &type, om_direction::type dir ) :
     type( &type ),
     id( type.id.str() + "_" + om_direction::id( dir ) ),
     dir( dir ),
     sym( om_direction::rotate_symbol( type.sym, dir ) ),
+    sym_alt( om_direction::rotate_symbol( type.land_use_code ? type.land_use_code->sym : type.sym,
+                                          dir ) ),
     line( om_lines::from_dir( dir ) ) {}
 
 oter_t::oter_t( const oter_type_t &type, size_t line ) :
     type( &type ),
     id( type.id.str() + om_lines::all[line].suffix ),
     sym( om_lines::all[line].sym ),
+    sym_alt( om_lines::all[line].sym ),
     line( line ) {}
 
 std::string oter_t::get_mapgen_id() const

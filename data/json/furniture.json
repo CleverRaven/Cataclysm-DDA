@@ -235,7 +235,6 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "flags": [ "FLAMMABLE", "NOITEM", "ORGANIC" ],
-    "examine_action": "bulletin_board",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 4, 8 ] } ] },
     "bash": {
       "str_min": 3,
@@ -1815,6 +1814,7 @@
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_safe_o",
+    "examine_action": "open_safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,

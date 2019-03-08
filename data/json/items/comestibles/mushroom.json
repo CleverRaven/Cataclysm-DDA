@@ -8,8 +8,7 @@
     "description": "A tasty cooked wild mushroom.",
     "price": 150,
     "fun": 1,
-    "flags": [ "FREEZERBURN" ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "flags": [ "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -29,8 +28,8 @@
     "volume": 1,
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "vitamins": [ [ "iron", 12 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_mushroom",
+    "vitamins": [ [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -41,8 +40,7 @@
     "description": "A tasty cooked morel mushroom.",
     "price": 1500,
     "fun": 4,
-    "flags": [ "FREEZERBURN" ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "flags": [ "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -54,8 +52,7 @@
     "price": 1500,
     "charges": 2,
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -101,8 +98,8 @@
     "volume": 1,
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_mushroom",
+    "vitamins": [ [ "vitC", 1 ], [ "iron", 1 ] ]
   },
   {
     "//": "Should be removed after 0.D.",
@@ -123,6 +120,7 @@
     "copy-from": "mushroom",
     "stim": -4,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
-    "flags": [ "HIDDEN_HALLU", "FREEZERBURN", "SMOKABLE" ]
+    "flags": [ "HIDDEN_HALLU", "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_mushroom_magic"
   }
 ]

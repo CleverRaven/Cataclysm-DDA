@@ -12,7 +12,7 @@
     "type": "profession",
     "ident": "bio_specops",
     "name": "Bionic Spec-Op",
-    "description": "Once bionic augmentation proved safe, you were choosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancememts allow you to handle any combat scenario be it human or not.",
+    "description": "Once bionic augmentation proved safe, you were chosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancements allow you to handle any combat scenario be it human or not.",
     "points": 10,
     "CBMs": [
       "bio_targeting",
@@ -321,7 +321,7 @@
     "type": "profession",
     "ident": "bio_gangster",
     "name": "Bionic Gangster",
-    "description": "You were the boss' favorite, their protege; they always counted on you to get the toughtest jobs done. Seeing your potential, they invested in \"basic\" augments and the best gear on the market to better aid you in your job. After enjoying some period of freedom to do as you wanted, now you find yourself needing those skills to survive. ",
+    "description": "You were the boss' favorite, their protege; they always counted on you to get the toughest jobs done. Seeing your potential, they invested in \"basic\" augments and the best gear on the market to better aid you in your job. After enjoying some period of freedom to do as you wanted, now you find yourself needing those skills to survive. ",
     "points": 10,
     "CBMs": [
       "bio_targeting",
@@ -424,7 +424,7 @@
     "type": "profession",
     "ident": "pri-sur",
     "name": "Primitive Survivalist",
-    "description": "You knew the day would come, the day it all went to shit. You prepared yourself, not by gear but sheer skill; all those days in the woods paid off. If your ancestors survived with no tech, you'll be damned if you dont't",
+    "description": "You knew the day would come, the day it all went to shit. You prepared yourself, not by gear but sheer skill; all those days in the woods paid off. If your ancestors survived with no tech, you'll be damned if you don't",
     "points": 6,
     "skills": [
       { "level": 5, "name": "survival" },

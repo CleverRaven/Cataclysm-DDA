@@ -501,7 +501,7 @@
     "id": "mon_breather",
     "type": "MONSTER",
     "name": "breather",
-    "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernable exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
+    "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernible exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",

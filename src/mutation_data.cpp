@@ -272,6 +272,11 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         optional( si, was_loaded, "type", spawn_item );
         optional( si, was_loaded, "message", raw_spawn_item_message );
     }
+    if( jo.has_object( "ranged_mutation" ) ) {
+        auto si = jo.get_object( "ranged_mutation" );
+        optional( si, was_loaded, "type", ranged_mutation );
+        optional( si, was_loaded, "message", raw_ranged_mutation_message );
+    }
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
@@ -287,10 +292,25 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "player_display", player_display, true );
 
     JsonArray vr = jo.get_array( "vitamin_rates" );
+
     while( vr.has_more() ) {
         auto pair = vr.next_array();
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
                                time_duration::from_turns( pair.get_int( 1 ) ) );
+    }
+
+    auto vam = jo.get_array( "vitamins_absorb_multi" );
+    while( vam.has_more() ) {
+        auto pair = vam.next_array();
+        std::map<vitamin_id, float> vit;
+        auto vit_array = pair.get_array( 1 );
+        // fill the inner map with vitamins
+        while( vit_array.has_more() ) {
+            auto vitamins = vit_array.next_array();
+            vit.emplace( vitamin_id( vitamins.get_string( 0 ) ), vitamins.get_float( 1 ) );
+        }
+        // assign the inner vitamin map to the material_id key
+        vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
@@ -399,6 +419,11 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
 std::string mutation_branch::spawn_item_message() const
 {
     return _( raw_spawn_item_message.c_str() );
+}
+
+std::string mutation_branch::ranged_mutation_message() const
+{
+    return _( raw_ranged_mutation_message.c_str() );
 }
 
 std::string mutation_branch::name() const

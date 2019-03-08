@@ -215,6 +215,7 @@ std::string robot_finds_kitten::getmessage( int idx )
         _( "It's 1000 secrets the government doesn't want you to know!" ),
         _( "The letters O and R." ),
         _( "A magical... magic thing." ),
+        _( "That is a moose, a thing of pure evil. You should \"RUN!\"" ),
     };
     if( idx < 0 || idx >= nummessages ) {
         return std::string( _( "It is SOFTWARE BUG." ) );

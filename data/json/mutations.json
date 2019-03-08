@@ -752,6 +752,7 @@
         "starting_trait" : true,
         "//" : "Intolerances are presumed a psychological issue unless stated otherwise, and cancelled by digestive mutations, which force the issue.",
         "valid" : false,
+        "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "cancels" : ["CANNIBAL", "MEATARIAN", "ANTIFRUIT"]
     },{
         "type" : "mutation",
@@ -770,6 +771,7 @@
         "description" : "You, like many children, hated eating your vegetables; however, you didn't outgrow it.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
+        "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "cancels" : ["VEGETARIAN"]
     },
     {
@@ -790,6 +792,7 @@
         "description" : "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
+        "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "cancels" : ["VEGETARIAN"]
     },{
         "type" : "mutation",
@@ -797,7 +800,8 @@
         "name" : "Lactose Intolerance",
         "points" : -1,
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
-        "description" : "You, like 75 percent of the world, cannot tolerate milk or milk-based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "vitamins_absorb_multi": [ [ "milk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "starting_trait" : true
     },{
         "type" : "mutation",
@@ -807,6 +811,7 @@
         "description" : "Something in those heavily processed foods doesn't agree with you.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "cancels" : ["PROJUNK"],
+        "vitamins_absorb_multi": [ [ "junk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "category" : ["BEAST", "RAPTOR", "ALPHA"]
     },{
         "type" : "mutation",
@@ -815,6 +820,7 @@
         "points" : -2,
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "vitamins_absorb_multi": [ [ "wheat", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "starting_trait" : true
     },{
         "type" : "mutation",
@@ -1912,6 +1918,19 @@
         "prereqs" : ["SPINES"]
     },{
         "type" : "mutation",
+        "id" : "BARBS",
+        "name": "Assault barbs",
+        "points" : 2,
+        "visibility" : 2,
+        "ugliness" : 3,
+        "description" : "Some of the quills on your arms have become quite loose.  By flinging your arms, you can fire off these quills as projectiles.",
+        "active": true,
+        "cost": 10,
+        "hunger": true,
+        "ranged_mutation": { "type": "mut_quills", "message": "You fire off some of your quills." },
+        "prereqs" : ["QUILLS"]
+    },{
+        "type" : "mutation",
         "id" : "PLANTSKIN",
         "name" : "Phelloderm",
         "points" : 3,
@@ -2482,7 +2501,6 @@
         "name" : "Saprovore",
         "points" : 2,
         "description" : "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-        "prereqs" : ["CARNIVORE"],
         "cancels" : ["HERBIVORE", "RUMINANT"],
         "category" : ["TROGLOBITE", "CHIMERA"]
     },{
@@ -2678,7 +2696,7 @@
             "attack_text_u" : "You stab %s with your pointed horns",
             "attack_text_npc" : "%1$s stabs %2$s with their pointed horns",
             "chance" : 22,
-            "base_damage" : { "damage_type" : "bash", "amount" : 24 }
+            "base_damage" : { "damage_type" : "stab", "amount" : 24 }
         }
     },{
         "type" : "mutation",
@@ -2807,7 +2825,7 @@
             "attack_text_u" : "You whap %s with your tail",
             "attack_text_npc" : "%1$s whaps %2$s with their tail",
             "chance" : 20,
-            "base_damage" : { "damage_type" : "stab", "amount" : 8 }
+            "base_damage" : { "damage_type" : "bash", "amount" : 8 }
         }
     },{
         "type" : "mutation",
@@ -2874,7 +2892,7 @@
             "attack_text_u" : "You club %s with your tail",
             "attack_text_npc" : "%1$s clubs %2$s with their tail",
             "chance" : 20,
-            "base_damage" : { "damage_type" : "stab", "amount" : 18 }
+            "base_damage" : { "damage_type" : "bash", "amount" : 18 }
         }
     },{
         "type" : "mutation",
@@ -3038,7 +3056,7 @@
         "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.  You are less bothered by the deaths of others: their own weakness invited these fates upon them.",
         "purifiable" : false,
         "changes_to" : ["PRED2"],
-        "prereqs" : ["CARNIVORE"],
+        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "cancels" : ["PACIFIST"],
         "category" : ["BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER"]
@@ -3914,7 +3932,8 @@
         "description" : "Your skin is rather pale.",
         "changes_to" : ["ALBINO"],
         "leads_to" : ["TROGLO"],
-        "category" : ["LUPINE"]
+        "category": [ "LUPINE" ],
+        "types": [ "skin_tone" ]
     },{
         "type" : "mutation",
         "id" : "SPOTS",
@@ -3942,7 +3961,7 @@
         "points" : -2,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You're minorly deformed.  Some people will react badly to your appearance.",
+        "description" : "You're slightly deformed.  Some people will react badly to your appearance.",
         "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs" : ["UGLY"],
         "changes_to" : ["DEFORMED2"],
@@ -5429,7 +5448,7 @@
         "id" : "AMPHIBIAN",
         "name" : "Amphibious",
         "points" : 5,
-        "description" : "You're as comfortable in water as on land, and your body has adapated around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
+        "description" : "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
         "category" : ["FISH"],
         "threshreq" : ["THRESH_FISH"],
         "purifiable": false
