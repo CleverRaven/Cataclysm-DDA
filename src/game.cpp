@@ -11258,9 +11258,9 @@ void game::on_move_effects()
         }
     }
     if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            u.charge_power( -5 );
+        u.charge_power( -5 );
     }
-    
+
     if( u.move_mode == "run" ) {
         if( u.stamina <= 0 ) {
             u.toggle_move_mode();

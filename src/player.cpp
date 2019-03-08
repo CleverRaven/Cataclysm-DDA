@@ -1828,7 +1828,7 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_active_bionic( bio_jointservo ) ) {
         movecost *= 0.80f;
-    } else if ( has_bionic( bio_jointservo ) ) {
+    } else if( has_bionic( bio_jointservo ) ) {
         movecost *= 1.05f;
     }
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
