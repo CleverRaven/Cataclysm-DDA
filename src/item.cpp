@@ -2298,6 +2298,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       _( "* This mod <bad>obscures sights</bad> of the base weapon." ) ) );
         }
 
+        if( is_gunmod() && has_flag( "CONSUMABLE" ) &&
+            parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This mod might <bad>suffer wear</bad> when firing the base weapon." ) ) );
+        }
+
         if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0
             && parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED ) ) {
             info.push_back( iteminfo( "DESCRIPTION",

@@ -679,6 +679,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
 
     // Draw text describing the overmap tile at the cursor position.
+    int lines = 1;
     if( csee ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
@@ -703,19 +704,27 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
 
-            const std::vector<std::string> name = foldstring( overmap_buffer.get_description_at( sm_pos ), 25 );
-            for( size_t i = 0; i < name.size(); i++ ) {
-                mvwprintz( wbar, i + 1, 3, ter.get_color(), name[i] );
-            }
+            lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
+                                    overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
         mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
     }
 
     if( has_target ) {
-        // @todo: Add a note that the target is above/below us
-        int distance = rl_dist( orig, target );
-        mvwprintz( wbar, 3, 1, c_white, _( "Distance to target: %d" ), distance );
+        const int distance = rl_dist( orig, target );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to target: %d" ), distance );
+
+        const int above_below = target.z - orig.z;
+        std::string msg;
+        if( above_below > 0 ) {
+            msg = _( "Above us" );
+        } else if( above_below < 0 ) {
+            msg = _( "Below us" );
+        }
+        if( above_below != 0 ) {
+            mvwprintz( wbar, ++lines, 1, c_white, _( "%s" ), msg );
+        }
     }
     mvwprintz( wbar, 14, 1, c_magenta, _( "Use movement keys to pan." ) );
     if( inp_ctxt != nullptr ) {

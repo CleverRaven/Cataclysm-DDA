@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-22 10:10+0800\n"
+"POT-Creation-Date: 2019-02-22 10:15+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78756,6 +78756,384 @@ msgid "Found the cheese."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Hair: black, crew-cut"
+msgstr ""
+
+#. ~ Description for Hair: black, crew-cut
+#: lang/json/mutation_from_json.py
+msgid "Crewcut black hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: black, mohawk"
+msgstr ""
+
+#. ~ Description for Hair: black, mohawk
+#: lang/json/mutation_from_json.py
+msgid "Mohawk black hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: black, 'fro"
+msgstr ""
+
+#. ~ Description for Hair: black, 'fro
+#: lang/json/mutation_from_json.py
+msgid "'Fro black hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: black, short"
+msgstr ""
+
+#. ~ Description for Hair: black, short
+#: lang/json/mutation_from_json.py
+msgid "Short black hair style"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: black, medium-length"
+msgstr ""
+
+#. ~ Description for Hair: black, medium-length
+#: lang/json/mutation_from_json.py
+msgid "Medium-length black hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: black, long"
+msgstr ""
+
+#. ~ Description for Hair: black, long
+#: lang/json/mutation_from_json.py
+msgid "Long black hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: brown, crew-cut"
+msgstr ""
+
+#. ~ Description for Hair: brown, crew-cut
+#: lang/json/mutation_from_json.py
+msgid "Crewcut brown hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: brown, mohawk"
+msgstr ""
+
+#. ~ Description for Hair: brown, mohawk
+#: lang/json/mutation_from_json.py
+msgid "Mohawk brown hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: brown, 'fro"
+msgstr ""
+
+#. ~ Description for Hair: brown, 'fro
+#: lang/json/mutation_from_json.py
+msgid "'Fro brown hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: brown, short"
+msgstr ""
+
+#. ~ Description for Hair: brown, short
+#: lang/json/mutation_from_json.py
+msgid "Short brown hair style"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: brown, medium-length"
+msgstr ""
+
+#. ~ Description for Hair: brown, medium-length
+#: lang/json/mutation_from_json.py
+msgid "Medium-length brown hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: brown, long"
+msgstr ""
+
+#. ~ Description for Hair: brown, long
+#: lang/json/mutation_from_json.py
+msgid "Long brown hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: blond, crew-cut"
+msgstr ""
+
+#. ~ Description for Hair: blond, crew-cut
+#: lang/json/mutation_from_json.py
+msgid "Crewcut blond hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: blond, mohawk"
+msgstr ""
+
+#. ~ Description for Hair: blond, mohawk
+#: lang/json/mutation_from_json.py
+msgid "Mohawk blond hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: blond, 'fro"
+msgstr ""
+
+#. ~ Description for Hair: blond, 'fro
+#: lang/json/mutation_from_json.py
+msgid "'Fro blond hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: blond, short"
+msgstr ""
+
+#. ~ Description for Hair: blond, short
+#: lang/json/mutation_from_json.py
+msgid "Short blond hair style"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: blond, medium-length"
+msgstr ""
+
+#. ~ Description for Hair: blond, medium-length
+#: lang/json/mutation_from_json.py
+msgid "Medium-length blond hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: blond, long"
+msgstr ""
+
+#. ~ Description for Hair: blond, long
+#: lang/json/mutation_from_json.py
+msgid "Long blond hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: red, crew-cut"
+msgstr ""
+
+#. ~ Description for Hair: red, crew-cut
+#: lang/json/mutation_from_json.py
+msgid "Crewcut red hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: red, mohawk"
+msgstr ""
+
+#. ~ Description for Hair: red, mohawk
+#: lang/json/mutation_from_json.py
+msgid "Mohawk red hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: red, 'fro"
+msgstr ""
+
+#. ~ Description for Hair: red, 'fro
+#: lang/json/mutation_from_json.py
+msgid "'Fro red hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: red, short"
+msgstr ""
+
+#. ~ Description for Hair: red, short
+#: lang/json/mutation_from_json.py
+msgid "Short red hair style"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: red, medium-length"
+msgstr ""
+
+#. ~ Description for Hair: red, medium-length
+#: lang/json/mutation_from_json.py
+msgid "Medium-length red hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: red, long"
+msgstr ""
+
+#. ~ Description for Hair: red, long
+#: lang/json/mutation_from_json.py
+msgid "Long red hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: gray, crew-cut"
+msgstr ""
+
+#. ~ Description for Hair: gray, crew-cut
+#: lang/json/mutation_from_json.py
+msgid "Crewcut gray hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: gray, mohawk"
+msgstr ""
+
+#. ~ Description for Hair: gray, mohawk
+#: lang/json/mutation_from_json.py
+msgid "Mohawk gray hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: gray, 'fro"
+msgstr ""
+
+#. ~ Description for Hair: gray, 'fro
+#: lang/json/mutation_from_json.py
+msgid "'Fro gray hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: gray, short"
+msgstr ""
+
+#. ~ Description for Hair: gray, short
+#: lang/json/mutation_from_json.py
+msgid "Short gray hair style"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: gray, medium-length"
+msgstr ""
+
+#. ~ Description for Hair: gray, medium-length
+#: lang/json/mutation_from_json.py
+msgid "Medium-length gray hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: gray, long"
+msgstr ""
+
+#. ~ Description for Hair: gray, long
+#: lang/json/mutation_from_json.py
+msgid "Long gray hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: white, crew-cut"
+msgstr ""
+
+#. ~ Description for Hair: white, crew-cut
+#: lang/json/mutation_from_json.py
+msgid "Crewcut white hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: white, mohawk"
+msgstr ""
+
+#. ~ Description for Hair: white, mohawk
+#: lang/json/mutation_from_json.py
+msgid "Mohawk white hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: white, 'fro"
+msgstr ""
+
+#. ~ Description for Hair: white, 'fro
+#: lang/json/mutation_from_json.py
+msgid "'Fro white hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: white, short"
+msgstr ""
+
+#. ~ Description for Hair: white, short
+#: lang/json/mutation_from_json.py
+msgid "Short white hair style"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: white, medium-length"
+msgstr ""
+
+#. ~ Description for Hair: white, medium-length
+#: lang/json/mutation_from_json.py
+msgid "Medium-length white hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: white, long"
+msgstr ""
+
+#. ~ Description for Hair: white, long
+#: lang/json/mutation_from_json.py
+msgid "Long white hair style."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Hair: none"
+msgstr ""
+
+#. ~ Description for Hair: none
+#: lang/json/mutation_from_json.py
+msgid "You are bald."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Skin tone: dark brown"
+msgstr ""
+
+#. ~ Description for Skin tone: dark brown
+#: lang/json/mutation_from_json.py
+msgid "You have a dark brown skin tone."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Skin tone: light"
+msgstr ""
+
+#. ~ Description for Skin tone: light
+#: lang/json/mutation_from_json.py
+msgid "You have a light peach skin tone."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Skin tone: light brown"
+msgstr ""
+
+#. ~ Description for Skin tone: light brown
+#: lang/json/mutation_from_json.py
+msgid "You have a light brown skin tone."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Skin tone: rose"
+msgstr ""
+
+#. ~ Description for Skin tone: rose
+#: lang/json/mutation_from_json.py
+msgid "You have a rosy pink skin tone."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Skin tone: bronze"
+msgstr ""
+
+#. ~ Description for Skin tone: bronze
+#: lang/json/mutation_from_json.py
+msgid "You have a bronze or tan skin tone."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Fleet-Footed"
 msgstr ""
 
@@ -112241,14 +112619,14 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "closed wood door with peephole"
+msgid "open wood door"
 msgstr ""
 
-#. ~ Description for closed wood door with peephole
+#. ~ Description for open wood door
 #: lang/json/terrain_from_json.py
 msgid ""
-"A regular door made of ordinary wood, except this one has a peephole.  If "
-"you examined it more closely, you'd be able to peek through the hole."
+"A standard wooden door that doesn't look very resilient.  It'd probably burn "
+"easily, too.  This one is wide open."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -112263,6 +112641,51 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "empty door frame"
+msgstr ""
+
+#. ~ Description for empty door frame
+#: lang/json/terrain_from_json.py
+msgid ""
+"An empty door frame made from two by fours and nails.  A variety of doors "
+"could be constructed here."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "closed glass door"
+msgstr ""
+
+#. ~ Description for closed glass door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A sliding glass door, the kind that was on social media with people and "
+"animals running into.  This one is closed, so don't hurt yourself."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "open glass door"
+msgstr ""
+
+#. ~ Description for open glass door
+#. ~ Description for open frosted glass door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A sliding glass door that has been left open for all manner of things to "
+"travel through."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "closed wood door with peephole"
+msgstr ""
+
+#. ~ Description for closed wood door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"A regular door made of ordinary wood, except this one has a peephole.  If "
+"you examined it more closely, you'd be able to peek through the hole."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "damaged wood door with peephole"
 msgstr ""
 
@@ -112272,17 +112695,6 @@ msgid ""
 "Bad news is the peephole is broken and you can't look outside the door.  "
 "Good news is the door is nearly broken down, so there's nothing blocking the "
 "view.  A few planks, nails and the right tools could patch up all the damage."
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "open wood door"
-msgstr ""
-
-#. ~ Description for open wood door
-#: lang/json/terrain_from_json.py
-msgid ""
-"A standard wooden door that doesn't look very resilient.  It'd probably burn "
-"easily, too.  This one is wide open."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -112407,17 +112819,6 @@ msgid ""
 "hanging from the top of the doorway.  Could be easily taken down and re-"
 "purposed.  The planks have been rolled up and attached to the top of the "
 "doorway, allowing free movement through."
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "empty door frame"
-msgstr ""
-
-#. ~ Description for empty door frame
-#: lang/json/terrain_from_json.py
-msgid ""
-"An empty door frame made from two by fours and nails.  A variety of doors "
-"could be constructed here."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -112655,29 +113056,6 @@ msgid ""
 "A detention door made up of crisscrossed stainless steel bars.  The locking "
 "mechanism appears to be engaged.  The mechanism could be picked open with "
 "enough skill."
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "closed glass door"
-msgstr ""
-
-#. ~ Description for closed glass door
-#: lang/json/terrain_from_json.py
-msgid ""
-"A sliding glass door, the kind that was on social media with people and "
-"animals running into.  This one is closed, so don't hurt yourself."
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "open glass door"
-msgstr ""
-
-#. ~ Description for open glass door
-#. ~ Description for open frosted glass door
-#: lang/json/terrain_from_json.py
-msgid ""
-"A sliding glass door that has been left open for all manner of things to "
-"travel through."
 msgstr ""
 
 #: lang/json/terrain_from_json.py

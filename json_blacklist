@@ -14,9 +14,6 @@ data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
 data/json/itemgroups/tools.json
 data/json/itemgroups/vending_machines.json
-data/json/items/armor/bandolier.json
-data/json/items/armor/boots.json
-data/json/items/armor/holster.json
 data/json/items/chemicals_and_resources.json
 data/json/items/containers.json
 data/json/items/fake.json
