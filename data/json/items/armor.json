@@ -291,7 +291,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
   },
   {
     "id": "armguard_metal",
@@ -495,7 +495,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
   },
   {
     "id": "armor_nomad",
@@ -1574,7 +1574,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
     "id": "chainmail_hood",
@@ -1593,7 +1593,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "chainmail_legs",
@@ -1613,7 +1613,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
     "id": "chainmail_suit",
@@ -1628,7 +1628,7 @@
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
+    "covers": [ "TORSO", "HEAD", "ARMS", "LEGS", "OUTER" ],
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
@@ -1651,7 +1651,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
     "id": "chaps_leather",
@@ -2145,7 +2145,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
   },
   {
     "id": "depowered_armor",
@@ -2995,7 +2995,7 @@
     "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "gauntlets_bone",
@@ -5947,7 +5947,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
   },
   {
     "id": "legguard_metal",
