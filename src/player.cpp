@@ -2829,7 +2829,7 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 
 bool player::has_alarm_clock() const
 {
-    return ( has_item_with_flag( "ALARMCLOCK" ) ||
+    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -2837,7 +2837,7 @@ bool player::has_alarm_clock() const
 
 bool player::has_watch() const
 {
-    return ( has_item_with_flag( "WATCH" ) ||
+    return ( has_item_with_flag( "WATCH", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -12296,9 +12296,12 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     } );
 }
 
-bool player::has_item_with_flag( const std::string &flag ) const
+bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag]( const item & it ) {
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : true;
+        }
         return it.has_flag( flag );
     } );
 }
