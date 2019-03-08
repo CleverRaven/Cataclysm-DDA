@@ -58,7 +58,8 @@ advanced_inventory::advanced_inventory()
     , dest( right )
     , filter_edit( false )
       // panes don't need initialization, they are recalculated immediately
-    , squares( {
+    , squares(
+{
     {
         //               hx  hy  x    y   z
         { AIM_INVENTORY, 25, 2, {0,   0,  0}, _( "Inventory" ),          _( "IN" ) },
