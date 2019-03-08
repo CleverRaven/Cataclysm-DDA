@@ -808,7 +808,7 @@
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "power_supply", 3 ] ],
-      [ [ "geiger_off, [ 0, 1] ] ],
+      [ [ "geiger_off", [ 0, 1] ] ],
       [ [ "tazer", 2 ] ],
       [ [ "e_scrap", 4 ] ],
       [ [ "solder_wire", 10 ] ],
