@@ -1,0 +1,105 @@
+/*{
+    "provider": {
+        "name": "minecraft",
+        "appid": -1
+    },
+    "player": {
+        "inGame": true,
+        "health": 20,
+        "maxHealth": 20,
+        "absorption": 0,
+        "isDead": false,
+        "armor": 0,
+        "experienceLevel": 9,
+        "experience": 0.27999994,
+        "foodLevel": 19,
+        "saturationLevel": 0,
+        "isSneaking": false,
+        "isRidingHorse": false,
+        "isBurning": false,
+        "isInWater": true,
+        "playerEffects": {
+            "moveSpeed": false,
+            "fireResistance": false,
+            "poison": true,
+            "absorption": false,
+            "blindness": false,
+            "regeneration": false,
+            "moveSlowdown": false,
+            "confusion": false,
+            "wither": false,
+            "invisibility": false
+        }
+    },
+    "world": {
+        "worldTime": 26000,
+        "isDayTime": true,
+        "isRaining": false,
+        "rainStrength": 0
+    }
+} */
+
+{
+    "provider": {
+        "name": "cataclysm",
+        "appid": -1
+    },
+    "keybinds": {
+        "text_input": true, // Used to determine whether or not to light whole keyboard.
+        "input_context": "default", // Used to determine which binds to load from keybindings file.
+        "menu_context": "MAIN", // Used to determine keys for use in menu structures.
+
+        "current_keys": { // Generic structure for current keys for any menu structure that needs them.  Inventory, bionics menu, etc.
+            "keys": [ "x", "y", "z" ],
+            "colors": [
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ]
+            ]
+
+        },
+        "localization": { // Keys for localizations of menu structures.
+            "main_world": [ "a", "b", "c" ],
+            "main_settings": [ "a", "b", "c" ],
+            "main_menu": [ "a", "b", "c" ],
+            "main_newgame": [ "a", "b", "c" ]
+        }
+    },
+    "player": {
+        "health_current": [ 10, 10, 10, 10, 10, 10 ], // Health for limbs.  Intentionally obfuscated on Cataclysm's end if not self aware.
+        "health_max": [ 10, 10, 10, 10, 10, 10 ],
+        "self_aware": false, // Do we have self-awareness?
+        "bionic_pow": 50,
+        "safe_mode": 5, // How many letters on the safe mode prompt are green.
+        "morale": 20,
+        "stamina": 100
+    },
+    "world": {
+        "surroundings": {  // Information about surrounding 8 tiles
+            "colors": 
+            [
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ],
+                [ 255, 255, 0 ]
+            ],
+            "solid": [ false, false, false, false, false, false, false, false, false ]
+
+        },
+        "health_max": [ 10, 10, 10, 10, 10, 10 ],
+        "limb_status": [0,0,1,2,3,4], // Status of limb.  Normal, bleeding, bitten, infected, broken, splinted.
+        "self_aware": false,
+        "hunger": 1, // current hunger state from -3 to 5, from Engorged to Starving
+        "thirst": 2, // thirst from -3 to 4, from Turgid to Parched.
+        "tired": 4,
+
+        "bionic_pow": 50,
+        "safe_mode": 5,
+        "morale": 20
+    }
+} 
