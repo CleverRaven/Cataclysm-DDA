@@ -179,7 +179,6 @@ data/json/npcs/TALK_EVAC_MERCHANT.json
 data/json/npcs/TALK_OLD_GUARD_REP.json
 data/json/npcs/TALK_SCAVENGER_MERC.json
 data/json/npcs/talk_tags.json
-data/json/overmap/multitile_buildings_terrain.json
 data/json/overmap/multitile_city_buildings.json
 data/json/overmap/specials.json
 data/json/overmap_connections.json
