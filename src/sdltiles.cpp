@@ -1531,22 +1531,23 @@ static float second_finger_down_x = -1.0f; // in pixels
 static float second_finger_down_y = -1.0f; // in pixels
 static float second_finger_curr_x = -1.0f; // in pixels
 static float second_finger_curr_y = -1.0f; // in pixels
-static unsigned long finger_down_time =
-    0; // when did the first finger start touching the screen? 0 if not touching, otherwise the time in milliseconds.
-static unsigned long finger_repeat_time =
-    0; // the last time we repeated input for a finger hold, 0 if not touching, otherwise the time in milliseconds.
-static unsigned long last_tap_time =
-    0; // the last time a single tap was detected. used for double-tap detection.
-static unsigned long ac_back_down_time =
-    0; // when did the hardware back button start being pressed? 0 if not touching, otherwise the time in milliseconds.
-static bool is_two_finger_touch =
-    false; // has a second finger touched the screen while the first was touching?
-static bool is_quick_shortcut_touch = false; // did this touch start on a quick shortcut?
+// when did the first finger start touching the screen? 0 if not touching, otherwise the time in milliseconds.
+static unsigned long finger_down_time = 0;
+// the last time we repeated input for a finger hold, 0 if not touching, otherwise the time in milliseconds.
+static unsigned long finger_repeat_time = 0;
+// the last time a single tap was detected. used for double-tap detection.
+static unsigned long last_tap_time = 0;
+// when did the hardware back button start being pressed? 0 if not touching, otherwise the time in milliseconds.
+static unsigned long ac_back_down_time = 0;
+// has a second finger touched the screen while the first was touching?
+static bool is_two_finger_touch = false;
+// did this touch start on a quick shortcut?
+static bool is_quick_shortcut_touch = false;
 static bool quick_shortcuts_toggle_handled = false;
-unsigned long finger_repeat_delay =
-    500; // the current finger repeat delay - will be somewhere between the min/max values depending on user input
-static bool needs_sdl_surface_visibility_refresh =
-    true; // should we make sure the sdl surface is visible? set to true whenever the SDL window is shown.
+// the current finger repeat delay - will be somewhere between the min/max values depending on user input
+unsigned long finger_repeat_delay = 500;
+// should we make sure the sdl surface is visible? set to true whenever the SDL window is shown.
+static bool needs_sdl_surface_visibility_refresh = true;
 
 // Quick shortcuts container: maps the touch input context category (std::string) to a std::list of input_events.
 typedef std::list<input_event> quick_shortcuts_t;
