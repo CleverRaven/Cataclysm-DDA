@@ -175,6 +175,7 @@ const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pet( "pet" );
@@ -10782,6 +10783,12 @@ void game::place_player( const tripoint &dest_loc )
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
+    if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
+        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
+    } else if( u.has_effect( effect_no_sight ) ) {
+        u.remove_effect( effect_no_sight );
+    }
+
 
     // If we moved out of the nonant, we need update our map data
     if( m.has_flag( "SWIMMABLE", dest_loc ) && u.has_effect( effect_onfire ) ) {

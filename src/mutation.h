@@ -157,6 +157,13 @@ struct mutation_branch {
     public:
         std::string spawn_item_message() const;
 
+        /** The fake gun, if any, spawned and fired by the ranged mutation */
+        itype_id ranged_mutation;
+    private:
+        std::string raw_ranged_mutation_message;
+    public:
+        std::string ranged_mutation_message() const;
+
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
 

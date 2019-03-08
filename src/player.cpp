@@ -140,6 +140,7 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_nausea( "nausea" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pkill( "pkill" );
@@ -2782,7 +2783,7 @@ int player::clairvoyance() const
 
 bool player::sight_impaired() const
 {
-    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) &&
+    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) || has_effect( effect_darkness ) ) &&
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
              ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
@@ -7062,7 +7063,7 @@ void player::use_fire(const int quantity)
     }
 }
 
-std::list<item> player::use_charges( const itype_id& what, long qty )
+std::list<item> player::use_charges( const itype_id& what, long qty, const std::function<bool( const item & )> &filter )
 {
     std::list<item> res;
 
@@ -7102,11 +7103,11 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS]( item *e ) {
-        if( e->use_charges( what, qty, res, pos() ) ) {
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item *e ) {
+        if( filter( *e ) && e->use_charges( what, qty, res, pos() ) ) {
             del.push_back( e );
         }
-        if( e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
+        if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
             has_tool_with_UPS = true;
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;

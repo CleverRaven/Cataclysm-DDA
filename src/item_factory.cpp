@@ -1693,6 +1693,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
+    assign( jo, "consume_chance", slot.consume_chance );
+    assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges", slot.ups_charges );
     assign( jo, "install_time", slot.install_time );

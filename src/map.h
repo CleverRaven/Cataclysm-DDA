@@ -947,7 +947,7 @@ class map
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
                                     long &amount, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     long &amount );
+                                     long &amount, const std::function<bool( const item & )> &filter = return_true );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 

@@ -954,9 +954,8 @@
   {
     "type": "terrain",
     "id": "t_palisade_gate_o",
-    "name": "dirt",
+    "name": "open palisade gate",
     "description": "A hanging palisade gate, hoisted by a nearby pulley system.  Probably shouldn't be underneath when it comes down.",
-    "//": "Open palisade gate",
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,

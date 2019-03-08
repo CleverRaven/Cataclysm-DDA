@@ -1918,6 +1918,19 @@
         "prereqs" : ["SPINES"]
     },{
         "type" : "mutation",
+        "id" : "BARBS",
+        "name": "Assault barbs",
+        "points" : 2,
+        "visibility" : 2,
+        "ugliness" : 3,
+        "description" : "Some of the quills on your arms have become quite loose.  By flinging your arms, you can fire off these quills as projectiles.",
+        "active": true,
+        "cost": 10,
+        "hunger": true,
+        "ranged_mutation": { "type": "mut_quills", "message": "You fire off some of your quills." },
+        "prereqs" : ["QUILLS"]
+    },{
+        "type" : "mutation",
         "id" : "PLANTSKIN",
         "name" : "Phelloderm",
         "points" : 3,
@@ -3043,7 +3056,7 @@
         "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.  You are less bothered by the deaths of others: their own weakness invited these fates upon them.",
         "purifiable" : false,
         "changes_to" : ["PRED2"],
-        "prereqs" : ["CARNIVORE"],
+        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "cancels" : ["PACIFIST"],
         "category" : ["BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER"]
