@@ -1493,7 +1493,9 @@ bool game::handle_action()
 
             case ACTION_HIDE:
                 if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
-                    u.hide( *pnt );
+                    if( !u.hide( *pnt ) ) {
+                        add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
+                    }
                 }
                 break;
 
