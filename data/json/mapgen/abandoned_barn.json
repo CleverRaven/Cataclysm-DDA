@@ -401,6 +401,9 @@
       "place_rubble": [
         { "chance": 20, "repeat": [ 0, 80 ], "x": [ 11, 20 ], "y": [ 8, 18 ] },
         { "chance": 20, "repeat": [ 0, 15 ], "x": [ 8, 10 ], "y": [ 10, 16 ] }
+      ],
+      "place_npcs": [
+        { "chance": 20, "class": "rural_holdout_solo", "x": 15, "y": 12 }
       ]
     }
   },
@@ -455,6 +458,9 @@
         { "chance": 10, "item": "raw_materials", "x": 16, "y": 15 },
         { "chance": 10, "item": "raw_materials", "x": 17, "y": 14 },
         { "chance": 10, "item": "raw_materials", "x": 17, "y": 15 }
+      ],
+      "place_npcs": [
+        { "chance": 5, "class": "rural_holdout_solo", "x": 15, "y": 12 }
       ]
     }
   },
