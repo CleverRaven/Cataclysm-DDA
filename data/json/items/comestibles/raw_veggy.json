@@ -53,8 +53,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -97,8 +96,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 13 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -120,8 +118,7 @@
     "fun": -1,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 15 ], [ "vitC", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 15 ], [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -139,9 +136,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -12,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "iron", 3 ] ],
-    "rot_spawn_chance": 3
+    "vitamins": [ [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -159,9 +154,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -8,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn_chance": 3
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -180,8 +173,7 @@
     "volume": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -201,8 +193,7 @@
     "material": "veggy",
     "volume": 3,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -261,8 +252,7 @@
     "material": "veggy",
     "volume": 3,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -355,8 +345,7 @@
     "volume": 10,
     "charges": 10,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "smoking_result": "dry_veggy",
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy"
   },
   {
     "type": "COMESTIBLE",
@@ -394,8 +383,7 @@
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
-    "vitamins": [ [ "vitC", 3 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -434,8 +422,7 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 11 ], [ "iron", 2 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 11 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -456,8 +443,7 @@
     "charges": 12,
     "bashing": 2,
     "fun": -1,
-    "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -478,9 +464,7 @@
     "stack_size": 4,
     "fun": -12,
     "flags": [ "FREEZERBURN" ],
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 2 ] ],
-    "rot_spawn_chance": 2
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -498,8 +482,7 @@
     "price": 410,
     "material": "veggy",
     "volume": 1,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 2 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -518,9 +501,7 @@
     "volume": 4,
     "charges": 4,
     "fun": -10,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 1 ] ],
-    "rot_spawn_chance": 8
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -562,8 +543,7 @@
     "volume": "375 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -582,10 +562,8 @@
     "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
     "volume": 1,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn_chance": 5
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -627,8 +605,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 9 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

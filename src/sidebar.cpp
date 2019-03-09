@@ -408,7 +408,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                sideStyle ? 2 : 1, sideStyle ? 0 : 22, hydration_color, hydration_string );
     wrefresh( sideStyle ? w : g->w_location_wider );
 
-    wmove( w, sideStyle ? 3 : 2, 0 );
+    wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 22 );
     if( get_fatigue() > EXHAUSTED ) {
         wprintz( w, c_red,    _( "Exhausted" ) );
     } else if( get_fatigue() > DEAD_TIRED ) {

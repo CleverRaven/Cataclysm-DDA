@@ -297,6 +297,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
+    add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
@@ -466,6 +467,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    overmap_land_use_codes::reset();
     overmap_connections::reset();
     overmap_locations::reset();
     overmap_specials::reset();
@@ -519,6 +521,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Bionics" ), &finalize_bionics },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &set_furn_ids },
+            { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
@@ -599,6 +602,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },

@@ -30,6 +30,7 @@ const species_id FUNGUS( "FUNGUS" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
@@ -1148,6 +1149,13 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
+
+    if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, p ) && on_ground ) {
+        add_effect( effect_no_sight, 1_turns, num_bp, true );
+    } else if( has_effect( effect_no_sight ) ) {
+        remove_effect( effect_no_sight );
+    }
+
     g->m.creature_on_trap( *this );
     if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
         underwater = g->m.has_flag( "DIGGABLE", pos() );

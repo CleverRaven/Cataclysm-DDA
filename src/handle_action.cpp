@@ -48,6 +48,7 @@
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_relax_gas( "relax_gas" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -963,7 +964,7 @@ static void read()
 // Perform a reach attach
 // range - the range of the current weapon.
 // u - player
-static void reach_attach( int range, player &u )
+static void reach_attack( int range, player &u )
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
@@ -1085,10 +1086,30 @@ static void fire()
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                reach_attack( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        } else {
+            reach_attack( range, u );
+        }
     } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
         int range = u.weapon.gun_current_mode().qty;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                reach_attack( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        } else {
+            reach_attack( range, u );
+        }
     }
 }
 

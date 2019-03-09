@@ -140,6 +140,7 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_nausea( "nausea" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pkill( "pkill" );
@@ -2782,7 +2783,7 @@ int player::clairvoyance() const
 
 bool player::sight_impaired() const
 {
-    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) &&
+    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) || has_effect( effect_darkness ) ) &&
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
              ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
@@ -2828,7 +2829,7 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 
 bool player::has_alarm_clock() const
 {
-    return ( has_item_with_flag( "ALARMCLOCK" ) ||
+    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -2836,7 +2837,7 @@ bool player::has_alarm_clock() const
 
 bool player::has_watch() const
 {
-    return ( has_item_with_flag( "WATCH" ) ||
+    return ( has_item_with_flag( "WATCH", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -4219,11 +4220,11 @@ void player::check_needs_extremes()
     if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS && !in_sleep_state() ) {
         if( calendar::once_every( 60_minutes ) ) {
             if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
-                add_msg( m_warning, _( "Your mind feels tired. It's been a while since you've slept well." ) );
+                add_msg_if_player( m_warning, _( "Your mind feels tired. It's been a while since you've slept well." ) );
                 mod_fatigue( 1 );
             }
             else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
-                add_msg( m_bad, _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
+                add_msg_if_player( m_bad, _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
                 mod_fatigue( 5 );
 
                 if( one_in( 10 ) ) {
@@ -4231,7 +4232,7 @@ void player::check_needs_extremes()
                 }
             }
             else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
-                add_msg( m_bad, _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
+                add_msg_if_player( m_bad, _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
                 mod_fatigue( 10 );
 
                 if( one_in( 5 ) ) {
@@ -4239,7 +4240,7 @@ void player::check_needs_extremes()
                 }
             }
             else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
-                add_msg( m_bad, _( "You haven't slept decently for so long that your whole body is screaming for mercy. It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                add_msg_if_player( m_bad, _( "You haven't slept decently for so long that your whole body is screaming for mercy. It's a miracle that you're still awake, but it just feels like a curse now." ) );
                 mod_fatigue( 40 );
 
                 mod_healthy_mod( -5, 0 );
@@ -4259,7 +4260,7 @@ void player::check_needs_extremes()
             if( can_pass_out && calendar::once_every( 10_minutes ) ) {
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
                 if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) || sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
-                    add_msg( m_bad, _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." ) );
+                    add_msg_if_player( m_bad, _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." ) );
                     if( get_fatigue() < EXHAUSTED ) {
                         set_fatigue( EXHAUSTED );
                     }
@@ -6137,16 +6138,16 @@ void player::suffer()
             switch( dice(1, 4) ) {
                 default:
                 case 1:
-                    add_msg( m_warning, _( "You tiredly rub your eyes." ) );
+                    add_msg_if_player( m_warning, _( "You tiredly rub your eyes." ) );
                     break;
                 case 2:
-                    add_msg( m_warning, _( "You let out a small yawn." ) );
+                    add_msg_if_player( m_warning, _( "You let out a small yawn." ) );
                     break;
                 case 3:
-                    add_msg( m_warning, _( "You stretch your back." ) );
+                    add_msg_if_player( m_warning, _( "You stretch your back." ) );
                     break;
                 case 4:
-                    add_msg( m_warning, _( "You feel mentally tired." ) );
+                    add_msg_if_player( m_warning, _( "You feel mentally tired." ) );
                     break;
             }
         }
@@ -6154,53 +6155,53 @@ void player::suffer()
     // Minor discomfort
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
         if( one_in( 750 ) ) {
-            add_msg( m_warning, _( "You feel lightheaded for a moment." ) );
+            add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
             moves -= 10;
         }
         if( one_in( 1000 ) ) {
-            add_msg( m_warning, _( "Your muscles spasm uncomfortably." ) );
+            add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
             mod_pain( 2 );
         }
         if( !has_effect( effect_visuals ) && one_in( 1500 ) ) {
-            add_msg( m_warning, _( "Your vision blurs a little." ) );
+            add_msg_if_player( m_warning, _( "Your vision blurs a little." ) );
             add_effect( effect_visuals, rng( 1_minutes, 5_minutes ) );
         }
     }
     // Slight disability
     if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
         if( one_in( 750 ) ) {
-            add_msg( m_bad, _( "Your mind lapses into unawareness briefly." ) );
+            add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
             moves -= rng( 20, 80 );
         }
         if( one_in( 1250 ) ) {
-            add_msg( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
+            add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
             mod_pain( rng( 2, 10 ) );
         }
         if( one_in( 3000 ) ) {
-            add_msg( m_bad, _( "You have a distractingly painful headache." ) );
+            add_msg_if_player( m_bad, _( "You have a distractingly painful headache." ) );
             mod_pain( rng( 10, 25 ) );
         }
     }
     // Major disability, high chance of passing out also relevant
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
         if( !has_effect( effect_nausea ) && one_in( 5000 ) ) {
-            add_msg( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
+            add_msg_if_player( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
             mod_pain( 5 );
             add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
         }
         if( one_in( 3000 ) ) {
-            add_msg( m_bad, _( "Your mind is so tired that you feel you can't trust your eyes anymore." ) );
+            add_msg_if_player( m_bad, _( "Your mind is so tired that you feel you can't trust your eyes anymore." ) );
             add_effect( effect_hallu, rng( 5_minutes, 60_minutes ) );
         }
         if( !has_effect( effect_shakes ) && one_in( 4250 ) ) {
-            add_msg( m_bad, _( "Your muscles spasm uncontrollably, and you have trouble keeping your balance." ) );
+            add_msg_if_player( m_bad, _( "Your muscles spasm uncontrollably, and you have trouble keeping your balance." ) );
             add_effect( effect_shakes, 15_minutes );
         }
         else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
             moves -= 10;
-            add_msg( m_warning, _( "Your shaking legs make you stumble." ) );
+            add_msg_if_player( m_warning, _( "Your shaking legs make you stumble." ) );
             if( !has_effect( effect_downed ) && one_in( 10 ) ) {
-                add_msg( m_bad, _( "You fall over!" ) );
+                add_msg_if_player( m_bad, _( "You fall over!" ) );
                 add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
         }
@@ -7062,7 +7063,7 @@ void player::use_fire(const int quantity)
     }
 }
 
-std::list<item> player::use_charges( const itype_id& what, long qty )
+std::list<item> player::use_charges( const itype_id& what, long qty, const std::function<bool( const item & )> &filter )
 {
     std::list<item> res;
 
@@ -7102,11 +7103,11 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS]( item *e ) {
-        if( e->use_charges( what, qty, res, pos() ) ) {
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item *e ) {
+        if( filter( *e ) && e->use_charges( what, qty, res, pos() ) ) {
             del.push_back( e );
         }
-        if( e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
+        if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
             has_tool_with_UPS = true;
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -7823,11 +7824,9 @@ bool player::wield( item& target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( string_format( _( "Draw %s from %s?" ),
-                                     target.get_contained().tname().c_str(),
-                                     target.tname().c_str() ) ) ) {
+        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
             invoke_item( &target );
-            return true;
+            return false;
         }
     }
 
@@ -11265,7 +11264,7 @@ std::string player::weapname() const
                 }
             }
         }
-        return "Weapon  : " + str;
+        return _( "Weapon:" ) + std::string( " " ) + str;
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "Weapon  : %s (%d)", weapon.tname().c_str(),
@@ -11275,7 +11274,7 @@ std::string player::weapname() const
         return _( "Weapon  : fists" );
 
     } else {
-        return "Weapon  : " + weapon.tname();
+      return _( "Weapon:" ) + std::string( " " ) + weapon.tname();
     }
 }
 
@@ -12297,9 +12296,12 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     } );
 }
 
-bool player::has_item_with_flag( const std::string &flag ) const
+bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag]( const item & it ) {
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : true;
+        }
         return it.has_flag( flag );
     } );
 }
