@@ -125,7 +125,7 @@ void Creature::process_turn()
     moves += get_speed();
 }
 
-bool Creature::hide( const tripoint &target )
+bool Creature::hide( const tripoint &target, bool move = true )
 {
     // Is target a place to hide
     if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, target ) ) {
@@ -151,12 +151,13 @@ bool Creature::hide( const tripoint &target )
         }
     }
 
-    setpos( target );
-    moves -= g->m.move_cost( target ); // TODO : make cost specific to hiding
-    add_effect( effect_hidden, 1_turns, num_bp, true );
-
-    if( is_player() ) {
-        add_msg( m_good, _( "You are hiding in the %s." ), g->m.name( target ).c_str() );
+    if( move ) {
+        setpos(target);
+        moves -= g->m.move_cost(target); // TODO : make cost specific to hiding
+        add_effect(effect_hidden, 1_turns, num_bp, true);
+        if (is_player()) {
+            add_msg(m_good, _("You are hiding in the %s."), g->m.name(target).c_str());
+        }
     }
 
     return true;
