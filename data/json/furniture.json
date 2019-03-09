@@ -1216,7 +1216,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "max_volume": 1500,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "HIDE_PLACE", "MAX_SMALL", "NO_SIGHT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
