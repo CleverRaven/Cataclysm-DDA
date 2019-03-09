@@ -37,6 +37,10 @@
 #   endif
 #endif
 
+#ifdef GSI
+#include "gamestateiface.h"
+#endif
+
 #ifdef __ANDROID__
 #include <unistd.h>
 #include <SDL_system.h>
@@ -587,6 +591,11 @@ int main( int argc, char *argv[] )
                                << static_cast<int>( linked.major ) << "."
                                << static_cast<int>( linked.minor ) << "."
                                << static_cast<int>( linked.patch );
+#endif
+
+#ifdef GSI
+    // Start worker thread for GSI
+    std::thread worker_thread(&gsi_thread::worker);
 #endif
 
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream

@@ -418,6 +418,7 @@ bool main_menu::opening_screen()
     }
 #ifdef GSI
     gsi::get().mctxt.push("MAIN");
+    gsi::get().gsi_update.notify_one();
 #endif
     while (!start) {
         print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
@@ -656,6 +657,7 @@ bool main_menu::opening_screen()
     }
 #ifdef GSI
     gsi::get().mctxt.pop();
+    gsi::get().gsi_update.notify_one();
 #endif
     if (start) {
         g->refresh_all();
@@ -680,8 +682,12 @@ bool main_menu::new_character_tab()
     }
 #ifdef GSI
     gsi::get().vNewGameHotkeys = vNewGameHotkeys;
-    if(gsi::get().mctxt.top() != "MAIN_NEW")
+    if (gsi::get().mctxt.top() != "MAIN_NEW")
+    {
         gsi::get().mctxt.push("MAIN_NEW");
+        gsi::get().gsi_update.notify_one();
+    }
+        
 #endif
 
     bool start = false;
@@ -689,6 +695,7 @@ bool main_menu::new_character_tab()
 #ifdef GSI
         while (gsi::get().mctxt.top() != "MAIN_NEW")
             gsi::get().mctxt.pop(); // ensure a reset to MAIN_NEW context in event of 
+        gsi::get().gsi_update.notify_one();
 #endif
         print_menu(w_open, 1, iMenuOffsetX, iMenuOffsetY);
         if (layer == 2 && sel1 == 1) {
@@ -737,6 +744,7 @@ bool main_menu::new_character_tab()
 #ifdef GSI
                     if (gsi::get().mctxt.top() != "MAIN_NEW_WSEL")
                         gsi::get().mctxt.push("MAIN_NEW_WSEL");
+                    gsi::get().gsi_update.notify_one();
 #endif
                     // First load the mods, this is done by
                     // loading the world.
@@ -891,6 +899,7 @@ bool main_menu::new_character_tab()
     }
 #ifdef GSI
     gsi::get().mctxt.pop();
+    gsi::get().gsi_update.notify_one();
 #endif
     return start;
 }

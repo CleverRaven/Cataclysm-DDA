@@ -21,6 +21,10 @@
 #include "string_input_popup.h"
 #include "translations.h"
 
+#ifdef GSI
+#include "gamestateiface.h"
+#endif
+
 safemode &get_safemode()
 {
     static safemode single_instance;
@@ -124,6 +128,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     int start_pos = 0;
     bool changes_made = false;
     input_context ctxt( "SAFEMODE" );
+#ifdef GSI
+    gsi::get().ctxt.push("SAFEMODE");
+#endif
     ctxt.register_cardinal();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -377,7 +384,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             get_options().save();
         }
     }
-
+#ifdef GSI
+    gsi::get().ctxt.pop();
+#endif
     if( !changes_made ) {
         return;
     }
