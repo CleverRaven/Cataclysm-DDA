@@ -85,6 +85,7 @@ struct map_deconstruct_info {
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
+ * NO_SIGHT - When on this tile sight is reduced to 1
  * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
@@ -140,6 +141,7 @@ enum ter_bitflags : int {
     TFLAG_SUPPORTS_ROOF,
     TFLAG_MINEABLE,
     TFLAG_NOITEM,
+    TFLAG_NO_SIGHT,
     TFLAG_SEALED,
     TFLAG_ALLOW_FIELD_EFFECT,
     TFLAG_LIQUID,

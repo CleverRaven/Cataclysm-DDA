@@ -104,6 +104,25 @@
     "components": [ [ [ "cooking_oil", 2 ] ], [ [ "thyme", 2 ] ] ]
   },
   {
+    "result": "cattail_jelly",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": 5000,
+    "book_learn": [
+      [ "emergency_book", 1 ],
+      [ "mag_survival", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "pocket_survival", 1 ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cattail_stalk", 4 ] ] ]
+  },
+  {
     "type": "recipe",
     "result": "disinrag",
     "category": "CC_OTHER",

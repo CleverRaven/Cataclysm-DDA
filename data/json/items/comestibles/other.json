@@ -257,8 +257,7 @@
     "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -303,8 +302,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "vitB", 8 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "calcium", 2 ], [ "vitB", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -368,8 +366,7 @@
     "material": "tomato",
     "volume": 1,
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 4 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",

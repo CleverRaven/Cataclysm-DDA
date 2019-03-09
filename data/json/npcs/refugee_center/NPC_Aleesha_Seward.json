@@ -195,7 +195,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_Story1",
+    "id": "TALK_REFUGEE_Aleesha_Story1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [
@@ -205,7 +205,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_Refugees1",
+    "id": "TALK_REFUGEE_Aleesha_Refugees1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [

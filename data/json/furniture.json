@@ -1338,7 +1338,7 @@
     "color": "green",
     "move_cost_mod": 3,
     "required_str": 16,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT" ],
     "bash": {
       "str_min": 8,
       "str_max": 45,
@@ -1816,6 +1816,7 @@
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_safe_o",
+    "examine_action": "open_safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -3372,7 +3373,8 @@
       "REDUCE_SCENT",
       "EASY_DECONSTRUCT",
       "BASHABLE",
-      "HIDE_PLACE"
+      "HIDE_PLACE",
+      "NO_SIGHT"
     ],
     "bash": {
       "str_min": 1,
