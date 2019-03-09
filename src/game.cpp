@@ -2310,6 +2310,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "grab" );
+    ctxt.register_action( "hide" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
