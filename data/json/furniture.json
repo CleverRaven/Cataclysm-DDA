@@ -704,7 +704,7 @@
     "move_cost_mod": 1,
     "required_str": 5,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "HIDE_PLACE", "MAX_TINY", "NO_SIGHT" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
