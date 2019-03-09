@@ -7433,8 +7433,7 @@
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -7443,8 +7442,7 @@
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -7453,8 +7451,7 @@
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -7463,8 +7460,7 @@
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
