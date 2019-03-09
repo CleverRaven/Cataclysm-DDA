@@ -4,9 +4,9 @@
 #include <condition_variable>
 #include <string>
 #include <list>
+#include <mutex>
 
 #include "json.h"
-#include "input.h"
 
 
 
@@ -15,7 +15,7 @@ class gsi : public JsonSerializer
 public:
 
     std::condition_variable gsi_update;
-
+    std::condition_variable gsi_writer;
     // Singleton setup
     static gsi& get()
     {
@@ -33,7 +33,6 @@ public:
     std::vector<std::vector<std::string>> vNewGameHotkeys;
 
     std::stack<std::string> ctxt;
-    std::list<input_context *> context_stack; // current input context that corresponds with keybinds
     std::stack<std::string> mctxt; // current input context, for menus
     
 
@@ -41,11 +40,15 @@ public:
     // Everything that goes in the output goes here
     void serialize(JsonOut &jsout) const;
 
-    void write_out(std::string json);
+    void write_out();
 
 private:
     // Blank constructor
-    gsi() {}
+    gsi() 
+    {
+        ctxt.push("default");
+        mctxt.push("default");
+    }
 
 
 
@@ -56,4 +59,5 @@ class gsi_thread
 public:
     std::condition_variable gsi_update;
     static void worker();  // Start the writeout thread
+    static void prep_out();
 };

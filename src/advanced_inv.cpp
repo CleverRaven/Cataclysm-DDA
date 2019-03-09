@@ -31,11 +31,6 @@
 #include <SDL_keyboard.h>
 #endif
 
-#ifdef GSI
-#include "gamestateiface.h"
-#endif
-
-
 #include <algorithm>
 #include <cassert>
 #include <cstring>
@@ -1420,9 +1415,6 @@ void advanced_inventory::display()
     g->u.inv.restack( g->u );
 
     input_context ctxt( "ADVANCED_INVENTORY" );
-#ifdef GSI
-    gsi::get().ctxt.push("SAFEMODE");
-#endif
 
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -1469,9 +1461,6 @@ void advanced_inventory::display()
     while( !exit ) {
         if( g->u.moves < 0 ) {
             do_return_entry();
-#ifdef GSI
-            gsi::get().ctxt.pop();
-#endif
             return;
         }
         dest = ( src == advanced_inventory::side::left ? advanced_inventory::side::right :

@@ -37,10 +37,6 @@
 #   endif
 #endif
 
-#ifdef GSI
-#include "gamestateiface.h"
-#endif
-
 #ifdef __ANDROID__
 #include <unistd.h>
 #include <SDL_system.h>

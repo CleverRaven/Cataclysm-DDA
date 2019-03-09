@@ -12,6 +12,11 @@
 #include <algorithm>
 #endif
 
+#ifdef GSI
+#include "gamestateiface.h"
+#endif
+
+
 struct tripoint;
 namespace cata
 {
@@ -371,6 +376,10 @@ class input_context
 
         input_context() : registered_any_input( false ), category( "default" ),
             handling_coordinate_input( false ) {
+#ifdef GSI
+           // gsi::get().ctxt.push("default");
+            //gsi::get().gsi_update.notify_one();
+#endif
 #ifdef __ANDROID__
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -380,12 +389,22 @@ class input_context
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {
+#ifdef GSI
+            gsi::get().ctxt.push(category);
+            gsi::get().gsi_update.notify_one();
+#endif
 #ifdef __ANDROID__
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
         }
-
+#ifdef GSI
+        virtual ~input_context() {
+            if(!(gsi::get().ctxt.empty()) && gsi::get().ctxt.top() == category)
+                gsi::get().ctxt.pop();
+            gsi::get().gsi_update.notify_one();
+        }
+#endif
 #ifdef __ANDROID__
         virtual ~input_context() {
             input_context_stack.remove( this );

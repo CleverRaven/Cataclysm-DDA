@@ -27,10 +27,6 @@
 #include "translations.h"
 #include "worldfactory.h"
 
-#ifdef GSI
-#include "gamestateiface.h"
-#endif
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const bool halloween_theme = false;
@@ -304,11 +300,7 @@ void main_menu::init_strings()
     for (const std::string &item : vSettingsSubItems) {
         vSettingsHotkeys.push_back(get_hotkeys(item));
     }
-#ifdef GSI
-    gsi::get().vMenuHotkeys = vMenuHotkeys;
-    gsi::get().vWorldHotkeys = vWorldHotkeys;
-    gsi::get().vSettingsHotkeys = vSettingsHotkeys;
-#endif
+
     loading_ui ui(false);
     g->load_core_data(ui);
     vdaytip = SNIPPET.random_from_category("tip");
@@ -416,10 +408,7 @@ bool main_menu::opening_screen()
     if (!world_generator->all_worldnames().empty()) {
         sel1 = 2;
     }
-#ifdef GSI
-    gsi::get().mctxt.push("MAIN");
-    gsi::get().gsi_update.notify_one();
-#endif
+
     while (!start) {
         print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
 
@@ -655,10 +644,7 @@ bool main_menu::opening_screen()
             }
         }
     }
-#ifdef GSI
-    gsi::get().mctxt.pop();
-    gsi::get().gsi_update.notify_one();
-#endif
+
     if (start) {
         g->refresh_all();
         g->draw();
@@ -680,23 +666,11 @@ bool main_menu::new_character_tab()
     for (const std::string &item : vSubItems) {
         vNewGameHotkeys.push_back(get_hotkeys(item));
     }
-#ifdef GSI
-    gsi::get().vNewGameHotkeys = vNewGameHotkeys;
-    if (gsi::get().mctxt.top() != "MAIN_NEW")
-    {
-        gsi::get().mctxt.push("MAIN_NEW");
-        gsi::get().gsi_update.notify_one();
-    }
-        
-#endif
+
 
     bool start = false;
     while (!start && sel1 == 1 && (layer == 2 || layer == 3)) {
-#ifdef GSI
-        while (gsi::get().mctxt.top() != "MAIN_NEW")
-            gsi::get().mctxt.pop(); // ensure a reset to MAIN_NEW context in event of 
-        gsi::get().gsi_update.notify_one();
-#endif
+
         print_menu(w_open, 1, iMenuOffsetX, iMenuOffsetY);
         if (layer == 2 && sel1 == 1) {
             // Then choose custom character, random character, preset, etc
@@ -741,11 +715,7 @@ bool main_menu::new_character_tab()
             }
             if (action == "UP" || action == "CONFIRM") {
                 if (sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4) {
-#ifdef GSI
-                    if (gsi::get().mctxt.top() != "MAIN_NEW_WSEL")
-                        gsi::get().mctxt.push("MAIN_NEW_WSEL");
-                    gsi::get().gsi_update.notify_one();
-#endif
+
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
@@ -897,10 +867,7 @@ bool main_menu::new_character_tab()
     if (start) {
         g->u.add_msg_if_player(g->scen->description(g->u.male));
     }
-#ifdef GSI
-    gsi::get().mctxt.pop();
-    gsi::get().gsi_update.notify_one();
-#endif
+
     return start;
 }
 
