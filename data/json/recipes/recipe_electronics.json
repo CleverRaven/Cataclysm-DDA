@@ -463,7 +463,14 @@
   "using": [ [ "soldering_standard", 5 ] ],
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
-    [ [ "radio", 1 ] ],
+    [ 
+      [ "radio", 1 ],
+      [ "two_way_radio" ],
+      [ "talking_doll", 1 ],
+      [ "creepy_doll", 1 ],
+      [ "stereo", 1 ],
+      [ "chimes", 1 ]
+    ],
     [ [ "amplifier", 2 ] ]
   ]
 },{
