@@ -443,6 +443,7 @@
     "charges": 12,
     "bashing": 2,
     "fun": -1,
+    "flags": [ "SMOKABLE" ],
     "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "iron", 1 ] ]
   },
   {
