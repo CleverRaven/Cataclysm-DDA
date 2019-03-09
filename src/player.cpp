@@ -2678,7 +2678,8 @@ float player::active_light() const
         lumination = 60;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
-    } else if( lumination < 5 && ( has_effect( effect_glowing ) || has_active_bionic( bio_tattoo_led ) || has_effect( effect_glowy_led ) ) ) {
+    } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
+                                   has_active_bionic( bio_tattoo_led ) || has_effect( effect_glowy_led ) ) ) {
         lumination = 5;
     }
     return lumination;
@@ -6103,10 +6104,11 @@ void player::suffer()
         body_part bp = random_body_part( true );
         add_effect( effect_formication, 10_minutes, bp );
     }
-    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_in( 500 ) && power_level > 1 ) {
+    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_in( 500 ) &&
+        power_level > 1 ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
-        add_effect( effect_glowy_led , 5_minutes );
-        charge_power(-1);
+        add_effect( effect_glowy_led, 5_minutes );
+        charge_power( -1 );
     }
 
     // Artifact effects
