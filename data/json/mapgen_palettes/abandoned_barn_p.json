@@ -98,6 +98,7 @@
       "{": "f_rack",
       "%": "f_rubble",
       "a": "f_rubble_rock",
+      "A": "f_straw_bed",
       "b": "f_brazier",
       "c": "f_clay_kiln",
       "C": "f_crate_o",
