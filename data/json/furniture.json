@@ -1464,7 +1464,7 @@
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
     }
   },
-  {
+ {
     "type": "furniture",
     "id": "f_crate_o",
     "name": "open crate",
@@ -1473,7 +1473,18 @@
     "bgcolor": "brown",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "MOUNTABLE",
+      "SHORT",
+      "HIDE_PLACE",
+      "MAX_MEDIUM",
+      "NO_SIGHT"
+    ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "max_volume": 4000,
     "bash": {
