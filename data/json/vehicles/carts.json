@@ -256,18 +256,6 @@
     "items": [ { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] } ]
   },
   {
-    "id": "solar_unit",
-    "type": "vehicle",
-    "name": "mounted solar panel",
-    "blueprint": [ "&" ],
-    "parts": [
-      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
-      { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "small_storage_battery" },
-      { "x": 0, "y": 0, "part": "solar_panel" }
-    ]
-  },
-  {
     "id": "wheelbarrow",
     "type": "vehicle",
     "name": "Wheelbarrow",
