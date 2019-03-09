@@ -35,7 +35,7 @@
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "compacts_into": [ "material_aluminium_ingot" , "aluminum_foil" ]
+    "compacts_into": [ "material_aluminium_ingot", "aluminum_foil" ]
   },
   {
     "type": "material",
@@ -176,7 +176,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_copper", 1 ] ],
-    "compacts_into": [ "scrap_copper" , "copper" ]
+    "compacts_into": [ "scrap_copper", "copper" ]
   },
   {
     "type": "material",
@@ -1064,4 +1064,3 @@
     ]
   }
 ]
-
