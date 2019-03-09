@@ -86,6 +86,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
 - ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
+- ```MAX_[SIZE]``` Replace [SIZE] with TINY, SMALL, MEDIUM, or LARGE. Goes with HIDE_PLACE, only creatures up to [SIZE] size can hide in here.
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
