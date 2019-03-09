@@ -679,7 +679,7 @@ bool veh_interact::can_install_part()
     //~ %1$s is quality name, %2$d is quality level
     const auto helpers = g->u.get_crafting_helpers();
     std::string str_string;
-    if( helpers.size() > 0 ){
+    if( helpers.size() > 0 ) {
         str_string = string_format( _( "strength ( assisted ) %d" ), str );
     } else {
         str_string = string_format( _( "strength %d" ), str );
@@ -1531,14 +1531,16 @@ bool veh_interact::can_remove_part( int idx )
     }
     const auto helpers = g->u.get_crafting_helpers();
     //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-    if( helpers.size() > 0 ){
-        msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
-                              status_color( use_aid ), qual.obj().name.c_str(), lvl,
-                              status_color( use_str ), str ) << "\n";
+    if( helpers.size() > 0 ) {
+        msg << string_format(
+                _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
+                status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                status_color( use_str ), str ) << "\n";
     } else {
-        msg << string_format( _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                              status_color( use_aid ), qual.obj().name.c_str(), lvl,
-                              status_color( use_str ), str ) << "\n";
+        msg << string_format(
+                _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
+                status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                status_color( use_str ), str ) << "\n";
     }
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
@@ -1601,7 +1603,7 @@ bool veh_interact::do_remove( std::string &msg )
 
         //read input
         const std::string action = main_context.handle_input();
-        if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
+        if( can_remove && ( action == "REMOVE" || action == "CONFIRM" ) ) {
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
                 add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
@@ -1690,17 +1692,19 @@ bool veh_interact::do_tirechange( std::string &msg )
             return false;
 
         case LACK_TOOLS:
-        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
-            if( helpers.size() > 0 ){
-                msg = string_format( _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                                        "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
-                                     status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
-                                     status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+            //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
+            if( helpers.size() > 0 ) {
+                msg = string_format(
+                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
+                             "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
+                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
+                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
             } else {
-                msg = string_format( _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                                        "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
-                                     status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
-                                     status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+                msg = string_format(
+                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
+                             "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
+                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
+                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
             }
             return false;
 
