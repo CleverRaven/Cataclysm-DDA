@@ -539,7 +539,7 @@
         "motel_city": 10,
         "fishing_pond_city": 10,
         "trailerpark_city": 15,
-        "railroad_city": 30
+        "railroad_city": 10
       },
       "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
       "parks": {
@@ -553,7 +553,7 @@
         "communitygarden": 200,
         "publicgarden": 200,
         "cemetery_city": 50,
-        "public_pond_city": 25,
+        "public_pond_city": 50,
         "cemetery_religious_city": 25
       },
       "shops": {
