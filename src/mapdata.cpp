@@ -142,6 +142,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
         { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
+        { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // smells
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things

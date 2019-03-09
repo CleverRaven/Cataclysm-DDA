@@ -755,7 +755,7 @@
     "id": "bot_milbot_gaurdian",
     "type": "TOOL",
     "copy-from": "bot_milbot_base",
-    "name": "inactive robo-gaurdian",
+    "name": "inactive robo-guardian",
     "description": "A salvaged military robot refitted with a pair of integrated 9mm firearms.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
     "color": "green",
     "use_action": {
