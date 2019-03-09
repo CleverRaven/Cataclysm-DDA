@@ -337,6 +337,15 @@
     "difficulty": 2
   },
   {
+    "id": "bio_tattoo_led",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "LED Tattoo",
+    "description": "A small LED display implanted under your skin, when active it glows displaying your favourite pattern.",
+    "price": 20000,
+    "difficulty": 1
+  },
+  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -485,7 +494,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Metabolic Interchange CBM",
-    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be toggled on and off at will.",
+    "description": "Your digestive system and power supply are interconnected.  Bionic energy is replenished at the cost of increasing hunger.  Can be toggled on and off at will.",
     "price": 70000,
     "difficulty": 4
   },

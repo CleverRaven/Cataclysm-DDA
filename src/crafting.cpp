@@ -443,7 +443,7 @@ std::list<item> player::consume_some_components_for_craft( const recipe &making,
     for( const auto &it : req.get_components() ) {
         // Each component currently has 50% chance of not being consumed
         // Skip first item so failed craft with one item recipe always loses component
-        if( cou > 0 && one_in( 2 ) ) {
+        if( cou == 0 || one_in( 2 ) ) {
             std::list<item> tmp = consume_items( it, batch_size );
             used.splice( used.end(), tmp );
         }
@@ -1625,7 +1625,8 @@ void remove_ammo( item &dis_item, player &p )
 std::vector<npc *> player::get_crafting_helpers() const
 {
     return g->get_npcs_if( [this]( const npc & guy ) {
-        return rl_dist( guy.pos(), pos() ) < PICKUP_RANGE && guy.is_friend() &&
+        return rl_dist( guy.pos(), pos() ) < PICKUP_RANGE && ( guy.is_friend() ||
+                guy.mission == NPC_MISSION_GUARD_ALLY ) &&
                !guy.in_sleep_state() && g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
 }
