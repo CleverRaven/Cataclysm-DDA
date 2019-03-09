@@ -694,7 +694,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
-            bool avail = update_time_left( entry, npc_list );
+            bool avail = update_time_fixed( entry, npc_list, 3_hours );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc, "", entry, avail );
         }
     }
