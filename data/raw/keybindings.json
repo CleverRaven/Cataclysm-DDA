@@ -1421,7 +1421,7 @@
     "name": "Hide in a tile nearby",
     "category": "DEFAULTMODE",
     "id": "hide",
-    "bindings": [ { "input_method": "keyboard", "key": "µ" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "j" } ]
   },
   {
     "type": "keybinding",
