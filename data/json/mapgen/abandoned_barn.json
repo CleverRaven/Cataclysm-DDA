@@ -41,13 +41,13 @@
         { "chance": 10, "item": "hand_tools", "x": 13, "y": 12 }
       ],
       "place_nested": [
-        { "chunks": [ [ "desolate_barn_4x4_front", 60 ], [ "desolate_barn_4x4_junk", 40 ] ], "x": 6, "y": 11 },
+        { "chunks": [ [ "ruins_4x4_front", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 6, "y": 11 },
         {
-          "chunks": [ [ "null", 60 ], [ "desolate_barn_4x4_junk", 30 ], [ "desolate_barn_4x4_camp", 10 ] ],
+          "chunks": [ [ "null", 60 ], [ "ruins_4x4_junk", 30 ], [ "ruins_4x4_camp", 10 ] ],
           "x": 10,
           "y": 16
         },
-        { "chunks": [ [ "null", 70 ], [ "desolate_barn_8x8_yard", 30 ] ], "x": 16, "y": 10 }
+        { "chunks": [ [ "null", 70 ], [ "ruins_8x8_yard", 30 ] ], "x": 16, "y": 10 }
       ]
     }
   },
@@ -87,7 +87,7 @@
       "palettes": [ "desolatebarn_palette" ],
       "place_rubble": [ { "x": 10, "y": 5 }, { "x": 11, "y": 5 }, { "x": 11, "y": 8 } ],
       "place_nested": [
-        { "chunks": [ [ "null", 80 ], [ "desolate_barn_8x8_yard", 20 ] ], "x": 16, "y": 5 }
+        { "chunks": [ [ "null", 80 ], [ "ruins_8x8_yard", 20 ] ], "x": 16, "y": 5 }
       ]
     }
   },
@@ -144,7 +144,7 @@
       },
       "place_monster": [ { "monster": "mon_cat", "chance": 30, "x": 19, "y": 10 } ],
       "place_nested": [
-        { "chunks": [ [ "desolate_barn_4x4_front", 80 ], [ "desolate_barn_4x4_junk", 20 ] ], "x": 15, "y": 11 }
+        { "chunks": [ [ "ruins_4x4_front", 80 ], [ "ruins_4x4_junk", 20 ] ], "x": 15, "y": 11 }
       ]
     }
   },
@@ -187,7 +187,10 @@
         { "chance": 35, "item": "trash", "x": 13, "y": 3 },
         { "chance": 20, "item": "hand_tools", "x": 6, "y": 7 }
       ],
-      "place_rubble": [ { "x": [ 17, 18 ], "y": 2 }, { "x": 18, "y": 3 }, { "x": 6, "y": 3 } ]
+      "place_rubble": [ { "x": [ 17, 18 ], "y": 2 }, { "x": 18, "y": 3 }, { "x": 6, "y": 3 } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 70 ], [ "ruins_8x8_yard", 30 ] ], "x": 8, "y": 10 }
+      ]
     }
   },
   {
@@ -241,7 +244,19 @@
         { "chance": 10, "item": "building_rubble", "x": 8, "y": 16 },
         { "chance": 10, "item": "building_rubble", "x": 9, "y": 4 }
       ],
-      "place_rubble": [ { "chance": 30, "repeat": [ 2, 20 ], "x": [ 7, 5 ], "y": [ 18, 18 ] } ]
+      "place_rubble": [ { "chance": 30, "repeat": [ 2, 20 ], "x": [ 7, 5 ], "y": [ 18, 18 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "ruins_4x4_front", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 11, "y": 6 },
+        {
+          "chunks": [ [ "null", 80 ], [ "ruins_4x4_junk", 20 ] ],
+          "x": 8,
+          "y": 10
+        },
+        {
+          "chunks": [ [ "null", 90 ], [ "ruins_4x4_camp", 10 ] ],
+          "x": 13,
+          "y": 10
+        }
     }
   },
   {
@@ -332,7 +347,11 @@
         { "chance": 25, "item": "trash", "x": 10, "y": 18 },
         { "chance": 25, "item": "trash", "x": 5, "y": 14 }
       ],
-      "place_rubble": [ { "chance": 40, "repeat": [ 0, 20 ], "x": [ 5, 9 ], "y": [ 15, 21 ] } ]
+      "place_rubble": [ { "chance": 40, "repeat": [ 0, 20 ], "x": [ 5, 9 ], "y": [ 15, 21 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 85 ], [ "ruins_8x8_yard", 15 ] ], "x": 4, "y": 5 },
+        { "chunks": [ [ "null", 85 ], [ "ruins_8x8_yard", 15 ] ], "x": 11, "y": 13 }
+      ]
     }
   },
   {

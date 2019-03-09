@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4_front",
+    "nested_mapgen_id": "ruins_4x4_front",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -18,7 +18,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4_junk",
+    "nested_mapgen_id": "ruins_4x4_junk",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
@@ -36,7 +36,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4_junk",
+    "nested_mapgen_id": "ruins_4x4_junk",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -52,7 +52,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4_junk",
+    "nested_mapgen_id": "ruins_4x4_junk",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -69,7 +69,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4_camp",
+    "nested_mapgen_id": "ruins_4x4_camp",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -85,7 +85,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_4x4_camp",
+    "nested_mapgen_id": "ruins_4x4_camp",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -101,7 +101,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "nested_mapgen_id": "ruins_8x8_yard",
     "//": "yard with well",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -123,7 +123,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "nested_mapgen_id": "ruins_8x8_yard",
     "//": "yard with tractor",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -145,7 +145,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "nested_mapgen_id": "ruins_8x8_yard",
     "//": "yard with rusty tanks",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -168,7 +168,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "desolate_barn_8x8_yard",
+    "nested_mapgen_id": "ruins_8x8_yard",
     "//": "yard with shed",
     "object": {
       "mapgensize": [ 8, 8 ],
