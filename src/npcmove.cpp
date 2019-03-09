@@ -1646,6 +1646,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
         moves = 0;
     }
+    // If we can hide in it, we might do so
+    // TODO : Make hiding more sensible and less random
+    if( hide( p, false ) ) {
+        if( one_in( 2 ) ) {
+            hide( p );
+        }
+    }
 
     if( moved ) {
         const tripoint old_pos = pos();
