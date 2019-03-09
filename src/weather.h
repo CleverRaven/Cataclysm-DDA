@@ -112,6 +112,8 @@ void snowstorm();
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
+    nc_color map_color;     //!< Map color of weather type.
+    char glyph;             //!< Map glyph of weather type.
     int ranged_penalty;     //!< Penalty to ranged attacks.
     float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
