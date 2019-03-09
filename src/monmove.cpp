@@ -614,6 +614,14 @@ void monster::move()
     } else {
         facing = FD_RIGHT;
     }
+    // If we can hide in it, we might do so
+    // TODO : make hiding more sensible and less random
+    if( hide( destination, false ) ) {
+        if ( one_in( 10 ) ) {
+            hide( destination );
+            moved = true;
+        }
+    }
 
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
@@ -685,13 +693,6 @@ void monster::move()
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
                     continue;
-                }
-                // If we can hide in it, we might do so
-                // TODO : make hiding more sensible and less random
-                if( hide( candidate, false ) ) {
-                    if( one_in( 10 ) ) {
-                        hide( candidate );
-                    }
                 }
 
                 const int estimate = g->m.bash_rating( bash_estimate(), candidate );
