@@ -46,6 +46,7 @@ enum aim_exit {
     exit_re_entry
 };
 
+// *INDENT-OFF*
 advanced_inventory::advanced_inventory()
     : head_height( 5 )
     , min_w_height( 10 )
@@ -58,8 +59,7 @@ advanced_inventory::advanced_inventory()
     , dest( right )
     , filter_edit( false )
       // panes don't need initialization, they are recalculated immediately
-    , squares(
-{
+    , squares( {
     {
         //               hx  hy  x    y   z
         { AIM_INVENTORY, 25, 2, {0,   0,  0}, _( "Inventory" ),          _( "IN" ) },
@@ -92,6 +92,7 @@ advanced_inventory::advanced_inventory()
         squares[9].hscreenx = 33;
     }
 }
+// *INDENT-ON*
 
 advanced_inventory::~advanced_inventory()
 {
