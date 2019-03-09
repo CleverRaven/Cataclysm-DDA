@@ -808,14 +808,14 @@
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "power_supply", 3 ] ],
-      [ [ "geiger_off, [ 0, 1] ] ],
+      [ [ "geiger_off", 1 ] ],
       [ [ "tazer", 2 ] ],
       [ [ "e_scrap", 4 ] ],
       [ [ "solder_wire", 10 ] ],
       [ [ "cable", 4 ] ],
-      [ [ "scrap", [ 4, 10 ] ] ],
+      [ [ "scrap", 6 ] ],
       [ [ "motor", 1 ] ],
-      [ [ "plut_cell", [ 0, 1 ] ] ],
+      [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
     ]
   },
