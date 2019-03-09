@@ -543,6 +543,7 @@
     "id": "hidden",
     "name": [ "Hidden" ],
     "desc": [ "You are hidden from creatures more than one tile away." ],
+    "remove_message": "You are no longer hidden.",
     "rating": "good"
   },
   {
