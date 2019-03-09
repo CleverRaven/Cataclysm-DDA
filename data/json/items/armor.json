@@ -582,7 +582,7 @@
     "encumbrance": 45,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "BELTED", "FANCY" ]
   },
   {
     "id": "armor_samurai",
@@ -602,7 +602,7 @@
     "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "BELTED" ]
   },
   {
     "id": "armor_scavenger",
