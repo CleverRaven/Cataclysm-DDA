@@ -3932,10 +3932,9 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "scrap", "count": [ 12, 20 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "circsaw_blade", "count": [ 4, 6 ] }
+        { "item": "steel_lump", "count": [ 1, 2 ] }
       ]
     },
     "deconstruct": {
@@ -3944,7 +3943,6 @@
         { "item": "steel_chunk", "count": [ 4, 6 ] },
         { "item": "steel_lump", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "circsaw_blade", "count": [ 2, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "motor_small", "count": 1 }
       ]
@@ -4040,7 +4038,7 @@
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 2, 12 ] },
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
@@ -4052,7 +4050,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
         { "item": "plastic_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 }
