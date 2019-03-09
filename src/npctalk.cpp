@@ -401,10 +401,10 @@ void npc::talk_to_u( bool text_only )
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
         g->u.cancel_activity();
-    // don't query certain activities that are started from dialogue
-    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN") ||
-               g->u.activity.id() == activity_id( "ACT_WAIT_NPC") ||
-               g->u.activity.id() == activity_id( "ACT_SOCIALIZE") ||
+        // don't query certain activities that are started from dialogue
+    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
+               g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
+               g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
                g->u.activity.index == getID() ) {
         return;
     }
