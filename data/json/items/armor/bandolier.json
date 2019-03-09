@@ -63,7 +63,7 @@
     "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "shot", "20x66mm" ], "draw_cost": 25 },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
-    {
+  {
     "id": "torso_bandolier_shotgun",
     "type": "ARMOR",
     "name": "torso shotgun bandolier",
