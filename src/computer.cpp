@@ -193,10 +193,10 @@ void computer::use()
             ctxt.register_manual_key( '1' + i, options[i].name.c_str() );
 #endif
         }
-        print_line( "Q - %s", _( "Quit and shut down" ) );
+        print_line( "Q - %s", _( "Quit and Shut Down" ) );
         print_newline();
 #ifdef __ANDROID__
-        ctxt.register_manual_key( 'Q', _( "Quit and shut down" ) );
+        ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
 #endif
         char ch;
         do {
