@@ -8015,7 +8015,14 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_open_air", "bash_below": true }
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -8026,7 +8033,14 @@
     "color": "gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_open_air", "bash_below": true }
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -8037,7 +8051,14 @@
     "color": "green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_open_air", "bash_below": true }
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -8048,7 +8069,14 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_open_air", "bash_below": true }
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -8059,7 +8087,14 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "FLAMMABLE" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_open_air", "bash_below": true }
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
