@@ -555,7 +555,9 @@ void player::reach_attack( const tripoint &p )
         return;
     }
 
+    reach_attacking = true;
     melee_attack( *critter, false, force_technique, false );
+    reach_attacking = false;
 }
 
 int stumble( player &u, const item &weap )

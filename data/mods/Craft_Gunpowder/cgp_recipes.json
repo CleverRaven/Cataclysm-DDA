@@ -363,7 +363,7 @@
     "book_learn": [ [ "manual_electronics", 4 ], [ "textbook_electronics", 4 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "toolset", -1 ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ], [ "toolset", -1 ] ] ],
     "components": [ 
         [ [ "plastic_chunk", 2 ] ],
         [ [ "amplifier", 1 ] ],

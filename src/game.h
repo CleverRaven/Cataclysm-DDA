@@ -552,7 +552,7 @@ class game
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         void update_map( player &p );
-        void update_map( int &x, int &y );
+        point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void process_artifact( item &it, player &p );

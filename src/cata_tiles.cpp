@@ -313,8 +313,9 @@ static void color_pixel_grayscale( pixel &pix )
 
 static void color_pixel_nightvision( pixel &pix )
 {
-    int result = ( pix.r + pix.b + pix.g ) / 3;
-    result = result * 3 / 4 + 64;
+    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
+    int result = result_gray * 3 / 4 + 64;
+    result = 16 + result_gray * result / 255;
     if( result > 255 ) {
         result = 255;
     }
@@ -325,8 +326,9 @@ static void color_pixel_nightvision( pixel &pix )
 
 static void color_pixel_overexposed( pixel &pix )
 {
-    int result = ( pix.r + pix.b + pix.g ) / 3;
-    result = result / 4 + 192;
+    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
+    int result = result_gray / 4 + 192;
+    result = 64 + result_gray * result / 255;
     if( result > 255 ) {
         result = 255;
     }

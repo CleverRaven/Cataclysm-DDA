@@ -183,7 +183,7 @@
       "place_signs": [
         { "snippet": "trailhead", "x": 10, "y": 18 },
         { "signage": "<family_name> Trail", "x": 10, "y": 20 },
-        { "signage": "PLEASE  No fish cleaning or dishwashing.", "x": 19, "y": 15 }
+        { "signage": "PLEASE  No fish cleaning or dish washing.", "x": 19, "y": 15 }
       ]
     }
   },

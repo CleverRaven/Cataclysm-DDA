@@ -14,9 +14,7 @@
     "material": "veggy",
     "symbol": ".",
     "color": "brown",
-    "rot_spawn": "GROUP_CROPS_GENERAL",
-    "flags": "NUTRIENT_OVERRIDE",
-    "rot_spawn_chance": 2
+    "flags": "NUTRIENT_OVERRIDE"
   },
   {
     "abstract": "seed_fruit",
@@ -401,6 +399,7 @@
     "fun": -1,
     "cooks_like": "beans_cooked",
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
+    "smoking_result": "dry_beans",
     "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },

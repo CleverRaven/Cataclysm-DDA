@@ -1723,19 +1723,19 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
 
                         for( auto &v : destsm->vehicles ) {
                             auto &ch = g->m.access_cache( v->smz );
-                            ch.vehicle_list.erase( v );
-                            ch.zone_vehicles.erase( v );
+                            ch.vehicle_list.erase( v.get() );
+                            ch.zone_vehicles.erase( v.get() );
                         }
-                        destsm->delete_vehicles();
+                        destsm->vehicles.clear();
                         for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                             s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
-                            vehicle *veh1 = srcsm->vehicles[i];
-                            // vehicle *veh1 = veh;   // @todo: fixme: is this required?
-                            veh1->smx = target_sub.x + x;
-                            veh1->smy = target_sub.y + y;
-                            veh1->smz = target.z;
-                            destsm->vehicles.push_back( veh1 );
-                            g->m.update_vehicle_cache( veh1, target.z );
+                            std::unique_ptr<vehicle> veh = std::move( srcsm->vehicles[i] );
+                            veh->smx = target_sub.x + x;
+                            veh->smy = target_sub.y + y;
+                            veh->smz = target.z;
+                            vehicle *veh_p = veh.get();
+                            destsm->vehicles.push_back( std::move( veh ) );
+                            g->m.update_vehicle_cache( veh_p, target.z );
                         }
                         srcsm->vehicles.clear();
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
@@ -1868,13 +1868,14 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
                 return false;
             }
 
-            destsm->delete_vehicles();
-            for( auto veh1 : srcsm->vehicles ) { // copy vehicles to real map
-                veh1->smx = target_sub.x + x;
-                veh1->smy = target_sub.y + y;
-                veh1->smz = target.z;
-                destsm->vehicles.push_back( veh1 );
-                g->m.update_vehicle_cache( veh1, target.z );
+            destsm->vehicles.clear();
+            for( auto &veh : srcsm->vehicles ) { // copy vehicles to real map
+                veh->smx = target_sub.x + x;
+                veh->smy = target_sub.y + y;
+                veh->smz = target.z;
+                vehicle *veh_p = veh.get();
+                destsm->vehicles.push_back( std::move( veh ) );
+                g->m.update_vehicle_cache( veh_p, target.z );
             }
             srcsm->vehicles.clear();
             g->m.update_vehicle_list( destsm, target.z );
@@ -1951,8 +1952,8 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            for( auto vehicle : destsm->vehicles ) {
-                possible_vehicles.push_back( vehicle );
+            for( const auto &vehicle : destsm->vehicles ) {
+                possible_vehicles.push_back( vehicle.get() );
             }
         }
     }
@@ -1998,9 +1999,8 @@ bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
             for( auto &z : destsm->vehicles ) {
-                if( z == car_target ) {
-                    auto veh = z;
-                    std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( veh );
+                if( z.get() == car_target ) {
+                    std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
                     g->m.clear_vehicle_cache( omt_tgt.z );
                     g->m.reset_vehicle_cache( omt_tgt.z );
                     g->m.clear_vehicle_list( omt_tgt.z );

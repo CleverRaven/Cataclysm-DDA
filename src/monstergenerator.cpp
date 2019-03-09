@@ -116,15 +116,77 @@ m_size volume_to_size( const units::volume vol )
     return MS_HUGE;
 }
 
+struct monster_adjustment {
+    species_id species;
+    std::string stat;
+    float stat_adjust;
+    std::string flag;
+    bool flag_val;
+    std::string special;
+    void apply( mtype &mon );
+};
+
+void monster_adjustment::apply( mtype &mon )
+{
+    if( !mon.in_species( species ) ) {
+        return;
+    }
+    if( !stat.empty() ) {
+        if( stat == "speed" ) {
+            mon.speed *= stat_adjust;
+        } else if( stat == "hp" ) {
+            mon.hp *= stat_adjust;
+        }
+    }
+    if( !flag.empty() ) {
+        mon.set_flag( flag, flag_val );
+    }
+    if( !special.empty() ) {
+        if( special == "nightvision" ) {
+            mon.vision_night = mon.vision_day;
+        }
+    }
+}
+
+static std::vector<monster_adjustment> adjustments;
+
+void load_monster_adjustment( JsonObject &jsobj )
+{
+    monster_adjustment adj;
+    adj.species = species_id( jsobj.get_string( "species" ) );
+    if( jsobj.has_member( "stat" ) ) {
+        JsonObject stat = jsobj.get_object( "stat" );
+        stat.read( "name", adj.stat );
+        stat.read( "modifier", adj.stat_adjust );
+    }
+    if( jsobj.has_member( "flag" ) ) {
+        JsonObject flag = jsobj.get_object( "flag" );
+        flag.read( "name", adj.flag );
+        flag.read( "value", adj.flag_val );
+    }
+    if( jsobj.has_member( "special" ) ) {
+        jsobj.read( "special", adj.special );
+    }
+    adjustments.push_back( adj );
+}
+
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
     for( const auto &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype &>( elem );
         apply_species_attributes( mon );
-        set_mtype_flags( mon );
         set_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
+
+        // adjust for worldgen difficulty parameters
+        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+
+        for( monster_adjustment adj : adjustments ) {
+            adj.apply( mon );
+        }
+        set_mtype_flags( mon );
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
@@ -145,10 +207,6 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
         }
-
-        // adjust for worldgen difficulty parameters
-        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
 
         mon.hp = std::max( mon.hp, 1 ); // lower bound for hp scaling
 

@@ -190,7 +190,7 @@
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "chem_ethanol", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ] ]
+      [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "chem_ethanol", 500 ], [ "chem_methanol", 500 ], [ "ether", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ] ]
     ]
   },
   {
