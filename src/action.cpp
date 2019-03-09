@@ -734,6 +734,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
+            REGISTER_ACTION( ACTION_HIDE );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
