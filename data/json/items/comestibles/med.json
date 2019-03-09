@@ -5,7 +5,7 @@
     "category": "drugs",
     "name": "first aid kit",
     "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
-    "weight": 1630,
+    "weight": 1750,
     "volume": 5,
     "price": 3000,
     "material": "plastic",
