@@ -337,6 +337,15 @@
     "difficulty": 2
   },
   {
+    "id": "bio_tattoo_led",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "LED Tattoo",
+    "description": "A small LED display implanted under your skin, when active it glows displaying your favourite pattern.",
+    "price": 20000,
+    "difficulty": 1
+  },
+  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
