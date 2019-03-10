@@ -1331,9 +1331,11 @@ void draw_env_compact( player &u, const catacurses::window &w )
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
     mvwprintz( w, 4, 8, ll.second, ll.first.c_str() );
     // wind
-    w_point wind = *g->weather_precise;
-    mvwprintz( w, 5, 8, get_wind_color( wind.windpower ),
-               get_wind_desc( wind.windpower ) + " " + get_wind_arrow( wind.winddirection ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    double windpower = get_local_windpower( g->windspeed, cur_om_ter,
+                                            u.pos(), g->winddirection, g->is_sheltered( u.pos() ) );
+    mvwprintz( w, 5, 8, get_wind_color( windpower ),
+               get_wind_desc( windpower ) + " " + get_wind_arrow( g->winddirection ) );
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->get_temperature( u.pos() ) );
