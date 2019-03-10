@@ -3400,7 +3400,7 @@
       "EASY_DECONSTRUCT",
       "BASHABLE",
       "HIDE_PLACE",
-      "MAX_MEDIUM"
+      "MAX_MEDIUM",
       "NO_SIGHT"
     ],
     "bash": {
