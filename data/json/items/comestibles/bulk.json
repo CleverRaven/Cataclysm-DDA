@@ -22,6 +22,16 @@
     "description": "A generic bulk box of canned goods, you shouldn't see this."
   },
   {
+    "abstract": "bulk_6box",
+    "type": "GENERIC",
+    "copy-from": "bulk_box",
+    "//": "bulkier entry for pasta and things",
+    "price": 700,
+    "weight": 3000,
+    "volume": "6000mL",
+    "description": "A generic bulk flat of dry goods, you shouldn't see this."
+  },
+  {
     "abstract": "bulk_8box",
     "type": "GENERIC",
     "copy-from": "bulk_box",
@@ -46,6 +56,14 @@
     "name": "12-pack of canned broth",
     "name_plural": "12-packs of canned broth",
     "description": "A plastic wrapped cardboard flat with twelve cans of broth in it."
+  },
+  {
+    "id": "multipack_can_cheese",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of canned cheese",
+    "name_plural": "8-packs of canned cheese",
+    "description": "A plastic shrink-wrapped bag with eight cans of cheese spread in it."
   },
   {
     "id": "multipack_chicken",
@@ -80,12 +98,79 @@
     "description": "A plastic wrapped cardboard flat with twelve cans of clams in it."
   },
   {
+    "id": "multipack_coconut",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned coconut",
+    "name_plural": "12-packs of canned coconut",
+    "description": "A plastic wrapped cardboard flat with twelve cans of coconut in it."
+  },
+  {
+    "id": "multipack_con_milk",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of condensed milk",
+    "name_plural": "8-packs of condensed milk",
+    "description": "A plastic shrink-wrapped bag with eight cans of condensed milk in it."
+  },
+  {
     "id": "multipack_corn",
     "type": "GENERIC",
     "copy-from": "bulk_12box",
     "name": "12-pack of canned corn",
     "name_plural": "12-packs of canned corn",
     "description": "A plastic wrapped cardboard flat with twelve cans of corn in it."
+  },
+  {
+    "id": "multipack_curry_meat",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned meat curry",
+    "name_plural": "12-packs of canned meat curry",
+    "description": "A plastic wrapped cardboard flat with twelve cans of meat curry in it."
+  },
+  {
+    "id": "multipack_curry_veggy",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned veggy curry",
+    "name_plural": "12-packs of canned veggy curry",
+    "description": "A plastic wrapped cardboard flat with twelve cans of veggy curry in it."
+  },
+  {
+    "id": "multipack_herring",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of canned herring",
+    "name_plural": "8-packs of canned herring",
+    "description": "A plastic shrink-wrapped bag with eight cans of herring in it."
+  },
+  {
+    "id": "multipack_lasagna",
+    "type": "GENERIC",
+    "copy-from": "bulk_6box",
+    "name": "12-pack of lasagna noodles",
+    "name_plural": "12-packs of lasagna noodles",
+    "description": "A large cardboard packing box with boxes of raw lasagna noodles in it."
+  },
+  {
+    "id": "multipack_macaroni",
+    "type": "GENERIC",
+    "copy-from": "bulk_6box",
+    "name": "12-pack of macaroni noodles",
+    "name_plural": "12-packs of macaroni noodles",
+    "description": "A large cardboard packing box with boxes of raw macaroni noodles in it."
+  },
+  {
+    "id": "multipack_noodles_fast",
+    "type": "GENERIC",
+    "copy-from": "bulk_box",
+    "name": "24-pack of instant noodles",
+    "name_plural": "24-packs of instant noodles",
+    "price": 4600,
+    "weight": 800,
+    "volume": "5800mL",
+    "description": "A plastic wrapped cardboard flat with twenty-four packages of instant noodles in it."
   },
   {
     "id": "multipack_peaches",
@@ -136,12 +221,76 @@
     "description": "A cardboard box with eight cans of sardines in it."
   },
   {
+    "id": "multipack_sauce_pesto",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned pesto sauce",
+    "name_plural": "12-packs of canned pesto sauce",
+    "description": "A plastic wrapped cardboard flat with twelve cans of pesto sauce in it."
+  },
+  {
+    "id": "multipack_sauce_red",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned red sauce",
+    "name_plural": "12-packs of canned red sauce",
+    "description": "A plastic wrapped cardboard flat with twelve cans of red sauce in it."
+  },
+  {
+    "id": "multipack_soup_chicken",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned chicken soup",
+    "name_plural": "12-packs of canned chicken soup",
+    "description": "A plastic wrapped cardboard flat with twelve cans of chicken soup in it."
+  },
+  {
+    "id": "multipack_soup_dumplings",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned dumplings soup",
+    "name_plural": "12-packs of canned dumplings soup",
+    "description": "A plastic wrapped cardboard flat with twelve cans of dumplings soup in it."
+  },
+  {
+    "id": "multipack_soup_mushroom",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned mushroom soup",
+    "name_plural": "12-packs of canned mushroom soup",
+    "description": "A plastic wrapped cardboard flat with twelve cans of mushroom soup in it."
+  },
+  {
+    "id": "multipack_soup_meat",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned meat soup",
+    "name_plural": "12-packs of canned meat soup",
+    "description": "A plastic wrapped cardboard flat with twelve cans of meat soup in it."
+  },
+  {
+    "id": "multipack_soup_tomato",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned tomato soup",
+    "name_plural": "12-packs of canned tomato soup",
+    "description": "A plastic wrapped cardboard flat with twelve cans of tomato soup in it."
+  },
+  {
     "id": "multipack_soup_veggy",
     "type": "GENERIC",
     "copy-from": "bulk_12box",
     "name": "12-pack of canned vegetable soup",
     "name_plural": "12-packs of canned vegetable soup",
     "description": "A plastic wrapped cardboard flat with twelve cans of vegetable soup in it."
+  },
+  {
+    "id": "multipack_spaghetti",
+    "type": "GENERIC",
+    "copy-from": "bulk_6box",
+    "name": "12-pack of spaghetti noodles",
+    "name_plural": "12-packs of spaghetti noodles",
+    "description": "A large cardboard packing box with boxes of raw spaghetti noodles in it."
   },
   {
     "id": "multipack_spam",
@@ -174,5 +323,13 @@
     "name": "12-pack of bottled water",
     "name_plural": "12-packs of bottled water",
     "description": "A plastic wrapped cardboard flat with twelve bottles of water in it."
+  },
+  {
+    "id": "multipack_water_mineral",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of mineral water",
+    "name_plural": "12-packs of mineral water",
+    "description": "A plastic wrapped cardboard flat with twelve bottles of mineral water in it."
   }
 ]
