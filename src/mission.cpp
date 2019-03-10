@@ -514,6 +514,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
     // The internal keys are pretty ugly, it's better to translate them here than globally
     static const std::map<std::string, std::string> topic_translation = {{
             { "TALK_MISSION_DESCRIBE", "describe" },
+            { "TALK_MISSION_DESCRIBE_URGENT", "describe" },
             { "TALK_MISSION_OFFER", "offer" },
             { "TALK_MISSION_ACCEPTED", "accepted" },
             { "TALK_MISSION_REJECTED", "rejected" },

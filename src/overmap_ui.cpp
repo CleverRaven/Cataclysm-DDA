@@ -7,6 +7,8 @@
 #include "game.h"
 #include "input.h"
 #include "line.h"
+#include "map_iterator.h"
+#include "map.h"
 #include "mapbuffer.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -26,6 +28,11 @@
 #include <SDL_keyboard.h>
 #endif
 
+/** Note preview map width without borders. Odd number. */
+static const int npm_width = 3;
+/** Note preview map height without borders. Odd number. */
+static const int npm_height = 3;
+
 namespace
 {
 
@@ -35,6 +42,8 @@ struct draw_data_t {
     bool debug_mongroup = false;
     // draw weather, e.g. clouds etc.
     bool debug_weather = false;
+    // draw weather only around player position
+    bool visible_weather = false;
     // draw editor.
     bool debug_editor = false;
     // draw scent traces.
@@ -82,7 +91,74 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
     return result;
 }
 
-bool get_weather_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
+std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbors(
+    const tripoint &current )
+{
+    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+
+    std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around;
+    int index = 0;
+    const point shift( npm_width / 2, npm_height / 2 );
+    for( const tripoint &dest : tripoint_range( current - shift, current + shift ) ) {
+        nc_color ter_color = c_black;
+        long ter_sym = ' ';
+        const bool see = has_debug_vision || overmap_buffer.seen( dest.x, dest.y, dest.z );
+        if( see ) {
+            // Only load terrain if we can actually see it
+            oter_id cur_ter = overmap_buffer.ter( dest );
+            ter_color = cur_ter->get_color();
+            ter_sym = cur_ter->get_sym();
+        } else {
+            ter_color = c_dark_gray;
+            ter_sym = '#';
+        }
+        map_around[index++] = std::make_pair( ter_color, ter_sym );
+    }
+    return map_around;
+}
+
+void update_note_preview( const std::string &note,
+                          const std::array<std::pair<nc_color, long>, npm_width *npm_height> &map_around,
+                          const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
+                          &preview_windows )
+{
+    auto om_symbol = get_note_display_info( note );
+    const nc_color note_color = std::get<1>( om_symbol );
+    const char symbol = std::get<0>( om_symbol );
+    const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+
+    auto w_preview       = std::get<0>( preview_windows );
+    auto w_preview_title = std::get<1>( preview_windows );
+    auto w_preview_map   = std::get<2>( preview_windows );
+
+    draw_border( *w_preview );
+    mvwprintz( *w_preview, 1, 1, c_white, _( "Note preview" ) );
+    wrefresh( *w_preview );
+
+    werase( *w_preview_title );
+    mvwprintz( *w_preview_title, 0, 0, note_color, note_text );
+    mvwputch( *w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
+    for( size_t i = 0; i < note_text.length(); i++ ) {
+        mvwputch( *w_preview_title, 1, i, c_white, LINE_OXOX );
+    }
+    mvwputch( *w_preview_title, 1, note_text.length(), c_white, LINE_XOOX );
+    wrefresh( *w_preview_title );
+
+    const int npm_offset_x = 1;
+    const int npm_offset_y = 1;
+    draw_border( *w_preview_map, c_yellow );
+    for( int i = 0; i < npm_height; i++ ) {
+        for( int j = 0; j < npm_width; j++ ) {
+            const auto &ter = map_around[i * npm_width + j];
+            mvwputch( *w_preview_map, i + npm_offset_y, j + npm_offset_x, ter.first, ter.second );
+        }
+    }
+    mvwputch( *w_preview_map, npm_height / 2 + npm_offset_y, npm_width / 2 + npm_offset_x,
+              note_color, symbol );
+    wrefresh( *w_preview_map );
+};
+
+weather_type get_weather_at_point( const tripoint &pos )
 {
     // Weather calculation is a bit expensive, so it's cached here.
     static std::map<tripoint, weather_type> weather_cache;
@@ -98,43 +174,7 @@ bool get_weather_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym 
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
-    switch( iter->second ) {
-        case WEATHER_SUNNY:
-        case WEATHER_CLEAR:
-        case WEATHER_NULL:
-        case NUM_WEATHER_TYPES:
-            // show the terrain as usual
-            return false;
-        case WEATHER_CLOUDY:
-            ter_color = c_white;
-            ter_sym = '8';
-            break;
-        case WEATHER_DRIZZLE:
-        case WEATHER_FLURRIES:
-            ter_color = c_light_blue;
-            ter_sym = '8';
-            break;
-        case WEATHER_ACID_DRIZZLE:
-            ter_color = c_light_green;
-            ter_sym = '8';
-            break;
-        case WEATHER_RAINY:
-        case WEATHER_SNOW:
-            ter_color = c_blue;
-            ter_sym = '8';
-            break;
-        case WEATHER_ACID_RAIN:
-            ter_color = c_green;
-            ter_sym = '8';
-            break;
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-        case WEATHER_SNOWSTORM:
-            ter_color = c_dark_gray;
-            ter_sym = '8';
-            break;
-    }
-    return true;
+    return iter->second;
 }
 
 bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
@@ -295,6 +335,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
     const int om_half_width = om_map_width / 2;
     const int om_half_height = om_map_height / 2;
+    const bool viewing_weather = ( ( data.debug_weather || data.visible_weather ) && z == 10 );
 
     // Target of current mission
     const tripoint target = g->u.get_active_mission_target();
@@ -440,14 +481,16 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const tripoint cur_pos {omx, omy, z};
             // Check if location is within player line-of-sight
             const bool los = see && g->u.overmap_los( cur_pos, sight_points );
+            const bool los_sky = g->u.overmap_los( cur_pos, sight_points * 2 );
 
             if( blink && cur_pos == orig ) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
-            } else if( data.debug_weather &&
-                       get_weather_glyph( tripoint( omx, omy, z ), ter_color, ter_sym ) ) {
-                // ter_color and ter_sym have been set by get_weather_glyph
+            } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
+                weather_datum weather = weather_data( get_weather_at_point( tripoint( omx, omy, z ) ) );
+                ter_color = weather.map_color;
+                ter_sym = weather.glyph;
             } else if( data.debug_scent && get_scent_glyph( cur_pos, ter_color, ter_sym ) ) {
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // Mission target, display always, player should know where it is anyway.
@@ -680,7 +723,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
-    if( csee ) {
+    if( csee && !viewing_weather ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -706,6 +749,16 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
                                     overmap_buffer.get_description_at( sm_pos ) );
+        }
+    } else if( viewing_weather ) {
+        const auto curs_pos = tripoint( cursx, cursy, z );
+        const bool weather_is_visible = ( data.debug_weather ||
+                                          g->u.overmap_los( curs_pos, sight_points * 2 ) );
+        if( weather_is_visible ) {
+            weather_datum weather = weather_data( get_weather_at_point( curs_pos ) );
+            mvwprintz( wbar, 1, 1, weather.color, weather.name );
+        } else {
+            mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
         }
     } else {
         mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
@@ -870,6 +923,14 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
+            const auto map_around = get_overmap_neighbors( curs );
+
+            const int max_note_length = 45;
+            catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+                                           2, npm_width + 2 );
+            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+            catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
+            auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
 #ifdef __ANDROID__
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -877,51 +938,32 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             }
 #endif
 
-            bool done = false, esc_pressed = false;
+            bool esc_pressed = false;
+            string_input_popup input_popup;
+            input_popup
+            .title( title )
+            .width( max_note_length )
+            .text( new_note )
+            .description( color_notes )
+            .title_color( c_white )
+            .desc_color( c_light_gray )
+            .string_color( c_yellow )
+            .identifier( "map_note" );
+
+            update_note_preview( old_note, map_around, preview_windows );
+
             do {
-                // Popup must be created anew because the description is only
-                // printed when the window is created. This only happens once
-                // every keystroke, however.
-                string_input_popup input_popup;
-                input_popup.callbacks['\n'] = [&]() {
-                    done = true;
-                    return true;
-                };
-                input_popup.callbacks[KEY_ESCAPE] = [&]() {
-                    done = esc_pressed = true;
-                    return true;
-                };
-
-                auto om_symbol = get_note_display_info( new_note );
-                if( new_note.length() > 0 ) {
-                    tmp_note = string_format( "%s%c</color> <color_yellow>%s</color>",
-                                              get_tag_from_color( std::get<1>( om_symbol ) ),
-                                              std::get<0>( om_symbol ),
-                                              new_note.substr( std::get<2>( om_symbol ), std::string::npos ) );
-                } else {
-                    tmp_note.clear();
-                }
-
-                input_popup
-                .title( title )
-                .width( 45 )
-                .text( new_note )
-                .description( string_format( "%s%s%s\n",
-                                             color_notes,
-                                             std::string( title.length() - 1, ' ' ),
-                                             tmp_note ) )
-                .title_color( c_white )
-                .desc_color( c_light_gray )
-                .string_color( c_yellow );
-
                 new_note = input_popup.query_string( false );
-                if( esc_pressed ) {
+                const long first_input = input_popup.context().get_raw_input().get_first_input();
+                if( first_input == KEY_ESCAPE ) {
                     new_note = old_note;
+                    esc_pressed = true;
                     break;
-                } else if( done ) {
+                } else if( first_input == '\n' ) {
                     break;
+                } else {
+                    update_note_preview( new_note, map_around, preview_windows );
                 }
-
             } while( true );
 
             if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
@@ -1223,7 +1265,18 @@ void ui::omap::display_weather()
 {
     draw_data_t data;
     data.debug_weather = true;
-    ::display( g->u.global_omt_location(), data );
+    tripoint pos = g->u.global_omt_location();
+    pos.z = 10;
+    ::display( pos, data );
+}
+
+void ui::omap::display_visible_weather()
+{
+    draw_data_t data;
+    data.visible_weather = true;
+    tripoint pos = g->u.global_omt_location();
+    pos.z = 10;
+    ::display( pos, data );
 }
 
 void ui::omap::display_scents()

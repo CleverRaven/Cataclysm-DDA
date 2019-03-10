@@ -21,6 +21,7 @@ enum butcher_type : int {
     F_DRESS,        // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
+    DISMEMBER,      // destroy a corpse
     DISSECT         // dissect a corpse for CBMs
 };
 

@@ -1635,15 +1635,43 @@
   },
   {
     "type": "construction",
-    "description": "Build Dock/Shallow Bridge",
+    "description": "Build River Bridge",
+    "//": "Set up River bridge",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": 80,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "2x4", 8 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
+    ],
+    "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_riverbridge_dp"
+  },
+  {
+    "type": "construction",
+    "description": "Build River Dock/Shallow Bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 80,
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
-    "pre_terrain": "t_water_sh",
+    "pre_terrain": "t_water_moving_sh",
     "post_terrain": "t_dock"
+  },
+  {
+    "type": "construction",
+    "description": "Build Shallow Temporary Bridge",
+    "//": "Set up shallow bridge",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 80,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_sh_bridge"
   },
   {
     "type": "construction",

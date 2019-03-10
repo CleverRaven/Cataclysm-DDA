@@ -232,7 +232,7 @@ void print_stamina_bar( const player &p, const catacurses::window &w )
 {
     std::string sta_bar;
     nc_color sta_color;
-    std::tie( sta_bar, sta_color ) = get_hp_bar( p.stamina, p.get_stamina_max() );
+    std::tie( sta_bar, sta_color ) = get_stamina_bar( p.stamina, p.get_stamina_max() );
     wprintz( w, sta_color, sta_bar );
 }
 

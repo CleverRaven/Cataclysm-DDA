@@ -412,6 +412,23 @@
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
+    "id": "bio_tattoo_led",
+    "type": "bionic",
+    "name": "LED Tattoo",
+    "description": "A simple LED display is implanted under the skin, bright enough to be seen through the dermal layer when active, vanishing from sight when inactive. You might not be able to show off in clubs with it anymore but its faint glow could provide some comfort in the dark.",
+    "act_cost": 1,
+    "react_cost": 1,
+    "time": 25,
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_glowy",
+    "type": "bionic",
+    "name": "Glowy Thing",
+    "description": "Something is glowing under your skin, it turns on and off on its own and makes you quite visible.",
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
     "id": "bio_furnace",
     "type": "bionic",
     "name": "Internal Furnace",
