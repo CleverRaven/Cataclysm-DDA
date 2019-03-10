@@ -690,6 +690,33 @@ void mx_crater( map &m, const tripoint &abs_sub )
     }
 }
 
+void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
+{
+    // Tracks points nearby for ignition after the lava is placed
+    //std::set<point> ignited;
+
+    std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
+    for( auto &i : fumarole ) {
+        m.ter_set( i.x, i.y, t_lava );
+
+        // Add all adjacent tiles (even on diagonals) for possible ignition
+        // Since they're being added to a set, duplicates won't occur
+        ignited.insert( point( i.x - 1, i.y - 1) );
+        ignited.insert( point( i.x,     i.y - 1) );
+        ignited.insert( point( i.x + 1, i.y - 1) );
+        ignited.insert( point( i.x - 1, i.y) );
+        ignited.insert( point( i.x + 1, i.y) );
+        ignited.insert( point( i.x - 1, i.y + 1) );
+        ignited.insert( point( i.x,     i.y + 1) );
+        ignited.insert( point( i.x + 1, i.y + 1) );
+
+        if( one_in( 6 ) ) {
+            m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
+        }
+    }
+
+}
+
 void mx_fumarole( map &m, const tripoint &abs_sub )
 {
     if( abs_sub.z <= 0 ) {
@@ -723,43 +750,15 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
                 break;
         }
 
-        // Tracks points nearby for ignition after the lava is placed
         std::set<point> ignited;
-
-        std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
-        for( auto &i : fumarole ) {
-            m.ter_set( i.x, i.y, t_lava );
-            m.ter_set( i.x + x_extra, i.y + y_extra, t_lava );
-
-            // Add all adjacent tiles (even on diagonals) for possible ignition
-            // Since they're being added to a set, duplicates won't occur
-            ignited.insert( point( i.x - 1, i.y - 1) );
-            ignited.insert( point( i.x,     i.y - 1) );
-            ignited.insert( point( i.x + 1, i.y - 1) );
-            ignited.insert( point( i.x - 1, i.y) );
-            ignited.insert( point( i.x + 1, i.y) );
-            ignited.insert( point( i.x - 1, i.y + 1) );
-            ignited.insert( point( i.x,     i.y + 1) );
-            ignited.insert( point( i.x + 1, i.y + 1) );
-
-            ignited.insert( point( i.x + x_extra - 1, i.y + y_extra - 1 ) );
-            ignited.insert( point( i.x + x_extra,     i.y + y_extra - 1 ) );
-            ignited.insert( point( i.x + x_extra + 1, i.y + y_extra - 1 ) );
-            ignited.insert( point( i.x + x_extra - 1, i.y + y_extra ) );
-            ignited.insert( point( i.x + x_extra + 1, i.y + y_extra ) );
-            ignited.insert( point( i.x + x_extra - 1, i.y + y_extra + 1 ) );
-            ignited.insert( point( i.x + x_extra,     i.y + y_extra + 1 ) );
-            ignited.insert( point( i.x + x_extra + 1, i.y + y_extra + 1 ) );
-
-            if( one_in( 6 ) ) {
-                m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
-            }
-        }
+        place_fumarole( m, x1, y1, x2, y2, ignited );
+        place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
 
         for( auto &i : ignited ) {
-            // Spawn an intense but short-lived fire
-            // Any furniture or buildings will catch fire, otherwise it will burn out quickly
+            // Don't need to do anything to tiles that already have lava on them
             if( m.ter( i.x, i.y ) != t_lava ) {
+                // Spawn an intense but short-lived fire
+                // Any furniture or buildings will catch fire, otherwise it will burn out quickly
                 m.add_field( tripoint( i.x, i.y, abs_sub.z ), fd_fire, 15, 10_turns );
             }
         }
