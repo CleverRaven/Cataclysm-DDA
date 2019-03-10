@@ -1022,6 +1022,14 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
   },
   {
+    "id": "bio_jointservo",
+    "type": "bionic",
+    "name": "Joint Servo",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement. They are optimized for running, but walking also requires less effort when this bionic is online. However, when it's offline it will hamper your movement, as you struggle against it's moving parts.",
+    "occupied_bodyparts": [ [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
     "id": "bio_trip",
     "type": "bionic",
     "name": "Visual Disruptor",

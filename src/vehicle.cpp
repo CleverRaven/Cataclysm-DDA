@@ -3674,7 +3674,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             }
         }
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.charge_power( -5 );
+            g->u.charge_power( -10 );
         }
         if( one_in( 10 ) ) {
             g->u.mod_hunger( mod );

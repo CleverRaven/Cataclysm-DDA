@@ -11258,7 +11258,12 @@ void game::on_move_effects()
         }
     }
     if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-        u.charge_power( -5 );
+        if( u.move_mode == "run" ) {
+            u.charge_power( -20 );
+        } else {
+            u.charge_power( -10 );            
+        }
+
     }
 
     if( u.move_mode == "run" ) {

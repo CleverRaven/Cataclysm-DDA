@@ -1827,9 +1827,14 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost *= 0.75f;
     }
     if( has_active_bionic( bio_jointservo ) ) {
-        movecost *= 0.80f;
+        if( move_mode == "run" )
+        {
+            movecost *= 0.85f;
+        } else {
+            movecost *= 0.95f;
+        }
     } else if( has_bionic( bio_jointservo ) ) {
-        movecost *= 1.05f;
+        movecost *= 1.1f;
     }
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
