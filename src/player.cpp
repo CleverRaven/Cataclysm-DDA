@@ -1033,9 +1033,8 @@ void player::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( weather.windpower + vehwindspeed, cur_om_ter, pos(),
-                             weather.winddirection, sheltered );
-
+    double total_windpower = get_local_windpower( g->windspeed + vehwindspeed, cur_om_ter, pos(),
+                                                                                             g->winddirection, sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );

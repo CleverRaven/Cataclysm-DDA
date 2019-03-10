@@ -53,8 +53,8 @@ enum weather_type : int {
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
     WEATHER_FLURRIES,     //!< Light snow
-    WEATHER_SNOW,         //!< Medium snow glare effects
-    WEATHER_SNOWSTORM,    //!< Heavy snow glare effects, sight penalties
+    WEATHER_SNOW,         //!< snow glare effects
+    WEATHER_SNOWSTORM,    //!< sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -126,9 +126,14 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
+    int wind_amount = 0;
 };
 
 weather_datum const weather_data( weather_type const type );
+
+std::string get_shortdirstring( int angle );
+
+std::string get_dirstring( int angle );
 
 std::string weather_forecast( const point &abs_sm_pos );
 
@@ -147,7 +152,6 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered = 
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
                             bool sheltered = false );
-
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
                             const tripoint &location );

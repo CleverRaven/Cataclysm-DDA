@@ -5304,7 +5304,6 @@ void vehicle::update_time( const time_point &update_to )
     if( !wind_turbines.empty() ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
-        double basewindpower = weatherPoint.windpower;
         double windpower;
         int epower_w = 0;
         for( int part : wind_turbines ) {
@@ -5316,9 +5315,9 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            windpower = get_local_windpower( basewindpower, cur_om_ter, global_part_pos3( part ),
-                                             weatherPoint.winddirection, false );
-            if( windpower <= ( basewindpower / 10 ) ) {
+            windpower = get_local_windpower( g->windspeed, cur_om_ter, global_part_pos3( part ),
+                                             g->winddirection, false );
+            if( windpower <= ( g->windspeed / 10 ) ) {
                 continue;
             }
             epower_w += part_epower_w( part ) * windpower;

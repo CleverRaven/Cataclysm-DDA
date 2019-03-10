@@ -6921,7 +6921,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool precipitation = false;
     bool windtoostrong = false;
     w_point weatherPoint = *g->weather_precise;
-    double windpower = weatherPoint.windpower;
+    int windpower = g->windspeed;
     switch( g->weather ) {
         case WEATHER_DRIZZLE:
         case WEATHER_FLURRIES:
@@ -6947,7 +6947,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
-    if( in_inv && windpower > 5.0 && !g->is_sheltered( pos ) &&
+    if( in_inv && windpower > 5 && !g->is_sheltered( pos ) &&
         this->has_flag( "WIND_EXTINGUISH" ) ) {
         windtoostrong = true;
         extinguish = true;
