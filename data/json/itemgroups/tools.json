@@ -108,15 +108,16 @@
     "id": "tools_mechanic",
     "type": "item_group",
     "//": "Equipment of any size commonly used by engineers and mechanics",
-    "//2": "Note that battery powered welders are fairly rare, as are electric forges.",
     "ammo": 100,
     "items": [
       [ "jack", 100 ],
       [ "jack_small", 100 ],
       [ "oxy_torch", 100 ],
+      [ "weldtank", 100 ],
+      [ "tinyweldtank", 100 ],
       [ "polisher", 100 ],
-      [ "forge", 20 ],
-      [ "welder", 30 ]
+      [ "forge", 10 ],
+      [ "welder", 10 ]
     ]
   },
   {
