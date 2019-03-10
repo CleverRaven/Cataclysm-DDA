@@ -710,7 +710,6 @@
         { "chance": 30, "item": "2x4", "repeat": 3, "x": 20, "y": 20 }
       ],
       "furniture": {
-        " ": "f_null",
         "#": "f_null",
         ".": "f_null",
         "0": "f_null",
@@ -852,7 +851,6 @@
     "object": {
       "place_item": [ { "chance": 60, "item": "bucket", "repeat": 1, "x": 3, "y": 13 } ],
       "furniture": {
-        " ": "f_null",
         "#": "f_counter",
         "&": "f_sink",
         "+": "f_null",
