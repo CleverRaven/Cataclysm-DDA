@@ -1102,7 +1102,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 9,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "MAX_MEDIUM", "NO_SIGHT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "MAX_SMALL", "NO_SIGHT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 1, 2 ] },
