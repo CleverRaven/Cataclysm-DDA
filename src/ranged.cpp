@@ -41,8 +41,6 @@ const skill_id skill_launcher( "launcher" );
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -379,13 +377,7 @@ int throw_cost( const player &c, const item &to_throw )
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
-
-    if( c.has_trait( trait_LIGHT_BONES ) ) {
-        move_cost *= .9;
-    }
-    if( c.has_trait( trait_HOLLOW_BONES ) ) {
-        move_cost *= .8;
-    }
+    move_cost *= c.mutation_value( "attackcost_modifier" );
 
     return std::max( 25, move_cost );
 }

@@ -61,9 +61,7 @@ static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
@@ -1924,11 +1922,7 @@ int player::attack_speed( const item &weap ) const
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
 
-    if( has_trait( trait_HOLLOW_BONES ) ) {
-        move_cost *= 0.8f;
-    } else if( has_trait( trait_LIGHT_BONES ) ) {
-        move_cost *= 0.9f;
-    }
+    move_cost *= mutation_value( "attackcost_modifier" );
 
     if( move_cost < 25 ) {
         return 25;

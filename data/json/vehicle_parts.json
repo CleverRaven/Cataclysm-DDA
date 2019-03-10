@@ -2131,6 +2131,10 @@
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 60000, "using": [ [ "rope_natural", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "using": [ [ "adhesive", 1 ] ] }
+    },
     "damage_reduction": { "all": 10 }
   },
   {
