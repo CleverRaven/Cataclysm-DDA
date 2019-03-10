@@ -1,0 +1,178 @@
+[
+  {
+    "abstract": "bulk_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": "bulk box",
+    "category": "food",
+    "description": "A generic bulk box of canned goods, you shouldn't see this.",
+    "material": [ "plastic" ],
+    "looks_like": "box_small",
+    "use_action": "DISASSEMBLE"
+  },
+  {
+    "abstract": "bulk_12box",
+    "type": "GENERIC",
+    "copy-from": "bulk_box",
+    "//": "based on a 12-pack of canned beans",
+    "price": 1500,
+    "weight": 6200,
+    "volume": "8700mL",
+    "description": "A generic bulk box of canned goods, you shouldn't see this."
+  },
+  {
+    "abstract": "bulk_8box",
+    "type": "GENERIC",
+    "copy-from": "bulk_box",
+    "//": "based on an 8-pack of canned tuna",
+    "price": 1000,
+    "weight": 1400,
+    "volume": "1900mL",
+    "description": "A generic bulk box of canned goods, you shouldn't see this."
+  },
+  {
+    "id": "multipack_beans",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned beans",
+    "name_plural": "12-packs of canned beans",
+    "description": "A plastic wrapped cardboard flat with twelve cans of beans in it."
+  },
+  {
+    "id": "multipack_broth",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned broth",
+    "name_plural": "12-packs of canned broth",
+    "description": "A plastic wrapped cardboard flat with twelve cans of broth in it."
+  },
+  {
+    "id": "multipack_chicken",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of canned chicken",
+    "name_plural": "8-packs of canned chicken",
+    "description": "A plastic shrink-wrapped bag with eight cans of chicken in it."
+  },
+  {
+    "id": "multipack_chili",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned chili",
+    "name_plural": "12-packs of canned chili",
+    "description": "A plastic wrapped cardboard flat with twelve cans of chili in it."
+  },
+  {
+    "id": "multipack_chowder",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned chowder",
+    "name_plural": "12-packs of canned chowder",
+    "description": "A plastic wrapped cardboard flat with twelve cans of chowder in it."
+  },
+  {
+    "id": "multipack_clams",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned clams",
+    "name_plural": "12-packs of canned clams",
+    "description": "A plastic wrapped cardboard flat with twelve cans of clams in it."
+  },
+  {
+    "id": "multipack_corn",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned corn",
+    "name_plural": "12-packs of canned corn",
+    "description": "A plastic wrapped cardboard flat with twelve cans of corn in it."
+  },
+  {
+    "id": "multipack_peaches",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned peaches",
+    "name_plural": "12-packs of canned peaches",
+    "description": "A plastic wrapped cardboard flat with twelve cans of peaches in it."
+  },
+  {
+    "id": "multipack_pineapple",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned pineapple",
+    "name_plural": "12-packs of canned pineapple",
+    "description": "A plastic wrapped cardboard flat with twelve cans of pineapple in it."
+  },
+  {
+    "id": "multipack_pork_beans",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned pork & beans",
+    "name_plural": "12-packs of canned pork & beans",
+    "description": "A plastic wrapped cardboard flat with twelve cans of pork & beans in it."
+  },
+  {
+    "id": "multipack_ravioli",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned ravioli",
+    "name_plural": "12-packs of canned ravioli",
+    "description": "A plastic wrapped cardboard flat with twelve cans of ravioli in it."
+  },
+  {
+    "id": "multipack_salmon",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of canned salmon",
+    "name_plural": "8-packs of canned salmon",
+    "description": "A plastic shrink-wrapped bag with eight cans of salmon in it."
+  },
+  {
+    "id": "multipack_sardines",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of canned sardines",
+    "name_plural": "8-packs of canned sardines",
+    "description": "A cardboard box with eight cans of sardines in it."
+  },
+  {
+    "id": "multipack_soup_veggy",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned vegetable soup",
+    "name_plural": "12-packs of canned vegetable soup",
+    "description": "A plastic wrapped cardboard flat with twelve cans of vegetable soup in it."
+  },
+  {
+    "id": "multipack_spam",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of canned SPAM",
+    "name_plural": "8-packs of canned SPAM",
+    "description": "A cardboard box with eight cans of SPAM, glorious SPAM, in it."
+  },
+  {
+    "id": "multipack_tomato",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of canned tomato",
+    "name_plural": "12-packs of canned tomato",
+    "description": "A plastic wrapped cardboard flat with twelve cans of tomato in it."
+  },
+  {
+    "id": "multipack_tuna",
+    "type": "GENERIC",
+    "copy-from": "bulk_8box",
+    "name": "8-pack of canned tuna",
+    "name_plural": "8-packs of canned tuna",
+    "description": "A plastic shrink-wrapped bag with eight cans of tuna in it."
+  },
+  {
+    "id": "multipack_water",
+    "type": "GENERIC",
+    "copy-from": "bulk_12box",
+    "name": "12-pack of bottled water",
+    "name_plural": "12-packs of bottled water",
+    "description": "A plastic wrapped cardboard flat with twelve bottles of water in it."
+  }
+]

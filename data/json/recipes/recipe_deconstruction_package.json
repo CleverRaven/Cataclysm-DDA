@@ -411,22 +411,76 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "multipack_tomato",
+    "result": "multipack_broth",
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "can_tomato", 12 ] ],
+      [ [ "broth", 12 ] ],
       [ [ "box_small", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "multipack_chicken",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_chicken", 8 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_chili",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "chili", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_chowder",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_chowder", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_clams",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_clams", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },  
+  {
     "result": "multipack_corn",
     "type": "uncraft",
     "time": 500,
     "components": [
       [ [ "can_corn", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_peach",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_peach", 12 ] ],
       [ [ "box_small", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
@@ -444,22 +498,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "multipack_spam",
+    "result": "multipack_pork_beans",
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "can_spam", 9 ] ],
-      [ [ "box_small", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_sardines",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_sardine", 6 ] ],
-      [ [ "box_small", 1 ] ]
+      [ [ "pork_beans", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -475,22 +520,52 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "multipack_pork_beans",
+    "result": "multipack_salmon",
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "pork_beans", 12 ] ],
+      [ [ "can_salmon", 8 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_sardines",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_sardine", 8 ] ],
+      [ [ "box_small", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_soup_veggy",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "soup_veggy", 12 ] ],
       [ [ "box_small", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "multipack_chili",
+    "result": "multipack_spam",
     "type": "uncraft",
     "time": 500,
     "components": [
-      [ [ "chili", 12 ] ],
+      [ [ "can_spam", 8 ] ],
+      [ [ "box_small", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_tomato",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_tomato", 12 ] ],
       [ [ "box_small", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
@@ -507,91 +582,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "multipack_salmon",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_salmon", 8 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_chicken",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_chicken", 8 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_clams",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_clams", 8 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_chowder",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_chowder", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_peach",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_peach", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_soup_veggy",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "soup_veggy", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_peach",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_peach", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_broth",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "broth", 9 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "multipack_water",
     "type": "uncraft",
     "time": 500,
@@ -601,7 +591,7 @@
       [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
-  },  
+  },
   {
     "result": "package_2x4",
     "type": "uncraft",
