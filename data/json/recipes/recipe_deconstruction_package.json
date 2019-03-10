@@ -614,6 +614,32 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "package_logs",
+    "type": "uncraft",
+    "time": 1000,
+    "//": "This is also represents 4x4 or larger lumber beams that could be used in the same place as logs.",
+    "components": [
+      [ [ "log", 60 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "strap_plastic", 4 ] ],
+      [ [ "sheet_plastic", 2 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "package_sticks",
+    "type": "uncraft",
+    "time": 1000,
+    "//": "This also represents small lumber that can be used in the same place as long sticks.",
+    "components": [
+      [ [ "stick_long", 200 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "strap_plastic", 4 ] ],
+      [ [ "sheet_plastic", 2 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "package_plywood",
     "type": "uncraft",
     "time": 1000,
