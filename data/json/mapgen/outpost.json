@@ -79,10 +79,10 @@
         "!": { "item": "hardware_plumbing", "chance": 70 },
         "L": [
           { "item": "guns_rifle_milspec", "chance": 20 },
-          { "item": "ammo_milspec", "chance": 20 },
+          { "item": "ammo_milspec", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "grenades", "chance": 20 },
           { "item": "guns_launcher_milspec", "chance": 20 },
-          { "item": "mags_milspec", "chance": 20 }
+          { "item": "mags_milspec", "chance": 20, "repeat": [ 1, 3 ] }
         ],
         "X": { "item": "oven", "chance": 70 },
         "C": { "item": "mil_armor", "chance": 40 },
@@ -203,10 +203,10 @@
         "!": { "item": "hardware_plumbing", "chance": 70 },
         "L": [
           { "item": "guns_rifle_milspec", "chance": 20 },
-          { "item": "ammo_milspec", "chance": 20 },
+          { "item": "ammo_milspec", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "grenades", "chance": 20 },
           { "item": "guns_launcher_milspec", "chance": 20 },
-          { "item": "mags_milspec", "chance": 20 }
+          { "item": "mags_milspec", "chance": 20, "repeat": [ 1, 3 ] }
         ],
         "X": { "item": "oven", "chance": 70 },
         "C": { "item": "mil_armor", "chance": 40 },
