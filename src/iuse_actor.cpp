@@ -1152,9 +1152,8 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
         wetness =  std::max( 1, static_cast<int>( accum_weather.rain_amount / 7000 ) );
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( pos ) );
-    const w_point weatherPoint = *g->weather_precise;
-    double windpower = get_local_windpower( weatherPoint.windpower, cur_om_ter, pos,
-                                            weatherPoint.winddirection, sheltered );
+    double windpower = get_local_windpower( g->windpower, cur_om_ter, pos,
+                                            g->winddirection, sheltered );
     const float light = light_mod( pos );
     double skill_level = p.get_skill_level( skill_survival );
     /** @EFFECT_SURVIVAL speeds up fire starting */
