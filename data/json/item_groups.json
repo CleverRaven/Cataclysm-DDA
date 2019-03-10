@@ -9562,11 +9562,11 @@
     "type" : "item_group",
     "id" : "lumberyard",
     "items": [
-      { "item": "2x4",  "prob": 500, "charges-min": 10, "charges-max": 20 },
-      { "item": "log",  "prob": 200, "charges-min": 5, "charges-max": 10 },
-      { "item": "stick_long",  "prob": 100, "charges-min": 10, "charges-max": 20 },
-      { "item": "stick",  "prob": 50, "charges-min": 10, "charges-max": 20 },
-      { "item": "nail",  "prob": 100, "charges-min": 100, "charges-max": 500 },
+      { "item": "2x4",  "prob": 500 },
+      { "item": "log",  "prob": 200 },
+      { "item": "stick_long",  "prob": 100 },
+      { "item": "stick",  "prob": 50 },
+      { "item": "nail",  "prob": 100, "charges-min": 50, "charges-max": 100 },
       [ "pine_bough", 25 ]
     ]
   },{
