@@ -11770,9 +11770,7 @@ bool player::has_weapon() const
 
 m_size player::get_size() const
 {
-    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ) {
-        return MS_TINY;
-    } else if( has_trait( trait_id( "SMALL" ) ) ) {
+    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) || has_trait( trait_id( "SMALL" ) ) ) {
         return MS_SMALL;
     } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
         return MS_LARGE;
