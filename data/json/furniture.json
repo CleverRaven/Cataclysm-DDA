@@ -3449,7 +3449,7 @@
     "color": "i_brown",
     "move_cost_mod": -1,
     "required_str": 9,
-    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "HIDE_PLACE", "MAX_MEDIUM", "NO_SIGHT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 12 ] } ] },
     "max_volume": 8000,
     "bash": {
