@@ -2768,19 +2768,19 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier>( cached_mutations );
     } else if( val == "movecost_flatground_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier>
-                     ( cached_mutations );
+               ( cached_mutations );
     } else if( val == "movecost_obstacle_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier>
-                     ( cached_mutations );
+               ( cached_mutations );
     } else if( val == "attackcost_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier>
-                     ( cached_mutations );
+               ( cached_mutations );
     } else if( val == "max_stamina_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier>
-                     ( cached_mutations );
+               ( cached_mutations );
     } else if( val == "weight_capacity_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier>
-                     ( cached_mutations );
+               ( cached_mutations );
     } else if( val == "hearing_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
     } else if( val == "noise_modifier" ) {
