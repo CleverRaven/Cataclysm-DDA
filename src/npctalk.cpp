@@ -316,7 +316,7 @@ void npc::talk_to_u( bool text_only )
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
         if( type.urgent && type.difficulty > most_difficult_mission ) {
-            d.add_topic( "TALK_MISSION_DESCRIBE" );
+            d.add_topic( "TALK_MISSION_DESCRIBE_URGENT" );
             chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -401,16 +401,15 @@ void npc::talk_to_u( bool text_only )
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
         g->u.cancel_activity();
-
         // don't query certain activities that are started from dialogue
-    } else if( ( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ) ||
-               ( ( g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ) ||
-                 ( ( g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ) ||
-                   ( ( g->u.activity.index == getID() ) ) ) ) ) {
+    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
+               g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
+               g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
+               g->u.activity.index == getID() ) {
         return;
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                            string_format( _( "%s talked to you." ), name ) );
     }
+    g->cancel_activity_or_ignore_query( distraction_type::talked_to,
+                                        string_format( _( "%s talked to you." ), name ) );
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
@@ -431,7 +430,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
                    _( "&You are deaf and can't talk. When you don't respond, %s becomes angry!" ),
-                   beta->name.c_str() );
+                   beta->name );
     }
     if( topic == "TALK_SEDATED" ) {
         return string_format(
@@ -442,7 +441,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     const auto &p = beta; // for compatibility, later replace it in the code below
     // Those topics are handled by the mission system, see there.
     static const std::unordered_set<std::string> mission_topics = { {
-            "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
+            "TALK_MISSION_DESCRIBE", "TALK_MISSION_DESCRIBE_URGENT",
+            "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
             "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE", "TALK_MISSION_INQUIRE",
             "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE", "TALK_MISSION_FAILURE"
         }

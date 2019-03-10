@@ -58,6 +58,7 @@
       ["radiocontrol", 5],
       ["whistle", 3],
       ["slingshot", 10],
+      ["frisbee", 10 ],
       ["dnd_handbook", 1],
       ["milkshake_fastfood", 3]
     ]
@@ -2194,6 +2195,8 @@
       ["helmet_ball", 45],
       ["baseball", 35],
       ["football", 35],
+      ["frisbee", 10 ],
+      ["disc_golf", 10 ],
       ["manual_brawl", 30],
       ["manual_bashing", 1],
       ["manual_melee", 10],
@@ -2393,6 +2396,8 @@
       ["football_armor", 10],
       ["helmet_football", 10],
       ["football", 30],
+      ["frisbee", 10 ],
+      ["disc_golf", 10 ],
       ["basketball", 20],
       ["sneakers", 80],
       ["socks", 70],
@@ -2435,6 +2440,7 @@
       ["golf_bag", 20],
       ["golf_tee", 30],
       ["golf_ball", 40],
+      ["scorecard", 10],
       ["manual_brawl", 30],
       ["manual_melee", 6],
       ["manual_throw", 12],
@@ -2731,6 +2737,7 @@
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
       ["flyer", 10],
+      ["scorecard", 10],
       ["talking_doll", 60],
       ["marble", 65],
       ["55gal_drum", 1],
@@ -2756,6 +2763,7 @@
       ["bag_plastic", 15],
       ["wrapper", 30],
       ["flyer", 15],
+      ["scorecard", 10],
       ["eclipse_glasses", 1]
     ]
  },{
@@ -4490,6 +4498,8 @@
       [ "mag_comic", 20 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 2 ],
+      ["frisbee", 10 ],
+      ["disc_golf", 10 ],
       [ "football_armor", 5 ],
       [ "helmet_football", 5 ],
       [ "mouthpiece", 5 ],
@@ -5968,6 +5978,7 @@
       ["bio_ups", 10],
       ["bio_storage", 10],
       ["bio_flashlight", 10],
+      ["bio_tattoo_led", 10],
       ["bio_lighter", 10],
       ["bio_magnet", 10],
       ["bio_memory", 10],
@@ -6056,6 +6067,7 @@
       ["bio_tools", 10],
       ["bio_storage", 10],
       ["bio_flashlight", 10],
+      ["bio_tattoo_led", 10],
       ["bio_lighter", 10],
       ["bio_magnet", 10],
       ["bio_alarm", 10],
@@ -9492,13 +9504,12 @@
     "type" : "item_group",
     "id" : "lumberyard",
     "items": [
-      [ "2x4", 500 ],
-      [ "log", 200 ],
-      [ "stick", 100 ],
-      [ "pine_bough", 50 ],
-      [ "ax", 10 ],
-      [ "saw", 10 ],
-      [ "chainsaw_off", 5 ]
+      { "item": "2x4",  "prob": 500 },
+      { "item": "log",  "prob": 200 },
+      { "item": "stick_long",  "prob": 100 },
+      { "item": "stick",  "prob": 50 },
+      { "item": "nail",  "prob": 100, "charges-min": 50, "charges-max": 100 },
+      [ "pine_bough", 25 ]
     ]
   },{
     "type" : "item_group",
@@ -10061,6 +10072,7 @@
       [ "golf_tee", 80 ],
       [ "golf_ball", 90 ],
       [ "towel", 40 ],
+      ["scorecard", 10],
       [ "golf_club", 75 ]
     ]
   },
@@ -10117,5 +10129,119 @@
       { "item": "mittens", "prob": 5 },
       { "item": "thermal_gloves", "prob": 2 }
     ]
-  }
-]
+  },
+    {
+      "id": "sewing_group",
+      "type": "item_group",
+      "items": [
+        [ "sewing_kit", 5 ],
+        [ "tailors_kit", 5 ],
+        [ "knitting_needles", 15 ],
+        [ "kevlar_plate", 10 ],
+        [ "leather", 10 ],
+        [ "rag", 20 ],
+        [ "needle_curved", 10 ],
+        [ "nomex", 10 ],
+        [ "neoprene", 5 ],
+        [ "felt_patch", 10 ],
+        [ "fur", 10 ],
+        [ "thread", 15 ],
+        [ "yarn", 15 ],
+        [ "sinew", 15 ],
+        [ "duct_tape", 15 ],
+        [ "feather", 15 ],
+        [ "mag_animecon", 15 ],
+        [ "mag_beauty", 15 ],
+        [ "mag_tailor", 15 ],
+        [ "manual_tailor", 15 ],
+        [ "tailor_portfolio", 5 ],
+        [ "recipe_fauxfur", 5 ],
+        [ "textbook_tailor", 3 ]
+      ]
+    },
+    {
+      "id": "pottery",
+      "type": "item_group",
+      "items": [
+        [ "bowl_clay", 10 ],
+        [ "clay_canister", 15 ],
+        [ "clay_hydria", 10 ],
+        [ "clay_watercont", 10 ],
+        [ "jug_clay", 15 ],
+        [ "ceramic_plate", 15 ],
+        [ "ceramic_bowl", 15 ],
+        [ "ceramic_cup", 15 ],
+        [ "jug_clay", 15 ]
+      ]
+    },
+    {
+      "id": "glass_shop",
+      "type": "item_group",
+      "items": [
+        [ "glass", 15 ],
+        [ "jar_glass", 10 ],
+        [ "glass_bowl", 10 ],
+        [ "test_tube", 10 ],
+        [ "bottle_glass", 10 ],
+        [ "flask_glass", 10 ],
+        [ "pipe_glass", 10 ],
+        [ "fish_bowl", 1 ],
+        [ "glass_plate", 20 ],
+        [ "glass_sheet", 5 ],
+        [ "jar_3l_glass", 15 ],
+        [ "magnifying_glass", 5 ]
+      ]
+    },
+    {
+      "id": "ceramics_workroom",
+      "type": "item_group",
+      "items": [
+        [ "cooking_oil", 15 ],
+        [ "mag_fabrication", 5 ],
+        [ "manual_fabrication", 5 ],
+        [ "mag_survival", 10 ],
+        [ "wax", 30 ],
+        [ "straw_pile", 15 ],
+        [ "charcoal", 25 ],
+        [ "clay_lump", 100 ]
+      ]
+    },
+    {
+      "id": "metal_workshop",
+      "type": "item_group",
+      "items": [
+        [ "welding_book", 5 ],
+        [ "mag_fabrication", 15 ],
+        [ "manual_fabrication", 15 ],
+        [ "goggles_welding", 10 ],
+        [ "steel_lump", 5 ],
+        [ "steel_chunk", 15 ],
+        [ "anvil", 5 ],
+        [ "tongs", 15 ],
+        [ "hammer", 15 ],
+        [ "chisel", 5 ],
+        [ "crucible", 5 ],
+        [ "swage", 5 ],
+        [ "apron_leather", 25 ],
+        [ "charcoal", 25 ],
+        [ "welder", 10],
+        [ "scrap", 70 ]
+      ]
+    },
+    {
+      "id": "glass_workroom",
+      "type": "item_group",
+      "items": [
+        [ "pipe", 90 ],
+        [ "glassblowing_book", 50 ],
+        [ "tongs", 30 ],
+        [ "crucible", 30 ],
+        [ "chisel", 30 ],
+        [ "glasses_safety", 25 ],
+        [ "charcoal", 50 ],
+        [ "glass_shard", 90 ],
+        [ "material_sand", 80 ],
+        [ "chemistry_set", 5 ]
+      ]
+    }
+  ]  
