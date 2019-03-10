@@ -2146,8 +2146,7 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -2156,8 +2155,7 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -2166,8 +2164,7 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -2176,8 +2173,7 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -2186,8 +2182,7 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -2196,8 +2191,7 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -4212,7 +4206,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_large_office_tower",
     "name": "Large Office Tower",
-    "copy-from": "generic_city_building_no_rotate",
+    "copy-from": "generic_city_building",
     "sym": 84,
     "color": "white"
   },
