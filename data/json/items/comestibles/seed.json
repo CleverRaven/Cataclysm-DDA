@@ -562,24 +562,6 @@
     "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "91 days" }
   },
   {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom_magic",
-    "copy-from": "seed_mushroom_base",
-    "name": "mushroom spores",
-    "name_plural": "mushroom spores",
-    "flags": [ "HIDDEN_HALLU", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_magic", "grow": "91 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom_poison",
-    "copy-from": "seed_mushroom_base",
-    "name": "mushroom spores",
-    "name_plural": "mushroom spores",
-    "flags": [ "HIDDEN_POISON", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_poison", "grow": "91 days" }
-  },
-  {
     "id": "datura_seed",
     "type": "COMESTIBLE",
     "copy-from": "seed",
