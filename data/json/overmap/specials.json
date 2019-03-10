@@ -211,28 +211,75 @@
         "occurrences" : [0, 20],
         "flags" : [ "CLASSIC" ]
     },{
-        "type" : "overmap_special",
-        "id" : "Farm",
-        "overmaps" : [
-            { "point":[0,0,0], "overmap": "farm_3_north"},
-            { "point":[1,0,0], "overmap": "farm_2_north"},
-            { "point":[2,0,0], "overmap": "farm_1_north"},
-            { "point":[0,1,0], "overmap": "farm_6_north"},
-            { "point":[1,1,0], "overmap": "farm_5_north"},
-            { "point":[2,1,0], "overmap": "farm_4_north"},
-            { "point":[0,2,0], "overmap": "farm_9_north"},
-            { "point":[1,2,0], "overmap": "farm_8_north"},
-            { "point":[2,2,0], "overmap": "farm_7_north"}
-        ],
-        "connections" : [
-            { "point" : [1,-1,0], "terrain" : "road" }
-        ],
-        "locations" : [ "wilderness" ],
-        "city_distance" : [20, -1],
-        "city_sizes" : [1, 20],
-        "occurrences" : [0, 10],
-        "flags" : [ "CLASSIC" ]
-    },{
+        "type": "overmap_special",
+        "id": "Farm_2side",
+        "overmaps": [
+            { "point": [ 0, 0, 0 ], "overmap": "2farm_4_north" },
+            { "point": [ 1, 0, 0 ], "overmap": "2farm_3_north" },
+            { "point": [ 2, 0, 0 ], "overmap": "2farm_2_north" },
+            { "point": [ 3, 0, 0 ], "overmap": "2farm_1_north" },
+            { "point": [ 0, 1, 0 ], "overmap": "2farm_8_north" },
+            { "point": [ 1, 1, 0 ], "overmap": "2farm_7_north" },
+            { "point": [ 2, 1, 0 ], "overmap": "2farm_6_north" },
+            { "point": [ 3, 1, 0 ], "overmap": "2farm_5_north" },
+            { "point": [ 0, 3, 0 ], "overmap": "2farm_12_north" },
+            { "point": [ 1, 3, 0 ], "overmap": "2farm_11_north" },
+            { "point": [ 2, 3, 0 ], "overmap": "2farm_10_north" },
+            { "point": [ 3, 3, 0 ], "overmap": "2farm_9_north" },
+            { "point": [ 0, 4, 0 ], "overmap": "2farm_16_north" },
+            { "point": [ 1, 4, 0 ], "overmap": "2farm_15_north" },
+            { "point": [ 2, 4, 0 ], "overmap": "2farm_14_north" },
+            { "point": [ 3, 4, 0 ], "overmap": "2farm_13_north" }
+    ],
+        "connections": [ { "point": [ 1, 2, 0 ], "terrain": "road", "existing": true } ],
+        "locations": [ "wilderness" ],
+        "city_distance": [ 10, -1 ],
+        "city_sizes": [ 1, 20 ],
+        "occurrences": [ 0, 5 ]
+  },{
+        "type": "overmap_special",
+        "id": "Farm",
+        "overmaps": [
+           { "point": [ 0, 0, 0 ], "overmap": "farm_3_north" },
+           { "point": [ 1, 0, 0 ], "overmap": "farm_2_north" },
+           { "point": [ 2, 0, 0 ], "overmap": "farm_1_north" },
+           { "point": [ 0, 1, 0 ], "overmap": "farm_6_north" },
+           { "point": [ 1, 1, 0 ], "overmap": "farm_5_north" },
+           { "point": [ 2, 1, 0 ], "overmap": "farm_4_north" },
+           { "point": [ 0, 2, 0 ], "overmap": "farm_9_north" },
+           { "point": [ 1, 2, 0 ], "overmap": "farm_8_north" },
+           { "point": [ 2, 2, 0 ], "overmap": "farm_7_north" }
+    ],
+        "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true } ],
+        "locations": [ "wilderness" ],
+        "city_distance": [ 10, -1 ],
+        "city_sizes": [ 1, 20 ],
+        "occurrences": [ 0, 5 ],
+        "flags": [ "CLASSIC" ]
+  },{
+        "type": "overmap_special",
+        "id": "Farm_stills",
+        "overmaps": [
+           { "point": [ 0, 0, 0 ], "overmap": "farm_stills_4_north" },
+           { "point": [ 1, 0, 0 ], "overmap": "farm_stills_3_north" },
+           { "point": [ 2, 0, 0 ], "overmap": "farm_stills_2_north" },
+           { "point": [ 3, 0, 0 ], "overmap": "farm_stills_1_north" },
+           { "point": [ 0, 1, 0 ], "overmap": "farm_stills_8_north" },
+           { "point": [ 1, 1, 0 ], "overmap": "farm_stills_7_north" },
+           { "point": [ 2, 1, 0 ], "overmap": "farm_stills_6_north" },
+           { "point": [ 3, 1, 0 ], "overmap": "farm_stills_5_north" },
+           { "point": [ 0, 2, 0 ], "overmap": "farm_stills_12_north" },
+           { "point": [ 1, 2, 0 ], "overmap": "farm_stills_11_north" },
+           { "point": [ 2, 2, 0 ], "overmap": "farm_stills_10_north" },
+           { "point": [ 3, 2, 0 ], "overmap": "farm_stills_9_north" }
+    ],
+        "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true } ],
+        "locations": [ "wilderness" ],
+        "city_distance": [ 10, -1 ],
+        "city_sizes": [ 1, 20 ],
+        "occurrences": [ 0, 5 ],
+        "flags": [ "CLASSIC" ]
+  },{
         "type" : "overmap_special",
         "id" : "Strangle Temple",
         "overmaps" : [
@@ -1452,13 +1499,11 @@
             { "point":[2,3,0], "overmap": "orchard_tree_apple"},
             { "point":[3,3,0], "overmap": "orchard_tree_apple"}
         ],
-        "connections" : [
-            { "point" : [-1,1,0], "terrain" : "road" }
-        ],
+        "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road", "existing": true } ],
         "locations" : [ "land" ],
         "city_distance" : [20, -1],
         "city_sizes" : [1, 12],
-        "occurrences" : [0, 1],
+        "occurrences" : [0, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },
