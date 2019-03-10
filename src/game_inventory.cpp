@@ -101,7 +101,7 @@ void game_menus::inv::common( player &p )
     do {
         inv_s.set_hint( string_format(
                             _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                            p.allocated_invlets().size(), inv_chars.size() - p.allocated_invlets().size() ) );
+                            p.allocated_invlets().size(), inv_chars.size() ) );
         const item_location &location = inv_s.execute();
         if( location == item_location::nowhere ) {
             break;

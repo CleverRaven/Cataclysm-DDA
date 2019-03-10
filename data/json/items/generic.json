@@ -2912,5 +2912,19 @@
     "weight": 1000,
     "volume": 2,
     "bashing": 5
+  },
+  {
+    "type": "GENERIC",
+    "id": "lock",
+    "category": "spare_parts",
+    "symbol": "P",
+    "color": "gray",
+    "name": "small lock and key",
+    "description": "A small lock, with a set of keys still inserted.",
+    "price": 500,
+    "material": "steel",
+    "weight": 5,
+    "volume": 1,
+    "bashing": 1
   }
 ]
