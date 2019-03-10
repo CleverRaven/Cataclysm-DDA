@@ -3562,9 +3562,9 @@ void game::draw_panels( size_t column, size_t index )
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     for( const auto &panel : mgr.get_current_layout() ) {
-        if( panel.toggle ) {
-            // height clamped to window height.
-            int h = std::min( panel.get_height(), TERMY - y );
+        // height clamped to window height.
+        int h = std::min( panel.get_height(), TERMY - y );
+        if( panel.toggle && h > 0 ) {
             panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
                                                sidebar_right ? TERMX - panel.get_width() : 0 ) );
             if( show_panel_adm ) {
