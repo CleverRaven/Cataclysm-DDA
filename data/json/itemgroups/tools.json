@@ -110,12 +110,14 @@
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
     "items": [
-      [ "forge", 100 ],
-      [ "jack", 100 ],
-      [ "jack_small", 100 ],
-      [ "oxy_torch", 100 ],
-      [ "polisher", 100 ],
-      [ "welder", 100 ]
+      [ "jack", 80 ],
+      [ "jack_small", 80 ],
+      [ "oxy_torch", 80 ],
+      [ "weldtank", 100 ],
+      [ "tinyweldtank", 100 ],
+      [ "polisher", 70 ],
+      [ "forge", 10 ],
+      [ "welder", 10 ]
     ]
   },
   {
