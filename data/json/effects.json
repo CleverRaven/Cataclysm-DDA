@@ -286,7 +286,7 @@
   {
     "type": "effect_type",
     "id": "glowy_led",
-    "apply_message": "You are emitting a LED glow",
+    "apply_message": "A bionic LED is glowing softly beneath your skin.",
     "rating": "mixed"
   },
   {
