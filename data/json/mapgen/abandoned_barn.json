@@ -238,7 +238,7 @@
       "place_nested": [
         { "chunks": [ [ "ruins_4x4_front", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 11, "y": 6 },
         { "chunks": [ [ "null", 80 ], [ "ruins_4x4_junk", 20 ] ], "x": 8, "y": 10 },
-        { "chunks": [ [ "null", 90 ], [ "ruins_4x4_camp", 10 ] ], "x": 13, "y": 10 }
+        { "chunks": [ [ "null", 60 ], [ "ruins_4x4_camp", 30 ], [ "ruins_4x4_NPCs", 10 ] ], "x": 13, "y": 10 }
       ]
     }
   },
@@ -283,7 +283,11 @@
         { "chance": 35, "item": "trash", "x": 10, "y": 14 },
         { "chance": 35, "item": "trash", "x": 8, "y": 14 }
       ],
-      "place_rubble": [ { "chance": 30, "repeat": [ 5, 40 ], "x": [ 4, 19 ], "y": [ 7, 16 ] } ]
+      "place_rubble": [ { "chance": 30, "repeat": [ 5, 40 ], "x": [ 4, 19 ], "y": [ 7, 16 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 9, "y": 8 },
+        { "chunks": [ [ "null", 80 ], [ "ruins_4x4_camp", 20 ] ], "x": 5, "y": 8 }
+      ]
     }
   },
   {
@@ -440,7 +444,7 @@
         { "chance": 10, "item": "raw_materials", "x": 17, "y": 14 },
         { "chance": 10, "item": "raw_materials", "x": 17, "y": 15 }
       ],
-      "place_npcs": [ { "chance": 5, "class": "rural_holdout_solo", "x": 15, "y": 12 } ]
+      "place_nested": [ { "chunks": [ [ "null", 40 ], [ "ruins_4x4_camp", 40 ], [ "ruins_4x4_NPCs", 20 ] ], "x": 8, "y": 8 } ]
     }
   },
   {
