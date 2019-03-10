@@ -1014,6 +1014,10 @@ bool veh_interact::do_repair( std::string &msg )
             }
         }
 
+        std::string desc_color = string_format( "<color_%1$s>",
+                                                string_from_color( pt.is_broken() ? c_dark_gray : c_light_gray ) );
+        vp.format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
+
         werase( w_msg );
         fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
         wrefresh( w_msg );
@@ -1531,6 +1535,9 @@ bool veh_interact::can_remove_part( int idx )
         msg << string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
+    std::string desc_color = string_format( "<color_%1$s>",
+                                            string_from_color( sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray ) );
+    sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
