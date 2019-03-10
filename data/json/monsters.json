@@ -2512,7 +2512,7 @@
     "armor_bash": 12,
     "armor_cut": 8,
     "path_settings": { "max_dist": 5 },
-    "revert_to_itype": "bot_tribot",
+    "revert_to_itype": "bot_tripod",
     "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": [ "BROKEN" ],
