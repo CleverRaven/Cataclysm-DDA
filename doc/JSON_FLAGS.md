@@ -250,6 +250,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
+- ```CURRENT``` this water is flowing.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```FUR``` May produce fur when butchered.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
@@ -566,6 +567,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
+- ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
 - ```WINDOW``` Can see through this part and can install curtains over it.
 
 ## Ammo

@@ -77,6 +77,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
+    { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
+    { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
@@ -592,7 +594,7 @@ void vpart_info::check()
         static const std::vector<std::string> handled = {{
                 "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
-                "REACTOR", "WIND_TURBINE"
+                "REACTOR", "WIND_TURBINE", "WATER_WHEEL"
             }
         };
         if( part.epower != 0 &&
