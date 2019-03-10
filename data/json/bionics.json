@@ -418,7 +418,7 @@
     "description": "A simple tattoo on your neck has an LED implanted beneath it, invisible when not active.  You might not be able to show off in clubs with it anymore, but its glow provides enough light to read or craft comfortably.",
     "act_cost": 1,
     "react_cost": 1,
-    "time": 25,
+    "time": 50,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
