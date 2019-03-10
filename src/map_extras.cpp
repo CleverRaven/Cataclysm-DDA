@@ -695,13 +695,43 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
     if( abs_sub.z <= 0 ) {
         int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
             x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
+
+        // Pick a random cardinal direction to also spawn lava in
+        // This will make the lava a single connected line, not just on diagonals
+        std::vector<direction> possibilities;
+        possibilities.push_back( EAST );
+        possibilities.push_back( WEST );
+        possibilities.push_back( NORTH );
+        possibilities.push_back( SOUTH );
+        const direction extra_lava_dir = random_entry( possibilities );
+        int x_extra = 0;
+        int y_extra = 0;
+        switch( extra_lava_dir ) {
+            case NORTH: // North
+                y_extra = -1;
+                break;
+            case EAST: // East
+                x_extra = 1;
+                break;
+            case SOUTH: // South
+                y_extra = 1;
+                break;
+            case WEST: // West
+                x_extra = -1;
+                break;
+            default:
+                break;
+        }
+
         std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
         for( auto &i : fumarole ) {
             m.ter_set( i.x, i.y, t_lava );
+            m.ter_set( i.x + x_extra, i.y + y_extra, t_lava );
             if( one_in( 6 ) ) {
                 m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
             }
         }
+
     }
 }
 
