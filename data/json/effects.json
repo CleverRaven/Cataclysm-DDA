@@ -285,6 +285,12 @@
   },
   {
     "type": "effect_type",
+    "id": "glowy_led",
+    "apply_message": "You are emitting a LED glow",
+    "rating": "mixed"
+  },
+  {
+    "type": "effect_type",
     "id": "stung",
     "name": [ "Stung" ],
     "desc": [ "You have been stung!" ],

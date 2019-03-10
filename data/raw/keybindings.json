@@ -1733,6 +1733,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Look at the sky",
+    "category": "DEFAULTMODE",
+    "id": "sky"
+  },
+  {
+    "type": "keybinding",
     "name": "View Missions",
     "category": "DEFAULTMODE",
     "id": "missions",

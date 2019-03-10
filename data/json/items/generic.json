@@ -814,6 +814,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_science_bot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken lab defense bot",
+    "category": "other",
+    "description": "A broken lab defense bot, with its casing broken and fluid drained.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 100000,
+    "volume": "65000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_copbot",
     "symbol": ",",
     "color": "green",
@@ -2895,5 +2912,19 @@
     "weight": 1000,
     "volume": 2,
     "bashing": 5
+  },
+  {
+    "type": "GENERIC",
+    "id": "lock",
+    "category": "spare_parts",
+    "symbol": "P",
+    "color": "gray",
+    "name": "small lock and key",
+    "description": "A small lock, with a set of keys still inserted.",
+    "price": 500,
+    "material": "steel",
+    "weight": 5,
+    "volume": 1,
+    "bashing": 1
   }
 ]
