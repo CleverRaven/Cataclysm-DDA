@@ -4425,17 +4425,50 @@ void vehicle::gain_moves()
     }
 }
 
+void vehicle::suspend_refresh()
+{
+    // disable refresh and cache recalculation
+    no_refresh = true;
+    mass_dirty = false;
+    mass_center_precalc_dirty = false;
+    mass_center_no_precalc_dirty = false;
+    coeff_rolling_dirty = false;
+    coeff_air_dirty = false;
+    coeff_water_dirty = false;
+    coeff_air_changed = false;
+}
+
+void vehicle::enable_refresh()
+{
+    // force all caches to recalculate
+    no_refresh = true;
+    mass_dirty = true;
+    mass_center_precalc_dirty = true;
+    mass_center_no_precalc_dirty = true;
+    coeff_rolling_dirty = true;
+    coeff_air_dirty = true;
+    coeff_water_dirty = true;
+    coeff_air_changed = true;
+    no_refresh = false;
+    refresh();
+}
+
 /**
  * Refreshes all caches and refinds all parts. Used after the vehicle has had a part added or removed.
  * Makes indices of different part types so they're easy to find. Also calculates power drain.
  */
 void vehicle::refresh()
 {
+    if( no_refresh ) {
+        return;
+    }
+
     alternators.clear();
     engines.clear();
     reactors.clear();
     solar_panels.clear();
     wind_turbines.clear();
+    water_wheels.clear();
     funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
@@ -4486,6 +4519,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );
+        }
+        if( vpi.has_flag( "WATER_WHEEL" ) ) {
+            water_wheels.push_back( p );
         }
         if( vpi.has_flag( "FUNNEL" ) ) {
             funnels.push_back( p );
@@ -5168,8 +5204,30 @@ inline int modulo( int v, int m )
     return r >= 0 ? r : r + m;
 }
 
+bool is_sm_tile_over_water( const tripoint &real_global_pos )
+{
+
+    const tripoint smp = ms_to_sm_copy( real_global_pos );
+    const int px = modulo( real_global_pos.x, SEEX );
+    const int py = modulo( real_global_pos.y, SEEY );
+    auto sm = MAPBUFFER.lookup_submap( smp );
+    if( sm == nullptr ) {
+        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        return false;
+    }
+
+    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
+        debugmsg( "err %d,%d", px, py );
+        return false;
+    }
+
+    return ( sm->ter[px][py].obj().has_flag( TFLAG_CURRENT ) ||
+             sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
+}
+
 bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
+
     const tripoint smp = ms_to_sm_copy( real_global_pos );
     const int px = modulo( real_global_pos.x, SEEX );
     const int py = modulo( real_global_pos.y, SEEY );
@@ -5210,7 +5268,7 @@ void vehicle::update_time( const time_point &update_to )
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
-    if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() ) {
+    if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() ) {
         return;
     }
 
@@ -5278,7 +5336,6 @@ void vehicle::update_time( const time_point &update_to )
     if( !wind_turbines.empty() ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
-        double basewindpower = weatherPoint.windpower;
         double windpower;
         int epower_w = 0;
         for( int part : wind_turbines ) {
@@ -5290,9 +5347,9 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            windpower = get_local_windpower( basewindpower, cur_om_ter, global_part_pos3( part ),
-                                             weatherPoint.winddirection, false );
-            if( windpower <= ( basewindpower / 10 ) ) {
+            windpower = get_local_windpower( g->windspeed, cur_om_ter, global_part_pos3( part ),
+                                             g->winddirection, false );
+            if( windpower <= ( g->windspeed / 10 ) ) {
                 continue;
             }
             epower_w += part_epower_w( part ) * windpower;
@@ -5303,7 +5360,29 @@ void vehicle::update_time( const time_point &update_to )
             charge_battery( energy_bat );
         }
     }
+    if( !water_wheels.empty() ) {
+        int epower_w = 0;
+        for( int part : water_wheels ) {
+            if( parts[ part ].is_unavailable() ) {
+                continue;
+            }
+
+            if( !is_sm_tile_over_water( g->m.getabs( global_part_pos3( part ) ) ) ) {
+                continue;
+            }
+
+            epower_w += part_epower_w( part );
+        }
+        //TODO river current intensity changes power - flat for now.
+        int energy_bat = power_to_energy_bat( epower_w, 6 * to_turns<int>( elapsed ) );
+        if( energy_bat > 0 ) {
+            add_msg( m_debug, "%s got %d kJ energy from water wheels", name, energy_bat );
+            charge_battery( energy_bat );
+        }
+    }
 }
+
+
 
 void vehicle::invalidate_mass()
 {

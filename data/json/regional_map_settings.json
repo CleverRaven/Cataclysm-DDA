@@ -557,6 +557,7 @@
         "cemetery_religious_city": 25
       },
       "shops": {
+        "craft_shop": 100,
         "s_gas": 500,
         "s_pharm": 300,
         "s_grocery": 1500,

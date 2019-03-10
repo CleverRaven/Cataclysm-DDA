@@ -1102,7 +1102,7 @@ void construct::done_mine_upstair( const tripoint &p )
     }
 
     static const std::set<ter_id> liquids = {{
-            t_water_sh, t_sewage, t_water_dp, t_water_pool
+            t_water_sh, t_sewage, t_water_dp, t_water_pool, t_water_moving_sh, t_water_moving_dp,
         }
     };
 

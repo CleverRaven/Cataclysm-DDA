@@ -1049,6 +1049,8 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_electronic" ),
         };
         static const std::set<ter_str_id> water = {
+            ter_str_id( "t_water_moving_sh" ),
+            ter_str_id( "t_water_moving_dp" ),
             ter_str_id( "t_water_sh" ),
             ter_str_id( "t_water_dp" ),
             ter_str_id( "t_swater_sh" ),
@@ -1098,6 +1100,8 @@ void sfx::do_obstacle()
     static const std::set<ter_str_id> water = {
         ter_str_id( "t_water_sh" ),
         ter_str_id( "t_water_dp" ),
+        ter_str_id( "t_water_moving_sh" ),
+        ter_str_id( "t_water_moving_dp" ),
         ter_str_id( "t_swater_sh" ),
         ter_str_id( "t_swater_dp" ),
         ter_str_id( "t_water_pool" ),

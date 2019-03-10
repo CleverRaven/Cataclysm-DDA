@@ -211,6 +211,8 @@ enum action_id : int {
     ACTION_PL_INFO,
     /** Display over-map */
     ACTION_MAP,
+    /** Show sky state for trying to predict weather */
+    ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
     /** Display kills list screen */

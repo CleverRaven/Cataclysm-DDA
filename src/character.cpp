@@ -104,17 +104,14 @@ static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
+// *INDENT-OFF*
 Character::Character() :
     Creature(),
     visitable<Character>(),
-    hp_cur(
-{{
-        0
-    }
-} ),
-hp_max( {{0}} ),
-damage_bandaged( {{0}} ),
-damage_disinfected( {{0}} )
+    hp_cur( {{ 0 }} ),
+    hp_max( {{ 0 }} ),
+    damage_bandaged( {{ 0 }} ),
+    damage_disinfected( {{ 0 }} )
 {
     str_max = 0;
     dex_max = 0;
@@ -142,6 +139,7 @@ damage_disinfected( {{0}} )
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true, false };
 }
+// *INDENT-ON*
 
 Character::~Character() = default;
 Character::Character( Character && ) = default;
