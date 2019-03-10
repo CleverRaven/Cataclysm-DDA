@@ -538,7 +538,11 @@
         "emptyresidentiallot": 20,
         "apartments_con": 10,
         "apartments_mod": 10,
-        "school": 15
+        "school": 15,
+        "motel_city": 10,
+        "fishing_pond_city": 10,
+        "trailerpark_city": 15,
+        "railroad_city": 10
       },
       "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
       "parks": {
@@ -556,7 +560,10 @@
         "baseball_field": 50,
         "botanical_garden": 100,
         "zoo": 25,
-        "stadium": 25
+        "stadium": 25,
+        "cemetery_city": 50,
+        "public_pond_city": 50,
+        "cemetery_religious_city": 25
       },
       "shops": {
         "craft_shop": 100,
@@ -652,7 +659,9 @@
         "storage_units_large": 125,
         "storage_units_medium": 125,
         "shopping_plaza": 125,
-        "movie_theater": 75
+        "movie_theater": 75,
+        "garage_gas_city": 250,
+        "2fmotel_city": 50
       }
     },
     "weather": {
