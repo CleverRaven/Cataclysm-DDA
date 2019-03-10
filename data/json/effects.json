@@ -253,7 +253,7 @@
     "id": "blind",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
-    "removes_effects": [ "glare", "snow_glare", "darkness" ],
+    "removes_effects": [ "glare", "darkness" ],
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
@@ -282,12 +282,6 @@
     "int_dur_factor": 100,
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ -50 ], "pain_chance_bot": [ 1000 ] },
     "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "glowy_led",
-    "apply_message": "You are emitting a LED glow",
-    "rating": "mixed"
   },
   {
     "type": "effect_type",
@@ -430,15 +424,6 @@
   },
   {
     "type": "effect_type",
-    "id": "snow_glare",
-    "name": [ "Snow glare" ],
-    "desc": [ "The sunlight is reflecting off the snow." ],
-    "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
-    "rating": "bad",
-    "base_mods": { "per_mod": [ -1 ] }
-  },
-  {
-    "type": "effect_type",
     "id": "laserlocked",
     "name": [ "Laser-targeted" ],
     "desc": [ "A laser sight is targeting you!" ],
@@ -535,14 +520,6 @@
     "name": [ "Stuck in Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
     "show_in_info": true
-  },
-  {
-    "type": "effect_type",
-    "id": "no_sight",
-    "name": [ "Poor sight" ],
-    "desc": [ "You can't see very far from this spot." ],
-    "apply_message": "Your sight distance is impaired.",
-    "rating": "bad"
   },
   {
     "type": "effect_type",

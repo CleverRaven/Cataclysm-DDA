@@ -1,192 +1,116 @@
 {
-  "tile_info": [
-    {
-      "height": 10,
-      "width": 10
-    }
-  ],
-  "tiles-new": [
-    {
-      "file": "retroasciitiles.png",
-      "transparency": {
-        "R": 0,
-        "G": 0,
-        "B": 0
-      },
-      "tiles": [
+    "tile_info":
+    [
         {
-          "id": "player_female",
-          "fg": 1,
-          "rotates": false
-        },
-        {
-          "id": "player_male",
-          "fg": 2,
-          "rotates": false
-        },
-        {
-          "id": [
-            "npc_female",
-            "npc_male"
-          ],
-          "fg": 3
-        },
-        {
-          "id": "infrared_creature",
-          "fg": 4
-        },
-        {
-          "id": "footstep",
-          "fg": 5,
-          "rotates": false
-        },
-        {
-          "id": "unknown",
-          "fg": 6,
-          "rotates": false
-        },
-        {
-          "id": [
-            "cursor",
-            "line_target",
-            "line_trail"
-          ],
-          "fg": 7
-        },
-        {
-          "id": "highlight_item",
-          "fg": 8,
-          "rotates": false
-        },
-        {
-          "id": "animation_hit",
-          "bg": 9
-        },
-        {
-          "id": "animation_line",
-          "bg": 10
-        },
-        {
-          "id": "lighting_boomered_light",
-          "fg": 11,
-          "rotates": false
-        },
-        {
-          "id": "lighting_boomered_dark",
-          "fg": 12,
-          "rotates": false
-        },
-        {
-          "id": "lighting_lowlight_light",
-          "fg": 13,
-          "rotates": false
-        },
-        {
-          "id": "lighting_lowlight_dark",
-          "fg": 14,
-          "rotates": false
-        },
-        {
-          "id": "lighting_hidden",
-          "fg": 0,
-          "bg": 0,
-          "rotates": false
-        },
-        {
-          "id": "weather_rain_drop",
-          "bg": 15
-        },
-        {
-          "id": "weather_snowflake",
-          "bg": 16
+            "height": 10,
+            "width": 10
         }
-      ]
-    },
+    ],
+    "tiles-new": [
     {
-      "file": "fallback.png",
-      "tiles": [],
-      "ascii": [
+    "file": "retroasciitiles.png",
+    "transparency": { "R": 0, "G": 0, "B": 0 },
+    "tiles":
+    [
         {
-          "offset": 0,
-          "bold": false,
-          "color": "BLACK"
+            "id": "infrared_creature",
+            "fg": 2831
         },
         {
-          "offset": 256,
-          "bold": true,
-          "color": "WHITE"
+            "id":"highlight_item",
+            "fg":368,
+            "rotates":false
         },
         {
-          "offset": 512,
-          "bold": false,
-          "color": "WHITE"
+            "id":"footstep",
+            "fg":316,
+            "rotates":false
         },
         {
-          "offset": 768,
-          "bold": true,
-          "color": "BLACK"
+            "id":"unknown",
+            "fg":54,
+            "rotates":false
         },
         {
-          "offset": 1024,
-          "bold": false,
-          "color": "RED"
+            "id":"animation_hit",
+            "bg":315
         },
         {
-          "offset": 1280,
-          "bold": false,
-          "color": "GREEN"
+            "id":"line_target",
+            "fg":288
         },
         {
-          "offset": 1536,
-          "bold": false,
-          "color": "BLUE"
+            "id":"line_trail",
+            "bg":288
         },
         {
-          "offset": 1792,
-          "bold": false,
-          "color": "CYAN"
+            "id":"animation_line",
+            "bg":49
         },
         {
-          "offset": 2048,
-          "bold": false,
-          "color": "MAGENTA"
+            "id":"cursor",
+            "fg":272
         },
         {
-          "offset": 2304,
-          "bold": false,
-          "color": "YELLOW"
+            "id":"lighting_boomered_light",
+            "fg":50,
+            "rotates":false
         },
         {
-          "offset": 2560,
-          "bold": true,
-          "color": "RED"
+            "id":"lighting_boomered_dark",
+            "fg":51,
+            "rotates":false
         },
         {
-          "offset": 2816,
-          "bold": true,
-          "color": "GREEN"
+            "id":"lighting_lowlight_light",
+            "fg":52,
+            "rotates":false
         },
         {
-          "offset": 3072,
-          "bold": true,
-          "color": "BLUE"
+            "id":"lighting_lowlight_dark",
+            "fg":53,
+            "rotates":false
         },
         {
-          "offset": 3328,
-          "bold": true,
-          "color": "CYAN"
+            "id":"lighting_hidden",
+            "fg":0,
+            "bg":0,
+            "rotates":false
         },
         {
-          "offset": 3584,
-          "bold": true,
-          "color": "MAGENTA"
+            "id":"weather_rain_drop",
+            "bg":13
         },
         {
-          "offset": 3840,
-          "bold": true,
-          "color": "YELLOW"
+            "id":"player_male",
+            "fg":193,
+            "rotates":false
+        },
+        {
+            "id":"player_female",
+            "fg":194,
+            "rotates":false
         }
-      ]
+    ],
+    "ascii":
+        [
+{ "offset": 1744, "color": "BLACK" },
+{ "offset": 2000, "bold": true, "color": "WHITE" },
+{ "offset": 2256, "color": "WHITE" },
+{ "offset": 2512, "bold": true, "color": "BLACK" },
+{ "offset": 2768, "color": "RED" },
+{ "offset": 3024, "color": "GREEN" },
+{ "offset": 3280, "color": "BLUE" },
+{ "offset": 3536, "color": "CYAN" },
+{ "offset": 3792, "color": "MAGENTA" },
+{ "offset": 4048, "color": "YELLOW" },
+{ "offset": 4304, "bold": true, "color": "RED" },
+{ "offset": 4560, "bold": true, "color": "GREEN" },
+{ "offset": 4816, "bold": true, "color": "BLUE" },
+{ "offset": 5072, "bold": true, "color": "CYAN" },
+{ "offset": 5328, "bold": true, "color": "MAGENTA" },
+{ "offset": 5584, "bold": true, "color": "YELLOW" }
+    ]
     }
-  ]
+    ]
 }

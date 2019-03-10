@@ -29,8 +29,8 @@
     "name": "abstract iv mutagen flavor",
     "description": "A super-concentrated mutagen.  You need a syringe to inject it...  if you really want to?",
     "price": 200000,
-    "weight": 10,
-    "volume": "10ml",
+    "weight": 50,
+    "volume": "50ml",
     "symbol": "!",
     "color": "green",
     "healthy": -6,
@@ -447,9 +447,10 @@
     "category": "mutagen",
     "name": "purifier smart shot",
     "description": "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
-    "weight": 12,
-    "volume": "10ml",
+    "weight": 60,
+    "volume": "50ml",
     "price": 1200000,
+    "stack_size": 40,
     "material": "plastic",
     "symbol": "!",
     "color": "magenta",
@@ -477,7 +478,8 @@
     "price": 0,
     "material": "hflesh",
     "volume": 1,
-    "fun": -60
+    "fun": -60,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -497,7 +499,8 @@
     "price": 0,
     "material": "hflesh",
     "volume": 8,
-    "fun": -20
+    "fun": -20,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -517,7 +520,8 @@
     "price": 0,
     "material": "hflesh",
     "volume": 20,
-    "fun": -20
+    "fun": -20,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",

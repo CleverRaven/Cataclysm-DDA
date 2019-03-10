@@ -692,8 +692,7 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int _quantity,
-                                       const std::function<bool( const item & )> &filter )
+std::list<item> inventory::use_amount( itype_id it, int _quantity )
 {
     long quantity = _quantity; // Don't want to change the function signature right now
     items.sort( stack_compare );
@@ -702,7 +701,7 @@ std::list<item> inventory::use_amount( itype_id it, int _quantity,
         for( std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */ ) {
-            if( stack_iter->use_amount( it, quantity, ret, filter ) ) {
+            if( stack_iter->use_amount( it, quantity, ret ) ) {
                 stack_iter = iter->erase( stack_iter );
             } else {
                 ++stack_iter;
@@ -718,22 +717,19 @@ std::list<item> inventory::use_amount( itype_id it, int _quantity,
     return ret;
 }
 
-bool inventory::has_tools( const itype_id &it, int quantity,
-                           const std::function<bool( const item & )> &filter ) const
+bool inventory::has_tools( const itype_id &it, int quantity ) const
 {
-    return has_amount( it, quantity, true, filter );
+    return has_amount( it, quantity, true );
 }
 
-bool inventory::has_components( const itype_id &it, int quantity,
-                                const std::function<bool( const item & )> &filter ) const
+bool inventory::has_components( const itype_id &it, int quantity ) const
 {
-    return has_amount( it, quantity, false, filter );
+    return has_amount( it, quantity, false );
 }
 
-bool inventory::has_charges( const itype_id &it, long quantity,
-                             const std::function<bool( const item & )> &filter ) const
+bool inventory::has_charges( const itype_id &it, long quantity ) const
 {
-    return ( charges_of( it, std::numeric_limits<long>::max(), filter ) >= quantity );
+    return ( charges_of( it ) >= quantity );
 }
 
 int inventory::leak_level( std::string flag ) const

@@ -17520,19 +17520,9 @@
           "bg": 985
         },
         {
-          "id": "t_reinforced_door_glass_lab_o",
-          "fg": 3183,
-          "bg": 993
-        },
-        {
           "id": "t_reinforced_door_glass_c",
           "fg": 3182,
           "bg": 985
-        },
-        {
-          "id": "t_reinforced_door_glass_lab_c",
-          "fg": 3182,
-          "bg": 993
         },
         {
           "id": "t_scrap_wall",
@@ -17750,57 +17740,15 @@
           "rotates": false
         },
         {
-          "id": "t_door_lab_frame",
-          "fg": 3035,
-          "bg": 993,
-          "rotates": false
-        },
-        {
           "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 3037,
           "bg": 987,
           "rotates": false
         },
         {
-          "id": [ "t_door_glass_lab_o", "t_door_glass_frosted_lab_o" ],
-          "fg": 3037,
-          "bg": 993,
-          "rotates": false
-        },
-        {
           "id": "t_door_o",
           "fg": 3044,
           "bg": 987,
-          "rotates": false
-        },
-        {
-          "id": "t_door_red_o",
-          "fg": 3044,
-          "bg": 2984,
-          "rotates": false
-        },
-        {
-          "id": "t_door_green_o",
-          "fg": 3044,
-          "bg": 2982,
-          "rotates": false
-        },
-        {
-          "id": "t_door_white_o",
-          "fg": 3044,
-          "bg": 3110,
-          "rotates": false
-        },
-        {
-          "id": "t_door_gray_o",
-          "fg": 3044,
-          "bg": 3109,
-          "rotates": false
-        },
-        {
-          "id": "t_door_lab_o",
-          "fg": 3044,
-          "bg": 993,
           "rotates": false
         },
         {
@@ -17812,12 +17760,6 @@
           "id": "t_mdoor_frame",
           "fg": 3120,
           "bg": 987,
-          "rotates": false
-        },
-        {
-          "id": "t_mdoor_lab_frame",
-          "fg": 3120,
-          "bg": 993,
           "rotates": false
         },
         {
@@ -18682,7 +18624,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_door_metal_o", "t_door_metal_lab_o" ],
+          "id": "t_door_metal_o",
           "fg": 3042,
           "bg": 993,
           "rotates": false
@@ -18694,7 +18636,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control", "t_gates_mech_control_lab" ],
+          "id": ["t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control"],
           "fg": 3071,
           "bg": 993,
           "rotates": false
@@ -31941,7 +31883,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c", "t_door_glass_red_c", "t_door_glass_green_c", "t_door_glass_white_c", "t_door_glass_gray_c" ],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "fg": 3036,
           "rotates": false
         },
@@ -31951,7 +31893,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_door_metal_c", "t_door_metal_lab_c" ],
+          "id": "t_door_metal_c",
           "fg": 3040,
           "rotates": true
         },
@@ -32017,17 +31959,17 @@
           "fg": 3068
         },
         {
-          "id": [ "t_gates_control_brick", "t_gates_control_brick_lab" ],
+          "id": "t_gates_control_brick",
           "fg": 3069,
           "rotates": false
         },
         {
-          "id": ["t_gates_control_concrete", "t_reinforced_glass_control", "t_containment_control", "t_gates_control_concrete_lab" ],
+          "id": ["t_gates_control_concrete", "t_reinforced_glass_control", "t_containment_control"],
           "fg": 3070,
           "rotates": false
         },
         {
-          "id": [ "t_gates_control_metal", "t_gates_control_metal_lab" ],
+          "id": "t_gates_control_metal",
           "fg": 3070
         },
         {
@@ -38099,7 +38041,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_door_c", "t_door_lab_c", "t_door_red_c", "t_door_green_c", "t_door_white_c", "t_door_gray_c" ],
+          "id": "t_door_c",
           "fg": 4017,
           "rotates": false
         },
@@ -38119,55 +38061,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_red_frame",
-          "fg": 3035,
-          "bg": 2984,
-          "rotates": false
-        },
-        {
-          "id": "t_door_green_frame",
-          "fg": 3035,
-          "bg": 2982,
-          "rotates": false
-        },
-        {
-          "id": "t_door_white_frame",
-          "fg": 3035,
-          "bg": 3110,
-          "rotates": false
-        },
-        {
-          "id": "t_door_gray_frame",
-          "fg": 3035,
-          "bg": 3109,
-          "rotates": false
-        },
-        {
-          "id": "t_door_glass_red_o",
-          "fg": 3037,
-          "bg": 2984,
-          "rotates": false
-        },
-        {
-          "id": "t_door_glass_green_o",
-          "fg": 3037,
-          "bg": 2982,
-          "rotates": false
-        },
-        {
-          "id": "t_door_glass_white_o",
-          "fg": 3037,
-          "bg": 3110,
-          "rotates": false
-        },
-        {
-          "id": "t_door_glass_gray_o",
-          "fg": 3037,
-          "bg": 3109,
-          "rotates": false
-        },
-        {
-          "id": [ "t_door_b", "t_door_lab_b", "t_door_red_b", "t_door_green_b", "t_door_white_b", "t_door_gray_b" ],
+          "id": "t_door_b",
           "fg": 4018,
           "rotates": false
         },

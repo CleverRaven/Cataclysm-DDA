@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
+#include <random>
 
 #include "output.h"
 
@@ -90,7 +91,7 @@ double rng_normal( double lo, double hi )
     return std::max( std::min( val, hi ), lo );
 }
 
-std::default_random_engine &rng_get_engine()
+std::default_random_engine &get_engine()
 {
     static std::default_random_engine eng(
         std::chrono::system_clock::now().time_since_epoch().count() );
@@ -100,11 +101,11 @@ std::default_random_engine &rng_get_engine()
 void rng_set_engine_seed( uintmax_t seed )
 {
     if( seed != 0 ) {
-        rng_get_engine().seed( seed );
+        get_engine().seed( seed );
     }
 }
 
 double normal_roll( double mean, double stddev )
 {
-    return std::normal_distribution<double>( mean, stddev )( rng_get_engine() );
+    return std::normal_distribution<double>( mean, stddev )( get_engine() );
 }

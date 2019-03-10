@@ -367,8 +367,6 @@ bool player::activate_bionic( int b, bool eff_only )
         } else if( !g->consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
-    } else if( bio.id == "bio_torsionratchet" ) {
-        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
@@ -414,9 +412,7 @@ bool player::activate_bionic( int b, bool eff_only )
             static const auto volume_per_water_charge = units::from_milliliter( 500 );
             if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
-                if( avail > 0 &&
-                    query_yn( _( "Extract water from the %s" ),
-                              colorize( it->tname(), it->color_in_inventory() ) ) ) {
+                if( avail > 0 && query_yn( _( "Extract water from the %s" ), it->tname().c_str() ) ) {
                     item water( "water_clean", calendar::turn, avail );
                     if( g->consume_liquid( water ) ) {
                         extracted = true;
@@ -495,8 +491,8 @@ bool player::activate_bionic( int b, bool eff_only )
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
-                           cur_om_ter, pos(), g->winddirection, g->is_sheltered( pos() ) );
+        double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
+                           cur_om_ter, g->is_sheltered( g->u.pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -512,8 +508,7 @@ bool player::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ).c_str() );
-        std::string dirstring = get_dirstring( g->winddirection );
-        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
+        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )

@@ -160,8 +160,6 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
     return l = l | r;
 }
 
-inline bool is_crafting_component( const item &component );
-
 class item : public visitable<item>
 {
     public:
@@ -542,10 +540,9 @@ class item : public visitable<item>
          * @param quantity How much to consumed.
          * @param used On success all consumed items will be stored here.
          */
-        bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
-                         const std::function<bool( const item & )> &filter = is_crafting_component );
+        bool use_amount( const itype_id &it, long &quantity, std::list<item> &used );
 
-        /** Permits filthy components, should only be used as a helper in creating filters */
+        /** Can item can be used as crafting component in current state? */
         bool allow_crafting_component() const;
 
         /**
@@ -655,16 +652,6 @@ class item : public visitable<item>
          * check for temperature.
          */
         void calc_rot( const tripoint &p );
-
-        /**
-         * Accumulate rot of the item since starting smoking.
-         * This is part of a workaround so that items don't rot away to nothing if the smoking rack
-         * is outside the reality bubble.
-         * @param p The absolute, global location (in map square coordinates) of the item to
-         * check for temperature.
-         * @param smoking_duration
-         */
-        void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
 
         /**
          * Update temperature item_counters for things like food
@@ -1898,10 +1885,5 @@ enum hint_rating {
  * and stays valid until the program ends.
  */
 item &null_item_reference();
-
-inline bool is_crafting_component( const item &component )
-{
-    return component.allow_crafting_component() && !component.is_filthy();
-}
 
 #endif

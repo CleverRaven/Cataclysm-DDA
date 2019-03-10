@@ -744,32 +744,30 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T &self, const itype_id &id, long limit,
-                                 const std::function<bool( const item & )> &filter )
+static long charges_of_internal( const T &self, const itype_id &id, long limit )
 {
     long qty = 0;
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
-        if( filter( *e ) ) {
-            if( e->is_tool() ) {
-                if( e->typeId() == id ) {
-                    // includes charges from any included magazine.
-                    qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( "USE_UPS" ) ) {
-                        found_tool_with_UPS = true;
-                    }
+        if( e->is_tool() ) {
+            if( e->typeId() == id ) {
+                // includes charges from any included magazine.
+                qty = sum_no_wrap( qty, e->ammo_remaining() );
+                if( e->has_flag( "USE_UPS" ) ) {
+                    found_tool_with_UPS = true;
                 }
-                return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
-
-            } else if( e->count_by_charges() ) {
-                if( e->typeId() == id ) {
-                    qty = sum_no_wrap( qty, e->charges );
-                }
-                // items counted by charges are not themselves expected to be containers
-                return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
             }
+            return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == id ) {
+                qty = sum_no_wrap( qty, e->charges );
+            }
+            // items counted by charges are not themselves expected to be containers
+            return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         }
+
         // recurse through any nested containers
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
@@ -783,16 +781,14 @@ static long charges_of_internal( const T &self, const itype_id &id, long limit,
 
 /** @relates visitable */
 template <typename T>
-long visitable<T>::charges_of( const std::string &what, long limit,
-                               const std::function<bool( const item & )> &filter ) const
+long visitable<T>::charges_of( const std::string &what, long limit ) const
 {
-    return charges_of_internal( *this, what, limit, filter );
+    return charges_of_internal( *this, what, limit );
 }
 
 /** @relates visitable */
 template <>
-long visitable<inventory>::charges_of( const std::string &what, long limit,
-                                       const std::function<bool( const item & )> &filter ) const
+long visitable<inventory>::charges_of( const std::string &what, long limit ) const
 {
     if( what == "UPS" ) {
         long qty = 0;
@@ -808,7 +804,7 @@ long visitable<inventory>::charges_of( const std::string &what, long limit,
 
     long res = 0;
     for( const item *it : iter->second ) {
-        res = sum_no_wrap( res, charges_of_internal( *it, what, limit, filter ) );
+        res = sum_no_wrap( res, charges_of_internal( *it, what, limit ) );
         if( res >= limit ) {
             break;
         }
@@ -819,8 +815,7 @@ long visitable<inventory>::charges_of( const std::string &what, long limit,
 
 /** @relates visitable */
 template <>
-long visitable<Character>::charges_of( const std::string &what, long limit,
-                                       const std::function<bool( const item & )> &filter ) const
+long visitable<Character>::charges_of( const std::string &what, long limit ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
@@ -843,17 +838,16 @@ long visitable<Character>::charges_of( const std::string &what, long limit,
         return std::min( qty, limit );
     }
 
-    return charges_of_internal( *this, what, limit, filter );
+    return charges_of_internal( *this, what, limit );
 }
 
 template <typename T>
-static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, int limit,
-                               const std::function<bool( const item & )> &filter )
+static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, int limit )
 {
     int qty = 0;
-    self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
-        if( ( id == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
-                !e->has_flag( "PSEUDO" ) ) ) {
+    self.visit_items( [&qty, &id, &pseudo, &limit]( const item * e ) {
+        if( e->typeId() == id &&
+            ( pseudo || ( e->allow_crafting_component() && !e->has_flag( "PSEUDO" ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -863,34 +857,24 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 
 /** @relates visitable */
 template <typename T>
-int visitable<T>::amount_of( const std::string &what, bool pseudo, int limit,
-                             const std::function<bool( const item & )> &filter ) const
+int visitable<T>::amount_of( const std::string &what, bool pseudo, int limit ) const
 {
-    return amount_of_internal( *this, what, pseudo, limit, filter );
+    return amount_of_internal( *this, what, pseudo, limit );
 }
 
 /** @relates visitable */
 template <>
-int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int limit,
-                                     const std::function<bool( const item & )> &filter ) const
+int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int limit ) const
 {
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
-    if( iter == binned.end() && what != "any" ) {
+    if( iter == binned.end() ) {
         return 0;
     }
 
     int res = 0;
-    if( what == "any" ) {
-        for( const auto kv : binned ) {
-            for( const item *it : kv.second ) {
-                res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
-            }
-        }
-    } else {
-        for( const item *it : iter->second ) {
-            res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
-        }
+    for( const item *it : iter->second ) {
+        res = sum_no_wrap( res, it->amount_of( what, pseudo, limit ) );
     }
 
     return std::min<long>( limit, res );
@@ -898,8 +882,7 @@ int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int l
 
 /** @relates visitable */
 template <>
-int visitable<Character>::amount_of( const std::string &what, bool pseudo, int limit,
-                                     const std::function<bool( const item & )> &filter ) const
+int visitable<Character>::amount_of( const std::string &what, bool pseudo, int limit ) const
 {
     auto self = static_cast<const Character *>( this );
 
@@ -909,8 +892,8 @@ int visitable<Character>::amount_of( const std::string &what, bool pseudo, int l
 
     if( what == "apparatus" && pseudo ) {
         int qty = 0;
-        visit_items( [&qty, &limit, &filter]( const item * e ) {
-            if( e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1 && filter( *e ) ) {
+        visit_items( [&qty, &limit]( const item * e ) {
+            if( e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1 ) {
                 qty = sum_no_wrap( qty, 1 );
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -918,15 +901,7 @@ int visitable<Character>::amount_of( const std::string &what, bool pseudo, int l
         return std::min( qty, limit );
     }
 
-    return amount_of_internal( *this, what, pseudo, limit, filter );
-}
-
-/** @relates visitable */
-template <typename T>
-bool visitable<T>::has_amount( const std::string &what, int qty, bool pseudo,
-                               const std::function<bool( const item & )> &filter ) const
-{
-    return amount_of( what, pseudo, qty, filter ) == qty;
+    return amount_of_internal( *this, what, pseudo, limit );
 }
 
 // explicit template initialization for all classes implementing the visitable interface

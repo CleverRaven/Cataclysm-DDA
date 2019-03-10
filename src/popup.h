@@ -8,7 +8,8 @@
 
 #include "cursesdef.h"
 #include "input.h"
-#include "color.h"
+
+class nc_color;
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -162,10 +163,6 @@ class query_popup
          * Specify starting cursor position.
          **/
         query_popup &cursor( size_t pos );
-        /**
-         * Specify the default message color.
-         **/
-        query_popup &default_color( const nc_color &d_color );
 
         /**
          * Draw the UI. An input context should be provided using `context()`
@@ -197,7 +194,6 @@ class query_popup
         std::string text;
         std::vector<query_option> options;
         size_t cur;
-        nc_color default_text_color;
         bool anykey;
         bool cancel;
         bool ontop;

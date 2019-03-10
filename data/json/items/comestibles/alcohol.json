@@ -343,7 +343,7 @@
     "material": [ "alcohol", "water" ],
     "volume": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 4
   },

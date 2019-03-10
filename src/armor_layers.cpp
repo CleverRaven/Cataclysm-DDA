@@ -698,9 +698,7 @@ void player::sort_armor()
             }
         } else if( action == "CHANGE_SIDE" ) {
             if( leftListIndex < static_cast<int>( tmp_worn.size() ) && tmp_worn[leftListIndex]->is_sided() ) {
-                if( g->u.query_yn( _( "Swap side for %s?" ),
-                                   colorize( tmp_worn[leftListIndex]->tname(),
-                                             tmp_worn[leftListIndex]->color_in_inventory() ) ) ) {
+                if( g->u.query_yn( _( "Swap side for %s?" ), tmp_worn[leftListIndex]->tname().c_str() ) ) {
                     change_side( *tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
                 }

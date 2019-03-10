@@ -99,7 +99,8 @@
     "material": "wheat",
     "volume": 1,
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -112,7 +113,7 @@
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 222,
+    "calories": 2,
     "description": "It could be eaten raw if you're desperate, but is much better cooked.",
     "price": 150,
     "material": "wheat",
@@ -140,7 +141,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -222,7 +224,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -242,7 +245,8 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 14 ] ]
+    "vitamins": [ [ "vitC", 14 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -263,7 +267,8 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -284,7 +289,8 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -305,7 +311,8 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -323,7 +330,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -342,7 +350,8 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 14 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 14 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -387,7 +396,8 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -408,7 +418,8 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 6 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 6 ], [ "iron", 6 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -453,7 +464,8 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -493,7 +505,8 @@
     "volume": 1,
     "stack_size": 1,
     "fun": 9,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -514,7 +527,8 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "id": "brownie_weed",

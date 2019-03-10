@@ -20,7 +20,6 @@
 #include "path_info.h"
 #include "player.h"
 #include "safemode_ui.h"
-#include "scenario.h"
 #include "sdlsound.h"
 #include "sounds.h"
 #include "text_snippets.h"
@@ -816,10 +815,6 @@ bool main_menu::new_character_tab()
             }
         }
     } // end while
-
-    if( start ) {
-        g->u.add_msg_if_player( g->scen->description( g->u.male ) );
-    }
     return start;
 }
 

@@ -17,7 +17,6 @@
     "material": "flesh",
     "volume": 1,
     "flags": [ "SMOKABLE" ],
-    "smoking_result": "sausage",
     "vitamins": [ [ "iron", 1 ], [ "vitB", 9 ] ],
     "fun": -10
   },
@@ -110,7 +109,9 @@
     "material": "flesh",
     "volume": 2,
     "fun": 7,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ] ],
+    "rot_spawn": "GROUP_CARRION",
+    "rot_spawn_chance": 25
   },
   {
     "type": "COMESTIBLE",
@@ -156,8 +157,7 @@
     "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
     "healthy": 0,
     "quench": -7,
-    "flags": [ "SMOKABLE" ],
-    "smoking_result": "sausage_wasteland"
+    "flags": [ "SMOKABLE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -179,7 +179,8 @@
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "fun": 4
+    "fun": 4,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -200,7 +201,9 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 62 ] ]
+    "rot_spawn": "GROUP_CARRION",
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 62 ] ],
+    "rot_spawn_chance": 25
   },
   {
     "type": "COMESTIBLE",
@@ -221,7 +224,8 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -265,7 +269,9 @@
     "color": "white",
     "description": "Reconstituted fish flakes, which are much more enjoyable to eat now that they have been rehydrated.",
     "price": 500,
-    "fun": 2
+    "fun": 2,
+    "rot_spawn": "GROUP_CARRION",
+    "rot_spawn_chance": 3
   },
   {
     "type": "COMESTIBLE",
@@ -314,7 +320,9 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "iron", 1 ], [ "vitB", 23 ] ]
+    "rot_spawn": "GROUP_CARRION",
+    "vitamins": [ [ "iron", 1 ], [ "vitB", 23 ] ],
+    "rot_spawn_chance": 5
   },
   {
     "type": "COMESTIBLE",
@@ -332,7 +340,9 @@
     "price": 14,
     "//": "*Looking for ~$6 per pound here.",
     "material": "flesh",
-    "volume": "75 ml"
+    "volume": "75 ml",
+    "rot_spawn": "GROUP_CARRION",
+    "rot_spawn_chance": 3
   },
   {
     "type": "COMESTIBLE",
@@ -352,7 +362,9 @@
     "material": "flesh",
     "volume": 3,
     "charges": 10,
-    "vitamins": [ [ "iron", 3 ], [ "vitB", 2 ] ]
+    "rot_spawn": "GROUP_CARRION",
+    "vitamins": [ [ "iron", 3 ], [ "vitB", 2 ] ],
+    "rot_spawn_chance": 3
   },
   {
     "type": "COMESTIBLE",
@@ -392,7 +404,8 @@
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
-    "fun": -8
+    "fun": -8,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -412,7 +425,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 3 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -432,7 +446,9 @@
     "material": [ "flesh", "wheat", "mushroom" ],
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "fun": 9
+    "fun": 9,
+    "rot_spawn": "GROUP_CARRION",
+    "rot_spawn_chance": 15
   },
   {
     "type": "COMESTIBLE",
@@ -472,7 +488,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 5 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -490,7 +507,8 @@
     "material": [ "flesh", "wheat" ],
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 4 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -511,7 +529,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 7 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -532,7 +551,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 4 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 4 ], [ "iron", 6 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -551,7 +571,8 @@
     "material": "flesh",
     "volume": 1,
     "fun": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "iron", 3 ], [ "vitB", 34 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "iron", 3 ], [ "vitB", 34 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -569,13 +590,14 @@
     "material": "flesh",
     "volume": 1,
     "fun": 1,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 14 ], [ "iron", 2 ], [ "vitB", 99 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 14 ], [ "iron", 2 ], [ "vitB", 99 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
     "id": "can_chicken",
     "name": "canned chicken",
-    "weight": 54,
+    "weight": 216,
     "color": "pink",
     "spoils_in": "1 day",
     "container": "can_food",
@@ -586,9 +608,9 @@
     "price": 400,
     "material": "flesh",
     "volume": 1,
-    "charges": 4,
     "fun": 1,
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 4 ], [ "vitB", 22 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 4 ], [ "vitB", 22 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -607,7 +629,8 @@
     "material": "flesh",
     "volume": 1,
     "fun": 3,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 8 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -627,7 +650,8 @@
     "material": "flesh",
     "volume": 1,
     "fun": 2,
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 3 ], [ "iron", 6 ], [ "vitB", 315 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "calcium", 3 ], [ "iron", 6 ], [ "vitB", 315 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -647,7 +671,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 4 ], [ "vitB", 84 ] ]
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 4 ], [ "vitB", 84 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -668,7 +693,8 @@
     "//": "One beans + one protein/veg = 2 servings",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 12 ], [ "vitB", 93 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 12 ], [ "vitB", 93 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -689,7 +715,8 @@
     "//": "One rice + one protein/veg = 2 servings",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 10 ], [ "vitB", 93 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 10 ], [ "vitB", 93 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -709,7 +736,8 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -731,7 +759,9 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ] ],
+    "rot_spawn": "GROUP_ROTTING_TRIFFID_FAVOR",
+    "rot_spawn_chance": 20
   },
   {
     "type": "COMESTIBLE",
@@ -751,7 +781,8 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 2 ], [ "calcium", 7 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 2 ], [ "calcium", 7 ], [ "iron", 7 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -772,7 +803,8 @@
     "charges": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 98 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 98 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -785,7 +817,8 @@
     "description": "Low-sodium preserved meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
     "price": 250,
     "flags": [ "EATEN_HOT" ],
-    "fun": 2
+    "fun": 2,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -799,7 +832,8 @@
     "description": "Meat slices cured in brine.  Salty but tasty in a pinch.",
     "price": 500,
     "material": "flesh",
-    "fun": 2
+    "fun": 2,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -820,7 +854,8 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -841,7 +876,8 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 5 ], [ "calcium", 5 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 5 ], [ "calcium", 5 ], [ "iron", 2 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -854,7 +890,8 @@
     "price": 500,
     "material": "flesh",
     "flags": [ "EATEN_HOT" ],
-    "fun": 8
+    "fun": 8,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -874,7 +911,8 @@
     "volume": 2,
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -894,7 +932,8 @@
     "volume": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -914,7 +953,8 @@
     "volume": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -933,7 +973,8 @@
     "material": "flesh",
     "volume": 1,
     "fun": 8,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ], [ "vitB", 9 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ], [ "vitB", 9 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -971,7 +1012,8 @@
     "color": "light_red",
     "description": "Reconstituted meat flakes, which are much more enjoyable to eat now that they have been rehydrated.",
     "price": 900,
-    "fun": 2
+    "fun": 2,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -994,7 +1036,8 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 35 ], [ "vitC", 5 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitA", 35 ], [ "vitC", 5 ], [ "iron", 7 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -1014,7 +1057,8 @@
     "volume": 3,
     "charges": 3,
     "fun": 14,
-    "vitamins": [ [ "vitC", 6 ], [ "vitB", 5 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "vitB", 5 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -1034,7 +1078,8 @@
     "volume": 4,
     "charges": 2,
     "fun": 13,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 1 ], [ "vitB", 93 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 1 ], [ "vitB", 93 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -1048,7 +1093,8 @@
     "description": "Delicious slivers of thinly sliced raw fish and tasty vegetables.",
     "price": 600,
     "material": [ "veggy", "flesh" ],
-    "fun": 7
+    "fun": 7,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
@@ -1085,6 +1131,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ] ],
+    "rot_spawn": "GROUP_CARRION"
   }
 ]

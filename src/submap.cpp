@@ -1,6 +1,5 @@
 #include "submap.h"
 
-#include <algorithm>
 #include <memory>
 
 #include "mapdata.h"
@@ -18,6 +17,19 @@ submap::submap()
     std::uninitialized_fill_n( &rad[0][0], elements, 0 );
 
     is_uniform = false;
+}
+
+submap::~submap()
+{
+    delete_vehicles();
+}
+
+void submap::delete_vehicles()
+{
+    for( vehicle *veh : vehicles ) {
+        delete veh;
+    }
+    vehicles.clear();
 }
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
@@ -120,14 +132,4 @@ void submap::delete_signage( const point &p )
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
     }
-}
-
-bool submap::contains_vehicle( vehicle *veh )
-{
-    auto match = std::find_if(
-                     begin( vehicles ), end( vehicles ),
-    [veh]( const std::unique_ptr<vehicle> &v ) {
-        return v.get() == veh;
-    } );
-    return match != vehicles.end();
 }

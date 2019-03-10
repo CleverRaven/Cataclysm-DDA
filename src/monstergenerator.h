@@ -124,6 +124,4 @@ class MonsterGenerator
         std::map<std::string, m_flag> flag_map;
 };
 
-void load_monster_adjustment( JsonObject &jsobj );
-
 #endif

@@ -65,7 +65,7 @@
   },
   {
     "type": "recipe",
-    "result": "gp_hops",
+    "result": "gp_wheat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "survival",

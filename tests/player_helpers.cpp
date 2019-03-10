@@ -50,8 +50,6 @@ void clear_player()
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
-    dummy.clear_morale();
-
     dummy.clear_bionics();
 
     // Make stats nominal.

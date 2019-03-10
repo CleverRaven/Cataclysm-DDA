@@ -7,7 +7,6 @@
 #include <unordered_set>
 
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -409,7 +408,6 @@ class player : public Character
         long get_memorized_symbol( const tripoint &p ) const;
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
-        void clear_memorized_tile( const tripoint &pos );
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
@@ -1218,7 +1216,6 @@ class player : public Character
         void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity( const activity_id &type ) const;
         void cancel_activity();
-        void resume_backlog_activity();
 
         int get_morale_level() const; // Modified by traits, &c
         void add_morale( morale_type type, int bonus, int max_bonus = 0,
@@ -1227,11 +1224,9 @@ class player : public Character
                          const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
-        void clear_morale();
         bool has_morale_to_read() const;
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
-        void on_worn_item_transform( const item &it );
 
         /** Get the formatted name of the currently wielded item (if any) */
         std::string weapname() const;
@@ -1283,23 +1278,19 @@ class player : public Character
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
-        std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+        std::list<item> use_amount( itype_id it, int quantity );
         bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
-        std::list<item> use_charges( const itype_id &what, long qty,
-                                     const std::function<bool( const item & )> &filter = return_true ); // Uses up charges
+        std::list<item> use_charges( const itype_id &what, long qty ); // Uses up charges
 
-        bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
-
+        bool has_charges( const itype_id &it, long quantity ) const;
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
         int  leak_level( const std::string &flag ) const; // carried items may leak radiation or chemicals
 
         // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
+        bool has_item_with_flag( const std::string &flag ) const;
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
@@ -1367,7 +1358,6 @@ class player : public Character
         void make_all_craft( const recipe_id &id, int batch_size );
         std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
                 bool ignore_last = false );
-        std::list<item> consume_some_components_for_craft( const recipe &making, int batch_size );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
@@ -1392,15 +1382,9 @@ class player : public Character
         void invalidate_crafting_inventory();
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
-                               int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                               const std::function<bool( const item & )> &charges_filter = return_true );
-        std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
-        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
+                               int batch, inventory &map_inv, bool can_cancel = false );
+        std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch );
+        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1 );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
@@ -1525,7 +1509,6 @@ class player : public Character
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
         bool keep_hands_free;
-        bool reach_attacking = false;
 
         std::vector <addiction> addictions;
 

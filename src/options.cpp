@@ -1547,18 +1547,16 @@ void options_manager::add_options_graphics()
 #endif
 
 #ifndef __ANDROID__
+    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
+         translate_marker( "Set which renderer to use.  Requires restart." ),
 #   ifndef TILES
-    // No renderer selection in non-TILES mode
-    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
-    translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
-    "software", COPT_CURSES_HIDE );
+         // No renderer selection in non-TILES mode
+    {   { "software", translate_marker( "software" ) }
+    },
 #   else
-    std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
-    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
-         translate_marker( "Set which renderer to use.  Requires restart." ), renderer_list,
-         renderer_list.front().first, COPT_CURSES_HIDE );
+         cata_tiles::build_renderer_list(),
 #   endif
-
+    "software", COPT_CURSES_HIDE );
 #else
     add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
          translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
@@ -1594,17 +1592,6 @@ void options_manager::add_options_graphics()
         { "linear", translate_marker( "Linear filtering" ) }
     },
     "none", COPT_CURSES_HIDE );
-
-#ifndef __ANDROID__
-    add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
-    translate_marker( "Factor by which to scale the display. Requires restart." ), {
-        { "1", translate_marker( "1x" ) },
-        { "2", translate_marker( "2x" )},
-        { "4", translate_marker( "4x" )}
-    },
-    "1", COPT_CURSES_HIDE );
-#endif
-
 }
 
 void options_manager::add_options_debug()
@@ -1731,12 +1718,12 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
-         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
+         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
     add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
-         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
+         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
@@ -1866,7 +1853,7 @@ void options_manager::add_options_android()
     mOptionsSort["android"]++;
 
     add( "ANDROID_VIBRATION", "android", translate_marker( "Vibration duration" ),
-         translate_marker( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
+         translate_marker( "If non-zero, vibrate the device for this long on input, in millisconds. Ignored if hardware keyboard connected." ),
          0, 200, 10
        );
 
@@ -1922,7 +1909,7 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_HIDE_HOLDS", "android", translate_marker( "Virtual joystick hides shortcuts" ),
-         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while traveling long distances and navigating menus." ),
+         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while travelling long distances and navigating menus." ),
          true
        );
 
@@ -2527,15 +2514,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
 #if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
     if( terminal_size_changed ) {
-        int scaling_factor = get_scaling_factor();
-        int TERMX = ::get_option<int>( "TERMINAL_X" );
-        int TERMY = ::get_option<int>( "TERMINAL_Y" );
-        TERMX -= TERMX % scaling_factor;
-        TERMY -= TERMY % scaling_factor;
-        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
-        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
-        save();
-
         handle_resize( projected_window_width(), projected_window_height() );
     }
 #else

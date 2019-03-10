@@ -1,6 +1,3 @@
-#if !defined(_MSC_VER)
-// the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
-
 #include "catch/catch.hpp"
 
 std::string rewrite_vsnprintf( const char *msg );
@@ -36,5 +33,3 @@ TEST_CASE( "Test vsnprintf_rewrite" )
            "<color_%s>powered welder</color> (and <color_%s>welding goggles</color>) or "
            "<color_%s>duct tape</color>, and level <color_%s>%d</color> skill in mechanics.%s%s" );
 }
-
-#endif

@@ -199,7 +199,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
             // Counting by units, not charges.
             switch( item_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_amount( type, count, false, is_crafting_component ) ) {
+                    if( !crafter->has_amount( type, count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
@@ -209,10 +209,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     }
                     break;
                 case use_from_both:
-                    if( !( crafter->amount_of( type, false, std::numeric_limits<int>::max(),
-                                               is_crafting_component ) +
-                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
-                                              is_crafting_component ) >= count ) ) {
+                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;

@@ -23,10 +23,6 @@ void display_hordes();
  */
 void display_weather();
 /**
- * Display overmap like with @ref display() and display the weather that is within line of sight.
- */
-void display_visible_weather();
-/**
  * Display overmap like with @ref display() and display scent traces.
  */
 void display_scents();

@@ -378,7 +378,9 @@ void start_location::burn( const tripoint &omtstart,
             }
         }
     }
-    std::shuffle( valid.begin(), valid.end(), rng_get_engine() );
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( valid.begin(), valid.end(), eng );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
         m.add_field( valid[i], fd_fire, 3 );
     }

@@ -313,9 +313,8 @@ static void color_pixel_grayscale( pixel &pix )
 
 static void color_pixel_nightvision( pixel &pix )
 {
-    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
-    int result = result_gray * 3 / 4 + 64;
-    result = 16 + result_gray * result / 255;
+    int result = ( pix.r + pix.b + pix.g ) / 3;
+    result = result * 3 / 4 + 64;
     if( result > 255 ) {
         result = 255;
     }
@@ -326,9 +325,8 @@ static void color_pixel_nightvision( pixel &pix )
 
 static void color_pixel_overexposed( pixel &pix )
 {
-    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
-    int result = result_gray / 4 + 192;
-    result = 64 + result_gray * result / 255;
+    int result = ( pix.r + pix.b + pix.g ) / 3;
+    result = result / 4 + 192;
     if( result > 255 ) {
         result = 255;
     }
@@ -2517,7 +2515,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
-    if( !veh->forward_velocity() && !veh->player_in_control( g->u ) ) {
+    if( !veh->forward_velocity() ) {
         if( !g->m.check_and_set_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
         }
@@ -3258,27 +3256,19 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
 #   if (defined _WIN32 || defined WINDOWS)
         { "direct3d", translate_marker( "direct3d" ) },
 #   endif
-        { "software", translate_marker( "software" ) },
         { "opengl", translate_marker( "opengl" ) },
         { "opengles2", translate_marker( "opengles2" ) },
-#else
-        { "software", translate_marker( "software" ) }
 #endif
-
+        { "software", translate_marker( "software" ) }
     };
+
     int numRenderDrivers = SDL_GetNumRenderDrivers();
     DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
     for( int ii = 0; ii < numRenderDrivers; ii++ ) {
         SDL_RendererInfo ri;
         SDL_GetRenderDriverInfo( ii, &ri );
         DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
-        // First default renderer name we will put first on the list. We can use it later as default value.
-        if( ri.name == default_renderer_names.front().first ) {
-            renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );
-        } else {
-            renderer_names.emplace_back( ri.name, ri.name );
-        }
-
+        renderer_names.emplace_back( ri.name, ri.name );
     }
 
     return renderer_names.empty() ? default_renderer_names : renderer_names;

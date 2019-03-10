@@ -854,16 +854,6 @@ std::string get_freshness_description( const item &food_item )
     }
 }
 
-int get_base_env_resist( const item &it )
-{
-    const auto t = it.find_armor_data();
-    if( t == nullptr ) {
-        return 0;
-    }
-
-    return t->env_resist * it.get_relative_health();
-}
-
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     std::stringstream temp1;
@@ -1160,7 +1150,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( food_item->has_flag( "FREEZERBURN" ) && !food_item->rotten() &&
                 !food_item->has_flag( "MUSHY" ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out</neutral>." ) );
+                                   _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out.</neutral>." ) );
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
                 info.emplace_back( "DESCRIPTION",
@@ -1786,7 +1776,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
                                       iteminfo::no_newline, fire_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
-                                      get_base_env_resist( *this ) ) );
+                                      get_env_resist() ) );
             if( type->can_use( "GASMASK" ) ) {
                 info.push_back( iteminfo( "ARMOR",
                                           _( "<bold>Protection when active</bold>: " ) ) );
@@ -1873,7 +1863,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             std::vector<std::string> recipe_list;
             for( const auto &elem : book.recipes ) {
                 const bool knows_it = g->u.knows_recipe( elem.recipe );
-                const bool can_learn = g->u.get_skill_level( elem.recipe->skill_used )  >= elem.skill_level;
                 // If the player knows it, they recognize it even if it's not clearly stated.
                 if( elem.is_hidden() && !knows_it ) {
                     continue;
@@ -1883,8 +1872,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     // real name to avoid confusing the player.
                     const std::string name = elem.recipe->result_name();
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
-                } else if( !can_learn ) {
-                    recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
                 } else {
                     recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
                 }
@@ -2299,12 +2286,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This mod <bad>obscures sights</bad> of the base weapon." ) ) );
-        }
-
-        if( is_gunmod() && has_flag( "CONSUMABLE" ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This mod might <bad>suffer wear</bad> when firing the base weapon." ) ) );
         }
 
         if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0
@@ -3035,7 +3016,6 @@ std::string item::display_name( unsigned int quantity ) const
             break;
     }
     int amount = 0;
-    int max_amount = 0;
     bool has_item = is_container() && contents.size() == 1;
     bool has_ammo = is_ammo_container() && contents.size() == 1;
     bool contains = has_item || has_ammo;
@@ -3043,7 +3023,6 @@ std::string item::display_name( unsigned int quantity ) const
     // We should handle infinite charges properly in all cases.
     if( contains ) {
         amount = contents.front().charges;
-        max_amount = contents.front().charges_per_volume( get_container_capacity() );
     } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
         amount = get_remaining_chapters( g->u );
@@ -3051,28 +3030,21 @@ std::string item::display_name( unsigned int quantity ) const
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         // but excluding bows etc., which have ammo, but can't be reloaded
         amount = ammo_remaining();
-        max_amount = ammo_capacity();
         show_amt = !has_flag( "RELOAD_AND_SHOOT" );
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
-        max_amount = ammo_capacity();
     }
 
     if( amount || show_amt ) {
         if( ammo_type().str() == "money" ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
-            if( max_amount != 0 ) {
-                amt = string_format( " (%i/%i)", amount, max_amount );
-            } else {
-                amt = string_format( " (%i)", amount );
-            }
+            amt = string_format( " (%i)", amount );
         }
     }
 
-    // This is a hack to prevent possible crashing when displaying maps as items during character creation
-    if( is_map() && calendar::turn != calendar::time_of_cataclysm ) {
+    if( is_map() ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
         if( c != nullptr ) {
@@ -3585,10 +3557,7 @@ void item::set_relative_rot( double val )
         rot = type->comestible->spoils * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
-        // if this item is the result of smoking don't do this, we want to start from bday.
-        if( !has_flag( "SMOKING_RESULT" ) ) {
-            last_rot_check = calendar::turn;
-        }
+        last_rot_check = calendar::turn;
         active = true;
     }
 }
@@ -3640,8 +3609,7 @@ void item::calc_rot( const tripoint &location )
         last_rot_check = now;
 
         // Frozen food do not rot, so no change to rot variable
-        // Smoking food will be checked for rot in smoker_finalize
-        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) ) {
+        if( item_tags.count( "FROZEN" ) ) {
             return;
         }
 
@@ -3668,18 +3636,6 @@ void item::calc_rot( const tripoint &location )
         }
 
     }
-}
-
-void item::calc_rot_while_smoking( const tripoint &location, time_duration smoking_duration )
-{
-    if( !item_tags.count( "SMOKING" ) ) {
-        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname().c_str() );
-        return;
-    }
-
-    // Apply rot at 1/2 normal rate while smoking
-    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
-    last_rot_check += smoking_duration;
 }
 
 units::volume item::get_storage() const
@@ -5472,7 +5428,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )std::toupper );
 
                 auto qty = m.second.qty();
 
@@ -6098,8 +6054,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     return res;
 }
 
-bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used,
-                       const std::function<bool( const item & )> &filter )
+bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used )
 {
     // Remember quantity so that we can unseal self
     long old_quantity = quantity;
@@ -6117,7 +6072,7 @@ bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used
     }
 
     // Now check the item itself
-    if( typeId() == it && quantity > 0 && filter( *this ) ) {
+    if( typeId() == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back( *this );
         quantity--;
         return true;
@@ -6144,6 +6099,9 @@ bool item::allow_crafting_component() const
         } );
     }
 
+    if( is_filthy() ) {
+        return false;
+    }
     return contents.empty();
 }
 
@@ -6821,8 +6779,8 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
         return true; //destroy fake smoke
     }
 
-    if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
+    if( item_counter == 0 ) {
+        iexamine::on_smoke_out( pos ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 
@@ -6919,9 +6877,6 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool in_inv = carrier != nullptr && carrier->has_item( *this );
     bool submerged = false;
     bool precipitation = false;
-    bool windtoostrong = false;
-    w_point weatherPoint = *g->weather_precise;
-    int windpower = g->windspeed;
     switch( g->weather ) {
         case WEATHER_DRIZZLE:
         case WEATHER_FLURRIES:
@@ -6947,11 +6902,6 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
-    if( in_inv && windpower > 5 && !g->is_sheltered( pos ) &&
-        this->has_flag( "WIND_EXTINGUISH" ) ) {
-        windtoostrong = true;
-        extinguish = true;
-    }
     if( !extinguish ||
         ( in_inv && precipitation && carrier->weapon.has_flag( "RAIN_PROTECT" ) ) ) {
         return false; //nothing happens
@@ -6961,9 +6911,6 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), tname().c_str() );
         } else if( precipitation ) {
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ),
-                                        tname().c_str() );
-        } else if( windtoostrong ) {
-            carrier->add_msg_if_player( m_neutral, _( "Your %s is blown out by the wind." ),
                                         tname().c_str() );
         }
     }
@@ -7180,8 +7127,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
     }
-    if( ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "WIND_EXTINGUISH" ) ) &&
-        process_extinguish( carrier, pos ) ) {
+    if( has_flag( "WATER_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
         return false;
     }
     if( has_flag( "CABLE_SPOOL" ) ) {

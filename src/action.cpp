@@ -260,8 +260,6 @@ std::string action_ident( action_id act )
             return "player_data";
         case ACTION_MAP:
             return "map";
-        case ACTION_SKY:
-            return "sky";
         case ACTION_MISSIONS:
             return "missions";
         case ACTION_FACTIONS:
@@ -357,7 +355,6 @@ bool can_action_change_worldstate( const action_id act )
         // Info Screens
         case ACTION_PL_INFO:
         case ACTION_MAP:
-        case ACTION_SKY:
         case ACTION_MISSIONS:
         case ACTION_KILLS:
         case ACTION_FACTIONS:
@@ -691,7 +688,6 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_LIST_ITEMS );
             REGISTER_ACTION( ACTION_ZONES );
             REGISTER_ACTION( ACTION_MAP );
-            REGISTER_ACTION( ACTION_SKY );
         } else if( category == _( "Inventory" ) ) {
             REGISTER_ACTION( ACTION_INVENTORY );
             REGISTER_ACTION( ACTION_ADVANCEDINV );

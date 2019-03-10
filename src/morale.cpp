@@ -11,7 +11,6 @@
 #include "input.h"
 #include "item.h"
 #include "itype.h"
-#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
@@ -564,16 +563,6 @@ void player_morale::on_item_wear( const item &it )
 void player_morale::on_item_takeoff( const item &it )
 {
     set_worn( it, false );
-}
-
-void player_morale::on_worn_item_transform( const item &it )
-{
-    item dummy = it;
-    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
-                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
-
-    set_worn( dummy, false );
-    set_worn( it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )

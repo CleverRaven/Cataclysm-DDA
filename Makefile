@@ -63,10 +63,12 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
-# Astyle all source files.
+# Astyle the source files that aren't blacklisted. (maintain current level of styling)
 #  make astyle
-# Check if source files are styled properly.
+# Check if source files are styled properly (regression test, astyle_blacklist tracks un-styled files)
 #  make astyle-check
+# Astyle all source files using the current rules (don't PR this, it's too many changes at once).
+#  make astyle-all
 # Style the whitelisted json files (maintain the current level of styling).
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
@@ -116,7 +118,7 @@ endif
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
-VERSION = 0.D
+VERSION = 0.C
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
@@ -1044,13 +1046,19 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-astyle: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
+# Generate a list of files to check based on the difference between the blacklist and the existing source files.
+ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC) )
+
+astyle: $(ASTYLED_WHITELIST)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
+
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
+  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLED_WHITELIST))
 endif
 
 astyle-check:
