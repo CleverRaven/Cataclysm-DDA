@@ -1546,9 +1546,9 @@ void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < 2 ) {
-                m->ter_set( i, j, river_west ? t_water_dp : grass_or_dirt() );
+                m->ter_set( i, j, river_west ? t_water_moving_dp : grass_or_dirt() );
             } else if( i >= SEEX * 2 - 2 ) {
-                m->ter_set( i, j, river_east ? t_water_dp : grass_or_dirt() );
+                m->ter_set( i, j, river_east ? t_water_moving_dp : grass_or_dirt() );
             } else if( i == 2 || i == SEEX * 2 - 3 ) {
                 m->ter_set( i, j, t_guardrail_bg_dp );
             } else if( i == 3 || i == SEEX * 2 - 4 ) {
@@ -1930,14 +1930,14 @@ r^X^^^X^________^X^^^X^r",
 void mapgen_river_center( map *m, oter_id, mapgendata dat, const time_point &, float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
 }
 
 void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, const time_point &,
                               float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
     // this is not_ne, so deep on all sides except ne corner, which is shallow
     // shallow is 20,0, 23,4
     int north_edge = rng( 16, 18 );
@@ -1952,7 +1952,7 @@ void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, cons
             if( circle_edge == 9 && one_in( 25 ) ) {
                 m->ter_set( x, y, clay_or_sand() );
             } else if( circle_edge <= 36 ) {
-                m->ter_set( x, y, t_water_sh );
+                m->ter_set( x, y, t_water_moving_sh );
             }
         }
     }
@@ -1972,7 +1972,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
                             float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -1981,7 +1981,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
         if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
-        line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
     }
 
     if( terrain_type == "river_east" ) {
@@ -1998,7 +1998,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
 void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
     // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -2007,7 +2007,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
-        line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
@@ -2016,7 +2016,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         if( one_in( 25 ) ) {
             m->ter_set( --ground_edge, y, clay_or_sand() );
         }
-        line( m, t_water_sh, shallow_edge, y, --ground_edge, y );
+        line( m, t_water_moving_sh, shallow_edge, y, --ground_edge, y );
     }
 
     if( terrain_type == "river_se" ) {

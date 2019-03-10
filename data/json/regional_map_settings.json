@@ -535,7 +535,14 @@
         "house_prepper": 30,
         "house_base": 333,
         "duplex": 50,
-        "emptyresidentiallot": 20
+        "emptyresidentiallot": 20,
+        "apartments_con": 10,
+        "apartments_mod": 10,
+        "school": 15,
+        "motel_city": 10,
+        "fishing_pond_city": 10,
+        "trailerpark_city": 15,
+        "railroad_city": 10
       },
       "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
       "parks": {
@@ -547,9 +554,20 @@
         "cemetery_small": 200,
         "Pond": 200,
         "communitygarden": 200,
-        "publicgarden": 200
+        "publicgarden": 200,
+        "cathedral": 50,
+        "football_field": 25,
+        "baseball_field": 50,
+        "botanical_garden": 100,
+        "zoo": 25,
+        "stadium": 25,
+        "cemetery_city": 50,
+        "public_pond_city": 50,
+        "cemetery_religious_city": 25
       },
       "shops": {
+        "town_hall": 150,
+        "craft_shop": 100,
         "s_gas": 500,
         "s_pharm": 300,
         "s_grocery": 1500,
@@ -626,7 +644,25 @@
         "s_vfw": 100,
         "s_daycare": 100,
         "s_thrift": 100,
-        "s_petstore": 100
+        "s_petstore": 100,
+        "megastore": 150,
+        "hotel": 75,
+        "hospital": 175,
+        "public_works": 200,
+        "office_tower": 150,
+        "office_tower_2": 150,
+        "office_tower_large": 100,
+        "office_tower_hiddenlab": 50,
+        "mall": 100,
+        "home_improvement_superstore": 150,
+        "lumberyard": 75,
+        "landscaping_supply_co": 150,
+        "storage_units_large": 125,
+        "storage_units_medium": 125,
+        "shopping_plaza": 125,
+        "movie_theater": 75,
+        "garage_gas_city": 250,
+        "2fmotel_city": 50
       }
     },
     "weather": {

@@ -628,6 +628,8 @@ class game
         int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
+        int winddirection;
+        int windspeed;
         pimpl<w_point> weather_precise; // Cached weather data
 
         /**
@@ -1128,6 +1130,8 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
     public:
+        cata::optional<int> wind_direction_override;
+        cata::optional<int> windspeed_override;
         weather_type weather_override;
 };
 
