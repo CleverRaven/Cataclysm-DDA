@@ -41,8 +41,6 @@ const skill_id skill_launcher( "launcher" );
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -379,13 +377,7 @@ int throw_cost( const player &c, const item &to_throw )
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
-
-    if( c.has_trait( trait_LIGHT_BONES ) ) {
-        move_cost *= .9;
-    }
-    if( c.has_trait( trait_HOLLOW_BONES ) ) {
-        move_cost *= .8;
-    }
+    move_cost *= c.mutation_value( "attackcost_modifier" );
 
     return std::max( 25, move_cost );
 }
@@ -640,8 +632,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
 
     // Reserve lines for aiming and firing instructions.
     if( mode == TARGET_MODE_FIRE ) {
-        text_y -= ( 3 + aim_types.size() );
-    } else {
+        text_y -= ( 1 + aim_types.size() );
+    } else if( mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
         text_y -= 2;
     }
 
@@ -657,30 +649,33 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         return keys.empty() ? fallback : keys.front();
     };
 
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        mvwprintz( w_target, text_y++, 1, c_white, _( "%c %c Cycle targets; %c to fire." ),
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] %c Cycle targets; [%c] to fire." ),
                    front_or( "PREV_TARGET", ' ' ), front_or( "NEXT_TARGET", ' ' ), front_or( "FIRE", ' ' ) );
-        mvwprintz( w_target, text_y++, 1, c_white, _( "%c target self; %c toggle snap-to-target" ),
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] target self; [%c] toggle snap-to-target" ),
                    front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
     }
 
     if( mode == TARGET_MODE_FIRE ) {
-        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to steady your aim. " ), front_or( "AIM", ' ' ) );
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to steady your aim. (10 moves)" ),
+                   front_or( "AIM", ' ' ) );
+        std::string aim_and_fire = "";
         for( const auto &e : aim_types ) {
             if( e.has_threshold ) {
-                mvwprintz( w_target, text_y++, 1, c_white, e.help.c_str(), front_or( e.action, ' ' ) );
+                aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
             }
         }
-        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch aiming modes." ),
+        mvwprintz( w_target, text_y++, 1, c_white, "%sto aim and fire", aim_and_fire );
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to switch aiming modes." ),
                    front_or( "SWITCH_AIM", ' ' ) );
     }
 
     if( switch_mode ) {
-        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch firing modes." ),
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to switch firing modes." ),
                    front_or( "SWITCH_MODE", ' ' ) );
     }
     if( switch_ammo ) {
-        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch ammo." ), front_or( "SWITCH_AMMO",
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to switch ammo." ), front_or( "SWITCH_AMMO",
                    ' ' ) );
     }
 
@@ -717,6 +712,7 @@ static void do_aim( player &p, const item &relevant )
 struct confidence_rating {
     double aim_level;
     char symbol;
+    std::string color;
     std::string label;
 };
 
@@ -759,13 +755,50 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
+typedef std::vector<std::tuple<double, char, std::string>> RatingVector;
+std::string get_colored_bar( const double val, const int width, const std::string &label,
+                             RatingVector::iterator begin, RatingVector::iterator end )
+{
+    std::string result;
+
+    result.reserve( width );
+    if( !label.empty() ) {
+        result += label;
+        result += ' ';
+    }
+    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
+
+    result += '[';
+    if( bar_width > 0 ) {
+        int used_width = 0;
+        for( auto it( begin ); it != end; ++it ) {
+            const double factor = std::min( 1.0, std::max( 0.0, std::get<0>( *it ) * val ) );
+            const int seg_width = int( factor * bar_width ) - used_width;
+
+            if( seg_width <= 0 ) {
+                continue;
+            }
+            used_width += seg_width;
+            result += string_format( "<color_%s>", std::get<2>( *it ) );
+            result.insert( result.end(), seg_width, std::get<1>( *it ) );
+            result += "</color>";
+        }
+        result.insert( result.end(), bar_width - used_width, ' ' );
+    }
+    result += ']';
+
+    return result;
+}
+
 static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number,
-                                target_mode mode, const item &ranged_weapon, const dispersion_sources &dispersion,
-                                const std::vector<confidence_rating> &confidence_config, double range, double target_size,
-                                int recoil = 0 )
+                                target_mode mode, input_context &ctxt, const item &ranged_weapon,
+                                const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
+                                double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+
+    nc_color col = c_dark_gray;
 
     std::vector<aim_type> aim_types;
     if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
@@ -775,8 +808,19 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     if( display_type != "numbers" ) {
-        mvwprintw( w, line_number++, 1, _( "Symbols: * = Great + = Normal | = Graze" ) );
+        std::string symbols = "";
+        for( const confidence_rating &cr : confidence_config ) {
+            symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol, cr.label );
+        }
+        print_colored_text( w, line_number++, 1, col, col, string_format(
+                                _( "Symbols:%s" ), symbols ) );
     }
+
+    const auto front_or = [&]( const std::string & s, const char fallback ) {
+        const auto keys = ctxt.keys_bound_to( s );
+        return keys.empty() ? fallback : keys.front();
+    };
+
     for( const aim_type &type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
@@ -797,7 +841,10 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                             *ranged_weapon.type );
         }
 
-        mvwprintw( w, line_number++, 1, _( "%s: Moves to fire: %d" ), label.c_str(), moves_to_fire );
+        auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
+        print_colored_text( w, line_number++, 1, col, col,
+                            string_format( _( "<color_white>[%s]</color> %s: Moves to fire: <color_light_blue>%d</color>" ),
+                                           hotkey, label, moves_to_fire ) );
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
 
@@ -808,30 +855,32 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                 // @todo: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                 int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                 last_chance += chance;
-                return string_format( "%s: %3d%%", _( config.label.c_str() ), chance );
+                return string_format( "%s: <color_%s>%3d%%</color>", _( config.label/*.c_str()*/ ), config.color,
+                                      chance );
             }, enumeration_conjunction::none );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
-                                                c_white, confidence_s );
+                                                c_dark_gray, confidence_s );
         } else {
-            // Extract pairs from tuples, because get_labeled_bar expects pairs
-            std::vector<std::pair<double, char>> confidence_ratings;
+            std::vector<std::tuple<double, char, std::string>> confidence_ratings;
             std::transform( confidence_config.begin(), confidence_config.end(),
                             std::back_inserter( confidence_ratings ),
             [&]( const confidence_rating & config ) {
-                return std::make_pair( config.aim_level, config.symbol );
-            } );
-            const std::string &confidence_bar = get_labeled_bar( confidence, window_width, "",
+                return std::make_tuple( config.aim_level, config.symbol, config.color );
+            }
+                          );
+            const std::string &confidence_bar = get_colored_bar( confidence, window_width, "",
                                                 confidence_ratings.begin(),
                                                 confidence_ratings.end() );
 
-            mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+            print_colored_text( w, line_number++, 1, col, col, confidence_bar );
         }
     }
 
     return line_number;
 }
 
-static int print_aim( const player &p, const catacurses::window &w, int line_number, item *weapon,
+static int print_aim( const player &p, const catacurses::window &w, int line_number,
+                      input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
     // This is absolute accuracy for the player.
@@ -852,15 +901,15 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-            { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
-            { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
-            { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
+            { accuracy_critical, '*', "green", translate_marker_context( "aim_confidence", "Great" ) },
+            { accuracy_standard, '+', "light_gray", translate_marker_context( "aim_confidence", "Normal" ) },
+            { accuracy_grazing, '|', "magenta", translate_marker_context( "aim_confidence", "Graze" ) }
         }
     };
 
     const double range = rl_dist( p.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, ctxt, *weapon, dispersion,
                                 confidence_config,
                                 range, target_size, predicted_recoil );
 }
@@ -886,6 +935,7 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 }
 
 static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
+                           input_context &ctxt,
                            const item *weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
@@ -899,13 +949,13 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
     static const std::vector<confidence_rating> confidence_config_critter = {{
-            { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
-            { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
-            { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
+            { accuracy_critical, '*', "green", translate_marker_context( "aim_confidence", "Great" ) },
+            { accuracy_standard, '+', "light_gray", translate_marker_context( "aim_confidence", "Normal" ) },
+            { accuracy_grazing, '|', "magenta", translate_marker_context( "aim_confidence", "Graze" ) }
         }
     };
     static const std::vector<confidence_rating> confidence_config_object = {{
-            { accuracy_grazing, '*', translate_marker_context( "aim_confidence", "Hit" ) }
+            { accuracy_grazing, '*', "white", translate_marker_context( "aim_confidence", "Hit" ) }
         }
     };
     const auto &confidence_config = target != nullptr ?
@@ -913,7 +963,7 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
 
     const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
-    return print_ranged_chance( p, w, line_number, throwing_target_mode, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, *weapon, dispersion,
                                 confidence_config,
                                 range, target_size );
 }
@@ -946,18 +996,18 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
     }
     thresholds_it = thresholds.begin();
-    aim_types.push_back( aim_type { _( "Regular Aim" ), "AIMED_SHOT", _( "%c to aim and fire." ),
+    aim_types.push_back( aim_type { _( "Regular Aim" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
     thresholds_it++;
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Careful Aim" ), "CAREFUL_SHOT",
-                                        _( "%c to take careful aim and fire." ), true,
+                                        _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
         thresholds_it++;
     }
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Precise Aim" ), "PRECISE_SHOT",
-                                        _( "%c to take precise aim and fire." ), true,
+                                        _( "[%c] to take precise aim and fire." ), true,
                                         *thresholds_it } );
     }
     return aim_types;
@@ -1283,7 +1333,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             const double target_size = critter != nullptr ? critter->ranged_target_size() :
                                        occupied_tile_fraction( MS_MEDIUM );
 
-            line_number = print_aim( pc, w_target, line_number, &*relevant->gun_current_mode(),
+            line_number = print_aim( pc, w_target, line_number, ctxt, &*relevant->gun_current_mode(),
                                      target_size, dst, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
@@ -1293,9 +1343,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
         } else if( mode == TARGET_MODE_THROW ) {
-            line_number = draw_throw_aim( pc, w_target, line_number, relevant, dst, false );
+            line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
         } else if( mode == TARGET_MODE_THROW_BLIND ) {
-            line_number = draw_throw_aim( pc, w_target, line_number, relevant, dst, true );
+            line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
         }
 
         wrefresh( w_target );

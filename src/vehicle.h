@@ -602,6 +602,7 @@ class vehicle
 
         //Refresh all caches and re-locate all parts
         void refresh();
+        bool no_refresh = false;
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects();
@@ -649,6 +650,10 @@ class vehicle
         vehicle( const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1 );
         vehicle();
         ~vehicle();
+
+        /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
+        void suspend_refresh();
+        void enable_refresh();
 
         /**
          * Set stat for part constrained by range [0,durability]
@@ -1458,6 +1463,7 @@ class vehicle
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
         std::vector<int> wind_turbines;     // List of wind turbine indices
+        std::vector<int> water_wheels;     // List of water wheel indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels

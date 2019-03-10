@@ -1,0 +1,560 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_0",
+    "name": "camp survey",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_1",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_2",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_3",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_4",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_5",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_6",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_7",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_8",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_9",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_10",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_11",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_12",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_13",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_14",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_15",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_16",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_17",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_18",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_0",
+    "name": "farm survey",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_1",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_2",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_3",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_4",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_0",
+    "name": "garage survey",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_1",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_2",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_3",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_4",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_5",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_6",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_0",
+    "name": "kitchen survey",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_1",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_2",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_3",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_4",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_5",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_6",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_7",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_8",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_hide_site_0",
+    "name": "hide site",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_N_0",
+    "name": "trench",
+    "sym": 88,
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_E_0",
+    "name": "trench",
+    "sym": 88,
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_S_0",
+    "name": "trench",
+    "sym": 88,
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_W_0",
+    "name": "trench",
+    "sym": 88,
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_N_1",
+    "name": "spiked trench",
+    "sym": 88,
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_E_1",
+    "name": "spiked trench",
+    "sym": 88,
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_S_1",
+    "name": "spiked trench",
+    "sym": 88,
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_wall_level_W_1",
+    "name": "spiked trench",
+    "sym": 88,
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_0",
+    "name": "blacksmith survey",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_1",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_2",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_3",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_4",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_5",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_6",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_7",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_8",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_9",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_10",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_11",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_12",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  }
+]

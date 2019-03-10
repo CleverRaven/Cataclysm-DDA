@@ -251,7 +251,10 @@ game::game() :
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( 16 ),
+    wind_direction_override(),
+    windspeed_override(),
     weather_override( WEATHER_NULL )
+
 {
     temperature = 0;
     player_was_sleeping = false;
@@ -1828,9 +1831,11 @@ void game::set_critter_died()
 
 void game::update_weather()
 {
+    w_point &w = *weather_precise;
+    winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+    windspeed = windspeed_override ? *windspeed_override : w.windpower;
     if( weather == WEATHER_NULL || calendar::turn >= nextweather ) {
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w_point &w = *weather_precise;
         w = weather_gen.get_weather( u.global_square_location(), calendar::turn, seed );
         weather_type old_weather = weather;
         weather = weather_override == WEATHER_NULL ?
@@ -1840,7 +1845,6 @@ void game::update_weather()
             weather = WEATHER_CLEAR;
         }
         sfx::do_ambient();
-
         temperature = w.temperature;
         lightning_active = false;
         // Check weather every few turns, instead of every turn.
@@ -2359,6 +2363,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "quit" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
+    ctxt.register_action( "sky" );
     ctxt.register_action( "missions" );
     ctxt.register_action( "factions" );
     ctxt.register_action( "kills" );
@@ -2970,25 +2975,27 @@ void game::debug()
         _( "Spawn Clairvoyance Artifact" ),     // 15
         _( "Map editor" ),                      // 16
         _( "Change weather" ),                  // 17
-        _( "Kill all monsters" ),               // 18
-        _( "Display hordes" ),                  // 19
-        _( "Test Item Group" ),                 // 20
-        _( "Damage Self" ),                     // 21
-        _( "Show Sound Clustering" ),           // 22
-        _( "Lua Console" ),                     // 23
-        _( "Display weather" ),                 // 24
-        _( "Display overmap scents" ),          // 25
-        _( "Change time" ),                     // 26
-        _( "Set automove route" ),              // 27
-        _( "Show mutation category levels" ),   // 28
-        _( "Overmap editor" ),                  // 29
-        _( "Draw benchmark (X seconds)" ),      // 30
-        _( "Teleport - Adjacent overmap" ),     // 31
-        _( "Test trait group" ),                // 32
-        _( "Show debug message" ),              // 33
-        _( "Crash game (test crash handling)" ),// 34
-        _( "Spawn Map Extra" ),                 // 35
-        _( "Quit to Main Menu" ),               // 36
+        _( "Change wind direction" ),           // 18
+        _( "Change wind speed" ),               // 19
+        _( "Kill all monsters" ),               // 20
+        _( "Display hordes" ),                  // 21
+        _( "Test Item Group" ),                 // 22
+        _( "Damage Self" ),                     // 23
+        _( "Show Sound Clustering" ),           // 24
+        _( "Lua Console" ),                     // 25
+        _( "Display weather" ),                 // 26
+        _( "Display overmap scents" ),          // 27
+        _( "Change time" ),                     // 28
+        _( "Set automove route" ),              // 29
+        _( "Show mutation category levels" ),   // 30
+        _( "Overmap editor" ),                  // 31
+        _( "Draw benchmark (X seconds)" ),      // 32
+        _( "Teleport - Adjacent overmap" ),     // 33
+        _( "Test trait group" ),                // 34
+        _( "Show debug message" ),              // 35
+        _( "Crash game (test crash handling)" ),// 36
+        _( "Spawn Map Extra" ),                 // 37
+        _( "Quit to Main Menu" ),               // 38
     } );
     refresh_all();
     switch( action ) {
@@ -3171,6 +3178,50 @@ void game::debug()
         break;
 
         case 18: {
+            uilist wind_direction_menu;
+            wind_direction_menu.text = _( "Select new wind direction:" );
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
+                                          _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
+            int count = 1;
+            for( int angle = 0; angle <= 315; angle += 45 ) {
+                wind_direction_menu.addentry( count, true, MENU_AUTOASSIGN, get_wind_arrow( angle ) );
+                count += 1;
+            }
+            wind_direction_menu.query();
+            if( wind_direction_menu.ret == 0 ) {
+                wind_direction_override = cata::nullopt;
+            } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
+                wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+                nextweather = calendar::turn;
+                update_weather();
+            }
+        }
+        break;
+
+        case 19: {
+            uilist wind_speed_menu;
+            wind_speed_menu.text = _( "Select new wind speed:" );
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
+                                      _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
+            int count = 1;
+            for( int speed = 0; speed <= 100; speed += 10 ) {
+                std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
+                wind_speed_menu.addentry( count, true, MENU_AUTOASSIGN, speedstring );
+                count += 1;
+            }
+            wind_speed_menu.query();
+            if( wind_speed_menu.ret == 0 ) {
+                windspeed_override = cata::nullopt;
+            } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
+                int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
+                windspeed_override = selected_wind_speed;
+                nextweather = calendar::turn;
+                update_weather();
+            }
+        }
+        break;
+
+        case 20: {
             for( monster &critter : all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
@@ -3179,16 +3230,16 @@ void game::debug()
             cleanup_dead();
         }
         break;
-        case 19:
+        case 21:
             ui::omap::display_hordes();
             break;
-        case 20: {
+        case 22: {
             item_group::debug_spawn();
         }
         break;
 
         // Damage Self
-        case 21: {
+        case 23: {
             int dbg_damage;
             if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
                 u.hp_cur[hp_torso] -= dbg_damage;
@@ -3198,7 +3249,7 @@ void game::debug()
         }
         break;
 
-        case 22: {
+        case 24: {
 #ifdef TILES
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
@@ -3220,18 +3271,18 @@ void game::debug()
         }
         break;
 
-        case 23: {
+        case 25: {
             lua_console console;
             console.run();
         }
         break;
-        case 24:
+        case 26:
             ui::omap::display_weather();
             break;
-        case 25:
+        case 27:
             ui::omap::display_scents();
             break;
-        case 26: {
+        case 28: {
             auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
@@ -3289,7 +3340,7 @@ void game::debug()
             } while( smenu.ret != UILIST_CANCEL );
         }
         break;
-        case 27: {
+        case 29: {
             const cata::optional<tripoint> dest = look_around();
             if( !dest || *dest == u.pos() ) {
                 break;
@@ -3303,17 +3354,17 @@ void game::debug()
             }
         }
         break;
-        case 28:
+        case 30:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
             break;
 
-        case 29:
+        case 31:
             ui::omap::display_editor();
             break;
 
-        case 30: {
+        case 32: {
             const int ms = string_input_popup()
                            .title( _( "Enter benchmark length (in milliseconds):" ) )
                            .width( 20 )
@@ -3323,19 +3374,19 @@ void game::debug()
         }
         break;
 
-        case 31:
+        case 33:
             debug_menu::teleport_overmap();
             break;
-        case 32:
+        case 34:
             trait_group::debug_spawn();
             break;
-        case 33:
+        case 35:
             debugmsg( "Test debugmsg" );
             break;
-        case 34:
+        case 36:
             std::raise( SIGSEGV );
             break;
-        case 35: {
+        case 37: {
             oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
 
             map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -3360,7 +3411,7 @@ void game::debug()
             }
             break;
         }
-        case 36:
+        case 38:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
@@ -9382,6 +9433,8 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
                         _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ) );
     smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
                         _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+    smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
+                        _( "If you're aiming to just destroy a body outright, and don't care about harvesting it, dismembering it will hack it apart in a very short amount of time, but yield little to no usable flesh." ) );
     smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
                         _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
@@ -9400,6 +9453,9 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
             break;
         case QUARTER:
             g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+            break;
+        case DISMEMBER:
+            g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, -1 );
             break;
         case DISSECT:
             g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
@@ -10658,13 +10714,11 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) && !u.has_trait( trait_id( "SMALL2" ) ) &&
-            !u.has_trait( trait_id( "SMALL_OK" ) ) ) {
-            int volume = 6;
-            if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
+        int volume = 6;
+        volume *= u.mutation_value( "noise_modifier" );
+        if( volume > 0 ) {
+            if( u.is_wearing( "rm13_armor_on" ) ) {
                 volume = 2;
-            } else if( u.has_trait( trait_id( "CLUMSY" ) ) ) {
-                volume = 10;
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
