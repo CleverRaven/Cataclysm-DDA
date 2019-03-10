@@ -690,15 +690,17 @@ void mx_crater( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_fumarole( map &m, const tripoint & )
+void mx_fumarole( map &m, const tripoint &abs_sub )
 {
-    int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
-        x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
-    std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
-    for( auto &i : fumarole ) {
-        m.ter_set( i.x, i.y, t_lava );
-        if( one_in( 6 ) ) {
-            m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
+    if( abs_sub.z <= 0 ) {
+        int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
+            x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
+        std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
+        for( auto &i : fumarole ) {
+            m.ter_set( i.x, i.y, t_lava );
+            if( one_in( 6 ) ) {
+                m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
+            }
         }
     }
 }
