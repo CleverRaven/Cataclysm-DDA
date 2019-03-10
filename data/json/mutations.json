@@ -8,7 +8,8 @@
         "starting_trait" : true,
         "changes_to" : ["FLEET2"],
         "category" : ["SPIDER", "MOUSE"],
-        "types" : ["RUNNING"]
+        "types" : ["RUNNING"],
+        "movecost_flatground_modifier" : 0.85
     },{
         "type" : "mutation",
         "id" : "GOODHEARING",
@@ -17,7 +18,8 @@
         "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
         "starting_trait" : true,
         "category" : ["ALPHA", "MOUSE"],
-        "cancels" : ["BADHEARING"]
+        "cancels" : ["BADHEARING"],
+        "hearing_modifier" : 1.25
     },{
         "type" : "mutation",
         "id" : "OUTDOORSMAN",
@@ -46,7 +48,8 @@
         "description" : "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["BADKNEES"]
+        "cancels" : ["BADKNEES"],
+        "movecost_obstacle_modifier" : 0.5
     },{
         "type" : "mutation",
         "id" : "GOODCARDIO",
@@ -57,7 +60,8 @@
         "valid" : false,
         "cancels" : ["BADCARDIO"],
         "changes_to" : ["GOODCARDIO2"],
-        "category" : ["FISH", "LUPINE", "MOUSE", "INSECT"]
+        "category" : ["FISH", "LUPINE", "MOUSE", "INSECT"],
+        "max_stamina_modifier" : 1.25
     },{
         "type" : "mutation",
         "id" : "GOODCARDIO2",
@@ -68,7 +72,8 @@
         "prereqs" : ["GOODCARDIO"],
         "cancels" : ["BADCARDIO"],
         "threshreq" : ["THRESH_MOUSE"],
-        "category" : ["MOUSE"]
+        "category" : ["MOUSE"],
+        "max_stamina_modifier" : 1.4
     },{
         "type" : "mutation",
         "id" : "QUICK",
@@ -76,7 +81,8 @@
         "points" : 3,
         "description" : "You're just generally quick!  You get a 10% bonus to action points.",
         "starting_trait" : true,
-        "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE"]
+        "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE"],
+        "speed_modifier" : 1.1
     },{
         "type" : "mutation",
         "id" : "OPTIMISTIC",
@@ -254,7 +260,8 @@
         "description" : "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["BADBACK"]
+        "cancels" : ["BADBACK"],
+        "weight_capacity_modifier" : 1.35
     },{
         "type" : "mutation",
         "id" : "FASTLEARNER",
@@ -453,7 +460,8 @@
         "description" : "You make less noise while walking.  You're also less likely to set off traps.",
         "starting_trait" : true,
         "category" : ["BIRD", "ELFA", "FELINE"],
-        "cancels" : ["CLUMSY"]
+        "cancels" : ["CLUMSY"],
+        "noise_modifier" : 0.4
     },{
         "type" : "mutation",
         "id" : "ROBUST",
@@ -589,7 +597,8 @@
         "description" : "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["PARKOUR"]
+        "cancels" : ["PARKOUR"],
+        "movecost_obstacle_modifier" : 1.25
     },{
         "type" : "mutation",
         "id" : "BADCARDIO",
@@ -598,7 +607,8 @@
         "description" : "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["GOODCARDIO"]
+        "cancels" : ["GOODCARDIO"],
+        "max_stamina_modifier" : 0.75
     },{
         "type" : "mutation",
         "id" : "MYOPIC",
@@ -687,7 +697,8 @@
         "description" : "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 35%.",
         "starting_trait" : true,
         "category" : ["BIRD", "ELFA"],
-        "cancels" : ["STRONGBACK"]
+        "cancels" : ["STRONGBACK"],
+        "weight_capacity_modifier" : 0.65
     },{
         "type" : "mutation",
         "id" : "BADTEMPER",
@@ -723,7 +734,8 @@
         "description" : "Your hearing is poor, and you may not hear quiet or far-off noises.",
         "starting_trait" : true,
         "category" : ["PLANT"],
-        "cancels" : ["GOODHEARING"]
+        "cancels" : ["GOODHEARING"],
+        "hearing_modifier" : 0.5
     },{
         "type" : "mutation",
         "id" : "SLOWLEARNER",
@@ -964,7 +976,8 @@
         "points" : -1,
         "description" : "You make more noise while walking.  You're also more likely to set off traps.",
         "starting_trait" : true,
-        "cancels" : ["LIGHTSTEP"]
+        "cancels" : ["LIGHTSTEP"],
+        "noise_modifier" : 1.7
     },{
         "type" : "mutation",
         "id" : "JITTERY",
@@ -1018,7 +1031,8 @@
         "points" : -3,
         "description" : "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
         "starting_trait" : true,
-        "types" : ["RUNNING"]
+        "types" : ["RUNNING"],
+        "movecost_flatground_modifier" : 1.15
     },{
         "type" : "mutation",
         "id" : "WEAKSTOMACH",
@@ -1262,7 +1276,10 @@
         "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "prereqs" : ["PER_UP"],
         "threshreq" : ["THRESH_BIRD"],
-        "category" : ["BIRD"]
+        "category" : ["BIRD"],
+        "passive_mods" : {
+            "per_mod" : 4
+        }
     },{
         "type" : "mutation",
         "id" : "INFRARED",
@@ -1519,7 +1536,8 @@
             { "part" : "HAND_R", "ignored" : 6 },
             { "part" : "TORSO", "ignored" : 60 }
         ],
-        "armor" : [ { "parts" : "ALL", "cut" : 2, "bash" : 3 } ]
+        "armor" : [ { "parts" : "ALL", "cut" : 2, "bash" : 3 } ],
+        "speed_modifier" : 0.8
     },{
         "type" : "mutation",
         "id" : "M_SKIN3",
@@ -1545,7 +1563,8 @@
             { "part" : "HAND_R", "ignored" : 6 },
             { "part" : "TORSO", "ignored" : 60 }
         ],
-        "armor" : [ { "parts" : "ALL", "cut" : 3, "bash" : 5 } ]
+        "armor" : [ { "parts" : "ALL", "cut" : 3, "bash" : 5 } ],
+        "speed_modifier" : 0.8
     },{
         "type" : "mutation",
         "id" : "SCALES",
@@ -1596,7 +1615,10 @@
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 30 }
         ],
-        "armor" : [ { "parts" : "ALL", "cut" : 4 } ]
+        "armor" : [ { "parts" : "ALL", "cut" : 4 } ],
+        "passive_mods" : {
+            "dex_mod" : -2
+        }
     },{
         "type" : "mutation",
         "id" : "SLEEK_SCALES",
@@ -1628,7 +1650,10 @@
         "points" : 2,
         "description" : "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
         "category" : ["MOUSE"],
-        "changes_to" : ["HOLLOW_BONES"]
+        "changes_to" : ["HOLLOW_BONES"],
+        "movecost_modifier" : 0.9,
+        "attackcost_modifier" : 0.9,
+        "weight_capacity_modifier" : 0.8
     },{
         "type" : "mutation",
         "id" : "FEATHERS",
@@ -1790,7 +1815,10 @@
             { "part" : "HAND_R", "ignored" : 2 },
             { "part" : "TORSO", "ignored" : 18 }
         ],
-        "armor" : [ { "parts" : "ALL", "bash" : 4, "cut" : 4 } ]
+        "armor" : [ { "parts" : "ALL", "bash" : 4, "cut" : 4 } ],
+        "passive_mods" : {
+            "dex_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "CHITIN3",
@@ -1828,7 +1856,10 @@
             [ "FOOT_R", 10 ]
         ],
         "restricts_gear" : [ "HEAD" ],
-        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ]
+        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ],
+        "passive_mods" : {
+            "dex_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR",
@@ -1886,7 +1917,10 @@
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["SPIDER"],
         "restricts_gear" : [ "HEAD" ],
-        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ]
+        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ],
+        "passive_mods" : {
+            "dex_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "CF_HAIR",
@@ -2738,7 +2772,8 @@
         "description" : "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
         "prereqs" : ["FLEET"],
         "types" : ["RUNNING"],
-        "category" : ["BIRD"]
+        "category" : ["BIRD"],
+        "movecost_flatground_modifier" : 0.7
     },{
         "type" : "mutation",
         "id" : "TAIL_STUB",
@@ -2780,7 +2815,8 @@
         "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"],
         "category" : ["FELINE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
-        "allow_soft_gear" : true
+        "allow_soft_gear" : true,
+        "dodge_modifier" : 2
     },{
         "type" : "mutation",
         "id" : "TAIL_CATTLE",
@@ -2793,7 +2829,8 @@
         "prereqs" : ["TAIL_LONG"],
         "category" : ["CATTLE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
-        "allow_soft_gear" : true
+        "allow_soft_gear" : true,
+        "dodge_modifier" : 1
     },{
         "type" : "mutation",
         "id" : "TAIL_RAT",
@@ -2806,7 +2843,8 @@
         "prereqs" : ["TAIL_LONG", "TAIL_STUB"],
         "category" : ["RAT", "MOUSE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
-        "allow_soft_gear" : true
+        "allow_soft_gear" : true,
+        "dodge_modifier" : 2
     },{
         "type" : "mutation",
         "id" : "TAIL_THICK",
@@ -2826,7 +2864,8 @@
             "attack_text_npc" : "%1$s whaps %2$s with their tail",
             "chance" : 20,
             "base_damage" : { "damage_type" : "bash", "amount" : 8 }
-        }
+        },
+        "dodge_modifier" : 1
     },{
         "type" : "mutation",
         "id" : "TAIL_RAPTOR",
@@ -2839,7 +2878,8 @@
         "prereqs" : ["TAIL_STUB"],
         "category" : ["RAPTOR"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
-        "allow_soft_gear" : true
+        "allow_soft_gear" : true,
+        "dodge_modifier" : 3
     },{
         "type" : "mutation",
         "id" : "TAIL_FLUFFY",
@@ -2855,7 +2895,8 @@
         "social_modifiers" : {
             "lie": -20 ,
             "persuade": 10
-        }
+        },
+        "dodge_modifier" : 4
     },{
         "type" : "mutation",
         "id" : "TAIL_STING",
@@ -3174,7 +3215,8 @@
         "time"       :    10,
         "fatigue"    :    true,
         "hunger" : true,
-        "thirst" : true
+        "thirst" : true,
+        "movecost_modifier" : 0.75
     },{
         "type" : "mutation",
         "id" : "MOUTH_TENTACLES",
@@ -3251,7 +3293,8 @@
         "description" : "Your ears have extended into long, pointed ones, like those of a canine.  They enhance your hearing, allowing you to hear at greater distances.",
         "types" : ["EARS"],
         "category" : ["BEAST", "CATTLE", "CHIMERA"],
-        "changes_to" : ["LUPINE_EARS"]
+        "changes_to" : ["LUPINE_EARS"],
+        "hearing_modifier" : 1.5
     },{
         "type" : "mutation",
         "id" : "LUPINE_EARS",
@@ -3261,7 +3304,8 @@
         "ugliness" : 1,
         "description" : "Your hearing has evolved further and is now on par with wolves.  You can hear things significantly farther away.",
         "types" : ["EARS"],
-        "category" : ["LUPINE"]
+        "category" : ["LUPINE"],
+        "hearing_modifier" : 1.75
     },{
         "type" : "mutation",
         "id" : "FELINE_EARS",
@@ -3270,7 +3314,8 @@
         "visibility" : 4,
         "description" : "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
         "types" : ["EARS"],
-        "category" : ["FELINE"]
+        "category" : ["FELINE"],
+        "hearing_modifier" : 1.25
     },{
         "type" : "mutation",
         "id" : "URSINE_EARS",
@@ -3280,7 +3325,8 @@
         "ugliness" : 1,
         "description" : "Your ears have grown longer and rounder, much like those of a bear.  You can hear things a little farther away.",
         "types" : ["EARS"],
-        "category" : ["URSINE"]
+        "category" : ["URSINE"],
+        "hearing_modifier" : 1.25
     },{
         "type" : "mutation",
         "id" : "ELFA_EARS",
@@ -3302,7 +3348,8 @@
         "description" : "Your ears are huge, round, and gray!  They're rather fascinating, and help you hear from a much greater distance.",
         "valid" : false,
         "types" : ["EARS"],
-        "category" : ["MOUSE", "RAT"]
+        "category" : ["MOUSE", "RAT"],
+        "hearing_modifier" : 2
     },{
         "type" : "mutation",
         "id" : "WEB_WALKER",
@@ -3394,7 +3441,8 @@
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "leads_to" : ["HIBERNATE"],
         "category" : ["URSINE"],
-        "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
+        "armor" : [ { "parts" : "ALL", "bash" : 1 } ],
+        "movecost_modifier" : 1.05
     },{
         "type" : "mutation",
         "id" : "LARGE",
@@ -3415,7 +3463,8 @@
         "category" : ["URSINE", "CATTLE", "LIZARD"],
         "passive_mods" : {
             "str_mod" : 2
-        }
+        },
+        "weight_capacity_modifier" : 1.05
     },{
         "type" : "mutation",
         "id" : "LARGE_OK",
@@ -3432,7 +3481,8 @@
         "category" : ["URSINE", "CATTLE", "LIZARD"],
         "passive_mods" : {
             "str_mod" : 2
-        }
+        },
+        "weight_capacity_modifier" : 1.05
     },{
         "type" : "mutation",
         "id" : "HUGE",
@@ -3453,7 +3503,8 @@
         "hp_adjustment": -6,
         "fatigue_modifier": 0.15,
         "restricts_gear" : [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
-        "destroys_gear" : true
+        "destroys_gear" : true,
+        "weight_capacity_modifier" : 1.1
     },{
         "type" : "mutation",
         "id" : "HUGE_OK",
@@ -3473,7 +3524,8 @@
             "str_mod" : 4
         },
         "restricts_gear" : [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
-        "destroys_gear" : true
+        "destroys_gear" : true,
+        "weight_capacity_modifier" : 1.1
     },{
         "type" : "mutation",
         "id" : "STR_UP",
@@ -3785,7 +3837,9 @@
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "changes_to": ["SMALL2"],
         "category" : ["MOUSE"],
-        "hp_modifier" : -0.05
+        "hp_modifier" : -0.05,
+        "dodge_modifier" : 1,
+        "weight_capacity_modifier" : 0.8
     },{
         "type" : "mutation",
         "id" : "SMALL2",
@@ -3798,7 +3852,10 @@
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "changes_to": ["SMALL_OK"],
         "category" : ["MOUSE"],
-        "hp_modifier" : -0.3
+        "hp_modifier" : -0.3,
+        "dodge_modifier" : 2,
+        "weight_capacity_modifier" : 0.5,
+        "noise_modifier" : 0
     },{
         "type" : "mutation",
         "id" : "SMALL_OK",
@@ -3812,7 +3869,10 @@
         "purifiable" : false,
         "threshreq" : ["THRESH_MOUSE"],
         "category" : ["MOUSE"],
-        "hp_modifier" : -0.25
+        "hp_modifier" : -0.25,
+        "dodge_modifier" : 2,
+        "weight_capacity_modifier" : 0.7,
+        "noise_modifier" : 0
     },{
         "type" : "mutation",
         "id" : "CRAFTY",
@@ -3824,7 +3884,9 @@
         "prereqs" : ["SMALL_OK"],
         "threshreq" : ["THRESH_MOUSE"],
         "category" : ["MOUSE"],
-        "stealth_modifier" : 40
+        "stealth_modifier" : 40,
+        "speed_modifier" : 1.15,
+        "movecost_modifier" : 0.75
     },{
         "type" : "mutation",
         "id" : "MUT_JUNKIE",
@@ -3900,7 +3962,8 @@
         "ugliness" : 4,
         "description" : "You have a pair of large, leathery wings.  You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
         "types" : ["WINGS"],
-        "prereqs" : ["WINGS_STUB"]
+        "prereqs" : ["WINGS_STUB"],
+        "dodge_modifier" : -3
     },{
         "type" : "mutation",
         "id" : "WINGS_BUTTERFLY",
@@ -3921,7 +3984,9 @@
             "lie" : 15,
             "persuade" : 5,
             "intimidate" : -20
-        }
+        },
+        "dodge_modifier" : -4,
+        "movecost_modifier" : 0.9
     },{
         "type" : "mutation",
         "id" : "PALE",
@@ -4154,7 +4219,10 @@
         "mixed_effect" : true,
         "description" : "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
         "prereqs" : ["LIGHT_BONES"],
-        "category" : ["BIRD", "SLIME", "ELFA"]
+        "category" : ["BIRD", "SLIME", "ELFA"],
+        "movecost_modifier" : 0.8,
+        "attackcost_modifier" : 0.8,
+        "weight_capacity_modifier" : 0.6
     },{
         "type" : "mutation",
         "id" : "NAUSEA",
@@ -4387,7 +4455,10 @@
         "encumbrance_covered" : [
             [ "HAND_L", 50 ],
             [ "HAND_R", 50 ]
-        ]
+        ],
+        "passive_mods" : {
+            "dex_mod" : -1
+        }
     },{
         "type" : "mutation",
         "id" : "PAWS",
@@ -4606,7 +4677,8 @@
         "prereqs2" : ["BENDY2", "SLIME_HANDS"],
         "threshreq" : ["THRESH_SLIME"],
         "category" : ["SLIME"],
-        "armor" : [ { "parts" : "ALL", "bash" : 4 } ]
+        "armor" : [ { "parts" : "ALL", "bash" : 4 } ],
+        "movecost_modifier" : 1.25
     },{
         "type" : "mutation",
         "id" : "SLIMESPAWNER",
@@ -4651,7 +4723,8 @@
         "description" : "Your muscles are generally slow to move.  You move 10% slower.",
         "types" : ["RUNNING"],
         "changes_to" : ["PONDEROUS2"],
-        "category" : ["URSINE"]
+        "category" : ["URSINE"],
+        "movecost_modifier" : 1.1
     },{
         "type" : "mutation",
         "id" : "PONDEROUS2",
@@ -4661,7 +4734,8 @@
         "types" : ["RUNNING"],
         "prereqs" : ["PONDEROUS1"],
         "changes_to" : ["PONDEROUS3"],
-        "category" : ["CATTLE"]
+        "category" : ["CATTLE"],
+        "movecost_modifier" : 1.2
     },{
         "type" : "mutation",
         "id" : "PONDEROUS3",
@@ -4670,7 +4744,8 @@
         "description" : "Your muscles are very slow to move.  You move 30% slower.",
         "types" : ["RUNNING"],
         "prereqs" : ["PONDEROUS2"],
-        "category" : ["PLANT"]
+        "category" : ["PLANT"],
+        "movecost_modifier" : 1.3
     },{
         "type" : "mutation",
         "id" : "SUNLIGHT_DEPENDENT",
@@ -4969,7 +5044,10 @@
         "prereqs2" : ["ANTENNAE"],
         "threshreq" : ["THRESH_INSECT", "THRESH_SPIDER"],
         "category" : ["INSECT", "SPIDER"],
-        "restricts_gear" : [ "TORSO" ]
+        "restricts_gear" : [ "TORSO" ],
+        "passive_mods" : {
+            "dex_mod" : -2
+        }
     },{
         "type" : "mutation",
         "id" : "INSECT_ARMS_OK",
@@ -5005,7 +5083,10 @@
         "prereqs2" : ["CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["SPIDER"],
-        "restricts_gear" : [ "TORSO" ]
+        "restricts_gear" : [ "TORSO" ],
+        "passive_mods" : {
+            "dex_mod" : -4
+        }
     },{
         "type" : "mutation",
         "id" : "ARACHNID_ARMS_OK",
@@ -5060,7 +5141,10 @@
                 "chance" : 1,
                 "hardcoded_effect" : true
             }
-        ]
+        ],
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES_4",
@@ -5099,7 +5183,10 @@
                 "chance" : 1,
                 "hardcoded_effect" : true
             }
-        ]
+        ],
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES_8",
@@ -5138,7 +5225,10 @@
                 "chance" : 1,
                 "hardcoded_effect" : true
             }
-        ]
+        ],
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "SHELL",
@@ -5197,7 +5287,9 @@
             { "part" : "FOOT_L", "neutral" : 6 },
             { "part" : "FOOT_R", "neutral" : 6 }
         ],
-        "restricts_gear" : [ "FOOT_L", "FOOT_R" ]
+        "restricts_gear" : [ "FOOT_L", "FOOT_R" ],
+        "movecost_modifier" : 1.2,
+        "noise_modifier" : 0
     },{
         "type" : "mutation",
         "id" : "LEG_TENT_BRACE",

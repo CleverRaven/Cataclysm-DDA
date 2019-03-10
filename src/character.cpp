@@ -84,15 +84,6 @@ static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
-static const trait_id trait_SMALL( "SMALL" );
-static const trait_id trait_SMALL2( "SMALL2" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
-static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
-static const trait_id trait_TAIL_LONG( "TAIL_LONG" );
-static const trait_id trait_TAIL_RAPTOR( "TAIL_RAPTOR" );
-static const trait_id trait_TAIL_RAT( "TAIL_RAT" );
-static const trait_id trait_TAIL_THICK( "TAIL_THICK" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
@@ -100,8 +91,6 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WEBBED( "WEBBED" );
-static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 Character::Character() :
@@ -1056,33 +1045,8 @@ units::mass Character::weight_capacity() const
     units::mass ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
     ret += get_str() * 4_kilogram;
-    if( has_trait( trait_id( "BADBACK" ) ) ) {
-        ret = ret * .65;
-    }
-    if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-        ret = ret * 1.35;
-    }
-    if( has_trait( trait_id( "LIGHT_BONES" ) ) ) {
-        ret = ret * .80;
-    }
-    if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
-        ret = ret * .60;
-    }
-    if( has_trait( trait_id( "SMALL" ) ) ) {
-        ret = ret * .80;
-    }
-    if( has_trait( trait_id( "SMALL2" ) ) ) {
-        ret = ret * .50;
-    }
-    if( has_trait( trait_id( "SMALL_OK" ) ) ) {
-        ret = ret * .70;
-    }
-    if( has_trait( trait_id( "LARGE" ) ) || has_trait( trait_id( "LARGE_OK" ) ) ) {
-        ret = ret * 1.05;
-    }
-    if( has_trait( trait_id( "HUGE" ) ) || has_trait( trait_id( "HUGE_OK" ) ) ) {
-        ret = ret * 1.1;
-    }
+    ret *= mutation_value( "weight_capacity_modifier" );
+
     if( has_artifact_with( AEP_CARRY_MORE ) ) {
         ret += 22500_gram;
     }
@@ -1366,63 +1330,8 @@ void Character::reset_stats()
     }
 
     // Trait / mutation buffs
-    if( has_trait( trait_THICK_SCALES ) ) {
-        mod_dex_bonus( -2 );
-    }
-    if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
-        mod_dex_bonus( -1 );
-    }
-    if( has_trait( trait_BIRD_EYE ) ) {
-        mod_per_bonus( 4 );
-    }
-    if( has_trait( trait_INSECT_ARMS ) ) {
-        mod_dex_bonus( -2 );
-    }
-    if( has_trait( trait_WEBBED ) ) {
-        mod_dex_bonus( -1 );
-    }
-    if( has_trait( trait_ARACHNID_ARMS ) ) {
-        mod_dex_bonus( -4 );
-    }
-    if( has_trait( trait_ARM_TENTACLES ) || has_trait( trait_ARM_TENTACLES_4 ) ||
-        has_trait( trait_ARM_TENTACLES_8 ) ) {
-        mod_dex_bonus( 1 );
-    }
-
-    // Dodge-related effects
-    if( has_trait( trait_TAIL_LONG ) ) {
-        mod_dodge_bonus( 2 );
-    }
-    if( has_trait( trait_TAIL_CATTLE ) ) {
-        mod_dodge_bonus( 1 );
-    }
-    if( has_trait( trait_TAIL_RAT ) ) {
-        mod_dodge_bonus( 2 );
-    }
-    if( has_trait( trait_TAIL_THICK ) && !( has_active_mutation( trait_TAIL_THICK ) ) ) {
-        mod_dodge_bonus( 1 );
-    }
-    if( has_trait( trait_TAIL_RAPTOR ) ) {
-        mod_dodge_bonus( 3 );
-    }
-    if( has_trait( trait_TAIL_FLUFFY ) ) {
-        mod_dodge_bonus( 4 );
-    }
-    if( has_trait( trait_SMALL ) ) {
-        mod_dodge_bonus( 1 );
-    }
-    if( has_trait( trait_SMALL2 ) ) {
-        mod_dodge_bonus( 2 );
-    }
-    if( has_trait( trait_SMALL_OK ) ) {
-        mod_dodge_bonus( 2 );
-    }
-    if( has_trait( trait_WINGS_BAT ) ) {
-        mod_dodge_bonus( -3 );
-    }
-    if( has_trait( trait_WINGS_BUTTERFLY ) ) {
-        mod_dodge_bonus( -4 );
-    }
+    mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
+    mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
     if( str_max >= 16 ) {
@@ -2795,6 +2704,26 @@ float calc_mutation_value( const std::vector<const mutation_branch *> &mutations
     return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
 }
 
+template <float mutation_branch::*member>
+float calc_mutation_value_additive( const std::vector<const mutation_branch *> &mutations )
+{
+    float ret = 0.0f;
+    for( const mutation_branch *mut : mutations ) {
+        ret += mut->*member;
+    }
+    return ret;
+}
+
+template <float mutation_branch::*member>
+float calc_mutation_value_multiplicative( const std::vector<const mutation_branch *> &mutations )
+{
+    float ret = 1.0f;
+    for( const mutation_branch *mut : mutations ) {
+        ret *= mut->*member;
+    }
+    return ret;
+}
+
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
@@ -2821,6 +2750,33 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value<&mutation_branch::stamina_regen_modifier>( cached_mutations );
     } else if( val == "stealth_modifier" ) {
         return calc_mutation_value<&mutation_branch::stealth_modifier>( cached_mutations );
+    } else if( val == "str_modifier" ) {
+        return calc_mutation_value_additive<&mutation_branch::str_modifier>( cached_mutations );
+    } else if( val == "dodge_modifier" ) {
+        return calc_mutation_value_additive<&mutation_branch::dodge_modifier>( cached_mutations );
+    } else if( val == "speed_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::speed_modifier>( cached_mutations );
+    } else if( val == "movecost_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier>( cached_mutations );
+    } else if( val == "movecost_flatground_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier>
+                     ( cached_mutations );
+    } else if( val == "movecost_obstacle_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier>
+                     ( cached_mutations );
+    } else if( val == "attackcost_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier>
+                     ( cached_mutations );
+    } else if( val == "max_stamina_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier>
+                     ( cached_mutations );
+    } else if( val == "weight_capacity_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier>
+                     ( cached_mutations );
+    } else if( val == "hearing_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
+    } else if( val == "noise_modifier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::noise_modifier>( cached_mutations );
     }
 
     debugmsg( "Invalid mutation value name %s", val.c_str() );
