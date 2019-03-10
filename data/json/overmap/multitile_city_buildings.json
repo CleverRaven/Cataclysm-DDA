@@ -128,7 +128,8 @@
       { "point": [ 0, 1, 2 ], "overmap": "2fmotel_2_r_north" },
       { "point": [ 1, 1, 2 ], "overmap": "2fmotel_3_r_north" }
     ]
-  },{
+  },
+  {
     "type": "city_building",
     "id": "hotel",
     "locations": [ "land" ],
@@ -604,6 +605,25 @@
       { "point": [ 1, 0, 2 ], "overmap": "loffice_tower_14_north" },
       { "point": [ 0, 1, 2 ], "overmap": "loffice_tower_15_north" },
       { "point": [ 1, 1, 2 ], "overmap": "loffice_tower_16_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "town_hall",
+    "locations": [ "land", "swamp" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "town_hall_0_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "town_hall_1_0_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "town_hall_0_1_0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "town_hall_1_1_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "town_hall_0_0_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "town_hall_1_0_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "town_hall_0_1_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "town_hall_1_1_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "town_hall_0_0_roof_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "town_hall_1_0_roof_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "town_hall_0_1_roof_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "town_hall_1_1_roof_north" }
     ]
   }
 ]
