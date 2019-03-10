@@ -10760,6 +10760,9 @@ bool game::walk_move( const tripoint &dest_loc )
     if( u.has_effect( effect_hidden ) && !m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
         u.remove_effect( effect_hidden );
     }
+    if( u.has_effect( effect_no_sight ) && !m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
+        u.remove_effect( effect_no_sight );
+    }
 
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
@@ -10830,11 +10833,7 @@ void game::place_player( const tripoint &dest_loc )
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
-    if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
-    } else if( u.has_effect( effect_no_sight ) ) {
-        u.remove_effect( effect_no_sight );
-    }
+
 
 
     // If we moved out of the nonant, we need update our map data
