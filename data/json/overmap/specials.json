@@ -31,13 +31,11 @@
             { "point":[-1,1,0], "overmap": "motel_2_north"},
             { "point":[0,1,0], "overmap": "motel_3_north"}
         ],
-        "connections" : [
-            { "point" : [0,-1,0] }
-        ],
+        "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
         "locations" : [ "land", "swamp" ],
-        "city_distance" : [10, 120],
+        "city_distance" : [2, 120],
         "city_sizes" : [1, 12],
-        "occurrences" : [0, 5],
+        "occurrences" : [0, 3],
         "flags" : [ "CLASSIC" ]
 },{
         "type" : "overmap_special",
@@ -171,7 +169,7 @@
         "locations" : [ "land", "swamp" ],
         "city_distance" : [10, 200],
         "city_sizes" : [4, 12],
-        "occurrences" : [2, 4],
+        "occurrences" : [1, 3],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1133,8 +1131,7 @@
         "city_sizes" : [5, 12],
         "occurrences" : [0, 2],
         "flags" : [ "CLASSIC" ]
-    },
-    {
+    },{
         "type" : "overmap_special",
         "id" : "ranch_camp",
         "overmaps" : [
@@ -1361,14 +1358,14 @@
             { "point" : [2,0,0], "overmap" : "garage_gas_3_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" },
-            { "point" : [1,-1,0], "terrain" : "road" },
-            { "point" : [2,-1,0], "terrain" : "road" }
+            { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true },
+            { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true },
+            { "point": [ 2, -1, 0 ], "terrain": "road", "existing": true }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [-1,3],
+        "city_distance" : [-1,25],
         "city_sizes" : [4,12],
-        "occurrences" : [0,4],
+        "occurrences" : [1,3],
         "flags" : ["CLASSIC"]
     },{
         "type" : "overmap_special",
@@ -1482,7 +1479,7 @@
         "city_distance" : [5, 10],
         "city_sizes" : [4, 12],
         "rotate" : false,
-        "occurrences" : [0, 4]
+        "occurrences" : [0, 3]
     },
   {
     "type": "overmap_special",
@@ -1497,10 +1494,10 @@
     "connections": [
       { "point": [ 1, -1, 0 ], "terrain": "road" }
     ],
-    "locations": [ "land" ],
-    "city_distance" : [3, 10],
+    "locations": [ "forest" ],
+    "city_distance" : [3, -1],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 2 ]
+    "occurrences": [ 0, 3 ]
   },
   {
     "id": "Fishing Pond",
@@ -1794,8 +1791,8 @@
       { "point": [ 1, 1, 0 ], "overmap": "campground_2b_north" }
     ],
     "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 1, 9 ],
+    "locations": [ "forest" ],
+    "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
@@ -1854,11 +1851,34 @@
       { "point": [ 0, 1, 0 ], "overmap": "s_reststop_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "s_reststop_2_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true },
+                     { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true }
+                   ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 150 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Movie Theater",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "movietheater_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "movietheater_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "movietheater_2_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "movietheater_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "movietheater_1_1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "movietheater_2_1_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "movietheater_0_2_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "movietheater_1_2_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "movietheater_2_2_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 4 ],
+    "city_sizes": [ 5, 12 ],
+    "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -1894,7 +1914,7 @@
       { "point": [ 0, 1, 0 ], "overmap": "dirtroad_north" },
       { "point": [ 0, 2, 0 ], "overmap": "rural_house_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "forest" ],
     "city_distance": [ 5, 25 ],
     "city_sizes": [ 2, 10 ],
@@ -1952,8 +1972,8 @@
     ],
     "locations": [ "land", "forest" ],
     "city_distance": [ -1, 20 ],
-    "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 5 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 1, 3 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -1974,9 +1994,9 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
-    "city_distance": [ 10, 120 ],
+    "city_distance": [ 2, 120 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 5 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC" ]
   }
 ]

@@ -46,6 +46,7 @@ enum aim_exit {
     exit_re_entry
 };
 
+// *INDENT-OFF*
 advanced_inventory::advanced_inventory()
     : head_height( 5 )
     , min_w_height( 10 )
@@ -58,8 +59,7 @@ advanced_inventory::advanced_inventory()
     , dest( right )
     , filter_edit( false )
       // panes don't need initialization, they are recalculated immediately
-    , squares(
-{
+    , squares( {
     {
         //               hx  hy  x    y   z
         { AIM_INVENTORY, 25, 2, {0,   0,  0}, _( "Inventory" ),          _( "IN" ) },
@@ -92,6 +92,7 @@ advanced_inventory::advanced_inventory()
         squares[9].hscreenx = 33;
     }
 }
+// *INDENT-ON*
 
 advanced_inventory::~advanced_inventory()
 {
@@ -702,8 +703,8 @@ void advanced_inv_area::init()
     }
 
     // water?
-    static const std::array<ter_id, 6> ter_water = {
-        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage}
+    static const std::array<ter_id, 8> ter_water = {
+        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
     };
     auto ter_check = [this]
     ( const ter_id & id ) {

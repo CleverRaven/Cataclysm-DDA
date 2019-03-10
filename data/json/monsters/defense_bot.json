@@ -19,6 +19,7 @@
     "armor_bash": 14,
     "armor_cut": 14,
     "vision_day": 50,
+    "revert_to_itype": "bot_secubot",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [ { "type": "gun", "cooldown": 2, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] } ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "secubot", 1 ] ] },

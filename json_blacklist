@@ -131,8 +131,6 @@ data/json/mapgen/subway_tunnels.json
 data/json/mapgen/swamp_shack.json
 data/json/mapgen/teashop.json
 data/json/mapgen/triffid_grove.json
-data/json/martialarts.json
-data/json/materials.json
 data/json/monster_attacks.json
 data/json/monster_drops.json
 data/json/monsterdrops/zombie_cop.json

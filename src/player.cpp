@@ -1033,9 +1033,8 @@ void player::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( weather.windpower + vehwindspeed, cur_om_ter, pos(),
-                             weather.winddirection, sheltered );
-
+    double total_windpower = get_local_windpower( g->windspeed + vehwindspeed, cur_om_ter, pos(),
+                             g->winddirection, sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -1112,8 +1111,10 @@ void player::update_bodytemp()
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
-        if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ) ||
-            ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ) &&
+        if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ||
+              ter_at_pos == t_water_moving_dp ) ||
+            ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ||
+                ter_at_pos == t_water_moving_sh ) &&
               ( bp == bp_foot_l || bp == bp_foot_r || bp == bp_leg_l || bp == bp_leg_r ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
@@ -2848,7 +2849,7 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 
 bool player::has_alarm_clock() const
 {
-    return ( has_item_with_flag( "ALARMCLOCK" ) ||
+    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -2856,7 +2857,7 @@ bool player::has_alarm_clock() const
 
 bool player::has_watch() const
 {
-    return ( has_item_with_flag( "WATCH" ) ||
+    return ( has_item_with_flag( "WATCH", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -12428,9 +12429,12 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     } );
 }
 
-bool player::has_item_with_flag( const std::string &flag ) const
+bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag]( const item & it ) {
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : true;
+        }
         return it.has_flag( flag );
     } );
 }
