@@ -734,16 +734,16 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
         int x_extra = 0;
         int y_extra = 0;
         switch( extra_lava_dir ) {
-            case NORTH: // North
+            case NORTH:
                 y_extra = -1;
                 break;
-            case EAST: // East
+            case EAST:
                 x_extra = 1;
                 break;
-            case SOUTH: // South
+            case SOUTH:
                 y_extra = 1;
                 break;
-            case WEST: // West
+            case WEST:
                 x_extra = -1;
                 break;
             default:
