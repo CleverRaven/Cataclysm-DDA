@@ -802,7 +802,7 @@
         ".g.pppppp.Acg...cg...cg.",
         "g..pppp^^ssssss..gc.g..g",
         "gg.{{pp^^.c..ss..c..gc.g",
-        "...pppppp. c.ssg........",
+        "...pppppp..c.ssg........",
         "g.|tttttt||00|m||00||.gg",
         "..|tttttt|__________|...",
         "g.|tttttt|__________|ssg",
@@ -825,7 +825,6 @@
         "gg.g.g..g..gcg.gc.g...cg"
       ],
       "terrain": {
-        " ": "t_null",
         "#": "t_wall_half",
         ".": "t_dirt",
         "0": "t_window_frame",
@@ -933,7 +932,7 @@
         "d.dppppppddA.dddC.dddC.d",
         "..dpppp{psss...d...d.dd.",
         "...pppp{pd.ddssd...d.Cd.",
-        "dd.ppppppd Cdss..dddd..d",
+        "dd.ppppppd.Cdss..dddd..d",
         "..|tttttt||ww|e||ww||d..",
         "dd|tttttt|#_____X_X_|---",
         "..|tXXttt|#______X__wcc-",
@@ -956,7 +955,6 @@
         "------------------------"
       ],
       "terrain": {
-        " ": "t_null",
         "#": "t_floor",
         "&": "t_floor",
         "+": "t_door_metal_pickable",
