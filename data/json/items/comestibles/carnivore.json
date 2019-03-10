@@ -8,8 +8,7 @@
     "symbol": "%",
     "color": "red",
     "parasites": 32,
-    "vitamins": [  ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [  ]
   },
   {
     "id": "fish",
@@ -24,6 +23,7 @@
     "price": 500,
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE" ],
+    "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitB", 9 ] ],
     "calories": 121
   },
@@ -63,7 +63,8 @@
     "name_plural": "human fleshes",
     "description": "Freshly butchered from a human body.",
     "material": "hflesh",
-    "flags": [ "SMOKABLE" ]
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "human_smoked"
   },
   {
     "id": "human_cooked",
@@ -93,7 +94,8 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
-    "flags": [ "SMOKABLE" ]
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "meat_smoked"
   },
   {
     "id": "meat_scrap",
@@ -104,6 +106,7 @@
     "description": "This is a tiny scrap of edible meat.  It's not much, but it'll do in a pinch.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
+    "delete": { "flags": [ "SMOKABLE" ] },
     "vitamins": [ [ "vitB", 18 ], [ "vitC", 0 ], [ "iron", 0 ] ]
   },
   {
@@ -125,9 +128,7 @@
     "health": -25,
     "fun": -25,
     "use_action": "POISON",
-    "vitamins": [  ],
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 101
+    "vitamins": [  ]
   },
   {
     "id": "meat_cooked",
@@ -301,7 +302,8 @@
     "spoils_in": "24 days",
     "quench": -1,
     "fun": 5,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_meat"
   },
   {
     "id": "fish_smoked",
@@ -313,7 +315,8 @@
     "color": "brown",
     "spoils_in": "24 days",
     "fun": 6,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_fish"
   },
   {
     "id": "human_smoked",
@@ -325,7 +328,8 @@
     "spoils_in": "24 days",
     "quench": -1,
     "fun": 5,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_hflesh"
   },
   {
     "id": "lung",
@@ -504,9 +508,7 @@
     "material": "flesh",
     "volume": 1,
     "stack_size": 1,
-    "fun": -20,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 15
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
@@ -553,11 +555,10 @@
     "description": "Meat that's obviously unhealthy.  You could eat it, but it will poison you.",
     "price": 0,
     "material": "flesh",
-    "flags": "TRADER_AVOID",
     "volume": 1,
     "fun": -10,
-    "rot_spawn": "GROUP_CARRION_INFECTED",
-    "rot_spawn_chance": 15
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
+    "smoking_result": "dry_meat_tainted"
   },
   {
     "type": "COMESTIBLE",
@@ -604,9 +605,7 @@
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
     "material": "flesh",
     "volume": 1,
-    "fun": -10,
-    "rot_spawn": "GROUP_CARRION_INFECTED",
-    "rot_spawn_chance": 15
+    "fun": -10
   },
   {
     "type": "COMESTIBLE",
@@ -645,9 +644,7 @@
     "material": "flesh",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "fun": -5,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 15
+    "fun": -5
   },
   {
     "type": "COMESTIBLE",
@@ -672,9 +669,7 @@
     "material": "flesh",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "fun": -3,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 12
+    "fun": -3
   },
   {
     "type": "COMESTIBLE",
@@ -703,8 +698,7 @@
     "flags": "TRADER_AVOID",
     "volume": "25ml",
     "stack_size": 1,
-    "fun": -12,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": -12
   },
   {
     "type": "COMESTIBLE",
@@ -714,8 +708,7 @@
     "spoils_in": "6 hours",
     "use_action": "POISON",
     "description": "A carefully folded poisonous raw skin harvested from an unnatural creature.  You can cure it for storage and tanning.",
-    "price": 0,
-    "rot_spawn": "GROUP_CARRION_INFECTED"
+    "price": 0
   },
   {
     "type": "COMESTIBLE",
@@ -744,8 +737,7 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "volume": "25ml",
     "stack_size": 1,
-    "fun": -24,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": -24
   },
   {
     "type": "COMESTIBLE",
@@ -756,8 +748,7 @@
     "use_action": "POISON",
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": 0,
-    "flags": [ "NO_SALVAGE" ],
-    "rot_spawn": "GROUP_CARRION_INFECTED"
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "COMESTIBLE",

@@ -972,6 +972,7 @@ void vehicle_prototype::finalize()
         blueprint.type = id;
         blueprint.name = _( proto.name.c_str() );
 
+        blueprint.suspend_refresh();
         for( auto &pt : proto.parts ) {
             auto base = item::find_type( pt.part->item );
 
@@ -1024,6 +1025,7 @@ void vehicle_prototype::finalize()
                 cargo_spots.insert( pt.pos );
             }
         }
+        blueprint.enable_refresh();
 
         for( auto &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {

@@ -157,6 +157,9 @@ struct islot_comestible {
     /** Reference to other item that replaces this one as a component in recipe results */
     itype_id cooks_like;
 
+    /** Reference to item that will be received after smoking current item */
+    itype_id smoking_result;
+
     /** @todo: add documentation */
     int healthy = 0;
 
@@ -535,6 +538,12 @@ struct islot_gunmod : common_ranged_data {
 
     /** Percentage value change to the gun's loading time. Higher is slower */
     int reload_modifier = 0;
+
+    /** Percentage value change to the gun's loading time. Higher is less likely */
+    int consume_chance = 10000;
+
+    /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
+    int consume_divisor = 1;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;

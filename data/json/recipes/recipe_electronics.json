@@ -452,41 +452,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "battery",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "fabrication",
-  "skills_required": [ "electronics", 1 ],
-  "difficulty": 2,
-  "time": 5000,
-  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "textbook_anarch", 2 ]],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [
-      [ "lemon", 1 ],
-      [ "irradiated_lemon", 1 ],
-      [ "orange", 1 ],
-      [ "irradiated_orange", 1 ],
-      [ "grapefruit", 1 ],
-      [ "irradiated_grapefruit", 1 ],
-      [ "acid", 1 ],
-      [ "vinegar", 2 ]
-    ],
-    [
-      [ "steel_chunk", 1 ],
-      [ "knife_butter", 1 ],
-      [ "knife_steak", 1 ],
-      [ "bolt_steel", 1 ],
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "can_drink_unsealed", 1 ],
-      [ "can_food_unsealed", 1 ],
-      [ "canister_empty", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "noise_emitter",
   "id_suffix": "radio-mod",
   "category": "CC_ELECTRONIC",

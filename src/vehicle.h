@@ -602,6 +602,7 @@ class vehicle
 
         //Refresh all caches and re-locate all parts
         void refresh();
+        bool no_refresh = false;
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects();
@@ -649,6 +650,10 @@ class vehicle
         vehicle( const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1 );
         vehicle();
         ~vehicle();
+
+        /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
+        void suspend_refresh();
+        void enable_refresh();
 
         /**
          * Set stat for part constrained by range [0,durability]
@@ -726,7 +731,7 @@ class vehicle
         int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks );
+        bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 

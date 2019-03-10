@@ -50,7 +50,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "|----------..----------|",
         "|.........|..|.........|",
@@ -321,7 +321,7 @@
     "nested_mapgen_id": "lab_north_doors",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_terrain": [ { "ter": "t_door_metal_c", "x": 0, "y": 0 }, { "ter": "t_door_metal_c", "x": 1, "y": 0 } ]
+      "place_terrain": [ { "ter": "t_door_metal_lab_c", "x": 0, "y": 0 }, { "ter": "t_door_metal_lab_c", "x": 1, "y": 0 } ]
     }
   }
 ]

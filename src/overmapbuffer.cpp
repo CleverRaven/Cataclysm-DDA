@@ -783,38 +783,39 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
     // and each additional one expends the search to the next concentric circle of overmaps.
 
     int max = ( radius == 0 ? OMAPX * 5 : radius );
-    const int z = origin.z;
     // expanding box
     for( int dist = 0; dist <= max; dist++ ) {
         // each edge length is 2*dist-2, because corners belong to one edge
         // south is +y, north is -y
         for( int i = 0; i < dist * 2; i++ ) {
-            //start at northwest, scan north edge
-            const tripoint n_loc( origin.x - dist + i, origin.y - dist, z );
-            if( is_findable_location( n_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
-                                      om_special ) ) {
-                return n_loc;
-            }
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                //start at northwest, scan north edge
+                const tripoint n_loc( origin.x - dist + i, origin.y - dist, z );
+                if( is_findable_location( n_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
+                                          om_special ) ) {
+                    return n_loc;
+                }
 
-            //start at southeast, scan south
-            const tripoint s_loc( origin.x + dist - i, origin.y + dist, z );
-            if( is_findable_location( s_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
-                                      om_special ) ) {
-                return s_loc;
-            }
+                //start at southeast, scan south
+                const tripoint s_loc( origin.x + dist - i, origin.y + dist, z );
+                if( is_findable_location( s_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
+                                          om_special ) ) {
+                    return s_loc;
+                }
 
-            //start at southwest, scan west
-            const tripoint w_loc( origin.x - dist, origin.y + dist - i, z );
-            if( is_findable_location( w_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
-                                      om_special ) ) {
-                return w_loc;
-            }
+                //start at southwest, scan west
+                const tripoint w_loc( origin.x - dist, origin.y + dist - i, z );
+                if( is_findable_location( w_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
+                                          om_special ) ) {
+                    return w_loc;
+                }
 
-            //start at northeast, scan east
-            const tripoint e_loc( origin.x + dist, origin.y - dist + i, z );
-            if( is_findable_location( e_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
-                                      om_special ) ) {
-                return e_loc;
+                //start at northeast, scan east
+                const tripoint e_loc( origin.x + dist, origin.y - dist + i, z );
+                if( is_findable_location( e_loc, type, must_be_seen, allow_subtype_matches, existing_overmaps_only,
+                                          om_special ) ) {
+                    return e_loc;
+                }
             }
         }
     }

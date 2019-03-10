@@ -157,11 +157,21 @@ struct mutation_branch {
     public:
         std::string spawn_item_message() const;
 
+        /** The fake gun, if any, spawned and fired by the ranged mutation */
+        itype_id ranged_mutation;
+    private:
+        std::string raw_ranged_mutation_message;
+    public:
+        std::string ranged_mutation_message() const;
+
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
 
         /** Mutations may adjust one or more of the default vitamin usage rates */
         std::map<vitamin_id, time_duration> vitamin_rates;
+
+        // Mutations may affect absorption rates of vitamins based on material (or "all")
+        std::map<material_id, std::map<vitamin_id, float>> vitamin_absorb_multi;
 
         std::vector<trait_id> prereqs; // Prerequisites; Only one is required
         std::vector<trait_id> prereqs2; // Prerequisites; need one from here too

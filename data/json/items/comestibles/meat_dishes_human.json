@@ -192,7 +192,8 @@
     "copy-from": "sausage_raw",
     "name": "raw Mannwurst",
     "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking or cooking.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "smoking_result": "mannwurst"
   },
   {
     "type": "COMESTIBLE",

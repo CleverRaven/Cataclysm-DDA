@@ -1238,7 +1238,7 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
 int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
 {
     if( !query_yn( _( "Sure you want to eat the %s? You could plant it in a mound of dirt." ),
-                   it->tname().c_str() ) ) {
+                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return 0; // Save the seed for later!
     }
 
@@ -3285,7 +3285,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-int iuse::arrow_flamable( player *p, item *it, bool, const tripoint & )
+int iuse::arrow_flammable( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -3629,7 +3629,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
 
 std::string get_music_description()
 {
-    static const std::string no_description = "music";
+    static const std::string no_description = _( "a sweet guitar solo!" );
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
     static const std::array<std::string, 5> descriptions = {{
             _( "a sweet guitar solo!" ),
@@ -3999,7 +3999,8 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
         if( map_it.is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ), map_it.tname().c_str() ) ) {
+            query_yn( _( "Draw blood from %s?" ),
+                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s..." ), map_it.tname().c_str() );
             drew_blood = true;
             auto bloodtype( map_it.get_mtype()->bloodType() );
@@ -4827,7 +4828,8 @@ static bool heat_item( player &p )
         target.apply_freezerburn();
 
         if( target.has_flag( "EATEN_COLD" ) &&
-            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
+            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ),
+                       colorize( target.tname(), target.color_in_inventory() ) ) ) {
 
             // assume environment is warm; heat less to keep COLD longer
             int counter_mod = 550;
@@ -5151,6 +5153,11 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     sounds::ambient_sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text );
 
+    // Sound code doesn't describe noises at the player position
+    if( p->can_hear( p->pos(), speech.volume ) ) {
+        p->add_msg_if_player( _( "You hear \"%s\"" ), speech.text );
+    }
+
     return it->type->charges_to_use();
 }
 
@@ -5371,7 +5378,7 @@ int iuse::seed( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ||
         query_yn( _( "Sure you want to eat the %s? You could plant it in a mound of dirt." ),
-                  it->tname().c_str() ) ) {
+                  colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return it->type->charges_to_use(); //This eats the seed object.
     }
     return 0;
@@ -7398,8 +7405,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        int windpower = int( 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                             cur_om_ter, g->is_sheltered( g->u.pos() ) ) );
+        double windpower = int( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
+                                cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7409,7 +7416,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ).c_str() );
-        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
+        std::string dirstring = get_dirstring( g->winddirection );
+        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 
     return 0;
@@ -7629,6 +7637,11 @@ washing_requirements washing_requirements_for_volume( units::volume vol )
 
 int iuse::washclothes( player *p, item *, bool, const tripoint & )
 {
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
     if( p->volume_capacity() < p->volume_carried() ) {
@@ -7636,10 +7649,21 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
-    long available_water = std::max( crafting_inv.charges_of( "water" ),
-                                     crafting_inv.charges_of( "clean_water" ) );
+
+    auto is_liquid = []( const item & it ) {
+        return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
+    };
+    long available_water = std::max(
+                               crafting_inv.charges_of( "water", std::numeric_limits<long>::max(), is_liquid ),
+                               crafting_inv.charges_of( "clean_water", std::numeric_limits<long>::max(), is_liquid )
+                           );
     available_water = std::min<long>( available_water, INT_MAX );
     long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                         crafting_inv.charges_of( "detergent" ) );
@@ -7695,8 +7719,8 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
-    if( !crafting_inv.has_charges( "water", required.water ) &&
-        !crafting_inv.has_charges( "water_clean", required.water ) ) {
+    if( !crafting_inv.has_charges( "water", required.water, is_liquid ) &&
+        !crafting_inv.has_charges( "water_clean", required.water, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                               required.water );
         return 0;
