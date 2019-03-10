@@ -618,11 +618,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
     const auto spread_gas = [this, &get_neighbors](
                                 field_entry & cur, const tripoint & p, field_id curtype,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
-        const w_point weather = *g->weather_precise;
         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
         bool sheltered = g->is_sheltered( p );
-        int winddirection = weather.winddirection;
-        int windpower = get_local_windpower( weather.windpower, cur_om_ter, p, winddirection, sheltered );
+        int winddirection = g->winddirection;
+        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -890,11 +889,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
                         // Entire objects for ter/frn for flags
-                        const w_point weather = *g->weather_precise;
                         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
                         bool sheltered = g->is_sheltered( p );
-                        int winddirection = weather.winddirection;
-                        int windpower = get_local_windpower( weather.windpower, cur_om_ter, p, winddirection, sheltered );
+                        int winddirection = g->winddirection;
+                        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
 
