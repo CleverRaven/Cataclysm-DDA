@@ -733,23 +733,23 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
 
             // Add all adjacent tiles (even on diagonals) for possible ignition
             // Since they're being added to a set, duplicates won't occur
-            ignited.insert(point(i.x - 1, i.y - 1));
-            ignited.insert(point(i.x,     i.y - 1));
-            ignited.insert(point(i.x + 1, i.y - 1));
-            ignited.insert(point(i.x - 1, i.y));
-            ignited.insert(point(i.x + 1, i.y));
-            ignited.insert(point(i.x - 1, i.y + 1));
-            ignited.insert(point(i.x,     i.y + 1));
-            ignited.insert(point(i.x + 1, i.y + 1));
+            ignited.insert( point( i.x - 1, i.y - 1) );
+            ignited.insert( point( i.x,     i.y - 1) );
+            ignited.insert( point( i.x + 1, i.y - 1) );
+            ignited.insert( point( i.x - 1, i.y) );
+            ignited.insert( point( i.x + 1, i.y) );
+            ignited.insert( point( i.x - 1, i.y + 1) );
+            ignited.insert( point( i.x,     i.y + 1) );
+            ignited.insert( point( i.x + 1, i.y + 1) );
 
-            ignited.insert(point(i.x + x_extra - 1, i.y + y_extra - 1));
-            ignited.insert(point(i.x + x_extra,     i.y + y_extra - 1));
-            ignited.insert(point(i.x + x_extra + 1, i.y + y_extra - 1));
-            ignited.insert(point(i.x + x_extra - 1, i.y + y_extra));
-            ignited.insert(point(i.x + x_extra + 1, i.y + y_extra));
-            ignited.insert(point(i.x + x_extra - 1, i.y + y_extra + 1));
-            ignited.insert(point(i.x + x_extra,     i.y + y_extra + 1));
-            ignited.insert(point(i.x + x_extra + 1, i.y + y_extra + 1));
+            ignited.insert( point( i.x + x_extra - 1, i.y + y_extra - 1 ) );
+            ignited.insert( point( i.x + x_extra,     i.y + y_extra - 1 ) );
+            ignited.insert( point( i.x + x_extra + 1, i.y + y_extra - 1 ) );
+            ignited.insert( point( i.x + x_extra - 1, i.y + y_extra ) );
+            ignited.insert( point( i.x + x_extra + 1, i.y + y_extra ) );
+            ignited.insert( point( i.x + x_extra - 1, i.y + y_extra + 1 ) );
+            ignited.insert( point( i.x + x_extra,     i.y + y_extra + 1 ) );
+            ignited.insert( point( i.x + x_extra + 1, i.y + y_extra + 1 ) );
 
             if( one_in( 6 ) ) {
                 m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
@@ -759,8 +759,8 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
         for( auto &i : ignited ) {
             // Spawn an intense but short-lived fire
             // Any furniture or buildings will catch fire, otherwise it will burn out quickly
-            if( m.ter(i.x, i.y) != t_lava ) {
-                m.add_field(tripoint(i.x, i.y, abs_sub.z), fd_fire, 15, 10_turns);
+            if( m.ter( i.x, i.y ) != t_lava ) {
+                m.add_field( tripoint( i.x, i.y, abs_sub.z ), fd_fire, 15, 10_turns );
             }
         }
 
