@@ -835,6 +835,9 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
             int xx = x;
             if( entry.get_invlet() != '\0' ) {
                 mvwputch( win, yy, x, entry.get_invlet_color(), entry.get_invlet() );
+#ifdef GSI
+
+#endif
             }
             xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
