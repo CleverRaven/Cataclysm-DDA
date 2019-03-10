@@ -620,7 +620,6 @@ bool main_menu::opening_screen()
         g->refresh_all();
         g->draw();
     }
-    g->u.add_msg_if_player( g->scen->description( g->u.male ) );
     return start;
 }
 
@@ -817,6 +816,10 @@ bool main_menu::new_character_tab()
             }
         }
     } // end while
+
+    if( start ) {
+        g->u.add_msg_if_player( g->scen->description( g->u.male ) );
+    }
     return start;
 }
 

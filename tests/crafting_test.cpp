@@ -406,6 +406,9 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> to
 {
     prep_craft( rid, tools, true );
     set_time( midday ); // Ensure light for crafting
+    const recipe &rec = rid.obj();
+    REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
     REQUIRE( !g->u.activity );
     g->u.make_craft( rid, 1 );
     CHECK( g->u.activity );

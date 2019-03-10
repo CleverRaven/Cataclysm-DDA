@@ -1454,7 +1454,7 @@ void talk_effect_fun_t::set_u_add_permanent_effect( const std::string &new_effec
 {
     function = [new_effect]( const dialogue &d ) {
         player &u = *d.alpha;
-        u.add_effect( efftype_id( new_effect ), 0_turns, num_bp, true );
+        u.add_effect( efftype_id( new_effect ), 1000_days, num_bp, true );
     };
 }
 
@@ -1471,7 +1471,7 @@ void talk_effect_fun_t::set_npc_add_permanent_effect( const std::string &new_eff
 {
     function = [new_effect]( const dialogue &d ) {
         npc &p = *d.beta;
-        p.add_effect( efftype_id( new_effect ), 0_turns, num_bp, true );
+        p.add_effect( efftype_id( new_effect ), 1000_days, num_bp, true );
     };
 }
 

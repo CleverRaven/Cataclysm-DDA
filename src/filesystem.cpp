@@ -63,12 +63,17 @@ bool do_mkdir( const std::string &path, const int mode )
 
 bool assure_dir_exist( const std::string &path )
 {
+    return dir_exist( path ) || do_mkdir( path, 0777 );
+}
+
+bool dir_exist( const std::string &path )
+{
     DIR *dir = opendir( path.c_str() );
     if( dir != nullptr ) {
         closedir( dir );
         return true;
     }
-    return do_mkdir( path, 0777 );
+    return false;
 }
 
 bool file_exist( const std::string &path )

@@ -1717,11 +1717,11 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
         } else if( s[i] == '+' ) {
             ++i;
         }
-        if( i >= s.size() || !std::isdigit( s[i] ) ) {
+        if( i >= s.size() || !isdigit( s[i] ) ) {
             error( "invalid time duration string: number expected" );
         }
         int value = 0;
-        for( ; i < s.size() && std::isdigit( s[i] ); ++i ) {
+        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
             value = value * 10 + ( s[i] - '0' );
         }
         result += sign_value * value * get_unit();

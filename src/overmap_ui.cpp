@@ -7,6 +7,8 @@
 #include "game.h"
 #include "input.h"
 #include "line.h"
+#include "map_iterator.h"
+#include "map.h"
 #include "mapbuffer.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -25,6 +27,11 @@
 #ifdef __ANDROID__
 #include <SDL_keyboard.h>
 #endif
+
+/** Note preview map width without borders. Odd number. */
+static const int npm_width = 3;
+/** Note preview map height without borders. Odd number. */
+static const int npm_height = 3;
 
 namespace
 {
@@ -81,6 +88,73 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
 
     return result;
 }
+
+std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbors(
+    const tripoint &current )
+{
+    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+
+    std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around;
+    int index = 0;
+    const point shift( npm_width / 2, npm_height / 2 );
+    for( const tripoint &dest : tripoint_range( current - shift, current + shift ) ) {
+        nc_color ter_color = c_black;
+        long ter_sym = ' ';
+        const bool see = has_debug_vision || overmap_buffer.seen( dest.x, dest.y, dest.z );
+        if( see ) {
+            // Only load terrain if we can actually see it
+            oter_id cur_ter = overmap_buffer.ter( dest );
+            ter_color = cur_ter->get_color();
+            ter_sym = cur_ter->get_sym();
+        } else {
+            ter_color = c_dark_gray;
+            ter_sym = '#';
+        }
+        map_around[index++] = std::make_pair( ter_color, ter_sym );
+    }
+    return map_around;
+}
+
+void update_note_preview( const std::string &note,
+                          const std::array<std::pair<nc_color, long>, npm_width *npm_height> &map_around,
+                          const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
+                          &preview_windows )
+{
+    auto om_symbol = get_note_display_info( note );
+    const nc_color note_color = std::get<1>( om_symbol );
+    const char symbol = std::get<0>( om_symbol );
+    const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+
+    auto w_preview       = std::get<0>( preview_windows );
+    auto w_preview_title = std::get<1>( preview_windows );
+    auto w_preview_map   = std::get<2>( preview_windows );
+
+    draw_border( *w_preview );
+    mvwprintz( *w_preview, 1, 1, c_white, _( "Note preview" ) );
+    wrefresh( *w_preview );
+
+    werase( *w_preview_title );
+    mvwprintz( *w_preview_title, 0, 0, note_color, note_text );
+    mvwputch( *w_preview_title, 0, note_text.length(), c_white, LINE_XOXO );
+    for( size_t i = 0; i < note_text.length(); i++ ) {
+        mvwputch( *w_preview_title, 1, i, c_white, LINE_OXOX );
+    }
+    mvwputch( *w_preview_title, 1, note_text.length(), c_white, LINE_XOOX );
+    wrefresh( *w_preview_title );
+
+    const int npm_offset_x = 1;
+    const int npm_offset_y = 1;
+    draw_border( *w_preview_map, c_yellow );
+    for( int i = 0; i < npm_height; i++ ) {
+        for( int j = 0; j < npm_width; j++ ) {
+            const auto &ter = map_around[i * npm_width + j];
+            mvwputch( *w_preview_map, i + npm_offset_y, j + npm_offset_x, ter.first, ter.second );
+        }
+    }
+    mvwputch( *w_preview_map, npm_height / 2 + npm_offset_y, npm_width / 2 + npm_offset_x,
+              note_color, symbol );
+    wrefresh( *w_preview_map );
+};
 
 bool get_weather_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
 {
@@ -362,8 +436,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         // Ok, we found something
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
-            ter_color = explored ? c_dark_gray : info->get_color();
-            ter_sym = info->get_sym();
+            ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
+            ter_sym = info->get_sym( uistate.overmap_land_use_codes );
         }
     };
 
@@ -679,6 +753,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
 
     // Draw text describing the overmap tile at the cursor position.
+    int lines = 1;
     if( csee ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
@@ -703,19 +778,27 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
 
-            const std::vector<std::string> name = foldstring( overmap_buffer.get_description_at( sm_pos ), 25 );
-            for( size_t i = 0; i < name.size(); i++ ) {
-                mvwprintz( wbar, i + 1, 3, ter.get_color(), name[i] );
-            }
+            lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
+                                    overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
         mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
     }
 
     if( has_target ) {
-        // @todo: Add a note that the target is above/below us
-        int distance = rl_dist( orig, target );
-        mvwprintz( wbar, 3, 1, c_white, _( "Distance to target: %d" ), distance );
+        const int distance = rl_dist( orig, target );
+        mvwprintz( wbar, ++lines, 1, c_white, _( "Distance to target: %d" ), distance );
+
+        const int above_below = target.z - orig.z;
+        std::string msg;
+        if( above_below > 0 ) {
+            msg = _( "Above us" );
+        } else if( above_below < 0 ) {
+            msg = _( "Below us" );
+        }
+        if( above_below != 0 ) {
+            mvwprintz( wbar, ++lines, 1, c_white, _( "%s" ), msg );
+        }
     }
     mvwprintz( wbar, 14, 1, c_magenta, _( "Use movement keys to pan." ) );
     if( inp_ctxt != nullptr ) {
@@ -745,6 +828,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "LIST_NOTES" );
         print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
+        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_land_use_codes ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
@@ -808,6 +892,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "TOGGLE_BLINKING" );
     ictxt.register_action( "TOGGLE_OVERLAYS" );
     ictxt.register_action( "TOGGLE_HORDES" );
+    ictxt.register_action( "TOGGLE_LAND_USE_CODES" );
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
@@ -859,6 +944,14 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             const std::string old_note = overmap_buffer.note( curs );
             std::string new_note = old_note, tmp_note;
+            const auto map_around = get_overmap_neighbors( curs );
+
+            const int max_note_length = 45;
+            catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+                                           2, npm_width + 2 );
+            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+            catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
+            auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
 #ifdef __ANDROID__
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -866,51 +959,32 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             }
 #endif
 
-            bool done = false, esc_pressed = false;
+            bool esc_pressed = false;
+            string_input_popup input_popup;
+            input_popup
+            .title( title )
+            .width( max_note_length )
+            .text( new_note )
+            .description( color_notes )
+            .title_color( c_white )
+            .desc_color( c_light_gray )
+            .string_color( c_yellow )
+            .identifier( "map_note" );
+
+            update_note_preview( old_note, map_around, preview_windows );
+
             do {
-                // Popup must be created anew because the description is only
-                // printed when the window is created. This only happens once
-                // every keystroke, however.
-                string_input_popup input_popup;
-                input_popup.callbacks['\n'] = [&]() {
-                    done = true;
-                    return true;
-                };
-                input_popup.callbacks[KEY_ESCAPE] = [&]() {
-                    done = esc_pressed = true;
-                    return true;
-                };
-
-                auto om_symbol = get_note_display_info( new_note );
-                if( new_note.length() > 0 ) {
-                    tmp_note = string_format( "%s%c</color> <color_yellow>%s</color>",
-                                              get_tag_from_color( std::get<1>( om_symbol ) ),
-                                              std::get<0>( om_symbol ),
-                                              new_note.substr( std::get<2>( om_symbol ), std::string::npos ) );
-                } else {
-                    tmp_note.clear();
-                }
-
-                input_popup
-                .title( title )
-                .width( 45 )
-                .text( new_note )
-                .description( string_format( "%s%s%s\n",
-                                             color_notes,
-                                             std::string( title.length() - 1, ' ' ),
-                                             tmp_note ) )
-                .title_color( c_white )
-                .desc_color( c_light_gray )
-                .string_color( c_yellow );
-
                 new_note = input_popup.query_string( false );
-                if( esc_pressed ) {
+                const long first_input = input_popup.context().get_raw_input().get_first_input();
+                if( first_input == KEY_ESCAPE ) {
                     new_note = old_note;
+                    esc_pressed = true;
                     break;
-                } else if( done ) {
+                } else if( first_input == '\n' ) {
                     break;
+                } else {
+                    update_note_preview( new_note, map_around, preview_windows );
                 }
-
             } while( true );
 
             if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
@@ -948,6 +1022,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 show_explored = !show_explored;
             }
+        } else if( action == "TOGGLE_LAND_USE_CODES" ) {
+            uistate.overmap_land_use_codes = !uistate.overmap_land_use_codes;
         } else if( action == "TOGGLE_HORDES" ) {
             uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {

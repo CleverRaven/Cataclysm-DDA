@@ -1350,7 +1350,7 @@ void vehicle::use_bike_rack( int part )
             }
         }
     } else {
-        success = find_rackable_vehicle( racks_parts );
+        success = try_to_rack_nearby_vehicle( racks_parts );
     }
     if( success ) {
         g->refresh_all();

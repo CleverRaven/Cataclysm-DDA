@@ -365,19 +365,6 @@
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
-    "result": "helmet_bone",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 5,
-    "time": 60000,
-    "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 24 ], [ "bone_human", 24 ], [ "bone_tainted", 48 ] ] ]
-  },
-  {
     "result": "helmet_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",

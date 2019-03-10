@@ -854,6 +854,16 @@ std::string get_freshness_description( const item &food_item )
     }
 }
 
+int get_base_env_resist( const item &it )
+{
+    const auto t = it.find_armor_data();
+    if( t == nullptr ) {
+        return 0;
+    }
+
+    return t->env_resist * it.get_relative_health();
+}
+
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     std::stringstream temp1;
@@ -1150,7 +1160,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( food_item->has_flag( "FREEZERBURN" ) && !food_item->rotten() &&
                 !food_item->has_flag( "MUSHY" ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out.</neutral>." ) );
+                                   _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out</neutral>." ) );
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
                 info.emplace_back( "DESCRIPTION",
@@ -1776,7 +1786,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
                                       iteminfo::no_newline, fire_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
-                                      get_env_resist() ) );
+                                      get_base_env_resist( *this ) ) );
             if( type->can_use( "GASMASK" ) ) {
                 info.push_back( iteminfo( "ARMOR",
                                           _( "<bold>Protection when active</bold>: " ) ) );
@@ -2286,6 +2296,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This mod <bad>obscures sights</bad> of the base weapon." ) ) );
+        }
+
+        if( is_gunmod() && has_flag( "CONSUMABLE" ) &&
+            parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This mod might <bad>suffer wear</bad> when firing the base weapon." ) ) );
         }
 
         if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0
@@ -3044,7 +3060,8 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    if( is_map() ) {
+    // This is a hack to prevent possible crashing when displaying maps as items during character creation
+    if( is_map() && calendar::turn != calendar::time_of_cataclysm ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
         if( c != nullptr ) {
@@ -5444,7 +5461,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )std::toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )toupper );
 
                 auto qty = m.second.qty();
 
@@ -6070,7 +6087,8 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     return res;
 }
 
-bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used )
+bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used,
+                       const std::function<bool( const item & )> &filter )
 {
     // Remember quantity so that we can unseal self
     long old_quantity = quantity;
@@ -6088,7 +6106,7 @@ bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used
     }
 
     // Now check the item itself
-    if( typeId() == it && quantity > 0 && allow_crafting_component() ) {
+    if( typeId() == it && quantity > 0 && filter( *this ) ) {
         used.push_back( *this );
         quantity--;
         return true;
@@ -6115,9 +6133,6 @@ bool item::allow_crafting_component() const
         } );
     }
 
-    if( is_filthy() ) {
-        return false;
-    }
     return contents.empty();
 }
 
