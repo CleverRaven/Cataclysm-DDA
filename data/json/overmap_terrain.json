@@ -1195,7 +1195,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2
-  },    
+  },
   {
     "type": "overmap_terrain",
     "id": "police",
