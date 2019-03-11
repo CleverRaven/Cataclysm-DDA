@@ -2217,7 +2217,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.disassemble( pos );
                     break;
                 case 'f':
-                    u.favorite( pos );
+                    oThisItem.is_favorite = !oThisItem.is_favorite;
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, u.i_at( pos ) );
