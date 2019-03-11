@@ -2426,7 +2426,8 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field"
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2435,7 +2436,8 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field"
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2444,7 +2446,8 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field"
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2453,7 +2456,8 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field"
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2462,7 +2466,8 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field"
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2471,7 +2476,8 @@
     "sym": 72,
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field"
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2762,7 +2768,7 @@
   {
     "type": "overmap_terrain",
     "id": "cemetery_4square_00",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
@@ -2771,7 +2777,7 @@
   {
     "type": "overmap_terrain",
     "id": "cemetery_4square_10",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
@@ -2780,7 +2786,7 @@
   {
     "type": "overmap_terrain",
     "id": "cemetery_4square_01",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
@@ -2789,7 +2795,7 @@
   {
     "type": "overmap_terrain",
     "id": "cemetery_4square_11",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "religious cemetery",
     "sym": 110,
     "color": "white",
@@ -2798,7 +2804,7 @@
   {
     "type": "overmap_terrain",
     "id": "4way_road",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "road",
     "sym": 43,
     "color": "light_gray",
@@ -2965,7 +2971,7 @@
   {
     "id": "fishing_pond_0_0",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "fishing pond",
     "sym": 83,
     "color": "i_blue"
@@ -2973,7 +2979,7 @@
   {
     "id": "fishing_pond_0_1",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "fishing pond",
     "sym": 83,
     "color": "i_blue"
@@ -2989,7 +2995,7 @@
   {
     "id": "fishing_pond_1_1",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "fishing pond",
     "sym": 83,
     "color": "i_blue"
@@ -3081,7 +3087,7 @@
     "type": "overmap_terrain",
     "id": "lumberyard_0_1",
     "name": "lumberyard",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "sym": 76,
     "color": "i_green"
   },
@@ -3089,7 +3095,7 @@
     "type": "overmap_terrain",
     "id": "lumberyard_1_0",
     "name": "lumberyard",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "sym": 76,
     "color": "i_green"
   },
@@ -3097,7 +3103,7 @@
     "type": "overmap_terrain",
     "id": "lumberyard_1_1",
     "name": "lumberyard",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "sym": 76,
     "color": "i_green"
   },
@@ -3220,7 +3226,7 @@
   {
     "type": "overmap_terrain",
     "id": "PublicPond_1a",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "public pond",
     "sym": 80,
     "color": "i_green"
@@ -3228,7 +3234,7 @@
   {
     "type": "overmap_terrain",
     "id": "PublicPond_1b",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "public pond",
     "sym": 80,
     "color": "i_green"
@@ -3241,7 +3247,8 @@
     "color": "white",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -3251,7 +3258,8 @@
     "color": "white",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -3281,7 +3289,8 @@
     "color": "i_green",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -3291,7 +3300,8 @@
     "color": "i_green",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -3448,7 +3458,7 @@
   {
     "type": "overmap_terrain",
     "id": "landscapingsupplyco_1a",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "landscaping supply co",
     "sym": 76,
     "color": "i_green"
@@ -3456,7 +3466,7 @@
   {
     "type": "overmap_terrain",
     "id": "landscapingsupplyco_1b",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "landscaping supply co",
     "sym": 76,
     "color": "i_green"
@@ -3832,7 +3842,7 @@
   {
     "type": "overmap_terrain",
     "id": "zoo_0_1",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": 90,
     "color": "i_green"
@@ -3840,7 +3850,7 @@
   {
     "type": "overmap_terrain",
     "id": "zoo_1_1",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": 90,
     "color": "i_green"
@@ -3848,7 +3858,7 @@
   {
     "type": "overmap_terrain",
     "id": "zoo_2_1",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": 90,
     "color": "i_green"
@@ -3856,7 +3866,7 @@
   {
     "type": "overmap_terrain",
     "id": "zoo_0_2",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": 90,
     "color": "i_green"
@@ -3864,7 +3874,7 @@
   {
     "type": "overmap_terrain",
     "id": "zoo_1_2",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": 90,
     "color": "i_green"
@@ -3872,7 +3882,7 @@
   {
     "type": "overmap_terrain",
     "id": "zoo_2_2",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": 90,
     "color": "i_green"
