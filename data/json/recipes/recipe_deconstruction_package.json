@@ -775,5 +775,25 @@
       [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": ""multipack_jars_3l"",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "jar_3l_glass", 9 ] ],
+      [ [ "box_small", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": ""multipack_jars",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "jar_glass", 12 ] ],
+      [ [ "box_small", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
