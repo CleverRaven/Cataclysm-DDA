@@ -50,7 +50,7 @@
     "id": "pistol_sight_rail",
     "type": "GUNMOD",
     "name": "pistol rail mount",
-    "description": "A rail mount for using larger sights.",
+    "description": "A rail mount for using larger sights on a handgun.",
     "weight": 15,
     "volume": "50ml",
     "rail_size": "small",
