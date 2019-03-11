@@ -319,7 +319,17 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
-
+    optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
+    optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
+    optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, 1.0f );
+    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
+    optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
+    optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
+    optional( jo, was_loaded, "noise_modifier", noise_modifier, 1.0f );
     optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, 0.0f );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );

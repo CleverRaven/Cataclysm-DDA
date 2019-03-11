@@ -225,7 +225,6 @@ static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ALBINO( "ALBINO" );
-static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
@@ -233,12 +232,8 @@ static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
-static const trait_id trait_BADCARDIO( "BADCARDIO" );
-static const trait_id trait_BADHEARING( "BADHEARING" );
-static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_CANINE_EARS( "CANINE_EARS" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
@@ -278,19 +273,13 @@ static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
 static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
-static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
-static const trait_id trait_FLEET( "FLEET" );
-static const trait_id trait_FLEET2( "FLEET2" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
-static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
-static const trait_id trait_GOODCARDIO2( "GOODCARDIO2" );
-static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -318,14 +307,12 @@ static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
-static const trait_id trait_LUPINE_EARS( "LUPINE_EARS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MOREPAIN( "MORE_PAIN" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
-static const trait_id trait_MOUSE_EARS( "MOUSE_EARS" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
@@ -351,16 +338,12 @@ static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PONDEROUS1( "PONDEROUS1" );
-static const trait_id trait_PONDEROUS2( "PONDEROUS2" );
-static const trait_id trait_PONDEROUS3( "PONDEROUS3" );
 static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
@@ -386,7 +369,6 @@ static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SLOWREADER( "SLOWREADER" );
-static const trait_id trait_SLOWRUNNER( "SLOWRUNNER" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_SMELLY2( "SMELLY2" );
 static const trait_id trait_SORES( "SORES" );
@@ -407,7 +389,6 @@ static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
-static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
@@ -421,7 +402,6 @@ static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
@@ -1705,10 +1685,6 @@ void player::recalc_speed_bonus()
         }
     }
 
-    if( has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 ) ) {
-        mod_speed_bonus( -20 ); // Could be worse--you've got the armor from a (sessile!) Spire
-    }
-
     if( has_artifact_with( AEP_SPEED_UP ) ) {
         mod_speed_bonus( 20 );
     }
@@ -1716,14 +1692,11 @@ void player::recalc_speed_bonus()
         mod_speed_bonus( -20 );
     }
 
-    if( has_trait( trait_QUICK ) ) { // multiply by 1.1
-        set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
-    }
+    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    set_speed_bonus( int( get_speed() * speed_modifier ) - get_speed_base() );
+
     if( has_bionic( bio_speed ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
-    }
-    if( has_trait( trait_CRAFTY ) ) { // multiply by 1.15
-        set_speed_bonus( int( get_speed() * 1.15 ) - get_speed_base() );
     }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
@@ -1745,18 +1718,13 @@ int player::run_cost( int base_cost, bool diag ) const
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
     const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS" , pos() );
 
-    if( has_trait( trait_PARKOUR ) && movecost > 100 ) {
-        movecost *= .5f;
+    if( movecost > 100 ) {
+        movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
         if( movecost < 100 ) {
             movecost = 100;
         }
     }
-    if( has_trait( trait_BADKNEES ) && movecost > 100 ) {
-        movecost *= 1.25f;
-        if( movecost < 100 ) {
-            movecost = 100;
-        }
-    }
+
     if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
         if( movecost > 75 ) {
             movecost = 75; // Mycal characters are faster on their home territory, even through things like shrubs
@@ -1775,50 +1743,14 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost += 25;
     }
 
-    if( has_trait( trait_FLEET ) && flatground ) {
-        movecost *= .85f;
+    movecost *= Character::mutation_value( "movecost_modifier" );
+
+    if( flatground ) {
+        movecost *= Character::mutation_value( "movecost_flatground_modifier" );
     }
-    if( has_trait( trait_FLEET2 ) && flatground ) {
-        movecost *= .7f;
-    }
-    if( has_trait( trait_SLOWRUNNER ) && flatground ) {
-        movecost *= 1.15f;
-    }
+
     if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
         movecost *= .9f;
-    }
-    if( has_trait( trait_LIGHT_BONES ) ) {
-        movecost *= .9f;
-    }
-    if( has_trait( trait_HOLLOW_BONES ) ) {
-        movecost *= .8f;
-    }
-    if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
-        movecost *= .75f;
-    }
-    if( has_trait( trait_WINGS_BUTTERFLY ) ) {
-        movecost -= 10; // You can't fly, but you can make life easier on your legs
-    }
-    if( has_trait( trait_LEG_TENTACLES ) ) {
-        movecost += 20;
-    }
-    if( has_trait( trait_FAT ) ) {
-        movecost *= 1.05f;
-    }
-    if( has_trait( trait_PONDEROUS1 ) ) {
-        movecost *= 1.1f;
-    }
-    if( has_trait( trait_PONDEROUS2 ) ) {
-        movecost *= 1.2f;
-    }
-    if( has_trait( trait_AMORPHOUS ) ) {
-        movecost *= 1.25f;
-    }
-    if( has_trait( trait_PONDEROUS3 ) ) {
-        movecost *= 1.3f;
-    }
-    if( has_trait( trait_CRAFTY ) ) {
-        movecost *= 0.75f;
     }
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
@@ -2829,7 +2761,7 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 
 bool player::has_alarm_clock() const
 {
-    return ( has_item_with_flag( "ALARMCLOCK" ) ||
+    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -2837,7 +2769,7 @@ bool player::has_alarm_clock() const
 
 bool player::has_watch() const
 {
-    return ( has_item_with_flag( "WATCH" ) ||
+    return ( has_item_with_flag( "WATCH", true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -11686,15 +11618,7 @@ int player::get_hp_max( hp_part bp ) const
 int player::get_stamina_max() const
 {
     int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
-    if( has_trait( trait_BADCARDIO ) ) {
-        return maxStamina * 0.75;
-    }
-    if( has_trait( trait_GOODCARDIO ) ) {
-        return maxStamina * 1.25;
-    }
-    if( has_trait( trait_GOODCARDIO2 ) ) {
-        return maxStamina * 1.4;
-    }
+    maxStamina *= Character::mutation_value( "max_stamina_modifier" );
     return maxStamina;
 }
 
@@ -11986,24 +11910,8 @@ float player::hearing_ability() const
         // changed from 0.5 to fix Mac compiling error
         volume_multiplier *= (rng(1, 2));
     }
-    if( has_trait( trait_BADHEARING ) ) {
-        volume_multiplier *= .5;
-    }
-    if( has_trait( trait_GOODHEARING ) ) {
-        volume_multiplier *= 1.25;
-    }
-    if( has_trait( trait_CANINE_EARS ) ) {
-        volume_multiplier *= 1.5;
-    }
-    if( has_trait( trait_URSINE_EARS ) || has_trait( trait_FELINE_EARS ) ) {
-        volume_multiplier *= 1.25;
-    }
-    if( has_trait( trait_LUPINE_EARS ) ) {
-        volume_multiplier *= 1.75;
-    }
-    if( has_trait( trait_MOUSE_EARS ) ) {
-        volume_multiplier *= 2;
-    }
+
+    volume_multiplier *= Character::mutation_value( "hearing_modifier" );
 
     if( has_effect( effect_deaf ) ) {
         // Scale linearly up to 30 minutes
@@ -12296,9 +12204,12 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     } );
 }
 
-bool player::has_item_with_flag( const std::string &flag ) const
+bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag]( const item & it ) {
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : true;
+        }
         return it.has_flag( flag );
     } );
 }
