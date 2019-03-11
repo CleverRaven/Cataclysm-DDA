@@ -2918,7 +2918,7 @@
     "id": "lock",
     "category": "spare_parts",
     "symbol": "P",
-    "color": "gray",
+    "color": "dark_gray",
     "name": "small lock and key",
     "description": "A small lock, with a set of keys still inserted.",
     "price": 500,

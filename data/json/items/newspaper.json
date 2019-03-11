@@ -35,7 +35,7 @@
       "id": "scorecard",
       "category": "books",
       "symbol": ",",
-      "color": "gray",
+      "color": "dark_gray",
       "name": "score card",
       "name_plural": "score cards",
       "snippet_category": "scores",

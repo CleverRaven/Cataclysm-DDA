@@ -6050,7 +6050,7 @@
     "aliases": [ "t_metal__railing_h", "t_metal__railing_v" ],
     "name": "metal railing",
     "symbol": "LINE_OXOX",
-    "color": "gray",
+    "color": "dark_gray",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
     "connects_to": "RAILING",
@@ -8066,7 +8066,7 @@
     "name": "tar paper flat roof",
     "looks_like": "t_flat_roof",
     "symbol": ".",
-    "color": "gray",
+    "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
     "bash": {
