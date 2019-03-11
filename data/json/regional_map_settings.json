@@ -600,6 +600,8 @@
         "office_cubical": 200,
         "furniture": 200,
         "abstorefront": 200,
+        "abstorefront_1": 200,
+        "abstorefront_2": 200,
         "police": 100,
         "fire_station": 200,
         "home_improvement": 200,

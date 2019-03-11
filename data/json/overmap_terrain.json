@@ -1101,6 +1101,41 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "abstorefront_roof",
+    "name": "abandoned storefront roof",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_1",
+    "name": "abandoned storefront",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_roof_1",
+    "name": "abandoned storefront roof",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_2",
+    "name": "abandoned storefront",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_roof_2",
+    "name": "abandoned storefront roof",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_music",
     "copy-from": "generic_city_building",
     "name": "music store",
