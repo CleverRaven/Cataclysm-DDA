@@ -4194,7 +4194,7 @@
   {
     "type": "overmap_terrain",
     "id": "trailerparksmall0",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "trailer park",
     "sym": 35,
     "color": "white"
@@ -4202,7 +4202,7 @@
   {
     "type": "overmap_terrain",
     "id": "trailerparksmall1",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "trailer park",
     "sym": 35,
     "color": "i_white"
@@ -4210,7 +4210,7 @@
   {
     "type": "overmap_terrain",
     "id": "trailerparksmall2",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "trailer park",
     "sym": 35,
     "color": "white"
