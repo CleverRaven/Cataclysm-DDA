@@ -1127,7 +1127,7 @@ void new_faction_manager::display() const
         }
         npc *guy = nullptr;
         bool interactable = false;
-        basecamp *camp = nullptr
+        basecamp *camp = nullptr;
         // create a list of faction camps
         std::vector<basecamp *> camps;
         for( auto elem : g->u.camps ) {
