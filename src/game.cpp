@@ -6201,7 +6201,7 @@ void game::examine( const tripoint &examp )
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
         if( mon != nullptr && mon->has_effect( effect_pet ) ) {
-            if( monexamine::pet_menu( mon ) ) {
+            if( monexamine::pet_menu( *mon ) ) {
                 return;
             }
         }
