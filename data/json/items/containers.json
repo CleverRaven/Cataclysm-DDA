@@ -664,6 +664,22 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
   },
   {
+    "id": "multipack_jars_3l",
+    "type": "GENERIC",
+    "name": "9-pack of large canning jars",
+    "name_plural": "9-packs of large canning jars",
+    "symbol": ")",
+    "color": "brown",
+    "category": "other",
+    "weight": 2950,
+    "volume": 144,
+    "price": 200,
+    "description": "A cardboard box with separators in it, holding 9 three litre glass canning jars.",
+    "material": [ "paper", "glass" ],
+    "looks_like": "box_small",
+    "use_action": "DISASSEMBLE"
+  },
+  {
     "id": "jar_3l_glass_sealed",
     "copy-from": "jar_3l_glass",
     "type": "CONTAINER",
@@ -694,6 +710,22 @@
     "watertight": true,
     "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+  },
+  {
+    "id": "multipack_jars",
+    "type": "GENERIC",
+    "name": "12-pack of canning jars",
+    "name_plural": "12-packs of canning jars",
+    "symbol": ")",
+    "color": "brown",
+    "category": "other",
+    "weight": 1800,
+    "volume": 24,
+    "price": 200,
+    "description": "A cardboard box with separators in it, holding 12 glass canning jars.",
+    "material": [ "paper", "glass" ],
+    "looks_like": "box_small",
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "jar_glass_sealed",
