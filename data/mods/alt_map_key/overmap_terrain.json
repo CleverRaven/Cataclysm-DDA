@@ -6450,8 +6450,7 @@
     "sym": 72,
     "color": "i_light_cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -6460,8 +6459,7 @@
     "sym": 104,
     "color": "i_light_cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -6470,8 +6468,7 @@
     "sym": 104,
     "color": "i_light_cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -6480,8 +6477,7 @@
     "sym": 104,
     "color": "i_light_cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -6490,8 +6486,7 @@
     "sym": 104,
     "color": "i_light_cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -6500,8 +6495,7 @@
     "sym": 104,
     "color": "i_light_cyan",
     "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -7566,8 +7560,7 @@
     "color": "i_white",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -7577,8 +7570,7 @@
     "color": "i_white",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -7588,8 +7580,7 @@
     "color": "i_white",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -7599,8 +7590,7 @@
     "color": "i_white",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -8562,8 +8552,7 @@
     "name": "religious cemetery",
     "sym": 99,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -8572,8 +8561,7 @@
     "name": "religious cemetery",
     "sym": 99,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -8582,8 +8570,7 @@
     "name": "religious cemetery",
     "sym": 99,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -8592,8 +8579,7 @@
     "name": "religious cemetery",
     "sym": 99,
     "color": "white",
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
