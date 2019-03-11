@@ -2735,7 +2735,7 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0;
     }
 
-    int nutr = food->nutr;
+    int nutr = food->get_nutr();
     int quench = food->quench;
 
     if( nutr <= 0 && quench <= 0 ) {
