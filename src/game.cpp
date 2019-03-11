@@ -5506,15 +5506,17 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
-    if( one_in( 100 ) ) {
-        const int halluc_id = m.place_npc( p.x, p.y, string_id<npc_template>( "hallucination" ), true );
-        load_npcs();
-
-        npc *halluc_npc = find_npc( halluc_id );
-        if( halluc_npc ) {
+    if( one_in( 100 ) )
+    {
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->randomize( NC_HALLU );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
+        if( !critter_at( p, true ) ) {
+            overmap_buffer.insert_npc( tmp );
+            load_npcs();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
