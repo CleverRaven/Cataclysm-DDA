@@ -60,17 +60,17 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
-                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                    m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                 m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
             } else {
                 if( x >= cx - dice( 1, 5 ) && x <= cx + dice( 1, 5 ) && y >= cy - dice( 1, 5 ) &&
-                    y <= cy + dice( 1, 5 ) ) {
+                        y <= cy + dice( 1, 5 ) ) {
                     if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                         m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                     }
                 }
                 if( x >= cx - dice( 1, 6 ) && x <= cx + dice( 1, 6 ) && y >= cy - dice( 1, 6 ) &&
-                    y <= cy + dice( 1, 6 ) ) {
+                        y <= cy + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
                         m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
@@ -136,77 +136,77 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
         const int clowncar_factor = dice( 1, 8 );
 
         switch( clowncar_factor ) {
-            case 1:
-            case 2:
-            case 3: // Full clown car
-                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint pos = vp.pos();
-                    // Spawn pilots in seats with controls.CTRL_ELECTRONIC
-                    if( controls_at( wreckage, pos ) ) {
-                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
-                    } else {
-                        if( one_in( 5 ) ) {
-                            m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
-                        } else if( one_in( 5 ) ) {
-                            m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
-                        } else {
-                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
-                        }
-                    }
-
-                    // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = wreckage->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
-                    }
-                }
-                break;
-            case 4:
-            case 5: // 2/3rds clown car
-                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint pos = vp.pos();
-                    // Spawn pilots in seats with controls.
-                    if( controls_at( wreckage, pos ) ) {
-                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
-                    } else {
-                        if( !one_in( 3 ) ) {
-                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
-                        }
-                    }
-
-                    // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = wreckage->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
-                    }
-                }
-                break;
-            case 6: // Just pilots
-                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint pos = vp.pos();
+        case 1:
+        case 2:
+        case 3: // Full clown car
+            for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                const tripoint pos = vp.pos();
+                // Spawn pilots in seats with controls.CTRL_ELECTRONIC
+                if( controls_at( wreckage, pos ) ) {
                     m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
-
-                    // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = wreckage->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
+                } else {
+                    if( one_in( 5 ) ) {
+                        m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
+                    } else if( one_in( 5 ) ) {
+                        m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
+                    } else {
+                        m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
                     }
                 }
-                break;
-            case 7: // Empty clown car
-            case 8:
-                break;
-            default:
-                break;
+
+                // Delete the items that would have spawned here from a "corpse"
+                for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                    vehicle_stack here = wreckage->get_items( sp );
+
+                    for( auto iter = here.begin(); iter != here.end(); ) {
+                        iter = here.erase( iter );
+                    }
+                }
+            }
+            break;
+        case 4:
+        case 5: // 2/3rds clown car
+            for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                const tripoint pos = vp.pos();
+                // Spawn pilots in seats with controls.
+                if( controls_at( wreckage, pos ) ) {
+                    m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                } else {
+                    if( !one_in( 3 ) ) {
+                        m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                    }
+                }
+
+                // Delete the items that would have spawned here from a "corpse"
+                for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                    vehicle_stack here = wreckage->get_items( sp );
+
+                    for( auto iter = here.begin(); iter != here.end(); ) {
+                        iter = here.erase( iter );
+                    }
+                }
+            }
+            break;
+        case 6: // Just pilots
+            for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
+                const tripoint pos = vp.pos();
+                m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+
+                // Delete the items that would have spawned here from a "corpse"
+                for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                    vehicle_stack here = wreckage->get_items( sp );
+
+                    for( auto iter = here.begin(); iter != here.end(); ) {
+                        iter = here.erase( iter );
+                    }
+                }
+            }
+            break;
+        case 7: // Empty clown car
+        case 8:
+            break;
+        default:
+            break;
         }
         if( !one_in( 4 ) ) {
             wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
@@ -453,28 +453,28 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
     int num_drugs = 0;
     itype_id drugtype;
     switch( rng( 1, 10 ) ) {
-        case 1: // Weed
-            num_drugs = rng( 20, 30 );
-            drugtype = "weed";
-            break;
-        case 2:
-        case 3:
-        case 4:
-        case 5: // Cocaine
-            num_drugs = rng( 10, 20 );
-            drugtype = "coke";
-            break;
-        case 6:
-        case 7:
-        case 8: // Meth
-            num_drugs = rng( 8, 14 );
-            drugtype = "meth";
-            break;
-        case 9:
-        case 10: // Heroin
-            num_drugs = rng( 6, 12 );
-            drugtype = "heroin";
-            break;
+    case 1: // Weed
+        num_drugs = rng( 20, 30 );
+        drugtype = "weed";
+        break;
+    case 2:
+    case 3:
+    case 4:
+    case 5: // Cocaine
+        num_drugs = rng( 10, 20 );
+        drugtype = "coke";
+        break;
+    case 6:
+    case 7:
+    case 8: // Meth
+        num_drugs = rng( 8, 14 );
+        drugtype = "meth";
+        break;
+    case 9:
+    case 10: // Heroin
+        num_drugs = rng( 6, 12 );
+        drugtype = "heroin";
+        break;
     }
     int num_bodies_a = dice( 3, 3 );
     int num_bodies_b = dice( 3, 3 );
@@ -590,24 +590,24 @@ void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         m.furn_set( p->x, p->y, f_crate_c );
         std::string item_group;
         switch( rng( 1, 10 ) ) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                item_group = "mil_food";
-                break;
-            case 5:
-            case 6:
-            case 7:
-                item_group = "grenades";
-                break;
-            case 8:
-            case 9:
-                item_group = "mil_armor";
-                break;
-            case 10:
-                item_group = "guns_rifle_milspec";
-                break;
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            item_group = "mil_food";
+            break;
+        case 5:
+        case 6:
+        case 7:
+            item_group = "grenades";
+            break;
+        case 8:
+        case 9:
+            item_group = "mil_armor";
+            break;
+        case 10:
+            item_group = "guns_rifle_milspec";
+            break;
         }
         int items_created = 0;
         for( int i = 0; i < 10 && items_created < 2; i++ ) {
@@ -734,20 +734,20 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
         int x_extra = 0;
         int y_extra = 0;
         switch( extra_lava_dir ) {
-            case NORTH:
-                y_extra = -1;
-                break;
-            case EAST:
-                x_extra = 1;
-                break;
-            case SOUTH:
-                y_extra = 1;
-                break;
-            case WEST:
-                x_extra = -1;
-                break;
-            default:
-                break;
+        case NORTH:
+            y_extra = -1;
+            break;
+        case EAST:
+            x_extra = 1;
+            break;
+        case SOUTH:
+            y_extra = 1;
+            break;
+        case WEST:
+            x_extra = -1;
+            break;
+        default:
+            break;
         }
 
         std::set<point> ignited;
@@ -872,7 +872,7 @@ void mx_grove( map &m, const tripoint &abs_sub )
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
-                m.has_flag_ter( "YOUNG", location ) ) {
+                    m.has_flag_ter( "YOUNG", location ) ) {
                 m.ter_set( location, tree );
             }
         }
@@ -904,7 +904,7 @@ void mx_shrubbery( map &m, const tripoint &abs_sub )
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
             if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
-                m.has_flag_ter( "YOUNG", location ) ) {
+                    m.has_flag_ter( "YOUNG", location ) ) {
                 m.ter_set( location, shrubbery );
             }
         }
@@ -954,20 +954,20 @@ void mx_pond( map &m, const tripoint &abs_sub )
                 m.furn_set( location, f_null );
 
                 switch( lake_type ) {
-                    case 1:
-                        m.ter_set( location, t_water_sh );
-                        break;
-                    case 2:
+                case 1:
+                    m.ter_set( location, t_water_sh );
+                    break;
+                case 2:
+                    m.ter_set( location, t_water_dp );
+                    break;
+                case 3:
+                    const int neighbors = CellularAutomata::neighbor_count( current, width, height, i, j );
+                    if( neighbors == 8 ) {
                         m.ter_set( location, t_water_dp );
-                        break;
-                    case 3:
-                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, i, j );
-                        if( neighbors == 8 ) {
-                            m.ter_set( location, t_water_dp );
-                        } else {
-                            m.ter_set( location, t_water_sh );
-                        }
-                        break;
+                    } else {
+                        m.ter_set( location, t_water_sh );
+                    }
+                    break;
                 }
             }
         }
