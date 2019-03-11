@@ -331,11 +331,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 help = inp_mngr.get_input_event().get_first_input();
                 if( help >= 'a' && help <= 'z' ) {
                     help -= 'a';
-                }
-                else if( help >= 'A' && help <= 'Z' ) {
-                    help = ( help - 'A' ) + 26;
-                }
-                else {
+                } else if( help >= 'A' && help <= 'Z' ) {
+                    help = help - 'A' + 26;
+                } else {
                     break;
                 }
 
