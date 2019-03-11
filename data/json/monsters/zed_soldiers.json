@@ -108,9 +108,7 @@
     "copy-from": "mon_zombie_soldier_blackops_1",
     "looks_like": "mon_zombie_soldier_blackops_1",
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "dodge": 1, "vision_night": 15 },
-    "delete": { 
-      "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" } 
-    },
+    "delete": { "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" } },
     "extend": {
       "special_attacks": [
         {
