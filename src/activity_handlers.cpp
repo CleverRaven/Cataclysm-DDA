@@ -330,11 +330,16 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             has_tree_nearby = true;
         }
     }
+    bool b_rack_present = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag_furn( "BUTCHER_EQ", pt ) ) {
+            b_rack_present = true;
+        }
+    }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
         bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
-                        u.has_amount( "vine_30", 1 ) ;
-        bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
+                        u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
