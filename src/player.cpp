@@ -3206,6 +3206,22 @@ void player::on_hit( Creature *source, body_part bp_hit,
     lua_callback( "on_player_hit", lua_callback_args_info );
 }
 
+int player::get_lift_assist() const
+{
+    int result = 0;
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        result += np->get_str();
+    }
+    return result;
+}
+
+int player::get_num_crafting_helpers( int max ) const
+{
+    std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    return std::min( max, static_cast<int>( helpers.size() ) );
+}
+
 void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&

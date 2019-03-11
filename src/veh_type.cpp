@@ -10,6 +10,7 @@
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item_group.h"
@@ -733,7 +734,11 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
-    return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0, 0.5 ) );
+    // 10% reduction per assisting NPC
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0,
+                                  0.5 ) ) * ( 1 - ( helpersize / 10 ) );
 }
 
 int vpart_info::install_time( const Character &ch ) const
