@@ -422,6 +422,16 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "multipack_can_cheese",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_cheese", 8 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "multipack_chicken",
     "type": "uncraft",
     "time": 500,
@@ -463,13 +473,99 @@
       [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
-  },  
+  },
+  {
+    "result": "multipack_con_milk",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "con_milk", 8 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_coconut",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_coconut", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
   {
     "result": "multipack_corn",
     "type": "uncraft",
     "time": 500,
     "components": [
       [ [ "can_corn", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_curry_meat",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "curry_meat", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_curry_veggy",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "curry_veggy", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_herring",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "can_herring", 8 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_lasagne",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "lasagne_raw", 6 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_macaroni",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "macaroni_raw", 6 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_noodles_fast",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "noodles_fast", 24 ] ],
       [ [ "box_small", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
@@ -540,6 +636,83 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "multipack_sauce_red",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "sauce_red", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_sauce_pesto",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "sauce_pesto", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_soup_chicken",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "soup_chicken", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_soup_dumplings",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "soup_dumplings", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_soup_meat",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "soup_meat", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_soup_mushroom",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "soup_mushroom", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "multipack_soup_tomato",
+    "type": "uncraft",
+    "time": 500,
+    "components": [
+      [ [ "soup_tomato", 12 ] ],
+      [ [ "box_small", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "multipack_soup_veggy",
     "type": "uncraft",
     "time": 500,
@@ -603,188 +776,4 @@
     ],
     "flags": [ "BLIND_EASY" ]
   }
-
-  {
-    "result": "multipack_noodles_fast",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "noodles_fast", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_spaghetti",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "spaghetti_raw", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_lasagne",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "lasagne_raw", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_macaroni",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "macaroni_raw", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_soup_meat",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "soup_meat", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_soup_chicken",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "soup_chicken", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_soup_mushroom",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "soup_mushroom", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_soup_tomato",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "soup_tomato", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-    "result": "multipack_soup_dumplings",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "soup_dumplings", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_curry_meat",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "curry_meat", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_curry_veggy",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "curry_veggy", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_sauce_red",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "sauce_red", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_sauce_pesto",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "sauce_pesto", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_coconut",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_coconut", 12 ] ],
-      [ [ "box_small", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_herring",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_herring", 8 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_con_milk",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "con_milk", 8 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "multipack_can_cheese",
-    "type": "uncraft",
-    "time": 500,
-    "components": [
-      [ [ "can_cheese", 8 ] ],
-      [ [ "bag_plastic", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
 ]
