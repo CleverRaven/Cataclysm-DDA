@@ -1292,7 +1292,7 @@
     "type": "profession",
     "ident": "bionic_runner",
     "name": "Bionic Runner",
-    "description": "You were that kind of sportsman who couldn't get off the track. You love running, and you enhanced your body to do it even better. Now there is plenty to run from, but this is your kind of game.",
+    "description": "You were that kind of sportsman who couldn't get off the track.  You love running, and you enhanced your body to do it even better.  Now there is plenty to run from, but this is your kind of game.",
     "points": 4,
     "CBMs": [ "bio_adrenaline", "bio_torsionratchet", "bio_power_storage_mkII", "bio_jointservo" ],
     "items": {
