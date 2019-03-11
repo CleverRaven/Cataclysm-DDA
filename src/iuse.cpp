@@ -2522,7 +2522,13 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "You can't dig a pit on this ground." ) );
         return 0;
     }
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    moves = moves * ( 1 - ( helpersize / 10 ) );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
     p->assign_activity( activity_id( "ACT_DIG" ), moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
 
@@ -2559,7 +2565,13 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "There is nothing to fill." ) );
         return 0;
     }
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    moves = moves * ( 1 - ( helpersize / 10 ) );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
     p->assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
 
@@ -2583,7 +2595,14 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 
     if( g->m.has_flag( "RUBBLE", pnt ) ) {
         int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-        player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
+        const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+        for( const npc *np : helpers ) {
+            add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            break;
+        }
+        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        const int moves = 2500 * ( 1 - ( helpersize / 10 ) );
+        player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), moves / bonus, bonus );
         p->assign_activity( act );
         p->activity.placement = pnt;
         return it->type->charges_to_use();
@@ -2842,7 +2861,14 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( 30_minutes ) * 100, -1,
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ),
+                        ( to_turns<int>( 30_minutes ) * 100 ) * ( 1 - ( helpersize / 10 ) ), -1,
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
 
@@ -2887,6 +2913,13 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
         turns = MINUTES( 20 );
     } else {
         turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
+    }
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    turns = turns * ( 1 - ( helpersize / 10 ) );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
     }
     p->assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
@@ -4070,8 +4103,10 @@ static int chop_moves( player *p, item *it )
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
 
-    const int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
-
+    int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    moves = moves * ( 1 - ( helpersize / 10 ) );
     return moves;
 }
 
@@ -4100,7 +4135,11 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         add_msg( m_info, _( "You can't chop down that." ) );
         return 0;
     }
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
     p->assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
 
@@ -4128,7 +4167,11 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
         add_msg( m_info, _( "You can't chop that." ) );
         return 0;
     }
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
     p->assign_activity( activity_id( "ACT_CHOP_LOGS" ), moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
 
@@ -7691,6 +7734,13 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
         return 0;
+    }
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    required.time = required.time * ( 1 - ( helpersize / 10 ) );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
     }
     // Assign the activity values.
     p->assign_activity( activity_id( "ACT_WASH" ), required.time );

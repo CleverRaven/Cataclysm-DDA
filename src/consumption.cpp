@@ -87,7 +87,7 @@ int player::stomach_capacity() const
 // TODO: Move pizza scraping here.
 // Same for other kinds of nutrition alterations
 // This is used by item display, making actual nutrition available to player.
-int player::nutrition_for( const item &comest ) const
+int player::kcal_for( const item &comest ) const
 {
     static const trait_id trait_CARNIVORE( "CARNIVORE" );
     static const trait_id trait_GIZZARD( "GIZZARD" );
@@ -98,28 +98,28 @@ int player::nutrition_for( const item &comest ) const
     }
 
     // As float to avoid rounding too many times
-    float nutr = 0;
+    float kcal = 0;
 
     // if item has components, will derive calories from that instead.
     if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         int byproduct_multiplier;
         for( item component : comest.components ) {
             component.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
-            nutr += this->nutrition_for( component ) * component.charges * byproduct_multiplier;
+            kcal += this->kcal_for( component ) * component.charges * byproduct_multiplier;
         }
-        nutr /= comest.recipe_charges;
+        kcal /= comest.recipe_charges;
     } else {
-        nutr = comest.type->comestible->nutr;
+        kcal = comest.type->comestible->get_calories();
     }
 
     if( has_trait( trait_GIZZARD ) ) {
-        nutr *= 0.6f;
+        kcal *= 0.6f;
     }
 
     if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
-        nutr *= 0.5f;
+        kcal *= 0.5f;
     }
 
     const float relative_rot = comest.get_relative_rot();
@@ -128,15 +128,20 @@ int player::nutrition_for( const item &comest ) const
         // everyone else only gets a portion of the nutrition
         // Scaling linearly from 100% at just-rotten to 0 at halfway-rotten-away
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
-        nutr *= ( 1.0f - rottedness );
+        kcal *= ( 1.0f - rottedness );
     }
 
     // Bionic digestion gives extra nutrition
     if( has_bionic( bio_digestion ) ) {
-        nutr *= 1.5f;
+        kcal *= 1.5f;
     }
 
-    return static_cast<int>( nutr );
+    return static_cast<int>( kcal );
+}
+
+int player::nutrition_for( const item &comest ) const
+{
+    return kcal_for( comest ) / islot_comestible::kcal_per_nutr;
 }
 
 std::pair<int, int> player::fun_for( const item &comest ) const
@@ -904,7 +909,7 @@ void player::consume_effects( const item &food )
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
-        int h_loss = -rottedness * comest.nutr;
+        int h_loss = -rottedness * comest.get_nutr();
         mod_healthy_mod( h_loss, -200 );
         add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }

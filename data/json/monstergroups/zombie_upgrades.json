@@ -1,0 +1,14 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SOLDIER_UPGRADE",
+    "default": "mon_zombie_kevlar_1",
+    "//": "Masters pick from here when upgrading.",
+    "monsters": [
+      { "monster": "mon_zombie_soldier_blackops_1", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_1", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_2", "freq": 15, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_kevlar_1", "freq": 25, "cost_multiplier": 2 }
+    ]
+  }
+]
