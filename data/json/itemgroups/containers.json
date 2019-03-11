@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_group",
+    "id": "canning_jars",
+    "items": [ [ "jar_3l_glass", 20 ], [ "jar_glass", 100 ], [ "multipack_jars_3l", 10 ], [ "multipack_jars", 100 ] ]
+  }
+]

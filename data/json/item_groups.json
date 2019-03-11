@@ -390,7 +390,9 @@
     "type" : "item_group",
     "id" : "kitchen",
     "items":[
-      { "group": "bulk_canned_food", "prob": 40 },
+      { "group": "bulk_canned_food", "prob": 100 },
+      { "group": "stockpilefood", "prob": 100 },
+      { "group": "canning_jars", "prob": 50 },
       ["aluminum_foil", 25],
       ["chips", 65],
       ["fried_seeds", 15],
@@ -617,6 +619,8 @@
     "type" : "item_group",
     "id" : "fridge",
     "items":[
+      [ "multipack_water", 80 ],
+      [ "multipack_water_mineral", 5 ],
       ["water_clean", 90],
       ["water_mineral", 10],
       ["oj", 50],
@@ -805,6 +809,7 @@
     "type" : "item_group",
     "id" : "home_hw",
     "items":[
+      { "group": "canning_jars", "prob": 50 },
       ["polisher", 10],
       ["jumper_cable", 3],
       ["superglue", 30],

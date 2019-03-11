@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "bulk_canned_food",
-	"//": "Also includes dried pasta because most people probably store that in similar places.",
+    "//": "Also includes dried pasta because most people probably store that in similar places.",
     "items": [
       [ "multipack_beans", 100 ],
       [ "multipack_broth", 50 ],
@@ -39,13 +39,15 @@
       [ "multipack_noodles_fast", 40 ],
       [ "multipack_spaghetti", 40 ],
       [ "multipack_water", 100 ],
-      [ "multipack_water_mineral", 50 ]
+      [ "multipack_water_mineral", 50 ],
+      { "group": "canning_jars", "prob": 50 }
     ]
-  },  {
+  },
+  {
     "type": "item_group",
     "id": "stockpile_food",
-	"subtype": "distribution",
-	"//": "Note that as a distribution this can select more than one item and lead to very big food stockpiles.",
+    "subtype": "distribution",
+    "//": "Note that as a distribution this can select more than one item and lead to very big food stockpiles.",
     "items": [
       [ "multipack_beans", 50 ],
       [ "multipack_broth", 20 ],
@@ -148,6 +150,7 @@
     "items": [
       { "group": "bulk_canned_food", "prob": 150 },
       { "group": "stockpilefood", "prob": 150 },
+      { "group": "canning_jars", "prob": 20 },
       [ "can_beans", 40 ],
       [ "pork_beans", 40 ],
       [ "can_tomato", 40 ],
