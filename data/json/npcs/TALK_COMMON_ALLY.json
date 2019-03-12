@@ -411,11 +411,11 @@
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       }
     ]
-  }
+  },
   {
     "id": "TRADE_HALLU",
     "type": "talk_topic",
-    "dynamic_line": { "<hallu_dont_trade>" },
+    "dynamic_line": "<hallu_dont_trade>",
     "responses": [ { "text": "Fair enough.", "topic": "TALK_FRIEND" } ]
   }
 ]
