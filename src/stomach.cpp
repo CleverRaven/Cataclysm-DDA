@@ -44,6 +44,7 @@ units::volume stomach_contents::contains() const
 bool stomach_contents::store_absorbed( player &p )
 {
     bool absorbed = false;
+    printf( "stomach stored %d absorbed calories\n", calories_absorbed );
     if( calories_absorbed != 0 ) {
         p.mod_stored_kcal( calories_absorbed );
         absorbed = true;
@@ -54,9 +55,11 @@ bool stomach_contents::store_absorbed( player &p )
 
 void stomach_contents::bowel_movement( stomach_pass_rates rates )
 {
-    calories -= std::min( std::max( rates.min_kcal,
-                                    std::min( static_cast<int>( calories * rates.percent_kcal ),
-                                            calories - calories_absorbed ) ), calories );
+    int cal_rate = std::min( std::max( rates.min_kcal,
+                                       std::min( static_cast<int>( calories * rates.percent_kcal ),
+                                               calories - calories_absorbed ) ), calories );
+    calories -= cal_rate;
+    printf( "bowel movement %d calories", cal_rate );
     calories_absorbed = 0;
     mod_contents( -std::min( std::max( rates.min_vol,
                                        units::from_milliliter<int>( units::to_milliliter<float>( contents ) * rates.percent_vol ) ),
@@ -296,6 +299,7 @@ void stomach_contents::calculate_absorbed( stomach_absorb_rates rates )
     }
     int cal = std::min( calories, std::max( rates.min_kcal,
                                             static_cast<int>( calories * rates.percent_kcal ) ) );
+    printf( "%d calculated calories absorbed\n", cal );
     calories_absorbed += cal;
     calories -= cal;
 }
