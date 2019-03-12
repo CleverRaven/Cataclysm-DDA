@@ -49,7 +49,8 @@
         "success": { "topic": "TALK_DENY_TRAIN" },
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
-      { "text": "Let's trade items", "topic": "TALK_FRIEND", "effect": "start_trade" },
+      { "text": "Let's trade items", "topic": "TRADE_HALLU", "condition": { "npc_has_trait": "HALLUCINATION" }, "switch": true, "default": false },
+      { "text": "Let's trade items", "topic": "TALK_FRIEND", "effect": "start_trade", "switch": true, "default": true },
       { "text": "Guard this position", "topic": "TALK_FRIEND_GUARD", "effect": "assign_guard" },
       { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
       { "text": "I want you to use this item", "topic": "TALK_USE_ITEM" },
@@ -410,5 +411,11 @@
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       }
     ]
+  }
+  {
+    "id": "TRADE_HALLU",
+    "type": "talk_topic",
+    "dynamic_line": { "<hallu_dont_trade>" },
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_FRIEND" } ]
   }
 ]
