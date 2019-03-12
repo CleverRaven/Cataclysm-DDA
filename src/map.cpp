@@ -4300,29 +4300,25 @@ item map::water_from( const tripoint &p )
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
-    if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        !( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
+    if( terrain_id == t_water_sh ) {
         if( one_in( 3 ) ) {
             ret.poison = rng( 1, 4 );
         }
         return ret;
     }
-    if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        !( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
+    if( terrain_id == t_water_dp ) {
         if( one_in( 4 ) ) {
             ret.poison = rng( 1, 4 );
         }
         return ret;
     }
-    if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        ( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
+    if( terrain_id == t_water_moving_sh ) {
         if( one_in( 10 ) ) {
             ret.poison = rng( 1, 4 );
         }
         return ret;
     }
-    if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        ( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
+    if( terrain_id == t_water_moving_dp ) {
         if( one_in( 20 ) ) {
             ret.poison = rng( 1, 4 );
         }
