@@ -146,7 +146,7 @@
     "special_attacks": [ [ "GRENADIER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
   },
   {
     "id": "mon_dispatch_military",
@@ -178,6 +178,6 @@
     "special_attacks": [ [ "GRENADIER_ELITE", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
   }
 ]
