@@ -209,11 +209,9 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         if( g->u.sees( *source ) ) {
             add_msg( m_warning, _( "You hear %s." ), data.sound );
         }
-
         curshot++;
         moves-=100;
     }
-
 }
 
 int player::fire_gun( const tripoint &target, int shots )
