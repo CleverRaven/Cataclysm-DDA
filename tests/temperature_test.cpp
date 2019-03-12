@@ -7,7 +7,7 @@ bool is_nearly( int value, int expected )
 {
     // Rounding errors make the values change around a bit
     // Lets just check that they are within 10% of expected
-    return std::abs( value - expected ) / expected < 0.05;
+    return std::abs( value - expected ) / expected < 0.001;
 }
 
 TEST_CASE( "Item spawns with right thermal attributes" )
