@@ -1262,8 +1262,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             break;
 
         //irradiates food at t_floor_blue, adds radiation
-        case COMPACT_IRRADIATOR:
-            {
+        case COMPACT_IRRADIATOR: {
             g->u.moves -= 30;
             bool error = false;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
@@ -1282,7 +1281,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                                 print_error( _( "WARNING [409]: Radiation spike detected!" ) );
                                 print_error( _( "  >> AUTO-RISK-ASSESMENT: Geiger profiling..." ) );
                                 print_error( _( "  >> [Self-sustaining] reaction in [critical mass] detected!\n" ) );
-                                print_error( _( "WARNING [999]: Catastrofic meltdown imminent!\n") );
+                                print_error( _( "WARNING [999]: Catastrofic meltdown imminent!\n" ) );
                                 print_error( _( "EMERGENCY PROCEDURE [1]: EVACUATE! EVACUATE! EAVACUATE!" ) );
                                 add_msg( m_warning, _( "Evacuate Immediately!" ) );
                                 sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
@@ -1292,11 +1291,12 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                                 for( const tripoint &area : g->m.points_in_radius( dest, 1 ) ) {
                                     g->m.add_field( area, fd_nuke_gas, 3 );
                                 }
-                                it->charges = rng ( 10, 100 ); // countdown in turns
+                                it->charges = rng( 10, 100 );  // countdown in turns
                                 it->active = true;
                                 g->m.adjust_radiation( dest, rng( 50, 500 ) );
                                 for( const tripoint &radorigin : g->m.points_in_radius( dest, 5 ) ) {
-                                   g->m.adjust_radiation( radorigin, rng( 50, 500 ) / ( rl_dist( radorigin, dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
+                                    g->m.adjust_radiation( radorigin, rng( 50, 500 ) / ( rl_dist( radorigin,
+                                                           dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                                 }
                                 if( g->m.pl_sees( dest, 10 ) ) {
                                     g->u.irradiate( rng( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
@@ -1325,7 +1325,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                                 }
                                 g->m.adjust_radiation( dest, rng( 50, 100 ) );
                                 for( const tripoint &radorigin : g->m.points_in_radius( dest, 5 ) ) {
-                                   g->m.adjust_radiation( radorigin, rng( 50, 100 ) / ( rl_dist( radorigin, dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
+                                    g->m.adjust_radiation( radorigin, rng( 50, 100 ) / ( rl_dist( radorigin,
+                                                           dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                                 }
                                 if( g->m.pl_sees( dest, 10 ) ) {
                                     g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
@@ -1342,7 +1343,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                             }
                             g->m.adjust_radiation( dest, rng( 20, 50 ) );
                             for( const tripoint &radorigin : g->m.points_in_radius( dest, 5 ) ) {
-                                g->m.adjust_radiation( radorigin, rng( 20, 50 ) / ( rl_dist( radorigin, dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
+                                g->m.adjust_radiation( radorigin, rng( 20, 50 ) / ( rl_dist( radorigin,
+                                                       dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                             }
                             // if unshielded, rad source irradiates player directly, reduced by distance to source
                             if( g->m.pl_sees( dest, 10 ) ) {
@@ -1357,15 +1359,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                     }
                 }
             }
-            if (!error) {
+            if( !error ) {
                 query_any( _( "Press any key..." ) );
             }
             break;
-            }
+        }
 
         // geiger counter for irradiator, primary measurement at t_floor_blue, secondary at player loacation
-        case COMPACT_GEIGER:
-            {
+        case COMPACT_GEIGER: {
             g->u.moves -= 30;
             bool source_exists = false;
             print_error( _( "RADIATION MEASUREMENTS:" ) );
@@ -1376,17 +1377,17 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 }
             }
             if( !source_exists ) {
-                print_error( _( "GEIGER COUNTER @ PLATFORM: ... IRRESPONSIVE.  COMPLY TO PROCEDURE GC_M_01_rev.03." ) );
+                print_error(
+                    _( "GEIGER COUNTER @ PLATFORM: ... IRRESPONSIVE.  COMPLY TO PROCEDURE GC_M_01_rev.03." ) );
             }
             print_error( _( "GEIGER COUNTER @ CONSOLE: .... %s mSv/h." ), g->m.get_radiation( g->u.pos() ) );
             query_any( _( "Press any key..." ) );
             break;
-            }
-        
+        }
+
         // imitates item movement through conveyor belt throgh 3 different loading/unloading bays
         // ensure only bay of each type in range
-        case COMPACT_CONVEYOR:
-            {
+        case COMPACT_CONVEYOR: {
             g->u.moves -= 300;
             tripoint loading; // red tile = loading bay
             tripoint unloading; // green tile = unloading bay
@@ -1394,7 +1395,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
                 if( g->m.ter( dest ) == t_floor_blue ) {
                     platform = dest;
-                } else if( g->m.ter( dest ) == t_floor_red  ) {
+                } else if( g->m.ter( dest ) == t_floor_red ) {
                     loading = dest;
                 } else if( g->m.ter( dest ) == t_floor_green ) {
                     unloading = dest;
@@ -1407,18 +1408,19 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             }
             items = g->m.i_at( loading );
             for( const auto &it : items ) {
-                if ( !it.made_of_from_type( LIQUID ) ) {
+                if( !it.made_of_from_type( LIQUID ) ) {
                     g->m.add_item_or_charges( platform, it );
-                    g->m.i_clear( loading ); 
+                    g->m.i_clear( loading );
                 }
-            }                    
+            }
             query_any( _( "Conveyor belt cycle complete.  Press any key..." ) );
             break;
-            }
+        }
         // toggles reinforced glass shutters open->closed and closedd->open depending on their current state
         case COMPACT_SHUTTERS:
             g->u.moves -= 300;
-            g->m.translate_radius( t_reinforced_glass_shutter, t_reinforced_glass_shutter_open, 8.0, g->u.pos(), true, true );
+            g->m.translate_radius( t_reinforced_glass_shutter, t_reinforced_glass_shutter_open, 8.0, g->u.pos(),
+                                   true, true );
             query_any( _( "Toggling shutters.  Press any key..." ) );
             break;
 

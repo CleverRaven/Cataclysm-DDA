@@ -3375,7 +3375,8 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    p->add_msg_if_player( _( "You set the timer to %s." ), to_string( time_duration::from_turns( time ) ) );
+    p->add_msg_if_player( _( "You set the timer to %s." ),
+                          to_string( time_duration::from_turns( time ) ) );
     if( !p->is_npc() ) {
         p->add_memorial_log( pgettext( "memorial_male", "Activated a mininuke." ),
                              pgettext( "memorial_female", "Activated a mininuke." ) );
