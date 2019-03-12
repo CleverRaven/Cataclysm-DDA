@@ -16,9 +16,10 @@
     "type": "GENERIC",
     "copy-from": "bulk_box",
     "//": "based on a 12-pack of canned beans",
+    "name": "bulk 12 box",
     "price": 1500,
     "weight": 6200,
-    "volume": "8700mL",
+    "volume": "8700 ml",
     "description": "A generic bulk box of canned goods, you shouldn't see this."
   },
   {
@@ -26,9 +27,10 @@
     "type": "GENERIC",
     "copy-from": "bulk_box",
     "//": "bulkier entry for pasta and things",
+    "name": "bulk 6 box",
     "price": 700,
     "weight": 3000,
-    "volume": "6000mL",
+    "volume": "6000 ml",
     "description": "A generic bulk flat of dry goods, you shouldn't see this."
   },
   {
@@ -36,9 +38,10 @@
     "type": "GENERIC",
     "copy-from": "bulk_box",
     "//": "based on an 8-pack of canned tuna",
+    "name": "bulk 8 box",
     "price": 1000,
     "weight": 1400,
-    "volume": "1900mL",
+    "volume": "1900 ml",
     "description": "A generic bulk box of canned goods, you shouldn't see this."
   },
   {
@@ -169,7 +172,7 @@
     "name_plural": "24-packs of instant noodles",
     "price": 4600,
     "weight": 800,
-    "volume": "5800mL",
+    "volume": "5800 ml",
     "description": "A plastic wrapped cardboard flat with twenty-four packages of instant noodles in it."
   },
   {
