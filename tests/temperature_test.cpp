@@ -3,13 +3,13 @@
 #include "itype.h"
 #include "item.h"
 
-bool is_nearly( float  value, float expected )
+bool is_nearly( float value, float expected )
 {
     // Rounding errors make the values change around a bit
     // Lets just check that they are within 10% of expected
 
-    bool ret_vaL = std::abs( value - expected ) / expected < 0.001;	
-    return ret_vaL;
+    bool ret_val = std::abs( value - expected ) / expected < 0.001;	
+    return ret_val;
 }
 
 TEST_CASE( "Item spawns with right thermal attributes" )
