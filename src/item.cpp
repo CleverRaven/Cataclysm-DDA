@@ -6710,7 +6710,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                          * ( mass * specific_heat_liquid / conductivity_term );
             new_specific_energy = completely_liquid_specific_energy
                                   + conductivity_term
-                                  * ( env_temperature - freezing_temperature ) * to_turns<int>( time ) / mass;
+                                  * ( env_temperature - freezing_temperature ) * extra_time / mass;
             new_item_temperature = freezing_temperature;
             if( new_specific_energy < completely_frozen_specific_energy ) {
                 // The item then also finished freezing.
@@ -6729,11 +6729,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // Item melted before temp was calculated
             // Calculate how long the item was melting
             // and apply rest of the time as liquid
-            extra_time = to_turns<int>( time )
-                         - ( conductivity_term * temperature_difference * to_turns<int>( time ) / mass )
-                         / ( completely_liquid_specific_energy - 0.00001 * specific_energy );
+            extra_time = to_turns<int>( time ) - ( mass / ( conductivity_term * temperature_difference ) ) *
+                         ( completely_liquid_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( - to_turns<int>( time ) * conductivity_term / ( mass *
+                                     * exp( - extra_time * conductivity_term / ( mass *
                                              specific_heat_liquid ) )
                                      + env_temperature );
             new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
@@ -6742,13 +6741,13 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // Item froze before temp was calculated
             // Calculate how long the item was freezing
             // and apply rest of the time as solid
-            extra_time = to_turns<int>( time )
-                         - ( conductivity_term * temperature_difference * to_turns<int>( time ) / mass )
-                         / ( completely_frozen_specific_energy - 0.00001 * specific_energy );
+            extra_time = to_turns<int>( time ) - ( mass / ( conductivity_term * temperature_difference ) ) *
+                         ( completely_frozen_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( -  to_turns<int>( time ) * conductivity_term / ( mass *
+                                     * exp( -  extra_time * conductivity_term / ( mass *
                                              specific_heat_solid ) )
                                      + env_temperature );
+            new_specific_energy = new_item_temperature * specific_heat_solid;
         }
     }
     // Check freeze status now based on energies.
