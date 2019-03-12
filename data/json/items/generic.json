@@ -1295,7 +1295,7 @@
     "color": "blue",
     "name": "Kevlar dog harness",
     "name_plural": "Kevlar dog harnesses",
-    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.",
+    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.  You could put this on a friendly dog.",
     "price": 30000,
     "price_postapoc": 3000,
     "material": [ "kevlar" ],
