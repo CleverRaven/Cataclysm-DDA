@@ -329,7 +329,6 @@ struct mtype {
         bool has_fear_trigger( monster_trigger trigger ) const;
         bool has_placate_trigger( monster_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
-        bool get_species() const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.
