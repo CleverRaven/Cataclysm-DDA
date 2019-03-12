@@ -596,7 +596,7 @@
         "points" : -1,
         "description" : "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "cancels" : ["PARKOUR"],
         "movecost_obstacle_modifier" : 1.25
     },{
@@ -606,7 +606,7 @@
         "points" : -2,
         "description" : "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "cancels" : ["GOODCARDIO"],
         "max_stamina_modifier" : 0.75
     },{
@@ -656,7 +656,7 @@
         "points" : -2,
         "description" : "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : true
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER",
@@ -688,7 +688,7 @@
             "intimidate" : -2
         },
         "starting_trait" : true,
-        "valid" : false
+        "valid" : true
     },{
         "type" : "mutation",
         "id" : "BADBACK",
@@ -696,7 +696,7 @@
         "points" : -3,
         "description" : "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 35%.",
         "starting_trait" : true,
-        "category" : ["BIRD", "ELFA"],
+        "category" : ["BIRD", "ELFA", "FISH", "SLIME"],
         "cancels" : ["STRONGBACK"],
         "weight_capacity_modifier" : 0.65
     },{
@@ -743,7 +743,7 @@
         "points" : -3,
         "description" : "You are slow to grasp new ideas and thus learn things more slowly than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "cancels" : ["FASTLEARNER"]
     },{
         "type" : "mutation",
@@ -763,7 +763,7 @@
         "description" : "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "//" : "Intolerances are presumed a psychological issue unless stated otherwise, and cancelled by digestive mutations, which force the issue.",
-        "valid" : false,
+        "valid" : true,
         "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "cancels" : ["CANNIBAL", "MEATARIAN", "ANTIFRUIT"]
     },{
@@ -782,7 +782,7 @@
         "points" : -2,
         "description" : "You, like many children, hated eating your vegetables; however, you didn't outgrow it.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "cancels" : ["VEGETARIAN"]
     },
@@ -803,7 +803,7 @@
         "points" : -3,
         "description" : "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
         "cancels" : ["VEGETARIAN"]
     },{
@@ -833,6 +833,7 @@
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "vitamins_absorb_multi": [ [ "wheat", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
+        "category" : ["CATTLE"],
         "starting_trait" : true
     },{
         "type" : "mutation",
@@ -994,6 +995,7 @@
         "points" : -4,
         "description" : "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
         "starting_trait" : true,
+        "category" : ["RAT", "TROGLOBITE"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -1022,7 +1024,7 @@
         "points" : -1,
         "description" : "Your morale will shift up and down at random, often dramatically.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "category" : ["MEDICAL"]
     },{
         "type" : "mutation",
@@ -1088,12 +1090,12 @@
         "points" : -4,
         "description" : "Your body can't take much abuse.  Its maximum HP is 25% lower than usual and you heal slightly slower.  Stacks with Glass Jaw.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "social_modifiers" : {
             "intimidate" : -2
         },
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "category" : ["MOUSE"],
+        "category" : ["MOUSE", "FISH"],
         "changes_to" : ["FLIMSY2"],
         "hp_modifier" : -0.25
     },{
@@ -1103,7 +1105,8 @@
         "points" : -6,
         "description" : "Your body breaks very easily.  Its maximum HP is 50% lower than usual and you heal slower.  Stacks with Glass Jaw.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
+        "category" : ["BIRD"],
         "social_modifiers" : {
             "intimidate" : -3
         },
@@ -1118,7 +1121,7 @@
         "points" : -8,
         "description" : "Your body is extremely fragile.  Its maximum HP is 75% lower than usual and you heal much slower.  Stacks with Glass Jaw.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "social_modifiers" : {
             "intimidate" : -4
         },
@@ -5013,7 +5016,7 @@
         "visibility" : 8,
         "ugliness" : 2,
         "description" : "Your arms have grown vibrantly colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
-        "category" : ["RAPTOR"],
+        "category" : ["RAPTOR", "BIRD"],
         "wet_protection" : [
             { "part" : "ARM_L", "neutral" : 50 },
             { "part" : "ARM_R", "neutral" : 50 },
