@@ -129,10 +129,6 @@ void talk_function::mission_reward( npc &p )
 
 void talk_function::start_trade( npc &p )
 {
-    if( p.is_hallucination() ) {
-         p.say( _( "No thanks, I'm keeping my stuff." ) );
-         return;
-    }
     trade( p, 0, _( "Trade" ) );
 }
 
