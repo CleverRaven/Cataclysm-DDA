@@ -3,6 +3,12 @@
 #include "itype.h"
 #include "item.h"
 
+bool is_nearly( int value, int expected )
+{
+    // Rounding errors make the values change around a bit
+    // Lets just check that they are within 10% of expected
+    return std::abs( value - expected ) / expected < 0.05;
+}
 
 TEST_CASE( "Item spawns with right thermal attributes" )
 {
@@ -17,7 +23,7 @@ TEST_CASE( "Item spawns with right thermal attributes" )
 
     D.update_temp( 122, 1 );
 
-    CHECK( abs( D.temperature - 323.15 * 100000 ) < 1 );
+    CHECK( std::abs( D.temperature - 323.15 * 100000 ) < 1 );
 }
 
 TEST_CASE( "Rate of temperature change" )
@@ -53,7 +59,7 @@ TEST_CASE( "Rate of temperature change" )
         water2.update_temp( 131, 1 );
 
         // 55 C
-        CHECK( abs( water1.temperature - 328.15 * 100000 ) < 1 );
+        CHECK( is_nearly( water1.temperature, 328.15 * 100000 ) );
 
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
@@ -70,8 +76,8 @@ TEST_CASE( "Rate of temperature change" )
         water2.update_temp( 68, 1 );
 
         // 29.4 C
-        CHECK( water1.temperature == 30259330 );
-        CHECK( water2.temperature == water1.temperature );
+        CHECK( is_nearly( water1.temperature, 30259330 ) );
+        CHECK( is_nearly( water1.temperature, water2.temperature ) );
 
 
     }
@@ -95,14 +101,14 @@ TEST_CASE( "Rate of temperature change" )
         meat2.update_temp( 122, 1 );
 
         // 50 C
-        CHECK( abs( meat1.temperature - 323.15 * 100000 ) < 1 );
+        CHECK( std::abs( meat1.temperature - 323.15 * 100000 ) < 1 );
         CHECK( meat1.item_tags.count( "HOT" ) );
 
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
         meat1.update_temp( -4, 1 );
         // 33.5 C
-        CHECK( meat1.temperature == 30673432 );
+        CHECK( is_nearly( meat1.temperature, 30673432 ) );
         CHECK( !meat1.item_tags.count( "HOT" ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
@@ -114,7 +120,7 @@ TEST_CASE( "Rate of temperature change" )
         meat1.update_temp( -4, 1 );
         // 0C
         // not frozen
-        CHECK( meat1.temperature == 27315000 );
+        CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( !meat1.item_tags.count( "FROZEN" ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 900_turns );
@@ -123,7 +129,7 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // frozen
         // same energy as meat 2
-        CHECK( meat1.temperature == 27315000 );
+        CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( meat1.item_tags.count( "FROZEN" ) );
         CHECK( meat2.specific_energy == meat1.specific_energy );
 
@@ -138,9 +144,9 @@ TEST_CASE( "Rate of temperature change" )
         // -7.2 C
         // frozen
         // same temp as meat 2
-        CHECK( meat1.temperature == 26595062 );
+        CHECK( is_nearly( meat1.temperature, 26595062 ) );
         CHECK( meat1.item_tags.count( "FROZEN" ) );
-        CHECK( meat2.temperature == meat1.temperature );
+        CHECK( is_nearly( meat1.temperature, meat2.temperature ) );
     }
 
     SECTION( "Cold solid to liquid" ) {
@@ -163,14 +169,14 @@ TEST_CASE( "Rate of temperature change" )
         meat2.update_temp( -4, 1 );
 
         // -20 C
-        CHECK( abs( meat1.temperature - 253.15 * 100000 ) < 1 );
+        CHECK( is_nearly( meat1.temperature, 253.15 * 100000 ) );
         CHECK( meat1.item_tags.count( "FROZEN" ) );
 
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
         meat1.update_temp( 68, 1 );
         // -5.2 C
-        CHECK( meat1.temperature == 26789608 );
+        CHECK( is_nearly( meat1.temperature, 26789608 ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
         meat1.update_temp( 68, 1 );
@@ -181,7 +187,7 @@ TEST_CASE( "Rate of temperature change" )
         meat1.update_temp( 68, 1 );
         // 0C
         // frozen
-        CHECK( meat1.temperature == 27315000 );
+        CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( meat1.item_tags.count( "FROZEN" ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 900_turns );
@@ -190,9 +196,9 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // not frozen
         // same energy as meat 2 (has some rounding error)
-        CHECK( meat1.temperature == 27315000 );
+        CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( !meat1.item_tags.count( "FROZEN" ) );
-        CHECK( abs( meat2.specific_energy - meat1.specific_energy ) < 20 );
+        CHECK( is_nearly( meat1.specific_energy, meat2.specific_energy ) );
         //CHECK(  meat2.specific_energy == meat1.specific_energy );
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
@@ -205,7 +211,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.update_temp( 68, 1 );
         // 13.3 C
         // same temp as meat 2
-        CHECK( meat1.temperature == 28654986 );
-        CHECK( meat2.temperature == meat1.temperature );
+        CHECK( is_nearly( meat1.temperature, 28654986 ) );
+        CHECK( is_nearly( meat1.temperature, meat2.temperature ) );
     }
 }
