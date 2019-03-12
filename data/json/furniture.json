@@ -4381,8 +4381,8 @@
     },
     "max_volume": 7000,
     "bash": {
-      "str_min": 6,
-      "str_max": 30,
+      "str_min": 35,
+      "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -4506,7 +4506,7 @@
       ]
     },
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -4548,7 +4548,7 @@
       ]
     },
     "bash": {
-      "str_min": 30,
+      "str_min": 50,
       "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -4584,7 +4584,7 @@
       ]
     },
     "bash": {
-      "str_min": 18,
+      "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -4610,7 +4610,7 @@
       "items": [ { "item": "steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
     },
     "bash": {
-      "str_min": 18,
+      "str_min": 14,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -4692,8 +4692,8 @@
       ]
     },
     "bash": {
-      "str_min": 18,
-      "str_max": 50,
+      "str_min": 28,
+      "str_max": 70,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -4733,8 +4733,8 @@
       ]
     },
     "bash": {
-      "str_min": 18,
-      "str_max": 50,
+      "str_min": 28,
+      "str_max": 70,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -4773,8 +4773,8 @@
       ]
     },
     "bash": {
-      "str_min": 18,
-      "str_max": 50,
+      "str_min": 38,
+      "str_max": 70,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -4811,8 +4811,8 @@
       ]
     },
     "bash": {
-      "str_min": 18,
-      "str_max": 50,
+      "str_min": 38,
+      "str_max": 70,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -4850,8 +4850,8 @@
       ]
     },
     "bash": {
-      "str_min": 18,
-      "str_max": 50,
+      "str_min": 40,
+      "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -4889,8 +4889,8 @@
       ]
     },
     "bash": {
-      "str_min": 18,
-      "str_max": 50,
+      "str_min": 40,
+      "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -5086,7 +5086,7 @@
       ]
     },
     "bash": {
-      "str_min": 6,
+      "str_min": 2,
       "str_max": 20,
       "sound": "swish!",
       "sound_fail": "clattering metal!",
@@ -5116,7 +5116,7 @@
       ]
     },
     "bash": {
-      "str_min": 6,
+      "str_min": 2,
       "str_max": 20,
       "sound": "swish!",
       "sound_fail": "clattering metal!",
@@ -5277,7 +5277,7 @@
         { "item": "plastic_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "e_scrap", "count", [ 20, 50 ] },
+        { "item": "e_scrap", "count": [ 20, 50 ] },
         { "item": "cable", "count": [ 2, 8 ] }
       ]
     }
