@@ -17,7 +17,7 @@
         "points" : 1,
         "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
         "starting_trait" : true,
-        "category" : ["ALPHA", "MOUSE"],
+        "category" : ["ALPHA", "MOUSE", "FELINE"],
         "cancels" : ["BADHEARING"],
         "hearing_modifier" : 1.25
     },{
@@ -48,6 +48,7 @@
         "description" : "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["BIRD", "FELINE"],
         "cancels" : ["BADKNEES"],
         "movecost_obstacle_modifier" : 0.5
     },{
@@ -91,6 +92,7 @@
         "description" : "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["ELFA", "PLANT"],
         "cancels" : ["BADTEMPER"]
     },{
         "type" : "mutation",
@@ -184,6 +186,7 @@
         "points" : 1,
         "description" : "The bottoms of your feet are tough and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
         "starting_trait" : true,
+        "category" : ["BIRD"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -205,7 +208,7 @@
         "name" : "Durable",
         "points" : 3,
         "description" : "You can shrug off almost anything!  You get a 30% bonus to all hit points.",
-        "valid" : false,
+        "valid" : true,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH"],
         "changes_to" : ["TOUGH3"],
@@ -219,7 +222,7 @@
         "name" : "Unbreakable",
         "points" : 4,
         "description" : "Nothing can break you!  You get a 40% bonus to all hit points.",
-        "valid" : false,
+        "valid" : true,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH2"],
         "social_modifiers" : {
@@ -251,6 +254,7 @@
         "description" : "You can manage to find space for anything!  You can carry 40% more volume.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["RAT", "TROGLOBITE"],
         "cancels" : ["DISORGANIZED"]
     },{
         "type" : "mutation",
@@ -260,6 +264,7 @@
         "description" : "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["LIZARD", "CATTLE", "PLANT"],
         "cancels" : ["BADBACK"],
         "weight_capacity_modifier" : 1.35
     },{
@@ -297,7 +302,7 @@
         "points" : 1,
         "description" : "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
         "starting_trait" : true,
-        "category" : ["BIRD", "BEAST", "RAPTOR", "MOUSE"]
+        "category" : ["BIRD", "BEAST", "RAPTOR", "MOUSE", "CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id" : "DRUNKEN",
@@ -305,18 +310,19 @@
         "points" : 1,
         "description" : "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : true,
         "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
         "id" : "SPIRITUAL",
         "name" : "Spiritual",
         "points" : 1,
-        "description" : "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
+        "description" : "You feel that there is more to the world than what we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
         "starting_trait" : true,
         "social_modifiers" : {
             "persuade" : 5
         },
+        "category" : ["ELFA"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -356,6 +362,7 @@
         "description" : "Whether due to a lifetime of exposure or through simple willpower, it's harder for you to become addicted to substances, and easier to rid yourself of these addictions.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["CATTLE", "PLANT"],
         "cancels" : ["ADDICTIVE"]
     },{
         "type" : "mutation",
@@ -433,6 +440,7 @@
         "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
         "starting_trait" : true,
         "valid" : false,
+        "category" : ["MEDICAL"],
         "changes_to" : ["MASOCHIST_MED", "CENOBITE"]
     },{
         "type" : "mutation",
@@ -451,6 +459,7 @@
         "points" : 2,
         "description" : "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
         "starting_trait" : true,
+        "category" : ["BIRD", "ELFA"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -479,7 +488,7 @@
         "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
         "valid" : false,
         "starting_trait" : true,
-        "category" : ["MOUSE"],
+        "category" : ["MOUSE", "BIRD"],
         "cancels" : ["MYOPIC", "UNOBSERVANT"]
     },{
         "type" : "mutation",
@@ -565,7 +574,7 @@
         "points" : 1,
         "description" : "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
         "starting_trait" : true,
-        "category" : ["ALPHA"],
+        "category" : ["ALPHA", "BIRD"],
         "types" : ["SCENT"]
     },{
         "type" : "mutation",
@@ -2047,8 +2056,8 @@
         "prereqs" : ["PLANTSKIN","BARK"],
         "prereqs2" : ["LEAVES"],
         "cancels" : ["SMELLY", "SMELLY2"],
-        "threshreq" : ["THRESH_PLANT"],
-        "category" : ["PLANT"],
+        "threshreq" : ["THRESH_PLANT", "THRESH_ELFA"],
+        "category" : ["PLANT", "ELFA"],
         "social_modifiers" : {
             "lie" : 10
         }
@@ -3633,8 +3642,8 @@
         "points" : 4,
         "description" : "You are much nimbler than before.  Dexterity + 7",
         "prereqs" : ["DEX_UP_3"],
-        "threshreq" : ["THRESH_CEPHALOPOD", "THRESH_FISH"],
-        "category" : ["CEPHALOPOD", "FISH"],
+        "threshreq" : ["THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_FELINE"],
+        "category" : ["CEPHALOPOD", "FISH", "FELINE"],
         "passive_mods" : {
             "dex_mod" : 7
         }
@@ -3749,7 +3758,7 @@
         "description" : "Your senses are keener.  Perception + 2",
         "prereqs" : ["PER_UP"],
         "changes_to" : ["PER_UP_3", "PER_ALPHA"],
-        "category" : ["ALPHA", "CHIMERA"],
+        "category" : ["ALPHA", "CHIMERA", "FELINE"],
         "passive_mods" : {
             "per_mod" : 2
         }
