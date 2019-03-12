@@ -1289,7 +1289,7 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
+    "type": "PET_ARMOR",
     "id": "kevlar_harness",
     "symbol": "[",
     "color": "blue",
@@ -1302,7 +1302,11 @@
     "weight": 4290,
     "volume": 18,
     "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "flags": [ "IS_PET_ARMOR" ],
+    "max_pet_vol": "35000 ml",
+    "min_pet_vol": "25000 ml",
+    "pet_bodytype": "dog"
   },
   {
     "type": "GENERIC",
