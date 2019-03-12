@@ -416,6 +416,6 @@
     "id": "TRADE_HALLU",
     "type": "talk_topic",
     "dynamic_line": "<hallu_dont_trade>",
-    "responses": [ { "text": "Fair enough.", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
   }
 ]
