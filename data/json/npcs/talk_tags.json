@@ -900,5 +900,16 @@
             "Perfect, those pink tablets will keep us going, take some!",
             "You know what would make all this more bearable? Pink Tablets!"
         ]
+    },{
+        "type": "snippet",
+        "category": "<hallu_dont_trade>",
+        "text": [
+            "No thanks, I'm good.",
+            "I don't want to trade with you.",
+            "I have the best stuff. And I'm keeping it!",
+            "No trading, that's my rule.",
+            "I'm not interested.",
+            "How about no?"
+        ]
     }
 ]
