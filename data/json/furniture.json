@@ -5129,7 +5129,7 @@
     "description": "It's not all about hiding government secrets, sometimes you just want to stop identity theft.",
     "symbol": "H",
     "bgcolor": "white",
-    "move_cost_mod": 2,
+    "move_cost_mod": 5,
     "required_str": 6,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -5248,7 +5248,7 @@
     "description": "This is a big pile of computers.  They're all turned off.",
     "symbol": ":",
     "color": "blue_white",
-    "move_cost_mod": 4,
+    "move_cost_mod": -1,
     "required_str": 8,
     "flags": [ "BLOCKSDOOR" ],
     "deconstruct": {
@@ -5282,7 +5282,7 @@
     "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.",
     "symbol": "8",
     "color": "black_yellow",
-    "move_cost_mod": 4,
+    "move_cost_mod": -1,
     "required_str": 12,
     "flags": [ "BLOCKSDOOR" ],
     "deconstruct": {
