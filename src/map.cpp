@@ -4311,7 +4311,7 @@ item map::water_from( const tripoint &p )
             }
         } else {
             if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
-                poison_chance = 10
+                poison_chance = 10;
             } else {
                 poison_chance = 3;
             }
