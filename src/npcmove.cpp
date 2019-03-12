@@ -2709,10 +2709,8 @@ void npc::heal_player( player &patient )
     if( !is_hallucination() ) {
         long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
         consume_charges( used, charges_used );
-    } else if( patient.is_npc() ) {
-        add_msg( _( "%1$s heals %2$s." ), name.c_str(), patient.name.c_str() ); // you can't tell that it's not real
     } else {
-        add_msg( _( "%s heals you but you don't feal any different." ), name.c_str() ); // you can tell that you don't feel better
+        pretend_heal( patient, used );
     }
 
     if( !patient.is_npc() ) {
@@ -2726,6 +2724,19 @@ void npc::heal_player( player &patient )
             say( _( "Hold still, I can heal you more." ) );
         }
     }
+}
+
+void npc:: pretend_heal( player &patient, item used )
+{
+    if( patient.is_npc() ) {
+        add_msg( _( "%1$s heals %2$s." ), name.c_str(),
+                 patient.name.c_str() ); // you can't tell that it's not real
+    } else {
+        add_msg( _( "%s heals you but you don't feel any different." ),
+                 name.c_str() ); // you can tell that you don't feel better
+    }
+    consume_charges( used, 1 ); // empty hallucination's inventory to avoid spammming
+    moves -= 100; // consumes moves to avoid infinite loop
 }
 
 void npc::heal_self()
