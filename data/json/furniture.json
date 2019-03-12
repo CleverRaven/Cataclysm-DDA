@@ -4372,8 +4372,10 @@
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 50, 75 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "resin_countertop", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
@@ -4387,8 +4389,10 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
-        { "item": "plastic_chunk", "count": [ 10, 20 ] },
-        { "item": "pipe", "count": 1 }
+        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "count": [ 1, 3 ] },
+        { "item": "cu_pipe", "count": 1 },
       ]
     }
   },
@@ -4406,7 +4410,7 @@
         { "item": "cable", "charges": [ 4, 8 ] },
         { "item": "pipe", "count": [ 6, 12 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "resin_countertop", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 50, 75 ] },
         { "item": "power_supply", "count": 1 },
         { "item": "amplifier", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -4429,10 +4433,10 @@
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "element", "count": [ 1, 3 ] },
-        { "item": "plastic_chunk", "count": [ 10, 20 ] },
+        { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
         { "item": "glass_shard", "count": [ 3, 12 ] },
-        { "item": "cable", "charges": [ 1, 15 ] }
+        { "item": "cable", "charges": [ 1, 2 ] }
       ]
     }
   },
