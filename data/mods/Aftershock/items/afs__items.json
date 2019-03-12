@@ -1,5 +1,13 @@
 [
   {
+    "id": "afs_solderers_item",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "precision solderers",
+    "flags": "TRADER_AVOID",
+    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ] ]
+  },
+  {
     "id": "afs_basin",
     "type": "CONTAINER",
     "name": "basin",
@@ -17,65 +25,6 @@
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "id": "afs_energy_saber_off",
-    "type": "TOOL",
-    "name": "energy saber",
-    "description": "A hefty black tube the size of your hand.  Activate to produce a hard-light blade.",
-    "weight": 240,
-    "volume": 1,
-    "price": 10000000,
-    "price_postapoc": 20000,
-    "material": [ "superalloy", "diamond" ],
-    "symbol": "[",
-    "color": "gray",
-    "use_action": {
-      "menu_text": "Activate",
-      "type": "transform",
-      "target": "afs_energy_saber_on",
-      "msg": "You activate the energy saber, and its blade blazes into existence!"
-    }
-  },
-  {
-    "id": "afs_energy_saber_on",
-    "type": "TOOL",
-    "name": "energy saber (active)",
-    "description": "This glittering blue saber of cyan light hums gently, extending from its superalloy handle.  Its edge is lethally sharp, and being made of light, it's weightless, and immune to being damaged.  It's not white-hot like in pop culture, so it can't cut through anything, but there's not much in the way of flesh that it won't slice through easily.",
-    "weight": 240,
-    "volume": 4,
-    "price": 10000000,
-    "price_postapoc": 20000,
-    "material": [ "superalloy", "diamond" ],
-    "symbol": "[",
-    "color": "cyan",
-    "cutting": 50,
-    "to_hit": 4,
-    "flags": [ "LIGHT_8", "NO_REPAIR", "SLOW_WIELD", "UNBREAKABLE_MELEE" ],
-    "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "use_action": {
-      "menu_text": "Activate",
-      "type": "transform",
-      "target": "afs_energy_saber_off",
-      "msg": "The blade dissipates into particles."
-    }
-  },
-  {
-    "id": "afs_hydraulic_gauntlet",
-    "type": "GENERIC",
-    "name": "hydraulic gauntlet",
-    "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  It uses internal pressure to deliver slow, devastating blows.",
-    "weight": 3778,
-    "volume": 8,
-    "price": 10000000,
-    "price_postapoc": 20000,
-    "material": [ "hardsteel" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "bashing": 70,
-    "to_hit": 5,
-    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
-    "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ]
-  },
-  {
     "id": "afs_fridge",
     "type": "GENERIC",
     "name": "vehicle refrigerator",
@@ -91,6 +40,14 @@
     "bashing": 8,
     "flags": [ "DURABLE_MELEE" ],
     "looks_like": "minifridge"
+  },
+  {
+    "id": "afs_freezer",
+    "type": "GENERIC",
+    "name": "vehicle freezer",
+    "copy-from": "afs_fridge",
+    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
+    "color": "light_blue"
   },
   {
     "id": "afs_rolling_pin",
@@ -111,20 +68,71 @@
     "looks_like": "bat"
   },
   {
-    "id": "afs_rolling_pin_barbed_wire",
     "type": "GENERIC",
-    "copy-from": "afs_rolling_pin",
-    "name": "barbed-wire rolling pin",
-    "description": "Typically used to flatten dough, this rolling pin has been repurposed as a weapon, with barbed wire adding some extra power and weight to its swing.  It has some real heft to it; perfect for the bakers of the apocalypse.",
-    "weight": 923,
-    "volume": 6,
-    "price_postapoc": 1500,
-    "material": [ "steel", "wood" ],
-    "to_hit": 1,
-    "bashing": 14,
-    "cutting": 6,
-    "flags": [ "DURABLE_MELEE", "FIREWOOD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "looks_like": "bwirebat"
+    "id": "afs_scrap_titanium",
+    "symbol": ",",
+    "color": "white",
+    "name": "scrap titanium",
+    "name_plural": "scrap titanium",
+    "category": "spare_parts",
+    "description": "A piece of light titanium, usable for crafting or repairs.",
+    "price": 1000,
+    "material": "titanium",
+    "weight": 100,
+    "volume": 1,
+    "bashing": 1,
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_titanium_frame",
+    "name": "ultralight frame",
+    "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
+    "weight": 1000,
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "]",
+    "material": [ "titanium" ],
+    "techniques": [ "DEF_DISARM" ],
+    "volume": 30,
+    "bashing": 15,
+    "category": "veh_parts",
+    "price": 4000
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_metal_rig",
+    "copy-from": "vehicle_rig",
+    "name": "MetalMaster forge buddy",
+    "name_plural": "MetalMaster forge buddies",
+    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_cooking_rig",
+    "copy-from": "vehicle_rig",
+    "name": "cooking rig",
+    "name_plural": "cooking rigs",
+    "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
+  },  
+  {
+    "id": "afs_large_storage_battery",
+    "type": "MAGAZINE",
+    "category": "veh_parts",
+    "name": "large storage battery",
+    "name_plural": "large storage batteries",
+    "description": "A huge lithium ion storage battery, weighing easily 600 pounds.  Holds a tremendous amount of energy.",
+    "weight": 300000,
+    "volume": 80,
+    "price": 400000,
+    "price_postapoc": 50000,
+    "to_hit": -2,
+    "bashing": 40,
+    "material": [ "plastic", "steel" ],
+    "symbol": ":",
+    "color": "light_cyan",
+    "ammo_type": "battery",
+    "capacity": 100000,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
   }
 ]
