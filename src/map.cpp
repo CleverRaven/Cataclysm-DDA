@@ -3764,7 +3764,7 @@ void map::translate( const ter_id &from, const ter_id &to )
 
 //This function performs the translate function within a given radius of the player.
 void map::translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
-                            const bool same_submap )
+                            const bool same_submap, const bool toggle_between )
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
@@ -3780,12 +3780,17 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     int &y = t.y;
     for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
         for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            if( ter( t ) == from ) {
-                float radiX = sqrt( float( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
+            float radiX = sqrt( float( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
+            if( ter( t ) == from ) {  
                 // within distance, and either no submap limitation or same overmap coords.
                 if( radiX <= radi && ( !same_submap ||
                                        ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
                     ter_set( t, to );
+                }
+            } else if( toggle_between && ter( t ) == to ){
+                if( radiX <= radi && ( !same_submap ||
+                                        ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
+                    ter_set( t, from );
                 }
             }
         }
