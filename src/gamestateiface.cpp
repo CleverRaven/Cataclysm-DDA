@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "weather.h"
+#include "inventory.h"
 
 #ifdef _WINDOWS
 #include <Windows.h>
@@ -104,11 +105,15 @@ void gsi::update_body(std::array<int, num_hp_parts> hp_cur, std::array<int, num_
                 (hp_ratio >= 0.2) ? 2 :
                 (hp_ratio >= 0.1) ? 1 : 0;
             hp_max_level[i] = 10;
-            splint_state[i] = splints[i] * 5 / 100;
+            if (splints[i] >= 0)
+                splint_state[i] = splints[i] * 5 / 100;
         }
         if (hp_cur[i] == 0 && splints[i] == -1)
             splint_state[i] = -100;
-        if (bp_status[i] == c_red) // bleeding
+        
+        if (hp_cur[i] == 0) // limb broken, must make sure this applies first
+            limb_state[i] = -1;
+        else if (bp_status[i] == c_red) // bleeding
             limb_state[i] = 1;
         else if (bp_status[i] == c_blue) // bitten
             limb_state[i] = 2;
@@ -189,6 +194,18 @@ void gsi::update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> 
         temp_level = -3;
 }
 
+void gsi::update_invlets(Character & character)
+{
+    std::set<char> invlets_temp = character.allocated_invlets();
+    std::copy(invlets_temp.begin(), invlets_temp.end(), std::back_inserter(invlets));
+    for (int i = 0; i < invlets_temp.size(); i++)
+    {
+        item t = character.inv.find_item(character.inv.invlet_to_position(invlets[i]));
+        invlets_c[i] = t.color();
+        invlets_s[i] = t.color_in_inventory();
+    }
+}
+
 void gsi::serialize(JsonOut &jsout) const
 {
     jsout.start_object();
@@ -202,6 +219,9 @@ void gsi::serialize(JsonOut &jsout) const
     jsout.start_object();
     jsout.member("input_context", ctxt.top());
     jsout.member("menu_context", mctxt.top());
+    jsout.member("invlets", invlets);
+    jsout.member("invlets_color", invlets_c);
+    jsout.member("invlets_status", invlets_s);
     jsout.end_object();
 
     jsout.member("player");

@@ -1720,6 +1720,7 @@ bool game::do_turn()
     }
     gsi::get().update_body(u.hp_cur, u.hp_max, bp_status, splints);
     gsi::get().update_temp(u.temp_cur, u.temp_conv);
+    gsi::get().update_invlets(u);
 
 
     gsi::get().stamina = u.stamina;
