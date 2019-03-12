@@ -678,6 +678,32 @@
     }
   },
   {
+    "id": "bot_pacification_hack",
+    "type": "TOOL",
+    "name": "inactive pacification hack",
+    "description": "This is an inactive pacification hack.  Pacification hacks are fist-sized robots that fly through the air.  This one contains a relaxation gas canister and attacks by flying at its target and releasing relaxation gas.  Use this item to reprogram and activate the pacification hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 5360,
+    "volume": 3,
+    "price": 60500,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_pacification_hack",
+      "friendly_msg": "The pacification hack flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the pacification hack; hold your breath!",
+      "difficulty": 3,
+      "moves": 60,
+      "place_randomly": true,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_grenade_hack",
     "type": "TOOL",
     "name": "inactive grenade hack",
@@ -3255,6 +3281,88 @@
     "use_action": {
       "type": "explosion",
       "do_flashbang": true,
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "tear_gas_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": {
+      "target": "tear_gas_payload_act",
+      "msg": "You pull the pin on the payload.",
+      "target_charges": 5,
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "tear_gas_payload_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "fields_type": "fd_tear_gas",
+      "fields_radius": 3,
+      "fields_min_density": 1,
+      "fields_max_density": 3,
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "relax_gas_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "relaxation gas payload",
+    "description": "This is a dummy item used by relaxation hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": {
+      "target": "relax_gas_payload_act",
+      "msg": "You pull the pin on the payload.",
+      "target_charges": 5,
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "relax_gas_payload_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active relaxation gas payload",
+    "description": "This is a dummy item used by relaxation gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "fields_type": "fd_relax_gas",
+      "fields_radius": 3,
+      "fields_min_density": 1,
+      "fields_max_density": 3,
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."

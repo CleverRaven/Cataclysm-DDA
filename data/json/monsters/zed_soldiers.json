@@ -414,7 +414,7 @@
     "id": "mon_zombie_bio_op",
     "type": "MONSTER",
     "name": "zombie bio-operator",
-    "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
+    "description": "This armored and augmented soldier crackles with energy as it moves robotically and with purpose.  Worse, its bionics and skillwires look like they're still functioning.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
