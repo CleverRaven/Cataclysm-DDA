@@ -887,7 +887,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_goto_destination:
-            go_to_destination();
+            go_to_omt_destination();
             break;
 
         case npc_avoid_friendly_fire:
@@ -1260,7 +1260,7 @@ npc_action npc::address_player()
                 set_attitude( NPCATT_NULL );
                 return npc_pause;
             }
-        } else if( has_destination() ) {
+        } else if( has_omt_destination() ) {
             return npc_goto_destination;
         } else { // At goal. Now, waiting on nearby player
             return npc_pause;
@@ -1283,11 +1283,11 @@ npc_action npc::long_term_goal_action()
         return npc_base_idle;
     }
 
-    if( !has_destination() ) {
-        set_destination();
+    if( !has_omt_destination() ) {
+        set_omt_destination();
     }
 
-    if( has_destination() ) {
+    if( has_omt_destination() ) {
         return npc_goto_destination;
     }
 
@@ -2954,12 +2954,12 @@ bool npc::saw_player_recently() const
     return last_player_seen_pos && g->m.inbounds( *last_player_seen_pos ) && last_seen_player_turn > 0;
 }
 
-bool npc::has_destination() const
+bool npc::has_omt_destination() const
 {
     return goal != no_goal_point;
 }
 
-void npc::reach_destination()
+void npc::reach_omt_destination()
 {
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
@@ -2990,7 +2990,7 @@ void npc::reach_destination()
     }
 }
 
-void npc::set_destination()
+void npc::set_omt_destination()
 {
     /* TODO: Make NPCs' movement more intelligent.
      * Right now this function just makes them attempt to address their needs:
@@ -3028,18 +3028,18 @@ void npc::set_destination()
     std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
 
-    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name() <<
+    DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
                                "] with ["
                                << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
                                << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
-void npc::go_to_destination()
+void npc::go_to_omt_destination()
 {
     if( goal == no_goal_point ) {
         add_msg( m_debug, "npc::go_to_destination with no goal" );
         move_pause();
-        reach_destination();
+        reach_omt_destination();
         return;
     }
 
@@ -3052,7 +3052,7 @@ void npc::go_to_destination()
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal == omt_pos ) {
         // We're at our desired map square!
-        reach_destination();
+        reach_omt_destination();
         return;
     }
 

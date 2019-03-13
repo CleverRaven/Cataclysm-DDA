@@ -775,10 +775,10 @@ class npc : public player
         bool consume_food();
 
         // Movement on the overmap scale
-        bool has_destination() const; // Do we have a long-term destination?
-        void set_destination(); // Pick a place to go
-        void go_to_destination(); // Move there; on the micro scale
-        void reach_destination(); // We made it!
+        bool has_omt_destination() const; // Do we have a long-term destination?
+        void set_omt_destination(); // Pick a place to go
+        void go_to_omt_destination(); // Move there; on the micro scale
+        void reach_omt_destination(); // We made it!
 
         void guard_current_pos();
 
