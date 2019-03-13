@@ -6123,9 +6123,9 @@ bool item::allow_crafting_component() const
 
 void item::set_item_specific_energy( const float new_specific_energy )
 {
-    const int specific_heat_liquid = type->comestible->specific_heat_liquid; // J/g K
-    const int specific_heat_solid = type->comestible->specific_heat_solid; // J/g K
-    const int latent_heat = type->comestible->latent_heat; // J/kg
+    const float specific_heat_liquid = type->comestible->specific_heat_liquid; // J/g K
+    const float specific_heat_solid = type->comestible->specific_heat_solid; // J/g K
+    const float latent_heat = type->comestible->latent_heat; // J/kg
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -6186,9 +6186,9 @@ void item::set_item_specific_energy( const float new_specific_energy )
 
 float item::get_specific_energy_from_temperature( const float new_temperature )
 {
-    const int specific_heat_liquid = type->comestible->specific_heat_liquid; // J/g K
-    const int specific_heat_solid = type->comestible->specific_heat_solid; // J/g K
-    const int latent_heat = type->comestible->latent_heat; // J/kg
+    const float specific_heat_liquid = type->comestible->specific_heat_liquid; // J/g K
+    const float specific_heat_solid = type->comestible->specific_heat_solid; // J/g K
+    const float latent_heat = type->comestible->latent_heat; // J/kg
     const float freezing_temperature = temp_to_kelvin( type->comestible->freeze_point );  // K
     const float completely_frozen_energy = specific_heat_solid *
                                            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -6197,12 +6197,16 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
     float new_specific_energy;
 
     if( new_temperature <= freezing_temperature ) {
-        new_specific_energy = completely_frozen_energy - specific_heat_solid *
-                              ( freezing_temperature - new_temperature );
+        new_specific_energy = specific_heat_solid * new_temperature ;
     } else {
         new_specific_energy = completely_liquid_energy + specific_heat_liquid *
                               ( new_temperature - freezing_temperature );
     }
+	
+	add_msg( m_warning, _( "lq %f, sld %f, lat %f" ), specific_heat_liquid, specific_heat_solid, latent_heat );
+	add_msg( m_warning, _( "T %f" ), new_temperature );
+	add_msg( m_warning, _( "E %f" ), new_specific_energy );
+	
     return new_specific_energy;
 }
 
