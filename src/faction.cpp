@@ -1194,7 +1194,7 @@ void new_faction_manager::display() const
                     }
                     if( selection < camps.size() ) {
                         int y = 2;
-                        tripoint camp_pos = camp->camp_pos();
+                        tripoint camp_pos = camp->camp_omt_pos();
                         std::string direction = direction_name( direction_from(
                                 player_abspos, camp_pos ) );
                         std::string centerstring = "center";

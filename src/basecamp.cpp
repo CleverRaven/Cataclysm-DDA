@@ -57,15 +57,15 @@ basecamp::basecamp(): bb_pos( tripoint_zero )
 {
 }
 
-basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ), omt_pos( omt_pos_ )
+basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ),
+    omt_pos( omt_pos_ )
 {
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    std::vector<tripoint> sort_points_,
-                    std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ):
-    sort_points( sort_points_ ), directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
+                    std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
+                    std::map<std::string, expansion_data> expansions_ ): sort_points( sort_points_ ),
+    directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
 

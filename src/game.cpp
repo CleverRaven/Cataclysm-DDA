@@ -2047,7 +2047,7 @@ void game::validate_camps()
     if( bcp ) {
         int count = 1;
         if( u.camps.empty() ) {
-            u.camps.insert( bcp->camp_pos() );
+            u.camps.insert( bcp->camp_omt_pos() );
         }
         for( auto camp : u.camps ) {
             // check if already on the overmapbuffer list
