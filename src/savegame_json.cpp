@@ -2918,14 +2918,6 @@ void basecamp::serialize( JsonOut &json ) const
     json.member( "name", name );
     json.member( "pos", omt_pos );
     json.member( "bb_pos", bb_pos );
-    json.member( "sort_points" );
-    json.start_array();
-    for( const tripoint &it : sort_points ) {
-        json.start_object();
-        json.member( "pos", it );
-        json.end_object();
-    }
-    json.end_array();
     json.member( "expansions" );
     json.start_array();
     for( const auto &expansion : expansions ) {
@@ -2946,14 +2938,7 @@ void basecamp::deserialize( JsonIn &jsin )
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
-    JsonArray ja = data.get_array( "sort_points" );
-    while( ja.has_more() ) {
-        JsonObject sdata = ja.next_object();
-        tripoint spt;
-        sdata.read( "pos", spt );
-        sort_points.push_back( spt );
-    }
-    ja = data.get_array( "expansions" );
+    JsonArray ja = data.get_array( "expansions" );
     while( ja.has_more() ) {
         JsonObject edata = ja.next_object();
         expansion_data e;
