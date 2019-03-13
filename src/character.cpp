@@ -25,6 +25,7 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "skill.h"
+#include "skill_boost.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "veh_interact.h"
@@ -488,9 +489,18 @@ void Character::process_turn()
 void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
+    int str_boost_val = 0;
+    cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
+    if( str_boost ) {
+        int skill_total = 0;
+        for( const std::string &skill_str : str_boost->skills() ) {
+            skill_total += get_skill_level( skill_id( skill_str ) );
+        }
+        str_boost_val = str_boost->calc_bonus( skill_total );
+    }
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
-    float hp_adjustment = mutation_value( "hp_adjustment" );
+    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     for( auto &elem : new_max_hp ) {
         /** @EFFECT_STR_MAX increases base hp */
         elem = 60 + str_max * 3 + hp_adjustment;
@@ -1315,6 +1325,37 @@ void Character::die( Creature *nkiller )
     mission::on_creature_death( *this );
 }
 
+void Character::apply_skill_boost()
+{
+    for( const skill_boost &boost : skill_boost::get_all() ) {
+        // For migration, reset previously applied bonus.
+        // Remove after 0.E or so.
+        const std::string bonus_name = boost.stat() + std::string( "_bonus" );
+        std::string previous_bonus = get_value( bonus_name );
+        if( !previous_bonus.empty() ) {
+            if( boost.stat() == "str" ) {
+                str_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "dex" ) {
+                dex_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "int" ) {
+                int_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "per" ) {
+                per_max -= atoi( previous_bonus.c_str() );
+            }
+            remove_value( bonus_name );
+        }
+        // End migration code
+        int skill_total = 0;
+        for( const std::string &skill_str : boost.skills() ) {
+            skill_total += get_skill_level( skill_id( skill_str ) );
+        }
+        mod_stat( boost.stat(), boost.calc_bonus( skill_total ) );
+        if( boost.stat() == "str" ) {
+            recalc_hp();
+        }
+    }
+}
+
 void Character::reset_stats()
 {
     // Bionic buffs
@@ -1346,6 +1387,8 @@ void Character::reset_stats()
     else if( str_max <= 5 ) {
         mod_dodge_bonus( 1 );   // Bonus if we're small
     }
+
+    apply_skill_boost();
 
     nv_cached = false;
 
