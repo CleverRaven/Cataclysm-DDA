@@ -2320,7 +2320,7 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) || is_hallucination() ) {
+    if( ( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) || is_hallucination() ) {
         return false;
     }
 
@@ -2533,7 +2533,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 
 bool npc::alt_attack()
 {
-    if( is_following() && !rules.has_flag( ally_rule::use_grenades ) || is_hallucination() ) {
+    if( ( is_following() && !rules.has_flag( ally_rule::use_grenades ) ) || is_hallucination() ) {
         return false;
     }
 
