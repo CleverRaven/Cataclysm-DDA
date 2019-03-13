@@ -14,6 +14,7 @@
 #include "character.h"
 #include "weather.h"
 #include "inventory.h"
+#include "color.h"
 
 #ifdef _WINDOWS
 #include <Windows.h>
@@ -196,13 +197,19 @@ void gsi::update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> 
 
 void gsi::update_invlets(Character & character)
 {
+    invlets.clear();
+    invlets_c.clear();
+    invlets_s.clear();
+
     std::set<char> invlets_temp = character.allocated_invlets();
-    std::copy(invlets_temp.begin(), invlets_temp.end(), std::back_inserter(invlets));
+    std::vector<char> invlets_i;
+    std::copy(invlets_temp.begin(), invlets_temp.end(), std::back_inserter(invlets_i));
     for (int i = 0; i < invlets_temp.size(); i++)
     {
-        item t = character.inv.find_item(character.inv.invlet_to_position(invlets[i]));
-        invlets_c[i] = t.color();
-        invlets_s[i] = t.color_in_inventory();
+        item t = character.inv.find_item(character.inv.invlet_to_position(invlets_i[i]));
+        invlets_c.push_back(get_all_colors().get_name(t.color()));
+        invlets_s.push_back(get_all_colors().get_name(t.color_in_inventory()));
+        invlets.push_back(std::string(1, invlets_i[i]));
     }
 }
 

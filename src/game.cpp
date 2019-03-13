@@ -1730,8 +1730,10 @@ bool game::do_turn()
     gsi::get().pain = u.get_perceived_pain();
     gsi::get().morale = u.get_morale_level();
 
-    gsi::get().safe_mode = turnssincelastmon * 100 / get_option<int>("AUTOSAFEMODETURNS");
-
+    if (safe_mode == SAFE_MODE_ON)
+        gsi::get().safe_mode = 4;
+    else
+        gsi::get().safe_mode = turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
     gsi::get().gsi_update.notify_one();
 #endif
     return false;

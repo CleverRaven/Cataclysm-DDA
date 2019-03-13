@@ -33,9 +33,9 @@ public:
     std::stack<std::string> ctxt;  // current input context
     std::stack<std::string> mctxt; // current input context, for menus
     
-    std::vector<char> invlets;        // inventory letters in use
-    std::vector<nc_color> invlets_c;  // inventory letters' corresponding colors
-    std::vector<nc_color> invlets_s;  // Special status of inventory item:
+    std::vector<std::string> invlets;        // inventory letters in use
+    std::vector<std::string> invlets_c;  // inventory letters' corresponding colors
+    std::vector<std::string> invlets_s;  // Special status of inventory item:
                                     // Yellow for on/activated
                                     // Green for radioactive
                                     // Red for armed explosive
@@ -56,7 +56,7 @@ public:
     int power_level, max_power_level;
     int pain;
     int morale;
-    double safe_mode;
+    int safe_mode;
 
     // Everything that goes in the output goes here
     void serialize(JsonOut &jsout) const;
