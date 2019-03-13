@@ -6201,12 +6201,7 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
     } else {
         new_specific_energy = completely_liquid_energy + specific_heat_liquid *
                               ( new_temperature - freezing_temperature );
-    }
-	
-	add_msg( m_warning, _( "lq %f, sld %f, lat %f" ), specific_heat_liquid, specific_heat_solid, latent_heat );
-	add_msg( m_warning, _( "T %f" ), new_temperature );
-	add_msg( m_warning, _( "E %f" ), new_specific_energy );
-	
+    }	
     return new_specific_energy;
 }
 
