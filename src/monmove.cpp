@@ -35,6 +35,10 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id BLOB( "BLOB" );
+const species_id ROBOT( "ROBOT" );
+
 bool monster::wander()
 {
     return ( goal == pos() );
@@ -772,8 +776,16 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
+    std::string footstep = "footsteps.";
+    if( type->in_species( BLOB ) ) {
+        footstep = "plop.";
+    } else if( type->in_species( ZOMBIE ) ) {
+        footstep = "shuffling.";
+    } else if( type->in_species( ROBOT ) ) {
+        footstep = "mechanical whirring.";
+    }
     int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this );
+    sounds::add_footstep( p, volume, dist, this, footstep );
     return;
 }
 

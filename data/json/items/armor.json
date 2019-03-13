@@ -1149,7 +1149,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
     "use_action": {
       "menu_text": "Zip up",
       "type": "transform",
@@ -4230,7 +4230,7 @@
     "encumbrance": 17,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "DEAF" ]
+    "flags": [ "DEAF", "HELMET_COMPAT" ]
   },
   {
     "id": "hat_sombrero",
@@ -4600,7 +4600,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
     "id": "helmet_scavenger",
@@ -4771,7 +4771,7 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_h20survivor",
@@ -4793,7 +4793,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_lsurvivor",
@@ -4815,7 +4815,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_rain",
@@ -4833,7 +4833,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "OUTER" ]
+    "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_survivor",
@@ -4856,7 +4856,7 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_wsurvivor",
@@ -4878,7 +4878,7 @@
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_xlsurvivor",
@@ -4901,7 +4901,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hoodie",
@@ -5277,7 +5277,7 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 5,
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "jerrypack",
@@ -5652,7 +5652,8 @@
     "covers": [ "HEAD" ],
     "coverage": 40,
     "warmth": 3,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "flags": [ "HELMET_COMPAT" ]
   },
   {
     "id": "kittel",

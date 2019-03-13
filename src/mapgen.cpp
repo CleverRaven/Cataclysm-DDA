@@ -1667,9 +1667,40 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
                     // Using the json object here adds nice formatting and context information
                     jarr.throw_error( err.what() );
                 }
-            } else {
+            } else if( jarr.test_object() ) {
                 JsonObject jsi = jarr.next_object();
                 alter->alternatives.emplace_back( jsi );
+            } else if( jarr.test_array() ) {
+                // If this is an array, it means it is an entry followed by a desired total count of instances.
+                JsonArray piece_and_count_jarr = jarr.next_array();
+                if( piece_and_count_jarr.size() != 2 ) {
+                    piece_and_count_jarr.throw_error( "Array must have exactly two entries: the object, then the count." );
+                }
+
+                // Test if this is a string or object, and then just emplace it.
+                if( piece_and_count_jarr.test_string() ) {
+                    try {
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next_string() );
+                    } catch( const std::runtime_error &err ) {
+                        piece_and_count_jarr.throw_error( err.what() );
+                    }
+                } else if( piece_and_count_jarr.test_object() ) {
+                    JsonObject jsi = piece_and_count_jarr.next_object();
+                    alter->alternatives.emplace_back( jsi );
+                } else {
+                    piece_and_count_jarr.throw_error( "First entry must be a string or object." );
+                }
+
+                if( piece_and_count_jarr.test_int() ) {
+                    // We already emplaced the first instance, so do one less.
+                    int repeat = std::max( 0, piece_and_count_jarr.next_int() - 1 );
+                    PieceType piece_to_repeat = alter->alternatives.back();
+                    for( int i = 0; i < repeat; i++ ) {
+                        alter->alternatives.emplace_back( piece_to_repeat );
+                    }
+                } else {
+                    piece_and_count_jarr.throw_error( "Second entry must be an integer." );
+                }
             }
         }
         vect.push_back( alter );
@@ -1860,6 +1891,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
+    new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
 
     return new_pal;
 }

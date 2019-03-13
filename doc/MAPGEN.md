@@ -496,6 +496,14 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
     ".": [ "t_grass", "t_grass", "t_dirt" ]
 }
 ```
+It is also possible to specify the number of instances (and consequently their chance) directly, which is particularly useful for rare occurrences (rather than repeating the common value many times):
+```
+"terrain" : {
+    ".": [ [ "t_grass", 2 ], "t_dirt" ]
+}
+```
+
+
 Example (places a blood and a bile field on each '.' square):
 ```
 "fields" : {
@@ -662,8 +670,11 @@ Values:
 - "amount": (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
 - "chance": (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
 
-Example for dropping a default amount of gasoline (200 units) on the ground:
+Example for dropping a default amount of gasoline (200 units) on the ground (either by using a character in the rows array or explicit coordinates):
 ```JSON
+"liquids": {
+    "g": { "liquid": "gasoline" }
+},
 "place_liquids": [
     { "liquid": "gasoline", "x": 3, "y": 5 }
 ],

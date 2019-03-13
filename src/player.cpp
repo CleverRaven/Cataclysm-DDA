@@ -12087,26 +12087,31 @@ std::string player::visible_mutations( const int visibility_cap ) const
     return trait_str;
 }
 
-std::string player::short_description() const
+std::vector<std::string> player::short_description_parts() const
 {
-    std::stringstream ret;
+    std::vector<std::string> result;
 
     if( is_armed() ) {
-        ret << _( "Wielding: " ) << weapon.tname() << ";   ";
+        result.push_back( _( "Wielding: " ) + weapon.tname() );
     }
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
     []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        ret << _( "Wearing: " ) << worn_str << ";";
+        result.push_back( _( "Wearing: " ) + worn_str );
     }
     const int visibility_cap = 0; // no cap
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        ret << _( "   Traits: " ) << trait_str << ";";
+        result.push_back( _( "Traits: " ) + trait_str );
     }
-    return ret.str();
+    return result;
+}
+
+std::string player::short_description() const
+{
+    return join( short_description_parts(), ";   " );
 }
 
 int player::print_info( const catacurses::window &w, int vStart, int, int column ) const

@@ -4300,36 +4300,25 @@ item map::water_from( const tripoint &p )
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
-    if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        !( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 3 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        !( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 4 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        ( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 10 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        ( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 20 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
+        int poison_chance = 0;
+        if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 20;
+            } else {
+                poison_chance = 4;
+            }
+        } else {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 10;
+            } else {
+                poison_chance = 3;
+            }
+        }
+        if( one_in( poison_chance ) ) {
+            ret.poison = rng( 1, 4 );
+        }
         return ret;
     }
     if( furn( p ).obj().examine == &iexamine::water_source ) {
