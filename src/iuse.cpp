@@ -5346,6 +5346,14 @@ int iuse::seed( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+bool iuse::robotcontrol_can_target( player *p, const monster &m )
+{
+    return !m.is_dead()
+         && m.type->in_species( ROBOT )
+         && m.friendly == 0
+         && rl_dist( p->pos(), m.pos() ) <= 10;
+}
+
 int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient() ) {
@@ -5371,22 +5379,18 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             std::vector< std::shared_ptr< monster> > mons; // @todo: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
-            for( const monster &candidate_ref : g->all_monsters() ) {
-                if( auto candidate = g->shared_from(candidate_ref) ) {
-                    if( candidate->type->in_species( ROBOT )
-                        && candidate->friendly == 0
-                        && rl_dist( p->pos(), candidate->pos() ) <= 10 ) {
-                        mons.push_back( candidate );
-                        pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate->name() );
-                        tripoint seen_loc;
-                        // Show locations of seen robots, center on player if robot is not seen
-                        if( p->sees( *candidate ) ) {
-                            seen_loc = candidate->pos();
-                        } else {
-                            seen_loc = p->pos();
-                        }
-                        locations.push_back( seen_loc );
+            for( const monster &candidate : g->all_monsters() ) {
+                if( robotcontrol_can_target(p, candidate) ) {
+                    mons.push_back( g->shared_from(candidate) );
+                    pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
+                    tripoint seen_loc;
+                    // Show locations of seen robots, center on player if robot is not seen
+                    if( p->sees( candidate ) ) {
+                        seen_loc = candidate.pos();
+                    } else {
+                        seen_loc = p->pos();
                     }
+                    locations.push_back( seen_loc );
                 }
             }
             if( mons.empty() ) {
