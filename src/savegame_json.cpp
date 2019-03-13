@@ -2870,7 +2870,7 @@ void basecamp::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "name", name );
-    json.member( "pos", pos );
+    json.member( "pos", omt_pos );
     json.member( "bb_pos", bb_pos );
     json.member( "sort_points" );
     json.start_array();
@@ -2898,7 +2898,7 @@ void basecamp::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "name", name );
-    data.read( "pos", pos );
+    data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     JsonArray ja = data.get_array( "sort_points" );
     while( ja.has_more() ) {
@@ -2921,4 +2921,3 @@ void basecamp::deserialize( JsonIn &jsin )
         }
     }
 }
-

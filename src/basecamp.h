@@ -58,7 +58,6 @@ class basecamp
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name();
-
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
         void define_camp( npc &p );
 

@@ -1013,7 +1013,7 @@ faction *faction_manager::get( const faction_id &id )
     debugmsg( "Requested non-existing faction '%s'", id.str() );
     return nullptr;
 }
-
+// this is legacy and un-used, but will be incorporated into proper factions
 void faction_manager::display() const
 {
     std::vector<const faction *> valfac; // Factions that we know of.
@@ -1243,9 +1243,10 @@ void new_faction_manager::display() const
                         std::string mission_string;
                         if( guy->has_companion_mission() ) {
                             npc_companion_mission c_mission = guy->get_companion_mission();
-                            mission_string = _( "Current Mision : " ) + c_mission.mission_id;
+                            mission_string = _( "Current Mision : " ) + get_mission_action_string( c_mission.mission_id );
                         }
-                        mvwprintz( w_missions, ++y, 31, col, mission_string );
+                        fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, col,
+                                        mission_string );
                         tripoint guy_abspos = guy->global_omt_location();
                         std::string direction = direction_name( direction_from(
                                 player_abspos, guy_abspos ) );
@@ -1253,6 +1254,9 @@ void new_faction_manager::display() const
                         if( ( !direction.compare( centerstring ) ) == 0 ) {
                             mvwprintz( w_missions, ++y, 31, col,
                                        _( "Direction : to the " ) + direction );
+                        } else {
+                            mvwprintz( w_missions, ++y, 31, col,
+                                       _( "Direction : Nearby" ) );
                         }
                         mvwprintz( w_missions, ++y, 31, col, _( "Location : (%d, %d)" ), guy_abspos.x, guy_abspos.y );
                         std::string can_see;

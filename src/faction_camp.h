@@ -46,6 +46,8 @@ inline bool operator&( const farm_ops &rhs, const farm_ops &lhs )
     return static_cast<int>( rhs ) & static_cast<int>( lhs );
 }
 
+std::string get_mission_action_string( const std::string &input_mission );
+
 namespace talk_function
 {
 void basecamp_mission( npc & );
