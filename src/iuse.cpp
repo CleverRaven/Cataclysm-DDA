@@ -5349,9 +5349,9 @@ int iuse::seed( player *p, item *it, bool, const tripoint & )
 bool iuse::robotcontrol_can_target( player *p, const monster &m )
 {
     return !m.is_dead()
-         && m.type->in_species( ROBOT )
-         && m.friendly == 0
-         && rl_dist( p->pos(), m.pos() ) <= 10;
+           && m.type->in_species( ROBOT )
+           && m.friendly == 0
+           && rl_dist( p->pos(), m.pos() ) <= 10;
 }
 
 int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
@@ -5380,8 +5380,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
-                if( robotcontrol_can_target(p, candidate) ) {
-                    mons.push_back( g->shared_from(candidate) );
+                if( robotcontrol_can_target( p, candidate ) ) {
+                    mons.push_back( g->shared_from( candidate ) );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     tripoint seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
