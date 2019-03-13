@@ -1900,12 +1900,12 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
-void npc::see_item_say_smth( const std::string object, const std::string smth )
+void npc::see_item_say_smth( const itype_id object, const std::string smth )
 {
     for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : g->m.i_at( p ) ) {
-                if( one_in( 100 ) && lcmatch( it.tname(), object ) ) {
+                if( one_in( 100 ) && ( it.typeId == object ) ) {
                     say( smth );
                 }
             }
@@ -1916,8 +1916,8 @@ void npc::see_item_say_smth( const std::string object, const std::string smth )
 void npc::find_item()
 {
     if( is_hallucination() ) {
-        see_item_say_smth( "Thorazine", "<no_to_thorazine>" );
-        see_item_say_smth( "Pink", "<yes_to_lsd>" );
+        see_item_say_smth( "thorazine", "<no_to_thorazine>" );
+        see_item_say_smth( "lsd", "<yes_to_lsd>" );
         return;
     }
 

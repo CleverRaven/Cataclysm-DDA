@@ -738,7 +738,7 @@ class npc : public player
         std::set<tripoint> get_path_avoid() const override;
 
         // Item discovery and fetching
-        void see_item_say_smth( const std::string object, const std::string smth ); // Comment on item seen
+        void see_item_say_smth( const itype_id item, const std::string smth ); // Comment on item seen
         void find_item();   // Look around and pick an item
         void pick_up_item();  // Move to, or grab, our targeted item
         void drop_items( int weight, int volume ); // Drop wgt and vol
