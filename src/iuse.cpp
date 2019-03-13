@@ -5371,8 +5371,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             std::vector< std::shared_ptr< monster> > mons; // @todo: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
-            for( std::weak_ptr<monster> candidate_wp : g->all_monsters().items ) {
-                if( auto candidate = candidate_wp.lock() ) {
+            for( const monster &candidate_ref : g->all_monsters() ) {
+                if( auto candidate = g->shared_from(candidate_ref) ) {
                     if( candidate->type->in_species( ROBOT )
                         && candidate->friendly == 0
                         && rl_dist( p->pos(), candidate->pos() ) <= 10 ) {
