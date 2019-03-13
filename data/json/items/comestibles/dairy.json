@@ -77,7 +77,6 @@
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
     "price": 385,
     "material": [ "milk" ],
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "volume": 1,
     "charges": 1,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 7 ] ],
