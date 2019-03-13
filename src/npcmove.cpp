@@ -51,7 +51,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
-const efftype_id effect_hallu("hallu");
+const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_infected( "infected" );
@@ -2963,7 +2963,7 @@ void npc::mug_player( player &mark )
     item stolen;
     if ( !is_hallucination() ) {
         stolen = mark.i_rem( item_index );
-        i_add(stolen);
+        i_add( stolen );
     }
     if( mark.is_npc() ) {
         if( u_see ) {
