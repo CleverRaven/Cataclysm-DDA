@@ -1860,6 +1860,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
+    new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
 
     return new_pal;
 }
