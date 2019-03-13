@@ -29,6 +29,7 @@ static const mtype_id mon_blank( "mon_blank" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
+static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_gelatin( "mon_gelatin" );
 static const mtype_id mon_flaming_eye( "mon_flaming_eye" );
 static const mtype_id mon_gracke( "mon_gracke" );
@@ -42,7 +43,6 @@ static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-static const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
@@ -229,7 +229,7 @@ void mx_military( map &m, const tripoint & )
                 if( one_in( 2 ) ) {
                     m.add_spawn( mon_zombie_bio_op, 1, p->x, p->y );
                 } else {
-                    m.add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
+                    m.add_spawn( mon_dispatch, 1, p->x, p->y );
                 }
             } else {
                 m.place_items( "map_extra_military", 100, *p, *p, true, 0 );
