@@ -38,6 +38,9 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+typedef enum {
+    DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
+} veh_interact_results;
 namespace vehicles
 {
 extern point cardinal_d[5];
@@ -1435,6 +1438,8 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
 
+        veh_interact_results interact_with( const tripoint &pos, int interact_part );
+
         const std::string disp_name() const;
 
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
@@ -1587,6 +1592,11 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
+        /*
+         * The co-ordinates of the bounding box of the vehicle's mount points
+         */
+        mutable point mount_max;
+        mutable point mount_min;
         /*
          * Fire turret at automatically acquired targets
          * @return number of shots actually fired (which may be zero)

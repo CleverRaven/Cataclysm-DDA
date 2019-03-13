@@ -1356,3 +1356,240 @@ void vehicle::use_bike_rack( int part )
         g->refresh_all();
     }
 }
+
+// Handles interactions with a vehicle in the examine menu.
+veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_part )
+{
+    std::vector<std::string> menu_items;
+    std::vector<uilist_entry> options_message;
+    const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
+    const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
+
+    auto turret = turret_query( pos );
+
+    const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
+    const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
+    const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG", true ) >= 0;
+    const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB", true ) >= 0;
+    const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
+    const bool has_controls = avail_part_with_feature( interact_part, "CONTROLS", true ) >= 0;
+    const bool has_electronics = avail_part_with_feature( interact_part, "CTRL_ELECTRONIC", true ) >= 0;
+    const int cargo_part = part_with_feature( interact_part, "CARGO", false );
+    const bool from_vehicle = cargo_part >= 0 && !get_items( cargo_part ).empty();
+    const bool can_be_folded = is_foldable();
+    const bool is_convertible = tags.count( "convertible" ) > 0;
+    const bool remotely_controlled = g->remoteveh() == this;
+    const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
+    const bool has_washmachine = washing_machine_part >= 0;
+    bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
+                              parts[washing_machine_part].enabled;
+    const int monster_capture_part = avail_part_with_feature( interact_part, "CAPTURE_MONSTER_VEH",
+                                     true );
+    const bool has_monster_capture = monster_capture_part >= 0;
+    const int bike_rack_part = avail_part_with_feature( interact_part, "BIKE_RACK_VEH", true );
+    const bool has_bike_rack = bike_rack_part >= 0;
+    const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
+                             avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
+
+    enum {
+        EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
+        USE_BIKE_RACK, RELOAD_PLANTER
+    };
+    uilist selectmenu;
+
+    selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+    selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+    if( has_controls ) {
+        selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+    }
+    if( has_electronics ) {
+        selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
+                             _( "Control multiple electronics" ) );
+    }
+    if( has_washmachine ) {
+        selectmenu.addentry( USE_WASHMACHINE, true, 'W',
+                             washing_machine_on ? _( "Deactivate the washing machine" ) :
+                             _( "Activate the washing machine (1.5 hours)" ) );
+    }
+    if( from_vehicle && !washing_machine_on ) {
+        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
+    }
+    if( has_items_on_ground && !items_are_sealed ) {
+        selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );
+    }
+    if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
+        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
+    }
+    if( turret.can_unload() ) {
+        selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret.name() );
+    }
+    if( turret.can_reload() ) {
+        selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name() );
+    }
+    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
+    }
+    if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
+        selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
+        selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
+    }
+    if( has_weldrig && fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
+    }
+    if( has_purify ) {
+        bool can_purify = fuel_left( "battery" ) >= item::find_type( "water_purifier" )->charges_to_use();
+        selectmenu.addentry( USE_PURIFIER, can_purify,
+                             'p', _( "Purify water in carried container" ) );
+        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
+                             'P', _( "Purify water in vehicle tank" ) );
+    }
+    if( has_monster_capture ) {
+        selectmenu.addentry( USE_MONSTER_CAPTURE, true, 'G', _( "Capture or release a creature" ) );
+    }
+    if( has_bike_rack ) {
+        selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
+    }
+
+    if( has_planter ) {
+        selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
+    }
+
+    int choice;
+    if( selectmenu.entries.size() == 1 ) {
+        choice = selectmenu.entries.front().retval;
+    } else {
+        selectmenu.text = _( "Select an action" );
+        selectmenu.query();
+        choice = selectmenu.ret;
+    }
+
+    auto veh_tool = [&]( const itype_id & obj ) {
+        item pseudo( obj );
+        if( fuel_left( "battery" ) < pseudo.ammo_required() ) {
+            return false;
+        }
+        auto qty = pseudo.ammo_capacity() - discharge_battery( pseudo.ammo_capacity() );
+        pseudo.ammo_set( "battery", qty );
+        g->u.invoke_item( &pseudo );
+        charge_battery( pseudo.ammo_remaining() );
+        return true;
+    };
+
+    switch( choice ) {
+        case USE_BIKE_RACK: {
+            use_bike_rack( bike_rack_part );
+            return DONE;
+        }
+        case USE_MONSTER_CAPTURE: {
+            use_monster_capture( monster_capture_part, pos );
+            return DONE;
+        }
+        case USE_HOTPLATE: {
+            veh_tool( "hotplate" );
+            return DONE;
+        }
+        case USE_WASHMACHINE: {
+            use_washing_machine( washing_machine_part );
+            return DONE;
+        }
+        case FILL_CONTAINER: {
+            g->u.siphon( *this, "water_clean" );
+            return DONE;
+        }
+        case DRINK: {
+            item water( "water_clean", 0 );
+            if( g->u.eat( water ) ) {
+                drain( "water_clean", 1 );
+                g->u.moves -= 250;
+            }
+            return DONE;
+        }
+        case USE_WELDER: {
+            if( veh_tool( "welder" ) ) {
+                // Evil hack incoming
+                auto &act = g->u.activity;
+                if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
+                    // Magic: first tell activity the item doesn't really exist
+                    act.index = INT_MIN;
+                    // Then tell it to search it on `pos`
+                    act.coords.push_back( pos );
+                    // Finally tell if it is the vehicle part with welding rig
+                    act.values.resize( 2 );
+                    act.values[1] = part_with_feature( interact_part, "WELDRIG", true );
+                }
+            }
+            return DONE;
+        }
+        case USE_PURIFIER: {
+            veh_tool( "water_purifier" );
+            return DONE;
+        }
+        case PURIFY_TANK: {
+            auto sel = []( const vehicle_part & pt ) {
+                return pt.is_tank() && pt.ammo_current() == "water";
+            };
+            auto title = string_format( _( "Purify <color_%s>water</color> in tank" ),
+                                        get_all_colors().get_name( item::find_type( "water" )->color ) );
+            auto &tank = veh_interact::select_part( *this, sel, title );
+            if( tank ) {
+                double cost = item::find_type( "water_purifier" )->charges_to_use();
+                if( fuel_left( "battery" ) < tank.ammo_remaining() * cost ) {
+                    //~ $1 - vehicle name, $2 - part name
+                    add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
+                             name, tank.name() );
+                } else {
+                    //~ $1 - vehicle name, $2 - part name
+                    add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ), name, tank.name() );
+                    discharge_battery( tank.ammo_remaining() * cost );
+                    tank.ammo_set( "water_clean", tank.ammo_remaining() );
+                }
+            }
+            return DONE;
+        }
+        case UNLOAD_TURRET: {
+            g->unload( *turret.base() );
+            return DONE;
+        }
+        case RELOAD_TURRET: {
+            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+            if( opt ) {
+                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+                g->u.activity.targets.emplace_back( turret.base() );
+                g->u.activity.targets.push_back( std::move( opt.ammo ) );
+            }
+            return DONE;
+        }
+        case FOLD_VEHICLE: {
+            fold_up();
+            return DONE;
+        }
+        case CONTROL: {
+            use_controls( pos );
+            return DONE;
+        }
+        case CONTROL_ELECTRONICS: {
+            control_electronics();
+            return DONE;
+        }
+        case EXAMINE: {
+            g->exam_vehicle( *this );
+            return DONE;
+        }
+        case TRACK: {
+            toggle_tracking( );
+            return DONE;
+        }
+        case GET_ITEMS_ON_GROUND: {
+            return ITEMS_FROM_GROUND;
+        }
+        case GET_ITEMS: {
+            return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
+        }
+        case RELOAD_PLANTER: {
+            reload_seeds( pos );
+            return DONE;
+        }
+    }
+    return DONE;
+}
