@@ -4839,10 +4839,7 @@
   {
     "type": "overmap_terrain",
     "id": "ws_regional_dump_0_0",
-    "copy-from": "generic_regional_dump",
-    "name": "regional dump",
-    "sym": 100,
-    "color": "i_brown"
+    "copy-from": "generic_regional_dump"
   },
   {
     "type": "overmap_terrain",
