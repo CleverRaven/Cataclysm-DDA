@@ -13159,6 +13159,8 @@ std::vector<npc *> game::allies()
     return get_npcs_if( [&]( const npc & guy ) {
         if( !guy.is_hallucination() ) {
             return guy.is_friend();
+        } else {
+            return false;
         }
     } );
 }
