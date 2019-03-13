@@ -1905,7 +1905,7 @@ void npc::see_item_say_smth( const itype_id object, const std::string smth )
     for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : g->m.i_at( p ) ) {
-                if( one_in( 100 ) && ( it.typeId == object ) ) {
+                if( one_in( 100 ) && ( it.typeId() == object ) ) {
                     say( smth );
                 }
             }
