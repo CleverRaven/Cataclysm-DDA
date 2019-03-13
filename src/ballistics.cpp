@@ -147,7 +147,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin, const vehicle *in_veh )
 {
-    const bool do_animation = get_option<bool>( "ANIMATIONS" );
+    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 

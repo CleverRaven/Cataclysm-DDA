@@ -1436,6 +1436,13 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_RAIN" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "ANIMATION_PROJECTILES", "graphics", translate_marker( "Projectile animation" ),
+         translate_marker( "If true, will display animations for projectiles like bullets, arrows, and thrown items." ),
+         true
+       );
+
+    get_option( "ANIMATION_PROJECTILES" ).setPrerequisite( "ANIMATIONS" );
+
     add( "ANIMATION_SCT", "graphics", translate_marker( "SCT animation" ),
          translate_marker( "If true, will display scrolling combat text animations." ),
          true
