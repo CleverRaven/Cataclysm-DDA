@@ -895,7 +895,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::is_decimal | iteminfo::lower_is_better,
                                       static_cast<double>( price_preapoc ) / 100 ) );
         if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
-            info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), _( "$<num>" ),
+            info.push_back( iteminfo( "BASE", _( "Barter value: " ), _( "$<num>" ),
                                       iteminfo::is_decimal | iteminfo::lower_is_better,
                                       static_cast<double>( price_postapoc ) / 100 ) );
         }
@@ -1246,14 +1246,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             std::vector<std::string> fx;
             if( ammo.ammo_effects.count( "RECYCLED" ) && parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
-                fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>" ) );
+                fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
             }
             if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
                 parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
-                fx.emplace_back( _( "This ammo <good>never misfires</good>" ) );
+                fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
             }
             if( ammo.ammo_effects.count( "INCENDIARY" ) && parts->test( iteminfo_parts::AMMO_FX_INDENDIARY ) ) {
-                fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>" ) );
+                fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>." ) );
             }
             if( !fx.empty() ) {
                 insert_separation_line();
