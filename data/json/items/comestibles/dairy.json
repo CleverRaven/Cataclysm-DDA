@@ -76,7 +76,7 @@
     "price": 385,
     "material": [ "milk" ],
     "volume": 1,
-    "charges": 7,
+    "charges": 1,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 7 ] ],
     "fun": 5
   },
