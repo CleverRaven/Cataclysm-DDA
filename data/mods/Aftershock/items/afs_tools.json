@@ -77,7 +77,7 @@
     "ammo": "gasoline",
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" }, 
+    "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
   },
   {
@@ -98,12 +98,7 @@
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
     "techniques": "SWEEP",
-    "use_action": {
-      "target": "afs_power_cutter",
-      "msg": "Your power cutter falls quiet.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": { "target": "afs_power_cutter", "msg": "Your power cutter falls quiet.", "menu_text": "Turn off", "type": "transform" },
     "qualities": [ [ "CUT", 1 ], [ "SAW_M", 5 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -126,7 +121,7 @@
     "ammo": "gasoline",
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" }, 
+    "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
   },
   {
@@ -148,12 +143,7 @@
     "turns_per_charge": 5,
     "revert_to": "afs_murdersaw",
     "techniques": "SWEEP",
-    "use_action": {
-      "target": "afs_murdersaw",
-      "msg": "Your murdersaw falls quiet.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
     "qualities": [ [ "CUT", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -174,5 +164,29 @@
     "use_action": { "type": "firestarter", "moves": 150 },
     "flags": [ "FIRESTARTER" ],
     "looks_like": "rope_30"
+  },
+  {
+    "id": "UPS_off",
+    "type": "TOOL_ARMOR",
+    "copy-from": "UPS_off",
+    "name": "UPS",
+    "name_plural": "UPS's",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be strapped to either leg for ease of access.",
+    "coverage": 5,
+    "encumbrance": 2,
+    "covers": [ "LEG_EITHER" ],
+    "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED", "FRAGILE", "OVERSIZE" ]
+  },
+  {
+    "id": "adv_UPS_off",
+    "type": "TOOL_ARMOR",
+    "copy-from": "adv_UPS_off",
+    "name": "advanced UPS",
+    "name_plural": "advanced UPS's",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in a UPS charging station.",
+    "coverage": 5,
+    "encumbrance": 1,
+    "covers": [ "LEG_EITHER" ],
+    "flags": [ "BELTED", "FRAGILE", "OVERSIZE" ]
   }
 ]

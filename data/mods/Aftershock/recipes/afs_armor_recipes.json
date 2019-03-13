@@ -139,10 +139,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [
-      [ [ "modularvest", 1 ] ],
-      [ [ "afs_scrap_titanium", 6 ] ]
-    ],
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "afs_scrap_titanium", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

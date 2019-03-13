@@ -102,7 +102,7 @@
     "flags": [ "DURABLE_MELEE", "FIREWOOD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "looks_like": "bwirebat"
-  },  
+  },
   {
     "type": "GENERIC",
     "id": "golf_club",

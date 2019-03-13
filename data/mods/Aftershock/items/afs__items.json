@@ -114,7 +114,7 @@
     "name": "cooking rig",
     "name_plural": "cooking rigs",
     "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
-  },  
+  },
   {
     "id": "afs_large_storage_battery",
     "type": "MAGAZINE",
