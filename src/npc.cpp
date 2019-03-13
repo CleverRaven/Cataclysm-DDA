@@ -1936,7 +1936,7 @@ void npc::die( Creature *nkiller )
 
     if ( is_hallucination() ) {
         if( g->u.sees( *this ) ) {
-            add_msg(_("%s disappears."), name.c_str() );
+            add_msg( _( "%s disappears." ), name.c_str() );
         }
         return;
     }
