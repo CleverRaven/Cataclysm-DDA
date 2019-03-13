@@ -25,7 +25,7 @@ TEST_CASE( "Item spawns with right thermal attributes" )
 
     D.update_temp( 122, 1 );
 
-    CHECK( std::abs( D.temperature - 323.15 * 100000 ) < 1 );
+    CHECK( is_nearly( D.temperature, 323.15 * 100000 ) );
 }
 
 TEST_CASE( "Rate of temperature change" )
@@ -54,8 +54,6 @@ TEST_CASE( "Rate of temperature change" )
         item water1( "water" );
         item water2( "water" );
 
-
-        //CHECK( to_gram( water1.type->weight ) == 1 );
 
         water1.update_temp( 131, 1 );
         water2.update_temp( 131, 1 );
@@ -133,7 +131,7 @@ TEST_CASE( "Rate of temperature change" )
         // same energy as meat 2
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( meat1.item_tags.count( "FROZEN" ) );
-        CHECK( meat2.specific_energy == meat1.specific_energy );
+        CHECK( is_nearly( meat1.specific_energy, meat2.specific_energy ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
         meat1.update_temp( -4, 1 );
@@ -201,7 +199,6 @@ TEST_CASE( "Rate of temperature change" )
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( !meat1.item_tags.count( "FROZEN" ) );
         CHECK( is_nearly( meat1.specific_energy, meat2.specific_energy ) );
-        //CHECK(  meat2.specific_energy == meat1.specific_energy );
 
         calendar::turn = to_turn<int>( calendar::turn + 101_turns );
         meat1.update_temp( 68, 1 );
