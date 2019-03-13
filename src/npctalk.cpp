@@ -1034,10 +1034,6 @@ int topic_category( const talk_topic &the_topic )
 
 void talk_function::start_camp( npc &p )
 {
-    if( p.is_hallucination() ) {
-        p.say( _( "No thanks. I don't really want to do that." ) );
-        return;
-    }
     const tripoint omt_pos = p.global_omt_location();
     oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
@@ -1117,10 +1113,6 @@ void talk_function::start_camp( npc &p )
 
 void talk_function::recover_camp( npc &p )
 {
-    if ( p.is_hallucination() ) {
-        p.say( _( "No thanks. I don't really want to do that." ) );
-        return;
-    }
     const tripoint omt_pos = p.global_omt_location();
     const std::string &omt_ref = overmap_buffer.ter( omt_pos ).id().c_str();
     if( omt_ref.find( "faction_base_camp" ) == std::string::npos ) {
