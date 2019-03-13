@@ -6201,7 +6201,7 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
     } else {
         new_specific_energy = completely_liquid_energy + specific_heat_liquid *
                               ( new_temperature - freezing_temperature );
-    }	
+    }
     return new_specific_energy;
 }
 
