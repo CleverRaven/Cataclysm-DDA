@@ -1772,7 +1772,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     const int per = g->u.get_per();
     const int dist = rl_dist( g->u.pos(), pos() );
     int visibility_cap;
-    if( per <= 1) {
+    if( per <= 1 ) {
         visibility_cap = INT_MAX;
     } else {
         visibility_cap = round( dist * dist / 20.0 / ( per - 1 ) );
