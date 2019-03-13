@@ -753,7 +753,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": 15000,
-    "charges": 20,
+    "charges": 15,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
@@ -771,7 +771,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": 15000,
-    "charges": 20,
+    "charges": 15,
     "batch_time_factors": [ 83, 3 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
@@ -1402,7 +1402,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "coffee_raw", 5 ] ],
+      [ [ "coffee_raw", 4 ] ],
       [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -1851,7 +1851,7 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "milk_curdled", 6 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 5 ], [ "seasoning_salt", 5 ] ] ]
+    "components": [ [ [ "milk_curdled", 2 ] ], [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1867,7 +1867,16 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "veggy_any", 1, "LIST" ] ],
+      [
+        [ "veggy_any", 1, "LIST" ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ]
+      ],
       [
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
@@ -4369,22 +4378,10 @@
       [ [ "jar_glass", 1 ] ],
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [
-        [ "irradiated_broccoli", 2 ],
-        [ "broccoli", 2 ],
-        [ "irradiated_tomato", 2 ],
-        [ "can_tomato", 2 ],
-        [ "tomato", 2 ],
-        [ "pumpkin", 2 ],
-        [ "irradiated_pumpkin", 2 ],
-        [ "irradiated_zucchini", 2 ],
-        [ "zucchini", 2 ],
-        [ "veggy", 2 ],
-        [ "veggy_wild", 2 ],
+        [ "veggy_any", 2, "LIST" ],
         [ "powder_eggs", 2 ],
         [ "eggs_bird", 2, "LIST" ],
         [ "egg_reptile", 2 ],
-        [ "dry_veggy", 2 ],
-        [ "dandelion_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
         [ "mushroom", 2 ],
@@ -4757,6 +4754,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": 20,
+    "charges": 1,
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "components": [
@@ -6720,7 +6718,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": 3000,
-    "charges": 4,
+    "charges": 5,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_chardonnay", 2 ], [ "wine_noir", 2 ] ], [ [ "cola", 1 ] ] ]
@@ -6754,7 +6752,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_ant", 1 ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 4 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_ant", 1 ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -7036,7 +7034,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "chocolate", 1 ] ],
+      [ [ "chocolate", 2 ] ],
       [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "water", 1 ] ],
       [ [ "sugar", 5 ] ],
@@ -7460,6 +7458,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
+    "charges": 3,
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -8012,26 +8011,14 @@
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [
-        [ "irradiated_broccoli", 12 ],
-        [ "broccoli", 12 ],
-        [ "irradiated_tomato", 12 ],
-        [ "can_tomato", 12 ],
-        [ "tomato", 12 ],
-        [ "pumpkin", 12 ],
-        [ "irradiated_pumpkin", 12 ],
-        [ "irradiated_zucchini", 12 ],
-        [ "zucchini", 12 ],
-        [ "veggy", 12 ],
-        [ "veggy_wild", 12 ],
-        [ "powder_eggs", 60 ],
+        [ "veggy_any", 12, "LIST" ],
+        [ "powder_eggs", 12 ],
         [ "eggs_bird", 12, "LIST" ],
         [ "egg_reptile", 12 ],
-        [ "dry_veggy", 24 ],
-        [ "dandelion_cooked", 24 ],
-        [ "mushroom_cooked", 24 ],
-        [ "morel_cooked", 24 ],
-        [ "mushroom", 24 ],
-        [ "dry_mushroom", 24 ]
+        [ "mushroom_cooked", 12 ],
+        [ "morel_cooked", 12 ],
+        [ "mushroom", 12 ],
+        [ "dry_mushroom", 12 ]
       ],
       [
         [ "seasoning_italian", 60 ],

@@ -103,7 +103,7 @@ void basecamp::define_camp( npc &p )
     pos = p.global_omt_location();
     sort_points = p.companion_mission_points;
     // purging the regions guarantees all entries will start with faction_base_
-    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( p, 1,
+    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( pos, 1,
             true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
@@ -195,6 +195,33 @@ const std::string basecamp::get_gatherlist() const
     }
     return "forest";
 
+}
+
+// available companion list manipulation
+// get all the companions currently performing missions at this camp
+void basecamp::reset_camp_workers()
+{
+    camp_workers.clear();
+    for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
+        npc_companion_mission c_mission = elem->get_companion_mission();
+        if( c_mission.position == pos && c_mission.role_id == "FACTION_CAMP" ) {
+            camp_workers.push_back( elem );
+        }
+    }
+}
+
+// get the subset of companions working on a specific task
+comp_list basecamp::get_mission_workers( const std::string &mission_id, bool contains )
+{
+    comp_list available;
+    for( const auto &elem : camp_workers ) {
+        npc_companion_mission c_mission = elem->get_companion_mission();
+        if( ( c_mission.mission_id == mission_id ) ||
+            ( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) ) {
+            available.push_back( elem );
+        }
+    }
+    return available;
 }
 
 // display names

@@ -37,5 +37,14 @@
       { "item": "cash_card", "charges-min": 0, "charges-max": 50000 },
       { "group": "misc_smoking", "prob": 30 }
     ]
+  },
+  {
+    "id": "mon_zombie_kevlar_death_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "mon_zombie_soldier_death_drops" },
+      { "group": "mon_zombie_cop_death_drops" }
+    ]
   }
 ]

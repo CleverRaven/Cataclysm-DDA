@@ -1667,9 +1667,40 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
                     // Using the json object here adds nice formatting and context information
                     jarr.throw_error( err.what() );
                 }
-            } else {
+            } else if( jarr.test_object() ) {
                 JsonObject jsi = jarr.next_object();
                 alter->alternatives.emplace_back( jsi );
+            } else if( jarr.test_array() ) {
+                // If this is an array, it means it is an entry followed by a desired total count of instances.
+                JsonArray piece_and_count_jarr = jarr.next_array();
+                if( piece_and_count_jarr.size() != 2 ) {
+                    piece_and_count_jarr.throw_error( "Array must have exactly two entries: the object, then the count." );
+                }
+
+                // Test if this is a string or object, and then just emplace it.
+                if( piece_and_count_jarr.test_string() ) {
+                    try {
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next_string() );
+                    } catch( const std::runtime_error &err ) {
+                        piece_and_count_jarr.throw_error( err.what() );
+                    }
+                } else if( piece_and_count_jarr.test_object() ) {
+                    JsonObject jsi = piece_and_count_jarr.next_object();
+                    alter->alternatives.emplace_back( jsi );
+                } else {
+                    piece_and_count_jarr.throw_error( "First entry must be a string or object." );
+                }
+
+                if( piece_and_count_jarr.test_int() ) {
+                    // We already emplaced the first instance, so do one less.
+                    int repeat = std::max( 0, piece_and_count_jarr.next_int() - 1 );
+                    PieceType piece_to_repeat = alter->alternatives.back();
+                    for( int i = 0; i < repeat; i++ ) {
+                        alter->alternatives.emplace_back( piece_to_repeat );
+                    }
+                } else {
+                    piece_and_count_jarr.throw_error( "Second entry must be an integer." );
+                }
             }
         }
         vect.push_back( alter );
@@ -1860,6 +1891,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
+    new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
 
     return new_pal;
 }
@@ -4061,202 +4093,6 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set( i, j, t_thconc_floor_olight );
                         }
                     }
-                }
-            }
-        }
-
-    } else if( terrain_type == "outpost" ) {
-
-        dat.fill_groundcover();
-
-        line( this, t_chainfence,            0,            0, SEEX * 2 - 1,            0 );
-        line( this, t_chaingate_l,            11,            0,           12,            0 );
-        line( this, t_chainfence,            0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1 );
-        line( this, t_chaingate_l,            11, SEEY * 2 - 1,           12, SEEY * 2 - 1 );
-        line( this, t_chainfence,            0,            0,            0, SEEX * 2 - 1 );
-        line( this, t_chaingate_l,             0,           11,            0,           12 );
-        line( this, t_chainfence, SEEX * 2 - 1,            0, SEEX * 2 - 1, SEEY * 2 - 1 );
-        line( this, t_chaingate_l,  SEEX * 2 - 1,           11, SEEX * 2 - 1,           12 );
-        // Place some random buildings
-
-        bool okay = true;
-        while( okay ) {
-            int buildx = rng( 6, 17 ), buildy = rng( 6, 17 );
-            int buildwidthmax  = ( buildx <= 11 ? buildx - 3 : 20 - buildx ),
-                buildheightmax = ( buildy <= 11 ? buildy - 3 : 20 - buildy );
-            int buildwidth = rng( 3, buildwidthmax ), buildheight = rng( 3, buildheightmax );
-            if( !dat.is_groundcover( ter( buildx, buildy ) ) ) {
-                okay = false;
-            } else {
-                int bx1 = buildx - buildwidth, bx2 = buildx + buildwidth,
-                    by1 = buildy - buildheight, by2 = buildy + buildheight;
-                bool overlap = false;
-                for( int x = bx1; x <= bx2 && !overlap; x++ ) {
-                    for( int y = by1; y <= by2 && !overlap; y++ ) {
-                        if( !dat.is_groundcover( ter( x, y ) ) ) {
-                            overlap = true;
-                        }
-                    }
-                }
-                if( overlap ) {
-                    continue;
-                }
-                square( this, t_floor, bx1, by1, bx2, by2 );
-                line( this, t_concrete_wall, bx1, by1, bx2, by1 );
-                line( this, t_concrete_wall, bx1, by2, bx2, by2 );
-                line( this, t_concrete_wall, bx1, by1, bx1, by2 );
-                line( this, t_concrete_wall, bx2, by1, bx2, by2 );
-                switch( rng( 1, 3 ) ) { // What type of building?
-                    case 1: // Barracks
-                        for( int i = by1 + 1; i <= by2 - 1; i += 2 ) {
-                            line_furn( this, f_bed, bx1 + 1, i, bx1 + 2, i );
-                            line_furn( this, f_bed, bx2 - 2, i, bx2 - 1, i );
-                            place_items( "bed", 50, bx1 + 1, i, bx1 + 2, i, false, 0 );
-                            place_items( "bed", 50, bx2 - 2, i, bx2 - 1, i, false, 0 );
-                        }
-                        place_items( "bedroom", 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0 );
-                        place_items( "book_military", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0 );
-                        break;
-                    case 2: // Armory
-                        line_furn( this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1 );
-                        line_furn( this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1 );
-                        line_furn( this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2 );
-                        line_furn( this, f_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2 );
-                        place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
-                        place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                        place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                        place_items( "guns_launcher_milspec", 40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0 );
-                        place_items( "grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0 );
-                        place_items( "mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0 );
-                        break;
-                    case 3: // Supplies
-                        for( int i = by1 + 1; i <= by2 - 1; i += 3 ) {
-                            line_furn( this, f_rack, bx1 + 2, i, bx2 - 2, i );
-                            place_items( "mil_food", 78, bx1 + 2, i, bx2 - 2, i, false, 0 );
-                        }
-                        break;
-                }
-                std::vector<direction> doorsides;
-                if( bx1 > 3 ) {
-                    doorsides.push_back( WEST );
-                }
-                if( bx2 < 20 ) {
-                    doorsides.push_back( EAST );
-                }
-                if( by1 > 3 ) {
-                    doorsides.push_back( NORTH );
-                }
-                if( by2 < 20 ) {
-                    doorsides.push_back( SOUTH );
-                }
-                int doorx = 0;
-                int doory = 0;
-                switch( random_entry( doorsides ) ) {
-                    case WEST:
-                        doorx = bx1;
-                        doory = rng( by1 + 1, by2 - 1 );
-                        break;
-                    case EAST:
-                        doorx = bx2;
-                        doory = rng( by1 + 1, by2 - 1 );
-                        break;
-                    case NORTH:
-                        doorx = rng( bx1 + 1, bx2 - 1 );
-                        doory = by1;
-                        break;
-                    case SOUTH:
-                        doorx = rng( bx1 + 1, bx2 - 1 );
-                        doory = by2;
-                        break;
-                    default:
-                        break;
-                }
-                for( int i = doorx - 1; i <= doorx + 1; i++ ) {
-                    for( int j = doory - 1; j <= doory + 1; j++ ) {
-                        i_clear( i, j );
-                        if( furn( i, j ) == f_bed || furn( i, j ) == f_rack || furn( i, j ) == f_counter ) {
-                            furn_set( i, j, f_null );
-                        }
-                    }
-                }
-                for( int i = -1; i <= +1; i += 2 ) {
-                    // Wall from another room, make a double door, doesn't look nice,
-                    // but is better than a door leading into wall. Original:
-                    // ---     -+-
-                    // -+- ==> -+-
-                    // ...     ...
-                    if( ter( doorx + i, doory ) == t_concrete_wall && ter( doorx - i, doory ) == t_floor ) {
-                        ter_set( doorx + i, doory, t_door_c );
-                    }
-                    if( ter( doorx, doory + i ) == t_concrete_wall && ter( doorx, doory - i ) == t_floor ) {
-                        ter_set( doorx, doory + i, t_door_c );
-                    }
-                }
-                ter_set( doorx, doory, t_door_c );
-            }
-        }
-
-        // Place turrets by (possible) entrances
-        add_spawn( mon_turret_rifle, 1,  1, 11 );
-        add_spawn( mon_turret_rifle, 1,  1, 12 );
-        add_spawn( mon_turret_rifle, 1, SEEX * 2 - 2, 11 );
-        add_spawn( mon_turret_rifle, 1, SEEX * 2 - 2, 12 );
-        add_spawn( mon_turret_rifle, 1, 11,  1 );
-        add_spawn( mon_turret_rifle, 1, 12,  1 );
-        add_spawn( mon_turret_rifle, 1, 11, SEEY * 2 - 2 );
-        add_spawn( mon_turret_rifle, 1, 12, SEEY * 2 - 2 );
-
-        // Place searchlights
-        if( one_in( 3 ) ) {
-            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this](
-            const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                ter_set( *p, t_plut_generator );
-                add_spawn( mon_turret_searchlight, 1, 1, 1 );
-                add_spawn( mon_turret_searchlight, 1, SEEX * 2 - 2, 1 );
-                add_spawn( mon_turret_searchlight, 1, 1, SEEY * 2 - 2 );
-                add_spawn( mon_turret_searchlight, 1, SEEX * 2 - 2, SEEY * 2 - 2 );
-            }
-        }
-
-        // Finally, scatter dead bodies / mil zombies
-        for( int i = 0; i < 20; i++ ) {
-            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this](
-            const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                if( one_in( 5 ) ) { // Military zombie
-                    add_spawn( mon_zombie_soldier, 1, p->x, p->y );
-                } else if( one_in( 2 ) ) {
-                    add_item( *p, item::make_corpse( mon_zombie_soldier ) );
-                    if( one_in( 3 ) ) {
-                        place_items( "mon_zombie_soldier_death_drops", 100, *p, *p, true, 0, 100 );
-                    }
-                } else if( one_in( 4 ) ) { // Bionic Op zombie!
-                    add_spawn( mon_zombie_bio_op, 1, p->x, p->y );
-                } else if( one_in( 4 ) ) {
-                    if( one_in( 10 ) ) {
-                        add_spawn( mon_zombie_grenadier_elite, 1, p->x, p->y );
-                    } else {
-                        add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
-                    }
-                } else if( one_in( 4 ) ) { // Zombie Burner
-                    if( one_in( 5 ) ) {
-                        add_spawn( mon_zombie_flamer, 1, p->x, p->y );
-                    }
-                } else if( one_in( 20 ) ) {
-                    rough_circle_furn( this, f_rubble, p->x, p->y, rng( 3, 6 ) );
-                }
-            }
-        }
-        // Oh wait--let's also put radiation in any rubble
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                int extra_radiation = ( one_in( 5 ) ? rng( 1, 2 ) : 0 );
-                adjust_radiation( i, j, extra_radiation );
-                if( furn( i, j ) == f_rubble ) {
-                    adjust_radiation( i, j, rng( 1, 3 ) );
                 }
             }
         }

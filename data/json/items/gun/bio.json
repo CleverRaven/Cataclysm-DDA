@@ -85,5 +85,25 @@
     "reload": 500,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+  },
+  {
+    "id": "mut_quills",
+    "type": "GUN",
+    "name": "Assault barbs",
+    "description": "this a pseudo item",
+    "volume": 12,
+    "price": 0,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "shotgun",
+    "range": 4,
+    "ranged_damage": 6,
+    "dispersion": 600,
+    "durability": 10,
+    "loudness": 5,
+    "reload": 500,
+    "ammo_effects": [ "SHOT" ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

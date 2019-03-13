@@ -946,7 +946,8 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
         return 0;
     }
 
-    if( g->m.move_cost( pnt ) != 2 ) {
+    // For example: dirt = 2, long grass = 3
+    if( g->m.move_cost( pnt ) != 2 && g->m.move_cost( pnt ) != 3 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
         return 0;
     }

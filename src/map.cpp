@@ -889,7 +889,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
 }
 
-void map::unboard_vehicle( const tripoint &p )
+void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 {
     const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
     player *passenger = nullptr;
@@ -904,14 +904,20 @@ void map::unboard_vehicle( const tripoint &p )
         return;
     }
     passenger = vp->vehicle().get_passenger( vp->part_index() );
+    // Mark the part as un-occupied regardless of whether there's a live passenger here.
+    vp->part().remove_flag( vehicle_part::passenger_flag );
     if( !passenger ) {
-        debugmsg( "map::unboard_vehicle: passenger not found" );
+        if( !dead_passenger ) {
+            debugmsg( "map::unboard_vehicle: passenger not found" );
+        }
         return;
     }
     passenger->in_vehicle = false;
+    // Only make vehicle go out of control if the driver is the one unboarding.
+    if( passenger->controlling_vehicle ) {
+        vp->vehicle().skidding = true;
+    }
     passenger->controlling_vehicle = false;
-    vp->part().remove_flag( vehicle_part::passenger_flag );
-    vp->vehicle().skidding = true;
     vp->vehicle().invalidate_mass();
 }
 
@@ -1086,7 +1092,7 @@ bool map::displace_water( const tripoint &p )
                 }
                 ter_id ter0 = ter( temp );
                 if( ter0 == t_water_sh ||
-                    ter0 == t_water_dp ) {
+                    ter0 == t_water_dp || ter0 == t_water_moving_sh || ter0 == t_water_moving_dp ) {
                     continue;
                 }
                 if( pass != 0 && dis_places == sel_place ) {
@@ -2718,7 +2724,7 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
         if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
-        if( ter( pt ) == t_lava ) {
+        if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
             return true;
         }
     }
@@ -4294,20 +4300,25 @@ item map::water_from( const tripoint &p )
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
-    if( terrain_id == t_water_sh ) {
-        if( one_in( 3 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( terrain_id == t_water_dp ) {
-        if( one_in( 4 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
+        int poison_chance = 0;
+        if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 20;
+            } else {
+                poison_chance = 4;
+            }
+        } else {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 10;
+            } else {
+                poison_chance = 3;
+            }
+        }
+        if( one_in( poison_chance ) ) {
+            ret.poison = rng( 1, 4 );
+        }
         return ret;
     }
     if( furn( p ).obj().examine == &iexamine::water_source ) {

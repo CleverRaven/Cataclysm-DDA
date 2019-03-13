@@ -495,8 +495,8 @@ bool player::activate_bionic( int b, bool eff_only )
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                           cur_om_ter, pos(), weatherPoint.winddirection, g->is_sheltered( pos() ) );
+        double windpower = 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
+                           cur_om_ter, pos(), g->winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -512,7 +512,8 @@ bool player::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ).c_str() );
-        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
+        std::string dirstring = get_dirstring( g->winddirection );
+        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )

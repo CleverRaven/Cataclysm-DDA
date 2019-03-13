@@ -83,6 +83,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
+    { activity_id( "ACT_DISMEMBER" ), butcher_do_turn },
     { activity_id( "ACT_DISSECT" ), butcher_do_turn },
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
@@ -105,6 +106,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_FIELD_DRESS" ), butcher_finish },
     { activity_id( "ACT_SKIN" ), butcher_finish },
     { activity_id( "ACT_QUARTER" ), butcher_finish },
+    { activity_id( "ACT_DISMEMBER" ), butcher_finish },
     { activity_id( "ACT_DISSECT" ), butcher_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
     { activity_id( "ACT_FISH" ), fish_finish },
@@ -328,11 +330,16 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             has_tree_nearby = true;
         }
     }
+    bool b_rack_present = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag_furn( "BUTCHER_EQ", pt ) ) {
+            b_rack_present = true;
+        }
+    }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
         bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
-                        u.has_amount( "vine_30", 1 ) ;
-        bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
+                        u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -491,6 +498,12 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
                 time_to_cut = 200;
             }
             break;
+        case DISMEMBER:
+            time_to_cut /= 10;
+            if( time_to_cut < 100 ) {
+                time_to_cut = 100;
+            }
+            break;
         case DISSECT:
             time_to_cut *= 6;
             break;
@@ -499,7 +512,8 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( "QUARTERED" ) ) {
         time_to_cut /= 4;
     }
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    time_to_cut = time_to_cut * ( 1 - ( g->u.get_num_crafting_helpers( 3 ) / 10 ) );
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
@@ -697,7 +711,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                                      _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
                 continue;
             }
-            if( action == BUTCHER || action == BUTCHER_FULL ) {
+            if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
                 switch( rng( 1, 3 ) ) {
                     case 1:
                         p.add_msg_if_player( m_bad,
@@ -744,6 +758,15 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             } else if( entry.type == "offal" ) {
                 roll /= 5;
             } else {
+                continue;
+            }
+        }
+        // RIP AND TEAR
+        if( action == DISMEMBER ) {
+            if( entry.type == "flesh" ) {
+                roll /= 6;
+            } else {
+                roll = 0;
                 continue;
             }
         }
@@ -896,6 +919,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = DISSECT;
     } else if( act->id() == activity_id( "ACT_SKIN" ) ) {
         action = SKIN;
+    } else if( act->id() == activity_id( "ACT_DISMEMBER" ) ) {
+        action = DISMEMBER;
     }
 
     //Negative index means try to start next item
@@ -960,6 +985,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
         return static_cast<int>( round( skill_shift ) );
     };
+
+    if( action == DISMEMBER ) {
+        g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+    }
 
     //all BUTCHERY types - FATAL FAILURE
     if( action != DISSECT && roll_butchery() <= ( -15 ) && one_in( 2 ) ) {
@@ -1100,6 +1129,19 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "SKINNED" );
+            break;
+        case DISMEMBER:
+            switch( rng( 1, 3 ) ) {
+                case 1:
+                    p->add_msg_if_player( m_good, _( "You hack the %s apart." ), corpse_item.tname() );
+                    break;
+                case 2:
+                    p->add_msg_if_player( m_good, _( "You lop the limbs off the %s." ), corpse_item.tname() );
+                    break;
+                case 3:
+                    p->add_msg_if_player( m_good, _( "You cleave the %s into pieces." ), corpse_item.tname() );
+            }
+            g->m.i_rem( p->pos(), act->index );
             break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
@@ -1641,27 +1683,27 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     const tripoint pos( act->placement );
     item &it = p->i_at( act->position );
-
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_hunger( 15 );
-        p->mod_thirst( 15 );
+        p->mod_hunger( 15 - ( helpersize  * 3 ) );
+        p->mod_thirst( 15 - ( helpersize  * 3 ) );
         if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
-            p->mod_fatigue( 20 ); // Yep, dwarves can dig longer before tiring
+            p->mod_fatigue( 20 - ( helpersize  * 3 ) ); // Yep, dwarves can dig longer before tiring
         } else {
-            p->mod_fatigue( 30 );
+            p->mod_fatigue( 30 - ( helpersize  * 3 ) );
         }
-        p->mod_pain( 2 * rng( 1, 3 ) );
+        p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger( 5 );
-        p->mod_thirst( 5 );
-        p->mod_fatigue( 10 );
+        p->mod_hunger( 5 - ( helpersize ) );
+        p->mod_thirst( 5 - ( helpersize ) );
+        p->mod_fatigue( 10 - ( helpersize  * 2 ) );
     }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
@@ -2299,12 +2341,19 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             action_type = repair_item_actor::RT_PRACTICE;
         }
 
-        const std::string title = string_format(
-                                      _( "%s %s\nSuccess chance: <color_light_blue>%.1f</color>%%\n"
-                                         "Damage chance: <color_light_blue>%.1f</color>%%" ),
-                                      repair_item_actor::action_description( action_type ),
-                                      fix.tname(),
-                                      100.0f * chance.first, 100.0f * chance.second );
+        std::string title = string_format( _( "%s %s\n" ),
+                                           repair_item_actor::action_description( action_type ),
+                                           fix.tname() );
+        title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
+                                used_tool->ammo_remaining(), used_tool->ammo_capacity(),
+                                item::nname( used_tool->ammo_current() ),
+                                used_tool->ammo_required() );
+        title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
+                                actor->used_skill.obj().name(), level );
+        title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
+                                100.0f * chance.first );
+        title += string_format( _( "Damage chance: <color_light_blue>%.1f</color>%%" ),
+                                100.0f * chance.second );
 
         if( act->values.empty() ) {
             act->values.resize( 1 );
@@ -2744,10 +2793,11 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
 
     act->set_to_null();
@@ -2766,9 +2816,11 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_dirt );
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
@@ -2789,9 +2841,11 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     g->m.destroy( pos, true );
 
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
 
     act->set_to_null();
@@ -2816,9 +2870,11 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_pit_shallow );
     }
 
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
 
     act->set_to_null();
@@ -2845,10 +2901,11 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_dirt );
     }
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
     act->set_to_null();
