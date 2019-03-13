@@ -4387,7 +4387,6 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "vision_day": 25,
-    "vision_night": 1,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 6 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
