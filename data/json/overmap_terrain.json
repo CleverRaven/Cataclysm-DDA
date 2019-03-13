@@ -1837,7 +1837,7 @@
     "see_cost": 2,
     "flags": [ "NO_ROTATE" ]
   },
-{
+  {
     "type": "overmap_terrain",
     "id": "shelter_under",
     "name": "evac shelter",
