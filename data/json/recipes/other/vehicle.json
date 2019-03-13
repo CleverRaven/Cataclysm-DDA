@@ -129,7 +129,7 @@
     ],
     "components": [
       [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ],
-      [ [ "clockworks", 2 ] ]
+      [ [ "clockworks", 2 ], [ "lock", 1 ] ]
     ]
   },
   {

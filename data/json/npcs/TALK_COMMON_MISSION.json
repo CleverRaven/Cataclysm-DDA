@@ -26,7 +26,7 @@
     ]
   },
   {
-    "id": "TALK_MISSION_DESCRIBE",
+    "id": [ "TALK_MISSION_DESCRIBE_URGENT", "TALK_MISSION_DESCRIBE" ],
     "type": "talk_topic",
     "category": "CATEGORY_MISSION",
     "responses": [

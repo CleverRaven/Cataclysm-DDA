@@ -1763,8 +1763,20 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         enumerate_print( wearing, c_blue );
     }
 
-    // @todo: Balance this formula
-    const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
+    // as of now, visibility of mutations is between 0 and 10
+    // 10 perception and 10 distance would see all mutations - cap 0
+    // 10 perception and 30 distance - cap 5, some mutations visible
+    // 3 perception and 3 distance would see all mutations - cap 0
+    // 3 perception and 15 distance - cap 5, some mutations visible
+    // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
+    const int per = g->u.get_per();
+    const int dist = rl_dist( g->u.pos(), pos() );
+    int visibility_cap;
+    if( per <= 1 ) {
+        visibility_cap = INT_MAX;
+    } else {
+        visibility_cap = round( dist * dist / 20.0 / ( per - 1 ) );
+    }
 
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
@@ -2363,12 +2375,17 @@ std::string npc::extended_description() const
     return replace_colors( ss.str() );
 }
 
-void npc::set_companion_mission( npc &p, const std::string &id )
+void npc::set_companion_mission( npc &p, const std::string &mission_id )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    comp_mission.position = tripoint( omt_pos.x, omt_pos.y, p.posz() );
-    comp_mission.mission_id =  id;
-    comp_mission.role_id = p.companion_mission_role_id;
+    const tripoint omt_pos = p.global_omt_location();
+    set_companion_mission( omt_pos, p.companion_mission_role_id, mission_id );
+}
+void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id )
+{
+    comp_mission.position = omt_pos;
+    comp_mission.mission_id =  mission_id;
+    comp_mission.role_id = role_id;
 }
 
 void npc::reset_companion_mission()

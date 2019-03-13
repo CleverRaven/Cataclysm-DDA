@@ -1,8 +1,0 @@
-[
-  {
-    "type": "region_overlay",
-    "id": "more_buildings_overlay",
-    "regions": [ "all" ],
-    "city": { "shops": { "s_vfw": 100, "s_daycare": 100, "s_thrift": 100, "s_petstore": 100 } }
-  }
-]

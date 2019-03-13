@@ -894,6 +894,18 @@
   },
   {
     "type": "construction",
+    "description": "Build Pony Wall",
+    "//": "a thin half-wall used to divide rooms.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 50,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_ponywall"
+  },
+  {
+    "type": "construction",
     "description": "Build Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -1035,6 +1047,40 @@
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_support",
     "post_terrain": "t_chaingate_c"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Fence",
+    "//": "Step 1: 2x4 stud frame",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_chickenwire_fence_post"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Fence",
+    "//": "Step 2: chickenwire",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "components": [ [ [ "wire", 10 ] ] ],
+    "pre_terrain": "t_chickenwire_fence_post",
+    "post_terrain": "t_chickenwire_fence"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 45,
+    "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_special": "check_support",
+    "post_terrain": "t_chickenwire_gate_c"
   },
   {
     "type": "construction",
@@ -1635,15 +1681,43 @@
   },
   {
     "type": "construction",
-    "description": "Build Dock/Shallow Bridge",
+    "description": "Build River Bridge",
+    "//": "Set up River bridge",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": 80,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "2x4", 8 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
+    ],
+    "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_riverbridge_dp"
+  },
+  {
+    "type": "construction",
+    "description": "Build River Dock/Shallow Bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 80,
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
-    "pre_terrain": "t_water_sh",
+    "pre_terrain": "t_water_moving_sh",
     "post_terrain": "t_dock"
+  },
+  {
+    "type": "construction",
+    "description": "Build Shallow Temporary Bridge",
+    "//": "Set up shallow bridge",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 80,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_sh_bridge"
   },
   {
     "type": "construction",

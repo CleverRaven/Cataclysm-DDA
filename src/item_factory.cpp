@@ -1577,19 +1577,19 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     bool got_calories = false;
 
     if( jo.has_int( "calories" ) ) {
-        slot.nutr = jo.get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        slot.kcal = jo.get_int( "calories" );
         got_calories = true;
 
     } else if( jo.get_object( "relative" ).has_int( "calories" ) ) {
-        slot.nutr += jo.get_object( "relative" ).get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        slot.kcal += jo.get_object( "relative" ).get_int( "calories" );
         got_calories = true;
 
     } else if( jo.get_object( "proportional" ).has_float( "calories" ) ) {
-        slot.nutr *= jo.get_object( "proportional" ).get_float( "calories" );
+        slot.kcal *= jo.get_object( "proportional" ).get_float( "calories" );
         got_calories = true;
 
-    } else {
-        jo.read( "nutrition", slot.nutr );
+    } else if( jo.has_int( "nutrition" ) ) {
+        slot.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {

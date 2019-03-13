@@ -316,7 +316,7 @@ void npc::talk_to_u( bool text_only )
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
         if( type.urgent && type.difficulty > most_difficult_mission ) {
-            d.add_topic( "TALK_MISSION_DESCRIBE" );
+            d.add_topic( "TALK_MISSION_DESCRIBE_URGENT" );
             chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -401,16 +401,15 @@ void npc::talk_to_u( bool text_only )
 
     if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
         g->u.cancel_activity();
-
         // don't query certain activities that are started from dialogue
-    } else if( ( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ) ||
-               ( ( g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ) ||
-                 ( ( g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ) ||
-                   ( ( g->u.activity.index == getID() ) ) ) ) ) {
+    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
+               g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
+               g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
+               g->u.activity.index == getID() ) {
         return;
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                            string_format( _( "%s talked to you." ), name ) );
     }
+    g->cancel_activity_or_ignore_query( distraction_type::talked_to,
+                                        string_format( _( "%s talked to you." ), name ) );
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
@@ -431,7 +430,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
                    _( "&You are deaf and can't talk. When you don't respond, %s becomes angry!" ),
-                   beta->name.c_str() );
+                   beta->name );
     }
     if( topic == "TALK_SEDATED" ) {
         return string_format(
@@ -442,7 +441,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     const auto &p = beta; // for compatibility, later replace it in the code below
     // Those topics are handled by the mission system, see there.
     static const std::unordered_set<std::string> mission_topics = { {
-            "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
+            "TALK_MISSION_DESCRIBE", "TALK_MISSION_DESCRIBE_URGENT",
+            "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
             "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE", "TALK_MISSION_INQUIRE",
             "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE", "TALK_MISSION_FAILURE"
         }
@@ -962,7 +962,8 @@ int topic_category( const talk_topic &the_topic )
             "TALK_MISSION_START", "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER",
             "TALK_MISSION_ACCEPTED", "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE",
             "TALK_MISSION_INQUIRE", "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE",
-            "TALK_MISSION_FAILURE", "TALK_MISSION_REWARD", "TALK_MISSION_END"
+            "TALK_MISSION_FAILURE", "TALK_MISSION_REWARD", "TALK_MISSION_END",
+            "TALK_MISSION_DESCRIBE_URGENT"
         }
     };
     if( topic_1.count( topic ) > 0 ) {
@@ -1032,121 +1033,6 @@ int topic_category( const talk_topic &the_topic )
         return 99;
     }
     return -1; // Not grouped with other topics
-}
-
-void talk_function::start_camp( npc &p )
-{
-    const tripoint omt_pos = p.global_omt_location();
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-
-    if( omt_ref.id() != "field" ) {
-        popup( _( "You must build your camp in an empty field." ) );
-        return;
-    }
-
-    std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( p, 1 );
-    for( const auto &om_near : om_region ) {
-        if( om_near.first != "field" && om_near.first != "forest" &&
-            om_near.first != "forest_thick" && om_near.first != "forest_water" &&
-            om_near.first.find( "river_" ) == std::string::npos ) {
-            popup( _( "You need more room for camp expansions!" ) );
-            return;
-        }
-    }
-    std::vector<std::pair<std::string, tripoint>> om_region_extended = om_building_region( p, 3 );
-    int forests = 0;
-    int waters = 0;
-    int swamps = 0;
-    int fields = 0;
-    for( const auto &om_near : om_region_extended ) {
-        if( om_near.first.find( "faction_base_camp" ) != std::string::npos ) {
-            popup( _( "You are too close to another camp!" ) );
-            return;
-        }
-        if( om_near.first == "forest" || om_near.first == "forest_thick" ) {
-            forests++;
-        } else if( om_near.first.find( "river_" ) != std::string::npos ) {
-            waters++;
-        } else if( om_near.first == "forest_water" ) {
-            swamps++;
-        } else if( om_near.first == "field" ) {
-            fields++;
-        }
-    }
-
-    bool display = false;
-    std::string buffer = _( "Warning, you have selected a region with the following issues:\n \n" );
-    if( forests < 3 ) {
-        display = true;
-        buffer = buffer + _( "There are few forests.  Wood is your primary construction material.\n" );
-    }
-    if( waters == 0 ) {
-        display = true;
-        buffer = buffer + _( "There are few large clean-ish water sources.\n" );
-    }
-    if( swamps == 0 ) {
-        display = true;
-        buffer = buffer +
-                 _( "There are no swamps.  Swamps provide access to a few late game industries.\n" );
-    }
-    if( fields < 4 ) {
-        display = true;
-        buffer = buffer +
-                 _( "There are few fields.  Producing enough food to supply your camp may be difficult.\n" );
-    }
-    if( g->allies().size() < 2 ) {
-        if( !display ) {
-            buffer = _( "Warning, you need at least two allies to work a faction camp!\n" );
-        } else {
-            buffer = buffer + "\n" +  _( "Warning, you need at least two allies to work a faction camp!\n" );
-        }
-        display = true;
-    }
-    if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
-        return;
-    }
-
-    editmap edit;
-    tripoint new_pos = omt_pos;
-    if( !edit.mapgen_set( "faction_base_camp_0", new_pos ) ) {
-        popup( _( "You weren't able to survey the camp site." ) );
-        return;
-    }
-    become_overseer( p );
-}
-
-void talk_function::recover_camp( npc &p )
-{
-    const tripoint omt_pos = p.global_omt_location();
-    const std::string &omt_ref = overmap_buffer.ter( omt_pos ).id().c_str();
-    if( omt_ref.find( "faction_base_camp" ) == std::string::npos ) {
-        popup( _( "There is no faction camp here to recover!" ) );
-        return;
-    }
-    become_overseer( p );
-}
-
-void talk_function::remove_overseer( npc &p )
-{
-    if( !query_yn( "This is permanent, any companions away on mission will be lost until "
-                   "the camp is recovered! Are you sure?" ) ) {
-        return;
-    }
-    size_t suffix = p.name.find( _( ", Camp Manager" ) );
-    if( suffix != std::string::npos ) {
-        p.name = p.name.substr( 0, suffix );
-    }
-
-    add_msg( _( "%s has abandoned the camp." ), p.name );
-    p.companion_mission_role_id.clear();
-
-    std::set<tripoint>::iterator it;
-    it = g->u.camps.find( p.global_omt_location() );
-    if( it != g->u.camps.end() ) {
-        g->u.camps.erase( it );
-    }
-
-    stop_guard( p );
 }
 
 void parse_tags( std::string &phrase, const player &u, const player &me )
@@ -1843,6 +1729,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( start_camp ),
             WRAP( recover_camp ),
             WRAP( remove_overseer ),
+            WRAP( basecamp_mission ),
             WRAP( wake_up ),
             WRAP( reveal_stats ),
             WRAP( end_conversation ),

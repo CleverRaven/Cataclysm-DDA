@@ -136,8 +136,8 @@ struct islot_comestible {
     /** effect on character thirst (may be negative) */
     int quench = 0;
 
-    /** effect on character nutrition (may be negative) */
-    int nutr = 0;
+    /** amount of kcal this food has */
+    unsigned int kcal = 0;
 
     /** Time until becomes rotten at standard temperature, or zero if never spoils */
     time_duration spoils = 0_turns;
@@ -176,7 +176,11 @@ struct islot_comestible {
     static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
     int get_calories() const {
-        return nutr * kcal_per_nutr;
+        return kcal;
+    }
+
+    int get_nutr() const {
+        return kcal / kcal_per_nutr;
     }
     /** The monster group that is drawn from when the item rots away */
     mongroup_id rot_spawn = mongroup_id::NULL_ID();

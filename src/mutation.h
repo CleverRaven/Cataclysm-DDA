@@ -132,6 +132,19 @@ struct mutation_branch {
         float hp_modifier_secondary = 0.0f;
         // Flat bonus/penalty to hp.
         float hp_adjustment = 0.0f;
+        // Modify strength stat without changing HP
+        float str_modifier = 0.0f;
+        // Additional bonuses
+        float dodge_modifier = 0.0f;
+        float speed_modifier = 1.0f;
+        float movecost_modifier = 1.0f;
+        float movecost_flatground_modifier = 1.0f;
+        float movecost_obstacle_modifier = 1.0f;
+        float attackcost_modifier = 1.0f;
+        float max_stamina_modifier = 1.0f;
+        float weight_capacity_modifier = 1.0f;
+        float hearing_modifier = 1.0f;
+        float noise_modifier = 1.0f;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
