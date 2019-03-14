@@ -57,7 +57,7 @@ void trapfunc::none( Creature *, const tripoint & )
 void trapfunc::bubble( Creature *c, const tripoint &p )
 {
     // tiny animals don't trigger bubble wrap
-    if( ( c != nullptr && c->get_size() == MS_TINY || ) c->is_hallucination() ) {
+    if( ( c != nullptr && c->get_size() == MS_TINY ) || c->is_hallucination() ) {
         return;
     }
     if( c != nullptr ) {
