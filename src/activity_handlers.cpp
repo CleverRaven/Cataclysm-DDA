@@ -94,7 +94,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
-    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -3173,44 +3174,44 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
                                 _( "You planted all seeds you could." ) );
 }
 
+void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
+{
+    if( act->monsters.empty() ) {
+        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
+        act->set_to_null();
+        return;
+    }
+    std::shared_ptr<monster> z = act->monsters[0].lock();
+
+    if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
+        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        act->set_to_null();
+        return;
+    }
+
+    // @todo  Add some kind of chance of getting the target's attention
+
+    // Allow time to pass
+    p->pause();
+}
+
 void activity_handlers::robot_control_finish( player_activity *act, player *p )
 {
-    uilist pick_robot;
-    pick_robot.text = _( "Override ready, choose an endpoint to hack." );
-    // Build a list of all unfriendly robots in range.
-    std::vector< monster * > mons; // @todo: change into vector<Creature*>
-    std::vector< tripoint > locations;
-    int entry_num = 0;
-    for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( species_id( "ROBOT" ) ) && candidate.friendly == 0 &&
-            rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
-            mons.push_back( &candidate );
-            pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-            tripoint seen_loc;
-            // Show locations of seen robots, center on player if robot is not seen
-            if( p->sees( candidate ) ) {
-                seen_loc = candidate.pos();
-            } else {
-                seen_loc = p->pos();
-            }
-            locations.push_back( seen_loc );
-        }
-    }
-    if( mons.empty() ) {
-        p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
-        act->set_to_null();
+    act->set_to_null();
+
+    if( act->monsters.empty() ) {
+        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
         return;
     }
-    pointmenu_cb callback( locations );
-    pick_robot.callback = &callback;
-    pick_robot.query();
-    if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
-        p->add_msg_if_player( m_info, _( "Never mind" ) );
-        act->set_to_null();
+
+    std::shared_ptr<monster> z = act->monsters[0].lock();
+    act->monsters.clear();
+
+    if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
+        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
         return;
     }
-    const size_t mondex = pick_robot.ret;
-    monster *z = mons[mondex];
+
     p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name().c_str() );
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
@@ -3227,7 +3228,6 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
         if( z->is_dead() ) {
             p->practice( skill_id( "computer" ), 10 );
-            act->set_to_null();
             return; // Do not do the other effects if the robot died
         }
         if( one_in( 3 ) ) {
@@ -3242,5 +3242,4 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
-    act->set_to_null();
 }

@@ -13,6 +13,7 @@ class item;
 class player;
 class JsonObject;
 class MonsterGenerator;
+class monster;
 
 template<typename T> class ret_val;
 
@@ -177,6 +178,8 @@ class iuse
         int pack_item( player *, item *, bool, const tripoint & );
         int radglove( player *, item *, bool, const tripoint & );
         int robotcontrol( player *, item *, bool, const tripoint & );
+        // Helper for validating a potential taget of robot control
+        static bool robotcontrol_can_target( player *, const monster & );
         int einktabletpc( player *, item *, bool, const tripoint & );
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );

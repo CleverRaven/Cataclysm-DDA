@@ -61,6 +61,47 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
     }
 };
 
+// @todo: investigate serializing other members of the Creature class hierarchy
+void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+{
+    if( const auto monster_ptr = obj.lock() ) {
+        jsout.start_object();
+
+        jsout.member( "monster_at", monster_ptr->pos() );
+        // @todo: if monsters/Creatures ever get unique ids,
+        // create a differently named member, e.g.
+        //     jsout.member("unique_id", monster_ptr->getID());
+        jsout.end_object();
+    } else {
+        // Monster went away. It's up the activity handler to detect this.
+        jsout.write_null();
+    }
+}
+
+void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    tripoint temp_pos;
+
+    obj.reset();
+    if( data.read( "monster_at", temp_pos ) ) {
+        auto monp = g->critter_tracker->find( temp_pos );
+
+        if( monp == nullptr ) {
+            debugmsg( "no monster found at %d,%d,%d", temp_pos.x, temp_pos.y, temp_pos.z );
+            return;
+        }
+
+        obj = monp;
+    }
+
+    // @todo: if monsters/Creatures ever get unique ids,
+    // look for a differently named member, e.g.
+    //     data.read( "unique_id", unique_id );
+    //     obj = g->id_registry->from_id( unique_id)
+    //    }
+}
+
 template<typename T>
 void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 {
@@ -184,6 +225,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "values", values );
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
+        json.member( "monsters", monsters );
     }
     json.end_object();
 }
@@ -220,6 +262,8 @@ void player_activity::deserialize( JsonIn &jsin )
     values = data.get_int_array( "values" );
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );
+    data.read( "monsters", monsters );
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
