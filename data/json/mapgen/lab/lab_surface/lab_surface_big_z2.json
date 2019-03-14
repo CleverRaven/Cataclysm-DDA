@@ -504,27 +504,42 @@
       "=": "t_door_glass_frosted_lab_c",
       ":": "t_reinforced_glass",
       "m": "t_door_metal_c",
-      "M": "t_door_metal_locked",
       "x": "t_console_broken"
     },
     "furniture": {
       "&": "f_trashcan",
-      "{": "f_glass_fridge",
       "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "A": "f_air_conditioner",
-      "b": "f_bench",
+	  "5": "f_server",
+      "8": "f_sample_freezer",
+      "a": "f_autoclave",
+      "A": "f_air_filter",
+      "b": "f_lab_bench",
       "B": "f_bookcase",
       "C": "f_counter",
       "c": "f_chair",
       "d": "f_desk",
-      "o": "f_oven",
-      "H": "f_shower",
-      "s": "f_stool",
-      "t": "f_table",
-      "r": "f_rack",
-      "l": "f_locker",
+	  "D": "f_dishwasher",
+      "e": "f_eyewash",
+	  "E": "f_electron_microscope",
+	  "F": "f_fume_hood",
       "f": "f_fridge",
-      "S": "f_sink"
+	  "G": "f_GC",
+      "h": "f_shaker",
+	  "H": "f_HPLC",
+	  "i": "f_filing_cabinet",
+	  "I": "f_scan_bed",
+      "l": "f_locker",
+	  "M": "f_MS",
+	  "N": "f_NMR",
+      "o": "f_centrifuge",
+	  "O": "f_MRI",
+	  "0": "f_CTscan",
+      "r": "f_rack",
+      "s": "f_stool",
+      "S": "f_sink",
+      "t": "f_table",
+      "U": "f_utility_shelf",
+	  "v": "f_ventilator"
     },
   {
     "//": "5x5 lab front room",
@@ -534,9 +549,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "xC fB", "Cs   ", "     ", "Cs   ", "CCSCo" ],
-      "terrain": { "o": "t_centrifuge" },
-      "palettes": [ "lab_surface_palette" ]
+      "rows": [
+	    "bb  f",
+		"Hs  f",
+		"     ",
+		"os   ",
+		"bbbbS" ],
+      "palettes": [ "lab_workspace_palette" ]
     }
   },
   {
@@ -547,9 +566,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "xCSCx", "Cs sC", "     ", "     ", "BBfBB" ],
-      "terrain": { "o": "t_centrifuge" },
-      "palettes": [ "lab_surface_palette" ]
+      "rows": [ 
+	    "bbSbb",
+		"bs sb",
+		"     ",
+		"     ",
+		"hhhf8" ],
+      "palettes": [ "lab_workspace_palette" ]
     }
   },
   {
@@ -560,7 +583,11 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "H dd", "H cd", "   d", " BBB" ],
+      "rows": [
+	    "H dd",
+		"H cd", 
+		"   d", 
+		" BBB" ],
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -572,114 +599,62 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "dd H", "dc H", "d   ", "BBB " ],
-      "palettes": [ "lab_surface_palette" ]
-    }
-  },
-  {
-    "//": "13x13 large lab workspace, door lower left",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_W13x13",
-    "object": {
-      "mapgensize": [ 13, 13 ],
-      "rotation": [ 0, 3 ],
       "rows": [
-        "fff#ddB#CCCCC",
-        "   #ds #Cs sC",
-        "::=#::=#o   S",
-        "             ",
-        "CC    C#l  CC",
-        "Cs   sC#l  sC",
-        "o     C#l  sC",
-        "      C#B  CC",
-        "Cs   sC#B    ",
-        "CCC   C#B   C",
-        "###         S",
-        "cf#         S",
-        "  =        CC"
-      ],
-      "terrain": { "o": "t_centrifuge" },
+	    "dd H",
+	    "dc H",
+		"d   ",
+        "BBB " ],
       "palettes": [ "lab_surface_palette" ]
     }
   },
   {
-    "//": "13x13 large lab workspace, door lower right",
+    "//": "11x11 large lab workspace, doors left side bottom",
+	"//2": "analytical lab with GC/HPLC/MS and NMR",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_E13x13",
+    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
     "object": {
-      "mapgensize": [ 13, 13 ],
-      "rotation": [ 0, 3 ],
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 0 ],
       "rows": [
-        "fff#ddB#CCCCC",
-        "   #ds #Cs sC",
-        "::=#::=#o   S",
-        "            S",
-        "CC    C#l  CC",
-        "Cs   sC#l  sC",
-        "o     C#l  sC",
-        "CC    C#B  CC",
-        "xs   sC#B   r",
-        "CC    C#B  CC",
-        "S          sC",
-        "S   C        ",
-        "CCCCCCC      "
+        "ff8|CNC|FFb",
+        "   |   |ssb",
+        "::=|::=|  S",
+        "          U",
+        "GM   MH   U",
+        "bs  sbbs  b",
+        "bs  sbbs  b",
+        "bb&  So   a",
+        "####      S",
+        "Ulf#e     C",
+        "   =    &CC"
       ],
-      "terrain": { "o": "t_centrifuge" },
-      "palettes": [ "lab_surface_palette" ]
+      "palettes": [ "lab_workspace_palette" ]
     }
   },
   {
-    "//": "7x7 bench lab",
+    "//": "11x11 large lab workspace, doors right side bottom",
+	"//2": "micriobio lab with EM and shakers",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_7x7",
+    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "xC ff B", "Cs    B", "C     r", "       ", "C      ", "Cs    C", "Cx  ooC" ],
-      "terrain": { "o": "t_centrifuge" },
-      "palettes": [ "lab_surface_palette" ]
-    }
-  },
-  {
-    "//": "7x7 bench lab",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_7x7",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rotation": [ 0, 0 ],
-      "rows": [ "CCCrCCC", "Cs   sC", "C     C", "       ", "C      ", "Cs     ", "CC ffro" ],
-      "terrain": { "o": "t_centrifuge" },
-      "palettes": [ "lab_surface_palette" ]
-    }
-  },
-  {
-    "//": "7x7 computer lab",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_7x7",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rotation": [ 0, 0 ],
-      "rows": [ "       ", " sssss ", " xxxxx ", " ttttt ", " xxxxx ", " sssss ", "       " ],
-      "terrain": { "o": "t_centrifuge" },
-      "palettes": [ "lab_surface_palette" ]
-    }
-  },
-  {
-    "//": "7x7 mini-library",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_7x7",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rotation": [ 0, 0 ],
-      "rows": [ "BBBBBBB", "Bs   sB", "B CBC B", "   B   ", "B CBC B", "Bs   sB", "BBBBBBB" ],
-      "terrain": { "o": "t_centrifuge" },
-      "palettes": [ "lab_surface_palette" ]
+      "rows": [
+        "bbi|hhh|ff8",
+		"Fs |   |   ",
+		"b  |A:A|=::",
+		"Fs         ",
+		"b   Eb   ob",
+		"b  sbbs  sb",
+		"b  sbbs  sb",
+		"a   So  &bb",
+		"S      ####",
+		"S     e#Ulf",
+		"CC&    =   "
+      ],
+      "palettes": [ "lab_workspace_palette" ]
     }
   }
 ]
