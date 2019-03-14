@@ -1493,7 +1493,6 @@
       "bio_metabolics",
       "bio_power_storage_mkII"
     ],
-    "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer" ],
       "male": [ "briefs", "socks", "pants" ],
