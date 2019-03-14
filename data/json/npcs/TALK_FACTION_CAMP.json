@@ -5,7 +5,12 @@
     "dynamic_line": "What about faction camps?",
     "responses": [
       { "text": "Tell me how faction camps work.", "topic": "TALK_CAMP_TUTORIAL_1" },
-      { "text": "I want you to build a camp here.", "topic": "TALK_HALLU_CAMP", "condition": { "npc_has_trait": "HALLUCINATION" }, "switch": true },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
       {
         "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
@@ -14,7 +19,12 @@
         "switch": true,
         "default": true
       },
-      { "text": "I want you to take over the camp here.", "topic": "TALK_HALLU_CAMP", "condition": { "npc_has_trait": "HALLUCINATION" }, "switch": true },
+      {
+        "text": "I want you to take over the camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
       {
         "text": "I want you to take over the camp here.",
         "topic": "TALK_DONE",
