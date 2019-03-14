@@ -495,7 +495,7 @@
     "name": "Military Recruit",
     "description": "You were a high school drop-out with one goal in mind: to join the military.  You finally got in, just in time for your training to get interrupted by a national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 1, "name": "stabbing" } ], { "level": 1, "name": "dodge" } ]
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 1, "name": "stabbing" }, { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {
         "items": [
@@ -1531,7 +1531,7 @@
     "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your passion for electronics and your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
     "points": 8,
     "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 4, "name": "electronics" }. { "level": 2, "name": "fabrication" } ],
+    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
       "both": [ "tshirt", "sneakers", "jacket_light", "smart_phone" ],
       "male": [ "briefs", "socks", "pants" ],
@@ -1556,7 +1556,7 @@
     "name": "Trapper",
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living off of your catches, and trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 2,
-    "skills": [ { "level": 4, "name": "traps" }{ "level": 2, "name": "survival" } ],
+    "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
     "items": {
       "both": {
         "items": [
