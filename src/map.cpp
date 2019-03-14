@@ -36,6 +36,8 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "projectile.h"
 #include "rng.h"
@@ -5466,8 +5468,15 @@ void map::add_camp( const tripoint &p, const std::string &name )
         dbg( D_ERROR ) << "map::add_camp: Attempting to add camp when one in local area.";
         return;
     }
-
-    get_submap_at( p )->camp = basecamp( name, p );
+    point omt = ms_to_omt_copy( g->m.getabs( p.x, p.y ) );
+    tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
+    basecamp temp_camp = basecamp( name, omt_tri );
+    get_submap_at( p )->camp = temp_camp;
+    basecamp *pointer_camp;
+    pointer_camp = &get_submap_at( p )->camp;
+    overmap_buffer.add_camp( pointer_camp );
+    g->u.camps.insert( omt_tri );
+    g->validate_camps();
 }
 
 void map::update_visibility_cache( const int zlev )

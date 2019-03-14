@@ -293,36 +293,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : ( getmaxx( weapwin ) - 12 );
         mvwprintz( weapwin, 0, x, style_color, style );
     }
-
-    std::string hunger_string = "";
-    nc_color hunger_color = c_yellow;
-    if( get_hunger() >= 300 && get_starvation() > 2500 ) {
-        hunger_color = c_red;
-        hunger_string = _( "Starving!" );
-    } else if( get_hunger() >= 300 && get_starvation() > 1100 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Near starving" );
-    } else if( get_hunger() > 250 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Famished" );
-    } else if( get_hunger() > 100 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Very hungry" );
-    } else if( get_hunger() > 40 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Hungry" );
-    } else if( get_hunger() < -60 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Engorged" );
-    } else if( get_hunger() < -20 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Sated" );
-    } else if( get_hunger() < 0 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Full" );
-    }
+    std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
     mvwprintz( sideStyle ? w : g->w_location_wider,
-               sideStyle ? 1 : 2, sideStyle ? 0 : 22, hunger_color, hunger_string );
+               sideStyle ? 1 : 2, sideStyle ? 0 : 22, hunger_pair.second, hunger_pair.first );
 
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -379,44 +352,14 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
         wprintz( w, c_blue,  _( "Freezing!%s" ), temp_message );
     }
-
-    std::string hydration_string = "";
-    nc_color hydration_color = c_yellow;
-    if( get_thirst() > 520 ) {
-        hydration_color = c_light_red;
-        hydration_string = _( "Parched" );
-    } else if( get_thirst() > 240 ) {
-        hydration_color = c_light_red;
-        hydration_string = _( "Dehydrated" );
-    } else if( get_thirst() > 80 ) {
-        hydration_color = c_yellow;
-        hydration_string = _( "Very thirsty" );
-    } else if( get_thirst() > 40 ) {
-        hydration_color = c_yellow;
-        hydration_string = _( "Thirsty" );
-    } else if( get_thirst() < -60 ) {
-        hydration_color = c_green;
-        hydration_string = _( "Turgid" );
-    } else if( get_thirst() < -20 ) {
-        hydration_color = c_green;
-        hydration_string = _( "Hydrated" );
-    } else if( get_thirst() < 0 ) {
-        hydration_color = c_green;
-        hydration_string = _( "Slaked" );
-    }
+    std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
     mvwprintz( sideStyle ? w : g->w_location_wider,
-               sideStyle ? 2 : 1, sideStyle ? 0 : 22, hydration_color, hydration_string );
+               sideStyle ? 2 : 1, sideStyle ? 0 : 22, thirst_pair.second, thirst_pair.first );
     wrefresh( sideStyle ? w : g->w_location_wider );
 
-    wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 22 );
-    if( get_fatigue() > EXHAUSTED ) {
-        wprintz( w, c_red,    _( "Exhausted" ) );
-    } else if( get_fatigue() > DEAD_TIRED ) {
-        wprintz( w, c_light_red,  _( "Dead tired" ) );
-    } else if( get_fatigue() > TIRED ) {
-        wprintz( w, c_yellow, _( "Tired" ) );
-    }
-
+    wmove( w, sideStyle ? 3 : 2, 0 );
+    std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    wprintz( w, fatigue_pair.second, fatigue_pair.first );
     wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 43 );
     wprintz( w, c_white, _( "Focus" ) );
     nc_color col_xp = c_dark_gray;
@@ -634,4 +577,3 @@ int get_int_digits( const int &digits )
     int offset = digits > 0 ? ( int ) log10( ( double ) digits ) + 1 : 1;
     return offset;
 }
-

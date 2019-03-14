@@ -611,6 +611,7 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
         comp->companion_mission_time = calendar::turn;
     }
     g->reload_npcs();
+    g->validate_npc_followers();
     assert( !comp->is_active() );
     return comp;
 }

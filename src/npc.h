@@ -528,6 +528,7 @@ class npc : public player
          */
         void add_new_mission( mission *miss );
         skill_id best_skill() const;
+        int best_skill_level() const;
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
@@ -798,6 +799,8 @@ class npc : public player
         bool query_yn( const std::string &mes ) const override;
 
         std::string extended_description() const override;
+
+        std::pair<std::string, nc_color> hp_description() const;
 
         // Note: NPCs use a different speed rating than players
         // Because they can't run yet

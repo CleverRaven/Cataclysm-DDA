@@ -1823,7 +1823,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_FACTIONS:
-                faction_manager_ptr->display();
+                new_faction_manager_ptr->display();
                 refresh_all();
                 break;
 

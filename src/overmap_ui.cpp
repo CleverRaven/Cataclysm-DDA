@@ -1,15 +1,18 @@
 #include "overmap_ui.h"
 
+#include "basecamp.h"
 #include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
+#include "faction_camp.h"
 #include "game.h"
 #include "input.h"
 #include "line.h"
 #include "map_iterator.h"
 #include "map.h"
 #include "mapbuffer.h"
+#include "messages.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -238,6 +241,44 @@ void draw_city_labels( const catacurses::window &w, const tripoint &center )
         }
 
         mvwprintz( w, text_y, text_x_min, i_yellow, element.city->name );
+    }
+}
+
+void draw_camp_labels( const catacurses::window &w, const tripoint &center )
+{
+    const int win_x_max = getmaxx( w );
+    const int win_y_max = getmaxy( w );
+    const int sm_radius = std::max( win_x_max, win_y_max );
+
+    const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
+
+    for( const auto &element : overmap_buffer.get_camps_near( omt_to_sm_copy( center ), sm_radius ) ) {
+        const point camp_pos( element->camp_omt_pos().x, element->camp_omt_pos().y );
+        const point screen_pos( camp_pos - point( center.x, center.y ) + screen_center_pos );
+        const int text_width = utf8_width( element->name, true );
+        const int text_x_min = screen_pos.x - text_width / 2;
+        const int text_x_max = text_x_min + text_width;
+        const int text_y = screen_pos.y;
+        const std::string camp_name = element->name;
+        if( text_x_min < 0 ||
+            text_x_max > win_x_max ||
+            text_y < 0 ||
+            text_y > win_y_max ) {
+            continue;   // outside of the window bounds.
+        }
+
+        if( screen_center_pos.x >= ( text_x_min - 1 ) &&
+            screen_center_pos.x <= ( text_x_max ) &&
+            screen_center_pos.y >= ( text_y - 1 ) &&
+            screen_center_pos.y <= ( text_y + 1 ) ) {
+            continue;   // right under the cursor.
+        }
+
+        if( !overmap_buffer.seen( camp_pos.x, camp_pos.y, center.z ) ) {
+            continue;   // haven't seen it.
+        }
+
+        mvwprintz( w, text_y, text_x_min, i_white, camp_name );
     }
 }
 
@@ -611,6 +652,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     if( z == 0 && uistate.overmap_show_city_labels ) {
         draw_city_labels( w, tripoint( cursx, cursy, z ) );
+        draw_camp_labels( w, tripoint( cursx, cursy, z ) );
     }
 
     if( has_target && blink &&
@@ -808,7 +850,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
         print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_land_use_codes ? c_pink : c_magenta );
-        print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
+        print_hint( "TOGGLE_LOCATION_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );

@@ -797,6 +797,8 @@ void game::setup()
     // reset kill counts
     kills.clear();
     npc_kills.clear();
+    // reset follower list
+    follower_ids.clear();
     scent.reset();
 
     remoteveh_cache_time = calendar::before_time_starts;
@@ -2006,6 +2008,69 @@ void game::record_npc_kill( const npc &p )
     npc_kills.push_back( p.get_name() );
 }
 
+void game::add_npc_follower( const int &id )
+{
+    if( !std::any_of( follower_ids.begin(), follower_ids.end(), [id]( int i ) {
+    return i == id;
+} ) )
+    follower_ids.push_back( id );
+}
+
+void game::remove_npc_follower( const int &id )
+{
+    follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
+                        follower_ids.end() );
+}
+
+void game::validate_npc_followers()
+{
+    // Make sure visible followers are in the list.
+    const std::vector<npc *> visible_followers = g->get_npcs_if( [&]( const npc & guy ) {
+        return ( guy.is_friend() && guy.is_following() ) || guy.mission == NPC_MISSION_GUARD_ALLY;
+    } );
+    for( auto &elem : visible_followers ) {
+        add_npc_follower( elem->getID() );
+    }
+    // Make sure overmapbuffered NPC followers are in the list.
+    for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 200 ) ) {
+        npc *guy = temp_guy.get();
+        if( ( guy->is_friend() && guy->is_following() ) || guy->has_companion_mission() ) {
+            add_npc_follower( guy->getID() );
+        }
+    }
+}
+
+void game::validate_camps()
+{
+    // Make sure camps already present are added to the overmap list
+    basecamp *bcp = m.camp_at( u.pos(), 60 );
+    if( bcp ) {
+        int count = 1;
+        if( u.camps.empty() ) {
+            u.camps.insert( bcp->camp_omt_pos() );
+        }
+        for( auto camp : u.camps ) {
+            // check if already on the overmapbuffer list
+            cata::optional<basecamp *> p = overmap_buffer.find_camp( camp.x, camp.y );
+            if( !p ) {
+                //if not on overmap buffer list
+                if( camp.x == bcp->camp_omt_pos().x && camp.y == bcp->camp_omt_pos().y ) {
+                    // if this local camp is the one that needs adding
+                    std::string camp_name = _( "Faction Camp " ) + std::to_string( count );
+                    bcp->set_name( camp_name );
+                    overmap_buffer.add_camp( bcp );
+                    count += 1;
+                }
+            }
+        }
+    }
+}
+
+std::vector<int> game::get_follower_list()
+{
+    return follower_ids;
+}
+
 std::list<std::string> game::get_npc_kill()
 {
     return npc_kills;
@@ -2694,6 +2759,8 @@ void game::load( const save_t &name )
     } );
 
     reload_npcs();
+    validate_npc_followers();
+    validate_camps();
     update_map( u );
 
     // legacy, needs to be here as we access the map.
@@ -4712,6 +4779,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = active_npc.begin(); it != active_npc.end(); ) {
             if( ( *it )->is_dead() ) {
+                remove_npc_follower( ( *it )->getID() );
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = active_npc.erase( it );
             } else {

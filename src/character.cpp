@@ -1909,6 +1909,87 @@ int Character::get_thirst() const
     return thirst;
 }
 
+std::pair<std::string, nc_color> Character::get_thirst_description() const
+{
+    int thirst = get_thirst();
+    std::string hydration_string;
+    nc_color hydration_color = c_white;
+    if( thirst > 520 ) {
+        hydration_color = c_light_red;
+        hydration_string = _( "Parched" );
+    } else if( thirst > 240 ) {
+        hydration_color = c_light_red;
+        hydration_string = _( "Dehydrated" );
+    } else if( thirst > 80 ) {
+        hydration_color = c_yellow;
+        hydration_string = _( "Very thirsty" );
+    } else if( thirst > 40 ) {
+        hydration_color = c_yellow;
+        hydration_string = _( "Thirsty" );
+    } else if( thirst < -60 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Turgid" );
+    } else if( thirst < -20 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Hydrated" );
+    } else if( thirst < 0 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Slaked" );
+    }
+    return std::make_pair( hydration_string, hydration_color );
+}
+
+std::pair<std::string, nc_color> Character::get_hunger_description() const
+{
+    int hunger = get_hunger();
+    std::string hunger_string;
+    nc_color hunger_color = c_white;
+    if( hunger >= 300 && get_starvation() > 2500 ) {
+        hunger_color = c_red;
+        hunger_string = _( "Starving!" );
+    } else if( hunger >= 300 && get_starvation() > 1100 ) {
+        hunger_color = c_light_red;
+        hunger_string = _( "Near starving" );
+    } else if( hunger > 250 ) {
+        hunger_color = c_light_red;
+        hunger_string = _( "Famished" );
+    } else if( hunger > 100 ) {
+        hunger_color = c_yellow;
+        hunger_string = _( "Very hungry" );
+    } else if( hunger > 40 ) {
+        hunger_color = c_yellow;
+        hunger_string = _( "Hungry" );
+    } else if( hunger < -60 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Engorged" );
+    } else if( hunger < -20 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Sated" );
+    } else if( hunger < 0 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Full" );
+    }
+    return std::make_pair( hunger_string, hunger_color );
+}
+
+std::pair<std::string, nc_color> Character::get_fatigue_description() const
+{
+    int fatigue = get_fatigue();
+    std::string fatigue_string;
+    nc_color fatigue_color = c_white;
+    if( fatigue > EXHAUSTED ) {
+        fatigue_color = c_red;
+        fatigue_string = _( "Exhausted" );
+    } else if( fatigue > DEAD_TIRED ) {
+        fatigue_color = c_light_red;
+        fatigue_string = _( "Dead Tired" );
+    } else if( fatigue > TIRED ) {
+        fatigue_color = c_yellow;
+        fatigue_string = _( "Tired" );
+    }
+    return std::make_pair( fatigue_string, fatigue_color );
+}
+
 void Character::mod_thirst( int nthirst )
 {
     set_thirst( thirst + nthirst );
