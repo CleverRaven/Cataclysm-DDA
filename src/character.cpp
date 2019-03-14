@@ -510,7 +510,15 @@ void Character::recalc_hp()
         new_max_hp[hp_head] *= 0.8;
     }
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] *= static_cast<float>( new_max_hp[i] ) / static_cast<float>( hp_max[i] );
+        // Only recalculate when max changes,
+        // otherwise we end up walking all over due to rounding errors.
+        if( new_max_hp[i] == hp_max[i] ) {
+            continue;
+        }
+        float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
+                             static_cast<float>( hp_max[i] );
+        hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
+        hp_cur[i] = std::max( std::min( hp_cur[i], new_max_hp[i] ), 1 );
         hp_max[i] = new_max_hp[i];
     }
 }
