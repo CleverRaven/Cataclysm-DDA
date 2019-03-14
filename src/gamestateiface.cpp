@@ -206,7 +206,13 @@ void gsi::update_invlets(Character & character)
     std::copy(invlets_temp.begin(), invlets_temp.end(), std::back_inserter(invlets_i));
     for (int i = 0; i < invlets_temp.size(); i++)
     {
-        item t = character.inv.find_item(character.inv.invlet_to_position(invlets_i[i]));
+        item t; 
+        if (character.weapon.invlet == invlets_i[i])
+            t = character.weapon;
+        else if (character.inv.invlet_to_position(invlets_i[i]) == INT_MIN) // if not weapon and it isnt in inventory it is worn
+            t = *std::find_if(character.worn.begin(), character.worn.end(), [invlets_i, i](item k) { return k.invlet == invlets_i[i]; });
+        else
+            t = character.inv.find_item(character.inv.invlet_to_position(invlets_i[i]));
         invlets_c.push_back(get_all_colors().get_name(t.color()));
         invlets_s.push_back(get_all_colors().get_name(t.color_in_inventory()));
         invlets.push_back(std::string(1, invlets_i[i]));
