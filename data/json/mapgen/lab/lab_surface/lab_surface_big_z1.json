@@ -1,304 +1,43 @@
 [
   {
-    "id": "lab_upstairs_scatter",
-    "type": "item_group",
-    "items": [
-      [ "mag_computer", 50 ]
-    ]
-  },
-  {
-    "name": "GROUP_LAB_UPSTAIRS_ZOMBIES",
-    "type": "monstergroup",
-    "default": "mon_zombie",
-    "monsters": [ { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 } ]
-  },
-  {
-    "type": "palette",
-    "id": "lab_surface_palette",
-    "terrain": {
-      ".": "t_grass",
-      "#": "t_brick_wall",
-      "|": "t_strconc_wall",
-      " ": "t_strconc_floor",
-      "%": "t_linoleum_white",
-      "+": "t_door_c",
-      "-": "t_door_glass_frosted_c",
-      "=": "t_door_glass_frosted_lab_c",
-      ":": "t_reinforced_glass",
-      ";": "t_window",
-      "'": "t_window_bars",
-      "_": "t_pavement",
-      ",": "t_pavement_y",
-      "/": "t_chainfence",
-      "^": "t_fence_barbed",
-      "!": "t_guardrail_bg_dp",
-      "m": "t_door_metal_c",
-      "M": "t_door_metal_locked",
-      "w": "t_gates_control_brick",
-      "x": "t_console_broken",
-      "]": "t_sidewalk",
-      "*": "t_shrub",
-      "A": "t_atm",
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
-      "e": "t_elevator",
-      "@": "t_elevator_control_off" 
-    },
-    "furniture": {
-      "&": "f_trashcan",
-      "{": "f_glass_fridge",
-      "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "b": "f_bench",
-      "B": "f_bookcase",
-      "C": "f_counter",
-      "c": "f_chair",
-      "d": "f_desk",
-      "o": "f_oven",
-      "H": "f_sofa",
-      "s": "f_stool",
-      "t": "f_table",
-      "r": "f_rack",
-      "l": "f_locker",
-      "f": "f_fridge",
-      "S": "f_sink"
-    },
-    "toilets": { "T": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockA0",
-    "name": "lab_surface_brick_blockA0",
-    "sym": 65,
-    "color": "brown",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockB0",
-    "name": "lab_surface_brick_blockB0",
-    "sym": 66,
-    "color": "brown",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockC0",
-    "name": "lab_surface_brick_blockC0",
-    "sym": 67,
-    "color": "brown",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockD0",
-    "name": "lab_surface_brick_blockD0",
-    "sym": 68,
-    "color": "brown",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockE0",
-    "name": "lab_surface_brick_blockE0",
-    "sym": 69,
-    "color": "brown",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockA1",
-    "name": "lab_surface_brick_blockA1",
-    "sym": 65,
-    "color": "white",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockB1",
-    "name": "lab_surface_brick_blockB1",
-    "sym": 66,
-    "color": "white",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockC1",
-    "name": "lab_surface_brick_blockC1",
-    "sym": 67,
-    "color": "white",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockD1",
-    "name": "lab_surface_brick_blockD1",
-    "sym": 68,
-    "color": "white",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockE1",
-    "name": "lab_surface_brick_blockE1",
-    "sym": 69,
-    "color": "white",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockA2",
-    "name": "lab_surface_brick_blockA2",
-    "sym": 65,
-    "color": "red",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockB2",
-    "name": "lab_surface_brick_blockB2",
-    "sym": 66,
-    "color": "red",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockC2",
-    "name": "lab_surface_brick_blockC2",
-    "sym": 67,
-    "color": "red",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockD2",
-    "name": "lab_surface_brick_blockD2",
-    "sym": 68,
-    "color": "red",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockE2",
-    "name": "lab_surface_brick_blockE2",
-    "sym": 69,
-    "color": "red",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockA3",
-    "name": "lab_surface_brick_blockA3",
-    "sym": 65,
-    "color": "blue",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockB3",
-    "name": "lab_surface_brick_blockB3",
-    "sym": 66,
-    "color": "blue",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockC3",
-    "name": "lab_surface_brick_blockC3",
-    "sym": 67,
-    "color": "blue",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockD3",
-    "name": "lab_surface_brick_blockD3",
-    "sym": 68,
-    "color": "blue",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockE3",
-    "name": "lab_surface_brick_blockE3",
-    "sym": 69,
-    "color": "blue",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockA4",
-    "name": "lab_surface_brick_blockA4",
-    "sym": 65,
-    "color": "yellow",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockB4",
-    "name": "lab_surface_brick_blockB4",
-    "sym": 66,
-    "color": "yellow",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockC4",
-    "name": "lab_surface_brick_blockC4",
-    "sym": 67,
-    "color": "yellow",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockD4",
-    "name": "lab_surface_brick_blockD4",
-    "sym": 68,
-    "color": "yellow",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_blockE4",
-    "name": "lab_surface_brick_blockE4",
-    "sym": 69,
-    "color": "yellow",
-    "see_cost": 999,
-    "mondensity": 2
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "lab_surface_brick_blockA0", "lab_surface_brick_blockB0", "lab_surface_brick_blockC0", "lab_surface_brick_blockD0", "lab_surface_brick_blockE0" ],
-      [ "lab_surface_brick_blockA1", "lab_surface_brick_blockB1", "lab_surface_brick_blockC1", "lab_surface_brick_blockD1", "lab_surface_brick_blockE1" ],
-      [ "lab_surface_brick_blockA2", "lab_surface_brick_blockB2", "lab_surface_brick_blockC2", "lab_surface_brick_blockD2", "lab_surface_brick_blockE2" ],
-      [ "lab_surface_brick_blockA3", "lab_surface_brick_blockB3", "lab_surface_brick_blockC3", "lab_surface_brick_blockD3", "lab_surface_brick_blockE3" ],
-      [ "lab_surface_brick_blockA4", "lab_surface_brick_blockB4", "lab_surface_brick_blockC4", "lab_surface_brick_blockD4", "lab_surface_brick_blockE4" ]
+      [
+        "lab_surface_brick_blockA0",
+        "lab_surface_brick_blockB0",
+        "lab_surface_brick_blockC0",
+        "lab_surface_brick_blockD0",
+        "lab_surface_brick_blockE0"
+      ],
+      [
+        "lab_surface_brick_blockA1",
+        "lab_surface_brick_blockB1",
+        "lab_surface_brick_blockC1",
+        "lab_surface_brick_blockD1",
+        "lab_surface_brick_blockE1"
+      ],
+      [
+        "lab_surface_brick_blockA2",
+        "lab_surface_brick_blockB2",
+        "lab_surface_brick_blockC2",
+        "lab_surface_brick_blockD2",
+        "lab_surface_brick_blockE2"
+      ],
+      [
+        "lab_surface_brick_blockA3",
+        "lab_surface_brick_blockB3",
+        "lab_surface_brick_blockC3",
+        "lab_surface_brick_blockD3",
+        "lab_surface_brick_blockE3"
+      ],
+      [
+        "lab_surface_brick_blockA4",
+        "lab_surface_brick_blockB4",
+        "lab_surface_brick_blockC4",
+        "lab_surface_brick_blockD4",
+        "lab_surface_brick_blockE4"
+      ]
     ],
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -423,8 +162,7 @@
         "#......................................................................................................................#",
         "#......................................................................................................................#",
         "########################################################################################################################"
-
-],
+      ],
       "palettes": [ "lab_surface_palette" ],
       "place_nested": [
         { "chunks": [ "lab_surface_office_5x5" ], "x": 16, "y": 31 },
@@ -455,7 +193,7 @@
         { "chunks": [ "surface_sub_f_crate" ], "x": [ 81, 85 ], "y": [ 67, 71 ], "repeat": 5 },
         { "chunks": [ "surface_sub_f_crate" ], "x": [ 88, 92 ], "y": [ 61, 65 ], "repeat": 5 },
         { "chunks": [ "surface_sub_f_crate" ], "x": [ 88, 92 ], "y": [ 67, 71 ], "repeat": 5 },
-        { "chunks": [ "surface_sub_f_crate" ], "x": [ 105, 107 ], "y": [ 49, 69 ], "repeat": 30 }
+        { "chunks": [ "surface_sub_f_crate" ], "x": [ 105, 106 ], "y": [ 49, 69 ], "repeat": 30 }
       ]
     }
   }
