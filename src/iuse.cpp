@@ -5346,6 +5346,14 @@ int iuse::seed( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+bool iuse::robotcontrol_can_target( player *p, const monster &m )
+{
+    return !m.is_dead()
+           && m.type->in_species( ROBOT )
+           && m.friendly == 0
+           && rl_dist( p->pos(), m.pos() ) <= 10;
+}
+
 int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient() ) {
@@ -5365,27 +5373,47 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
     } );
     switch( choice ) {
         case 0: { // attempt to make a robot friendly
-
-            bool enemy_robot_in_range = false;
-            for( monster &candidate : g->all_monsters() ) {
-                if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
-                    rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
-                    enemy_robot_in_range = true;
-                    break;
+            uilist pick_robot;
+            pick_robot.text = _( "Choose an endpoint to hack." );
+            // Build a list of all unfriendly robots in range.
+            std::vector< std::shared_ptr< monster> > mons; // @todo: change into vector<Creature*>
+            std::vector< tripoint > locations;
+            int entry_num = 0;
+            for( const monster &candidate : g->all_monsters() ) {
+                if( robotcontrol_can_target( p, candidate ) ) {
+                    mons.push_back( g->shared_from( candidate ) );
+                    pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
+                    tripoint seen_loc;
+                    // Show locations of seen robots, center on player if robot is not seen
+                    if( p->sees( candidate ) ) {
+                        seen_loc = candidate.pos();
+                    } else {
+                        seen_loc = p->pos();
+                    }
+                    locations.push_back( seen_loc );
                 }
             }
-            if( !enemy_robot_in_range ) {
+            if( mons.empty() ) {
                 p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
-                return 0;
+                return it->type->charges_to_use();
             }
-
-            p->add_msg_if_player( _( "You start preparing your override." ) );
+            pointmenu_cb callback( locations );
+            pick_robot.callback = &callback;
+            pick_robot.query();
+            if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
+                p->add_msg_if_player( m_info, _( "Never mind" ) );
+                return it->type->charges_to_use();
+            }
+            const size_t mondex = pick_robot.ret;
+            std::shared_ptr< monster > z = mons[mondex];
+            p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name().c_str() );
 
             /** @EFFECT_INT speeds up hacking preperation */
             /** @EFFECT_COMPUTER speeds up hacking preperation */
             int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
-
             player_activity act( activity_id( "ACT_ROBOT_CONTROL" ), move_cost );
+            act.monsters.emplace_back( z );
+
             p->assign_activity( act );
 
             return it->type->charges_to_use();
