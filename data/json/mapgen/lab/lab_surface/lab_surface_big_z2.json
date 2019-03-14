@@ -491,6 +491,42 @@
     }
   },
   {
+    "type": "palette",
+    "id": "lab_workspace_palette",
+    "terrain": {
+      ".": "t_floor",
+      "#": "t_brick_wall",
+      "|": "t_strconc_wall",
+      " ": "t_strconc_floor",
+      "%": "t_linoleum_white",
+      "+": "t_door_c",
+      "-": "t_door_glass_frosted_c",
+      "=": "t_door_glass_frosted_lab_c",
+      ":": "t_reinforced_glass",
+      "m": "t_door_metal_c",
+      "M": "t_door_metal_locked",
+      "x": "t_console_broken"
+    },
+    "furniture": {
+      "&": "f_trashcan",
+      "{": "f_glass_fridge",
+      "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "A": "f_air_conditioner",
+      "b": "f_bench",
+      "B": "f_bookcase",
+      "C": "f_counter",
+      "c": "f_chair",
+      "d": "f_desk",
+      "o": "f_oven",
+      "H": "f_shower",
+      "s": "f_stool",
+      "t": "f_table",
+      "r": "f_rack",
+      "l": "f_locker",
+      "f": "f_fridge",
+      "S": "f_sink"
+    },
+  {
     "//": "5x5 lab front room",
     "type": "mapgen",
     "method": "json",
