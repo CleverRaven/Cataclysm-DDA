@@ -706,10 +706,7 @@
     "ammo_type": "charcoal",
     "count": 50,
     "stack_size": 10,
-    "fuel": {
-      "//": "Multiply the usual energy density of 1.6 MJ/L by 25, to account for 10 units/250mL instead of 250 units/250 mL",
-      "energy": 40
-    }
+    "fuel": { "energy": 1.6 }
   },
   {
     "type": "AMMO",
@@ -727,10 +724,7 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": {
-      "//": "Multiply the usual energy density of 30 MJ/L by 25, to account for 10 units/250mL instead of 250 units/250 mL",
-      "energy": 750
-    }
+    "fuel": { "energy": 30 }
   },
   {
     "type": "AMMO",

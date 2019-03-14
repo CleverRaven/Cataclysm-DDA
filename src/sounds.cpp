@@ -16,6 +16,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -106,10 +107,11 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, std::string de
                                                  false, id, variant} ) );
 }
 
-void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
+void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
+                           const std::string footstep )
 {
     sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, "footsteps", false, true, "", ""} ) );
+                                         sound_t::movement, footstep, false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -1049,6 +1051,8 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_electronic" ),
         };
         static const std::set<ter_str_id> water = {
+            ter_str_id( "t_water_moving_sh" ),
+            ter_str_id( "t_water_moving_dp" ),
             ter_str_id( "t_water_sh" ),
             ter_str_id( "t_water_dp" ),
             ter_str_id( "t_swater_sh" ),
@@ -1098,6 +1102,8 @@ void sfx::do_obstacle()
     static const std::set<ter_str_id> water = {
         ter_str_id( "t_water_sh" ),
         ter_str_id( "t_water_dp" ),
+        ter_str_id( "t_water_moving_sh" ),
+        ter_str_id( "t_water_moving_dp" ),
         ter_str_id( "t_swater_sh" ),
         ter_str_id( "t_swater_dp" ),
         ter_str_id( "t_water_pool" ),

@@ -193,10 +193,10 @@ void computer::use()
             ctxt.register_manual_key( '1' + i, options[i].name.c_str() );
 #endif
         }
-        print_line( "Q - %s", _( "Quit and shut down" ) );
+        print_line( "Q - %s", _( "Quit and Shut Down" ) );
         print_newline();
 #ifdef __ANDROID__
-        ctxt.register_manual_key( 'Q', _( "Quit and shut down" ) );
+        ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
 #endif
         char ch;
         do {
@@ -990,13 +990,13 @@ SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
             print_line( _( "\
 GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
 EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 \n\
 1. DO NOT PANIC. \n\
 2. REMAIN INSIDE THE BUILDING. \n\
 3. SEEK SHELTER IN THE BASEMENT. \n\
 4. USE PROVIDED GAS MASKS. \n\
-5. AWAIT FURTHER INSTRUCTIONS \n\
+5. AWAIT FURTHER INSTRUCTIONS. \n\
 \n\
   \n" ) );
             query_any( _( "Press any key to continue..." ) );

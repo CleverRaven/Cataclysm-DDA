@@ -122,7 +122,7 @@
     "id": "TALK_REFUGEE_Boris_1_firstmeet",
     "dynamic_line": "It is nice to meet you too.  To what do I owe the pleasure?",
     "responses": [
-      { "text": "What's up in your life these days", "topic": "TALK_REFUGEE_Boris_2_stub" },
+      { "text": "What's up in your life these days?", "topic": "TALK_REFUGEE_Boris_2_stub" },
       { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },

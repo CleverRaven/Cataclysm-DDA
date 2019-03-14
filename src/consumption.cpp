@@ -87,7 +87,7 @@ int player::stomach_capacity() const
 // TODO: Move pizza scraping here.
 // Same for other kinds of nutrition alterations
 // This is used by item display, making actual nutrition available to player.
-int player::nutrition_for( const item &comest ) const
+int player::kcal_for( const item &comest ) const
 {
     static const trait_id trait_CARNIVORE( "CARNIVORE" );
     static const trait_id trait_GIZZARD( "GIZZARD" );
@@ -98,28 +98,28 @@ int player::nutrition_for( const item &comest ) const
     }
 
     // As float to avoid rounding too many times
-    float nutr = 0;
+    float kcal = 0;
 
     // if item has components, will derive calories from that instead.
     if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         int byproduct_multiplier;
         for( item component : comest.components ) {
             component.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
-            nutr += this->nutrition_for( component ) * component.charges * byproduct_multiplier;
+            kcal += this->kcal_for( component ) * component.charges * byproduct_multiplier;
         }
-        nutr /= comest.recipe_charges;
+        kcal /= comest.recipe_charges;
     } else {
-        nutr = comest.type->comestible->nutr;
+        kcal = comest.type->comestible->get_calories();
     }
 
     if( has_trait( trait_GIZZARD ) ) {
-        nutr *= 0.6f;
+        kcal *= 0.6f;
     }
 
     if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
-        nutr *= 0.5f;
+        kcal *= 0.5f;
     }
 
     const float relative_rot = comest.get_relative_rot();
@@ -128,15 +128,20 @@ int player::nutrition_for( const item &comest ) const
         // everyone else only gets a portion of the nutrition
         // Scaling linearly from 100% at just-rotten to 0 at halfway-rotten-away
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
-        nutr *= ( 1.0f - rottedness );
+        kcal *= ( 1.0f - rottedness );
     }
 
     // Bionic digestion gives extra nutrition
     if( has_bionic( bio_digestion ) ) {
-        nutr *= 1.5f;
+        kcal *= 1.5f;
     }
 
-    return static_cast<int>( nutr );
+    return static_cast<int>( kcal );
+}
+
+int player::nutrition_for( const item &comest ) const
+{
+    return kcal_for( comest ) / islot_comestible::kcal_per_nutr;
 }
 
 std::pair<int, int> player::fun_for( const item &comest ) const
@@ -211,6 +216,30 @@ std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
     return vitamins_from( item( id ) );
 }
 
+// list of traits the player has that modifies vitamin absorption
+std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
+{
+    std::list<trait_id> traits;
+    for( auto &m : p.get_mutations() ) {
+        const auto &mut = m.obj();
+        if( !mut.vitamin_absorb_multi.empty() ) {
+            traits.push_back( m );
+        }
+    }
+    return traits;
+}
+
+// is the material associated with this item?
+bool material_exists( const material_id material, const item &item )
+{
+    for( material_id mat : item.type->materials ) {
+        if( mat == material ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
 {
     std::map<vitamin_id, int> res;
@@ -219,7 +248,6 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // @todo: bionics and mutations can affect vitamin absorption
     if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         // if an item is a byproduct, it should subtract the calories and vitamins instead of add
         int byproduct_multiplier = 1;
@@ -227,18 +255,36 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
             for( const auto &vit : component_map ) {
-                res.operator[]( vit.first ) += byproduct_multiplier * ceil( static_cast<float>
-                                               ( vit.second ) / static_cast<float>
-                                               ( it.type->charges_default() ) );
+                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>
+                                    ( vit.second ) / static_cast<float>
+                                    ( it.type->charges_default() ) );
             }
         }
     } else {
-        // food to which the player is allergic to never contains any vitamins
-        if( allergy_type( it ) != MORALE_NULL ) {
-            return res;
-        }
-        for( const auto &e : it.type->comestible->vitamins ) {
-            res.emplace( e );
+        // if we're here, whatever is returned is going to be based on the item's defined stats
+        res = it.type->comestible->vitamins;
+        std::list<trait_id> traits = mut_vitamin_absorb_modify( *this );
+        // traits modify the absorption of vitamins here
+        if( traits.size() > 0 ) {
+            // make sure to iterate over every trait that has an effect on vitamin absorption
+            for( const trait_id &trait : traits ) {
+                const auto &mut = trait.obj();
+                // make sure to iterate over every material defined for vitamin absorption
+                // @todo put this loop into a function and utilize it again for bionics
+                for( const auto &mat : mut.vitamin_absorb_multi ) {
+                    // this is where we are able to check if the food actually is changed by the trait
+                    if( mat.first == material_id( "all" ) || material_exists( mat.first, it ) ) {
+                        std::map<vitamin_id, float> mat_vit_map = mat.second;
+                        // finally iterate over every vitamin in each material
+                        for( const auto &vit : res ) {
+                            // to avoid errors with undefined keys, and to initialize numbers to 1 if undefined
+                            mat_vit_map.emplace( vit.first, 1 );
+                            // finally edit the vitamin value that will be returned
+                            res[ vit.first ] *= mat_vit_map[ vit.first ];
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -863,7 +909,7 @@ void player::consume_effects( const item &food )
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
-        int h_loss = -rottedness * comest.nutr;
+        int h_loss = -rottedness * comest.get_nutr();
         mod_healthy_mod( h_loss, -200 );
         add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
@@ -1122,7 +1168,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    if( it.volume() >= furnace_max_volume ) {
+    if( it.charges_per_volume( furnace_max_volume ) < 1 ) { // not even one charge fits
         return false;
     }
 
@@ -1135,6 +1181,7 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
+    const long consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
     const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
 
     if( energy == 0 ) {
@@ -1149,20 +1196,33 @@ bool player::feed_furnace_with( item &it )
             it.tname().c_str() );
     } else {
         const int profitable_energy = std::min( energy, max_power_level - power_level );
-        add_msg_player_or_npc( m_info,
-                               ngettext( "You digest your %s and recharge %d point of energy.",
-                                         "You digest your %s and recharge %d points of energy.",
-                                         profitable_energy
-                                       ),
-                               ngettext( "<npcname> digests a %s and recharges %d point of energy.",
-                                         "<npcname> digests a %s and recharges %d points of energy.",
-                                         profitable_energy
-                                       ), it.tname().c_str(), profitable_energy
-                             );
+        if( it.count_by_charges() ) {
+            add_msg_player_or_npc( m_info,
+                                   ngettext( "You digest %d %s and recharge %d point of energy.",
+                                             "You digest %d %s and recharge %d points of energy.",
+                                             profitable_energy
+                                           ),
+                                   ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
+                                             "<npcname> digests %d %s and recharges %d points of energy.",
+                                             profitable_energy
+                                           ), consumed_charges, it.tname().c_str(), profitable_energy
+                                 );
+        } else {
+            add_msg_player_or_npc( m_info,
+                                   ngettext( "You digest your %s and recharge %d point of energy.",
+                                             "You digest your %s and recharge %d points of energy.",
+                                             profitable_energy
+                                           ),
+                                   ngettext( "<npcname> digests a %s and recharges %d point of energy.",
+                                             "<npcname> digests a %s and recharges %d points of energy.",
+                                             profitable_energy
+                                           ), it.tname().c_str(), profitable_energy
+                                 );
+        }
         charge_power( profitable_energy );
     }
 
-    it.charges = 0;
+    it.charges -= consumed_charges;
     mod_moves( -250 );
 
     return true;
@@ -1204,7 +1264,15 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             break;
 
         case rechargeable_cbm::furnace: {
-            int amount = ( it.volume() / 250_ml + it.weight() / 1_gram ) / 9;
+            units::volume consumed_vol = it.volume();
+            units::mass consumed_mass = it.weight();
+            if( it.count_by_charges() && it.charges > it.charges_per_volume( furnace_max_volume ) ) {
+                const double n_stacks = static_cast<double>( it.charges_per_volume( furnace_max_volume ) ) /
+                                        it.type->stack_size;
+                consumed_vol = it.type->volume * n_stacks;
+                consumed_mass = it.type->weight * 10 * n_stacks; // it.type->weight is in 10g units?
+            }
+            int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
 
             // @todo: JSONize.
             if( it.made_of( material_id( "leather" ) ) ) {

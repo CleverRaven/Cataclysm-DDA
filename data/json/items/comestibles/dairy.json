@@ -77,7 +77,6 @@
     "material": [ "milk" ],
     "primary_material": "cheese",
     "volume": 1,
-    "charges": 7,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 7 ] ],
     "fun": 5
   },

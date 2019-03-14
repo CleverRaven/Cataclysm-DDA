@@ -26,8 +26,6 @@ class WrongJSONItem(Exception):
 # there may be some non-json files in data/raw
 not_json = {os.path.normpath(i) for i in {
     "sokoban.txt",
-    "main.lua",
-    "preload.lua",
     "LOADING_ORDER.md"
 }}
 

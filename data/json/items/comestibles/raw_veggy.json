@@ -443,6 +443,8 @@
     "charges": 12,
     "bashing": 2,
     "fun": -1,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "iron", 1 ] ]
   },
   {

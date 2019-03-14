@@ -36,6 +36,8 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "projectile.h"
 #include "rng.h"
@@ -1092,7 +1094,7 @@ bool map::displace_water( const tripoint &p )
                 }
                 ter_id ter0 = ter( temp );
                 if( ter0 == t_water_sh ||
-                    ter0 == t_water_dp ) {
+                    ter0 == t_water_dp || ter0 == t_water_moving_sh || ter0 == t_water_moving_dp ) {
                     continue;
                 }
                 if( pass != 0 && dis_places == sel_place ) {
@@ -2724,7 +2726,7 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
         if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
-        if( ter( pt ) == t_lava ) {
+        if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
             return true;
         }
     }
@@ -4300,20 +4302,25 @@ item map::water_from( const tripoint &p )
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
-    if( terrain_id == t_water_sh ) {
-        if( one_in( 3 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( terrain_id == t_water_dp ) {
-        if( one_in( 4 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
+        int poison_chance = 0;
+        if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 20;
+            } else {
+                poison_chance = 4;
+            }
+        } else {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 10;
+            } else {
+                poison_chance = 3;
+            }
+        }
+        if( one_in( poison_chance ) ) {
+            ret.poison = rng( 1, 4 );
+        }
         return ret;
     }
     if( furn( p ).obj().examine == &iexamine::water_source ) {
@@ -4709,11 +4716,11 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 
 template <typename Stack>
 std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity,
-                                        const tripoint &pos )
+                                        const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
+        if( filter( *a ) && !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4748,14 +4755,14 @@ long remove_charges_in_list( const itype *type, map_stack stack, long quantity )
 }
 
 void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
-                            map *m, const tripoint &p, std::list<item> &ret )
+                            map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
 {
     if( m->has_flag( "LIQUIDCONT", p ) ) {
         auto item_list = m->i_at( p );
         auto current_item = item_list.begin();
         for( ; current_item != item_list.end(); ++current_item ) {
             // looking for a liquid that matches
-            if( current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
+            if( filter( *current_item ) && current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
                 ret.push_back( *current_item );
                 if( current_item->charges - quantity > 0 ) {
                     // Update the returned liquid amount to match the requested amount
@@ -4786,6 +4793,9 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         } );
         if( iter != stack.end() ) {
             item furn_item( itt, -1, iter->charges );
+            if( !filter( furn_item ) ) {
+                return;
+            }
             // The const itemructor limits the charges to the (type specific) maximum.
             // Setting it separately circumvents that it is synchronized with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
@@ -4800,7 +4810,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 }
 
 std::list<item> map::use_charges( const tripoint &origin, const int range,
-                                  const itype_id type, long &quantity )
+                                  const itype_id type, long &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
 
@@ -4828,14 +4838,14 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( has_furn( p ) ) {
-            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret );
+            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
             if( quantity <= 0 ) {
                 return ret;
             }
         }
 
         if( accessible_items( p ) ) {
-            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
+            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p, filter );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -4973,7 +4983,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
         if( cargo ) {
             std::list<item> tmp =
-                use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p );
+                use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p,
+                                        filter );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -5457,8 +5468,15 @@ void map::add_camp( const tripoint &p, const std::string &name )
         dbg( D_ERROR ) << "map::add_camp: Attempting to add camp when one in local area.";
         return;
     }
-
-    get_submap_at( p )->camp = basecamp( name, p );
+    point omt = ms_to_omt_copy( g->m.getabs( p.x, p.y ) );
+    tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
+    basecamp temp_camp = basecamp( name, omt_tri );
+    get_submap_at( p )->camp = temp_camp;
+    basecamp *pointer_camp;
+    pointer_camp = &get_submap_at( p )->camp;
+    overmap_buffer.add_camp( pointer_camp );
+    g->u.camps.insert( omt_tri );
+    g->validate_camps();
 }
 
 void map::update_visibility_cache( const int zlev )

@@ -41,8 +41,9 @@
     "healthy": 2,
     "description": "Cooked leaves from wild dandelions.  Tasty and nutritious.",
     "price": 200,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 1
+    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "fun": 1,
+    "smoking_result": "dry_veggy"
   },
   {
     "type": "COMESTIBLE",

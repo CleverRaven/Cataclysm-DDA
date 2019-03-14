@@ -197,32 +197,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "mon_zombie_scientist_death_drops",
-    "entries": [
-      { "group": "lab_shoes", "damage": [ 1, 4 ] },
-      { "group": "lab_torso", "damage": [ 1, 4 ] },
-      { "group": "lab_pants", "damage": [ 1, 4 ] },
-      { "group": "underwear", "damage": [ 1, 4 ] },
-      {
-        "distribution": [
-          { "group": "harddrugs", "prob": 6 },
-          { "group": "chem_lab", "prob": 10 },
-          { "group": "teleport", "prob": 6 },
-          { "group": "goo", "prob": 8 },
-          { "group": "cloning_vat", "prob": 1 },
-          { "group": "dissection", "prob": 10 },
-          { "group": "electronics", "prob": 9 },
-          { "group": "bionics", "prob": 1 },
-          { "group": "radio", "prob": 2 },
-          { "group": "textbooks", "prob": 3 }
-        ]
-      },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "mon_zombie_grenadier",
     "entries": [
       { "item": "chestrig", "damage": [ 1, 4 ] },

@@ -67,7 +67,16 @@
     "id": "rope_natural",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible",
-    "components": [ [ [ "rope_6", 5 ], [ "rope_30", 1 ], [ "rope_makeshift_6", 5 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ]
+    "components": [
+      [
+        [ "rope_6", 5 ],
+        [ "rope_30", 1 ],
+        [ "rope_makeshift_6", 5 ],
+        [ "rope_makeshift_30", 1 ],
+        [ "vine_30", 1 ],
+        [ "grapnel", 1 ]
+      ]
+    ]
   },
   {
     "id": "rope_natural_short",

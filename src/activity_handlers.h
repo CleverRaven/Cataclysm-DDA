@@ -21,6 +21,7 @@ enum butcher_type : int {
     F_DRESS,        // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
+    DISMEMBER,      // destroy a corpse
     DISSECT         // dissect a corpse for CBMs
 };
 
@@ -82,6 +83,7 @@ void plant_plot_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
 void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
+void robot_control_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
