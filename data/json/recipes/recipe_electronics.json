@@ -464,7 +464,7 @@
   "using": [ [ "soldering_standard", 5 ] ],
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
-    [ 
+    [
       [ "radio", 1 ],
       [ "two_way_radio", 1 ],
       [ "talking_doll", 1 ],
@@ -1060,6 +1060,34 @@
     [ [ "nail", 80 ] ],
     [ [ "pipe", 8 ] ],
     [ [ "wheel_wood_b", 2 ] ]
+  ]
+},{
+  "type": "recipe",
+  "result": "xl_water_wheel",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "electronics", 6 ],
+  "difficulty": 6,
+  "time": 200000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "autolearn": true,
+  "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
+  "using": [ [ "soldering_standard", 85 ] ],
+  "qualities": [
+    { "id": "SCREW", "level": 1 },
+    { "id": "HAMMER", "level": 2 },
+    { "id": "SAW_M", "level": 2 },
+    { "id": "SAW_W", "level": 2 }
+  ],
+  "components": [
+    [ [ "motor_small", 3 ], [ "alternator_bicycle", 3 ], [ "alternator_motorbike", 3 ] ],
+    [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
+    [ [ "sheet_metal_small", 18 ] ],
+    [ [ "nail", 240 ] ],
+    [ [ "pipe", 24 ] ],
+    [ [ "wheel_wood_b", 6 ] ]
   ]
 },{
   "type" : "recipe",

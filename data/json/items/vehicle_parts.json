@@ -529,6 +529,21 @@
       "price": 120000
     },
     {
+      "type": "GENERIC",
+      "id": "xl_water_wheel",
+      "name": "large water wheel",
+      "description": "A large water wheel with wooden supports.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
+      "weight": 600000,
+      "to_hit": -5,
+      "color": "yellow",
+      "symbol": "o",
+      "material": [ "wood" ],
+      "volume": 240,
+      "bashing": 3,
+      "category": "veh_parts",
+      "price": 200000
+    },
+    {
         "type":"GENERIC",
         "id" : "reinforced_solar_panel",
         "name" : "reinforced solar panel",

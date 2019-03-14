@@ -3483,7 +3483,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
 int vehicle::static_drag( bool actual ) const
 {
-    return extra_drag / 1000 + ( actual && !engine_on ? 300 : 0 );
+    return extra_drag + ( actual && !engine_on ? 300 : 0 );
 }
 
 float vehicle::strain() const
@@ -3729,7 +3729,7 @@ int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
             }
         }
         if( engine_vpower ) {
-            alternator_load = 1000 * abs( alternators_power + extra_drag ) / engine_vpower;
+            alternator_load = 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower;
         } else {
             alternator_load = 0;
         }
@@ -4549,6 +4549,10 @@ void vehicle::refresh()
             speciality.push_back( p );
         }
         if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
+            extra_drag += vpi.power;
+        }
+        if( vpi.has_flag( "EXTRA_DRAG" ) && ( vpi.has_flag( "WIND_TURBINE" ) ||
+                                              vpi.has_flag( "WATER_WHEEL" ) ) ) {
             extra_drag += vpi.power;
         }
         if( camera_on && vpi.has_flag( "CAMERA" ) ) {
