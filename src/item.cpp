@@ -6297,7 +6297,7 @@ void item::fill_with( item &liquid, long amount )
             return;
         }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
-    } else if( !is_container_empty() && is_food_container() ) {
+    } else if( is_food_container() ) {
         // if container already has liquid we need to sum the energy
         item &cts = contents.front();
         const float lhs_energy = cts.get_item_thermal_energy();
