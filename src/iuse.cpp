@@ -4836,14 +4836,7 @@ static bool heat_item( player &p )
             !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ),
                        colorize( target.tname(), target.color_in_inventory() ) ) ) {
 
-            // assume environment is warm; heat less to keep COLD longer
-            int counter_mod = 550;
-            target.item_tags.insert( "COLD" );
-            if( g->get_temperature( p.pos() ) <= temperatures::cold ) {
-                // environment is cold; heat more to prevent re-freeze
-                counter_mod = 50;
-            }
-            target.item_counter = counter_mod;
+            target.cold_up();
             add_msg( _( "You defrost the food." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
