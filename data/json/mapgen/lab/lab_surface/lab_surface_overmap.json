@@ -1,0 +1,902 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA0",
+    "name": "lab_surface_brick_blockA0",
+    "sym": 65,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB0",
+    "name": "lab_surface_brick_blockB0",
+    "sym": 66,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC0",
+    "name": "lab_surface_brick_blockC0",
+    "sym": 67,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD0",
+    "name": "lab_surface_brick_blockD0",
+    "sym": 68,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE0",
+    "name": "lab_surface_brick_blockE0",
+    "sym": 69,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA1",
+    "name": "lab_surface_brick_blockA1",
+    "sym": 65,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB1",
+    "name": "lab_surface_brick_blockB1",
+    "sym": 66,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC1",
+    "name": "lab_surface_brick_blockC1",
+    "sym": 67,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD1",
+    "name": "lab_surface_brick_blockD1",
+    "sym": 68,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE1",
+    "name": "lab_surface_brick_blockE1",
+    "sym": 69,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA2",
+    "name": "lab_surface_brick_blockA2",
+    "sym": 65,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB2",
+    "name": "lab_surface_brick_blockB2",
+    "sym": 66,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC2",
+    "name": "lab_surface_brick_blockC2",
+    "sym": 67,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD2",
+    "name": "lab_surface_brick_blockD2",
+    "sym": 68,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE2",
+    "name": "lab_surface_brick_blockE2",
+    "sym": 69,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA3",
+    "name": "lab_surface_brick_blockA3",
+    "sym": 65,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB3",
+    "name": "lab_surface_brick_blockB3",
+    "sym": 66,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC3",
+    "name": "lab_surface_brick_blockC3",
+    "sym": 67,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD3",
+    "name": "lab_surface_brick_blockD3",
+    "sym": 68,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE3",
+    "name": "lab_surface_brick_blockE3",
+    "sym": 69,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA4",
+    "name": "lab_surface_brick_blockA4",
+    "sym": 65,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB4",
+    "name": "lab_surface_brick_blockB4",
+    "sym": 66,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC4",
+    "name": "lab_surface_brick_blockC4",
+    "sym": 67,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD4",
+    "name": "lab_surface_brick_blockD4",
+    "sym": 68,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE4",
+    "name": "lab_surface_brick_blockE4",
+    "sym": 69,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A0",
+    "name": "lab_surface_brick_block2A0",
+    "sym": 65,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B0",
+    "name": "lab_surface_brick_block2B0",
+    "sym": 66,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C0",
+    "name": "lab_surface_brick_block2C0",
+    "sym": 67,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D0",
+    "name": "lab_surface_brick_block2D0",
+    "sym": 68,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E0",
+    "name": "lab_surface_brick_block2E0",
+    "sym": 69,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A1",
+    "name": "lab_surface_brick_block2A1",
+    "sym": 65,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B1",
+    "name": "lab_surface_brick_block2B1",
+    "sym": 66,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C1",
+    "name": "lab_surface_brick_block2C1",
+    "sym": 67,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D1",
+    "name": "lab_surface_brick_block2D1",
+    "sym": 68,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E1",
+    "name": "lab_surface_brick_block2E1",
+    "sym": 69,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A2",
+    "name": "lab_surface_brick_block2A2",
+    "sym": 65,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B2",
+    "name": "lab_surface_brick_block2B2",
+    "sym": 66,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C2",
+    "name": "lab_surface_brick_block2C2",
+    "sym": 67,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D2",
+    "name": "lab_surface_brick_block2D2",
+    "sym": 68,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E2",
+    "name": "lab_surface_brick_block2E2",
+    "sym": 69,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A3",
+    "name": "lab_surface_brick_block2A3",
+    "sym": 65,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B3",
+    "name": "lab_surface_brick_block2B3",
+    "sym": 66,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C3",
+    "name": "lab_surface_brick_block2C3",
+    "sym": 67,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D3",
+    "name": "lab_surface_brick_block2D3",
+    "sym": 68,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E3",
+    "name": "lab_surface_brick_block2E3",
+    "sym": 69,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A4",
+    "name": "lab_surface_brick_block2A4",
+    "sym": 65,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B4",
+    "name": "lab_surface_brick_block2B4",
+    "sym": 66,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C4",
+    "name": "lab_surface_brick_block2C4",
+    "sym": 67,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D4",
+    "name": "lab_surface_brick_block2D4",
+    "sym": 68,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E4",
+    "name": "lab_surface_brick_block2E4",
+    "sym": 69,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A0",
+    "name": "lab_surface_brick_block3A0",
+    "sym": 65,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B0",
+    "name": "lab_surface_brick_block3B0",
+    "sym": 66,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C0",
+    "name": "lab_surface_brick_block3C0",
+    "sym": 67,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D0",
+    "name": "lab_surface_brick_block3D0",
+    "sym": 68,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E0",
+    "name": "lab_surface_brick_block3E0",
+    "sym": 69,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A1",
+    "name": "lab_surface_brick_block3A1",
+    "sym": 65,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B1",
+    "name": "lab_surface_brick_block3B1",
+    "sym": 66,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C1",
+    "name": "lab_surface_brick_block3C1",
+    "sym": 67,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D1",
+    "name": "lab_surface_brick_block3D1",
+    "sym": 68,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E1",
+    "name": "lab_surface_brick_block3E1",
+    "sym": 69,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A2",
+    "name": "lab_surface_brick_block3A2",
+    "sym": 65,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B2",
+    "name": "lab_surface_brick_block3B2",
+    "sym": 66,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C2",
+    "name": "lab_surface_brick_block3C2",
+    "sym": 67,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D2",
+    "name": "lab_surface_brick_block3D2",
+    "sym": 68,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E2",
+    "name": "lab_surface_brick_block3E2",
+    "sym": 69,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A3",
+    "name": "lab_surface_brick_block3A3",
+    "sym": 65,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B3",
+    "name": "lab_surface_brick_block3B3",
+    "sym": 66,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C3",
+    "name": "lab_surface_brick_block3C3",
+    "sym": 67,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D3",
+    "name": "lab_surface_brick_block3D3",
+    "sym": 68,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E3",
+    "name": "lab_surface_brick_block3E3",
+    "sym": 69,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A4",
+    "name": "lab_surface_brick_block3A4",
+    "sym": 65,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B4",
+    "name": "lab_surface_brick_block3B4",
+    "sym": 66,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C4",
+    "name": "lab_surface_brick_block3C4",
+    "sym": 67,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D4",
+    "name": "lab_surface_brick_block3D4",
+    "sym": 68,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E4",
+    "name": "lab_surface_brick_block3E4",
+    "sym": 69,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A0",
+    "name": "lab_surface_brick_block4A0",
+    "sym": 65,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B0",
+    "name": "lab_surface_brick_block4B0",
+    "sym": 66,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C0",
+    "name": "lab_surface_brick_block4C0",
+    "sym": 67,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D0",
+    "name": "lab_surface_brick_block4D0",
+    "sym": 68,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E0",
+    "name": "lab_surface_brick_block4E0",
+    "sym": 69,
+    "color": "brown",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A1",
+    "name": "lab_surface_brick_block4A1",
+    "sym": 65,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B1",
+    "name": "lab_surface_brick_block4B1",
+    "sym": 66,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C1",
+    "name": "lab_surface_brick_block4C1",
+    "sym": 67,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D1",
+    "name": "lab_surface_brick_block4D1",
+    "sym": 68,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E1",
+    "name": "lab_surface_brick_block4E1",
+    "sym": 69,
+    "color": "white",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A2",
+    "name": "lab_surface_brick_block4A2",
+    "sym": 65,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B2",
+    "name": "lab_surface_brick_block4B2",
+    "sym": 66,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C2",
+    "name": "lab_surface_brick_block4C2",
+    "sym": 67,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D2",
+    "name": "lab_surface_brick_block4D2",
+    "sym": 68,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E2",
+    "name": "lab_surface_brick_block4E2",
+    "sym": 69,
+    "color": "red",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A3",
+    "name": "lab_surface_brick_block4A3",
+    "sym": 65,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B3",
+    "name": "lab_surface_brick_block4B3",
+    "sym": 66,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C3",
+    "name": "lab_surface_brick_block4C3",
+    "sym": 67,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D3",
+    "name": "lab_surface_brick_block4D3",
+    "sym": 68,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E3",
+    "name": "lab_surface_brick_block4E3",
+    "sym": 69,
+    "color": "blue",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A4",
+    "name": "lab_surface_brick_block4A4",
+    "sym": 65,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B4",
+    "name": "lab_surface_brick_block4B4",
+    "sym": 66,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C4",
+    "name": "lab_surface_brick_block4C4",
+    "sym": 67,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D4",
+    "name": "lab_surface_brick_block4D4",
+    "sym": 68,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E4",
+    "name": "lab_surface_brick_block4E4",
+    "sym": 69,
+    "color": "yellow",
+    "see_cost": 999,
+    "mondensity": 2
+  }
+]
