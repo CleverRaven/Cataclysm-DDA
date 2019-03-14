@@ -1,0 +1,6 @@
+{
+  "keybinds": { "input_context": "default", "menu_context": "default"
+  },
+  "player": { "is_self_aware": false, "hunger": 0, "thirst": 0, "fatigue": 0, "temp_level": 0, "temp_change": -1, "hp_cur": [ 6, 10, 10, 10, 10, 10 ], "hp_max": [ 10, 10, 10, 10, 10, 10 ], "splints": [ -1, -1, -100, -1, 0.05, 0.95 ], "limbs": [ 3, 0, 0, 0, 0, 0 ], "stamina": 993, "stamina_max": 1000, "power_level": 0, "max_power_level": 0, "pain": 0, "morale": -6, "safe_mode": 0
+  }
+}
