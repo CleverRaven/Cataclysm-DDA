@@ -2180,7 +2180,6 @@ void Item_factory::clear()
 
     categories.clear();
 
-    // Also clear functions referring to lua
     iuse_function_list.clear();
 
     m_templates.clear();

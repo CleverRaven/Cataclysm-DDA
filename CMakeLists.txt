@@ -9,7 +9,6 @@ SET(CMAKE_MODULE_PATH
 )
 
 # Build options
-option(LUA          "Lua support (required for some mods)."					"OFF")
 option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )
 option(SOUND        "Support for in-game sounds & music."					"OFF")
@@ -18,9 +17,8 @@ option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
-option(LUA_BINARY   "Lua binary name or path. You can try to use luajit for extra speed."	"")
 option(GIT_BINARY   "Git binary name or path."							"")
-OPTION(PREFIX       "Location of Data,GFX, & Lua directories"                                   "")
+OPTION(PREFIX       "Location of Data & GFX directories"                                   "")
 
 include(CTest)
 
@@ -140,10 +138,6 @@ ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
 MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
-IF (NOT LUA_BINARY)
-	SET (LUA_BINARY "lua")
-ENDIF (NOT LUA_BINARY)
-
 IF(NOT LANGUAGES)
 	SET (LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 ENDIF(NOT LANGUAGES)
@@ -192,16 +186,12 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
 	MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
 	ADD_DEFINITIONS(-DRELEASE)
-    # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
+    # Use PREFIX as storage of data,gfx, etc.. Usefull only on *nix OS.
     IF (PREFIX AND NOT WIN32)
 	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
-	MESSAGE(STATUS "LUA                           : ${LUA}")
-IF (LUA)
-	MESSAGE(STATUS "LUA_BINARY                    : ${LUA_BINARY}")
-ENDIF (LUA)
 	MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 	MESSAGE(STATUS "TILES                         : ${TILES}")
@@ -309,16 +299,6 @@ IF(SOUND)
 	ENDIF(NOT SDL2_MIXER_FOUND)
 ENDIF(SOUND)
 
-IF(LUA)
-	FIND_PACKAGE(Lua)
-	IF(NOT LUA_FOUND)
-	MESSAGE(FATAL_ERROR
-		"You need the Lua development library to be able to compile with Lua support.\nSee INSTALL file for details and more info\n"
-	)
-	ENDIF(NOT LUA_FOUND)
-	ADD_DEFINITIONS(-DLUA)
-ENDIF(LUA)
-
 IF(BACKTRACE)
 	ADD_DEFINITIONS(-DBACKTRACE)
 ENDIF(BACKTRACE)
@@ -346,11 +326,6 @@ ENDIF(LOCALIZE)
 IF(USE_HOME_DIR)
 	ADD_DEFINITIONS(-DUSE_HOME_DIR)
 ENDIF(USE_HOME_DIR)
-
-IF(LUA)
-	add_subdirectory(lua)
-	add_subdirectory(src/lua)
-ENDIF(LUA)
 
 add_subdirectory(src)
 add_subdirectory(data)

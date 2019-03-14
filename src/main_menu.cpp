@@ -844,13 +844,8 @@ bool main_menu::load_character_tab()
                         color1 = c_light_cyan;
                         color2 = h_light_cyan;
                     } else {
-                        if( world_generator->world_need_lua_build( world_name ) ) {
-                            color1 = c_dark_gray;
-                            color2 = h_dark_gray;
-                        } else {
-                            color1 = c_white;
-                            color2 = h_white;
-                        }
+                        color1 = c_white;
+                        color2 = h_white;
                     }
                     mvwprintz( w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
@@ -898,12 +893,7 @@ bool main_menu::load_character_tab()
             mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 15 + iMenuOffsetX + extra_w / 2,
                        h_white, "%s", wn.c_str() );
 
-            if( ( wn != "TUTORIAL" && wn != "DEFENSE" ) && world_generator->world_need_lua_build( wn ) ) {
-                savegames.clear();
-                mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
-                           c_red, "%s", _( "This world requires the game to be compiled with Lua." ) );
-                on_error();
-            } else if( savegames.empty() ) {
+            if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No save games found!" ) );
                 on_error();

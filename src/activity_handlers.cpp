@@ -5,7 +5,6 @@
 
 #include "action.h"
 #include "advanced_inv.h"
-#include "catalua.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -1891,14 +1890,6 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                                  pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
                                  new_skill_level, skill_name );
         }
-        const std::string skill_increase_source = "training";
-        CallbackArgumentContainer lua_callback_args_info;
-        lua_callback_args_info.emplace_back( p->getID() );
-        lua_callback_args_info.emplace_back( skill_increase_source );
-        lua_callback_args_info.emplace_back( sk.str() );
-        lua_callback_args_info.emplace_back( new_skill_level );
-        lua_callback( "on_player_skill_increased", lua_callback_args_info );
-        lua_callback( "on_skill_increased" ); // Legacy callback
         act->set_to_null();
         return;
     }

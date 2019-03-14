@@ -4,7 +4,7 @@
     "ident": "StatsThroughSkills",
     "name": "StatsThroughSkills",
     "authors": [ "Ryan \"DeNarr\" Saige", "Kevin Granade" ],
-    "description": "Allows stats to raise naturally via skill progression.",
+    "description": "Allows stats to raise via skill progression.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   },
