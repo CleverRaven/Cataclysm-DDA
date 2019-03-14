@@ -7,13 +7,7 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-	    "dB rB",
-		"dc  B",
-		"Bf   ",
-		"dc   ",
-		"dx   "
-      ],
+      "rows": [ "dB rB", "dc  B", "Bf   ", "dc   ", "dx   " ],
       "terrain": { " ": "t_floor", "f": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -26,12 +20,7 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-	    "xddBl",
-		"dc   ",
-		"     ",
-		"dc   ",
-		"ddd  " ],
+      "rows": [ "xddBl", "dc   ", "     ", "dc   ", "ddd  " ],
       "terrain": {
         " ": "t_floor",
         "f": "t_floor",
@@ -108,18 +97,8 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        "     ",
-        " ctc ",
-        " txt ",
-        " ctc ",
-        "     "
-      ],
-      "terrain": {
-        " ": "t_floor",
-        "c": "t_floor",
-        "t": "t_floor"
-      },
+      "rows": [ "     ", " ctc ", " txt ", " ctc ", "     " ],
+      "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -131,18 +110,8 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        " ccc ",
-        "ctttc",
-        "     ",
-        "ctttc",
-        " ccc "
-      ],
-      "terrain": {
-        " ": "t_floor",
-        "c": "t_floor",
-        "t": "t_floor"
-      },
+      "rows": [ " ccc ", "ctttc", "     ", "ctttc", " ccc " ],
+      "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -154,18 +123,8 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        "  c  ",
-        " ctc ",
-        " ctc ",
-        " ctc ",
-        "  c  "
-      ],
-      "terrain": {
-        " ": "t_floor",
-        "c": "t_floor",
-        "t": "t_floor"
-      },
+      "rows": [ "  c  ", " ctc ", " ctc ", " ctc ", "  c  " ],
+      "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -177,19 +136,8 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        "xx1xx",
-        "cc cc",
-        "     ",
-        "cc cc",
-        "xx1xx"
-      ],
-      "terrain": {
-        " ": "t_floor",
-        "c": "t_floor",
-        "t": "t_floor",
-        "1": "t_floor"
-      },
+      "rows": [ "xx1xx", "cc cc", "     ", "cc cc", "xx1xx" ],
+      "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor", "1": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -201,18 +149,8 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        "rrf%%%%%",
-        "r%%%%%%%",
-        "CCCCvvv%",
-        " sss    ",
-        "s    s  ",
-        "ts  sts ",
-        "  s  s  ",
-        " sts    "
-      ],
-      "terrain": { "r": "t_linoleum_white", "f": "t_linoleum_white"
-      },
+      "rows": [ "rrf%%%%%", "r%%%%%%%", "CCCCvvv%", " sss    ", "s    s  ", "ts  sts ", "  s  s  ", " sts    " ],
+      "terrain": { "r": "t_linoleum_white", "f": "t_linoleum_white" },
       "furniture": { "v": "f_glass_fridge" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -225,16 +163,7 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        "HHH   HH",
-        "Httc ctH",
-        "Httc ctH",
-        " cc  ctH",
-        " cc   c ",
-        "Httc    ",
-        "Httc    ",
-        "HHc     "
-      ],
+      "rows": [ "HHH   HH", "Httc ctH", "Httc ctH", " cc  ctH", " cc   c ", "Httc    ", "Httc    ", "HHc     " ],
       "furniture": { "c": [ "f_armchair", "f_armchair", "f_null", "f_null", "f_null", "f_null" ] },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -247,16 +176,7 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        "HHBHHBHH",
-        "        ",
-        "HHH     ",
-        "ttH  Htt",
-        "     HHH",
-        " c      ",
-        "ctc  ctc",
-        " c      "
-      ],
+      "rows": [ "HHBHHBHH", "        ", "HHH     ", "ttH  Htt", "     HHH", " c      ", "ctc  ctc", " c      " ],
       "furniture": { "c": "f_armchair" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -269,16 +189,7 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [
-        "tt tt tt",
-        "ss ss ss",
-        "        ",
-        "  ssss  ",
-        "  CCCC  ",
-        "  %%%C  ",
-        "  x%%%  ",
-        "  Cffr  "
-      ],
+      "rows": [ "tt tt tt", "ss ss ss", "        ", "  ssss  ", "  CCCC  ", "  %%%C  ", "  x%%%  ", "  Cffr  " ],
       "furniture": { "f": "f_glass_fridge" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -400,41 +311,41 @@
         "WWW UUUU   ",
         "WWW        ",
         "PP         ",
-        "TTmTTmTTm  ",
-        "TTPTTPTTm  "
+        "SSmSSmSSm  ",
+        "SSPSSPSSm  "
       ],
       "terrain": {
-  	    " ": "t_strconc_floor",
-  	    "A": "t_strconc_floor",
-  	    "c": "t_strconc_floor",
-  	    "C": "t_strconc_floor",
-		"m": "t_machinery_heavy",
-		"P": "t_sewage_pipe"
-		"t": "t_strconc_floor",
-		"T": "t_strconc_floor",
-  	    "U": "t_strconc_floor",
-  	    "W": "t_strconc_floor",
+        " ": "t_strconc_floor",
+        "A": "t_strconc_floor",
+        "c": "t_strconc_floor",
+        "C": "t_strconc_floor",
+        "m": "t_machinery_heavy",
+        "P": "t_sewage_pipe",
+        "t": "t_strconc_floor",
+        "S": "t_strconc_floor",
+        "U": "t_strconc_floor",
+        "W": "t_strconc_floor"
       },
       "furniture": {
-	    "A": "f_air_filter",
-		"C": "f_air_compressor",
-		"t": "f_standing_tank",
-		"T": "f_standing_tank",
-  	    "U": "f_utility_shelf",
-		"W": "f_water_purifier"
+        "A": "f_air_filter",
+        "C": "f_air_compressor",
+        "t": "f_standing_tank",
+        "S": "f_standing_tank",
+        "U": "f_utility_shelf",
+        "W": "f_water_purifier"
       },
       "mapping": {
-	    "U": { 
-	      "items": [ 
-	        { "item": "tools_mechanic", "chance": 70, "repeat": [ 1, 4 ] },
-	    	{ "item": "tools_lighting_industrial", "chance": 40, "repeat": [ 1, 2 ] },
-	    	{ "item": "hardware_plumbing", "chance": 70, "repeat": [ 5, 15 ] },
-		    { "item": "hardware", "chance": 60, "repeat": [ 1, 2 ] },
-		    { "item": "tools_common", "chance": 80, "repeat": [ 1, 2 ] }
+        "U": {
+          "items": [
+            { "item": "tools_mechanic", "chance": 70, "amount": [ 1, 4 ] },
+            { "item": "tools_lighting_industrial", "chance": 40, "amount": [ 1, 2 ] },
+            { "item": "hardware_plumbing", "chance": 70, "amount": [ 5, 15 ] },
+            { "item": "hardware", "chance": 60, "amount": [ 1, 2 ] },
+            { "item": "tools_common", "chance": 80, "amount": [ 1, 2 ] }
           ]
         }
       },
-	  "place_liquids": [
+      "place_liquids": [
         { "liquid": "water_clean", "amount": [ 200, 600 ], "x": [ 0, 1 ], "y": [ 9, 10 ] },
         { "liquid": "water_clean", "amount": [ 200, 600 ], "x": [ 3, 4 ], "y": [ 9, 10 ] },
         { "liquid": "water_clean", "amount": [ 200, 600 ], "x": [ 6, 7 ], "y": [ 9, 10 ] }
@@ -464,57 +375,59 @@
         "CCLCUUUUU  "
       ],
       "terrain": {
-  	    " ": "t_strconc_floor",
-  	    "A": "t_strconc_floor",
-  	    "B": "t_strconc_floor",
-		"C": "t_strconc_floor",
-  	    "D": "t_strconc_floor",
-  	    "F": "t_strconc_floor",
-		"L": "t_strconc_floor",
-		"m": "t_machinery_heavy",
-		"R": "t_strconc_floor",
-		"T": "t_strconc_floor",
-  	    "u": "t_strconc_floor",
-  	    "U": "t_strconc_floor",
+        " ": "t_strconc_floor",
+        "A": "t_strconc_floor",
+        "B": "t_strconc_floor",
+        "C": "t_strconc_floor",
+        "D": "t_strconc_floor",
+        "F": "t_strconc_floor",
+        "L": "t_strconc_floor",
+        "m": "t_machinery_heavy",
+        "R": "t_strconc_floor",
+        "T": "t_strconc_floor",
+        "u": "t_strconc_floor",
+        "U": "t_strconc_floor"
       },
       "furniture": {
-	    "A": "f_air_filter",
-		"B": "f_bandsaw",
-		"C": "f_counter",
-		"D": "f_drill_press",
-		"F": "f_home_furnace",
-		"L": "f_heavy_lathe",
-		"R": "f_router",
-		"T": "f_tablesaw",
-  	    "u": "f_utility_shelf",
-  	    "U": "f_utility_shelf"
+        "A": "f_air_filter",
+        "B": "f_bandsaw",
+        "C": "f_counter",
+        "D": "f_drill_press",
+        "F": "f_home_furnace",
+        "L": "f_heavy_lathe",
+        "R": "f_router",
+        "T": "f_tablesaw",
+        "u": "f_utility_shelf",
+        "U": "f_utility_shelf"
       },
       "mapping": {
-	    "U": { 
-	      "items": [ 
-	        { "item": "tools_mechanic", "chance": 90, "repeat": [ 1, 4 ] },
-	    	{ "item": "tools_lighting_industrial", "chance": 60, "repeat": [ 1, 2 ] }
-		    { "item": "tools_electronics", "chance": 90, "repeat": [ 1, 4 ] },
-		    { "item": "tools_carpentry", "chance": 50, "repeat": [ 1, 2 ] },
-		    { "item": "tools_construction", "chance": 50, "repeat": [ 1, 2 ] }
+        "U": {
+          "items": [
+            { "item": "tools_mechanic", "chance": 90, "amount": [ 1, 4 ] },
+            { "item": "tools_lighting_industrial", "chance": 60, "amount": [ 1, 2 ] },
+            { "item": "tools_electronics", "chance": 90, "amount": [ 1, 4 ] },
+            { "item": "tools_carpentry", "chance": 50, "amount": [ 1, 2 ] },
+            { "item": "tools_construction", "chance": 50, "amount": [ 1, 2 ] }
           ]
         },
-	    "u": { 
-	      "items": [ 
-	        { "item": "hardware_plumbing", "chance": 60, "repeat": [ 1, 4 ] },
-		    { "item": "hardware", "chance": 70, "repeat": [ 1, 5 ] },
-	    	{ "item": "electronics", "chance": 40, "repeat": [ 1, 3 ] },
-		    { "item": "hardware_bulk", "chance": 90, "repeat": [ 5, 25 ] }
+        "u": {
+          "items": [
+            { "item": "hardware_plumbing", "chance": 60, "amount": [ 1, 4 ] },
+            { "item": "hardware", "chance": 70, "amount": [ 1, 5 ] },
+            { "item": "electronics", "chance": 40, "amount": [ 1, 3 ] },
+            { "item": "hardware_bulk", "chance": 90, "amount": [ 5, 25 ] }
           ]
         },
-	    "C": { 
-	      "items": [ 
-	        { "item": "tools_mechanic", "chance": 30, "repeat": [ 1, 2 ] },
-		    { "item": "tools_carpentry", "chance": 30, "repeat": [ 1, 2 ] },
-		    { "item": "tools_common", "chance": 30, "repeat": [ 1, 2 ] }
+        "C": {
+          "items": [
+            { "item": "tools_mechanic", "chance": 30, "amount": [ 1, 2 ] },
+            { "item": "tools_carpentry", "chance": 30, "amount": [ 1, 2 ] },
+            { "item": "tools_common", "chance": 30, "amount": [ 1, 2 ] }
           ]
         }
-      },
+      }
+    }
+  },
   {
     "//": "12x12 lobby centerpiece",
     "type": "mapgen",
@@ -546,10 +459,7 @@
         "I": "t_tree_maple",
         "i": "t_tree_young"
       },
-      "furniture": {
-        "B": "f_boulder_medium",
-        "b": "f_boulder_small"
-      },
+      "furniture": { "B": "f_boulder_medium", "b": "f_boulder_small" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -583,9 +493,7 @@
         "I": "t_tree_maple",
         "i": "t_tree_young"
       },
-      "furniture": {
-        "B": "f_boulder_small"
-      },
+      "furniture": { "B": "f_boulder_small" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -611,14 +519,8 @@
         " ]]bbbbbb]] ",
         "  ]]]]]]]]  "
       ],
-      "terrain": {
-        "b": "t_grass",
-        "S": "t_sidewalk",
-        "~": "t_water_sh"
-      },
-      "furniture": {
-        "S": "f_statue"
-      },
+      "terrain": { "b": "t_grass", "S": "t_sidewalk", "~": "t_water_sh" },
+      "furniture": { "S": "f_statue" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -644,12 +546,8 @@
         "b||b %% b||b",
         "bbbb]]]]bbbb"
       ],
-      "terrain": {
-        "b": "t_sidewalk"
-      },
-      "furniture": {
-        "S": "f_statue"
-      },
+      "terrain": { "b": "t_sidewalk" },
+      "furniture": { "S": "f_statue" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -661,14 +559,11 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-	  "terrain": { "X": "t_thconc_floor" },
-      "furniture": { "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "mapping": {
-	    "X": { 
-	      "items": [ 
-	        { "item": "science", "chance": 90, "repeat": [ 15, 20 ] }
-          ]
-        },
+      "terrain": { "X": "t_thconc_floor" },
+      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
+	  "place_items": [
+		{ "item": "science", "x": 0, "y": 0, "chance": 90, "repeat": [ 15, 20 ] }
+	  ]
     }
   },
   {
@@ -679,14 +574,11 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-	  "terrain": { "X": "t_thconc_floor" },
-      "furniture": { "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "mapping": {
-	    "X": { 
-	      "items": [ 
-	        { "item": "electronics", "chance": 90, "repeat": [ 15, 20 ] }
-          ]
-        },
+      "terrain": { "X": "t_thconc_floor" },
+      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
+	  "place_items": [
+		{ "item": "electronics", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] }
+	  ]
     }
   },
   {
@@ -697,14 +589,10 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-	  "terrain": { "X": "t_thconc_floor" },
-      "furniture": { "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "mapping": {
-	    "X": { 
-	      "items": [ 
-	        { "item": "hardware_bulk", "chance": 90, "repeat": [ 15, 20 ] }
-          ]
-        },
+      "terrain": { "X": "t_thconc_floor" },
+      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },"place_items": [
+		{ "item": "hardware_bulk", "x": 0, "y": 0, "chance": 90, "repeat": [ 20, 30 ] }
+	  ]
     }
   },
   {
@@ -715,14 +603,10 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-	  "terrain": { "X": "t_thconc_floor" },
-      "furniture": { "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "mapping": {
-	    "X": { 
-	      "items": [ 
-	        { "item": "cannedfood", "chance": 90, "repeat": [ 50, 70 ] }
-          ]
-        },
+      "terrain": { "X": "t_thconc_floor" },
+      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },"place_items": [
+		{ "item": "cannedfood", "x": 0, "y": 0, "chance": 90, "repeat": [ 50, 70 ] }
+	  ]
     }
   },
   {
@@ -733,15 +617,12 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-	  "terrain": { "X": "t_thconc_floor" },
-      "furniture": { "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "mapping": {
-	    "X": { 
-	      "items": [ 
-	        { "item": "snacks", "chance": 90, "repeat": [ 50, 70 ] }
-          ]
-        },
-      }
+      "terrain": { "X": "t_thconc_floor" },
+      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
+	  "place_items": [
+		{ "item": "snacks", "x": 0, "y": 0, "chance": 90, "repeat": [ 50, 70 ] }
+	  ]
+    }
   },
   {
     "type": "mapgen",
@@ -751,14 +632,109 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-	  "terrain": { "X": "t_thconc_floor" },
-      "furniture": { "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "mapping": {
-	    "X": { 
-	      "items": [ 
-	        { "item": "hospital_lab", "chance": 70, "repeat": [ 10, 20 ] }
-          ]
-        },
-      }
+      "terrain": { "X": "t_thconc_floor" },
+      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
+      "place_items": [
+		{ "item": "hospital_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] }
+	  ]
+    }
   },
+  {
+    "//": "5x5 lab front room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ "bb  f", "Hs  f", "     ", "os   ", "bbbbS" ],
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab back room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ "bbSbb", "bs sb", "     ", "     ", "hhhf8" ],
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office on West side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ "H dd", "H cd", "   d", " BBB" ],
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ "dd H", "dc H", "d   ", "BBB " ],
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors left side bottom",
+    "//2": "analytical lab with GC/HPLC/MS and NMR",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "ff8|CNC|FFb",
+        "   |   |ssb",
+        "::=|::=|  S",
+        "          U",
+        "GM   MH   U",
+        "bs  sbbs  b",
+        "bs  sbbs  b",
+        "bb&  So   a",
+        "####      S",
+        "Ulf#e     C",
+        "   =    &CC"
+      ],
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors right side bottom",
+    "//2": "micriobio lab with EM and shakers",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "bbi|hhh|ff8",
+        "Fs |   |   ",
+        "b  |A=A|=::",
+        "Fs         ",
+        "b   Eb   ob",
+        "b  sbbs  sb",
+        "b  sbbs  sb",
+        "a   So  &bb",
+        "S      ####",
+        "S     e#Ulf",
+        "CC&    =   "
+      ],
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  }
 ]
