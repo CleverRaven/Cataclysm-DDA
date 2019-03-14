@@ -85,6 +85,9 @@ void craft_command::execute()
 
     crafter->assign_activity( activity );
 
+    crafter->last_batch = batch_size;
+    crafter->lastrecipe = rec->ident();
+
     const auto iter = std::find( uistate.recent_recipes.begin(), uistate.recent_recipes.end(),
                                  rec->ident() );
     if( iter != uistate.recent_recipes.end() ) {
