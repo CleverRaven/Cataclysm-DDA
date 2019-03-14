@@ -312,7 +312,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
 
 void trapfunc::shotgun( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ) );
@@ -407,7 +407,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
 
 void trapfunc::blade( Creature *c, const tripoint & )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     if( c != nullptr ) {
@@ -425,7 +425,7 @@ void trapfunc::blade( Creature *c, const tripoint & )
 
 void trapfunc::snare_light( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     sounds::sound( p, 2, sounds::sound_t::combat, _( "Snap!" ) );
@@ -451,7 +451,7 @@ void trapfunc::snare_light( Creature *c, const tripoint &p )
 
 void trapfunc::snare_heavy( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     sounds::sound( p, 4, sounds::sound_t::combat, _( "Snap!" ) );
@@ -512,7 +512,7 @@ void trapfunc::landmine( Creature *c, const tripoint &p )
 
 void trapfunc::boobytrap( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     if( c != nullptr ) {
@@ -527,7 +527,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
 
 void trapfunc::telepad( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     //~ the sound of a telepad functioning
@@ -571,7 +571,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
 
 void trapfunc::goo( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     if( c != nullptr ) {
@@ -847,7 +847,7 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
 
 void trapfunc::lava( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     if( c != nullptr ) {
@@ -947,7 +947,7 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
 
 void trapfunc::sinkhole( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     player *pl = dynamic_cast<player *>( c );
@@ -1146,7 +1146,7 @@ void trapfunc::temple_toggle( Creature *c, const tripoint &p )
 
 void trapfunc::glow( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     if( c != nullptr ) {
@@ -1222,7 +1222,7 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
 
 void trapfunc::drain( Creature *c, const tripoint & )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     if( c != nullptr ) {
@@ -1242,7 +1242,7 @@ void trapfunc::drain( Creature *c, const tripoint & )
 
 void trapfunc::snake( Creature *c, const tripoint &p )
 {
-    if ( c->is_hallucination() ) {
+    if( c->is_hallucination() ) {
         return;
     }
     //~ the sound a snake makes
