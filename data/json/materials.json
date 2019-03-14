@@ -1183,7 +1183,7 @@
     "density": 4,
     "specific_heat_liquid": 3,
     "specific_heat_solid": 2,
-    "latent_heat": 190,    
+    "latent_heat": 190,
     "edible": true,
     "bash_resist": 1,
     "cut_resist": 1,
