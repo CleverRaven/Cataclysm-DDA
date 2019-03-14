@@ -10,6 +10,7 @@
 #include "color.h"
 #include "pldata.h"
 #include "bodypart.h"
+#include "character.h"
 
 
 
@@ -19,34 +20,37 @@ public:
 
     std::condition_variable gsi_update;
     std::condition_variable gsi_writer;
-    // Singleton setup
+
     static gsi& get()
     {
-        static gsi instance; // Guaranteed to be destroyed.
-                                        // Instantiated on first use.
+        static gsi instance;
         return instance;
     }
+
     gsi(gsi const&) = delete;
     void operator=(gsi const&) = delete;
 
     std::stack<std::string> ctxt;  // current input context
     std::stack<std::string> mctxt; // current input context, for menus
     
-    std::list<long> invlets;       // inventory letters in use
-    std::list<nc_color> invlets_c; // inventory letters' corresponding colors
+    std::vector<std::string> invlets;        // inventory letters in use
+    std::vector<std::string> invlets_c;  // inventory letters' corresponding colors
+    std::vector<std::string> invlets_s;  // Special status of inventory item:
+                                    // Yellow for on/activated
+                                    // Green for radioactive
+                                    // Red for armed explosive
+                                    // Gray for no use in current context
+                                    // Books share several of these colors but should be made different
 
     bool is_self_aware;
 
     void update_hunger(int hunger, int starvation);
-
     void update_thirst(int thirst);
-
     void update_fatigue(int fatigue);
-
     void update_body(std::array<int, num_hp_parts> hp_cur, std::array<int, num_hp_parts> hp_max, 
         std::array<nc_color, num_hp_parts> bp_status, std::array<float, num_hp_parts> splints);
-
     void update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> temp_conv);
+    void update_invlets(Character &character);
 
     int stamina, stamina_max;
     int power_level, max_power_level;
