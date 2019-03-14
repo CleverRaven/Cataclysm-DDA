@@ -628,7 +628,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         // by the bionic?
         static const std::array<skill_id, 5> cqb_skills = { {
                 skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
-                skill_id( "bashing" ), skill_id( "stabbing" ), skill_id( "dodge" ),
+                skill_id( "bashing" ), skill_id( "stabbing" ), skill_id( "dodge" )
             }
         };
         if( has_active_bionic( bionic_id( "bio_cqb" ) ) &&
