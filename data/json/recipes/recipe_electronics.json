@@ -1082,9 +1082,17 @@
     { "id": "SAW_W", "level": 2 }
   ],
   "components": [
-    [ [ "motor_small", 3 ], [ "alternator_bicycle", 3 ], [ "alternator_motorbike", 3 ] ],
     [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
     [ [ "sheet_metal_small", 18 ] ],
+    [
+      [ "motor_small", 3 ],
+      [ "alternator_bicycle", 3 ],
+      [ "alternator_motorbike", 3 ],
+      [ "alternator_car", 2 ],
+      [ "alternator_truck", 1 ],
+      [ "motor", 2 ],
+      [ "motor_large", 1 ]
+    ],
     [ [ "nail", 240 ] ],
     [ [ "pipe", 24 ] ],
     [ [ "wheel_wood_b", 6 ] ]

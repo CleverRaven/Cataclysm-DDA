@@ -532,7 +532,7 @@
       "type": "GENERIC",
       "id": "xl_water_wheel",
       "name": "large water wheel",
-      "description": "A large water wheel with wooden supports.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
+      "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",
       "weight": 600000,
       "to_hit": -5,
       "color": "yellow",
