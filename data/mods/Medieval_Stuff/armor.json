@@ -43,27 +43,6 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
-    "id": "helmet_nasal",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "nasal helm",
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.",
-    "weight": 907,
-    "volume": 8,
-    "price": 26000,
-    "bashing": 10,
-    "material": [ "iron" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "HEAD", "EYES" ],
-    "coverage": 80,
-    "encumbrance": 10,
-    "warmth": 10,
-    "material_thickness": 3,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
     "id": "helmet_conical",
     "type": "ARMOR",
     "category": "armor",
