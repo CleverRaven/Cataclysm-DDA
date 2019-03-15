@@ -768,7 +768,7 @@ void player::complete_craft()
 
         if( should_heat ) {
             newit.heat_up();
-        } else if( newit.is_food() || newit.is_food_container() ) {
+        } else if( newit.is_food() ) {
             // Really what we should be doing is averaging the temperatures
             // between the recipe components if we don't have a heat tool, but
             // that's kind of hard.  For now just set the item to 20 C
