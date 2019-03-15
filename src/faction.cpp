@@ -1211,7 +1211,7 @@ void new_faction_manager::display() const
                         nc_color food_col = get_food_supply_color( yours->food_supply, yours->size );
                         mvwprintz( w_missions, ++y, 31, food_col, food_supply_full );
                         const std::string base_dir = "[B]";
-                        std::string bldg = camp->next_upgrade( base_dir );
+                        std::string bldg = camp->next_upgrade( base_dir, 1 );
                         std::string bldg_full = _( "Next Upgrade : " ) + bldg;
                         mvwprintz( w_missions, ++y, 31, col, bldg_full );
                         std::string requirements = camp->om_upgrade_description( bldg, true );
