@@ -1301,7 +1301,7 @@
     "durability": 70,
     "description": "A large wind turbine with stabilizing legs.  Will recharge the vehicle's electrical power when exposed to the wind. Will cause extra drag on the vehicle.",
     "epower": 30,
-    "item": "wind_turbine",
+    "item": "xl_wind_turbine",
     "location": "on_roof",
     "power": -3000,
     "requirements": {
