@@ -1365,10 +1365,14 @@ int HandleDPad()
 SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
 {
     switch( key ) {
-        case SDLK_UP:    return SDLK_DOWN;
-        case SDLK_DOWN:  return SDLK_UP;
-        case SDLK_LEFT:  return SDLK_RIGHT;
-        case SDLK_RIGHT: return SDLK_LEFT;
+        case SDLK_UP:
+            return SDLK_DOWN;
+        case SDLK_DOWN:
+            return SDLK_UP;
+        case SDLK_LEFT:
+            return SDLK_RIGHT;
+        case SDLK_RIGHT:
+            return SDLK_LEFT;
     }
     return 0;
 }
@@ -1381,27 +1385,36 @@ bool sdl_keycode_is_arrow( SDL_Keycode key )
 long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
 {
     if( ( mod == SDLK_UP    && key == SDLK_RIGHT ) ||
-        ( mod == SDLK_RIGHT && key == SDLK_UP ) )
-        return KEY_NUM ( 9 );
-    if( ( mod == SDLK_UP    && key == SDLK_UP ) )
-        return KEY_NUM ( 8 );
+        ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
+        return KEY_NUM( 9 );
+    }
+    if( ( mod == SDLK_UP    && key == SDLK_UP ) ) {
+        return KEY_NUM( 8 );
+    }
     if( ( mod == SDLK_UP    && key == SDLK_LEFT ) ||
-        ( mod == SDLK_LEFT  && key == SDLK_UP ) )
-        return KEY_NUM ( 7 );
-    if( ( mod == SDLK_RIGHT && key == SDLK_RIGHT ) )
-        return KEY_NUM ( 6 );
-    if(   mod == sdl_keycode_opposite_arrow( key ) )
-        return KEY_NUM ( 5 );
-    if( ( mod == SDLK_LEFT  && key == SDLK_LEFT ) )
-        return KEY_NUM ( 4 );
+        ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
+        return KEY_NUM( 7 );
+    }
+    if( ( mod == SDLK_RIGHT && key == SDLK_RIGHT ) ) {
+        return KEY_NUM( 6 );
+    }
+    if( mod == sdl_keycode_opposite_arrow( key ) ) {
+        return KEY_NUM( 5 );
+    }
+    if( ( mod == SDLK_LEFT  && key == SDLK_LEFT ) ) {
+        return KEY_NUM( 4 );
+    }
     if( ( mod == SDLK_DOWN  && key == SDLK_RIGHT ) ||
-        ( mod == SDLK_RIGHT && key == SDLK_DOWN ) )
-        return KEY_NUM ( 3 );
-    if( ( mod == SDLK_DOWN  && key == SDLK_DOWN ) )
-        return KEY_NUM ( 2 );
+        ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 3 );
+    }
+    if( ( mod == SDLK_DOWN  && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 2 );
+    }
     if( ( mod == SDLK_DOWN  && key == SDLK_LEFT ) ||
-        ( mod == SDLK_LEFT  && key == SDLK_DOWN ) )
-        return KEY_NUM ( 1 );
+        ( mod == SDLK_LEFT  && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 1 );
+    }
     return 0;
 }
 
