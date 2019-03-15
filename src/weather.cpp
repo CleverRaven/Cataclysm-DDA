@@ -753,7 +753,7 @@ std::string get_wind_strength_bars( double windpower )
 {
     std::string wind_bars;
     if( windpower < 3 ) {
-        wind_bars = "";
+        wind_bars.clear();
     } else if( windpower < 12 ) {
         wind_bars = "+";
     } else if( windpower < 24 ) {
@@ -870,7 +870,7 @@ std::string get_wind_arrow( int dirangle )
     } else if( dirangle <= 338 && dirangle > 293 ) {
         wind_arrow = "\u21D9";
     } else {
-        wind_arrow = "";
+        wind_arrow.clear();
     }
     return wind_arrow;
 }

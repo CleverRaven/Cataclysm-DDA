@@ -266,7 +266,7 @@ void basecamp::query_new_name()
     .text( "" )
     .max_length( 25 )
     .query();
-    if( popup.canceled() || popup.text() == "" ) {
+    if( popup.canceled() || popup.text().empty() ) {
         camp_name = "faction_camp";
     } else {
         camp_name = popup.text();

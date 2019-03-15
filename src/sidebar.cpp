@@ -559,7 +559,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
                     break;
             }
         } else {
-            unit = "";
+            unit.clear();
         }
 
         wmove( sideStyle ? w : g->w_HP,
