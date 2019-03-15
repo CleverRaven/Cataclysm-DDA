@@ -4,7 +4,8 @@
     "id": "battery",
     "copy-from": "battery",
     "category": "tools",
-    "name": "battery"
+    "name": "battery",
+    "name_plural": "batteries"
   },
   {
     "type": "AMMO",

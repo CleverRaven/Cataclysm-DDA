@@ -25,7 +25,13 @@
   {
     "id": "bionics",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_precision_solderers", 10 ], [ "afs_bio_missiles", 10 ], [ "afs_bio_linguistic_coprocessor", 10 ], [ "afs_bio_dopamine_stimulators", 10 ] ]
+    "items": [
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_precision_solderers", 10 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
+    ]
   },
   {
     "id": "bionics_common",
@@ -60,7 +66,12 @@
   {
     "id": "spider",
     "type": "item_group",
-    "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ], [ "afs_atomic_reading_light", 5 ] ]
+    "items": [
+      [ "afs_energy_saber_off", 1 ],
+      [ "afs_bag_of_holding", 2 ],
+      [ "afs_hydraulic_gauntlet", 1 ],
+      [ "afs_atomic_reading_light", 5 ]
+    ]
   },
   {
     "id": "survivorzed_extra",
