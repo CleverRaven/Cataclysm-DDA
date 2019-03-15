@@ -191,7 +191,7 @@ bool basecamp::can_expand() const
     return static_cast<int>( directions.size() ) < ( e->second.cur_level / 2 - 1 );
 }
 
-const std::string basecamp::next_upgrade( const std::string &dir, const int &offset ) const
+const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
 {
     auto e = expansions.find( dir );
     if( e != expansions.end() ) {
