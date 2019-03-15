@@ -101,7 +101,7 @@ void game_menus::inv::common( player &p )
     do {
         inv_s.set_hint( string_format(
                             _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                            p.allocated_invlets().size(), inv_chars.size() - p.allocated_invlets().size() ) );
+                            p.allocated_invlets().size(), inv_chars.size() ) );
         const item_location &location = inv_s.execute();
         if( location == item_location::nowhere ) {
             break;
@@ -361,8 +361,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) *
-                                      islot_comestible::kcal_per_nutr );
+                return good_bad_none( p.kcal_for( get_comestible_item( loc ) ) );
             }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {

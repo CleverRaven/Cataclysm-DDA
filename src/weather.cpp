@@ -174,8 +174,10 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             wtype = g->weather_override;
         }
         proc_weather_sum( wtype, data, t, tick_size );
+        w_point w = wgen.get_weather( location, t, g->get_seed() );
+        data.wind_amount += get_local_windpower( g->windspeed, overmap_buffer.ter( location ), location,
+                            g->winddirection, false ) * to_turns<int>( tick_size );
     }
-
     return data;
 }
 
@@ -799,13 +801,62 @@ nc_color get_wind_color( double windpower )
     return windcolor;
 }
 
+std::string get_shortdirstring( int angle )
+{
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ( "N" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "NE" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "E" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "SE" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "S" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "SW" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "W" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "NW" );
+    }
+    return dirstring;
+}
+
+std::string get_dirstring( int angle )
+{
+    //convert angle to cardinal directions
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ( "North" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "North-East" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "East" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "South-East" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "South" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "South-West" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "West" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "North-West" );
+    }
+    return dirstring;
+}
+
 std::string get_wind_arrow( int dirangle )
 {
     std::string wind_arrow = "";
-    if( dirangle <= 23 || dirangle > 338 ) {
+    if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
         wind_arrow = "\u21D3";
     } else if( dirangle <= 68 && dirangle > 23 ) {
-        wind_arrow = "\u21D9";
+        wind_arrow = "\u21D8";
     } else if( dirangle <= 113 && dirangle > 68 ) {
         wind_arrow = "\u21D0";
     } else if( dirangle <= 158 && dirangle > 113 ) {
@@ -817,7 +868,7 @@ std::string get_wind_arrow( int dirangle )
     } else if( dirangle <= 293 && dirangle > 248 ) {
         wind_arrow = "\u21D2";
     } else if( dirangle <= 338 && dirangle > 293 ) {
-        wind_arrow = "\u21D8";
+        wind_arrow = "\u21D9";
     } else {
         wind_arrow = "";
     }

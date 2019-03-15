@@ -46,6 +46,7 @@ enum aim_exit {
     exit_re_entry
 };
 
+// *INDENT-OFF*
 advanced_inventory::advanced_inventory()
     : head_height( 5 )
     , min_w_height( 10 )
@@ -91,6 +92,7 @@ advanced_inventory::advanced_inventory()
         squares[9].hscreenx = 33;
     }
 }
+// *INDENT-ON*
 
 advanced_inventory::~advanced_inventory()
 {
@@ -232,10 +234,10 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string volume_capacity = format_volume( g->u.volume_capacity() );
         // align right, so calculate formatted head length
         const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
-                                                weight_carried, weight_capacity, weight_units(),
-                                                volume_carried.c_str(),
-                                                volume_capacity.c_str(),
-                                                volume_units_abbr() );
+                                           weight_carried, weight_capacity, weight_units(),
+                                           volume_carried.c_str(),
+                                           volume_capacity.c_str(),
+                                           volume_units_abbr() );
         const int hrightcol = columns - 1 - formatted_head.length();
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, 4, hrightcol, color, "%.1f", weight_carried );
@@ -247,10 +249,10 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string formatted_head;
         if( pane.get_area() == AIM_ALL ) {
             formatted_head = string_format( "%3.1f %s  %s %s",
-                                  convert_weight( squares[pane.get_area()].weight ),
-                                  weight_units(),
-                                  format_volume( squares[pane.get_area()].volume ).c_str(),
-                                  volume_units_abbr() );
+                                            convert_weight( squares[pane.get_area()].weight ),
+                                            weight_units(),
+                                            format_volume( squares[pane.get_area()].volume ).c_str(),
+                                            volume_units_abbr() );
         } else {
             units::volume maxvolume = 0_ml;
             auto &s = squares[pane.get_area()];
@@ -262,11 +264,11 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                 maxvolume = g->m.max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
-                                  convert_weight( s.weight ),
-                                  weight_units(),
-                                  format_volume( s.volume ).c_str(),
-                                  format_volume( maxvolume ).c_str(),
-                                  volume_units_abbr() );
+                                            convert_weight( s.weight ),
+                                            weight_units(),
+                                            format_volume( s.volume ).c_str(),
+                                            format_volume( maxvolume ).c_str(),
+                                            volume_units_abbr() );
         }
         mvwprintz( window, 4, columns - 1 - formatted_head.length(), norm, formatted_head );
     }
@@ -611,7 +613,8 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
+                    false ) ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
             } else {
@@ -651,7 +654,8 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
+                    false ) ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
             } else {
@@ -699,14 +703,14 @@ void advanced_inv_area::init()
     }
 
     // water?
-    static const std::array<ter_id, 6> ter_water = {
-        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage}
+    static const std::array<ter_id, 8> ter_water = {
+        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
     };
     auto ter_check = [this]
-        (const ter_id &id) {
-            return g->m.ter(this->pos) == id;
-        };
-    if(std::any_of(ter_water.begin(), ter_water.end(), ter_check)) {
+    ( const ter_id & id ) {
+        return g->m.ter( this->pos ) == id;
+    };
+    if( std::any_of( ter_water.begin(), ter_water.end(), ter_check ) ) {
         flags.append( _( " WATER" ) );
     }
 
@@ -1228,6 +1232,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
         }
         restore_area = true;
     }
+    if( !squares[dpane.get_area()].canputitems() ) {
+        popup( _( "You can't put items there!" ) );
+        return false;
+    }
     if( spane.get_area() == AIM_INVENTORY &&
         !query_yn( _( "Really move everything from your inventory?" ) ) ) {
         return false;
@@ -1491,14 +1499,16 @@ void advanced_inventory::display()
         advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
         aim_location changeSquare = NUM_AIM_LOCATIONS;
 
-        const std::string action = (is_processing()) ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
+        const std::string action = ( is_processing() ) ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
             spane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
-        } else if (action == "ITEMS_DEFAULT") {
-            for( side cside : { left, right } ) {
+        } else if( action == "ITEMS_DEFAULT" ) {
+            for( side cside : {
+                     left, right
+                 } ) {
                 auto &pane = panes[cside];
                 aim_location location = static_cast<aim_location>( uistate.adv_inv_default_areas[cside] );
                 if( pane.get_area() != location || location == AIM_ALL ) {
@@ -1577,7 +1587,7 @@ void advanced_inventory::display()
             // Not necessarily equivalent to spane.in_vehicle() if using AIM_ALL
             bool from_vehicle = sitem->from_vehicle;
             bool to_vehicle = dpane.in_vehicle();
-            
+
             // AIM_ALL should disable same area check and handle it with proper filtering instead.
             // This is a workaround around the lack of vehicle location info in
             // either aim_location or advanced_inv_listitem.
@@ -1637,24 +1647,24 @@ void advanced_inventory::display()
                     g->u.takeoff( idx );
 
                     // exit so that the action can be carried out
-                	exit = true;
+                    exit = true;
                 } else {
-                	// important if item is worn
+                    // important if item is worn
                     if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
-	                    g->u.assign_activity( activity_id( "ACT_DROP" ) );
-	                    g->u.activity.placement = squares[destarea].off;
+                        g->u.assign_activity( activity_id( "ACT_DROP" ) );
+                        g->u.activity.placement = squares[destarea].off;
 
-	                    // incase there is vehicle cargo space at dest but the player wants to drop to ground
-	                    if( !to_vehicle ) {
-	                    	g->u.activity.str_values.push_back( "force_ground" );
-	                    }
+                        // incase there is vehicle cargo space at dest but the player wants to drop to ground
+                        if( !to_vehicle ) {
+                            g->u.activity.str_values.push_back( "force_ground" );
+                        }
 
-	                    g->u.activity.values.push_back( idx );
-	                    g->u.activity.values.push_back( amount_to_move );
+                        g->u.activity.values.push_back( idx );
+                        g->u.activity.values.push_back( amount_to_move );
 
-	                    // exit so that the activity can be carried out
-                		exit = true;
-	                }
+                        // exit so that the activity can be carried out
+                        exit = true;
+                    }
                 }
             } else { // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
 
@@ -1693,7 +1703,7 @@ void advanced_inventory::display()
                 int index = 0;
                 if( by_charges ) {
                     for( auto item_it = begin; amount_to_move > 0 && item_it != end; ++item_it, ++index ) {
-                        if( item_it->typeId() == sitem->id ) {
+                        if( item_it->stacks_with( *sitem->items.front() ) ) {
                             g->u.activity.values.push_back( index );
                             g->u.activity.values.push_back( amount_to_move );
                             break;
@@ -1710,7 +1720,7 @@ void advanced_inventory::display()
                         }
                     }
                 }
-                
+
                 // exit so that the activity can be carried out
                 exit = true;
             }
@@ -1771,7 +1781,7 @@ void advanced_inventory::display()
                 get_auto_pickup().remove_rule( sitem->items.front() );
                 sitem->autopickup = false;
             } else {
-                get_auto_pickup().add_rule( sitem->items.front());
+                get_auto_pickup().add_rule( sitem->items.front() );
                 sitem->autopickup = true;
             }
             recalc = true;
@@ -2353,7 +2363,8 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
+            false ) ) {
         veh = &vp->vehicle();
         vstor = vp->part_index();
     } else {

@@ -17,13 +17,13 @@ struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
-
 struct oter_t;
 using oter_id = int_id<oter_t>;
 class overmap;
 struct radio_tower;
 struct regional_settings;
 class vehicle;
+class basecamp;
 
 struct radio_tower_reference {
     /** The radio tower itself, points into @ref overmap::radios */
@@ -106,6 +106,7 @@ class overmapbuffer
         void toggle_explored( int x, int y, int z );
         bool seen( int x, int y, int z );
         void set_seen( int x, int y, int z, bool seen = true );
+        bool has_camp( int x, int y, int z );
         bool has_vehicle( int x, int y, int z );
         bool has_horde( int x, int y, int z );
         int get_horde_size( int x, int y, int z );
@@ -155,9 +156,19 @@ class overmapbuffer
          */
         void add_vehicle( vehicle *veh );
         /**
+         * Remove basecamp
+         */
+        void remove_camp( const basecamp *camp );
+        /**
          * Remove the vehicle from being tracked in the overmap.
          */
         void remove_vehicle( const vehicle *veh );
+        /**
+         * Add Basecamp to overmapbuffer
+         */
+        void add_camp( basecamp *camp );
+
+        cata::optional<basecamp *> find_camp( const int x, const int y );
         /**
          * Get all npcs in a area with given radius around (x, y).
          * Only npcs on the given z-level are considered.
@@ -168,6 +179,7 @@ class overmapbuffer
          * A radius of 0 returns only those npcs that are on the
          * specific submap.
          */
+
         std::vector<std::shared_ptr<npc>> get_npcs_near( int x, int y, int z, int radius );
         /**
          * Get all (currently loaded!) npcs that have a companion
@@ -389,6 +401,7 @@ class overmapbuffer
          * All entries in the returned vector are valid (have a valid tower pointer).
          */
         std::vector<radio_tower_reference> find_all_radio_stations();
+        std::vector<basecamp *> get_camps_near( const tripoint &location, int radius );
         /**
          * Find all cities within the specified @ref radius.
          * Result is sorted by proximity to @ref location in ascending order.

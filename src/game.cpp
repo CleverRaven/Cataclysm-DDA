@@ -23,7 +23,6 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "catalua.h"
 #include "clzones.h"
 #include "compatibility.h"
 #include "computer.h"
@@ -57,7 +56,6 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "lua_console.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -175,6 +173,7 @@ const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pet( "pet" );
@@ -250,7 +249,10 @@ game::game() :
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( 16 ),
+    wind_direction_override(),
+    windspeed_override(),
     weather_override( WEATHER_NULL )
+
 {
     temperature = 0;
     player_was_sleeping = false;
@@ -354,22 +356,12 @@ void game::load_core_data( loading_ui &ui )
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
-    init_lua();
     load_data_from_dir( FILENAMES[ "jsondir" ], "core", ui );
 }
 
 void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
 {
-    // Process a preload file before the .json files,
-    // so that custom IUSE's can be defined before
-    // the items that need them are parsed
-    lua_loadmod( path, "preload.lua" );
-
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
-
-    // main.lua will be executed after JSON, allowing to
-    // work with items defined by mod's JSON
-    lua_loadmod( path, "main.lua" );
 }
 
 game::~game()
@@ -404,9 +396,6 @@ void game::init_ui( const bool resized )
     if( first_init ) {
         catacurses::clear();
 
-        // set minimum FULL_SCREEN sizes
-        FULL_SCREEN_WIDTH = 80;
-        FULL_SCREEN_HEIGHT = 24;
         // print an intro screen, making sure the terminal is the correct size
 
         first_init = false;
@@ -426,8 +415,8 @@ void game::init_ui( const bool resized )
     TERMY = get_terminal_height();
 
     if( resized ) {
-        get_options().get_option( "TERMINAL_X" ).setValue( TERMX );
-        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY );
+        get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
+        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
         get_options().save();
     }
 #else
@@ -796,6 +785,8 @@ void game::setup()
     // reset kill counts
     kills.clear();
     npc_kills.clear();
+    // reset follower list
+    follower_ids.clear();
     scent.reset();
 
     remoteveh_cache_time = calendar::before_time_starts;
@@ -967,10 +958,6 @@ bool game::start_game()
     u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
                         pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
                         u.name.c_str() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( u.getID() );
-    lua_callback( "on_new_player_created", lua_callback_args_info );
-
     return true;
 }
 
@@ -1502,21 +1489,7 @@ bool game::do_turn()
 
     if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
-        if( calendar::turn.day_of_year() == 0 ) {
-            lua_callback( "on_year_passed" );
-        }
-        lua_callback( "on_day_passed" );
     }
-
-    if( calendar::once_every( 1_hours ) ) {
-        lua_callback( "on_hour_passed" );
-    }
-
-    if( calendar::once_every( 1_minutes ) ) {
-        lua_callback( "on_minute_passed" );
-    }
-
-    lua_callback( "on_turn_passed" );
 
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
@@ -1830,9 +1803,11 @@ void game::set_critter_died()
 
 void game::update_weather()
 {
+    w_point &w = *weather_precise;
+    winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+    windspeed = windspeed_override ? *windspeed_override : w.windpower;
     if( weather == WEATHER_NULL || calendar::turn >= nextweather ) {
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w_point &w = *weather_precise;
         w = weather_gen.get_weather( u.global_square_location(), calendar::turn, seed );
         weather_type old_weather = weather;
         weather = weather_override == WEATHER_NULL ?
@@ -1842,18 +1817,11 @@ void game::update_weather()
             weather = WEATHER_CLEAR;
         }
         sfx::do_ambient();
-
         temperature = w.temperature;
         lightning_active = false;
         // Check weather every few turns, instead of every turn.
         //@todo: predict when the weather changes and use that time.
         nextweather = calendar::turn + 50_turns;
-        if( weather != old_weather ) {
-            CallbackArgumentContainer lua_callback_args_info;
-            lua_callback_args_info.emplace_back( weather_data( weather ).name );
-            lua_callback_args_info.emplace_back( weather_data( old_weather ).name );
-            lua_callback( "on_weather_changed", lua_callback_args_info );
-        }
         if( weather != old_weather && weather_data( weather ).dangerous &&
             get_levz() >= 0 && m.is_outside( u.pos() )
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -2002,6 +1970,69 @@ void game::increase_kill_count( const mtype_id &id )
 void game::record_npc_kill( const npc &p )
 {
     npc_kills.push_back( p.get_name() );
+}
+
+void game::add_npc_follower( const int &id )
+{
+    if( !std::any_of( follower_ids.begin(), follower_ids.end(), [id]( int i ) {
+    return i == id;
+} ) )
+    follower_ids.push_back( id );
+}
+
+void game::remove_npc_follower( const int &id )
+{
+    follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
+                        follower_ids.end() );
+}
+
+void game::validate_npc_followers()
+{
+    // Make sure visible followers are in the list.
+    const std::vector<npc *> visible_followers = g->get_npcs_if( [&]( const npc & guy ) {
+        return ( guy.is_friend() && guy.is_following() ) || guy.mission == NPC_MISSION_GUARD_ALLY;
+    } );
+    for( auto &elem : visible_followers ) {
+        add_npc_follower( elem->getID() );
+    }
+    // Make sure overmapbuffered NPC followers are in the list.
+    for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 200 ) ) {
+        npc *guy = temp_guy.get();
+        if( ( guy->is_friend() && guy->is_following() ) || guy->has_companion_mission() ) {
+            add_npc_follower( guy->getID() );
+        }
+    }
+}
+
+void game::validate_camps()
+{
+    // Make sure camps already present are added to the overmap list
+    basecamp *bcp = m.camp_at( u.pos(), 60 );
+    if( bcp ) {
+        int count = 1;
+        if( u.camps.empty() ) {
+            u.camps.insert( bcp->camp_omt_pos() );
+        }
+        for( auto camp : u.camps ) {
+            // check if already on the overmapbuffer list
+            cata::optional<basecamp *> p = overmap_buffer.find_camp( camp.x, camp.y );
+            if( !p ) {
+                //if not on overmap buffer list
+                if( camp.x == bcp->camp_omt_pos().x && camp.y == bcp->camp_omt_pos().y ) {
+                    // if this local camp is the one that needs adding
+                    std::string camp_name = _( "Faction Camp " ) + std::to_string( count );
+                    bcp->set_name( camp_name );
+                    overmap_buffer.add_camp( bcp );
+                    count += 1;
+                }
+            }
+        }
+    }
+}
+
+std::vector<int> game::get_follower_list()
+{
+    return follower_ids;
 }
 
 std::list<std::string> game::get_npc_kill()
@@ -2361,6 +2392,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "quit" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
+    ctxt.register_action( "sky" );
     ctxt.register_action( "missions" );
     ctxt.register_action( "factions" );
     ctxt.register_action( "kills" );
@@ -2691,6 +2723,8 @@ void game::load( const save_t &name )
     } );
 
     reload_npcs();
+    validate_npc_followers();
+    validate_camps();
     update_map( u );
 
     // legacy, needs to be here as we access the map.
@@ -2708,8 +2742,6 @@ void game::load( const save_t &name )
 
     u.reset();
     draw();
-
-    lua_callback( "on_savegame_loaded" );
 }
 
 void game::load_world_modfiles( loading_ui &ui )
@@ -2972,25 +3004,26 @@ void game::debug()
         _( "Spawn Clairvoyance Artifact" ),     // 15
         _( "Map editor" ),                      // 16
         _( "Change weather" ),                  // 17
-        _( "Kill all monsters" ),               // 18
-        _( "Display hordes" ),                  // 19
-        _( "Test Item Group" ),                 // 20
-        _( "Damage Self" ),                     // 21
-        _( "Show Sound Clustering" ),           // 22
-        _( "Lua Console" ),                     // 23
-        _( "Display weather" ),                 // 24
-        _( "Display overmap scents" ),          // 25
-        _( "Change time" ),                     // 26
-        _( "Set automove route" ),              // 27
-        _( "Show mutation category levels" ),   // 28
-        _( "Overmap editor" ),                  // 29
-        _( "Draw benchmark (X seconds)" ),      // 30
-        _( "Teleport - Adjacent overmap" ),     // 31
-        _( "Test trait group" ),                // 32
-        _( "Show debug message" ),              // 33
-        _( "Crash game (test crash handling)" ),// 34
-        _( "Spawn Map Extra" ),                 // 35
-        _( "Quit to Main Menu" ),               // 36
+        _( "Change wind direction" ),           // 18
+        _( "Change wind speed" ),               // 19
+        _( "Kill all monsters" ),               // 20
+        _( "Display hordes" ),                  // 21
+        _( "Test Item Group" ),                 // 22
+        _( "Damage Self" ),                     // 23
+        _( "Show Sound Clustering" ),           // 24
+        _( "Display weather" ),                 // 25
+        _( "Display overmap scents" ),          // 26
+        _( "Change time" ),                     // 27
+        _( "Set automove route" ),              // 28
+        _( "Show mutation category levels" ),   // 29
+        _( "Overmap editor" ),                  // 30
+        _( "Draw benchmark (X seconds)" ),      // 31
+        _( "Teleport - Adjacent overmap" ),     // 32
+        _( "Test trait group" ),                // 33
+        _( "Show debug message" ),              // 34
+        _( "Crash game (test crash handling)" ),// 35
+        _( "Spawn Map Extra" ),                 // 36
+        _( "Quit to Main Menu" ),               // 37
     } );
     refresh_all();
     switch( action ) {
@@ -3173,6 +3206,50 @@ void game::debug()
         break;
 
         case 18: {
+            uilist wind_direction_menu;
+            wind_direction_menu.text = _( "Select new wind direction:" );
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
+                                          _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
+            int count = 1;
+            for( int angle = 0; angle <= 315; angle += 45 ) {
+                wind_direction_menu.addentry( count, true, MENU_AUTOASSIGN, get_wind_arrow( angle ) );
+                count += 1;
+            }
+            wind_direction_menu.query();
+            if( wind_direction_menu.ret == 0 ) {
+                wind_direction_override = cata::nullopt;
+            } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
+                wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+                nextweather = calendar::turn;
+                update_weather();
+            }
+        }
+        break;
+
+        case 19: {
+            uilist wind_speed_menu;
+            wind_speed_menu.text = _( "Select new wind speed:" );
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
+                                      _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
+            int count = 1;
+            for( int speed = 0; speed <= 100; speed += 10 ) {
+                std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
+                wind_speed_menu.addentry( count, true, MENU_AUTOASSIGN, speedstring );
+                count += 1;
+            }
+            wind_speed_menu.query();
+            if( wind_speed_menu.ret == 0 ) {
+                windspeed_override = cata::nullopt;
+            } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
+                int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
+                windspeed_override = selected_wind_speed;
+                nextweather = calendar::turn;
+                update_weather();
+            }
+        }
+        break;
+
+        case 20: {
             for( monster &critter : all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
@@ -3181,16 +3258,16 @@ void game::debug()
             cleanup_dead();
         }
         break;
-        case 19:
+        case 21:
             ui::omap::display_hordes();
             break;
-        case 20: {
+        case 22: {
             item_group::debug_spawn();
         }
         break;
 
         // Damage Self
-        case 21: {
+        case 23: {
             int dbg_damage;
             if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
                 u.hp_cur[hp_torso] -= dbg_damage;
@@ -3200,7 +3277,7 @@ void game::debug()
         }
         break;
 
-        case 22: {
+        case 24: {
 #ifdef TILES
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
@@ -3222,18 +3299,13 @@ void game::debug()
         }
         break;
 
-        case 23: {
-            lua_console console;
-            console.run();
-        }
-        break;
-        case 24:
+        case 25:
             ui::omap::display_weather();
             break;
-        case 25:
+        case 26:
             ui::omap::display_scents();
             break;
-        case 26: {
+        case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
@@ -3291,7 +3363,7 @@ void game::debug()
             } while( smenu.ret != UILIST_CANCEL );
         }
         break;
-        case 27: {
+        case 28: {
             const cata::optional<tripoint> dest = look_around();
             if( !dest || *dest == u.pos() ) {
                 break;
@@ -3305,17 +3377,17 @@ void game::debug()
             }
         }
         break;
-        case 28:
+        case 29:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
             break;
 
-        case 29:
+        case 30:
             ui::omap::display_editor();
             break;
 
-        case 30: {
+        case 31: {
             const int ms = string_input_popup()
                            .title( _( "Enter benchmark length (in milliseconds):" ) )
                            .width( 20 )
@@ -3325,19 +3397,19 @@ void game::debug()
         }
         break;
 
-        case 31:
+        case 32:
             debug_menu::teleport_overmap();
             break;
-        case 32:
+        case 33:
             trait_group::debug_spawn();
             break;
-        case 33:
+        case 34:
             debugmsg( "Test debugmsg" );
             break;
-        case 34:
+        case 35:
             std::raise( SIGSEGV );
             break;
-        case 35: {
+        case 36: {
             oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
 
             map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -3362,7 +3434,7 @@ void game::debug()
             }
             break;
         }
-        case 36:
+        case 37:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
@@ -4663,6 +4735,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = active_npc.begin(); it != active_npc.end(); ) {
             if( ( *it )->is_dead() ) {
+                remove_npc_follower( ( *it )->getID() );
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = active_npc.erase( it );
             } else {
@@ -6542,7 +6615,11 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const int last_line, bool draw_terrain_indicators,
                                 const visibility_variables &cache )
 {
-    auto visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    visibility_type visibility = VIS_HIDDEN;
+    const bool inbounds = m.inbounds( lp );
+    if( inbounds ) {
+        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    }
     switch( visibility ) {
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
@@ -6577,7 +6654,9 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             }
             break;
     }
-
+    if( !inbounds ) {
+        return;
+    }
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
         mvwprintw( w_look, ++line, 1, _( "You heard %s from here." ), this_sound.c_str() );
@@ -9378,8 +9457,10 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
                         _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ) );
     smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
                         _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+    smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
+                        _( "If you're aiming to just destroy a body outright, and don't care about harvesting it, dismembering it will hack it apart in a very short amount of time, but yield little to no usable flesh." ) );
     smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
-                        _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
+                        _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
     switch( smenu.ret ) {
         case BUTCHER:
@@ -9396,6 +9477,9 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
             break;
         case QUARTER:
             g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+            break;
+        case DISMEMBER:
+            g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, -1 );
             break;
         case DISSECT:
             g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
@@ -9609,7 +9693,11 @@ void game::butcher()
         }
         return;
     }
-
+    const auto helpers = u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
     switch( butcher_select ) {
         case BUTCHER_OTHER:
             switch( indexer_index ) {
@@ -9948,19 +10036,58 @@ void game::wield( item_location &loc )
         add_msg( m_info, "%s", ret.c_str() );
     }
 
-    // Can't use loc.obtain() here because that would cause things to spill.
-    // The item_location gets invalidated if wielding an item from the inventory due to updating of
-    // the cache, so we have to use u.i_rem() instead to avoid a debug message.
-    const item *target = loc.get_item();
-    bool from_inventory = loc.where() == item_location::type::character;
-    if( u.wield( *loc.get_item() ) ) {
-        u.mod_moves( -loc.obtain_cost( u ) );
-        if( from_inventory ) {
-            u.i_rem( target );
-        } else {
-            loc.remove_item();
+    // Need to do this here because holster_actor::use() checks if/where the item is worn
+    item &target = *loc.get_item();
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+            u.invoke_item( &target );
+            return;
         }
     }
+
+    // Can't use loc.obtain() here because that would cause things to spill.
+    item to_wield = *loc.get_item();
+    item_location::type location_type = loc.where();
+    tripoint pos = loc.position();
+    int worn_index = INT_MIN;
+    if( u.is_worn( *loc.get_item() ) ) {
+        int item_pos = u.get_item_position( loc.get_item() );
+        if( item_pos != INT_MIN ) {
+            worn_index = Character::worn_position_to_index( item_pos );
+        }
+    }
+    int move_cost = loc.obtain_cost( u );
+    loc.remove_item();
+    if( !u.wield( to_wield ) ) {
+        switch( location_type ) {
+            case item_location::type::character:
+                if( worn_index != INT_MIN ) {
+                    auto it = u.worn.begin();
+                    std::advance( it, worn_index );
+                    u.worn.insert( it, to_wield );
+                } else {
+                    u.i_add( to_wield );
+                }
+                break;
+            case item_location::type::map:
+                m.add_item( pos, to_wield );
+                break;
+            case item_location::type::vehicle: {
+                const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
+                if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
+                    m.add_item( pos, to_wield );
+                }
+                break;
+            }
+            case item_location::type::invalid:
+                debugmsg( "Failed wield from invalid item location" );
+                break;
+        }
+        return;
+    }
+
+    u.mod_moves( -move_cost );
 }
 
 void game::wield()
@@ -10615,13 +10742,11 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) && !u.has_trait( trait_id( "SMALL2" ) ) &&
-            !u.has_trait( trait_id( "SMALL_OK" ) ) ) {
-            int volume = 6;
-            if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
+        int volume = 6;
+        volume *= u.mutation_value( "noise_modifier" );
+        if( volume > 0 ) {
+            if( u.is_wearing( "rm13_armor_on" ) ) {
                 volume = 2;
-            } else if( u.has_trait( trait_id( "CLUMSY" ) ) ) {
-                volume = 10;
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
@@ -10729,6 +10854,12 @@ void game::place_player( const tripoint &dest_loc )
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
+    if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
+        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
+    } else if( u.has_effect( effect_no_sight ) ) {
+        u.remove_effect( effect_no_sight );
+    }
+
 
     // If we moved out of the nonant, we need update our map data
     if( m.has_flag( "SWIMMABLE", dest_loc ) && u.has_effect( effect_onfire ) ) {
@@ -11694,17 +11825,16 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
-    if( u.is_hauling() ) {
-        u.stop_hauling();
-    }
-
     u.moves -= move_cost;
 
     const tripoint old_pos = g->u.pos();
+    point submap_shift = point_zero;
     vertical_shift( z_after );
     if( !force ) {
-        update_map( stairs.x, stairs.y );
+        submap_shift = update_map( stairs.x, stairs.y );
     }
+    const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
+                                 old_pos.z );
 
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
@@ -11750,6 +11880,35 @@ void game::vertical_move( int movez, bool force )
     if( m.ter( stairs ) == t_manhole_cover ) {
         m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), "manhole_cover" );
         m.ter_set( stairs, t_manhole );
+    }
+
+    // Wouldn't work and may do strange things
+    if( u.is_hauling() && !m.has_zlevels() ) {
+        add_msg( _( "You cannot haul items here." ) );
+        u.stop_hauling();
+    }
+
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        // Whether the source is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Whether the destination is inside a vehicle (not supported)
+        u.activity.values.push_back( 0 );
+        // Source relative to the player
+        u.activity.placement = adjusted_pos - u.pos();
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint_zero );
+        map_stack items = m.i_at( adjusted_pos );
+        if( items.empty() ) {
+            std::cout << "no items" << std::endl;
+            u.stop_hauling();
+        }
+        int index = 0;
+        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
+            int amount = it->count();
+            u.activity.values.push_back( index );
+            u.activity.values.push_back( amount );
+        }
     }
 
     refresh_all();
@@ -11965,7 +12124,7 @@ void game::update_map( player &p )
     update_map( x, y );
 }
 
-void game::update_map( int &x, int &y )
+point game::update_map( int &x, int &y )
 {
     int shiftx = 0;
     int shifty = 0;
@@ -11991,7 +12150,7 @@ void game::update_map( int &x, int &y )
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
         // Not actually shifting the submaps, all the stuff below would do nothing
-        return;
+        return point_zero;
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
@@ -12036,6 +12195,8 @@ void game::update_map( int &x, int &y )
 
     // Update what parts of the world map we can see
     update_overmap_seen();
+
+    return point( shiftx, shifty );
 }
 
 void game::update_overmap_seen()

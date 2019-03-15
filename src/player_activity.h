@@ -16,6 +16,7 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class activity_type;
+class monster;
 
 using activity_id = string_id<activity_type>;
 
@@ -39,6 +40,7 @@ class player_activity
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
+        std::vector<std::weak_ptr<monster>> monsters;
         tripoint placement;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.

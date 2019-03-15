@@ -155,11 +155,12 @@ void vehicle::thrust( int thd )
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
+            //find power ratio used of engines max
+            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
+            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        //find power ratio used of engines max
-        load = 1000 * abs( vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
         load = ( thrusting ? 1000 : 0 );
     }

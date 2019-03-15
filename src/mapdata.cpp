@@ -142,9 +142,11 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
         { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
+        { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // smells
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
+        { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
         { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
         { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
         { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
@@ -504,7 +506,8 @@ ter_id t_null,
        t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
-       t_water_sh, t_water_dp, t_swater_sh, t_swater_dp, t_water_pool, t_sewage,
+       t_water_moving_dp, t_water_moving_sh, t_water_sh, t_water_dp, t_swater_sh, t_swater_dp,
+       t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -740,6 +743,8 @@ void set_ter_ids()
     t_tree_fungal = ter_id( "t_tree_fungal" );
     t_tree_fungal_young = ter_id( "t_tree_fungal_young" );
     t_marloss_tree = ter_id( "t_marloss_tree" );
+    t_water_moving_dp = ter_id( "t_water_moving_dp" );
+    t_water_moving_sh = ter_id( "t_water_moving_sh" );
     t_water_sh = ter_id( "t_water_sh" );
     t_water_dp = ter_id( "t_water_dp" );
     t_swater_sh = ter_id( "t_swater_sh" );

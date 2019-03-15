@@ -52,6 +52,7 @@
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "skill.h"
+#include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "start_location.h"
@@ -194,6 +195,7 @@ void DynamicDataLoader::initialize()
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
+    add( "skill_boost", &skill_boost::load_boost );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -283,7 +285,7 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
-
+    add( "monster_adjustment", &load_monster_adjustment );
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
@@ -297,6 +299,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
+    add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
@@ -466,6 +469,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    overmap_land_use_codes::reset();
     overmap_connections::reset();
     overmap_locations::reset();
     overmap_specials::reset();
@@ -519,6 +523,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Bionics" ), &finalize_bionics },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &set_furn_ids },
+            { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
@@ -599,6 +604,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },

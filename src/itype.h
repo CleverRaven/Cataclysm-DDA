@@ -136,8 +136,8 @@ struct islot_comestible {
     /** effect on character thirst (may be negative) */
     int quench = 0;
 
-    /** effect on character nutrition (may be negative) */
-    int nutr = 0;
+    /** amount of kcal this food has */
+    unsigned int kcal = 0;
 
     /** Time until becomes rotten at standard temperature, or zero if never spoils */
     time_duration spoils = 0_turns;
@@ -169,6 +169,11 @@ struct islot_comestible {
     /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
     int freeze_point = temperatures::freezing;
 
+    //** specific heats in J/(g K) and latent heat in J/g */
+    float specific_heat_liquid = 4.186;
+    float specific_heat_solid = 2.108;
+    float latent_heat = 333;
+
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
 
@@ -176,7 +181,11 @@ struct islot_comestible {
     static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
     int get_calories() const {
-        return nutr * kcal_per_nutr;
+        return kcal;
+    }
+
+    int get_nutr() const {
+        return kcal / kcal_per_nutr;
     }
     /** The monster group that is drawn from when the item rots away */
     mongroup_id rot_spawn = mongroup_id::NULL_ID();
@@ -538,6 +547,12 @@ struct islot_gunmod : common_ranged_data {
 
     /** Percentage value change to the gun's loading time. Higher is slower */
     int reload_modifier = 0;
+
+    /** Percentage value change to the gun's loading time. Higher is less likely */
+    int consume_chance = 10000;
+
+    /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
+    int consume_divisor = 1;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
