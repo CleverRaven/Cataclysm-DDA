@@ -3466,6 +3466,78 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "abandonedwarehouse_roof",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse roof",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_1",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse roof",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_2",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse roof",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_3",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_3_roof",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse roof",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_4",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse_4_roof",
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse roof",
+    "sym": 119,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "dollarstore",
     "copy-from": "generic_city_building",
     "name": "dollar store",
