@@ -559,7 +559,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_thconc_floor" },
+      "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
 	  "place_items": [
 		{ "item": "science", "x": 0, "y": 0, "chance": 90, "repeat": [ 15, 20 ] }
@@ -574,7 +574,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_thconc_floor" },
+      "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
 	  "place_items": [
 		{ "item": "electronics", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] }
@@ -589,7 +589,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_thconc_floor" },
+      "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },"place_items": [
 		{ "item": "hardware_bulk", "x": 0, "y": 0, "chance": 90, "repeat": [ 20, 30 ] }
 	  ]
@@ -603,7 +603,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_thconc_floor" },
+      "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },"place_items": [
 		{ "item": "cannedfood", "x": 0, "y": 0, "chance": 90, "repeat": [ 50, 70 ] }
 	  ]
@@ -617,7 +617,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_thconc_floor" },
+      "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
 	  "place_items": [
 		{ "item": "snacks", "x": 0, "y": 0, "chance": 90, "repeat": [ 50, 70 ] }
@@ -632,10 +632,54 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_thconc_floor" },
+      "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
       "place_items": [
 		{ "item": "hospital_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] }
+	  ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_hall_clutter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": "f_sample_freezer" },
+      "place_items": [
+		{ "item": "hospital_lab", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] }
+	  ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_hall_clutter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": "f_cabinet" },
+      "place_items": [
+		{ "item": "snacks", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] },
+        { "item": "microwave", "x": 0, "y": 0 }
+	  ]
+    }
+  }
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_hall_clutter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": "f_fridge" },
+      "place_items": [
+		{ "item": "fridge", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] },
+		{ "item": "fridgesnacks", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] }        
 	  ]
     }
   }
