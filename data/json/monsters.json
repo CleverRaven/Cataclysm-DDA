@@ -4770,5 +4770,51 @@
       "HARDTOSHOOT",
       "FILTHY"
     ]
-  }
+  },
+  {
+    "id": "mon_zombie_blob",
+    "type": "MONSTER",
+    "name": "gooey zombie",
+    "description": "Black and viscous goo covers this dead body. The only human visible behind its sticky shield is its oily eyes and rows of sharp black teeth.",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 2,
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 120,
+    "speed": 75,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 3,
+    "melee_cut": 1,
+    "armor_bash": 12,
+    "armor_stab": 12,
+    "armor_cut": 15,
+    "armor_acid": 15,
+    "vision_day": 12,
+    "vision_night": 3,
+    "harvest": "zombie",
+    "special_attacks": [ { "type": "bite", "cooldown": 7, "min_mul": 0.7 }, [ "GRAB", 4 ], [ "scratch", 20 ] ],
+    "death_drops": "default_zombie_death_drops",
+    "death_function": [ "BLOBSPLIT", "NORMAL" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ]
+  }    
 ]
