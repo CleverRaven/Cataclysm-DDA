@@ -1362,6 +1362,78 @@ int HandleDPad()
     return 0;
 }
 
+SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
+{
+    switch( key ) {
+        case SDLK_UP:
+            return SDLK_DOWN;
+        case SDLK_DOWN:
+            return SDLK_UP;
+        case SDLK_LEFT:
+            return SDLK_RIGHT;
+        case SDLK_RIGHT:
+            return SDLK_LEFT;
+    }
+    return 0;
+}
+
+bool sdl_keycode_is_arrow( SDL_Keycode key )
+{
+    return ( bool )sdl_keycode_opposite_arrow( key );
+}
+
+long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
+{
+    if( ( mod == SDLK_UP    && key == SDLK_RIGHT ) ||
+        ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
+        return KEY_NUM( 9 );
+    }
+    if( ( mod == SDLK_UP    && key == SDLK_UP ) ) {
+        return KEY_NUM( 8 );
+    }
+    if( ( mod == SDLK_UP    && key == SDLK_LEFT ) ||
+        ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
+        return KEY_NUM( 7 );
+    }
+    if( ( mod == SDLK_RIGHT && key == SDLK_RIGHT ) ) {
+        return KEY_NUM( 6 );
+    }
+    if( mod == sdl_keycode_opposite_arrow( key ) ) {
+        return KEY_NUM( 5 );
+    }
+    if( ( mod == SDLK_LEFT  && key == SDLK_LEFT ) ) {
+        return KEY_NUM( 4 );
+    }
+    if( ( mod == SDLK_DOWN  && key == SDLK_RIGHT ) ||
+        ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 3 );
+    }
+    if( ( mod == SDLK_DOWN  && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 2 );
+    }
+    if( ( mod == SDLK_DOWN  && key == SDLK_LEFT ) ||
+        ( mod == SDLK_LEFT  && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 1 );
+    }
+    return 0;
+}
+
+static long arrow_combo_modifier = 0;
+
+static long handle_arrow_combo( SDL_Keycode key )
+{
+    if( !arrow_combo_modifier ) {
+        arrow_combo_modifier = key;
+        return 0;
+    }
+    return arrow_combo_to_numpad( arrow_combo_modifier, key );
+}
+
+static void end_arrow_combo()
+{
+    arrow_combo_modifier = 0;
+}
+
 /**
  * Translate SDL key codes to key identifiers used by ncurses, this
  * allows the input_manager to only consider those.
@@ -1371,8 +1443,14 @@ int HandleDPad()
  */
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
-
-    if( get_option<bool>( "DIAG_MOVE_WITH_MODIFIERS" ) ) {
+    std::string arrow_keys_vs_modifiers = get_option<std::string>( "ARROW_KEYS_VS_MODIFIERS" );
+    if( arrow_keys_vs_modifiers == "numpad" ) {
+        if( keysym.mod & KMOD_CTRL && sdl_keycode_is_arrow( keysym.sym ) ) {
+            return handle_arrow_combo( keysym.sym );
+        } else {
+            end_arrow_combo();
+        }
+    } else if( arrow_keys_vs_modifiers == "rotation" ) {
         //Shift + Cursor Arrow (diagonal clockwise)
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
