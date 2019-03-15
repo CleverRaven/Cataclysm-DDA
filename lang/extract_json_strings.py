@@ -75,6 +75,7 @@ ignorable = {
     "MIGRATION",
     "mod_tileset",
     "monitems",
+    "monster_adjustment",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "monstergroup",
@@ -90,6 +91,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "rotatable_symbol",
+    "skill_boost",
     "SPECIES",
     "trait_group",
     "uncraft",
@@ -135,6 +137,7 @@ automatically_convertible = {
     "morale_type",
     "npc",
     "npc_class",
+    "overmap_land_use_code",
     "overmap_terrain",
     "skill",
     "snippet",
@@ -857,6 +860,9 @@ def extract(item, infilename):
         else:
             c = None
         writestr(outfile, item["description"], comment=c, **kwargs)
+        wrote = True
+    if "detailed_definition" in item:
+        writestr(outfile, item["detailed_definition"], **kwargs)
         wrote = True
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
