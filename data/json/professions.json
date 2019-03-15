@@ -1482,7 +1482,6 @@
     "name": "Bionic Assassin",
     "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently engaging your target while maintaining an innocuous appearance.",
     "points": 8,
-    "skills": [ { "level": 3, "name": "dodge" } ],
     "CBMs": [
       "bio_cqb",
       "bio_blade",
@@ -1491,9 +1490,10 @@
       "bio_adrenaline",
       "bio_night_vision",
       "bio_face_mask",
-      "bio_metabolics",
+      "bio_torsionratchet",
       "bio_power_storage_mkII"
     ],
+    "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer" ],
       "male": [ "briefs", "socks", "pants" ],
