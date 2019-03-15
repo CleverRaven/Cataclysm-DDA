@@ -877,6 +877,7 @@ class jmapgen_liquid_item : public jmapgen_piece
  * Place items from an item group.
  * "item": id of the item group.
  * "chance": chance of items being placed, see @ref map::place_items
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_item_group : public jmapgen_piece
 {
@@ -889,6 +890,7 @@ class jmapgen_item_group : public jmapgen_piece
             if( !item_group::group_is_defined( group_id ) ) {
                 jsi.throw_error( "no such item group", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -1099,6 +1101,7 @@ class jmapgen_vehicle : public jmapgen_piece
  * "item": id of item type to spawn.
  * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
  * "amount": amount of items to spawn.
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_spawn_item : public jmapgen_piece
 {
@@ -1113,6 +1116,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             if( !item::type_is_defined( type ) ) {
                 jsi.throw_error( "no such item type", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -2268,7 +2272,9 @@ void jmapgen_objects::apply( const mapgendata &dat, float density ) const
     for( auto &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
@@ -2288,7 +2294,9 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
         auto where = obj.first;
         where.offset( -offset_x, -offset_y );
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
