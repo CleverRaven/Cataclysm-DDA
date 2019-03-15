@@ -147,7 +147,7 @@ struct jmapgen_setmap {
 class jmapgen_piece
 {
     protected:
-        jmapgen_piece() = default;
+        jmapgen_piece() : repeat( 1, 1 ) { }
     public:
         /** Sanity-check this piece */
         virtual void check( const std::string &/*oter_name*/ ) const { };
@@ -155,6 +155,7 @@ class jmapgen_piece
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                             float mon_density ) const = 0;
         virtual ~jmapgen_piece() = default;
+        jmapgen_int repeat;
 };
 
 /**
