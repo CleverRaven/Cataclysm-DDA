@@ -26,7 +26,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "abstract faulty bionic module",
-    "Description": "This CBM is broken beyond repair, you can't do anything with it.",
+    "description": "This CBM is broken beyond repair, you can't do anything with it.",
     "price": 0
   },
   {
@@ -908,7 +908,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Acidic Leaking CBM",
-    "Description": "This CBM has been breached in several places and some acid is leaking from it.",
+    "description": "This CBM has been breached in several places and some acid is leaking from it.",
     "difficulty": 11
   },
   {
@@ -916,7 +916,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Faulty Electric System",
-    "Description": "This CBM is a mess of naked wire and burnt resistor.",
+    "description": "This CBM is a mess of naked wire and burnt resistor.",
     "difficulty": 5
   },
   {
@@ -924,7 +924,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Electrical Drain",
-    "Description": "This CBM was wired incorrectly and would drain power from any system connected to it.",
+    "description": "This CBM was wired incorrectly and would drain power from any system connected to it.",
     "difficulty": 5
   },
   {
@@ -932,7 +932,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Itchy Metal Thing",
-    "Description": "You can't recognise what this is suppose to be, but it's a very awkward thing to have in one's body.",
+    "description": "You can't recognise what this is suppose to be, but it's a very awkward thing to have in one's body.",
     "difficulty": 3
   },
   {
@@ -940,7 +940,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Leaky Bionic",
-    "Description": "A mess of pierced pipes and broken seals, something unpleasant is leaking from it.",
+    "description": "A mess of pierced pipes and broken seals, something unpleasant is leaking from it.",
     "difficulty": 7
   },
   {
@@ -948,7 +948,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Noisemaker",
-    "Description": "A malfunctioning bionic.  When it was plugged in it would occasionally emit a loud burst of noise.",
+    "description": "A malfunctioning bionic.  When it was plugged in it would occasionally emit a loud burst of noise.",
     "difficulty": 3
   },
   {
@@ -956,7 +956,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Bionic Nostril",
-    "Description": "This thing was up someone's nose, they're probably glad to be rid of it.  You can't do anything with it.",
+    "description": "This thing was up someone's nose, they're probably glad to be rid of it.  You can't do anything with it.",
     "difficulty": 3
   },
   {
