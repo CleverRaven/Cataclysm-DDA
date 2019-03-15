@@ -667,14 +667,20 @@ class item : public visitable<item>
         void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
 
         /**
-         * Update temperature item_counters for things like food
+         * Update temperature for things like foo
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
          */
         void update_temp( const int temp, const float insulation );
 
-        /** Apply heat to this item, amount of heat will be based on item weight  */
+        /** Set the item to HOT */
         void heat_up();
+
+        /** Set the item to COLD */
+        void cold_up();
+
+        /** Sets the item temperature and item energy from new temperature (K)*/
+        void set_item_temperature( float new_temperature );
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -1784,18 +1790,23 @@ class item : public visitable<item>
 
     private:
         /**
-         * Calculate temperature differential and handle FROZEN/COLD/HOT states
+         * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
          * @param insulation Amount of insulation item has
          * @param time Duration of time at which to process at temperature
          */
         void calc_temp( const int temp, const float insulation, const time_duration &time );
 
-        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
-        int get_static_temp_counter() const;
+        /**
+         * Get the thermal energy of the item in Joules.
+         */
+        float get_item_thermal_energy();
 
-        /** Set temperature tags and counter according to a static counter */
-        void set_temp_from_static( const int counter );
+        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
+        void set_item_specific_energy( const float specific_energy );
+
+        /** Calculates item specific energy (J/g) from temperature (K)*/
+        float get_specific_energy_from_temperature( const float new_temperature );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -1843,6 +1854,8 @@ class item : public visitable<item>
         int note = 0;            // Associated dynamic text snippet.
         int irridation = 0;      // Tracks radiation dosage.
         int item_counter = 0; // generic counter to be used with item flags
+        int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
+        int temperature = 0; // Temperature of the item (in 0.00001 K).
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!
 

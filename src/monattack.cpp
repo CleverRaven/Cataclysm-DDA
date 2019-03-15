@@ -1060,10 +1060,11 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
     // flavor messages
     static const std::array<const char *, 4> m_flavor = {{
-            _( "The %s gesticulates wildly!" ),
-            _( "The %s coughs up a strange dust." ),
-            _( "The %s moans softly." ),
-            _( "The %s's skin crackles with electricity." ), //special case; leave this last
+            _( "The %s shudders, letting out an eery metallic whining noise!" ),
+            _( "The %s scratches its long legs along the floor, shooting sparks." ),
+            _( "The %s bleeps inquiringly and focuses a red camera-eye on you." ),
+            _( "The %s's combat arms crackle with electricity." ),
+            //special case; leave the electricity last
         }
     };
 
@@ -1140,7 +1141,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             // if the player can see it
             if( g->u.sees( *z ) ) {
                 // TODO: mutate() doesn't like non-players right now
-                add_msg( m_bad, _( "The %1$s opens its mouth and a beam shoots towards %2$s!" ),
+                add_msg( m_bad, _( "The %1$s fires a shimmering beam towards %2$s!" ),
                          z->name().c_str(), target->disp_name().c_str() );
             }
 
@@ -1178,7 +1179,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
             // if the player can see it
             if( g->u.sees( *z ) ) {
-                add_msg( m_warning, _( "The %s opens its coat, and a manhack flies out!" ),
+                add_msg( m_warning, _( "A manhack flies out of one of the holes on the %!" ),
                          z->name().c_str() );
             }
 
@@ -1193,7 +1194,9 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
             // if the player can see it
             if( g->u.sees( *z ) ) {
-                add_msg( m_warning, _( "The %s drops a flask of acid!" ), z->name().c_str() );
+                add_msg( m_warning,
+                         _( "The %s shudders, and some sort of caustic fluid leaks from a its damaged shell!" ),
+                         z->name().c_str() );
             }
 
             // fill empty tiles with acid

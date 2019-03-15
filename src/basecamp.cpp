@@ -11,11 +11,13 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "enums.h"
+#include "game.h"
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
@@ -24,6 +26,7 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "skill.h"
+#include "string_input_popup.h"
 #include "faction_camp.h"
 
 static const std::string base_dir = "[B]";
@@ -54,16 +57,15 @@ basecamp::basecamp(): bb_pos( tripoint_zero )
 {
 }
 
-basecamp::basecamp( const std::string &name_, const tripoint &pos_ ): name( name_ ), pos( pos_ )
+basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ),
+    omt_pos( omt_pos_ )
 {
 }
 
-basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_, const tripoint &pos_,
-                    std::vector<tripoint> sort_points_,
-                    std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ):
-    sort_points( sort_points_ ), directions( directions_ ), name( name_ ),
-    pos( pos_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
+basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
+                    std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
+                    std::map<std::string, expansion_data> expansions_ ): sort_points( sort_points_ ),
+    directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
 
@@ -93,30 +95,61 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
         return;
     }
 
-    const std::string dir = talk_function::om_simple_dir( pos, new_pos );
+    const std::string dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
     directions.push_back( dir );
 }
 
 void basecamp::define_camp( npc &p )
 {
-    pos = p.global_omt_location();
+    query_new_name();
+    omt_pos = p.global_omt_location();
     sort_points = p.companion_mission_points;
     // purging the regions guarantees all entries will start with faction_base_
-    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( p, 1,
+    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( omt_pos, 1,
             true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
-    const std::string om_cur = overmap_buffer.ter( pos ).id().c_str();
+    const std::string om_cur = overmap_buffer.ter( omt_pos ).id().c_str();
     if( om_cur.find( prefix ) == std::string::npos ) {
         expansion_data e;
         e.type = "camp";
         e.cur_level = 0;
-        e.pos = pos;
+        e.pos = omt_pos;
         expansions[ base_dir ] = e;
     } else {
-        expansions[ base_dir ] = parse_expansion( om_cur, pos );
+        expansions[ base_dir ] = parse_expansion( om_cur, omt_pos );
     }
+}
+
+/// Returns the description for the recipe of the next building @ref bldg
+std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc )
+{
+    const recipe &making = recipe_id( bldg ).obj();
+    const inventory &total_inv = g->u.crafting_inventory();
+
+    std::vector<std::string> component_print_buffer;
+    const int pane = FULL_SCREEN_WIDTH;
+    const auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
+    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
+    component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
+
+    std::string comp;
+    for( auto &elem : component_print_buffer ) {
+        comp = comp + elem + "\n";
+    }
+    time_duration duration = time_duration::from_turns( making.time / 100 );
+    if( trunc ) {
+        comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n%s\n" ),
+                              making.description, making.skill_used.obj().name(), comp );
+    } else {
+        comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n"
+                                 "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
+                              making.description, making.skill_used.obj().name(),
+                              making.difficulty, comp, to_string( duration ) );
+    }
+    return comp;
 }
 
 // upgrade levels
@@ -195,6 +228,55 @@ const std::string basecamp::get_gatherlist() const
     }
     return "forest";
 
+}
+
+// available companion list manipulation
+// get all the companions currently performing missions at this camp
+void basecamp::reset_camp_workers()
+{
+    camp_workers.clear();
+    for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
+        npc_companion_mission c_mission = elem->get_companion_mission();
+        if( c_mission.position == omt_pos && c_mission.role_id == "FACTION_CAMP" ) {
+            camp_workers.push_back( elem );
+        }
+    }
+}
+
+// get the subset of companions working on a specific task
+comp_list basecamp::get_mission_workers( const std::string &mission_id, bool contains )
+{
+    comp_list available;
+    for( const auto &elem : camp_workers ) {
+        npc_companion_mission c_mission = elem->get_companion_mission();
+        if( ( c_mission.mission_id == mission_id ) ||
+            ( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) ) {
+            available.push_back( elem );
+        }
+    }
+    return available;
+}
+
+void basecamp::query_new_name()
+{
+    std::string camp_name;
+    string_input_popup popup;
+    popup.title( string_format( _( "Name this camp" ) ) )
+    .width( 40 )
+    .text( "" )
+    .max_length( 25 )
+    .query();
+    if( popup.canceled() || popup.text() == "" ) {
+        camp_name = "faction_camp";
+    } else {
+        camp_name = popup.text();
+    }
+    name = camp_name;
+}
+
+void basecamp::set_name( const std::string &new_name )
+{
+    name = new_name;
 }
 
 // display names

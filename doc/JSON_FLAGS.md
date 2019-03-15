@@ -64,7 +64,6 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
-- ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
 - ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
@@ -82,6 +81,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
@@ -91,6 +91,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
+- ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -114,6 +115,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
+- ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 
@@ -248,6 +250,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
+- ```CURRENT``` this water is flowing.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```FUR``` May produce fur when butchered.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
@@ -564,6 +567,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
+- ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
 - ```WINDOW``` Can see through this part and can install curtains over it.
 
 ## Ammo
@@ -864,6 +868,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIPOD``` Handling bonus only applies on MOUNTABLE map/vehicle tiles. Does not include wield time penalty (see SLOW_WIELD).
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see NEEDS_UNFOLD).
+- ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
 - ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_100``` Uses 100 shots per firing.

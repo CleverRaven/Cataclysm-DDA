@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "aftershock",
+    "name": "Aftershock",
+    "authors": [ "Esther" ],
+    "maintainers": [ "Esther" ],
+    "description": "Drifts the game away from realism and more towards sci-fi.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]
