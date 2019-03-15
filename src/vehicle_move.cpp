@@ -86,7 +86,7 @@ int vehicle::slowdown( int at_velocity ) const
              name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating ) ) {
-        slowdown += static_drag();
+        slowdown -= static_drag();
     }
 
     return slowdown;
