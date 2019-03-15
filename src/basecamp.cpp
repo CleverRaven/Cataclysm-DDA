@@ -122,6 +122,16 @@ void basecamp::define_camp( npc &p )
     }
 }
 
+bool basecamp::reset_camp()
+{
+    const std::string base_dir = "[B]";
+    const std::string bldg = next_upgrade( base_dir, 0 );
+    if( !om_upgrade( bldg, omt_pos ) ) {
+        return false;
+    }
+    return true;
+}
+
 /// Returns the description for the recipe of the next building @ref bldg
 std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc )
 {
@@ -181,13 +191,13 @@ bool basecamp::can_expand() const
     return static_cast<int>( directions.size() ) < ( e->second.cur_level / 2 - 1 );
 }
 
-const std::string basecamp::next_upgrade( const std::string &dir ) const
+const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
 {
     auto e = expansions.find( dir );
     if( e != expansions.end() ) {
         int cur_level = e->second.cur_level;
         if( cur_level >= 0 && cur_level < max_upgrade_by_type( e->second.type ) ) {
-            return faction_encode_full( e->second, 1 );
+            return faction_encode_full( e->second, offset );
         }
     }
     return "null";

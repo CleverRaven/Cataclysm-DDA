@@ -60,6 +60,7 @@ class basecamp
         void query_new_name();
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
         void define_camp( npc &p );
+        bool reset_camp();
 
         std::string expansion_tab( const std::string &dir ) const;
 
@@ -68,7 +69,7 @@ class basecamp
         bool any_has_level( const std::string &type, int min_level ) const;
         bool can_expand() const;
         /// Returns the name of the building the current building @ref dir upgrades into, "null" if there isn't one
-        const std::string next_upgrade( const std::string &dir ) const;
+        const std::string next_upgrade( const std::string &dir, const int offset = 1 ) const;
         /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
         bool om_upgrade( const std::string &next_upgrade, const tripoint &upos );
 
