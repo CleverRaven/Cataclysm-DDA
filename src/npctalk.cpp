@@ -1474,7 +1474,7 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
     };
 }
 
-void talk_effect_fun_t::set_add_debt( const std::vector<trial_mod> debt_modifiers )
+void talk_effect_fun_t::set_add_debt( const std::vector<trial_mod> &debt_modifiers )
 {
     function = [debt_modifiers]( const dialogue & d ) {
         int debt = 0;

@@ -732,7 +732,7 @@ void player_morale::update_masochist_bonus()
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
 }
 
-void player_morale::update_bodytemp_penalty( const time_duration ticks )
+void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 {
     using bp_int_func = std::function<int( body_part )>;
     const auto apply_pen = [ this, ticks ]( morale_type type, bp_int_func bp_int ) -> void {

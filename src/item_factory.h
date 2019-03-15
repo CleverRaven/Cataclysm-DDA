@@ -126,7 +126,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const Group_tag group_id, const Item_tag item_id, int weight );
+        bool add_item_to_group( const Group_tag &group_id, const Item_tag &item_id, int weight );
         /*@}*/
 
         /**

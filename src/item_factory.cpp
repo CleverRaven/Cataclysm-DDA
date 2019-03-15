@@ -2598,7 +2598,7 @@ std::vector<Group_tag> Item_factory::get_all_group_names()
     return rval;
 }
 
-bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag item_id,
+bool Item_factory::add_item_to_group( const Group_tag &group_id, const Item_tag &item_id,
                                       int chance )
 {
     if( m_template_groups.find( group_id ) == m_template_groups.end() ) {
