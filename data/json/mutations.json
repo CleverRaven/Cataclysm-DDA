@@ -17,9 +17,21 @@
         "points" : 1,
         "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
         "starting_trait" : true,
-        "category" : ["ALPHA", "MOUSE"],
+        "category" : ["ALPHA", "ELFA", "MOUSE"],
         "cancels" : ["BADHEARING"],
         "hearing_modifier" : 1.25
+    },{
+        "type" : "mutation",
+        "id" : "GOODHEARING2",
+        "name" : "Fey Hearing",
+        "points" : 2,
+        "description" : "Your not sure the shape of your ears is helping, but regardless you have become very sensitive to sounds.",
+        "prereqs" : ["GOODHEARING"],
+        "prereqs2" : ["ELFA_EARS"],
+        "threshreq" : ["THRESH_ELFA"],
+        "category" : ["ELFA"],
+        "cancels" : ["BADHEARING"],
+        "hearing_modifier" : 1.40
     },{
         "type" : "mutation",
         "id" : "OUTDOORSMAN",
@@ -60,7 +72,7 @@
         "valid" : false,
         "cancels" : ["BADCARDIO"],
         "changes_to" : ["GOODCARDIO2"],
-        "category" : ["FISH", "LUPINE", "MOUSE", "INSECT"],
+        "category" : ["ELFA", "FISH", "LUPINE", "MOUSE", "INSECT"],
         "max_stamina_modifier" : 1.25
     },{
         "type" : "mutation",
@@ -364,7 +376,7 @@
         "points" : 1,
         "description" : "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
-        "category" : ["BEAST"],
+        "category" : ["BEAST", "ELFA"],
         "cancels" : ["ANIMALDISCORD"]
     },{
         "type" : "mutation",
@@ -479,7 +491,7 @@
         "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
         "valid" : false,
         "starting_trait" : true,
-        "category" : ["MOUSE"],
+        "category" : ["ELFA", "MOUSE"],
         "cancels" : ["MYOPIC", "UNOBSERVANT"]
     },{
         "type" : "mutation",
@@ -824,7 +836,7 @@
         "starting_trait" : true,
         "cancels" : ["PROJUNK"],
         "vitamins_absorb_multi": [ [ "junk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-        "category" : ["BEAST", "RAPTOR", "ALPHA"]
+        "category" : ["BEAST", "ELFA", "RAPTOR", "ALPHA"]
     },{
         "type" : "mutation",
         "id" : "ANTIWHEAT",
@@ -1093,7 +1105,7 @@
             "intimidate" : -2
         },
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "category" : ["MOUSE"],
+        "category" : ["ELFA", "MOUSE"],
         "changes_to" : ["FLIMSY2"],
         "hp_modifier" : -0.25
     },{

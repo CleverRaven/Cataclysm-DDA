@@ -1587,6 +1587,10 @@
     ],
     [
       [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "purifier", 2 ],
+      [ "iv_purifier", 1 ]
     ]
   ]
 },{
