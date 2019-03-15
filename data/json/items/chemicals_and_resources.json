@@ -1023,14 +1023,14 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": "wooden bead",
-    "description": "This is a wooden bead.  It can be used to craft jewlry.",
+    "description": "This is a wooden bead.  It can be used to craft inscribable jewelry or create a beaded curtain door.",
     "weight": 1,
     "volume": 1,
     "price": 1,
     "material": "wood",
     "symbol": ".",
     "color": "brown",
-    "ammo_type" : "components",
+    "ammo_type": "components",
     "stack_size": 200,
     "looks_like": "bb"
   }

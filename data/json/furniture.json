@@ -3394,13 +3394,20 @@
     "required_str": -1,
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
     "open": "f_beaded_door_o",
+    "deconstruct": {
+      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 2000 } ]
+    },
     "bash": {
       "str_min": 1,
       "str_max": 1,
       "sound": "clickity clack...clack...clack",
       "sound_fail": "clickity clack...clack",
       "sound_vol": 15,
-      "items": [ { "item": "string_36", "count": 20 }, { "item": "stick_long", "count": 1 }, { "item": "wooden_bead", "count": 2000 } ]
+      "items": [
+        { "item": "string_36", "count": [ 3, 15 ] },
+        { "item": "stick_long", "count": 1 },
+        { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
     }
   },
   {
@@ -3414,13 +3421,20 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT" ],
     "close": "f_beaded_door",
+    "deconstruct": {
+      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 2000 } ]
+    },
     "bash": {
       "str_min": 1,
       "str_max": 1,
       "sound": "clickity clack...clack...clack!",
       "sound_fail": "clickity clack...clack",
       "sound_vol": 15,
-      "items": [ { "item": "string_36", "count": 20 }, { "item": "stick_long", "count": 1 }, { "item": "wooden_bead", "count": 2000 } ]
+      "items": [
+        { "item": "string_36", "count": [ 3, 15 ] },
+        { "item": "stick_long", "count": 1 },
+        { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
     }
   }
 ]
