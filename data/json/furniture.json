@@ -3640,6 +3640,8 @@
         { "item": "string_36", "count": [ 3, 15 ] },
         { "item": "stick_long", "count": 1 },
         { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -3665,6 +3667,8 @@
         { "item": "string_36", "count": [ 3, 15 ] },
         { "item": "stick_long", "count": 1 },
         { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
