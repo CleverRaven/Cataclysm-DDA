@@ -399,7 +399,7 @@ TEST_CASE( "npc_talk_test" )
     g->u.cash = 1000;
     g->u.int_cur = 8;
     d.add_topic( "TALK_TEST_EFFECTS" );
-    gen_response_lines( d, 10 );
+    gen_response_lines( d, 11 );
     REQUIRE( !g->u.has_effect( effect_infection ) );
     talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
@@ -447,6 +447,21 @@ TEST_CASE( "npc_talk_test" )
     CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
     CHECK( g->u.cash == 0 );
     CHECK( talker_npc.get_attitude() == NPCATT_KILL );
+    talker_npc.op_of_u = npc_opinion();
+    REQUIRE( !talker_npc.op_of_u.trust );
+    REQUIRE( !talker_npc.op_of_u.fear );
+    REQUIRE( !talker_npc.op_of_u.value );
+    REQUIRE( !talker_npc.op_of_u.anger );
+    REQUIRE( !talker_npc.op_of_u.owed );
+    effects = d.responses[9].success;
+    REQUIRE( effects.opinion.trust == 10 );
+    effects.apply( d );
+    CHECK( talker_npc.op_of_u.trust == 10 );
+    CHECK( talker_npc.op_of_u.fear == 11 );
+    CHECK( talker_npc.op_of_u.value == 12 );
+    CHECK( talker_npc.op_of_u.anger == 13 );
+    CHECK( talker_npc.op_of_u.owed == 14 );
+
 
     d.add_topic( "TALK_TEST_HAS_ITEM" );
     gen_response_lines( d, 4 );
@@ -456,11 +471,11 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[3].text == "This is a u_has_items beer test response." );
 
     d.add_topic( "TALK_TEST_EFFECTS" );
-    gen_response_lines( d, 10 );
+    gen_response_lines( d, 11 );
     REQUIRE( has_item( "bottle_plastic", 1 ) );
     REQUIRE( has_beer_bottle() );
     REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( "bottle_glass" ) ) ) );
-    effects = d.responses[9].success;
+    effects = d.responses[10].success;
     effects.apply( d );
     CHECK( !has_item( "bottle_plastic", 1 ) );
     CHECK( !has_item( "beer", 1 ) );
