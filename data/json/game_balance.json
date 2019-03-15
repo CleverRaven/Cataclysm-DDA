@@ -156,7 +156,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "DISABLE_ANIMAL_CLASH",
-    "info": "Disable additional spawn of large groups of monsters fighting each other on swamps and rivers.",
+    "info": "Disable additional spawn of large groups of monsters fighting each other on swamps.",
     "stype": "bool",
     "value": false
   }
