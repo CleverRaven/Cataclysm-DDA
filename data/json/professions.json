@@ -1490,7 +1490,7 @@
       "bio_adrenaline",
       "bio_night_vision",
       "bio_face_mask",
-      "bio_torsionratchet",
+      "bio_metabolics",
       "bio_power_storage_mkII"
     ],
     "skills": [ { "level": 3, "name": "dodge" } ],
