@@ -1792,8 +1792,13 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
     std::vector<npc_ptr> available;
     for( npc_ptr &guy : overmap_buffer.get_npcs_near_player( 24 ) ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
-        if( g->u.sees( guy->pos() ) && guy->is_friend() && c_mission.role_id.empty() ) {
-            available.push_back( guy );
+        if( g->u.sees( guy->pos() ) ) {
+            if( guy->is_friend() && c_mission.role_id.empty() ) {
+                available.push_back( guy );
+            } else if( guy->mission == NPC_MISSION_GUARD_ALLY &&
+                       guy->companion_mission_role_id != "FACTION_CAMP" ) {
+                available.push_back( guy );
+            }
         }
     }
 
@@ -1807,7 +1812,8 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
 
     int x = 0;
     for( auto &e : available ) {
-        std::string npc_entry = e->name + "  ";
+        std::string after_npc = e->mission == NPC_MISSION_GUARD_ALLY ? " (Guarding) " : "  ";
+        std::string npc_entry = e->name + after_npc;
         if( !skill_tested.empty() ) {
             std::string req_skill = ( skill_level == 0 ) ? "" : "/" + to_string( skill_level );
             std::string skill_test = "[" + skill_id( skill_tested ).str() + " " +

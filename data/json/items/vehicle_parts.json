@@ -514,6 +514,22 @@
         "price" : 60000
     },
     {
+        "type":"GENERIC",
+        "id" : "xl_wind_turbine",
+        "name" : "large wind turbine",
+        "looks_like": "wind_turbine",
+        "description" : "A large turbine that can convert wind into electric power.",
+        "weight" : 150000,
+        "to_hit" : -7,
+        "color" : "yellow",
+        "symbol" : "Y",
+        "material" : ["steel"],
+        "volume" : 240,
+        "bashing" : 1,
+        "category" : "veh_parts",
+        "price" : 150000
+    },
+    {
       "type": "GENERIC",
       "id": "water_wheel",
       "name": "water wheel",

@@ -1220,7 +1220,7 @@ gfx/HoderTileset/tile_config.json
 gfx/MShock24TilesetModded/tile_config.json
 gfx/MShock32TilesetModded/tile_config.json
 gfx/MshockXotto+/tile_config.json
-gfx/RetroASCIITileset/tile_config.json
+gfx/ASCIITileset/tile_config.json
 gfx/RetroDaysTileset10/tile_config.json
 gfx/RetroDaysTileset20_iso/tile_config.json
 gfx/RetroDaysTileset20/tile_config.json

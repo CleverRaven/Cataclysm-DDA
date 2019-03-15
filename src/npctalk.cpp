@@ -1276,6 +1276,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
+
     return effects.apply( *this );
 }
 
@@ -1604,16 +1605,6 @@ talk_effect_t::talk_effect_t( JsonObject jo )
     } else {
         next_topic = talk_topic( jo.get_string( "topic" ) );
     }
-    if( jo.has_member( "opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "opinion" );
-        // Same format as when saving a game (-:
-        opinion.deserialize( *ji );
-    }
-    if( jo.has_member( "mission_opinion" ) ) {
-        JsonIn *ji = jo.get_raw( "mission_opinion" );
-        // Same format as when saving a game (-:
-        mission_opinion.deserialize( *ji );
-    }
 }
 
 void talk_effect_t::parse_sub_effect( JsonObject jo )
@@ -1785,6 +1776,16 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
 
 void talk_effect_t::load_effect( JsonObject &jo )
 {
+    if( jo.has_member( "opinion" ) ) {
+        JsonIn *ji = jo.get_raw( "opinion" );
+        // Same format as when saving a game (-:
+        opinion.deserialize( *ji );
+    }
+    if( jo.has_member( "mission_opinion" ) ) {
+        JsonIn *ji = jo.get_raw( "mission_opinion" );
+        // Same format as when saving a game (-:
+        mission_opinion.deserialize( *ji );
+    }
     static const std::string member_name( "effect" );
     if( !jo.has_member( member_name ) ) {
         return;
@@ -1824,6 +1825,17 @@ talk_response::talk_response()
 
 talk_response::talk_response( JsonObject jo )
 {
+    if( jo.has_member( "truefalsetext" ) ) {
+        JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
+        read_dialogue_condition( truefalse_jo, truefalse_condition, true );
+        truetext = _( truefalse_jo.get_string( "true" ) );
+        falsetext = _( truefalse_jo.get_string( "false" ) );
+    } else {
+        truetext = _( jo.get_string( "text" ) );
+        truefalse_condition = []( const dialogue & ) {
+            return true;
+        };
+    }
     if( jo.has_member( "trial" ) ) {
         trial = talk_trial( jo.get_object( "trial" ) );
     }
@@ -1842,17 +1854,7 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "failure" ) ) {
         failure = talk_effect_t( jo.get_object( "failure" ) );
     }
-    if( jo.has_member( "truefalsetext" ) ) {
-        JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
-        read_dialogue_condition( truefalse_jo, truefalse_condition, true );
-        truetext = _( truefalse_jo.get_string( "true" ) );
-        falsetext = _( truefalse_jo.get_string( "false" ) );
-    } else {
-        truetext = _( jo.get_string( "text" ) );
-        truefalse_condition = []( const dialogue & ) {
-            return true;
-        };
-    }
+
     // TODO: mission_selected
     // TODO: skill
     // TODO: style

@@ -13315,7 +13315,7 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     return get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_friend();
+        return guy.is_friend() || guy.mission == NPC_MISSION_GUARD_ALLY;
     } );
 }
 

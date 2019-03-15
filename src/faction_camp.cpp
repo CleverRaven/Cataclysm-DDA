@@ -499,13 +499,6 @@ void talk_function::start_camp( npc &p )
         display = true;
         buffer += _( "There are few fields.  Farming may be difficult.\n" );
     }
-    if( g->allies().size() < 2 ) {
-        if( display ) {
-            buffer += "\n";
-        }
-        buffer += _( "Warning, you need at least two allies to work a faction camp!\n" );
-        display = true;
-    }
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
@@ -546,9 +539,11 @@ void talk_function::recover_camp( npc &p )
 
 void talk_function::remove_overseer( npc &p )
 {
-    if( !query_yn( "This is permanent, any companions away on mission will be lost until "
-                   "the camp is recovered! Are you sure?" ) ) {
-        return;
+    basecamp *bcp = g->m.camp_at( p.pos(), 60 );
+    if( bcp ) {
+        if( !bcp->reset_camp() ) {
+            return;
+        }
     }
     size_t suffix = p.name.find( _( ", Camp Manager" ) );
     if( suffix != std::string::npos ) {
@@ -557,13 +552,6 @@ void talk_function::remove_overseer( npc &p )
 
     add_msg( _( "%s has abandoned the camp." ), p.name );
     p.companion_mission_role_id.clear();
-
-    std::set<tripoint>::iterator it;
-    it = g->u.camps.find( p.global_omt_location() );
-    if( it != g->u.camps.end() ) {
-        g->u.camps.erase( it );
-    }
-
     stop_guard( p );
 }
 
@@ -588,7 +576,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
 
     const std::string camp_ctr = "camp";
     const std::string base_dir = "[B]";
-    std::string bldg = next_upgrade( base_dir );
+    std::string bldg = next_upgrade( base_dir, 1 );
     reset_camp_workers();
 
     if( bldg != "null" ) {
@@ -989,7 +977,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
 
     //This starts all of the expansion missions
     for( const std::string &dir : directions ) {
-        const std::string bldg_exp = next_upgrade( dir );
+        const std::string bldg_exp = next_upgrade( dir, 1 );
         const tripoint omt_trg = omt_pos + talk_function::om_dir_to_offset( dir );
         if( bldg_exp != "null" ) {
             comp_list npc_list = get_mission_workers( "_faction_upgrade_exp_" + dir );
@@ -1191,7 +1179,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
     }
 
     if( miss_id == "Upgrade Camp" ) {
-        start_upgrade( next_upgrade( base_dir ), "_faction_upgrade_camp" );
+        start_upgrade( next_upgrade( base_dir, 1 ), "_faction_upgrade_camp" );
     } else if( miss_id == "Recover Ally from Upgrading" ) {
         upgrade_return( base_dir, "_faction_upgrade_camp" );
     }
@@ -1311,7 +1299,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
         if( dir == miss_dir ) {
             const tripoint omt_trg = expansions[ dir ].pos;
             if( miss_id == miss_dir + " Expansion Upgrade" ) {
-                start_upgrade( next_upgrade( miss_dir ), "_faction_upgrade_exp_" + miss_dir );
+                start_upgrade( next_upgrade( miss_dir, 1 ), "_faction_upgrade_exp_" + miss_dir );
             } else if( miss_id == "Recover Ally, " + miss_dir + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir );
             }
@@ -2065,7 +2053,7 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
         return false;
     }
 
-    const std::string bldg = next_upgrade( dir );
+    const std::string bldg = next_upgrade( dir, 1 );
     if( bldg == "null" ) {
         return false;
     }
@@ -3312,7 +3300,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
         if( e == expansions.end() ) {
             continue;
         }
-        if( e->second.cur_level >= 0 && next_upgrade( dir ) == "null" ) {
+        if( e->second.cur_level >= 0 && next_upgrade( dir, 1 ) == "null" ) {
             sexpansions += 2;
         }
         if( e->second.type == "farm" && e->second.cur_level > 0 ) {

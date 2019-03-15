@@ -1,9 +1,9 @@
-#TSU'S TILESET
+#RETRO ASCII TILESET
 #Name of the tileset
-NAME: tsu
+NAME: ASCIITiles
 #Viewing (Option) name of the tileset
-VIEW: Tsu's
+VIEW: ASCIITiles
 #JSON Path - Default of gfx/tile_config.json
 JSON: tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-TILESET: tsutiles.png
+TILESET: ASCIITiles.png

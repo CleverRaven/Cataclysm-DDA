@@ -817,9 +817,10 @@ INITIATING STANDARD TREMOR TEST..." ) );
                 const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
                 body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = g->u.get_effect( effect_mending, part );
+                // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() <
-                                 existing_effect.get_max_duration() - 5_days ) ) {
+                                 existing_effect.get_duration() >
+                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
                     continue;
                 }
                 g->u.moves -= 500;

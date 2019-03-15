@@ -6297,7 +6297,7 @@ void item::fill_with( item &liquid, long amount )
             return;
         }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
-    } else if( !is_container_empty() ) {
+    } else if( is_food_container() ) {
         // if container already has liquid we need to sum the energy
         item &cts = contents.front();
         const float lhs_energy = cts.get_item_thermal_energy();
@@ -6308,6 +6308,10 @@ void item::fill_with( item &liquid, long amount )
         //use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
                                         liquid.get_relative_rot() ) );
+        cts.mod_charges( amount );
+    } else if( !is_container_empty() ) {
+        // if container already has liquid we need to set the amount
+        item &cts = contents.front();
         cts.mod_charges( amount );
     } else {
         item liquid_copy( liquid );
