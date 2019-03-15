@@ -792,7 +792,7 @@ void player::complete_craft()
             }
             if( should_heat ) {
                 bp.heat_up();
-            } else if( bp.is_food() || bp.is_food_container() ) {
+            } else if( bp.is_food() ) {
                 bp.set_item_temperature( 293.15 );
                 bp.reset_temp_check();
             }
