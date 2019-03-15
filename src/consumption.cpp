@@ -230,9 +230,9 @@ std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
 }
 
 // is the material associated with this item?
-bool material_exists( const material_id material, const item &item )
+bool material_exists( const material_id &material, const item &item )
 {
-    for( material_id mat : item.type->materials ) {
+    for( const material_id &mat : item.type->materials ) {
         if( mat == material ) {
             return true;
         }

@@ -259,8 +259,8 @@ class overmap
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         std::shared_ptr<npc> erase_npc( const int id );
 
-        void for_each_npc( std::function<void( npc & )> callback );
-        void for_each_npc( std::function<void( const npc & )> callback ) const;
+        void for_each_npc( const std::function<void( npc & )> &callback );
+        void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
         std::shared_ptr<npc> find_npc( int id ) const;
 

@@ -108,7 +108,7 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, std::string de
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
-                           const std::string footstep )
+                           const std::string &footstep )
 {
     sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
                                          sound_t::movement, footstep, false, true, "", ""} ) );

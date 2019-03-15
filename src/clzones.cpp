@@ -620,7 +620,7 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
 // which constructor of the key-value pair we use which depends on new_zone being an rvalue or lvalue and constness.
 // If you are passing new_zone from a non-const iterator, be prepared for a move! This
 // may break some iterators like map iterators if you are less specific!
-void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point mount_point,
+void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &mount_point,
         zone_data &new_zone )
 {
     //create a vehicle loot zone
