@@ -9,7 +9,7 @@
         "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
         "effect": "start_camp",
-        "condition": { "and": [ { "u_at_om_location": "field" }, { "npc_allies": 2 } ] }
+        "condition": { "u_at_om_location": "field" }
       },
       {
         "text": "I want you to take over the camp here.",
@@ -86,7 +86,7 @@
     "responses": [
       { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
       {
-        "text": "Yes, set up the bulletin board and then go back to normal duties",
+        "text": "Yes, set up the bulletin board and then go back to normal duties.",
         "topic": "TALK_DONE",
         "effect": "remove_overseer"
       },

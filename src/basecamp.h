@@ -69,7 +69,7 @@ class basecamp
         bool any_has_level( const std::string &type, int min_level ) const;
         bool can_expand() const;
         /// Returns the name of the building the current building @ref dir upgrades into, "null" if there isn't one
-        const std::string next_upgrade( const std::string &dir, const int &offset ) const;
+        const std::string next_upgrade( const std::string &dir, const int offset = 1 ) const;
         /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
         bool om_upgrade( const std::string &next_upgrade, const tripoint &upos );
 

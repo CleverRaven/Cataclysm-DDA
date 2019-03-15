@@ -499,13 +499,6 @@ void talk_function::start_camp( npc &p )
         display = true;
         buffer += _( "There are few fields.  Farming may be difficult.\n" );
     }
-    if( g->allies().size() < 2 ) {
-        if( display ) {
-            buffer += "\n";
-        }
-        buffer += _( "Warning, you need at least two allies to work a faction camp!\n" );
-        display = true;
-    }
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
