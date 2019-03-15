@@ -659,7 +659,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     if( mode == TARGET_MODE_FIRE ) {
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to steady your aim. (10 moves)" ),
                    front_or( "AIM", ' ' ) );
-        std::string aim_and_fire = "";
+        std::string aim_and_fire;
         for( const auto &e : aim_types ) {
             if( e.has_threshold ) {
                 aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
@@ -808,7 +808,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     if( display_type != "numbers" ) {
-        std::string symbols = "";
+        std::string symbols;
         for( const confidence_rating &cr : confidence_config ) {
             symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol, cr.label );
         }

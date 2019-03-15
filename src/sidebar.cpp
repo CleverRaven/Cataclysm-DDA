@@ -544,7 +544,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
         // case power_level > 999 display 1k instead
         int display_power = this->power_level;
-        std::string unit = "";
+        std::string unit;
         if( this->power_level > 999 ) {
             switch( offset ) {
                 case 4:

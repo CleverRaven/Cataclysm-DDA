@@ -852,7 +852,7 @@ std::string get_dirstring( int angle )
 
 std::string get_wind_arrow( int dirangle )
 {
-    std::string wind_arrow = "";
+    std::string wind_arrow;
     if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
         wind_arrow = "\u21D3";
     } else if( dirangle <= 68 && dirangle > 23 ) {

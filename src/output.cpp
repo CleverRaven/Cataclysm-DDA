@@ -1635,7 +1635,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
 const std::pair<std::string, nc_color>
 get_bar( float cur, float max, int width, bool extra_resolution, const std::vector<nc_color> &colors )
 {
-    std::string result = "";
+    std::string result;
     float status = cur / max;
     status = status > 1 ? 1 : status;
     status = status < 0 ? 0 : status;
