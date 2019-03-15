@@ -48,6 +48,7 @@
 #include "speech.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -2530,6 +2531,43 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         break;
     }
     p->assign_activity( activity_id( "ACT_DIG" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = pnt;
+
+    return it->type->charges_to_use();
+}
+
+int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig channel where?" ) );
+    if( !pnt_ ) {
+        return 0;
+    }
+    tripoint pnt = *pnt_;
+
+    if( pnt == p->pos() ) {
+        add_msg( m_info, _( "You channel your inner self." ) );
+        return 0;
+    }
+    int moves;
+
+    tripoint north = pnt + point( 0, -1 );
+    tripoint south = pnt + point( 0, 1 );
+    tripoint west = pnt + point( -1, 0 );
+    tripoint east = pnt + point( 1, 0 );
+    if( ( g->m.has_flag( "DIGGABLE", pnt ) && ( g->m.has_flag( "CURRENT", north ) ||
+            g->m.has_flag( "CURRENT", south ) || g->m.has_flag( "CURRENT", east ) ||
+            g->m.has_flag( "CURRENT", west ) ) ) ) {
+        moves = MINUTES( 120 ) / it->get_quality( DIG ) * 100;
+    } else {
+        p->add_msg_if_player( _( "You can't dig a channel on this ground." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_DIG_CHANNEL" ), moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
 
     return it->type->charges_to_use();
