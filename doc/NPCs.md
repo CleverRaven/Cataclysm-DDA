@@ -603,6 +603,7 @@ start_mugging | The NPC will approach your character and steal from your charact
 lead_to_safety | The NPC will gain the LEAD attitude and give your character the mission of reaching safety.
 start_training | The NPC will train your character in a skill or martial art.
 companion_mission: role_string | The NPC will offer you a list of missions for your allied NPCs, depending on the NPC's role.
+basecamp_mission | The NPC will offer you a list of missions for your allied NPCs, depending on the local basecamp.
 bionic_install | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
 bionic_remove | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
 npc_faction_change: faction_string | Change the NPC's faction membership to `faction_string`.

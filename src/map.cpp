@@ -36,6 +36,8 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "projectile.h"
 #include "rng.h"
@@ -4300,36 +4302,25 @@ item map::water_from( const tripoint &p )
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
-    if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        !( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 3 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        !( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 4 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        ( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 10 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) &&
-        ( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) ) {
-        if( one_in( 20 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
+        int poison_chance = 0;
+        if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 20;
+            } else {
+                poison_chance = 4;
+            }
+        } else {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 10;
+            } else {
+                poison_chance = 3;
+            }
+        }
+        if( one_in( poison_chance ) ) {
+            ret.poison = rng( 1, 4 );
+        }
         return ret;
     }
     if( furn( p ).obj().examine == &iexamine::water_source ) {
@@ -5477,8 +5468,15 @@ void map::add_camp( const tripoint &p, const std::string &name )
         dbg( D_ERROR ) << "map::add_camp: Attempting to add camp when one in local area.";
         return;
     }
-
-    get_submap_at( p )->camp = basecamp( name, p );
+    point omt = ms_to_omt_copy( g->m.getabs( p.x, p.y ) );
+    tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
+    basecamp temp_camp = basecamp( name, omt_tri );
+    get_submap_at( p )->camp = temp_camp;
+    basecamp *pointer_camp;
+    pointer_camp = &get_submap_at( p )->camp;
+    overmap_buffer.add_camp( pointer_camp );
+    g->u.camps.insert( omt_tri );
+    g->validate_camps();
 }
 
 void map::update_visibility_cache( const int zlev )

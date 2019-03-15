@@ -871,6 +871,24 @@ skill_id npc::best_skill() const
     return highest_skill;
 }
 
+int npc::best_skill_level() const
+{
+    int highest_level = std::numeric_limits<int>::min();
+    skill_id highest_skill( skill_id::NULL_ID() );
+
+    for( const auto &p : *_skills ) {
+        if( p.first.obj().is_combat_skill() ) {
+            const int level = p.second.level();
+            if( level > highest_level ) {
+                highest_level = level;
+                highest_skill = p.first;
+            }
+        }
+    }
+
+    return highest_level;
+}
+
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
@@ -1763,8 +1781,20 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         enumerate_print( wearing, c_blue );
     }
 
-    // @todo: Balance this formula
-    const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
+    // as of now, visibility of mutations is between 0 and 10
+    // 10 perception and 10 distance would see all mutations - cap 0
+    // 10 perception and 30 distance - cap 5, some mutations visible
+    // 3 perception and 3 distance would see all mutations - cap 0
+    // 3 perception and 15 distance - cap 5, some mutations visible
+    // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
+    const int per = g->u.get_per();
+    const int dist = rl_dist( g->u.pos(), pos() );
+    int visibility_cap;
+    if( per <= 1 ) {
+        visibility_cap = INT_MAX;
+    } else {
+        visibility_cap = round( dist * dist / 20.0 / ( per - 1 ) );
+    }
 
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
@@ -2363,12 +2393,50 @@ std::string npc::extended_description() const
     return replace_colors( ss.str() );
 }
 
-void npc::set_companion_mission( npc &p, const std::string &id )
+void npc::set_companion_mission( npc &p, const std::string &mission_id )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    comp_mission.position = tripoint( omt_pos.x, omt_pos.y, p.posz() );
-    comp_mission.mission_id =  id;
-    comp_mission.role_id = p.companion_mission_role_id;
+    const tripoint omt_pos = p.global_omt_location();
+    set_companion_mission( omt_pos, p.companion_mission_role_id, mission_id );
+}
+
+std::pair<std::string, nc_color> npc::hp_description() const
+{
+    int cur_hp = hp_percentage();
+    std::string damage_info;
+    std::string pronoun;
+    if( male ) {
+        pronoun = _( "He " );
+    } else {
+        pronoun = _( "She " );
+    }
+    nc_color col;
+    if( cur_hp == 100 ) {
+        damage_info = pronoun + _( "is uninjured." );
+        col = c_green;
+    } else if( cur_hp >= 80 ) {
+        damage_info = pronoun + _( "is lightly injured." );
+        col = c_light_green;
+    } else if( cur_hp >= 60 ) {
+        damage_info = pronoun + _( "is moderately injured." );
+        col = c_yellow;
+    } else if( cur_hp >= 30 ) {
+        damage_info = pronoun + _( "is heavily injured." );
+        col = c_yellow;
+    } else if( cur_hp >= 10 ) {
+        damage_info = pronoun + _( "is severely injured." );
+        col = c_light_red;
+    } else {
+        damage_info = pronoun + _( "is nearly dead!" );
+        col = c_red;
+    }
+    return std::make_pair( damage_info, col );
+}
+void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id )
+{
+    comp_mission.position = omt_pos;
+    comp_mission.mission_id =  mission_id;
+    comp_mission.role_id = role_id;
 }
 
 void npc::reset_companion_mission()

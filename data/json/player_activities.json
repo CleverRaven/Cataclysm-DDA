@@ -467,7 +467,7 @@
     "type": "activity_type",
     "stop_phrase": "Stop programming override?",
     "suspendable": false,
-    "based_on": "speed",
+    "based_on": "time",
     "no_resume": true
   },
   {

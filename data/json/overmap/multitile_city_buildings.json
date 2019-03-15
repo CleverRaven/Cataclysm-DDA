@@ -625,5 +625,32 @@
       { "point": [ 0, 1, 2 ], "overmap": "town_hall_0_1_roof_north" },
       { "point": [ 1, 1, 2 ], "overmap": "town_hall_1_1_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "abstorefront",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "abstorefront_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "abstorefront_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "abstorefront_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "abstorefront_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "abstorefront_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "abstorefront_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "abstorefront_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "abstorefront_roof_2_north" }
+    ]
   }
 ]

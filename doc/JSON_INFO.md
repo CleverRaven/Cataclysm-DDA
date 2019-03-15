@@ -249,21 +249,38 @@ The syntax listed here is still valid.
 | `acid_resist`    | Ability of a material to resist acid.
 | `elec_resist`    | Ability of a material to resist electricity.
 | `fire_resist`    | Ability of a material to resist fire.
+| `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
+| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
+| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
+| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
+| `latent_heat`    | Latent heat of a material (J/g). Default 334.
 
 ```C++
 {
-    "ident"         : "hflesh",
-    "name"          : "Human Flesh",
-    "bash_resist"   : 1,
-    "cut_resist"    : 1,
-    "bash_dmg_verb" : "bruised",
-    "cut_dmg_verb"  : "sliced",
-    "dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"],
-    "acid_resist"   : 1,
-    "elec_resist"   : 1,
-    "fire_resist"   : 0,
-    "density"       : 5
+    "type": "material",
+    "ident": "hflesh",
+    "name": "Human Flesh",
+    "density": 5,
+    "specific_heat_liquid": 3.7,
+    "specific_heat_solid": 2.15,
+    "latent_heat": 260,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 1,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
+    "bash_dmg_verb": "bruised",
+    "cut_dmg_verb": "sliced",
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000_ml" },
+      { "fuel": 3, "smoke": 10, "burn": 3 }
+    ]
 }
 ```
 

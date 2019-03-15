@@ -82,6 +82,7 @@ class zone_type;
 using zone_type_id = string_id<zone_type>;
 class Character;
 class faction_manager;
+class new_faction_manager;
 class player;
 class npc;
 class monster;
@@ -248,6 +249,7 @@ class game
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
+        pimpl<new_faction_manager> new_faction_manager_ptr;
 
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
@@ -516,6 +518,16 @@ class game
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
+        /** Add follower id to list. */
+        void add_npc_follower( const int &id );
+        /** Remove follower id from follower list. */
+        void remove_npc_follower( const int &id );
+        /** Get list of followers. */
+        std::vector<int> get_follower_list();
+        /** validate list of followers to account for overmap buffers */
+        void validate_npc_followers();
+        /** validate camps to ensure they are on the overmap list */
+        void validate_camps();
         /** Return list of killed NPC */
         std::list<std::string> get_npc_kill();
 
@@ -903,7 +915,6 @@ class game
 #endif
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
-        void init_lua();          // Initializes lua interpreter.
         void create_starting_npcs(); // Creates NPCs that start near you
 
         // V Menu Functions and helpers:
@@ -1093,6 +1104,7 @@ class game
         bool bVMonsterLookFire;
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
+        std::vector<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;

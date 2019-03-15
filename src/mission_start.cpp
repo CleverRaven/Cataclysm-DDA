@@ -2052,4 +2052,3 @@ void mission_type::parse_start( JsonObject &jo )
         mission_start_fun.apply( miss );
     };
 }
-

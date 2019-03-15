@@ -25,6 +25,7 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "skill.h"
+#include "skill_boost.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "veh_interact.h"
@@ -488,9 +489,18 @@ void Character::process_turn()
 void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
+    int str_boost_val = 0;
+    cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
+    if( str_boost ) {
+        int skill_total = 0;
+        for( const std::string &skill_str : str_boost->skills() ) {
+            skill_total += get_skill_level( skill_id( skill_str ) );
+        }
+        str_boost_val = str_boost->calc_bonus( skill_total );
+    }
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
-    float hp_adjustment = mutation_value( "hp_adjustment" );
+    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     for( auto &elem : new_max_hp ) {
         /** @EFFECT_STR_MAX increases base hp */
         elem = 60 + str_max * 3 + hp_adjustment;
@@ -500,7 +510,15 @@ void Character::recalc_hp()
         new_max_hp[hp_head] *= 0.8;
     }
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] *= static_cast<float>( new_max_hp[i] ) / static_cast<float>( hp_max[i] );
+        // Only recalculate when max changes,
+        // otherwise we end up walking all over due to rounding errors.
+        if( new_max_hp[i] == hp_max[i] ) {
+            continue;
+        }
+        float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
+                             static_cast<float>( hp_max[i] );
+        hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
+        hp_cur[i] = std::max( std::min( hp_cur[i], new_max_hp[i] ), 1 );
         hp_max[i] = new_max_hp[i];
     }
 }
@@ -1315,6 +1333,37 @@ void Character::die( Creature *nkiller )
     mission::on_creature_death( *this );
 }
 
+void Character::apply_skill_boost()
+{
+    for( const skill_boost &boost : skill_boost::get_all() ) {
+        // For migration, reset previously applied bonus.
+        // Remove after 0.E or so.
+        const std::string bonus_name = boost.stat() + std::string( "_bonus" );
+        std::string previous_bonus = get_value( bonus_name );
+        if( !previous_bonus.empty() ) {
+            if( boost.stat() == "str" ) {
+                str_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "dex" ) {
+                dex_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "int" ) {
+                int_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "per" ) {
+                per_max -= atoi( previous_bonus.c_str() );
+            }
+            remove_value( bonus_name );
+        }
+        // End migration code
+        int skill_total = 0;
+        for( const std::string &skill_str : boost.skills() ) {
+            skill_total += get_skill_level( skill_id( skill_str ) );
+        }
+        mod_stat( boost.stat(), boost.calc_bonus( skill_total ) );
+        if( boost.stat() == "str" ) {
+            recalc_hp();
+        }
+    }
+}
+
 void Character::reset_stats()
 {
     // Bionic buffs
@@ -1346,6 +1395,8 @@ void Character::reset_stats()
     else if( str_max <= 5 ) {
         mod_dodge_bonus( 1 );   // Bonus if we're small
     }
+
+    apply_skill_boost();
 
     nv_cached = false;
 
@@ -1864,6 +1915,87 @@ void Character::set_starvation( int nstarvation )
 int Character::get_thirst() const
 {
     return thirst;
+}
+
+std::pair<std::string, nc_color> Character::get_thirst_description() const
+{
+    int thirst = get_thirst();
+    std::string hydration_string;
+    nc_color hydration_color = c_white;
+    if( thirst > 520 ) {
+        hydration_color = c_light_red;
+        hydration_string = _( "Parched" );
+    } else if( thirst > 240 ) {
+        hydration_color = c_light_red;
+        hydration_string = _( "Dehydrated" );
+    } else if( thirst > 80 ) {
+        hydration_color = c_yellow;
+        hydration_string = _( "Very thirsty" );
+    } else if( thirst > 40 ) {
+        hydration_color = c_yellow;
+        hydration_string = _( "Thirsty" );
+    } else if( thirst < -60 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Turgid" );
+    } else if( thirst < -20 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Hydrated" );
+    } else if( thirst < 0 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Slaked" );
+    }
+    return std::make_pair( hydration_string, hydration_color );
+}
+
+std::pair<std::string, nc_color> Character::get_hunger_description() const
+{
+    int hunger = get_hunger();
+    std::string hunger_string;
+    nc_color hunger_color = c_white;
+    if( hunger >= 300 && get_starvation() > 2500 ) {
+        hunger_color = c_red;
+        hunger_string = _( "Starving!" );
+    } else if( hunger >= 300 && get_starvation() > 1100 ) {
+        hunger_color = c_light_red;
+        hunger_string = _( "Near starving" );
+    } else if( hunger > 250 ) {
+        hunger_color = c_light_red;
+        hunger_string = _( "Famished" );
+    } else if( hunger > 100 ) {
+        hunger_color = c_yellow;
+        hunger_string = _( "Very hungry" );
+    } else if( hunger > 40 ) {
+        hunger_color = c_yellow;
+        hunger_string = _( "Hungry" );
+    } else if( hunger < -60 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Engorged" );
+    } else if( hunger < -20 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Sated" );
+    } else if( hunger < 0 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Full" );
+    }
+    return std::make_pair( hunger_string, hunger_color );
+}
+
+std::pair<std::string, nc_color> Character::get_fatigue_description() const
+{
+    int fatigue = get_fatigue();
+    std::string fatigue_string;
+    nc_color fatigue_color = c_white;
+    if( fatigue > EXHAUSTED ) {
+        fatigue_color = c_red;
+        fatigue_string = _( "Exhausted" );
+    } else if( fatigue > DEAD_TIRED ) {
+        fatigue_color = c_light_red;
+        fatigue_string = _( "Dead Tired" );
+    } else if( fatigue > TIRED ) {
+        fatigue_color = c_yellow;
+        fatigue_string = _( "Tired" );
+    }
+    return std::make_pair( fatigue_string, fatigue_color );
 }
 
 void Character::mod_thirst( int nthirst )

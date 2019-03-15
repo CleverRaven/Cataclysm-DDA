@@ -563,7 +563,12 @@
         "stadium": 25,
         "cemetery_city": 50,
         "public_pond_city": 50,
-        "cemetery_religious_city": 25
+        "cemetery_religious_city": 25,
+        "cs_private_park": 100,
+        "cs_public_art_piece": 100,
+        "cs_public_space": 100,
+        "cs_city_dump_small": 100,
+        "cs_open_sewer": 100
       },
       "shops": {
         "town_hall": 150,
@@ -600,6 +605,8 @@
         "office_cubical": 200,
         "furniture": 200,
         "abstorefront": 200,
+        "abstorefront_1": 200,
+        "abstorefront_2": 200,
         "police": 100,
         "fire_station": 200,
         "home_improvement": 200,
@@ -662,7 +669,14 @@
         "shopping_plaza": 125,
         "movie_theater": 75,
         "garage_gas_city": 250,
-        "2fmotel_city": 50
+        "2fmotel_city": 50,
+        "cs_car_dealership": 100,
+        "cs_car_showroom": 100,
+        "cs_gardening_allotment": 100,
+        "cs_internet_cafe": 100,
+        "cs_market_small": 100,
+        "cs_sex_shop": 100,
+        "cs_tire_shop": 100
       }
     },
     "weather": {

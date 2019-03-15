@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "calendar.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -439,19 +440,6 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
-}
-
-static std::string join( const std::vector<std::string> &strings, const std::string &joiner )
-{
-    std::ostringstream buffer;
-
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
-    }
-    return buffer.str();
 }
 
 template<typename T>

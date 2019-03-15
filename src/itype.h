@@ -169,6 +169,11 @@ struct islot_comestible {
     /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
     int freeze_point = temperatures::freezing;
 
+    //** specific heats in J/(g K) and latent heat in J/g */
+    float specific_heat_liquid = 4.186;
+    float specific_heat_solid = 2.108;
+    float latent_heat = 333;
+
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
 

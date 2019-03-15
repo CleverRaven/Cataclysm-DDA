@@ -1208,10 +1208,6 @@ data/sound/Basic/soundset.json
 doc/sample_mods/drinkable_milk/modinfo.json
 doc/sample_mods/elf_mod/data.json
 doc/sample_mods/elf_mod/modinfo.json
-doc/sample_mods/lua_manhack_iuse/modinfo.json
-doc/sample_mods/lua_manhack_iuse/tools.json
-doc/sample_mods/lua_player_takeoff/items.json
-doc/sample_mods/lua_player_takeoff/modinfo.json
 doc/sample_mods/no_jam_spawn/modinfo.json
 gfx/BlockheadTileset/tile_config.json
 gfx/ChestHole16Tileset/tile_config.json

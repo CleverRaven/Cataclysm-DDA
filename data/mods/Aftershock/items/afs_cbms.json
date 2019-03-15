@@ -1,0 +1,29 @@
+[
+  {
+    "id": "bn_bio_solar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Solar Panels CBM",
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  },
+  {
+    "id": "afs_bio_precision_solderers",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Precision Solderers CBM",
+    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
+    "price": 20000,
+    "difficulty": 3
+  },
+  {
+    "id": "afs_bio_missiles",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Deployable Grenade Launcher CBM",
+    "description": "A small, folding tube that attaches to your right arm.  Once implanted, it can serve as a portable, integrated tool for firing 40mm grenades and canisters.",
+    "price": 100000,
+    "difficulty": 5
+  }
+]
