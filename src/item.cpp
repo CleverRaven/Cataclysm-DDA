@@ -6309,6 +6309,10 @@ void item::fill_with( item &liquid, long amount )
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
                                         liquid.get_relative_rot() ) );
         cts.mod_charges( amount );
+    } else if( !is_container_empty() ) {
+        // if container already has liquid we need to set the amount
+        item &cts = contents.front();
+        cts.mod_charges( amount );
     } else {
         item liquid_copy( liquid );
         liquid_copy.charges = amount;
