@@ -1046,12 +1046,20 @@
   "decomp_learn": 2,
   "autolearn": true,
   "book_learn": [["manual_electronics", 7] , ["textbook_electronics", 6] , ["advanced_electronics", 6]],
-  "using": [ [ "welding_standard", 50 ] ],
+  "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 35 ] ],
   "qualities" : [ {"id": "SCREW","level":1}, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
   "components": [
-    [ [ "motor_small", 4 ], [ "alternator_bicycle", 4 ], [ "alternator_motorbike", 4 ] ],
     [ [ "2x4", 30 ], [ "frame_wood", 4 ] ],
     [ [ "sheet_metal_small", 12 ] ],
+    [
+      [ "motor_small", 4 ],
+      [ "alternator_bicycle", 4 ],
+      [ "alternator_motorbike", 4 ],
+      [ "alternator_car", 2 ],
+      [ "alternator_truck", 1 ],
+      [ "motor", 2 ],
+      [ "motor_large", 1 ]
+    ],
     [ [ "nail", 120 ] ],
     [ [ "pipe", 20 ] ]
   ]
