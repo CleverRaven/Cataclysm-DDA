@@ -712,10 +712,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
     tripoint destination = dest + g->u.pos();
 
     int s_cargo = -1;
-    int d_cargo = -1;
-
     vehicle *s_veh = nullptr;
-    vehicle *d_veh = nullptr;
 
     // load vehicle information if requested
     if( from_vehicle ) {
@@ -725,14 +722,6 @@ static void move_items( const tripoint &src, bool from_vehicle,
         s_veh = &vp->vehicle();
         s_cargo = vp->part_index();
         assert( s_cargo >= 0 );
-    }
-    if( to_vehicle ) {
-        const cata::optional<vpart_reference> vp = g->m.veh_at( destination ).part_with_feature( "CARGO",
-                false );
-        assert( vp );
-        d_veh = &vp->vehicle();
-        d_cargo = vp->part_index();
-        assert( d_cargo >= 0 );
     }
 
     while( g->u.moves > 0 && !indices.empty() ) {
