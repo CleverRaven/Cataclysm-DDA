@@ -466,7 +466,7 @@ void weather_effect::thunder()
         } else if( g->u.has_trait( trait_GOODHEARING ) && one_in( 1 - 2 * g->get_levz() ) ) {
             add_msg( _( "You hear a rumble of thunder from above." ) );
             sfx::play_variant_sound( "environment", "thunder_far", 100, rng( 0, 359 ) );
-        } else if( !g->u.has_trait( trait_GOODHEARING2 ) && one_in( 1 - 1 * g->get_levz() ) ) {
+        } else if( g->u.has_trait( trait_GOODHEARING2 ) && one_in( 1 - 1 * g->get_levz() ) ) {
             add_msg( _( "You hear a rumble of thunder from above." ) );
             sfx::play_variant_sound( "environment", "thunder_far", 60, rng( 0, 359 ) );
         } else if( !g->u.has_trait( trait_BADHEARING ) && one_in( 1 - 3 * g->get_levz() ) ) {
