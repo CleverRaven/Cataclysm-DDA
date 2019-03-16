@@ -1,9 +1,0 @@
-#DEON's TILESET
-#Name of the tileset
-NAME: deon
-#Viewing (Option) name of the tileset
-VIEW: Deon's
-#JSON Path - Default of gfx/tile_config.json
-JSON: tile_config.json
-#Tileset Path - Default of gfx/tinytile.png
-TILESET: deontiles.png

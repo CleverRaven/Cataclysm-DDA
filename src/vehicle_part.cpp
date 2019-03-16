@@ -217,11 +217,13 @@ long vehicle_part::ammo_remaining() const
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
     const itype *liquid = item::find_type( ammo );
-    if( is_tank() && liquid->phase >= LIQUID ) {
+
+    // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
+    if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear();
         auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         long limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base.emplace_back( ammo, calendar::turn, qty >= 0 ? std::min( qty, limit ) : limit );
+        base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
         return qty;
     }
 
@@ -270,19 +272,23 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
     if( fuel.typeId() == ftype ) {
         assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
-        double energy_per_mL = fuel.fuel_energy() * 1000;
-        long charges_to_use = static_cast<int>( std::ceil( energy_j / energy_per_mL ) );
+        double energy_p_mL = fuel.fuel_energy() * 1000;
+        long ml_to_use = static_cast<long>( std::floor( energy_j / energy_p_mL ) );
+        long charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
 
-        if( charges_to_use > fuel.charges ) {
-            long had_charges = fuel.charges;
-            base.contents.clear();
-            return had_charges * energy_per_mL;
+        if( !charges_to_use ) {
+            return 0.0;
         }
-
-        fuel.charges -= charges_to_use;
-        return charges_to_use * energy_per_mL;
+        if( charges_to_use > fuel.charges ) {
+            charges_to_use = fuel.charges;
+            base.contents.clear();
+        } else {
+            fuel.charges -= charges_to_use;
+        }
+        item fuel_consumed( ftype, calendar::turn, charges_to_use );
+        return energy_p_mL * units::to_milliliter<long>( fuel_consumed.volume( true ) );
     }
-    return 0.0f;
+    return 0.0;
 }
 
 bool vehicle_part::can_reload( const item &obj ) const

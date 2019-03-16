@@ -193,10 +193,10 @@ void computer::use()
             ctxt.register_manual_key( '1' + i, options[i].name.c_str() );
 #endif
         }
-        print_line( "Q - %s", _( "Quit and shut down" ) );
+        print_line( "Q - %s", _( "Quit and Shut Down" ) );
         print_newline();
 #ifdef __ANDROID__
-        ctxt.register_manual_key( 'Q', _( "Quit and shut down" ) );
+        ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
 #endif
         char ch;
         do {
@@ -783,7 +783,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
             reset_terminal();
             print_line( _( "\
 SITE %d%d%d\n\
-PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
+PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
             print_line( _( "\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
@@ -792,7 +792,7 @@ FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
 DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
    VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
    SUBJECTS\n\
-QUALITIY OF FAULTLINE NOT COMPROMISED\n\
+QUALITY OF FAULTLINE NOT COMPROMISED\n\
 INITIATING STANDARD TREMOR TEST..." ) );
             print_gibberish_line();
             print_gibberish_line();
@@ -817,9 +817,10 @@ INITIATING STANDARD TREMOR TEST..." ) );
                 const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
                 body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = g->u.get_effect( effect_mending, part );
+                // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() <
-                                 existing_effect.get_max_duration() - 5_days ) ) {
+                                 existing_effect.get_duration() >
+                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
                     continue;
                 }
                 g->u.moves -= 500;
@@ -990,13 +991,13 @@ SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
             print_line( _( "\
 GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
 EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 \n\
 1. DO NOT PANIC. \n\
 2. REMAIN INSIDE THE BUILDING. \n\
 3. SEEK SHELTER IN THE BASEMENT. \n\
 4. USE PROVIDED GAS MASKS. \n\
-5. AWAIT FURTHER INSTRUCTIONS \n\
+5. AWAIT FURTHER INSTRUCTIONS. \n\
 \n\
   \n" ) );
             query_any( _( "Press any key to continue..." ) );

@@ -955,14 +955,21 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         delta.y = -distance;
         bool started_row = false;
         T current_transparency = 0.0;
-        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+        float away = start - ( -distance + 0.5f ) / ( -distance -
+                     0.5f ); //The distance between our first leadingEdge and start
+
+        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
+                                        0 );
+
+        for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
             float trailingEdge = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
             float leadingEdge = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
 
             if( !( currentX >= 0 && currentY >= 0 && currentX < MAPSIZE_X &&
-                   currentY < MAPSIZE_Y ) || start < leadingEdge ) {
+                   currentY < MAPSIZE_Y ) /* || start < leadingEdge */ ) {
                 continue;
             } else if( end > trailingEdge ) {
                 break;
@@ -1169,11 +1176,26 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 }
 
-static float light_calc( const float &numerator, const float &transparency, const int &distance )
+//Schraudolph's algorithm with John's constants
+static inline
+float fastexp( float x )
+{
+    union {
+        float f;
+        int i;
+    } u, v;
+    u.i = ( long long )( 6051102 * x + 1056478197 );
+    v.i = ( long long )( 1056478197 - 6051102 * x );
+    return u.f / v.f;
+}
+
+static float light_calc( const float &numerator, const float &transparency,
+                         const int &distance )
 {
     // Light needs inverse square falloff in addition to attenuation.
-    return numerator / static_cast<float>( exp( transparency * distance ) * distance );
+    return numerator  / ( fastexp( transparency * distance ) * distance );
 }
+
 static bool light_check( const float &transparency, const float &intensity )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
@@ -1395,7 +1417,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if( !lit[x][y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    float lm_val = luminance / ( expf( transparency * distance ) * distance );
+                    float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
                     lm[x][y][q] = std::max( lm[x][y][q], lm_val );
                 }
@@ -1427,7 +1449,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if( !lit[x][y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    float lm_val = luminance / ( expf( transparency * distance ) * distance );
+                    float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
                     lm[x][y][q] = std::max( lm[x][y][q], lm_val );
                 }

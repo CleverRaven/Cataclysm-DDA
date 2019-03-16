@@ -100,11 +100,6 @@ void mod_manager::load_replacement_mods( const std::string &path )
     } );
 }
 
-bool MOD_INFORMATION::need_lua() const
-{
-    return file_exist( path + "/main.lua" ) || file_exist( path + "/preload.lua" );
-}
-
 mod_manager::mod_manager()
 {
     load_replacement_mods( FILENAMES["mods-replacements"] );

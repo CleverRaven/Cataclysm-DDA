@@ -503,4 +503,14 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
 
+/** Used as a default in function declarations in visitable.h, inventory.h, and player.h */
+const std::function<bool( const item & )> return_true = []( const item & )
+{
+    return true;
+};
+
+/**
+ * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ */
+std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 #endif // CAT_UTILITY_H

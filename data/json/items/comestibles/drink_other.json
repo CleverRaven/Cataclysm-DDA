@@ -19,8 +19,7 @@
     "charges": 8,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 1,
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "fun": 1
   },
   {
     "id": "maple_sap",
@@ -34,8 +33,9 @@
     "price": 50,
     "weight": 250,
     "volume": 1,
+    "charges": 1,
     "comestible_type": "DRINK",
-    "container": "bucket",
+    "container": "metal_tank",
     "quench": 45,
     "//": "need 40 parts maple sap to make 1 part maple syrup",
     "proportional": { "calories": 0.025 },

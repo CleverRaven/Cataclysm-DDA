@@ -55,6 +55,7 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
 
@@ -835,7 +836,6 @@ void npc::choose_target()
         float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
         float hp_percent = static_cast<float>( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
         float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
-
         auto att = mon.attitude( this );
         if( att == MATT_FRIEND ) {
             ai_cache.friends.emplace_back( g->shared_from( mon ) );
@@ -847,7 +847,7 @@ void npc::choose_target()
         }
 
         if( att == MATT_ATTACK ) {
-            critter_danger++;
+            critter_danger = std::max( critter_danger, static_cast<float>( NPC_DANGER_VERY_LOW ) );
         }
 
         ai_cache.total_danger += critter_danger / scaled_distance;
@@ -1654,6 +1654,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             add_effect( effect_bouldering, 1_turns, num_bp, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
+        }
+
+        if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
+            add_effect( effect_no_sight, 1_turns, num_bp, true );
+        } else if( has_effect( effect_no_sight ) ) {
+            remove_effect( effect_no_sight );
         }
 
         if( in_vehicle ) {
@@ -2729,7 +2735,7 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0;
     }
 
-    int nutr = food->nutr;
+    int nutr = food->get_nutr();
     int quench = food->quench;
 
     if( nutr <= 0 && quench <= 0 ) {

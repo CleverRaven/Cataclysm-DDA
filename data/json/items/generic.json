@@ -814,6 +814,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_science_bot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken lab defense bot",
+    "category": "other",
+    "description": "A broken lab defense bot, with its casing broken and fluid drained.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 100000,
+    "volume": "65000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_copbot",
     "symbol": ",",
     "color": "green",
@@ -1140,6 +1157,20 @@
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "lens_small",
+    "symbol": ".",
+    "color": "light_cyan",
+    "name": "small high-quality lens",
+    "name_plural": "small high-quality lenses",
+    "category": "spare_parts",
+    "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
+    "price": 6000,
+    "material": "glass",
+    "weight": 170,
+    "volume": 0
   },
   {
     "type": "GENERIC",
@@ -2881,5 +2912,19 @@
     "weight": 1000,
     "volume": 2,
     "bashing": 5
+  },
+  {
+    "type": "GENERIC",
+    "id": "lock",
+    "category": "spare_parts",
+    "symbol": "P",
+    "color": "dark_gray",
+    "name": "small lock and key",
+    "description": "A small lock, with a set of keys still inserted.",
+    "price": 500,
+    "material": "steel",
+    "weight": 5,
+    "volume": 1,
+    "bashing": 1
   }
 ]

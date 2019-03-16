@@ -1301,10 +1301,15 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-    add( "DIAG_MOVE_WITH_MODIFIERS", "interface",
-         translate_marker( "Diagonal movement with cursor keys and modifiers" ),
-         translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
-         true, COPT_CURSES_HIDE
+    add( "ARROW_KEYS_VS_MODIFIERS", "interface",
+         translate_marker( "Behavior for Ctrl/Shift modifiers and arrow keys" ),
+         translate_marker( "Numpad emulation: holding Ctrl picks the first arrow key pressed as a modifier for consecutive arrow presses, combining them into the corresponding numpad keys.  Rotation: allows diagonal movement with cursor keys using CTRL and SHIFT modifiers." ),
+    {
+        { "", translate_marker( "None" ) },
+        { "numpad", translate_marker( "Numpad emulation" ) },
+        { "rotation", translate_marker( "Rotation" ) }
+    },
+    "numpad", COPT_CURSES_HIDE
        );
 
     mOptionsSort["interface"]++;
@@ -1435,6 +1440,13 @@ void options_manager::add_options_graphics()
        );
 
     get_option( "ANIMATION_RAIN" ).setPrerequisite( "ANIMATIONS" );
+
+    add( "ANIMATION_PROJECTILES", "graphics", translate_marker( "Projectile animation" ),
+         translate_marker( "If true, will display animations for projectiles like bullets, arrows, and thrown items." ),
+         true
+       );
+
+    get_option( "ANIMATION_PROJECTILES" ).setPrerequisite( "ANIMATIONS" );
 
     add( "ANIMATION_SCT", "graphics", translate_marker( "SCT animation" ),
          translate_marker( "If true, will display scrolling combat text animations." ),
@@ -1594,6 +1606,17 @@ void options_manager::add_options_graphics()
         { "linear", translate_marker( "Linear filtering" ) }
     },
     "none", COPT_CURSES_HIDE );
+
+#ifndef __ANDROID__
+    add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
+    translate_marker( "Factor by which to scale the display. Requires restart." ), {
+        { "1", translate_marker( "1x" ) },
+        { "2", translate_marker( "2x" )},
+        { "4", translate_marker( "4x" )}
+    },
+    "1", COPT_CURSES_HIDE );
+#endif
+
 }
 
 void options_manager::add_options_debug()
@@ -1720,12 +1743,12 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
-         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it." ),
+         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
     add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
-         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy." ),
+         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
@@ -1855,7 +1878,7 @@ void options_manager::add_options_android()
     mOptionsSort["android"]++;
 
     add( "ANDROID_VIBRATION", "android", translate_marker( "Vibration duration" ),
-         translate_marker( "If non-zero, vibrate the device for this long on input, in millisconds. Ignored if hardware keyboard connected." ),
+         translate_marker( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
          0, 200, 10
        );
 
@@ -1911,7 +1934,7 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_HIDE_HOLDS", "android", translate_marker( "Virtual joystick hides shortcuts" ),
-         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while travelling long distances and navigating menus." ),
+         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while traveling long distances and navigating menus." ),
          true
        );
 
@@ -2516,6 +2539,15 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
 #if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
     if( terminal_size_changed ) {
+        int scaling_factor = get_scaling_factor();
+        int TERMX = ::get_option<int>( "TERMINAL_X" );
+        int TERMY = ::get_option<int>( "TERMINAL_Y" );
+        TERMX -= TERMX % scaling_factor;
+        TERMY -= TERMY % scaling_factor;
+        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
+        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
+        save();
+
         handle_resize( projected_window_width(), projected_window_height() );
     }
 #else

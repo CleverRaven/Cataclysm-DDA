@@ -7,6 +7,18 @@
   },
   {
     "type": "start_location",
+    "ident": "shelter_1",
+    "name": "Shelter",
+    "target": "shelter_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "shelter_2",
+    "name": "Shelter",
+    "target": "shelter_2"
+  },
+  {
+    "type": "start_location",
     "ident": "refugee",
     "name": "Refuge Center",
     "target": "evac_center_7"

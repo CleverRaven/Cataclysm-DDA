@@ -61,6 +61,47 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
     }
 };
 
+// @todo: investigate serializing other members of the Creature class hierarchy
+void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+{
+    if( const auto monster_ptr = obj.lock() ) {
+        jsout.start_object();
+
+        jsout.member( "monster_at", monster_ptr->pos() );
+        // @todo: if monsters/Creatures ever get unique ids,
+        // create a differently named member, e.g.
+        //     jsout.member("unique_id", monster_ptr->getID());
+        jsout.end_object();
+    } else {
+        // Monster went away. It's up the activity handler to detect this.
+        jsout.write_null();
+    }
+}
+
+void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    tripoint temp_pos;
+
+    obj.reset();
+    if( data.read( "monster_at", temp_pos ) ) {
+        auto monp = g->critter_tracker->find( temp_pos );
+
+        if( monp == nullptr ) {
+            debugmsg( "no monster found at %d,%d,%d", temp_pos.x, temp_pos.y, temp_pos.z );
+            return;
+        }
+
+        obj = monp;
+    }
+
+    // @todo: if monsters/Creatures ever get unique ids,
+    // look for a differently named member, e.g.
+    //     data.read( "unique_id", unique_id );
+    //     obj = g->id_registry->from_id( unique_id)
+    //    }
+}
+
 template<typename T>
 void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 {
@@ -184,6 +225,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "values", values );
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
+        json.member( "monsters", monsters );
     }
     json.end_object();
 }
@@ -220,6 +262,8 @@ void player_activity::deserialize( JsonIn &jsin )
     values = data.get_int_array( "values" );
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );
+    data.read( "monsters", monsters );
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1723,11 +1767,11 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
         } else if( s[i] == '+' ) {
             ++i;
         }
-        if( i >= s.size() || !std::isdigit( s[i] ) ) {
+        if( i >= s.size() || !isdigit( s[i] ) ) {
             error( "invalid time duration string: number expected" );
         }
         int value = 0;
-        for( ; i < s.size() && std::isdigit( s[i] ); ++i ) {
+        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
             value = value * 10 + ( s[i] - '0' );
         }
         result += sign_value * value * get_unit();
@@ -1803,6 +1847,8 @@ void item::io( Archive &archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
+    archive.io( "specific_energy", specific_energy, -10 );
+    archive.io( "temperature", temperature, 0 );
     archive.io( "recipe_charges", recipe_charges, 1 );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
     []( const itype & i ) {
@@ -2876,7 +2922,7 @@ void basecamp::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "name", name );
-    json.member( "pos", pos );
+    json.member( "pos", omt_pos );
     json.member( "bb_pos", bb_pos );
     json.member( "sort_points" );
     json.start_array();
@@ -2904,7 +2950,7 @@ void basecamp::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "name", name );
-    data.read( "pos", pos );
+    data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     JsonArray ja = data.get_array( "sort_points" );
     while( ja.has_more() ) {
@@ -2927,4 +2973,3 @@ void basecamp::deserialize( JsonIn &jsin )
         }
     }
 }
-

@@ -8,7 +8,6 @@
 #include <sstream>
 
 #include "ammo.h"
-#include "catalua.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -17,6 +16,7 @@
 #include "enums.h"
 #include "game.h"
 #include "item_group.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -208,14 +208,6 @@ void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, con
                                         const time_point &t, float d )
 {
     ( *fptr )( m, terrain_type, mgd, t, d );
-
-    const std::string mapgen_generator_type = "builtin";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -268,6 +260,20 @@ void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup
     }
 }
 
+void check_mapgen_definitions()
+{
+    for( auto &oter_definition : oter_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
+        }
+    }
+    for( auto &oter_definition : nested_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
+        }
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
 ///// 1 - init():
@@ -307,29 +313,6 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
             }
-        } else if( mgtype == "lua" ) { // lua script
-            if( jio.has_string( "script" ) ) { // minified into one\nline
-                const std::string mgscript = jio.get_string( "script" );
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-            } else if( jio.has_array( "script" ) ) { // or 1 line per entry array
-                std::string mgscript;
-                JsonArray jascr = jio.get_array( "script" );
-                while( jascr.has_more() ) {
-                    mgscript += jascr.next_string();
-                    mgscript += "\n";
-                }
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-                // @todo: pass dirname current.json, because the latter two are icky
-                // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).",
-                          id_base.c_str() );
-            }
-#ifndef LUA
-            dbg( D_ERROR ) << "oter_t " << id_base << ": mapgen entry requires a build with LUA=1.";
-#endif
         } else if( mgtype == "json" ) {
             if( jio.has_object( "object" ) ) {
                 JsonObject jo = jio.get_object( "object" );
@@ -343,7 +326,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             debugmsg( "oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
         }
     } else {
-        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").",
+        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\" or \"json\").",
                   id_base.c_str() );
     }
     return ret;
@@ -894,6 +877,7 @@ class jmapgen_liquid_item : public jmapgen_piece
  * Place items from an item group.
  * "item": id of the item group.
  * "chance": chance of items being placed, see @ref map::place_items
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_item_group : public jmapgen_piece
 {
@@ -906,6 +890,7 @@ class jmapgen_item_group : public jmapgen_piece
             if( !item_group::group_is_defined( group_id ) ) {
                 jsi.throw_error( "no such item group", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -1116,6 +1101,7 @@ class jmapgen_vehicle : public jmapgen_piece
  * "item": id of item type to spawn.
  * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
  * "amount": amount of items to spawn.
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_spawn_item : public jmapgen_piece
 {
@@ -1130,6 +1116,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             if( !item::type_is_defined( type ) ) {
                 jsi.throw_error( "no such item type", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -1283,6 +1270,98 @@ class jmapgen_computer : public jmapgen_piece
             for( const auto &opt : failures ) {
                 cpu->add_failure( opt );
             }
+        }
+};
+
+/**
+ * Place an item in furniture (expected to be used with NOITEM SEALED furniture like plants).
+ * "item": item to spawn (object with usual parameters).
+ * "items": item group to spawn (object with usual parameters).
+ * "furniture": furniture to create around it.
+ */
+class jmapgen_sealed_item : public jmapgen_piece
+{
+    public:
+        furn_id furniture;
+        cata::optional<jmapgen_spawn_item> item_spawner;
+        cata::optional<jmapgen_item_group> item_group_spawner;
+        jmapgen_sealed_item( JsonObject &jsi ) : jmapgen_piece()
+            , furniture( jsi.get_string( "furniture" ) ) {
+            if( jsi.has_object( "item" ) ) {
+                JsonObject item_obj = jsi.get_object( "item" );
+                item_spawner = jmapgen_spawn_item( item_obj );
+            }
+            if( jsi.has_object( "items" ) ) {
+                JsonObject items_obj = jsi.get_object( "items" );
+                item_group_spawner = jmapgen_item_group( items_obj );
+            }
+        }
+
+        void check( const std::string &oter_name ) const override {
+            const furn_t &furn = furniture.obj();
+            std::string summary = string_format(
+                                      "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
+                                      oter_name, furn.id.str() );
+
+            if( !furniture.is_valid() ) {
+                debugmsg( "%s which is not valid furniture", summary );
+            }
+
+            if( !item_spawner && !item_group_spawner ) {
+                debugmsg( "%s specifies neither an item nor an item group.  "
+                          "It should specify at least one.",
+                          summary );
+                return;
+            }
+
+            if( furn.has_flag( "PLANT" ) ) {
+                // plant furniture requires exactly one seed item within it
+                if( item_spawner && item_group_spawner ) {
+                    debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
+                              "It should specify exactly one.",
+                              summary );
+                    return;
+                }
+
+                if( item_spawner ) {
+                    int count = item_spawner->amount.get();
+                    if( count != 1 ) {
+                        debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn exactly "
+                                  "one.", summary, count );
+                        return;
+                    }
+                    const itype *spawned_type = item::find_type( item_spawner->type );
+                    if( !spawned_type->seed ) {
+                        debugmsg( "%s (with flag PLANT) spawns item type %s which is not a seed.",
+                                  summary, spawned_type->get_id() );
+                        return;
+                    }
+                }
+
+                if( item_group_spawner ) {
+                    int chance = item_group_spawner->chance.get();
+                    if( chance != 100 ) {
+                        debugmsg( "%s (with flag PLANT) spawns an item group with chance %d.  "
+                                  "It should have chance 100.",
+                                  summary, chance );
+                        return;
+                    }
+
+                    /// @todo: Somehow check that the item group always produces exactly one seed.
+                }
+            }
+        }
+
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float mon_density ) const override {
+            dat.m.furn_set( x.get(), y.get(), f_null );
+            if( item_spawner ) {
+                item_spawner->apply( dat, x, y, mon_density );
+            }
+            if( item_group_spawner ) {
+                item_group_spawner->apply( dat, x, y, mon_density );
+            }
+            dat.m.furn_set( x.get(), y.get(), furniture );
         }
 };
 
@@ -1560,9 +1639,40 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
                     // Using the json object here adds nice formatting and context information
                     jarr.throw_error( err.what() );
                 }
-            } else {
+            } else if( jarr.test_object() ) {
                 JsonObject jsi = jarr.next_object();
                 alter->alternatives.emplace_back( jsi );
+            } else if( jarr.test_array() ) {
+                // If this is an array, it means it is an entry followed by a desired total count of instances.
+                JsonArray piece_and_count_jarr = jarr.next_array();
+                if( piece_and_count_jarr.size() != 2 ) {
+                    piece_and_count_jarr.throw_error( "Array must have exactly two entries: the object, then the count." );
+                }
+
+                // Test if this is a string or object, and then just emplace it.
+                if( piece_and_count_jarr.test_string() ) {
+                    try {
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next_string() );
+                    } catch( const std::runtime_error &err ) {
+                        piece_and_count_jarr.throw_error( err.what() );
+                    }
+                } else if( piece_and_count_jarr.test_object() ) {
+                    JsonObject jsi = piece_and_count_jarr.next_object();
+                    alter->alternatives.emplace_back( jsi );
+                } else {
+                    piece_and_count_jarr.throw_error( "First entry must be a string or object." );
+                }
+
+                if( piece_and_count_jarr.test_int() ) {
+                    // We already emplaced the first instance, so do one less.
+                    int repeat = std::max( 0, piece_and_count_jarr.next_int() - 1 );
+                    PieceType piece_to_repeat = alter->alternatives.back();
+                    for( int i = 0; i < repeat; i++ ) {
+                        alter->alternatives.emplace_back( piece_to_repeat );
+                    }
+                } else {
+                    piece_and_count_jarr.throw_error( "Second entry must be an integer." );
+                }
             }
         }
         vect.push_back( alter );
@@ -1751,7 +1861,9 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
+    new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
+    new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
 
     return new_pal;
 }
@@ -1766,17 +1878,6 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
     // something akin to mapgen fill_background.
     if( jo.has_string( "fill_ter" ) ) {
         fill_ter = ter_str_id( jo.get_string( "fill_ter" ) ).id();
-    }
-
-    if( jo.has_string( "lua" ) ) { // minified into one\nline
-        luascript = jo.get_string( "lua" );
-    } else if( jo.has_array( "lua" ) ) { // or 1 line per entry array
-        luascript.clear();
-        JsonArray jascr = jo.get_array( "lua" );
-        while( jascr.has_more() ) {
-            luascript += jascr.next_string();
-            luascript += "\n";
-        }
     }
 
     if( jo.has_member( "rotation" ) ) {
@@ -1925,6 +2026,59 @@ void mapgen_function_json_base::setup_common()
     is_ready = true; // skip setup attempts from any additional pointers
 }
 
+void mapgen_function_json::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
+}
+
+void mapgen_function_json_nested::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
+}
+
+void mapgen_function_json_base::check_common( const std::string &oter_name ) const
+{
+    auto check_furn = [&]( const furn_id & id ) {
+        const furn_t &furn = id.obj();
+        if( furn.has_flag( "PLANT" ) ) {
+            debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
+                      "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
+                      oter_name, furn.id.str() );
+            // Only report once per mapgen object, otherwise the reports are
+            // very repetitive
+            return true;
+        }
+        return false;
+    };
+
+    for( const ter_furn_id &id : format ) {
+        if( check_furn( id.furn ) ) {
+            return;
+        }
+    }
+
+    for( const jmapgen_setmap &setmap : setmap_points ) {
+        if( setmap.op != JMAPGEN_SETMAP_FURN &&
+            setmap.op != JMAPGEN_SETMAP_LINE_FURN &&
+            setmap.op != JMAPGEN_SETMAP_SQUARE_FURN ) {
+            continue;
+        }
+        furn_id id( setmap.val.get() );
+        if( check_furn( id ) ) {
+            return;
+        }
+    }
+
+    objects.check( oter_name );
+}
+
+void jmapgen_objects::check( const std::string &oter_name ) const
+{
+    for( const jmapgen_obj &obj : objects ) {
+        obj.second->check( oter_name );
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)
 ///// stuff below is the actual in-game map generation (ill)logic
@@ -2070,7 +2224,7 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int off
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md,
-                                     const time_point &t, float d )
+                                     const time_point &, float d )
 {
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
@@ -2080,9 +2234,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     }
     for( auto &elem : setmap_points ) {
         elem.apply( md, 0, 0 );
-    }
-    if( ! luascript.empty() ) {
-        lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
     place_stairs( m, terrain_type, md );
@@ -2094,14 +2245,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     if( terrain_type->is_rotatable() ) {
         mapgen_rotate( m, terrain_type, false );
     }
-
-    const std::string mapgen_generator_type = "json";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y,
@@ -2129,7 +2272,9 @@ void jmapgen_objects::apply( const mapgendata &dat, float density ) const
     for( auto &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
@@ -2149,52 +2294,13 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
         auto where = obj.first;
         where.offset( -offset_x, -offset_y );
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
     }
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-///// lua mapgen functions
-// wip: need more bindings. Basic stuff works
-
-#ifndef LUA
-int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &mgd, const time_point &t,
-                float d, const std::string & )
-{
-    mapgen_crater( m, terrain_type, mgd, to_turn<int>( t ), d );
-    mapf::formatted_set_simple( m, 0, 6,
-                                "\
-    *   *  ***\n\
-    **  * *   *\n\
-    * * * *   *\n\
-    *  ** *   *\n\
-    *   *  ***\n\
-\n\
- *     *   *   *\n\
- *     *   *  * *\n\
- *     *   *  ***\n\
- *     *   * *   *\n\
- *****  ***  *   *\n\
-", mapf::ter_bind( "*", t_paper ), mapf::furn_bind( "*", f_null ) );
-    return 0;
-}
-#endif
-
-void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
-                                    const time_point &t, float d )
-{
-    lua_mapgen( m, terrain_type, mgd, t, d, scr );
-
-    const std::string mapgen_generator_type = "lua";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////
@@ -3900,202 +4006,6 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set( i, j, t_thconc_floor_olight );
                         }
                     }
-                }
-            }
-        }
-
-    } else if( terrain_type == "outpost" ) {
-
-        dat.fill_groundcover();
-
-        line( this, t_chainfence,            0,            0, SEEX * 2 - 1,            0 );
-        line( this, t_chaingate_l,            11,            0,           12,            0 );
-        line( this, t_chainfence,            0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1 );
-        line( this, t_chaingate_l,            11, SEEY * 2 - 1,           12, SEEY * 2 - 1 );
-        line( this, t_chainfence,            0,            0,            0, SEEX * 2 - 1 );
-        line( this, t_chaingate_l,             0,           11,            0,           12 );
-        line( this, t_chainfence, SEEX * 2 - 1,            0, SEEX * 2 - 1, SEEY * 2 - 1 );
-        line( this, t_chaingate_l,  SEEX * 2 - 1,           11, SEEX * 2 - 1,           12 );
-        // Place some random buildings
-
-        bool okay = true;
-        while( okay ) {
-            int buildx = rng( 6, 17 ), buildy = rng( 6, 17 );
-            int buildwidthmax  = ( buildx <= 11 ? buildx - 3 : 20 - buildx ),
-                buildheightmax = ( buildy <= 11 ? buildy - 3 : 20 - buildy );
-            int buildwidth = rng( 3, buildwidthmax ), buildheight = rng( 3, buildheightmax );
-            if( !dat.is_groundcover( ter( buildx, buildy ) ) ) {
-                okay = false;
-            } else {
-                int bx1 = buildx - buildwidth, bx2 = buildx + buildwidth,
-                    by1 = buildy - buildheight, by2 = buildy + buildheight;
-                bool overlap = false;
-                for( int x = bx1; x <= bx2 && !overlap; x++ ) {
-                    for( int y = by1; y <= by2 && !overlap; y++ ) {
-                        if( !dat.is_groundcover( ter( x, y ) ) ) {
-                            overlap = true;
-                        }
-                    }
-                }
-                if( overlap ) {
-                    continue;
-                }
-                square( this, t_floor, bx1, by1, bx2, by2 );
-                line( this, t_concrete_wall, bx1, by1, bx2, by1 );
-                line( this, t_concrete_wall, bx1, by2, bx2, by2 );
-                line( this, t_concrete_wall, bx1, by1, bx1, by2 );
-                line( this, t_concrete_wall, bx2, by1, bx2, by2 );
-                switch( rng( 1, 3 ) ) { // What type of building?
-                    case 1: // Barracks
-                        for( int i = by1 + 1; i <= by2 - 1; i += 2 ) {
-                            line_furn( this, f_bed, bx1 + 1, i, bx1 + 2, i );
-                            line_furn( this, f_bed, bx2 - 2, i, bx2 - 1, i );
-                            place_items( "bed", 50, bx1 + 1, i, bx1 + 2, i, false, 0 );
-                            place_items( "bed", 50, bx2 - 2, i, bx2 - 1, i, false, 0 );
-                        }
-                        place_items( "bedroom", 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0 );
-                        place_items( "book_military", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0 );
-                        break;
-                    case 2: // Armory
-                        line_furn( this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1 );
-                        line_furn( this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1 );
-                        line_furn( this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2 );
-                        line_furn( this, f_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2 );
-                        place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
-                        place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                        place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                        place_items( "guns_launcher_milspec", 40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0 );
-                        place_items( "grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0 );
-                        place_items( "mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0 );
-                        break;
-                    case 3: // Supplies
-                        for( int i = by1 + 1; i <= by2 - 1; i += 3 ) {
-                            line_furn( this, f_rack, bx1 + 2, i, bx2 - 2, i );
-                            place_items( "mil_food", 78, bx1 + 2, i, bx2 - 2, i, false, 0 );
-                        }
-                        break;
-                }
-                std::vector<direction> doorsides;
-                if( bx1 > 3 ) {
-                    doorsides.push_back( WEST );
-                }
-                if( bx2 < 20 ) {
-                    doorsides.push_back( EAST );
-                }
-                if( by1 > 3 ) {
-                    doorsides.push_back( NORTH );
-                }
-                if( by2 < 20 ) {
-                    doorsides.push_back( SOUTH );
-                }
-                int doorx = 0;
-                int doory = 0;
-                switch( random_entry( doorsides ) ) {
-                    case WEST:
-                        doorx = bx1;
-                        doory = rng( by1 + 1, by2 - 1 );
-                        break;
-                    case EAST:
-                        doorx = bx2;
-                        doory = rng( by1 + 1, by2 - 1 );
-                        break;
-                    case NORTH:
-                        doorx = rng( bx1 + 1, bx2 - 1 );
-                        doory = by1;
-                        break;
-                    case SOUTH:
-                        doorx = rng( bx1 + 1, bx2 - 1 );
-                        doory = by2;
-                        break;
-                    default:
-                        break;
-                }
-                for( int i = doorx - 1; i <= doorx + 1; i++ ) {
-                    for( int j = doory - 1; j <= doory + 1; j++ ) {
-                        i_clear( i, j );
-                        if( furn( i, j ) == f_bed || furn( i, j ) == f_rack || furn( i, j ) == f_counter ) {
-                            furn_set( i, j, f_null );
-                        }
-                    }
-                }
-                for( int i = -1; i <= +1; i += 2 ) {
-                    // Wall from another room, make a double door, doesn't look nice,
-                    // but is better than a door leading into wall. Original:
-                    // ---     -+-
-                    // -+- ==> -+-
-                    // ...     ...
-                    if( ter( doorx + i, doory ) == t_concrete_wall && ter( doorx - i, doory ) == t_floor ) {
-                        ter_set( doorx + i, doory, t_door_c );
-                    }
-                    if( ter( doorx, doory + i ) == t_concrete_wall && ter( doorx, doory - i ) == t_floor ) {
-                        ter_set( doorx, doory + i, t_door_c );
-                    }
-                }
-                ter_set( doorx, doory, t_door_c );
-            }
-        }
-
-        // Place turrets by (possible) entrances
-        add_spawn( mon_turret_rifle, 1,  1, 11 );
-        add_spawn( mon_turret_rifle, 1,  1, 12 );
-        add_spawn( mon_turret_rifle, 1, SEEX * 2 - 2, 11 );
-        add_spawn( mon_turret_rifle, 1, SEEX * 2 - 2, 12 );
-        add_spawn( mon_turret_rifle, 1, 11,  1 );
-        add_spawn( mon_turret_rifle, 1, 12,  1 );
-        add_spawn( mon_turret_rifle, 1, 11, SEEY * 2 - 2 );
-        add_spawn( mon_turret_rifle, 1, 12, SEEY * 2 - 2 );
-
-        // Place searchlights
-        if( one_in( 3 ) ) {
-            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this](
-            const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                ter_set( *p, t_plut_generator );
-                add_spawn( mon_turret_searchlight, 1, 1, 1 );
-                add_spawn( mon_turret_searchlight, 1, SEEX * 2 - 2, 1 );
-                add_spawn( mon_turret_searchlight, 1, 1, SEEY * 2 - 2 );
-                add_spawn( mon_turret_searchlight, 1, SEEX * 2 - 2, SEEY * 2 - 2 );
-            }
-        }
-
-        // Finally, scatter dead bodies / mil zombies
-        for( int i = 0; i < 20; i++ ) {
-            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this](
-            const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                if( one_in( 5 ) ) { // Military zombie
-                    add_spawn( mon_zombie_soldier, 1, p->x, p->y );
-                } else if( one_in( 2 ) ) {
-                    add_item( *p, item::make_corpse( mon_zombie_soldier ) );
-                    if( one_in( 3 ) ) {
-                        place_items( "mon_zombie_soldier_death_drops", 100, *p, *p, true, 0, 100 );
-                    }
-                } else if( one_in( 4 ) ) { // Bionic Op zombie!
-                    add_spawn( mon_zombie_bio_op, 1, p->x, p->y );
-                } else if( one_in( 4 ) ) {
-                    if( one_in( 10 ) ) {
-                        add_spawn( mon_zombie_grenadier_elite, 1, p->x, p->y );
-                    } else {
-                        add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
-                    }
-                } else if( one_in( 4 ) ) { // Zombie Burner
-                    if( one_in( 5 ) ) {
-                        add_spawn( mon_zombie_flamer, 1, p->x, p->y );
-                    }
-                } else if( one_in( 20 ) ) {
-                    rough_circle_furn( this, f_rubble, p->x, p->y, rng( 3, 6 ) );
-                }
-            }
-        }
-        // Oh wait--let's also put radiation in any rubble
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                int extra_radiation = ( one_in( 5 ) ? rng( 1, 2 ) : 0 );
-                adjust_radiation( i, j, extra_radiation );
-                if( furn( i, j ) == f_rubble ) {
-                    adjust_radiation( i, j, rng( 1, 3 ) );
                 }
             }
         }
@@ -5896,9 +5806,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             for( int a = 0; a < 21; a++ ) {
                 vset.push_back( a );
             }
-            static auto eng = std::default_random_engine(
-                                  std::chrono::system_clock::now().time_since_epoch().count() );
-            std::shuffle( vset.begin(), vset.end(), eng );
+            std::shuffle( vset.begin(), vset.end(), rng_get_engine() );
             for( int a = 0; a < vnum; a++ ) {
                 if( vset[a] < 12 ) {
                     if( one_in( 2 ) ) {
@@ -6928,11 +6836,13 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     // that the mount at (0,0) is located at the spawn position.
     veh->precalc_mounts( 0, dir, point() );
     //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
-    vehicle *placed_vehicle = add_vehicle_to_map( std::move( veh ), merge_wrecks );
+    std::unique_ptr<vehicle> placed_vehicle_up =
+        add_vehicle_to_map( std::move( veh ), merge_wrecks );
+    vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
         submap *place_on_submap = get_submap_at_grid( { placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz} );
-        place_on_submap->vehicles.push_back( placed_vehicle );
+        place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
 
         auto &ch = get_cache( placed_vehicle->smz );
@@ -6953,7 +6863,8 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
  * @param merge_wrecks Whether crashed vehicles become part of each other
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge_wrecks )
+std::unique_ptr<vehicle> map::add_vehicle_to_map(
+    std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
@@ -7029,7 +6940,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
             std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
 
             // Try again with the wreckage
-            vehicle *new_veh = add_vehicle_to_map( std::move( wreckage ), true );
+            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
             if( new_veh != nullptr ) {
                 new_veh->smash();
                 return new_veh;
@@ -7060,7 +6971,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
         veh->smash();
     }
 
-    return veh.release();
+    return veh;
 }
 
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
@@ -7144,7 +7055,7 @@ void map::rotate( int turns )
     int radrot [SEEX * 2][SEEY * 2];
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
-    std::vector<vehicle *> vehrot[MAPSIZE * MAPSIZE];
+    std::vector<std::unique_ptr<vehicle>> vehrot[MAPSIZE * MAPSIZE];
     std::vector<submap::cosmetic_t> cosmetics_rot[MAPSIZE * MAPSIZE];
     std::unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
@@ -7261,7 +7172,7 @@ void map::rotate( int turns )
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             const size_t i = get_nonant( { gridx, gridy } );
             for( auto &v : vehrot[i] ) {
-                vehicle *veh = v;
+                vehicle *veh = v.get();
                 // turn the steering wheel, vehicle::turn does not actually
                 // move the vehicle.
                 veh->turn( turns * 90 );

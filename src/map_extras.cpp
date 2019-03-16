@@ -316,38 +316,81 @@ void mx_collegekids( map &m, const tripoint & )
 
 void mx_roadblock( map &m, const tripoint &abs_sub )
 {
-    // Currently doesn't handle adjacency to turns or intersections well, we may want to abort in future
-    bool rotated = false;
     std::string north = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 - 1, abs_sub.z ).id().c_str();
     std::string south = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 + 1, abs_sub.z ).id().c_str();
-    if( north.find( "road_" ) == 0 && south.find( "road_" ) == 0 ) {
-        rotated = true;
-        //Rotate the terrain -90 so that all of the items will be in the correct position
-        //when the entire map is rotated at the end
-        m.rotate( 3 );
+    std::string west = overmap_buffer.ter( abs_sub.x / 2 - 1, abs_sub.y / 2, abs_sub.z ).id().c_str();
+    std::string east = overmap_buffer.ter( abs_sub.x / 2 + 1, abs_sub.y / 2, abs_sub.z ).id().c_str();
+
+    bool northroad = false;
+    bool eastroad = false;
+    bool southroad = false;
+    bool westroad = false;
+
+    if( north.find( "road_" ) == 0 ) {
+        northroad = true;
     }
+    if( east.find( "road_" ) == 0 ) {
+        eastroad = true;
+    }
+    if( south.find( "road_" ) == 0 ) {
+        southroad = true;
+    }
+    if( west.find( "road_" ) == 0 ) {
+        westroad = true;
+    }
+
+    const auto spawn_turret = [&]( int x, int y ) {
+        if( one_in( 2 ) ) {
+            m.add_spawn( mon_turret_bmg, 1, x, y );
+        } else {
+            m.add_spawn( mon_turret_rifle, 1, x, y );
+        }
+    };
     bool mil = false;
     if( one_in( 3 ) ) {
         mil = true;
     }
     if( mil ) { //Military doesn't joke around with their barricades!
-        line( &m, t_fence_barbed, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10 );
-        line( &m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
-        line( &m, t_fence_barbed, 3, 4, 3, 10 );
-        line( &m, t_fence_barbed, 1, 13, 1, 19 );
+
+        if( northroad ) {
+            line( &m, t_fence_barbed, 4, 3, 10, 3 );
+            line( &m, t_fence_barbed, 13, 3, 19, 3 );
+        }
+        if( eastroad ) {
+            line( &m, t_fence_barbed, SEEX * 2 - 3, 4, SEEX * 2 - 3, 10 );
+            line( &m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
+        }
+        if( southroad ) {
+            line( &m, t_fence_barbed, 4, SEEY * 2 - 3, 10, SEEY * 2 - 3 );
+            line( &m, t_fence_barbed, 13, SEEY * 2 - 3, 19, SEEY * 2 - 3 );
+        }
+        if( eastroad ) {
+            line( &m, t_fence_barbed, 3, 4, 3, 10 );
+            line( &m, t_fence_barbed, 3, 13, 3, 19 );
+        }
         if( one_in( 3 ) ) { // Chicken delivery
-            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 5, abs_sub.z ), 0, 70,
+            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 7, abs_sub.z ), 0, 70,
                            -1 );
             m.add_spawn( mon_chickenbot, 1, 12, 12 );
         } else if( one_in( 2 ) ) { // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1 );
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 8, 0, 70, -1 );
             m.add_spawn( mon_tankbot, 1, 12, 12 );
         } else {  // Vehicle & turrets
-            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 5, abs_sub.z ), 0, 70,
+            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
                            -1 );
-            m.add_spawn( mon_turret_bmg, 1, 12, 12 );
-            m.add_spawn( mon_turret_rifle, 1, 9, 12 );
+            if( northroad ) {
+                spawn_turret( 12, 6 );
+            }
+            if( eastroad ) {
+                spawn_turret( 18, 12 );
+            }
+            if( southroad ) {
+                spawn_turret( 12, 18 );
+            }
+            if( westroad ) {
+                spawn_turret( 6, 12 );
+            }
         }
 
         int num_bodies = dice( 2, 5 );
@@ -364,15 +407,30 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
             }
         }
     } else { // Police roadblock
-        line_furn( &m, f_barricade_road, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10 );
-        line_furn( &m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
-        line_furn( &m, f_barricade_road, 3, 4, 3, 10 );
-        line_furn( &m, f_barricade_road, 1, 13, 1, 19 );
-        m.add_vehicle( vproto_id( "policecar" ), 8, 5, 20 );
-        m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145 );
-        m.add_spawn( mon_turret, 1, 1, 12 );
-        m.add_spawn( mon_turret, 1, SEEX * 2 - 1, 12 );
 
+        if( northroad ) {
+            line_furn( &m, f_barricade_road, 4, 3, 10, 3 );
+            line_furn( &m, f_barricade_road, 13, 3, 19, 3 );
+            m.add_spawn( mon_turret, 1, 12, 1 );
+        }
+        if( eastroad ) {
+            line_furn( &m, f_barricade_road, SEEX * 2 - 3, 4, SEEX * 2 - 3, 10 );
+            line_furn( &m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
+            m.add_spawn( mon_turret, 1, SEEX * 2 - 1, 12 );
+        }
+        if( southroad ) {
+            line_furn( &m, f_barricade_road, 4, SEEY * 2 - 3, 10, SEEY * 2 - 3 );
+            line_furn( &m, f_barricade_road, 13, SEEY * 2 - 3, 19, SEEY * 2 - 3 );
+            m.add_spawn( mon_turret, 1, 12, SEEY * 2 - 1 );
+        }
+        if( westroad ) {
+            line_furn( &m, f_barricade_road, 3, 4, 3, 10 );
+            line_furn( &m, f_barricade_road, 3, 13, 3, 19 );
+            m.add_spawn( mon_turret, 1, 1, 12 );
+        }
+
+        m.add_vehicle( vproto_id( "policecar" ), 8, 6, 20 );
+        m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 6, 145 );
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -386,9 +444,6 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
                 }
             }
         }
-    }
-    if( rotated ) {
-        m.rotate( 1 );
     }
 }
 
@@ -635,16 +690,79 @@ void mx_crater( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_fumarole( map &m, const tripoint & )
+void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
 {
-    int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
-        x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
+    // Tracks points nearby for ignition after the lava is placed
+    //std::set<point> ignited;
+
     std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
     for( auto &i : fumarole ) {
         m.ter_set( i.x, i.y, t_lava );
+
+        // Add all adjacent tiles (even on diagonals) for possible ignition
+        // Since they're being added to a set, duplicates won't occur
+        ignited.insert( point( i.x - 1, i.y - 1 ) );
+        ignited.insert( point( i.x,     i.y - 1 ) );
+        ignited.insert( point( i.x + 1, i.y - 1 ) );
+        ignited.insert( point( i.x - 1, i.y ) );
+        ignited.insert( point( i.x + 1, i.y ) );
+        ignited.insert( point( i.x - 1, i.y + 1 ) );
+        ignited.insert( point( i.x,     i.y + 1 ) );
+        ignited.insert( point( i.x + 1, i.y + 1 ) );
+
         if( one_in( 6 ) ) {
             m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
         }
+    }
+
+}
+
+void mx_fumarole( map &m, const tripoint &abs_sub )
+{
+    if( abs_sub.z <= 0 ) {
+        int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
+            x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
+
+        // Pick a random cardinal direction to also spawn lava in
+        // This will make the lava a single connected line, not just on diagonals
+        std::vector<direction> possibilities;
+        possibilities.push_back( EAST );
+        possibilities.push_back( WEST );
+        possibilities.push_back( NORTH );
+        possibilities.push_back( SOUTH );
+        const direction extra_lava_dir = random_entry( possibilities );
+        int x_extra = 0;
+        int y_extra = 0;
+        switch( extra_lava_dir ) {
+            case NORTH:
+                y_extra = -1;
+                break;
+            case EAST:
+                x_extra = 1;
+                break;
+            case SOUTH:
+                y_extra = 1;
+                break;
+            case WEST:
+                x_extra = -1;
+                break;
+            default:
+                break;
+        }
+
+        std::set<point> ignited;
+        place_fumarole( m, x1, y1, x2, y2, ignited );
+        place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+
+        for( auto &i : ignited ) {
+            // Don't need to do anything to tiles that already have lava on them
+            if( m.ter( i.x, i.y ) != t_lava ) {
+                // Spawn an intense but short-lived fire
+                // Any furniture or buildings will catch fire, otherwise it will burn out quickly
+                m.add_field( tripoint( i.x, i.y, abs_sub.z ), fd_fire, 15, 10_turns );
+            }
+        }
+
     }
 }
 

@@ -285,6 +285,12 @@
   },
   {
     "type": "effect_type",
+    "id": "glowy_led",
+    "apply_message": "You are emitting a LED glow",
+    "rating": "mixed"
+  },
+  {
+    "type": "effect_type",
     "id": "stung",
     "name": [ "Stung" ],
     "desc": [ "You have been stung!" ],
@@ -529,6 +535,14 @@
     "name": [ "Stuck in Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "no_sight",
+    "name": [ "Poor sight" ],
+    "desc": [ "You can't see very far from this spot." ],
+    "apply_message": "Your sight distance is impaired.",
+    "rating": "bad"
   },
   {
     "type": "effect_type",

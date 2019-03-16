@@ -62,13 +62,6 @@ class Item_factory
          * This should be called once after all json data has been loaded.
          */
         void check_definitions() const;
-        /**
-         * Registers a LUA based iuse function.
-         * @param name The name that is used in the json data to refer to the LUA function.
-         * It is stored in @ref iuse_function_list
-         * @param lua_function The LUA id of the LUA function.
-         */
-        void register_iuse_lua( const std::string &name, int lua_function );
 
         /**
          * @name Item groups
@@ -123,12 +116,10 @@ class Item_factory
         Item_spawn_data *get_group( const Group_tag &id );
         /**
          * Returns the idents of all item groups that are known.
-         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          */
         std::vector<Group_tag> get_all_group_names();
         /**
          * Sets the chance of the specified item in the group.
-         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          * @param group_id Group to add item to
          * @param item_id Id of item to add to group
          * @param weight The relative weight of the item. A value of 0 removes the item from the
