@@ -165,6 +165,24 @@
       ],
       "palettes": [ "lab_upstairs_palette" ],
       "place_nested": [
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 24, "y": [ 45, 47 ] },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 24, "y": [ 48, 57 ], "repeat": 4 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 24, "y": [ 60, 69 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 24, "y": [ 72, 81 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 24, "y": [ 84, 93 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 30, "y": [ 36, 45 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 30, "y": [ 48, 57 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 30, "y": [ 59, 69 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 30, "y": [ 72, 81 ], "repeat": 5 },
+        
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 89, "y": [ 45, 47 ] },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 89, "y": [ 48, 57 ], "repeat": 4 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 89, "y": [ 72, 81 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 95, "y": [ 48, 57 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 95, "y": [ 59, 69 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 95, "y": [ 72, 81 ], "repeat": 5 },
+        { "chunks": [ "surface_sub_hall_clutter" ], "x": 95, "y": [ 84, 93 ], "repeat": 5 },
+        
         { "chunks": [ "lab_surface_office_5x5" ], "x": 12, "y": 36 },
         { "chunks": [ "lab_surface_2partworkspace_front_5x5" ], "x": 18, "y": 42 },
         { "chunks": [ "lab_surface_2partworkspace_back_5x5" ], "x": 12, "y": 42 },
@@ -224,40 +242,6 @@
         { "chunks": [ "lab_surface_2partworkspace_front_5x5" ], "x": 97, "y": 106 },
         { "chunks": [ "lab_surface_2partworkspace_back_5x5" ], "x": 103, "y": 106 }
       ]
-    }
-  },
-  {
-    "//": "4x4 office with south wall door on west side",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
-    "object": {
-      "mapgensize": [ 4, 4 ],
-      "rotation": [ 0, 0 ],
-      "rows": [ 
-	    "dddd", 
-		"i c ", 
-		"    ", 
-		" HHH" ],
-      "furniture": { "i": "f_filing_cabinet" },
-      "palettes": [ "lab_surface_palette" ]
-    }
-  },
-  {
-    "//": "4x4 office with south wall door on east side",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
-    "object": {
-      "mapgensize": [ 4, 4 ],
-      "rotation": [ 0, 0 ],
-      "rows": [ 
-	    "dddd", 
-		"ic  ", 
-		"B   ", 
-		"BBB " ],
-      "furniture": { "i": "f_filing_cabinet" },
-      "palettes": [ "lab_surface_palette" ]
     }
   }
 ]

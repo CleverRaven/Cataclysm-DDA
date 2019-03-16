@@ -1,5 +1,71 @@
 [
   {
+    "//": "4x4 fancy office upstairs on West side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+	    "H dd",
+		"H cd", 
+		"   d", 
+		" BBB" ],
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office upstairs on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+	    "dd H",
+	    "dc H",
+		"d   ",
+        "BBB " ],
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ 
+	    "dddd", 
+		"i c ", 
+		"    ", 
+		" HHH" ],
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on east side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ 
+	    "dddd", 
+		"ic  ", 
+		"B   ", 
+		"BBB " ],
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
     "//": "5x5 offices",
     "type": "mapgen",
     "method": "json",
@@ -139,6 +205,40 @@
       "rows": [ "xx1xx", "cc cc", "     ", "cc cc", "xx1xx" ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor", "1": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab front room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+	    "bb  f",
+		"Hs  f",
+		"     ",
+		"os   ",
+		"bbbbS" ],
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab back room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ 
+	    "bbSbb",
+		"bs sb",
+		"     ",
+		"     ",
+		"hhhf8" ],
+      "palettes": [ "lab_workspace_palette" ]
     }
   },
   {
@@ -376,6 +476,7 @@
       ],
       "terrain": {
         " ": "t_strconc_floor",
+        "#": "t_brick_wall",
         "A": "t_strconc_floor",
         "B": "t_strconc_floor",
         "C": "t_strconc_floor",
@@ -426,6 +527,56 @@
           ]
         }
       }
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors left side bottom",
+	"//2": "analytical lab with GC/HPLC/MS and NMR",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "ff8|CNC|FFb",
+        "   |   |ssb",
+        "::=|::=|  S",
+        "          U",
+        "GM   MH   U",
+        "bs  sbbs  b",
+        "bs  sbbs  b",
+        "bb&  So   a",
+        "####      S",
+        "Ulf#e     C",
+        "   =    &CC"
+      ],
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors right side bottom",
+	"//2": "micriobio lab with EM and shakers",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "bbi|hhh|ff8",
+		"Fs |   |   ",
+		"b  |A:A|=::",
+		"Fs         ",
+		"b   Eb   ob",
+		"b  sbbs  sb",
+		"b  sbbs  sb",
+		"a   So  &bb",
+		"S      ####",
+		"S     e#Ulf",
+		"CC&    =   "
+      ],
+      "palettes": [ "lab_workspace_palette" ]
     }
   },
   {
@@ -661,13 +812,12 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "terrain": { "X": "t_strconc_floor" },
-      "furniture": { "X": "f_cabinet" },
+      "furniture": { "X": "f_counter" },
       "place_items": [
-		{ "item": "snacks", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] },
-        { "item": "microwave", "x": 0, "y": 0 }
+		{ "item": "snacks", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] }
 	  ]
     }
-  }
+  },
   {
     "type": "mapgen",
     "method": "json",
@@ -680,6 +830,52 @@
       "place_items": [
 		{ "item": "fridge", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] },
 		{ "item": "fridgesnacks", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] }        
+	  ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_hall_clutter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": "f_IV_pole" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_hall_clutter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": "f_autoclave" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_hall_clutter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_machinery_old" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_hall_clutter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": "f_glass_cabinet" },
+      "place_items": [
+		{ "item": "lab_bookshelves", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] }
 	  ]
     }
   }
