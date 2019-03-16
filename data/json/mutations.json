@@ -32,7 +32,7 @@
         "threshreq" : ["THRESH_ELFA"],
         "category" : ["ELFA"],
         "cancels" : ["BADHEARING"],
-        "hearing_modifier" : 1.40
+        "hearing_modifier" : 1.50
     },{
         "type" : "mutation",
         "id" : "OUTDOORSMAN",
