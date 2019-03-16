@@ -32,7 +32,7 @@ const efftype_id effect_sleep( "sleep" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
-static const trait_id trait_GOODHEARING( "GOODHEARING2" );
+static const trait_id trait_GOODHEARING2( "GOODHEARING2" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
 
 /**
