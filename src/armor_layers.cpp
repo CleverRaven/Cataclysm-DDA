@@ -302,6 +302,10 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     if( worn_item.has_flag( "POCKETS" ) ) {
         description_stack.push_back( _( "It has pockets." ) );
     }
+    // "neoprene_padded" is not a json flag on its own, but is added by modifying it with neoprene sheets
+    if( worn_item.has_flag( "neoprene_padded" ) ) {
+        description_stack.push_back( _( "It keeps out the rain." ) );
+    }
     if( worn_item.has_flag( "WATERPROOF" ) ) {
         description_stack.push_back( _( "It is waterproof." ) );
     }

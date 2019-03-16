@@ -1557,7 +1557,7 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     // Returns true if the item already has the mod or if we have enough materials and thread to add it
     const auto can_add_mod = [&]( const std::string & new_mod, const itype_id & mat_item ) {
         return ( mod.item_tags.count( new_mod ) > 0 ||
-                 ( it->charges >= thread_needed && has_enough[mat_item] ) && mod.get_coverage() >= 40 );
+                 ( it->charges >= thread_needed && has_enough[mat_item] ) );
     };
 
     uilist tmenu;
