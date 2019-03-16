@@ -21,7 +21,6 @@
 #include "string_input_popup.h"
 #include "translations.h"
 
-
 safemode &get_safemode()
 {
     static safemode single_instance;

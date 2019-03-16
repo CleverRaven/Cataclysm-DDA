@@ -1415,7 +1415,6 @@ void advanced_inventory::display()
     g->u.inv.restack( g->u );
 
     input_context ctxt( "ADVANCED_INVENTORY" );
-
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "UP" );
