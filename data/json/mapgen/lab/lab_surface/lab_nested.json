@@ -12,6 +12,11 @@
 		"H cd", 
 		"   d", 
 		" BBB" ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -28,6 +33,11 @@
 	    "dc H",
 		"d   ",
         "BBB " ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -44,6 +54,12 @@
 		"i c ", 
 		"    ", 
 		" HHH" ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "furniture": { "i": "f_filing_cabinet" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -61,6 +77,12 @@
 		"ic  ", 
 		"B   ", 
 		"BBB " ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "furniture": { "i": "f_filing_cabinet" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -75,6 +97,14 @@
       "rotation": [ 0, 0 ],
       "rows": [ "dB rB", "dc  B", "Bf   ", "dc   ", "dx   " ],
       "terrain": { " ": "t_floor", "f": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "r": { "item": "science", "chance": 80 },
+        "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -98,6 +128,14 @@
         "s": "t_floor",
         "B": "t_floor"
       },
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "r": { "item": "science", "chance": 80 },
+        "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -111,6 +149,14 @@
       "rotation": [ 0, 0 ],
       "rows": [ " rHHH", "    H", "x    ", "dc   ", "ddBB " ],
       "terrain": { " ": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "r": { "item": "science", "chance": 80 },
+        "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -132,6 +178,14 @@
         "c": "t_carpet_red",
         "B": "t_carpet_red"
       },
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "r": { "item": "science", "chance": 80 },
+        "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -152,19 +206,35 @@
         "s": "t_linoleum_gray",
         "B": "t_linoleum_gray"
       },
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "r": { "item": "science", "chance": 80 },
+        "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
+        "B": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] }, { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
   {
-    "//": "5x5 three-seat office",
+    "//": "5x5 meeting room",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_surface_meeting_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "     ", " ctc ", " txt ", " ctc ", "     " ],
+      "rows": [ 
+        "     ",
+        " ctc ", 
+        " txt ", 
+        " ctc ", 
+        "     " ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
+      "items": {
+        "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -178,6 +248,9 @@
       "rotation": [ 0, 0 ],
       "rows": [ " ccc ", "ctttc", "     ", "ctttc", " ccc " ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
+      "items": {
+        "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -221,6 +294,12 @@
 		"     ",
 		"os   ",
 		"bbbbS" ],
+      "items": {
+        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "chem_lab", "chance": 60, "repeat": [ 2, 10 ] },
+        "8": [ { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] }, { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] } ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
       "palettes": [ "lab_workspace_palette" ]
     }
   },
@@ -238,6 +317,12 @@
 		"     ",
 		"     ",
 		"hhhf8" ],
+      "items": {
+        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "chem_lab", "chance": 60, "repeat": [ 2, 10 ] },
+        "8": [ { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] }, { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] } ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
       "palettes": [ "lab_workspace_palette" ]
     }
   },
@@ -252,6 +337,11 @@
       "rows": [ "rrf%%%%%", "r%%%%%%%", "CCCCvvv%", " sss    ", "s    s  ", "ts  sts ", "  s  s  ", " sts    " ],
       "terrain": { "r": "t_linoleum_white", "f": "t_linoleum_white" },
       "furniture": { "v": "f_glass_fridge" },
+      "items": {
+        "v": { "item": "coffee_shop", "chance": 100, "repeat": [ 2, 25 ] },
+        "C": { "item": "coffee_shop", "chance": 80, "repeat": [ 2, 8 ] },
+        "r": { "item": "magazines", "chance": 80, "repeat": [ 2, 15 ] }
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -265,6 +355,9 @@
       "rotation": [ 0, 0 ],
       "rows": [ "HHH   HH", "Httc ctH", "Httc ctH", " cc  ctH", " cc   c ", "Httc    ", "Httc    ", "HHc     " ],
       "furniture": { "c": [ "f_armchair", "f_armchair", "f_null", "f_null", "f_null", "f_null" ] },
+      "items": {
+        "t": { "item": "magazines", "chance": 20 }
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -278,6 +371,9 @@
       "rotation": [ 0, 0 ],
       "rows": [ "HHBHHBHH", "        ", "HHH     ", "ttH  Htt", "     HHH", " c      ", "ctc  ctc", " c      " ],
       "furniture": { "c": "f_armchair" },
+      "items": {
+        "t": { "item": "magazines", "chance": 20 }
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -291,6 +387,11 @@
       "rotation": [ 0, 0 ],
       "rows": [ "tt tt tt", "ss ss ss", "        ", "  ssss  ", "  CCCC  ", "  %%%C  ", "  x%%%  ", "  Cffr  " ],
       "furniture": { "f": "f_glass_fridge" },
+      "items": {
+        "f": { "item": "fridgesnacks", "chance": 100, "repeat": [ 2, 25 ] },
+        "C": { "item": "produce", "chance": 80, "repeat": [ 2, 8 ] },
+        "r": { "item": "magazines", "chance": 80, "repeat": [ 2, 15 ] }
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -315,6 +416,10 @@
         "   ccccc   ",
         "           "
       ],
+      "items": {
+        "c": { "item": "office", "chance": 8 },
+        "t": { "item": "electronics", "chance": 15 }
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -340,6 +445,9 @@
         "           "
       ],
       "terrain": { "%": "t_carpet_yellow" },
+      "items": {
+        "d": { "item": "office", "chance": 25 }
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -390,6 +498,10 @@
         "           "
       ],
       "terrain": { " ": "t_carpet_red", "c": "t_carpet_red", "%": "t_floor", "r": "t_floor", "s": "t_floor", "C": "t_floor" },
+      "items": {
+        "c": { "item": "office", "chance": 10 },
+        "C": { "item": "office", "chance": 45 }
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -437,18 +549,18 @@
       "mapping": {
         "U": {
           "items": [
-            { "item": "tools_mechanic", "chance": 70, "amount": [ 1, 4 ] },
-            { "item": "tools_lighting_industrial", "chance": 40, "amount": [ 1, 2 ] },
-            { "item": "hardware_plumbing", "chance": 70, "amount": [ 5, 15 ] },
-            { "item": "hardware", "chance": 60, "amount": [ 1, 2 ] },
-            { "item": "tools_common", "chance": 80, "amount": [ 1, 2 ] }
+            { "item": "tools_mechanic", "chance": 70, "repeat": [ 1, 4 ] },
+            { "item": "tools_lighting_industrial", "chance": 40, "repeat": [ 1, 2 ] },
+            { "item": "hardware_plumbing", "chance": 70, "repeat": [ 5, 15 ] },
+            { "item": "hardware", "chance": 60, "repeat": [ 1, 2 ] },
+            { "item": "tools_common", "chance": 80, "repeat": [ 1, 2 ] }
           ]
         }
       },
       "place_liquids": [
-        { "liquid": "water_clean", "amount": [ 200, 600 ], "x": [ 0, 1 ], "y": [ 9, 10 ] },
-        { "liquid": "water_clean", "amount": [ 200, 600 ], "x": [ 3, 4 ], "y": [ 9, 10 ] },
-        { "liquid": "water_clean", "amount": [ 200, 600 ], "x": [ 6, 7 ], "y": [ 9, 10 ] }
+        { "liquid": "water_clean", "repeat": [ 200, 600 ], "x": [ 0, 1 ], "y": [ 9, 10 ] },
+        { "liquid": "water_clean", "repeat": [ 200, 600 ], "x": [ 3, 4 ], "y": [ 9, 10 ] },
+        { "liquid": "water_clean", "repeat": [ 200, 600 ], "x": [ 6, 7 ], "y": [ 9, 10 ] }
       ],
       "palettes": [ "lab_surface_palette" ]
     }
@@ -504,26 +616,26 @@
       "mapping": {
         "U": {
           "items": [
-            { "item": "tools_mechanic", "chance": 90, "amount": [ 1, 4 ] },
-            { "item": "tools_lighting_industrial", "chance": 60, "amount": [ 1, 2 ] },
-            { "item": "tools_electronics", "chance": 90, "amount": [ 1, 4 ] },
-            { "item": "tools_carpentry", "chance": 50, "amount": [ 1, 2 ] },
-            { "item": "tools_construction", "chance": 50, "amount": [ 1, 2 ] }
+            { "item": "tools_mechanic", "chance": 90, "repeat": [ 1, 4 ] },
+            { "item": "tools_lighting_industrial", "chance": 60, "repeat": [ 1, 2 ] },
+            { "item": "tools_electronics", "chance": 90, "repeat": [ 1, 4 ] },
+            { "item": "tools_carpentry", "chance": 50, "repeat": [ 1, 2 ] },
+            { "item": "tools_construction", "chance": 50, "repeat": [ 1, 2 ] }
           ]
         },
         "u": {
           "items": [
-            { "item": "hardware_plumbing", "chance": 60, "amount": [ 1, 4 ] },
-            { "item": "hardware", "chance": 70, "amount": [ 1, 5 ] },
-            { "item": "electronics", "chance": 40, "amount": [ 1, 3 ] },
-            { "item": "hardware_bulk", "chance": 90, "amount": [ 5, 25 ] }
+            { "item": "hardware_plumbing", "chance": 60, "repeat": [ 1, 4 ] },
+            { "item": "hardware", "chance": 70, "repeat": [ 1, 5 ] },
+            { "item": "electronics", "chance": 40, "repeat": [ 1, 3 ] },
+            { "item": "hardware_bulk", "chance": 90, "repeat": [ 5, 25 ] }
           ]
         },
         "C": {
           "items": [
-            { "item": "tools_mechanic", "chance": 30, "amount": [ 1, 2 ] },
-            { "item": "tools_carpentry", "chance": 30, "amount": [ 1, 2 ] },
-            { "item": "tools_common", "chance": 30, "amount": [ 1, 2 ] }
+            { "item": "tools_mechanic", "chance": 30, "repeat": [ 1, 2 ] },
+            { "item": "tools_carpentry", "chance": 30, "repeat": [ 1, 2 ] },
+            { "item": "tools_common", "chance": 30, "repeat": [ 1, 2 ] }
           ]
         }
       }
@@ -539,7 +651,7 @@
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "ff8|CNC|FFb",
+        "ff8|bNb|FFb",
         "   |   |ssb",
         "::=|::=|  S",
         "          U",
@@ -548,9 +660,17 @@
         "bs  sbbs  b",
         "bb&  So   a",
         "####      S",
-        "Ulf#e     C",
+        "Ull#e     C",
         "   =    &CC"
       ],
+      "items": {
+        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "chem_lab", "chance": 60, "repeat": [ 2, 10 ] },
+        "8": [ { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] }, { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] } ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 70, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 70, "repeat": [ 1, 8 ] }
+      },
       "palettes": [ "lab_workspace_palette" ]
     }
   },
@@ -566,16 +686,25 @@
       "rows": [
         "bbi|hhh|ff8",
 		"Fs |   |   ",
-		"b  |A:A|=::",
+		"b  |A=A|=::",
 		"Fs         ",
 		"b   Eb   ob",
 		"b  sbbs  sb",
 		"b  sbbs  sb",
 		"a   So  &bb",
 		"S      ####",
-		"S     e#Ulf",
+		"S     e#Ull",
 		"CC&    =   "
       ],
+      "items": {
+        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "harddrugs", "chance": 60, "repeat": [ 2, 10 ] },
+        "8": [ { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] }, { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] } ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 70, "repeat": [ 1, 8 ] },
+        "i": { "item": "office", "chance": 70, "repeat": [ 1, 5 ] },
+        "l": { "item": "lab_torso", "chance": 70, "repeat": [ 1, 8 ] }
+      },
       "palettes": [ "lab_workspace_palette" ]
     }
   },
