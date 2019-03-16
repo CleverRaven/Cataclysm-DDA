@@ -17,7 +17,7 @@
         "points" : 1,
         "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
         "starting_trait" : true,
-        "changes_to" : ["TOUGH2"],
+        "changes_to" : ["GOODHEARING2"],
         "category" : ["ALPHA", "ELFA", "MOUSE"],
         "cancels" : ["BADHEARING"],
         "hearing_modifier" : 1.25
