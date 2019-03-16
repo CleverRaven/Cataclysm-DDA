@@ -1129,6 +1129,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             if( route.empty() ) {
                                 add_msg( m_info, _( "%s can't reach the source tile. Try to sort out loot without a cart." ),
                                          p.disp_name() );
+                                mgr.end_sort();
                                 return;
                             }
 
@@ -1157,6 +1158,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                 if( p.moves <= 0 ) {
                     // Restart activity and break from cycle.
                     p.assign_activity( act_move_loot );
+                    mgr.end_sort();
                     return;
                 }
             }
