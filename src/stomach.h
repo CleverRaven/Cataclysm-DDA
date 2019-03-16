@@ -95,6 +95,9 @@ class stomach_contents
         // does not empty absorbed calories
         bool store_absorbed( player &p );
 
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &json );
+
     private:
 
         // vitamins in stomach_contents

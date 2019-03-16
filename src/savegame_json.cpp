@@ -777,6 +777,9 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "vitamin_levels", vitamin_levels );
 
+    json.member( "stomach", stomach );
+    json.member( "guts", guts );
+
     morale->store( json );
 
     // mission stuff
@@ -903,6 +906,9 @@ void player::deserialize( JsonIn &jsin )
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[ v.first ] = lvl;
     }
+
+    data.read( "stomach", stomach );
+    data.read( "guts", guts );
 
     morale->load( data );
 

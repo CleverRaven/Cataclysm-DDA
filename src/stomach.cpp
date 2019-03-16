@@ -1,5 +1,6 @@
 #include "calendar.h"
 #include "creature.h"
+#include "json.h"
 #include "player.h"
 #include "stomach.h"
 #include "units.h"
@@ -11,6 +12,45 @@ stomach_contents::stomach_contents( units::volume max_vol )
 {
     max_volume = max_vol;
     last_ate = calendar::before_time_starts;
+}
+
+std::string ml_to_string( units::volume vol )
+{
+    return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
+}
+
+void stomach_contents::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "vitamins", vitamins );
+    json.member( "vitamins_absorbed", vitamins_absorbed );
+    json.member( "calories", calories );
+    json.member( "water", ml_to_string( water ) );
+    json.member( "max_volume", ml_to_string( max_volume ) );
+    json.member( "contents", ml_to_string( contents ) );
+    json.member( "last_ate", last_ate );
+    json.end_object();
+}
+
+units::volume string_to_ml( std::string str )
+{
+    return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
+}
+
+void stomach_contents::deserialize( JsonIn &json )
+{
+    JsonObject jo = json.get_object();
+    jo.read( "vitamins", vitamins );
+    jo.read( "vitamins_absorbed", vitamins_absorbed );
+    jo.read( "calories", calories );
+    std::string str;
+    jo.read( "water", str );
+    water = string_to_ml( str );
+    jo.read( "max_volume", str );
+    max_volume = string_to_ml( str );
+    jo.read( "contents", str );
+    contents = string_to_ml( str );
+    jo.read( "last_ate", last_ate );
 }
 
 units::volume stomach_contents::capacity() const
