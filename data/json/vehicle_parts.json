@@ -1242,6 +1242,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "xl_water_wheel",
+    "name": "large water wheel",
+    "symbol": "o",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 80,
+    "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",
+    "epower": 180,
+    "item": "xl_water_wheel",
+    "difficulty": 6,
+    "location": "center",
+    "flags": [ "WATER_WHEEL", "TOOL_WRENCH", "OBSTACLE", "EXTRA_DRAG" ],
+    "requirements": {
+      "install": { "time": 75000, "skills": [ [ "mechanics", 6 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 6000, "using": [ [ "rope_natural_short", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "breaks_into": [ { "item": "splinter", "count": [ 60, 100 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "solar_panel",
     "name": "solar panel",
     "symbol": "#",
