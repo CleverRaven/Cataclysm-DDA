@@ -4441,7 +4441,7 @@
     "volume": 10,
     "price": 35000,
     "bashing": 10,
-    "material": [ "iron" ],
+    "material": [ "iron", "leather" ],
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "HEAD" ],
