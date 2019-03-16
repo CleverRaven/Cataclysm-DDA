@@ -375,7 +375,8 @@ void wet_player( int amount )
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
         g->u.weapon.has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
+        ( !one_in( 50 ) && ( g->u.worn_with_flag( "RAINPROOF" ) ||
+                             g->u.worn_with_flag( "neoprene_padded" ) ) ) ) {
         return;
     }
 

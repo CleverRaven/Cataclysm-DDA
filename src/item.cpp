@@ -2876,7 +2876,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
         maintext = ret.str();
     } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
-               item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
+               item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) +
+               item_tags.count( "neoprene_padded" ) > 0 ) {
         ret.str( "" );
         ret << label( quantity );
         ret << "+1";
@@ -3769,7 +3770,9 @@ int item::get_encumber_when_containing(
     if( item_tags.count( "furred" ) ) {
         encumber += 1 + 4 * coverage / 100;
     }
-
+    if( item_tags.count( "neoprene_padded" ) ) {
+        encumber += 1 + 2 * coverage / 100;
+    }
     if( item_tags.count( "leather_padded" ) ) {
         encumber += ceil( 2 * thickness * coverage / 100.0f );
     }
