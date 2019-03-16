@@ -165,7 +165,7 @@
       [ [ "motor_small", 1 ] ]
     ],
     "byproducts": [ [ "scrap", 6 ] ]
-  }
+  },
   {
     "result": "wheel_caster",
     "type": "recipe",
