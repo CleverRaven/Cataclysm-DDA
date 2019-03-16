@@ -63,6 +63,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["BADKNEES"],
+        "category" : ["ELFA"],
         "movecost_obstacle_modifier" : 0.5
     },{
         "type" : "mutation",
@@ -74,7 +75,7 @@
         "valid" : false,
         "cancels" : ["BADCARDIO"],
         "changes_to" : ["GOODCARDIO2"],
-        "category" : ["ELFA", "FISH", "LUPINE", "MOUSE", "INSECT"],
+        "category" : ["FISH", "LUPINE", "MOUSE", "INSECT"],
         "max_stamina_modifier" : 1.25
     },{
         "type" : "mutation",
