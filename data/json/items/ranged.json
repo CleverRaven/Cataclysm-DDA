@@ -23,7 +23,7 @@
     "durability": 7,
     "clip_size": 150,
     "reload": 50,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "sling",
@@ -113,11 +113,11 @@
     "reload": 400,
     "loudness": 3,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -146,7 +146,7 @@
     "durability": 9,
     "clip_size": 2,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "LAW",
@@ -170,7 +170,7 @@
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   },
   {
     "id": "TANK",
@@ -219,11 +219,11 @@
     "clip_size": 25,
     "reload": 700,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -253,7 +253,7 @@
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun_pipe" ],
-    "valid_mod_locations": [ [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "tihar",
@@ -280,7 +280,7 @@
     "clip_size": 15,
     "reload": 1000,
     "loudness": 18,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "helsing",
@@ -306,7 +306,7 @@
     "clip_size": 8,
     "reload": 1000,
     "loudness": 22,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "mininuke_launcher",
@@ -329,7 +329,8 @@
     "dispersion": 600,
     "durability": 7,
     "clip_size": 1,
-    "reload": 800
+    "reload": 800,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   },
   {
     "id": "m202_flash",
@@ -355,7 +356,7 @@
     "clip_size": 4,
     "reload": 600,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
   },
   {
     "id": "RPG",
@@ -380,7 +381,7 @@
     "durability": 10,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
   },
   {
     "id": "speargun",
@@ -405,7 +406,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "minispeargun",
@@ -428,7 +429,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "doublespeargun",
@@ -453,7 +454,7 @@
     "durability": 7,
     "clip_size": 2,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "airspeargun",
@@ -479,7 +480,7 @@
     "clip_size": 4,
     "reload": 1000,
     "loudness": 11,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "combination_gun",
@@ -504,13 +505,13 @@
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "conversion", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -538,7 +539,8 @@
     "burst": 1,
     "clip_size": 1,
     "reload": 800,
-    "loudness": 200
+    "loudness": 200,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   },
   {
     "id": "watercannon",
@@ -562,7 +564,8 @@
     "durability": 10,
     "burst": 5,
     "clip_size": 100,
-    "reload": 0
+    "reload": 0,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   },
   {
     "id": "abzats",
@@ -588,7 +591,7 @@
     "reload": 800,
     "loudness": 25,
     "barrel_length": 3,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ] ]
   },
   {
     "id": "chemical_thrower",
@@ -613,6 +616,7 @@
     "dispersion": 300,
     "durability": 6,
     "clip_size": 1000,
-    "reload": 10
+    "reload": 10,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]

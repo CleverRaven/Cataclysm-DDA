@@ -23,7 +23,7 @@
     "loudness": 23,
     "ups_charges": 70,
     "reload": 0,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
@@ -50,6 +50,7 @@
     "loudness": 8,
     "ups_charges": 25,
     "reload": 200,
+    "valid_mod_locations": [ [ "sling", 1 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD" ]
   },
@@ -78,12 +79,12 @@
     "ups_charges": 40,
     "reload": 0,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "lens", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
@@ -112,7 +113,7 @@
     "loudness": 15,
     "ups_charges": 40,
     "reload": 600,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
     "flags": [ "NO_UNLOAD" ]
   },
@@ -140,7 +141,6 @@
     "ups_charges": 20,
     "reload": 200,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "lens", 1 ],
@@ -175,7 +175,7 @@
     "loudness": 7,
     "ups_charges": 20,
     "reload": 300,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD" ]
   }
