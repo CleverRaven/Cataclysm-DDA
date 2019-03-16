@@ -1500,6 +1500,7 @@ class player : public Character
         int oxygen;
         int stamina;
         int stamina_max_penalty;
+        int stamina_used;
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;

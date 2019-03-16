@@ -552,6 +552,9 @@ void player::load( JsonObject &data )
     if( !data.read( "stamina_max_penalty", stamina_max_penalty ) ) {
         stamina_max_penalty = 0;
     }
+    if( !data.read( "stamina_used", stamina_used ) ) {
+        stamina_used = 0;
+    }
 
     data.read( "ma_styles", ma_styles );
     // Fix up old ma_styles that doesn't include fake styles
@@ -679,6 +682,7 @@ void player::store( JsonOut &json ) const
 
     json.member( "stamina", stamina );
     json.member( "stamina_max_penalty", stamina_max_penalty );
+    json.member( "stamina_used", stamina_used );
 
     // martial arts
     /*for (int i = 0; i < ma_styles.size(); i++) {

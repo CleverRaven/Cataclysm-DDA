@@ -2330,14 +2330,11 @@ void player::mod_stat( const std::string &stat, float modifier )
         oxygen += modifier;
     } else if( stat == "stamina" ) {
         stamina += modifier;
+        if( modifier < 0 ) {
+            stamina_used += -modifier;
+        }
         stamina = std::min( stamina, get_stamina_max() - get_stamina_max_penalty() );
         stamina = std::max( 0, stamina );
-        if( modifier < 0 ) {
-            int stamina_penalty = roll_remainder( - modifier * g->stamina_penalty_rate *
-                                                  ( 1.0f + mutation_value( "fatigue_modifier" ) ) *
-                                                  ( is_npc() ? 0.25f : 1.0f ) );
-            mod_stamina_max_penalty( stamina_penalty );
-        }
     } else {
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
@@ -4262,11 +4259,6 @@ void player::check_needs_extremes()
 needs_rates player::calc_needs_rates()
 {
     effect &sleep = get_effect( effect_sleep );
-    // No food/thirst/fatigue clock at all
-    const bool debug_ls = has_trait( trait_DEBUG_LS );
-    // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = is_npc() && g->no_npc_food;
-    const bool foodless = debug_ls || npc_no_food;
     const bool has_recycler = has_bionic( bio_recycler );
     const bool asleep = !sleep.is_null();
 
@@ -4548,6 +4540,28 @@ void player::regen( int rate_multiplier )
         radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / 50.0f ) );
     }
 
+    // Apply max stamina penalty and increase needs based on used stamina
+    int stamina_penalty = roll_remainder( stamina_used * g->stamina_penalty_rate *
+                                          ( 1.0f + mutation_value( "fatigue_modifier" ) ) *
+                                          ( is_npc() ? 0.25f : 1.0f ) );
+    mod_stamina_max_penalty( stamina_penalty );
+
+    if( !has_trait( trait_DEBUG_LS ) ) {
+        auto modify_stat = [&]( const std::string & stat, const float & option,
+        const std::string & mutation_mod ) {
+            float mutation_val = 1.0f + mutation_value( mutation_mod );
+            float mod_result = roll_remainder( stamina_used * option * mutation_val );
+            if( is_npc() ) {
+                mod_result *= ( g->no_npc_food ? 0.0f : 0.25f );
+            }
+            mod_stat( stat, mod_result );
+        };
+        modify_stat( "hunger", g->stamina_increase_hunger, "metabolism_modifier" );
+        modify_stat( "fatigue", g->stamina_increase_thirst, "thirst_modifier" );
+        modify_stat( "thirst", g->stamina_increase_fatigue, "fatigue_modifier" );
+    }
+    stamina_used = 0;
+
     // regenerate max stamina
     if( rest > 0 ) {
         float stamina_regen_mutations = 1 + mutation_value( "fatigue_regen_modifier" );
@@ -4610,24 +4624,6 @@ void player::update_stamina( int turns )
         add_effect( effect_winded, 1_turns, num_bp, true );
     } else {
         remove_effect( effect_winded );
-    }
-
-    // Increase needs with stamina recovery
-    // Sleeping character will recover stamina pool, thus regenerate stamina
-    // This regeneration should not increase needs
-    if( !has_effect( effect_sleep ) && !has_trait( trait_DEBUG_LS ) ) {
-        auto modify_stat = [&]( const std::string & stat, const float & option,
-        const std::string & mutation_mod ) {
-            float mutation_val = 1.0f + mutation_value( mutation_mod );
-            float mod_result = roll_remainder( stamina_change * option * mutation_val );
-            if( is_npc() ) {
-                mod_result *= ( g->no_npc_food ? 0.0f : 0.25f );
-            }
-            mod_stat( stat, mod_result );
-        };
-        modify_stat( "hunger", g->stamina_increase_hunger, "metabolism_modifier" );
-        modify_stat( "fatigue", g->stamina_increase_thirst, "thirst_modifier" );
-        modify_stat( "thirst", g->stamina_increase_fatigue, "fatigue_modifier" );
     }
 
     // add info effect
