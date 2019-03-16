@@ -5299,7 +5299,7 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
     return res;
 }
 
-std::string item::ammo_sort_name()
+std::string item::ammo_sort_name() const
 {
     if( is_magazine() || is_gun() || is_tool() ) {
         return ammo_type()->name();

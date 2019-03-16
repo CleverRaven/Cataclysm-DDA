@@ -1548,7 +1548,7 @@ class item : public visitable<item>
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
         /* Get the name to be used when sorting this item by ammo type */
-        std::string ammo_sort_name();
+        std::string ammo_sort_name() const;
 
         /** How many spent casings are contained within this item? */
         int casings_count() const;
