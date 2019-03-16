@@ -1037,7 +1037,7 @@
         "description" : "Your morale will shift up and down at random, often dramatically.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MEDICAL"]
+        "category" : ["ELFA", "MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "SLOWRUNNER",
