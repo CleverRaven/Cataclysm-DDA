@@ -417,12 +417,18 @@
     "id": "home_improvement_superstore",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hdwr_large_entrance_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "hdwr_large_SW_south" },
-      { "point": [ 1, 1, 0 ], "overmap": "hdwr_large_NW_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "hdwr_large_NE_south" },
-      { "point": [ 1, 2, 0 ], "overmap": "hdwr_large_backroom_south" },
-      { "point": [ 0, 2, 0 ], "overmap": "hdwr_large_loadingbay_south" }
+      { "point": [ 0, 0, 0 ], "overmap": "hdwr_large_0_0_0_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "hdwr_large_1_0_0_south" },
+      { "point": [ 1, 1, 0 ], "overmap": "hdwr_large_1_1_0_south" },
+      { "point": [ 0, 1, 0 ], "overmap": "hdwr_large_0_1_0_south" },
+      { "point": [ 1, 2, 0 ], "overmap": "hdwr_large_1_2_0_south" },
+      { "point": [ 0, 2, 0 ], "overmap": "hdwr_large_0_2_0_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "hdwr_large_0_0_1_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "hdwr_large_1_0_1_south" },
+      { "point": [ 1, 1, 1 ], "overmap": "hdwr_large_1_1_1_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "hdwr_large_0_1_1_south" },
+      { "point": [ 1, 2, 1 ], "overmap": "hdwr_large_1_2_1_south" },
+      { "point": [ 0, 2, 1 ], "overmap": "hdwr_large_0_2_1_south" }
     ]
   },
   {
