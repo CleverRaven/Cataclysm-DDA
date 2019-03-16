@@ -408,7 +408,8 @@ void npc::move()
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
-    } else if( target != nullptr && ai_cache.danger > 0 ) {
+    } else if( target != nullptr && ai_cache.danger > 0 &&
+               !rules.has_flag( ally_rule::avoid_combat ) ) {
         action = method_of_attack();
     } else {
         // No present danger
