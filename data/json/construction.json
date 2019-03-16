@@ -773,6 +773,44 @@
   },
   {
     "type": "construction",
+    "description": "Build Concrete Column",
+    "//": "Step 1: rebar cage",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": 120,
+    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "rebar", 16 ] ] ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_reb_cage"
+  },
+  {
+    "type": "construction",
+    "description": "Build Concrete Column",
+    "//": "Step 2: foundation",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": 120,
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_reb_cage",
+    "post_terrain": "t_column_halfway"
+  },
+  {
+    "type": "construction",
+    "description": "Build Concrete Column",
+    "//": "Step 3: finish column",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": 120,
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_column_halfway",
+    "post_terrain": "t_column"
+  },
+  {
+    "type": "construction",
     "description": "Build Metal Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -1572,6 +1610,27 @@
     "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_carpet_green"
+  },
+  {
+    "type": "construction",
+    "description": "Wax Floor",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": 30,
+    "tools": [ [ [ "mop", -1 ], [ "paint_brush", -1 ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "wax", 5 ] ] ],
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_floor_waxed"
+  },
+  {
+    "type": "construction",
+    "description": "Remove Wax From Floor",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 80,
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_floor_waxed",
+    "post_terrain": "t_floor"
   },
   {
     "type": "construction",
