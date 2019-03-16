@@ -2043,6 +2043,7 @@
     "weight": 20,
     "volume": 0,
     "price": 100,
+    "flags": [ "VARSIZE", "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown"
@@ -2057,6 +2058,7 @@
     "volume": 0,
     "price": 100,
     "material": [ "wood" ],
+    "flags": [ "VARSIZE", "FANCY" ],
     "symbol": "u",
     "color": "brown"
   },
