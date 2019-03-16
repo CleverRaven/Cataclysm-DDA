@@ -3113,8 +3113,8 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
 
     auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
-        std::string failure = iexamine::fertilize_failure_reason( *p, tile, fertilizer );
-        return !p->sees( tile ) || !failure.empty();
+        ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
+        return !p->sees( tile ) || !can_fert.success();
     };
 
     auto fertilize = [&]( player & p, const tripoint & tile ) {

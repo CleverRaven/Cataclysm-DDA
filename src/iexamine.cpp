@@ -2040,28 +2040,29 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     }
 }
 
-std::string iexamine::fertilize_failure_reason( player &p, const tripoint &tile,
-        const itype_id &fertilizer )
+ret_val<bool> iexamine::can_fertilize( player &p, const tripoint &tile,
+                                       const itype_id &fertilizer )
 {
     if( !g->m.has_flag_furn( "PLANT", tile ) ) {
-        return _( "Tile isn't a plant" );
+        return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( g->m.i_at( tile ).size() > 1 ) {
-        return _( "Tile is already fertilized" );
+        return ret_val<bool>::make_failure( _( "Tile is already fertilized" ) );
     }
     if( !p.has_charges( fertilizer, 1 ) ) {
-        return string_format( _( "Tried to fertilize with %s, but player doesn't have any." ),
-                              fertilizer.c_str() );
+        return ret_val<bool>::make_failure(
+                   _( "Tried to fertilize with %s, but player doesn't have any." ),
+                   fertilizer.c_str() );
     }
 
-    return std::string();
+    return ret_val<bool>::make_success();
 }
 
 void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer )
 {
-    std::string reason = fertilize_failure_reason( p, tile, fertilizer );
-    if( !reason.empty() ) {
-        debugmsg( reason );
+    ret_val<bool> can_fert = can_fertilize( p, tile, fertilizer );
+    if( !can_fert.success() ) {
+        debugmsg( can_fert.str() );
         return;
     }
 
