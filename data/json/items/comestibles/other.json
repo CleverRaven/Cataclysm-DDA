@@ -344,7 +344,7 @@
     "flags": [ "EATEN_HOT" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
-  }, 
+  },
   {
     "type": "COMESTIBLE",
     "id": "coffee_raw",
