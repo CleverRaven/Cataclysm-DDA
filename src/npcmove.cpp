@@ -78,6 +78,7 @@ enum npc_action : int {
     npc_noop,
     npc_reach_attack,
     npc_aim,
+    npc_player_activity,
     num_npc_actions
 };
 
@@ -524,6 +525,24 @@ void npc::move()
         }
     }
 
+    if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
+        std::vector<tripoint> activity_route = get_auto_move_route();
+        if( !activity_route.empty() && !has_destination_activity() ) {
+            const tripoint final_destination = activity_route.back();
+            update_path( final_destination );
+            if( !path.empty() ) {
+                move_to_next();
+                return;
+            }
+        }
+        if( has_destination_activity() ) {
+            start_destination_activity();
+            action = npc_player_activity;
+        } else if( has_player_activity() ) {
+            action = npc_player_activity;
+        }
+    }
+
     if( action == npc_undecided ) {
         if( is_guarding() ) {
             // if we're in a vehicle, stay in the vehicle
@@ -901,6 +920,10 @@ void npc::execute_action( npc_action action )
         case npc_base_idle:
             // TODO: patrol or sleep or something?
             move_pause();
+            break;
+
+        case npc_player_activity:
+            do_player_activity();
             break;
 
         case npc_undecided:
@@ -2358,6 +2381,32 @@ bool npc::do_pulp()
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
     activity.placement = *pulp_location;
     activity.do_turn( *this );
+    return moves != old_moves;
+}
+
+bool npc::do_player_activity()
+{
+    int old_moves = moves;
+    while( moves > 0 && activity ) {
+        activity.do_turn( *this );
+        if( !is_active() ) {
+            return true;
+        }
+    }
+    /* if the activity is finished, grab any backlog or change the mission */
+    if( !has_destination() && !activity ) {
+        add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+        if( !backlog.empty() ) {
+            activity = backlog.front();
+            backlog.pop_front();
+        } else {
+            mission = NPC_MISSION_NULL;
+            attitude = NPCATT_FOLLOW;
+            // if we loaded after being out of the bubble for a while, we might have more
+            // moves than we need, so clear them
+            set_moves( 0 );
+        }
+    }
     return moves != old_moves;
 }
 
