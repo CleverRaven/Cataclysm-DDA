@@ -861,6 +861,7 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        cata::optional<tripoint> flee_from_pos; // run away from here if no enemies visible
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.

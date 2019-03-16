@@ -110,6 +110,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_run_away",
+    "name": [ "Running away!" ],
+    "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "infection",
     "name": [ "Infection" ],
     "desc": [ "AI tag used for the infected NPC quest.  This is a bug if you have it." ],

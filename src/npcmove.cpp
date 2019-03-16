@@ -58,6 +58,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_npc_run_away( "npc_run_away" );
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -235,54 +236,77 @@ float npc::evaluate_enemy( const Creature &target ) const
 
 void npc::assess_danger()
 {
-    float assessment = 0;
+    float assessment = 0.0f;
+    float worst_danger = 0.0f;
+    cata::optional<tripoint> worst_danger_pos = cata::nullopt;
     for( const monster &critter : g->all_monsters() ) {
-        if( sees( critter ) ) {
+        if( ( is_enemy() || !critter.friendly ) && sees( critter ) ) {
             assessment += critter.type->difficulty;
-            if( critter.type->difficulty > ( 8 + personality.bravery + rng( 0, 5 ) ) &&
-                ( is_enemy() || !critter.friendly ) ) {
+            if( critter.type->difficulty > worst_danger ) {
+                worst_danger = critter.type->difficulty;
+                worst_danger_pos = critter.pos();
+            }
+            if( critter.type->difficulty > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname() );
             }
         }
     }
-    assessment /= 10;
-    if( assessment <= 2 ) {
-        assessment = -10 + 5 * assessment; // Low danger if no monsters around
-    }
-    // Mod for the player
-    if( is_enemy() ) {
-        if( rl_dist( pos(), g->u.pos() ) < 10 ) {
-            if( g->u.weapon.is_gun() ) {
-                assessment += 10;
-            } else {
-                assessment += 10 - rl_dist( pos(), g->u.pos() );
-            }
+    for( const npc &guy : g->all_npcs() ) {
+        if( !sees( guy.pos() ) ) {
+            continue;
         }
-    } else if( is_friend() ) {
-        if( rl_dist( pos(), g->u.pos() ) < 8 ) {
-            if( g->u.weapon.is_gun() ) {
-                assessment -= 8;
-            } else {
-                assessment -= 8 - rl_dist( pos(), g->u.pos() );
+        // cap NPC difficulty at 150
+        float difficulty = std::min( 150.0f, character_danger( guy ) );
+        if( ( is_enemy() && !guy.is_enemy() ) || ( is_friend() && guy.is_enemy() ) ) {
+            assessment += difficulty;
+            if( difficulty > worst_danger ) {
+                worst_danger = difficulty;
+                worst_danger_pos = guy.pos();
             }
+            if( difficulty > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+                warn_about( "monster", 10_minutes, "bandit" );
+            }
+        } else if( ( is_enemy() && guy.is_enemy() ) || ( is_friend() && guy.is_friend() ) ) {
+            float min_danger = -10.0f;
+            if( assessment >= NPC_DANGER_VERY_LOW ) {
+                min_danger = NPC_DANGER_VERY_LOW;
+            }
+            assessment = std::max( min_danger, assessment - difficulty * 0.5f );
         }
     }
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( i == hp_head || i == hp_torso ) {
-            if( hp_cur[i] < hp_max[i] / 4 ) {
-                assessment += 5;
-            } else if( hp_cur[i] < hp_max[i] / 2 ) {
-                assessment += 3;
-            } else if( hp_cur[i] < hp_max[i] * .9 ) {
-                assessment += 1;
+    if( sees( g->u.pos() ) ) {
+        // Mod for the player
+        // cap player difficulty at 150
+        float player_diff = std::min( 150.0f, character_danger( g->u ) );
+        if( is_enemy() ) {
+            assessment += player_diff;
+            if( player_diff > worst_danger ) {
+                worst_danger = player_diff;
+                worst_danger_pos = g->u.pos();
+            }
+            if( player_diff > ( 8 + personality.bravery + rng( 0, 5 ) ) ) {
+                warn_about( "monster", 10_minutes, "maniac" );
             }
         } else {
-            if( hp_cur[i] < hp_max[i] / 4 ) {
-                assessment += 2;
-            } else if( hp_cur[i] < hp_max[i] / 2 ) {
-                assessment += 1;
+            float min_danger = -10.0f;
+            if( assessment >= NPC_DANGER_VERY_LOW ) {
+                min_danger = NPC_DANGER_VERY_LOW;
             }
+            assessment = std::max( min_danger, assessment - player_diff * 0.5f );
         }
+    }
+    assessment *= 0.1f;
+    if( worst_danger_pos && !has_effect( effect_npc_run_away ) ) {
+        float my_diff = std::min( 150.0f, character_danger( *this ) );
+        if( ( my_diff * 0.5 + personality.bravery + rng( 0, 10 ) ) < assessment ) {
+            time_duration run_away_for = 5_turns + 1_turns * rng( 0, 5 );
+            warn_about( "run_away", run_away_for );
+            add_effect( effect_npc_run_away, run_away_for );
+            flee_from_pos.emplace( g->m.getabs( *worst_danger_pos ) );
+        }
+    }
+    if( assessment <= 2.0f ) {
+        assessment = -10.0f + 5.0f * assessment; // Low danger if no monsters around
     }
 
     ai_cache.danger_assessment = assessment;
@@ -321,6 +345,9 @@ void npc::regen_ai_cache()
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
+    if( !has_effect( effect_npc_run_away ) ) {
+        flee_from_pos = cata::nullopt;
+    }
     assess_danger();
     if( old_assessment > NPC_DANGER_VERY_LOW && ai_cache.danger_assessment <= 0 ) {
         warn_about( "relax", 30_minutes );
@@ -378,6 +405,8 @@ void npc::move()
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
     } else if( target == &g->u && attitude == NPCATT_FLEE ) {
+        action = method_of_fleeing();
+    } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
@@ -454,6 +483,8 @@ void npc::execute_action( npc_action action )
     Creature *cur = current_target();
     if( cur != nullptr ) {
         tar = cur->pos();
+    } else if( flee_from_pos ) {
+        tar = g->m.getlocal( *flee_from_pos );
     }
     /*
       debugmsg("%s ran execute_action() with target = %d! Action %s",
@@ -926,19 +957,24 @@ void npc::choose_target()
 
 npc_action npc::method_of_fleeing()
 {
+    if( in_vehicle ) {
+        return npc_undecided;
+    }
     const Creature *target = current_target();
-    if( target == nullptr ) {
+    if( target == nullptr && !flee_from_pos ) {
         // Shouldn't be called
         debugmsg( "Ran npc::method_of_fleeing without a target!" );
         return npc_pause;
-    }
-    const float enemy_speed = target->speed_rating();
-    const tripoint &enemy_loc = target->pos();
-    int distance = rl_dist( pos(), enemy_loc );
+    } else if( target ) {
+        const float enemy_speed = target->speed_rating();
+        const tripoint &enemy_loc = target->pos();
+        int distance = rl_dist( pos(), enemy_loc );
 
-    if( distance < 2 && enemy_speed > speed_rating() ) {
-        // Can't outrun, so attack
-        return method_of_attack();
+        if( distance < 2 && enemy_speed > speed_rating() ) {
+            warn_about( "cant_flee", 1_minutes );
+            // Can't outrun, so attack
+            return method_of_attack();
+        }
     }
 
     return npc_flee;
@@ -3223,6 +3259,10 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
         snip = is_enemy() ? "<kill_player_h>" : "";
+    } else if( type == "run_away" ) {
+        snip = "<run_away>";
+    } else if( type == "cant_flee" ) {
+        snip = "<cant_flee>";
     } else if( type == "speech_noise" ) {
         snip = "<speech_warning>";
     } else if( type == "combat_noise" ) {
