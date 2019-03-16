@@ -20,7 +20,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": 90000,
-    "reversible": false,
     "autolearn": true,
     "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
