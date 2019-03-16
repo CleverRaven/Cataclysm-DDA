@@ -929,7 +929,7 @@
       "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": "f_sample_freezer" },
       "place_items": [
-		{ "item": "hospital_lab", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] }
+		{ "item": "harddrugs", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] }
 	  ]
     }
   },

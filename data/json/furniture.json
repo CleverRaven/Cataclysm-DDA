@@ -4294,13 +4294,13 @@
   {
     "type": "furniture",
     "id": "f_glass_cabinet",
+    "name": "glass front cabinet",
     "symbol": "[",
-    "looks_like": "f_locker",
+    "looks_like": "f_display_rack",
     "description": "A tall storage cabinet with a clear glass window.",
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 8,
-    "looks_like": "f_display_rack",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -5390,7 +5390,6 @@
     "description": "This metal box used to spray hot water and soap at dirty dishes to make them clean and to save people an unpleasant chore.  Now, with the power off and it sitting for a while, it is starting to smell a bit off.",
     "symbol": "{",
     "bgcolor": "white",
-    "looks_like": "f_oven",
     "move_cost_mod": -1,
     "required_str": 13,
     "max_volume": 800,

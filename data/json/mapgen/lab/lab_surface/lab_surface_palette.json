@@ -40,14 +40,16 @@
       "C": "f_counter",
       "c": "f_chair",
       "d": "f_desk",
-      "o": "f_oven",
+      "f": "f_fridge",
       "H": "f_sofa",
+      "l": "f_locker",
+      "L": "f_locker",
+      "o": "f_oven",
+      "r": "f_rack",
+      "S": "f_sink"m
       "s": "f_stool",
       "t": "f_table",
-      "r": "f_rack",
-      "l": "f_locker",
-      "f": "f_fridge",
-      "S": "f_sink"
+      "U": "f_utility_shelf"
     },
     "toilets": { "T": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
@@ -99,6 +101,7 @@
       "h": "f_sofa",
       "H": "f_shower",
       "l": "f_locker",
+      "L": "f_locker",
       "o": "f_oven",
       "r": "f_rack",
       "S": "f_sink",
