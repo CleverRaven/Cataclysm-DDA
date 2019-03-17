@@ -1326,7 +1326,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 }
             }
             if( !platform_exists ) {
-                print_error( _( "CRITICAL ERROR... RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
+                print_error(
+                    _( "CRITICAL ERROR... RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
             }
             if( !error ) {
                 query_any( _( "Press any key..." ) );
@@ -1376,7 +1377,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                     u_exists = true;
                 }
             }
-            if ( !l_exists || p_exists || !u_exists ){
+            if( !l_exists || p_exists || !u_exists ) {
                 query_any( _( "Conveyor belt malfunction.  Press any key..." ) );
                 break;
             }
@@ -1404,25 +1405,25 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             break;
         // extract radiation source material from irradiator
         case COMPACT_EXTRACT_RAD_SOURCE:
-            if ( query_yn( _( "Operation irreversible.  Extract radioactive material?" ) ) ) {
-                    g->u.moves -= 300;
-                    tripoint platform;
-                    bool p_exists = false;
-                    for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
-                        if( g->m.ter( dest ) == t_rad_platform ) {
-                            platform = dest;
-                            p_exists = true;
-                        }
+            if( query_yn( _( "Operation irreversible.  Extract radioactive material?" ) ) ) {
+                g->u.moves -= 300;
+                tripoint platform;
+                bool p_exists = false;
+                for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                    if( g->m.ter( dest ) == t_rad_platform ) {
+                        platform = dest;
+                        p_exists = true;
                     }
-                    if( p_exists ) {
-                        g->m.spawn_item( platform, "cobalt_60", rng ( 8, 15 ) );
-                        g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
-                        remove_option( COMPACT_IRRADIATOR );
-                        remove_option( COMPACT_EXTRACT_RAD_SOURCE );
-                        query_any( _( "Operation complete... press any key." ) );
-                    } else {
-                        query_any( _( "ERROR!  Radiation platform unresponsive... press any key." ) );
-                    }
+                }
+                if( p_exists ) {
+                    g->m.spawn_item( platform, "cobalt_60", rng( 8, 15 ) );
+                    g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
+                    remove_option( COMPACT_IRRADIATOR );
+                    remove_option( COMPACT_EXTRACT_RAD_SOURCE );
+                    query_any( _( "Operation complete... press any key." ) );
+                } else {
+                    query_any( _( "ERROR!  Radiation platform unresponsive... press any key." ) );
+                }
             }
             break;
 
