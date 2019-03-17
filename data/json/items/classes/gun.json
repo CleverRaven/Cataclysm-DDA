@@ -36,6 +36,7 @@
     "name": "base pistol",
     "skill": "pistol",
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -57,7 +58,15 @@
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ]
+    ]
   },
   {
     "abstract": "rifle_base",
@@ -66,6 +75,7 @@
     "name": "base rifle",
     "skill": "rifle",
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -88,6 +98,7 @@
     "name_plural": "rifles with manual actions",
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -121,6 +132,7 @@
     "skill": "shotgun",
     "ammo": "shot",
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

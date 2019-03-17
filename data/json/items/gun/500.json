@@ -19,6 +19,7 @@
     "durability": 8,
     "clip_size": 7,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -48,6 +49,6 @@
     "dispersion": 280,
     "durability": 8,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
   }
 ]

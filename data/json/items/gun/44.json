@@ -20,6 +20,7 @@
     "dispersion": 480,
     "durability": 7,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -54,6 +55,7 @@
     "durability": 8,
     "clip_size": 10,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -85,6 +87,7 @@
     "clip_size": 9,
     "built_in_mods": [ "lemat_revolver_shotgun" ],
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -115,6 +118,7 @@
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -145,6 +149,7 @@
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],

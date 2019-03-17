@@ -19,6 +19,7 @@
     "dispersion": 440,
     "durability": 8,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -52,6 +53,7 @@
     "durability": 8,
     "burst": 15,
     "valid_mod_locations": [
+      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],

@@ -19,6 +19,7 @@
     "dispersion": 480,
     "durability": 8,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -55,6 +56,7 @@
     "burst": 14,
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
+      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -89,6 +91,7 @@
     "dispersion": 480,
     "durability": 8,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

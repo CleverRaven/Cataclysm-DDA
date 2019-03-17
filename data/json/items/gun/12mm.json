@@ -18,6 +18,7 @@
     "durability": 8,
     "ups_charges": 5,
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],

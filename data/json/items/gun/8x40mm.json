@@ -19,6 +19,7 @@
     "dispersion": 175,
     "durability": 9,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -56,6 +57,7 @@
     "barrel_length": 3,
     "built_in_mods": [ "riv_scope", "riv_suppressor" ],
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -88,6 +90,7 @@
     "durability": 9,
     "burst": 5,
     "valid_mod_locations": [
+      [ "accessories", 3 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -150,6 +153,7 @@
     "durability": 9,
     "burst": 5,
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -186,6 +190,7 @@
     "barrel_length": 2,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 20 ] ],
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -221,6 +226,7 @@
     "burst": 10,
     "barrel_length": 2,
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -255,6 +261,7 @@
     "durability": 9,
     "clip_size": 5,
     "valid_mod_locations": [
+      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

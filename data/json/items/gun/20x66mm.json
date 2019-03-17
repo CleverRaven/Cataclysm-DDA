@@ -23,6 +23,7 @@
     "clip_size": 5,
     "barrel_length": 3,
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -54,6 +55,7 @@
     "durability": 9,
     "burst": 4,
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -86,7 +88,7 @@
     "dispersion": 400,
     "durability": 9,
     "default_mods": [ "pistol_stock" ],
-    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }
