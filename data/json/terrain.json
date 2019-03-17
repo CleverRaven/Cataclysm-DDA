@@ -2804,7 +2804,7 @@
   {
     "type": "terrain",
     "id": "t_chickenwire_gate_c",
-    "name": "closed chikcenwire gate",
+    "name": "closed chickenwire gate",
     "description": "A gate for a chickenwire fence with a simple latch system to stay closed.",
     "symbol": "+",
     "color": "brown",
@@ -6036,7 +6036,7 @@
       "str_min": 10,
       "str_max": 40,
       "sound": "glass braking!",
-      "sound_fail": "ker-rash!.",
+      "sound_fail": "ker-rash!",
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "glass_shard", "count": [ 6, 20 ] },

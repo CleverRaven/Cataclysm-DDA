@@ -1179,7 +1179,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
             // if the player can see it
             if( g->u.sees( *z ) ) {
-                add_msg( m_warning, _( "A manhack flies out of one of the holes on the %!" ),
+                add_msg( m_warning, _( "A manhack flies out of one of the holes on the %s!" ),
                          z->name().c_str() );
             }
 
