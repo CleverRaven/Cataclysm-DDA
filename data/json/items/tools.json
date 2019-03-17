@@ -1178,6 +1178,56 @@
     }
   },
   {
+    "id": "bot_dispatch",
+    "type": "TOOL",
+    "name": "inactive riot dispatch",
+    "description": "An inactive Northrop Dispatch, riot model, serving as a mobile assembler and deployer of (mostly) nonlethal manhacks for quelling uprisings.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 10000000,
+    "price_postapoc": 100000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_dispatch_military",
+    "type": "TOOL",
+    "name": "inactive military dispatch",
+    "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 100000000,
+    "price_postapoc": 500000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "brick_kiln",
     "type": "TOOL",
     "name": "brick kiln",
