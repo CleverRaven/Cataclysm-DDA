@@ -45,6 +45,7 @@ const bionic_id bio_digestion( "bio_digestion" );
 const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
 const bionic_id bio_reactor( "bio_reactor" );
+const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
@@ -206,6 +207,11 @@ std::pair<int, int> player::fun_for( const item &comest ) const
             fun_max *= 3;
             fun = fun * 3 / 2;
         }
+    }
+
+    if( has_active_bionic( bio_taste_blocker ) &&
+        power_level > abs( comest.type->comestible->fun ) ) {
+        fun = 0;
     }
 
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
@@ -726,6 +732,10 @@ bool player::eat( item &food, bool force )
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power( rng( 75, 300 ) );
+    }
+
+    if( has_active_bionic( bio_taste_blocker ) ) {
+        charge_power( -abs( food.type->comestible->fun ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
