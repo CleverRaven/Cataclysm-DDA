@@ -1432,15 +1432,17 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item( item_name );
+        item old_item = item( item_name, calendar::turn, count );
         if( u.has_charges( item_name, count ) ) {
             u.use_charges( item_name, count );
         } else if( u.has_amount( item_name, count ) ) {
             u.use_amount( item_name, count );
         } else {
+            //~ %1$s is a translated item name
             popup( _( "You don't have a %1$s!" ), old_item.tname() );
             return;
         }
+        p.i_add( old_item );
 
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
@@ -1450,6 +1452,29 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
             popup( _( "You give %1$s %2$d %3$s" ), p.name, count, old_item.tname() );
         }
         u.cash += cost;
+    };
+}
+
+void talk_effect_fun_t::set_consume_item( bool is_u, const std::string &item_name, int count )
+{
+    function = [is_u, item_name, count]( const dialogue & d ) {
+        // this is stupid, but I couldn't get the assignment to work
+        const auto consume_item = [&]( player & p, const std::string & item_name, int count ) {
+            item old_item( item_name );
+            if( p.has_charges( item_name, count ) ) {
+                p.use_charges( item_name, count );
+            } else if( p.has_amount( item_name, count ) ) {
+                p.use_amount( item_name, count );
+            } else {
+                //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
+                popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item.tname() );
+            }
+        };
+        if( is_u ) {
+            consume_item( *d.alpha, item_name, count );
+        } else {
+            consume_item( *d.beta, item_name, count );
+        }
     };
 }
 
@@ -1656,8 +1681,11 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "npc_lose_trait" ) ) {
         std::string old_trait = jo.get_string( "npc_lose_trait" );
         subeffect_fun.set_remove_trait( false, old_trait );
-    } else if( jo.has_string( "u_buy_item" ) ) {
-        std::string item_name = jo.get_string( "u_buy_item" );
+    } else if( jo.has_int( "u_spend_cash" ) ) {
+        int cash_change = jo.get_int( "u_spend_cash" );
+        subeffect_fun.set_u_spend_cash( cash_change );
+    } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
+               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ) {
         int cost = 0;
         if( jo.has_int( "cost" ) ) {
             cost = jo.get_int( "cost" );
@@ -1670,21 +1698,23 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         if( jo.has_string( "container" ) ) {
             container_name = jo.get_string( "container" );
         }
-        subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
-    } else if( jo.has_int( "u_spend_cash" ) ) {
-        int cash_change = jo.get_int( "u_spend_cash" );
-        subeffect_fun.set_u_spend_cash( cash_change );
-    } else if( jo.has_string( "u_sell_item" ) ) {
-        std::string item_name = jo.get_string( "u_sell_item" );
-        int cost = 0;
-        if( jo.has_int( "cost" ) ) {
-            cost = jo.get_int( "cost" );
+        std::string item_name;
+        if( jo.has_string( "u_sell_item" ) ) {
+            item_name = jo.get_string( "u_sell_item" );
+            subeffect_fun.set_u_sell_item( item_name, cost, count );
+        } else if( jo.has_string( "u_buy_item" ) ) {
+            item_name = jo.get_string( "u_buy_item" );
+            subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
+        } else if( jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ) {
+            bool is_u = true;
+            if( jo.has_string( "u_consume_item" ) ) {
+                item_name = jo.get_string( "u_consume_item" );
+            } else {
+                item_name = jo.get_string( "npc_consume_item" );
+                is_u = false;
+            }
+            subeffect_fun.set_consume_item( is_u, item_name, count );
         }
-        int count = 1;
-        if( jo.has_int( "count" ) ) {
-            count = jo.get_int( "count" );
-        }
-        subeffect_fun.set_u_sell_item( item_name, cost, count );
     } else if( jo.has_string( "npc_change_faction" ) ) {
         std::string faction_name = jo.get_string( "npc_change_faction" );
         subeffect_fun.set_npc_change_faction( faction_name );
