@@ -1494,6 +1494,14 @@ void talk_effect_fun_t::set_npc_change_faction( const std::string &faction_name 
     };
 }
 
+void talk_effect_fun_t::set_npc_change_class( const std::string &class_name )
+{
+    function = [class_name]( const dialogue & d ) {
+        npc &p = *d.beta;
+        p.myclass = npc_class_id( class_name );
+    };
+}
+
 void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
@@ -1715,6 +1723,9 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             }
             subeffect_fun.set_consume_item( is_u, item_name, count );
         }
+    } else if( jo.has_string( "npc_change_class" ) ) {
+        std::string class_name = jo.get_string( "npc_change_class" );
+        subeffect_fun.set_npc_change_class( class_name );
     } else if( jo.has_string( "npc_change_faction" ) ) {
         std::string faction_name = jo.get_string( "npc_change_faction" );
         subeffect_fun.set_npc_change_faction( faction_name );
