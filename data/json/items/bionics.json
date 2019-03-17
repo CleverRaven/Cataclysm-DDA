@@ -892,7 +892,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Taste Receptors Blocker CBM",
-    "description": "A small box is installed in the cavity of your skull.  It blocks transfer of all the data gathered by chemoreceptors in your mouth to the areas of brain responsible for the taste.  When active, it will nullify the taste of all comestibles, both positive and negative.",
+    "description": "A small box is installed in the cavity of your skull.  It blocks transfer of all the data gathered by chemoreceptors in your mouth to the areas of brain responsible for the taste.  When active, it will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
     "price": 40000,
     "difficulty": 4
   },
