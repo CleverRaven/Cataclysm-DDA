@@ -6302,12 +6302,19 @@ void item::fill_with( item &liquid, long amount )
         item &cts = contents.front();
         const float lhs_energy = cts.get_item_thermal_energy();
         const float rhs_energy = liquid.get_item_thermal_energy();
+		if ( rhs_energy < 0){
+			debugmsg( "Poured item has no temperature defined" );
+		}
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
                 cts.weight() ) + to_gram( liquid.weight() ) ) ;
         cts.set_item_specific_energy( combined_specific_energy );
         //use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
                                         liquid.get_relative_rot() ) );
+        cts.mod_charges( amount );
+    } else if( !is_container_empty() ) {
+        // if container already has liquid we need to set the amount
+        item &cts = contents.front();
         cts.mod_charges( amount );
     } else {
         item liquid_copy( liquid );
