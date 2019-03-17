@@ -22,7 +22,7 @@
     "vitamins": [ [ "vitC", 40 ] ],
     "fun": 2
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "almond_milk",
     "name": "almond milk",
@@ -43,7 +43,7 @@
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "soy_milk",
     "name": "soy milk",
@@ -63,8 +63,8 @@
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 6 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
-    },
-    {
+  },
+  {
     "type": "COMESTIBLE",
     "id": "atomic_coffee",
     "name": "atomic coffee",
