@@ -1355,7 +1355,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             break;
         }
 
-        // imitates item movement through conveyor belt throgh 3 different loading/unloading bays
+        // imitates item movement through conveyor belt through 3 different loading/unloading bays
         // ensure only bay of each type in range
         case COMPACT_CONVEYOR: {
             g->u.moves -= 300;
