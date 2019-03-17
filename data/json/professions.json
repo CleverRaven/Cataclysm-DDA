@@ -661,7 +661,7 @@
     "type": "profession",
     "ident": "groundskeeper",
     "name": "Landscaper",
-    "//": "A simple class for players who want to try some basic crafting immediately, or who want a machete because it's in-genre."
+    "//": "A simple class for players who want to try some basic crafting immediately, or who want a machete because it's in-genre.",
     "description": "You used to mow lawns and trim hedges for the wealthy. Contract work was getting scarce even before the zombies came, but now you've got nothing left but your tools and expertise.",
     "points": 1,
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "survival" } ],
@@ -678,7 +678,7 @@
     "type": "profession",
     "ident": "homemaker",
     "name": "Nursing Assistant",
-    "//": "They don't have the doctor's passive bonus to surgery. Nursing assistants aren't required to hold a doctorate."
+    "//": "They don't have the doctor's passive bonus to surgery. Nursing assistants aren't required to hold a doctorate.",
     "description": "You were providing in-home care for the elderly, even as the whole world fell apart around you. You can only pray that you don't see your former clients among the walking dead...",
     "points": 1,
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
