@@ -1117,7 +1117,6 @@
     "name": "Taste Receptors Blocker",
     "description": "A small box is installed in the cavity of your skull.  It blocks transfer of all the data gathered by chemoreceptors in your mouth to the areas of brain responsible for the taste.  When active, it will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
     "occupied_bodyparts": [ [ "HEAD", 1 ], [ "MOUTH", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 10
+    "flags": [ "BIONIC_TOGGLED" ]
   }
 ]
