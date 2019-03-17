@@ -85,3 +85,11 @@ public:
     static void worker();  // Start the writeout thread
     static void prep_out();
 };
+
+class gsi_socket
+{
+public:
+    static int sockInit(void);
+    static int sockQuit(void);
+    static void sockout();
+};

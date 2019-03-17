@@ -22,6 +22,17 @@
 #include <fcntl.h>
 #endif
 
+#ifdef _WIN32
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#pragma comment(lib, "Ws2_32.lib")
+#else
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <unistd.h>
+#endif
+
 std::mutex m;
 std::mutex otherMutex;
 std::mutex writeout;
@@ -222,11 +233,11 @@ void gsi::update_invlets(Character & character)
 void gsi::serialize(JsonOut &jsout) const
 {
     jsout.start_object();
-    //jsout.member("provdier");
-    //jsout.start_object();
-    //jsout.member("name", "cataclysm");
-    //jsout.member("appid", -1);
-    //jsout.end_object();
+    jsout.member("provider");
+    jsout.start_object();
+    jsout.member("name", "cataclysm");
+    jsout.member("appid", -1);
+    jsout.end_object();
 
     jsout.member("keybinds");
     jsout.start_object();
@@ -326,6 +337,75 @@ void gsi_thread::prep_out()
     }
 }
 
+int gsi_socket::sockInit(void)
+{
+#ifdef _WIN32
+    WSADATA wsa_data;
+    return WSAStartup(MAKEWORD(1, 1), &wsa_data);
+#else
+    return 0;
+#endif
+}
+
+int gsi_socket::sockQuit(void)
+{
+#ifdef _WIN32
+    return WSACleanup();
+#else
+    return 0;
+#endif
+}
+
+void gsi_socket::sockout()
+{
+    int sock;
+    sockInit();
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    int error = WSAGetLastError();
+    struct sockaddr_in address;
+    address.sin_family = AF_INET;
+    inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
+    address.sin_port = htons(9088);
+
+    if (sock < 0)
+    {
+        sockQuit();
+        return;
+    }
+        
+
+
+    if (connect(sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        _close(sock);
+        sockQuit();
+        return;
+    }
+    std::ostringstream ostream(std::ostringstream::ate);
+    JsonOut jout(ostream, true);
+    gsi::get().serialize(jout);
+
+    std::stringstream ss;
+    ss.imbue(std::locale::classic());
+    ss << "POST http://localhost:9088 HTTP/1.1\r\n"
+        << "Host: http://localhost\r\n"
+        << "Content-Type: application/json\r\n"
+        << "Content-Length: "<< ostream.str().length() << "\r\n\r\n"
+        << ostream.str();
+
+    std::string request = ss.str();
+    if (send(sock, request.c_str(), request.length(), 0) != (int)request.length())
+    {
+        sockQuit();
+        return;
+    }
+
+    char buf[1024];
+    std::cout << recv(sock, buf, 1024, 0) << std::endl;
+    std::cout << buf << std::endl;
+
+    sockQuit();
+    return;
+}
 
 
 
