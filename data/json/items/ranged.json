@@ -147,7 +147,15 @@
     "durability": 9,
     "clip_size": 2,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   },
   {
     "id": "LAW",
@@ -623,3 +631,4 @@
     "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]
+
