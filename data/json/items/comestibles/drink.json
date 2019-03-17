@@ -40,7 +40,7 @@
     "material": "water",
     "volume": 1,
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 9 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 11 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -62,7 +62,7 @@
     "material": "water",
     "volume": 1,
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "calcium", 7 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
