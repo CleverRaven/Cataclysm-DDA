@@ -64,7 +64,8 @@ enum npc_attitude : int {
     NPCATT_HEAL,  // Get to the player and heal them
 
     NPCATT_LEGACY_4,
-    NPCATT_LEGACY_5
+    NPCATT_LEGACY_5,
+    NPCATT_END
 };
 
 std::string npc_attitude_name( npc_attitude );
