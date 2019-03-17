@@ -220,7 +220,7 @@
     "clip_size": 25,
     "reload": 700,
     "valid_mod_locations": [
-      [ "accessories", 4 ]
+      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
