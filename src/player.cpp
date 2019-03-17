@@ -1797,8 +1797,7 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost *= 0.75f;
     }
     if( has_active_bionic( bio_jointservo ) ) {
-        if( move_mode == "run" )
-        {
+        if( move_mode == "run" ) {
             movecost *= 0.85f;
         } else {
             movecost *= 0.95f;

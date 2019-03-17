@@ -11315,7 +11315,7 @@ void game::on_move_effects()
         if( u.move_mode == "run" ) {
             u.charge_power( -20 );
         } else {
-            u.charge_power( -10 );            
+            u.charge_power( -10 );
         }
     }
 
