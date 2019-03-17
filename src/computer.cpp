@@ -1280,6 +1280,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                             }
                             // critical failure - radiation spike sets off electronic detonators
                             if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" || it->typeId() == "c4" ) {
+                                g->explosion( dest, 40 );
+                                reset_terminal();
                                 print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                                 print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
                                 print_error( _( "  >> Radiation spike detected!\n" ) );
@@ -1288,7 +1290,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                                 sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
                                 g->m.i_rem( dest, it );
                                 g->m.make_rubble( dest );
-                                g->explosion( dest, 40 );
                                 g->m.propagate_field( dest, fd_nuke_gas, 100, 3 );
                                 g->m.translate_radius( t_water_pool, t_sewage, 8.0, dest, true );
                                 g->m.adjust_radiation( dest, rng( 50, 500 ) );
@@ -1400,6 +1401,29 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             g->m.translate_radius( t_reinforced_glass_shutter, t_reinforced_glass_shutter_open, 8.0, g->u.pos(),
                                    true, true );
             query_any( _( "Toggling shutters.  Press any key..." ) );
+            break;
+        // extract radiation source material from irradiator
+        case COMPACT_EXTRACT_RAD_SOURCE:
+            if ( query_yn( _( "Operation irreversible.  Extract radioactive material?" ) ) ) {
+                    g->u.moves -= 300;
+                    tripoint platform;
+                    bool p_exists = false;
+                    for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                        if( g->m.ter( dest ) == t_rad_platform ) {
+                            platform = dest;
+                            p_exists = true;
+                        }
+                    }
+                    if( p_exists ) {
+                        g->m.spawn_item( platform, "cobalt_60", rng ( 8, 15 ) );
+                        g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
+                        remove_option( COMPACT_IRRADIATOR );
+                        remove_option( COMPACT_EXTRACT_RAD_SOURCE );
+                        query_any( _( "Operation complete... press any key." ) );
+                    } else {
+                        query_any( _( "ERROR!  Radiation platform unresponsive... press any key." ) );
+                    }
+            }
             break;
 
     } // switch (action)
@@ -1833,7 +1857,8 @@ computer_action computer_action_from_string( const std::string &str )
             { "irradiator", COMPACT_IRRADIATOR },
             { "geiger", COMPACT_GEIGER },
             { "conveyor", COMPACT_CONVEYOR },
-            { "shutters", COMPACT_SHUTTERS }
+            { "shutters", COMPACT_SHUTTERS },
+            { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE }
         }
     };
 
