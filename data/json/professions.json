@@ -661,6 +661,7 @@
     "type": "profession",
     "ident": "groundskeeper",
     "name": "Landscaper",
+    "//": "A simple class for players who want to try some basic crafting immediately, or who want a machete because it's in-genre."
     "description": "You used to mow lawns and trim hedges for the wealthy. Contract work was getting scarce even before the zombies came, but now you've got nothing left but your tools and expertise.",
     "points": 1,
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "survival" } ],
