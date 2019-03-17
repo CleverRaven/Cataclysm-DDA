@@ -1261,12 +1261,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             query_any( _( "Press any key..." ) );
             break;
 
-        //irradiates food at t_floor_blue, adds radiation
+        //irradiates food at t_rad_platform, adds radiation
         case COMPACT_IRRADIATOR: {
             g->u.moves -= 30;
             bool error = false;
+            bool platform_exists = false;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
-                if( g->m.ter( dest ) == t_floor_blue ) {
+                if( g->m.ter( dest ) == t_rad_platform ) {
+                    platform_exists = true;
                     if( g->m.i_at( dest ).empty() ) {
                         print_error( _( "ERROR: Processing platform empty." ) );
                     } else {
@@ -1276,23 +1278,19 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                             if( !it->rotten() && item_controller->has_template( "irradiated_" + it->typeId() ) ) {
                                 it->convert( "irradiated_" + it->typeId() );
                             }
-                            // critical failure #1 - let's cook a mininuke
-                            if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" ) {
-                                print_error( _( "WARNING [409]: Radiation spike detected!" ) );
-                                print_error( _( "  >> AUTO-RISK-ASSESMENT: Geiger profiling..." ) );
-                                print_error( _( "  >> [Self-sustaining] reaction in [critical mass] detected!\n" ) );
-                                print_error( _( "WARNING [999]: Catastrofic meltdown imminent!\n" ) );
-                                print_error( _( "EMERGENCY PROCEDURE [1]: EVACUATE! EVACUATE! EAVACUATE!" ) );
-                                add_msg( m_warning, _( "Evacuate Immediately!" ) );
+                            // critical failure - radiation spike sets off electronic detonators
+                            if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" || it->typeId() == "c4" ) {
+                                print_error( _( "WARNING [409]: Primary sensors offline!" ) );
+                                print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
+                                print_error( _( "  >> Radiation spike detected!\n" ) );
+                                print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected! " ) );
+                                print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
                                 sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
-                                it->convert( "mininuke_act" );
-                                g->m.add_field( dest, fd_nuke_gas, 3 );
+                                g->m.i_rem( dest, it );
+                                g->m.make_rubble( dest );
+                                g->explosion( dest, 40 );
+                                g->m.propagate_field( dest, fd_nuke_gas, 100, 3 );
                                 g->m.translate_radius( t_water_pool, t_sewage, 8.0, dest, true );
-                                for( const tripoint &area : g->m.points_in_radius( dest, 1 ) ) {
-                                    g->m.add_field( area, fd_nuke_gas, 3 );
-                                }
-                                it->charges = rng( 10, 100 );  // countdown in turns
-                                it->active = true;
                                 g->m.adjust_radiation( dest, rng( 50, 500 ) );
                                 for( const tripoint &radorigin : g->m.points_in_radius( dest, 5 ) ) {
                                     g->m.adjust_radiation( radorigin, rng( 50, 500 ) / ( rl_dist( radorigin,
@@ -1303,42 +1301,10 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                                 } else {
                                     g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
                                 }
-                                query_any( _( "EMERGENCY SHUTDOWN  Press any key..." ) );
+                                query_any( _( "EMERGENCY SHUTDOWN!  Press any key..." ) );
                                 error = true;
                                 options.clear(); // Disable the terminal.
                                 activate_failure( COMPFAIL_SHUTDOWN );
-                                break;
-                            }
-                            // critical failure #2 - radioactive slurry dessert
-                            if( it->typeId() == "plut_cell" ) {
-                                print_error( _( "WARNING [409]: Radiation spike detected!" ) );
-                                print_error( _( "  >> AUTO-RISK-ASSESMENT: Geiger profiling..." ) );
-                                print_error( _( "  >> [Non-self-sustaining] reaction in [non-critical mass] detected!\n" ) );
-                                print_error( _( "WARNING [912]: Meltdown detected! Contamination! " ) );
-                                print_error( _( "EMERGENCY PROCEDURE [5]: Contamination lockdown.\n" ) );
-                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
-                                it->convert( "plut_slurry_dense" );
-                                g->m.add_field( dest, fd_nuke_gas, 3 );
-                                g->m.translate_radius( t_water_pool, t_sewage, 8.0, dest, true );
-                                for( const tripoint &area : g->m.points_in_radius( dest, 1 ) ) {
-                                    g->m.add_field( area, fd_nuke_gas, 3 );
-                                }
-                                g->m.adjust_radiation( dest, rng( 50, 100 ) );
-                                for( const tripoint &radorigin : g->m.points_in_radius( dest, 5 ) ) {
-                                    g->m.adjust_radiation( radorigin, rng( 50, 100 ) / ( rl_dist( radorigin,
-                                                           dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
-                                }
-                                if( g->m.pl_sees( dest, 10 ) ) {
-                                    g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
-                                } else {
-                                    g->u.irradiate( rng( 10, 50 ) / rl_dist( g->u.pos(), dest ) );
-                                }
-                                query_any( _( "PARTIAL SHUTDOWN & LOCKDOWN: Press any key..." ) );
-                                remove_option( COMPACT_CONVEYOR );
-                                remove_option( COMPACT_IRRADIATOR );
-                                activate_function( COMPACT_LOCK );
-                                add_option( "End Lockdown: open doors.", COMPACT_OPEN, 0 );
-                                error = true;
                                 break;
                             }
                             g->m.adjust_radiation( dest, rng( 20, 50 ) );
@@ -1351,13 +1317,15 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                                 g->u.irradiate( rng( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
                             }
                         }
-                        if( !error ) {
+                        if( !error && platform_exists ) {
                             print_error( _( "PROCESSING...  CYCLE COMPLETE." ) );
                             print_error( _( "GEIGER COUNTER @ PLATFORM: %s mSv/h." ), g->m.get_radiation( dest ) );
                         }
-
                     }
                 }
+            }
+            if( !platform_exists ) {
+                print_error( _( "CRITICAL ERROR... RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
             }
             if( !error ) {
                 query_any( _( "Press any key..." ) );
@@ -1365,13 +1333,13 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             break;
         }
 
-        // geiger counter for irradiator, primary measurement at t_floor_blue, secondary at player loacation
+        // geiger counter for irradiator, primary measurement at t_rad_platform, secondary at player loacation
         case COMPACT_GEIGER: {
             g->u.moves -= 30;
             bool source_exists = false;
             print_error( _( "RADIATION MEASUREMENTS:" ) );
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
-                if( g->m.ter( dest ) == t_floor_blue ) {
+                if( g->m.ter( dest ) == t_rad_platform ) {
                     print_error( _( "GEIGER COUNTER @ PLATFORM: ... %s mSv/h." ), g->m.get_radiation( dest ) );
                     source_exists = true;
                 }
@@ -1391,15 +1359,25 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             g->u.moves -= 300;
             tripoint loading; // red tile = loading bay
             tripoint unloading; // green tile = unloading bay
-            tripoint platform; // blue tile = intermediate platform
+            tripoint platform; // radiation platform = middle point
+            bool l_exists = false;
+            bool u_exists = false;
+            bool p_exists = false;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
-                if( g->m.ter( dest ) == t_floor_blue ) {
+                if( g->m.ter( dest ) == t_rad_platform ) {
                     platform = dest;
+                    p_exists = true;
                 } else if( g->m.ter( dest ) == t_floor_red ) {
                     loading = dest;
+                    l_exists = true;
                 } else if( g->m.ter( dest ) == t_floor_green ) {
                     unloading = dest;
+                    u_exists = true;
                 }
+            }
+            if ( !l_exists || p_exists || !u_exists ){
+                query_any( _( "Conveyor belt malfunction.  Press any key..." ) );
+                break;
             }
             auto items = g->m.i_at( platform );
             for( const auto &it : items ) {
@@ -1416,7 +1394,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             query_any( _( "Conveyor belt cycle complete.  Press any key..." ) );
             break;
         }
-        // toggles reinforced glass shutters open->closed and closedd->open depending on their current state
+        // toggles reinforced glass shutters open->closed and closed->open depending on their current state
         case COMPACT_SHUTTERS:
             g->u.moves -= 300;
             g->m.translate_radius( t_reinforced_glass_shutter, t_reinforced_glass_shutter_open, 8.0, g->u.pos(),
