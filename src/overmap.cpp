@@ -30,6 +30,7 @@
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
@@ -3974,6 +3975,16 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
         }
     }
     return nullptr;
+}
+
+cata::optional<basecamp *> overmap::find_camp( const int x, const int y ) const
+{
+    for( const auto &v : camps ) {
+        if( v->camp_omt_pos().x == x && v->camp_omt_pos().y == y ) {
+            return v;
+        }
+    }
+    return cata::nullopt;
 }
 
 bool overmap::is_omt_generated( const tripoint &loc ) const

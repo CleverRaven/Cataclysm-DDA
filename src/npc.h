@@ -528,6 +528,7 @@ class npc : public player
          */
         void add_new_mission( mission *miss );
         skill_id best_skill() const;
+        int best_skill_level() const;
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
@@ -799,6 +800,8 @@ class npc : public player
 
         std::string extended_description() const override;
 
+        std::pair<std::string, nc_color> hp_description() const;
+
         // Note: NPCs use a different speed rating than players
         // Because they can't run yet
         float speed_rating() const override;
@@ -912,7 +915,9 @@ class npc : public player
         void on_load();
 
         /// Set up (start) a companion mission.
-        void set_companion_mission( npc &p, const std::string &id );
+        void set_companion_mission( npc &p, const std::string &mission_id );
+        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                    const std::string &mission_id );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         bool has_companion_mission() const;

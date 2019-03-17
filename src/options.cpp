@@ -1301,10 +1301,15 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-    add( "DIAG_MOVE_WITH_MODIFIERS", "interface",
-         translate_marker( "Diagonal movement with cursor keys and modifiers" ),
-         translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
-         true, COPT_CURSES_HIDE
+    add( "ARROW_KEYS_VS_MODIFIERS", "interface",
+         translate_marker( "Behavior for Ctrl/Shift modifiers and arrow keys" ),
+         translate_marker( "Numpad emulation: holding Ctrl picks the first arrow key pressed as a modifier for consecutive arrow presses, combining them into the corresponding numpad keys.  Rotation: allows diagonal movement with cursor keys using CTRL and SHIFT modifiers." ),
+    {
+        { "", translate_marker( "None" ) },
+        { "numpad", translate_marker( "Numpad emulation" ) },
+        { "rotation", translate_marker( "Rotation" ) }
+    },
+    "numpad", COPT_CURSES_HIDE
        );
 
     mOptionsSort["interface"]++;
@@ -1435,6 +1440,13 @@ void options_manager::add_options_graphics()
        );
 
     get_option( "ANIMATION_RAIN" ).setPrerequisite( "ANIMATIONS" );
+
+    add( "ANIMATION_PROJECTILES", "graphics", translate_marker( "Projectile animation" ),
+         translate_marker( "If true, will display animations for projectiles like bullets, arrows, and thrown items." ),
+         true
+       );
+
+    get_option( "ANIMATION_PROJECTILES" ).setPrerequisite( "ANIMATIONS" );
 
     add( "ANIMATION_SCT", "graphics", translate_marker( "SCT animation" ),
          translate_marker( "If true, will display scrolling combat text animations." ),
@@ -1731,12 +1743,12 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
-         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it." ),
+         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
     add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
-         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy." ),
+         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
@@ -2535,6 +2547,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
         get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
         save();
+
+        handle_resize( projected_window_width(), projected_window_height() );
     }
 #else
     ( void ) terminal_size_changed;

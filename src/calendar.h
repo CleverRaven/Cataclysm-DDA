@@ -153,7 +153,7 @@ class calendar
         /**
          * Accessor for current turn_number.
          *
-         * @returns Current turn number (`get_turn()` function for `calendar` class in Lua bindings.)
+         * @returns Current turn number.
          */
         operator int() const;
 

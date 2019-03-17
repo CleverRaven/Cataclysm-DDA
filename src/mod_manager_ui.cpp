@@ -54,14 +54,6 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         info << _( mod->description.c_str() ) << "\n";
     }
 
-    if( mod->need_lua() ) {
-#ifdef LUA
-        info << _( "This mod requires <color_green>Lua support</color>" ) << "\n";
-#else
-        info << _( "This mod requires <color_red>Lua support</color>" ) << "\n";
-#endif
-    }
-
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
                            mod->ident )->s_errors() : "";
     if( !note.empty() ) {

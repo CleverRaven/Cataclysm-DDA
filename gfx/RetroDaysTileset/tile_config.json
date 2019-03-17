@@ -141,7 +141,7 @@
         },
         {
           "id": "mon_zombie_brute_ninja",
-          "fg": 23,
+          "fg": 2962,
           "rotates": false
         },
         {
@@ -433,7 +433,12 @@
             "mon_zombie_shady",
             "mon_zombie_shady_pk"
           ],
-          "fg": 69,
+          "fg": 2961,
+          "rotates": false
+        },
+        {
+          "id": "mon_darkman",
+          "fg": 2960,
           "rotates": false
         },
         {
@@ -611,21 +616,6 @@
             "mon_fungaloid_pk"
           ],
           "fg": 101,
-          "rotates": false
-        },
-        {
-          "id": "mon_fungaloid_queen",
-          "fg": 102,
-          "rotates": false
-        },
-        {
-          "id": "mon_fungaloid_seeder",
-          "fg": 103,
-          "rotates": false
-        },
-        {
-          "id": "mon_fungaloid_tower",
-          "fg": 104,
           "rotates": false
         },
         {
@@ -1996,6 +1986,11 @@
           "rotates": false
         },
         {
+          "id": "f_target",
+          "fg": 2948,
+          "rotates": false
+        },
+        {
           "id": "mon_broken_cyborg",
           "fg": 337,
           "rotates": false
@@ -2402,10 +2397,7 @@
           "rotates": false
         },
         {
-          "id": [
-            "mon_shadow",
-            "mon_darkman"
-          ],
+          "id": "mon_shadow",
           "fg": 412,
           "rotates": false
         },
@@ -5890,6 +5882,7 @@
             "fish_bait_veggy",
             "fish_smoked",
             "pemmican",
+            "hflesh_pemmican",
             "unfinished_charcoal",
             "toasterpastry",
             "cloutie_dumpling",
@@ -6030,6 +6023,7 @@
           "id": [
             "lead",
             "silver_small",
+            "platinum_small",
             "bismuth",
             "tin",
             "scrap"
@@ -6135,7 +6129,10 @@
           "id": [
             "plasma",
             "charge_shot",
-            "rebreather_filter"
+            "rebreather_filter",
+            "gasfilter_s",
+            "gasfilter_m",
+            "gasfilter_l"
           ],
           "fg": 708,
           "rotates": false
@@ -9530,7 +9527,8 @@
             "drink_boozeberry",
             "maple_sap",
             "wash_rum",
-            "wash_vodka"
+            "wash_vodka",
+            "cattail_jelly"
           ],
           "fg": 1122,
           "rotates": false
@@ -9567,7 +9565,8 @@
             "poppysyrup",
             "iv_purifier",
             "purple_drink",
-            "cranberry_juice"
+            "cranberry_juice",
+            "pepto"
           ],
           "fg": 1127,
           "rotates": false
@@ -9896,12 +9895,10 @@
           "id": [
             "milk",
             "soup_cullenskink",
-            "chem_ethanol",
             "brew_milk_curdled",
             "milk_curdled",
             "eggnog",
-            "eggnog_spiked",
-            "pepto"
+            "eggnog_spiked"
           ],
           "fg": 1169,
           "rotates": false
@@ -9935,6 +9932,7 @@
             "mutagen_spider",
             "mutagen_slime",
             "mutagen_fish",
+            "mutagen_mouse",
             "mutagen_rat",
             "mutagen_beast",
             "mutagen_cattle",
@@ -10169,7 +10167,7 @@
             "pumpkin",
             "irradiated_pumpkin"
           ],
-          "fg": 1200,
+          "fg": 2975,
           "rotates": false
         },
         {
@@ -10482,7 +10480,6 @@
             "moonshine",
             "brew_moonshine",
             "molasses",
-            "denat_alcohol",
             "tea",
             "coffee",
             "atomic_coffee",
@@ -10533,6 +10530,7 @@
             "iv_mutagen_spider",
             "iv_mutagen_slime",
             "iv_mutagen_fish",
+            "iv_mutagen_mouse",
             "iv_mutagen_rat",
             "iv_mutagen_beast",
             "iv_mutagen_ursine",
@@ -10700,6 +10698,7 @@
             "bum_wine",
             "drink_kalimotxo",
             "blood",
+            "mutagen_jabberblood",
             "curry_veggy",
             "curry_meat",
             "soup_tomato",
@@ -10777,12 +10776,17 @@
             "saline",
             "salt_water",
             "sweet_water",
+            "chem_methanol",
+            "chem_ethanol",
+            "denat_alcohol",
             "chem_acetic_acid",
             "chem_acetone",
             "chem_hydrogen_peroxide",
             "chem_hydrogen_peroxide_conc",
             "chem_nitric_acid",
             "chem_sulphuric_acid",
+            "chem_formaldehyde",
+            "ether",
             "vodka",
             "gin",
             "brew_rum",
@@ -10820,7 +10824,8 @@
           "id": [
             "weed",
             "pine_bough",
-            "mugwort"
+            "mugwort",
+            "tobacco_raw"
           ],
           "fg": 1259,
           "rotates": false
@@ -11005,7 +11010,10 @@
           "rotates": false
         },
         {
-          "id": "test_tube",
+          "id": [
+            "test_tube",
+            "glass_tube_small"
+          ],
           "fg": 1287,
           "rotates": false
         },
@@ -12510,8 +12518,13 @@
           "rotates": false
         },
         {
+          "id": "stick_long",
+          "fg": 2957,
+          "rotates": false
+        },
+        {
           "id": "stick",
-          "fg": 1520,
+          "fg": 2958,
           "rotates": false
         },
         {
@@ -12765,7 +12778,10 @@
           "rotates": false
         },
         {
-          "id": "compbow",
+          "id": [
+            "compbow",
+            "compgreatbow"
+          ],
           "fg": 1556,
           "rotates": false
         },
@@ -13091,6 +13107,7 @@
             "recurbow",
             "reflexbow",
             "longbow",
+            "hybridbow",
             "reflexrecurvebow"
           ],
           "fg": 1584,
@@ -15901,7 +15918,10 @@
         {
           "id": [
             "wheel_bicycle",
-            "wheel_motorbike"
+            "wheel_bicycle_or",
+            "wheel_motorbike",
+            "wheel_motorbike_or",
+            "wheel_slick"
           ],
           "fg": 629,
           "rotates": false
@@ -15915,7 +15935,10 @@
           "rotates": true
         },
         {
-          "id": "wheel_wide",
+          "id": [
+            "wheel_wide",
+            "wheel_wide_or"
+          ],
           "fg": 628,
           "rotates": false
         },
@@ -16016,13 +16039,43 @@
           "rotates": false
         },
         {
+          "id": "t_stairs_down",
+          "fg": 2976,
+          "rotates": false
+        },
+        {
+          "id": "t_stairs_up",
+          "fg": 2553,
+          "rotates": false
+        },
+        {
+          "id": "t_low_stairs_begin",
+          "fg": 2483,
+          "rotates": false
+        },
+        {
+          "id": "t_low_stairs_end",
+          "fg": 2484,
+          "rotates": false
+        },
+        {
           "id": "t_slope_down",
-          "fg": 1986,
+          "fg": 2977,
           "rotates": false
         },
         {
           "id": "t_slope_up",
           "fg": 1987,
+          "rotates": false
+        },
+        {
+          "id": "t_ladder_down",
+          "fg": 2479,
+          "rotates": false
+        },
+        {
+          "id": "t_ladder_up",
+          "fg": 2480,
           "rotates": false
         },
         {
@@ -16061,6 +16114,14 @@
           "rotates": false
         },
         {
+          "id": [
+            "t_fungus",
+            "t_grass_white"
+          ],
+          "bg": 2095,
+          "rotates": false
+        },
+        {
           "id": "t_grass_long",
           "fg": 2916,
           "rotates": false
@@ -16082,17 +16143,17 @@
         },
         {
           "id": "t_grass_tall",
-          "fg": 2920,
+          "fg": 2949,
           "rotates": false
         },
         {
           "id": "t_grass_tall_season_autumn",
-          "fg": 2921,
+          "fg": 2950,
           "rotates": false
         },
         {
           "id": "t_grass_tall_season_winter",
-          "fg": 2922,
+          "fg": 2951,
           "rotates": false
         },
         {
@@ -16195,8 +16256,12 @@
           "rotates": false
         },
         {
-          "id": "t_shrub_season_winter",
-          "fg": 2018,
+          "id": [
+            "t_shrub_season_winter",
+            "t_shrub_blueberry_season_winter",
+            "t_shrub_strawberry_season_winter"
+          ],
+          "fg": 2959,
           "rotates": false
         },
         {
@@ -16212,29 +16277,16 @@
         {
           "id": "t_shrub_blueberry",
           "fg": 2021,
-          "bg": 1044,
           "rotates": false
         },
         {
           "id": "t_shrub_strawberry",
           "fg": 2022,
-          "bg": 1044,
-          "rotates": false
-        },
-        {
-          "id": "t_shrub_blueberry_harvested",
-          "fg": 2023,
-          "bg": 1044,
-          "rotates": false
-        },
-        {
-          "id": "t_shrub_strawberry_harvested",
-          "fg": 2024,
-          "bg": 1044,
           "rotates": false
         },
         {
           "id": [
+            "t_shrub_blueberry_harvested",
             "t_shrub_blueberry_season_spring",
             "t_shrub_blueberry_season_autumn"
           ],
@@ -16243,14 +16295,7 @@
         },
         {
           "id": [
-            "t_shrub_blueberry_season_winter",
-            "t_shrub_strawberry_season_winter"
-          ],
-          "fg": 2018,
-          "rotates": false
-        },
-        {
-          "id": [
+            "t_shrub_strawberry_harvested",
             "t_shrub_strawberry_season_spring",
             "t_shrub_strawberry_season_autumn"
           ],
@@ -16708,14 +16753,6 @@
         {
           "id": "t_stump",
           "fg": 2094,
-          "rotates": false
-        },
-        {
-          "id": [
-            "t_fungus",
-            "t_grass_white"
-          ],
-          "bg": 2095,
           "rotates": false
         },
         {
@@ -17182,19 +17219,22 @@
             "t_flat_roof",
             "t_strconc_floor",
             "t_thconc_floor",
-            "t_thconc_floor_olight",
             "t_railroad_rubble"
           ],
           "bg": 2160,
           "rotates": false
         },
         {
+          "id": "t_dirtmoundfloor",
+          "fg": 1979,
+          "rotates": false
+        },
+        {
           "id": [
             "tr_beartrap_buried",
-            "tr_landmine_buried",
-            "t_dirtmoundfloor"
+            "tr_landmine_buried"
           ],
-          "fg": 1979,
+          "fg": 2963,
           "rotates": false
         },
         {
@@ -17420,7 +17460,7 @@
         },
         {
           "id": "t_chaingate_c",
-          "fg": 2175,
+          "fg": 2964,
           "rotates": false
         },
         {
@@ -17518,10 +17558,7 @@
           "rotates": false
         },
         {
-          "id": [
-            "t_wall_glass_alarm",
-            "t_reinforced_glass"
-          ],
+          "id": "t_reinforced_glass",
           "fg": 2807,
           "rotates": true,
           "multitile": true,
@@ -17622,13 +17659,83 @@
             "t_door_lab_c"
           ],
           "fg": 2197,
-          "bg": 2184,
+          "rotates": false
+        },
+        {
+          "id": "t_door_red_c",
+          "fg": 2197,
+          "bg": 2215,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_c",
+          "fg": 2197,
+          "bg": 2214,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_c",
+          "fg": 2197,
+          "bg": 2258,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_c",
+          "fg": 2197,
+          "bg": 2218,
+          "rotates": false
+        },
+        {
+          "id": "t_door_red_o",
+          "fg": 2200,
+          "bg": 2215,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_o",
+          "fg": 2200,
+          "bg": 2214,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_o",
+          "fg": 2200,
+          "bg": 2258,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_o",
+          "fg": 2200,
+          "bg": 2218,
+          "rotates": false
+        },
+        {
+          "id": "t_door_red_b",
+          "fg": 2199,
+          "bg": 2215,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_b",
+          "fg": 2199,
+          "bg": 2214,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_b",
+          "fg": 2199,
+          "bg": 2258,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_b",
+          "fg": 2199,
+          "bg": 2218,
           "rotates": false
         },
         {
           "id": "t_door_c_peep",
           "fg": 2198,
-          "bg": 2184,
           "rotates": false
         },
         {
@@ -17638,7 +17745,6 @@
             "t_door_lab_b"
           ],
           "fg": 2199,
-          "bg": 2184,
           "rotates": false
         },
         {
@@ -17648,7 +17754,6 @@
             "t_door_lab_o"
           ],
           "fg": 2200,
-          "bg": 2184,
           "rotates": false
         },
         {
@@ -17658,13 +17763,11 @@
             "t_door_locked_alarm"
           ],
           "fg": 2201,
-          "bg": 2184,
           "rotates": false
         },
         {
           "id": "t_door_locked_peep",
           "fg": 2202,
-          "bg": 2184,
           "rotates": false
         },
         {
@@ -17675,7 +17778,6 @@
             "t_door_glass_frosted_lab_c"
           ],
           "fg": 2203,
-          "bg": 2184,
           "rotates": true
         },
         {
@@ -17686,43 +17788,31 @@
             "t_door_glass_frosted_lab_o"
           ],
           "fg": 2204,
-          "bg": 2184,
           "rotates": true
         },
         {
-          "id": "t_window_empty",
-          "fg": 2205,
-          "bg": 2184,
-          "rotates": false
-        },
-        {
           "id": "t_window_frame",
-          "fg": 2206,
-          "bg": 2184,
+          "fg": 2965,
           "rotates": false
         },
         {
           "id": "t_window_boarded",
           "fg": 2207,
-          "bg": 2184,
           "rotates": false
         },
         {
           "id": "t_window_stained_green",
           "fg": 2208,
-          "bg": 2184,
           "rotates": true
         },
         {
           "id": "t_window_stained_red",
           "fg": 2209,
-          "bg": 2184,
           "rotates": true
         },
         {
           "id": "t_window_stained_blue",
           "fg": 2210,
-          "bg": 2184,
           "rotates": true
         },
         {
@@ -17731,7 +17821,6 @@
             "f_aut_gas_console_o"
           ],
           "fg": 2211,
-          "bg": 2184,
           "rotates": false
         },
         {
@@ -17740,7 +17829,6 @@
             "f_aut_gas_console"
           ],
           "fg": 2212,
-          "bg": 2184,
           "rotates": false
         },
         {
@@ -18119,6 +18207,11 @@
           "rotates": false
         },
         {
+          "id": "t_thconc_floor_olight",
+          "bg": 2971,
+          "rotates": false
+        },
+        {
           "id": [
             "t_metal",
             "t_ov_reb_cage",
@@ -18208,6 +18301,11 @@
         {
           "id": "f_barricade_road",
           "fg": 2269,
+          "rotates": false
+        },
+        {
+          "id": "f_sink",
+          "fg": 2956,
           "rotates": false
         },
         {
@@ -18304,7 +18402,18 @@
         },
         {
           "id": "f_bookcase",
-          "fg": 2286,
+          "fg": 2953,
+          "rotates": false
+        },
+        {
+          "id": [
+            "t_decoy_bookcase",
+            "t_secretdoor_bookcase_c",
+            "t_sliding_bookcase_c",
+            "t_sliding_bookcase_control",
+            "t_sliding_wall_control"
+          ],
+          "fg": 2955,
           "rotates": false
         },
         {
@@ -18627,6 +18736,11 @@
           "rotates": false
         },
         {
+          "id": "t_switchgear_l",
+          "fg": 2356,
+          "rotates": false
+        },
+        {
           "id": [
             "f_oven",
             "t_sai_box_damaged"
@@ -18635,8 +18749,13 @@
           "rotates": false
         },
         {
-          "id": "f_piano",
+          "id": "f_wardrobe",
           "fg": 2343,
+          "rotates": false
+        },
+        {
+          "id": "f_piano",
+          "fg": 2954,
           "rotates": false
         },
         {
@@ -18735,14 +18854,6 @@
           "rotates": false
         },
         {
-          "id": [
-            "f_sink",
-            "t_switchgear_l"
-          ],
-          "fg": 2356,
-          "rotates": false
-        },
-        {
           "id": "f_skin_door",
           "fg": 2357,
           "rotates": false
@@ -18798,6 +18909,21 @@
         {
           "id": "f_smoking_rack",
           "fg": 2366,
+          "rotates": false
+        },
+        {
+          "id": "f_butcher_rack",
+          "fg": 2945,
+          "rotates": false
+        },
+        {
+          "id": "f_metal_butcher_rack",
+          "fg": 2946,
+          "rotates": false
+        },
+        {
+          "id": "metal_butcher_rack",
+          "fg": 2947,
           "rotates": false
         },
         {
@@ -18879,6 +19005,11 @@
         {
           "id": "f_mailbox",
           "fg": 2879,
+          "rotates": false
+        },
+        {
+          "id": "f_rack_coat",
+          "fg": 2952,
           "rotates": false
         },
         {
@@ -18977,7 +19108,12 @@
           "rotates": false
         },
         {
-          "id": "t_wall_glass",
+          "id": [
+            "t_wall_glass",
+            "t_wall_glass_alarm",
+            "t_window",
+            "t_window_alarm"
+          ],
           "fg": 2858,
           "rotates": true,
           "multitile": true,
@@ -19511,17 +19647,6 @@
           "rotates": false
         },
         {
-          "id": [
-            "t_decoy_bookcase",
-            "t_secretdoor_bookcase_c",
-            "t_sliding_bookcase_c",
-            "t_sliding_bookcase_control",
-            "t_sliding_wall_control"
-          ],
-          "fg": 2439,
-          "rotates": false
-        },
-        {
           "id": "t_diesel_pump",
           "fg": 2440,
           "rotates": false
@@ -19612,9 +19737,61 @@
           "rotates": false
         },
         {
+          "id": "t_door_glass_red_c",
+          "fg": 2203,
+          "bg": 2215,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_green_c",
+          "fg": 2203,
+          "bg": 2214,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_white_c",
+          "fg": 2203,
+          "bg": 2258,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_gray_c",
+          "fg": 2203,
+          "bg": 2218,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_red_o",
+          "fg": 2204,
+          "bg": 2215,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_green_o",
+          "fg": 2204,
+          "bg": 2214,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_white_o",
+          "fg": 2204,
+          "bg": 2258,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_gray_o",
+          "fg": 2204,
+          "bg": 2218,
+          "rotates": true
+        },
+        {
           "id": [
             "t_door_frame",
-            "t_door_lab_frame"
+            "t_door_lab_frame",
+            "t_door_red_frame",
+            "t_door_green_frame",
+            "t_door_gray_frame",
+            "t_door_white_frame"
           ],
           "fg": 2200,
           "rotates": false
@@ -19823,16 +20000,6 @@
           "rotates": false
         },
         {
-          "id": "t_ladder_down",
-          "fg": 2479,
-          "rotates": false
-        },
-        {
-          "id": "t_ladder_up",
-          "fg": 2480,
-          "rotates": false
-        },
-        {
           "id": "t_leanto",
           "fg": 2481,
           "rotates": false
@@ -19843,16 +20010,6 @@
             "flashbang_act"
           ],
           "fg": 2482,
-          "rotates": false
-        },
-        {
-          "id": "t_low_stairs_begin",
-          "fg": 2483,
-          "rotates": false
-        },
-        {
-          "id": "t_low_stairs_end",
-          "fg": 2484,
           "rotates": false
         },
         {
@@ -19927,7 +20084,10 @@
           "rotates": false
         },
         {
-          "id": "t_m_frame",
+          "id": [
+            "t_window_empty",
+            "t_m_frame"
+          ],
           "fg": 2492,
           "rotates": false
         },
@@ -20097,27 +20257,27 @@
         },
         {
           "id": "t_rdoor_b",
-          "fg": 2518,
+          "fg": 2966,
           "rotates": false
         },
         {
           "id": "t_rdoor_boarded",
-          "fg": 2519,
+          "fg": 2967,
           "rotates": false
         },
         {
           "id": "t_rdoor_boarded_damaged",
-          "fg": 2520,
+          "fg": 2968,
           "rotates": false
         },
         {
           "id": "t_rdoor_c",
-          "fg": 2521,
+          "fg": 2969,
           "rotates": false
         },
         {
           "id": "t_rdoor_o",
-          "fg": 2522,
+          "fg": 2970,
           "rotates": false
         },
         {
@@ -20313,16 +20473,6 @@
           "rotates": false
         },
         {
-          "id": "t_stairs_down",
-          "fg": 2552,
-          "rotates": false
-        },
-        {
-          "id": "t_stairs_up",
-          "fg": 2553,
-          "rotates": false
-        },
-        {
           "id": "t_station_disc",
           "fg": 2554,
           "rotates": false
@@ -20471,11 +20621,7 @@
           "rotates": false
         },
         {
-          "id": [
-            "t_window",
-            "t_window_domestic",
-            "t_window_alarm"
-          ],
+          "id": "t_window_domestic",
           "fg": 2574,
           "rotates": true
         },
@@ -21620,6 +21766,18 @@
         {
           "id": "overlay_male_mutation_THRESH_ALPHA",
           "fg": 2914
+        },
+        {
+          "id": "overlay_mutation_THRESH_MARLOSS",
+          "fg": 2972
+        },
+        {
+          "id": "overlay_male_mutation_THRESH_MARLOSS",
+          "fg": 2973
+        },
+        {
+          "id": "overlay_mutation_THRESH_MYCUS",
+          "fg": 2974
         }
       ]
     },
@@ -21632,15 +21790,27 @@
       "tiles": [
         {
           "id": "overlay_mutation_THRESH_CATTLE",
-          "fg": 2961
+          "fg": 2993
         },
         {
           "id": "overlay_male_mutation_THRESH_CATTLE",
-          "fg": 2962
+          "fg": 2994
         },
         {
           "id": "overlay_mutation_THRESH_URSINE",
-          "fg": 2963
+          "fg": 2995
+        },
+        {
+          "id": "mon_fungaloid_queen",
+          "fg": 2996
+        },
+        {
+          "id": "mon_fungaloid_seeder",
+          "fg": 2997
+        },
+        {
+          "id": "mon_fungaloid_tower",
+          "fg": 2998
         }
       ]
     },
@@ -21733,6 +21903,10 @@
   ],
   "overlay_ordering": [
     {
+      "id": "THRESH_MARLOSS",
+      "order": 400
+    },
+    {
       "id": [
         "bio_armor_legs",
         "bio_armor_torso",
@@ -21787,7 +21961,6 @@
         "THRESH_MEDICAL",
         "THRESH_ELFA",
         "THRESH_ALPHA",
-        "THRESH_MARLOSS",
         "THRESH_MYCUS"
       ],
       "order": 5000

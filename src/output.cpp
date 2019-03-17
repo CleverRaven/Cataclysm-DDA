@@ -1632,40 +1632,47 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
     return fmt;
 }
 
-const std::pair<std::string, nc_color> &
-get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
+const std::pair<std::string, nc_color>
+get_bar( float cur, float max, int width, bool extra_resolution, std::vector<nc_color> colors )
 {
-    using pair_t = std::pair<std::string, nc_color>;
-    static const std::array<pair_t, 12> strings {
-        {
-            //~ creature health bars
-            pair_t { R"(|||||)", c_green },
-            pair_t { R"(||||\)", c_green },
-            pair_t { R"(||||)",  c_light_green },
-            pair_t { R"(|||\)",  c_light_green },
-            pair_t { R"(|||)",   c_yellow },
-            pair_t { R"(||\)",   c_yellow },
-            pair_t { R"(||)",    c_light_red },
-            pair_t { R"(|\)",    c_light_red },
-            pair_t { R"(|)",     c_red },
-            pair_t { R"(\)",     c_red },
-            pair_t { R"(:)",     c_red },
-            pair_t { R"(-----)", c_light_gray },
-        }
-    };
+    std::string result = "";
+    float status = cur / max;
+    status = status > 1 ? 1 : status;
+    status = status < 0 ? 0 : status;
+    float sw = status * width;
 
-    const double ratio = static_cast<double>( cur_hp ) / ( max_hp ? max_hp : 1 );
-    return ( ratio >= 1.0 )            ? strings[0]  :
-           ( ratio >= 0.9 && !is_mon ) ? strings[1]  :
-           ( ratio >= 0.8 )            ? strings[2]  :
-           ( ratio >= 0.7 && !is_mon ) ? strings[3]  :
-           ( ratio >= 0.6 )            ? strings[4]  :
-           ( ratio >= 0.5 && !is_mon ) ? strings[5]  :
-           ( ratio >= 0.4 )            ? strings[6]  :
-           ( ratio >= 0.3 && !is_mon ) ? strings[7]  :
-           ( ratio >= 0.2 )            ? strings[8]  :
-           ( ratio >= 0.1 && !is_mon ) ? strings[9]  :
-           ( ratio >  0.0 )            ? strings[10] : strings[11];
+    nc_color col = colors[int( ( 1 - status ) * colors.size() )];
+    if( status == 0 ) {
+        col = colors.back();
+    } else if( ( sw < 0.5 ) && ( sw > 0 ) ) {
+        result = ":";
+    } else {
+        result += std::string( sw, '|' );
+        if( extra_resolution && ( sw - int( sw ) >= 0.5 ) ) {
+            result += "\\";
+        }
+    }
+
+    return std::make_pair( result, col );
+}
+
+
+const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
+        const bool is_mon )
+{
+    if( cur_hp == 0 ) {
+        return std::make_pair( "-----", c_light_gray );
+    }
+    return get_bar( cur_hp, max_hp, 5, !is_mon );
+}
+
+
+const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
+{
+    if( cur_stam == 0 ) {
+        return std::make_pair( "-----", c_light_gray );
+    }
+    return get_bar( cur_stam, max_stam, 5, true, { c_cyan, c_light_cyan, c_yellow, c_light_red, c_red } );
 }
 
 std::pair<std::string, nc_color> get_light_level( const float light )

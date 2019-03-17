@@ -1112,17 +1112,29 @@
         ]
     },{
         "type" : "technique",
-        "id" : "tec_dragon_counter",
-        "name" : "Dragon's Vortex",
+        "id" : "tec_dragon_counterb",
+        "name" : "Dragon's Vortex Block",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "block_counter" : true,
+        "mult_bonuses" : [["movecost", 0.0]],
+        "stun_dur" : 2,
+        "messages" : [
+            "You block the attack and send %s spinning",
+            "<npcname> blocks and spins %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_dragon_counterd",
+        "name" : "Dragon's Vortex Dodge",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
         "dodge_counter" : true,
         "mult_bonuses" : [["movecost", 0.0]],
         "stun_dur" : 2,
         "messages" : [
-            "You catch the attack and send %s spinning",
-            "<npcname> catches and spins %s"
+            "You dodge the attack and send %s spinning",
+            "<npcname> dodges and spins %s"
         ]
     },{
         "type" : "technique",
