@@ -2804,7 +2804,7 @@
   {
     "type": "terrain",
     "id": "t_chickenwire_gate_c",
-    "name": "closed chikcenwire gate",
+    "name": "closed chickenwire gate",
     "description": "A gate for a chickenwire fence with a simple latch system to stay closed.",
     "symbol": "+",
     "color": "brown",

@@ -2151,7 +2151,7 @@
       "str_min": 6,
       "str_max": 10,
       "sound": "smash!",
-      "sound_fail": "clang!.",
+      "sound_fail": "clang!",
       "items": [ { "item": "pipe", "count": [ 1, 6 ] }, { "item": "wire", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 6 ] } ]
     }
   },
@@ -2169,7 +2169,7 @@
       "str_min": 6,
       "str_max": 10,
       "sound": "whack!",
-      "sound_fail": "womp!.",
+      "sound_fail": "womp!",
       "items": [
         { "item": "e_scrap", "count": [ 1, 6 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
