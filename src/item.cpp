@@ -6301,10 +6301,10 @@ void item::fill_with( item &liquid, long amount )
         // if container already has liquid we need to sum the energy
         item &cts = contents.front();
         const float lhs_energy = cts.get_item_thermal_energy();
-        if ( rhs_energy < 0){
+        const float rhs_energy = liquid.get_item_thermal_energy();
+        if( rhs_energy < 0){
             debugmsg( "Poured item has no defined temperature" );
         }
-        const float rhs_energy = liquid.get_item_thermal_energy();
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
                 cts.weight() ) + to_gram( liquid.weight() ) ) ;
         cts.set_item_specific_energy( combined_specific_energy );
