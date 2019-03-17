@@ -1276,7 +1276,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
-        if( liquid.specific_energy < 0 ){
+        if( liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( temp_to_kelvin( g->get_temperature( p->pos() ) ) );
         }
 
