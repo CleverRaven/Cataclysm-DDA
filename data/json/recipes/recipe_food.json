@@ -1361,9 +1361,9 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": 9000,
-    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ] ],
     "autolearn": true,
-    "components": [ [ [ "almond_unshelled", 2 ], [ "water_clean", 2 ] ], [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "almond_unshelled", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
