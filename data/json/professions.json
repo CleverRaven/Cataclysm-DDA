@@ -678,6 +678,7 @@
     "type": "profession",
     "ident": "homemaker",
     "name": "Nursing Assistant",
+    "//": "They don't have the doctor's passive bonus to surgery. Nursing assistants aren't required to hold a doctorate."
     "description": "You were providing in-home care for the elderly, even as the whole world fell apart around you. You can only pray that you don't see your former clients among the walking dead...",
     "points": 1,
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
