@@ -5,7 +5,7 @@
     "name": "solid rock",
     "sym": 37,
     "color": "dark_gray",
-    "see_cost": 999
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -48,7 +48,8 @@
     "name": "lab basement",
     "sym": 76,
     "color": "white",
-    "see_cost": 999,
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 5 ], "chance": 50 },
+    "see_cost": 5,
     "mondensity": 2
   },
   {
@@ -137,7 +138,8 @@
     "name": "parking lot",
     "sym": 95,
     "color": "dark_gray",
-    "see_cost": 999,
+    "spawns": { "group": "GROUP_LAB", "population": [ 5, 15 ], "chance": 30 },
+    "see_cost": 5,
     "mondensity": 2
   },
   {
@@ -191,7 +193,8 @@
     "name": "research facility",
     "sym": 108,
     "color": "light_gray",
-    "see_cost": 999,
+    "spawns": { "group": "GROUP_LAB", "population": [ 5, 25 ], "chance": 50 },
+    "see_cost": 5,
     "mondensity": 2
   },
   {
@@ -230,7 +233,8 @@
     "name": "research facility entrance",
     "sym": 76,
     "color": "white",
-    "see_cost": 999,
+    "spawns": { "group": "GROUP_LAB", "population": [ 5, 25 ], "chance": 50 },
+    "see_cost": 5,
     "mondensity": 2
   },
   {
@@ -274,7 +278,7 @@
     "name": "open air",
     "sym": 46,
     "color": "blue",
-    "see_cost": 999
+    "see_cost": 1
   },
   {
     "type": "overmap_terrain",
@@ -744,7 +748,7 @@
     "name": "research facility, roof",
     "sym": 108,
     "color": "dark_gray",
-    "see_cost": 999
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
