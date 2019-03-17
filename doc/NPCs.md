@@ -565,6 +565,8 @@ Effect | Description
 ---|---
 u_add_effect: effect_string, (*one of* duration: duration_string, duration: duration_int)<br/>npc_add_effect: effect_string, (*one of* duration: duration_string, duration: duration_int) | Your character or the NPC will gain the effect for `duration_string` or `duration_int` turns.  If `duration_string` is "PERMANENT", the effect will be added permanently.
 u_add_trait: trait_string<br/>npc_add_trait: trait_string | Your character or the NPC will gain the trait.
+u_lose_effect: effect_string<br/>npc_lose_effect: effect_string | Your character or the NPC will lose the effect if they have it.
+u_lose_trait: trait_string<br/>npc_lose_trait: trait_string | Your character or the NPC will lose the trait.
 
 #### Trade / Items
 
@@ -578,6 +580,8 @@ u_buy_item: item_string, (*optional* cost: cost_num, *optional* count: count_num
 u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_num) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
 u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
 add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
+u_consume_item, npc_consume_item: item_string, (*optional* count: count_num) | You or the NPC will delete the item or `count_num` copies of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item, so it should be checked with `u_has_items` or `npc_has_items`.
+
 
 #### Behaviour / AI
 
@@ -606,6 +610,7 @@ companion_mission: role_string | The NPC will offer you a list of missions for y
 basecamp_mission | The NPC will offer you a list of missions for your allied NPCs, depending on the local basecamp.
 bionic_install | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
 bionic_remove | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
+npc_class_change: class_string | Change the NPC's faction to `class_string`.
 npc_faction_change: faction_string | Change the NPC's faction membership to `faction_string`.
 u_faction_rep: rep_num | Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
 toggle_npc_rule: rule_string | Toggles the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
