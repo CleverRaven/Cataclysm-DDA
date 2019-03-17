@@ -38,6 +38,7 @@
   {
     "type": "recipe",
     "result": "scythe_war",
+    "id_suffix": "forge",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
