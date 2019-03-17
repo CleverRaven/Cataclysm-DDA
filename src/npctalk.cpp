@@ -1361,7 +1361,16 @@ void talk_effect_fun_t::set_add_effect( bool is_u, const std::string &new_effect
     };
 }
 
+void talk_effect_fun_t::set_remove_effect( bool is_u, const std::string &old_effect )
 {
+    function = [is_u, old_effect]( const dialogue & d ) {
+        if( is_u ) {
+            player &u = *d.alpha;
+            u.remove_effect( efftype_id( old_effect ), num_bp );
+        } else {
+            npc &p = *d.beta;
+            p.remove_effect( efftype_id( old_effect ), num_bp );
+        }
     };
 }
 
@@ -1620,6 +1629,12 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             duration = time_duration::from_turns( jo.get_int( "duration" ) );
         }
         subeffect_fun.set_add_effect( is_u, new_effect, duration, permanent );
+    } else if( jo.has_string( "u_lose_effect" ) ) {
+        std::string old_effect = jo.get_string( "u_lose_effect" );
+        subeffect_fun.set_remove_effect( true, old_effect );
+    } else if( jo.has_string( "npc_lose_effect" ) ) {
+        std::string old_effect = jo.get_string( "npc_lose_effect" );
+        subeffect_fun.set_remove_effect( false, old_effect );
     } else if( jo.has_string( "u_add_trait" ) ) {
         std::string new_trait = jo.get_string( "u_add_trait" );
         subeffect_fun.set_add_trait( true, new_trait );
