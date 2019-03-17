@@ -9567,5 +9567,39 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rad_platform",
+    "looks_like": "t_blue_floor",
+    "name": "radiation platform",
+    "description": "A dual purpose platform that serves as a containment, and as a device that exposes items places on in to the radioactive source, by temporarily hoisting the radioactive material stored within. Operated from external console.",
+    "symbol": "0",
+    "color": "light_blue",
+    "move_cost": 100,
+    "flags": [ "TRANSPARENT", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "ter_set": "t_pit",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "cobalt_60", "charges": [ 1, 5 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_pit",
+      "items": [
+        { "item": "cable", "charges": [ 8, 16 ] },
+        { "item": "cobalt_60", "charges": [ 2, 10 ] },
+        { "item": "scrap", "count": [ 8, 16 ] },
+        { "item": "sheet_metal", "count": [ 5, 10 ] },
+        { "item": "lead", "count": [ 12, 18 ] }
+      ]
+    }
   }
 ]
