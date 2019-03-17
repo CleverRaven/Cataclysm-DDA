@@ -76,26 +76,29 @@
       "!": "t_guardrail_bg_dp",
       "m": "t_door_metal_c",
       "M": "t_door_metal_locked",
+      "p": "t_sewage_pipe",
       "w": "t_gates_control_brick",
       "x": "t_console_broken",
       "]": "t_sidewalk",
       "*": "t_shrub",
-      "A": "t_atm",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "e": "t_elevator",
-      "@": "t_elevator_control_off"
+      "@": "t_elevator_control_off",
+      "V": "t_radio_tower"
     },
     "furniture": {
       "&": "f_trashcan",
       "{": "f_glass_fridge",
       "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "a": "f_standing_tank",
       "A": "f_air_conditioner",
       "b": "f_bench",
       "B": "f_bookcase",
       "C": "f_counter",
       "c": "f_chair",
       "d": "f_desk",
+      "D": "f_satellite",
       "E": "f_eyewash",
       "f": "f_fridge",
       "h": "f_sofa",
@@ -106,7 +109,8 @@
       "r": "f_rack",
       "S": "f_sink",
       "s": "f_stool",
-      "t": "f_table"
+      "t": "f_table",
+      "v": "f_vent_pipe"
     },
     "toilets": { "T": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }

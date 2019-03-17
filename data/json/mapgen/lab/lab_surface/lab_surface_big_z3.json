@@ -77,7 +77,7 @@
         "...........:          st#  #+#+#+#+#+#+#+#+#................................#l  l|||||||M||| cx###  #+#+#+#+#...........",
         "...........:          st#&                 :................................#l  l|eeee|b <>| cx#H+          :...........",
         "...........#llllllll  #####  SCS&SCS&SCS&SC:................................#l  l|eeee|b <>| #####  &SCS&SCS#...........",
-        "...........#########mm#>#>#++###############................................#l  l|eeee|b   |##>#>#++#########...........",
+        "...........#########mm#>#>#++###############................................#l  l|eeee@b   |##>#>#++#########...........",
         "...........#     #     < <    E#           #................................#l  l|eeeem    |# < <    E#     #...........",
         "...........:     #             #           :................................#|||||||||||##M##         #     :...........",
         "...........#     =             #           #................................#############             =     #...........",
@@ -165,8 +165,15 @@
       ],
       "items": {
         "&": [ { "item": "science", "chance": 10 }, { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "f": [ { "item": "fridge", "chance": 60, "repeat": [ 2, 10 ] }, { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] } ],
-        "l": [ { "item": "lab_shoes", "chance": 70, "repeat": 2 },{ "item": "lab_pants", "chance": 70, "repeat": 2 },{ "item": "lab_torso", "chance": 70, "repeat": 2 } ],
+        "f": [
+          { "item": "fridge", "chance": 60, "repeat": [ 2, 10 ] },
+          { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] }
+        ],
+        "l": [
+          { "item": "lab_shoes", "chance": 70, "repeat": 2 },
+          { "item": "lab_pants", "chance": 70, "repeat": 2 },
+          { "item": "lab_torso", "chance": 70, "repeat": 2 }
+        ],
         "L": { "item": "cleaning", "chance": 70, "repeat": [ 1, 8 ] },
         "t": [ { "item": "snacks", "chance": 5 }, { "item": "dining", "chance": 10 } ]
       },
@@ -181,7 +188,6 @@
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 30, "y": [ 48, 57 ], "repeat": 7 },
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 30, "y": [ 59, 69 ], "repeat": 7 },
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 30, "y": [ 72, 81 ], "repeat": 7 },
-        
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 89, "y": [ 45, 47 ] },
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 89, "y": [ 48, 57 ], "repeat": 6 },
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 89, "y": [ 72, 81 ], "repeat": 7 },
@@ -189,7 +195,6 @@
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 95, "y": [ 59, 69 ], "repeat": 7 },
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 95, "y": [ 72, 81 ], "repeat": 7 },
         { "chunks": [ "surface_sub_hall_clutter" ], "x": 95, "y": [ 84, 93 ], "repeat": 7 },
-        
         { "chunks": [ "lab_surface_office_5x5" ], "x": 12, "y": 36 },
         { "chunks": [ "lab_surface_2partworkspace_front_5x5" ], "x": 18, "y": 42 },
         { "chunks": [ "lab_surface_2partworkspace_back_5x5" ], "x": 12, "y": 42 },
@@ -226,7 +231,6 @@
         { "chunks": [ "lab_surface_office_SEdoor4x4" ], "x": 54, "y": 82 },
         { "chunks": [ "lab_surface_office_SEdoor4x4" ], "x": 54, "y": 87 },
         { "chunks": [ "lab_surface_office_SEdoor4x4" ], "x": 54, "y": 92 },
-		
         { "chunks": [ "lab_surface_office_SWdoor4x4" ], "x": 62, "y": 82 },
         { "chunks": [ "lab_surface_office_SWdoor4x4" ], "x": 62, "y": 87 },
         { "chunks": [ "lab_surface_office_SWdoor4x4" ], "x": 62, "y": 92 },
