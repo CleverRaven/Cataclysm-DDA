@@ -38,6 +38,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "output.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -1601,17 +1602,19 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
                     mod.get_encumber( *p ), temp_item.get_encumber( *p ) );
 
-    temp_item = modded_copy( mod, "neoprene_padded" );
-    enab = can_add_mod( "neoprene_padded", "neoprene" );
-    tmenu.addentry( 4, enab, MENU_AUTOASSIGN, _( "%s (Make rainproof, Encumbrance: %d->%d)" ),
-                    mod.item_tags.count( "neoprene_padded" ) == 0 ? _( "Pad with neoprene" ) :
-                    _( "Destroy neoprene padding" ),
-                    mod.get_encumber( *p ), temp_item.get_encumber( *p ) );
+    if( get_option<bool>( "CLOTHING_WATERPROOFING" ) ) {
+        temp_item = modded_copy( mod, "neoprene_padded" );
+        enab = can_add_mod( "neoprene_padded", "neoprene" );
+        tmenu.addentry( 4, enab, MENU_AUTOASSIGN, _( "%s (Make rainproof, Encumbrance: %d->%d)" ),
+                        mod.item_tags.count( "neoprene_padded" ) == 0 ? _( "Pad with neoprene" ) :
+                        _( "Destroy neoprene padding" ),
+                        mod.get_encumber( *p ), temp_item.get_encumber( *p ) );
+    }
 
     tmenu.query();
     const int choice = tmenu.ret;
 
-    if( choice < 0 || choice > 4 ) {
+    if( choice < 0 || choice > 5 ) {
         return 0;
     }
 

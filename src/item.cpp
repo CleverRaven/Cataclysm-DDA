@@ -2877,6 +2877,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
                item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) +
+               item_tags.count( "wax_coated" ) +
                item_tags.count( "neoprene_padded" ) > 0 ) {
         ret.str( "" );
         ret << label( quantity );

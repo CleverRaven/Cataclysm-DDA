@@ -145,5 +145,12 @@
     "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CLOTHING_WATERPROOFING",
+    "info": "Allows the (unrealistic) waterproofing of clothes using neoprene and a tailor's kit.",
+    "stype": "bool",
+    "value": false
   }
 ]

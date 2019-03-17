@@ -474,7 +474,7 @@
     "id": "neoprene_padded",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This clothing is padded with neoprene rubber that <info>protects from the rain</info>.",
+    "info": "This clothing is padded with neoprene rubber that <info>protects from rain</info>.",
     "pseudo": true
   },
   {
