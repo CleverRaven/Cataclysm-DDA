@@ -4246,7 +4246,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
-    "difficulty": 1,
     "time": 20000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
