@@ -1110,5 +1110,14 @@
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_taste_blocker",
+    "type": "bionic",
+    "name": "Taste Receptors Blocker",
+    "description": "A small box is installed in the cavity of your skull.  It blocks transfer of all the data gathered by chemoreceptors in your mouth to the areas of brain responsible for the taste.  When active, it will nullify the taste of all comestibles, both positive and negative.",
+    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "MOUTH", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 10
   }
 ]
