@@ -1387,7 +1387,16 @@ void talk_effect_fun_t::set_add_trait( bool is_u, const std::string &new_trait )
     };
 }
 
+void talk_effect_fun_t::set_remove_trait( bool is_u, const std::string &old_trait )
 {
+    function = [is_u, old_trait]( const dialogue & d ) {
+        if( is_u ) {
+            player &u = *d.alpha;
+            u.unset_mutation( trait_id( old_trait ) );
+        } else {
+            npc &p = *d.beta;
+            p.unset_mutation( trait_id( old_trait ) );
+        }
     };
 }
 
@@ -1641,6 +1650,12 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "npc_add_trait" ) ) {
         std::string new_trait = jo.get_string( "npc_add_trait" );
         subeffect_fun.set_add_trait( false, new_trait );
+    } else if( jo.has_string( "u_lose_trait" ) ) {
+        std::string old_trait = jo.get_string( "u_lose_trait" );
+        subeffect_fun.set_remove_trait( true, old_trait );
+    } else if( jo.has_string( "npc_lose_trait" ) ) {
+        std::string old_trait = jo.get_string( "npc_lose_trait" );
+        subeffect_fun.set_remove_trait( false, old_trait );
     } else if( jo.has_string( "u_buy_item" ) ) {
         std::string item_name = jo.get_string( "u_buy_item" );
         int cost = 0;

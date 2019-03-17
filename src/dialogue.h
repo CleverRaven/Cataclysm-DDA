@@ -96,6 +96,7 @@ struct talk_effect_fun_t {
                              const time_duration &duration, bool permanent = true );
         void set_remove_effect( bool is_u, const std::string &new_effect );
         void set_add_trait( bool is_u, const std::string &new_trait );
+        void set_remove_trait( bool is_u, const std::string &old_trait );
         void set_u_buy_item( const std::string &new_trait, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
