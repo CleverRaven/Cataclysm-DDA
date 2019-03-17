@@ -1276,6 +1276,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
+		add_msg( _( "SPE %d" ), liquid.specific_energy );
+        liquid.set_item_temperature( temp_to_kelvin( g->get_temperature( p->pos() ) ) );
+		add_msg( _( "SPE %d" ), liquid.specific_energy );
+		//specific_energy
 
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
