@@ -2308,6 +2308,7 @@
       { "point": [ 3, 4, 4 ], "overmap": "lab_surface_brick_block5D4_north" },
       { "point": [ 4, 4, 4 ], "overmap": "lab_surface_brick_block5E4_north" }
     ],
+    "connections" : [ { "point" : [ 2, -1, 0 ], "terrain" : "road" } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 120 ],
     "city_sizes": [ 1, 12 ],
