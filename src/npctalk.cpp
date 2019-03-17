@@ -1365,19 +1365,20 @@ void talk_effect_fun_t::set_add_effect( bool is_u, const std::string &new_effect
     };
 }
 
-void talk_effect_fun_t::set_u_add_trait( const std::string &new_trait )
+void talk_effect_fun_t::set_add_trait( bool is_u, const std::string &new_trait )
 {
-    function = [new_trait]( const dialogue & d ) {
-        player &u = *d.alpha;
-        u.set_mutation( trait_id( new_trait ) );
+    function = [is_u, new_trait]( const dialogue & d ) {
+        if( is_u ) {
+            player &u = *d.alpha;
+            u.set_mutation( trait_id( new_trait ) );
+        } else {
+            npc &p = *d.beta;
+            p.set_mutation( trait_id( new_trait ) );
+        }
     };
 }
 
-void talk_effect_fun_t::set_npc_add_trait( const std::string &new_trait )
 {
-    function = [new_trait]( const dialogue & d ) {
-        npc &p = *d.beta;
-        p.set_mutation( trait_id( new_trait ) );
     };
 }
 
@@ -1621,10 +1622,10 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_add_effect( is_u, new_effect, duration, permanent );
     } else if( jo.has_string( "u_add_trait" ) ) {
         std::string new_trait = jo.get_string( "u_add_trait" );
-        subeffect_fun.set_u_add_trait( new_trait );
+        subeffect_fun.set_add_trait( true, new_trait );
     } else if( jo.has_string( "npc_add_trait" ) ) {
         std::string new_trait = jo.get_string( "npc_add_trait" );
-        subeffect_fun.set_npc_add_trait( new_trait );
+        subeffect_fun.set_add_trait( false, new_trait );
     } else if( jo.has_string( "u_buy_item" ) ) {
         std::string item_name = jo.get_string( "u_buy_item" );
         int cost = 0;

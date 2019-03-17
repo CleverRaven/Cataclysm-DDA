@@ -94,8 +94,7 @@ struct talk_effect_fun_t {
         void set_companion_mission( const std::string &role_id );
         void set_add_effect( bool is_u, const std::string &new_effect,
                              const time_duration &duration, bool permanent = true );
-        void set_u_add_trait( const std::string &new_trait );
-        void set_npc_add_trait( const std::string &new_trait );
+        void set_add_trait( bool is_u, const std::string &new_trait );
         void set_u_buy_item( const std::string &new_trait, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
