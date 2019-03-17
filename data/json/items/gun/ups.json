@@ -23,7 +23,15 @@
     "loudness": 23,
     "ups_charges": 70,
     "reload": 0,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
