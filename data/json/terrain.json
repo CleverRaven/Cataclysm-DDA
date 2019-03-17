@@ -6036,7 +6036,7 @@
       "str_min": 10,
       "str_max": 40,
       "sound": "glass braking!",
-      "sound_fail": "ker-rash!.",
+      "sound_fail": "ker-rash!",
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "glass_shard", "count": [ 6, 20 ] },
