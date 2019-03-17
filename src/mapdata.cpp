@@ -826,6 +826,7 @@ void set_ter_ids()
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
+    t_rad_platform = ter_id( "t_rad_platform" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
     t_buffer_stop = ter_id( "t_buffer_stop" );

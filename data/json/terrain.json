@@ -9577,7 +9577,7 @@
     "symbol": "0",
     "color": "light_blue",
     "move_cost": 100,
-    "flags": [ "TRANSPARENT", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 50,
       "str_max": 400,
