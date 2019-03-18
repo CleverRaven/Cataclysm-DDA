@@ -177,17 +177,32 @@
         "w": "t_gates_control_brick",
         "x": "t_console_broken"
       },
-    "furniture": {
-      "&": "f_trashcan",
-      "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "b": "f_sofa",
-      "c": "f_chair",
-      "d": "f_desk",
-      "f": "f_fridge",
-      "l": "f_locker",
-      "s": "f_stool",
-      "U": "f_utility_shelf"
-    }
+      "furniture": {
+        "&": "f_trashcan",
+        "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "b": "f_sofa",
+        "c": "f_chair",
+        "d": "f_desk",
+        "f": "f_fridge",
+        "l": "f_locker",
+        "s": "f_stool",
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "d": { "item": "office", "chance": 60, "repeat": [ 2, 6 ] },
+        "f": [
+          { "item": "fridge", "chance": 60, "repeat": [ 2, 10 ] },
+          { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] }
+        ],
+        "l": [
+          { "item": "guns_pistol_rare", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_rare", "chance": 60, "repeat": 5 },
+          { "item": "ammo_pistol_rare", "chance": 60, "repeat": [ 5, 10 ] }
+        ]
+      },
+      "monsters": {
+        "s": [ "mon_zombie_labsecurity", "chance": 50 ]
+      }
     }
   }
 ]
