@@ -2751,7 +2751,8 @@
       ["razor_blade", 10],
       ["survnote", 5],
       ["eclipse_glasses", 1],
-      ["thermos", 30]
+      ["thermos", 30],
+      ["bag_body_bag", 10]
     ]
   },{
     "type" : "item_group",
@@ -4017,13 +4018,15 @@
       ["jar_3l_glass", 15],
       ["magnifying_glass", 5],
       ["chem_hydrogen_peroxide", 5],
-      ["weak_antibiotic", 15]
+      ["weak_antibiotic", 15],
+      ["bag_body_bag", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "hospital_bed",
     "items":[
       ["corpse", 10],
+      ["bag_body_bag", 10],
       ["child_book", 5],
       ["stethoscope", 20],
       ["tall_tales", 10],
@@ -5681,7 +5684,8 @@
       ["rag_bloody", 1],
       ["chem_nitric_acid", 10],
       ["chem_hydrogen_peroxide_conc", 10],
-      ["denat_alcohol", 10]
+      ["denat_alcohol", 10],
+      ["bag_body_bag", 20]
     ]
   },{
     "type" : "item_group",
@@ -8268,7 +8272,8 @@
       ["smoxygen_tank", 35],
       ["watercannon", 10],
       ["l-stick", 1],
-      ["solarpack", 2]
+      ["solarpack", 2],
+      ["bag_body_bag", 5]
     ]
   },{
     "type" : "item_group",
@@ -8650,7 +8655,8 @@
       ["syringe", 1],
       ["spike", 1],
       ["tanbark", 2],
-      ["thermos", 1]
+      ["thermos", 1],
+      ["bag_body_bag", 3]
     ]
   },{
 "type" : "item_group",
@@ -9639,7 +9645,8 @@
       [ "bottle_plastic_small", 45 ],
       [ "cup_plastic", 30 ],
       [ "bowl_plastic", 30 ],
-      [ "plastic_chunk", 50 ]
+      [ "plastic_chunk", 50 ],
+      [ "bag_body_bag", 10 ]
     ]
   },
   {
@@ -10335,6 +10342,36 @@
         [ "stout", 15 ],
         [ "belgian_ale", 10 ],
         [ "imperial_stout", 4 ]
+      ]
+    },
+    {
+      "id": "grave",
+      "type": "item_group",
+      "items": [
+        [ "bone_human", 70 ],
+        [ "holy_symbol", 50 ],
+        [ "sheet", 20 ],
+        [ "bag_body_bag", 20 ],
+        [ "gloves_medical", 1 ],
+        [ "barrette", 5 ],
+        [ "hairpin", 5 ],
+        [ "child_book", 5 ],
+        [ "fancy_sunglasses", 5 ],
+        [ "flask_hip", 5 ],
+        [ "locket", 10 ],
+        [ "necklace", 5 ],
+        [ "ref_lighter", 5 ],
+        [ "ring", 20 ],
+        [ "story_book", 5 ],
+        [ "syringe", 3 ],
+        [ "teddy", 15 ],
+        [ "arm", 5],
+        [ "leg", 5],
+        [ "fetus", 5],
+        [ "many_years_old_newspaper", 2 ],
+        [ "years_old_newspaper", 2 ],
+        [ "one_year_old_newspaper", 2 ],
+        [ "months_old_newspaper", 2 ]
       ]
     }
   ]
