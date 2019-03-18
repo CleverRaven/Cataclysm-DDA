@@ -2584,7 +2584,7 @@
     "sym": 46,
     "color": "light_blue",
     "see_cost": 5,
-    "extras": "field"  
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
