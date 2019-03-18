@@ -139,6 +139,7 @@
     "type": "CONTAINER",
     "category": "other",
     "name": "body bag",
+    "looks_like": "bag_canvas",
     "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
     "weight": 500,
     "volume": 4,
