@@ -23,17 +23,17 @@
   },
   {
     "type": "recipe",
-    "result": "scythe_war",
+    "result": "makeshift_scythe_war",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 20000,
+    "time": 10000,
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 50 ] ], [ [ "scythe", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "blade_scythe", 1 ] ], [ [ "stick_long", 1 ], [ "broom", 1 ] ] ]
   },
   {
     "type": "recipe",
