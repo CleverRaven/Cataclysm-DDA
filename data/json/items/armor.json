@@ -4430,6 +4430,27 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "helmet_conical",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "conical helm",
+    "description": "A conical iron helm with additional protection for the neck, associated with the Mongol Empire.",
+    "weight": 1425,
+    "volume": 14,
+    "price": 40000,
+    "bashing": 6,
+    "material": [ "iron", "fur" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "HEAD" ],
+    "coverage": 90,
+    "encumbrance": 20,
+    "warmth": 35,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "helmet_acidchitin",
     "copy-from": "helmet_chitin",
     "type": "ARMOR",
