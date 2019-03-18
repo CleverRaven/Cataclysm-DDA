@@ -84,6 +84,7 @@ enum direction : unsigned {
 direction direction_from( int x, int y, int z = 0 ) noexcept;
 direction direction_from( int x1, int y1, int x2, int y2 ) noexcept;
 direction direction_from( const tripoint &p, const tripoint &q );
+int convert_dir_to_angle( const std::string );
 
 point direction_XY( direction dir );
 const std::string direction_name( direction dir );

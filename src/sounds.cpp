@@ -184,7 +184,8 @@ int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
-    const int vol = centr.volume - weather_data( g->weather ).sound_attn;
+    const int vol = centr.volume - weather_data( g->weather ).sound_attn - ( (
+                        g->windspeed / 5 ) * 2 );
     const int min_vol_cap = 60; //Hordes can't hear volume lower than this
     const int underground_div = 2; //Coefficient for volume reduction underground
     const int hordes_sig_div = SEEX; //Divider coefficient for hordes
@@ -208,12 +209,12 @@ int get_signal_for_hordes( const centroid &centr )
 void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
-    const int weather_vol = weather_data( g->weather ).sound_attn;
+    int weather_vol = weather_data( g->weather ).sound_attn + ( ( g->windspeed / 5 ) * 2 );
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
         // to use the unmodified volume for those effects.
-        const int vol = this_centroid.volume - weather_vol;
+        int vol = this_centroid.volume - weather_vol;
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
@@ -227,15 +228,45 @@ void sounds::process_sounds()
         }
         // Alert all monsters (that can hear) to the sound.
         for( monster &critter : g->all_monsters() ) {
-            // @todo: Generalize this to Creature::hear_sound
             const int dist = rl_dist( source, critter.pos() );
-            if( vol * 2 > dist ) {
+            // @todo: Generalize this to Creature::hear_sound
+            if( vol * 2 > ( dist ) ) {
                 // Exclude monsters that certainly won't hear the sound
                 critter.hear_sound( source, vol, dist );
             }
         }
     }
     recent_sounds.clear();
+}
+
+int sounds::wind_sound_modifier( const tripoint &source, const tripoint &mon_pos )
+{
+    double dot;
+    direction sound_dir = direction_from( source, mon_pos );
+    if( g->is_sheltered( source ) || g->is_sheltered( mon_pos ) ) {
+        return 0;
+    } else {
+        int windpower = g->windspeed;
+        rl_vec2d windvec;
+        double raddir = ( ( g->winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+        windvec = windvec.normalized();
+        windvec.y = -cos( raddir );
+        windvec.x = sin( raddir );
+        rl_vec2d fv;
+        int dir_angle = convert_dir_to_angle( direction_name( sound_dir ) );
+        double sound_raddir = ( ( dir_angle + 180 ) % 360 ) * ( M_PI / 180 );
+        fv = fv.normalized();
+        fv.y = -cos( sound_raddir );
+        fv.x = sin( sound_raddir );
+        dot = windvec.dot_product( fv );
+        if( dot <= 0 ) {
+            dot = std::min( -0.1, dot );
+        } else {
+            dot = std::max( 0.1, dot );
+        }
+        int windeffectint = static_cast<int>( ( ( windpower / 10 ) * ( dot * 10 ) ) );
+        return windeffectint;
+    }
 }
 
 // skip most movement sounds
@@ -251,7 +282,7 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
-    const int weather_vol = weather_data( g->weather ).sound_attn;
+    const int weather_vol = weather_data( g->weather ).sound_attn + ( ( g->windspeed / 5 ) * 2 );
 
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
@@ -260,9 +291,9 @@ void sounds::process_sound_markers( player *p )
         const int distance_to_sound = rl_dist( p->pos().x, p->pos().y, pos.x, pos.y ) +
                                       abs( p->pos().z - pos.z ) * 10;
         const int raw_volume = sound.volume;
-
         // The felt volume of a sound is not affected by negative multipliers, such as already
         // deafened players or players with sub-par hearing to begin with.
+        int wind_modified_volume = sounds::wind_sound_modifier( pos, p->pos() );
         const int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
                                 volume_multiplier ) ) - distance_to_sound;
 
@@ -293,15 +324,24 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-
+        int heard_volume;
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
-        const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
-                                 volume_multiplier ) - distance_to_sound;
 
+        if( wind_modified_volume > 0 && distance_to_sound > 0 ) {
+            wind_modified_volume = std::abs( wind_modified_volume );
+            heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
+                                             volume_multiplier ) - ( distance_to_sound + ( distance_to_sound * wind_modified_volume / 100 ) );
+        } else if( wind_modified_volume < 0 && distance_to_sound > 0 ) {
+            wind_modified_volume = std::abs( wind_modified_volume );
+            heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
+                                             volume_multiplier ) - ( distance_to_sound - ( distance_to_sound * wind_modified_volume / 100 ) );
+        } else {
+            heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
+                                             volume_multiplier ) - distance_to_sound;
+        }
         if( heard_volume <= 0 && pos != p->pos() ) {
             continue;
         }
-
         // Player volume meter includes all sounds from their tile and adjacent tiles
         // TODO: Add noises from vehicle player is in.
         if( distance_to_sound <= 1 ) {

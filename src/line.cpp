@@ -401,6 +401,29 @@ point direction_XY( const direction dir )
     return point_zero;
 }
 
+int convert_dir_to_angle( const std::string dir )
+{
+    if( dir == "north" ) {
+        return 0;
+    } else if( dir == "northeast" ) {
+        return 45;
+    } else if( dir == "east" ) {
+        return 90;
+    } else if( dir == "southeast" ) {
+        return 135;
+    } else if( dir == "south" ) {
+        return 180;
+    } else if( dir == "southwest" ) {
+        return 225;
+    } else if( dir == "west" ) {
+        return 270;
+    } else if( dir == "northwest" ) {
+        return 315;
+    } else {
+        return 0;
+    }
+}
+
 namespace
 {
 const std::string direction_name_impl( const direction dir, const bool short_name )

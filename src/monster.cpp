@@ -2439,7 +2439,20 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 
     const bool goodhearing = has_flag( MF_GOODHEARING );
-    const int volume = goodhearing ? ( ( 2 * vol ) - dist ) : ( vol - dist );
+    tripoint mon_pos = tripoint( posx(), posy(), posz() );
+    int wind_modified_volume = sounds::wind_sound_modifier( source, mon_pos );
+    int volume;
+    if( wind_modified_volume > 0 ) {
+        wind_modified_volume = std::abs( wind_modified_volume );
+        volume = goodhearing ? ( ( 2 * vol ) - ( dist + ( dist * wind_modified_volume / 100 ) ) ) :
+                 ( vol - ( dist + ( dist * wind_modified_volume / 100 ) ) );
+    } else if( wind_modified_volume < 0 ) {
+        wind_modified_volume = std::abs( wind_modified_volume );
+        volume = goodhearing ? ( ( 2 * vol ) - ( dist - ( dist * wind_modified_volume / 100 ) ) ) :
+                 ( vol - ( dist - ( dist * wind_modified_volume / 100 ) ) );
+    } else {
+        volume = goodhearing ? ( ( 2 * vol ) - dist ) : ( vol - dist );
+    }
     // Error is based on volume, louder sound = less error
     if( volume <= 0 ) {
         return;
