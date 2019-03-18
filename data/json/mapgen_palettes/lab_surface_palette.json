@@ -26,7 +26,7 @@
       "w": "t_gates_control_brick",
       "x": "t_console_broken",
       "]": "t_sidewalk",
-      "*": [ "t_shrub", "t_shrub_rose", "t_shrub_lilac", "t_tree_young", "t_tree", "t_grass_tall", "t_underbrush", "t_moss" ],
+      "*": [ "t_shrub", "t_shrub_rose", "t_shrub_lilac", "t_tree_young", "t_tree", "t_grass_tall", "t_underbrush", "t_moss", "t_shrub_hydrangea" ],
       "?": [ "t_shrub", "t_shrub_rose", "t_shrub_lilac", "t_tree_young", "t_tree", "t_tree_maple", "t_tree_walnut", "t_tree_blackjack" ],
       "A": "t_atm",
       "<": "t_stairs_up",
