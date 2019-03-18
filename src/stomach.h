@@ -6,6 +6,7 @@
 #include "string_id.h"
 #include "units.h"
 
+struct needs_rates;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
 
@@ -65,7 +66,7 @@ class stomach_contents
         stomach_pass_rates get_pass_rates( bool stomach );
         // gets the absorption rates for kcal and vitamins
         // stomach == true, guts == false
-        stomach_absorb_rates get_absorb_rates( bool stomach );
+        stomach_absorb_rates get_absorb_rates( bool stomach, needs_rates metabolic_rates );
 
         int get_calories() const;
         int get_calories_absorbed() const;

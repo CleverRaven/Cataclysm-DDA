@@ -1,4 +1,5 @@
 #include "calendar.h"
+#include "cata_utility.h"
 #include "creature.h"
 #include "json.h"
 #include "player.h"
@@ -84,7 +85,6 @@ units::volume stomach_contents::contains() const
 bool stomach_contents::store_absorbed( player &p )
 {
     bool absorbed = false;
-    printf( "stomach stored %d absorbed calories\n", calories_absorbed );
     if( calories_absorbed != 0 ) {
         p.mod_stored_kcal( calories_absorbed );
         absorbed = true;
@@ -95,15 +95,18 @@ bool stomach_contents::store_absorbed( player &p )
 
 void stomach_contents::bowel_movement( stomach_pass_rates rates )
 {
-    int cal_rate = std::min( std::max( rates.min_kcal,
-                                       std::min( static_cast<int>( calories * rates.percent_kcal ),
-                                               calories - calories_absorbed ) ), calories );
-    calories -= cal_rate;
-    printf( "bowel movement %d calories", cal_rate );
+    int cal_rate = static_cast<int>( round( calories * rates.percent_kcal ) );
+    cal_rate = clamp( cal_rate, std::min( rates.min_kcal, calories - calories_absorbed ),
+                      calories - calories_absorbed );
+    if( cal_rate < 0 ) {
+        cal_rate = 0;
+    }
+    mod_calories( -cal_rate );
     calories_absorbed = 0;
-    mod_contents( -std::min( std::max( rates.min_vol,
-                                       units::from_milliliter<int>( units::to_milliliter<float>( contents ) * rates.percent_vol ) ),
-                             contents ) );
+    units::volume contents_rate = clamp( units::from_milliliter<int>( round(
+            units::to_milliliter<float>
+            ( contents ) * rates.percent_vol ) ), rates.min_vol, contents );
+    mod_contents( -contents_rate );
     // water is a special case.
     water = 0_ml;
 
@@ -151,12 +154,14 @@ void stomach_contents::bowel_movement()
 
 void stomach_contents::bowel_movement( stomach_pass_rates rates, stomach_contents &move_to )
 {
-    move_to.calories += std::min( std::max( rates.min_kcal,
-                                            std::min( static_cast<int>( calories * rates.percent_kcal ),
-                                                    calories - calories_absorbed ) ), calories );
-    move_to.mod_contents( std::min( std::max( rates.min_vol,
-                                    units::from_milliliter<int>( units::to_milliliter<float>( contents ) * rates.percent_vol ) ),
-                                    contents ) );
+    int cal_rate = static_cast<int>( round( calories * rates.percent_kcal ) );
+    cal_rate = clamp( cal_rate, std::min( rates.min_kcal, calories - calories_absorbed ),
+                      calories - calories_absorbed );
+    move_to.mod_calories( cal_rate );
+    units::volume contents_rate = clamp( units::from_milliliter<int>( round(
+            units::to_milliliter<float>
+            ( contents ) * rates.percent_vol ) ), rates.min_vol, contents );
+    move_to.mod_contents( -contents_rate );
     move_to.water += water;
 
     for( auto &vit : vitamins ) {
@@ -285,9 +290,9 @@ stomach_pass_rates stomach_contents::get_pass_rates( bool stomach )
     // 3 hours will be accounted here as stomach
     // the rest will be guts
     if( stomach ) {
-        rates.min_vol = std::max( capacity() / 50, 10_ml );
+        rates.min_vol = std::max( capacity() / 50, 100_ml );
         // 3 hours to empty in 30 minute increments
-        rates.percent_vol = 1.8f / 6.0f;
+        rates.percent_vol = 4.0f / 6.0f;
         rates.min_vit = 1;
         rates.percent_vit = 1.0f / 6.0f;
         rates.min_kcal = 5;
@@ -304,14 +309,19 @@ stomach_pass_rates stomach_contents::get_pass_rates( bool stomach )
     return rates;
 }
 
-stomach_absorb_rates stomach_contents::get_absorb_rates( bool stomach )
+stomach_absorb_rates stomach_contents::get_absorb_rates( bool stomach, needs_rates metabolic_rates )
 {
     stomach_absorb_rates rates;
     if( !stomach ) {
-        rates.min_kcal = 1;
-        rates.percent_kcal = 0.05f;
-        rates.min_vitamin_default = 1;
-        rates.percent_vitamin_default = 0.05f;
+        rates.min_kcal = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger );
+        rates.percent_kcal = 0.05f * metabolic_rates.hunger;
+        rates.min_vitamin_default = round( 100.0 / 24.0 * metabolic_rates.hunger );
+        rates.percent_vitamin_default = 0.05f * metabolic_rates.hunger;
+    } else {
+        rates.min_kcal = 0;
+        rates.percent_kcal = 0.0f;
+        rates.min_vitamin_default = 0;
+        rates.percent_vitamin_default = 0.0f;
     }
     return rates;
 }
@@ -337,15 +347,18 @@ void stomach_contents::calculate_absorbed( stomach_absorb_rates rates )
         vitamins_absorbed[vit.first] += vit_absorbed;
         vitamins[vit.first] -= vit_absorbed;
     }
-    int cal = std::min( calories, std::max( rates.min_kcal,
-                                            static_cast<int>( calories * rates.percent_kcal ) ) );
-    printf( "%d calculated calories absorbed\n", cal );
+    int cal = clamp( static_cast<int>( round( calories * rates.percent_kcal ) ),
+                     std::min( rates.min_kcal, calories ), calories );
     calories_absorbed += cal;
     calories -= cal;
 }
 
 void stomach_contents::mod_calories( int cal )
 {
+    if( -cal >= calories ) {
+        calories = 0;
+        return;
+    }
     calories += cal;
 }
 
@@ -374,6 +387,10 @@ void stomach_contents::mod_quench( int quench )
 
 void stomach_contents::mod_contents( units::volume vol )
 {
+    if( -vol >= contents ) {
+        contents = 0_ml;
+        return;
+    }
     contents += vol;
 }
 

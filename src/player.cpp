@@ -4072,8 +4072,8 @@ void player::update_stomach( const time_point &from, const time_point &to )
     }
     if( ticks_between( from, to, 30_minutes ) > 0 ) {
         // the stomach does not currently have rates of absorption, but this is where it goes
-        stomach.calculate_absorbed( stomach.get_absorb_rates( true ) );
-        guts.calculate_absorbed( guts.get_absorb_rates( false ) );
+        stomach.calculate_absorbed( stomach.get_absorb_rates( true, rates ) );
+        guts.calculate_absorbed( guts.get_absorb_rates( false, rates ) );
         stomach.store_absorbed( *this );
         guts.store_absorbed( *this );
         guts.bowel_movement( guts.get_pass_rates( false ) );
@@ -4103,13 +4103,13 @@ void player::update_stomach( const time_point &from, const time_point &to )
         }
     }
     if( !foodless && rates.hunger > 0.0f ) {
-        mod_hunger( divide_roll_remainder( rates.hunger * five_mins, 1.0 ) );
+        mod_hunger( roll_remainder( rates.hunger * five_mins ) );
         // instead of hunger keeping track of how you're living, burn calories instead
-        mod_stored_kcal( divide_roll_remainder( rates.hunger * five_mins, 1.0 ) * -kcal_per_nutr );
+        mod_stored_kcal( roll_remainder( rates.hunger * ( float )five_mins * -kcal_per_nutr ) );
     }
 
     if( !foodless && rates.thirst > 0.0f ) {
-        mod_thirst( divide_roll_remainder( rates.thirst * five_mins, 1.0 ) );
+        mod_thirst( roll_remainder( rates.thirst * five_mins ) );
     }
     // Mycus and Metabolic Rehydration makes thirst unnecessary
     // since water is not limited by intake but by absorption, we can just set thirst to zero
@@ -4367,6 +4367,9 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
+    // TODO: this is where calculating basal metabolic rate, in kcal per day would go
+    rates.kcal = 2500.0;
+
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
     rates.thirst = get_option< float >( "PLAYER_THIRST_RATE" );
@@ -4412,6 +4415,7 @@ needs_rates player::calc_needs_rates()
     }
     rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
     rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
+
     return rates;
 }
 

@@ -1476,7 +1476,8 @@ bool drink_nectar( player &p )
     if( can_drink_nectar( p ) ) {
         p.moves -= 50; // Takes 30 seconds
         add_msg( _( "You drink some nectar." ) );
-        p.eat( item( "nectar", calendar::turn, 1 ) );
+        item nectar( "nectar", calendar::turn, 1 );
+        p.eat( nectar );
         return true;
     }
 
@@ -1503,7 +1504,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         }
         p.moves -= 150; // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
-        p.eat( item( "poppy_nectar", calendar::turn, 1 ) );
+        item poppy( "poppy_nectar", calendar::turn, 1 );
+        p.eat( poppy );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
