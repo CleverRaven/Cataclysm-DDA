@@ -249,7 +249,8 @@ game::game() :
     tileset_zoom( 16 ),
     wind_direction_override(),
     windspeed_override(),
-    weather_override( WEATHER_NULL )
+    weather_override( WEATHER_NULL ),
+    displaying_scent( false )
 
 {
     temperature = 0;
@@ -12389,16 +12390,20 @@ void game::nuke( const tripoint &p )
 
 void game::display_scent()
 {
-    int div;
-    bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
-    if( !got_value || div < 1 ) {
-        add_msg( _( "Never mind." ) );
-        return;
+    if( use_tiles ) {
+        displaying_scent = !displaying_scent;
+    } else {
+        int div;
+        bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
+        if( !got_value || div < 1 ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        draw_ter();
+        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
+        wrefresh( w_terrain );
+        inp_mngr.wait_for_any_key();
     }
-    draw_ter();
-    scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
-    wrefresh( w_terrain );
-    inp_mngr.wait_for_any_key();
 }
 
 void game::init_autosave()

@@ -33,6 +33,7 @@
 #include "player.h"
 #include "rect_range.h"
 #include "sdl_wrappers.h"
+#include "scent_map.h"
 #include "sounds.h"
 #include "submap.h"
 #include "trap.h"
@@ -1093,6 +1094,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                     apply_vision_effects( temp, offscreen_type );
                 }
                 continue;
+            }
+
+
+            // Add scent value to the overlay_strings list for every visible tile when displaying scent
+            if( g->displaying_scent ) {
+                const int scent_value = g->scent.get( {x, y, center.z} );
+                if( scent_value > 0 ) {
+                    overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                             formatted_text( std::to_string( scent_value ), 11,
+                                                     NORTH ) );
+                }
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
