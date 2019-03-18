@@ -2866,11 +2866,28 @@ void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 void activity_handlers::dig_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-
-    if( g->m.ter( pos ) == t_pit_shallow ) {
+    bool grave = g->m.ter( pos ) == t_grave ? true : false;
+    if( g->m.ter( pos ) == t_pit_shallow || grave ) {
         g->m.ter_set( pos, t_pit );
     } else {
         g->m.ter_set( pos, t_pit_shallow );
+    }
+    if( grave ) {
+        if( one_in( 5 ) ) {
+            static const std::array<mtype_id, 5> monids = { {
+                mtype_id( "mon_zombie" ), mtype_id( "mon_zombie_fat" ),
+                mtype_id( "mon_zombie_rot" ), mtype_id( "mon_skeleton" ),
+                mtype_id( "mon_zombie_crawler" ) } };
+
+            g->summon_mon( random_entry( monids ), pos );
+            g->m.furn_set( pos, f_coffin_o );
+        } else {
+            g->m.add_item_or_charges( pos, item( "bone_human" ) );
+            g->m.furn_set( pos, f_coffin_c );            
+        }
+        g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
+        g->m.place_items( "jewelery_front", 20, pos, pos, false, calendar::turn );
+        g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();

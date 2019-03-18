@@ -2509,13 +2509,30 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     int moves;
 
     if( g->m.has_flag( "DIGGABLE", pnt ) ) {
-        if( g->m.ter( pnt ) == t_pit_shallow ) {
+        const ter_id ter = g->m.ter( pnt );
+        if( ter == t_pit_shallow ) {
             if( p->crafting_inventory().has_quality( DIG, 2 ) ) {
                 moves = MINUTES( 90 ) / it->get_quality( DIG ) * 100;
             } else {
                 p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
                 return 0;
             }
+        } else if( ter == t_grave ) {
+            if( g->u.has_trait_flag( "SPIRITUAL" ) ) {
+                add_msg( m_info, _( "You refuse to touch the sacred resting place of the dead." ) );
+                return 0;
+            }
+            if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+                p->add_msg_if_player( m_good, _( "This is fun!" ) );
+                p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+            } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+                p->add_msg_if_player( m_bad, _( "This is utterly disgusting!" ) );
+                p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+                if( one_in( 5 ) ) {
+                    p->vomit();
+                }
+            }
+            moves = MINUTES( 60 ) / it->get_quality( DIG ) * 100;  // 6 feet under
         } else {
             moves = MINUTES( 30 ) / it->get_quality( DIG ) * 100;
         }
