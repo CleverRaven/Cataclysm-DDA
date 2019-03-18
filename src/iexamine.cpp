@@ -26,6 +26,8 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
+#include "mission.h"
+#include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
 #include "iuse_actor.h"
@@ -1249,30 +1251,19 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
-void iexamine::bulletin_board( player &, const tripoint &examp )
+void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
-    basecamp *camp = g->m.camp_at( examp );
-    if( camp && camp->board_x() == examp.x && camp->board_y() == examp.y ) {
-        std::vector<std::string> options;
-        options.push_back( _( "Cancel" ) );
-        // Causes a warning due to being unused, but don't want to delete
-        // since it's clearly what's intended for future functionality.
-        int choice = uilist( camp->board_name(), options );
-        static_cast<void>( choice );
+    basecamp *bcp = g->m.camp_at( examp, 60 );
+    if( bcp ) {
+        const std::string title = ( "Base Missions" );
+        mission_data mission_key;
+        bcp->get_available_missions( mission_key );
+        if( talk_function::display_and_choose_opts( mission_key, bcp->camp_omt_pos(), "FACTION_CAMP",
+                title ) ) {
+            bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+        }
     } else {
-        bool create_camp = g->m.allow_camp( examp );
-        std::vector<std::string> options;
-        if( create_camp ) {
-            options.push_back( _( "Create camp" ) );
-        }
-        // @todo: Other Bulletin Boards
-        int choice = uilist( _( "Bulletin Board" ), options );
-        if( choice >= 0 && size_t( choice ) < options.size() ) {
-            if( options[choice] == _( "Create camp" ) ) {
-                // @todo: Allow text entry for name
-                g->m.add_camp( examp, _( "Home" ) );
-            }
-        }
+        p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
     }
 }
 
@@ -2049,28 +2040,29 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     }
 }
 
-std::string iexamine::fertilize_failure_reason( player &p, const tripoint &tile,
-        const itype_id &fertilizer )
+ret_val<bool> iexamine::can_fertilize( player &p, const tripoint &tile,
+                                       const itype_id &fertilizer )
 {
     if( !g->m.has_flag_furn( "PLANT", tile ) ) {
-        return _( "Tile isn't a plant" );
+        return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( g->m.i_at( tile ).size() > 1 ) {
-        return _( "Tile is already fertilized" );
+        return ret_val<bool>::make_failure( _( "Tile is already fertilized" ) );
     }
     if( !p.has_charges( fertilizer, 1 ) ) {
-        return string_format( _( "Tried to fertilize with %s, but player doesn't have any." ),
-                              fertilizer.c_str() );
+        return ret_val<bool>::make_failure(
+                   _( "Tried to fertilize with %s, but player doesn't have any." ),
+                   fertilizer.c_str() );
     }
 
-    return std::string();
+    return ret_val<bool>::make_success();
 }
 
 void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer )
 {
-    std::string reason = fertilize_failure_reason( p, tile, fertilizer );
-    if( !reason.empty() ) {
-        debugmsg( reason );
+    ret_val<bool> can_fert = can_fertilize( p, tile, fertilizer );
+    if( !can_fert.success() ) {
+        debugmsg( can_fert.str() );
         return;
     }
 

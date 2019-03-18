@@ -459,11 +459,20 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 15000,
+  "autolearn": true,
   "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 2 ]],
   "using": [ [ "soldering_standard", 5 ] ],
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
-    [ [ "radio", 1 ] ],
+    [
+      [ "radio", 1 ],
+      [ "two_way_radio", 1 ],
+      [ "talking_doll", 1 ],
+      [ "creepy_doll", 1 ],
+      [ "stereo", 1 ],
+      [ "chimes", 1 ],
+      [ "beeper", 1 ]
+    ],
     [ [ "amplifier", 2 ] ]
   ]
 },{
@@ -1025,6 +1034,36 @@
     [ [ "pipe", 4 ] ]
   ]
 },{
+  "type" : "recipe",
+  "result": "xl_wind_turbine",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics", 5],
+  "difficulty": 5,
+  "time": 180000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": true,
+  "book_learn": [["manual_electronics", 7] , ["textbook_electronics", 6] , ["advanced_electronics", 6]],
+  "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 35 ] ],
+  "qualities" : [ {"id": "SCREW","level":1}, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+  "components": [
+    [ [ "2x4", 30 ], [ "frame_wood", 4 ] ],
+    [ [ "sheet_metal_small", 12 ] ],
+    [
+      [ "motor_small", 4 ],
+      [ "alternator_bicycle", 4 ],
+      [ "alternator_motorbike", 4 ],
+      [ "alternator_car", 2 ],
+      [ "alternator_truck", 1 ],
+      [ "motor", 2 ],
+      [ "motor_large", 1 ]
+    ],
+    [ [ "nail", 120 ] ],
+    [ [ "pipe", 20 ] ]
+  ]
+},{
   "type": "recipe",
   "result": "water_wheel",
   "category": "CC_ELECTRONIC",
@@ -1051,6 +1090,42 @@
     [ [ "nail", 80 ] ],
     [ [ "pipe", 8 ] ],
     [ [ "wheel_wood_b", 2 ] ]
+  ]
+},{
+  "type": "recipe",
+  "result": "xl_water_wheel",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "electronics", 6 ],
+  "difficulty": 6,
+  "time": 200000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "autolearn": true,
+  "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
+  "using": [ [ "soldering_standard", 85 ] ],
+  "qualities": [
+    { "id": "SCREW", "level": 1 },
+    { "id": "HAMMER", "level": 2 },
+    { "id": "SAW_M", "level": 2 },
+    { "id": "SAW_W", "level": 2 }
+  ],
+  "components": [
+    [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
+    [ [ "sheet_metal_small", 18 ] ],
+    [
+      [ "motor_small", 3 ],
+      [ "alternator_bicycle", 3 ],
+      [ "alternator_motorbike", 3 ],
+      [ "alternator_car", 2 ],
+      [ "alternator_truck", 1 ],
+      [ "motor", 2 ],
+      [ "motor_large", 1 ]
+    ],
+    [ [ "nail", 240 ] ],
+    [ [ "pipe", 24 ] ],
+    [ [ "wheel_wood_b", 6 ] ]
   ]
 },{
   "type" : "recipe",

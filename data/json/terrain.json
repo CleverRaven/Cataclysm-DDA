@@ -762,8 +762,9 @@
     "name": "waxed floor",
     "description": "Hardwood flooring that has been treated with chemicals to improve slip resistance and sliding, commonly for recreational sports.",
     "symbol": ".",
-    "color": "light_red",
+    "color": [ "light_red" ],
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "bash": {
       "sound": "SMASH!",
@@ -2803,7 +2804,7 @@
   {
     "type": "terrain",
     "id": "t_chickenwire_gate_c",
-    "name": "closed chikcenwire gate",
+    "name": "closed chickenwire gate",
     "description": "A gate for a chickenwire fence with a simple latch system to stay closed.",
     "symbol": "+",
     "color": "brown",
@@ -6035,7 +6036,7 @@
       "str_min": 10,
       "str_max": 40,
       "sound": "glass braking!",
-      "sound_fail": "ker-rash!.",
+      "sound_fail": "ker-rash!",
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "glass_shard", "count": [ 6, 20 ] },
@@ -6050,7 +6051,7 @@
     "aliases": [ "t_metal__railing_h", "t_metal__railing_v" ],
     "name": "metal railing",
     "symbol": "LINE_OXOX",
-    "color": "gray",
+    "color": "dark_gray",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
     "connects_to": "RAILING",
@@ -7282,19 +7283,39 @@
   },
   {
     "type": "terrain",
+    "id": "t_column_halfway",
+    "name": "half-built column",
+    "description": "An empty wooden frame in the shape of a column, built around a concrete and rebar foundation. It isn't capable of supporting roofs or shelter, and appears to need more resources before being considered complete.",
+    "symbol": "*",
+    "color": "light_gray",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "MINEABLE" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 60,
+      "str_max": 460,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_column",
     "name": "column",
+    "description": "A concrete column.",
     "symbol": "1",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "WALL", "MINEABLE" ],
+    "flags": [ "WALL", "MINEABLE" ],
     "bash": {
-      "str_min": 40,
+      "str_min": 120,
       "str_max": 200,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 1, 3 ] }, { "item": "rebar", "count": [ 0, 2 ] } ]
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
     }
   },
   {
@@ -8066,7 +8087,7 @@
     "name": "tar paper flat roof",
     "looks_like": "t_flat_roof",
     "symbol": ".",
-    "color": "gray",
+    "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
     "bash": {
@@ -9290,24 +9311,6 @@
     "move_cost": 3,
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
-  },
-  {
-    "id": "t_floor_waxed",
-    "type": "terrain",
-    "name": "waxed floor",
-    "symbol": ".",
-    "color": [ "light_red" ],
-    "move_cost": 2,
-    "roof": "t_flat_roof",
-    "bash": {
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "ter_set": "t_null",
-      "sound": "SMASH!",
-      "items": [ { "item": "wax", "count": [ 1, 3 ] } ]
-    },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ]
   },
   {
     "id": "t_floor_waxed_y",

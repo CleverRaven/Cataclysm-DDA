@@ -124,7 +124,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```none``` None
 - ```aggie_plant``` Harvest plants.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
-- ```bulletin_board``` Create a home camp; currently not implemented.
+- ```bulletin_board``` Use this to arrange tasks for your faction camp.
 - ```cardreader``` Use the cardreader with a valid card, or attempt to hack.
 - ```chainfence``` Hop over the chain fence.
 - ```controls_gate``` Controls the attached gate.
@@ -1078,6 +1078,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIREWOOD``` ... This item can serve as a firewood. Items with this flag are sorted out to "Loot: Wood" zone
 - ```FRAGILE_MELEE``` ... Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
+- ```IS_PET_ARMOR``` ... Is armor for a pet monster, not armor for a person
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
 - ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "SLOW_WIELD".

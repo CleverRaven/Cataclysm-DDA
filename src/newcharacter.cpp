@@ -1674,7 +1674,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
                 recipe_dict.all_autolearn().count( &r ) &&
                 with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
 
-            if( !would_autolearn_recipe &&
+            if( !would_autolearn_recipe && !r.never_learn &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
                 with_prof_skills.has_recipe_requirements( r ) )  {
 

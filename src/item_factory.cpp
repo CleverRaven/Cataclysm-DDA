@@ -662,6 +662,7 @@ void Item_factory::init()
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MAKEMOUND", &iuse::makemound );
+    add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
     add_iuse( "MARLOSS", &iuse::marloss );
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
     add_iuse( "MARLOSS_SEED", &iuse::marloss_seed );
@@ -1424,6 +1425,15 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load_pet_armor( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.pet_armor, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -1438,6 +1448,20 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
+}
+
+void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "dda";
+
+    assign( jo, "material_thickness", slot.thickness, strict, 0 );
+    assign( jo, "max_pet_vol", slot.max_vol, strict, 0_ml );
+    assign( jo, "min_pet_vol", slot.min_vol, strict, 0_ml );
+    assign( jo, "pet_bodytype", slot.bodytype, strict );
+    assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0_ml );
+    assign( jo, "power_armor", slot.power_armor, strict );
 }
 
 void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &src )
@@ -1568,6 +1592,28 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
+    if( jo.has_member( "primary_material" ) ) {
+        slot.specific_heat_solid = material_id(
+                                       jo.get_string( "primary_material" ) )->specific_heat_solid();
+        slot.specific_heat_liquid = material_id(
+                                        jo.get_string( "primary_material" ) )->specific_heat_liquid();
+        slot.latent_heat = material_id( jo.get_string( "primary_material" ) )->latent_heat();
+    } else if( jo.has_member( "material" ) ) {
+        float specific_heat_solid = 0;
+        float specific_heat_liquid = 0;
+        float latent_heat = 0;
+
+        for( auto &m : jo.get_tags( "material" ) ) {
+            specific_heat_solid += material_id( m )->specific_heat_solid();
+            specific_heat_liquid += material_id( m )->specific_heat_liquid();
+            latent_heat += material_id( m )->latent_heat();
+        }
+        // Average based on number of materials.
+        slot.specific_heat_liquid = specific_heat_liquid / jo.get_tags( "material" ).size();
+        slot.specific_heat_solid = specific_heat_solid / jo.get_tags( "material" ).size();
+        slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
+    }
+
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
@@ -1577,19 +1623,19 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     bool got_calories = false;
 
     if( jo.has_int( "calories" ) ) {
-        slot.nutr = jo.get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        slot.kcal = jo.get_int( "calories" );
         got_calories = true;
 
     } else if( jo.get_object( "relative" ).has_int( "calories" ) ) {
-        slot.nutr += jo.get_object( "relative" ).get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        slot.kcal += jo.get_object( "relative" ).get_int( "calories" );
         got_calories = true;
 
     } else if( jo.get_object( "proportional" ).has_float( "calories" ) ) {
-        slot.nutr *= jo.get_object( "proportional" ).get_float( "calories" );
+        slot.kcal *= jo.get_object( "proportional" ).get_float( "calories" );
         got_calories = true;
 
-    } else {
-        jo.read( "nutrition", slot.nutr );
+    } else if( jo.has_int( "nutrition" ) ) {
+        slot.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -2018,6 +2064,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
+    load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
@@ -2158,7 +2205,6 @@ void Item_factory::clear()
 
     categories.clear();
 
-    // Also clear functions referring to lua
     iuse_function_list.clear();
 
     m_templates.clear();

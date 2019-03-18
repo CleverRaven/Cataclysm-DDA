@@ -23,7 +23,6 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "catalua.h"
 #include "clzones.h"
 #include "compatibility.h"
 #include "computer.h"
@@ -57,7 +56,6 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "lua_console.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -171,7 +169,6 @@ const efftype_id effect_emp( "emp" );
 const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -184,7 +181,6 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_tied( "tied" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 
@@ -358,22 +354,12 @@ void game::load_core_data( loading_ui &ui )
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
-    init_lua();
     load_data_from_dir( FILENAMES[ "jsondir" ], "core", ui );
 }
 
 void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
 {
-    // Process a preload file before the .json files,
-    // so that custom IUSE's can be defined before
-    // the items that need them are parsed
-    lua_loadmod( path, "preload.lua" );
-
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
-
-    // main.lua will be executed after JSON, allowing to
-    // work with items defined by mod's JSON
-    lua_loadmod( path, "main.lua" );
 }
 
 game::~game()
@@ -797,6 +783,8 @@ void game::setup()
     // reset kill counts
     kills.clear();
     npc_kills.clear();
+    // reset follower list
+    follower_ids.clear();
     scent.reset();
 
     remoteveh_cache_time = calendar::before_time_starts;
@@ -968,10 +956,6 @@ bool game::start_game()
     u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
                         pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
                         u.name.c_str() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( u.getID() );
-    lua_callback( "on_new_player_created", lua_callback_args_info );
-
     return true;
 }
 
@@ -1503,21 +1487,7 @@ bool game::do_turn()
 
     if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
-        if( calendar::turn.day_of_year() == 0 ) {
-            lua_callback( "on_year_passed" );
-        }
-        lua_callback( "on_day_passed" );
     }
-
-    if( calendar::once_every( 1_hours ) ) {
-        lua_callback( "on_hour_passed" );
-    }
-
-    if( calendar::once_every( 1_minutes ) ) {
-        lua_callback( "on_minute_passed" );
-    }
-
-    lua_callback( "on_turn_passed" );
 
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
@@ -1850,12 +1820,6 @@ void game::update_weather()
         // Check weather every few turns, instead of every turn.
         //@todo: predict when the weather changes and use that time.
         nextweather = calendar::turn + 50_turns;
-        if( weather != old_weather ) {
-            CallbackArgumentContainer lua_callback_args_info;
-            lua_callback_args_info.emplace_back( weather_data( weather ).name );
-            lua_callback_args_info.emplace_back( weather_data( old_weather ).name );
-            lua_callback( "on_weather_changed", lua_callback_args_info );
-        }
         if( weather != old_weather && weather_data( weather ).dangerous &&
             get_levz() >= 0 && m.is_outside( u.pos() )
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -2004,6 +1968,69 @@ void game::increase_kill_count( const mtype_id &id )
 void game::record_npc_kill( const npc &p )
 {
     npc_kills.push_back( p.get_name() );
+}
+
+void game::add_npc_follower( const int &id )
+{
+    if( !std::any_of( follower_ids.begin(), follower_ids.end(), [id]( int i ) {
+    return i == id;
+} ) )
+    follower_ids.push_back( id );
+}
+
+void game::remove_npc_follower( const int &id )
+{
+    follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
+                        follower_ids.end() );
+}
+
+void game::validate_npc_followers()
+{
+    // Make sure visible followers are in the list.
+    const std::vector<npc *> visible_followers = g->get_npcs_if( [&]( const npc & guy ) {
+        return ( guy.is_friend() && guy.is_following() ) || guy.mission == NPC_MISSION_GUARD_ALLY;
+    } );
+    for( auto &elem : visible_followers ) {
+        add_npc_follower( elem->getID() );
+    }
+    // Make sure overmapbuffered NPC followers are in the list.
+    for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 200 ) ) {
+        npc *guy = temp_guy.get();
+        if( ( guy->is_friend() && guy->is_following() ) || guy->has_companion_mission() ) {
+            add_npc_follower( guy->getID() );
+        }
+    }
+}
+
+void game::validate_camps()
+{
+    // Make sure camps already present are added to the overmap list
+    basecamp *bcp = m.camp_at( u.pos(), 60 );
+    if( bcp ) {
+        int count = 1;
+        if( u.camps.empty() ) {
+            u.camps.insert( bcp->camp_omt_pos() );
+        }
+        for( auto camp : u.camps ) {
+            // check if already on the overmapbuffer list
+            cata::optional<basecamp *> p = overmap_buffer.find_camp( camp.x, camp.y );
+            if( !p ) {
+                //if not on overmap buffer list
+                if( camp.x == bcp->camp_omt_pos().x && camp.y == bcp->camp_omt_pos().y ) {
+                    // if this local camp is the one that needs adding
+                    std::string camp_name = _( "Faction Camp " ) + std::to_string( count );
+                    bcp->set_name( camp_name );
+                    overmap_buffer.add_camp( bcp );
+                    count += 1;
+                }
+            }
+        }
+    }
+}
+
+std::vector<int> game::get_follower_list()
+{
+    return follower_ids;
 }
 
 std::list<std::string> game::get_npc_kill()
@@ -2694,6 +2721,8 @@ void game::load( const save_t &name )
     } );
 
     reload_npcs();
+    validate_npc_followers();
+    validate_camps();
     update_map( u );
 
     // legacy, needs to be here as we access the map.
@@ -2711,8 +2740,6 @@ void game::load( const save_t &name )
 
     u.reset();
     draw();
-
-    lua_callback( "on_savegame_loaded" );
 }
 
 void game::load_world_modfiles( loading_ui &ui )
@@ -2982,20 +3009,19 @@ void game::debug()
         _( "Test Item Group" ),                 // 22
         _( "Damage Self" ),                     // 23
         _( "Show Sound Clustering" ),           // 24
-        _( "Lua Console" ),                     // 25
-        _( "Display weather" ),                 // 26
-        _( "Display overmap scents" ),          // 27
-        _( "Change time" ),                     // 28
-        _( "Set automove route" ),              // 29
-        _( "Show mutation category levels" ),   // 30
-        _( "Overmap editor" ),                  // 31
-        _( "Draw benchmark (X seconds)" ),      // 32
-        _( "Teleport - Adjacent overmap" ),     // 33
-        _( "Test trait group" ),                // 34
-        _( "Show debug message" ),              // 35
-        _( "Crash game (test crash handling)" ),// 36
-        _( "Spawn Map Extra" ),                 // 37
-        _( "Quit to Main Menu" ),               // 38
+        _( "Display weather" ),                 // 25
+        _( "Display overmap scents" ),          // 26
+        _( "Change time" ),                     // 27
+        _( "Set automove route" ),              // 28
+        _( "Show mutation category levels" ),   // 29
+        _( "Overmap editor" ),                  // 30
+        _( "Draw benchmark (X seconds)" ),      // 31
+        _( "Teleport - Adjacent overmap" ),     // 32
+        _( "Test trait group" ),                // 33
+        _( "Show debug message" ),              // 34
+        _( "Crash game (test crash handling)" ),// 35
+        _( "Spawn Map Extra" ),                 // 36
+        _( "Quit to Main Menu" ),               // 37
     } );
     refresh_all();
     switch( action ) {
@@ -3271,18 +3297,13 @@ void game::debug()
         }
         break;
 
-        case 25: {
-            lua_console console;
-            console.run();
-        }
-        break;
-        case 26:
+        case 25:
             ui::omap::display_weather();
             break;
-        case 27:
+        case 26:
             ui::omap::display_scents();
             break;
-        case 28: {
+        case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
@@ -3340,7 +3361,7 @@ void game::debug()
             } while( smenu.ret != UILIST_CANCEL );
         }
         break;
-        case 29: {
+        case 28: {
             const cata::optional<tripoint> dest = look_around();
             if( !dest || *dest == u.pos() ) {
                 break;
@@ -3354,17 +3375,17 @@ void game::debug()
             }
         }
         break;
-        case 30:
+        case 29:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
             break;
 
-        case 31:
+        case 30:
             ui::omap::display_editor();
             break;
 
-        case 32: {
+        case 31: {
             const int ms = string_input_popup()
                            .title( _( "Enter benchmark length (in milliseconds):" ) )
                            .width( 20 )
@@ -3374,19 +3395,19 @@ void game::debug()
         }
         break;
 
-        case 33:
+        case 32:
             debug_menu::teleport_overmap();
             break;
-        case 34:
+        case 33:
             trait_group::debug_spawn();
             break;
-        case 35:
+        case 34:
             debugmsg( "Test debugmsg" );
             break;
-        case 36:
+        case 35:
             std::raise( SIGSEGV );
             break;
-        case 37: {
+        case 36: {
             oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
 
             map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -3411,7 +3432,7 @@ void game::debug()
             }
             break;
         }
-        case 38:
+        case 37:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
@@ -4712,6 +4733,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = active_npc.begin(); it != active_npc.end(); ) {
             if( ( *it )->is_dead() ) {
+                remove_npc_follower( ( *it )->getID() );
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = active_npc.erase( it );
             } else {
@@ -5989,268 +6011,6 @@ void game::control_vehicle()
     }
 }
 
-bool pet_menu( monster *z )
-{
-    enum choices {
-        swap_pos = 0,
-        push_zlave,
-        rename,
-        attach_bag,
-        drop_all,
-        give_items,
-        play_with_pet,
-        pheromone,
-        milk,
-        rope
-    };
-
-    uilist amenu;
-    std::string pet_name = z->get_name();
-    if( z->type->in_species( ZOMBIE ) ) {
-        pet_name = _( "zombie slave" );
-    }
-
-    amenu.text = string_format( _( "What to do with your %s?" ), pet_name.c_str() );
-
-    amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
-    amenu.addentry( push_zlave, true, 'p', _( "Push %s" ), pet_name.c_str() );
-    amenu.addentry( rename, true, 'e', _( "Rename" ) );
-
-    if( z->has_effect( effect_has_bag ) ) {
-        amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
-        amenu.addentry( drop_all, true, 'd', _( "Drop all items" ) );
-    } else {
-        amenu.addentry( attach_bag, true, 'b', _( "Attach bag" ) );
-    }
-
-    if( z->has_flag( MF_BIRDFOOD ) || z->has_flag( MF_CATFOOD ) || z->has_flag( MF_DOGFOOD ) ) {
-        amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name.c_str() );
-    }
-
-    if( z->has_effect( effect_tied ) ) {
-        amenu.addentry( rope, true, 'r', _( "Untie" ) );
-    } else {
-        if( g->u.has_amount( "rope_6", 1 ) ) {
-            amenu.addentry( rope, true, 'r', _( "Tie" ) );
-        } else {
-            amenu.addentry( rope, false, 'r', _( "You need a short rope" ) );
-        }
-    }
-
-    if( z->type->in_species( ZOMBIE ) ) {
-        amenu.addentry( pheromone, true, 't', _( "Tear out pheromone ball" ) );
-    }
-
-    if( z->has_flag( MF_MILKABLE ) ) {
-        amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name.c_str() );
-    }
-
-    amenu.query();
-    int choice = amenu.ret;
-
-    if( swap_pos == choice ) {
-        g->u.moves -= 150;
-
-        ///\EFFECT_STR increases chance to successfully swap positions with your pet
-
-        ///\EFFECT_DEX increases chance to successfully swap positions with your pet
-        if( !one_in( ( g->u.str_cur + g->u.dex_cur ) / 6 ) ) {
-
-            bool t = z->has_effect( effect_tied );
-            if( t ) {
-                z->remove_effect( effect_tied );
-            }
-
-            tripoint zp = z->pos();
-            z->move_to( g->u.pos(), true );
-            g->u.setpos( zp );
-
-            if( t ) {
-                z->add_effect( effect_tied, 1_turns, num_bp, true );
-            }
-
-            add_msg( _( "You swap positions with your %s." ), pet_name.c_str() );
-
-            return true;
-        } else {
-            add_msg( _( "You fail to budge your %s!" ), pet_name.c_str() );
-
-            return true;
-        }
-    }
-
-    if( push_zlave == choice ) {
-
-        g->u.moves -= 30;
-
-        ///\EFFECT_STR increases chance to successfully push your pet
-        if( !one_in( g->u.str_cur ) ) {
-            add_msg( _( "You pushed the %s." ), pet_name.c_str() );
-        } else {
-            add_msg( _( "You pushed the %s, but it resisted." ), pet_name.c_str() );
-            return true;
-        }
-
-        int deltax = z->posx() - g->u.posx(), deltay = z->posy() - g->u.posy();
-
-        z->move_to( tripoint( z->posx() + deltax, z->posy() + deltay, z->posz() ) );
-
-        return true;
-    }
-
-    if( rename == choice ) {
-        std::string unique_name = string_input_popup()
-                                  .title( _( "Enter new pet name:" ) )
-                                  .width( 20 )
-                                  .query_string();
-        if( unique_name.length() > 0 ) {
-            z->unique_name = unique_name;
-        }
-        return true;
-    }
-
-    if( attach_bag == choice ) {
-        int pos = g->inv_for_filter( _( "Bag item" ), []( const item & it ) {
-            return it.is_armor() && it.get_storage() > 0_ml;
-        } );
-
-        if( pos == INT_MIN ) {
-            add_msg( _( "Never mind." ) );
-            return true;
-        }
-
-        item &it = g->u.i_at( pos );
-
-        z->add_item( it );
-
-        add_msg( _( "You mount the %1$s on your %2$s, ready to store gear." ),
-                 it.display_name().c_str(), pet_name.c_str() );
-
-        g->u.i_rem( pos );
-
-        z->add_effect( effect_has_bag, 1_turns, num_bp, true );
-
-        g->u.moves -= 200;
-
-        return true;
-    }
-
-    if( drop_all == choice ) {
-        for( auto &it : z->inv ) {
-            g->m.add_item_or_charges( z->pos(), it );
-        }
-
-        z->inv.clear();
-
-        z->remove_effect( effect_has_bag );
-
-        add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name.c_str() );
-
-        g->u.moves -= 200;
-        return true;
-    }
-
-    if( give_items == choice ) {
-
-        if( z->inv.empty() ) {
-            add_msg( _( "There is no container on your %s to put things in!" ), pet_name.c_str() );
-            return true;
-        }
-
-        item &it = z->inv[0];
-
-        if( !it.is_armor() ) {
-            add_msg( _( "There is no container on your %s to put things in!" ), pet_name.c_str() );
-            return true;
-        }
-
-        units::volume max_cap = it.get_storage();
-        units::mass max_weight = z->weight_capacity() - it.weight();
-
-        if( z->inv.size() > 1 ) {
-            for( auto &i : z->inv ) {
-                max_cap -= i.volume();
-                max_weight -= i.weight();
-            }
-        }
-
-        if( max_weight <= 0_gram ) {
-            add_msg( _( "%1$s is overburdened. You can't transfer your %2$s." ),
-                     pet_name.c_str(), it.tname( 1 ).c_str() );
-            return true;
-        }
-        if( max_cap <= 0_ml ) {
-            add_msg( _( "There's no room in your %1$s's %2$s for that, it's too bulky!" ),
-                     pet_name.c_str(), it.tname( 1 ).c_str() );
-            return true;
-        }
-
-        const auto items_to_stash = game_menus::inv::multidrop( g->u );
-        if( !items_to_stash.empty() ) {
-            g->u.drop( items_to_stash, z->pos(), true );
-            z->add_effect( effect_controlled, 5_turns );
-            return true;
-        }
-
-        return false;
-    }
-
-    if( play_with_pet == choice &&
-        query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name.c_str() ) ) {
-        g->u.assign_activity( activity_id( "ACT_PLAY_WITH_PET" ), rng( 50, 125 ) * 100 );
-        g->u.activity.str_values.push_back( pet_name );
-
-    }
-
-    if( pheromone == choice && query_yn( _( "Really kill the zombie slave?" ) ) ) {
-
-        z->apply_damage( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
-        z->die( &g->u ); // and make sure it's really dead
-
-        g->u.moves -= 150;
-
-        if( !one_in( 3 ) ) {
-            g->u.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-
-            item ball( "pheromone", 0 );
-            iuse pheromone;
-            pheromone.pheromone( &( g->u ), &ball, true, g->u.pos() );
-        }
-
-    }
-
-    if( rope == choice ) {
-        if( z->has_effect( effect_tied ) ) {
-            z->remove_effect( effect_tied );
-            item rope_6( "rope_6", 0 );
-            g->u.i_add( rope_6 );
-        } else {
-            z->add_effect( effect_tied, 1_turns, num_bp, true );
-            g->u.use_amount( "rope_6", 1 );
-        }
-
-        return true;
-    }
-
-    if( milk == choice ) {
-        // pin the cow in place if it isn't already
-        bool temp_tie = !z->has_effect( effect_tied );
-        if( temp_tie ) {
-            z->add_effect( effect_tied, 1_turns, num_bp, true );
-        }
-
-        monexamine::milk_source( *z );
-
-        if( temp_tie ) {
-            z->remove_effect( effect_tied );
-        }
-
-        return true;
-    }
-
-    return true;
-}
-
 bool game::npc_menu( npc &who )
 {
     enum choices : int {
@@ -6441,7 +6201,7 @@ void game::examine( const tripoint &examp )
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
         if( mon != nullptr && mon->has_effect( effect_pet ) ) {
-            if( pet_menu( mon ) ) {
+            if( monexamine::pet_menu( *mon ) ) {
                 return;
             }
         }
@@ -9669,7 +9429,11 @@ void game::butcher()
         }
         return;
     }
-
+    const auto helpers = u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
     switch( butcher_select ) {
         case BUTCHER_OTHER:
             switch( indexer_index ) {
@@ -13287,7 +13051,7 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     return get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_friend();
+        return guy.is_friend() || guy.mission == NPC_MISSION_GUARD_ALLY;
     } );
 }
 

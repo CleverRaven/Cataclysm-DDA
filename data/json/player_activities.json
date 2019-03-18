@@ -424,6 +424,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_DIG_CHANNEL",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_FILL_PIT",
     "type": "activity_type",
     "stop_phrase": "Stop filling?",
@@ -467,7 +473,7 @@
     "type": "activity_type",
     "stop_phrase": "Stop programming override?",
     "suspendable": false,
-    "based_on": "speed",
+    "based_on": "time",
     "no_resume": true
   },
   {

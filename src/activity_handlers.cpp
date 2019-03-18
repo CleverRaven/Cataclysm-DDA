@@ -5,7 +5,6 @@
 
 #include "action.h"
 #include "advanced_inv.h"
-#include "catalua.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -90,12 +89,14 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
+    { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
     { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
-    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -148,6 +149,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
+    { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
     { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
     { activity_id( "ACT_SHAVE" ), shaving_finish },
@@ -330,11 +332,16 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             has_tree_nearby = true;
         }
     }
+    bool b_rack_present = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag_furn( "BUTCHER_EQ", pt ) ) {
+            b_rack_present = true;
+        }
+    }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
         bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
-                        u.has_amount( "vine_30", 1 ) ;
-        bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
+                        u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -507,7 +514,8 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( "QUARTERED" ) ) {
         time_to_cut /= 4;
     }
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    time_to_cut = time_to_cut * ( 1 - ( g->u.get_num_crafting_helpers( 3 ) / 10 ) );
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
@@ -1677,27 +1685,27 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     const tripoint pos( act->placement );
     item &it = p->i_at( act->position );
-
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
-
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
     if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_hunger( 15 );
-        p->mod_thirst( 15 );
+        p->mod_hunger( 15 - ( helpersize  * 3 ) );
+        p->mod_thirst( 15 - ( helpersize  * 3 ) );
         if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
-            p->mod_fatigue( 20 ); // Yep, dwarves can dig longer before tiring
+            p->mod_fatigue( 20 - ( helpersize  * 3 ) ); // Yep, dwarves can dig longer before tiring
         } else {
-            p->mod_fatigue( 30 );
+            p->mod_fatigue( 30 - ( helpersize  * 3 ) );
         }
-        p->mod_pain( 2 * rng( 1, 3 ) );
+        p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger( 5 );
-        p->mod_thirst( 5 );
-        p->mod_fatigue( 10 );
+        p->mod_hunger( 5 - ( helpersize ) );
+        p->mod_thirst( 5 - ( helpersize ) );
+        p->mod_fatigue( 10 - ( helpersize  * 2 ) );
     }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
@@ -1885,14 +1893,6 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                                  pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
                                  new_skill_level, skill_name );
         }
-        const std::string skill_increase_source = "training";
-        CallbackArgumentContainer lua_callback_args_info;
-        lua_callback_args_info.emplace_back( p->getID() );
-        lua_callback_args_info.emplace_back( skill_increase_source );
-        lua_callback_args_info.emplace_back( sk.str() );
-        lua_callback_args_info.emplace_back( new_skill_level );
-        lua_callback( "on_player_skill_increased", lua_callback_args_info );
-        lua_callback( "on_skill_increased" ); // Legacy callback
         act->set_to_null();
         return;
     }
@@ -2787,10 +2787,11 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
 
     act->set_to_null();
@@ -2809,9 +2810,11 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_dirt );
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
@@ -2832,15 +2835,26 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     g->m.destroy( pos, true );
 
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
 
     act->set_to_null();
 }
 
 void activity_handlers::dig_do_turn( player_activity *act, player *p )
+{
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
@@ -2858,6 +2872,22 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_pit_shallow );
     }
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+
+    act->set_to_null();
+}
+
+void activity_handlers::dig_channel_finish( player_activity *act, player *p )
+{
+    const tripoint &pos = act->placement;
+
+    g->m.ter_set( pos, t_water_moving_sh );
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
@@ -2888,10 +2918,11 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_dirt );
     }
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
     act->set_to_null();
@@ -3082,8 +3113,8 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
 
     auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
-        std::string failure = iexamine::fertilize_failure_reason( *p, tile, fertilizer );
-        return !p->sees( tile ) || !failure.empty();
+        ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
+        return !p->sees( tile ) || !can_fert.success();
     };
 
     auto fertilize = [&]( player & p, const tripoint & tile ) {
@@ -3168,44 +3199,44 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
                                 _( "You planted all seeds you could." ) );
 }
 
+void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
+{
+    if( act->monsters.empty() ) {
+        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
+        act->set_to_null();
+        return;
+    }
+    std::shared_ptr<monster> z = act->monsters[0].lock();
+
+    if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
+        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        act->set_to_null();
+        return;
+    }
+
+    // @todo  Add some kind of chance of getting the target's attention
+
+    // Allow time to pass
+    p->pause();
+}
+
 void activity_handlers::robot_control_finish( player_activity *act, player *p )
 {
-    uilist pick_robot;
-    pick_robot.text = _( "Override ready, choose an endpoint to hack." );
-    // Build a list of all unfriendly robots in range.
-    std::vector< monster * > mons; // @todo: change into vector<Creature*>
-    std::vector< tripoint > locations;
-    int entry_num = 0;
-    for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( species_id( "ROBOT" ) ) && candidate.friendly == 0 &&
-            rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
-            mons.push_back( &candidate );
-            pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-            tripoint seen_loc;
-            // Show locations of seen robots, center on player if robot is not seen
-            if( p->sees( candidate ) ) {
-                seen_loc = candidate.pos();
-            } else {
-                seen_loc = p->pos();
-            }
-            locations.push_back( seen_loc );
-        }
-    }
-    if( mons.empty() ) {
-        p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
-        act->set_to_null();
+    act->set_to_null();
+
+    if( act->monsters.empty() ) {
+        debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
         return;
     }
-    pointmenu_cb callback( locations );
-    pick_robot.callback = &callback;
-    pick_robot.query();
-    if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
-        p->add_msg_if_player( m_info, _( "Never mind" ) );
-        act->set_to_null();
+
+    std::shared_ptr<monster> z = act->monsters[0].lock();
+    act->monsters.clear();
+
+    if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
+        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
         return;
     }
-    const size_t mondex = pick_robot.ret;
-    monster *z = mons[mondex];
+
     p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name().c_str() );
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
@@ -3222,7 +3253,6 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
         if( z->is_dead() ) {
             p->practice( skill_id( "computer" ), 10 );
-            act->set_to_null();
             return; // Do not do the other effects if the robot died
         }
         if( one_in( 3 ) ) {
@@ -3237,5 +3267,4 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
-    act->set_to_null();
 }

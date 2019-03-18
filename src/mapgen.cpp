@@ -8,7 +8,6 @@
 #include <sstream>
 
 #include "ammo.h"
-#include "catalua.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -209,14 +208,6 @@ void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, con
                                         const time_point &t, float d )
 {
     ( *fptr )( m, terrain_type, mgd, t, d );
-
-    const std::string mapgen_generator_type = "builtin";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -322,29 +313,6 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
             }
-        } else if( mgtype == "lua" ) { // lua script
-            if( jio.has_string( "script" ) ) { // minified into one\nline
-                const std::string mgscript = jio.get_string( "script" );
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-            } else if( jio.has_array( "script" ) ) { // or 1 line per entry array
-                std::string mgscript;
-                JsonArray jascr = jio.get_array( "script" );
-                while( jascr.has_more() ) {
-                    mgscript += jascr.next_string();
-                    mgscript += "\n";
-                }
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-                // @todo: pass dirname current.json, because the latter two are icky
-                // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).",
-                          id_base.c_str() );
-            }
-#ifndef LUA
-            dbg( D_ERROR ) << "oter_t " << id_base << ": mapgen entry requires a build with LUA=1.";
-#endif
         } else if( mgtype == "json" ) {
             if( jio.has_object( "object" ) ) {
                 JsonObject jo = jio.get_object( "object" );
@@ -358,7 +326,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             debugmsg( "oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
         }
     } else {
-        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").",
+        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\" or \"json\").",
                   id_base.c_str() );
     }
     return ret;
@@ -909,6 +877,7 @@ class jmapgen_liquid_item : public jmapgen_piece
  * Place items from an item group.
  * "item": id of the item group.
  * "chance": chance of items being placed, see @ref map::place_items
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_item_group : public jmapgen_piece
 {
@@ -921,6 +890,7 @@ class jmapgen_item_group : public jmapgen_piece
             if( !item_group::group_is_defined( group_id ) ) {
                 jsi.throw_error( "no such item group", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -1131,6 +1101,7 @@ class jmapgen_vehicle : public jmapgen_piece
  * "item": id of item type to spawn.
  * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
  * "amount": amount of items to spawn.
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_spawn_item : public jmapgen_piece
 {
@@ -1145,6 +1116,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             if( !item::type_is_defined( type ) ) {
                 jsi.throw_error( "no such item type", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -1667,9 +1639,40 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
                     // Using the json object here adds nice formatting and context information
                     jarr.throw_error( err.what() );
                 }
-            } else {
+            } else if( jarr.test_object() ) {
                 JsonObject jsi = jarr.next_object();
                 alter->alternatives.emplace_back( jsi );
+            } else if( jarr.test_array() ) {
+                // If this is an array, it means it is an entry followed by a desired total count of instances.
+                JsonArray piece_and_count_jarr = jarr.next_array();
+                if( piece_and_count_jarr.size() != 2 ) {
+                    piece_and_count_jarr.throw_error( "Array must have exactly two entries: the object, then the count." );
+                }
+
+                // Test if this is a string or object, and then just emplace it.
+                if( piece_and_count_jarr.test_string() ) {
+                    try {
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next_string() );
+                    } catch( const std::runtime_error &err ) {
+                        piece_and_count_jarr.throw_error( err.what() );
+                    }
+                } else if( piece_and_count_jarr.test_object() ) {
+                    JsonObject jsi = piece_and_count_jarr.next_object();
+                    alter->alternatives.emplace_back( jsi );
+                } else {
+                    piece_and_count_jarr.throw_error( "First entry must be a string or object." );
+                }
+
+                if( piece_and_count_jarr.test_int() ) {
+                    // We already emplaced the first instance, so do one less.
+                    int repeat = std::max( 0, piece_and_count_jarr.next_int() - 1 );
+                    PieceType piece_to_repeat = alter->alternatives.back();
+                    for( int i = 0; i < repeat; i++ ) {
+                        alter->alternatives.emplace_back( piece_to_repeat );
+                    }
+                } else {
+                    piece_and_count_jarr.throw_error( "Second entry must be an integer." );
+                }
             }
         }
         vect.push_back( alter );
@@ -1860,6 +1863,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
+    new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
 
     return new_pal;
 }
@@ -1874,17 +1878,6 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
     // something akin to mapgen fill_background.
     if( jo.has_string( "fill_ter" ) ) {
         fill_ter = ter_str_id( jo.get_string( "fill_ter" ) ).id();
-    }
-
-    if( jo.has_string( "lua" ) ) { // minified into one\nline
-        luascript = jo.get_string( "lua" );
-    } else if( jo.has_array( "lua" ) ) { // or 1 line per entry array
-        luascript.clear();
-        JsonArray jascr = jo.get_array( "lua" );
-        while( jascr.has_more() ) {
-            luascript += jascr.next_string();
-            luascript += "\n";
-        }
     }
 
     if( jo.has_member( "rotation" ) ) {
@@ -2231,7 +2224,7 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int off
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md,
-                                     const time_point &t, float d )
+                                     const time_point &, float d )
 {
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
@@ -2241,9 +2234,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     }
     for( auto &elem : setmap_points ) {
         elem.apply( md, 0, 0 );
-    }
-    if( ! luascript.empty() ) {
-        lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
     place_stairs( m, terrain_type, md );
@@ -2255,14 +2245,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     if( terrain_type->is_rotatable() ) {
         mapgen_rotate( m, terrain_type, false );
     }
-
-    const std::string mapgen_generator_type = "json";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y,
@@ -2290,7 +2272,9 @@ void jmapgen_objects::apply( const mapgendata &dat, float density ) const
     for( auto &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
@@ -2310,52 +2294,13 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
         auto where = obj.first;
         where.offset( -offset_x, -offset_y );
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
     }
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-///// lua mapgen functions
-// wip: need more bindings. Basic stuff works
-
-#ifndef LUA
-int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &mgd, const time_point &t,
-                float d, const std::string & )
-{
-    mapgen_crater( m, terrain_type, mgd, to_turn<int>( t ), d );
-    mapf::formatted_set_simple( m, 0, 6,
-                                "\
-    *   *  ***\n\
-    **  * *   *\n\
-    * * * *   *\n\
-    *  ** *   *\n\
-    *   *  ***\n\
-\n\
- *     *   *   *\n\
- *     *   *  * *\n\
- *     *   *  ***\n\
- *     *   * *   *\n\
- *****  ***  *   *\n\
-", mapf::ter_bind( "*", t_paper ), mapf::furn_bind( "*", f_null ) );
-    return 0;
-}
-#endif
-
-void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
-                                    const time_point &t, float d )
-{
-    lua_mapgen( m, terrain_type, mgd, t, d, scr );
-
-    const std::string mapgen_generator_type = "lua";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////
