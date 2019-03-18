@@ -30,7 +30,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
+    "upgrades": { "half_life": 20, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -85,7 +85,7 @@
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" },
+    "upgrades": { "half_life": 20, "into": "mon_zombie_soldier_blackops_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -110,7 +110,7 @@
     "copy-from": "mon_zombie_soldier_blackops_1",
     "looks_like": "mon_zombie_soldier_blackops_1",
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "dodge": 1, "vision_night": 15 },
-    "delete": { "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" } },
+    "delete": { "upgrades": { "half_life": 20, "into": "mon_zombie_soldier_blackops_2" } },
     "extend": {
       "special_attacks": [
         {
@@ -219,7 +219,7 @@
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
+    "upgrades": { "half_life": 20, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
