@@ -5320,6 +5320,22 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
     return res;
 }
 
+std::string item::ammo_sort_name() const
+{
+    if( is_magazine() || is_gun() || is_tool() ) {
+        return ammo_type()->name();
+    }
+    if( is_ammo() ) {
+        return enumerate_as_string( type->ammo->type.begin(),
+                                    type->ammo->type.end(),
+        []( const ammotype & e ) {
+            return e->name();
+        },
+        enumeration_conjunction::none );
+    }
+    return "";
+}
+
 bool item::magazine_integral() const
 {
     // If a mod sets a magazine type, we're not integral.

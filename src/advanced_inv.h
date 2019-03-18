@@ -46,6 +46,7 @@ enum advanced_inv_sortby {
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
+    SORTBY_AMMO,
     SORTBY_SPOILAGE
 };
 
