@@ -1734,7 +1734,7 @@ bool game::do_turn()
         gsi::get().safe_mode = 4;
     else
         gsi::get().safe_mode = turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
-    gsi_socket::sockout();
+    gsi_socket::get().sockout();
 #endif
     return false;
 }

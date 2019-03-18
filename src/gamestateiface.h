@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <mutex>
+#include <queue>
 
 #include "json.h"
 #include "color.h"
@@ -12,6 +13,22 @@
 #include "bodypart.h"
 #include "character.h"
 
+#ifdef _WINDOWS
+#include <Windows.h>
+#include <io.h>
+#include <fcntl.h>
+#endif
+
+#ifdef _WIN32
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#pragma comment(lib, "Ws2_32.lib")
+#else
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <unistd.h>
+#endif
 
 
 class gsi : public JsonSerializer
@@ -89,7 +106,27 @@ public:
 class gsi_socket
 {
 public:
-    static int sockInit(void);
-    static int sockQuit(void);
-    static void sockout();
+    static gsi_socket& get()
+    {
+        static gsi_socket instance;
+        return instance;
+    }
+
+    gsi_socket(gsi_socket const&) = delete;
+    void operator=(gsi_socket const&) = delete;
+
+    std::queue<std::string> commandqueue;
+    void sockListen();
+    void processCommands();
+    void sockout();
+
+private:
+    gsi_socket() {}
+
+    SOCKET ListenSocket;
+    std::set<int> ports;
+
+    void tryReceive();
+    int sockInit(void);
+    int sockQuit(void);
 };

@@ -337,6 +337,68 @@ void gsi_thread::prep_out()
     }
 }
 
+void gsi_socket::sockListen()
+{
+    sockInit();
+    struct sockaddr_in address;
+    ListenSocket = socket(AF_INET, SOCK_DGRAM, 0);
+#ifdef _WIN32
+    u_long mode = 1;
+    ioctlsocket(ListenSocket, FIONBIO, &mode);
+#else
+    fcntl(ListenSocket, F_SETFL, O_NONBLOCK);
+#endif
+    address.sin_family = AF_INET;
+    inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
+    address.sin_port = htons(3441);
+    if (ListenSocket == INVALID_SOCKET)
+        return;
+    if (bind(ListenSocket, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR)
+    {
+        closesocket(ListenSocket);
+        return;
+    }
+}
+
+void gsi_socket::tryReceive() 
+{
+    if (ListenSocket != INVALID_SOCKET)
+    {
+        const int buflen = 1024;
+        char buf[buflen];
+        SOCKADDR sender;
+        int sender_len = sizeof(sender);
+        while (recvfrom(ListenSocket, buf, buflen, 0, &sender, &sender_len) > 0)
+        {
+            commandqueue.push(std::string(buf));
+        }
+    }
+}
+
+void gsi_socket::processCommands()
+{
+    tryReceive();
+    while (!commandqueue.empty())
+    {
+        try
+        {
+            std::vector<std::string> command;
+            std::stringstream ss(commandqueue.front());
+            std::string substring;
+            while (std::getline(ss, substring, ' '))
+                command.push_back(substring);
+            commandqueue.pop();
+
+            if (command[0] == "gsi")
+                ports.insert(std::stoi(command[1]));
+        }
+        catch (int e)
+        {
+
+        }
+    }
+}
+
 int gsi_socket::sockInit(void)
 {
 #ifdef _WIN32
@@ -358,52 +420,57 @@ int gsi_socket::sockQuit(void)
 
 void gsi_socket::sockout()
 {
-    int sock;
-    sockInit();
-    sock = socket(AF_INET, SOCK_STREAM, 0);
-    int error = WSAGetLastError();
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
-    inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
-    address.sin_port = htons(9088);
-
-    if (sock < 0)
+    processCommands();
+    std::vector<int> v;
+    std::copy(ports.begin(), ports.end(), std::back_inserter(v));
+    for (int i = 0; i < v.size(); i++)
     {
+        int sock;
+        sockInit();
+        sock = socket(AF_INET, SOCK_STREAM, 0);
+        int error = WSAGetLastError();
+        struct sockaddr_in address;
+        address.sin_family = AF_INET;
+        inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
+        address.sin_port = htons(v[i]);
+
+        if (sock == INVALID_SOCKET)
+        {
+            sockQuit();
+            return;
+        }
+
+        if (connect(sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
+            _close(sock);
+            sockQuit();
+            return;
+        }
+        std::ostringstream ostream(std::ostringstream::ate);
+        JsonOut jout(ostream, true);
+        gsi::get().serialize(jout);
+
+        std::stringstream ss;
+        ss.imbue(std::locale::classic());
+        ss << "POST http://localhost HTTP/1.1\r\n"
+            << "Host: http://localhost\r\n"
+            << "Content-Type: application/json\r\n"
+            << "Content-Length: " << ostream.str().length() << "\r\n\r\n"
+            << ostream.str();
+
+        std::string request = ss.str();
+        if (send(sock, request.c_str(), request.length(), 0) != (int)request.length())
+        {
+            sockQuit();
+            return;
+        }
+
+        char buf[1024];
+        std::cout << recv(sock, buf, 1024, 0) << std::endl;
+        std::cout << buf << std::endl;
+
         sockQuit();
-        return;
     }
-        
-
-
-    if (connect(sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
-        _close(sock);
-        sockQuit();
-        return;
-    }
-    std::ostringstream ostream(std::ostringstream::ate);
-    JsonOut jout(ostream, true);
-    gsi::get().serialize(jout);
-
-    std::stringstream ss;
-    ss.imbue(std::locale::classic());
-    ss << "POST http://localhost:9088 HTTP/1.1\r\n"
-        << "Host: http://localhost\r\n"
-        << "Content-Type: application/json\r\n"
-        << "Content-Length: "<< ostream.str().length() << "\r\n\r\n"
-        << ostream.str();
-
-    std::string request = ss.str();
-    if (send(sock, request.c_str(), request.length(), 0) != (int)request.length())
-    {
-        sockQuit();
-        return;
-    }
-
-    char buf[1024];
-    std::cout << recv(sock, buf, 1024, 0) << std::endl;
-    std::cout << buf << std::endl;
-
-    sockQuit();
+    
     return;
 }
 
