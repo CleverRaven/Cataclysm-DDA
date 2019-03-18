@@ -1145,6 +1145,8 @@ class game
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type weather_override;
+
+        bool displaying_scent;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
