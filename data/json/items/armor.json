@@ -4431,6 +4431,28 @@
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
+    "id": "helmet_galea",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "galea",
+    "name_plural": "galeae",
+    "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head.",
+    "weight": 1310,
+    "volume": 10,
+    "price": 35000,
+    "bashing": 10,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD" ],
+    "coverage": 85,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "helmet_hsurvivor",
     "type": "ARMOR",
     "category": "armor",
