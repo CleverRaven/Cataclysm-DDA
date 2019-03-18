@@ -6844,7 +6844,6 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
                 // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
                 sap.poison = one_in( 10 ) ? 1 : 0;
                 sap.charges = new_charges;
-                sap.set_item_temperature( temp_to_kelvin( g->get_temperature( p ) ) );
 
                 it.fill_with( sap );
             }
