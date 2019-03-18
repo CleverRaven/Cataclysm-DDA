@@ -1074,6 +1074,32 @@
     }
   },
   {
+    "id": "bot_science_bot",
+    "looks_like": "broken_science_bot",
+    "type": "TOOL",
+    "name": "inactive lab defense bot",
+    "description": "This is an inactive experimental robot plundered from a science lab.  It resembles a human-sized spider and was designed to deploy manhacks.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the robot will race towards enemies and deploy a variety of experimental devices.",
+    "weight": 100000,
+    "volume": "65000 ml",
+    "price": 80000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_science_bot",
+      "friendly_msg": "The lab defense bot shudders briefly and skitters away.",
+      "hostile_msg": "The lab defense bot raises its front legs and shines a multitude of colored lights in your face!",
+      "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_tankbot",
     "looks_like": "broken_tankbot",
     "type": "TOOL",
