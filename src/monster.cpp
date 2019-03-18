@@ -276,11 +276,11 @@ int monster::next_upgrade_time()
         return type->age_grow;
     }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    int day = scaled_half_life;
+    int day = 0;
     for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
         if( one_in( 2 ) ) {
             day += rng( 0, scaled_half_life );
-            return day;
+            return std::max( get_option<int>( "MONSTER_UPGRADE_MIN_DAYS" ), day );
         } else {
             day += scaled_half_life;
         }

@@ -145,5 +145,12 @@
     "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MONSTER_UPGRADE_MIN_DAYS",
+    "info": "Minimal days for monster upgrade.  Monster upgade time in days can't be lower than that no matter what.  This value doesn't scales with MONSTER_UPGRADE_FACTOR",
+    "stype": "int",
+    "value": 3
   }
 ]
