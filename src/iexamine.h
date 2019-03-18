@@ -95,6 +95,7 @@ void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
+void fireplace( player &p, const tripoint &examp );
 void fvat_empty( player &p, const tripoint &examp );
 void fvat_full( player &p, const tripoint &examp );
 void keg( player &p, const tripoint &examp );

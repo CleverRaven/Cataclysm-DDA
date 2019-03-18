@@ -640,6 +640,8 @@
       { "item": "colamdew", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" },
       ["milk", 50],
+      ["almond_milk", 50],
+      ["soy_milk", 50],
       { "item": "egg_bird", "prob": 65, "count-min": 1, "count-max": 12},
       ["yoghurt", 50],
       ["pudding", 60],
@@ -1494,6 +1496,8 @@
       ["crispycran", 40],
       ["colamdew", 60],
       ["purple_drink", 35],
+      ["almond_milk", 30],
+      ["soy_milk", 30],
       ["juice", 20],
       ["sandwich_t", 30],
       ["sandwich_pb", 30],
@@ -9479,7 +9483,8 @@
       ["pie_meat",    28],
       ["pie_veggy",   15],
       ["pie_maple",    7],
-      ["yoghurt",     30]
+      ["yoghurt",     30],
+      ["soy_milk", 20]
     ]
   },{
     "type"  : "item_group",
@@ -10373,5 +10378,10 @@
         [ "one_year_old_newspaper", 2 ],
         [ "months_old_newspaper", 2 ]
       ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "maps",
+      "items":[ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
     }
   ]

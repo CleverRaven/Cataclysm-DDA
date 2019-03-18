@@ -810,6 +810,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "SECURITY" ) ||
                part.has_flag( "SEAT" ) ||
                part.has_flag( "BED" ) ||
+               part.has_flag( "SPACE_HEATER" ) ||
                part.has_flag( "DOOR_MOTOR" ) ||
                part.has_flag( "WATER_PURIFIER" );
     };

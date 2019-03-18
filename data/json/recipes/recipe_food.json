@@ -1355,6 +1355,33 @@
   },
   {
     "type": "recipe",
+    "result": "almond_milk",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 15000,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "rag", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "autolearn": true,
+    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "almond_milk",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 9000,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ] ],
+    "autolearn": true,
+    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "milk",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
