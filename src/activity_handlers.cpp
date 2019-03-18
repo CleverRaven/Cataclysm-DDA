@@ -2888,6 +2888,8 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
         g->m.place_items( "jewelery_front", 20, pos, pos, false, calendar::turn );
         g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
+        g->u.add_memorial_log( pgettext( "memorial_male", "Digged up a grave." ),
+                        pgettext( "memorial_female", "Digged up a grave." ) );
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
