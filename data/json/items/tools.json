@@ -6452,7 +6452,6 @@
     "weight": 3013,
     "volume": 13,
     "price": 16000,
-    "to_hit": 0,
     "bashing": 2,
     "cutting": 16,
     "material": [ "steel", "wood" ],
