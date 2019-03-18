@@ -671,7 +671,6 @@ class npc : public player
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;
 
-        void choose_target();
         void assess_danger();
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
