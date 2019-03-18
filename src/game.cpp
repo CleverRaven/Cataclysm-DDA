@@ -6282,6 +6282,8 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at( examp ).empty() &&
             m.has_flag( "CONTAINER", examp ) && none ) {
             add_msg( _( "It is empty." ) );
+        } else if( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) && xfurn_t.examine == &iexamine::fireplace ) {
+            return;
         } else {
             draw_sidebar_messages();
             sounds::process_sound_markers( &u );
