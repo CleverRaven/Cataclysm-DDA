@@ -832,8 +832,8 @@
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
-      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "place_items": [ { "item": "science", "x": 0, "y": 0, "chance": 90, "repeat": [ 15, 20 ] } ]
+      "furniture": { "X": [ [ "f_crate_c", 3], "f_crate_o" ] },
+      "place_items": [ { "item": "chem_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 20 ] } ]
     }
   },
   {
@@ -845,7 +845,7 @@
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
-      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
+      "furniture": { "X": [ [ "f_crate_c", 3], "f_crate_o" ] },
       "place_items": [ { "item": "electronics", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
     }
   },
@@ -858,7 +858,7 @@
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
-      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
+      "furniture": { "X": [ [ "f_crate_c", 3], "f_crate_o" ] },
       "place_items": [ { "item": "hardware_bulk", "x": 0, "y": 0, "chance": 90, "repeat": [ 20, 30 ] } ]
     }
   },
@@ -871,8 +871,8 @@
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
-      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "place_items": [ { "item": "cannedfood", "x": 0, "y": 0, "chance": 90, "repeat": [ 50, 70 ] } ]
+      "furniture": { "X": [ [ "f_crate_c", 3], "f_crate_o" ] },
+      "place_items": [ { "item": "produce", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
     }
   },
   {
@@ -884,8 +884,8 @@
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
-      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "place_items": [ { "item": "snacks", "x": 0, "y": 0, "chance": 90, "repeat": [ 50, 70 ] } ]
+      "furniture": { "X": [ [ "f_crate_c", 3], "f_crate_o" ] },
+      "place_items": [ { "item": "snacks", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
     }
   },
   {
@@ -897,8 +897,8 @@
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
-      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "place_items": [ { "item": "hospital_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
+      "furniture": { "X": [ [ "f_crate_c", 3], "f_crate_o" ] },
+      "place_items": [ { "item": "hospital_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 10 ] } ]
     }
   },
   {
