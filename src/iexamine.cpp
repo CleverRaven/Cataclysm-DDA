@@ -15,6 +15,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "event.h"
+#include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
@@ -34,6 +35,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "pickup.h"
 #include "player.h"
 #include "requirements.h"
 #include "rng.h"
@@ -2285,6 +2287,102 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
 
+void iexamine::fireplace( player &p, const tripoint &examp )
+{
+    const bool already_on_fire = g->m.has_nearby_fire( examp, 0 );
+    const bool furn_is_deployed = !g->m.furn( examp ).obj().deployed_item.empty();
+
+    if( already_on_fire && !furn_is_deployed ) {
+        none( p, examp );
+        Pickup::pick_up( examp, 0 );
+        return;
+    }
+
+    std::multimap<int, item *> firestarters;
+    for( item *it : p.items_with( []( const item & it ) {
+    return it.has_flag( "FIRESTARTER" ) || it.has_flag( "FIRE" );
+    } ) ) {
+        const auto usef = it->type->get_use( "firestarter" );
+        if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
+            const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            if( actor->can_use( p, *it, false, examp ).success() ) {
+                firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
+            }
+        }
+    }
+
+    const bool has_firestarter = firestarters.size() > 0;
+    const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
+                                        p.power_level >= bionic_id( "bio_lighter" )->power_activate;
+
+    uilist selection_menu;
+    selection_menu.text = _( "Select an action" );
+    selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
+    if( !already_on_fire ) {
+        selection_menu.addentry( 1, has_firestarter, 'f',
+                                 has_firestarter ? _( "Start a fire" ) : _( "Start a fire... you'll need a fire source." ) );
+        if( has_bionic_firestarter ) {
+            selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
+        }
+    }
+    if( furn_is_deployed ) {
+        selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
+                                 g->m.furnname( examp ) ) );
+    }
+    selection_menu.query();
+
+    switch( selection_menu.ret ) {
+        case 0:
+            none( p, examp );
+            Pickup::pick_up( examp, 0 );
+            return;
+        case 1: {
+            for( auto &firestarter : firestarters ) {
+                item *it = firestarter.second;
+                const auto usef = it->type->get_use( "firestarter" );
+                const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+                p.add_msg_if_player( string_format( _( "You attempt to start a fire with your %s..." ),
+                                                    it->tname() ) );
+                const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+                if( can_use.success() ) {
+                    const long charges = actor->use( p, *it, false, examp );
+                    p.use_charges( it->typeId(), charges );
+                    return;
+                } else {
+                    p.add_msg_if_player( m_bad, can_use.str() );
+                }
+            }
+            p.add_msg_if_player( _( "You weren't able to start a fire." ) );
+            return;
+        }
+        case 2: {
+            if( g->m.add_field( examp, fd_fire, 1 ) ) {
+                p.charge_power( -bionic_id( "bio_lighter" )->power_activate );
+                p.mod_moves( -100 );
+            } else {
+                p.add_msg_if_player( m_info, _( "You can't light a fire there." ) );
+            }
+            return;
+        }
+        case 3: {
+            if( already_on_fire ) {
+                if( !query_yn( _( "Really take down the %s while it's on fire?" ), g->m.furnname( examp ) ) ) {
+                    return;
+                }
+            }
+            p.add_msg_if_player( m_info, _( "You take down the %s." ),
+                                 g->m.furnname( examp ) );
+            const auto furn_item = g->m.furn( examp ).obj().deployed_item;
+            g->m.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
+            g->m.furn_set( examp, f_null );
+            return;
+        }
+        default:
+            none( p, examp );
+            return;
+    }
+}
+
 void iexamine::fvat_empty( player &p, const tripoint &examp )
 {
     itype_id brew_type;
@@ -4498,6 +4596,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "locked_object", &iexamine::locked_object },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "fireplace", &iexamine::fireplace },
             { "climb_down", &iexamine::climb_down },
             { "autodoc", &iexamine::autodoc },
             { "smoker_options", &iexamine::smoker_options },

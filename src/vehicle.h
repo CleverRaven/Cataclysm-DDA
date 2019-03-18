@@ -1470,6 +1470,7 @@ class vehicle
         std::vector<int> wind_turbines;     // List of wind turbine indices
         std::vector<int> water_wheels;     // List of water wheel indices
         std::vector<int> funnels;          // List of funnel indices
+        std::vector<int> heaters;          // List of heater parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> steering;         // List of STEERABLE parts

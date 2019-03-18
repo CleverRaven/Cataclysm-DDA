@@ -171,6 +171,8 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "category" );
         case SORTBY_DAMAGE:
             return _( "damage" );
+        case SORTBY_AMMO:
+            return _( "ammo/charge type" );
         case SORTBY_SPOILAGE:
             return _( "spoilage" );
     }
@@ -444,6 +446,45 @@ struct advanced_inv_sorter {
                     return d1.items.front()->damage() < d2.items.front()->damage();
                 }
                 break;
+            case SORTBY_AMMO: {
+                const std::string a1 = d1.items.front()->ammo_sort_name();
+                const std::string a2 = d2.items.front()->ammo_sort_name();
+                // There are many items with "false" ammo types (e.g.
+                // scrap metal has "components") that actually is not
+                // used as ammo, so we consider them as non-ammo.
+                const bool ammoish1 = a1 != "" && a1 != "components" && a1 != "none" && a1 != "NULL";
+                const bool ammoish2 = a2 != "" && a2 != "components" && a2 != "none" && a2 != "NULL";
+                if( ammoish1 != ammoish2 ) {
+                    return ammoish1;
+                } else if( ammoish1 && ammoish2 ) {
+                    if( a1 == a2 ) {
+                        // For items with the same ammo type, we sort:
+                        // guns > tools > magazines > ammunition
+                        if( d1.items.front()->is_gun() && !d2.items.front()->is_gun() ) {
+                            return true;
+                        }
+                        if( !d1.items.front()->is_gun() && d2.items.front()->is_gun() ) {
+                            return false;
+                        }
+                        if( d1.items.front()->is_tool() && !d2.items.front()->is_tool() ) {
+                            return true;
+                        }
+                        if( !d1.items.front()->is_tool() && d2.items.front()->is_tool() ) {
+                            return false;
+                        }
+                        if( d1.items.front()->is_magazine() && d2.items.front()->is_ammo() ) {
+                            return true;
+                        }
+                        if( d2.items.front()->is_magazine() && d1.items.front()->is_ammo() ) {
+                            return false;
+                        }
+                    }
+                    return std::lexicographical_compare( a1.begin(), a1.end(),
+                                                         a2.begin(), a2.end(),
+                                                         sort_case_insensitive_less() );
+                }
+            }
+            break;
             case SORTBY_SPOILAGE:
                 if( d1.items.front()->spoilage_sort_order() != d2.items.front()->spoilage_sort_order() ) {
                     return d1.items.front()->spoilage_sort_order() < d2.items.front()->spoilage_sort_order();
@@ -1375,6 +1416,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_CHARGES,  true, 'x', get_sortname( SORTBY_CHARGES ) );
     sm.addentry( SORTBY_CATEGORY, true, 'c', get_sortname( SORTBY_CATEGORY ) );
     sm.addentry( SORTBY_DAMAGE,   true, 'd', get_sortname( SORTBY_DAMAGE ) );
+    sm.addentry( SORTBY_AMMO,     true, 'a', get_sortname( SORTBY_AMMO ) );
     sm.addentry( SORTBY_SPOILAGE,   true, 's', get_sortname( SORTBY_SPOILAGE ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;

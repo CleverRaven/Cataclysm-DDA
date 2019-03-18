@@ -1004,7 +1004,7 @@ class game
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                               int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
-                                  int &line );
+                                  int &line, const int last_line );
         void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
@@ -1145,6 +1145,8 @@ class game
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type weather_override;
+
+        bool displaying_scent;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

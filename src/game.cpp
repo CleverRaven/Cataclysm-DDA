@@ -249,7 +249,8 @@ game::game() :
     tileset_zoom( 16 ),
     wind_direction_override(),
     windspeed_override(),
-    weather_override( WEATHER_NULL )
+    weather_override( WEATHER_NULL ),
+    displaying_scent( false )
 
 {
     temperature = 0;
@@ -6282,6 +6283,8 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at( examp ).empty() &&
             m.has_flag( "CONTAINER", examp ) && none ) {
             add_msg( _( "It is empty." ) );
+        } else if( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) && xfurn_t.examine == &iexamine::fireplace ) {
+            return;
         } else {
             draw_sidebar_messages();
             sounds::process_sound_markers( &u );
@@ -6363,7 +6366,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_terrain_info( lp, w_look, area_name, column, line );
             print_fields_info( lp, w_look, column, line );
             print_trap_info( lp, w_look, column, line );
-            print_creature_info( creature, w_look, column, line );
+            print_creature_info( creature, w_look, column, line, last_line );
             print_vehicle_info( veh_pointer_or_null( vp ), vp ? vp->part_index() : -1, w_look, column, line,
                                 last_line );
             print_items_info( lp, w_look, column, line, last_line );
@@ -6526,10 +6529,11 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 }
 
 void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
-                                const int column, int &line )
+                                const int column, int &line, const int last_line )
 {
+    int vLines = last_line - line;
     if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
-        line = creature->print_info( w_look, ++line, 6, column );
+        line = creature->print_info( w_look, ++line, vLines, column );
     }
 }
 
@@ -12389,16 +12393,20 @@ void game::nuke( const tripoint &p )
 
 void game::display_scent()
 {
-    int div;
-    bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
-    if( !got_value || div < 1 ) {
-        add_msg( _( "Never mind." ) );
-        return;
+    if( use_tiles ) {
+        displaying_scent = !displaying_scent;
+    } else {
+        int div;
+        bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
+        if( !got_value || div < 1 ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        draw_ter();
+        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
+        wrefresh( w_terrain );
+        inp_mngr.wait_for_any_key();
     }
-    draw_ter();
-    scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
-    wrefresh( w_terrain );
-    inp_mngr.wait_for_any_key();
 }
 
 void game::init_autosave()

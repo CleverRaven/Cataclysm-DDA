@@ -1153,6 +1153,22 @@
     },
     {
         "type":"GENERIC",
+        "id": "mountable_heater",
+        "name": "vehicle heater",
+        "name_plural" : "vehicle heaters",
+        "description": "A vehicle-mounted area heater.",
+        "weight": 12500,
+        "to_hit": -4,
+        "color": "red",
+        "symbol": ";",
+        "material": ["steel"],
+        "volume": 30,
+        "bashing": 12,
+        "category" : "veh_parts",
+        "price": 20000
+    },
+    {
+        "type":"GENERIC",
         "id" : "camera_control",
         "name" : "camera display",
         "description" : "A set of small monitors.  Required to view cameras' output.",
