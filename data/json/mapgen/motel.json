@@ -1453,7 +1453,6 @@
       "toilets": { "&": {  } },
       "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 5, 16 ] } ]
-    },
   },
   {
     "type": "mapgen",
