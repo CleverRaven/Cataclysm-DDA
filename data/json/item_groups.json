@@ -10341,5 +10341,10 @@
         [ "belgian_ale", 10 ],
         [ "imperial_stout", 4 ]
       ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "maps",
+      "items":[ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
     }
   ]
