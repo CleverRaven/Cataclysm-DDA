@@ -169,7 +169,7 @@ The entries should share the same color and symbol.
 Navigate to `data/json/regional_map_settings.json`
 
 This determines the spawn frequency and location of non-special buildings.
-Find the appropriate category for your building and add either the overmap_special ID or the city_building ID only for the main floor and include a spawn weight.
+Find the appropriate category for your building and add either the overmap_special ID or the city_building ID and include a spawn weight.
 
 ````json
 ""abandonedwarehouse": 200,
