@@ -1347,53 +1347,56 @@ void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
     };
 }
 
-void talk_effect_fun_t::set_u_add_permanent_effect( const std::string &new_effect )
+void talk_effect_fun_t::set_add_effect( bool is_u, const std::string &new_effect,
+                                        const time_duration &duration, bool permanent )
 {
-    function = [new_effect]( const dialogue & d ) {
-        player &u = *d.alpha;
-        u.add_effect( efftype_id( new_effect ), 1000_days, num_bp, true );
+    function = [is_u, new_effect, duration, permanent]( const dialogue & d ) {
+        if( is_u ) {
+            player &u = *d.alpha;
+            u.add_effect( efftype_id( new_effect ), duration, num_bp, permanent );
+        } else {
+            npc &p = *d.beta;
+            p.add_effect( efftype_id( new_effect ), duration, num_bp, permanent );
+        }
     };
 }
 
-void talk_effect_fun_t::set_u_add_effect( const std::string &new_effect,
-        const time_duration &duration )
+void talk_effect_fun_t::set_remove_effect( bool is_u, const std::string &old_effect )
 {
-    function = [new_effect, duration]( const dialogue & d ) {
-        player &u = *d.alpha;
-        u.add_effect( efftype_id( new_effect ), duration, num_bp, false );
+    function = [is_u, old_effect]( const dialogue & d ) {
+        if( is_u ) {
+            player &u = *d.alpha;
+            u.remove_effect( efftype_id( old_effect ), num_bp );
+        } else {
+            npc &p = *d.beta;
+            p.remove_effect( efftype_id( old_effect ), num_bp );
+        }
     };
 }
 
-void talk_effect_fun_t::set_npc_add_permanent_effect( const std::string &new_effect )
+void talk_effect_fun_t::set_add_trait( bool is_u, const std::string &new_trait )
 {
-    function = [new_effect]( const dialogue & d ) {
-        npc &p = *d.beta;
-        p.add_effect( efftype_id( new_effect ), 1000_days, num_bp, true );
+    function = [is_u, new_trait]( const dialogue & d ) {
+        if( is_u ) {
+            player &u = *d.alpha;
+            u.set_mutation( trait_id( new_trait ) );
+        } else {
+            npc &p = *d.beta;
+            p.set_mutation( trait_id( new_trait ) );
+        }
     };
 }
 
-void talk_effect_fun_t::set_npc_add_effect( const std::string &new_effect,
-        const time_duration &duration )
+void talk_effect_fun_t::set_remove_trait( bool is_u, const std::string &old_trait )
 {
-    function = [new_effect, duration]( const dialogue & d ) {
-        npc &p = *d.beta;
-        p.add_effect( efftype_id( new_effect ), duration, num_bp, false );
-    };
-}
-
-void talk_effect_fun_t::set_u_add_trait( const std::string &new_trait )
-{
-    function = [new_trait]( const dialogue & d ) {
-        player &u = *d.alpha;
-        u.set_mutation( trait_id( new_trait ) );
-    };
-}
-
-void talk_effect_fun_t::set_npc_add_trait( const std::string &new_trait )
-{
-    function = [new_trait]( const dialogue & d ) {
-        npc &p = *d.beta;
-        p.set_mutation( trait_id( new_trait ) );
+    function = [is_u, old_trait]( const dialogue & d ) {
+        if( is_u ) {
+            player &u = *d.alpha;
+            u.unset_mutation( trait_id( old_trait ) );
+        } else {
+            npc &p = *d.beta;
+            p.unset_mutation( trait_id( old_trait ) );
+        }
     };
 }
 
@@ -1429,15 +1432,17 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item( item_name );
+        item old_item = item( item_name, calendar::turn, count );
         if( u.has_charges( item_name, count ) ) {
             u.use_charges( item_name, count );
         } else if( u.has_amount( item_name, count ) ) {
             u.use_amount( item_name, count );
         } else {
+            //~ %1$s is a translated item name
             popup( _( "You don't have a %1$s!" ), old_item.tname() );
             return;
         }
+        p.i_add( old_item );
 
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
@@ -1447,6 +1452,29 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
             popup( _( "You give %1$s %2$d %3$s" ), p.name, count, old_item.tname() );
         }
         u.cash += cost;
+    };
+}
+
+void talk_effect_fun_t::set_consume_item( bool is_u, const std::string &item_name, int count )
+{
+    function = [is_u, item_name, count]( const dialogue & d ) {
+        // this is stupid, but I couldn't get the assignment to work
+        const auto consume_item = [&]( player & p, const std::string & item_name, int count ) {
+            item old_item( item_name );
+            if( p.has_charges( item_name, count ) ) {
+                p.use_charges( item_name, count );
+            } else if( p.has_amount( item_name, count ) ) {
+                p.use_amount( item_name, count );
+            } else {
+                //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
+                popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item.tname() );
+            }
+        };
+        if( is_u ) {
+            consume_item( *d.alpha, item_name, count );
+        } else {
+            consume_item( *d.beta, item_name, count );
+        }
     };
 }
 
@@ -1463,6 +1491,14 @@ void talk_effect_fun_t::set_npc_change_faction( const std::string &faction_name 
     function = [faction_name]( const dialogue & d ) {
         npc &p = *d.beta;
         p.my_fac = g->faction_manager_ptr->get( faction_id( faction_name ) );
+    };
+}
+
+void talk_effect_fun_t::set_npc_change_class( const std::string &class_name )
+{
+    function = [class_name]( const dialogue & d ) {
+        npc &p = *d.beta;
+        p.myclass = npc_class_id( class_name );
     };
 }
 
@@ -1613,43 +1649,51 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     if( jo.has_string( "companion_mission" ) ) {
         std::string role_id = jo.get_string( "companion_mission" );
         subeffect_fun.set_companion_mission( role_id );
-    } else if( jo.has_string( "u_add_effect" ) ) {
-        std::string new_effect = jo.get_string( "u_add_effect" );
+    } else if( jo.has_string( "u_add_effect" )  || jo.has_string( "npc_add_effect" ) ) {
+        std::string new_effect;
+        bool is_u = true;
+        if( jo.has_string( "u_add_effect" ) ) {
+            new_effect  = jo.get_string( "u_add_effect" );
+        } else {
+            new_effect  = jo.get_string( "npc_add_effect" );
+            is_u = false;
+        }
+        bool permanent = false;
+        time_duration duration = 1000_turns;
         if( jo.has_string( "duration" ) ) {
             const std::string dur_string = jo.get_string( "duration" );
             if( dur_string == "PERMANENT" ) {
-                subeffect_fun.set_u_add_permanent_effect( new_effect );
+                permanent = true;
             } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
-                int duration = std::stoi( dur_string );
-                subeffect_fun.set_u_add_effect( new_effect, time_duration::from_turns( duration ) );
+                duration = time_duration::from_turns( std::stoi( dur_string ) );
             }
         } else {
-            subeffect_fun.set_u_add_effect( new_effect,
-                                            time_duration::from_turns( jo.get_int( "duration" ) ) );
+            duration = time_duration::from_turns( jo.get_int( "duration" ) );
         }
-    } else if( jo.has_string( "npc_add_effect" ) ) {
-        std::string new_effect = jo.get_string( "npc_add_effect" );
-        if( jo.has_string( "duration" ) ) {
-            const std::string dur_string = jo.get_string( "duration" );
-            if( dur_string == "PERMANENT" ) {
-                subeffect_fun.set_npc_add_permanent_effect( new_effect );
-            } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
-                int duration = std::stoi( dur_string );
-                subeffect_fun.set_npc_add_effect( new_effect,
-                                                  time_duration::from_turns( duration ) );
-            }
-        } else {
-            subeffect_fun.set_npc_add_effect( new_effect,
-                                              time_duration::from_turns( jo.get_int( "duration" ) ) );
-        }
+        subeffect_fun.set_add_effect( is_u, new_effect, duration, permanent );
+    } else if( jo.has_string( "u_lose_effect" ) ) {
+        std::string old_effect = jo.get_string( "u_lose_effect" );
+        subeffect_fun.set_remove_effect( true, old_effect );
+    } else if( jo.has_string( "npc_lose_effect" ) ) {
+        std::string old_effect = jo.get_string( "npc_lose_effect" );
+        subeffect_fun.set_remove_effect( false, old_effect );
     } else if( jo.has_string( "u_add_trait" ) ) {
         std::string new_trait = jo.get_string( "u_add_trait" );
-        subeffect_fun.set_u_add_trait( new_trait );
+        subeffect_fun.set_add_trait( true, new_trait );
     } else if( jo.has_string( "npc_add_trait" ) ) {
         std::string new_trait = jo.get_string( "npc_add_trait" );
-        subeffect_fun.set_npc_add_trait( new_trait );
-    } else if( jo.has_string( "u_buy_item" ) ) {
-        std::string item_name = jo.get_string( "u_buy_item" );
+        subeffect_fun.set_add_trait( false, new_trait );
+    } else if( jo.has_string( "u_lose_trait" ) ) {
+        std::string old_trait = jo.get_string( "u_lose_trait" );
+        subeffect_fun.set_remove_trait( true, old_trait );
+    } else if( jo.has_string( "npc_lose_trait" ) ) {
+        std::string old_trait = jo.get_string( "npc_lose_trait" );
+        subeffect_fun.set_remove_trait( false, old_trait );
+    } else if( jo.has_int( "u_spend_cash" ) ) {
+        int cash_change = jo.get_int( "u_spend_cash" );
+        subeffect_fun.set_u_spend_cash( cash_change );
+    } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
+               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ) {
         int cost = 0;
         if( jo.has_int( "cost" ) ) {
             cost = jo.get_int( "cost" );
@@ -1662,21 +1706,26 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         if( jo.has_string( "container" ) ) {
             container_name = jo.get_string( "container" );
         }
-        subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
-    } else if( jo.has_int( "u_spend_cash" ) ) {
-        int cash_change = jo.get_int( "u_spend_cash" );
-        subeffect_fun.set_u_spend_cash( cash_change );
-    } else if( jo.has_string( "u_sell_item" ) ) {
-        std::string item_name = jo.get_string( "u_sell_item" );
-        int cost = 0;
-        if( jo.has_int( "cost" ) ) {
-            cost = jo.get_int( "cost" );
+        std::string item_name;
+        if( jo.has_string( "u_sell_item" ) ) {
+            item_name = jo.get_string( "u_sell_item" );
+            subeffect_fun.set_u_sell_item( item_name, cost, count );
+        } else if( jo.has_string( "u_buy_item" ) ) {
+            item_name = jo.get_string( "u_buy_item" );
+            subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
+        } else if( jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ) {
+            bool is_u = true;
+            if( jo.has_string( "u_consume_item" ) ) {
+                item_name = jo.get_string( "u_consume_item" );
+            } else {
+                item_name = jo.get_string( "npc_consume_item" );
+                is_u = false;
+            }
+            subeffect_fun.set_consume_item( is_u, item_name, count );
         }
-        int count = 1;
-        if( jo.has_int( "count" ) ) {
-            count = jo.get_int( "count" );
-        }
-        subeffect_fun.set_u_sell_item( item_name, cost, count );
+    } else if( jo.has_string( "npc_change_class" ) ) {
+        std::string class_name = jo.get_string( "npc_change_class" );
+        subeffect_fun.set_npc_change_class( class_name );
     } else if( jo.has_string( "npc_change_faction" ) ) {
         std::string faction_name = jo.get_string( "npc_change_faction" );
         subeffect_fun.set_npc_change_faction( faction_name );
