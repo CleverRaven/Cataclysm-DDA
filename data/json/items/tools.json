@@ -6444,23 +6444,23 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
-    "id": "scythe_war",
+    "id": "makeshift_scythe_war",
     "type": "TOOL",
     "category": "weapons",
-    "name": "war scythe",
-    "description": "This farming tool has been modified into a weapon by reinforcing and rotating its blade 90 degrees, transforming it into a deadly giant blade on the end of a stick.",
+    "name": "makeshift war scythe",
+    "description": "This farming tool has been modified into an improvised weapon by rotating its blade 90 degrees, transforming it into a deadly giant blade on the end of a stick. However it's quite fragile.",
     "weight": 3013,
     "volume": 13,
     "price": 16000,
-    "to_hit": 1,
+    "to_hit": 0,
     "bashing": 2,
-    "cutting": 26,
+    "cutting": 16,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "sewing_kit",
