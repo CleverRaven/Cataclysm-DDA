@@ -83,6 +83,18 @@
   },
   {
     "type": "construction",
+    "description": "Build Beaded Curtain",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": 60,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "wooden_bead", 2000 ] ], [ [ "stick_long", 1 ] ], [ [ "string_36", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "t_door_frame",
+    "post_terrain": "f_beaded_door"
+  },
+  {
+    "type": "construction",
     "description": "Build Makeshift Door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
