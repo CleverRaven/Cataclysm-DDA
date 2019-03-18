@@ -135,6 +135,12 @@
   },
   {
     "type": "effect_type",
+    "id": "monster_armor",
+    "name": [ "Has Armor" ],
+    "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]

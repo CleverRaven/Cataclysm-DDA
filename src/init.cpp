@@ -232,6 +232,9 @@ void DynamicDataLoader::initialize()
     add( "ARMOR", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_armor( jo, src );
     } );
+    add( "PET_ARMOR", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_pet_armor( jo, src );
+    } );
     add( "TOOL", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_tool( jo, src );
     } );

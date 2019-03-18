@@ -624,6 +624,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
         looks_like = jo.get_string( "looks_like" );
     }
 
+    assign( jo, "bodytype", bodytype );
     assign( jo, "color", color );
     assign( jo, "volume", volume, strict, 0_ml );
     assign( jo, "weight", weight, strict, 0_gram );

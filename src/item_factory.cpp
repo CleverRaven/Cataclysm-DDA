@@ -1425,6 +1425,15 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load_pet_armor( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.pet_armor, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -1439,6 +1448,20 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
+}
+
+void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "dda";
+
+    assign( jo, "material_thickness", slot.thickness, strict, 0 );
+    assign( jo, "max_pet_vol", slot.max_vol, strict, 0_ml );
+    assign( jo, "min_pet_vol", slot.min_vol, strict, 0_ml );
+    assign( jo, "pet_bodytype", slot.bodytype, strict );
+    assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0_ml );
+    assign( jo, "power_armor", slot.power_armor, strict );
 }
 
 void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &src )
@@ -2041,6 +2064,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
+    load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );

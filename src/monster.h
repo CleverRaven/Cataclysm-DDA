@@ -308,6 +308,7 @@ class monster : public Creature
         float power_rating() const override;
         float speed_rating() const override;
 
+        int get_worn_armor_val( damage_type dt ) const;
         int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, body_part bp ) const override;
