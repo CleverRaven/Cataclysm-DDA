@@ -1078,7 +1078,7 @@
     "looks_like": "broken_science_bot",
     "type": "TOOL",
     "name": "inactive lab defense bot",
-    "description": "This is an inactive experimental robot plundered from a science lab. It resembles a human-sized spider and was designed to deploy manhacks. Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the robot will race towards enemies and deploy a variety of experimental devices.",
+    "description": "This is an inactive experimental robot plundered from a science lab.  It resembles a human-sized spider and was designed to deploy manhacks.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the robot will race towards enemies and deploy a variety of experimental devices.",
     "weight": 100000,
     "volume": "65000 ml",
     "price": 80000,
