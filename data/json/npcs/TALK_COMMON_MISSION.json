@@ -156,14 +156,14 @@
         "topic": "TALK_MISSION_SUCCESS",
         "condition": {
           "and": [
+            "mission_complete",
             {
               "or": [
                 { "mission_goal": "MGOAL_FIND_ITEM" },
                 { "mission_goal": "MGOAL_FIND_ANY_ITEM" },
                 { "mission_goal": "MGOAL_FIND_ITEM_GROUP" }
               ]
-            },
-            "mission_complete" 
+            }
           ]
         },
         "switch": true,

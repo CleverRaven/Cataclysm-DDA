@@ -75,6 +75,7 @@ const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
         { "MGOAL_GO_TO", MGOAL_GO_TO },
         { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
         { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
+        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
         { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
         { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
         { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
