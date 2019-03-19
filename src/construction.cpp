@@ -146,7 +146,7 @@ void draw_grid( const catacurses::window &w, const int list_width )
     wrefresh( w );
 }
 
-nc_color construction_color( std::string &con_name, bool highlight )
+nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {

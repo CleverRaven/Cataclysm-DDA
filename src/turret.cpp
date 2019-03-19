@@ -487,7 +487,7 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
 
 }
 
-npc vehicle::get_targeting_npc( vehicle_part &pt )
+npc vehicle::get_targeting_npc( const vehicle_part &pt )
 {
     // Make a fake NPC to represent the targeting system
     npc cpu;

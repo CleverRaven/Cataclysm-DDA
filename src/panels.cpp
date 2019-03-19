@@ -75,7 +75,7 @@ void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
     }
 }
 
-std::pair<nc_color, std::string> str_string( player &p )
+std::pair<nc_color, std::string> str_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -90,7 +90,7 @@ std::pair<nc_color, std::string> str_string( player &p )
     return std::make_pair( clr, "Str " + ( p.get_str() < 100 ? to_string( p.get_str() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> dex_string( player &p )
+std::pair<nc_color, std::string> dex_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -105,7 +105,7 @@ std::pair<nc_color, std::string> dex_string( player &p )
     return std::make_pair( clr, "Dex " + ( p.get_dex() < 100 ? to_string( p.get_dex() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> int_string( player &p )
+std::pair<nc_color, std::string> int_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -120,7 +120,7 @@ std::pair<nc_color, std::string> int_string( player &p )
     return std::make_pair( clr, "Int " + ( p.get_int() < 100 ? to_string( p.get_int() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> per_string( player &p )
+std::pair<nc_color, std::string> per_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -170,7 +170,7 @@ std::string window_panel::get_name() const
     return name;
 }
 
-void draw_minimap( player &u, const catacurses::window &w_minimap )
+void draw_minimap( const player &u, const catacurses::window &w_minimap )
 {
     const tripoint curs = u.global_omt_location();
     const int cursx = curs.x;
@@ -1087,7 +1087,7 @@ void draw_time_graphic( const catacurses::window &w )
     wprintz( w, c_white, "]" );
 }
 
-void draw_time( player &u, const catacurses::window &w )
+void draw_time( const player &u, const catacurses::window &w )
 {
     werase( w );
     // display date
@@ -1111,7 +1111,7 @@ void draw_time( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_needs( player &u, const catacurses::window &w )
+void draw_needs( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1514,7 +1514,7 @@ void draw_compass_padding( player &, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_veh_compact( player &u, const catacurses::window &w )
+void draw_veh_compact( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1547,7 +1547,7 @@ void draw_veh_compact( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_veh_padding( player &u, const catacurses::window &w )
+void draw_veh_padding( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1580,7 +1580,7 @@ void draw_veh_padding( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_location_classic( player &u, const catacurses::window &w )
+void draw_location_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1608,7 +1608,7 @@ void draw_weather_classic( player &, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_lighting_classic( player &u, const catacurses::window &w )
+void draw_lighting_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1626,7 +1626,7 @@ void draw_lighting_classic( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_weapon_classic( player &u, const catacurses::window &w )
+void draw_weapon_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1655,7 +1655,7 @@ void draw_weapon_classic( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_time_classic( player &u, const catacurses::window &w )
+void draw_time_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 

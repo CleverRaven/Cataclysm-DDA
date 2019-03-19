@@ -721,7 +721,7 @@ void item::clear_vars()
 
 const char ivaresc = 001;
 
-bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars )
+bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars )
 {
     size_t pos = item_tag.find( '=' );
     if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {

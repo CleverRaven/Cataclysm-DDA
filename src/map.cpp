@@ -5722,7 +5722,7 @@ bool map::need_draw_lower_floor( const tripoint &p )
     return !( !zlevels || p.z <= -OVERMAP_DEPTH || !ter( p ).obj().has_flag( TFLAG_NO_FLOOR ) );
 }
 
-bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
+bool map::draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
                         const maptile &curr_maptile,
                         bool invert, bool show_items,
                         const tripoint &view_center,
@@ -5915,7 +5915,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
            !curr_ter.has_flag( TFLAG_NO_FLOOR );
 }
 
-void map::draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
+void map::draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
                            const maptile &curr_tile,
                            const bool invert,
                            const tripoint &view_center,

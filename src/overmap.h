@@ -202,7 +202,7 @@ class overmap
         /**
          * Setter for overmap scents, stores the provided scent at the provided location.
          */
-        void set_scent( const tripoint &loc, scent_trace &new_scent );
+        void set_scent( const tripoint &loc, const scent_trace &new_scent );
 
         /**
          * @returns Whether @param p is within desired bounds of the overmap

@@ -1617,7 +1617,7 @@ int editmap::select_shape( shapetype shape, int mode )
 /*
  * Display mapgen results over selected target position, and optionally regenerate / apply / abort
  */
-int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
+int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 {
     int ret = 0;
 

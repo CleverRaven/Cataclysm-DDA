@@ -2482,7 +2482,7 @@ bool basecamp::farm_return( const std::string &task, const tripoint &omt_tgt, fa
 
 // window manipulation
 void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_tab_mode cur_tab,
-                                    std::vector<std::vector<mission_entry>> &entries )
+                                    const std::vector<std::vector<mission_entry>> &entries )
 {
     werase( win );
     const int width = getmaxx( win );

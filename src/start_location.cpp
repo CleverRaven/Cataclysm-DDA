@@ -88,7 +88,7 @@ void start_location::reset()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-void add_boardable( map &m, const tripoint &p, std::vector<tripoint> &vec )
+void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied

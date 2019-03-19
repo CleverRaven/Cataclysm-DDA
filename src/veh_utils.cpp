@@ -21,7 +21,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk )
     return calc_xp_gain( vp, sk, g->u );
 }
 
-int calc_xp_gain( const vpart_info &vp, const skill_id &sk, Character &who )
+int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who )
 {
     auto iter = vp.install_skills.find( sk );
     if( iter == vp.install_skills.end() ) {

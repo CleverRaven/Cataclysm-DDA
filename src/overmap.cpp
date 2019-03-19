@@ -1215,7 +1215,7 @@ const scent_trace &overmap::scent_at( const tripoint &loc ) const
     return null_scent;
 }
 
-void overmap::set_scent( const tripoint &loc, scent_trace &new_scent )
+void overmap::set_scent( const tripoint &loc, const scent_trace &new_scent )
 {
     // @todo: increase strength of scent trace when applied repeatedly in a short timespan.
     scents[loc] = new_scent;
@@ -1757,7 +1757,7 @@ void overmap::clear_mon_groups()
     zg.clear();
 }
 
-void mongroup::wander( overmap &om )
+void mongroup::wander( const overmap &om )
 {
     const city *target_city = nullptr;
     int target_distance = 0;

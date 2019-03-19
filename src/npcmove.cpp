@@ -2911,7 +2911,7 @@ void npc::mug_player( player &mark )
     }
 }
 
-void npc::look_for_player( player &sought )
+void npc::look_for_player( const player &sought )
 {
     complain_about( "look_for_player", 5_minutes, "<wait>", false );
     update_path( sought.pos() );
@@ -3343,7 +3343,7 @@ bool npc::complain()
     return false;
 }
 
-void npc::do_reload( item &it )
+void npc::do_reload( const item &it )
 {
     item::reload_option reload_opt = select_ammo( it );
 

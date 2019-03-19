@@ -178,7 +178,7 @@ std::string convert_talk_topic( talk_topic_enum const old_value )
 }
 
 ///// item.h
-bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars );
+bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars );
 
 void item::load_info( const std::string &data )
 {
