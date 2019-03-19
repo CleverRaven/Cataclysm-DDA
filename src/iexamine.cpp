@@ -1331,9 +1331,10 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
         g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
-    } else
+    } else {
         add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top." ) );
+    }
 }
 
 /**

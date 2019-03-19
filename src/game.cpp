@@ -1837,8 +1837,9 @@ void game::add_npc_follower( const int &id )
 {
     if( !std::any_of( follower_ids.begin(), follower_ids.end(), [id]( int i ) {
     return i == id;
-} ) )
-    follower_ids.push_back( id );
+} ) ) {
+        follower_ids.push_back( id );
+    }
 }
 
 void game::remove_npc_follower( const int &id )
@@ -10845,10 +10846,10 @@ void game::plswim( const tripoint &p )
         }
     }
     if( u.oxygen <= 5 && u.is_underwater() ) {
-        if( movecost < 500 )
+        if( movecost < 500 ) {
             popup( _( "You need to breathe! (%s to surface.)" ),
                    press_x( ACTION_MOVE_UP ).c_str() );
-        else {
+        } else {
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
     }

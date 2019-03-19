@@ -1433,9 +1433,10 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                         return 1;
                     }
-                } else
+                } else {
                     return feedpet( p, mon, MF_DOGFOOD,
                                     _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
+                }
                 break;
             case CATFOOD:
                 return feedpet( p, mon, MF_CATFOOD,

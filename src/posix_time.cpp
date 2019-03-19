@@ -24,10 +24,10 @@ nanosleep( const struct timespec *requested_delay,
             /* Initialize ticks_per_nanosecond.  */
             LARGE_INTEGER ticks_per_second;
 
-            if( QueryPerformanceFrequency( &ticks_per_second ) )
+            if( QueryPerformanceFrequency( &ticks_per_second ) ) {
                 ticks_per_nanosecond =
-                    ( double ) ticks_per_second.QuadPart / 1000000000.0;
-
+                    ( double )ticks_per_second.QuadPart / 1000000000.0;
+            }
             initialized = true;
         }
         if( ticks_per_nanosecond ) {

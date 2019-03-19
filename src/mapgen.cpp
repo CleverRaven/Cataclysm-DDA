@@ -8088,12 +8088,13 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_BREATHING:
             for( int i = cx - 1; i <= cx + 1; i++ ) {
-                for( int j = cy - 1; j <= cy + 1; j++ )
+                for( int j = cy - 1; j <= cy + 1; j++ ) {
                     if( i == cx && j == cy ) {
                         add_spawn( mon_breather_hub, 1, i, j );
                     } else {
                         add_spawn( mon_breather, 1, i, j );
                     }
+                }
             }
             break;
 

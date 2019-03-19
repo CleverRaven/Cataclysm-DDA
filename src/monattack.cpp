@@ -719,9 +719,10 @@ bool mattack::boomer( monster *z )
         // If bile hit a solid tile, return.
         if( g->m.impassable( i ) ) {
             g->m.add_field( i, fd_bile, 3 );
-            if( g->u.sees( i ) )
+            if( g->u.sees( i ) ) {
                 add_msg( _( "Bile splatters on the %s!" ),
                          g->m.tername( i ).c_str() );
+            }
             return true;
         }
     }
@@ -3013,7 +3014,7 @@ bool mattack::searchlight( monster *z )
             settings.set_var( "SL_PREFER_RIGHT", "TRUE" );
             settings.set_var( "SL_PREFER_LEFT", "TRUE" );
 
-            for( int x = zposx - 24; x < zposx + 24; x++ )
+            for( int x = zposx - 24; x < zposx + 24; x++ ) {
                 for( int y = zposy - 24; y < zposy + 24; y++ ) {
                     tripoint dest( x, y, z->posz() );
                     const monster *const mon = g->critter_at<monster>( dest );
@@ -3031,8 +3032,8 @@ bool mattack::searchlight( monster *z )
                             settings.set_var( "SL_PREFER_DOWN", "FALSE" );
                         }
                     }
-
                 }
+            }
 
             settings.set_var( "SL_SPOT_X", 0 );
             settings.set_var( "SL_SPOT_Y", 0 );
@@ -3223,9 +3224,10 @@ void mattack::flame( monster *z, Creature *target )
             // break out of attack if flame hits a wall
             // TODO: Z
             if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
-                if( g->u.sees( i ) )
+                if( g->u.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
                              g->m.tername( i.x, i.y ).c_str() );
+                }
                 return;
             }
             g->m.add_field( i, fd_fire, 1 );
@@ -3245,9 +3247,10 @@ void mattack::flame( monster *z, Creature *target )
     for( auto &i : traj ) {
         // break out of attack if flame hits a wall
         if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
-            if( g->u.sees( i ) )
+            if( g->u.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
                          g->m.tername( i.x, i.y ).c_str() );
+            }
             return;
         }
         g->m.add_field( i, fd_fire, 1 );
@@ -3285,9 +3288,10 @@ bool mattack::copbot( monster *z )
                                    _( "a robotic voice boom, \"\
 Please put down your weapon.\"" ) );
                 }
-            } else
+            } else {
                 sounds::sound( z->pos(), 18, sounds::sound_t::speech,
                                _( "a robotic voice boom, \"Come out with your hands up!\"" ) );
+            }
         } else {
             sounds::sound( z->pos(), 18, sounds::sound_t::alarm,
                            _( "a police siren, whoop WHOOP" ) );

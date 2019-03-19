@@ -1285,9 +1285,10 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
              format_money( static_cast<long>( cash ) - static_cast<long>( total_price ) ) );
 
-    for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ )
+    for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
                    caravan_category_name( caravan_category( i ) ).c_str() );
+    }
     wrefresh( w );
 }
 

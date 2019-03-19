@@ -529,10 +529,11 @@ bool inventory_column::has_available_choices() const
     if( !allows_selecting() ) {
         return false;
     }
-    for( size_t i = 0; i < entries.size(); ++i )
+    for( size_t i = 0; i < entries.size(); ++i ) {
         if( entries[i].is_item() && get_entry_cell_cache( i ).denial.empty() ) {
             return true;
         }
+    }
     return false;
 }
 

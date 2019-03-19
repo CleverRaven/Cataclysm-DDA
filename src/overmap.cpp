@@ -1367,9 +1367,10 @@ void overmap::generate( const overmap *north, const overmap *east,
             }
         }
     } else if( !river_end.empty() ) {
-        if( river_start.size() != river_end.size() )
+        if( river_start.size() != river_end.size() ) {
             river_start.push_back( point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
                                           rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
+        }
         for( size_t i = 0; i < river_start.size(); i++ ) {
             place_river( river_start[i], river_end[i] );
         }
@@ -3765,9 +3766,10 @@ void overmap::place_mongroups()
                         }
                     }
                 }
-                if( swamp_count >= 25 )
+                if( swamp_count >= 25 ) {
                     add_mon_group( mongroup( mongroup_id( "GROUP_SWAMP" ), x * 2, y * 2, 0, 3,
                                              rng( swamp_count * 8, swamp_count * 25 ) ) );
+                }
             }
         }
     }
@@ -3784,9 +3786,10 @@ void overmap::place_mongroups()
                         }
                     }
                 }
-                if( river_count >= 25 )
+                if( river_count >= 25 ) {
                     add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
                                              rng( river_count * 8, river_count * 25 ) ) );
+                }
             }
         }
     }

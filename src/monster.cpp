@@ -453,9 +453,10 @@ std::string monster::name( unsigned int quantity ) const
         debugmsg( "monster::name empty type!" );
         return std::string();
     }
-    if( !unique_name.empty() )
+    if( !unique_name.empty() ) {
         return string_format( "%s: %s",
                               ( type->nname( quantity ).c_str() ), unique_name.c_str() );
+    }
     return type->nname( quantity );
 }
 
