@@ -155,7 +155,13 @@ nc_color focus_color( int focus )
 int window_panel::get_height() const
 {
     if( height == -1 ) {
-        return get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
+        if( g->pixel_minimap_option ) {
+            return  get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0 ?
+                    get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) :
+                    width / 2;
+        } else {
+            return 0;
+        }
     }
     return height;
 }
