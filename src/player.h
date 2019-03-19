@@ -1608,7 +1608,7 @@ class player : public Character
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 
-        //@todo make protected and move into Character
+        // TODO: make protected and move into Character
         void do_skill_rust();
 
         // drawing related stuff

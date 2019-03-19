@@ -61,14 +61,14 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
     }
 };
 
-// @todo: investigate serializing other members of the Creature class hierarchy
+// TODO: investigate serializing other members of the Creature class hierarchy
 void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
 
         jsout.member( "monster_at", monster_ptr->pos() );
-        // @todo: if monsters/Creatures ever get unique ids,
+        // TODO: if monsters/Creatures ever get unique ids,
         // create a differently named member, e.g.
         //     jsout.member("unique_id", monster_ptr->getID());
         jsout.end_object();
@@ -95,7 +95,7 @@ void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
         obj = monp;
     }
 
-    // @todo: if monsters/Creatures ever get unique ids,
+    // TODO: if monsters/Creatures ever get unique ids,
     // look for a differently named member, e.g.
     //     data.read( "unique_id", unique_id );
     //     obj = g->id_registry->from_id( unique_id)
@@ -286,7 +286,7 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
-        //@todo: shouldn't that be calendar::start?
+        // TODO: shouldn't that be calendar::start?
         _lastPracticed = calendar::time_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
     }
@@ -662,7 +662,7 @@ void player::store( JsonOut &json ) const
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
-    // @todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
+    // TODO: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
@@ -808,7 +808,7 @@ void player::serialize( JsonOut &json ) const
     json.member( "invcache" );
     inv.json_save_invcache( json );
 
-    //FIXME: separate function, better still another file
+    // FIXME: separate function, better still another file
     /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
               ptmpvect.push_back(pv(memorial_log[i]));
           }
@@ -1342,7 +1342,7 @@ void npc::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    //@todo time_point does not have a default constructor, need to read in the map manually
+    // TODO: time_point does not have a default constructor, need to read in the map manually
     {
         complaints.clear();
         JsonObject jo = data.get_object( "complaints" );
@@ -1400,7 +1400,7 @@ void npc::store( JsonOut &json ) const
 
     json.member( "pulp_location", pulp_location );
 
-    json.member( "mission", mission ); // @todo: stringid
+    json.member( "mission", mission ); // TODO: stringid
     if( !fac_id.str().empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
@@ -1707,7 +1707,7 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
             { "turns", 1_turns },
             { "turn", 1_turns },
             { "t", 1_turns },
-            // @todo add seconds
+            // TODO: add seconds
             { "minutes", 1_minutes },
             { "minute", 1_minutes },
             { "m", 1_minutes },
@@ -1717,8 +1717,8 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
             { "days", 1_days },
             { "day", 1_days },
             { "d", 1_days },
-            // @todo maybe add seasons?
-            // @todo maybe add years? Those two things depend on season length!
+            // TODO: maybe add seasons?
+            // TODO: maybe add years? Those two things depend on season length!
         }
     };
     const size_t pos = jsin.tell();
@@ -2713,7 +2713,7 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "type", type );
     if( item_type != nullptr ) {
-        // @todo: refactor player_morale to not require this hack
+        // TODO: refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );
     }
     json.member( "bonus", bonus );

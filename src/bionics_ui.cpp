@@ -141,7 +141,7 @@ void draw_description( const catacurses::window &win, const bionic &bio )
     }
     ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
-    // @todo: Unhide when enforcing limits
+    // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,

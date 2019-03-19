@@ -127,7 +127,7 @@ void vehicle::thrust( int thd )
         thrusting = ( sgn == thd );
     }
 
-    // @todo: Pass this as an argument to avoid recalculating
+    // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = current_acceleration() * traction;
     if( thrusting && accel == 0 ) {
@@ -702,7 +702,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     } else {
         if( pl_ctrl ) {
-            if( snd.length() > 0 ) { // @todo: that is always false!
+            if( snd.length() > 0 ) { // TODO: that is always false!
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
                          name, parts[ ret.part ].name(), ret.target_name, snd );
@@ -755,7 +755,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     int shrap = 0;
     int part_damage = 0;
     std::string snd;
-    // @todo: make trapfuncv?
+    // TODO: make trapfuncv?
 
     if( t == tr_bubblewrap ) {
         noise = 18;
@@ -816,7 +816,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     } else if( t == tr_lava ) {
         part_damage = 500;
-        //@todo Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
+        // TODO: Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
     } else {
         return;
     }
@@ -909,7 +909,7 @@ void vehicle::pldrive( int x, int y )
         }
     }
 
-    // @todo: Actually check if we're on land on water (or disable water-skidding)
+    // TODO: Actually check if we're on land on water (or disable water-skidding)
     if( skidding && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 

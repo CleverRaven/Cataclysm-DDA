@@ -647,7 +647,7 @@ void monster::move()
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
-                // @todo: Remove z-level stair bullshit teleport after aligning all stairs
+                // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
@@ -791,7 +791,7 @@ void monster::footsteps( const tripoint &p )
 
 tripoint monster::scent_move()
 {
-    // @todo: Remove when scentmap is 3D
+    // TODO: Remove when scentmap is 3D
     if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }

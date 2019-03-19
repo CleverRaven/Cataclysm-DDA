@@ -53,7 +53,7 @@ struct act_item {
           consumed_moves( consumed_moves ) {}
 };
 
-// @todo: Deliberately unified with multidrop. Unify further.
+// TODO: Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
 bool same_type( const std::list<item> &items )
@@ -355,10 +355,10 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
                 }
                 const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
                 obtained += qty;
-                res.emplace_back( &it, qty, 100 ); // @todo: Use a calculated cost
+                res.emplace_back( &it, qty, 100 ); // TODO: Use a calculated cost
             }
         } else {
-            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo: Use a calculated cost
+            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // TODO: Use a calculated cost
         }
     }
 
@@ -387,7 +387,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
             } );
 
             if( iter == worn.end() ) {
-                worn.emplace_front( dit, dit->count(), 100 ); // @todo: Use a calculated cost
+                worn.emplace_front( dit, dit->count(), 100 ); // TODO: Use a calculated cost
             }
         }
     }
@@ -428,7 +428,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     return res;
 }
 
-//@todo: Display costs in the multidrop menu
+// TODO: Display costs in the multidrop menu
 void debug_drop_list( const std::list<act_item> &list )
 {
     if( !debug_mode ) {
@@ -696,7 +696,7 @@ void activity_on_turn_pickup()
         }
     }
 
-    // @todo: Move this to advanced inventory instead of hacking it in here
+    // TODO: Move this to advanced inventory instead of hacking it in here
     if( !keep_going ) {
         cancel_aim_processing();
     }
@@ -1022,7 +1022,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
-        //TODO: use one for loop
+        // TODO: use one for loop
         if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                 false ) ) {
             src_veh = &vp->vehicle();
@@ -1177,7 +1177,7 @@ void try_refuel_fire( player &p )
     const auto refuel_spot = std::find_if( adjacent.begin(), adjacent.end(),
     [pos]( const tripoint & pt ) {
         // Hacky - firewood spot is a trap and it's ID-checked
-        // @todo Something cleaner than ID-checking a trap
+        // TODO: Something cleaner than ID-checking a trap
         return g->m.tr_at( pt ).id == tr_firewood_source && g->m.has_items( pt ) &&
                g->m.accessible_items( pt ) && g->m.clear_path( pos, pt, PICKUP_RANGE, 1, 100 );
     } );
@@ -1190,7 +1190,7 @@ void try_refuel_fire( player &p )
     fire_data fd( 1, contained );
     time_duration fire_age = g->m.get_field_age( *best_fire, fd_fire );
 
-    // Maybe @todo - refuelling in the rain could use more fuel
+    // Maybe TODO: - refuelling in the rain could use more fuel
     // First, simulate expected burn per turn, to see if we need more fuel
     auto fuel_on_fire = g->m.i_at( *best_fire );
     for( size_t i = 0; i < fuel_on_fire.size(); i++ ) {
@@ -1209,7 +1209,7 @@ void try_refuel_fire( player &p )
     }
 
     // Enough to sustain the fire
-    // @todo It's not enough in the rain
+    // TODO: It's not enough in the rain
     if( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) {
         return;
     }

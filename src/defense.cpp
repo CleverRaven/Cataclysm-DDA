@@ -532,7 +532,7 @@ void defense_game::setup()
                                .title( _( "Template Name:" ) )
                                .width( 20 )
                                .query_string();
-            //TODO: this is NON FUNCTIONAL!!!
+            // TODO: this is NON FUNCTIONAL!!!
             refresh_setup( w, selection );
         } else {
             switch( selection ) {

@@ -58,7 +58,7 @@ const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray
 // Defines the maximum volume that a internal furnace can consume
 const units::volume furnace_max_volume( 3000_ml ) ;
 
-// @todo: JSONize.
+// TODO: JSONize.
 const std::map<itype_id, int> plut_charges = {
     { "plut_cell",         PLUTONIUM_CHARGES * 10 },
     { "plut_slurry_dense", PLUTONIUM_CHARGES },
@@ -270,7 +270,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             for( const trait_id &trait : traits ) {
                 const auto &mut = trait.obj();
                 // make sure to iterate over every material defined for vitamin absorption
-                // @todo put this loop into a function and utilize it again for bionics
+                // TODO: put this loop into a function and utilize it again for bionics
                 for( const auto &mat : mut.vitamin_absorb_multi ) {
                     // this is where we are able to check if the food actually is changed by the trait
                     if( mat.first == material_id( "all" ) || material_exists( mat.first, it ) ) {
@@ -419,7 +419,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
     const bool edible    = eat_verb ||  comest->comesttype == "FOOD";
     const bool drinkable = !eat_verb && comest->comesttype == "DRINK";
 
-    // @todo: This condition occurs way too often. Unify it.
+    // TODO: This condition occurs way too often. Unify it.
     // update Sep. 26 2018: this apparently still occurs way too often. yay!
     if( is_underwater() && !has_trait( trait_id( "WATERSLEEP" ) ) ) {
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
@@ -1154,7 +1154,7 @@ bool player::feed_reactor_with( item &it )
                            _( "<npcname> pours %s into their reactor's tank." ),
                            it.tname().c_str() );
 
-    tank_plut += amount; // @todo: Encapsulate
+    tank_plut += amount; // TODO: Encapsulate
     it.charges -= 1;
     mod_moves( -250 );
     return true;
@@ -1174,7 +1174,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    return it.typeId() != "corpse"; // @todo: Eliminate the hard-coded special case.
+    return it.typeId() != "corpse"; // TODO: Eliminate the hard-coded special case.
 }
 
 bool player::feed_furnace_with( item &it )
@@ -1276,7 +1276,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             }
             int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
 
-            // @todo: JSONize.
+            // TODO: JSONize.
             if( it.made_of( material_id( "leather" ) ) ) {
                 amount /= 4;
             }

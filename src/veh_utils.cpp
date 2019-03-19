@@ -44,7 +44,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, Character &who )
 
 vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool only_repairable )
 {
-    // @todo: Get rid of this cast after moving relevant functions down to Character
+    // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = ( player & )who_arg;
     const auto &inv = who.crafting_inventory();
 
@@ -97,12 +97,12 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
 
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 {
-    // @todo: Get rid of this cast after moving relevant functions down to Character
+    // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = ( player & )who_c;
     int part_index = veh.index_of_part( &pt );
     auto &vp = pt.info();
 
-    // @todo: Expose base part damage somewhere, don't recalculate it here
+    // TODO: Expose base part damage somewhere, don't recalculate it here
     const auto reqs = pt.is_broken() ?
                       vp.install_requirements() :
                       vp.repair_requirements() * pt.damage_level( 4 );
@@ -150,7 +150,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         veh.set_hp( pt, pt.info().durability );
     }
 
-    // @todo: NPC doing that
+    // TODO: NPC doing that
     who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s." ), veh.name.c_str(),
                            partname.c_str() );
     return true;

@@ -346,7 +346,7 @@ point draw_notes( int z )
             wrefresh( w_notes );
             redraw = false;
         }
-        // @todo: use input context
+        // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         if( ch == '<' && start >= maxitems ) {
             start -= maxitems;
@@ -1190,7 +1190,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 } else {
                     uistate.place_special = oslist[pmenu.ret];
                 }
-                // @todo: Unify these things.
+                // TODO: Unify these things.
                 const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() :
                                         uistate.place_special->rotatable;
 

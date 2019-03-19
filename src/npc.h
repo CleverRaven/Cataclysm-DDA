@@ -110,7 +110,7 @@ enum npc_need {
     num_needs
 };
 
-// @todo: Turn the personality struct into a vector/map?
+// TODO: Turn the personality struct into a vector/map?
 enum npc_personality_type : int {
     NPE_AGGRESSION,
     NPE_BRAVERY,

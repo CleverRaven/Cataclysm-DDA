@@ -126,7 +126,7 @@ void game::list_missions()
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
-                    // @TODO: But displaying when you completed it would be useful.
+                    // @ TODO: But displaying when you completed it would be useful.
                     const time_duration remaining = deadline - calendar::turn;
                     std::string remaining_time;
 

@@ -855,7 +855,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         dirty_transparency_cache = true;
                         break;
 
-                    // TODO-MATERIALS: use fire resistance
+                    // TODO: MATERIALS use fire resistance
                     case fd_fire: {
                         // Entire objects for ter/frn for flags
                         const auto &ter = map_tile.get_ter_t();
@@ -1964,7 +1964,7 @@ void map::player_in_field( player &u )
                 float rads = rng( cur.getFieldDensity(),
                                   cur.getFieldDensity() * ( cur.getFieldDensity() + 1 ) );
                 bool rad_proof = !u.irradiate( rads );
-                //TODO: Reduce damage for rad resistant?
+                // TODO: Reduce damage for rad resistant?
                 if( cur.getFieldDensity() == 3 && !rad_proof ) {
                     u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
                     u.hurtall( rng( 1, 3 ), nullptr );
@@ -2201,7 +2201,7 @@ void map::monster_in_field( monster &z )
                 }
                 break;
 
-            // MATERIALS-TODO: Use fire resistance
+            // TODO: MATERIALS Use fire resistance
             case fd_fire:
                 if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
@@ -2319,7 +2319,7 @@ void map::monster_in_field( monster &z )
                 }
                 break;
 
-            // MATERIALS-TODO: Use fire resistance
+            // TODO: MATERIALS Use fire resistance
             case fd_flame_burst:
                 if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
@@ -2372,7 +2372,7 @@ void map::monster_in_field( monster &z )
                 break;
 
             case fd_incendiary:
-                // MATERIALS-TODO: Use fire resistance
+                // TODO: MATERIALS Use fire resistance
                 if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
                 }
@@ -2470,7 +2470,7 @@ time_duration field_entry::getFieldAge() const
 field_id field_entry::setFieldType( const field_id new_field_id )
 {
 
-    //TODO: Better bounds checking.
+    // TODO: Better bounds checking.
     if( new_field_id >= 0 && new_field_id < num_fields ) {
         type = new_field_id;
     } else {

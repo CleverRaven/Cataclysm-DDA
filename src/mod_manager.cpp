@@ -205,7 +205,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     const mod_id m_ident( jo.get_string( "ident" ) );
     // can't use string_id::is_valid as the global mod_manger instance does not exist yet
     if( mod_map.count( m_ident ) > 0 ) {
-        // @todo: change this to make unique ident for the mod
+        // TODO: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg( "there is already a mod with ident %s", m_ident.c_str() );
         return;

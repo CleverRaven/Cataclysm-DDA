@@ -285,7 +285,7 @@ void mdeath::kill_vines( monster &z )
                 break;
             }
         }
-        if( !closer ) { // @todo: closer variable is not being updated and is always false!
+        if( !closer ) { // TODO: closer variable is not being updated and is always false!
             vine->die( &z );
         }
     }
@@ -470,7 +470,7 @@ void mdeath::blobsplit( monster &z )
     g->m.spawn_item( z.pos(), "slime_scrap", 1, 0, calendar::turn );
     if( z.get_speed() <= 0 ) {
         if( g->u.sees( z ) ) {
-            //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
+            // TODO: Add vermin-tagged tiny versions of the splattered blob  :)
             add_msg( m_good, _( "The %s splatters apart." ), z.name().c_str() );
         }
         return;

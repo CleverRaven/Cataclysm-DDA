@@ -2462,7 +2462,7 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    //@todo get rid of using g->u here, use `this` instead
+    // TODO: get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );

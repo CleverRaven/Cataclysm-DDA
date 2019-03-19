@@ -1256,12 +1256,12 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_mending ) {
-        // @todo: Remove this and encapsulate hp_cur instead
+        // TODO: Remove this and encapsulate hp_cur instead
         if( hp_cur[bp_to_hp( bp )] > 0 ) {
             it.set_duration( 0_turns );
         }
     } else if( id == effect_disabled ) {
-        // @todo: Remove this and encapsulate hp_cur instead
+        // TODO: Remove this and encapsulate hp_cur instead
         if( hp_cur[bp_to_hp( bp )] > 0 ) {
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();

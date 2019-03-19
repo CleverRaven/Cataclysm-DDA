@@ -264,7 +264,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    //@todo: better have a from_moves function
+    // TODO: better have a from_moves function
     msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
@@ -520,7 +520,7 @@ task_reason veh_interact::cant_do( char mode )
     if( !part_free ) {
         return NOT_FREE;
     }
-    if( !has_skill ) { // @todo: that is always false!
+    if( !has_skill ) { // TODO: that is always false!
         return LACK_SKILL;
     }
     return CAN_DO;
@@ -1960,7 +1960,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    w_border = catacurses::window(); //@todo: move code using w_border into a separate scope
+    w_border = catacurses::window(); // TODO: move code using w_border into a separate scope
 
     const int grid_w = getmaxx( w_grid );
 
@@ -2148,7 +2148,7 @@ void veh_interact::display_stats() const
                         vel_to_int( veh->max_ground_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        //TODO: extract accelerations units to its own function
+        // TODO: extract accelerations units to its own function
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         //~ /t means per turn
                         _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
@@ -2165,7 +2165,7 @@ void veh_interact::display_stats() const
                         vel_to_int( veh->max_water_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        //TODO: extract accelerations units to its own function
+        // TODO: extract accelerations units to its own function
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         //~ /t means per turn
                         _( "Water Acceleration: <color_light_blue>%3d</color> %s/t" ),
@@ -2837,7 +2837,7 @@ void veh_interact::complete_vehicle()
             }
 
             const tripoint vehp = veh->global_pos3() + tripoint( q.x, q.y, 0 );
-            //@todo: allow boarding for non-players as well.
+            // TODO: allow boarding for non-players as well.
             player *const pl = g->critter_at<player>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
                 g->m.board_vehicle( vehp, pl );

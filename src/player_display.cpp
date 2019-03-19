@@ -78,7 +78,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
-        // @todo: utf8 aware printf would be nice... this works well enough for now
+        // TODO: utf8 aware printf would be nice... this works well enough for now
         out = body_part_name_as_heading( all_body_parts[bp], combine ? 2 : 1 );
 
         int len = 7 - utf8_width( out );
@@ -111,7 +111,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
     }
 
     if( off > -num_bp ) { // not every body part fit in the window
-        //TODO: account for skipped paired body parts in scrollbar math
+        // TODO: account for skipped paired body parts in scrollbar math
         draw_scrollbar( win, std::max( orig_line, 0 ), height - 1, num_bp, 1 );
     }
 

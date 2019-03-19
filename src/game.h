@@ -611,7 +611,7 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        // @todo: Move these functions to game_menus::inv and isolate them.
+        // TODO: Move these functions to game_menus::inv and isolate them.
         int inv_for_filter( const std::string &title, item_filter filter,
                             const std::string &none_message = "" );
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
@@ -1088,7 +1088,7 @@ class game
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
-        void debug();           // All-encompassing debug screen.  TODO: This.
+        void debug();           // All-encompassing debug screen. TODO: This.
         void display_scent();   // Displays the scent map
 
         // ########################## DATA ################################

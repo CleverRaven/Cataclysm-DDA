@@ -62,7 +62,7 @@ void map::add_light_from_items( const tripoint &p, std::list<item>::iterator beg
     }
 }
 
-// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
+// TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
@@ -1166,7 +1166,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
-        // @todo: Factor in the mirror facing and only cast in the
+        // TODO: Factor in the mirror facing and only cast in the
         // directions the player's line of sight reflects to.
         //
         // The naive solution of making the mirrors act like a second player

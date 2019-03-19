@@ -1187,7 +1187,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         }
     }
 
-    // @todo: Get this from UTF system to make sure it is exactly the kind of space we need
+    // TODO: Get this from UTF system to make sure it is exactly the kind of space we need
     static const std::string space_string = " ";
 
     bool update = false;

@@ -428,7 +428,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Returns resistances on a body part provided by mutations
          */
-        // @todo: Cache this, it's kinda expensive to compute
+        // TODO: Cache this, it's kinda expensive to compute
         resistances mutation_armor( body_part bp ) const;
         float mutation_armor( body_part bp, damage_type dt ) const;
         float mutation_armor( body_part bp, const damage_unit &du ) const;
@@ -812,7 +812,7 @@ class Character : public Creature, public visitable<Character>
         int sight_max;
 
         // turn the character expired, if calendar::before_time_starts it has not been set yet.
-        //@todo: change into an optional<time_point>
+        // TODO: change into an optional<time_point>
         time_point time_died = calendar::before_time_starts;
 
         /**

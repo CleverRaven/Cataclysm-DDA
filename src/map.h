@@ -22,7 +22,7 @@
 #include "string_id.h"
 #include "units.h"
 
-//TODO: include comments about how these variables work. Where are they used. Are they constant etc.
+// TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
