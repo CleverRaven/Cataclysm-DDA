@@ -31,7 +31,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK" ]
   },
   {
     "type": "GENERIC",
