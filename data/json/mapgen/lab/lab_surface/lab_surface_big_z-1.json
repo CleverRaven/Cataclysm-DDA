@@ -200,10 +200,7 @@
           { "item": "ammo_pistol_rare", "chance": 60, "repeat": [ 5, 10 ] }
         ]
       },
-      "monsters": {
-        "s": { "monster": "GROUP_LAB_SECURITY", "chance": 50 },
-        ".": { "monster": "GROUP_LAB_SECURITY", "chance": 15 }
-      }
+      "monsters": { "s": { "monster": "GROUP_LAB_SECURITY", "chance": 50 }, ".": { "monster": "GROUP_LAB_SECURITY", "chance": 15 } }
     }
   }
 ]
