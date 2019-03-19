@@ -160,7 +160,7 @@ struct islot_comestible {
     /** Reference to item that will be received after smoking current item */
     itype_id smoking_result;
 
-    /** @todo: add documentation */
+    /** TODO: add documentation */
     int healthy = 0;
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */

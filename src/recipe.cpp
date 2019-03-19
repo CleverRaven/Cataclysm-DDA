@@ -311,7 +311,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // @todo: Make it work for charge-less items
+        // TODO: Make it work for charge-less items
         newit.charges *= result_mult;
     }
 

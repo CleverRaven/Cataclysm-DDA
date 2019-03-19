@@ -437,7 +437,7 @@ void vpart_info::check()
         auto &part = vp.second;
 
         // handle legacy parts without requirement data
-        // @todo: deprecate once requirements are entirely loaded from JSON
+        // TODO: deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
@@ -478,7 +478,7 @@ void vpart_info::check()
         }
 
         // add the base item to the installation requirements
-        // @todo: support multiple/alternative base items
+        // TODO: support multiple/alternative base items
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 

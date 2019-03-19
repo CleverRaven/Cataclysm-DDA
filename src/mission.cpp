@@ -47,7 +47,7 @@ static std::unordered_map<int, mission> world_missions;
 mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
-    // @todo: Warn about overwrite?
+    // TODO: Warn about overwrite?
     mission &miss = world_missions[tmp.uid] = tmp;
     return &miss;
 }

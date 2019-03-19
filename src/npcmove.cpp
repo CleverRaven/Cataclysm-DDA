@@ -126,7 +126,7 @@ tripoint good_escape_direction( const npc &who )
         int rating = 0;
         for( const auto &e : g->m.field_at( p ) ) {
             if( who.is_dangerous_field( e.second ) ) {
-                // @todo: Rate fire higher than smoke
+                // TODO: Rate fire higher than smoke
                 rating += e.second.getFieldDensity();
             }
         }
@@ -224,7 +224,7 @@ float npc::evaluate_enemy( const Creature &target ) const
         return std::max( dynamic_cast<const monster &>( target ).type->difficulty - 2, 0 ) / 40.0f;
 
     } else if( target.is_npc() || target.is_player() ) {
-        // @todo: determine based upon visible equipment
+        // TODO: determine based upon visible equipment
         return 1.0f;
 
     } else {
@@ -403,7 +403,7 @@ void npc::assess_danger()
 
 float npc::character_danger( const Character &uc ) const
 {
-    // @todo: Remove this when possible
+    // TODO: Remove this when possible
     const player &u = dynamic_cast<const player &>( uc );
     float ret = 0.0;
     bool u_gun = u.weapon.is_gun();
@@ -1006,7 +1006,7 @@ npc_action npc::method_of_attack()
     if( !modes.empty() && sees( *critter ) &&
         confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
 
-        // @todo: Make NPCs understand reinforced glass and vehicles blocking line of fire
+        // TODO: Make NPCs understand reinforced glass and vehicles blocking line of fire
 
         if( wont_hit_friend( tar, weapon, false ) ) {
             weapon.gun_set_mode( modes[ 0 ].first );
@@ -1032,7 +1032,7 @@ npc_action npc::method_of_attack()
         return npc_reload;
     }
 
-    // @todo Needs a check for transparent but non-passable tiles on the way
+    // TODO: Needs a check for transparent but non-passable tiles on the way
     if( !modes.empty() && sees( *critter ) &&
         aim_per_move( weapon, recoil ) > 0 &&
         confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
@@ -1334,7 +1334,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     }
 
     // Same calculation as in @ref item::info
-    // @todo Extract into common method
+    // TODO: Extract into common method
     double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
@@ -1357,7 +1357,7 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
-    // @todo: Get actual dispersion instead of extracting it (badly) from confident range
+    // TODO: Get actual dispersion instead of extracting it (badly) from confident range
     int confident = throwing ?
                     confident_throw_range( it, nullptr ) :
                     confident_shoot_range( it, recoil_total() );
@@ -1373,7 +1373,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 
     int target_angle = coord_to_angle( pos(), tar );
 
-    // @todo: Base on dispersion
+    // TODO: Base on dispersion
     int safe_angle = 30;
 
     for( const auto &fr : ai_cache.friends ) {
@@ -1383,7 +1383,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         }
         const Creature &ally = *ally_p;
 
-        // @todo: Extract common functions with turret target selection
+        // TODO: Extract common functions with turret target selection
         int safe_angle_ally = safe_angle;
         int ally_dist = rl_dist( pos(), ally.pos() );
         if( ally_dist < 3 ) {
@@ -1394,7 +1394,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         int angle_diff = abs( ally_angle - target_angle );
         angle_diff = std::min( 360 - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
-            // @todo: Disable NPC whining is it's other NPC who prevents aiming
+            // TODO: Disable NPC whining is it's other NPC who prevents aiming
             return false;
         }
     }
@@ -1691,7 +1691,7 @@ void npc::move_to_next()
 
 void npc::avoid_friendly_fire()
 {
-    // @todo: To parameter
+    // TODO: To parameter
     const tripoint &tar = current_target()->pos();
     // Calculate center of weight of friends and move away from that
     tripoint center;
@@ -1917,7 +1917,7 @@ void npc::find_item()
         }
 
         // When using a whitelist, skip the value check
-        // @todo: Whitelist hierarchy?
+        // TODO: Whitelist hierarchy?
         int itval = whitelisting ? 1000 : value( it );
 
         if( itval > best_value &&
@@ -1970,7 +1970,7 @@ void npc::find_item()
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
-        //TODO Let player know what parts are safe from NPC thieves
+        // TODO: Let player know what parts are safe from NPC thieves
         if( !cargo || cargo->has_feature( locked_string ) ) {
             continue;
         }
@@ -2418,7 +2418,7 @@ bool npc::wield_better_weapon()
         return VisitResponse::SKIP;
     } );
 
-    // @todo: Reimplement switching to empty guns
+    // TODO: Reimplement switching to empty guns
     // Needs to check reload speed, RELOAD_ONE etc.
     // Until then, the NPCs should reload the guns as a last resort
 
@@ -2504,7 +2504,7 @@ bool npc::alt_attack()
 
     static const std::string danger_string( "NPC_THROW_NOW" );
     static const std::string alt_string( "NPC_ALT_ATTACK" );
-    // @todo: The active bomb with shortest fuse should be thrown first
+    // TODO: The active bomb with shortest fuse should be thrown first
     const auto check_alt_item = [&used, &used_dangerous, dist, this]( item & it ) {
         const bool dangerous = it.has_flag( danger_string );
         if( !dangerous && used_dangerous ) {
@@ -2516,7 +2516,7 @@ bool npc::alt_attack()
             return;
         }
 
-        // @todo: Non-thrown alt items
+        // TODO: Non-thrown alt items
         if( !dangerous && throw_range( it ) < dist ) {
             return;
         }
@@ -2532,7 +2532,7 @@ bool npc::alt_attack()
 
     check_alt_item( weapon );
     for( auto &sl : inv.slice() ) {
-        // @todo: Cached values - an itype slot maybe?
+        // TODO: Cached values - an itype slot maybe?
         check_alt_item( sl->front() );
     }
 
@@ -2552,7 +2552,7 @@ bool npc::alt_attack()
         activate_item( weapon_index );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives
-        // @todo: Non-grenades
+        // TODO: Non-grenades
     }
 
     // We are throwing it!
@@ -2824,7 +2824,7 @@ bool npc::consume_food()
     }
 
     // consume doesn't return a meaningful answer, we need to compare moves
-    // @todo: Make player::consume return false if it fails to consume
+    // TODO: Make player::consume return false if it fails to consume
     int old_moves = moves;
     bool consumed = consume( index ) && old_moves != moves;
     if( !consumed ) {
@@ -3353,14 +3353,14 @@ void npc::do_reload( const item &it )
     }
 
     // Note: we may be reloading the magazine inside, not the gun itself
-    // Maybe @todo: allow reload functions to understand such reloads instead of const casts
+    // Maybe TODO: allow reload functions to understand such reloads instead of const casts
     item &target = const_cast<item &>( *reload_opt.target );
     item_location &usable_ammo = reload_opt.ammo;
 
     long qty = std::max( 1l, std::min( usable_ammo->charges,
                                        it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
-    // @todo: Consider printing this info to player too
+    // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",

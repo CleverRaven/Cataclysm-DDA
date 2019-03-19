@@ -441,7 +441,7 @@ void overmap::unserialize_legacy( std::istream &fin )
                             t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
                             if( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
-                                settings = rit->second; // @todo: optimize
+                                settings = rit->second; // TODO: optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
                                 std::string tmpopt = get_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );

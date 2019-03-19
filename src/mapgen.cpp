@@ -229,7 +229,7 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
-void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup too
+void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
     oter_mapgen_weights.clear();
     for( auto &omw : oter_mapgen ) {
@@ -609,9 +609,9 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
                     //Suppress warnings
                     break;
             }
-            tmp_i.valmax = tmp_i.val; // @todo: ... support for random furniture? or not.
+            tmp_i.valmax = tmp_i.val; // TODO: ... support for random furniture? or not.
         }
-        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // @todo: sanity check?
+        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // TODO: sanity check?
         pjo.read( "chance", tmp_chance );
         pjo.read( "rotation", tmp_rotation );
         pjo.read( "fuel", tmp_fuel );
@@ -1189,7 +1189,7 @@ class jmapgen_terrain : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/ ) const override {
             dat.m.ter_set( x.get(), y.get(), id );
-            // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
+            // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( "WALL", x.get(), y.get() ) ) {
                 dat.m.furn_set( x.get(), y.get(), f_null );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
@@ -1347,7 +1347,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                         return;
                     }
 
-                    /// @todo: Somehow check that the item group always produces exactly one seed.
+                    /// TODO: Somehow check that the item group always produces exactly one seed.
                 }
             }
         }
@@ -1992,7 +1992,7 @@ void mapgen_function_json_base::setup_common()
     // No fill_ter? No format? GTFO.
     if( ! qualifies ) {
         jo.throw_error( "  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)" );
-        // @todo: write TFM.
+        // TODO: write TFM.
     }
 
     if( jo.has_array( "set" ) ) {
@@ -2085,7 +2085,7 @@ void jmapgen_objects::check( const std::string &oter_name ) const
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
- * @todo: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
+ * TODO: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
 bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const
 {
@@ -2373,7 +2373,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         fmapit->second[fidx]->generate( this, terrain_type, dat, when, density );
-        // @todo: make these json or mappable functions
+        // TODO: make these json or mappable functions
     } else if( terrain_type == "office_tower_1_entrance" ) {
 
         dat.fill_groundcover();
@@ -6573,7 +6573,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 for( int y = 0; y < 4; y++ ) {
                     for( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
                         if( x - y > SEEX * 2 - 4 ) {
-                            //TODO more discriminating conditions
+                            // TODO: more discriminating conditions
                             if( ter( x, y ) == t_grass ||
                                 ter( x, y ) == t_dirt ||
                                 ter( x, y ) == t_shrub ) {
@@ -6689,7 +6689,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
-    //@todo: implement for 3D
+    // TODO: implement for 3D
     return place_items( loc, chance, f.x, f.y, t.x, t.y, ongrass, turn, magazine, ammo );
 }
 
@@ -6924,7 +6924,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             for( auto &part : veh->parts ) {
                 const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
-                // @todo change mount points to be tripoint
+                // TODO: change mount points to be tripoint
                 wreckage->install_part( point( part_pos.x, part_pos.y ), part );
             }
 
@@ -7000,7 +7000,7 @@ void map::rotate( int turns )
     const tripoint &abs_sub = get_abs_sub();
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
-    // @todo: This radius can be smaller - how small?
+    // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,

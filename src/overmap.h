@@ -234,7 +234,7 @@ class overmap
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point global_base_point() const;
 
-        // @todo: Should depend on coordinates
+        // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
             return settings;
         }

@@ -307,7 +307,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
     return !( lhs == rhs );
 }
 
-void set_oter_ids()   // @todo: fixme constify
+void set_oter_ids()   // FIXME: constify
 {
     ot_null         = oter_str_id::NULL_ID();
     // NOT required.
@@ -645,7 +645,7 @@ bool oter_t::type_is( const oter_type_t &type ) const
 
 bool oter_t::has_connection( om_direction::type dir ) const
 {
-    // @todo: It's a DAMN UGLY hack. Remove it as soon as possible.
+    // TODO: It's a DAMN UGLY hack. Remove it as soon as possible.
     static const oter_str_id road_manhole( "road_nesw_manhole" );
     if( id == road_manhole ) {
         return true;
@@ -655,7 +655,7 @@ bool oter_t::has_connection( om_direction::type dir ) const
 
 bool oter_t::is_hardcoded() const
 {
-    // @todo: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
+    // TODO: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
         "acid_anthill",
         "anthill",
@@ -823,7 +823,7 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
-    // @todo: This comparison is a hack. Separate them properly.
+    // TODO: This comparison is a hack. Separate them properly.
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
@@ -988,7 +988,7 @@ oter_id overmap::get_default_terrain( int z ) const
     if( z == 0 ) {
         return settings.default_oter.id();
     } else {
-        // // @todo: Get rid of the hard-coded ids.
+        // // TODO: Get rid of the hard-coded ids.
         static const oter_str_id open_air( "open_air" );
         static const oter_str_id empty_rock( "empty_rock" );
 
@@ -1217,7 +1217,7 @@ const scent_trace &overmap::scent_at( const tripoint &loc ) const
 
 void overmap::set_scent( const tripoint &loc, const scent_trace &new_scent )
 {
-    // @todo: increase strength of scent trace when applied repeatedly in a short timespan.
+    // TODO: increase strength of scent trace when applied repeatedly in a short timespan.
     scents[loc] = new_scent;
 }
 
@@ -1389,7 +1389,7 @@ void overmap::generate( const overmap *north, const overmap *east,
         int tmp;
         // Populate viable_roads with one point for each neighborless side.
         // Make sure these points don't conflict with rivers.
-        // @todo: In theory this is a potential infinite loop...
+        // TODO: In theory this is a potential infinite loop...
         if( north == nullptr ) {
             do {
                 tmp = rng( 10, OMAPX - 11 );
@@ -1445,7 +1445,7 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     polish_river();
 
-    // @todo: there is no reason we can't generate the sublevels in one pass
+    // TODO: there is no reason we can't generate the sublevels in one pass
     //       for that matter there is no reason we can't as we add the entrance ways either
 
     // Always need at least one sublevel, but how many more
@@ -1775,7 +1775,7 @@ void mongroup::wander( const overmap &om )
     }
 
     if( target_city ) {
-        // @todo: somehow use the same algorithm that distributes zombie
+        // TODO: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile
         target.x = target_city->pos.x * 2 + rng( -5, 5 );
@@ -1831,7 +1831,7 @@ void overmap::move_hordes()
         // frequently. The average horde speed for regular Z's is around 100,
         // or one space per 5 minutes.
         if( one_in( movement_chance ) && rng( 0, 100 ) < mg.interest && rng( 0, 200 ) < mg.avg_speed() ) {
-            // @todo: Handle moving to adjacent overmaps.
+            // TODO: Handle moving to adjacent overmaps.
             if( mg.pos.x > mg.target.x ) {
                 mg.pos.x--;
             }
@@ -1941,7 +1941,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
         if( sig_power < dist ) {
             continue;
         }
-        // @todo: base this in monster attributes, foremost GOODHEARING.
+        // TODO: base this in monster attributes, foremost GOODHEARING.
         const int inter_per_sig_power = 15; //Interest per signal value
         const int min_initial_inter = 30; //Min initial interest for horde
         const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
@@ -1951,7 +1951,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
         if( roll < min_capped_inter ) { //Rolling if horde interested in new signal
             // TODO: Z-coordinate for mongroup targets
             const int targ_dist = rl_dist( p, mg.target );
-            // @todo: Base this on targ_dist:dist ratio.
+            // TODO: Base this on targ_dist:dist ratio.
             if( targ_dist < 5 ) {  // If signal source already pursued by horde
                 mg.set_target( ( mg.target.x + p.x ) / 2, ( mg.target.y + p.y ) / 2 );
                 const int min_inc_inter = 3; // Min interest increase to already targeted source
@@ -2422,7 +2422,7 @@ void overmap::place_cities()
         }
         size = std::max( size, 1 );
 
-        // @todo put cities closer to the edge when they can span overmaps
+        // TODO: put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
         int cx = rng( size - 1, OMAPX - size );
         int cy = rng( size - 1, OMAPY - size );
@@ -2534,7 +2534,7 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
                                town, new_width );
 
             auto &oter = ter( iter->x, iter->y, 0 );
-            // @todo Get rid of the hardcoded terrain ids.
+            // TODO: Get rid of the hardcoded terrain ids.
             if( one_in( 2 ) && oter->get_line() == 15 && oter->type_is( oter_type_id( "road" ) ) ) {
                 oter = oter_id( "road_nesw_manhole" );
             }
@@ -3038,7 +3038,7 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
     for( const auto &node : path.nodes ) {
         const tripoint pos( node.x, node.y, z );
         auto &ter_id( ter( pos ) );
-        // @todo: Make 'node' support 'om_direction'.
+        // TODO: Make 'node' support 'om_direction'.
         const om_direction::type new_dir( static_cast<om_direction::type>( node.dir ) );
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( ter_id );
 
@@ -4009,7 +4009,7 @@ bool overmap::is_omt_generated( const tripoint &loc ) const
 
 overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )
 {
-    // @todo: Get rid of the hard-coded ids.
+    // TODO: Get rid of the hard-coded ids.
     static const string_id<overmap_location> land( "land" );
     static const string_id<overmap_location> swamp( "swamp" );
 

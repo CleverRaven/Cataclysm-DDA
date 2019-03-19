@@ -652,7 +652,7 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 }
 
-void groundcover_extra::finalize()   // @todo: fixme return bool for failure
+void groundcover_extra::finalize()   // FIXME: return bool for failure
 {
     default_ter = ter_id( default_ter_str );
 

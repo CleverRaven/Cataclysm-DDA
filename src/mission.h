@@ -350,7 +350,7 @@ class mission
         /** Processes this mission. */
         void process();
 
-        // @todo: Give topics a string_id
+        // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
 
         /**

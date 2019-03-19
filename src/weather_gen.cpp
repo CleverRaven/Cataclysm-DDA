@@ -257,7 +257,7 @@ void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
-    //@todo: this is wrong. weather_generator does not have such a constructor
+    // TODO: this is wrong. weather_generator does not have such a constructor
     // weather_generator WEATHERGEN(0); // Seeds the weather object.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;

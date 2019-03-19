@@ -387,7 +387,7 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( explosion.power <= 0 ) {
-        // @todo: List other effects, like EMP and clouds
+        // TODO: List other effects, like EMP and clouds
         return;
     }
 
@@ -636,7 +636,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    //@todo: change return type to time_duration
+    // TODO: change return type to time_duration
     return transform_age - to_turns<int>( it.age() );
 }
 
@@ -2048,7 +2048,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
 ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool,
         const tripoint & ) const
 {
-    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
@@ -3534,7 +3534,7 @@ iuse_actor *emit_actor::clone() const
 void emit_actor::finalize( const itype_id &my_item_type )
 {
     /*
-    // @todo: This must be called after all finalization
+    // TODO: This must be called after all finalization
     for( const auto& e : emits ) {
         if( !e.is_valid() ) {
             debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );

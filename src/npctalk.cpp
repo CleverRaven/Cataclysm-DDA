@@ -134,7 +134,7 @@ int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
 // Rescale values from "mission scale" to "opinion scale"
 int cash_to_favor( const npc &, int cash )
 {
-    // @todo: It should affect different NPCs to a different degree
+    // TODO: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
     double scaled_mission_val = sqrt( cash / 100.0 );
@@ -144,7 +144,7 @@ int cash_to_favor( const npc &, int cash )
 void game::chat()
 {
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
-        // @todo: Get rid of the z-level check when z-level vision gets "better"
+        // TODO: Get rid of the z-level check when z-level vision gets "better"
         return u.posz() == guy.posz() &&
                u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
@@ -1280,7 +1280,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
 
     // We can't set both skill and style or training will bug out
-    // @todo: Allow setting both skill and style
+    // TODO: Allow setting both skill and style
     if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
         beta->chatbin.style = matype_id::NULL_ID();
@@ -2836,7 +2836,7 @@ enum consumption_result {
 // Returns true if we destroyed the item through consumption
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
-    // @todo: Unify this with 'player::consume_item()'
+    // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;

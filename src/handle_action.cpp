@@ -536,7 +536,7 @@ static void grab()
         } else {
             add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
         }
-    } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+    } else { // TODO: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
         add_msg( m_info, _( "There's nothing to grab there!" ) );
     }
 }
@@ -987,7 +987,7 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // @todo: move direct turret firing from ACTION_FIRE to separate function.
+        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
             switch( turret.query() ) {
                 case turret_data::status::no_ammo:

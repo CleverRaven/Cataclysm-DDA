@@ -986,7 +986,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
 std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
 {
     std::vector<std::shared_ptr<npc>> available;
-    //@todo: this is an arbitrary radius, replace with something sane.
+    // TODO: this is an arbitrary radius, replace with something sane.
     for( const auto &guy : get_npcs_near_player( 100 ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );

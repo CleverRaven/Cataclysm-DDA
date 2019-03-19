@@ -460,7 +460,7 @@ std::string monster::name( unsigned int quantity ) const
     return type->nname( quantity );
 }
 
-// MATERIALS-TODO: put description in materials.json?
+// TODO: MATERIALS put description in materials.json?
 std::string monster::name_with_armor() const
 {
     std::string ret;
@@ -1099,7 +1099,7 @@ bool monster::is_underwater() const
 
 bool monster::is_on_ground() const
 {
-    return false; //TODO: actually make this work
+    return false; // TODO: actually make this work
 }
 
 bool monster::has_weapon() const
@@ -2075,7 +2075,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     }
 
     const efftype_id &id = it.get_id();
-    // MATERIALS-TODO: use fire resistance
+    // TODO: MATERIALS use fire resistance
     if( it.impairs_movement() ) {
         effect_cache[MOVEMENT_IMPAIRED] = true;
     } else if( id == effect_onfire ) {

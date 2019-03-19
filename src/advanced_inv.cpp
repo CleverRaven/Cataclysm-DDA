@@ -330,7 +330,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string item_name;
         if( it.ammo_type() == "money" ) {
             //Count charges
-            //TODO: transition to the item_location system used for the normal inventory
+            // TODO: transition to the item_location system used for the normal inventory
             unsigned long charges_total = 0;
             for( const auto item : sitem.items ) {
                 charges_total += item->charges;
@@ -2083,7 +2083,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
 
     std::string err;
-    // @todo: Allow buckets here, but require them to be on the ground or wielded
+    // TODO: Allow buckets here, but require them to be on the ground or wielded
     const long amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
     if( !err.empty() ) {
         popup( err.c_str() );

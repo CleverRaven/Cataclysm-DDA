@@ -773,8 +773,8 @@ class vehicle
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.
          */
-        // @todo maybe not include broken ones? Have a separate function for that?
-        // @todo rename to just `parts()` and rename the data member to `parts_`.
+        // TODO: maybe not include broken ones? Have a separate function for that?
+        // TODO: rename to just `parts()` and rename the data member to `parts_`.
         vehicle_part_range get_all_parts() const;
         /**
          * Yields a range of parts of this vehicle that each have the given feature
