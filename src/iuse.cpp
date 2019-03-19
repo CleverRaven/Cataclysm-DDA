@@ -2518,11 +2518,14 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
                 return 0;
             }
         } else if( ter == t_grave ) {
-            if( g->u.has_trait_flag( "SPIRITUAL" ) ) {
-                add_msg( m_info, _( "You refuse to touch the sacred resting place of the dead." ) );
-                return 0;
-            }
-            if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+            if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+                g->u.query_yn( _( "Would you realy touch the sacred resting place of the dead?" ) ) ) {
+                add_msg( m_info, _( "You are realy going against your beliefs here." ) );
+                g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                if( one_in( 3 ) ) {
+                    g->u.vomit();
+                }
+            } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
                 p->add_msg_if_player( m_good, _( "This is fun!" ) );
                 p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
             } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {

@@ -362,11 +362,14 @@ void player::activate_mutation( const trait_id &mut )
                         moves = MINUTES( 10 ) * 100;
                         if( g->m.ter( pnt ) == t_grave ) {
                             moves *= 2; // 6 feet under
-                            if( g->u.has_trait_flag( "SPIRITUAL" ) ) {
-                                add_msg( m_info, _( "You refuse to touch the sacred resting place of the dead." ) );
-                                return;
-                            }
-                            if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+                            if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+                                g->u.query_yn( _( "Would you realy touch the sacred resting place of the dead?" ) ) ) {
+                                add_msg( m_info, _( "You are realy going against your beliefs here." ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                                if( one_in( 3 ) ) {
+                                    g->u.vomit();
+                                }
+                            } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
                                 g->u.add_msg_if_player( m_good, _( "This is fun!" ) );
                                 g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
                             } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
