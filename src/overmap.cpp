@@ -2245,8 +2245,9 @@ void overmap::place_forest_trailheads()
 
     const auto trailhead_close_to_road = [&]( const tripoint &trailhead ) {
         bool close = false;
-        for( const point &nearby_point : closest_points_first( settings.forest_trail.trailhead_road_distance,
-                point( trailhead.x, trailhead.y ) ) ) {
+        for( const point &nearby_point : closest_points_first(
+                 settings.forest_trail.trailhead_road_distance,
+                 point( trailhead.x, trailhead.y ) ) ) {
             if( check_ot_subtype( "road", nearby_point.x, nearby_point.y, 0 ) ) {
                 close = true;
             }
