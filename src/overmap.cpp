@@ -2243,7 +2243,7 @@ void overmap::place_forest_trailheads()
     // 3. we're within trailhead_road_distance from an existing road
     // 4. rng rolls a success for our trailhead_chance from the configuration
 
-    const auto trailhead_close_to_road = [&]( const tripoint &trailhead ) {
+    const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
         for( const point &nearby_point : closest_points_first(
                  settings.forest_trail.trailhead_road_distance,
@@ -2255,8 +2255,8 @@ void overmap::place_forest_trailheads()
         return close;
     };
 
-    const auto try_place_trailhead = [&]( const tripoint &trailhead, const tripoint &road,
-    const std::string &suffix ) {
+    const auto try_place_trailhead = [&]( const tripoint & trailhead, const tripoint & road,
+    const std::string & suffix ) {
         oter_id &oter_potential_trailhead = ter( trailhead );
         oter_id &oter_potential_road = ter( road );
         if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
