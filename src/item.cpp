@@ -6339,6 +6339,9 @@ void item::fill_with( item &liquid, long amount )
         item &cts = contents.front();
         const float lhs_energy = cts.get_item_thermal_energy();
         const float rhs_energy = liquid.get_item_thermal_energy();
+        if( rhs_energy < 0 ) {
+            debugmsg( "Poured item has no defined temperature" );
+        }
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
                 cts.weight() ) + to_gram( liquid.weight() ) ) ;
         cts.set_item_specific_energy( combined_specific_energy );
