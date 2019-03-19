@@ -731,9 +731,11 @@ bool player::eat( item &food, bool force )
     if( food.has_flag( "CANNIBALISM" ) ) {
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
+        // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
         const bool cannibal = has_trait( trait_id( "CANNIBAL" ) );
-        const bool psycho = has_trait( trait_id( "PSYCHOPATH" ) ) || has_trait( trait_id( "SAPIOVORE" ) );
-        if( cannibal && psycho && spiritual ) {
+        const bool psycho = has_trait( trait_id( "PSYCHOPATH" ) );
+        const bool sapiovore = has_trait( trait_id( "SAPIOVORE" ) );
+        if( ( cannibal || sapiovore ) && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
             // You're not really consuming anything special; you just think you are.
@@ -741,18 +743,18 @@ bool player::eat( item &food, bool force )
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
             add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( cannibal && spiritual ) {
+        } else if( ( cannibal || sapiovore ) && spiritual ) {
             add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
             // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
             add_morale( MORALE_CANNIBAL, 15, 200 );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
             add_morale( MORALE_CANNIBAL, 10, 50 );
-        } else if( psycho && spiritual ) {
+        } else if( ( psycho || sapiovore ) && spiritual ) {
             add_msg_if_player( _( "You greedily devour the taboo meat." ) );
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
-        } else if( psycho ) {
+        } else if( psycho || sapiovore ) {
             add_msg_if_player( _( "Meh. You've eaten worse." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
