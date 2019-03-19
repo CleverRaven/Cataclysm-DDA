@@ -6441,7 +6441,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
     "id": "makeshift_scythe_war",
@@ -6459,7 +6459,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "FRAGILE_MELEE" ]
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK" ]
   },
   {
     "id": "sewing_kit",
