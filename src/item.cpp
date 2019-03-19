@@ -3502,11 +3502,13 @@ int item::get_quality( const quality_id &id ) const
     if( id == quality_id( "BOIL" ) && !( contents.empty() ||
                                          ( is_tool() && std::all_of( contents.begin(), contents.end(),
     [this]( const item & itm ) {
-    if( !itm.is_ammo() ) {
-            return false;
+    if( itm.is_ammo() ) {
+            auto &ammo_types = itm.type->ammo->type;
+            return ammo_types.find( ammo_type() ) != ammo_types.end();
+        } else if( itm.is_toolmod() ) {
+            return true;
         }
-        auto &ammo_types = itm.type->ammo->type;
-        return ammo_types.find( ammo_type() ) != ammo_types.end();
+        return false;
     } ) ) ) ) {
         return INT_MIN;
     }
