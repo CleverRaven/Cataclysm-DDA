@@ -1935,7 +1935,6 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
         }
     }
     g->m.reset_vehicle_cache( target.z );
-    
     cleartmpmap( tmpmap );
     return true;
 }

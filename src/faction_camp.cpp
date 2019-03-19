@@ -502,7 +502,6 @@ void talk_function::start_camp( npc &p )
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
-    
     editmap edit;
     tripoint new_pos = omt_pos;
     if( !edit.mapgen_set( "faction_base_camp_0", new_pos ) ) {
