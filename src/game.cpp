@@ -529,6 +529,8 @@ void game::init_ui( const bool resized )
 
     w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 15, 65, ( TERMY / 2 ) - 8, ( TERMX / 2 ) - 33 );
     werase( w_panel_adm );
+    // need to init in order to avoid crash. gets updated by the panel code.
+    w_pixel_minimap = catacurses::newwin( 1, 1, 0, 0 );
     liveview.init();
 
     // Only refresh if we are in-game, otherwise all resources are not initialized
