@@ -191,7 +191,7 @@ editmap::editmap()
     trset = undefined_trap_id;
     w_info = catacurses::window();
     w_help = catacurses::window();
-    padding = std::string( width - 2, ' ' );
+    padding = std::string( std::max( 0, width - 2 ), ' ' );
     blink = false;
     altblink = false;
     moveall = false;

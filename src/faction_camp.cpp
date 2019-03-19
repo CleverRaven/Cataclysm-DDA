@@ -509,20 +509,6 @@ void talk_function::start_camp( npc &p )
         popup( _( "You weren't able to survey the camp site." ) );
         return;
     }
-    become_overseer( p );
-}
-
-void talk_function::become_overseer( npc &p )
-{
-    add_msg( _( "%s has become a camp manager." ), p.name );
-    if( p.name.find( _( ", Camp Manager" ) ) == std::string::npos ) {
-        p.name = p.name + _( ", Camp Manager" );
-    }
-    p.companion_mission_role_id = basecamp_id;
-    p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD_ALLY;
-    p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
-    p.set_destination();
     get_basecamp( p );
 }
 
@@ -534,7 +520,7 @@ void talk_function::recover_camp( npc &p )
         popup( _( "There is no faction camp here to recover!" ) );
         return;
     }
-    become_overseer( p );
+    get_basecamp( p );
 }
 
 void talk_function::remove_overseer( npc &p )
