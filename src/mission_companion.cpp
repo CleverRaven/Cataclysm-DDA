@@ -619,31 +619,6 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
     return comp;
 }
 
-std::vector<item *> talk_function::individual_mission_give_equipment( std::vector<item *> equipment,
-        const std::string &message )
-{
-    std::vector<item *> equipment_lost;
-    do {
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-
-        std::vector<std::string> names;
-        for( auto &i : equipment ) {
-            names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
-        }
-
-        // Choose item if applicable
-        const int i_index = uilist( message, names );
-        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
-            return equipment_lost;
-        }
-        equipment_lost.push_back( equipment[i_index] );
-        equipment.erase( equipment.begin() + i_index );
-    } while( !equipment.empty() );
-    return equipment_lost;
-}
-
 void talk_function::caravan_depart( npc &p, const std::string &dest, const std::string &id )
 {
     std::vector<npc_ptr> npc_list = companion_list( p, id );
