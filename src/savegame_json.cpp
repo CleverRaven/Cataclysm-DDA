@@ -1353,7 +1353,6 @@ void npc::load( JsonObject &data )
             complaints.emplace( key, p );
         }
     }
-    data.read( "flee_from_pos", flee_from_pos );
 }
 
 /*
@@ -1389,7 +1388,6 @@ void npc::store( JsonOut &json ) const
     json.member( "submap_coords", submap_coords );
 
     json.member( "last_player_seen_pos", last_player_seen_pos );
-    json.member( "flee_from_pos", flee_from_pos );
 
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );

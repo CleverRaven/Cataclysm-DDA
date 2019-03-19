@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "faction.h"
+#include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -257,6 +258,10 @@ struct npc_follower_rules {
 
 };
 
+const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
+                                      SOUTHEAST, SOUTH, SOUTHWEST, WEST
+                                    };
+
 // Data relevant only for this action
 struct npc_short_term_cache {
     float danger;
@@ -270,6 +275,8 @@ struct npc_short_term_cache {
     // Use weak_ptr to avoid circular references between Creatures
     std::vector<std::weak_ptr<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
+
+    std::map<direction, float> threat_map;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -623,6 +630,7 @@ class npc : public player
         void regen_ai_cache();
         const Creature *current_target() const;
         Creature *current_target();
+        tripoint good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
         float danger_assessment();
@@ -862,7 +870,6 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
-        cata::optional<tripoint> flee_from_pos; // run away from here if no enemies visible
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
