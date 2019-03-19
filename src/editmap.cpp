@@ -5,6 +5,7 @@
 #include <cstring>
 #include <fstream>
 #include <map>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -23,6 +24,7 @@
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "output.h"
@@ -191,7 +193,7 @@ editmap::editmap()
     trset = undefined_trap_id;
     w_info = catacurses::window();
     w_help = catacurses::window();
-    padding = std::string( width - 2, ' ' );
+    padding = std::string( std::max( 0, width - 2 ), ' ' );
     blink = false;
     altblink = false;
     moveall = false;
@@ -1840,18 +1842,14 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             return false;
         }
     }
-
     // Coordinates of the overmap terrain that should be generated.
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, omt_tgt.z );
     omt_ref = oter_id( om_name );
-
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
-
     tinymap tmpmap;
     tmpmap.generate( omt_tgt.x * 2, omt_tgt.y * 2, target.z, calendar::turn );
     point target_sub( target.x / SEEX, target.y / SEEY );
-
     g->m.clear_vehicle_cache( target.z );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
@@ -1859,7 +1857,6 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             submap *srcsm = tmpmap.get_submap_at_grid( { x, y, target.z } );
             destsm->is_uniform = false;
             srcsm->is_uniform = false;
-
             if( !destsm->vehicles.empty() ) {
                 popup( _( "Engine cannot support merging vehicles from two overmaps, please remove them from the OM tile." ) );
                 return false;
@@ -1876,18 +1873,15 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
             }
             srcsm->vehicles.clear();
             g->m.update_vehicle_list( destsm, target.z );
-
             int spawns_todo = 0;
             for( const auto &spawn : srcsm->spawns ) { // copy spawns
                 destsm->spawns.push_back( spawn );
                 spawns_todo++;
             }
-
             destsm->field_count = srcsm->field_count; // and count
             std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
             std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
             std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
-
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     for( auto &elem : srcsm->itm[sx][sy] ) {
@@ -1935,7 +1929,6 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
         }
     }
     g->m.reset_vehicle_cache( target.z );
-
     cleartmpmap( tmpmap );
     return true;
 }
