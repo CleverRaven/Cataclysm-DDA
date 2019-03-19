@@ -4763,6 +4763,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "animalpound_roof",
+    "name": "animal pound roof",
+    "copy-from": "generic_city_building",
+    "sym": 84,
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "animalshelter",
     "name": "animal shelter",
     "copy-from": "generic_city_building",
