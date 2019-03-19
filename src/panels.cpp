@@ -1366,7 +1366,7 @@ void draw_health_classic( player &u, const catacurses::window &w )
     werase( w );
 
     draw_minimap( u, w );
-    draw_rectangle( w, c_light_gray, point( 0, 0 ), point( 7, 6 ) );
+    draw_rectangle( w, c_light_gray, point( 0, 0 ), point( 6, 6 ) );
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
