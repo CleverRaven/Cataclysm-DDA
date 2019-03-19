@@ -191,7 +191,7 @@ editmap::editmap()
     trset = undefined_trap_id;
     w_info = catacurses::window();
     w_help = catacurses::window();
-    padding = std::string( width - 2, ' ' );
+    padding = std::string( std::max( 0, width - 2 ), ' ' );
     blink = false;
     altblink = false;
     moveall = false;
@@ -1935,7 +1935,6 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
         }
     }
     g->m.reset_vehicle_cache( target.z );
-
     cleartmpmap( tmpmap );
     return true;
 }
