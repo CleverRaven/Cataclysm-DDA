@@ -2883,15 +2883,16 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
 
             g->summon_mon( random_entry( monids ), pos );
             g->m.furn_set( pos, f_coffin_o );
+            p->add_msg_if_player( m_bad, _( "Something crawls out of the coffin!" ) );
         } else {
             g->m.add_item_or_charges( pos, item( "bone_human" ) );
             g->m.furn_set( pos, f_coffin_c );
         }
         g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
-        g->m.place_items( "jewelery_front", 20, pos, pos, false, calendar::turn );
+        g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
         g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
-        g->u.add_memorial_log( pgettext( "memorial_male", "Digged up a grave." ),
-                               pgettext( "memorial_female", "Digged up a grave." ) );
+        g->u.add_memorial_log( pgettext( "memorial_male", "Exhumed a grave." ),
+                               pgettext( "memorial_female", "Exhumed a grave." ) );
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
@@ -2899,7 +2900,11 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+    if( grave ) {
+        p->add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
+    } else {
+        p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+    }
 
     act->set_to_null();
 }
