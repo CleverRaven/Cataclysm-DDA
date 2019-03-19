@@ -2523,6 +2523,7 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
+    clear_flag( ally_rule::avoid_combat );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test ) const

@@ -220,7 +220,8 @@ enum class ally_rule {
     allow_sleep = 64,
     allow_complain = 128,
     allow_pulp = 256,
-    close_doors = 512
+    close_doors = 512,
+    avoid_combat = 1024
 };
 const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "use_guns", ally_rule::use_guns },
@@ -232,7 +233,8 @@ const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "allow_sleep", ally_rule::allow_sleep },
         { "allow_complain", ally_rule::allow_complain },
         { "allow_pulp", ally_rule::allow_pulp },
-        { "close_doors", ally_rule::close_doors }
+        { "close_doors", ally_rule::close_doors },
+        { "avoid_combat", ally_rule::avoid_combat }
     }
 };
 
@@ -669,7 +671,6 @@ class npc : public player
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;
 
-        void choose_target();
         void assess_danger();
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
@@ -861,6 +862,7 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        cata::optional<tripoint> flee_from_pos; // run away from here if no enemies visible
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.

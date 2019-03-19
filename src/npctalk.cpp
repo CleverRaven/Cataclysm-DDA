@@ -174,6 +174,8 @@ void game::chat()
     int yell_follow = -1;
     int yell_awake = -1;
     int yell_sleep = -1;
+    int yell_flee = -1;
+    int yell_stop = -1;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
@@ -182,6 +184,8 @@ void game::chat()
         nmenu.addentry( yell_awake = i++, true, 'w', _( "Tell all your allies to stay awake" ) );
         nmenu.addentry( yell_sleep = i++, true, 's',
                         _( "Tell all your allies to relax and sleep when tired" ) );
+        nmenu.addentry( yell_flee = i++, true, 'R', _( "Tell all your allies to flee" ) );
+        nmenu.addentry( yell_stop = i++, true, 'S', _( "Tell all your allies stop running" ) );
     }
     if( !guards.empty() ) {
         nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
@@ -225,6 +229,16 @@ void game::chat()
             talk_function::stop_guard( *p );
         }
         u.shout( _( "Follow me!" ) );
+    } else if( nmenu.ret == yell_flee ) {
+        for( npc *p : followers ) {
+            p->rules.set_flag( ally_rule::avoid_combat );
+        }
+        u.shout( _( "Fall back to safety!  Flee, you fools!" ) );
+    } else if( nmenu.ret == yell_stop ) {
+        for( npc *p : followers ) {
+            p->rules.clear_flag( ally_rule::avoid_combat );
+        }
+        u.shout( _( "No need to run any more, we can fight here." ) );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {
