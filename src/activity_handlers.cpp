@@ -2873,7 +2873,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_pit_shallow );
     }
     if( grave ) {
-        if( one_in( 5 ) ) {
+        if( one_in( 10 ) ) {
             static const std::array<mtype_id, 5> monids = { {
                 mtype_id( "mon_zombie" ), mtype_id( "mon_zombie_fat" ),
                 mtype_id( "mon_zombie_rot" ), mtype_id( "mon_skeleton" ),
