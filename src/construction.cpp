@@ -790,6 +790,7 @@ void place_construction( const std::string &desc )
                      g->u.pos() + g->u.view_offset );
     }
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
@@ -1102,7 +1103,7 @@ void construct::done_mine_upstair( const tripoint &p )
     }
 
     static const std::set<ter_id> liquids = {{
-            t_water_sh, t_sewage, t_water_dp, t_water_pool
+            t_water_sh, t_sewage, t_water_dp, t_water_pool, t_water_moving_sh, t_water_moving_dp,
         }
     };
 

@@ -1,9 +1,13 @@
+#include <sstream>
+
 #include "catch/catch.hpp"
 #include "crafting.h"
 #include "game.h"
 #include "itype.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
+#include "output.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "recipe_dictionary.h"
@@ -235,7 +239,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     }
 }
 
-static void test_craft( const recipe_id &rid, const std::vector<item> tools,
+static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
                         bool expect_craftable )
 {
     clear_player();
@@ -255,8 +259,15 @@ static void test_craft( const recipe_id &rid, const std::vector<item> tools,
     inventory crafting_inv = g->u.crafting_inventory();
     bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory() );
     CHECK( can_craft == expect_craftable );
+}
+
+// This fakes a craft in a reasonable way which is fast
+static void fake_test_craft( const recipe_id &rid, const std::vector<item> tools,
+                             bool expect_craftable )
+{
+    prep_craft( rid, tools, expect_craftable );
     if( expect_craftable ) {
-        g->u.consume_components_for_craft( r, 1 );
+        g->u.consume_components_for_craft( rid.obj(), 1 );
         g->u.invalidate_crafting_inventory();
     }
 }
@@ -277,7 +288,7 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
-        test_craft( recipe_id( "carver_off" ), tools, true );
+        fake_test_craft( recipe_id( "carver_off" ), tools, true );
         CHECK( get_remaining_charges( "hotplate" ) == 10 );
         CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
     }
@@ -297,7 +308,7 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
-        test_craft( recipe_id( "carver_off" ), tools, true );
+        fake_test_craft( recipe_id( "carver_off" ), tools, true );
         CHECK( get_remaining_charges( "hotplate" ) == 0 );
         CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
     }
@@ -320,7 +331,7 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "scrap" );
         tools.emplace_back( "UPS_off", -1, 500 );
 
-        test_craft( recipe_id( "carver_off" ), tools, true );
+        fake_test_craft( recipe_id( "carver_off" ), tools, true );
         CHECK( get_remaining_charges( "hotplate" ) == 0 );
         CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
         CHECK( get_remaining_charges( "UPS_off" ) == 480 );
@@ -344,7 +355,7 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "scrap" );
         tools.emplace_back( "UPS_off", -1, 10 );
 
-        test_craft( recipe_id( "carver_off" ), tools, false );
+        fake_test_craft( recipe_id( "carver_off" ), tools, false );
     }
 }
 
@@ -358,7 +369,7 @@ TEST_CASE( "tool_use" )
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
-        test_craft( recipe_id( "water_clean" ), tools, true );
+        fake_test_craft( recipe_id( "water_clean" ), tools, true );
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
@@ -372,6 +383,90 @@ TEST_CASE( "tool_use" )
         jar.contents.emplace_back( "water", -1, 2 );
         tools.push_back( jar );
 
-        test_craft( recipe_id( "water_clean" ), tools, false );
+        fake_test_craft( recipe_id( "water_clean" ), tools, false );
+    }
+}
+
+static constexpr int midnight = HOURS( 0 );
+static constexpr int midday = HOURS( 12 );
+
+static void set_time( int time )
+{
+    calendar::turn = time;
+    g->reset_light_level();
+    int z = g->u.posz();
+    g->m.update_visibility_cache( z );
+    g->m.build_map_cache( z );
+}
+
+// This tries to actually run the whole craft activity, which is more thorough,
+// but slow
+static int actually_test_craft( const recipe_id &rid, const std::vector<item> tools,
+                                int interrupt_after_turns )
+{
+    prep_craft( rid, tools, true );
+    set_time( midday ); // Ensure light for crafting
+    const recipe &rec = rid.obj();
+    REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( !g->u.activity );
+    g->u.make_craft( rid, 1 );
+    CHECK( g->u.activity );
+    CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    int turns = 0;
+    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+        if( turns >= interrupt_after_turns ) {
+            set_time( midnight ); // Kill light to interrupt crafting
+        }
+        ++turns;
+        g->u.moves = 100;
+        g->u.activity.do_turn( g->u );
+    }
+    return turns;
+}
+
+static void verify_inventory( const std::vector<std::string> &has,
+                              const std::vector<std::string> &hasnt )
+{
+    std::ostringstream os;
+    os << "Inventory:\n";
+    for( const item *i : g->u.inv_dump() ) {
+        os << "  " << i->typeId() << " (" << i->charges << ")\n";
+    }
+    INFO( os.str() );
+    for( const std::string &i : has ) {
+        INFO( "expecting " << i );
+        CHECK( player_has_item_of_type( i ) );
+    }
+    for( const std::string &i : hasnt ) {
+        INFO( "not expecting " << i );
+        CHECK( !player_has_item_of_type( i ) );
+    }
+}
+
+TEST_CASE( "crafting_interruption" )
+{
+    std::vector<item> tools;
+    tools.emplace_back( "hammer" );
+    tools.emplace_back( "scrap", -1, 1 );
+    recipe_id test_recipe( "crude_picklock" );
+    int time_taken = test_recipe->batch_time( 1, 1, 0 );
+    int expected_turns_taken = divide_round_up( time_taken, 100 );
+    REQUIRE( expected_turns_taken > 2 );
+
+    SECTION( "regular_craft" ) {
+        int turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
+        CHECK( turns_taken == expected_turns_taken );
+        verify_inventory( { "crude_picklock" }, { "scrap" } );
+    }
+    SECTION( "interrupted_craft" ) {
+        int turns_taken = actually_test_craft( test_recipe, tools, 2 );
+        CHECK( turns_taken == 3 );
+        verify_inventory( { "scrap" }, { "crude_picklock" } );
+        SECTION( "resumed_craft" ) {
+            turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
+            CHECK( turns_taken == expected_turns_taken - 2 );
+            verify_inventory( { "crude_picklock" }, { "scrap" } );
+        }
     }
 }

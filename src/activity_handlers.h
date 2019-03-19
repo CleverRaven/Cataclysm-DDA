@@ -21,6 +21,7 @@ enum butcher_type : int {
     F_DRESS,        // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
+    DISMEMBER,      // destroy a corpse
     DISSECT         // dissect a corpse for CBMs
 };
 
@@ -31,6 +32,7 @@ void activity_on_turn_drop();
 void activity_on_turn_move_items();
 void activity_on_turn_move_loot( player_activity &act, player &p );
 void activity_on_turn_pickup();
+void activity_on_turn_wear();
 void activity_on_turn_stash();
 void try_refuel_fire( player &p );
 
@@ -43,7 +45,7 @@ enum class item_drop_reason {
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
-                               const tripoint &where );
+                               const tripoint &where, bool force_ground = false );
 
 namespace activity_handlers
 {
@@ -62,6 +64,7 @@ void vibe_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
 void pickup_do_turn( player_activity *act, player *p );
+void wear_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
@@ -74,12 +77,14 @@ void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
+void dig_channel_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void till_plot_do_turn( player_activity *act, player *p );
 void plant_plot_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
 void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
+void robot_control_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -95,7 +100,6 @@ void hotwire_finish( player_activity *act, player *p );
 void longsalvage_finish( player_activity *act, player *p );
 void make_zlave_finish( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
-void pickup_finish( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );
 void train_finish( player_activity *act, player *p );
@@ -121,8 +125,6 @@ void longcraft_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
 void build_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
-void move_items_finish( player_activity *act, player *p );
-void move_loot_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void aim_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
@@ -131,6 +133,7 @@ void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
 void dig_finish( player_activity *act, player *p );
+void dig_channel_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
 void play_with_pet_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );

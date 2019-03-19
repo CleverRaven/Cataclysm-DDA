@@ -70,7 +70,6 @@ void PATH_INFO::update_datadir()
 {
     // Shared dirs
     update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
-    update_pathname( "luadir", FILENAMES["datadir"] + "lua/" );
     update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
     update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
     update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
@@ -84,8 +83,6 @@ void PATH_INFO::update_datadir()
     update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
 
     // Shared files
-    update_pathname( "autoexeclua", FILENAMES["luadir"] + "autoexec.lua" );
-    update_pathname( "class_defslua", FILENAMES["luadir"] + "class_definitions.lua" );
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
     update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
@@ -107,6 +104,7 @@ void PATH_INFO::update_datadir()
 void PATH_INFO::update_config_dir()
 {
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
     update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
@@ -121,26 +119,21 @@ void PATH_INFO::update_config_dir()
 
 void PATH_INFO::set_standard_filenames()
 {
-    // Special: data_dir lua_dir and gfx_dir
+    // Special: data_dir and gfx_dir
     if( !FILENAMES["base_path"].empty() ) {
 #ifdef DATA_DIR_PREFIX
         update_pathname( "datadir", FILENAMES["base_path"] + "share/cataclysm-dda/" );
         update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
-        update_pathname( "luadir", FILENAMES["datadir"] + "lua/" );
 #else
         update_pathname( "datadir", FILENAMES["base_path"] + "data/" );
         update_pathname( "gfxdir", FILENAMES["base_path"] + "gfx/" );
-        update_pathname( "luadir", FILENAMES["base_path"] + "lua/" );
 #endif
     } else {
         update_pathname( "datadir", "data/" );
         update_pathname( "gfxdir", "gfx/" );
-        update_pathname( "luadir", "lua/" );
     }
 
     // Shared dirs
-    update_pathname( "autoexeclua", FILENAMES["luadir"] + "autoexec.lua" );
-    update_pathname( "class_defslua", FILENAMES["luadir"] + "class_definitions.lua" );
     update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
     update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
     update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
@@ -190,6 +183,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "graveyarddir", FILENAMES["user_dir"] + "graveyard/" );
 
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );

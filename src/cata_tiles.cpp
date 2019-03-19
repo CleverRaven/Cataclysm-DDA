@@ -33,6 +33,7 @@
 #include "player.h"
 #include "rect_range.h"
 #include "sdl_wrappers.h"
+#include "scent_map.h"
 #include "sounds.h"
 #include "submap.h"
 #include "trap.h"
@@ -313,8 +314,9 @@ static void color_pixel_grayscale( pixel &pix )
 
 static void color_pixel_nightvision( pixel &pix )
 {
-    int result = ( pix.r + pix.b + pix.g ) / 3;
-    result = result * 3 / 4 + 64;
+    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
+    int result = result_gray * 3 / 4 + 64;
+    result = 16 + result_gray * result / 255;
     if( result > 255 ) {
         result = 255;
     }
@@ -325,8 +327,9 @@ static void color_pixel_nightvision( pixel &pix )
 
 static void color_pixel_overexposed( pixel &pix )
 {
-    int result = ( pix.r + pix.b + pix.g ) / 3;
-    result = result / 4 + 192;
+    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
+    int result = result_gray / 4 + 192;
+    result = 64 + result_gray * result / 255;
     if( result > 255 ) {
         result = 255;
     }
@@ -1091,6 +1094,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                     apply_vision_effects( temp, offscreen_type );
                 }
                 continue;
+            }
+
+
+            // Add scent value to the overlay_strings list for every visible tile when displaying scent
+            if( g->displaying_scent ) {
+                const int scent_value = g->scent.get( {x, y, center.z} );
+                if( scent_value > 0 ) {
+                    overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                             formatted_text( std::to_string( scent_value ), 11,
+                                                     NORTH ) );
+                }
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
@@ -1889,6 +1903,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + ( isBold ? 8 : 0 );
             std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
+
+            // do not rotate fallback tiles!
+            if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
+                rota = 0;
+            }
+
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
                                             ll, apply_night_vision_goggles );
@@ -2509,7 +2529,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
-    if( !veh->forward_velocity() ) {
+    if( !veh->forward_velocity() && !veh->player_in_control( g->u ) ) {
         if( !g->m.check_and_set_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
         }
@@ -3250,19 +3270,27 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
 #   if (defined _WIN32 || defined WINDOWS)
         { "direct3d", translate_marker( "direct3d" ) },
 #   endif
+        { "software", translate_marker( "software" ) },
         { "opengl", translate_marker( "opengl" ) },
         { "opengles2", translate_marker( "opengles2" ) },
-#endif
+#else
         { "software", translate_marker( "software" ) }
-    };
+#endif
 
+    };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
     DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
     for( int ii = 0; ii < numRenderDrivers; ii++ ) {
         SDL_RendererInfo ri;
         SDL_GetRenderDriverInfo( ii, &ri );
         DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
-        renderer_names.emplace_back( ri.name, ri.name );
+        // First default renderer name we will put first on the list. We can use it later as default value.
+        if( ri.name == default_renderer_names.front().first ) {
+            renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );
+        } else {
+            renderer_names.emplace_back( ri.name, ri.name );
+        }
+
     }
 
     return renderer_names.empty() ? default_renderer_names : renderer_names;

@@ -110,6 +110,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_run_away",
+    "name": [ "Running away!" ],
+    "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "infection",
     "name": [ "Infection" ],
     "desc": [ "AI tag used for the infected NPC quest.  This is a bug if you have it." ],
@@ -132,6 +138,12 @@
     "id": "has_bag",
     "name": [ "Has Bag" ],
     "desc": [ "AI tag used for critters holding your bags.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "monster_armor",
+    "name": [ "Has Armor" ],
+    "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -253,7 +265,7 @@
     "id": "blind",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
-    "removes_effects": [ "glare", "darkness" ],
+    "removes_effects": [ "glare", "snow_glare", "darkness" ],
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
@@ -282,6 +294,12 @@
     "int_dur_factor": 100,
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ -50 ], "pain_chance_bot": [ 1000 ] },
     "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "glowy_led",
+    "apply_message": "You are emitting a LED glow",
+    "rating": "mixed"
   },
   {
     "type": "effect_type",
@@ -424,6 +442,15 @@
   },
   {
     "type": "effect_type",
+    "id": "snow_glare",
+    "name": [ "Snow glare" ],
+    "desc": [ "The sunlight is reflecting off the snow." ],
+    "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
+    "rating": "bad",
+    "base_mods": { "per_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "laserlocked",
     "name": [ "Laser-targeted" ],
     "desc": [ "A laser sight is targeting you!" ],
@@ -462,7 +489,8 @@
     "rating": "bad",
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
     "harmful_cough": true,
-    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "cough_chance": [ 3 ] },
+    "max_duration": 1800,
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "show_in_info": true
   },
   {
@@ -519,6 +547,14 @@
     "name": [ "Stuck in Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "no_sight",
+    "name": [ "Poor sight" ],
+    "desc": [ "You can't see very far from this spot." ],
+    "apply_message": "Your sight distance is impaired.",
+    "rating": "bad"
   },
   {
     "type": "effect_type",

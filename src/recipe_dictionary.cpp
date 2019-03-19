@@ -213,6 +213,8 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.favorite_recipes.empty();
     } else if( subcat == "CSC_*_RECENT" ) {
         return uistate.recent_recipes.empty();
+    } else if( subcat == "CSC_*_HIDDEN" ) {
+        return uistate.hidden_recipes.empty();
     }
 
     auto iter = category.find( cat );

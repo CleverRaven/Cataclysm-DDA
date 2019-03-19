@@ -24,22 +24,6 @@
     "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
   },
   {
-    "result": "boots_bone",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": 40000,
-    "autolearn": true,
-    "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [
-      [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
-      [ [ "leather", 6 ], [ "fur", 6 ] ]
-    ]
-  },
-  {
     "result": "boots_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",

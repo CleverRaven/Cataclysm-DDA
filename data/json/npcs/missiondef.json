@@ -449,7 +449,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": { 
+    "start": {
       "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -474,7 +474,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": { 
+    "start": {
       "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -660,7 +660,7 @@
     "difficulty": 5,
     "value": 250000,
     "monster_type": "mon_charred_nightmare",
-    "start": { 
+    "start": {
       "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 }
     },
     "monster_kill_goal": 20,
@@ -1984,7 +1984,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help...",
-      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
+      "offer": "In the data we found a major contract for tunneling and train equipment, ordered a long time ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
       "accepted": "So glad for your help.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",

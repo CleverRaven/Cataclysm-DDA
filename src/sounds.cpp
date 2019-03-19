@@ -16,6 +16,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -106,10 +107,11 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, std::string de
                                                  false, id, variant} ) );
 }
 
-void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
+void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
+                           const std::string &footstep )
 {
     sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, "footsteps", false, true, "", ""} ) );
+                                         sound_t::movement, footstep, false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -324,9 +326,12 @@ void sounds::process_sound_markers( player *p )
         }
 
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
-        if( p->is_npc() && !sound.ambient ) {
-            npc *guy = dynamic_cast<npc *>( p );
-            guy->handle_sound( static_cast<int>( sound.category ), description, heard_volume, pos );
+        if( p->is_npc() ) {
+            if( !sound.ambient ) {
+                npc *guy = dynamic_cast<npc *>( p );
+                guy->handle_sound( static_cast<int>( sound.category ), description,
+                                   heard_volume, pos );
+            }
             continue;
         }
 
@@ -520,6 +525,7 @@ void sfx::do_ambient()
     17: Stamina 35%
     18: Idle chainsaw
     19: Chainsaw theme
+    20: Outdoor blizzard
     Group Assignments:
     1: SFX related to weather
     2: SFX related to time of day
@@ -569,7 +575,7 @@ void sfx::do_ambient()
     }
     // We are indoors and it is also raining
     if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground
-        && !is_channel_playing( 4 ) ) {
+        && is_sheltered && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
     }
@@ -606,6 +612,9 @@ void sfx::do_ambient()
             case WEATHER_SUNNY:
             case WEATHER_CLOUDY:
             case WEATHER_SNOWSTORM:
+                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume, 20,
+                                            1000 );
+                break;
             case WEATHER_SNOW:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, 5,
                                             1000 );
@@ -1042,6 +1051,8 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_electronic" ),
         };
         static const std::set<ter_str_id> water = {
+            ter_str_id( "t_water_moving_sh" ),
+            ter_str_id( "t_water_moving_dp" ),
             ter_str_id( "t_water_sh" ),
             ter_str_id( "t_water_dp" ),
             ter_str_id( "t_swater_sh" ),
@@ -1091,6 +1102,8 @@ void sfx::do_obstacle()
     static const std::set<ter_str_id> water = {
         ter_str_id( "t_water_sh" ),
         ter_str_id( "t_water_dp" ),
+        ter_str_id( "t_water_moving_sh" ),
+        ter_str_id( "t_water_moving_dp" ),
         ter_str_id( "t_swater_sh" ),
         ter_str_id( "t_swater_dp" ),
         ter_str_id( "t_water_pool" ),

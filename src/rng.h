@@ -4,6 +4,7 @@
 
 #include <array>
 #include <functional>
+#include <random>
 
 #include "optional.h"
 
@@ -12,6 +13,8 @@
 // If this function is called with a non-zero seed then the engine will be
 // seeded (or re-seeded) with the given seed.
 void rng_set_engine_seed( uintmax_t seed );
+
+std::default_random_engine &rng_get_engine();
 
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );

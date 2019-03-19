@@ -92,6 +92,11 @@
           "yes": "*will not engage enemies."
         },
         {
+          "npc_rule": "avoid_combat",
+          "yes": "  <mypronoun> will follow you instead of fighting.",
+          "no": "  <mypronoun> will fight instead of following you."
+        },
+        {
           "npc_rule": "use_guns",
           "yes": {
             "npc_rule": "use_silent",
@@ -116,6 +121,15 @@
     "responses": [
       { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
       { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_combat" },
+          "true": "Stand and fight.",
+          "false": "If you see me running away, you follow me."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "avoid_combat" }
+      },
       {
         "truefalsetext": {
           "condition": { "npc_rule": "use_guns" },
@@ -268,7 +282,7 @@
     "responses": [
       {
         "text": "Come on, we're friends.",
-        "trial": { "type": "PERSUADE", "difficulty": 0, "mods": [ [ "TRUST", 3 ], [ "VALUE", 1 ], [ "ANGER", -3 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": { "topic": "TALK_TRAIN" },
         "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 } }
       },
@@ -348,7 +362,7 @@
       {
         "truefalsetext": { "condition": { "npc_rule": "close_doors" }, "true": "Leave doors open.", "false": "Close the doors." },
         "topic": "TALK_MISC_RULES",
-        "effect": { "toggle_npc_rule": "close_door" }
+        "effect": { "toggle_npc_rule": "close_doors" }
       },
       { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
       { "text": "Never mind.", "topic": "TALK_NONE" }

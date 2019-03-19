@@ -162,7 +162,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "small glass tube",
-    "description": "This is a small glass tube. What more could you possibly want to know about it?",
+    "description": "This is a small glass tube.  What more could you possibly want to know about it?",
     "weight": 1,
     "volume": 0.1,
     "price": 10,

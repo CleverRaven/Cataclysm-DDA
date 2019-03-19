@@ -144,13 +144,13 @@
       [ "pickup", 300 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 150 ],
-      [ "dirt_bike", 125 ]
+      [ "bicycle_dirt", 125 ]
     ]
   },
   {
     "type": "vehicle_group",
     "id": "dirtlot",
-    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "dirt_bike", 100 ] ]
+    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "bicycle_dirt", 100 ] ]
   },
   {
     "type": "vehicle_group",
@@ -319,7 +319,7 @@
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
-      [ "dirt_bike", 50 ],
+      [ "bicycle_dirt", 50 ],
       [ "car_mini", 200 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],
@@ -362,6 +362,11 @@
     "type": "vehicle_group",
     "id": "golf_carts",
     "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ]
+  },
+  {
+      "type": "vehicle_group",
+      "id": "workshop_vehicles",
+      "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
   },
   {
     "type": "vehicle_group",

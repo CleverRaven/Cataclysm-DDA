@@ -21,6 +21,7 @@
     "dispersion": 150,
     "durability": 7,
     "clip_size": 50,
-    "reload": 50
+    "reload": 50,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]

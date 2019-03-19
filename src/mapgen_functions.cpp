@@ -135,7 +135,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
             { "basement_junk", &mapgen_basement_junk },
             { "basement_spiders", &mapgen_basement_spiders },
-            { "police", &mapgen_police },
             { "cave", &mapgen_cave },
             { "cave_rat", &mapgen_cave_rat },
             { "cavern", &mapgen_cavern },
@@ -1547,9 +1546,9 @@ void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < 2 ) {
-                m->ter_set( i, j, river_west ? t_water_dp : grass_or_dirt() );
+                m->ter_set( i, j, river_west ? t_water_moving_dp : grass_or_dirt() );
             } else if( i >= SEEX * 2 - 2 ) {
-                m->ter_set( i, j, river_east ? t_water_dp : grass_or_dirt() );
+                m->ter_set( i, j, river_east ? t_water_moving_dp : grass_or_dirt() );
             } else if( i == 2 || i == SEEX * 2 - 3 ) {
                 m->ter_set( i, j, t_guardrail_bg_dp );
             } else if( i == 3 || i == SEEX * 2 - 4 ) {
@@ -1931,14 +1930,14 @@ r^X^^^X^________^X^^^X^r",
 void mapgen_river_center( map *m, oter_id, mapgendata dat, const time_point &, float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
 }
 
 void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, const time_point &,
                               float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
     // this is not_ne, so deep on all sides except ne corner, which is shallow
     // shallow is 20,0, 23,4
     int north_edge = rng( 16, 18 );
@@ -1953,7 +1952,7 @@ void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, cons
             if( circle_edge == 9 && one_in( 25 ) ) {
                 m->ter_set( x, y, clay_or_sand() );
             } else if( circle_edge <= 36 ) {
-                m->ter_set( x, y, t_water_sh );
+                m->ter_set( x, y, t_water_moving_sh );
             }
         }
     }
@@ -1973,7 +1972,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
                             float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -1982,7 +1981,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
         if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
-        line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
     }
 
     if( terrain_type == "river_east" ) {
@@ -1999,7 +1998,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
 void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
     // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -2008,7 +2007,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
-        line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
@@ -2017,7 +2016,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         if( one_in( 25 ) ) {
             m->ter_set( --ground_edge, y, clay_or_sand() );
         }
-        line( m, t_water_sh, shallow_edge, y, --ground_edge, y );
+        line( m, t_water_moving_sh, shallow_edge, y, --ground_edge, y );
     }
 
     if( terrain_type == "river_se" ) {
@@ -3014,123 +3013,6 @@ void mapgen_basement_spiders( map *m, oter_id terrain_type, mapgendata dat, cons
         }
     }
     m->place_items( "rare", 70, 1, 1, SEEX * 2 - 1, SEEY * 2 - 5, false, turn );
-}
-
-void mapgen_police( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
-                    float density )
-{
-
-    ( void )dat;
-    //    } else if (is_ot_type("police", terrain_type)) {
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( j ==  7 && i != 17 && i != 18 ) ||
-                ( j == 12 && i !=  0 && i != 17 && i != 18 && i != SEEX * 2 - 1 ) ||
-                ( j == 14 && ( ( i > 0 && i < 6 ) || i == 9 || i == 13 || i == 17 ) ) ||
-                ( j == 15 && i > 17  && i < SEEX * 2 - 1 ) ||
-                ( j == 17 && i >  0  && i < 17 ) ||
-                ( j == 20 ) ) {
-                m->ter_set( i, j, t_wall );
-            } else if( ( ( i == 0 || i == SEEX * 2 - 1 ) && j > 7 && j < 20 ) ||
-                       ( ( i == 5 || i == 10 || i == 16 || i == 19 ) && j > 7 && j < 12 ) ||
-                       ( ( i == 5 || i ==  9 || i == 13 ) && j > 14 && j < 17 ) ||
-                       ( i == 17 && j > 14 && j < 20 ) ) {
-                m->ter_set( i, j, t_wall );
-            } else if( j == 14 && i > 5 && i < 17 && i % 2 == 0 ) {
-                m->ter_set( i, j, t_bars );
-            } else if( ( i > 1 && i < 4 && j > 8 && j < 11 ) ||
-                       ( j == 17 && i > 17 && i < 21 ) ) {
-                m->set( i, j, t_floor, f_counter );
-            } else if( ( i == 20 && j > 7 && j < 12 ) || ( j == 8 && i > 19 && i < 23 ) ||
-                       ( j == 15 && i > 0 && i < 5 ) ) {
-                m->set( i, j, t_floor, f_locker );
-            } else if( j < 7 ) {
-                m->ter_set( i, j, t_pavement );
-            } else if( j > 20 ) {
-                m->ter_set( i, j, t_sidewalk );
-            } else {
-                m->ter_set( i, j, t_floor );
-            }
-        }
-    }
-    m->ter_set( 17, 7, t_door_locked );
-    m->ter_set( 18, 7, t_door_locked );
-    m->ter_set( rng( 1,  4 ), 12, t_door_c );
-    m->ter_set( rng( 6,  9 ), 12, t_door_c );
-    m->ter_set( rng( 11, 15 ), 12, t_door_c );
-    m->ter_set( 21, 12, t_door_metal_locked );
-    computer *tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _( "PolCom OS v1.47" ),
-                                         3 );
-    tmpcomp->add_option( _( "Open Supply Room" ), COMPACT_OPEN, 3 );
-    tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
-    tmpcomp->add_failure( COMPFAIL_ALARM );
-    tmpcomp->add_failure( COMPFAIL_MANHACKS );
-    m->ter_set( 7, 14, t_door_c );
-    m->ter_set( 11, 14, t_door_c );
-    m->ter_set( 15, 14, t_door_c );
-    m->ter_set( rng( 20, 22 ), 15, t_door_c );
-    m->ter_set( 2, 17, t_door_metal_locked );
-    tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _( "PolCom OS v1.47" ), 3 );
-    tmpcomp->add_option( _( "Open Evidence Locker" ), COMPACT_OPEN, 3 );
-    tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
-    tmpcomp->add_failure( COMPFAIL_ALARM );
-    tmpcomp->add_failure( COMPFAIL_MANHACKS );
-    m->ter_set( 17, 18, t_door_c );
-    for( int i = 18; i < SEEX * 2 - 1; i++ ) {
-        m->ter_set( i, 20, t_window );
-    }
-    if( one_in( 3 ) ) {
-        for( int j = 16; j < 20; j++ ) {
-            m->ter_set( SEEX * 2 - 1, j, t_window );
-        }
-    }
-    int rn = rng( 18, 21 );
-    if( one_in( 4 ) ) {
-        m->ter_set( rn, 20, t_door_c );
-        m->ter_set( rn + 1, 20, t_door_c );
-    } else {
-        m->ter_set( rn, 20, t_door_locked );
-        m->ter_set( rn + 1, 20, t_door_locked );
-    }
-    rn = rng( 1, 5 );
-    m->ter_set( rn, 20, t_window );
-    m->ter_set( rn + 1, 20, t_window );
-    rn = rng( 10, 14 );
-    m->ter_set( rn, 20, t_window );
-    m->ter_set( rn + 1, 20, t_window );
-    if( one_in( 2 ) ) {
-        for( int i = 6; i < 10; i++ ) {
-            m->furn_set( i, 8, f_counter );
-        }
-    }
-    if( one_in( 3 ) ) {
-        for( int j = 8; j < 12; j++ ) {
-            m->furn_set( 6, j, f_counter );
-        }
-    }
-    if( one_in( 3 ) ) {
-        for( int j = 8; j < 12; j++ ) {
-            m->furn_set( 9, j, f_counter );
-        }
-    }
-
-    m->place_items( "kitchen",      40,  6,  8,  9, 11,    false, turn );
-    m->place_items( "cop_armory",  70, 20,  8, 22,  8,    false, turn );
-    m->place_items( "cop_gear",  70, 20,  8, 20, 11,    false, turn );
-    m->place_items( "cop_evidence", 60,  1, 15,  4, 15,    false, turn );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m->ter( i, j ) == t_floor && one_in( 80 ) ) {
-                m->spawn_item( i, j, "badge_deputy" );
-            }
-        }
-    }
-    autorotate_down();
-
-    m->place_spawns( mongroup_id( "GROUP_POLICE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density );
-
 }
 
 void mapgen_cave( map *m, oter_id, mapgendata dat, const time_point &turn, float density )
@@ -4392,9 +4274,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     }
 
     // Shuffle tripoints so that the stairs are not always similarly placed.
-    static auto eng = std::default_random_engine(
-                          std::chrono::system_clock::now().time_since_epoch().count() );
-    std::shuffle( std::begin( tripoints ), std::end( tripoints ), eng );
+    std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
 
     bool all_can_be_placed = false;
     tripoint shift( 0, 0, 0 );

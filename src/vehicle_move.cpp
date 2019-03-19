@@ -86,7 +86,7 @@ int vehicle::slowdown( int at_velocity ) const
              name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating ) ) {
-        slowdown += static_drag();
+        slowdown -= static_drag();
     }
 
     return slowdown;
@@ -155,11 +155,12 @@ void vehicle::thrust( int thd )
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
+            //find power ratio used of engines max
+            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
+            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        //find power ratio used of engines max
-        load = 1000 * abs( vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
         load = ( thrusting ? 1000 : 0 );
     }
@@ -1183,7 +1184,7 @@ void vehicle::check_falling_or_floating()
         water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
     }
     // floating if 2/3rds of the vehicle is in water
-    is_floating = 3 * water_tiles > 2 * pts.size();
+    is_floating = 3 * water_tiles >= 2 * pts.size();
 }
 
 float map::vehicle_wheel_traction( const vehicle &veh ) const

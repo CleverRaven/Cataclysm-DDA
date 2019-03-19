@@ -36,6 +36,7 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
 using species_id = string_id<species_type>;
+using bodytype_id = std::string;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
@@ -211,6 +212,7 @@ struct mtype {
         std::set<species_id> species;
         std::set<std::string> categories;
         mfaction_id default_faction;
+        bodytype_id bodytype;
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         nc_color color = c_white;

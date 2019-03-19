@@ -23,6 +23,8 @@ Whenever color is defined in JSON it should be defined in following format: `Pre
 
 `Background` - defines optional color of background/paper.
 
+**Note:** Not all foreground + background pairs are defined by their full name. Use in-game Color manager to see all color names.
+
 **Note:** If color was not found by its name, then `c_unset` is used for `Foreground` and `i_white` for `Background`.
 
 ## Examples of color strings
@@ -49,7 +51,7 @@ Color code is short string which defines color and can be used, for example, in 
 | ![#5c3317](https://placehold.it/20/5c3317/000000?text=+) | `brown`            | `BROWN`             | `92,51,23`           | `br`       |                                                        |
 | ![#0000c8](https://placehold.it/20/0000c8/000000?text=+) | `blue`             | `BLUE`              | `0,0,200`            | `B`        |                                                        |
 | ![#8b3a62](https://placehold.it/20/8b3a62/000000?text=+) | `magenta` or `pink`| `MAGENTA`           | `139,58,98`          | `P`        |                                                        |
-| ![#009650](https://placehold.it/20/009650/000000?text=+) | `cyan`             | `CYAN`              | `0,150,180`          | `C`        |                                                        |
+| ![#0096b4](https://placehold.it/20/0096b4/000000?text=+) | `cyan`             | `CYAN`              | `0,150,180`          | `C`        |                                                        |
 | ![#969696](https://placehold.it/20/969696/000000?text=+) | `light_gray`       | `GRAY`              | `150,150,150`        | `lg`       | deprecated `lt` prefix can be used instead of `light_` |
 | ![#636363](https://placehold.it/20/636363/000000?text=+) | `dark_gray`        | `DGRAY`             | `99,99,99`           | `dg`       | deprecated `dk` prefix can be used instead of `dark_`  |
 | ![#ff9696](https://placehold.it/20/ff9696/000000?text=+) | `light_red`        | `LRED`              | `255,150,150`        |            | deprecated `lt` prefix can be used instead of `light_` |

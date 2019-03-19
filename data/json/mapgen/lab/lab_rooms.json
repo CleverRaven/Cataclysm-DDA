@@ -112,16 +112,16 @@
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        ",,,,,,,",
-        ",,,,,,,",
-        ",,,,,,,",
-        ",cccc6,",
-        ",,,,,,,",
-        ",,,,,,,",
-        ",,,,,,,"
+        ".......",
+        ".......",
+        ".......",
+        ".cccc6.",
+        ".......",
+        ".......",
+        "......."
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
-      "terrain": { "c": [ "t_strconc_floor" ] },
+      "terrain": { "c": [ "t_thconc_floor" ] },
       "place_monster": [ { "monster": "mon_turret", "x": [2, 3], "y": [ 3, 3 ] } ]
     }
   },
@@ -133,18 +133,18 @@
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        ",,,,,,,,,",
-        ",,,,c,,,,",
-        ",,,,c,,,,",
-        ",,,,c,,,,",
-        ",,,,c,,,,",
-        ",,,,c,,,,",
-        ",,,,c,,,,",
-        ",,,,6,,,,",
-        ",,,,,,,,,"
+        ".........",
+        "....c....",
+        "....c....",
+        "....c....",
+        "....c....",
+        "....c....",
+        "....c....",
+        "....6....",
+        "........."
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
-      "terrain": { "c": [ "t_strconc_floor" ] },
+      "terrain": { "c": [ "t_thconc_floor" ] },
       "place_monster": [ { "monster": "mon_turret", "x": [4, 4], "y": [ 1, 4 ] } ]
     }
   },
@@ -962,17 +962,18 @@
       "rotation": [0, 3],
       "rows": [
         ".........",
-        ".5.....L.",
+        ".5.....%.",
         "...l|l...",
         "...l|l...",
-        ".5..|..L.",
+        ".5..|..%.",
         "....|l...",
         "```.|l...",
-        "```....L.",
+        "```....%.",
         "```......"
       ],
       "palettes": [ "lab_palette" ],
-      "furniture": { "L": "f_treadmill", "5": [ "f_ergometer", "f_exercise"], "`": "f_canvas_floor" },
+      "terrain": { "%": "t_thconc_floor" },
+      "furniture": { "%": "f_treadmill", "5": [ "f_ergometer", "f_exercise"], "`": "f_canvas_floor" },
       "items": {
         ".": { "item": "clutter_gym", "chance": 3 },
         "l": { "item": "locker_gym", "chance": 30 },

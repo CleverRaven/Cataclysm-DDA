@@ -111,6 +111,8 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_monster_armor( "monster_armour" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
@@ -472,7 +474,20 @@ std::string monster::name_with_armor() const
         ret = string_format( _( "thick hide" ) );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
         ret = string_format( _( "armor plating" ) );
+    } else if( made_of( LIQUID ) ) {
+        ret = string_format( _( "dense jelly mass" ) );
+    } else {
+        ret = string_format( _( "armor" ) );
     }
+    if( has_effect( effect_monster_armor ) && !inv.empty() ) {
+        for( const item &armor : inv ) {
+            if( armor.is_pet_armor( true ) ) {
+                ret += string_format( _( "wearing %1$s" ), armor.tname( 1 ) );
+                break;
+            }
+        }
+    }
+
     return ret;
 }
 
@@ -761,8 +776,8 @@ bool monster::can_act() const
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
-    if( !can_see() || ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) &&
-                        !digging() ) ) {
+    if( !can_see() || has_effect( effect_no_sight ) ||
+        ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
 
@@ -1222,13 +1237,13 @@ void monster::melee_attack( Creature &target, float accuracy )
         // Miss
         if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
-                add_msg( _( "You dodge %s." ), disp_name().c_str() );
+                add_msg( _( "You dodge %s." ), disp_name() );
             } else if( target.is_npc() ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name().c_str(), name().c_str() );
+                         target.disp_name(), name() );
             } else {
                 add_msg( _( "The %1$s misses %2$s!" ),
-                         name().c_str(), target.disp_name().c_str() );
+                         name(), target.disp_name() );
             }
         } else if( target.is_player() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
@@ -1241,49 +1256,49 @@ void monster::melee_attack( Creature &target, float accuracy )
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
-                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name().c_str(),
-                         body_part_name_accusative( bp_hit ).c_str() );
+                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
+                         body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
                 //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
-                add_msg( _( "The %1$s hits %2$s %3$s." ), name().c_str(),
-                         target.disp_name( true ).c_str(),
-                         body_part_name_accusative( bp_hit ).c_str() );
+                add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                         target.disp_name( true ),
+                         body_part_name_accusative( bp_hit ) );
             } else {
-                add_msg( _( "The %1$s hits %2$s!" ), name().c_str(), target.disp_name().c_str() );
+                add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
             }
         } else if( target.is_player() ) {
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "Something hits your %s." ),
-                     body_part_name_accusative( bp_hit ).c_str() );
+                     body_part_name_accusative( bp_hit ) );
         }
     } else {
         // No damage dealt
         if( u_see_me ) {
             if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name().c_str(),
-                         body_part_name_accusative( bp_hit ).c_str(), target.skin_name().c_str() );
+                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name(),
+                         body_part_name_accusative( bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
-                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name().c_str(),
-                         target.disp_name( true ).c_str(),
-                         body_part_name_accusative( bp_hit ).c_str(),
-                         target.disp_name( true ).c_str(),
-                         target.skin_name().c_str() );
+                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name(),
+                         target.disp_name( true ),
+                         body_part_name_accusative( bp_hit ),
+                         target.disp_name( true ),
+                         target.skin_name() );
             } else {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
                 add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
                          name().c_str(),
-                         target.disp_name( true ).c_str(),
-                         target.skin_name().c_str() );
+                         target.disp_name(),
+                         target.skin_name() );
             }
         } else if( target.is_player() ) {
             //~ 1$s is bodypart name in accusative, 2$s is armor name.
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
-                     body_part_name_accusative( bp_hit ).c_str(), target.skin_name().c_str() );
+                     body_part_name_accusative( bp_hit ), target.skin_name() );
         }
     }
 
@@ -1426,7 +1441,8 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, body_part /*bp*/, int dam, const bool /*bypass_med*/ )
+void monster::apply_damage( Creature *source, body_part /*bp*/, int dam,
+                            const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
         return;
@@ -1567,21 +1583,37 @@ std::string monster::get_effect_status() const
     return enumerate_as_string( effect_status );
 }
 
+int monster::get_worn_armor_val( damage_type dt ) const
+{
+    if( !has_effect( effect_monster_armor ) || inv.empty() ) {
+        return 0;
+    }
+    for( const item &armor : inv ) {
+        if( armor.get_var( "pet_armor", "" ).empty() ) {
+            continue;
+        }
+        return armor.damage_resist( dt );
+    }
+    return 0;
+}
+
 int monster::get_armor_cut( body_part bp ) const
 {
     ( void ) bp;
     // TODO: Add support for worn armor?
-    return int( type->armor_cut ) + armor_cut_bonus;
+    return int( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val( DT_CUT );
 }
 
 int monster::get_armor_bash( body_part bp ) const
 {
     ( void ) bp;
-    return int( type->armor_bash ) + armor_bash_bonus;
+    return int( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
 }
 
 int monster::get_armor_type( damage_type dt, body_part bp ) const
 {
+    int worn_armor = get_worn_armor_val( dt );
+
     switch( dt ) {
         case DT_TRUE:
             return 0;
@@ -1592,15 +1624,15 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
         case DT_CUT:
             return get_armor_cut( bp );
         case DT_ACID:
-            return int( type->armor_acid );
+            return worn_armor + int( type->armor_acid );
         case DT_STAB:
-            return int( type->armor_stab ) + armor_cut_bonus * 0.8f;
+            return worn_armor + int( type->armor_stab ) + armor_cut_bonus * 0.8f;
         case DT_HEAT:
-            return int( type->armor_fire );
+            return worn_armor + int( type->armor_fire );
         case DT_COLD:
-            return 0;
+            return worn_armor;
         case DT_ELECTRIC:
-            return 0;
+            return worn_armor;
         case DT_NULL:
         case NUM_DT:
             // Let it error below
@@ -2009,7 +2041,8 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
+                         calendar::time_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {

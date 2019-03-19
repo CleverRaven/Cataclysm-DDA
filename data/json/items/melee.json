@@ -21,7 +21,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "heavy stick",
-    "description": "A sturdy, heavy stick.  Makes a decent melee weapon, and can be cut into two by fours for crafting.",
+    "description": "A sturdy, heavy stick.  Makes a decent melee weapon.",
     "material": "wood",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
