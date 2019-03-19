@@ -390,7 +390,7 @@ void decorate_panel( const std::string name, const catacurses::window &w )
 
 std::string get_temp( const player &u )
 {
-    std::string temp = "";
+    std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         temp = print_temperature( g->get_temperature( u.pos() ) );
@@ -447,7 +447,7 @@ std::string get_moon()
 std::string time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
-    std::string time_approx = "";
+    std::string time_approx;
     if( iHour >= 22 ) {
         time_approx = "Around midnight";
     } else if( iHour >= 20 ) {
@@ -515,7 +515,7 @@ std::pair<nc_color, int> morale_stat( const player &u )
 
 std::pair<nc_color, std::string> hunger_stat( const player &u )
 {
-    std::string hunger_string = "";
+    std::string hunger_string;
     nc_color hunger_color = c_yellow;
     if( u.get_hunger() >= 300 && u.get_starvation() > 2500 ) {
         hunger_color = c_red;
@@ -547,7 +547,7 @@ std::pair<nc_color, std::string> hunger_stat( const player &u )
 
 std::pair<nc_color, std::string> thirst_stat( const player &u )
 {
-    std::string hydration_string = "";
+    std::string hydration_string;
     nc_color hydration_color = c_yellow;
     if( u.get_thirst() > 520 ) {
         hydration_color = c_light_red;
@@ -576,7 +576,7 @@ std::pair<nc_color, std::string> thirst_stat( const player &u )
 
 std::pair<nc_color, std::string> rest_stat( const player &u )
 {
-    std::string rest_string = "";
+    std::string rest_string;
     nc_color rest_color = c_yellow;
     if( u.get_fatigue() > EXHAUSTED ) {
         rest_color = c_red;
@@ -626,7 +626,7 @@ int define_temp_level( const int lvl )
 
 std::string temp_delta_string( const player &u )
 {
-    std::string temp_message = "";
+    std::string temp_message;
     std::pair<int, int> temp_pair = temp_delta( u );
     // Assign zones for comparisons
     const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
@@ -655,7 +655,7 @@ std::string temp_delta_string( const player &u )
 
 std::pair<nc_color, std::string> temp_delta_arrows( const player &u )
 {
-    std::string temp_message = "";
+    std::string temp_message;
     nc_color temp_color = c_white;
     std::pair<int, int> temp_pair = temp_delta( u );
     // Assign zones for comparisons
@@ -697,7 +697,7 @@ std::pair<nc_color, std::string> temp_stat( const player &u )
     int current_bp_extreme = temp_delta( u ).first;
 
     // printCur the hottest/coldest bodypart
-    std::string temp_string = "";
+    std::string temp_string;
     nc_color temp_color = c_yellow;
     if( u.temp_cur[current_bp_extreme] >         BODYTEMP_SCORCHING ) {
         temp_color = c_red;
@@ -727,7 +727,7 @@ std::pair<nc_color, std::string> temp_stat( const player &u )
 std::pair<nc_color, std::string> pain_stat( const player &u )
 {
     nc_color pain_color = c_yellow;
-    std::string pain_string = "";
+    std::string pain_string;
     // get pain color
     if( u.get_perceived_pain() >= 60 ) {
         pain_color = c_red;
@@ -859,7 +859,7 @@ std::string morale_emotion( const int morale_cur, const face_type face,
 std::pair<nc_color, std::string> power_stat( const player &u )
 {
     nc_color c_pwr = c_red;
-    std::string s_pwr = "";
+    std::string s_pwr;
     if( u.max_power_level == 0 ) {
         s_pwr = "--";
         c_pwr = c_light_gray;
@@ -984,7 +984,7 @@ void draw_limb2( player &u, const catacurses::window &w )
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
 
     // print safe mode
-    std::string safe_str = "";
+    std::string safe_str;
     if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
         safe_str = "SAFE";
     }
@@ -1403,7 +1403,7 @@ void draw_health_classic( player &u, const catacurses::window &w )
     }
 
     // print safe mode// print safe mode
-    std::string safe_str = "";
+    std::string safe_str;
     if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
         safe_str = "SAFE";
     }
@@ -1895,7 +1895,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name = "";
+    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;
