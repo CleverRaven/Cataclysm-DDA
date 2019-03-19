@@ -694,7 +694,7 @@ void popup_status( const char *const title, const std::string &fmt )
 //@param without_getch don't wait getch, return = (int)' ';
 input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
                             const std::string &sItemName, const std::string &sTypeName,
-                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
                             const unsigned int padding )

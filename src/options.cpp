@@ -2139,7 +2139,7 @@ void draw_borders_external( const catacurses::window &w, int horizontal_level,
     wrefresh( w );
 }
 
-void draw_borders_internal( const catacurses::window &w, const std::map<int, bool> &mapLines )
+void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
         if( mapLines[i] ) {

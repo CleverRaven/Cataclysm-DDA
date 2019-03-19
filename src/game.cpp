@@ -8803,7 +8803,7 @@ int get_initial_hotkey( const size_t menu_index )
 // There are options for optimization here, but the function is hit infrequently
 // enough that optimizing now is not a useful time expenditure.
 const std::vector<std::pair<int, int>> generate_butcher_stack_display(
-                                        const map_stack &items, const std::vector<int> &indices )
+                                        map_stack &items, const std::vector<int> &indices )
 {
     std::vector<std::pair<int, int>> result;
     std::vector<std::string> result_strings;
@@ -8839,7 +8839,7 @@ const std::vector<std::pair<int, int>> generate_butcher_stack_display(
 
 // Corpses are always individual items
 // Just add them individually to the menu
-void add_corpses( uilist &menu, const map_stack &items,
+void add_corpses( uilist &menu, map_stack &items,
                   const std::vector<int> &indices, size_t &menu_index )
 {
     int hotkey = get_initial_hotkey( menu_index );
@@ -8852,7 +8852,7 @@ void add_corpses( uilist &menu, const map_stack &items,
 }
 
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
-void add_salvagables( uilist &menu, const map_stack &items,
+void add_salvagables( uilist &menu, map_stack &items,
                       const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
                       const salvage_actor &salvage_iuse )
 {
@@ -8873,7 +8873,7 @@ void add_salvagables( uilist &menu, const map_stack &items,
 }
 
 // Disassemblables stack so we need to pass in a stack vector rather than an item index vector
-void add_disassemblables( uilist &menu, const map_stack &items,
+void add_disassemblables( uilist &menu, map_stack &items,
                           const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
     if( !stacks.empty() ) {

@@ -7407,8 +7407,10 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             break;
         case room_teleport:
             m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ), f_counter );
-            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, static_cast<int>( ( y1 + y2 ) / 2 ), f_counter );
-            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ) + 1, f_counter );
+            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, static_cast<int>( ( y1 + y2 ) / 2 ),
+                         f_counter );
+            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ) + 1,
+                         f_counter );
             m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, static_cast<int>( ( y1 + y2 ) / 2 ) + 1,
                          f_counter );
             mtrap_set( m, trapx, trapy, tr_telepad );
