@@ -698,8 +698,8 @@ void player_morale::update_stylish_bonus()
                 body_parts[bp].fancy > 0 ||
                 body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
         };
-        bonus = std::min( int( 2 * super_fancy_items.size() ) +
-                          2 * std::min( int( no_body_part.fancy ), 3 ) +
+        bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
+                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) +
                           bp_bonus( bp_torso,  6 ) +
                           bp_bonus( bp_head,   3 ) +
                           bp_bonus( bp_eyes,   2 ) +
@@ -794,7 +794,7 @@ void player_morale::update_squeamish_penalty()
             body_parts[bp].filthy > 0 ||
             body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
     };
-    penalty = 2 * std::min( int( no_body_part.filthy ), 3 ) +
+    penalty = 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 ) +
               bp_pen( bp_torso,  6 ) +
               bp_pen( bp_head,   7 ) +
               bp_pen( bp_eyes,   8 ) +

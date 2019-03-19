@@ -207,7 +207,7 @@ city::city( const point &P, int const S )
 
 int city::get_distance_from( const tripoint &p ) const
 {
-    return std::max( int( trig_dist( p, { pos.x, pos.y, 0 } ) ) - size, 0 );
+    return std::max( static_cast<int>( trig_dist( p, { pos.x, pos.y, 0 } ) ) - size, 0 );
 }
 
 std::map<enum radio_type, std::string> radio_type_names =
@@ -2408,7 +2408,7 @@ void overmap::place_cities()
     const overmap_connection &local_road( *local_road_id );
 
     // place a seed for NUM_CITIES cities, and maybe one more
-    while( cities.size() < size_t( NUM_CITIES ) ) {
+    while( cities.size() < static_cast<size_t>( NUM_CITIES ) ) {
         // randomly make some cities smaller or larger
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
@@ -3368,12 +3368,12 @@ om_direction::type om_direction::add( type dir1, type dir2 )
 
 om_direction::type om_direction::turn_left( type dir )
 {
-    return rotate_internal( dir, -int( size ) / 4 );
+    return rotate_internal( dir, -static_cast<int>( size ) / 4 );
 }
 
 om_direction::type om_direction::turn_right( type dir )
 {
-    return rotate_internal( dir, int( size ) / 4 );
+    return rotate_internal( dir, static_cast<int>( size ) / 4 );
 }
 
 om_direction::type om_direction::turn_random( type dir )
@@ -3383,7 +3383,7 @@ om_direction::type om_direction::turn_random( type dir )
 
 om_direction::type om_direction::opposite( type dir )
 {
-    return rotate_internal( dir, int( size ) / 2 );
+    return rotate_internal( dir, static_cast<int>( size ) / 2 );
 }
 
 om_direction::type om_direction::random()
@@ -3744,7 +3744,7 @@ void overmap::place_mongroups()
         if( get_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.size > 5 ) {
                 mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.pos.x * 2 ), ( elem.pos.y * 2 ), 0,
-                            int( elem.size * 2.5 ),
+                            static_cast<int>( elem.size * 2.5 ),
                             elem.size * 80 );
                 //                m.set_target( zg.back().posx, zg.back().posy );
                 m.horde = true;

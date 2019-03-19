@@ -1068,7 +1068,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
             info.push_back( iteminfo( "MED", _( "Portions: " ),
-                                      abs( int( med_item->charges ) * batch ) ) );
+                                      abs( static_cast<int>( med_item->charges ) * batch ) ) );
         }
 
         if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
@@ -1102,7 +1102,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
             info.push_back( iteminfo( "FOOD", _( "Portions: " ),
-                                      abs( int( food_item->charges ) * batch ) ) );
+                                      abs( static_cast<int>( food_item->charges ) * batch ) ) );
         }
         if( food_item->corpse != nullptr && ( debug || ( g != nullptr &&
                                               ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
@@ -1495,7 +1495,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
                                iteminfo::lower_is_better,
-                               int( mod->get_reload_time() / 16.67 ) );
+                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
@@ -2104,28 +2104,28 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "Critical hit chance %d%% - %d%%" ),
-                                                  int( g->u.crit_chance( 0, 100, *this ) * 100 ),
-                                                  int( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
+                                                  static_cast<int>( g->u.crit_chance( 0, 100, *this ) * 100 ),
+                                                  static_cast<int>( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
             }
             if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "%d bashing (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_BASH ) ),
-                                                  int( crit.type_damage( DT_BASH ) ) ) ) );
+                                                  static_cast<int>( non_crit.type_damage( DT_BASH ) ),
+                                                  static_cast<int>( crit.type_damage( DT_BASH ) ) ) ) );
             }
             if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
                 && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "%d cutting (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_CUT ) ),
-                                                  int( crit.type_damage( DT_CUT ) ) ) ) );
+                                                  static_cast<int>( non_crit.type_damage( DT_CUT ) ),
+                                                  static_cast<int>( crit.type_damage( DT_CUT ) ) ) ) );
             }
             if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
                 && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "%d piercing (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_STAB ) ),
-                                                  int( crit.type_damage( DT_STAB ) ) ) ) );
+                                                  static_cast<int>( non_crit.type_damage( DT_STAB ) ),
+                                                  static_cast<int>( crit.type_damage( DT_STAB ) ) ) ) );
             }
             if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -3140,7 +3140,7 @@ int item::price( bool practical ) const
 
         } else if( e->is_tool() && !e->ammo_type() && e->ammo_capacity() ) {
             // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-            child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
+            child *= e->ammo_remaining() / static_cast<double>( std::max( e->type->charges_default(), 1 ) );
         }
 
         res += child;
@@ -4141,7 +4141,7 @@ bool item::mod_damage( int qty, damage_type dt )
     bool destroy = false;
 
     if( count_by_charges() ) {
-        charges -= std::min( long( type->stack_size * qty / itype::damage_scale ), charges );
+        charges -= std::min( static_cast<long>( type->stack_size * qty / itype::damage_scale ), charges );
         destroy |= charges == 0;
     }
 
@@ -4386,7 +4386,7 @@ int item::get_reload_time() const
 
     int reload_time = type->gun->reload_time;
     for( const auto mod : gunmods() ) {
-        reload_time = int( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
+        reload_time = static_cast<int>( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
     }
 
     return reload_time;
@@ -5649,7 +5649,7 @@ item *item::get_usable_item( const std::string &use_name )
 int item::units_remaining( const Character &ch, int limit ) const
 {
     if( count_by_charges() ) {
-        return std::min( int( charges ), limit );
+        return std::min( static_cast<int>( charges ), limit );
     }
 
     auto res = ammo_remaining();
@@ -5657,7 +5657,7 @@ int item::units_remaining( const Character &ch, int limit ) const
         res += ch.charges_of( "UPS", limit - res );
     }
 
-    return std::min( int( res ), limit );
+    return std::min( static_cast<int>( res ), limit );
 }
 
 bool item::units_sufficient( const Character &ch, int qty ) const
@@ -7250,7 +7250,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
     if( type->tool->turns_per_charge > 0 &&
-        int( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
+        static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         auto qty = std::max( ammo_required(), 1L );
         qty -= ammo_consume( qty, pos );
 

@@ -936,7 +936,7 @@ void Item_factory::check_definitions() const
 
             if( !type->gun->ammo ) {
                 // if gun doesn't use ammo forbid both integral or detachable magazines
-                if( bool( type->gun->clip ) || !type->magazines.empty() ) {
+                if( static_cast<bool>( type->gun->clip ) || !type->magazines.empty() ) {
                     msg << "cannot specify clip_size or magazine without ammo type" << "\n";
                 }
 
@@ -1379,7 +1379,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
 
     assign( jo, "pierce", slot.legacy_pierce, strict, 0 );
     assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MAX_RECOIL ) );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
     assign( jo, "handling", slot.handling, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );

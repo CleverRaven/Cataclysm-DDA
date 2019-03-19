@@ -202,7 +202,7 @@ void construction_menu()
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
     catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
 
-    const int w_list_width = int( .375 * w_width );
+    const int w_list_width = static_cast<int>( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width,

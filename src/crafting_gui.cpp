@@ -968,7 +968,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
         right_print( w, margin_y + 1, 1, i_red, _( "too sad" ) );
     } else if( g->u.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, margin_y + 1, 1, i_yellow, string_format( _( "slow %d%%" ),
-                     int( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
+                     static_cast<int>( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, margin_y + 1, 1, i_green, _( "yes" ) );
     }

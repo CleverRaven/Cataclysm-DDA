@@ -143,7 +143,7 @@ input_context game::get_player_input( std::string &action )
 
         // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
-        const int dropCount = int( iEndX * iEndY * weather_info.factor );
+        const int dropCount = static_cast<int>( iEndX * iEndY * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -630,7 +630,8 @@ static void smash()
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
+                               static_cast<long>( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -1977,6 +1978,6 @@ bool game::handle_action()
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ).c_str(),
-                                    int( calendar::turn ), before_action_moves, u.movecounter, u.moves );
+                                    static_cast<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

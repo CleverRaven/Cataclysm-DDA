@@ -190,7 +190,7 @@ void defense_game::init_mtypes()
     for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
-        t->difficulty += int( t->difficulty / 5 );
+        t->difficulty += static_cast<int>( t->difficulty / 5 );
         t->flags.insert( MF_BASHES );
         t->flags.insert( MF_SMELLS );
         t->flags.insert( MF_HEARS );
@@ -1330,7 +1330,7 @@ int caravan_price( player &u, int price )
 {
     ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
     if( u.get_skill_level( skill_barter ) > 10 ) {
-        return int( double( price ) * .5 );
+        return static_cast<int>( static_cast<double>( price ) * .5 );
     }
     return price * ( 1.0 - u.get_skill_level( skill_barter ) * .05 );
 }

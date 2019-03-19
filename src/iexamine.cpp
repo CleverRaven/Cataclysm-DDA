@@ -4640,7 +4640,7 @@ hack_result iexamine::hack_attempt( player &p )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    success += rng( 0, int( ( p.int_cur - 8 ) / 2 ) );
+    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
 
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );

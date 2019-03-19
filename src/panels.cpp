@@ -308,7 +308,8 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( cursx != targ.x ) ? double( targ.y - cursy ) / double( targ.x - cursx ) : 4;
+        double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
+                       ( targ.x - cursx ) : 4;
 
         if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
             if( targ.y > cursy ) {
@@ -321,7 +322,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
             int arrowy = -1;
             if( fabs( slope ) >= 1. ) { // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
-                arrowx = int( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+                arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -330,7 +331,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                 }
             } else {
                 arrowx = ( targ.x > cursx ? 6 : 0 );
-                arrowy = int( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -394,7 +395,7 @@ std::string get_temp( const player &u )
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         temp = print_temperature( g->get_temperature( u.pos() ) ).c_str();
     }
-    if( ( int )temp.size() == 0 ) {
+    if( static_cast<int>( temp.size() ) == 0 ) {
         return "-";
     }
     return temp;
@@ -748,7 +749,7 @@ std::string get_armor( const player &u, body_part bp, const catacurses::window &
         --it;
         if( it->covers( bp ) ) {
             std::string temp = it->tname( 1, false );
-            if( ( int )temp.length() > getmaxx( w ) - 9 ) {
+            if( static_cast<int>( temp.length() ) > getmaxx( w ) - 9 ) {
                 // string minus window size.x and label
                 temp = temp.substr( 0, getmaxx( w ) - 11 );
                 temp += "..";
@@ -897,7 +898,7 @@ nc_color safe_color()
 int get_int_digits( const int &digits )
 {
     int temp = abs( digits );
-    int offset = temp > 0 ? ( int )log10( ( double )temp ) + 1 : 1;
+    int offset = temp > 0 ? static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1 : 1;
     return offset;
 }
 
@@ -1445,8 +1446,8 @@ void draw_health_classic( player &u, const catacurses::window &w )
 
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
-            int t_speed = int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = int( convert_velocity( veh->velocity, VU_VEHICLE ) );
+            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             mvwprintz( w, 5, 21, c_light_gray, type );
             mvwprintz( w, 5, 26, col_vel, "%d", c_speed );
@@ -1534,8 +1535,8 @@ void draw_veh_compact( const player &u, const catacurses::window &w )
 
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
-            int t_speed = int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = int( convert_velocity( veh->velocity, VU_VEHICLE ) );
+            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             mvwprintz( w, 0, 12, c_light_gray, "%s :", type );
             mvwprintz( w, 0, 19, c_light_green, "%d", t_speed );
@@ -1567,8 +1568,8 @@ void draw_veh_padding( const player &u, const catacurses::window &w )
 
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
-            int t_speed = int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = int( convert_velocity( veh->velocity, VU_VEHICLE ) );
+            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             mvwprintz( w, 0, 13, c_light_gray, "%s :", type );
             mvwprintz( w, 0, 20, c_light_green, "%d", t_speed );

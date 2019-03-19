@@ -506,7 +506,7 @@ void mission::load_info( std::istream &data )
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::from_legacy_int( rew_skill );
     item_id = itype_id( itemid );
-    item_count = int( item_num );
+    item_count = static_cast<int>( item_num );
 }
 
 std::string mission::dialogue_for_topic( const std::string &in_topic ) const

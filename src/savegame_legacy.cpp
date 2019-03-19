@@ -243,7 +243,7 @@ void item::load_info( const std::string &data )
     }
     convert( idtmp );
 
-    invlet = char( lettmp );
+    invlet = static_cast<char>( lettmp );
     set_damage( damtmp * itype::damage_scale );
     active = false;
     if( acttmp == 1 ) {

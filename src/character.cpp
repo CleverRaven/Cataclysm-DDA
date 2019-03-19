@@ -792,7 +792,7 @@ const item &Character::i_at( int position ) const
     }
     if( position < -1 ) {
         int worn_index = worn_position_to_index( position );
-        if( size_t( worn_index ) < worn.size() ) {
+        if( static_cast<size_t>( worn_index ) < worn.size() ) {
             auto iter = worn.begin();
             std::advance( iter, worn_index );
             return *iter;
@@ -2257,7 +2257,7 @@ hp_part Character::body_window( const std::string &menu_header,
                                              get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) << "\n";
             if( bleed > 0.0f ) {
                 desc << colorize( string_format( _( "Chance to stop: %d %%" ),
-                                                 int( bleed * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( bleed * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not stop the bleeding." ),
                                   c_yellow ) << "\n";
@@ -2284,7 +2284,7 @@ hp_part Character::body_window( const std::string &menu_header,
                               c_red ) << "\n";
             if( bite > 0 ) {
                 desc << colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 int( bite * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( bite * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in cleaning this wound." ), c_yellow ) << "\n";
             }
@@ -2298,7 +2298,7 @@ hp_part Character::body_window( const std::string &menu_header,
                               c_red ) << "\n";
             if( infect > 0 ) {
                 desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),
-                                                 int( infect * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( infect * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in healing infection." ), c_yellow ) << "\n";
             }
@@ -2510,12 +2510,13 @@ int Character::throw_range( const item &it ) const
     }
 
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( ( tmp.weight() / 113_gram ) > int( str_cur * 15 ) ) {
+    if( ( tmp.weight() / 113_gram ) > static_cast<int>( str_cur * 15 ) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int(
+    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
+                                   static_cast<int>(
                                        tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };

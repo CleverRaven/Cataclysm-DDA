@@ -552,7 +552,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
 
     // Extra "buffer" space per each side of each tab
     double buffer_extra = ( win_width - total_width ) / ( labels.size() * 2 );
-    int buffer = int( buffer_extra );
+    int buffer = static_cast<int>( buffer_extra );
     // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
     buffer_extra = buffer_extra - buffer;
     int xpos = 0;
@@ -771,7 +771,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
             _( "Type part of an item's name to move nearby items to the top." )
         }
     };
-    const int tab_idx = int( type ) - int( item_filter_type::FIRST );
+    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
     starty += 1 + fold_and_print( win, starty, 1, len, c_white, intros[tab_idx] );
 
     starty += fold_and_print( win, starty, 1, len, c_white, _( "Separate multiple items with ," ) );
@@ -1643,14 +1643,14 @@ get_bar( float cur, float max, int width, bool extra_resolution,
     status = status < 0 ? 0 : status;
     float sw = status * width;
 
-    nc_color col = colors[int( ( 1 - status ) * colors.size() )];
+    nc_color col = colors[static_cast<int>( ( 1 - status ) * colors.size() )];
     if( status == 0 ) {
         col = colors.back();
     } else if( ( sw < 0.5 ) && ( sw > 0 ) ) {
         result = ":";
     } else {
         result += std::string( sw, '|' );
-        if( extra_resolution && ( sw - int( sw ) >= 0.5 ) ) {
+        if( extra_resolution && ( sw - static_cast<int>( sw ) >= 0.5 ) ) {
             result += "\\";
         }
     }

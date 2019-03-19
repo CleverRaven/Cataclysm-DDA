@@ -789,7 +789,7 @@ bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
 {
     return std::equal( std::begin( a2 ), std::end( a2 ), a1,
     []( int a, bool b ) {
-        return bool( a ) == b;
+        return static_cast<bool>( a ) == b;
     } );
 }
 
@@ -2265,11 +2265,13 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
             }
 
             if( one_in( 2 ) ) { //dining table in the kitchen
-                square_furn( m, f_table, int( ( x1 + x2 ) / 2 ) - 1, int( ( y1 + y2 ) / 2 ) - 1,
-                             int( ( x1 + x2 ) / 2 ),
-                             int( ( y1 + y2 ) / 2 ) );
-                m->place_items( "dining", 20, int( ( x1 + x2 ) / 2 ) - 1, int( ( y1 + y2 ) / 2 ) - 1,
-                                int( ( x1 + x2 ) / 2 ), int( ( y1 + y2 ) / 2 ), false, turn );
+                square_furn( m, f_table, static_cast<int>( ( x1 + x2 ) / 2 ) - 1,
+                             static_cast<int>( ( y1 + y2 ) / 2 ) - 1,
+                             static_cast<int>( ( x1 + x2 ) / 2 ),
+                             static_cast<int>( ( y1 + y2 ) / 2 ) );
+                m->place_items( "dining", 20, static_cast<int>( ( x1 + x2 ) / 2 ) - 1,
+                                static_cast<int>( ( y1 + y2 ) / 2 ) - 1,
+                                static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ), false, turn );
             }
             if( one_in( 2 ) ) {
                 for( int i = 0; i <= 2; i++ ) {
@@ -2320,17 +2322,21 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->place_items( "bed", 60, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, turn );
                     break;
                 case 5:
-                    m->furn_set( int( ( x1 + x2 ) / 2 ), y2 - 1, f_bed );
-                    m->furn_set( int( ( x1 + x2 ) / 2 ) + 1, y2 - 1, f_bed );
-                    m->furn_set( int( ( x1 + x2 ) / 2 ), y2 - 2, f_bed );
-                    m->furn_set( int( ( x1 + x2 ) / 2 ) + 1, y2 - 2, f_bed );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ), y2 - 1, int( ( x1 + x2 ) / 2 ), y2 - 1, false,
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 1, f_bed );
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 1, f_bed );
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 2, f_bed );
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 2, f_bed );
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 1,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 1, false,
                                     turn );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ) + 1, y2 - 1, int( ( x1 + x2 ) / 2 ) + 1, y2 - 1,
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 1,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 1,
                                     false, turn );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ), y2 - 2, int( ( x1 + x2 ) / 2 ), y2 - 2, false,
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 2,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 2, false,
                                     turn );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ) + 1, y2 - 2, int( ( x1 + x2 ) / 2 ) + 1, y2 - 2,
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 2,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 2,
                                     false, turn );
                     break;
             }
@@ -2344,12 +2350,12 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->place_items( "dresser", 80, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, turn );
                     break;
                 case 3:
-                    rn = int( ( x1 + x2 ) / 2 );
+                    rn = static_cast<int>( ( x1 + x2 ) / 2 );
                     m->furn_set( rn, y1 + 1, f_dresser );
                     m->place_items( "dresser", 80, rn, y1 + 1, rn, y1 + 1, false, turn );
                     break;
                 case 4:
-                    rn = int( ( y1 + y2 ) / 2 );
+                    rn = static_cast<int>( ( y1 + y2 ) / 2 );
                     m->furn_set( x1 + 1, rn, f_dresser );
                     m->place_items( "dresser", 80, x1 + 1, rn, x1 + 1, rn, false, turn );
                     break;
@@ -2656,7 +2662,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
             break;
 
         case 3: // Long center hallway, kitchen, living room and office
-            mw = int( ( lw + rw ) / 2 );
+            mw = static_cast<int>( ( lw + rw ) / 2 );
             cw = bw - rng( 5, 7 );
             // Hallway doors and windows
             m->ter_set( mw, tw, ( one_in( 6 ) ? t_door_c : t_door_locked ) );

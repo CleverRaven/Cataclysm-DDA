@@ -220,7 +220,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     do {
         for( size_t i = 0; i < get_mod_list_categories().size(); ++i ) {
             if( get_mod_list_categories()[i].first == m_cat ) {
-                p_cat = { int( i ), get_mod_list_categories()[i].second };
+                p_cat = { static_cast<int>( i ), get_mod_list_categories()[i].second };
                 bCatFound = true;
                 break;
             }

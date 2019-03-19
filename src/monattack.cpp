@@ -795,9 +795,11 @@ bool mattack::resurrect( monster *z )
     // Multiplying by (current base speed / max speed) means that the
     // rate of speed regaining is unaffected by what our current speed is, i.e.
     // we will regain the same amount per minute at speed 50 as speed 200.
-    if( one_in( int( 15 * double( z->get_speed_base() ) / double( z->type->speed ) ) ) ) {
+    if( one_in( static_cast<int>( 15 * static_cast<double>( z->get_speed_base() ) / static_cast<double>
+                                  ( z->type->speed ) ) ) ) {
         // Restore 10% of our current speed, capping at our type maximum
-        z->set_speed_base( std::min( z->type->speed, int( z->get_speed_base() + .1 * z->type->speed ) ) );
+        z->set_speed_base( std::min( z->type->speed,
+                                     static_cast<int>( z->get_speed_base() + .1 * z->type->speed ) ) );
     }
 
     int raising_level = 0;
@@ -4473,14 +4475,14 @@ bool mattack::kamikaze( monster *z )
     }
     // Extra check here to avoid sqrt if not needed
     if( exp_actor->explosion.power > -1 ) {
-        int tmp = int( sqrt( double( exp_actor->explosion.power / 4 ) ) );
+        int tmp = static_cast<int>( sqrt( static_cast<double>( exp_actor->explosion.power / 4 ) ) );
         if( tmp > radius ) {
             radius = tmp;
         }
     }
     if( exp_actor->explosion.shrapnel.casing_mass > 0 ) {
         // Actual factor is 2 * radius, but figure most pieces of shrapnel will miss
-        int tmp = int( sqrt( exp_actor->explosion.power ) );
+        int tmp = static_cast<int>( sqrt( exp_actor->explosion.power ) );
         if( tmp > radius ) {
             radius = tmp;
         }
@@ -4503,8 +4505,8 @@ bool mattack::kamikaze( monster *z )
     // We double target speed because if the player is walking and then start to run their effective speed doubles
     // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
-    float factor = float( z->get_speed() ) / float( target->get_speed() * 2 );
-    int range = std::max( 1, int( .65 * ( radius + 1 + factor * charges ) ) );
+    float factor = static_cast<float>( z->get_speed() ) / static_cast<float>( target->get_speed() * 2 );
+    int range = std::max( 1, static_cast<int>( .65 * ( radius + 1 + factor * charges ) ) );
 
     // Check if we are in range to begin the countdown
     if( !within_target_range( z, target, range ) ) {
@@ -4571,7 +4573,7 @@ int grenade_helper( monster *const z, Creature *const target, const int dist,
     for( auto amm : z->ammo ) {
         curr_ammo += amm.second;
     }
-    float rat = curr_ammo / float( total_ammo );
+    float rat = curr_ammo / static_cast<float>( total_ammo );
 
     if( curr_ammo == 0 ) {
         // We've run out of ammo, get angry and toggle the special off.

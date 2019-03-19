@@ -375,7 +375,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( tp, int( traj_len-- ), trajectory, bullet );
+        g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
     if( g->m.impassable( tp ) ) {

@@ -506,10 +506,10 @@ void uilist::setup()
     }
 
     if( w_x == -1 ) {
-        w_x = int( ( TERMX - w_width ) / 2 );
+        w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
     }
     if( w_y == -1 ) {
-        w_y = int( ( TERMY - w_height ) / 2 );
+        w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
     }
 
     if( scrollbar_side == -1 ) {

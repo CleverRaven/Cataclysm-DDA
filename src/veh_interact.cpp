@@ -1298,7 +1298,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( pt.is_battery() && pt.is_available() ) {
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
+                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
             };
@@ -1344,7 +1344,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     int pos = -1;
     if( enable && action ) {
         do {
-            if( ++pos >= int( opts.size() ) ) {
+            if( ++pos >= static_cast<int>( opts.size() ) ) {
                 pos = -1;
                 break; // nothing could be selected
             }
@@ -1361,7 +1361,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                             c_yellow, _( "'{' to scroll up" ) );
             y++;
         }
-        for( int idx = overview_offset; idx != int( opts.size() ); ++idx ) {
+        for( int idx = overview_offset; idx != static_cast<int>( opts.size() ); ++idx ) {
             const auto &pt = *opts[idx].part;
 
             // if this is a new section print a header row
@@ -1433,7 +1433,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( input == "DOWN" ) {
             do {
                 move_overview_line( 1 );
-                if( ++pos >= int( opts.size() ) ) {
+                if( ++pos >= static_cast<int>( opts.size() ) ) {
                     pos = 0;
                 }
             } while( !opts[pos].hotkey );
@@ -2325,8 +2325,9 @@ void veh_interact::display_mode()
     for( size_t i = 0; i < actions.size(); i++ ) {
         pos[i + 1] = pos[i] + utf8_width( actions[i] ) - 2;
     }
-    int spacing = int( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
-    int shift = int( ( esc_pos - pos[actions.size()] - spacing * ( actions.size() - 1 ) ) / 2 ) - 1;
+    int spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
+    int shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
+                                    ( actions.size() - 1 ) ) / 2 ) - 1;
     for( size_t i = 0; i < actions.size(); i++ ) {
         shortcut_print( w_mode, 0, pos[i] + spacing * i + shift,
                         enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
@@ -2823,7 +2824,8 @@ void veh_interact::complete_vehicle()
                     int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
 
                     const double PI = 3.14159265358979f;
-                    dir = int( atan2( static_cast<float>( delta_y ), static_cast<float>( delta_x ) ) * 180.0 / PI );
+                    dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
+                                                   static_cast<float>( delta_x ) ) * 180.0 / PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;

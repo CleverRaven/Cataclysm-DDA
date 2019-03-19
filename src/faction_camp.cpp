@@ -3441,7 +3441,7 @@ std::string camp_car_description( vehicle *car )
         if( pt.is_battery() ) {
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - vp.name().length(),
-                                    int( 100.0 * pt.ammo_remaining() / pt.ammo_capacity() ) );
+                                    static_cast<int>( 100.0 * pt.ammo_remaining() / pt.ammo_capacity() ) );
         }
     }
     entry += " \n";

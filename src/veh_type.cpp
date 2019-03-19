@@ -738,7 +738,7 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
     // 10% reduction per assisting NPC
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0,
+    return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10 ) );
 }
 

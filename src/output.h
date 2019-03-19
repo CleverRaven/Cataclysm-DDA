@@ -523,7 +523,7 @@ inline std::string get_labeled_bar( const double val, const int width, const std
         int used_width = 0;
         for( RatingIterator it( begin ); it != end; ++it ) {
             const double factor = std::min( 1.0, std::max( 0.0, it->first * val ) );
-            const int seg_width = int( factor * bar_width ) - used_width;
+            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
 
             if( seg_width <= 0 ) {
                 continue;
@@ -593,7 +593,7 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
-    values.reserve( size_t( std::distance( first, last ) ) );
+    values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
     for( _FIter iter = first; iter != last; ++iter ) {
         const std::string str( pred( *iter ) );
         if( !str.empty() ) {

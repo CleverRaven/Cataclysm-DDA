@@ -26,7 +26,7 @@ nanosleep( const struct timespec *requested_delay,
 
             if( QueryPerformanceFrequency( &ticks_per_second ) ) {
                 ticks_per_nanosecond =
-                    ( double )ticks_per_second.QuadPart / 1000000000.0;
+                    static_cast<double>( ticks_per_second.QuadPart ) / 1000000000.0;
             }
             initialized = true;
         }
