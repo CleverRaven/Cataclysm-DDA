@@ -766,18 +766,20 @@ void player::complete_craft()
             }
         }
 
-        if( should_heat ) {
-            newit.heat_up();
-        } else if( newit.is_food() || newit.is_food_container() ) {
-            // Really what we should be doing is averaging the temperatures
-            // between the recipe components if we don't have a heat tool, but
-            // that's kind of hard.  For now just set the item to 20 C
-            // and reset the temperature, don't
-            // forget byproducts below either when you fix this.
-            //
-            // Temperature is not functional for non-foods
-            newit.set_item_temperature( 293.15 );
-            newit.reset_temp_check();
+        if( newit.is_food() ) {
+            if( should_heat ) {
+                newit.heat_up();
+            } else {
+                // Really what we should be doing is averaging the temperatures
+                // between the recipe components if we don't have a heat tool, but
+                // that's kind of hard.  For now just set the item to 20 C
+                // and reset the temperature, don't
+                // forget byproducts below either when you fix this.
+                //
+                // Temperature is not functional for non-foods
+                newit.set_item_temperature( 293.15 );
+                newit.reset_temp_check();
+            }
         }
 
         finalize_crafted_item( newit );
@@ -790,11 +792,13 @@ void player::complete_craft()
             if( bp.goes_bad() ) {
                 bp.set_relative_rot( max_relative_rot );
             }
-            if( should_heat ) {
-                bp.heat_up();
-            } else if( bp.is_food() || bp.is_food_container() ) {
-                bp.set_item_temperature( 293.15 );
-                bp.reset_temp_check();
+            if( bp.is_food() ) {
+                if( should_heat ) {
+                    bp.heat_up();
+                } else {
+                    bp.set_item_temperature( 293.15 );
+                    bp.reset_temp_check();
+                }
             }
             finalize_crafted_item( bp );
             set_item_inventory( bp );
