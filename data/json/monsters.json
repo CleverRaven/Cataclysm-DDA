@@ -3469,7 +3469,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC" },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
