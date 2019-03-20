@@ -1655,7 +1655,6 @@ get_bar( float cur, float max, int width, bool extra_resolution,
     return std::make_pair( result, col );
 }
 
-
 const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
         const bool is_mon )
 {
@@ -1664,7 +1663,6 @@ const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int m
     }
     return get_bar( cur_hp, max_hp, 5, !is_mon );
 }
-
 
 const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 {

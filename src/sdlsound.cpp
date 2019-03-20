@@ -270,7 +270,6 @@ static inline int add_sfx_path( const std::string &path )
     }
 }
 
-
 void sfx::load_sound_effects( JsonObject &jsobj )
 {
     if( !sound_init_success ) {

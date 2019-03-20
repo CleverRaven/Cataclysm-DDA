@@ -3598,7 +3598,6 @@ void game::draw_panels( size_t column, size_t index )
     }
 }
 
-
 void game::draw_pixel_minimap( const catacurses::window &w )
 {
     w_pixel_minimap = w;
@@ -7891,7 +7890,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, 0, BORDER_COLOR, LINE_XOXO ); // |
     mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, width - 1, BORDER_COLOR, LINE_XOXO ); // |
 
-
     mvwprintz( w_monsters_border, 0, 2, c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
@@ -10333,7 +10331,6 @@ void game::place_player( const tripoint &dest_loc )
     } else if( u.has_effect( effect_no_sight ) ) {
         u.remove_effect( effect_no_sight );
     }
-
 
     // If we moved out of the nonant, we need update our map data
     if( m.has_flag( "SWIMMABLE", dest_loc ) && u.has_effect( effect_onfire ) ) {

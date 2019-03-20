@@ -2928,7 +2928,6 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
     return cmps_to_vmiph( accel_at_vel );
 }
 
-
 // cubic equation solution
 // don't use complex numbers unless necessary and it's usually not
 // see https://math.vanderbilt.edu/schectex/courses/cubic/ for the gory details
@@ -4505,7 +4504,6 @@ void vehicle::refresh()
                                 static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
 
-
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
         }
@@ -5402,8 +5400,6 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
 }
-
-
 
 void vehicle::invalidate_mass()
 {

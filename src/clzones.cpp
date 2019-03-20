@@ -800,7 +800,6 @@ void zone_manager::deserialize( JsonIn &jsin )
     }
 }
 
-
 void zone_data::serialize( JsonOut &json ) const
 {
     json.start_object();

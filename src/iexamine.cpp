@@ -190,7 +190,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
     g->m.add_item_or_charges( spawn_point, new_item );
 
-
 }
 
 /**

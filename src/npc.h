@@ -190,7 +190,6 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
     }
 };
 
-
 enum aim_rule {
     // Aim some
     AIM_WHEN_CONVENIENT = 0,
