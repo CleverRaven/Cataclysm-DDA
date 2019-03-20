@@ -10373,6 +10373,7 @@
         [ "arm", 5],
         [ "leg", 5],
         [ "fetus", 5],
+        [ "human_brain_embalmed", 5 ],
         [ "many_years_old_newspaper", 2 ],
         [ "years_old_newspaper", 2 ],
         [ "one_year_old_newspaper", 2 ],
