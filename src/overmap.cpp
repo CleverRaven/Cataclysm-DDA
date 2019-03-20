@@ -859,6 +859,36 @@ void overmap_special::finalize()
         if( elem.connection.is_null() ) {
             elem.connection = overmap_connections::guess_for( elem.terrain );
         }
+
+        // If the connection has a "from" hint specified, then figure out what the
+        // resulting direction from the hinted location to the connection point is,
+        // and use that as the intial direction to be passed off to the connection
+        // building code.
+        if( elem.from ) {
+            const direction calculated_direction = direction_from( *elem.from, elem.p );
+            switch( calculated_direction ) {
+                case direction::NORTH:
+                    elem.initial_dir = om_direction::type::north;
+                    break;
+                case direction::EAST:
+                    elem.initial_dir = om_direction::type::east;
+                    break;
+                case direction::SOUTH:
+                    elem.initial_dir = om_direction::type::south;
+                    break;
+                case direction::WEST:
+                    elem.initial_dir = om_direction::type::west;
+                    break;
+                default:
+                    // The only supported directions are north/east/south/west
+                    // as those are the four directions that overmap connections
+                    // can be made in. If the direction we figured out wasn't
+                    // one of those, just set this as invalid. We'll provide
+                    // a warning to the user/developer in overmap_special::check().
+                    elem.initial_dir = om_direction::type::invalid;
+                    break;
+            }
+        }
     }
 }
 
@@ -906,6 +936,25 @@ void overmap_special::check() const
         } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] overwrites \"%s\".",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
+        }
+
+        if( elem.from ) {
+            // The only supported directions are north/east/south/west
+            // as those are the four directions that overmap connections
+            // can be made in. If the direction we figured out wasn't
+            // one of those, warn the user/developer.
+            const direction calculated_direction = direction_from( *elem.from, elem.p );
+            switch( calculated_direction ) {
+                case direction::NORTH:
+                case direction::EAST:
+                case direction::SOUTH:
+                case direction::WEST:
+                    continue;
+                default:
+                    debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] is not directly north, east, south or west of the defined \"from\" [%d,%d,%d].",
+                              id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.from->x, elem.from->y, elem.from->z );
+                    break;
+            }
         }
     }
 }
@@ -3031,9 +3080,10 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
     return pf::straight_path( source, static_cast<int>( dir ), actual_len );
 }
 
-void overmap::build_connection( const overmap_connection &connection, const pf::path &path, int z )
+void overmap::build_connection( const overmap_connection &connection, const pf::path &path, int z,
+                                const om_direction::type &initial_dir )
 {
-    om_direction::type prev_dir = om_direction::type::invalid;
+    om_direction::type prev_dir = initial_dir;
 
     for( const auto &node : path.nodes ) {
         const tripoint pos( node.x, node.y, z );
@@ -3100,10 +3150,11 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
 }
 
 void overmap::build_connection( const point &source, const point &dest, int z,
-                                const overmap_connection &connection, const bool must_be_unexplored )
+                                const overmap_connection &connection, const bool must_be_unexplored,
+                                const om_direction::type &initial_dir )
 {
     build_connection( connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
-                      z );
+                      z, initial_dir );
 }
 
 void overmap::connect_closest_points( const std::vector<point> &points, int z,
@@ -3517,7 +3568,14 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         for( const auto &elem : special.connections ) {
             if( elem.connection ) {
                 const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-                build_connection( cit.pos, point( rp.x, rp.y ), elem.p.z, *elem.connection, must_be_unexplored );
+                om_direction::type initial_dir = elem.initial_dir;
+
+                if( initial_dir != om_direction::type::invalid ) {
+                    initial_dir = om_direction::add( initial_dir, dir );
+                }
+
+                build_connection( cit.pos, point( rp.x, rp.y ), elem.p.z, *elem.connection, must_be_unexplored,
+                                  initial_dir );
             }
         }
     }
