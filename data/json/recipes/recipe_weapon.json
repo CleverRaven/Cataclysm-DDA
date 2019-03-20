@@ -37,6 +37,7 @@
   },
   {
     "type": "recipe",
+<<<<<<< HEAD
     "result": "scythe_war",
     "id_suffix": "forge",
     "category": "CC_WEAPON",
@@ -51,6 +52,8 @@
   },
   {
     "type": "recipe",
+=======
+>>>>>>> parent of 44e456f911... War Scythe can be forged directly
     "result": "copper_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
