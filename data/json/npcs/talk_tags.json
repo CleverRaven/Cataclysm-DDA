@@ -71,7 +71,8 @@
             "I <really> need to get some water.",
             "<ill_die> if I don't drink something.",
             "Water... Is there an oasis nearby?",
-            "Did you know that lack of water kills faster than lack of rest?"
+            "Did you know that lack of water kills faster than lack of rest?",
+			"I need water"
         ]
     },{
         "type" : "snippet",
@@ -95,7 +96,8 @@
             "Alright, you got something to get off your chest?",
             "Always ready for a good chat!  But why, you OK?",
             "OK <name_g>, we should get to know each other, how are you coping?",
-            "Definitely, I'm game.  How you holding up?"
+            "Definitely, I'm game.  How you holding up?",
+			"Sure, what's up?"
         ]
     },{
         "type" : "snippet",
@@ -143,7 +145,8 @@
             "What's up, <name_g>?",
             "You okay, <name_g>?",
             "Hello, <name_g>.",
-            "Hi <name_g>"
+            "Hi <name_g>",
+			"Nice to see you <name_g>!"
         ]
     },{
         "type" : "snippet",
@@ -243,7 +246,8 @@
             "I'm a free agent, more money that way.",
             "I prefer to work uninhibited by that kind of connection.",
             "I haven't found one that's good enough for me.",
-            "I don't belong to a faction, <name_g>."
+            "I don't belong to a faction, <name_g>.",
+			"I'm a lonewolf right now."
         ]
     },{
         "type" : "snippet",
@@ -354,7 +358,8 @@
             "you see",
             "see, <name_g>",
             "alright",
-            "that clear"
+            "that clear",
+			"alright"
         ]
     },{
         "type" : "snippet",
@@ -486,7 +491,8 @@
             "<name_g>!  Wait up!",
             "Wait up, <okay>?",
             "Let's talk, <name_g>!",
-            "Look, <name_g><punc> let's talk!"
+            "Look, <name_g><punc> let's talk!",
+			"Hey, I want to talk"
         ]
     },{
         "type" : "snippet",
@@ -558,7 +564,8 @@
         "I'm not a contortionist!",
         "I can't fit in your tiny human vehicle.",
         "This sucks.  I'm too big.",
-        "I don't like being a mutant crammed into your tiny little vehicle."
+        "I don't like being a mutant crammed into your tiny little vehicle.",
+		"I don't feel comfortable in this vehicle."
       ]
     },
     {
@@ -681,7 +688,8 @@
         "How do we get out of here?",
         "Is that the last of them?",
         "I'd kill for a coke.",
-        "<greet>"
+        "<greet>",
+		"Seems like this is over."
       ]
     },
     {
@@ -751,7 +759,8 @@
         "Quiet down over there!",
         "Did you hear someone talking?",
         "Who said that?",
-        "Who's there?"
+        "Who's there?",
+		"Shhh.. I've heard something"
       ]
     },
     {
@@ -774,6 +783,7 @@
         "What's there?  I heard",
         "Did you hear that?  Sounded like",
         "What is making that sound?  I can hear the"
+		"Shh.. something is coming"
       ]
     },
     {
