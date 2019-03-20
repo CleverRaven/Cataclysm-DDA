@@ -1767,8 +1767,8 @@ void options_manager::add_options_world_default()
        );
 
     add( "DELAYED_SPAWN", "world_default", translate_marker( "Delayed spawn" ),
-        translate_marker( "True effectively delays the player spawn, advancing food decay and monster evolution based on the starting day and season. False makes food fresh and monsters normal regardless of start date." ),
-        true
+         translate_marker( "True effectively delays the player spawn, advancing food decay and monster evolution based on the starting day and season. False makes food fresh and monsters normal regardless of start date." ),
+         true
        );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),

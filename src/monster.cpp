@@ -296,7 +296,8 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const time_point scaling_start = get_option<bool>( "DELAYED_SPAWN" ) ? calendar::time_of_cataclysm : calendar::start;
+    const time_point scaling_start = get_option<bool>( "DELAYED_SPAWN" ) ? calendar::time_of_cataclysm :
+                                     calendar::start;
     const int current_day = to_days<int>( calendar::turn - scaling_start );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {

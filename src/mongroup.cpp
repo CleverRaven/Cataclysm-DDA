@@ -84,7 +84,8 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
                                            get_option<float>( "MONSTER_UPGRADE_FACTOR" );
 
         // If not simulating a delayed spawn, monsters scale from the day the game began on
-        time_point scaling_start = get_option<bool>( "DELAYED_SPAWN" ) ? calendar::time_of_cataclysm : calendar::start;
+        time_point scaling_start = get_option<bool>( "DELAYED_SPAWN" ) ? calendar::time_of_cataclysm :
+                                   calendar::start;
 
         while( groupptr->replace_monster_group &&
                calendar::turn - scaling_start > replace_time ) {
