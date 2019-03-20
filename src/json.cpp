@@ -68,7 +68,7 @@ std::string utf16_to_utf8( uint32_t ch )
  * represents a JSON object,
  * providing access to the underlying data.
  */
-JsonObject::JsonObject( JsonIn &j ) : positions()
+JsonObject::JsonObject( JsonIn &j )
 {
     jsin = &j;
     start = jsin->tell();
@@ -405,7 +405,7 @@ bool JsonObject::has_object( const std::string &name )
  * represents a JSON array,
  * providing access to the underlying data.
  */
-JsonArray::JsonArray( JsonIn &j ) : positions()
+JsonArray::JsonArray( JsonIn &j )
 {
     jsin = &j;
     start = jsin->tell();

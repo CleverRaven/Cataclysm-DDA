@@ -953,7 +953,7 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() : guy() {}
+        npc_template() {}
 
         npc guy;
 

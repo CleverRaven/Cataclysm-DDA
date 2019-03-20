@@ -69,7 +69,7 @@ std::string utf8_to_native( const std::string &str );
 class utf8_wrapper
 {
     public:
-        utf8_wrapper() : _data(), _length( 0 ), _display_width( 0 ) { }
+        utf8_wrapper() : _length( 0 ), _display_width( 0 ) { }
         utf8_wrapper( const std::string &d );
         utf8_wrapper( const char *d );
 

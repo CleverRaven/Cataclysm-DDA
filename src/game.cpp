@@ -248,8 +248,6 @@ game::game() :
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( 16 ),
-    wind_direction_override(),
-    windspeed_override(),
     weather_override( WEATHER_NULL ),
     displaying_scent( false )
 
