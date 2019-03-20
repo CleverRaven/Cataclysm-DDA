@@ -184,7 +184,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        const unsigned char *hash_input = ( const unsigned char * ) params[0];
+                        const unsigned char *hash_input = reinterpret_cast<const unsigned char *>( params[0] );
                         seed = djb2_hash( hash_input );
                         return 1;
                     }
@@ -473,7 +473,7 @@ int main( int argc, char *argv[] )
         const size_t num_second_pass_arguments =
             sizeof( second_pass_arguments ) / sizeof( second_pass_arguments[0] );
         int saved_argc = --argc; // skip program name
-        const char **saved_argv = ( const char ** )++argv;
+        const char **saved_argv = const_cast<const char **>( ++argv );
         while( argc ) {
             if( !strcmp( argv[0], "--help" ) ) {
                 printHelpMessage( first_pass_arguments.data(), num_first_pass_arguments,
@@ -486,7 +486,7 @@ int main( int argc, char *argv[] )
                     if( !strcmp( argv[0], arg_handler.flag ) ) {
                         argc--;
                         argv++;
-                        int args_consumed = arg_handler.handler( argc, ( const char ** )argv );
+                        int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
                         if( args_consumed < 0 ) {
                             printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                             exit( 1 );

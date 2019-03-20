@@ -5367,7 +5367,7 @@ void vehicle::update_time( const time_point &update_to )
             }
 
             double windpower = get_local_windpower( g->windspeed, cur_om_ter, global_part_pos3( part ),
-                                             g->winddirection, false );
+                                                    g->winddirection, false );
             if( windpower <= ( g->windspeed / 10 ) ) {
                 continue;
             }
