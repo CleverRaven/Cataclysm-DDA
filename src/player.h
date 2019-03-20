@@ -226,7 +226,7 @@ class player : public Character
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Generates the sidebar and it's data in-game */
-        void disp_status( const catacurses::window &w, const catacurses::window &w2 );
+        int disp_status();
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -1608,7 +1608,7 @@ class player : public Character
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 
-        //@todo make protected and move into Character
+        // TODO: make protected and move into Character
         void do_skill_rust();
 
         // drawing related stuff

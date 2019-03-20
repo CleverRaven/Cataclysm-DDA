@@ -91,7 +91,7 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
 
     invslice slice = u.inv.slice();
     for( auto &i : slice ) {
-        // @todo: Sane way of handling multi-item stacks
+        // TODO: Sane way of handling multi-item stacks
         check_item( item_location( u, &i->front() ) );
     }
 

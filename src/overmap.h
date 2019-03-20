@@ -202,7 +202,7 @@ class overmap
         /**
          * Setter for overmap scents, stores the provided scent at the provided location.
          */
-        void set_scent( const tripoint &loc, scent_trace &new_scent );
+        void set_scent( const tripoint &loc, const scent_trace &new_scent );
 
         /**
          * @returns Whether @param p is within desired bounds of the overmap
@@ -234,7 +234,7 @@ class overmap
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point global_base_point() const;
 
-        // @todo: Should depend on coordinates
+        // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
             return settings;
         }
@@ -259,8 +259,8 @@ class overmap
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         std::shared_ptr<npc> erase_npc( const int id );
 
-        void for_each_npc( std::function<void( npc & )> callback );
-        void for_each_npc( std::function<void( const npc & )> callback ) const;
+        void for_each_npc( const std::function<void( npc & )> &callback );
+        void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
         std::shared_ptr<npc> find_npc( int id ) const;
 
@@ -359,9 +359,11 @@ class overmap
         pf::path lay_out_street( const overmap_connection &connection, const point &source,
                                  om_direction::type dir, size_t len ) const;
 
-        void build_connection( const overmap_connection &connection, const pf::path &path, int z );
+        void build_connection( const overmap_connection &connection, const pf::path &path, int z,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point &source, const point &dest, int z,
-                               const overmap_connection &connection, const bool must_be_unexplored );
+                               const overmap_connection &connection, const bool must_be_unexplored,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing

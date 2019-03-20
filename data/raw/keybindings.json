@@ -414,6 +414,20 @@
   },
   {
     "type": "keybinding",
+    "id": "MOVE_PANEL",
+    "category": "PANEL_MGMT",
+    "name": "Select panel for moving",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_PANEL",
+    "category": "PANEL_MGMT",
+    "name": "Toggle panel off",
+    "bindings": [ { "input_method": "keyboard", "key": "TAB" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CHANGE_SIDE",
     "category": "SORT_ARMOR",
     "name": "Change side armor is worn on",
@@ -1822,6 +1836,13 @@
     "category": "DEFAULTMODE",
     "id": "toggle_pixel_minimap",
     "bindings": [ { "input_method": "keyboard", "key": "N" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Panel Admin",
+    "category": "DEFAULTMODE",
+    "id": "toggle_panel_adm",
+    "bindings": [ { "input_method": "keyboard", "key": "}" } ]
   },
   {
     "type": "keybinding",

@@ -136,7 +136,7 @@ const char *cata_files::eol()
 namespace
 {
 
-//TODO move elsewhere.
+// TODO: move elsewhere.
 template <typename T, size_t N>
 inline size_t sizeof_array( T const( & )[N] ) noexcept
 {

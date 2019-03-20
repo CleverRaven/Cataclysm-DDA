@@ -1623,6 +1623,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_twd_1",
+    "copy-from": "generic_city_building",
+    "name": "motel",
+    "sym": 104,
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_2",
+    "copy-from": "generic_city_building",
+    "name": "motel",
+    "sym": 104,
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_entrance",
     "copy-from": "generic_city_building",
     "name": "motel",
@@ -4747,8 +4763,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "animalpound_roof",
+    "name": "animal pound roof",
+    "copy-from": "generic_city_building",
+    "sym": 84,
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "animalshelter",
     "name": "animal shelter",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "animalshelter_roof",
+    "name": "animal shelter roof",
     "copy-from": "generic_city_building",
     "color": "i_pink"
   },

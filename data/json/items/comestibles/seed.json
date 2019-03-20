@@ -12,6 +12,7 @@
     "charges": 4,
     "stack_size": 100,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "symbol": ".",
     "color": "brown",
     "flags": "NUTRIENT_OVERRIDE"
@@ -21,6 +22,7 @@
     "type": "COMESTIBLE",
     "copy-from": "seed",
     "name": "fruit seeds",
+    "primary_material": "dried_vegetable",
     "material": "fruit"
   },
   {
@@ -379,6 +381,7 @@
     "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
+    "primary_material": "dried_vegetable",
     "volume": 0,
     "stack_size": 10,
     "fun": 30,
@@ -615,6 +618,7 @@
     "name_plural": "oat seeds",
     "description": "Some oat seeds.",
     "material": "wheat",
+    "primary_material": "dried_vegetable",
     "weight": 5,
     "stack_size": 40,
     "seed_data": { "plant_name": "oats", "fruit": "oats", "byproducts": [ "withered" ], "grow": "45 days" }
@@ -630,6 +634,7 @@
     "price": 50,
     "stack_size": 40,
     "material": "wheat",
+    "primary_material": "dried_vegetable",
     "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": "120 days" }
   },
   {
@@ -646,6 +651,7 @@
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": 80,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "flags": [ "SMOKABLE" ],
     "freezing_point": -490,
@@ -669,6 +675,7 @@
     "description": "A hard casing filled with coffee seeds ready for roasting.  The seeds create a dark black, bitter, caffinated liquid not too much unlike coffee.",
     "price": 100,
     "material": [ "veggy" ],
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "charges": 4,
     "fun": -10
@@ -680,6 +687,7 @@
     "container": "bag_plastic",
     "price": 50,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "name": "coffee beans",
     "name_plural": "coffee beans",
     "symbol": ".",

@@ -143,7 +143,7 @@ input_context game::get_player_input( std::string &action )
 
         // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
-        const int dropCount = int( iEndX * iEndY * weather_info.factor );
+        const int dropCount = static_cast<int>( iEndX * iEndY * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -274,9 +274,9 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
-                draw_sidebar();
 
                 query_popup()
                 .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
@@ -285,9 +285,6 @@ input_context game::get_player_input( std::string &action )
 
                 break;
             }
-
-            //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
-            draw_pixel_minimap();
         }
         ctxt.reset_timeout();
     } else {
@@ -539,7 +536,7 @@ static void grab()
         } else {
             add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
         }
-    } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+    } else { // TODO: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
         add_msg( m_info, _( "There's nothing to grab there!" ) );
     }
 }
@@ -633,7 +630,8 @@ static void smash()
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
+                               static_cast<long>( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -975,6 +973,7 @@ static void reach_attack( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
     g->reenter_fullscreen();
 }
 
@@ -988,7 +987,7 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // @todo: move direct turret firing from ACTION_FIRE to separate function.
+        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
             switch( turret.query() ) {
                 case turret_data::status::no_ammo:
@@ -1880,16 +1879,16 @@ bool game::handle_action()
                 refresh_all();
                 break;
 
-            case ACTION_TOGGLE_SIDEBAR_STYLE:
-                toggle_sidebar_style();
-                break;
-
             case ACTION_TOGGLE_FULLSCREEN:
                 toggle_fullscreen();
                 break;
 
             case ACTION_TOGGLE_PIXEL_MINIMAP:
                 toggle_pixel_minimap();
+                break;
+
+            case ACTION_TOGGLE_PANEL_ADM:
+                toggle_panel_adm();
                 break;
 
             case ACTION_RELOAD_TILESET:
@@ -1979,6 +1978,6 @@ bool game::handle_action()
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ).c_str(),
-                                    int( calendar::turn ), before_action_moves, u.movecounter, u.moves );
+                                    static_cast<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

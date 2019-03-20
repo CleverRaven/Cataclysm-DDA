@@ -170,6 +170,7 @@
     "fun": -15,
     "price": 0,
     "material": "honey",
+    "primary_material": "water",
     "volume": 1,
     "charges": 7,
     "phase": "liquid",

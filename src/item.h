@@ -44,6 +44,7 @@ class recipe;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using bodytype_id = std::string;
 struct islot_armor;
 struct use_function;
 class material_type;
@@ -1000,6 +1001,9 @@ class item : public visitable<item>
         bool is_bandolier() const;
         bool is_holster() const;
         bool is_ammo() const;
+        // is this armor for a pet creature?  if on_pet is true, returns false if a pet isn't
+        // wearing it
+        bool is_pet_armor( bool on_pet = false ) const;
         bool is_armor() const;
         bool is_book() const;
         bool is_map() const;
@@ -1427,6 +1431,16 @@ class item : public visitable<item>
          */
         bool is_worn_only_with( const item &it ) const;
 
+        /**
+         * @name Pet armor related functions.
+         *
+         * The functions here refer to values from @ref islot_pet_armor. They only apply to pet
+         * armor items, those items can be worn by pets. The functions are safe to call for any
+         * item, for non-pet armor they return a default value.
+         */
+        units::volume get_pet_armor_max_vol() const;
+        units::volume get_pet_armor_min_vol() const;
+        bodytype_id get_pet_armor_bodytype() const;
         /*@}*/
 
         /**
@@ -1546,6 +1560,9 @@ class item : public visitable<item>
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+
+        /* Get the name to be used when sorting this item by ammo type */
+        std::string ammo_sort_name() const;
 
         /** How many spent casings are contained within this item? */
         int casings_count() const;

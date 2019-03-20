@@ -480,6 +480,7 @@
           "mx_science": 40,
           "mx_collegekids": 50,
           "mx_roadblock": 100,
+          "mx_bandits_block": 80,
           "mx_drugdeal": 30,
           "mx_supplydrop": 10,
           "mx_portal": 5,

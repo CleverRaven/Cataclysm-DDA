@@ -16,6 +16,7 @@
     "description": "A delicious grilled cheese sandwich, because everything is better with melted cheese.",
     "price": 550,
     "material": [ "milk", "wheat" ],
+    "primary_material": "wheat",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
@@ -39,6 +40,7 @@
     "description": "A sandwich of meat, vegetables, and cheese with condiments.  Tasty and nutritious!",
     "price": 1200,
     "material": [ "flesh", "veggy", "wheat", "milk" ],
+    "primary_material": "processed_food",
     "volume": 6,
     "charges": 2,
     "fun": 12,
@@ -82,6 +84,7 @@
     "description": "A simple cheese sandwich.",
     "price": 500,
     "material": [ "milk", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 8,
     "vitamins": [ [ "vitA", 4 ], [ "calcium", 12 ], [ "iron", 3 ] ]
@@ -102,6 +105,7 @@
     "description": "A delicious jam sandwich.",
     "price": 200,
     "material": [ "fruit", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 15
   },
@@ -122,6 +126,7 @@
     "description": "A delicious honey sandwich.",
     "price": 500,
     "material": [ "honey", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 10,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
@@ -219,6 +224,7 @@
     "description": "A delicious peanut butter and jelly sandwich.  It reminds you of the times your mother would make you lunch.",
     "price": 175,
     "material": [ "fruit", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 6,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ]
@@ -239,6 +245,7 @@
     "description": "Some damned fool put honey on this peanut butter sandwich, who in their right mind- oh wait this is pretty good.",
     "price": 175,
     "material": [ "wheat", "honey" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 6,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ]
@@ -298,6 +305,7 @@
     "description": "A bacon, lettuce, and tomato sandwich on toasted bread.",
     "price": 400,
     "material": [ "flesh", "veggy", "wheat", "tomato" ],
+    "primary_material": "processed_food",
     "volume": 4,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],

@@ -196,8 +196,13 @@ const std::string basecamp::next_upgrade( const std::string &dir, const int offs
     auto e = expansions.find( dir );
     if( e != expansions.end() ) {
         int cur_level = e->second.cur_level;
-        if( cur_level >= 0 && cur_level < max_upgrade_by_type( e->second.type ) ) {
-            return faction_encode_full( e->second, offset );
+        if( cur_level >= 0 ) {
+            // cannot upgrade anymore
+            if( offset > 0 && cur_level >= max_upgrade_by_type( e->second.type ) ) {
+                return "null";
+            } else {
+                return faction_encode_full( e->second, offset );
+            }
         }
     }
     return "null";
@@ -276,7 +281,7 @@ void basecamp::query_new_name()
     .text( "" )
     .max_length( 25 )
     .query();
-    if( popup.canceled() || popup.text() == "" ) {
+    if( popup.canceled() || popup.text().empty() ) {
         camp_name = "faction_camp";
     } else {
         camp_name = popup.text();

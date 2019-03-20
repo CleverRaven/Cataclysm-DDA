@@ -5,7 +5,7 @@
     "type": "GUN",
     "name": "flintlock carbine",
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ] ],
     "relative": {
       "weight": -500,
       "volume": -4,
@@ -80,7 +80,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   }
 ]

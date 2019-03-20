@@ -232,6 +232,9 @@ void DynamicDataLoader::initialize()
     add( "ARMOR", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_armor( jo, src );
     } );
+    add( "PET_ARMOR", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_pet_armor( jo, src );
+    } );
     add( "TOOL", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_tool( jo, src );
     } );
@@ -493,7 +496,7 @@ void DynamicDataLoader::unload_data()
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything
-    // @todo: Make it print to stdout?
+    // TODO: Make it print to stdout?
     loading_ui ui( false );
     finalize_loaded_data( ui );
 }

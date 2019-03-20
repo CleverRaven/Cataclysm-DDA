@@ -237,7 +237,7 @@ void tutorial_game::post_action( action_id act )
         }
         break;
 
-        default: //TODO: add more actions here
+        default: // TODO: add more actions here
             break;
 
     }

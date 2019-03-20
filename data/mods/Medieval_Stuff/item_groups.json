@@ -3,8 +3,6 @@
     "id": "medieval",
     "type": "item_group",
     "items": [
-      [ "helmet_galea", 1 ],
-      [ "helmet_conical", 1 ],
       [ "armor_lamellar", 2 ],
       [ "shield_kite", 5 ],
       [ "shield_heater", 10 ],
@@ -16,7 +14,6 @@
     "type": "item_group",
     "items": [
       [ "armor_lamellar", 2 ],
-      [ "helmet_conical", 1 ],
       [ "shield_hoplon", 1 ],
       [ "shield_scutum", 1 ],
       [ "shield_round", 3 ],
@@ -90,11 +87,8 @@
     "type": "item_group",
     "items": [
       [ "helmet_corinthian", 45 ],
-      [ "helmet_galea", 40 ],
-      [ "helmet_conical", 30 ],
       [ "armor_lamellar", 20 ],
       [ "armor_cuirass", 25 ],
-      [ "armor_lorica", 25 ],
       [ "legguard_bronze", 20 ],
       [ "shield_wooden", 10 ],
       [ "shield_wooden_large", 5 ],

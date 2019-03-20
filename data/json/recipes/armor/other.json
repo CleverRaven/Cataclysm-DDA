@@ -96,6 +96,28 @@
     "components": [ [ [ "silver_small", 15 ] ] ]
   },
   {
+    "result": "bead_bracelet",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "time": 10000,
+    "reversible": true,
+    "autolearn": true,
+    "type": "recipe",
+    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "string_6", 1 ] ] ]
+  },
+  {
+    "result": "bead_necklace",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "time": 20000,
+    "reversible": true,
+    "autolearn": true,
+    "type": "recipe",
+    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "string_36", 1 ] ] ]
+  },
+  {
     "result": "down_blanket",
     "type": "recipe",
     "category": "CC_ARMOR",
