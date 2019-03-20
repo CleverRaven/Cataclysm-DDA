@@ -741,9 +741,8 @@ void JsonIn::skip_member()
 
 void JsonIn::skip_separator()
 {
-    signed char ch;
     eat_whitespace();
-    ch = peek();
+    signed char ch = peek();
     if( ch == ',' ) {
         if( ate_separator ) {
             error( "duplicate separator" );
@@ -814,9 +813,8 @@ void JsonIn::skip_string()
 
 void JsonIn::skip_value()
 {
-    char ch;
     eat_whitespace();
-    ch = peek();
+    char ch = peek();
     // it's either a string '"'
     if( ch == '"' ) {
         skip_string();
@@ -1704,10 +1702,9 @@ void JsonOut::write( const std::string &val )
     if( need_separator ) {
         write_separator();
     }
-    unsigned char ch;
     stream->put( '"' );
     for( const auto &i : val ) {
-        ch = i;
+        unsigned char ch = i;
         if( ch == '"' ) {
             stream->write( "\\\"", 2 );
         } else if( ch == '\\' ) {
@@ -1750,10 +1747,9 @@ void JsonOut::write( const std::bitset<N> &b )
         write_separator();
     }
     std::string converted = b.to_string();
-    unsigned char ch;
     stream->put( '"' );
     for( auto &i : converted ) {
-        ch = i;
+        unsigned char ch = i;
         stream->put( ch );
     }
     stream->put( '"' );
