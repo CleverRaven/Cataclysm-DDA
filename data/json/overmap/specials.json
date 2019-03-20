@@ -1436,7 +1436,10 @@
             { "point" : [0,1,-1],  "overmap" : "pump_station_5_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+            { "point": [ 1, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, -1, -1 ] },
+            { "point": [ -1, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, -1, -1 ] },
+            { "point": [ -1, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] }
         ],
         "locations" : [ "land" ],
         "city_distance" : [ 1,4 ],
@@ -2324,7 +2327,7 @@
       { "point": [ 3, 4, 4 ], "overmap": "lab_surface_brick_block5D4_north" },
       { "point": [ 4, 4, 4 ], "overmap": "lab_surface_brick_block5E4_north" }
     ],
-    "connections" : [ { "point" : [ 2, -1, 0 ], "terrain" : "road" } ],
+    "connections": [ { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 120 ],
     "city_sizes": [ 1, 12 ],
