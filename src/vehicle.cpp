@@ -1136,14 +1136,13 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
 
     //Breadth-first-search components
     std::list<vehicle_part> discovered;
-    vehicle_part current_part;
     std::list<vehicle_part> searched;
 
     //We begin with just the start point
     discovered.push_back( from );
 
     while( !discovered.empty() ) {
-        current_part = discovered.front();
+        vehicle_part current_part = discovered.front();
         discovered.pop_front();
         auto current = current_part.mount;
 
@@ -5359,7 +5358,6 @@ void vehicle::update_time( const time_point &update_to )
     if( !wind_turbines.empty() ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
         const w_point weatherPoint = *g->weather_precise;
-        double windpower;
         int epower_w = 0;
         for( int part : wind_turbines ) {
             if( parts[ part ].is_unavailable() ) {
@@ -5370,7 +5368,7 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            windpower = get_local_windpower( g->windspeed, cur_om_ter, global_part_pos3( part ),
+            double windpower = get_local_windpower( g->windspeed, cur_om_ter, global_part_pos3( part ),
                                              g->winddirection, false );
             if( windpower <= ( g->windspeed / 10 ) ) {
                 continue;

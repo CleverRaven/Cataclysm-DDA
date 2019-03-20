@@ -279,8 +279,7 @@ int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int w
                     nc_color base_color, const std::string &text, const char split )
 {
     nc_color color = base_color;
-    std::vector<std::string> textformatted;
-    textformatted = foldstring( text, width, split );
+    std::vector<std::string> textformatted = foldstring( text, width, split );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
@@ -292,8 +291,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
 {
     const int iWinHeight = getmaxy( w );
     std::stack<nc_color> color_stack;
-    std::vector<std::string> textformatted;
-    textformatted = foldstring( text, width );
+    std::vector<std::string> textformatted = foldstring( text, width );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         if( line_num + begin_y - begin_line == iWinHeight ) {
             break;
@@ -525,8 +523,7 @@ void draw_border( const catacurses::window &w, nc_color border_color, const std:
 
 void draw_tabs( const catacurses::window &w, int active_tab, ... )
 {
-    int win_width;
-    win_width = getmaxx( w );
+    int win_width = getmaxx( w );
     std::vector<std::string> labels;
     va_list ap;
     va_start( ap, active_tab );
@@ -1302,7 +1299,7 @@ void scrollbar::apply( const catacurses::window &window )
         int bar_size = std::max( 2, slot_size * viewport_size_v / content_size_v );
         int scrollable_size = scroll_to_last_v ? content_size_v : content_size_v - viewport_size_v + 1;
 
-        int bar_start, bar_end;
+        int bar_start;
         if( viewport_pos_v == 0 ) {
             bar_start = 0;
         } else if( scrollable_size > 2 ) {
@@ -1310,7 +1307,7 @@ void scrollbar::apply( const catacurses::window &window )
         } else {
             bar_start = slot_size - bar_size;
         }
-        bar_end = bar_start + bar_size;
+        int bar_end = bar_start + bar_size;
 
         for( int i = 0; i < slot_size; ++i ) {
             if( i >= bar_start && i < bar_end ) {
@@ -2029,7 +2026,6 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
         return true;
     }
 
-    int pos;
     std::vector<std::string> pattern = string_split( wildcard_trim_rule( pattern_in ), '*' );
 
     if( pattern.size() == 1 ) { // no * found
@@ -2052,7 +2048,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
             }
         } else {
             if( !( *it ).empty() ) {
-                pos = ci_find_substr( text, *it );
+                int pos = ci_find_substr( text, *it );
                 if( pos == -1 ) {
                     return false;
                 }

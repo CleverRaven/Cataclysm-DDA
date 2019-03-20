@@ -11260,8 +11260,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
-        std::string str;
-        str = weapon.type_name();
+        std::string str = weapon.type_name();
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );

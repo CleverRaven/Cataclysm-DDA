@@ -960,10 +960,9 @@ std::string get_wind_desc( double windpower )
 rl_vec2d convert_wind_to_coord( const int angle )
 {
 
-    float fx, fy;
     rl_vec2d windvec;
-    fy = -cos( angle * M_PI / 180.0f );
-    fx = sin( angle * M_PI / 180.0f );
+    float fx = sin( angle * M_PI / 180.0f );
+    float fy = -cos( angle * M_PI / 180.0f );
     int roundedx;
     int roundedy;
     if( fx > 0.5 ) {

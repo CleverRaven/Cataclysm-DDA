@@ -367,18 +367,15 @@ void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /*
 
 Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 {
-    Mix_Chunk *result;
     Uint32 s_in = s->alen / 4;
     Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
     float pitch_real = static_cast<float>( s_out ) / static_cast<float>( s_in );
-    Uint32 i;
-    Uint32 j;
-    result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
+    Mix_Chunk *result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
     result->allocated = 1;
     result->alen = s_out * 4;
     result->abuf = static_cast<Uint8 *>( malloc( result->alen * sizeof( Uint8 ) ) );
     result->volume = s->volume;
-    for( i = 0; i < s_out; i++ ) {
+    for( Uint32 i = 0; i < s_out; i++ ) {
         Sint16 lt = 0;
         Sint16 rt = 0;
         Sint16 lt_out = 0;
@@ -393,7 +390,7 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
             end = begin;
         }
 
-        for( j = begin; j <= end; j++ ) {
+        for( Uint32 j = begin; j <= end; j++ ) {
             lt = ( s->abuf[( 4 * j ) + 1] << 8 ) | ( s->abuf[( 4 * j ) + 0] );
             rt = ( s->abuf[( 4 * j ) + 3] << 8 ) | ( s->abuf[( 4 * j ) + 2] );
             lt_avg += lt;
