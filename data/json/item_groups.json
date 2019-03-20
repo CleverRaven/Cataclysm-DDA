@@ -10280,6 +10280,20 @@
     },
     {
       "type": "item_group",
+      "id": "roof_sign",
+      "items": [
+        [ "rock", 10 ],
+        [ "can_food_unsealed", 10 ],
+        [ "steel_chunk", 10 ],
+        [ "steel_lump", 10 ],
+        [ "bottle_glass", 10 ],
+        [ "sharp_rock", 10 ],
+        [ "2x4", 10 ],
+        [ "pipe", 10 ]
+      ]
+    },
+    {
+      "type": "item_group",
       "id": "roof_trash",
       "items": [
         [ "plastic_shopping_bag", 15 ],

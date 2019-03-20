@@ -4778,6 +4778,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "animalshelter_roof",
+    "name": "animal shelter roof",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_antique",
     "name": "antique store",
     "copy-from": "generic_city_building",
