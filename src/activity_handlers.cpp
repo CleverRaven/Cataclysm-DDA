@@ -2866,7 +2866,7 @@ void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 void activity_handlers::dig_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    bool grave = g->m.ter( pos ) == t_grave ? true : false;
+    const bool grave = g->m.ter( pos ) == t_grave;
     if( g->m.ter( pos ) == t_pit_shallow || grave ) {
         g->m.ter_set( pos, t_pit );
     } else {
@@ -2885,7 +2885,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
             g->m.furn_set( pos, f_coffin_o );
             p->add_msg_if_player( m_bad, _( "Something crawls out of the coffin!" ) );
         } else {
-            g->m.add_item_or_charges( pos, item( "bone_human" ) );
+            g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
             g->m.furn_set( pos, f_coffin_c );
         }
         std::vector<item *> dropped;
@@ -2895,6 +2895,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
+                it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
         g->u.add_memorial_log( pgettext( "memorial_male", "Exhumed a grave." ),

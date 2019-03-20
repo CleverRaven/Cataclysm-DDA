@@ -2520,16 +2520,16 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         } else if( ter == t_grave ) {
             if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
                 g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
-                add_msg( m_info, _( "You are really going against your beliefs here." ) );
+                add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
                 g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
                 if( one_in( 3 ) ) {
                     g->u.vomit();
                 }
             } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
-                p->add_msg_if_player( m_good, _( "This is fun!" ) );
+                p->add_msg_if_player( m_good, _( "Exhuming a grave is fun now, where there is no one to object." ) );
                 p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
             } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
-                p->add_msg_if_player( m_bad, _( "This is utterly disgusting!" ) );
+                p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
                 p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
                 if( one_in( 5 ) ) {
                     p->vomit();
