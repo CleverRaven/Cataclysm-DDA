@@ -59,27 +59,6 @@
     "components": [ [ [ "scrap_bronze", 28 ] ] ]
   },
   {
-    "result": "armor_lorica",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": 448000,
-    "book_learn": [ [ "textbook_armwest", 8 ] ],
-    "using": [ [ "forging_standard", 15 ], [ "steel_standard", 15 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
-  },
-  {
     "result": "legguard_bronze",
     "type": "recipe",
     "category": "CC_ARMOR",

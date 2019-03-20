@@ -498,6 +498,27 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "armor_lorica",
+    "type": "ARMOR",
+    "name": "lorica segmentata",
+    "name_plural": "lorica segmentata",
+    "description": "An ancient Roman laminar armor, made of overlapping metal strips connected to internal leather straps.",
+    "weight": 5286,
+    "volume": 24,
+    "price": 50000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 90,
+    "encumbrance": 15,
+    "warmth": 15,
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+  },
+  {
     "id": "armor_nomad",
     "type": "ARMOR",
     "name": "nomad gear",
