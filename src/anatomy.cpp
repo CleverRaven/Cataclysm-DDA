@@ -93,7 +93,8 @@ void anatomy::check() const
             return acc + bp->hit_size_relative[i];
         } );
         if( size_all <= 0.0f ) {
-            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(), ( int )i - 1 );
+            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
+                      static_cast<int>( i ) - 1 );
         }
     }
 }

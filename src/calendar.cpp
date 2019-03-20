@@ -109,7 +109,7 @@ calendar &calendar::operator +=( int rhs )
 
 bool calendar::operator ==( int rhs ) const
 {
-    return int( *this ) == rhs;
+    return static_cast<int>( *this ) == rhs;
 }
 bool calendar::operator ==( const calendar &rhs ) const
 {
@@ -178,12 +178,14 @@ calendar calendar::sunrise() const
             end_hour   = SUNRISE_EQUINOX;
             break;
     }
-    double percent = double( double( day ) / to_days<int>( season_length() ) );
-    double time = double( start_hour ) * ( 1. - percent ) + double( end_hour ) * percent;
+    double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
+                                          ( season_length() ) );
+    double time = static_cast<double>( start_hour ) * ( 1. - percent ) + static_cast<double>
+                  ( end_hour ) * percent;
 
-    newhour = int( time );
-    time -= int( time );
-    newminute = int( time * 60 );
+    newhour = static_cast<int>( time );
+    time -= static_cast<int>( time );
+    newminute = static_cast<int>( time * 60 );
 
     return calendar( newminute, newhour, day, season, year );
 }
@@ -212,12 +214,14 @@ calendar calendar::sunset() const
             end_hour   = SUNSET_EQUINOX;
             break;
     }
-    double percent = double( double( day ) / to_days<int>( season_length() ) );
-    double time = double( start_hour ) * ( 1. - percent ) + double( end_hour ) * percent;
+    double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
+                                          ( season_length() ) );
+    double time = static_cast<double>( start_hour ) * ( 1. - percent ) + static_cast<double>
+                  ( end_hour ) * percent;
 
-    newhour = int( time );
-    time -= int( time );
-    newminute = int( time * 60 );
+    newhour = static_cast<int>( time );
+    time -= static_cast<int>( time );
+    newminute = static_cast<int>( time * 60 );
 
     return calendar( newminute, newhour, day, season, year );
 }
@@ -233,7 +237,8 @@ bool calendar::is_night() const
 
 double calendar::current_daylight_level() const
 {
-    double percent = double( double( day ) / to_days<int>( season_length() ) );
+    double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
+                                          ( season_length() ) );
     double modifier = 1.0;
     // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
     static double deviation = 0.25;
@@ -265,20 +270,20 @@ float calendar::sunlight() const
     double daylight_level = current_daylight_level();
 
     int current_phase = static_cast<int>( get_moon_phase( *this ) );
-    if( current_phase > int( MOON_PHASE_MAX ) / 2 ) {
-        current_phase = int( MOON_PHASE_MAX ) - current_phase;
+    if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
+        current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    int moonlight = 1 + int( current_phase * MOONLIGHT_PER_QUARTER );
+    int moonlight = 1 + static_cast<int>( current_phase * MOONLIGHT_PER_QUARTER );
 
     if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;
     } else if( now >= sunrise && now <= sunrise + twilight_duration ) {
         const double percent = ( now - sunrise ) / twilight_duration;
-        return double( moonlight ) * ( 1. - percent ) + daylight_level * percent;
+        return static_cast<double>( moonlight ) * ( 1. - percent ) + daylight_level * percent;
     } else if( now >= sunset && now <= sunset + twilight_duration ) {
         const double percent = ( now - sunset ) / twilight_duration;
-        return daylight_level * ( 1. - percent ) + double( moonlight ) * percent;
+        return daylight_level * ( 1. - percent ) + static_cast<double>( moonlight ) * percent;
     } else {
         return daylight_level;
     }

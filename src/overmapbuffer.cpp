@@ -1033,7 +1033,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     return result;
 }
 
-radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
+radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
         const tripoint &center )
 {
     // global submap coordinates, same as center is

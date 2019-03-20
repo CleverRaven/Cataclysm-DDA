@@ -1139,7 +1139,7 @@ void new_faction_manager::display() const
             camps.push_back( temp_camp );
         }
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
-            debugmsg( "The sanity check failed because tab=%d", ( int )tab );
+            debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
         int active_vec_size;

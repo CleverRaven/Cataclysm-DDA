@@ -551,7 +551,7 @@ void npc::randomize_from_faction( faction *fac )
         personality.altruism += rng( 0, 4 );
         int_max += rng( 2, 4 );
         per_max += rng( 0, 2 );
-        mod_skill_level( skill_firstaid, int( rng( 1, 5 ) ) );
+        mod_skill_level( skill_firstaid, static_cast<int>( rng( 1, 5 ) ) );
     }
     if( fac->has_job( FACJOB_FARMERS ) ) {
         personality.aggression -= rng( 2, 4 );
@@ -1689,7 +1689,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return float( melee_value( weapon ) );
+    return static_cast<float>( melee_value( weapon ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -1762,7 +1762,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    long( iWidth ) );
+                    static_cast<long>( iWidth ) );
             if( split == std::string::npos ) {
                 mvwprintz( w, line, column, color, str_in.c_str() );
             } else {

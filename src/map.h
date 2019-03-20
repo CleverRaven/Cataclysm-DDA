@@ -1469,7 +1469,7 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
+        bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
                            const maptile &tile,
                            bool invert, bool show_items,
                            const tripoint &view_center,
@@ -1480,7 +1480,7 @@ class map
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
+        void draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
                               const maptile &tile, bool invert,
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;

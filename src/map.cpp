@@ -3097,7 +3097,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         sound_volume = smin * 2;
     } else {
         if( sound_vol == -1 ) {
-            sound_volume = std::min( int( smin * 1.5 ), smax );
+            sound_volume = std::min( static_cast<int>( smin * 1.5 ), smax );
         } else {
             sound_volume = sound_vol;
         }
@@ -3783,7 +3783,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
         for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
             if( ter( t ) == from ) {
-                float radiX = sqrt( float( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
+                float radiX = sqrt( static_cast<float>( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
                 // within distance, and either no submap limitation or same overmap coords.
                 if( radiX <= radi && ( !same_submap ||
                                        ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
@@ -5722,7 +5722,7 @@ bool map::need_draw_lower_floor( const tripoint &p )
     return !( !zlevels || p.z <= -OVERMAP_DEPTH || !ter( p ).obj().has_flag( TFLAG_NO_FLOOR ) );
 }
 
-bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
+bool map::draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
                         const maptile &curr_maptile,
                         bool invert, bool show_items,
                         const tripoint &view_center,
@@ -5915,7 +5915,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
            !curr_ter.has_flag( TFLAG_NO_FLOOR );
 }
 
-void map::draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
+void map::draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
                            const maptile &curr_tile,
                            const bool invert,
                            const tripoint &view_center,

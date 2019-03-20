@@ -197,12 +197,12 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     requirement_data res = *this;
     for( auto &group : res.components ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
     for( auto &group : res.tools ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
 

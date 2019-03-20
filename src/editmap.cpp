@@ -328,7 +328,7 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
     if( !title.empty() ) {
         int hwidth = getmaxx( w_help );
         mvwhline( w_help, 2, 0, LINE_OXOX, hwidth );
-        int starttxt = int( ( hwidth - title.size() - 4 ) / 2 );
+        int starttxt = static_cast<int>( ( hwidth - title.size() - 4 ) / 2 );
         mvwprintw( w_help, 2, starttxt, "< " );
         wprintz( w_help, c_cyan, title );
         wprintw( w_help, " >" );
@@ -758,11 +758,11 @@ int editmap::edit_ter()
 
     const int xmin = 3; // left margin
     int xmax = pickw - xmin;
-    int tymax = int( ter_t::count() / xmax );
+    int tymax = static_cast<int>( ter_t::count() / xmax );
     if( ter_t::count() % xmax != 0 ) {
         tymax++;
     }
-    int fymax = int( furn_t::count() / xmax );
+    int fymax = static_cast<int>( furn_t::count() / xmax );
     if( furn_t::count() % xmax != 0 ) {
         fymax++;
     }
@@ -1617,7 +1617,7 @@ int editmap::select_shape( shapetype shape, int mode )
 /*
  * Display mapgen results over selected target position, and optionally regenerate / apply / abort
  */
-int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
+int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 {
     int ret = 0;
 

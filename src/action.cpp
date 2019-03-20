@@ -57,11 +57,11 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             break;
         } else if( id[0] != '#' ) {
             action_id act = look_up_action( id );
-            if( act == ACTION_NULL )
+            if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
 Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
-            else {
+            } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
                     keymap_txt >> std::noskipws >> ch >> std::skipws;

@@ -662,9 +662,9 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
     }
 
     if( first_line_is_category && iActive == 1 ) {  // Ensure that the scrollbar starts at zero position
-        draw_scrollbar( w, 0, iMaxRows, int( iModNum ), 0 );
+        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), 0 );
     } else {
-        draw_scrollbar( w, int( iActive ), iMaxRows, int( iModNum ), 0 );
+        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), 0 );
     }
 
     wrefresh( w );
@@ -821,12 +821,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_headers ) {
             for( size_t i = 0; i < headers.size(); ++i ) {
                 werase( header_windows[i] );
-                const int header_x = int ( ( getmaxx( header_windows[i] ) - headers[i].size() ) / 2 );
+                const int header_x = static_cast<int>( ( getmaxx( header_windows[i] ) - headers[i].size() ) / 2 );
                 mvwprintz( header_windows[i], 0, header_x, c_cyan, headers[i] );
 
                 if( active_header == i ) {
                     mvwputch( header_windows[i], 0, header_x - 3, c_red, '<' );
-                    mvwputch( header_windows[i], 0, header_x + int( headers[i].size() ) + 2, c_red, '>' );
+                    mvwputch( header_windows[i], 0, header_x + static_cast<int>( headers[i].size() ) + 2, c_red, '>' );
                 }
                 wrefresh( header_windows[i] );
             }

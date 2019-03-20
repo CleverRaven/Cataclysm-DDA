@@ -48,7 +48,7 @@ const trap_str_id tr_practice_target( "tr_practice_target" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
-void make_gun_sound_effect( player &p, bool burst, item *weapon );
+void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 extern bool is_valid_in_w_terrain( int, int );
 
 static double occupied_tile_fraction( m_size target_size )
@@ -240,12 +240,12 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // Number of shots to fire is limited by the amount of remaining ammo
     if( gun.ammo_required() ) {
-        shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
+        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
     }
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( "VEHICLE" ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -690,7 +690,7 @@ static int find_target( const std::vector<Creature *> &t, const tripoint &tpos )
 {
     for( size_t i = 0; i < t.size(); ++i ) {
         if( t[i]->pos() == tpos ) {
-            return int( i );
+            return static_cast<int>( i );
         }
     }
     return -1;
@@ -773,7 +773,7 @@ std::string get_colored_bar( const double val, const int width, const std::strin
         int used_width = 0;
         for( auto it( begin ); it != end; ++it ) {
             const double factor = std::min( 1.0, std::max( 0.0, std::get<0>( *it ) * val ) );
-            const int seg_width = int( factor * bar_width ) - used_width;
+            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
 
             if( seg_width <= 0 ) {
                 continue;
@@ -1161,8 +1161,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
                                 mode, ctxt, aim_types,
-                                bool( on_mode_change ),
-                                bool( on_ammo_change ), tiny );
+                                static_cast<bool>( on_mode_change ),
+                                static_cast<bool>( on_ammo_change ), tiny );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
@@ -1346,8 +1346,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         wrefresh( g->w_terrain );
         draw_targeting_window( w_target, relevant->tname(),
                                mode, ctxt, aim_types,
-                               bool( on_mode_change ),
-                               bool( on_ammo_change ), tiny );
+                               static_cast<bool>( on_mode_change ),
+                               static_cast<bool>( on_ammo_change ), tiny );
         wrefresh( w_target );
 
         catacurses::refresh();
@@ -1672,7 +1672,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     }
 }
 
-void make_gun_sound_effect( player &p, bool burst, item *weapon )
+void make_gun_sound_effect( const player &p, bool burst, item *weapon )
 {
     const auto data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
@@ -1808,9 +1808,9 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    double avgSkill = double( get_skill_level( skill_gun ) +
-                              get_skill_level( obj.gun_skill() ) ) / 2.0;
-    avgSkill = std::min( avgSkill, double( MAX_SKILL ) );
+    double avgSkill = static_cast<double>( get_skill_level( skill_gun ) +
+                                           get_skill_level( obj.gun_skill() ) ) / 2.0;
+    avgSkill = std::min( avgSkill, static_cast<double>( MAX_SKILL ) );
 
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 

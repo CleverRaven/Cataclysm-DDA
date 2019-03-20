@@ -1745,7 +1745,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             for( auto &prof_skill : u.prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
                     wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)",
-                             int( prof_skill.second ) );
+                             static_cast<int>( prof_skill.second ) );
                     break;
                 }
             }

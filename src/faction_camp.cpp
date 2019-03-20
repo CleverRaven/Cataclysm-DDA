@@ -2467,7 +2467,7 @@ bool basecamp::farm_return( const std::string &task, const tripoint &omt_tgt, fa
 
 // window manipulation
 void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_tab_mode cur_tab,
-                                    std::vector<std::vector<mission_entry>> &entries )
+                                    const std::vector<std::vector<mission_entry>> &entries )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -3426,7 +3426,7 @@ std::string camp_car_description( vehicle *car )
         if( pt.is_battery() ) {
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - vp.name().length(),
-                                    int( 100.0 * pt.ammo_remaining() / pt.ammo_capacity() ) );
+                                    static_cast<int>( 100.0 * pt.ammo_remaining() / pt.ammo_capacity() ) );
         }
     }
     entry += " \n";

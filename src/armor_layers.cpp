@@ -278,11 +278,11 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     prot.push_back( name_and_value( space + _( "Bash:" ),
-                                    string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
+                                    string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
-                                    string_format( "%3d", int( worn_item.cut_resist() ) ), width ) );
+                                    string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
-                                    string_format( "%3d", int( worn_item.get_env_resist() ) ), width ) );
+                                    string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
 }
 
@@ -525,7 +525,7 @@ void player::sort_armor()
                            ( tmp_worn.size() ) : cont_h - 2;
 
         // Ensure leftListIndex is in bounds
-        int new_index_upper_bound = std::max( 0, int( tmp_worn.size() ) - 1 );
+        int new_index_upper_bound = std::max( 0, static_cast<int>( tmp_worn.size() ) - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
 
         // Left header

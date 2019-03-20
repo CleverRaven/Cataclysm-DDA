@@ -721,7 +721,7 @@ void item::clear_vars()
 
 const char ivaresc = 001;
 
-bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars )
+bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars )
 {
     size_t pos = item_tag.find( '=' );
     if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
@@ -884,16 +884,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     };
 
     if( !is_null() ) {
-        if( parts->test( iteminfo_parts::BASE_CATEGORY ) )
+        if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
             info.push_back( iteminfo( "BASE", _( "Category: " ),
                                       "<header>" + get_category().name() + "</header>",
                                       iteminfo::no_newline ) );
+        }
         const int price_preapoc = price( false ) * batch;
         const int price_postapoc = price( true ) * batch;
-        if( parts->test( iteminfo_parts::BASE_PRICE ) )
+        if( parts->test( iteminfo_parts::BASE_PRICE ) ) {
             info.push_back( iteminfo( "BASE", space + _( "Price: " ), _( "$<num>" ),
                                       iteminfo::is_decimal | iteminfo::lower_is_better,
                                       static_cast<double>( price_preapoc ) / 100 ) );
+        }
         if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
             info.push_back( iteminfo( "BASE", _( "Barter value: " ), _( "$<num>" ),
                                       iteminfo::is_decimal | iteminfo::lower_is_better,
@@ -912,11 +914,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       string_format( "<num> %s", volume_units_abbr() ),
                                       f, converted_volume ) );
         }
-        if( parts->test( iteminfo_parts::BASE_WEIGHT ) )
+        if( parts->test( iteminfo_parts::BASE_WEIGHT ) ) {
             info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                       string_format( "<num> %s", weight_units() ),
                                       iteminfo::lower_is_better | iteminfo::is_decimal,
                                       convert_weight( weight() ) * batch ) );
+        }
 
         if( !type->rigid && parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
@@ -943,14 +946,16 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( dmg_bash || dmg_cut || dmg_stab ) {
-            if( parts->test( iteminfo_parts::BASE_TOHIT ) )
+            if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
                 info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ), "",
                                           iteminfo::show_plus, type->m_to_hit ) );
+            }
 
-            if( parts->test( iteminfo_parts::BASE_MOVES ) )
+            if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
                 info.push_back( iteminfo( "BASE", _( "Moves per attack: " ),
                                           "", iteminfo::lower_is_better,
                                           attack_time() ) );
+            }
         }
 
         insert_separation_line();
@@ -1063,7 +1068,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
             info.push_back( iteminfo( "MED", _( "Portions: " ),
-                                      abs( int( med_item->charges ) * batch ) ) );
+                                      abs( static_cast<int>( med_item->charges ) * batch ) ) );
         }
 
         if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
@@ -1097,7 +1102,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
             info.push_back( iteminfo( "FOOD", _( "Portions: " ),
-                                      abs( int( food_item->charges ) * batch ) ) );
+                                      abs( static_cast<int>( food_item->charges ) * batch ) ) );
         }
         if( food_item->corpse != nullptr && ( debug || ( g != nullptr &&
                                               ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
@@ -1193,10 +1198,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "MAGAZINE", _( "Capacity: " ), fmt, iteminfo::no_flags,
                                ammo_capacity() );
         }
-        if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) )
+        if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
             info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
                                iteminfo::lower_is_better, type->magazine->reload_time );
-
+        }
         insert_separation_line();
     }
 
@@ -1365,54 +1370,63 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( has_ammo ) {
             // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
             if( mod->ammo_data()->ammo->prop_damage ) {
-                if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) )
+                if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
                     info.push_back( iteminfo( "GUN", "ammo_mult", "*",
                                               iteminfo::no_newline | iteminfo::no_name,
                                               *mod->ammo_data()->ammo->prop_damage ) );
+                }
             } else {
-                if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) )
+                if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
                     info.push_back( iteminfo( "GUN", "ammo_damage", "",
                                               iteminfo::no_newline | iteminfo::no_name |
                                               iteminfo::show_plus,
                                               ammo_dam.total_damage() ) );
+                }
             }
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) )
+            if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
                 info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
                                           iteminfo::no_newline | iteminfo::no_name,
                                           mod->gun_damage( true ).total_damage() ) );
+            }
         }
 
-        if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) )
+        if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) ) {
             info.push_back( iteminfo( "GUN", space + _( "Armor-pierce: " ), "",
                                       iteminfo::no_newline, get_ranged_pierce( gun ) ) );
+        }
         if( has_ammo ) {
             // ammo_armor_pierce and sum_of_armor_pierce don't need to translate.
-            if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO ) )
+            if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO ) ) {
                 info.push_back( iteminfo( "GUN", "ammo_armor_pierce", "",
                                           iteminfo::no_newline | iteminfo::no_name |
                                           iteminfo::show_plus, ammo_pierce ) );
-            if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_TOTAL ) )
+            }
+            if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_TOTAL ) ) {
                 info.push_back( iteminfo( "GUN", "sum_of_armor_pierce", _( " = <num>" ),
                                           iteminfo::no_name,
                                           get_ranged_pierce( gun ) + ammo_pierce ) );
+            }
         }
         info.back().bNewLine = true;
 
-        if( parts->test( iteminfo_parts::GUN_DISPERSION ) )
+        if( parts->test( iteminfo_parts::GUN_DISPERSION ) ) {
             info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                       mod->gun_dispersion( false, false ) ) );
+        }
         if( has_ammo ) {
             // ammo_dispersion and sum_of_dispersion don't need to translate.
-            if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) )
+            if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) ) {
                 info.push_back( iteminfo( "GUN", "ammo_dispersion", "",
                                           iteminfo::no_newline | iteminfo::lower_is_better |
                                           iteminfo::no_name | iteminfo::show_plus,
                                           ammo_dispersion ) );
-            if( parts->test( iteminfo_parts::GUN_DISPERSION_TOTAL ) )
+            }
+            if( parts->test( iteminfo_parts::GUN_DISPERSION_TOTAL ) ) {
                 info.push_back( iteminfo( "GUN", "sum_of_dispersion", _( " = <num>" ),
                                           iteminfo::lower_is_better | iteminfo::no_name,
                                           mod->gun_dispersion( true, false ) ) );
+            }
         }
         info.back().bNewLine = true;
 
@@ -1440,10 +1454,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         bool bipod = mod->has_flag( "BIPOD" );
         if( aprox ) {
             if( aprox->gun_recoil( g->u ) ) {
-                if( parts->test( iteminfo_parts::GUN_RECOIL ) )
+                if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
                     info.emplace_back( "GUN", _( "Approximate recoil: " ), "",
                                        iteminfo::no_newline | iteminfo::lower_is_better,
                                        aprox->gun_recoil( g->u ) );
+                }
                 if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_BIPOD ) ) {
                     info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
                                        iteminfo::lower_is_better | iteminfo::no_name,
@@ -1452,10 +1467,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         } else {
             if( mod->gun_recoil( g->u ) ) {
-                if( parts->test( iteminfo_parts::GUN_RECOIL ) )
+                if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
                     info.emplace_back( "GUN", _( "Effective recoil: " ), "",
                                        iteminfo::no_newline | iteminfo::lower_is_better,
                                        mod->gun_recoil( g->u ) );
+                }
                 if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_BIPOD ) ) {
                     info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
                                        iteminfo::lower_is_better | iteminfo::no_name,
@@ -1475,11 +1491,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                ceil( mod->type->weight / 333.0_gram ) );
         }
 
-        if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) )
+        if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
                                iteminfo::lower_is_better,
-                               int( mod->get_reload_time() / 16.67 ) );
+                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
+        }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
             std::vector<std::string> fm;
@@ -1908,10 +1925,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
         } else {
-            if( parts->test( iteminfo_parts::BOOK_UNREAD ) )
+            if( parts->test( iteminfo_parts::BOOK_UNREAD ) ) {
                 info.push_back( iteminfo(
                                     "BOOK",
                                     _( "You need to <info>read this book to see its contents</info>." ) ) );
+            }
         }
 
     }
@@ -2083,33 +2101,36 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "<bold>Average melee damage:</bold>" ) ) ) );
             }
-            if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) )
+            if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "Critical hit chance %d%% - %d%%" ),
-                                                  int( g->u.crit_chance( 0, 100, *this ) * 100 ),
-                                                  int( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
-            if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) )
+                                                  static_cast<int>( g->u.crit_chance( 0, 100, *this ) * 100 ),
+                                                  static_cast<int>( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
+            }
+            if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "%d bashing (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_BASH ) ),
-                                                  int( crit.type_damage( DT_BASH ) ) ) ) );
+                                                  static_cast<int>( non_crit.type_damage( DT_BASH ) ),
+                                                  static_cast<int>( crit.type_damage( DT_BASH ) ) ) ) );
+            }
             if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
                 && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "%d cutting (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_CUT ) ),
-                                                  int( crit.type_damage( DT_CUT ) ) ) ) );
+                                                  static_cast<int>( non_crit.type_damage( DT_CUT ) ),
+                                                  static_cast<int>( crit.type_damage( DT_CUT ) ) ) ) );
             }
             if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
                 && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "%d piercing (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_STAB ) ),
-                                                  int( crit.type_damage( DT_STAB ) ) ) ) );
+                                                  static_cast<int>( non_crit.type_damage( DT_STAB ) ),
+                                                  static_cast<int>( crit.type_damage( DT_STAB ) ) ) ) );
             }
-            if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) )
+            if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "%d moves per attack" ), attack_cost ) ) );
+            }
         }
 
         //lets display which martial arts styles character can use with this weapon
@@ -3119,7 +3140,7 @@ int item::price( bool practical ) const
 
         } else if( e->is_tool() && !e->ammo_type() && e->ammo_capacity() ) {
             // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-            child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
+            child *= e->ammo_remaining() / static_cast<double>( std::max( e->type->charges_default(), 1 ) );
         }
 
         res += child;
@@ -4120,7 +4141,7 @@ bool item::mod_damage( int qty, damage_type dt )
     bool destroy = false;
 
     if( count_by_charges() ) {
-        charges -= std::min( long( type->stack_size * qty / itype::damage_scale ), charges );
+        charges -= std::min( static_cast<long>( type->stack_size * qty / itype::damage_scale ), charges );
         destroy |= charges == 0;
     }
 
@@ -4365,7 +4386,7 @@ int item::get_reload_time() const
 
     int reload_time = type->gun->reload_time;
     for( const auto mod : gunmods() ) {
-        reload_time = int( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
+        reload_time = static_cast<int>( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
     }
 
     return reload_time;
@@ -5628,7 +5649,7 @@ item *item::get_usable_item( const std::string &use_name )
 int item::units_remaining( const Character &ch, int limit ) const
 {
     if( count_by_charges() ) {
-        return std::min( int( charges ), limit );
+        return std::min( static_cast<int>( charges ), limit );
     }
 
     auto res = ammo_remaining();
@@ -5636,7 +5657,7 @@ int item::units_remaining( const Character &ch, int limit ) const
         res += ch.charges_of( "UPS", limit - res );
     }
 
-    return std::min( int( res ), limit );
+    return std::min( static_cast<int>( res ), limit );
 }
 
 bool item::units_sufficient( const Character &ch, int qty ) const
@@ -7229,7 +7250,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
     if( type->tool->turns_per_charge > 0 &&
-        int( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
+        static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         auto qty = std::max( ammo_required(), 1L );
         qty -= ammo_consume( qty, pos );
 

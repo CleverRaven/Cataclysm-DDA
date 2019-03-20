@@ -647,7 +647,7 @@ void trapfunc::pit( Creature *c, const tripoint &p )
                 int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
                 if( damage > 0 ) {
                     n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                    n->hurtall( rng( int( damage / 2 ), damage ), n ); // like the message says \-:
+                    n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n ); // like the message says \-:
                     n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                     n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
                 } else {

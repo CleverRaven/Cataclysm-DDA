@@ -211,10 +211,10 @@ static void eff_fun_hallu( player &u, effect &it )
     // TODO: Redo this to allow for variable durations
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     constexpr int maxDuration = 3600;
-    constexpr int comeupTime = int( maxDuration * 0.9 );
-    constexpr int noticeTime = int( comeupTime + ( maxDuration - comeupTime ) / 2 );
-    constexpr int peakTime = int( maxDuration * 0.8 );
-    constexpr int comedownTime = int( maxDuration * 0.3 );
+    constexpr int comeupTime = static_cast<int>( maxDuration * 0.9 );
+    constexpr int noticeTime = static_cast<int>( comeupTime + ( maxDuration - comeupTime ) / 2 );
+    constexpr int peakTime = static_cast<int>( maxDuration * 0.8 );
+    constexpr int comedownTime = static_cast<int>( maxDuration * 0.3 );
     const int dur = to_turns<int>( it.get_duration() );
     // Baseline
     if( dur == noticeTime ) {

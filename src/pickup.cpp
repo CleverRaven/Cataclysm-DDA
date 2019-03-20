@@ -602,7 +602,7 @@ void Pickup::pick_up( const tripoint &p, int min )
                 } else if( selected >= start + maxitems ) {
                     start += maxitems;
                 }
-            } else if( selected >= 0 && selected < int( matches.size() ) &&
+            } else if( selected >= 0 && selected < static_cast<int>( matches.size() ) &&
                        ( ( action == "RIGHT" && !getitem[matches[selected]].pick ) ||
                          ( action == "LEFT" && getitem[matches[selected]].pick ) ) ) {
                 idx = selected;
@@ -744,7 +744,7 @@ void Pickup::pick_up( const tripoint &p, int min )
 
                     if( cur_it < static_cast<int>( pickup_chars.size() ) ) {
                         mvwputch( w_pickup, 1 + ( cur_it % maxitems ), 0, icolor,
-                                  char( pickup_chars[cur_it] ) );
+                                  static_cast<char>( pickup_chars[cur_it] ) );
                     } else if( cur_it < static_cast<int>( pickup_chars.size() ) + static_cast<int>
                                ( pickup_chars.size() ) *
                                static_cast<int>( pickup_chars.size() ) ) {
@@ -752,7 +752,7 @@ void Pickup::pick_up( const tripoint &p, int min )
                         int p1 = p / pickup_chars.size();
                         int p2 = p % pickup_chars.size();
                         mvwprintz( w_pickup, 1 + ( cur_it % maxitems ), 0, icolor, "`%c%c",
-                                   char( pickup_chars[p1] ), char( pickup_chars[p2] ) );
+                                   static_cast<char>( pickup_chars[p1] ), static_cast<char>( pickup_chars[p2] ) );
                     } else {
                         mvwputch( w_pickup, 1 + ( cur_it % maxitems ), 0, icolor, ' ' );
                     }

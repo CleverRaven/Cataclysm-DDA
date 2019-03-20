@@ -630,7 +630,7 @@ void player::reset_stats()
         mod_int_bonus( -ppen.intelligence );
         mod_per_bonus( -ppen.perception );
         if( ppen.dexterity > 0 ) {
-            add_miss_reason( _( "Your pain distracts you!" ), unsigned( ppen.dexterity ) );
+            add_miss_reason( _( "Your pain distracts you!" ), static_cast<unsigned>( ppen.dexterity ) );
         }
     }
 
@@ -653,7 +653,7 @@ void player::reset_stats()
     if( get_starvation() >= 200 ) {
         // We die at 6000
         const int dex_mod = -( get_starvation() + 300 ) / 1000;
-        add_miss_reason( _( "You're weak from hunger." ), unsigned( -dex_mod ) );
+        add_miss_reason( _( "You're weak from hunger." ), static_cast<unsigned>( -dex_mod ) );
         mod_str_bonus( -( get_starvation() + 300 ) / 500 );
         mod_dex_bonus( dex_mod );
         mod_int_bonus( -( get_starvation() + 300 ) / 1000 );
@@ -662,7 +662,7 @@ void player::reset_stats()
     if( get_thirst() >= 200 ) {
         // We die at 1200
         const int dex_mod = -get_thirst() / 200;
-        add_miss_reason( _( "You're weak from thirst." ), unsigned( -dex_mod ) );
+        add_miss_reason( _( "You're weak from thirst." ), static_cast<unsigned>( -dex_mod ) );
         mod_str_bonus( -get_thirst() / 200 );
         mod_dex_bonus( dex_mod );
         mod_int_bonus( -get_thirst() / 200 );
@@ -999,7 +999,7 @@ void player::update_bodytemp()
     const auto player_local_temp = g->get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = int( 100 * temp_to_celsius( player_local_temp ) );
+    int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
     const w_point weather = *g->weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
@@ -1031,12 +1031,13 @@ void player::update_bodytemp()
     // -1333 when starving with light eater
     // -2000 if you managed to get 0 metabolism rate somehow
     const float met_rate = metabolic_rate();
-    const int hunger_warmth = int( 2000 * std::min( met_rate, 1.0f ) - 2000 );
+    const int hunger_warmth = static_cast<int>( 2000 * std::min( met_rate, 1.0f ) - 2000 );
     // Give SOME bonus to those living furnaces with extreme metabolism
-    const int metabolism_warmth = int( std::max( 0.0f, met_rate - 1.0f ) * 1000 );
+    const int metabolism_warmth = static_cast<int>( std::max( 0.0f, met_rate - 1.0f ) * 1000 );
     // Fatigue
     // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : int( std::min( 0.0f, -1.5f * get_fatigue() ) );
+    const int fatigue_warmth = has_sleep ? 0 : static_cast<int>( std::min( 0.0f,
+                               -1.5f * get_fatigue() ) );
 
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
@@ -1071,8 +1072,9 @@ void player::update_bodytemp()
                                     temp_cur[bp] );
         // Produces a smooth curve between 30.0 and 60.0.
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = int( homeostasis_adjustement * warmth( bp ) );
-        int clothing_warmth_adjusted_bonus = int( homeostasis_adjustement * bonus_item_warmth( bp ) );
+        int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
+        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
+                bp ) );
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
@@ -1275,7 +1277,7 @@ void player::update_bodytemp()
             rounding_error = 1;
         }
         if( temp_cur[bp] != temp_conv[bp] ) {
-            temp_cur[bp] = int( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
+            temp_cur[bp] = static_cast<int>( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
         }
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
@@ -1289,7 +1291,7 @@ void player::update_bodytemp()
             }
             if( temp_before != temp_conv[bp] ) {
                 temp_difference = temp_before - temp_conv[bp];
-                temp_cur[bp] = int( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
+                temp_cur[bp] = static_cast<int>( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
             }
         }
         int temp_after = temp_cur[bp];
@@ -1347,10 +1349,10 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = int( player_local_temp +
-                                    warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
+            int Ftemperature = static_cast<int>( player_local_temp +
+                                                 warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
             // Windchill reduced by your armor
-            int FBwindPower = int( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
+            int FBwindPower = static_cast<int>( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, bp );
 
@@ -1609,7 +1611,8 @@ void player::temp_equalizer( body_part bp1, body_part bp2 )
 {
     // Body heat is moved around.
     // Shift in one direction only, will be shifted in the other direction separately.
-    int diff = int( ( temp_cur[bp2] - temp_cur[bp1] ) * 0.0001 ); // If bp1 is warmer, it will lose heat
+    int diff = static_cast<int>( ( temp_cur[bp2] - temp_cur[bp1] ) *
+                                 0.0001 ); // If bp1 is warmer, it will lose heat
     temp_cur[bp1] += diff;
 }
 
@@ -1695,14 +1698,14 @@ void player::recalc_speed_bonus()
     }
 
     float speed_modifier = Character::mutation_value( "speed_modifier" );
-    set_speed_bonus( int( get_speed() * speed_modifier ) - get_speed_base() );
+    set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
 
     if( has_bionic( bio_speed ) ) { // multiply by 1.1
-        set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
+        set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
     }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
-    const int min_speed_bonus = int( -0.75 * get_speed_base() );
+    const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
     if( get_speed_bonus() < min_speed_bonus ) {
         set_speed_bonus( min_speed_bonus );
     }
@@ -1710,7 +1713,7 @@ void player::recalc_speed_bonus()
 
 int player::run_cost( int base_cost, bool diag ) const
 {
-    float movecost = float( base_cost );
+    float movecost = static_cast<float>( base_cost );
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
@@ -1800,7 +1803,7 @@ int player::run_cost( int base_cost, bool diag ) const
 
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = ( float( stamina ) / get_stamina_max() + 1 ) / 2;
+    float stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
     if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
@@ -1811,7 +1814,7 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost *= SQRT_2;
     }
 
-    return int( movecost );
+    return static_cast<int>( movecost );
 }
 
 int player::swim_speed() const
@@ -1968,7 +1971,7 @@ double player::recoil_vehicle() const
 
     if( in_vehicle ) {
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
-            return double( abs( vp->vehicle().velocity ) ) * 3 / 100;
+            return static_cast<double>( abs( vp->vehicle().velocity ) ) * 3 / 100;
         }
     }
     return 0;
@@ -2226,7 +2229,7 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     for( auto &elem : slice ) {
         item &next_item = elem->front();
         memorial_file << indent << next_item.invlet << " - " <<
-                      next_item.tname( unsigned( elem->size() ), false );
+                      next_item.tname( static_cast<unsigned>( elem->size() ), false );
         if( elem->size() > 1 ) {
             memorial_file << " [" << elem->size() << "]";
         }
@@ -2645,9 +2648,10 @@ int player::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = int( -log( get_vision_threshold( int( g->m.ambient_light_at( pos() ) ) ) /
-                           static_cast<float>( light_level ) ) *
-                     ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
+    int range = static_cast<int>( -log( get_vision_threshold( static_cast<int>( g->m.ambient_light_at(
+                                            pos() ) ) ) /
+                                        static_cast<float>( light_level ) ) *
+                                  ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
     // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
     // Clamp to [1, sight_max].
@@ -2672,7 +2676,7 @@ bool player::overmap_los( const tripoint &omt, int sight_points )
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
         const oter_id &ter = overmap_buffer.ter( pt );
-        sight_points -= int( ter->get_see_cost() );
+        sight_points -= static_cast<int>( ter->get_see_cost() );
         if( sight_points < 0 ) {
             return false;
         }
@@ -2863,7 +2867,7 @@ void player::pause()
         if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
             if( one_in( 8 ) ) {
                 double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 3200.0 );
-                int experience = int( exp_temp );
+                int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
@@ -3283,8 +3287,8 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
                 valid.push_back( dest );
             }
         }
-        if( snakes > int( valid.size() ) ) {
-            snakes = int( valid.size() );
+        if( snakes > static_cast<int>( valid.size() ) ) {
+            snakes = static_cast<int>( valid.size() );
         }
         if( snakes == 1 ) {
             add_msg( m_warning, _( "A snake sprouts from your body!" ) );
@@ -4287,7 +4291,7 @@ needs_rates player::calc_needs_rates()
             rates.hunger *= ( 2.0f / 7.0f );
             rates.thirst *= ( 2.0f / 7.0f );
         }
-        rates.recovery -= float( get_perceived_pain() ) / 60;
+        rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
 
     } else {
         rates.recovery = 0;
@@ -4800,7 +4804,7 @@ void player::process_one_effect( effect &it, bool is_new )
     auto msgs = it.get_miss_msgs();
     if( !msgs.empty() ) {
         for( auto i : msgs ) {
-            add_miss_reason( _( i.first.c_str() ), unsigned( i.second ) );
+            add_miss_reason( _( i.first.c_str() ), static_cast<unsigned>( i.second ) );
         }
     }
 
@@ -7075,7 +7079,7 @@ std::list<item> player::use_charges( const itype_id &what, long qty,
 
     } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {
-            auto bio = std::min( long( power_level ), qty );
+            auto bio = std::min( static_cast<long>( power_level ), qty );
             charge_power( -bio );
             qty -= std::min( qty, bio );
         }
@@ -7084,7 +7088,7 @@ std::list<item> player::use_charges( const itype_id &what, long qty,
         if( adv > 0 ) {
             auto found = use_charges( "adv_UPS_off", adv );
             res.splice( res.end(), found );
-            qty -= std::min( qty, long( adv / 0.6 ) );
+            qty -= std::min( qty, static_cast<long>( adv / 0.6 ) );
         }
 
         auto ups = charges_of( "UPS_off", qty );
@@ -9200,7 +9204,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item &gun, const ite
         chances += std::max( get_skill_level( sk ) - e.second, 0 );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
-    roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
+    roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
     // focus is either a penalty or bonus of at most +/-10%
     roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
     // dexterity and intelligence give +/-2% for each point above or below 12
@@ -9311,8 +9315,8 @@ void player::toolmod_add( item_location tool, item_location mod )
     }
 
     if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                   colorize( mod->tname().c_str(), mod->color_in_inventory() ),
-                   colorize( tool->tname().c_str(), tool->color_in_inventory() ) ) ) {
+                   colorize( mod->tname(), mod->color_in_inventory() ),
+                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
         add_msg_if_player( _( "Never mind." ) );
         return; // player canceled installation
     }
@@ -10021,7 +10025,7 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
             res.include( get_recipes_from_books( np->inv ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
-                return get_skill_level( r.skill_used ) >= int( r.difficulty *
+                return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty *
                         0.8f ); // Skilled enough to understand
             } );
         }
@@ -10273,9 +10277,9 @@ int player::sleep_spot( const tripoint &p ) const
     }
 
     if( get_fatigue() < TIRED + 1 ) {
-        sleepy -= int( ( TIRED + 1 - get_fatigue() ) / 4 );
+        sleepy -= static_cast<int>( ( TIRED + 1 - get_fatigue() ) / 4 );
     } else {
-        sleepy += int( ( get_fatigue() - TIRED + 1 ) / 16 );
+        sleepy += static_cast<int>( ( get_fatigue() - TIRED + 1 ) / 16 );
     }
 
     if( stim > 0 || !has_trait( trait_INSOMNIA ) ) {

@@ -75,7 +75,7 @@ void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
     }
 }
 
-std::pair<nc_color, std::string> str_string( player &p )
+std::pair<nc_color, std::string> str_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -90,7 +90,7 @@ std::pair<nc_color, std::string> str_string( player &p )
     return std::make_pair( clr, "Str " + ( p.get_str() < 100 ? to_string( p.get_str() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> dex_string( player &p )
+std::pair<nc_color, std::string> dex_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -105,7 +105,7 @@ std::pair<nc_color, std::string> dex_string( player &p )
     return std::make_pair( clr, "Dex " + ( p.get_dex() < 100 ? to_string( p.get_dex() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> int_string( player &p )
+std::pair<nc_color, std::string> int_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -120,7 +120,7 @@ std::pair<nc_color, std::string> int_string( player &p )
     return std::make_pair( clr, "Int " + ( p.get_int() < 100 ? to_string( p.get_int() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> per_string( player &p )
+std::pair<nc_color, std::string> per_string( const player &p )
 {
     nc_color clr;
     std::string str;
@@ -176,7 +176,7 @@ std::string window_panel::get_name() const
     return name;
 }
 
-void draw_minimap( player &u, const catacurses::window &w_minimap )
+void draw_minimap( const player &u, const catacurses::window &w_minimap )
 {
     const tripoint curs = u.global_omt_location();
     const int cursx = curs.x;
@@ -314,7 +314,8 @@ void draw_minimap( player &u, const catacurses::window &w_minimap )
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( cursx != targ.x ) ? double( targ.y - cursy ) / double( targ.x - cursx ) : 4;
+        double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
+                       ( targ.x - cursx ) : 4;
 
         if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
             if( targ.y > cursy ) {
@@ -327,7 +328,7 @@ void draw_minimap( player &u, const catacurses::window &w_minimap )
             int arrowy = -1;
             if( fabs( slope ) >= 1. ) { // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
-                arrowx = int( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+                arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -336,7 +337,7 @@ void draw_minimap( player &u, const catacurses::window &w_minimap )
                 }
             } else {
                 arrowx = ( targ.x > cursx ? 6 : 0 );
-                arrowy = int( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -395,12 +396,12 @@ void decorate_panel( const std::string name, const catacurses::window &w )
 
 std::string get_temp( const player &u )
 {
-    std::string temp = "";
+    std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        temp = print_temperature( g->get_temperature( u.pos() ) ).c_str();
+        temp = print_temperature( g->get_temperature( u.pos() ) );
     }
-    if( ( int )temp.size() == 0 ) {
+    if( static_cast<int>( temp.size() ) == 0 ) {
         return "-";
     }
     return temp;
@@ -452,7 +453,7 @@ std::string get_moon()
 std::string time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
-    std::string time_approx = "";
+    std::string time_approx;
     if( iHour >= 22 ) {
         time_approx = "Around midnight";
     } else if( iHour >= 20 ) {
@@ -520,7 +521,7 @@ std::pair<nc_color, int> morale_stat( const player &u )
 
 std::pair<nc_color, std::string> hunger_stat( const player &u )
 {
-    std::string hunger_string = "";
+    std::string hunger_string;
     nc_color hunger_color = c_yellow;
     if( u.get_hunger() >= 300 && u.get_starvation() > 2500 ) {
         hunger_color = c_red;
@@ -552,7 +553,7 @@ std::pair<nc_color, std::string> hunger_stat( const player &u )
 
 std::pair<nc_color, std::string> thirst_stat( const player &u )
 {
-    std::string hydration_string = "";
+    std::string hydration_string;
     nc_color hydration_color = c_yellow;
     if( u.get_thirst() > 520 ) {
         hydration_color = c_light_red;
@@ -581,7 +582,7 @@ std::pair<nc_color, std::string> thirst_stat( const player &u )
 
 std::pair<nc_color, std::string> rest_stat( const player &u )
 {
-    std::string rest_string = "";
+    std::string rest_string;
     nc_color rest_color = c_yellow;
     if( u.get_fatigue() > EXHAUSTED ) {
         rest_color = c_red;
@@ -631,7 +632,7 @@ int define_temp_level( const int lvl )
 
 std::string temp_delta_string( const player &u )
 {
-    std::string temp_message = "";
+    std::string temp_message;
     std::pair<int, int> temp_pair = temp_delta( u );
     // Assign zones for comparisons
     const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
@@ -660,7 +661,7 @@ std::string temp_delta_string( const player &u )
 
 std::pair<nc_color, std::string> temp_delta_arrows( const player &u )
 {
-    std::string temp_message = "";
+    std::string temp_message;
     nc_color temp_color = c_white;
     std::pair<int, int> temp_pair = temp_delta( u );
     // Assign zones for comparisons
@@ -702,7 +703,7 @@ std::pair<nc_color, std::string> temp_stat( const player &u )
     int current_bp_extreme = temp_delta( u ).first;
 
     // printCur the hottest/coldest bodypart
-    std::string temp_string = "";
+    std::string temp_string;
     nc_color temp_color = c_yellow;
     if( u.temp_cur[current_bp_extreme] >         BODYTEMP_SCORCHING ) {
         temp_color = c_red;
@@ -732,7 +733,7 @@ std::pair<nc_color, std::string> temp_stat( const player &u )
 std::pair<nc_color, std::string> pain_stat( const player &u )
 {
     nc_color pain_color = c_yellow;
-    std::string pain_string = "";
+    std::string pain_string;
     // get pain color
     if( u.get_perceived_pain() >= 60 ) {
         pain_color = c_red;
@@ -754,7 +755,7 @@ std::string get_armor( const player &u, body_part bp, const catacurses::window &
         --it;
         if( it->covers( bp ) ) {
             std::string temp = it->tname( 1, false );
-            if( ( int )temp.length() > getmaxx( w ) - 9 ) {
+            if( static_cast<int>( temp.length() ) > getmaxx( w ) - 9 ) {
                 // string minus window size.x and label
                 temp = temp.substr( 0, getmaxx( w ) - 11 );
                 temp += "..";
@@ -864,7 +865,7 @@ std::string morale_emotion( const int morale_cur, const face_type face,
 std::pair<nc_color, std::string> power_stat( const player &u )
 {
     nc_color c_pwr = c_red;
-    std::string s_pwr = "";
+    std::string s_pwr;
     if( u.max_power_level == 0 ) {
         s_pwr = "--";
         c_pwr = c_light_gray;
@@ -903,7 +904,7 @@ nc_color safe_color()
 int get_int_digits( const int &digits )
 {
     int temp = abs( digits );
-    int offset = temp > 0 ? ( int )log10( ( double )temp ) + 1 : 1;
+    int offset = temp > 0 ? static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1 : 1;
     return offset;
 }
 
@@ -989,7 +990,7 @@ void draw_limb2( player &u, const catacurses::window &w )
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
 
     // print safe mode
-    std::string safe_str = "";
+    std::string safe_str;
     if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
         safe_str = "SAFE";
     }
@@ -1093,7 +1094,7 @@ void draw_time_graphic( const catacurses::window &w )
     wprintz( w, c_white, "]" );
 }
 
-void draw_time( player &u, const catacurses::window &w )
+void draw_time( const player &u, const catacurses::window &w )
 {
     werase( w );
     // display date
@@ -1117,7 +1118,7 @@ void draw_time( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_needs( player &u, const catacurses::window &w )
+void draw_needs( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1306,7 +1307,7 @@ void draw_mod1( const player &u, const catacurses::window &w )
     mvwprintz( w, 3,  1,  c_light_gray, _( "Rest :" ) );
     mvwprintz( w, 4,  1,  c_light_gray, _( "Pain :" ) );
     mvwprintz( w, 5,  1,  c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, 0,  8, c_light_gray, utf8_truncate( u.weapname().c_str(), getmaxx( w ) - 8 ) );
+    mvwprintz( w, 0,  8, c_light_gray, utf8_truncate( u.weapname(), getmaxx( w ) - 8 ) );
     mvwprintz( w, 1,  8, hunger_pair.first, hunger_pair.second );
     mvwprintz( w, 2,  8, thirst_pair.first, thirst_pair.second );
     mvwprintz( w, 3,  8, rest_pair.first, rest_pair.second );
@@ -1321,7 +1322,7 @@ void draw_env_compact( player &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    mvwprintz( w, 0, 8, c_light_gray, utf8_truncate( u.weapname().c_str(), getmaxx( w ) - 8 ) );
+    mvwprintz( w, 0, 8, c_light_gray, utf8_truncate( u.weapname(), getmaxx( w ) - 8 ) );
     // style
     mvwprintz( w, 1, 8, c_light_gray, u.get_combat_style().name );
     // location
@@ -1408,7 +1409,7 @@ void draw_health_classic( player &u, const catacurses::window &w )
     }
 
     // print safe mode// print safe mode
-    std::string safe_str = "";
+    std::string safe_str;
     if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
         safe_str = "SAFE";
     }
@@ -1451,8 +1452,8 @@ void draw_health_classic( player &u, const catacurses::window &w )
 
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
-            int t_speed = int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = int( convert_velocity( veh->velocity, VU_VEHICLE ) );
+            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             mvwprintz( w, 5, 21, c_light_gray, type );
             mvwprintz( w, 5, 26, col_vel, "%d", c_speed );
@@ -1520,7 +1521,7 @@ void draw_compass_padding( player &, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_veh_compact( player &u, const catacurses::window &w )
+void draw_veh_compact( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1540,8 +1541,8 @@ void draw_veh_compact( player &u, const catacurses::window &w )
 
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
-            int t_speed = int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = int( convert_velocity( veh->velocity, VU_VEHICLE ) );
+            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             mvwprintz( w, 0, 12, c_light_gray, "%s :", type );
             mvwprintz( w, 0, 19, c_light_green, "%d", t_speed );
@@ -1553,7 +1554,7 @@ void draw_veh_compact( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_veh_padding( player &u, const catacurses::window &w )
+void draw_veh_padding( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1573,8 +1574,8 @@ void draw_veh_padding( player &u, const catacurses::window &w )
 
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
-            int t_speed = int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = int( convert_velocity( veh->velocity, VU_VEHICLE ) );
+            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             mvwprintz( w, 0, 13, c_light_gray, "%s :", type );
             mvwprintz( w, 0, 20, c_light_green, "%d", t_speed );
@@ -1586,7 +1587,7 @@ void draw_veh_padding( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_location_classic( player &u, const catacurses::window &w )
+void draw_location_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1614,7 +1615,7 @@ void draw_weather_classic( player &, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_lighting_classic( player &u, const catacurses::window &w )
+void draw_lighting_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1632,12 +1633,12 @@ void draw_lighting_classic( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_weapon_classic( player &u, const catacurses::window &w )
+void draw_weapon_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
     mvwprintz( w, 0, 0, c_light_gray, _( "Weapon  :" ) );
-    mvwprintz( w, 0, 10, c_light_gray, utf8_truncate( u.weapname().c_str(), getmaxx( w ) - 24 ) );
+    mvwprintz( w, 0, 10, c_light_gray, utf8_truncate( u.weapname(), getmaxx( w ) - 24 ) );
 
     // Print in sidebar currently used martial style.
     std::string style;
@@ -1661,7 +1662,7 @@ void draw_weapon_classic( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-void draw_time_classic( player &u, const catacurses::window &w )
+void draw_time_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1900,7 +1901,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name = "";
+    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;

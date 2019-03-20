@@ -917,7 +917,7 @@ void vehicle::pldrive( int x, int y )
         if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
             add_msg( _( "You regain control of the %s." ), name );
             u.practice( skill_driving, velocity / 5 );
-            velocity = int( forward_velocity() );
+            velocity = static_cast<int>( forward_velocity() );
             skidding = false;
             move.init( turn_dir );
         }

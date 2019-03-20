@@ -563,25 +563,25 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
 
         std::string info = "&";
-        int str_range = int( 100 / ability );
-        int str_min = int( p->str_max / str_range ) * str_range;
+        int str_range = static_cast<int>( 100 / ability );
+        int str_min = static_cast<int>( p->str_max / str_range ) * str_range;
         info += string_format( _( "Str %d - %d" ), str_min, str_min + str_range );
 
         if( ability >= 40 ) {
-            int dex_range = int( 160 / ability );
-            int dex_min = int( p->dex_max / dex_range ) * dex_range;
+            int dex_range = static_cast<int>( 160 / ability );
+            int dex_min = static_cast<int>( p->dex_max / dex_range ) * dex_range;
             info += string_format( _( "  Dex %d - %d" ), dex_min, dex_min + dex_range );
         }
 
         if( ability >= 50 ) {
-            int int_range = int( 200 / ability );
-            int int_min = int( p->int_max / int_range ) * int_range;
+            int int_range = static_cast<int>( 200 / ability );
+            int int_min = static_cast<int>( p->int_max / int_range ) * int_range;
             info += string_format( _( "  Int %d - %d" ), int_min, int_min + int_range );
         }
 
         if( ability >= 60 ) {
-            int per_range = int( 240 / ability );
-            int per_min = int( p->per_max / per_range ) * per_range;
+            int per_range = static_cast<int>( 240 / ability );
+            int per_min = static_cast<int>( p->per_max / per_range ) * per_range;
             info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
         }
 
@@ -639,9 +639,10 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         int npc_id = p->getID();
         if( !std::any_of( followerlist.begin(), followerlist.end(), [npc_id]( int i ) {
         return i == npc_id;
-    } ) )
-        g->add_npc_follower( npc_id );
-        return _( "YES, MASTER!" );
+    } ) ) {
+            g->add_npc_follower( npc_id );
+            return _( "YES, MASTER!" );
+        }
     }
 
     return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
@@ -910,7 +911,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             }
             break;
         case TALK_TRIAL_PERSUADE:
-            chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
+            chance += u.talk_skill() - static_cast<int>( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
             chance += u_mods.persuade;
 

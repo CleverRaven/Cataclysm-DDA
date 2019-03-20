@@ -83,7 +83,7 @@ void mdeath::normal( monster &z )
     z.bleed(); // leave some blood if we have to
 
     if( !pulverized ) {
-        make_mon_corpse( z, int( std::floor( corpse_damage * itype::damage_scale ) ) );
+        make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
     }
     // if mdeath::splatter was set along normal makes sure it is not called twice
     bool splatt = false;

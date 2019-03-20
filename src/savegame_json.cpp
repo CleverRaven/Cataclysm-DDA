@@ -149,7 +149,7 @@ std::vector<item> item::magazine_convert()
         qty += charges - type->gun->clip; // excess ammo from magazine extensions
 
         // limit ammo to base capacity and return any excess as a new item
-        charges = std::min( charges, long( type->gun->clip ) );
+        charges = std::min( charges, static_cast<long>( type->gun->clip ) );
         if( qty > 0 ) {
             res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
                               calendar::turn, qty );
@@ -647,7 +647,7 @@ void player::store( JsonOut &json ) const
     json.member( "tank_plut", tank_plut );
     json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
-    json.member( "scent", int( scent ) );
+    json.member( "scent", static_cast<int>( scent ) );
     json.member( "body_wetness", body_wetness );
 
     // breathing
@@ -929,7 +929,7 @@ void player::deserialize( JsonIn &jsin )
             // And it would as often as not be out of bounds (e.g. when a questgiver died).
             // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatibility.
             // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
-            if( tmpactive_mission >= 0 && tmpactive_mission < int( active_missions.size() ) ) {
+            if( tmpactive_mission >= 0 && tmpactive_mission < static_cast<int>( active_missions.size() ) ) {
                 active_mission = active_missions[tmpactive_mission];
             } else if( !active_missions.empty() ) {
                 active_mission = active_missions.back();
@@ -1072,7 +1072,8 @@ void npc_chatbin::deserialize( JsonIn &jsin )
     if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
         if( savegame_loading_version <= 23 ) {
             // In 0.C, it was an index into the missions_assigned vector
-            if( tmpmission_selected >= 0 && tmpmission_selected < int( missions_assigned.size() ) ) {
+            if( tmpmission_selected >= 0 &&
+                tmpmission_selected < static_cast<int>( missions_assigned.size() ) ) {
                 mission_selected = missions_assigned[tmpmission_selected];
             }
         } else {
@@ -1437,7 +1438,7 @@ void inventory::json_save_invcache( JsonOut &json ) const
         json.member( elem.first );
         json.start_array();
         for( const auto &_sym : elem.second ) {
-            json.write( int( _sym ) );
+            json.write( static_cast<int>( _sym ) );
         }
         json.end_array();
         json.end_object();
@@ -1867,7 +1868,8 @@ void item::io( Archive &archive )
 
     double float_damage = 0;
     if( archive.read( "damage", float_damage ) ) {
-        damage_ = std::min( std::max( min_damage(), int( float_damage * itype::damage_scale ) ),
+        damage_ = std::min( std::max( min_damage(),
+                                      static_cast<int>( float_damage * itype::damage_scale ) ),
                             max_damage() );
     }
 
