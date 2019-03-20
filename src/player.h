@@ -1559,7 +1559,7 @@ class player : public Character
         void load_memorial_file( std::istream &fin );
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
-
+        std::vector<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
 

@@ -325,7 +325,7 @@ void npc_chatbin::check_missions()
     ma.erase( last, ma.end() );
 }
 
-void npc::talk_to_u( bool text_only )
+void npc::talk_to_u( bool text_only, bool radio_contact )
 {
     if( g->u.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
@@ -355,8 +355,9 @@ void npc::talk_to_u( bool text_only )
     }
 
     d.add_topic( chatbin.first_topic );
-
-    if( is_leader() ) {
+    if( radio_contact ) {
+        d.add_topic( "TALK_RADIO" );
+    } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
     } else if( is_friend() ) {
         d.add_topic( "TALK_FRIEND" );
@@ -1849,6 +1850,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( hostile ),
             WRAP( flee ),
             WRAP( leave ),
+            WRAP( goto_location ),
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
             WRAP( player_leaving ),

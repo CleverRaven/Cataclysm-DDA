@@ -11,6 +11,7 @@
 #include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
+#include "simple_pathfinding.h"
 #include "string_id.h"
 
 struct mongroup;
@@ -221,6 +222,10 @@ class overmapbuffer
          */
         std::shared_ptr<npc> find_npc( int id );
         /**
+         * Get all NPCs active on the overmap
+         */
+        std::vector<std::shared_ptr<npc>> get_overmap_npcs();
+        /**
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).
          */
@@ -290,7 +295,7 @@ class overmapbuffer
          */
         bool reveal( const point &center, int radius, int z );
         bool reveal( const tripoint &center, int radius );
-
+        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
         bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
                            bool road_only = false );
         /**
