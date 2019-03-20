@@ -1761,9 +1761,14 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_SEASON", "world_default", translate_marker( "Initial season" ),
-         translate_marker( "Season the player starts in.  Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced." ),
+         translate_marker( "Season the player starts in." ),
     { { "spring", translate_marker( "Spring" ) }, { "summer", translate_marker( "Summer" ) }, { "autumn", translate_marker( "Autumn" ) }, { "winter", translate_marker( "Winter" ) } },
     "spring"
+       );
+
+    add( "DELAYED_SPAWN", "world_default", translate_marker( "Delayed spawn" ),
+        translate_marker( "True effectively delays the player spawn, advancing food decay and monster evolution based on the starting day and season. False makes food fresh and monsters normal regardless of start date." ),
+        true
        );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),

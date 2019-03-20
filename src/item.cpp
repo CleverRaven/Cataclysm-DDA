@@ -3634,7 +3634,12 @@ void item::calc_rot( const tripoint &location )
 
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
-        const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
+        time_point since = last_rot_check;
+        // Is this the first check since the item was spawned?
+        if( last_rot_check == calendar::time_of_cataclysm ) {
+            // If not simulating a delayed spawn, items are always created fresh relative to the start of the game
+            since = get_option<bool>( "DELAYED_SPAWN" ) ? bday : calendar::start;
+        }
 
         last_rot_check = now;
 

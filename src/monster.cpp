@@ -296,7 +296,8 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const time_point scaling_start = get_option<bool>( "DELAYED_SPAWN" ) ? calendar::time_of_cataclysm : calendar::start;
+    const int current_day = to_days<int>( calendar::turn - scaling_start );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -308,7 +309,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
+            upgrade_time += to_days<int>( scaling_start - calendar::start );
         }
     }
 
@@ -2042,7 +2043,7 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::time_of_cataclysm );
+                         get_option<bool>( "DELAYED_START" ) ? calendar::time_of_cataclysm : calendar::start );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
