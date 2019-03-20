@@ -533,7 +533,7 @@ void mission_start::kill_horde_master( mission *miss )
  * 2) Corners or coords adjacent to a bed/dresser? (this logic may be flawed, dates from Whales in 2011)
  * 3) A random spot near the center of the tile.
  */
-static tripoint find_potential_computer_point( tinymap &compmap, int z )
+static tripoint find_potential_computer_point( const tinymap &compmap, int z )
 {
     std::vector<tripoint> broken;
     std::vector<tripoint> potential;

@@ -119,10 +119,11 @@ void character_edit_menu()
              << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
              << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
 
-        data << string_format( _( "Aggression: %d" ), int( np->personality.aggression ) ) << " "
-             << string_format( _( "Bravery: %d" ), int( np->personality.bravery ) ) << " "
-             << string_format( _( "Collector: %d" ), int( np->personality.collector ) ) << " "
-             << string_format( _( "Altruism: %d" ), int( np->personality.altruism ) ) << std::endl;
+        data << string_format( _( "Aggression: %d" ),
+                               static_cast<int>( np->personality.aggression ) ) << " "
+             << string_format( _( "Bravery: %d" ), static_cast<int>( np->personality.bravery ) ) << " "
+             << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
+             << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
         data << _( "Needs:" ) << std::endl;
         for( const auto &need : np->needs ) {
@@ -659,10 +660,10 @@ void draw_benchmark( const int max_difference )
 #endif
                                get_option<bool>( "FRAMEBUFFER_ACCEL" ) << " | " <<
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
-                               int( 1000.0 * draw_counter / ( double )difference ) << " |\n";
+                               static_cast<int>( 1000.0 * draw_counter / static_cast<double>( difference ) ) << " |\n";
 
     add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-             difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
+             difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
 }

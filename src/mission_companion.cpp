@@ -78,7 +78,7 @@ void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
-bool handle_outpost_mission( mission_entry &cur_key, npc &p );
+bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
 }
 
 void talk_function::companion_mission( npc &p )
@@ -398,6 +398,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];
@@ -505,13 +506,14 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "HELP_KEYBINDINGS" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
+            g->draw_panels();
         }
     }
     g->refresh_all();
     return true;
 }
 
-bool talk_function::handle_outpost_mission( mission_entry &cur_key, npc &p )
+bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p )
 {
     if( cur_key.id == "Caravan Commune-Refugee Center" ) {
         individual_mission( p, _( "joins the caravan team..." ), "_commune_refugee_caravan", true );
@@ -568,6 +570,7 @@ bool talk_function::handle_outpost_mission( mission_entry &cur_key, npc &p )
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     return true;
 }

@@ -268,7 +268,7 @@ bool player::activate_bionic( int b, bool eff_only )
                 // Tetanus infection.
                 { effect_tetanus, _( "Clostridium Tetani Infection" ) },
                 { effect_datura, _( "Anticholinergic Tropane Alkaloids" ) },
-                // @todo: Hallucinations not inducted by chemistry
+                // TODO: Hallucinations not inducted by chemistry
                 { effect_hallu, _( "Hallucinations" ) },
                 { effect_visuals, _( "Hallucinations" ) },
             }
@@ -299,7 +299,7 @@ bool player::activate_bionic( int b, bool eff_only )
             bad.push_back( _( "Irradiated" ) );
         }
 
-        // @todo: Expose the player's effects to check it in a cleaner way
+        // TODO: Expose the player's effects to check it in a cleaner way
         for( const auto &pr : bad_effects ) {
             if( has_effect( pr.first ) ) {
                 bad.push_back( pr.second );
@@ -506,7 +506,7 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
-                           convert_velocity( int( windpower ), VU_WIND ),
+                           convert_velocity( static_cast<int>( windpower ), VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
@@ -858,8 +858,8 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
     }
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
-                           float ( pl_skill ) - float ( pl_skill ) / float ( 10.0 ) );
+    float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
     return adjusted_skill;
 }
 
@@ -874,13 +874,14 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     int chance_of_success = 0;
     // we will base chance_of_success on a ratio of skill and difficulty
     // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
-    float skill_difficulty_parameter = float( adjusted_skill / ( 4.0 * bionic_difficulty ) );
+    float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
+                                       ( 4.0 * bionic_difficulty ) );
 
     // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
-    chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
-                             ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+    chance_of_success = static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                          ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
@@ -945,7 +946,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
-                ( 100 - int( chance_of_success ) ) ) ) {
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
@@ -1035,16 +1036,16 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
-                ( 100 - int( chance_of_success ) ) ) ) {
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
-        installer.practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
-        installer.practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
-        installer.practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
+        installer.practice( skilll_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
+        installer.practice( skilll_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
+        installer.practice( skilll_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
     int success = chance_of_success - rng( 0, 99 );
@@ -1094,7 +1095,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = int( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
     if( fail_type <= 0 ) {
@@ -1176,7 +1177,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
                                           old_power - max_power_level );
                     }
                 }
-                // @todo: What if we can't lose power capacity?  No penalty?
+                // TODO: What if we can't lose power capacity?  No penalty?
             } else {
                 const bionic_id &id = random_entry( valid );
                 add_bionic( id );

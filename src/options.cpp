@@ -1337,12 +1337,6 @@ void options_manager::add_options_interface()
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "right"
        );
 
-    add( "SIDEBAR_STYLE", "interface", translate_marker( "Sidebar style" ),
-         translate_marker( "Switch between a narrower or wider sidebar." ),
-         //~ sidebar style
-    { { "wider", translate_marker( "Wider" ) }, { "narrow", translate_marker( "Narrow" ) } }, "narrow"
-       );
-
     add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),
          translate_marker( "Where new log messages should show." ),
          //~ sidebar/message log flow direction
@@ -2111,9 +2105,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
             if( ingame ) {
-                if( g->pixel_minimap_option ) {
-                    wrefresh( g->w_pixel_minimap );
-                }
                 g->refresh_all();
             }
             tilecontext->do_tile_loading_report();
@@ -2124,7 +2115,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
         tilecontext->reinit_minimap();
         g->init_ui();
-        wrefresh( g->w_pixel_minimap );
         g->refresh_all();
     }
 }
@@ -2135,7 +2125,7 @@ static void refresh_tiles( bool, bool, bool )
 #endif // TILES
 
 void draw_borders_external( const catacurses::window &w, int horizontal_level,
-                            std::map<int, bool> &mapLines, const bool world_options_only )
+                            const std::map<int, bool> &mapLines, const bool world_options_only )
 {
     if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
@@ -2458,6 +2448,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
+            g->reinitmap = true;
             break;
         }
     }
@@ -2468,7 +2459,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     bool lang_changed = false;
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
-    bool sidebar_style_changed = false;
     bool terminal_size_changed = false;
 
     for( auto &iter : OPTIONS_OLD ) {
@@ -2483,9 +2473,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 || iter.first == "PIXEL_MINIMAP_RATIO"
                 || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
-
-            } else if( iter.first == "SIDEBAR_STYLE" ) {
-                sidebar_style_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
                 used_tiles_changed = true;
@@ -2525,18 +2512,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         set_language();
     }
 
-    if( sidebar_style_changed ) {
-        if( ingame ) {
-            g->toggle_sidebar_style();
-        } else {
-#ifdef TILES
-            tilecontext->reinit_minimap();
-#endif
-            g->narrow_sidebar = !g->narrow_sidebar;
-            g->init_ui();
-        }
-    }
-
 #if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
@@ -2563,7 +2538,7 @@ void options_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
 
-    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
+    // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto mPageItems = this->mPageItems;
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
@@ -2693,11 +2668,6 @@ bool options_manager::load_legacy()
            read_from_file_optional( FILENAMES["legacy_options2"], reader );
 }
 
-bool use_narrow_sidebar()
-{
-    return TERMY < 25 || g->narrow_sidebar;
-}
-
 bool options_manager::has_option( const std::string &name ) const
 {
     return options.count( name );
@@ -2738,7 +2708,7 @@ options_manager::options_container options_manager::get_world_defaults() const
 
 std::vector<std::string> options_manager::getWorldOptPageItems() const
 {
-    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
+    // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
 }

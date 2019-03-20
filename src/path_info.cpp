@@ -104,6 +104,7 @@ void PATH_INFO::update_datadir()
 void PATH_INFO::update_config_dir()
 {
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
     update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
@@ -182,6 +183,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "graveyarddir", FILENAMES["user_dir"] + "graveyard/" );
 
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );

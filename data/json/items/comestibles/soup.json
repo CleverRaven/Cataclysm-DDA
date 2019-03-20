@@ -34,6 +34,7 @@
     "description": "A tasty and nutritious broth made from bones.",
     "price": 350,
     "material": "bone",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
@@ -45,6 +46,7 @@
     "copy-from": "broth_bone",
     "name": "human broth",
     "description": "A nutritious broth made from human bones.",
+    "primary_material": "water",
     "material": [ "bone", "hflesh" ]
   },
   {
@@ -207,6 +209,7 @@
     "description": "Chicken chunks and noodles swimming in a salty broth.  Rumored to help cure colds.",
     "price": 580,
     "material": [ "flesh", "wheat" ],
+    "primary_material": "flesh",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
@@ -274,6 +277,7 @@
     "description": "A soup with chicken chunks and balls of dough.  Not bad.",
     "price": 500,
     "material": [ "flesh", "wheat" ],
+    "primary_material": "flesh",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],

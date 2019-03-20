@@ -98,8 +98,8 @@ extern "C" {
     {
         HANDLE handle = CreateFile( file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
                                     FILE_ATTRIBUTE_NORMAL, NULL );
-        //@todo call from a separate process as suggested by the documentation
-        //@todo capture stack trace and pass as parameter as suggested by the documentation
+        // TODO: call from a separate process as suggested by the documentation
+        // TODO: capture stack trace and pass as parameter as suggested by the documentation
         MiniDumpWriteDump( GetCurrentProcess(),
                            GetCurrentProcessId(),
                            handle,
@@ -172,8 +172,8 @@ extern "C" {
 
     static void signal_handler( int sig )
     {
-        //@todo thread-safety?
-        //@todo make string literals & static variables atomic?
+        // TODO: thread-safety?
+        // TODO: make string literals & static variables atomic?
         signal( sig, SIG_DFL );
         // undefined behavior according to the standard
         // but we can get nothing out of it without these
@@ -304,7 +304,7 @@ void init_crash_handlers()
 
 [[noreturn]] static void crash_terminate_handler()
 {
-    //@todo thread-safety?
+    // TODO: thread-safety?
     const char *type;
     const char *msg;
     try {

@@ -123,7 +123,7 @@ struct mongroup {
         target.x = x;
         target.y = y;
     }
-    void wander( overmap & );
+    void wander( const overmap & );
     void inc_interest( int inc ) {
         interest += inc;
         if( interest > 100 ) {

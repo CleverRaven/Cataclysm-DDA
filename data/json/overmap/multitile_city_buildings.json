@@ -16,6 +16,15 @@
     ]
   },
   {
+    "type": "city_building",
+    "id": "animalshelter",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "animalshelter_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "animalshelter_roof_north" }
+    ]
+  },
+  {
     "//": "All of those overmap specials that spawn also outside of town require a second declare as city_building.",
     "type": "city_building",
     "id": "motel_city",
@@ -696,6 +705,15 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "abandonedwarehouse_4_north" },
       { "point": [ 0, 0, 1 ], "overmap": "abandonedwarehouse_4_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "animalpound",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "animalpound_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "animalpound_roof_north" }
     ]
   }
 ]

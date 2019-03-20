@@ -46,7 +46,7 @@ const std::array<type, 4> all = {{ type::north, type::east, type::south, type::w
 const size_t size = all.size();
 
 /** Number of bits needed to store directions. */
-const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
@@ -287,7 +287,7 @@ struct oter_t {
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
-// @todo: Deprecate these operators
+// TODO: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 

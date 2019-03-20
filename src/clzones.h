@@ -255,7 +255,7 @@ class zone_manager
                   const tripoint &start, const tripoint &end,
                   std::shared_ptr<zone_options> options = nullptr );
 
-        void create_vehicle_loot_zone( class vehicle &vehicle, const point mount_point,
+        void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );
 
         bool remove( zone_data &zone );

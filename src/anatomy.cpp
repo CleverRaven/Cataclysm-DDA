@@ -93,7 +93,8 @@ void anatomy::check() const
             return acc + bp->hit_size_relative[i];
         } );
         if( size_all <= 0.0f ) {
-            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(), ( int )i - 1 );
+            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
+                      static_cast<int>( i ) - 1 );
         }
     }
 }
@@ -105,7 +106,7 @@ void anatomy::add_body_part( const bodypart_ids &new_bp )
     size_sum += bp_struct.hit_size;
 }
 
-// @todo: get_function_with_better_name
+// TODO: get_function_with_better_name
 bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
 {
     for( auto &part : cached_bps ) {

@@ -511,14 +511,15 @@ TEST_CASE( "npc_talk_test" )
     CHECK( !has_item( g->u, "beer", 1 ) );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 7 );
+    gen_response_lines( d, 8 );
     CHECK( d.responses[0].text == "Change your engagement rules..." );
     CHECK( d.responses[1].text == "Change your aiming rules..." );
-    CHECK( d.responses[2].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[3].text == "Use only silent weapons." );
-    CHECK( d.responses[4].text == "Don't use grenades anymore." );
-    CHECK( d.responses[5].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[6].text == "Never mind." );
+    CHECK( d.responses[2].text == "If you see me running away, you follow me." );
+    CHECK( d.responses[3].text == "Don't use ranged weapons anymore." );
+    CHECK( d.responses[4].text == "Use only silent weapons." );
+    CHECK( d.responses[5].text == "Don't use grenades anymore." );
+    CHECK( d.responses[6].text == "Don't worry about shooting an ally." );
+    CHECK( d.responses[7].text == "Never mind." );
 
     // test change class
     REQUIRE( talker_npc.myclass == npc_class_id( "NC_TEST_CLASS" ) );

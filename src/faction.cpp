@@ -106,7 +106,7 @@ faction_template::faction_template( JsonObject &jsobj )
 {
 }
 
-//TODO move them to json
+// TODO: move them to json
 
 static const std::array<std::string, 15> faction_adj_pos = { {
         translate_marker_context( "faction_adj", "Shining" ), translate_marker_context( "faction_adj", "Sacred" ), translate_marker_context( "faction_adj", "Golden" ), translate_marker_context( "faction_adj", "Holy" ), translate_marker_context( "faction_adj", "Righteous" ), translate_marker_context( "faction_adj", "Devoted" ),
@@ -1139,7 +1139,7 @@ void new_faction_manager::display() const
             camps.push_back( temp_camp );
         }
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
-            debugmsg( "The sanity check failed because tab=%d", ( int )tab );
+            debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
         int active_vec_size;
@@ -1299,11 +1299,11 @@ void new_faction_manager::display() const
                         const std::pair <std::string, nc_color> thirst_pair = guy->get_thirst_description();
                         const std::pair <std::string, nc_color> fatigue_pair = guy->get_fatigue_description();
                         mvwprintz( w_missions, ++y, 31, hunger_pair.second,
-                                   _( "Hunger : " ) + ( ( hunger_pair.first == "" ) ? "Nominal" : hunger_pair.first ) );
+                                   _( "Hunger : " ) + ( hunger_pair.first.empty() ? "Nominal" : hunger_pair.first ) );
                         mvwprintz( w_missions, ++y, 31, thirst_pair.second,
-                                   _( "Thirst : " ) + ( ( thirst_pair.first == "" ) ? "Nominal" : thirst_pair.first ) );
+                                   _( "Thirst : " ) + ( thirst_pair.first.empty() ? "Nominal" : thirst_pair.first ) );
                         mvwprintz( w_missions, ++y, 31, fatigue_pair.second,
-                                   _( "Fatigue : " ) + ( ( fatigue_pair.first == "" ) ? "Nominal" : fatigue_pair.first ) );
+                                   _( "Fatigue : " ) + ( fatigue_pair.first.empty() ? "Nominal" : fatigue_pair.first ) );
                         const std::string wield_str = _( "Wielding : " ) + guy->weapon.tname();
                         int lines = fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, c_white,
                                                     ( wield_str ) );

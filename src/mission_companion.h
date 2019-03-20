@@ -98,10 +98,6 @@ npc_ptr individual_mission( const tripoint &omt_pos, const std::string &role_id,
                             const std::string &desc, const std::string &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
                             const std::string &skill_tested = "", int skill_level = 0 );
-///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
-std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
-        const std::string &message = _( "Do you wish to give your companion additional items?" ) );
-
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );

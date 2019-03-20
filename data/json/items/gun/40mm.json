@@ -73,6 +73,7 @@
     "dispersion": 180,
     "durability": 8,
     "reload": 400,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "modes": [
       [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ],
       [ "AUTO", "auto", 6, "NPC_AVOID" ]
@@ -116,7 +117,7 @@
     "dispersion": 140,
     "durability": 9,
     "clip_size": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {

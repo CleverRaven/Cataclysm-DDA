@@ -243,8 +243,6 @@ enum action_id : int {
 
     // Debug Functions
     /**@{*/
-    /** Toggle sidebar layout type */
-    ACTION_TOGGLE_SIDEBAR_STYLE,
     /** Toggle full-screen mode */
     ACTION_TOGGLE_FULLSCREEN,
     /** Open debug menu */
@@ -263,6 +261,10 @@ enum action_id : int {
     ACTION_ITEMACTION,
     /** Turn pixel minimap on/off */
     ACTION_TOGGLE_PIXEL_MINIMAP,
+    /** Turn admin panel on/off */
+    ACTION_TOGGLE_PANEL_ADM,
+    /** panels management */
+    ACTION_PANEL_MGMT,
     /** Reload current tileset */
     ACTION_RELOAD_TILESET,
     /** Turn auto features on/off */

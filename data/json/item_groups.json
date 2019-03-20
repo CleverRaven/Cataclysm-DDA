@@ -640,6 +640,8 @@
       { "item": "colamdew", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" },
       ["milk", 50],
+      ["almond_milk", 50],
+      ["soy_milk", 50],
       { "item": "egg_bird", "prob": 65, "count-min": 1, "count-max": 12},
       ["yoghurt", 50],
       ["pudding", 60],
@@ -1494,6 +1496,8 @@
       ["crispycran", 40],
       ["colamdew", 60],
       ["purple_drink", 35],
+      ["almond_milk", 30],
+      ["soy_milk", 30],
       ["juice", 20],
       ["sandwich_t", 30],
       ["sandwich_pb", 30],
@@ -4697,6 +4701,7 @@
       ["gloves_plate", 1],
       ["boots_plate", 1],
       ["helmet_barbute", 1],
+      ["helmet_conical", 1],
       ["helmet_galea", 1],
       ["helmet_nasal", 1],
       ["chainmail_suit", 1],
@@ -4853,6 +4858,7 @@
       ["greatcoat", 15],
       ["coat_lab", 20],
       ["helmet_army", 40],
+      ["helmet_conical", 1],
       ["helmet_liner", 10],
       ["hat_fur", 15],
       ["hat_faux_fur", 15],
@@ -8986,6 +8992,8 @@
       ["armguard_lightplate", 30],
       ["legguard_lightplate", 30],
       ["helmet_barbute", 50],
+      ["helmet_conical", 30],
+      ["armor_lorica", 25],
       ["armor_samurai", 50],
       ["helmet_kabuto", 50],
       ["helmet_larmor", 40],
@@ -9473,7 +9481,8 @@
       ["pie_meat",    28],
       ["pie_veggy",   15],
       ["pie_maple",    7],
-      ["yoghurt",     30]
+      ["yoghurt",     30],
+      ["soy_milk", 20]
     ]
   },{
     "type"  : "item_group",
@@ -10272,6 +10281,20 @@
     },
     {
       "type": "item_group",
+      "id": "roof_sign",
+      "items": [
+        [ "rock", 10 ],
+        [ "can_food_unsealed", 10 ],
+        [ "steel_chunk", 10 ],
+        [ "steel_lump", 10 ],
+        [ "bottle_glass", 10 ],
+        [ "sharp_rock", 10 ],
+        [ "2x4", 10 ],
+        [ "pipe", 10 ]
+      ]
+    },
+    {
+      "type": "item_group",
       "id": "roof_trash",
       "items": [
         [ "plastic_shopping_bag", 15 ],
@@ -10336,5 +10359,10 @@
         [ "belgian_ale", 10 ],
         [ "imperial_stout", 4 ]
       ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "maps",
+      "items":[ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
     }
   ]

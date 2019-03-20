@@ -151,7 +151,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    // @todo: Once activity_handler_actors exist, the less ugly method of using a
+    // TODO: Once activity_handler_actors exist, the less ugly method of using a
     // pure virtual can_resume_with should be used
 
     if( !*this || !other || type->no_resume() ) {

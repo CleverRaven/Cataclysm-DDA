@@ -792,7 +792,7 @@ const item &Character::i_at( int position ) const
     }
     if( position < -1 ) {
         int worn_index = worn_position_to_index( position );
-        if( size_t( worn_index ) < worn.size() ) {
+        if( static_cast<size_t>( worn_index ) < worn.size() ) {
             auto iter = worn.begin();
             std::advance( iter, worn_index );
             return *iter;
@@ -2257,7 +2257,7 @@ hp_part Character::body_window( const std::string &menu_header,
                                              get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) << "\n";
             if( bleed > 0.0f ) {
                 desc << colorize( string_format( _( "Chance to stop: %d %%" ),
-                                                 int( bleed * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( bleed * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not stop the bleeding." ),
                                   c_yellow ) << "\n";
@@ -2284,7 +2284,7 @@ hp_part Character::body_window( const std::string &menu_header,
                               c_red ) << "\n";
             if( bite > 0 ) {
                 desc << colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 int( bite * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( bite * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in cleaning this wound." ), c_yellow ) << "\n";
             }
@@ -2298,7 +2298,7 @@ hp_part Character::body_window( const std::string &menu_header,
                               c_red ) << "\n";
             if( infect > 0 ) {
                 desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),
-                                                 int( infect * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( infect * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in healing infection." ), c_yellow ) << "\n";
             }
@@ -2510,12 +2510,13 @@ int Character::throw_range( const item &it ) const
     }
 
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( ( tmp.weight() / 113_gram ) > int( str_cur * 15 ) ) {
+    if( ( tmp.weight() / 113_gram ) > static_cast<int>( str_cur * 15 ) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int(
+    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
+                                   static_cast<int>(
                                        tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
@@ -2673,7 +2674,7 @@ long Character::ammo_count_for( const item &gun )
 float Character::rest_quality() const
 {
     // Just a placeholder for now.
-    // @todo: Waiting/reading/being unconscious on bed/sofa/grass
+    // TODO: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
@@ -2731,7 +2732,7 @@ body_part Character::get_random_body_part( bool main ) const
 
 std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 {
-    // @todo: Remove broken parts, parts removed by mutations etc.
+    // TODO: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
             bp_head,
             bp_eyes,
@@ -2798,7 +2799,7 @@ std::string Character::extended_description() const
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
         ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
-        // @todo: Integrate into get_hp_bar somehow
+        // TODO: Integrate into get_hp_bar somehow
         ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
@@ -2867,7 +2868,7 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // @todo: Get rid of if/else ladder
+    // TODO: Get rid of if/else ladder
     if( val == "healing_awake" ) {
         return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
     } else if( val == "healing_resting" ) {
@@ -2925,7 +2926,7 @@ float Character::mutation_value( const std::string &val ) const
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    // @todo: Cache
+    // TODO: Cache
     float heal_rate;
     if( !is_npc() ) {
         heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );

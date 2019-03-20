@@ -47,7 +47,7 @@ static std::unordered_map<int, mission> world_missions;
 mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
-    // @todo: Warn about overwrite?
+    // TODO: Warn about overwrite?
     mission &miss = world_missions[tmp.uid] = tmp;
     return &miss;
 }
@@ -506,7 +506,7 @@ void mission::load_info( std::istream &data )
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::from_legacy_int( rew_skill );
     item_id = itype_id( itemid );
-    item_count = int( item_num );
+    item_count = static_cast<int>( item_num );
 }
 
 std::string mission::dialogue_for_topic( const std::string &in_topic ) const

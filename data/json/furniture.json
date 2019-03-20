@@ -457,6 +457,7 @@
     "required_str": 10,
     "insulation": 6,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "examine_action": "fireplace",
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -496,6 +497,7 @@
     "required_str": 10,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -515,6 +517,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -3356,7 +3359,7 @@
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "brazier",
-    "examine_action": "deployed_furniture",
+    "examine_action": "fireplace",
     "max_volume": 4000,
     "bash": {
       "str_min": 8,
@@ -4348,9 +4351,9 @@
   {
     "type": "furniture",
     "id": "f_glass_cabinet",
-    "name": "glass-fronted cabinet",
+    "name": "glass front cabinet",
     "symbol": "[",
-    "looks_like": "f_locker",
+    "looks_like": "f_display_rack",
     "description": "A tall storage cabinet with a clear glass window.",
     "color": "light_gray",
     "move_cost_mod": -1,
@@ -4423,6 +4426,7 @@
     "bgcolor": "white",
     "move_cost_mod": 2,
     "required_str": -1,
+    "looks_like": "f_counter",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -4460,6 +4464,7 @@
     "color": "black_yellow",
     "move_cost_mod": -1,
     "required_str": -1,
+    "looks_like": "f_lab_bench",
     "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
     "deconstruct": {
       "items": [
@@ -4506,6 +4511,7 @@
     "move_cost_mod": 3,
     "required_str": 10,
     "max_volume": 4000,
+    "looks_like": "f_glass_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
@@ -4545,6 +4551,7 @@
     "required_str": 16,
     "max_volume": 4000,
     "insulation": 2,
+    "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
@@ -4587,6 +4594,7 @@
     "required_str": 18,
     "max_volume": 7000,
     "insulation": 6,
+    "looks_like": "f_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -4628,6 +4636,7 @@
     "color": "green",
     "move_cost_mod": 1,
     "required_str": -1,
+    "looks_like": "f_sink",
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -4659,6 +4668,7 @@
     "bgcolor": "white",
     "move_cost_mod": 0,
     "required_str": 1,
+    "looks_like": "f_rack_coat",
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "deconstruct": {
       "items": [ { "item": "steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
@@ -4684,6 +4694,7 @@
     "color": "red_white",
     "move_cost_mod": -1,
     "required_str": 12,
+    "looks_like": "t_machinery_light",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -4727,6 +4738,7 @@
     "color": "blue_white",
     "move_cost_mod": -1,
     "required_str": 18,
+    "looks_like": "t_machinery_old",
     "flags": [ "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -4771,6 +4783,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
+    "looks_like": "t_machinery_heavy",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -4811,6 +4824,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
+    "looks_like": "t_machinery_heavy",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -4849,6 +4863,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": -1,
+    "looks_like": "t_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -4888,6 +4903,7 @@
     "move_cost_mod": 7,
     "required_str": -1,
     "flags": [ "PLACE_ITEM", "CONTAINER" ],
+    "looks_like": "t_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -4927,6 +4943,7 @@
     "move_cost_mod": 8,
     "required_str": -1,
     "flags": [ "PLACE_ITEM", "CONTAINER" ],
+    "looks_like": "t_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -4966,6 +4983,7 @@
     "move_cost_mod": 4,
     "required_str": 6,
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "looks_like": "f_bed",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -4999,6 +5017,7 @@
     "move_cost_mod": -1,
     "required_str": 6,
     "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },
@@ -5043,6 +5062,7 @@
     "move_cost_mod": -1,
     "required_str": 5,
     "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -5085,6 +5105,7 @@
     "move_cost_mod": -1,
     "required_str": 4,
     "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -5128,6 +5149,7 @@
     "required_str": -1,
     "open": "f_curtain_open",
     "flags": [ "PLACE_ITEM" ],
+    "looks_like": "t_curtain",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -5150,6 +5172,7 @@
   {
     "type": "furniture",
     "id": "f_curtain_open",
+    "looks_like": "t_curtain_o",
     "name": "open privacy curtain",
     "description": "Stop peeking!",
     "symbol": "N",
@@ -5186,6 +5209,7 @@
     "bgcolor": "white",
     "move_cost_mod": 5,
     "required_str": 6,
+    "looks_like": "f_filing_cabinet",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -5227,6 +5251,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": -1,
+    "looks_like": "f_air_conditioner",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -5259,6 +5284,7 @@
   {
     "type": "furniture",
     "id": "f_water_purifier",
+    "looks_like": "f_water_heater",
     "name": "water purifier",
     "description": "This removes ions dissolved in the water, making it pretty clean, if you care about that kind of thing.",
     "symbol": "W",
@@ -5299,6 +5325,7 @@
   {
     "type": "furniture",
     "id": "f_server",
+    "looks_like": "f_utility_shelf",
     "name": "server stack",
     "description": "This is a big pile of computers.  They're all turned off.",
     "symbol": ":",
@@ -5334,6 +5361,7 @@
     "type": "furniture",
     "id": "f_air_compressor",
     "name": "air compressor",
+    "looks_like": "f_standing_tank",
     "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.",
     "symbol": "8",
     "color": "black_yellow",
@@ -5415,10 +5443,10 @@
     "type": "furniture",
     "id": "f_dishwasher",
     "name": "dishwasher",
+    "looks_like": "f_oven",
     "description": "This metal box used to spray hot water and soap at dirty dishes to make them clean and to save people an unpleasant chore.  Now, with the power off and it sitting for a while, it is starting to smell a bit off.",
     "symbol": "{",
     "bgcolor": "white",
-    "looks_like": "f_oven",
     "move_cost_mod": -1,
     "required_str": 13,
     "max_volume": 800,
