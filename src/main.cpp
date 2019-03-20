@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
 {
 #endif
     init_crash_handlers();
-    int seed = time( NULL );
+    int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
     std::string dump;
@@ -549,7 +549,7 @@ int main( int argc, char *argv[] )
      * "C") so don't bother trying to set the locale based on them.
      */
 #if (!defined MACOSX)
-    if( setlocale( LC_ALL, "" ) == NULL ) {
+    if( setlocale( LC_ALL, "" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '').";
     } else {
 #endif

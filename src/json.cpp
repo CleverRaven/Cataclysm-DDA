@@ -973,7 +973,7 @@ std::string JsonIn::get_string()
                 stream->get( unihex, 5 );
                 // insert the appropriate unicode character in utf8
                 // TODO: verify that unihex is in fact 4 hex digits.
-                char **endptr = 0;
+                char **endptr = nullptr;
                 uint32_t u = static_cast<uint32_t>( strtoul( unihex, endptr, 16 ) );
                 try {
                     s += utf16_to_utf8( u );

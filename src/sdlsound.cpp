@@ -59,7 +59,7 @@ struct music_playlist {
     }
 };
 /** The music we're currently playing. */
-static Mix_Music *current_music = NULL;
+static Mix_Music *current_music = nullptr;
 static std::string current_playlist;
 static size_t current_playlist_at = 0;
 static size_t absolute_playlist_at = 0;
@@ -147,7 +147,7 @@ void musicFinished()
 {
     Mix_HaltMusic();
     Mix_FreeMusic( current_music );
-    current_music = NULL;
+    current_music = nullptr;
 
     const auto iter = playlists.find( current_playlist );
     if( iter == playlists.end() ) {
