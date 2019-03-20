@@ -542,7 +542,7 @@
     "description": "Build Wattle-and-Daub Wall",
     "//": "Step 1: half of a wall in an empty space",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": 50,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -560,7 +560,7 @@
     "description": "Build Wattle-and-Daub Wall",
     "//": "Step 2: complete the half made wall",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": 50,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -577,7 +577,7 @@
     "type": "construction",
     "description": "Repair Wattle-and-Daub Wall",
     "category": "REPAIR",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": 30,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
