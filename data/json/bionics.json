@@ -415,7 +415,7 @@
     "id": "bio_tattoo_led",
     "type": "bionic",
     "name": "LED Tattoo",
-    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  You might not be able to show off in clubs with it anymore, but at full brightness, its glow provides just enough light to read or craft comfortably.",
+    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
     "act_cost": 1,
     "react_cost": 1,
     "time": 50,
