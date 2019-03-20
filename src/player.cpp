@@ -1763,39 +1763,6 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost *= .9f;
     }
 
-    if( has_trait( trait_LIGHT_BONES ) ) {
-        movecost *= .9f;
-    }
-    if( has_trait( trait_HOLLOW_BONES ) ) {
-        movecost *= .8f;
-    }
-    if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
-        movecost *= .75f;
-    }
-    if( has_trait( trait_WINGS_BUTTERFLY ) ) {
-        movecost -= 10; // You can't fly, but you can make life easier on your legs
-    }
-    if( has_trait( trait_LEG_TENTACLES ) ) {
-        movecost += 20;
-    }
-    if( has_trait( trait_FAT ) ) {
-        movecost *= 1.05f;
-    }
-    if( has_trait( trait_PONDEROUS1 ) ) {
-        movecost *= 1.1f;
-    }
-    if( has_trait( trait_PONDEROUS2 ) ) {
-        movecost *= 1.2f;
-    }
-    if( has_trait( trait_AMORPHOUS ) ) {
-        movecost *= 1.25f;
-    }
-    if( has_trait( trait_PONDEROUS3 ) ) {
-        movecost *= 1.3f;
-    }
-    if( has_trait( trait_CRAFTY ) ) {
-        movecost *= 0.75f;
-    }
     if( has_active_bionic( bio_jointservo ) ) {
         if( move_mode == "run" ) {
             movecost *= 0.85f;
