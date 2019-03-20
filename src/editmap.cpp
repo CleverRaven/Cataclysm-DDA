@@ -170,7 +170,7 @@ void edit_json( SAVEOBJ &it )
 
 editmap::editmap()
 {
-    width = TERMX - TERRAIN_WINDOW_TERM_WIDTH;
+    width = 45;
     height = TERMY;
     offsetX = VIEW_OFFSET_X;
     infoHeight = 0;
@@ -365,7 +365,7 @@ cata::optional<tripoint> editmap::edit()
     infoHeight = 20;
 
     w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
-    w_help = catacurses::newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
+    w_help = catacurses::newwin( 3, width, TERMY - 3, offsetX + 1 );
     for( int i = 0; i < getmaxx( w_help ); i++ ) {
         mvwaddch( w_help, 2, i, LINE_OXOX );
     }
