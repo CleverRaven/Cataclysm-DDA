@@ -902,8 +902,12 @@ nc_color safe_color()
 int get_int_digits( const int &digits )
 {
     int temp = abs( digits );
-    int offset = temp > 0 ? static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1 : 1;
-    return offset;
+    if( digits > 0 ) {
+        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1;
+    } else if( digits < 0 ) {
+        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 2;
+    }
+    return 1;
 }
 
 // ===============================
