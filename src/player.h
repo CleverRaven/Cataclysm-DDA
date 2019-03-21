@@ -330,7 +330,7 @@ class player : public Character
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         void bionics_uninstall_failure( player &installer, int difficulty, int success,
-            float adjusted_skill );
+                                        float adjusted_skill );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
