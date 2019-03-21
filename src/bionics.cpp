@@ -841,7 +841,7 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
 
     switch( fail_type ) {
         case 1:
-            if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
