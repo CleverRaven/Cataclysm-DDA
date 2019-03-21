@@ -72,7 +72,7 @@
     "use_action": {
       "type": "delayed_transform",
       "transform_age": 432000,
-      "not_ready_msg": "The wheat is growing quickly.",
+      "not_ready_msg": "It isn't done growing yet.",
       "msg": "The wheat is ready to harvest!",
       "moves": 0,
       "target": "gp_wheat_ready"
