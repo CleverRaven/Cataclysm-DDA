@@ -40,7 +40,6 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
     "data/mods/alt_map_key/overmap_terrain.json",
-    "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
