@@ -7912,7 +7912,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         mvwputch( w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO ); // |
     }
 
-
     mvwprintz( w_monsters_border, 0, 2, c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
