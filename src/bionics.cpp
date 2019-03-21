@@ -798,7 +798,7 @@ void player::process_bionic( int b )
 }
 
 void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
-    float adjusted_skill)
+                                        float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
    // were for a successful removal.  We use this to determine consequences for failing.
@@ -857,7 +857,6 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
         case 5: 
             add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
             hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
-        
             break;
     }
 
