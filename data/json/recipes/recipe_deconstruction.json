@@ -983,6 +983,14 @@
     ]
   },
   {
+    "result": "cable",
+    "type": "uncraft",
+    "time": 1000,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "copper", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
     "result": "camera",
     "type": "uncraft",
     "time": 1000,
