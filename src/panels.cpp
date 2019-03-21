@@ -130,7 +130,7 @@ std::pair<nc_color, std::string> per_string( const player &p )
     } else if( p.get_per() < p.get_per_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, "Int " + ( p.get_per() < 100 ? to_string( p.get_per() ) : "++" ) );
+    return std::make_pair( clr, "Per " + ( p.get_per() < 100 ? to_string( p.get_per() ) : "++" ) );
 }
 
 nc_color focus_color( int focus )
