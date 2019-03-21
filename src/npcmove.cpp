@@ -1223,8 +1223,8 @@ npc_action npc::address_needs( float danger )
         }
     }
     //Does the hallucination needs to disappear ?
-    if ( g->u.sees( *this ) && is_hallucination() ) {
-        if ( !g->u.has_effect( effect_hallu ) ) {
+    if( g->u.sees( *this ) && is_hallucination() ) {
+        if( !g->u.has_effect( effect_hallu ) ) {
             die( nullptr );
         }
     }
@@ -2056,7 +2056,7 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
-    if ( is_hallucination() ) {
+    if( is_hallucination() ) {
          return;
     }
 
@@ -2520,7 +2520,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
         stack_size = it.charges;
         it.charges = 1;
     }
-    if ( !np.is_hallucination() ) { // hallucinations only pretend to throw
+    if( !np.is_hallucination() ) { // hallucinations only pretend to throw
         np.throw_item( pos, it );
     }
     // Throw a single charge of a stacking object.
@@ -2961,7 +2961,7 @@ void npc::mug_player( player &mark )
         return;
     }
     item stolen;
-    if ( !is_hallucination() ) {
+    if( !is_hallucination() ) {
         stolen = mark.i_rem( item_index );
         i_add( stolen );
     }

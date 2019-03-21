@@ -1232,7 +1232,7 @@ void npc::make_angry()
 
 void npc::on_attacked( const Creature &attacker )
 {
-    if ( is_hallucination() ) {
+    if( is_hallucination() ) {
         die( nullptr );
     }
     if( attacker.is_player() && !is_enemy() ) {
@@ -1934,7 +1934,7 @@ void npc::die( Creature *nkiller )
     dead = true;
     Character::die( nkiller );
 
-    if ( is_hallucination() ) {
+    if( is_hallucination() ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "%s disappears." ), name.c_str() );
         }
@@ -2285,7 +2285,7 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need )
 
 bool npc::will_accept_from_player( const item &it ) const
 {
-    if ( is_hallucination() ) {
+    if( is_hallucination() ) {
         return false;
     }
 
