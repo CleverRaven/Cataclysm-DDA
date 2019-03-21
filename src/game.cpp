@@ -3663,7 +3663,8 @@ bool game::is_in_viewport( const tripoint &p, int margin ) const
 
 void game::draw_ter( const bool draw_sounds )
 {
-    draw_ter( u.pos() + u.view_offset, false, draw_sounds );
+    int sidebar_offset = panel_manager::get_manager().get_current_layout().begin()->get_width();
+    draw_ter( u.pos() + u.view_offset + tripoint( sidebar_offset / 7, 0, 0 ), false, draw_sounds );
 }
 
 void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
