@@ -3574,7 +3574,6 @@ void game::draw_panels( size_t column, size_t index )
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
-    get_option<bool>( "SIDEBAR_SPACERS" ) ? spacer = 1 : spacer = 0;
     int log_height = 0;
     for( const auto &panel : mgr.get_current_layout() ) {
         if( panel.get_height() != -2 && panel.toggle ) {
