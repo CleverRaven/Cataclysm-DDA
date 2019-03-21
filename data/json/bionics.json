@@ -412,6 +412,23 @@
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
+    "id": "bio_tattoo_led",
+    "type": "bionic",
+    "name": "LED Tattoo",
+    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
+    "act_cost": 1,
+    "react_cost": 1,
+    "time": 50,
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_glowy",
+    "type": "bionic",
+    "name": "Glowy Thing",
+    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slighest.",
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
     "id": "bio_furnace",
     "type": "bionic",
     "name": "Internal Furnace",
@@ -602,7 +619,7 @@
     "id": "bio_metabolics",
     "type": "bionic",
     "name": "Metabolic Interchange",
-    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be toggled on and off at will.",
+    "description": "Your digestive system and power supply are interconnected.  Bionic energy is replenished at the cost of increasing hunger.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },

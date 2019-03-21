@@ -257,8 +257,7 @@
     "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -303,8 +302,46 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "vitB", 8 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "calcium", 2 ], [ "vitB", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "dry_lentils",
+    "name": "dried lentils",
+    "name_plural": "dried lentils",
+    "weight": 132,
+    "color": "light_gray",
+    "comestible_type": "FOOD",
+    "symbol": ",",
+    "quench": -10,
+    "healthy": 1,
+    "calories": 230,
+    "description": "A humble but nutrient-rich legume. Should be cooked prior to consumption.",
+    "price": 20,
+    "material": "veggy",
+    "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 2,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ],
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lentils_cooked",
+    "name": "cooked lentils",
+    "name_plural": "cooked lentils",
+    "weight": 198,
+    "copy-from": "dry_lentils",
+    "color": "light_gray",
+    "spoils_in": "5 days",
+    "quench": 1,
+    "description": "Some delicious cooked lentils. Humble but nutrient-rich.",
+    "price": 0,
+    "volume": 1,
+    "fun": 1,
+    "flags": [ "EATEN_HOT" ],
+    "rot_spawn": "GROUP_ROTTING_PLANT",
+    "rot_spawn_chance": 5
   },
   {
     "type": "COMESTIBLE",
@@ -368,8 +405,7 @@
     "material": "tomato",
     "volume": 1,
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 4 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",

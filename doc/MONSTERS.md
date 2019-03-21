@@ -60,6 +60,30 @@ TODO: describe this. Is this even used in-game?
 
 The id of the faction the monster belongs to, this affects what other monsters it will fight. See Monster factions.
 
+## "bodytype"
+(string)
+
+The id of the monster's bodytype, which is a general description of the layout of the monster's body. 
+
+Value should be one of:
+angel - a winged human
+bear - a four legged animal that can stand on its hind legs
+bird - a two legged animal with two wings
+blob - a blob of material
+crab - a multilegged animal with two large arms
+dog - a four legged animal with a short neck elevating the head above the line of the body
+fish - an aquatic animal with a streamlined body and fins
+flying insect - a six legged animal with a head and two body segments and wings
+frog - a four legged animal with a neck and with very large rear legs and small forelegs
+gator - a four legged animal with a very long body and short legs
+horse - a four legged animal with a long neck elevating the head above the line of the body
+human - a bipedal animal with two arms
+insect - a six legged animal with a head and two body segments
+migo - whatever form migos have
+pig - a four legged animal with the head in the same line as the body
+spider - an eight legged animal with a small head on a large abdomen
+snake - an animal with a long body and no limbs
+
 ## "attack_cost"
 (integer, optional)
 

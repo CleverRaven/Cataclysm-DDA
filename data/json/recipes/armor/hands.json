@@ -1,21 +1,5 @@
 [
   {
-    "result": "gauntlets_bone",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HANDS",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": 30000,
-    "autolearn": true,
-    "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 12 ], [ "cordage", 1 ] ],
-    "components": [
-      [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ],
-      [ [ "leather", 2 ] ]
-    ]
-  },
-  {
     "result": "gauntlets_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -110,7 +110,7 @@
     "vehicles": [
       [ "bicycle", 1000 ],
       [ "bicycle_electric", 600 ],
-      [ "dirt_bike", 750 ],
+      [ "bicycle_dirt", 750 ],
       [ "unicycle", 50 ],
       [ "scooter", 100 ],
       [ "scooter_electric", 50 ],

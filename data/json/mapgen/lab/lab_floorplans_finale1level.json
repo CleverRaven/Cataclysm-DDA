@@ -1,6 +1,6 @@
 [
   {
-    "//": "autodoc operating theatre",
+    "//": "autodoc operating theater",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_finale_1level" ],
@@ -60,13 +60,13 @@
       },
       "computers": {
         "6": {
-          "name": "Operating Theatre Access Control",
+          "name": "Operating Theater Access Control",
           "security": 0,
           "options": [ { "name": "EMERGENCY EVAC - OPEN ALL DOORS", "action": "open", "security": 0 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         },
         "7": {
-          "name": "Operating Theatre Access Control",
+          "name": "Operating Theater Access Control",
           "security": 2,
           "options": [ { "name": "UNLOCK AUTODOC DOOR", "action": "unlock", "security": 6 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]

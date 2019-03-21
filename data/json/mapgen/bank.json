@@ -81,8 +81,9 @@
             { "action": "alarm" }
           ]
         }
+      },
+       "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
       }
-    }
   },
   {
     "type": "mapgen",

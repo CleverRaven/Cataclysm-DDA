@@ -61,9 +61,7 @@ static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
@@ -357,7 +355,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 {
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
-        // @todo: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
+        // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
 
@@ -555,7 +553,9 @@ void player::reach_attack( const tripoint &p )
         return;
     }
 
+    reach_attacking = true;
     melee_attack( *critter, false, force_technique, false );
+    reach_attacking = false;
 }
 
 int stumble( player &u, const item &weap )
@@ -654,7 +654,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 
 float player::get_dodge_base() const
 {
-    // @todo: Remove this override?
+    // TODO: Remove this override?
     return Character::get_dodge_base();
 }
 
@@ -672,7 +672,7 @@ float player::get_dodge() const
         ret /= 2;
     }
 
-    // @todo: What about the skates?
+    // TODO: What about the skates?
     if( is_wearing( "roller_blades" ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
@@ -827,7 +827,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                 /** @EFFECT_UNARMED increases cutting damage with CLAWS_RAT and CLAWS_ST */
                 per_hand += 1 + ( unarmed_skill > 8 ? 4 : unarmed_skill / 2 );
             }
-            //TODO: add acidproof check back to slime hands (probably move it elsewhere)
+            // TODO: add acidproof check back to slime hands (probably move it elsewhere)
             if( has_trait( trait_SLIME_HANDS ) ) {
                 /** @EFFECT_UNARMED increases cutting damage with SLIME_HANDS */
                 per_hand += average ? 2.5f : rng( 2, 3 );
@@ -1240,7 +1240,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
 
         //hit only one valid target (pierce through doesn't spread out)
         if( technique.aoe == "impale" ) {
-            //@todo what if targets is empty
+            // TODO: what if targets is empty
             Creature *const v = random_entry( targets );
             targets.clear();
             targets.push_back( v );
@@ -1488,7 +1488,7 @@ void player::perform_special_attacks( Creature &t )
 
         dealt_damage_instance dealt_dam;
 
-        // @todo: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
+        // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
         if( hit_spread >= 0 ) {
             t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
@@ -1592,7 +1592,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
             //redeclare shatter_dam because deal_damage mutates it
             deal_damage( nullptr, bp_arm_l, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
         }
-        d.add_damage( DT_CUT, rng( 0, 5 + int( vol * 1.5 ) ) ); // Hurt the monster extra
+        d.add_damage( DT_CUT, rng( 0, 5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
         remove_weapon();
     }
 
@@ -1709,7 +1709,7 @@ std::vector<special_attack> player::mutation_attacks( Creature &t ) const
             special_attack tmp;
             // Ugly special case: player's strings have only 1 variable, NPC have 2
             // Can't use <npcname> here
-            // @todo: Fix
+            // TODO: Fix
             if( is_player() ) {
                 tmp.text = string_format( _( mut_atk.attack_text_u.c_str() ), target.c_str() );
             } else {
@@ -1922,11 +1922,7 @@ int player::attack_speed( const item &weap ) const
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
 
-    if( has_trait( trait_HOLLOW_BONES ) ) {
-        move_cost *= 0.8f;
-    } else if( has_trait( trait_LIGHT_BONES ) ) {
-        move_cost *= 0.9f;
-    }
+    move_cost *= mutation_value( "attackcost_modifier" );
 
     if( move_cost < 25 ) {
         return 25;

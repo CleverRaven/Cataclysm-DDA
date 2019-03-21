@@ -48,6 +48,7 @@
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_relax_gas( "relax_gas" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -142,7 +143,7 @@ input_context game::get_player_input( std::string &action )
 
         // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
-        const int dropCount = int( iEndX * iEndY * weather_info.factor );
+        const int dropCount = static_cast<int>( iEndX * iEndY * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -273,9 +274,9 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
-                draw_sidebar();
 
                 query_popup()
                 .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
@@ -284,9 +285,6 @@ input_context game::get_player_input( std::string &action )
 
                 break;
             }
-
-            //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
-            draw_pixel_minimap();
         }
         ctxt.reset_timeout();
     } else {
@@ -538,7 +536,7 @@ static void grab()
         } else {
             add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
         }
-    } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+    } else { // TODO: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
         add_msg( m_info, _( "There's nothing to grab there!" ) );
     }
 }
@@ -632,7 +630,8 @@ static void smash()
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
+                               static_cast<long>( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -858,7 +857,7 @@ static void loot()
 
         if( flags & SortLoot ) {
             menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                                _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
         }
 
         if( flags & TillPlots ) {
@@ -963,7 +962,7 @@ static void read()
 // Perform a reach attach
 // range - the range of the current weapon.
 // u - player
-static void reach_attach( int range, player &u )
+static void reach_attack( int range, player &u )
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
@@ -974,6 +973,7 @@ static void reach_attach( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
     g->reenter_fullscreen();
 }
 
@@ -987,7 +987,7 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // @todo: move direct turret firing from ACTION_FIRE to separate function.
+        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
             switch( turret.query() ) {
                 case turret_data::status::no_ammo:
@@ -1085,10 +1085,30 @@ static void fire()
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                reach_attack( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        } else {
+            reach_attack( range, u );
+        }
     } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
         int range = u.weapon.gun_current_mode().qty;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                reach_attack( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        } else {
+            reach_attack( range, u );
+        }
     }
 }
 
@@ -1784,6 +1804,15 @@ bool game::handle_action()
                 ui::omap::display();
                 break;
 
+            case ACTION_SKY:
+                if( m.is_outside( u.pos() ) ) {
+                    werase( w_terrain );
+                    ui::omap::display_visible_weather();
+                } else {
+                    add_msg( m_info, _( "You can't see the sky from here." ) );
+                }
+                break;
+
             case ACTION_MISSIONS:
                 list_missions();
                 break;
@@ -1793,7 +1822,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_FACTIONS:
-                faction_manager_ptr->display();
+                new_faction_manager_ptr->display();
                 refresh_all();
                 break;
 
@@ -1850,16 +1879,16 @@ bool game::handle_action()
                 refresh_all();
                 break;
 
-            case ACTION_TOGGLE_SIDEBAR_STYLE:
-                toggle_sidebar_style();
-                break;
-
             case ACTION_TOGGLE_FULLSCREEN:
                 toggle_fullscreen();
                 break;
 
             case ACTION_TOGGLE_PIXEL_MINIMAP:
                 toggle_pixel_minimap();
+                break;
+
+            case ACTION_TOGGLE_PANEL_ADM:
+                toggle_panel_adm();
                 break;
 
             case ACTION_RELOAD_TILESET:
@@ -1949,6 +1978,6 @@ bool game::handle_action()
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ).c_str(),
-                                    int( calendar::turn ), before_action_moves, u.movecounter, u.moves );
+                                    static_cast<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

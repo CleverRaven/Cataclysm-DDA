@@ -116,13 +116,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Message>Get version string and generate lua bindings</Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -148,9 +148,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkStatus>true</LinkStatus>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -187,13 +187,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Message>Get version string and generate lua bindings</Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -222,9 +222,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkStatus>true</LinkStatus>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>

@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "calendar.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -100,7 +101,7 @@ bool tool_comp::by_charges() const
 std::string tool_comp::to_string( int batch ) const
 {
     if( by_charges() ) {
-        //~ <tool-name> (<numer-of-charges> charges)
+        //~ <tool-name> (<number-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
                               item::nname( type ).c_str(), count * batch );
     } else {
@@ -196,12 +197,12 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     requirement_data res = *this;
     for( auto &group : res.components ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
     for( auto &group : res.tools ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
 
@@ -219,7 +220,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // @todo: deduplicate qualities and combine other requirements
+    // TODO: deduplicate qualities and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;
@@ -439,19 +440,6 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
-}
-
-static std::string join( const std::vector<std::string> &strings, const std::string &joiner )
-{
-    std::ostringstream buffer;
-
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
-    }
-    return buffer.str();
 }
 
 template<typename T>

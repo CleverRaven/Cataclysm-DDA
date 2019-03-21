@@ -182,7 +182,7 @@
       [ "AUTO", "auto", 8 ]
     ],
     "built_in_mods": ["m320_mod"],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1]],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "brass catcher", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "sling", 1 ],[ "stock", 1 ],[ "underbarrel", 1]],
     "magazine_well": 1,
     "magazines" : [
       [ "44", [ "e1776mag", "deaglemag" ] ],
@@ -215,7 +215,7 @@
     "durability": 6,
     "reload": 0,
     "loudness" : 75,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "sling", 1 ],[ "stock", 1 ],[ "underbarrel", 1]]
   },
   {
     "id": "arccan",
@@ -241,7 +241,7 @@
     "durability": 7,
     "reload": 0,
     "loudness" : 100,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "sling", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m1911ds",
@@ -260,7 +260,7 @@
     "ammo": "45",
     "dispersion": 255,
     "durability": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "built_in_mods": ["gun_crossbow"],
     "magazine_well": 1,
     "magazines" : [

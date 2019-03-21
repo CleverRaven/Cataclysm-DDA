@@ -957,7 +957,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
                                       const recipe &rec )
 {
     // Erase previous text
-    // @todo: fixme replace this hack by proper solution (based on max width of possible content)
+    // FIXME: replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
@@ -968,7 +968,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
         right_print( w, margin_y + 1, 1, i_red, _( "too sad" ) );
     } else if( g->u.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, margin_y + 1, 1, i_yellow, string_format( _( "slow %d%%" ),
-                     int( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
+                     static_cast<int>( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, margin_y + 1, 1, i_green, _( "yes" ) );
     }
@@ -1015,7 +1015,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XXXO );
-        } else if( i == width ) { // @todo: that is always false!
+        } else if( i == width ) { // TODO: that is always false!
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XOXX );
         } else {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_OXOX );

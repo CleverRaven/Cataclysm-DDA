@@ -5,7 +5,12 @@
     "dynamic_line": "What about faction camps?",
     "responses": [
       { "text": "Tell me how faction camps work.", "topic": "TALK_CAMP_TUTORIAL_1" },
-      { "text": "I want you to build a camp here.", "topic": "TALK_HALLU_CAMP", "condition": { "npc_has_trait": "HALLUCINATION" }, "switch": true },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
       {
         "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
@@ -14,7 +19,12 @@
         "switch": true,
         "default": true
       },
-      { "text": "I want you to take over the camp here.", "topic": "TALK_HALLU_CAMP", "condition": { "npc_has_trait": "HALLUCINATION" }, "switch": true },
+      {
+        "text": "I want you to take over the camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
       {
         "text": "I want you to take over the camp here.",
         "topic": "TALK_DONE",
@@ -88,10 +98,14 @@
   {
     "id": "TALK_CAMP_OVERSEER",
     "type": "talk_topic",
-    "dynamic_line": "Hey Boss...",
+    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  it's a cushy job, but I could do more. We could put up a bulletin board and you could write up what you want done there.  What do you say?",
     "responses": [
-      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } },
-      { "text": "We're abandoning this camp.", "topic": "TALK_DONE", "effect": "remove_overseer" },
+      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
+      {
+        "text": "Yes, set up the bulletin board and then go back to normal duties.",
+        "topic": "TALK_DONE",
+        "effect": "remove_overseer"
+      },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   },

@@ -174,8 +174,10 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             wtype = g->weather_override;
         }
         proc_weather_sum( wtype, data, t, tick_size );
+        w_point w = wgen.get_weather( location, t, g->get_seed() );
+        data.wind_amount += get_local_windpower( g->windspeed, overmap_buffer.ter( location ), location,
+                            g->winddirection, false ) * to_turns<int>( tick_size );
     }
-
     return data;
 }
 
@@ -220,7 +222,7 @@ void item::add_rain_to_container( bool acid, int charges )
     if( contents.empty() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
-            // Funnels aren't always clean enough for water. // @todo: disinfectant squeegie->funnel
+            // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
             ret.poison = one_in( 10 ) ? 1 : 0;
         }
         ret.charges = std::min<long>( charges, capa );
@@ -323,7 +325,7 @@ void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
-        if( one_in( turns_per_charge ) ) { // @todo: fixme
+        if( one_in( turns_per_charge ) ) { // FIXME:
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
@@ -631,7 +633,7 @@ std::string weather_forecast( const point &abs_sm_pos )
     double high = -100.0;
     double low = 100.0;
     const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
-    // TODO wind direction and speed
+    // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::time_of_cataclysm ) %
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
@@ -751,7 +753,7 @@ std::string get_wind_strength_bars( double windpower )
 {
     std::string wind_bars;
     if( windpower < 3 ) {
-        wind_bars = "";
+        wind_bars.clear();
     } else if( windpower < 12 ) {
         wind_bars = "+";
     } else if( windpower < 24 ) {
@@ -799,13 +801,62 @@ nc_color get_wind_color( double windpower )
     return windcolor;
 }
 
+std::string get_shortdirstring( int angle )
+{
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ( "N" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "NE" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "E" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "SE" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "S" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "SW" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "W" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "NW" );
+    }
+    return dirstring;
+}
+
+std::string get_dirstring( int angle )
+{
+    //convert angle to cardinal directions
+    std::string dirstring;
+    int dirangle = angle;
+    if( dirangle <= 23 || dirangle > 338 ) {
+        dirstring = ( "North" );
+    } else if( dirangle <= 68 && dirangle > 23 ) {
+        dirstring = ( "North-East" );
+    } else if( dirangle <= 113 && dirangle > 68 ) {
+        dirstring = ( "East" );
+    } else if( dirangle <= 158 && dirangle > 113 ) {
+        dirstring = ( "South-East" );
+    } else if( dirangle <= 203 && dirangle > 158 ) {
+        dirstring = ( "South" );
+    } else if( dirangle <= 248 && dirangle > 203 ) {
+        dirstring = ( "South-West" );
+    } else if( dirangle <= 293 && dirangle > 248 ) {
+        dirstring = ( "West" );
+    } else if( dirangle <= 338 && dirangle > 293 ) {
+        dirstring = ( "North-West" );
+    }
+    return dirstring;
+}
+
 std::string get_wind_arrow( int dirangle )
 {
-    std::string wind_arrow = "";
-    if( dirangle <= 23 || dirangle > 338 ) {
+    std::string wind_arrow;
+    if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
         wind_arrow = "\u21D3";
     } else if( dirangle <= 68 && dirangle > 23 ) {
-        wind_arrow = "\u21D9";
+        wind_arrow = "\u21D8";
     } else if( dirangle <= 113 && dirangle > 68 ) {
         wind_arrow = "\u21D0";
     } else if( dirangle <= 158 && dirangle > 113 ) {
@@ -817,9 +868,9 @@ std::string get_wind_arrow( int dirangle )
     } else if( dirangle <= 293 && dirangle > 248 ) {
         wind_arrow = "\u21D2";
     } else if( dirangle <= 338 && dirangle > 293 ) {
-        wind_arrow = "\u21D8";
+        wind_arrow = "\u21D9";
     } else {
-        wind_arrow = "";
+        wind_arrow.clear();
     }
     return wind_arrow;
 }
@@ -909,10 +960,9 @@ std::string get_wind_desc( double windpower )
 rl_vec2d convert_wind_to_coord( const int angle )
 {
 
-    float fx, fy;
     rl_vec2d windvec;
-    fy = cos( angle * M_PI / 180.0f );
-    fx = sin( angle * M_PI / 180.0f );
+    float fx = sin( angle * M_PI / 180.0f );
+    float fy = -cos( angle * M_PI / 180.0f );
     int roundedx;
     int roundedy;
     if( fx > 0.5 ) {

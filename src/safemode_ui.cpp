@@ -549,7 +549,7 @@ void safemode::create_rules()
     add_rules( character_rules );
 }
 
-void safemode::add_rules( std::vector<rules_class> &rules_in )
+void safemode::add_rules( const std::vector<rules_class> &rules_in )
 {
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
