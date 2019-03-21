@@ -3851,6 +3851,7 @@
     "required_str": -1,
     "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT" ],
+    "examine_action": "keg",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
