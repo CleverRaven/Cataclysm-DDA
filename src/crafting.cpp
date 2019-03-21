@@ -17,6 +17,7 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "npc.h"
 #include "options.h"
