@@ -235,7 +235,7 @@
     "calories": 43,
     "description": "Nutrient rich granules for plants.",
     "price": 1000,
-    "//": "This comes out as one charge in the bag, and the price is accurate-KA101",
+    "//": "This comes out as one charge in the bag, and the price is accurate-KA101.",
     "material": "powder",
     "volume": 8,
     "charges": 60,
