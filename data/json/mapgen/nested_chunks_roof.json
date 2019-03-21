@@ -130,6 +130,25 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "roof_3x3_wine",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_furniture": [
+        { "furn": "f_camp_chair", "x": 0, "y": 0 },
+        { "furn": "f_camp_chair", "x": 2, "y": 0 },
+        { "furn": "f_tourist_table", "x": 1, "y": 0 }
+      ],
+      "place_loot": [
+        { "group": "wines_worthy", "x": 1, "y": 0 },
+        { "item": "glass", "x": 1, "y": 0, "repeat": 2 },
+        { "item": "survivor_scope", "x": 0, "y": 2, "chance": 20 },
+        { "item": "diamond_ring", "x": 0, "y": 0, "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "roof_2x2_utilities",
     "object": {
       "mapgensize": [ 2, 2 ],

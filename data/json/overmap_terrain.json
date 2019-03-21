@@ -4907,6 +4907,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_antique_roof",
+    "name": "antique store roof",
+    "copy-from": "generic_city_building",
+    "sym": 65,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_arcade",
     "name": "arcade",
     "copy-from": "generic_city_building",
