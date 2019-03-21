@@ -5534,7 +5534,8 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(),
+                                static_cast<int( * )( int )>( toupper ) );
 
                 auto qty = m.second.qty();
 
@@ -6209,7 +6210,6 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-
 void item::set_item_specific_energy( const float new_specific_energy )
 {
     const float specific_heat_liquid = type->comestible->specific_heat_liquid; // J/g K
@@ -6695,7 +6695,6 @@ void item::apply_freezerburn()
     }
 }
 
-
 void item::update_temp( const int temp, const float insulation )
 {
     const time_point now = calendar::turn;
@@ -6723,7 +6722,6 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
     const float old_temperature = 0.00001 * temperature;
     const float temperature_difference =  env_temperature - old_temperature;
-
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {

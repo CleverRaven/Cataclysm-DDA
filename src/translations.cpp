@@ -56,7 +56,7 @@ const char *pgettext( const char *context, const char *msgid )
 #ifdef __ANDROID__
     const char *translation = gettext( msg_ctxt_id );
 #else
-    const char *translation = dcgettext( NULL, msg_ctxt_id, LC_MESSAGES );
+    const char *translation = dcgettext( nullptr, msg_ctxt_id, LC_MESSAGES );
 #endif
     if( translation == msg_ctxt_id ) {
         return msgid;
@@ -172,7 +172,7 @@ void set_language()
 #endif
         else {
             auto env = getenv( "LANGUAGE" );
-            if( env != NULL ) {
+            if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
             } else {
                 DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
@@ -182,7 +182,7 @@ void set_language()
 
 #if (defined _WIN32 || defined WINDOWS)
     // Use the ANSI code page 1252 to work around some language output bugs.
-    if( setlocale( LC_ALL, ".1252" ) == NULL ) {
+    if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
     }
 #endif

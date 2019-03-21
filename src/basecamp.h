@@ -162,7 +162,6 @@ class basecamp
         void recruit_return( const std::string &task, int score );
         /**
         * Perform any mix of the three farm tasks.
-        * @param p NPC companion
         * @param task
         * @param omt_trg the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest

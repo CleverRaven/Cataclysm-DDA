@@ -190,7 +190,6 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
     }
 };
 
-
 enum aim_rule {
     // Aim some
     AIM_WHEN_CONVENIENT = 0,
@@ -954,7 +953,7 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() : guy() {}
+        npc_template() {}
 
         npc guy;
 

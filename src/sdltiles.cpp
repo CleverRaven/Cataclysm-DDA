@@ -3266,7 +3266,6 @@ void init_term_size_and_scaling_factor()
         terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
         terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
 
-
         get_options().get_option( "TERMINAL_X" ).setValue(
             std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );
         get_options().get_option( "TERMINAL_Y" ).setValue(
