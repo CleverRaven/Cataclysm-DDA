@@ -5323,8 +5323,7 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
-    if( one_in( 100 ) )
-    {
+    if( one_in( 100 ) ) {
         std::shared_ptr<npc> tmp = std::make_shared<npc>();
         tmp->normalize();
         tmp->randomize( NC_HALLU );

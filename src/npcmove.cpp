@@ -1619,8 +1619,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         if( !is_hallucination() ) { // hallucinations don't open doors
             g->m.open_door( p, !g->m.is_outside( pos() ) );
             moves -= 100;
-        }
-        else { // hallucinations teleport through doors
+        } else { // hallucinations teleport through doors
             moves -= 100;
             moved = true;
         }
@@ -2049,7 +2048,7 @@ void npc::find_item()
 void npc::pick_up_item()
 {
     if( is_hallucination() ) {
-         return;
+        return;
     }
 
     if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
@@ -2312,7 +2311,8 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( ( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) || is_hallucination() ) {
+    if( ( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) ||
+        is_hallucination() ) {
         return false;
     }
 
