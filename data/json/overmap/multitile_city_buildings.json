@@ -689,6 +689,33 @@
   },
   {
     "type": "city_building",
+    "id": "dispensary",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dispensary_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dispensary_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dispensary_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dispensary_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dispensary_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dispensary_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dispensary_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dispensary_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "abandonedwarehouse",
     "locations": [ "land" ],
     "overmaps": [
