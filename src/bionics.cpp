@@ -854,11 +854,11 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
             break;
 
         case 4:
-        case 5: {
+        case 5: 
             add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
             hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
-        }
-        break;
+        
+            break;
     }
 
 }
