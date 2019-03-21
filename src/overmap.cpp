@@ -3812,7 +3812,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if( !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if( !( get_option<bool>( "CLASSIC_ZOMBIES" ) || get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) ) {
         // Figure out where swamps are, and place swamp monsters
         for( int x = 3; x < OMAPX - 3; x += 7 ) {
             for( int y = 3; y < OMAPY - 3; y += 7 ) {

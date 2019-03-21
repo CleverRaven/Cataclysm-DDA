@@ -174,8 +174,26 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     }
 
     const auto &spawns = terrain_type->get_static_spawns();
-    if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
-        int pop = rng( spawns.population.min, spawns.population.max );
+
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( spawns.group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    // Apply a multiplier to the number of monsters for really high densities.
+    float odds_after_density = spawns.chance * spawn_density;
+    const float max_odds = 100 - ( 100 - spawns.chance ) / 2;
+    float density_multiplier = 1.0f;
+    if( odds_after_density > max_odds ) {
+        density_multiplier = 1.0f * odds_after_density / max_odds;
+        odds_after_density = max_odds;
+    }
+    const int spawn_count = roll_remainder( density_multiplier );
+
+    if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+        int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
             if( !spawn_details.name ) {
@@ -6603,7 +6621,14 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         return;
     }
 
-    float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    float multiplier = density * spawn_density;
     float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
     int num = roll_remainder( thenum );
 
