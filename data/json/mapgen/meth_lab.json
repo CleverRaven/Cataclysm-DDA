@@ -52,6 +52,7 @@
         "9": "t_floor",
         ">": "t_floor",
         "G": "t_floor",
+        "W": "t_floor",
         "4": "t_gutter_downspout",
         "<": "t_stairs_up",
         "|": "t_wall"
