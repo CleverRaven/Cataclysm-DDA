@@ -14,7 +14,10 @@
     "id": "food_cart",
     "type": "vehicle",
     "name": "Food Vendor Cart",
-    "blueprint": [ [ "&" ], [ "H" ] ],
+    "blueprint": [
+      [ "&" ],
+      [ "H" ]
+    ],
     "parts": [
       { "x": -1, "y": 0, "part": "xlframe_vertical_2" },
       { "x": -1, "y": 0, "part": "wheel_caster" },
@@ -66,7 +69,10 @@
     "id": "golf_cart",
     "type": "vehicle",
     "name": "Golf Cart",
-    "blueprint": [ [ "o|o" ], [ "o|o" ] ],
+    "blueprint": [
+      [ "o|o" ],
+      [ "o|o" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_horizontal" },
       { "x": 0, "y": 0, "part": "seat" },
@@ -99,7 +105,10 @@
     "id": "golf_cart_4seat",
     "type": "vehicle",
     "name": "Golf Cart",
-    "blueprint": [ [ "o|o" ], [ "o|o" ] ],
+    "blueprint": [
+      [ "o|o" ],
+      [ "o|o" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_horizontal" },
       { "x": 0, "y": 0, "part": "seat" },
