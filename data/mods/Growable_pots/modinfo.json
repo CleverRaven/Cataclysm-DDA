@@ -4,7 +4,7 @@
     "ident": "growable-pots",
     "name": "Garden Pots",
     "authors": [ "Honcharuk" ],
-    "description": "Allows you to grow seeds in flower pots, without needing soil.  Perfect for the nomadic botanist.",
+    "description": "Allows you to grow seeds in craftable garden pots that can be carried around as items.  Perfect for the nomadic botanist.",
     "category": "items",
     "dependencies": [ "dda" ]
   }
