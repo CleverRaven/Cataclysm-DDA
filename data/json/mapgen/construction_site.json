@@ -423,7 +423,7 @@
       [ "engine_crane", 60 ],
       [ "welding_cart", 20 ],
       [ "portable_generator", 20 ],
-      [ "motordriven_welding_cart", 40]
+      [ "motordriven_welding_cart", 40 ]
     ]
   }
 ]

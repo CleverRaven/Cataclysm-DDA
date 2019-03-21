@@ -144,7 +144,15 @@
       "place_vehicles": [
         { "chance": 90, "fuel": 0, "rotation": 0, "status": -1, "vehicle": "engine_crane", "x": 4, "y": 3 },
         { "chance": 90, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "handjack", "x": 7, "y": 3 },
-        { "chance": 90, "fuel": 30, "rotation": 180, "status": -1, "vehicle": "motordriven_welding_cart", "x": 10, "y": 3 },
+        {
+          "chance": 90,
+          "fuel": 30,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "motordriven_welding_cart",
+          "x": 10,
+          "y": 3
+        },
         { "chance": 75, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "junkyard_vehicles", "x": 7, "y": 9 },
         { "chance": 75, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "junkyard_vehicles", "x": 4, "y": 17 },
         { "chance": 75, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "junkyard_vehicles", "x": 11, "y": 17 }
