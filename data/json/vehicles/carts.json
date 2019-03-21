@@ -290,6 +290,7 @@
         "y": 0,
         "part": [
           "frame_cover",
+          "welding_rig",
           { "part": "tank_small", "fuel": "gasoline" },
           "battery_motorbike",
           "engine_vtwin",
