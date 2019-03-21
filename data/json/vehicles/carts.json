@@ -256,6 +256,25 @@
     "items": [ { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] } ]
   },
   {
+    "id": "motordriven_welding_cart",
+    "type": "vehicle",
+    "name": "Motor Driven Welding Cart",
+    "blueprint": [ "&" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_cover" },
+      { "x": 0, "y": 0, "part": "battery_motorbike" },
+      { "x": 0, "y": 0, "part": "engine_vtwin" },
+      { "x": 0, "y": 0, "part": "generator_7500w" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 0, "part": "tank_small", "fuel": "gasoline" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "fuel_gasoline" ] }
+    ]
+  },
+  {
     "id": "wheelbarrow",
     "type": "vehicle",
     "name": "Wheelbarrow",

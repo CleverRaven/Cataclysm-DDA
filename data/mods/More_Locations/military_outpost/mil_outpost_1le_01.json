@@ -41,7 +41,7 @@
                 "%": "t_gates_mech_control"
             },
             "vehicles": {
-                "v": { "vehicle": "welding_cart", "chance": 25, "fuel": 0, "status": 3 },
+                "v": { "vehicle": "motordriven_welding_cart", "chance": 25, "fuel": 0, "status": 3 },
                 "V": { "vehicle": "handjack", "chance": 25, "fuel": 0, "status": 3 }
             }
         }

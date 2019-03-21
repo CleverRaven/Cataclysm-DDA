@@ -421,8 +421,9 @@
       [ "excavator", 100 ],
       [ "trencher", 80 ],
       [ "engine_crane", 60 ],
-      [ "welding_cart", 40 ],
-      [ "portable_generator", 20 ]
+      [ "welding_cart", 20 ],
+      [ "portable_generator", 20 ],
+      [ "motordriven_welding_cart", 40]
     ]
   }
 ]
