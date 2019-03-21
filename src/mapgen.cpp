@@ -775,6 +775,56 @@ class jmapgen_sign : public jmapgen_piece
         }
 };
 /**
+ * Place graffiti with some text or a snippet.
+ * "text": the text of the graffiti.
+ * "snippet": snippet category to pull from for text instead.
+ */
+class jmapgen_graffiti : public jmapgen_piece
+{
+    public:
+        std::string text;
+        std::string snippet;
+        jmapgen_graffiti( JsonObject &jsi ) : jmapgen_piece()
+            , text( jsi.get_string( "text", "" ) )
+            , snippet( jsi.get_string( "snippet", "" ) ) {
+            if( text.empty() && snippet.empty() ) {
+                jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mon_density*/ ) const override {
+            const int rx = x.get();
+            const int ry = y.get();
+
+            std::string graffiti;
+
+            if( !snippet.empty() ) {
+                // select a snippet from the category
+                graffiti = SNIPPET.get( SNIPPET.assign( snippet ) );
+            } else if( !text.empty() ) {
+                graffiti = text;
+            }
+            if( !graffiti.empty() ) {
+                // replace tags
+                graffiti = _( graffiti.c_str() );
+
+                std::string cityname = "illegible city name";
+                tripoint abs_sub = dat.m.get_abs_sub();
+                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                if( c != nullptr ) {
+                    cityname = c->name;
+                }
+                graffiti = apply_all_tags( graffiti, cityname );
+            }
+            dat.m.set_graffiti( tripoint( rx, ry, dat.m.get_abs_sub().z ), graffiti );
+        }
+        std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
+            replace_city_tag( graffiti, cityname );
+            replace_name_tags( graffiti );
+            return graffiti;
+        }
+};
+/**
  * Place a vending machine with content.
  * "item_group": the item group that is used to generate the content of the vending machine.
  */
@@ -1882,6 +1932,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
+    new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
 
     return new_pal;
 }
@@ -2040,6 +2091,7 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
     objects.load_objects<jmapgen_computer>( jo, "place_computers" );
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
+    objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
 
     is_ready = true; // skip setup attempts from any additional pointers
 }
