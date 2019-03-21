@@ -273,6 +273,14 @@
         "cancels" : ["SLOWLEARNER"]
     },{
         "type" : "mutation",
+        "id" : "SNOBBISH",
+        "name" : "Snobbish",
+        "points" : -1,
+        "description" : "You are snobbish. Eating without table and chair frustrates you, but you gain bigger mood bonus from eating like a proper human being.",
+        "starting_trait" : true,
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "STRONGSTOMACH",
         "name" : "Strong Stomach",
         "points" : 1,
