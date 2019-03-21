@@ -7864,7 +7864,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                            width, VIEW_OFFSET_Y, offsetX );
     catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2,
                                         TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1 );
-    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width,
+    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width + 1,
             TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
 
     const int max_gun_range = u.weapon.gun_range( &u );
@@ -7895,10 +7895,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     mvwputch( w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, BORDER_COLOR,
               LINE_XOXX ); // -|
 
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, 0, BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, width - 1, BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, 0, BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+    for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
+        mvwputch( w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+    }
+
 
     mvwprintz( w_monsters_border, 0, 2, c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
@@ -8122,10 +8123,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
 
         mvwhline( w_monsters, getmaxy( w_monsters ) - 2, 0, 0, 45 );
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, width - 1, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+
+        for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
+            mvwputch( w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO ); // |
+            mvwputch( w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+        }
 
         mvwputch( w_monster_info_border, getmaxy( w_monster_info_border ) - 1,
                   0, BORDER_COLOR, LINE_XXOO );  // |_
