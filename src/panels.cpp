@@ -85,7 +85,7 @@ std::pair<nc_color, std::string> str_string( const player &p )
     } else if( p.get_str() < p.get_str_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, "Str " + ( p.get_str() < 100 ? to_string( p.get_str() ) : "++" ) );
+    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? to_string( p.get_str() ) : "++" ) );
 }
 
 std::pair<nc_color, std::string> dex_string( const player &p )
@@ -100,7 +100,7 @@ std::pair<nc_color, std::string> dex_string( const player &p )
     } else if( p.get_dex() < p.get_dex_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, "Dex " + ( p.get_dex() < 100 ? to_string( p.get_dex() ) : "++" ) );
+    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? to_string( p.get_dex() ) : "++" ) );
 }
 
 std::pair<nc_color, std::string> int_string( const player &p )
@@ -115,7 +115,7 @@ std::pair<nc_color, std::string> int_string( const player &p )
     } else if( p.get_int() < p.get_int_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, "Int " + ( p.get_int() < 100 ? to_string( p.get_int() ) : "++" ) );
+    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? to_string( p.get_int() ) : "++" ) );
 }
 
 std::pair<nc_color, std::string> per_string( const player &p )
@@ -130,7 +130,7 @@ std::pair<nc_color, std::string> per_string( const player &p )
     } else if( p.get_per() < p.get_per_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, "Per " + ( p.get_per() < 100 ? to_string( p.get_per() ) : "++" ) );
+    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? to_string( p.get_per() ) : "++" ) );
 }
 
 nc_color focus_color( int focus )
@@ -426,23 +426,23 @@ std::string get_moon()
     const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
     switch( iPhase ) {
         case 0:
-            return "New moon";
+            return _( "New moon" );
         case 1:
-            return "Waxing crescent";
+            return _( "Waxing crescent" );
         case 2:
-            return "Half Moon";
+            return _( "Half Moon" );
         case 3:
-            return "Waxing gibbous";
+            return _( "Waxing gibbous" );
         case 4:
-            return "Full moon";
+            return _( "Full moon" );
         case 5:
-            return "Waning gibbous";
+            return _( "Waning gibbous" );
         case 6:
-            return "Half moon";
+            return _( "Half moon" );
         case 7:
-            return "Waning crescent";
+            return _( "Waning crescent" );
         case 8:
-            return "Dark moon";
+            return _( "Dark moon" );
         default:
             return "";
     }
@@ -453,21 +453,21 @@ std::string time_approx()
     const int iHour = hour_of_day<int>( calendar::turn );
     std::string time_approx;
     if( iHour >= 22 ) {
-        time_approx = "Around midnight";
+        time_approx = _( "Around midnight" );
     } else if( iHour >= 20 ) {
-        time_approx = "It's getting darker";
+        time_approx = _( "It's getting darker" );
     } else if( iHour >= 16 ) {
-        time_approx = "This is the Evening";
+        time_approx = _( "This is the Evening" );
     } else if( iHour >= 13 ) {
-        time_approx = "In the afternoon";
+        time_approx = _( "In the afternoon" );
     } else if( iHour >= 11 ) {
-        time_approx = "Around noon";
+        time_approx = _( "Around noon" );
     } else if( iHour >= 8 ) {
-        time_approx = "Early Morning";
+        time_approx = _( "Early Morning" );
     } else if( iHour >= 5 ) {
-        time_approx = "Around Dawn";
+        time_approx = _( "Around Dawn" );
     } else if( iHour >= 0 ) {
-        time_approx = "Dead of Night";
+        time_approx = _( "Dead of Night" );
     }
     return time_approx;
 }
@@ -990,17 +990,17 @@ void draw_limb2( player &u, const catacurses::window &w )
     // print safe mode
     std::string safe_str;
     if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        safe_str = "SAFE";
+        safe_str = _( "SAFE" );
     }
     mvwprintz( w, 2, 22, safe_color(), safe_str );
     mvwprintz( w, 2, 27, morale_pair.first, smiley );
 
     // print stamina
     const auto &stamina = get_hp_bar( u.stamina, u.get_stamina_max() );
-    mvwprintz( w, 0, 22, c_light_gray, "STM" );
+    mvwprintz( w, 0, 22, c_light_gray, _( "STM" ) );
     mvwprintz( w, 0, 26, stamina.second, stamina.first );
 
-    mvwprintz( w, 1, 22, c_light_gray, "PWR" );
+    mvwprintz( w, 1, 22, c_light_gray, _( "PWR" ) );
     const auto pwr = power_stat( u );
     mvwprintz( w, 1, 31 - pwr.second.length(), pwr.first, pwr.second );
 
@@ -1011,19 +1011,19 @@ void draw_stats( player &u, const catacurses::window &w )
 {
     werase( w );
     nc_color stat_clr = str_string( u ).first;
-    mvwprintz( w, 0, 0, c_light_gray, "STR" );
+    mvwprintz( w, 0, 0, c_light_gray, _( "STR" ) );
     mvwprintz( w, 0, u.str_cur < 10 ? 5 : 4, stat_clr,
                u.str_cur < 100 ? to_string( u.str_cur ) : "99+" );
     stat_clr = dex_string( u ).first;
-    mvwprintz( w, 0, 9, c_light_gray, "DEX" );
+    mvwprintz( w, 0, 9, c_light_gray, _( "DEX" ) );
     mvwprintz( w, 0, u.dex_cur < 10 ? 14 : 13, stat_clr,
                u.dex_cur < 100 ? to_string( u.dex_cur ) : "99+" );
     stat_clr = int_string( u ).first;
-    mvwprintz( w, 0, 17, c_light_gray, "INT" );
+    mvwprintz( w, 0, 17, c_light_gray, _( "INT" ) );
     mvwprintz( w, 0, u.int_cur < 10 ? 22 : 21, stat_clr,
                u.int_cur < 100 ? to_string( u.int_cur ) : "99+" );
     stat_clr = per_string( u ).first;
-    mvwprintz( w, 0, 25, c_light_gray, "PER" );
+    mvwprintz( w, 0, 25, c_light_gray, _( "PER" ) );
     mvwprintz( w, 0, u.per_cur < 10 ? 30 : 29, stat_clr,
                u.per_cur < 100 ? to_string( u.per_cur ) : "99+" );
     wrefresh( w );
@@ -1032,15 +1032,15 @@ void draw_stats( player &u, const catacurses::window &w )
 void draw_stealth( player &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, 0, 0, c_light_gray, "Speed" );
+    mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
                to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : "R" ) );
 
     if( u.is_deaf() ) {
-        mvwprintz( w, 0, 22, c_red, "DEAF" );
+        mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
     } else {
-        mvwprintz( w, 0, 20, c_light_gray, "Sound:" );
+        mvwprintz( w, 0, 20, c_light_gray, _( "Sound:" ) );
         const std::string snd = to_string( u.volume );
         mvwprintz( w, 0, 30 - snd.length(), u.volume != 0 ? c_yellow : c_light_gray, snd );
     }
@@ -1134,7 +1134,7 @@ void draw_needs( const player &u, const catacurses::window &w )
     const auto arrow = temp_delta_arrows( u );
     mvwprintz( w, 1, 17 + pair.second.length(), arrow.first, arrow.second );
 
-    mvwprintz( w, 2, 17, c_light_gray, "Focus" );
+    mvwprintz( w, 2, 17, c_light_gray, _( "Focus" ) );
     mvwprintz( w, 2, 24, focus_color( u.focus_pool ), to_string( u.focus_pool ) );
 
     wrefresh( w );
@@ -1240,9 +1240,9 @@ void draw_stat( player &u, const catacurses::window &w )
 
     std::pair<nc_color, std::string> pwr_pair = power_stat( u );
     mvwprintz( w, 2, 1,  c_light_gray, _( "Power:" ) );
-    mvwprintz( w, 2, 19, c_light_gray, "Safe :" );
+    mvwprintz( w, 2, 19, c_light_gray, _( "Safe :" ) );
     mvwprintz( w, 2, 8, pwr_pair.first, "%s", pwr_pair.second );
-    mvwprintz( w, 2, 26, safe_color(), g->safe_mode ? "On" : "Off" );
+    mvwprintz( w, 2, 26, safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
     wrefresh( w );
 }
 
@@ -1251,7 +1251,7 @@ void draw_env1( const player &u, const catacurses::window &w )
     werase( w );
     // display location
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
-    mvwprintz( w, 0, 1, c_light_gray, "Place: " );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Place: " ) );
     wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
     // display weather
     if( g->get_levz() < 0 ) {
@@ -1381,7 +1381,7 @@ void draw_health_classic( player &u, const catacurses::window &w )
     mvwprintz( w, 1, 21, needs_pair.first, needs_pair.second );
     needs_pair = thirst_stat( u );
     mvwprintz( w, 2, 21, needs_pair.first, needs_pair.second );
-    mvwprintz( w, 4, 21, c_white, "Focus" );
+    mvwprintz( w, 4, 21, c_white, _( "Focus" ) );
     mvwprintz( w, 4, 27, c_white, to_string( u.focus_pool ) );
     needs_pair = rest_stat( u );
     mvwprintz( w, 3, 21, needs_pair.first, needs_pair.second );
@@ -1416,7 +1416,7 @@ void draw_health_classic( player &u, const catacurses::window &w )
     // print stamina
     needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
                                  get_hp_bar( u.stamina, u.get_stamina_max() ).first );
-    mvwprintz( w, 5, 35, c_light_gray, "Stm" );
+    mvwprintz( w, 5, 35, c_light_gray, _( "Stm" ) );
     mvwprintz( w, 5, 39, needs_pair.first, needs_pair.second );
     for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
         mvwprintz( w, 5, 43 - i, c_white, "." );
@@ -1424,7 +1424,8 @@ void draw_health_classic( player &u, const catacurses::window &w )
 
     // speed
     if( !u.in_vehicle ) {
-        mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white, "Spd " + to_string( u.get_speed() ) );
+        mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
+                   _( "Spd " ) + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
                    to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : "R" ) );
     }
@@ -1435,7 +1436,7 @@ void draw_health_classic( player &u, const catacurses::window &w )
 
     // power
     needs_pair = power_stat( u );
-    mvwprintz( w, 6, 8, c_light_gray, "POWER" );
+    mvwprintz( w, 6, 8, c_light_gray, _( "POWER" ) );
     mvwprintz( w, 6, 14, needs_pair.first, needs_pair.second );
 
     // vehicle display
@@ -1589,7 +1590,7 @@ void draw_location_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
 
-    mvwprintz( w, 0, 0, c_light_gray, "Location:" );
+    mvwprintz( w, 0, 0, c_light_gray, _( "Location:" ) );
     mvwprintz( w, 0, 10, c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
 
@@ -1666,7 +1667,7 @@ void draw_time_classic( const player &u, const catacurses::window &w )
     // display date
     mvwprintz( w, 0, 0, c_white, calendar::name_season( season_of_year( calendar::turn ) ) + "," );
     std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
-    mvwprintz( w, 0, 8, c_white, "Day " + day );
+    mvwprintz( w, 0, 8, c_white, _( "Day " ) + day );
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, 0, 15, c_light_gray, to_string_time_of_day( calendar::turn ) );
