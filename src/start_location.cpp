@@ -88,7 +88,7 @@ void start_location::reset()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-void add_boardable( map &m, const tripoint &p, std::vector<tripoint> &vec )
+void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -403,7 +403,7 @@ void start_location::handle_heli_crash( player &u ) const
     for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
         auto part = hp_part( i );
         auto bp_part = u.hp_to_bp( part );
-        int roll = int( rng( 1, 8 ) );
+        int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
             case 1:
             case 2:// Damage + Bleed
@@ -414,7 +414,7 @@ void start_location::handle_heli_crash( player &u ) const
             case 5: { // Just damage
                 auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
-                int dmg = int( rng( maxHp / 3, maxHp * 2 / 3 ) );
+                int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
                 u.apply_damage( nullptr, bp_part, dmg );
                 break;
             }

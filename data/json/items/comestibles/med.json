@@ -5,8 +5,8 @@
     "category": "drugs",
     "name": "first aid kit",
     "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
-    "weight": 1000,
-    "volume": 6,
+    "weight": 1750,
+    "volume": 5,
     "price": 3000,
     "material": "plastic",
     "symbol": "!",
@@ -1367,5 +1367,30 @@
     "healthy": 25,
     "use_action": "PANACEA",
     "flags": "NPC_SAFE"
+  },
+  {
+    "id": "cattail_jelly",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "cattail jelly",
+    "name_plural": "cattail jellies",
+    "description": "Clear jelly harvested from cattail, has antiseptic properties and works as a painkiller.",
+    "container": "bottle_plastic_small",
+    "weight": 50,
+    "volume": 1,
+    "charges": 7,
+    "price": 50,
+    "price_postapoc": 500,
+    "material": "oil",
+    "phase": "liquid",
+    "symbol": "~",
+    "color": "light_blue",
+    "use_action": {
+      "type": "heal",
+      "disinfectant_power": 3,
+      "bite": 0.75,
+      "move_cost": 100,
+      "effects": [ { "id": "pkill1", "duration": 120 } ]
+    }
   }
 ]

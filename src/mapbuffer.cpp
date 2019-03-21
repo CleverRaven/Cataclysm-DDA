@@ -597,7 +597,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     } else {
                         sm->trp[p.x][p.y] = trid.id();
                     }
-                    // @todo: remove brazier trap-to-furniture conversion after 0.D
+                    // TODO: remove brazier trap-to-furniture conversion after 0.D
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {
@@ -674,9 +674,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
             } else if( submap_member_name == "vehicles" ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
-                    vehicle *tmp = new vehicle();
+                    std::unique_ptr<vehicle> tmp( new vehicle() );
                     jsin.read( *tmp );
-                    sm->vehicles.push_back( tmp );
+                    sm->vehicles.push_back( std::move( tmp ) );
                 }
             } else if( submap_member_name == "computers" ) {
                 std::string computer_data = jsin.get_string();

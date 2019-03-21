@@ -387,7 +387,7 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( explosion.power <= 0 ) {
-        // @todo: List other effects, like EMP and clouds
+        // TODO: List other effects, like EMP and clouds
         return;
     }
 
@@ -591,7 +591,8 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     for( const auto &field : fields_produced ) {
         const field_id fid = field_from_ident( field.first );
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid,
+            g->m.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
+                            fid,
                             field.second );
         }
     }
@@ -635,7 +636,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    //@todo: change return type to time_duration
+    // TODO: change return type to time_duration
     return transform_age - to_turns<int>( it.age() );
 }
 
@@ -946,7 +947,8 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
         return 0;
     }
 
-    if( g->m.move_cost( pnt ) != 2 ) {
+    // For example: dirt = 2, long grass = 3
+    if( g->m.move_cost( pnt ) != 2 && g->m.move_cost( pnt ) != 3 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
         return 0;
     }
@@ -993,6 +995,9 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else if( g->get_levz() < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname().c_str() );
+        return 0;
+    } else if( p.fine_detail_vision_mod() > 4 ) {
+        p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
     const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
@@ -1414,7 +1419,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = verb;
+        std::string lower_verb = _( verb );
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb.c_str(), cut.display_name().c_str() );
@@ -2024,7 +2029,6 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
     }
 
-
     sounds::ambient_sound( p.pos(), volume, sounds::sound_t::music, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
@@ -2043,7 +2047,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
 ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool,
         const tripoint & ) const
 {
-    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
@@ -3529,7 +3533,7 @@ iuse_actor *emit_actor::clone() const
 void emit_actor::finalize( const itype_id &my_item_type )
 {
     /*
-    // @todo: This must be called after all finalization
+    // TODO: This must be called after all finalization
     for( const auto& e : emits ) {
         if( !e.is_valid() ) {
             debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );

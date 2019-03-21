@@ -23,7 +23,7 @@ player_activity::player_activity( const player_activity &rhs )
       moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
       values( rhs.values ), str_values( rhs.str_values ),
-      coords( rhs.coords ), placement( rhs.placement ),
+      coords( rhs.coords ), monsters( rhs.monsters ), placement( rhs.placement ),
       auto_resume( rhs.auto_resume )
 {
     targets.clear();
@@ -45,6 +45,7 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     ignored_distractions = rhs.ignored_distractions;
     values = rhs.values;
     str_values = rhs.str_values;
+    monsters = rhs.monsters;
     coords = rhs.coords;
     placement = rhs.placement;
     auto_resume = rhs.auto_resume;
@@ -150,7 +151,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    // @todo: Once activity_handler_actors exist, the less ugly method of using a
+    // TODO: Once activity_handler_actors exist, the less ugly method of using a
     // pure virtual can_resume_with should be used
 
     if( !*this || !other || type->no_resume() ) {

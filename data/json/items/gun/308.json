@@ -75,6 +75,7 @@
     "durability": 9,
     "ups_charges": 1,
     "reload": 400,
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ] ],
     "modes": [
       [ "DEFAULT", "low auto", 50 ],
       [ "AUTO", "high auto", 100 ]
@@ -93,7 +94,7 @@
     "price": 195000,
     "material": [ "steel", "plastic" ],
     "burst": 12,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "m1a",
@@ -115,7 +116,7 @@
     "dispersion": 110,
     "durability": 8,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "magazines": [
       [ "308", [ "m14mag", "m14smallmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
@@ -141,7 +142,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 11 ] ],
     "built_in_mods": [ "bipod" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "308", [ "belt308" ] ],
       [ "223", [ "belt223" ] ]
@@ -168,7 +169,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 11 ] ],
     "built_in_mods": [ "bipod" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "308", [ "belt308" ] ],
       [ "223", [ "belt223" ] ]
@@ -197,7 +198,7 @@
     "clip_size": 6,
     "reload": 200,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -254,7 +255,7 @@
     "barrel_length": 2,
     "default_mods": [ "rifle_scope", "cheek_pad" ],
     "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }
 ]

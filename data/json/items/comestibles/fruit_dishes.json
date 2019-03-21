@@ -32,6 +32,7 @@
     "description": "Dried strips of sugary fruit paste.",
     "price": 160,
     "material": "fruit",
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 5,
@@ -74,8 +75,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 5,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 2 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 2 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -95,8 +95,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 7,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -113,6 +112,7 @@
     "description": "Tangy yellow powder that smells strongly of lemons.  Can be mixed with water to make lemonade.",
     "price": 10,
     "material": [ "powder", "fruit" ],
+    "primary_material": "powder",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
@@ -176,6 +176,7 @@
     "description": "Dehydrated fruit flakes.  With proper storage, this dried food will remain edible for an incredibly long time.  They are useful for several cooking recipes.",
     "price": 900,
     "material": "fruit",
+    "primary_material": "dried_vegetable",
     "//": "most of the water weight and volume is lost",
     "volume": "100 ml",
     "flags": [ "EDIBLE_FROZEN" ],
@@ -198,8 +199,7 @@
     "price": 900,
     "material": "fruit",
     "volume": 1,
-    "fun": 4,
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -220,8 +220,7 @@
     "volume": 1,
     "charges": 4,
     "fun": 3,
-    "vitamins": [ [ "iron", 2 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -243,7 +242,6 @@
     "volume": 1,
     "stack_size": 2,
     "fun": 1,
-    "vitamins": [ [ "iron", 2 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "iron", 2 ] ]
   }
 ]

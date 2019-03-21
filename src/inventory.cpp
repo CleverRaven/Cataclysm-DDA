@@ -736,7 +736,7 @@ bool inventory::has_charges( const itype_id &it, long quantity,
     return ( charges_of( it, std::numeric_limits<long>::max(), filter ) >= quantity );
 }
 
-int inventory::leak_level( std::string flag ) const
+int inventory::leak_level( const std::string &flag ) const
 {
     int ret = 0;
 

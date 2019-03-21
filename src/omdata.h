@@ -17,6 +17,8 @@
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 struct city;
+class overmap_land_use_code;
+using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;
 struct oter_type_t;
 struct overmap_location;
@@ -44,7 +46,7 @@ const std::array<type, 4> all = {{ type::north, type::east, type::south, type::w
 const size_t size = all.size();
 
 /** Number of bits needed to store directions. */
-const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
@@ -83,6 +85,24 @@ type random();
 bool are_parallel( type dir1, type dir2 );
 
 }
+
+class overmap_land_use_code
+{
+    public:
+        overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
+
+        int land_use_code;
+        std::string name;
+        std::string detailed_definition;
+        long sym = '\0';                // This is a long, so we can support curses line drawing
+        nc_color color = c_black;
+
+        // Used by generic_factory
+        bool was_loaded = false;
+        void load( JsonObject &jo, const std::string &src );
+        void finalize();
+        void check() const;
+};
 
 struct overmap_spawns {
         overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
@@ -141,6 +161,7 @@ struct oter_type_t {
         std::string name;               // Untranslated name
         long sym = '\0';                // This is a long, so we can support curses line drawing
         nc_color color = c_black;
+        overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         std::string extras = "none";
         int mondensity = 0;
@@ -204,12 +225,12 @@ struct oter_t {
             return _( type->name.c_str() );
         }
 
-        long get_sym() const {
-            return sym;
+        long get_sym( const bool from_land_use_code = false ) const {
+            return from_land_use_code ? sym_alt : sym;
         }
 
-        nc_color get_color() const {
-            return type->color;
+        nc_color get_color( const bool from_land_use_code = false ) const {
+            return from_land_use_code ? type->land_use_code->color : type->color;
         }
 
         om_direction::type get_dir() const {
@@ -262,10 +283,11 @@ struct oter_t {
     private:
         om_direction::type dir = om_direction::type::none;
         long sym = '\0';         // This is a long, so we can support curses line drawing.
+        long sym_alt = '\0';     // This is a long, so we can support curses line drawing.
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
-// @todo: Deprecate these operators
+// TODO: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 
@@ -314,6 +336,8 @@ struct overmap_special_terrain {
 
 struct overmap_special_connection {
     tripoint p;
+    cata::optional<tripoint> from;
+    om_direction::type initial_dir = om_direction::type::invalid;
     string_id<oter_type_t> terrain; // TODO: Remove it.
     string_id<overmap_connection> connection;
     bool existing = false;
@@ -325,6 +349,7 @@ struct overmap_special_connection {
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
         jo.read( "connection", connection );
+        assign( jo, "from", from );
     }
 };
 
@@ -372,6 +397,18 @@ void finalize();
 void reset();
 
 const std::vector<oter_t> &get_all();
+
+}
+
+namespace overmap_land_use_codes
+{
+
+void load( JsonObject &jo, const std::string &src );
+void finalize();
+void check_consistency();
+void reset();
+
+const std::vector<overmap_land_use_code> &get_all();
 
 }
 

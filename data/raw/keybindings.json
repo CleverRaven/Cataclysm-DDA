@@ -414,6 +414,20 @@
   },
   {
     "type": "keybinding",
+    "id": "MOVE_PANEL",
+    "category": "PANEL_MGMT",
+    "name": "Select panel for moving",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_PANEL",
+    "category": "PANEL_MGMT",
+    "name": "Toggle panel off",
+    "bindings": [ { "input_method": "keyboard", "key": "TAB" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CHANGE_SIDE",
     "category": "SORT_ARMOR",
     "name": "Change side armor is worn on",
@@ -697,6 +711,13 @@
     "category": "OVERMAP",
     "name": "Toggle Overlays",
     "bindings": [ { "input_method": "keyboard", "key": "O" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_LAND_USE_CODES",
+    "category": "OVERMAP",
+    "name": "Toggle Land Use Codes",
+    "bindings": [ { "input_method": "keyboard", "key": "A" } ]
   },
   {
     "type": "keybinding",
@@ -1719,6 +1740,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Look at the sky",
+    "category": "DEFAULTMODE",
+    "id": "sky"
+  },
+  {
+    "type": "keybinding",
     "name": "View Missions",
     "category": "DEFAULTMODE",
     "id": "missions",
@@ -1809,6 +1836,13 @@
     "category": "DEFAULTMODE",
     "id": "toggle_pixel_minimap",
     "bindings": [ { "input_method": "keyboard", "key": "N" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Panel Admin",
+    "category": "DEFAULTMODE",
+    "id": "toggle_panel_adm",
+    "bindings": [ { "input_method": "keyboard", "key": "}" } ]
   },
   {
     "type": "keybinding",
