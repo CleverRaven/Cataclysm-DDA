@@ -808,7 +808,7 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
    // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
    // difficulties), only minor consequences occur.  At low skill levels, severe consequences
    // are more likely.
-   int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+   const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
    int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
    if( fail_type <= 0 ) {
