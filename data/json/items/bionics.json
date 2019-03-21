@@ -349,7 +349,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "LED Tattoo",
-    "description": "A small LED display implanted under your skin, when active it glows displaying your favourite pattern.",
+    "description": "An LED display beneath your epidermis allows you to display patterns or pictures through your skin.  When active, it glows dimly, providing a very small amount of light.",
     "price": 20000,
     "difficulty": 1
   },
