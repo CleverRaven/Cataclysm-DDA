@@ -3025,6 +3025,46 @@
     "color": "i_green"
   },
   {
+    "id": "dispensary_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_roof_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
     "id": "art_gallery",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
