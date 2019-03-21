@@ -14,10 +14,7 @@
     "id": "food_cart",
     "type": "vehicle",
     "name": "Food Vendor Cart",
-    "blueprint": [
-      [ "&" ],
-      [ "H" ]
-    ],
+    "blueprint": [ [ "&" ], [ "H" ] ],
     "parts": [
       { "x": -1, "y": 0, "part": "xlframe_vertical_2" },
       { "x": -1, "y": 0, "part": "wheel_caster" },
@@ -69,10 +66,7 @@
     "id": "golf_cart",
     "type": "vehicle",
     "name": "Golf Cart",
-    "blueprint": [
-      [ "o|o" ],
-      [ "o|o" ]
-    ],
+    "blueprint": [ [ "o|o" ], [ "o|o" ] ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_horizontal" },
       { "x": 0, "y": 0, "part": "seat" },
@@ -105,10 +99,7 @@
     "id": "golf_cart_4seat",
     "type": "vehicle",
     "name": "Golf Cart",
-    "blueprint": [
-      [ "o|o" ],
-      [ "o|o" ]
-    ],
+    "blueprint": [ [ "o|o" ], [ "o|o" ] ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_horizontal" },
       { "x": 0, "y": 0, "part": "seat" },
@@ -136,9 +127,9 @@
     ],
     "items": [
       { "x": -1, "y": 0, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
-	  { "x": -1, "y": 1, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
-	  { "x": 0, "y": 0, "chance": 20, "item_groups": [ "golf_cart" ] },
-	  { "x": 0, "y": 1, "chance": 20, "item_groups": [ "golf_cart" ] }
+      { "x": -1, "y": 1, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "golf_cart" ] },
+      { "x": 0, "y": 1, "chance": 20, "item_groups": [ "golf_cart" ] }
     ]
   },
   {
@@ -176,10 +167,34 @@
       { "x": 0, "y": 0, "part": "trunk" }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 6, "item_groups": [ "bags_trip", "jackets", "shirts", "male_underwear_bottom", "male_underwear", "male_underwear", "male_underwear" ] },
-      { "x": 0, "y": 0, "chance": 6, "item_groups": [ "bags_trip", "beauty", "dresses", "dresses", "female_underwear_bottom", "female_underwear_top", "female_underwear", "female_underwear" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "chance": 6,
+        "item_groups": [ "bags_trip", "jackets", "shirts", "male_underwear_bottom", "male_underwear", "male_underwear", "male_underwear" ]
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "chance": 6,
+        "item_groups": [
+          "bags_trip",
+          "beauty",
+          "dresses",
+          "dresses",
+          "female_underwear_bottom",
+          "female_underwear_top",
+          "female_underwear",
+          "female_underwear"
+        ]
+      },
       { "x": 0, "y": 0, "chance": 3, "item_groups": [ "bags_trip", "jackets", "shirts", "child_items", "underwear" ] },
-      { "x": 0, "y": 0, "chance": 2, "item_groups": [ "bags_trip", "traveler", "dresser", "glasses", "shoes", "underwear", "underwear" ] }
+      {
+        "x": 0,
+        "y": 0,
+        "chance": 2,
+        "item_groups": [ "bags_trip", "traveler", "dresser", "glasses", "shoes", "underwear", "underwear" ]
+      }
     ]
   },
   {
@@ -261,13 +276,19 @@
     "name": "Motor Driven Welding Cart",
     "blueprint": [ "&" ],
     "parts": [
-      { "x": 0, "y": 0, "part": "frame_cover" },
-      { "x": 0, "y": 0, "part": "battery_motorbike" },
-      { "x": 0, "y": 0, "part": "engine_vtwin" },
-      { "x": 0, "y": 0, "part": "generator_7500w" },
-      { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "controls" },
-      { "x": 0, "y": 0, "part": "tank_small", "fuel": "gasoline" }
+      {
+        "x": 0,
+        "y": 0,
+        "part": [
+          "frame_cover",
+          { "part": "tank_small", "fuel": "gasoline" },
+          "battery_motorbike",
+          "engine_vtwin",
+          "generator_7500w",
+          "wheel_caster",
+          "controls"
+        ]
+      }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] },
