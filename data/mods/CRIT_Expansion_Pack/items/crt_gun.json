@@ -199,14 +199,14 @@
       [ "sights", 1 ],
       [ "stock", 1 ]
     ],
-    "ammo_effects": [ "LASER", "NOGIB", "BEANBAG", "BOUNCE"],
+    "ammo_effects": [ "LASER", "NOGIB", "BOUNCE"],
     "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "ds_ripper",
     "type": "GUN",
     "name": "Ripper",
-    "description": "Experimental EM saw under development in C.R.I.T R&D. Great for long distance cutting of material.",
+    "description": "Experimental EM saw under development in C.R.I.T R&D. Great for distance cutting of material.",
     "weight": 2250,
     "volume": 4,
     "price": 1000000,
