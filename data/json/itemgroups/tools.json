@@ -207,5 +207,41 @@
       [ "tailors_kit", 30 ],
       [ "knitting_needles", 20 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "tools_science",
+    "items": [
+      [ "chemistry_set", 5 ],
+      [ "chemistry_set_basic", 2 ],
+      [ "analytical_set_basic", 5 ],
+      [ "spectrophotometer", 5 ],
+      [ "balance_small", 5 ],
+      [ "cuvettes", 5 ],
+      [ "ph_meter", 5 ],
+      [ "melting_point", 5 ],
+      [ "hotplate", 5 ],
+      [ "jar_glass", 5 ],
+      [ "jar_3l_glass", 5 ],
+      [ "magnifying_glass", 5 ],
+      [ "thermometer", 5 ],
+      [ "geiger_off", 3 ],
+      [ "hygrometer", 3 ],
+      [ "barometer", 3 ],
+      [ "camera", 3 ],
+      [ "flask_glass", 10 ],
+      [ "bottle_glass", 10 ],
+      [ "test_tube", 10 ],
+      [ "glass_tube_small", 5 ],
+      [ "funnel", 10 ],
+      [ "hose", 5 ],
+      [ "steel_grille", 5 ],
+      [ "coat_lab", 5 ],
+      [ "gloves_medical", 5 ],
+      [ "mask_dust", 5 ],
+      [ "mask_filter", 5 ],
+      [ "glasses_safety", 5 ],
+      [ "UPS_off", 3 ]
+    ]
   }
 ]
