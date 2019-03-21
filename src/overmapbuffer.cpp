@@ -796,7 +796,6 @@ bool overmapbuffer::is_findable_location( const tripoint &location, const std::s
         }
     }
 
-
     return true;
 }
 

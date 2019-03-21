@@ -1220,7 +1220,6 @@ void vehicle::open_all_at( int p )
     }
 }
 
-
 /**
  * Opens or closes an openable part at the specified index based on the @opening value passed.
  * If it's a multipart, opens or closes all attached parts as well.

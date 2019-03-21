@@ -1353,7 +1353,6 @@ void npc::load( JsonObject &data )
             complaints.emplace( key, p );
         }
     }
-    data.read( "flee_from_pos", flee_from_pos );
 }
 
 /*
@@ -1389,7 +1388,6 @@ void npc::store( JsonOut &json ) const
     json.member( "submap_coords", submap_coords );
 
     json.member( "last_player_seen_pos", last_player_seen_pos );
-    json.member( "flee_from_pos", flee_from_pos );
 
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );
@@ -1834,6 +1832,7 @@ void item::io( Archive &archive )
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
+    archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );

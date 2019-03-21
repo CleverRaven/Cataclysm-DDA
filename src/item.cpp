@@ -2572,7 +2572,9 @@ const std::string &item::symbol() const
 nc_color item::color_in_inventory() const
 {
     player &u = g->u; // TODO: make a const reference
-    nc_color ret = c_light_gray;
+
+    // Only item not otherwise colored gets colored as favorite
+    nc_color ret = is_favorite ? c_white : c_light_gray;
 
     if( has_flag( "WET" ) ) {
         ret = c_cyan;
@@ -3007,6 +3009,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
+    }
+
+    if( is_favorite ) {
+        ret << _( " *" ); // Display asterisk for favorite items
     }
 
     const std::string tagtext = ret.str();
@@ -5534,7 +5540,8 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(),
+                                static_cast<int( * )( int )>( toupper ) );
 
                 auto qty = m.second.qty();
 
@@ -6209,7 +6216,6 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-
 void item::set_item_specific_energy( const float new_specific_energy )
 {
     const float specific_heat_liquid = type->comestible->specific_heat_liquid; // J/g K
@@ -6695,7 +6701,6 @@ void item::apply_freezerburn()
     }
 }
 
-
 void item::update_temp( const int temp, const float insulation )
 {
     const time_point now = calendar::turn;
@@ -6723,7 +6728,6 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
     const float old_temperature = 0.00001 * temperature;
     const float temperature_difference =  env_temperature - old_temperature;
-
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {

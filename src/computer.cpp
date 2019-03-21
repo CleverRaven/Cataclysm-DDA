@@ -842,7 +842,7 @@ INITIATING STANDARD TREMOR TEST..." ) );
                         g->u.change_side( **worn_item, false );
                     }
                 }
-                g->u.add_effect( effect_mending, 0, part, true );
+                g->u.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = g->u.get_effect( effect_mending, part );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }

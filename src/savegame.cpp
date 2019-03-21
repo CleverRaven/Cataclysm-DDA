@@ -1010,8 +1010,6 @@ void overmap::unserialize( std::istream &fin )
     }
 }
 
-
-
 static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
 {
     int count = 0;

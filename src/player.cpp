@@ -197,6 +197,7 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_itchy( "bio_itchy" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_lighter( "bio_lighter" );
@@ -255,7 +256,6 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
-static const trait_id trait_CRAFTY( "CRAFTY" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -1758,6 +1758,17 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
         movecost *= .9f;
     }
+
+    if( has_active_bionic( bio_jointservo ) ) {
+        if( move_mode == "run" ) {
+            movecost *= 0.85f;
+        } else {
+            movecost *= 0.95f;
+        }
+    } else if( has_bionic( bio_jointservo ) ) {
+        movecost *= 1.1f;
+    }
+
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
     }
@@ -2609,7 +2620,8 @@ float player::active_light() const
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
     } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   has_active_bionic( bio_tattoo_led ) || has_effect( effect_glowy_led ) ) ) {
+                                   ( has_active_bionic( bio_tattoo_led ) ||
+                                     has_effect( effect_glowy_led ) ) ) ) {
         lumination = 5;
     }
     return lumination;
@@ -5354,7 +5366,7 @@ void player::suffer()
                 // Skill raise
                 if( !done_effect && one_in( to_turns<int>( 12_hours ) ) ) {
                     skill_id raised_skill = Skill::random_skill();
-                    add_msg( m_good, _( "You increase %1$s to level %2$d" ), raised_skill.c_str(),
+                    add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
                              get_skill_level( raised_skill ) + 1 );
                     done_effect = true;
                 }
@@ -9487,7 +9499,7 @@ int player::book_fun_for( const item &book, const player &p ) const
         book.typeId() == "cookbook_human" ) {
         fun_bonus = abs( fun_bonus );
     } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = abs( fun_bonus * 3 );
+        fun_bonus = abs( ( fun_bonus + 1 ) * 3 );
     }
     return fun_bonus;
 }
@@ -11260,8 +11272,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
-        std::string str;
-        str = weapon.type_name();
+        std::string str = weapon.type_name();
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );

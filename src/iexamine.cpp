@@ -190,7 +190,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
     g->m.add_item_or_charges( spawn_point, new_item );
 
-
 }
 
 /**
@@ -2593,7 +2592,8 @@ static units::volume get_keg_capacity( const tripoint &pos )
     }
     //add additional cases above
     else                                {
-        return 0_ml;
+        //if the size of the keg isn't defined, assume 60L, the standard size of a tank in game.
+        return units::from_liter( 60 );
     }
 }
 

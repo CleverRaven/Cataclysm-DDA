@@ -248,8 +248,6 @@ game::game() :
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( 16 ),
-    wind_direction_override(),
-    windspeed_override(),
     weather_override( WEATHER_NULL ),
     displaying_scent( false )
 
@@ -2000,7 +1998,15 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
+
+        if( oThisItem.is_favorite ) {
+            addentry( 'f', pgettext( "action", "unfavorite" ), HINT_GOOD );
+        } else {
+            addentry( 'f', pgettext( "action", "favorite" ), HINT_GOOD );
+        }
+
         addentry( '=', pgettext( "action", "reassign" ), HINT_GOOD );
+
         if( bHPR ) {
             addentry( '-', _( "Autopickup" ), HINT_IFFY );
         } else {
@@ -2104,6 +2110,9 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     break;
                 case 'D':
                     u.disassemble( pos );
+                    break;
+                case 'f':
+                    oThisItem.is_favorite = !oThisItem.is_favorite;
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, u.i_at( pos ) );
@@ -3597,7 +3606,6 @@ void game::draw_panels( size_t column, size_t index )
         mgr.draw_adm( w_panel_adm, column, index );
     }
 }
-
 
 void game::draw_pixel_minimap( const catacurses::window &w )
 {
@@ -7891,7 +7899,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, 0, BORDER_COLOR, LINE_XOXO ); // |
     mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, width - 1, BORDER_COLOR, LINE_XOXO ); // |
 
-
     mvwprintz( w_monsters_border, 0, 2, c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
@@ -10334,7 +10341,6 @@ void game::place_player( const tripoint &dest_loc )
         u.remove_effect( effect_no_sight );
     }
 
-
     // If we moved out of the nonant, we need update our map data
     if( m.has_flag( "SWIMMABLE", dest_loc ) && u.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
@@ -10811,6 +10817,13 @@ void game::on_move_effects()
     if( u.lifetime_stats.squares_walked % 160 == 0 ) {
         if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power( 1 );
+        }
+    }
+    if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        if( u.move_mode == "run" ) {
+            u.charge_power( -20 );
+        } else {
+            u.charge_power( -10 );
         }
     }
 
