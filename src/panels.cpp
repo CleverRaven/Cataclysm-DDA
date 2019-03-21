@@ -1700,7 +1700,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 5, 44, true ) );
-    ret.emplace_back( window_panel( draw_messages_classic, "Log", 11, 44, true ) );
+    ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
 #ifdef TILES
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
 #endif // TILES
@@ -1719,7 +1719,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_needs, "Needs", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_env_compact, "Env", 6, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_compact, "Vehicle", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_messages_classic, "Log", 13, 32, true ) );
+    ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
 #ifdef TILES
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
@@ -1738,7 +1738,7 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_veh_padding, "Vehicle", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_env1, "Location", 5, 32, true ) );
     ret.emplace_back( window_panel( draw_mod1, "Needs", 6, 32, true ) );
-    ret.emplace_back( window_panel( draw_messages, "Log", 12, 32, true ) );
+    ret.emplace_back( window_panel( draw_messages, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
     ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );

@@ -3573,9 +3573,22 @@ void game::draw_panels( size_t column, size_t index )
     auto &mgr = panel_manager::get_manager();
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
+    int spacer;
+    get_option<bool>( "SIDEBAR_SPACERS" ) ? spacer = 1 : spacer = 0;
+    int log_height = 0;
+    for( const auto &panel : mgr.get_current_layout() ) {
+        if( panel.get_height() != -2 && panel.toggle ) {
+            log_height += panel.get_height() + spacer;
+        }
+    }
+    log_height = std::max( TERMY - log_height, 3 );
     for( const auto &panel : mgr.get_current_layout() ) {
         // height clamped to window height.
         int h = std::min( panel.get_height(), TERMY - y );
+        if( h == -2 ) {
+            h = log_height;
+        }
+        h += spacer;
         if( panel.toggle && h > 0 ) {
             panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
                                                sidebar_right ? TERMX - panel.get_width() : 0 ) );
@@ -3585,21 +3598,21 @@ void game::draw_panels( size_t column, size_t index )
                 werase( label );
                 mvwprintz( label, 0, 0, c_light_red, panel.get_name() );
                 wrefresh( label );
-                label = catacurses::newwin( panel.get_height(), 1, y,
+                label = catacurses::newwin( h, 1, y,
                                             sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
                 werase( label );
-                if( panel.get_height() == 1 ) {
+                if( h == 1 ) {
                     mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
                 } else {
                     mvwputch( label, 0, 0, c_light_red, LINE_OXXX );
-                    for( int i = 1; i < panel.get_height() - 1; i++ ) {
+                    for( int i = 1; i < h - 1; i++ ) {
                         mvwputch( label, i, 0, c_light_red, LINE_XOXO );
                     }
-                    mvwputch( label, panel.get_height() - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+                    mvwputch( label, h - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
                 }
                 wrefresh( label );
             }
-            y += panel.get_height();
+            y += h;
         }
     }
     if( show_panel_adm ) {
