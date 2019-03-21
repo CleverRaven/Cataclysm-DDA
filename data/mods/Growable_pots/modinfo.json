@@ -2,9 +2,9 @@
   {
     "type": "MOD_INFO",
     "ident": "growable-pots",
-    "name": "Growable pots",
+    "name": "Garden Pots",
     "authors": [ "Honcharuk" ],
-    "description": "Allows you to grow some seeds in flower pots.",
+    "description": "Allows you to grow seeds in flower pots, without needing soil.  Perfect for the nomadic botanist.",
     "category": "items",
     "dependencies": [ "dda" ]
   }
