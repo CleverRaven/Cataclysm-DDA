@@ -9499,7 +9499,7 @@ int player::book_fun_for( const item &book, const player &p ) const
         book.typeId() == "cookbook_human" ) {
         fun_bonus = abs( fun_bonus );
     } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = abs( ( fun_bonus + 1 ) * 3 );
+        fun_bonus = abs( fun_bonus * 3 );
     }
     return fun_bonus;
 }
