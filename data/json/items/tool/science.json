@@ -129,6 +129,20 @@
     "color": "light_gray"
   },
   {
+    "id": "vortex",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "vortex device",
+    "description": "This is a small, hefty, boring looking machine.  Its weighted trapezoidal frame has a single on-off switch and a speed dial, and on top of it sits a rubber receptacle.  Pressing a test tube into the receptacle would, with power, rapidly shake and mix the contents of the test tube.  It's surprisingly fun to use.",
+    "weight": 3500,
+    "volume": 3,
+    "price": 1000,
+    "to_hit": -5,
+    "material": [ "steel", "plastic" ],
+    "symbol": "n",
+    "color": "light_blue"
+  },
+  {
     "id": "light_detector",
     "type": "TOOL",
     "category": "tools",
