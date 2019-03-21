@@ -256,7 +256,7 @@
     "volume": 1,
     "weight": 3,
     "ammo_type": "pebble",
-    "damage": 2,
+    "damage": 1,
     "range": 20,
     "dispersion": 12,
     "loudness": 0,
