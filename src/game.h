@@ -135,7 +135,6 @@ struct liquid_dest_opt {
     vehicle *veh = nullptr;
 };
 
-
 enum peek_act : int {
     PA_BLIND_THROW
     // obvious future additional value is PA_BLIND_FIRE

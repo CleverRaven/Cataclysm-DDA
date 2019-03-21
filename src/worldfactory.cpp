@@ -95,8 +95,6 @@ void WORLD::add_save( const save_t &name )
 
 worldfactory::worldfactory()
     : active_world( nullptr )
-    , all_worlds()
-    , mman()
     , mman_ui( *mman )
 {
     // prepare tab display order

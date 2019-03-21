@@ -276,7 +276,6 @@ void weather_generator::test_weather() const
     }
 }
 
-
 weather_generator weather_generator::load( JsonObject &jo )
 {
     weather_generator ret;
