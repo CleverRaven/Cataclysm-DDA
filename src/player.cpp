@@ -5354,7 +5354,7 @@ void player::suffer()
                 // Skill raise
                 if( !done_effect && one_in( to_turns<int>( 12_hours ) ) ) {
                     skill_id raised_skill = Skill::random_skill();
-                    add_msg( m_good, _( "You increase %1$s to level %2$d" ), raised_skill.obj().name(),
+                    add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
                              get_skill_level( raised_skill ) + 1 );
                     done_effect = true;
                 }
