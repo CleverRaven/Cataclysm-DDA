@@ -728,15 +728,15 @@ bool player::eat( item &food, bool force )
                     if ( has_trait( trait_id( "SNOBBISH" ) ) ) {
                         if ( has_morale( MORALE_ATE_WITHOUT_TABLE ) )
                             rem_morale( MORALE_ATE_WITHOUT_TABLE );
-                        add_morale( MORALE_ATE_WITH_TABLE, 12, 12, 40_minutes, 20_minutes, true);
+                        add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true);
                     } else {
-                        add_morale( MORALE_ATE_WITH_TABLE, 5, 5, 40_minutes, 20_minutes, true);
+                        add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true);
                     }
                 } else {
                     if ( has_trait( trait_id( "SNOBBISH" ) ) ) {
                         if ( has_morale( MORALE_ATE_WITH_TABLE ) )
                             rem_morale( MORALE_ATE_WITH_TABLE );
-                        add_morale( MORALE_ATE_WITHOUT_TABLE, -14, -28, 40_minutes, 20_minutes, true);
+                        add_morale( MORALE_ATE_WITHOUT_TABLE, -2, -4, 3_hours, 2_hours, true);
                     }
                 }
             }
