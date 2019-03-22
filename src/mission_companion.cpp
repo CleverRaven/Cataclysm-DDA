@@ -1796,7 +1796,8 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
     for( auto &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
         npc_companion_mission c_mission = guy->get_companion_mission();
-        if( g->u.sees( guy->pos() ) && !guy->has_companion_mission() ) {
+        if( g->u.sees( guy->pos() ) && !guy->has_companion_mission() && g->u.posz() == guy->posz() &&
+            ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) ) {
             available.push_back( guy );
         }
     }
