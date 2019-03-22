@@ -715,7 +715,7 @@ bool player::eat( item &food, bool force )
                                    food.tname().c_str() );
             if ( !spoiled && !food.has_flag( "ALLERGEN_JUNK" ) ) {
                 bool has_table_nearby = false;
-                for ( const tripoint &pt : g->m.points_in_radius( pos(), 2 ) ) {
+                for ( const tripoint &pt : g->m.points_in_radius( pos(), 1 ) ) {
                     if ( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
                         ( g->m.veh_at(pt) && g->m.veh_at(pt)->vehicle().has_part( "KITCHEN" ) ) ) {
                         has_table_nearby = true;
