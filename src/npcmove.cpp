@@ -1571,7 +1571,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         // Let NPCs push each other when non-hostile
         // TODO: Have them attack each other when hostile
         npc *np = dynamic_cast<npc *>( critter );
-        if( np != nullptr && !np->in_sleep_state() && !is_hallucination() ) {
+        if( np != nullptr && !np->in_sleep_state() ) {
             std::unique_ptr<std::set<tripoint>> newnomove;
             std::set<tripoint> *realnomove;
             if( nomove != nullptr ) {
