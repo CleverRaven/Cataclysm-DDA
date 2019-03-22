@@ -1187,7 +1187,7 @@ void new_faction_manager::display() const
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
                     for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
                         const auto camp = camps[i];
-                        std::string camp_name = camp->camp_name();
+                        const std::string &camp_name = camp->camp_name();
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, y, 1, 28, static_cast<int>( selection ) == i ? hilite( col ) : col,
                                         camp_name );
