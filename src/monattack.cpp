@@ -719,9 +719,10 @@ bool mattack::boomer( monster *z )
         // If bile hit a solid tile, return.
         if( g->m.impassable( i ) ) {
             g->m.add_field( i, fd_bile, 3 );
-            if( g->u.sees( i ) )
+            if( g->u.sees( i ) ) {
                 add_msg( _( "Bile splatters on the %s!" ),
                          g->m.tername( i ).c_str() );
+            }
             return true;
         }
     }
@@ -794,9 +795,11 @@ bool mattack::resurrect( monster *z )
     // Multiplying by (current base speed / max speed) means that the
     // rate of speed regaining is unaffected by what our current speed is, i.e.
     // we will regain the same amount per minute at speed 50 as speed 200.
-    if( one_in( int( 15 * double( z->get_speed_base() ) / double( z->type->speed ) ) ) ) {
+    if( one_in( static_cast<int>( 15 * static_cast<double>( z->get_speed_base() ) / static_cast<double>
+                                  ( z->type->speed ) ) ) ) {
         // Restore 10% of our current speed, capping at our type maximum
-        z->set_speed_base( std::min( z->type->speed, int( z->get_speed_base() + .1 * z->type->speed ) ) );
+        z->set_speed_base( std::min( z->type->speed,
+                                     static_cast<int>( z->get_speed_base() + .1 * z->type->speed ) ) );
     }
 
     int raising_level = 0;
@@ -1179,7 +1182,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
             // if the player can see it
             if( g->u.sees( *z ) ) {
-                add_msg( m_warning, _( "A manhack flies out of one of the holes on the %!" ),
+                add_msg( m_warning, _( "A manhack flies out of one of the holes on the %s!" ),
                          z->name().c_str() );
             }
 
@@ -3013,7 +3016,7 @@ bool mattack::searchlight( monster *z )
             settings.set_var( "SL_PREFER_RIGHT", "TRUE" );
             settings.set_var( "SL_PREFER_LEFT", "TRUE" );
 
-            for( int x = zposx - 24; x < zposx + 24; x++ )
+            for( int x = zposx - 24; x < zposx + 24; x++ ) {
                 for( int y = zposy - 24; y < zposy + 24; y++ ) {
                     tripoint dest( x, y, z->posz() );
                     const monster *const mon = g->critter_at<monster>( dest );
@@ -3031,8 +3034,8 @@ bool mattack::searchlight( monster *z )
                             settings.set_var( "SL_PREFER_DOWN", "FALSE" );
                         }
                     }
-
                 }
+            }
 
             settings.set_var( "SL_SPOT_X", 0 );
             settings.set_var( "SL_SPOT_Y", 0 );
@@ -3181,7 +3184,7 @@ bool mattack::flamethrower( monster *z )
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if( z->friendly != 0 ) { // @todo: that is always false!
+    if( z->friendly != 0 ) { // TODO: that is always false!
         // Attacking monsters, not the player!
         int boo_hoo;
         Creature *target = z->auto_find_hostile_target( 5, boo_hoo );
@@ -3223,9 +3226,10 @@ void mattack::flame( monster *z, Creature *target )
             // break out of attack if flame hits a wall
             // TODO: Z
             if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
-                if( g->u.sees( i ) )
+                if( g->u.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
                              g->m.tername( i.x, i.y ).c_str() );
+                }
                 return;
             }
             g->m.add_field( i, fd_fire, 1 );
@@ -3245,9 +3249,10 @@ void mattack::flame( monster *z, Creature *target )
     for( auto &i : traj ) {
         // break out of attack if flame hits a wall
         if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
-            if( g->u.sees( i ) )
+            if( g->u.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
                          g->m.tername( i.x, i.y ).c_str() );
+            }
             return;
         }
         g->m.add_field( i, fd_fire, 1 );
@@ -3285,9 +3290,10 @@ bool mattack::copbot( monster *z )
                                    _( "a robotic voice boom, \"\
 Please put down your weapon.\"" ) );
                 }
-            } else
+            } else {
                 sounds::sound( z->pos(), 18, sounds::sound_t::speech,
                                _( "a robotic voice boom, \"Come out with your hands up!\"" ) );
+            }
         } else {
             sounds::sound( z->pos(), 18, sounds::sound_t::alarm,
                            _( "a police siren, whoop WHOOP" ) );
@@ -4344,7 +4350,7 @@ bool mattack::bio_op_takedown( monster *z )
     }
     // Weak kick to start with, knocks you off your footing
 
-    // Literally "The zombie kicks" vvvvv |  FIXME FIX message or comment why Literally.
+    // TODO: Literally "The zombie kicks" vvvvv | Fix message or comment why Literally.
     //~ 1$s is bodypart name in accusative, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "The zombie kicks your %1$s for %2$d damage..." ),
                                body_part_name_accusative( hit ).c_str(), dam );
@@ -4469,14 +4475,14 @@ bool mattack::kamikaze( monster *z )
     }
     // Extra check here to avoid sqrt if not needed
     if( exp_actor->explosion.power > -1 ) {
-        int tmp = int( sqrt( double( exp_actor->explosion.power / 4 ) ) );
+        int tmp = static_cast<int>( sqrt( static_cast<double>( exp_actor->explosion.power / 4 ) ) );
         if( tmp > radius ) {
             radius = tmp;
         }
     }
     if( exp_actor->explosion.shrapnel.casing_mass > 0 ) {
         // Actual factor is 2 * radius, but figure most pieces of shrapnel will miss
-        int tmp = int( sqrt( exp_actor->explosion.power ) );
+        int tmp = static_cast<int>( sqrt( exp_actor->explosion.power ) );
         if( tmp > radius ) {
             radius = tmp;
         }
@@ -4499,8 +4505,8 @@ bool mattack::kamikaze( monster *z )
     // We double target speed because if the player is walking and then start to run their effective speed doubles
     // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
-    float factor = float( z->get_speed() ) / float( target->get_speed() * 2 );
-    int range = std::max( 1, int( .65 * ( radius + 1 + factor * charges ) ) );
+    float factor = static_cast<float>( z->get_speed() ) / static_cast<float>( target->get_speed() * 2 );
+    int range = std::max( 1, static_cast<int>( .65 * ( radius + 1 + factor * charges ) ) );
 
     // Check if we are in range to begin the countdown
     if( !within_target_range( z, target, range ) ) {
@@ -4567,7 +4573,7 @@ int grenade_helper( monster *const z, Creature *const target, const int dist,
     for( auto amm : z->ammo ) {
         curr_ammo += amm.second;
     }
-    float rat = curr_ammo / float( total_ammo );
+    float rat = curr_ammo / static_cast<float>( total_ammo );
 
     if( curr_ammo == 0 ) {
         // We've run out of ammo, get angry and toggle the special off.

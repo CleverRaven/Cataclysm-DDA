@@ -46,7 +46,7 @@ const std::array<type, 4> all = {{ type::north, type::east, type::south, type::w
 const size_t size = all.size();
 
 /** Number of bits needed to store directions. */
-const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
@@ -287,7 +287,7 @@ struct oter_t {
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
-// @todo: Deprecate these operators
+// TODO: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 
@@ -336,6 +336,8 @@ struct overmap_special_terrain {
 
 struct overmap_special_connection {
     tripoint p;
+    cata::optional<tripoint> from;
+    om_direction::type initial_dir = om_direction::type::invalid;
     string_id<oter_type_t> terrain; // TODO: Remove it.
     string_id<overmap_connection> connection;
     bool existing = false;
@@ -347,6 +349,7 @@ struct overmap_special_connection {
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
         jo.read( "connection", connection );
+        assign( jo, "from", from );
     }
 };
 
@@ -408,7 +411,6 @@ void reset();
 const std::vector<overmap_land_use_code> &get_all();
 
 }
-
 
 namespace overmap_specials
 {

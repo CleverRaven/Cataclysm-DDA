@@ -147,7 +147,7 @@ struct jmapgen_setmap {
 class jmapgen_piece
 {
     protected:
-        jmapgen_piece() = default;
+        jmapgen_piece() : repeat( 1, 1 ) { }
     public:
         /** Sanity-check this piece */
         virtual void check( const std::string &/*oter_name*/ ) const { };
@@ -155,6 +155,7 @@ class jmapgen_piece
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                             float mon_density ) const = 0;
         virtual ~jmapgen_piece() = default;
+        jmapgen_int repeat;
 };
 
 /**
@@ -310,7 +311,6 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
-        std::string luascript;
 
     protected:
         bool setup_internal( JsonObject &jo ) override;
@@ -335,17 +335,6 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         jmapgen_int rotation;
 };
 
-/////////////////////////////////////////////////////////////////////////////////
-///// lua mapgen
-class mapgen_function_lua : public virtual mapgen_function
-{
-    public:
-        const std::string scr;
-        mapgen_function_lua( std::string s, int w = 1000 ) : mapgen_function( w ), scr( s ) {
-            // scr = s; // @todo: if ( luaL_loadstring(L, scr.c_str() ) ) { error }
-        }
-        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
-};
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
 /*
