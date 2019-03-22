@@ -2589,11 +2589,13 @@ static units::volume get_keg_capacity( const tripoint &pos )
         return units::from_liter( 300 );
     } else if( furn.id == "f_wood_keg" )  {
         return units::from_liter( 125 );
+    } else if( furn.id == "f_water_heater" )  {
+        return units::from_liter( 60 );
     }
     //add additional cases above
     else                                {
-        //if the size of the keg isn't defined, assume 60L, the standard size of a tank in game.
-        return units::from_liter( 60 );
+        //if whatever you're examining isn't a keg, it should have no available volume
+        return 0_ml;
     }
 }
 
