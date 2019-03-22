@@ -463,7 +463,7 @@ void weather_effect::thunder()
             sfx::play_variant_sound( "environment", "thunder_far", 80, rng( 0, 359 ) );
         } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() / g->u.mutation_value( "hearing_modifier" ) ), 1 ) ) ) { 
             add_msg( _( "You hear a rumble of thunder from above." ) );
-            sfx::play_variant_sound( "environment", "thunder_far", ( 80 * Character::mutation_value( "hearing_modifier" ) ) , rng( 0, 359 ) );
+            sfx::play_variant_sound( "environment", "thunder_far", ( 80 * g->u.mutation_value( "hearing_modifier" ) ) , rng( 0, 359 ) );
         } 
     }
 }
