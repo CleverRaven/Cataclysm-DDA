@@ -258,7 +258,7 @@ void mission::wrap_up()
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
-            bool specific_container_required = container.compare( "null" ) != 0;
+            bool specific_container_required = container != "null";
             bool remove_container = type->remove_container;
             itype_id empty_container = type->empty_container;
 
@@ -280,13 +280,10 @@ void mission::wrap_up()
                 if( empty_container != "null" ) {
                     container_comp.push_back( item_comp( empty_container, type->item_count ) );
                     u.consume_items( container_comp );
-
                 } else {
                     container_comp.push_back( item_comp( container, type->item_count ) );
                     u.consume_items( container_comp );
-
                 }
-
             }
         }
         break;
@@ -419,7 +416,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
     for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
         item *itm = items[i];
 
-        bool correct_container = ( ( required_container ) == ( actual_container ) ) ||
+        bool correct_container = ( required_container == actual_container ) ||
                                  !specific_container_required;
 
         bool item_in_group = item_group::group_contains_item( grp_type, itm->typeId() );
@@ -435,7 +432,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
         }
 
         //recursivly check item contents for target
-        if( ( itm->is_container() ) && !( itm->is_container_empty() ) ) {
+        if( itm->is_container() && !itm->is_container_empty() ) {
             std::list<item> content_list = itm->contents;
 
             std::vector<item *> content = std::vector<item *>();
