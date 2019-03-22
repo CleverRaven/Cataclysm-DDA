@@ -1012,6 +1012,31 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     return res;
 }
 
+std::vector<item_location> Character::find_reloadables()
+{
+    std::vector<item_location> reloadables;
+
+    visit_items( [this, &reloadables]( item * node ) {
+        if( node->is_holster() ) {
+            return VisitResponse::NEXT;
+        }
+        bool reloadable = false;
+        if( node->is_gun() && !node->magazine_compatible().empty() ) {
+            reloadable = node->magazine_current() == nullptr ||
+                         node->ammo_remaining() < node->ammo_capacity();
+        } else {
+            reloadable = ( node->is_magazine() || node->is_bandolier() ||
+                           ( node->is_gun() && node->magazine_integral() ) ) &&
+                         node->ammo_remaining() < node->ammo_capacity();
+        }
+        if( reloadable ) {
+            reloadables.push_back( item_location( *this, node ) );
+        }
+        return VisitResponse::SKIP;
+    } );
+    return reloadables;
+}
+
 units::mass Character::weight_carried() const
 {
     return weight_carried_with_tweaks( {} );

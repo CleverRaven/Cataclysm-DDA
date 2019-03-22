@@ -894,12 +894,17 @@ class player : public Character
         void rooted_message() const;
         void rooted();
         int get_lift_assist() const;
+
+        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty = true ) const;
         /**
          * Select suitable ammo with which to reload the item
          * @param base Item to select ammo for
          * @param prompt force display of the menu even if only one choice
+         * @param empty allow selection of empty magazines
          */
-        item::reload_option select_ammo( const item &base, bool prompt = false ) const;
+        item::reload_option select_ammo( const item &base, bool prompt = false,
+                                         bool empty = true ) const;
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;

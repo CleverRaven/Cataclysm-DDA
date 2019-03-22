@@ -4388,11 +4388,11 @@ bool item::is_firearm() const
 
 int item::get_reload_time() const
 {
-    if( !is_gun() ) {
+    if( !is_gun() && !is_magazine() ) {
         return 0;
     }
 
-    int reload_time = type->gun->reload_time;
+    int reload_time = is_gun() ? type->gun->reload_time : type->magazine->reload_time;
     for( const auto mod : gunmods() ) {
         reload_time = static_cast<int>( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
     }
