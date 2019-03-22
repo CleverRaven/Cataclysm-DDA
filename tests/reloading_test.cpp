@@ -258,10 +258,6 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     }
                 }
             }
-            GIVEN( "the player also has another gun with ammo" ) {
-                item &mag2 = dummy.i_add( item( "glockbigmag", 0, 0 ) );
-                const cata::optional<islot_magazine> &magazine_type2 = mag2.type->magazine;
-            }
         }
     }
 }
