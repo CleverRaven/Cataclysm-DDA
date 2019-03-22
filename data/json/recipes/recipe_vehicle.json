@@ -142,6 +142,20 @@
     ]
   },
   {
+    "result": "mountable_heater",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skill_required": [ "mechanics", 2 ],
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "large_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
+  },
+  {
     "result": "washing_machine",
     "type": "recipe",
     "category": "CC_OTHER",

@@ -455,6 +455,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "blade_scythe",
+    "symbol": "(",
+    "color": "light_gray",
+    "name": "scythe blade",
+    "description": "A large, curved blade.  Could be used to assemble a scythe, or make an improvised polearm.",
+    "category": "spare_parts",
+    "price": 28000,
+    "price_postapoc": 1000,
+    "material": "steel",
+    "weight": 1000,
+    "volume": 6,
+    "bashing": 6,
+    "cutting": 8,
+    "to_hit": -2,
+    "qualities": [ [ "BUTCHER", -38 ] ]
+  },
+  {
+    "type": "GENERIC",
     "id": "circsaw_blade",
     "symbol": "/",
     "color": "light_gray",
@@ -1289,20 +1307,24 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
+    "type": "PET_ARMOR",
     "id": "kevlar_harness",
     "symbol": "[",
     "color": "blue",
     "name": "Kevlar dog harness",
     "name_plural": "Kevlar dog harnesses",
-    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.",
+    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.  You could put this on a friendly dog.",
     "price": 30000,
     "price_postapoc": 3000,
     "material": [ "kevlar" ],
     "weight": 4290,
     "volume": 18,
     "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "flags": [ "IS_PET_ARMOR" ],
+    "max_pet_vol": "35000 ml",
+    "min_pet_vol": "25000 ml",
+    "pet_bodytype": "dog"
   },
   {
     "type": "GENERIC",

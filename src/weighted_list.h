@@ -222,7 +222,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
 
 template <typename T> struct weighted_float_list : public weighted_list<double, T> {
 
-        //TODO precalc using alias method
+        // TODO: precalc using alias method
 
     protected:
 

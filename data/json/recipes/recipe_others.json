@@ -178,6 +178,46 @@
   },
   {
     "type": "recipe",
+    "result": "small_space_heater",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ], [ "steel_standard", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "element", 8 ] ], [ [ "cable", 4 ] ], [ [ "sheet_metal_small", 5 ] ], [ [ "power_supply", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "large_space_heater",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 90000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "element", 12 ] ], [ [ "cable", 6 ] ], [ [ "sheet_metal", 2 ] ], [ [ "power_supply", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "puller",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4239,5 +4279,16 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
     "components": [ [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wooden_bead",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "splinter", 1 ] ] ]
   }
 ]

@@ -160,7 +160,7 @@ struct islot_comestible {
     /** Reference to item that will be received after smoking current item */
     itype_id smoking_result;
 
-    /** @todo: add documentation */
+    /** TODO: add documentation */
     int healthy = 0;
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
@@ -168,6 +168,11 @@ struct islot_comestible {
 
     /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
     int freeze_point = temperatures::freezing;
+
+    //** specific heats in J/(g K) and latent heat in J/g */
+    float specific_heat_liquid = 4.186;
+    float specific_heat_solid = 2.108;
+    float latent_heat = 333;
 
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
@@ -260,6 +265,41 @@ struct islot_armor {
      * How much storage this items provides when worn.
      */
     units::volume storage = 0_ml;
+    /**
+     * Whether this is a power armor item.
+     */
+    bool power_armor = false;
+};
+
+struct islot_pet_armor {
+    /**
+     * TODO: document me.
+     */
+    int thickness = 0;
+    /**
+     * Resistance to environmental effects.
+     */
+    int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+    /**
+     * How much storage this items provides when worn.
+     */
+    units::volume storage = 0_ml;
+    /**
+     * The maximum volume a pet can be and wear this armor
+     */
+    units::volume max_vol = 0_ml;
+    /**
+     * The minimum volume a pet can be and wear this armor
+     */
+    units::volume min_vol = 0_ml;
+    /**
+     * What animal bodytype can wear this armor
+     */
+    std::string bodytype = "none";
     /**
      * Whether this is a power armor item.
      */
@@ -716,6 +756,7 @@ struct itype {
         cata::optional<islot_comestible> comestible;
         cata::optional<islot_brewable> brewable;
         cata::optional<islot_armor> armor;
+        cata::optional<islot_pet_armor> pet_armor;
         cata::optional<islot_book> book;
         cata::optional<islot_mod> mod;
         cata::optional<islot_engine> engine;

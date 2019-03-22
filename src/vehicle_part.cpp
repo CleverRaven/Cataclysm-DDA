@@ -523,7 +523,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    // @todo: check fuel for combustion engines
+    // TODO: check fuel for combustion engines
 
     if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
         if( alert ) {

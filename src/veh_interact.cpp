@@ -67,7 +67,7 @@ const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
 const quality_id SELF_JACK( "SELF_JACK" );
 const skill_id skill_mechanics( "mechanics" );
-static const itype_id fuel_type_battery( "battery" );
+const itype_id fuel_type_battery( "battery" );
 } // namespace
 
 void act_vehicle_siphon( vehicle *veh );
@@ -264,7 +264,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    //@todo: better have a from_moves function
+    // TODO: better have a from_moves function
     msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
@@ -520,7 +520,7 @@ task_reason veh_interact::cant_do( char mode )
     if( !part_free ) {
         return NOT_FREE;
     }
-    if( !has_skill ) { // @todo: that is always false!
+    if( !has_skill ) { // TODO: that is always false!
         return LACK_SKILL;
     }
     return CAN_DO;
@@ -810,6 +810,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "SECURITY" ) ||
                part.has_flag( "SEAT" ) ||
                part.has_flag( "BED" ) ||
+               part.has_flag( "SPACE_HEATER" ) ||
                part.has_flag( "DOOR_MOTOR" ) ||
                part.has_flag( "WATER_PURIFIER" );
     };
@@ -1297,7 +1298,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( pt.is_battery() && pt.is_available() ) {
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
+                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
             };
@@ -1343,7 +1344,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     int pos = -1;
     if( enable && action ) {
         do {
-            if( ++pos >= int( opts.size() ) ) {
+            if( ++pos >= static_cast<int>( opts.size() ) ) {
                 pos = -1;
                 break; // nothing could be selected
             }
@@ -1360,7 +1361,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                             c_yellow, _( "'{' to scroll up" ) );
             y++;
         }
-        for( int idx = overview_offset; idx != int( opts.size() ); ++idx ) {
+        for( int idx = overview_offset; idx != static_cast<int>( opts.size() ); ++idx ) {
             const auto &pt = *opts[idx].part;
 
             // if this is a new section print a header row
@@ -1432,7 +1433,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( input == "DOWN" ) {
             do {
                 move_overview_line( 1 );
-                if( ++pos >= int( opts.size() ) ) {
+                if( ++pos >= static_cast<int>( opts.size() ) ) {
                     pos = 0;
                 }
             } while( !opts[pos].hotkey );
@@ -1959,7 +1960,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    w_border = catacurses::window(); //@todo: move code using w_border into a separate scope
+    w_border = catacurses::window(); // TODO: move code using w_border into a separate scope
 
     const int grid_w = getmaxx( w_grid );
 
@@ -2147,7 +2148,7 @@ void veh_interact::display_stats() const
                         vel_to_int( veh->max_ground_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        //TODO: extract accelerations units to its own function
+        // TODO: extract accelerations units to its own function
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         //~ /t means per turn
                         _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
@@ -2164,7 +2165,7 @@ void veh_interact::display_stats() const
                         vel_to_int( veh->max_water_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        //TODO: extract accelerations units to its own function
+        // TODO: extract accelerations units to its own function
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         //~ /t means per turn
                         _( "Water Acceleration: <color_light_blue>%3d</color> %s/t" ),
@@ -2324,8 +2325,9 @@ void veh_interact::display_mode()
     for( size_t i = 0; i < actions.size(); i++ ) {
         pos[i + 1] = pos[i] + utf8_width( actions[i] ) - 2;
     }
-    int spacing = int( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
-    int shift = int( ( esc_pos - pos[actions.size()] - spacing * ( actions.size() - 1 ) ) / 2 ) - 1;
+    int spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
+    int shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
+                                    ( actions.size() - 1 ) ) / 2 ) - 1;
     for( size_t i = 0; i < actions.size(); i++ ) {
         shortcut_print( w_mode, 0, pos[i] + spacing * i + shift,
                         enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
@@ -2822,7 +2824,8 @@ void veh_interact::complete_vehicle()
                     int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
 
                     const double PI = 3.14159265358979f;
-                    dir = int( atan2( static_cast<float>( delta_y ), static_cast<float>( delta_x ) ) * 180.0 / PI );
+                    dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
+                                                   static_cast<float>( delta_x ) ) * 180.0 / PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;
@@ -2836,7 +2839,7 @@ void veh_interact::complete_vehicle()
             }
 
             const tripoint vehp = veh->global_pos3() + tripoint( q.x, q.y, 0 );
-            //@todo: allow boarding for non-players as well.
+            // TODO: allow boarding for non-players as well.
             player *const pl = g->critter_at<player>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
                 g->m.board_vehicle( vehp, pl );

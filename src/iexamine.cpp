@@ -15,6 +15,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "event.h"
+#include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
@@ -26,12 +27,15 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
+#include "mission.h"
+#include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
 #include "iuse_actor.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "pickup.h"
 #include "player.h"
 #include "requirements.h"
 #include "rng.h"
@@ -185,7 +189,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     g->m.add_item_or_charges( spawn_point, new_item );
-
 
 }
 
@@ -661,7 +664,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
 
-        ( void ) p; // @todo: use me
+        ( void ) p; // TODO: use me
         g->handle_liquid_from_ground( water, examp );
     }
 }
@@ -1249,30 +1252,19 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
-void iexamine::bulletin_board( player &, const tripoint &examp )
+void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
-    basecamp *camp = g->m.camp_at( examp );
-    if( camp && camp->board_x() == examp.x && camp->board_y() == examp.y ) {
-        std::vector<std::string> options;
-        options.push_back( _( "Cancel" ) );
-        // Causes a warning due to being unused, but don't want to delete
-        // since it's clearly what's intended for future functionality.
-        int choice = uilist( camp->board_name(), options );
-        static_cast<void>( choice );
+    basecamp *bcp = g->m.camp_at( examp, 60 );
+    if( bcp ) {
+        const std::string title = ( "Base Missions" );
+        mission_data mission_key;
+        bcp->get_available_missions( mission_key );
+        if( talk_function::display_and_choose_opts( mission_key, bcp->camp_omt_pos(), "FACTION_CAMP",
+                title ) ) {
+            bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+        }
     } else {
-        bool create_camp = g->m.allow_camp( examp );
-        std::vector<std::string> options;
-        if( create_camp ) {
-            options.push_back( _( "Create camp" ) );
-        }
-        // @todo: Other Bulletin Boards
-        int choice = uilist( _( "Bulletin Board" ), options );
-        if( choice >= 0 && size_t( choice ) < options.size() ) {
-            if( options[choice] == _( "Create camp" ) ) {
-                // @todo: Allow text entry for name
-                g->m.add_camp( examp, _( "Home" ) );
-            }
-        }
+        p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
     }
 }
 
@@ -1338,9 +1330,10 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
         g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 4_turns );
-    } else
+    } else {
         add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top." ) );
+    }
 }
 
 /**
@@ -1496,7 +1489,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
     if( dead_plant( true, p, examp ) ) {
         return;
     }
-    // @todo: Get rid of this section and move it to eating
+    // TODO: Get rid of this section and move it to eating
     // Two y/n prompts is just too much
     if( can_drink_nectar( p ) ) {
         if( !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
@@ -1653,7 +1646,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto &harvest = hid.obj();
 
     // If nothing can be harvested, neither can nectar
-    // Incredibly low priority @todo: Allow separating nectar seasons
+    // Incredibly low priority TODO: Allow separating nectar seasons
     if( nectar && drink_nectar( p ) ) {
         return false;
     }
@@ -2049,28 +2042,29 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     }
 }
 
-std::string iexamine::fertilize_failure_reason( player &p, const tripoint &tile,
-        const itype_id &fertilizer )
+ret_val<bool> iexamine::can_fertilize( player &p, const tripoint &tile,
+                                       const itype_id &fertilizer )
 {
     if( !g->m.has_flag_furn( "PLANT", tile ) ) {
-        return _( "Tile isn't a plant" );
+        return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( g->m.i_at( tile ).size() > 1 ) {
-        return _( "Tile is already fertilized" );
+        return ret_val<bool>::make_failure( _( "Tile is already fertilized" ) );
     }
     if( !p.has_charges( fertilizer, 1 ) ) {
-        return string_format( _( "Tried to fertilize with %s, but player doesn't have any." ),
-                              fertilizer.c_str() );
+        return ret_val<bool>::make_failure(
+                   _( "Tried to fertilize with %s, but player doesn't have any." ),
+                   fertilizer.c_str() );
     }
 
-    return std::string();
+    return ret_val<bool>::make_success();
 }
 
 void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer )
 {
-    std::string reason = fertilize_failure_reason( p, tile, fertilizer );
-    if( !reason.empty() ) {
-        debugmsg( reason );
+    ret_val<bool> can_fert = can_fertilize( p, tile, fertilizer );
+    if( !can_fert.success() ) {
+        debugmsg( can_fert.str() );
         return;
     }
 
@@ -2081,7 +2075,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
     item &seed = g->m.i_at( tile ).front();
-    //@todo: item should probably clamp the value on its own
+    // TODO: item should probably clamp the value on its own
     seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
@@ -2221,7 +2215,6 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
     } else {
         add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
                  format_volume( total_volume ), volume_units_abbr() );
-        g->draw_sidebar_messages(); // flush messages before popup
         if( !query_yn( _( "Fire the kiln?" ) ) ) {
             return;
         }
@@ -2293,6 +2286,102 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
 
+void iexamine::fireplace( player &p, const tripoint &examp )
+{
+    const bool already_on_fire = g->m.has_nearby_fire( examp, 0 );
+    const bool furn_is_deployed = !g->m.furn( examp ).obj().deployed_item.empty();
+
+    if( already_on_fire && !furn_is_deployed ) {
+        none( p, examp );
+        Pickup::pick_up( examp, 0 );
+        return;
+    }
+
+    std::multimap<int, item *> firestarters;
+    for( item *it : p.items_with( []( const item & it ) {
+    return it.has_flag( "FIRESTARTER" ) || it.has_flag( "FIRE" );
+    } ) ) {
+        const auto usef = it->type->get_use( "firestarter" );
+        if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
+            const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            if( actor->can_use( p, *it, false, examp ).success() ) {
+                firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
+            }
+        }
+    }
+
+    const bool has_firestarter = firestarters.size() > 0;
+    const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
+                                        p.power_level >= bionic_id( "bio_lighter" )->power_activate;
+
+    uilist selection_menu;
+    selection_menu.text = _( "Select an action" );
+    selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
+    if( !already_on_fire ) {
+        selection_menu.addentry( 1, has_firestarter, 'f',
+                                 has_firestarter ? _( "Start a fire" ) : _( "Start a fire... you'll need a fire source." ) );
+        if( has_bionic_firestarter ) {
+            selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
+        }
+    }
+    if( furn_is_deployed ) {
+        selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
+                                 g->m.furnname( examp ) ) );
+    }
+    selection_menu.query();
+
+    switch( selection_menu.ret ) {
+        case 0:
+            none( p, examp );
+            Pickup::pick_up( examp, 0 );
+            return;
+        case 1: {
+            for( auto &firestarter : firestarters ) {
+                item *it = firestarter.second;
+                const auto usef = it->type->get_use( "firestarter" );
+                const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+                p.add_msg_if_player( string_format( _( "You attempt to start a fire with your %s..." ),
+                                                    it->tname() ) );
+                const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+                if( can_use.success() ) {
+                    const long charges = actor->use( p, *it, false, examp );
+                    p.use_charges( it->typeId(), charges );
+                    return;
+                } else {
+                    p.add_msg_if_player( m_bad, can_use.str() );
+                }
+            }
+            p.add_msg_if_player( _( "You weren't able to start a fire." ) );
+            return;
+        }
+        case 2: {
+            if( g->m.add_field( examp, fd_fire, 1 ) ) {
+                p.charge_power( -bionic_id( "bio_lighter" )->power_activate );
+                p.mod_moves( -100 );
+            } else {
+                p.add_msg_if_player( m_info, _( "You can't light a fire there." ) );
+            }
+            return;
+        }
+        case 3: {
+            if( already_on_fire ) {
+                if( !query_yn( _( "Really take down the %s while it's on fire?" ), g->m.furnname( examp ) ) ) {
+                    return;
+                }
+            }
+            p.add_msg_if_player( m_info, _( "You take down the %s." ),
+                                 g->m.furnname( examp ) );
+            const auto furn_item = g->m.furn( examp ).obj().deployed_item;
+            g->m.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
+            g->m.furn_set( examp, f_null );
+            return;
+        }
+        default:
+            none( p, examp );
+            return;
+    }
+}
+
 void iexamine::fvat_empty( player &p, const tripoint &examp )
 {
     itype_id brew_type;
@@ -2318,7 +2407,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
     }
     if( !brew_present ) {
         add_msg( _( "This keg is empty." ) );
-        // @todo: Allow using brews from crafting inventory
+        // TODO: Allow using brews from crafting inventory
         const auto b_inv = p.items_with( []( const item & it ) {
             return it.is_brewable();
         } );
@@ -2338,7 +2427,6 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
         // Choose brew from list
         int b_index = 0;
-        g->draw_sidebar_messages(); // flush messages before popup
         if( b_types.size() > 1 ) {
             b_index = uilist( _( "Use which brew?" ), b_names );
         } else { //Only one brew type was in inventory, so it's automatically used
@@ -2359,7 +2447,6 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         charges_on_ground = brew.charges;
         add_msg( _( "This keg contains %s (%d), %0.f%% full." ),
                  brew.tname().c_str(), brew.charges, brew.volume() * 100.0 / vat_volume );
-        g->draw_sidebar_messages(); // flush messages before popup
         enum options { ADD_BREW, REMOVE_BREW, START_FERMENT };
         uilist selectmenu;
         selectmenu.text = _( "Select an action" );
@@ -2406,7 +2493,6 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         g->m.add_item( examp, brew );
         p.moves -= 250;
         if( !vat_full ) {
-            g->draw_sidebar_messages(); // flush messages before popup
             ferment = query_yn( _( "Start fermenting cycle?" ) );
         }
     }
@@ -2447,11 +2533,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
     item &brew_i = items_here.front();
     // Does the vat contain unfermented brew, or already fermented booze?
-    // @todo: Allow "recursive brewing" to continue without player having to check on it
+    // TODO: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
         add_msg( _( "There's a vat of %s set to ferment there." ), brew_i.tname().c_str() );
 
-        //@todo: change brew_time to return time_duration
+        // TODO: change brew_time to return time_duration
         const time_duration brew_time = brew_i.brewing_time();
         const time_duration progress = brew_i.age();
         if( progress < brew_time ) {
@@ -2466,13 +2552,12 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             return;
         }
 
-        g->draw_sidebar_messages(); // flush messages before popup
         if( query_yn( _( "Finish brewing?" ) ) ) {
             const auto results = brew_i.brewing_results();
 
             g->m.i_clear( examp );
             for( const auto &result : results ) {
-                // @todo: Different age based on settings
+                // TODO: Different age based on settings
                 item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
                 if( booze.made_of_from_type( LIQUID ) ) {
@@ -2565,7 +2650,6 @@ void iexamine::keg( player &p, const tripoint &examp )
         }
         // Choose drink to store in keg from list
         int drink_index = 0;
-        g->draw_sidebar_messages(); // flush messages before popup
         if( drink_types.size() > 1 ) {
             drink_index = uilist( _( "Store which drink?" ), drink_names );
             if( drink_index < 0 || static_cast<size_t>( drink_index ) >= drink_types.size() ) {
@@ -2607,7 +2691,6 @@ void iexamine::keg( player &p, const tripoint &examp )
         auto drink = g->m.i_at( examp ).begin();
         const auto drink_tname = drink->tname();
         const auto drink_nname = item::nname( drink->typeId() );
-        g->draw_sidebar_messages(); // flush messages before popup
         enum options {
             DISPENSE,
             HAVE_A_DRINK,
@@ -3105,7 +3188,7 @@ void iexamine::trap( player &p, const tripoint &examp )
 void iexamine::water_source( player &p, const tripoint &examp )
 {
     item water = g->m.water_from( examp );
-    ( void ) p; // @todo: use me
+    ( void ) p; // TODO: use me
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 
@@ -4509,6 +4592,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "locked_object", &iexamine::locked_object },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "fireplace", &iexamine::fireplace },
             { "climb_down", &iexamine::climb_down },
             { "autodoc", &iexamine::autodoc },
             { "smoker_options", &iexamine::smoker_options },
@@ -4558,7 +4642,7 @@ hack_result iexamine::hack_attempt( player &p )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    success += rng( 0, int( ( p.int_cur - 8 ) / 2 ) );
+    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
 
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );

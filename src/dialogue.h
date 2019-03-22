@@ -92,19 +92,20 @@ struct talk_effect_fun_t {
         talk_effect_fun_t( talkfunction_ptr effect );
         talk_effect_fun_t( const std::function<void( npc & )> effect );
         void set_companion_mission( const std::string &role_id );
-        void set_u_add_permanent_effect( const std::string &new_effect );
-        void set_u_add_effect( const std::string &new_effect, const time_duration &duration );
-        void set_npc_add_permanent_effect( const std::string &new_effect );
-        void set_npc_add_effect( const std::string &new_effect, const time_duration &duration );
-        void set_u_add_trait( const std::string &new_trait );
-        void set_npc_add_trait( const std::string &new_trait );
+        void set_add_effect( bool is_u, const std::string &new_effect,
+                             const time_duration &duration, bool permanent = true );
+        void set_remove_effect( bool is_u, const std::string &new_effect );
+        void set_add_trait( bool is_u, const std::string &new_trait );
+        void set_remove_trait( bool is_u, const std::string &old_trait );
         void set_u_buy_item( const std::string &new_trait, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
         void set_u_sell_item( const std::string &new_trait, int cost, int count );
+        void set_consume_item( bool is_u, const std::string &new_trait, int count );
         void set_npc_change_faction( const std::string &faction_name );
+        void set_npc_change_class( const std::string &faction_class );
         void set_change_faction_rep( int amount );
-        void set_add_debt( const std::vector<trial_mod> debt_modifiers );
+        void set_add_debt( const std::vector<trial_mod> &debt_modifiers );
         void set_toggle_npc_rule( const std::string &rule );
         void set_npc_engagement_rule( const std::string &setting );
         void set_npc_aim_rule( const std::string &setting );
@@ -165,7 +166,6 @@ struct talk_effect_t {
     private:
         dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
 };
-
 
 /**
  * This defines possible responses from the player character.

@@ -135,7 +135,7 @@ void releaseLock( int fd, const char *lockName )
 std::map<std::string, int> lockFiles;
 
 void fopen_exclusive( std::ofstream &fout, const char *filename,
-                      std::ios_base::openmode mode )  //TODO: put this in an ofstream_exclusive class?
+                      std::ios_base::openmode mode )  // TODO: put this in an ofstream_exclusive class?
 {
     std::string lockfile = std::string( filename ) + ".lock";
     lockFiles[lockfile] = getLock( lockfile.c_str() );

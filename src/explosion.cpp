@@ -320,7 +320,7 @@ void game::explosion( const tripoint &p, const explosion_data &ex )
                       to_gram( fragment_drop->weight );
             // Truncate to a random selection
             std::shuffle( tiles.begin(), tiles.end(), rng_get_engine() );
-            tiles.resize( std::min( int( tiles.size() ), qty ) );
+            tiles.resize( std::min( static_cast<int>( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {
                 g->m.add_item_or_charges( e, item( shr.drop, calendar::turn, item::solitary_tag{} ) );

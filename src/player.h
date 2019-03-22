@@ -206,6 +206,7 @@ class player : public Character
 
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( const int visibility_cap ) const;
+        std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
@@ -224,8 +225,6 @@ class player : public Character
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Generates the sidebar and it's data in-game */
-        void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -328,7 +327,8 @@ class player : public Character
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
-        void bionics_uninstall_failure( player &installer );
+        void bionics_uninstall_failure( player &installer, int difficulty, int success,
+                                        float adjusted_skill );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1607,7 +1607,7 @@ class player : public Character
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 
-        //@todo make protected and move into Character
+        // TODO: make protected and move into Character
         void do_skill_rust();
 
         // drawing related stuff

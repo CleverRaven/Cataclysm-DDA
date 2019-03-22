@@ -240,12 +240,10 @@
     "responses": [
       {
         "text": "Glad to help.  I need no payment.",
-        "success": {
-          "topic": "TALK_NONE",
-          "effect": "clear_mission",
-          "mission_opinion": { "trust": 4, "value": 3 },
-          "opinion": { "fear": -1, "anger": -1 }
-        }
+        "topic": "TALK_NONE",
+        "effect": "clear_mission",
+        "mission_opinion": { "trust": 4, "value": 3 },
+        "opinion": { "fear": -1, "anger": -1 }
       },
       {
         "text": "How about some items as payment?",
@@ -260,12 +258,10 @@
       },
       {
         "text": "Glad to help.  I need no payment.  Bye!",
-        "success": {
-          "topic": "TALK_DONE",
-          "effect": "clear_mission",
-          "mission_opinion": { "trust": 4, "value": 3 },
-          "opinion": { "fear": -1, "anger": -1 }
-        }
+        "topic": "TALK_DONE",
+        "effect": "clear_mission",
+        "mission_opinion": { "trust": 4, "value": 3 },
+        "opinion": { "fear": -1, "anger": -1 }
       }
     ]
   },

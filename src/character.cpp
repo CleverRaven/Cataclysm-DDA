@@ -25,6 +25,7 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "skill.h"
+#include "skill_boost.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "veh_interact.h"
@@ -56,23 +57,15 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_CHITIN2( "CHITIN2" );
-static const trait_id trait_CHITIN3( "CHITIN3" );
-static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
@@ -84,13 +77,11 @@ static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
-static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
-static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 // *INDENT-OFF*
@@ -488,9 +479,18 @@ void Character::process_turn()
 void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
+    int str_boost_val = 0;
+    cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
+    if( str_boost ) {
+        int skill_total = 0;
+        for( const std::string &skill_str : str_boost->skills() ) {
+            skill_total += get_skill_level( skill_id( skill_str ) );
+        }
+        str_boost_val = str_boost->calc_bonus( skill_total );
+    }
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
-    float hp_adjustment = mutation_value( "hp_adjustment" );
+    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     for( auto &elem : new_max_hp ) {
         /** @EFFECT_STR_MAX increases base hp */
         elem = 60 + str_max * 3 + hp_adjustment;
@@ -500,7 +500,15 @@ void Character::recalc_hp()
         new_max_hp[hp_head] *= 0.8;
     }
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] *= static_cast<float>( new_max_hp[i] ) / static_cast<float>( hp_max[i] );
+        // Only recalculate when max changes,
+        // otherwise we end up walking all over due to rounding errors.
+        if( new_max_hp[i] == hp_max[i] ) {
+            continue;
+        }
+        float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
+                             static_cast<float>( hp_max[i] );
+        hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
+        hp_cur[i] = std::max( std::min( hp_cur[i], new_max_hp[i] ), 1 );
         hp_max[i] = new_max_hp[i];
     }
 }
@@ -774,7 +782,7 @@ const item &Character::i_at( int position ) const
     }
     if( position < -1 ) {
         int worn_index = worn_position_to_index( position );
-        if( size_t( worn_index ) < worn.size() ) {
+        if( static_cast<size_t>( worn_index ) < worn.size() ) {
             auto iter = worn.begin();
             std::advance( iter, worn_index );
             return *iter;
@@ -1315,6 +1323,37 @@ void Character::die( Creature *nkiller )
     mission::on_creature_death( *this );
 }
 
+void Character::apply_skill_boost()
+{
+    for( const skill_boost &boost : skill_boost::get_all() ) {
+        // For migration, reset previously applied bonus.
+        // Remove after 0.E or so.
+        const std::string bonus_name = boost.stat() + std::string( "_bonus" );
+        std::string previous_bonus = get_value( bonus_name );
+        if( !previous_bonus.empty() ) {
+            if( boost.stat() == "str" ) {
+                str_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "dex" ) {
+                dex_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "int" ) {
+                int_max -= atoi( previous_bonus.c_str() );
+            } else if( boost.stat() == "per" ) {
+                per_max -= atoi( previous_bonus.c_str() );
+            }
+            remove_value( bonus_name );
+        }
+        // End migration code
+        int skill_total = 0;
+        for( const std::string &skill_str : boost.skills() ) {
+            skill_total += get_skill_level( skill_id( skill_str ) );
+        }
+        mod_stat( boost.stat(), boost.calc_bonus( skill_total ) );
+        if( boost.stat() == "str" ) {
+            recalc_hp();
+        }
+    }
+}
+
 void Character::reset_stats()
 {
     // Bionic buffs
@@ -1346,6 +1385,8 @@ void Character::reset_stats()
     else if( str_max <= 5 ) {
         mod_dodge_bonus( 1 );   // Bonus if we're small
     }
+
+    apply_skill_boost();
 
     nv_cached = false;
 
@@ -1866,6 +1907,87 @@ int Character::get_thirst() const
     return thirst;
 }
 
+std::pair<std::string, nc_color> Character::get_thirst_description() const
+{
+    int thirst = get_thirst();
+    std::string hydration_string;
+    nc_color hydration_color = c_white;
+    if( thirst > 520 ) {
+        hydration_color = c_light_red;
+        hydration_string = _( "Parched" );
+    } else if( thirst > 240 ) {
+        hydration_color = c_light_red;
+        hydration_string = _( "Dehydrated" );
+    } else if( thirst > 80 ) {
+        hydration_color = c_yellow;
+        hydration_string = _( "Very thirsty" );
+    } else if( thirst > 40 ) {
+        hydration_color = c_yellow;
+        hydration_string = _( "Thirsty" );
+    } else if( thirst < -60 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Turgid" );
+    } else if( thirst < -20 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Hydrated" );
+    } else if( thirst < 0 ) {
+        hydration_color = c_green;
+        hydration_string = _( "Slaked" );
+    }
+    return std::make_pair( hydration_string, hydration_color );
+}
+
+std::pair<std::string, nc_color> Character::get_hunger_description() const
+{
+    int hunger = get_hunger();
+    std::string hunger_string;
+    nc_color hunger_color = c_white;
+    if( hunger >= 300 && get_starvation() > 2500 ) {
+        hunger_color = c_red;
+        hunger_string = _( "Starving!" );
+    } else if( hunger >= 300 && get_starvation() > 1100 ) {
+        hunger_color = c_light_red;
+        hunger_string = _( "Near starving" );
+    } else if( hunger > 250 ) {
+        hunger_color = c_light_red;
+        hunger_string = _( "Famished" );
+    } else if( hunger > 100 ) {
+        hunger_color = c_yellow;
+        hunger_string = _( "Very hungry" );
+    } else if( hunger > 40 ) {
+        hunger_color = c_yellow;
+        hunger_string = _( "Hungry" );
+    } else if( hunger < -60 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Engorged" );
+    } else if( hunger < -20 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Sated" );
+    } else if( hunger < 0 ) {
+        hunger_color = c_green;
+        hunger_string = _( "Full" );
+    }
+    return std::make_pair( hunger_string, hunger_color );
+}
+
+std::pair<std::string, nc_color> Character::get_fatigue_description() const
+{
+    int fatigue = get_fatigue();
+    std::string fatigue_string;
+    nc_color fatigue_color = c_white;
+    if( fatigue > EXHAUSTED ) {
+        fatigue_color = c_red;
+        fatigue_string = _( "Exhausted" );
+    } else if( fatigue > DEAD_TIRED ) {
+        fatigue_color = c_light_red;
+        fatigue_string = _( "Dead Tired" );
+    } else if( fatigue > TIRED ) {
+        fatigue_color = c_yellow;
+        fatigue_string = _( "Tired" );
+    }
+    return std::make_pair( fatigue_string, fatigue_color );
+}
+
 void Character::mod_thirst( int nthirst )
 {
     set_thirst( thirst + nthirst );
@@ -2125,7 +2247,7 @@ hp_part Character::body_window( const std::string &menu_header,
                                              get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) << "\n";
             if( bleed > 0.0f ) {
                 desc << colorize( string_format( _( "Chance to stop: %d %%" ),
-                                                 int( bleed * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( bleed * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not stop the bleeding." ),
                                   c_yellow ) << "\n";
@@ -2152,7 +2274,7 @@ hp_part Character::body_window( const std::string &menu_header,
                               c_red ) << "\n";
             if( bite > 0 ) {
                 desc << colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 int( bite * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( bite * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in cleaning this wound." ), c_yellow ) << "\n";
             }
@@ -2166,7 +2288,7 @@ hp_part Character::body_window( const std::string &menu_header,
                               c_red ) << "\n";
             if( infect > 0 ) {
                 desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),
-                                                 int( infect * 100 ) ), c_light_green ) << "\n";
+                                                 static_cast<int>( infect * 100 ) ), c_light_green ) << "\n";
             } else {
                 desc << colorize( _( "This will not help in healing infection." ), c_yellow ) << "\n";
             }
@@ -2378,12 +2500,13 @@ int Character::throw_range( const item &it ) const
     }
 
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( ( tmp.weight() / 113_gram ) > int( str_cur * 15 ) ) {
+    if( ( tmp.weight() / 113_gram ) > static_cast<int>( str_cur * 15 ) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int(
+    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
+                                   static_cast<int>(
                                        tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
@@ -2541,7 +2664,7 @@ long Character::ammo_count_for( const item &gun )
 float Character::rest_quality() const
 {
     // Just a placeholder for now.
-    // @todo: Waiting/reading/being unconscious on bed/sofa/grass
+    // TODO: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
@@ -2599,7 +2722,7 @@ body_part Character::get_random_body_part( bool main ) const
 
 std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 {
-    // @todo: Remove broken parts, parts removed by mutations etc.
+    // TODO: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
             bp_head,
             bp_eyes,
@@ -2666,7 +2789,7 @@ std::string Character::extended_description() const
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
         ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
-        // @todo: Integrate into get_hp_bar somehow
+        // TODO: Integrate into get_hp_bar somehow
         ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
@@ -2735,7 +2858,7 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // @todo: Get rid of if/else ladder
+    // TODO: Get rid of if/else ladder
     if( val == "healing_awake" ) {
         return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
     } else if( val == "healing_resting" ) {
@@ -2793,7 +2916,7 @@ float Character::mutation_value( const std::string &val ) const
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    // @todo: Cache
+    // TODO: Cache
     float heal_rate;
     if( !is_npc() ) {
         heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );

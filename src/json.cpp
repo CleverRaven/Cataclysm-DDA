@@ -68,7 +68,7 @@ std::string utf16_to_utf8( uint32_t ch )
  * represents a JSON object,
  * providing access to the underlying data.
  */
-JsonObject::JsonObject( JsonIn &j ) : positions()
+JsonObject::JsonObject( JsonIn &j )
 {
     jsin = &j;
     start = jsin->tell();
@@ -134,7 +134,7 @@ int JsonObject::verify_position( const std::string &name,
 
 bool JsonObject::has_member( const std::string &name )
 {
-    return ( bool )verify_position( name, false );
+    return static_cast<bool>( verify_position( name, false ) );
 }
 
 std::set<std::string> JsonObject::get_member_names()
@@ -405,7 +405,7 @@ bool JsonObject::has_object( const std::string &name )
  * represents a JSON array,
  * providing access to the underlying data.
  */
-JsonArray::JsonArray( JsonIn &j ) : positions()
+JsonArray::JsonArray( JsonIn &j )
 {
     jsin = &j;
     start = jsin->tell();
@@ -695,7 +695,7 @@ int JsonIn::tell()
 }
 char JsonIn::peek()
 {
-    return ( char )stream->peek();
+    return static_cast<char>( stream->peek() );
 }
 bool JsonIn::good()
 {
@@ -741,9 +741,8 @@ void JsonIn::skip_member()
 
 void JsonIn::skip_separator()
 {
-    signed char ch;
     eat_whitespace();
-    ch = peek();
+    signed char ch = peek();
     if( ch == ',' ) {
         if( ate_separator ) {
             error( "duplicate separator" );
@@ -814,9 +813,8 @@ void JsonIn::skip_string()
 
 void JsonIn::skip_value()
 {
-    char ch;
     eat_whitespace();
-    ch = peek();
+    char ch = peek();
     // it's either a string '"'
     if( ch == '"' ) {
         skip_string();
@@ -973,8 +971,8 @@ std::string JsonIn::get_string()
                 stream->get( unihex, 5 );
                 // insert the appropriate unicode character in utf8
                 // TODO: verify that unihex is in fact 4 hex digits.
-                char **endptr = 0;
-                uint32_t u = ( uint32_t )strtoul( unihex, endptr, 16 );
+                char **endptr = nullptr;
+                uint32_t u = static_cast<uint32_t>( strtoul( unihex, endptr, 16 ) );
                 try {
                     s += utf16_to_utf8( u );
                 } catch( const std::exception &err ) {
@@ -990,7 +988,7 @@ std::string JsonIn::get_string()
             return s;
         } else if( ch == '\r' || ch == '\n' ) {
             error( "reached end of line without closing string", -1 );
-        } else if( ( unsigned char ) ch < 0x20 ) {
+        } else if( static_cast<unsigned char>( ch ) < 0x20 ) {
             error( "invalid character inside string", -1 );
         } else {
             s += ch;
@@ -1011,14 +1009,14 @@ int JsonIn::get_int()
 {
     // get float value and then convert to int,
     // because "1.359e3" is technically a valid integer.
-    return ( int )get_float();
+    return static_cast<int>( get_float() );
 }
 
 long JsonIn::get_long()
 {
     // get float value and then convert to int,
     // because "1.359e3" is technically a valid integer.
-    return ( long )get_float();
+    return static_cast<long>( get_float() );
 }
 
 double JsonIn::get_float()
@@ -1704,10 +1702,9 @@ void JsonOut::write( const std::string &val )
     if( need_separator ) {
         write_separator();
     }
-    unsigned char ch;
     stream->put( '"' );
     for( const auto &i : val ) {
-        ch = i;
+        unsigned char ch = i;
         if( ch == '"' ) {
             stream->write( "\\\"", 2 );
         } else if( ch == '\\' ) {
@@ -1750,10 +1747,9 @@ void JsonOut::write( const std::bitset<N> &b )
         write_separator();
     }
     std::string converted = b.to_string();
-    unsigned char ch;
     stream->put( '"' );
     for( auto &i : converted ) {
-        ch = i;
+        unsigned char ch = i;
         stream->put( ch );
     }
     stream->put( '"' );

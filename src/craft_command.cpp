@@ -85,7 +85,6 @@ void craft_command::execute()
 
     crafter->assign_activity( activity );
 
-    /* legacy support for lua bindings to last_batch and lastrecipe */
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 
