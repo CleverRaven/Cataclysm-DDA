@@ -5689,7 +5689,15 @@
       ["rag_bloody", 1],
       ["chem_nitric_acid", 10],
       ["chem_hydrogen_peroxide_conc", 10],
-      ["denat_alcohol", 10]
+      ["denat_alcohol", 10],
+      [ "microscope", 10 ],
+      [ "microscope_dissecting", 15 ],
+      [ "beaker", 5 ],
+      [ "gradcylinder", 5 ],
+      [ "rack_test_tube", 5 ],
+      [ "flask_glass", 10 ],
+      [ "beaker", 10 ],
+      [ "test_tube", 10 ]
     ]
   },{
     "type" : "item_group",

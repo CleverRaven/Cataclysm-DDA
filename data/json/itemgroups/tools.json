@@ -245,7 +245,6 @@
       [ "UPS_off", 3 ],
       [ "microscope", 5 ],
       [ "microscope_dissecting", 5 ],
-      [ "microscope", 5 ],
       [ "funnel_separation", 3 ],
       [ "burette", 3 ],
       [ "rotovap", 3 ],
@@ -259,7 +258,10 @@
       [ "test_tube_micro", 5 ],
       [ "rack_test_tube_micro", 5 ],
       [ "stand_ring", 5 ],
-      [ "stand_ring_clamps", 5 ]
+      [ "stand_ring_clamps", 5 ],
+      [ "syringe", 4 ],
+      [ "xacto", 4 ],
+      [ "cotton_ball", 4 ]
     ]
   }
 ]
