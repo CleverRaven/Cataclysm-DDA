@@ -2041,8 +2041,7 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         get_option<bool>( "DELAYED_START" ) ? calendar::time_of_cataclysm : calendar::start );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
