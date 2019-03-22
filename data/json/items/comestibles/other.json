@@ -428,7 +428,8 @@
     "flags": "TRADER_AVOID",
     "volume": 1,
     "fun": -30
-  },  {
+  },  
+  {
     "id": "cattlefodder",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
