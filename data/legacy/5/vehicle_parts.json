@@ -1,18 +1,18 @@
 [
-    {
-        "type":"GENERIC",
-        "id": "v_curtain_item",
-        "name": "vehicle curtain",
-        "name_plural" : "vehicle curtains",
-        "description": "A rod, a few metal rings, and a large piece of cloth with some strings attached for securely fastening the edges.",
-        "weight": 2200,
-        "to_hit": -4,
-        "color": "white",
-        "symbol": "\"",
-        "material": ["cotton", "steel"],
-        "volume": 20,
-        "bashing": 1,
-        "category" : "veh_parts",
-        "price": 3500
-    }
+  {
+    "type": "GENERIC",
+    "id": "v_curtain_item",
+    "name": "vehicle curtain",
+    "name_plural": "vehicle curtains",
+    "description": "A rod, a few metal rings, and a large piece of cloth with some strings attached for securely fastening the edges.",
+    "weight": 2200,
+    "to_hit": -4,
+    "color": "white",
+    "symbol": "\"",
+    "material": [ "cotton", "steel" ],
+    "volume": 20,
+    "bashing": 1,
+    "category": "veh_parts",
+    "price": 3500
+  }
 ]
