@@ -950,7 +950,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             ret = overmap::invalid_tripoint;
         } else if( action == "CREATE_NOTE" ) {
             std::string color_notes = _( "Color codes: " );
-            for( auto color_pair : get_note_color_names() ) {
+            for( const auto &color_pair : get_note_color_names() ) {
                 // The color index is not translatable, but the name is.
                 color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
                                               _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );

@@ -1812,7 +1812,7 @@ void panel_manager::serialize( JsonOut &json )
 
     json.start_array();
 
-    for( auto kv : layouts ) {
+    for( const auto &kv : layouts ) {
         json.start_object();
 
         json.member( "layout_id", kv.first );
@@ -1820,7 +1820,7 @@ void panel_manager::serialize( JsonOut &json )
 
         json.start_array();
 
-        for( auto panel : kv.second ) {
+        for( const auto &panel : kv.second ) {
             json.start_object();
 
             json.member( "name", panel.get_name() );

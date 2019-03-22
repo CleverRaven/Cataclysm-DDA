@@ -576,7 +576,7 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     // Apply the various effects.
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         time_duration dur = eff.duration;
         if( p.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
@@ -1361,7 +1361,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Original item has been consumed.
     cut.remove_item();
 
-    for( auto salvaged : materials_salvaged ) {
+    for( const auto &salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
@@ -3142,7 +3142,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         healer.add_msg_if_player( _( "You finish using the %s." ), it.tname().c_str() );
     }
 
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 

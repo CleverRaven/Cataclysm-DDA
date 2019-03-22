@@ -4258,7 +4258,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     }
     count = 0;
     auto what = entries[smenu.ret];
-    for( auto c : comps ) {
+    for( const auto &c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;
         }
@@ -4318,7 +4318,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return;
     }
 
-    for( item m : moved ) {
+    for( const item &m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
         add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(),

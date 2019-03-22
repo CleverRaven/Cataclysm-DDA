@@ -6361,7 +6361,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         } catch( const JsonError &e ) {
             debugmsg( "Error NPC photos: %s", e.c_str() );
         }
-        for( auto npc_photo : npc_photos ) {
+        for( const auto &npc_photo : npc_photos ) {
             std::string menu_str;
             if( npc_photo.name == p->name ) {
                 menu_str = _( "You" );

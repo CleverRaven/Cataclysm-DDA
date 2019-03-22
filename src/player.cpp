@@ -710,7 +710,7 @@ void player::reset_stats()
     }
 
     // Effects
-    for( auto maps : *effects ) {
+    for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
@@ -1662,7 +1662,7 @@ void player::recalc_speed_bonus()
         mod_speed_bonus( hunger_speed_penalty( get_hunger() + get_starvation() ) );
     }
 
-    for( auto maps : *effects ) {
+    for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
@@ -4815,7 +4815,7 @@ void player::process_one_effect( effect &it, bool is_new )
     // Handle miss messages
     auto msgs = it.get_miss_msgs();
     if( !msgs.empty() ) {
-        for( auto i : msgs ) {
+        for( const auto &i : msgs ) {
             add_miss_reason( _( i.first.c_str() ), static_cast<unsigned>( i.second ) );
         }
     }
@@ -9180,7 +9180,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
         std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
-        for( auto slot : mod_locations ) {
+        for( const auto &slot : mod_locations ) {
             int free_slots = gun.get_free_mod_locations( slot.first );
 
             for( auto the_mod : gun.gunmods() ) {

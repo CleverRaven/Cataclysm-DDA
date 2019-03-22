@@ -747,7 +747,7 @@ item &Character::i_add( item it, bool should_stack )
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const std::set<char> cur_inv = allocated_invlets();
-    for( auto iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv.assigned_invlet ) {
         if( iter.second == item_type_id && !cur_inv.count( iter.first ) ) {
             it.invlet = iter.first;
             keep_invlet = true;

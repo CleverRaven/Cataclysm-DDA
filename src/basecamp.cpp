@@ -106,7 +106,8 @@ void basecamp::define_camp( npc &p )
     omt_pos = p.global_omt_location();
     sort_points = p.companion_mission_points;
     // purging the regions guarantees all entries will start with faction_base_
-    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( omt_pos, 1,
+    for( const std::pair<std::string, tripoint> &expansion : talk_function::om_building_region( omt_pos,
+            1,
             true ) ) {
         add_expansion( expansion.first, expansion.second );
     }

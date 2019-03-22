@@ -103,7 +103,7 @@ int player::kcal_for( const item &comest ) const
     // if item has components, will derive calories from that instead.
     if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         int byproduct_multiplier;
-        for( item component : comest.components ) {
+        for( const item &component : comest.components ) {
             component.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             kcal += this->kcal_for( component ) * component.charges * byproduct_multiplier;
         }
