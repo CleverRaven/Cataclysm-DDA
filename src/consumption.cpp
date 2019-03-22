@@ -713,7 +713,7 @@ bool player::eat( item &food, bool force )
         } else {
             add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                    food.tname().c_str() );
-            if ( !spoiled ) {
+            if ( !spoiled && !food.has_flag( "ALLERGEN_JUNK" ) ) {
                 bool has_table_nearby = false;
                 for ( const tripoint &pt : g->m.points_in_radius( pos(), 2 ) ) {
                     if ( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
@@ -725,7 +725,7 @@ bool player::eat( item &food, bool force )
                 if ( g->m.has_flag_furn( "CAN_SIT", pos() ) && has_table_nearby )
                     eat_with_table = true;
                 if ( eat_with_table ) {
-                    if ( has_trait( trait_id( "SNOBBISH" ) ) ) {
+                    if ( has_trait( trait_id( "TABLEMANNERS" ) ) ) {
                         if ( has_morale( MORALE_ATE_WITHOUT_TABLE ) )
                             rem_morale( MORALE_ATE_WITHOUT_TABLE );
                         add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true);
@@ -733,7 +733,7 @@ bool player::eat( item &food, bool force )
                         add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true);
                     }
                 } else {
-                    if ( has_trait( trait_id( "SNOBBISH" ) ) ) {
+                    if ( has_trait( trait_id( "TABLEMANNERS" ) ) ) {
                         if ( has_morale( MORALE_ATE_WITH_TABLE ) )
                             rem_morale( MORALE_ATE_WITH_TABLE );
                         add_morale( MORALE_ATE_WITHOUT_TABLE, -2, -4, 3_hours, 2_hours, true);
