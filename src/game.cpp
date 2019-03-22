@@ -12522,24 +12522,24 @@ void game::start_calendar()
     if( scen_season ) {
         // Configured starting date overridden by scenario, time_of_cataclysm is left as Spring 1
         calendar::start = HOURS( get_option<int>( "INITIAL_TIME" ) );
+        calendar::turn = HOURS( get_option<int>( "INITIAL_TIME" ) );
         if( scen->has_flag( "SPR_START" ) ) {
             calendar::initial_season = SPRING;
         } else if( scen->has_flag( "SUM_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::start += to_turns<int>( calendar::season_length() );
+            calendar::turn += to_turns<int>( calendar::season_length() );
         } else if( scen->has_flag( "AUT_START" ) ) {
             calendar::initial_season = AUTUMN;
-            calendar::start += to_turns<int>( calendar::season_length() * 2 );
+            calendar::turn += to_turns<int>( calendar::season_length() * 2 );
         } else if( scen->has_flag( "WIN_START" ) ) {
             calendar::initial_season = WINTER;
-            calendar::start += to_turns<int>( calendar::season_length() * 3 );
+            calendar::turn += to_turns<int>( calendar::season_length() * 3 );
         } else if( scen->has_flag( "SUM_ADV_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::start += to_turns<int>( calendar::season_length() * 5 );
+            calendar::turn += to_turns<int>( calendar::season_length() * 5 );
         } else {
             debugmsg( "The Unicorn" );
         }
-        calendar::turn = calendar::start;
     } else {
         // No scenario, so use the starting date+time configured in world options
         const int initial_days = get_option<int>( "INITIAL_DAY" );
