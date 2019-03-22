@@ -470,9 +470,7 @@
     "name": "GROUP_MAPGEN_POOL",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_zombie_swimmer", "freq": 450, "cost_multiplier": 0 }
-    ]
+    "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 450, "cost_multiplier": 0 } ]
   },
   {
     "type": "mapgen",
@@ -560,9 +558,7 @@
     "name": "GROUP_MAPGEN_POOL",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_zombie_swimmer", "freq": 450, "cost_multiplier": 0 }
-    ]
+    "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 450, "cost_multiplier": 0 } ]
   },
   {
     "type": "mapgen",
