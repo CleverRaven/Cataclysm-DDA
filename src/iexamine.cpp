@@ -2310,7 +2310,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         }
     }
 
-    const bool has_firestarter = firestarters.size() > 0;
+    const bool has_firestarter = !firestarters.empty();
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
                                         p.power_level >= bionic_id( "bio_lighter" )->power_activate;
 

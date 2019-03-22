@@ -1146,12 +1146,12 @@ void new_faction_manager::display() const
         // entries_per_page * page number
         const int top_of_page = entries_per_page * ( selection / entries_per_page );
         if( tab == tab_mode::TAB_FOLLOWERS ) {
-            if( followers.size() > 0 ) {
+            if( !followers.empty() ) {
                 guy = followers[selection];
             }
             active_vec_size = followers.size();
         } else if( tab == tab_mode::TAB_MYFACTION ) {
-            if( camps.size() > 0 ) {
+            if( !camps.empty() ) {
                 camp = camps[selection];
             }
             active_vec_size = camps.size();
@@ -1228,7 +1228,7 @@ void new_faction_manager::display() const
                 }
                 break;
             case tab_mode::TAB_FOLLOWERS:
-                if( followers.size() > 0 ) {
+                if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
                     for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
                         const auto guy = followers[i];
