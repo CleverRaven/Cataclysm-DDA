@@ -17,7 +17,6 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "messages.h"
 #include "npc.h"
 #include "options.h"
@@ -112,20 +111,6 @@ float player::morale_crafting_speed_multiplier( const recipe &rec ) const
 float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
     float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier( rec );
-    // If there's table and we are on chair - crafting will be faster
-    bool has_table_nearby = false;
-    for ( const tripoint &pt : g->m.points_in_radius( g->u.pos(), 2 ) ) {
-        if ( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
-            ( g->m.veh_at(pt) && g->m.veh_at(pt)->vehicle().has_part( "KITCHEN" ) ) ) {
-            has_table_nearby = true;
-        }
-    }
-    bool craft_with_table = false;
-    if ( g->m.has_flag_furn( "CAN_SIT", g->u.pos() ) && has_table_nearby )
-        craft_with_table = true;
-    // Crafting speed is increased by 10%
-    if ( craft_with_table )
-        result *= 1.1f;
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
