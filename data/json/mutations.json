@@ -273,7 +273,7 @@
         "cancels" : ["SLOWLEARNER"]
     },{
         "type" : "mutation",
-        "id" : "SNOBBISH",
+        "id" : "TABLEMANNERS",
         "name" : "Rigid table manners",
         "points" : -1,
         "description" : "You've been teached table manners from the childhood. Now you can't even think about eating without table. Eating without table frustrates you, but eating not like an animal gives you bigger mood bonus.",
