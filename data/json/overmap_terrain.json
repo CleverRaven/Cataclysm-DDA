@@ -4963,6 +4963,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_arcade_roof",
+    "name": "arcade roof",
+    "copy-from": "generic_city_building",
+    "sym": 65,
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bowling_alley",
     "name": "bowling alley",
     "copy-from": "generic_city_building",
