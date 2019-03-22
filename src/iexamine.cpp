@@ -2504,6 +2504,8 @@ static units::volume get_keg_capacity( const tripoint &pos )
         return units::from_liter( 300 );
     } else if( furn.id == "f_wood_keg" )  {
         return units::from_liter( 125 );
+    } else if( furn.id == "f_water_heater" )  {
+        return units::from_liter( 60 );
     }
     //add additional cases above
     else                                {
