@@ -12515,29 +12515,52 @@ bool check_art_charge_req( item &it )
 
 void game::start_calendar()
 {
-    calendar::start = HOURS( get_option<int>( "INITIAL_TIME" ) );
     const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
                              scen->has_flag( "AUT_START" ) || scen->has_flag( "WIN_START" ) ||
                              scen->has_flag( "SUM_ADV_START" );
-    const std::string nonscen_season = get_option<std::string>( "INITIAL_SEASON" );
-    if( scen->has_flag( "SPR_START" ) || ( !scen_season && nonscen_season == "spring" ) ) {
-        calendar::initial_season = SPRING;
-    } else if( scen->has_flag( "SUM_START" ) || ( !scen_season && nonscen_season == "summer" ) ) {
-        calendar::initial_season = SUMMER;
-        calendar::start += to_turns<int>( calendar::season_length() );
-    } else if( scen->has_flag( "AUT_START" ) || ( !scen_season && nonscen_season == "autumn" ) ) {
-        calendar::initial_season = AUTUMN;
-        calendar::start += to_turns<int>( calendar::season_length() * 2 );
-    } else if( scen->has_flag( "WIN_START" ) || ( !scen_season && nonscen_season == "winter" ) ) {
-        calendar::initial_season = WINTER;
-        calendar::start += to_turns<int>( calendar::season_length() * 3 );
-    } else if( scen->has_flag( "SUM_ADV_START" ) ) {
-        calendar::initial_season = SUMMER;
-        calendar::start += to_turns<int>( calendar::season_length() * 5 );
+
+    if( scen_season ) {
+        // Configured starting date overridden by scenario, time_of_cataclysm is left as Spring 1
+        calendar::start = HOURS( get_option<int>( "INITIAL_TIME" ) );
+        if( scen->has_flag( "SPR_START" ) ) {
+            calendar::initial_season = SPRING;
+        } else if( scen->has_flag( "SUM_START" ) ) {
+            calendar::initial_season = SUMMER;
+            calendar::start += to_turns<int>( calendar::season_length() );
+        } else if( scen->has_flag( "AUT_START" ) ) {
+            calendar::initial_season = AUTUMN;
+            calendar::start += to_turns<int>( calendar::season_length() * 2 );
+        } else if( scen->has_flag( "WIN_START" ) ) {
+            calendar::initial_season = WINTER;
+            calendar::start += to_turns<int>( calendar::season_length() * 3 );
+        } else if( scen->has_flag( "SUM_ADV_START" ) ) {
+            calendar::initial_season = SUMMER;
+            calendar::start += to_turns<int>( calendar::season_length() * 5 );
+        } else {
+            debugmsg( "The Unicorn" );
+        }
+        calendar::turn = calendar::start;
     } else {
-        debugmsg( "The Unicorn" );
+        // No scenario, so use the starting date+time configured in world options
+        const int initial_days = get_option<int>( "INITIAL_DAY" );
+        calendar::start = DAYS( initial_days );
+
+        // Determine the season based off how long the seasons are set to be
+        // First mod by length of season to get number of seasons elapsed, then mod by 4 to force a 0-3 range of values
+        const int season_number = ( initial_days % get_option<int>( "SEASON_LENGTH" ) ) % 4;
+        if( season_number == 0 ) {
+            calendar::initial_season = SPRING;
+        } else if( season_number == 1 ) {
+            calendar::initial_season = SUMMER;
+        } else if( season_number == 2 ) {
+            calendar::initial_season = AUTUMN;
+        } else {
+            calendar::initial_season = WINTER;
+        }
+
+        calendar::turn = calendar::start + HOURS( get_option<int>( "INITIAL_TIME" ) );
     }
-    calendar::turn = calendar::start;
+
 }
 
 void game::add_artifact_messages( const std::vector<art_effect_passive> &effects )

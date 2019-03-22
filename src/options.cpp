@@ -1760,15 +1760,9 @@ void options_manager::add_options_world_default()
          0, 23, 8
        );
 
-    add( "INITIAL_SEASON", "world_default", translate_marker( "Initial season" ),
-         translate_marker( "Season the player starts in." ),
-    { { "spring", translate_marker( "Spring" ) }, { "summer", translate_marker( "Summer" ) }, { "autumn", translate_marker( "Autumn" ) }, { "winter", translate_marker( "Winter" ) } },
-    "spring"
-       );
-
-    add( "DELAYED_SPAWN", "world_default", translate_marker( "Delayed spawn" ),
-         translate_marker( "True effectively delays the player spawn, advancing food decay and monster evolution based on the starting day and season. False makes food fresh and monsters normal regardless of start date." ),
-         true
+    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
+         translate_marker( "How many days into the year the game starts. Day 0 is Spring 1. This is the day of the cataclysm, so food rot and monster spawns will not occur unless a scenario delays the player's spawn time." ),
+         0, 999, 0
        );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
