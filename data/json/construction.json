@@ -1021,6 +1021,22 @@
   },
   {
     "type": "construction",
+    "skill": "survival",
+    "description": "Build Thatched Roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "time": 120,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ] ],
+      [ [ "straw_pile", 12 ], [ "pine_bough", 12 ], [ "birchbark", 12 ] ],
+      [ [ "string_36", 4 ] ]
+    ],
+    "pre_special": "check_support",
+    "post_terrain": "t_dirtfloor"
+  },
+  {
+    "type": "construction",
     "description": "Build Log & Sod Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
