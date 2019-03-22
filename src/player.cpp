@@ -9036,10 +9036,10 @@ void player::use( item_location loc )
         invoke_item( &used, loc.position() );
 
     } else if( used.type->can_use( "DOGFOOD" ) ||
-            used.type->can_use( "CATFOOD" ) ||
-            used.type->can_use( "BIRDFOOD" ) ||
-            used.type->can_use( "CATTLEFODDER" ) ) {
-                invoke_item( &used, loc.position() );
+               used.type->can_use( "CATFOOD" ) ||
+               used.type->can_use( "BIRDFOOD" ) ||
+               used.type->can_use( "CATTLEFODDER" ) ) {
+        invoke_item( &used, loc.position() );
 
     } else if( used.is_food() ||
                used.is_medication() ||

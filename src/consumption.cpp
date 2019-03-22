@@ -428,7 +428,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             ( food.has_flag( "FELINE" ) && !has_trait( trait_id( "THRESH_FELINE" ) ) ) ||
             ( food.has_flag( "LUPINE" ) && !has_trait( trait_id( "THRESH_LUPINE" ) ) ) ||
             ( food.has_flag( "BIRD" ) && !has_trait( trait_id( "THRESH_BIRD" ) ) ) ) {
-            return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );   
+            return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
         }
     }
 
@@ -609,13 +609,13 @@ bool player::eat( item &food, bool force )
     }
 
     if( food.type->has_use() ) {
-        if ( !food.type->can_use( "DOGFOOD" ) &&
+        if( !food.type->can_use( "DOGFOOD" ) &&
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-                if ( food.type->invoke( *this, food, pos() ) <= 0 ) {
-                   return false;             
-                }
+            if( food.type->invoke( *this, food, pos() ) <= 0 ) {
+                return false;
+            }
         }
     }
 
