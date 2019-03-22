@@ -2526,7 +2526,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
                     g->u.vomit();
                 }
             } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
-                p->add_msg_if_player( m_good, _( "Exhuming a grave is fun now, where there is no one to object." ) );
+                p->add_msg_if_player( m_good,
+                                      _( "Exhuming a grave is fun now, where there is no one to object." ) );
                 p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
             } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
                 p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
