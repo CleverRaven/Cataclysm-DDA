@@ -138,6 +138,7 @@ automatically_convertible = {
     "npc_class",
     "overmap_land_use_code",
     "overmap_terrain",
+    "PET_ARMOR",
     "skill",
     "snippet",
     "speech",
