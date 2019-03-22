@@ -1021,7 +1021,6 @@
   },
   {
     "type": "construction",
-    "skill": "survival",
     "description": "Build Thatched Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
