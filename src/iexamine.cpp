@@ -2509,6 +2509,7 @@ static units::volume get_keg_capacity( const tripoint &pos )
     }
     //add additional cases above
     else                                {
+    //if whatever you're examining isn't a keg, it should have no available volume
         return 0_ml;
     }
 }
