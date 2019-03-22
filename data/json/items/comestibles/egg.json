@@ -74,7 +74,7 @@
     "volume": "83 ml",
     "weight": 79,
     "calories": 135,
-    "vitamins": [ [ "vitA", 315 ], [ "calcium", 8 ], [ "iron", 18 ], [ "vitB", 56 ] ],
+    "vitamins": [ [ "vitA", 15 ], [ "calcium", 8 ], [ "iron", 18 ], [ "vitB", 56 ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {

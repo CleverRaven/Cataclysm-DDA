@@ -423,7 +423,7 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 46.5 ], ["calcium", 3 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", 47 ], ["calcium", 3 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",

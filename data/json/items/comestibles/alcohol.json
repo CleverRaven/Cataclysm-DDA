@@ -817,7 +817,7 @@
     "phase": "liquid",
     "freezing_point": 23,
     "fun": 14,
-    "vitamins": [ ["calcium", 1 ] ["iron", 1 ] ],
+    "vitamins": [ ["calcium", 1 ], ["iron", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -872,7 +872,7 @@
     "volume": 1,
     "phase": "liquid",
     "fun": 18,
-    "vitamins": [ ["calcium", 1 ] ["iron", 1 ] ],
+    "vitamins": [ ["calcium", 1 ], ["iron", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23
   },

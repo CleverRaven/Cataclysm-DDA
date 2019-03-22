@@ -293,7 +293,6 @@
     "type": "COMESTIBLE",
     "id": "cooked_pumpkin",
     "name": "mashed pumpkin",
-    "weight": 259,
     "copy-from": "pumpkin",
     "color": "light_red",
     "spoils_in": "1 day 12 hours",
@@ -303,8 +302,7 @@
     "price": 50,
     "material": "veggy",
     "volume": 1,
-    "charges": 1,
-    "vitamins": [ ["vitA", 83 ], ["vitC", 14 ], ["calcium", 4 ], ["iron", 8 ] ]
+    "charges": 1
   },
   {
     "type": "COMESTIBLE",
