@@ -2581,22 +2581,10 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 }
 
-//probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 static units::volume get_keg_capacity( const tripoint &pos )
 {
     const furn_t &furn = g->m.furn( pos ).obj();
-    if( furn.id == "f_standing_tank" )  {
-        return units::from_liter( 300 );
-    } else if( furn.id == "f_wood_keg" )  {
-        return units::from_liter( 125 );
-    } else if( furn.id == "f_water_heater" )  {
-        return units::from_liter( 60 );
-    }
-    //add additional cases above
-    else                                {
-        //if whatever you're examining isn't a keg, it should have no available volume
-        return 0_ml;
-    }
+    return furn.keg_capacity;
 }
 
 /**
