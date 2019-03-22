@@ -1571,7 +1571,7 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     // TODO: The supremely ugly block of code below looks better than 200 line boilerplate
     // that was there before, but it can probably be moved into a helper somehow
 
-    // TODO 2: List how much material we have and how much we need
+    // TODO: 2: List how much material we have and how much we need
     item temp_item = modded_copy( mod, "wooled" );
     // Can we perform this addition or removal
     bool enab = can_add_mod( "wooled", "felt_patch" );
@@ -3558,7 +3558,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
                                   _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name().c_str() );
     } else {
-        // Maybe-TODO: Execute an attack and maybe zap something other than torso
+        // TODO: Maybe - Execute an attack and maybe zap something other than torso
         // Maybe, because it's torso (heart) that fails when zapped with electricity
         int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5,
                                        25 ) ) ).total_damage();
@@ -4771,7 +4771,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                         }
                     } while( tries < 5 && !g->is_empty( monp ) &&
                              !g->m.sees( monp, p->pos(), 10 ) );
-                    if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
+                    if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
                         if( monster *const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng( "DISAPPEAR" );
@@ -4796,7 +4796,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
                 break;
 
-            case AEA_SPLIT: // TODO
+            case AEA_SPLIT: // TODO: Add something
                 break;
 
             case AEA_NULL: // BUG
@@ -5451,7 +5451,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
-            std::vector< std::shared_ptr< monster> > mons; // @todo: change into vector<Creature*>
+            std::vector< std::shared_ptr< monster> > mons; // TODO: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {

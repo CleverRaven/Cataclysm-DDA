@@ -57,23 +57,15 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_CHITIN2( "CHITIN2" );
-static const trait_id trait_CHITIN3( "CHITIN3" );
-static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
@@ -85,13 +77,11 @@ static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
-static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
-static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 // *INDENT-OFF*
@@ -1020,6 +1010,31 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     }
 
     return res;
+}
+
+std::vector<item_location> Character::find_reloadables()
+{
+    std::vector<item_location> reloadables;
+
+    visit_items( [this, &reloadables]( item * node ) {
+        if( node->is_holster() ) {
+            return VisitResponse::NEXT;
+        }
+        bool reloadable = false;
+        if( node->is_gun() && !node->magazine_compatible().empty() ) {
+            reloadable = node->magazine_current() == nullptr ||
+                         node->ammo_remaining() < node->ammo_capacity();
+        } else {
+            reloadable = ( node->is_magazine() || node->is_bandolier() ||
+                           ( node->is_gun() && node->magazine_integral() ) ) &&
+                         node->ammo_remaining() < node->ammo_capacity();
+        }
+        if( reloadable ) {
+            reloadables.push_back( item_location( *this, node ) );
+        }
+        return VisitResponse::SKIP;
+    } );
+    return reloadables;
 }
 
 units::mass Character::weight_carried() const
@@ -2674,7 +2689,7 @@ long Character::ammo_count_for( const item &gun )
 float Character::rest_quality() const
 {
     // Just a placeholder for now.
-    // @todo: Waiting/reading/being unconscious on bed/sofa/grass
+    // TODO: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
@@ -2732,7 +2747,7 @@ body_part Character::get_random_body_part( bool main ) const
 
 std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 {
-    // @todo: Remove broken parts, parts removed by mutations etc.
+    // TODO: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
             bp_head,
             bp_eyes,
@@ -2799,7 +2814,7 @@ std::string Character::extended_description() const
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
         ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
-        // @todo: Integrate into get_hp_bar somehow
+        // TODO: Integrate into get_hp_bar somehow
         ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
@@ -2868,7 +2883,7 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // @todo: Get rid of if/else ladder
+    // TODO: Get rid of if/else ladder
     if( val == "healing_awake" ) {
         return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
     } else if( val == "healing_resting" ) {
@@ -2926,7 +2941,7 @@ float Character::mutation_value( const std::string &val ) const
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    // @todo: Cache
+    // TODO: Cache
     float heal_rate;
     if( !is_npc() ) {
         heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );

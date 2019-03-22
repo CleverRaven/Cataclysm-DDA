@@ -2636,7 +2636,6 @@ bool basecamp::om_upgrade( const std::string &next_upgrade, const tripoint &upos
     return true;
 }
 
-
 int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, true, false );

@@ -2638,7 +2638,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     act->moves_left -= crafting_speed * p->get_moves();
     p->set_moves( 0 );
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
-        // @todo Describe the causes of slowdown
+        // TODO: Describe the causes of slowdown
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
 }
@@ -3054,7 +3054,6 @@ static void perform_zone_activity_turn( player *p,
     p->activity.set_to_null();
 }
 
-
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
     auto reject_tile = [p]( const tripoint & tile ) {
@@ -3110,7 +3109,6 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     auto have_fertilizer = [&]() {
         return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
     };
-
 
     auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
@@ -3192,7 +3190,6 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
         }
     };
 
-
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tiles,
@@ -3215,7 +3212,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
         return;
     }
 
-    // @todo  Add some kind of chance of getting the target's attention
+    // TODO: Add some kind of chance of getting the target's attention
 
     // Allow time to pass
     p->pause();

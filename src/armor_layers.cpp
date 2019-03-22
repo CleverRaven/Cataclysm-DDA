@@ -554,12 +554,12 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( leftListSize > static_cast<int>( tmp_worn.size() ) ) {
-            // @todo: replace it by right_print()
+            // TODO: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
                        c_light_blue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            // @todo: replace it by right_print()
+            // TODO: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ),
                        c_light_blue, _( "<empty>" ) );
         }
@@ -613,7 +613,7 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            // @todo: replace it by right_print()
+            // TODO: replace it by right_print()
             mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_light_blue,
                        _( "<more>" ) );
         }
@@ -739,7 +739,7 @@ void player::sort_armor()
                         } );
                     }
                 } else if( is_npc() ) {
-                    // @todo: Pass the reason here
+                    // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
             }
@@ -758,7 +758,7 @@ void player::sort_armor()
                     // reorder `worn` vector to place new item at cursor
                     worn.splice( cursor_it, worn, *new_equip_it );
                 } else if( is_npc() ) {
-                    // @todo: Pass the reason here
+                    // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
             }

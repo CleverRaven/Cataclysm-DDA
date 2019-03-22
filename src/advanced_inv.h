@@ -60,7 +60,7 @@ void advanced_inv();
 
 /**
  * Cancels ongoing move all action.
- * @todo: Make this not needed.
+ * TODO: Make this not needed.
  */
 void cancel_aim_processing();
 

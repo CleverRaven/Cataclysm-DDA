@@ -174,7 +174,7 @@
     "bash_resist": 2,
     "cut_resist": 3,
     "acid_resist": 0,
-    "fire_resist": 1,
+    "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 10,
     "repaired_with": "scrap_copper",

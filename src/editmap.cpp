@@ -170,7 +170,7 @@ void edit_json( SAVEOBJ &it )
 
 editmap::editmap()
 {
-    width = TERMX - TERRAIN_WINDOW_TERM_WIDTH;
+    width = 45;
     height = TERMY;
     offsetX = VIEW_OFFSET_X;
     infoHeight = 0;
@@ -365,7 +365,7 @@ cata::optional<tripoint> editmap::edit()
     infoHeight = 20;
 
     w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
-    w_help = catacurses::newwin( 3, width - 2, TERMY - 3, offsetX + 1 );
+    w_help = catacurses::newwin( 3, width, TERMY - 3, offsetX + 1 );
     for( int i = 0; i < getmaxx( w_help ); i++ ) {
         mvwaddch( w_help, 2, i, LINE_OXOX );
     }
@@ -550,7 +550,8 @@ void editmap::update_view( bool update_info )
         }
     }
 
-    // custom hilight. @todo; optimize
+    // custom hilight.
+    // TODO: optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
             elem.second.draw( *this );
@@ -996,7 +997,7 @@ int editmap::edit_ter()
                 uberdraw = !uberdraw;
                 update_view( false );
             }
-        } else { // @todo: cleanup
+        } else { // TODO: cleanup
             if( action == "LEFT" ) {
                 increment( sel_frn, -1, furn_t::count() );
             } else if( action == "RIGHT" ) {
@@ -1790,7 +1791,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                        omt_ref->get_name().c_str(), omt_ref.id().c_str() );
             }
         } else if( gpmenu.keypress == 'm' ) {
-            // @todo; keep preview as is and move target
+            // TODO: keep preview as is and move target
         } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
                    gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
 

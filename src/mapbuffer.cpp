@@ -597,7 +597,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     } else {
                         sm->trp[p.x][p.y] = trid.id();
                     }
-                    // @todo: remove brazier trap-to-furniture conversion after 0.D
+                    // TODO: remove brazier trap-to-furniture conversion after 0.D
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {

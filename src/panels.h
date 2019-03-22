@@ -55,8 +55,6 @@ class panel_manager
             return single_instance;
         }
 
-        std::map<std::string, std::vector<window_panel>> initialize_panel_layouts();
-
         std::vector<window_panel> &get_current_layout();
         const std::string get_current_layout_id() const;
 

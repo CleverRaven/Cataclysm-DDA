@@ -761,7 +761,7 @@ bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> 
     }
 }
 
-// @todo Get rid of, handle multiple types gracefully
+// TODO: Get rid of, handle multiple types gracefully
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
     if( ranged.damage.empty() ) {
@@ -1295,7 +1295,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         bool has_ammo = curammo && mod->ammo_remaining();
 
         damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
-        // @todo This doesn't cover multiple damage types
+        // TODO: This doesn't cover multiple damage types
         int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
@@ -2302,7 +2302,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
 
-        // @todo: Unhide when enforcing limits
+        // TODO: Unhide when enforcing limits
         if( is_bionic() && get_option < bool >( "CBM_SLOTS_ENABLED" )
             && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
             info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
@@ -2572,7 +2572,9 @@ const std::string &item::symbol() const
 nc_color item::color_in_inventory() const
 {
     player &u = g->u; // TODO: make a const reference
-    nc_color ret = c_light_gray;
+
+    // Only item not otherwise colored gets colored as favorite
+    nc_color ret = is_favorite ? c_white : c_light_gray;
 
     if( has_flag( "WET" ) ) {
         ret = c_cyan;
@@ -2822,7 +2824,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
 
-    // MATERIALS-TODO: put this in json
+    // TODO: MATERIALS put this in json
     std::string damtext;
 
     if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() &&
@@ -3009,6 +3011,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (active)" );
     }
 
+    if( is_favorite ) {
+        ret << _( " *" ); // Display asterisk for favorite items
+    }
+
     const std::string tagtext = ret.str();
 
     std::string modtext;
@@ -3120,7 +3126,7 @@ int item::price( bool practical ) const
 
     visit_items( [&res, practical]( const item * e ) {
         if( e->rotten() ) {
-            // @todo: Special case things that stay useful when rotten
+            // TODO: Special case things that stay useful when rotten
             return VisitResponse::NEXT;
         }
 
@@ -3150,7 +3156,7 @@ int item::price( bool practical ) const
     return res;
 }
 
-// MATERIALS-TODO: add a density field to materials.json
+// TODO: MATERIALS add a density field to materials.json
 units::mass item::weight( bool include_contents ) const
 {
     if( is_null() ) {
@@ -3305,7 +3311,7 @@ units::volume item::volume( bool integral ) const
             ret += elem->volume( true );
         }
 
-        // @todo: implement stock_length property for guns
+        // TODO: implement stock_length property for guns
         if( has_flag( "COLLAPSIBLE_STOCK" ) ) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume",
@@ -3393,7 +3399,7 @@ int item::damage_melee( damage_type dt ) const
 
 damage_instance item::base_damage_melee() const
 {
-    // @todo: Caching
+    // TODO: Caching
     damage_instance ret;
     for( size_t i = DT_NULL + 1; i < NUM_DT; i++ ) {
         damage_type dt = static_cast<damage_type>( i );
@@ -3408,7 +3414,7 @@ damage_instance item::base_damage_melee() const
 
 damage_instance item::base_damage_thrown() const
 {
-    // @todo: Create a separate cache for individual items (for modifiers like diamond etc.)
+    // TODO: Create a separate cache for individual items (for modifiers like diamond etc.)
     return type->thrown_damage;
 }
 
@@ -3523,11 +3529,13 @@ int item::get_quality( const quality_id &id ) const
     if( id == quality_id( "BOIL" ) && !( contents.empty() ||
                                          ( is_tool() && std::all_of( contents.begin(), contents.end(),
     [this]( const item & itm ) {
-    if( !itm.is_ammo() ) {
-            return false;
+    if( itm.is_ammo() ) {
+            auto &ammo_types = itm.type->ammo->type;
+            return ammo_types.find( ammo_type() ) != ammo_types.end();
+        } else if( itm.is_toolmod() ) {
+            return true;
         }
-        auto &ammo_types = itm.type->ammo->type;
-        return ammo_types.find( ammo_type() ) != ammo_types.end();
+        return false;
     } ) ) ) ) {
         return INT_MIN;
     }
@@ -4175,7 +4183,7 @@ bool item::inc_damage()
 
 nc_color item::damage_color() const
 {
-    // @todo: unify with veh_interact::countDurability
+    // TODO: unify with veh_interact::countDurability
     switch( damage_level( 4 ) ) {
         default: // reinforced
             if( damage() <= min_damage() ) { // fully reinforced
@@ -4380,11 +4388,11 @@ bool item::is_firearm() const
 
 int item::get_reload_time() const
 {
-    if( !is_gun() ) {
+    if( !is_gun() && !is_magazine() ) {
         return 0;
     }
 
-    int reload_time = type->gun->reload_time;
+    int reload_time = is_gun() ? type->gun->reload_time : type->magazine->reload_time;
     for( const auto mod : gunmods() ) {
         reload_time = static_cast<int>( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
     }
@@ -4719,7 +4727,7 @@ bool item::is_funnel_container( units::volume &bigger_than ) const
     if( !is_bucket() && !is_watertight_container() ) {
         return false;
     }
-    // @todo; consider linking funnel to item or -making- it an active item
+    // TODO: consider linking funnel to item or -making- it an active item
     if( get_container_capacity() <= bigger_than ) {
         return false; // skip contents check, performance
     }
@@ -4762,14 +4770,14 @@ bool item::is_artifact() const
 
 bool item::can_contain( const item &it ) const
 {
-    // @todo: Volume check
+    // TODO: Volume check
     return can_contain( *it.type );
 }
 
 bool item::can_contain( const itype &tp ) const
 {
     if( !type->container ) {
-        // @todo: Tools etc.
+        // TODO: Tools etc.
         return false;
     }
 
@@ -4777,7 +4785,7 @@ bool item::can_contain( const itype &tp ) const
         return false;
     }
 
-    // @todo: Acid in waterskins
+    // TODO: Acid in waterskins
     return true;
 }
 
@@ -4913,6 +4921,9 @@ bool item::operator<( const item &other ) const
                           !other.contents.empty() ? &other.contents.front() : &other;
 
         if( me->typeId() == rhs->typeId() ) {
+            if( me->ammo_type() == ammotype( "money" ) ) {
+                return me->charges > rhs->charges;
+            }
             return me->charges < rhs->charges;
         } else {
             std::string n1 = me->type->nname( 1 );
@@ -4938,7 +4949,7 @@ gun_type_type item::gun_type() const
     if( !is_gun() ) {
         return gun_type_type( std::string() );
     }
-    //@todo: move to JSON and remove extraction of this from "GUN" (via skill id)
+    // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
         if( ammo_type() == ammotype( "bolt" ) || typeId() == "bullet_crossbow" ) {
@@ -5048,7 +5059,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
 
     int item_damage = damage_level( 4 );
     if( item_damage != 0 ) {
-        // @todo This isn't a good solution for multi-damage guns/ammos
+        // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
             du.amount -= item_damage * 2;
         }
@@ -5529,7 +5540,8 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(), ( int( * )( int ) )toupper );
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(),
+                                static_cast<int( * )( int )>( toupper ) );
 
                 auto qty = m.second.qty();
 
@@ -6101,7 +6113,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
 
     long remaining_capacity = 0;
 
-    // TODO(sm): is_reloadable_with and this function call each other and can recurse for
+    // TODO: (sm) is_reloadable_with and this function call each other and can recurse for
     // watertight containers.
     if( !is_container() && is_reloadable_with( liquid.typeId() ) ) {
         if( ammo_remaining() != 0 && ammo_current() != liquid.typeId() ) {
@@ -6203,7 +6215,6 @@ bool item::allow_crafting_component() const
 
     return contents.empty();
 }
-
 
 void item::set_item_specific_energy( const float new_specific_energy )
 {
@@ -6690,7 +6701,6 @@ void item::apply_freezerburn()
     }
 }
 
-
 void item::update_temp( const int temp, const float insulation )
 {
     const time_point now = calendar::turn;
@@ -6718,7 +6728,6 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
     const float old_temperature = 0.00001 * temperature;
     const float temperature_difference =  env_temperature - old_temperature;
-
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {
@@ -7444,7 +7453,7 @@ time_duration item::get_plant_epoch() const
     // more accuracy for longer season lengths
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
     // divided by 3 to get the time it takes from one plant state to the next.
-    //@todo: move this into the islot_seed
+    // TODO: move this into the islot_seed
     return type->seed->grow * calendar::season_ratio() / 3;
 }
 

@@ -1234,7 +1234,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     }
     set_memory_seen_cache_dirty( p );
 
-    // @todo: Limit to changes that affect move cost, traps and stairs
+    // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
     // Make sure the furniture falls if it needs to
@@ -1484,7 +1484,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     }
     set_memory_seen_cache_dirty( p );
 
-    // @todo: Limit to changes that affect move cost, traps and stairs
+    // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1791,7 +1791,7 @@ double map::ranged_target_size( const tripoint &p ) const
         return 0.0;
     }
 
-    // @todo: Handle cases like shrubs, trees, furniture, sandbags...
+    // TODO: Handle cases like shrubs, trees, furniture, sandbags...
     return 0.1;
 }
 
@@ -4875,7 +4875,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = type;
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = kpart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
@@ -4895,7 +4895,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = weldpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4918,7 +4918,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = craftpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4935,7 +4935,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4952,7 +4952,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4971,7 +4971,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = chempart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -5472,8 +5472,7 @@ void map::add_camp( const tripoint &p, const std::string &name )
     tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
     basecamp temp_camp = basecamp( name, omt_tri );
     get_submap_at( p )->camp = temp_camp;
-    basecamp *pointer_camp;
-    pointer_camp = &get_submap_at( p )->camp;
+    basecamp *pointer_camp = &get_submap_at( p )->camp;
     overmap_buffer.add_camp( pointer_camp );
     g->u.camps.insert( omt_tri );
     g->validate_camps();
@@ -6521,7 +6520,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
         const oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
 
-        // @todo: Replace with json mapgen functions.
+        // TODO: Replace with json mapgen functions.
         if( terrain_type == air ) {
             generate_uniform( newmapx, newmapy, gridz, t_open_air );
         } else if( terrain_type == rock ) {

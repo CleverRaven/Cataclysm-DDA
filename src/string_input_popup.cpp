@@ -415,7 +415,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
-                //TODO: it is safe now since you only input ASCII chars
+                // TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
                 redraw = true;

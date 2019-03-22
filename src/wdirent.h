@@ -316,7 +316,7 @@ _wopendir(
     }
 
     /* Allocate new _WDIR structure */
-    dirp = ( _WDIR * ) malloc( sizeof( struct _WDIR ) );
+    dirp = static_cast<_WDIR *>( malloc( sizeof( struct _WDIR ) ) );
     if( dirp != NULL ) {
         DWORD n;
 
@@ -329,7 +329,7 @@ _wopendir(
         n = GetFullPathNameW( dirname, 0, NULL, NULL );
 
         /* Allocate room for absolute directory name and search pattern */
-        dirp->patt = ( wchar_t * ) malloc( sizeof( wchar_t ) * n + 16 );
+        dirp->patt = static_cast<wchar_t *>( malloc( sizeof( wchar_t ) * n + 16 ) );
         if( dirp->patt ) {
 
             /*
@@ -591,7 +591,7 @@ opendir(
     }
 
     /* Allocate memory for DIR structure */
-    dirp = ( DIR * ) malloc( sizeof( struct DIR ) );
+    dirp = static_cast<DIR *>( malloc( sizeof( struct DIR ) ) );
     if( dirp ) {
         wchar_t wname[PATH_MAX + 1];
         size_t n;

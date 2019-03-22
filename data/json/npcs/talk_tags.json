@@ -916,6 +916,16 @@
       "<swear>!  Die, you <name_b>!  I want to live!",
       "My feet failed me!  Arms don't fail me!"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<fire_bad>",
+    "text": [
+      "Call the fire department!  Wait, they're dead!  Run away!",
+      "This place is on fire.  I'm leaving.",
+      "Put the fire out!  Put it out!",
+      "Fire bad! <move>!"
+    ]
   }
 ]
 

@@ -105,6 +105,10 @@ npc::npc()
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
+    for( size_t i = 0; i < 8; i++ ) {
+        direction threat_dir = npc_threat_dir[i];
+        ai_cache.threat_map[ threat_dir ] = 0.0f;
+    }
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -766,14 +770,14 @@ void starting_inv( npc &who, const npc_class_id &type )
             ammo = container;
         }
 
-        // @todo: Move to npc_class
+        // TODO: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
         long qty = 1 + ( type == NC_COWBOY ||
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
-            // @todo: give NPC a default magazine instead
+            // TODO: give NPC a default magazine instead
             res.push_back( ammo );
         }
     }
@@ -994,7 +998,7 @@ bool npc::wear_if_wanted( const item &it )
         }
 
         if( encumb_ok && can_wear( it ).success() ) {
-            // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            // TODO: Hazmat/power armor makes this not work due to 1 boots/headgear limit
             return !!wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
@@ -1063,7 +1067,7 @@ void npc::form_opinion( const player &u )
 {
     // FEAR
     if( u.weapon.is_gun() ) {
-        // @todo: Make bows not guns
+        // TODO: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
@@ -1131,7 +1135,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 2;
     }
 
-    // @todo: More effects
+    // TODO: More effects
     if( u.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }
@@ -1191,7 +1195,7 @@ float npc::vehicle_danger( int radius ) const
     for( unsigned int i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
-            // #FIXME this can't be the right way to do this
+            // FIXME: this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
             int ax = wrapped_veh.v->global_pos3().x;
@@ -1495,14 +1499,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
-            ret += 14; // @todo: magazines - don't count ammo as usable if the weapon isn't.
+            ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
         if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
         [&]( const ammotype & e ) {
         return has_gun_for_ammo( e );
         } ) ) {
-            ret += 14; // @todo: consider making this cumulative (once was)
+            ret += 14; // TODO: consider making this cumulative (once was)
         }
     }
 
@@ -1650,7 +1654,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         return other.attitude_to( *this );
     }
 
-    // @todo: Get rid of the ugly cast without duplicating checks
+    // TODO: Get rid of the ugly cast without duplicating checks
     const monster &m = dynamic_cast<const monster &>( other );
     switch( m.attitude( this ) ) {
         case MATT_FOLLOW:
@@ -1723,7 +1727,7 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // @todo: Allow player to set that
+    // TODO: Allow player to set that
     return 4;
 }
 
@@ -1758,7 +1762,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
     nc_color color ) {
-        // @todo: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
+        // TODO: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
@@ -2321,7 +2325,7 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
-    // @todo: Extract climb skill
+    // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
@@ -2339,7 +2343,7 @@ std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
-        // @todo: Cache this somewhere
+        // TODO: Cache this somewhere
         ret.insert( critter.pos() );
     }
     return ret;
@@ -2387,7 +2391,7 @@ std::string npc::extended_description() const
     if( hit_by_player ) {
         ss << "--" << std::endl;
         ss << _( "Is still innocent and killing them will be considered murder." );
-        // @todo: "But you don't care because you're an edgy psycho"
+        // TODO: "But you don't care because you're an edgy psycho"
     }
 
     return replace_colors( ss.str() );

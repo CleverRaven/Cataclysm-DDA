@@ -4692,6 +4692,7 @@
       ["nodachi_inferior", 2],
       ["gambeson", 3],
       ["tunic", 1],
+      ["armor_lamellar", 2],
       ["armor_lightplate", 1],
       ["cuirass_lightplate", 2],
       ["armguard_lightplate", 1],
@@ -5055,6 +5056,7 @@
       ["arming_sword_inferior", 25],
       ["tanto", 1],
       ["kris", 5],
+      ["armor_lamellar", 2],
       ["armor_lightplate", 1],
       ["cuirass_lightplate", 1],
       ["armguard_lightplate", 1],
@@ -6066,7 +6068,8 @@
       ["bio_cable", 10],
       ["bio_syringe", 10],
       ["bio_weight", 10],
-      ["bio_shock_absorber", 10]
+      ["bio_shock_absorber", 10],
+      ["bio_jointservo", 10]
     ]
   },{
     "type" : "item_group",
@@ -6438,7 +6441,8 @@
       ["bio_power_armor_interface_mkII", 5],
       ["bio_meteorologist", 10],
       ["bio_cable", 10],
-      ["bio_weight", 10]
+      ["bio_weight", 10],
+      ["bio_jointservo", 10]
     ]
   },{
       "type" : "item_group",
@@ -6503,7 +6507,8 @@
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_meteorologist", 10],
-      ["bio_cable", 10]
+      ["bio_cable", 10],
+      ["bio_jointservo", 20]
     ]
   },{
     "type" : "item_group",
@@ -8993,6 +8998,8 @@
       ["legguard_lightplate", 30],
       ["helmet_barbute", 50],
       ["helmet_conical", 30],
+      ["armor_lamellar", 20],
+      ["armor_lorica", 25],
       ["armor_samurai", 50],
       ["helmet_kabuto", 50],
       ["helmet_larmor", 40],
@@ -10276,6 +10283,20 @@
         { "item": "cig_butt", "prob": 20 },
         { "item": "joint", "prob": 10 },
         { "item": "762_51_incendiary", "prob": 5 }
+      ]
+    },
+    {
+      "type": "item_group",
+      "id": "roof_sign",
+      "items": [
+        [ "rock", 10 ],
+        [ "can_food_unsealed", 10 ],
+        [ "steel_chunk", 10 ],
+        [ "steel_lump", 10 ],
+        [ "bottle_glass", 10 ],
+        [ "sharp_rock", 10 ],
+        [ "2x4", 10 ],
+        [ "pipe", 10 ]
       ]
     },
     {

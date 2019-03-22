@@ -127,7 +127,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     amenu.text = explain;
 
     offered_swap = true;
-    // @todo: Gray out if not enough hands
+    // TODO: Gray out if not enough hands
     if( u.is_armed() ) {
         amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name().c_str(),
@@ -768,7 +768,7 @@ void Pickup::pick_up( const tripoint &p, int min )
                     std::string item_name;
                     if( stacked_here[true_it].begin()->_item.ammo_type() == "money" ) {
                         //Count charges
-                        //TODO: transition to the item_location system used for the inventory
+                        // TODO: transition to the item_location system used for the inventory
                         unsigned long charges_total = 0;
                         for( const auto &item : stacked_here[true_it] ) {
                             charges_total += item._item.charges;

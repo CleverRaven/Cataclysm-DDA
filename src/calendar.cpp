@@ -347,13 +347,13 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
 
 std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 {
-    //@todo: change INDEFINITELY_LONG to time_duration
+    // TODO: change INDEFINITELY_LONG to time_duration
     if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
         return { 0, clipped_unit::forever };
     }
 
     if( d < 1_minutes ) {
-        //@todo: add to_seconds,from_seconds, operator ""_seconds, but currently
+        // TODO: add to_seconds,from_seconds, operator ""_seconds, but currently
         // this could be misleading as we only store turns, which are 6 whole seconds
         const int sec = to_turns<int>( d ) * 6;
         return { sec, clipped_unit::second };
@@ -372,12 +372,12 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d )
         const int week = to_weeks<int>( d );
         return { week, clipped_unit::week };
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
-        //@todo: consider a to_season function, but season length is variable, so
+        // TODO: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
         return { season, clipped_unit::season };
     } else {
-        //@todo: consider a to_year function, but year length is variable, so
+        // TODO: consider a to_year function, but year length is variable, so
         // this might be misleading
         const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
         return { year, clipped_unit::year };
@@ -461,7 +461,7 @@ std::string to_string_time_of_day( const time_point &p )
 {
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
-    //@todo add a to_seconds function?
+    // TODO: add a to_seconds function?
     const int second = ( to_turns<int>( time_past_midnight( p ) ) * 6 ) % 60;
     const std::string format_type = get_option<std::string>( "24_HOUR" );
 

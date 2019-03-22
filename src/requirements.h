@@ -138,7 +138,7 @@ struct quality_requirement {
 struct requirement_data {
         // temporarily break encapsulation pending migration of legacy parts
         // @see vpart_info::check
-        // @todo: remove once all parts specify installation requirements directly
+        // TODO: remove once all parts specify installation requirements directly
         friend class vpart_info;
 
         typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;

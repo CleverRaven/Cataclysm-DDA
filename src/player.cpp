@@ -197,6 +197,7 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_itchy( "bio_itchy" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_lighter( "bio_lighter" );
@@ -255,7 +256,6 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
-static const trait_id trait_CRAFTY( "CRAFTY" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -564,7 +564,7 @@ std::string player::disp_name( bool possessive ) const
 
 std::string player::skin_name() const
 {
-    //TODO: Return actual deflecting layer name
+    // TODO: Return actual deflecting layer name
     return _( "armor" );
 }
 
@@ -1067,7 +1067,7 @@ void player::update_bodytemp()
         int adjusted_temp = ( Ctemperature - ambient_norm );
         int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
-        // TODO : should this increase hunger?
+        // TODO: : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     temp_cur[bp] );
         // Produces a smooth curve between 30.0 and 60.0.
@@ -1758,6 +1758,17 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
         movecost *= .9f;
     }
+
+    if( has_active_bionic( bio_jointservo ) ) {
+        if( move_mode == "run" ) {
+            movecost *= 0.85f;
+        } else {
+            movecost *= 0.95f;
+        }
+    } else if( has_bionic( bio_jointservo ) ) {
+        movecost *= 1.1f;
+    }
+
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
     }
@@ -1967,7 +1978,7 @@ bool player::is_immune_damage( const damage_type dt ) const
 
 double player::recoil_vehicle() const
 {
-    // @todo: vary penalty dependent upon vehicle part on which player is boarded
+    // TODO: vary penalty dependent upon vehicle part on which player is boarded
 
     if( in_vehicle ) {
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
@@ -2609,7 +2620,8 @@ float player::active_light() const
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
     } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   has_active_bionic( bio_tattoo_led ) || has_effect( effect_glowy_led ) ) ) {
+                                   ( has_active_bionic( bio_tattoo_led ) ||
+                                     has_effect( effect_glowy_led ) ) ) ) {
         lumination = 5;
     }
     return lumination;
@@ -2833,7 +2845,7 @@ void player::pause()
                 continue;
             }
 
-            // @todo: Tools and skills
+            // TODO: Tools and skills
             total_left += eff.get_duration();
             // Being on the ground will smother the fire much faster because you can roll
             const time_duration dur_removed = on_ground ? eff.get_duration() / 2 + 2_turns : 1_turns;
@@ -3372,13 +3384,13 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             break;
         case bp_mouth: // Fall through to head damage
         case bp_head:
-            // @todo: Some daze maybe? Move drain?
+            // TODO: Some daze maybe? Move drain?
             break;
         default:
             debugmsg( "Wacky body part hit!" );
     }
 
-    // @todo: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
+    // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
     recoil = std::min( MAX_RECOIL, recoil );
     //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
@@ -5088,7 +5100,7 @@ double player::vomit_mod()
 
 void player::suffer()
 {
-    // @todo: Remove this section and encapsulate hp_cur
+    // TODO: Remove this section and encapsulate hp_cur
     for( int i = 0; i < num_hp_parts; i++ ) {
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
         if( hp_cur[i] <= 0 ) {
@@ -5354,7 +5366,7 @@ void player::suffer()
                 // Skill raise
                 if( !done_effect && one_in( to_turns<int>( 12_hours ) ) ) {
                     skill_id raised_skill = Skill::random_skill();
-                    add_msg( m_good, _( "You increase %1$s to level %2$d" ), raised_skill.c_str(),
+                    add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
                              get_skill_level( raised_skill ) + 1 );
                     done_effect = true;
                 }
@@ -6697,7 +6709,7 @@ void player::update_body_wetness( const w_point &weather )
             drying_chance = 1;
         }
 
-        // @todo: Make evaporation reduce body heat
+        // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
             body_wetness[bp] -= 1;
             if( body_wetness[bp] < 0 ) {
@@ -7202,7 +7214,7 @@ int player::drink_from_hands( item &water )
     return charges_consumed;
 }
 
-// @todo: Properly split medications and food instead of hacking around
+// TODO: Properly split medications and food instead of hacking around
 bool player::consume_med( item &target )
 {
     if( !target.is_medication() ) {
@@ -7232,7 +7244,7 @@ bool player::consume_med( item &target )
         }
     }
 
-    // @todo: Get the target it was used on
+    // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
     consume_effects( target );
     mod_moves( -250 );
@@ -7360,11 +7372,9 @@ void player::rooted()
 item::reload_option player::select_ammo( const item &base,
         std::vector<item::reload_option> opts ) const
 {
-    using reload_option = item::reload_option;
-
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
-        return reload_option();
+        return item::reload_option();
     }
 
     uilist menu;
@@ -7377,7 +7387,7 @@ item::reload_option player::select_ammo( const item &base,
     // Construct item names
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( names ), [&]( const reload_option & e ) {
+    std::back_inserter( names ), [&]( const item::reload_option & e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -7402,7 +7412,7 @@ item::reload_option player::select_ammo( const item &base,
     // Get location descriptions
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( where ), []( const reload_option & e ) {
+    std::back_inserter( where ), []( const item::reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
             if( is_ammo_container && g->u.is_worn( *e.ammo ) ) {
@@ -7574,7 +7584,7 @@ item::reload_option player::select_ammo( const item &base,
     menu.query();
     if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= opts.size() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
-        return reload_option();
+        return item::reload_option();
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
@@ -7583,11 +7593,9 @@ item::reload_option player::select_ammo( const item &base,
     return std::move( opts[ menu.ret ] );
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt ) const
+bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty ) const
 {
-    using reload_option = item::reload_option;
-    std::vector<reload_option> ammo_list;
-
     auto opts = base.gunmods();
     opts.push_back( &base );
 
@@ -7603,7 +7611,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
 
     bool ammo_match_found = false;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e ) ) {
+        for( item_location &ammo : find_ammo( *e, empty ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -7622,6 +7630,13 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
             }
         }
     }
+    return ammo_match_found;
+}
+
+item::reload_option player::select_ammo( const item &base, bool prompt, bool empty ) const
+{
+    std::vector<item::reload_option> ammo_list;
+    bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
         if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
@@ -7642,20 +7657,20 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
             add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
                                name.c_str(), base.tname() );
         }
-        return reload_option();
+        return item::reload_option();
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return lhs.moves() < rhs.moves();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
@@ -7969,7 +7984,7 @@ bool player::pick_style() // Style selection menu
 
 hint_rating player::rate_action_wear( const item &it ) const
 {
-    //TODO flag already-worn items as HINT_IFFY
+    // TODO: flag already-worn items as HINT_IFFY
 
     if( !it.is_armor() ) {
         return HINT_CANT;
@@ -8164,7 +8179,7 @@ void player::mend_item( item_location &&obj, bool interactive )
 
             std::ostringstream descr;
             descr << _( "<color_white>Time required:</color>\n" );
-            //@todo: better have a from_moves function
+            // TODO: better have a from_moves function
             descr << "> " << to_string_approx( time_duration::from_turns( f.first->time() / 100 ) ) << "\n";
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto &e : f.first->skills() ) {
@@ -8613,7 +8628,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
             activity.values.push_back( item_pair.second );
         }
     }
-    // @todo: Remove the hack. Its here because npcs don't process activities
+    // TODO: Remove the hack. Its here because npcs don't process activities
     if( is_npc() ) {
         activity.do_turn( *this );
     }
@@ -8872,7 +8887,7 @@ hint_rating player::rate_action_unload( const item &it ) const
 
 hint_rating player::rate_action_mend( const item &it ) const
 {
-    // @todo: check also if item damage could be repaired via a tool
+    // TODO: check also if item damage could be repaired via a tool
     if( !it.faults.empty() ) {
         return HINT_GOOD;
     }
@@ -10747,7 +10762,7 @@ float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
     }
     // All the other bionic armors reduce bash/cut/stab by 3
     // Map body parts to a set of bionics that protect it
-    // @todo: JSONize passive bionic armor instead of hardcoding it
+    // TODO: JSONize passive bionic armor instead of hardcoding it
     static const std::map< body_part, bionic_id > armor_bionics = {
         { bp_head, { bio_armor_head } },
         { bp_arm_l, { bio_armor_arms } },
@@ -10832,7 +10847,7 @@ void player::absorb_hit( body_part bp, damage_instance &dam )
             // Heat damage can set armor on fire
             // Even though it doesn't cause direct physical damage to it
             if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
-                // @todo: Different fire intensity values based on damage
+                // TODO: Different fire intensity values based on damage
                 fire_data frd{ 2 };
                 destroy = armor.burn( frd );
                 int fuel = roll_remainder( frd.fuel_produced );
@@ -11260,8 +11275,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
-        std::string str;
-        str = weapon.type_name();
+        std::string str = weapon.type_name();
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
@@ -11536,7 +11550,7 @@ int player::visibility( bool, int ) const
     if( is_invisible() ) {
         return 0;
     }
-    // @todo:
+    // TODO:
     // if ( dark_clothing() && light check ...
     int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
     return clamp( 100 - stealth_modifier, 40, 160 );
@@ -12094,7 +12108,7 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // @todo: get rid of fake npcs (pos() check)
+        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
         rl_dist( pos(), critter.pos() ) <= range && sees( critter );
     } );
 }
@@ -12102,7 +12116,7 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // @todo: get rid of fake npcs (pos() check)
+        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
         rl_dist( pos(), critter.pos() ) <= range &&
         ( sees( critter ) || sees_with_infrared( critter ) );
     } );
@@ -12120,7 +12134,7 @@ std::vector<Creature *> player::get_hostile_creatures( int range ) const
         {
             dist_to_creature = round( trig_dist( pos(), critter.pos() ) );
         }
-        return this != &critter && pos() != critter.pos() && // @todo: get rid of fake npcs (pos() check)
+        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
         dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
         && sees( critter );
     } );
@@ -12483,7 +12497,7 @@ std::set<tripoint> player::get_path_avoid() const
         }
     }
 
-    // @todo: Add known traps in a way that doesn't destroy performance
+    // TODO: Add known traps in a way that doesn't destroy performance
 
     return ret;
 }

@@ -1793,18 +1793,13 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc_ptr> available;
-    for( npc_ptr &guy : overmap_buffer.get_npcs_near_player( 24 ) ) {
+    for( auto &elem : g->get_follower_list() ) {
+        npc_ptr guy = overmap_buffer.find_npc( elem );
         npc_companion_mission c_mission = guy->get_companion_mission();
-        if( g->u.sees( guy->pos() ) ) {
-            if( guy->is_friend() && c_mission.role_id.empty() ) {
-                available.push_back( guy );
-            } else if( guy->mission == NPC_MISSION_GUARD_ALLY &&
-                       guy->companion_mission_role_id != "FACTION_CAMP" ) {
-                available.push_back( guy );
-            }
+        if( g->u.sees( guy->pos() ) && !guy->has_companion_mission() ) {
+            available.push_back( guy );
         }
     }
-
     if( available.empty() ) {
         popup( _( "You don't have any companions to send out..." ) );
         return nullptr;

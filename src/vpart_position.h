@@ -40,7 +40,7 @@ class vpart_position
         ::vehicle &vehicle() const {
             return vehicle_.get();
         }
-        //@todo remove this, add a vpart_reference class instead
+        // TODO: remove this, add a vpart_reference class instead
         size_t part_index() const {
             return part_index_;
         }
@@ -82,7 +82,7 @@ class vpart_position
          * Returns the mount point: the point in the vehicles own coordinate system.
          * This system is independent of movement / rotation.
          */
-        // @todo change to return tripoint.
+        // TODO: change to return tripoint.
         point mount() const;
 };
 
@@ -107,7 +107,7 @@ class optional_vpart_position : public cata::optional<vpart_position>
 };
 
 // For legacy code, phase out, don't use in new code.
-//@todo remove this
+// TODO: remove this
 inline vehicle *veh_pointer_or_null( const optional_vpart_position &p )
 {
     return p ? &p->vehicle() : nullptr;

@@ -3184,7 +3184,7 @@ bool mattack::flamethrower( monster *z )
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if( z->friendly != 0 ) { // @todo: that is always false!
+    if( z->friendly != 0 ) { // TODO: that is always false!
         // Attacking monsters, not the player!
         int boo_hoo;
         Creature *target = z->auto_find_hostile_target( 5, boo_hoo );
@@ -4350,7 +4350,7 @@ bool mattack::bio_op_takedown( monster *z )
     }
     // Weak kick to start with, knocks you off your footing
 
-    // Literally "The zombie kicks" vvvvv |  FIXME FIX message or comment why Literally.
+    // TODO: Literally "The zombie kicks" vvvvv | Fix message or comment why Literally.
     //~ 1$s is bodypart name in accusative, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "The zombie kicks your %1$s for %2$d damage..." ),
                                body_part_name_accusative( hit ).c_str(), dam );

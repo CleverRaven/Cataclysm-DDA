@@ -174,8 +174,26 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     }
 
     const auto &spawns = terrain_type->get_static_spawns();
-    if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
-        int pop = rng( spawns.population.min, spawns.population.max );
+
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( spawns.group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    // Apply a multiplier to the number of monsters for really high densities.
+    float odds_after_density = spawns.chance * spawn_density;
+    const float max_odds = 100 - ( 100 - spawns.chance ) / 2;
+    float density_multiplier = 1.0f;
+    if( odds_after_density > max_odds ) {
+        density_multiplier = 1.0f * odds_after_density / max_odds;
+        odds_after_density = max_odds;
+    }
+    const int spawn_count = roll_remainder( density_multiplier );
+
+    if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+        int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
             if( !spawn_details.name ) {
@@ -229,7 +247,7 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
-void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup too
+void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
     oter_mapgen_weights.clear();
     for( auto &omw : oter_mapgen ) {
@@ -609,9 +627,9 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
                     //Suppress warnings
                     break;
             }
-            tmp_i.valmax = tmp_i.val; // @todo: ... support for random furniture? or not.
+            tmp_i.valmax = tmp_i.val; // TODO: ... support for random furniture? or not.
         }
-        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // @todo: sanity check?
+        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // TODO: sanity check?
         pjo.read( "chance", tmp_chance );
         pjo.read( "rotation", tmp_rotation );
         pjo.read( "fuel", tmp_fuel );
@@ -754,6 +772,56 @@ class jmapgen_sign : public jmapgen_piece
             replace_city_tag( signtext, cityname );
             replace_name_tags( signtext );
             return signtext;
+        }
+};
+/**
+ * Place graffiti with some text or a snippet.
+ * "text": the text of the graffiti.
+ * "snippet": snippet category to pull from for text instead.
+ */
+class jmapgen_graffiti : public jmapgen_piece
+{
+    public:
+        std::string text;
+        std::string snippet;
+        jmapgen_graffiti( JsonObject &jsi ) : jmapgen_piece()
+            , text( jsi.get_string( "text", "" ) )
+            , snippet( jsi.get_string( "snippet", "" ) ) {
+            if( text.empty() && snippet.empty() ) {
+                jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mon_density*/ ) const override {
+            const int rx = x.get();
+            const int ry = y.get();
+
+            std::string graffiti;
+
+            if( !snippet.empty() ) {
+                // select a snippet from the category
+                graffiti = SNIPPET.get( SNIPPET.assign( snippet ) );
+            } else if( !text.empty() ) {
+                graffiti = text;
+            }
+            if( !graffiti.empty() ) {
+                // replace tags
+                graffiti = _( graffiti.c_str() );
+
+                std::string cityname = "illegible city name";
+                tripoint abs_sub = dat.m.get_abs_sub();
+                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                if( c != nullptr ) {
+                    cityname = c->name;
+                }
+                graffiti = apply_all_tags( graffiti, cityname );
+            }
+            dat.m.set_graffiti( tripoint( rx, ry, dat.m.get_abs_sub().z ), graffiti );
+        }
+        std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
+            replace_city_tag( graffiti, cityname );
+            replace_name_tags( graffiti );
+            return graffiti;
         }
 };
 /**
@@ -1189,7 +1257,7 @@ class jmapgen_terrain : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/ ) const override {
             dat.m.ter_set( x.get(), y.get(), id );
-            // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
+            // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( "WALL", x.get(), y.get() ) ) {
                 dat.m.furn_set( x.get(), y.get(), f_null );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
@@ -1347,7 +1415,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                         return;
                     }
 
-                    /// @todo: Somehow check that the item group always produces exactly one seed.
+                    /// TODO: Somehow check that the item group always produces exactly one seed.
                 }
             }
         }
@@ -1864,6 +1932,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
+    new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
 
     return new_pal;
 }
@@ -1992,7 +2061,7 @@ void mapgen_function_json_base::setup_common()
     // No fill_ter? No format? GTFO.
     if( ! qualifies ) {
         jo.throw_error( "  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)" );
-        // @todo: write TFM.
+        // TODO: write TFM.
     }
 
     if( jo.has_array( "set" ) ) {
@@ -2022,6 +2091,7 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
     objects.load_objects<jmapgen_computer>( jo, "place_computers" );
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
+    objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
 
     is_ready = true; // skip setup attempts from any additional pointers
 }
@@ -2085,7 +2155,7 @@ void jmapgen_objects::check( const std::string &oter_name ) const
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
- * @todo: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
+ * TODO: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
 bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const
 {
@@ -2373,7 +2443,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         fmapit->second[fidx]->generate( this, terrain_type, dat, when, density );
-        // @todo: make these json or mappable functions
+        // TODO: make these json or mappable functions
     } else if( terrain_type == "office_tower_1_entrance" ) {
 
         dat.fill_groundcover();
@@ -6573,7 +6643,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 for( int y = 0; y < 4; y++ ) {
                     for( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
                         if( x - y > SEEX * 2 - 4 ) {
-                            //TODO more discriminating conditions
+                            // TODO: more discriminating conditions
                             if( ter( x, y ) == t_grass ||
                                 ter( x, y ) == t_dirt ||
                                 ter( x, y ) == t_shrub ) {
@@ -6603,7 +6673,14 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         return;
     }
 
-    float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    float multiplier = density * spawn_density;
     float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
     int num = roll_remainder( thenum );
 
@@ -6689,7 +6766,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
-    //@todo: implement for 3D
+    // TODO: implement for 3D
     return place_items( loc, chance, f.x, f.y, t.x, t.y, ongrass, turn, magazine, ammo );
 }
 
@@ -6924,7 +7001,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             for( auto &part : veh->parts ) {
                 const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
-                // @todo change mount points to be tripoint
+                // TODO: change mount points to be tripoint
                 wreckage->install_part( point( part_pos.x, part_pos.y ), part );
             }
 
@@ -7000,7 +7077,7 @@ void map::rotate( int turns )
     const tripoint &abs_sub = get_abs_sub();
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
-    // @todo: This radius can be smaller - how small?
+    // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,

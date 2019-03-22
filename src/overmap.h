@@ -234,7 +234,7 @@ class overmap
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point global_base_point() const;
 
-        // @todo: Should depend on coordinates
+        // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
             return settings;
         }
@@ -359,9 +359,11 @@ class overmap
         pf::path lay_out_street( const overmap_connection &connection, const point &source,
                                  om_direction::type dir, size_t len ) const;
 
-        void build_connection( const overmap_connection &connection, const pf::path &path, int z );
+        void build_connection( const overmap_connection &connection, const pf::path &path, int z,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point &source, const point &dest, int z,
-                               const overmap_connection &connection, const bool must_be_unexplored );
+                               const overmap_connection &connection, const bool must_be_unexplored,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing

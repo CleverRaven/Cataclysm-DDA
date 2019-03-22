@@ -641,9 +641,9 @@ void zone_manager::add( const std::string &name, const zone_type_id &type,
     //the start is a vehicle tile with cargo space
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
-        //TODO:Allow for loot zones on vehicles to be larger than 1x1
+        // TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
-            //TODO: refactor zone options for proper validation code
+            // TODO: refactor zone options for proper validation code
             if( type == zone_type_id( "FARM_PLOT" ) ) {
                 popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                 return;
@@ -703,7 +703,7 @@ void zone_manager::swap( zone_data &a, zone_data &b )
 {
     if( a.get_is_vehicle() || b.get_is_vehicle() ) {
         //Current swap mechanic will change which vehicle the zone is on
-        //TODO: track and update vehicle zone priorities?
+        // TODO: track and update vehicle zone priorities?
         popup( _( "You cannot change the order of vehicle loot zones." ), PF_NONE );
         return;
     }
@@ -799,7 +799,6 @@ void zone_manager::deserialize( JsonIn &jsin )
         }
     }
 }
-
 
 void zone_data::serialize( JsonOut &json ) const
 {
