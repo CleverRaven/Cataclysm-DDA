@@ -11,6 +11,7 @@ Cataclysm: DDA is under constant development, we recommend you start with the la
 * [Linux 64-bit Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux_x64/Tiles/)
 * [OSX Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Curses/)
 * [OSX Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Tiles/)
+* [Android build](http://dev.narc.ro/cataclysm/jenkins-latest/Android/Tiles/)
 
 #### For historical interest, here are the previous "Stable" releases.
 
