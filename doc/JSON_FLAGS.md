@@ -832,6 +832,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
+- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: BIRD, CATTLE.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
