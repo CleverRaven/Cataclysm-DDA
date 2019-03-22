@@ -121,12 +121,6 @@
     "items": [ [ "weed", 10 ], [ "coke", 10 ], [ "aspirin", 45 ], [ "mag_news", 30 ], [ "purse", 10 ], [ "hairpin", 25 ] ]
   },
   {
-    "name": "GROUP_COFFEE_SHOP_SPITTER",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_spitter", "freq": 65, "cost_multiplier": 5 } ]
-  },
-   {
     "name": "GROUP_COFFEE_SHOP_ZOMBIE",
     "type": "monstergroup",
     "default": "mon_null",
