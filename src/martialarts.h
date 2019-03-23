@@ -2,18 +2,22 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include "string_id.h"
-#include "bonuses.h"
-#include <string>
-#include <vector>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
+
+#include "bonuses.h"
+#include "calendar.h"
+#include "string_id.h"
+#include "ui.h"
 
 enum damage_type : int;
 class JsonObject;
 class effect;
 class player;
 class item;
+struct itype;
 class martialart;
 using matype_id = string_id<martialart>;
 class ma_buff;
@@ -24,6 +28,8 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 class Skill;
 using skill_id = string_id<Skill>;
+
+matype_id martial_art_learned_from( const itype & );
 
 struct ma_requirements {
     bool was_loaded = false;
@@ -49,6 +55,8 @@ struct ma_requirements {
         strictly_unarmed = false;
     }
 
+    std::string get_description( bool buff = false ) const;
+
     bool is_valid_player( const player &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
@@ -67,6 +75,7 @@ class ma_technique
         std::string name;
 
         std::string description;
+        std::string get_description() const;
 
         std::string goal; // the melee goal this achieves
 
@@ -142,14 +151,10 @@ class ma_buff
         // bonuses)
         float damage_mult( const player &u, damage_type type ) const;
 
-        /** Stamina cost multiplier */
-        float stamina_mult() const;
-
         // returns various boolean flags
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool can_melee() const;
-        bool can_unarmed_weapon() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -160,12 +165,13 @@ class ma_buff
         bool was_loaded = false;
         std::string name;
         std::string description;
+        std::string get_description( bool passive = false ) const;
 
         ma_requirements reqs;
 
         // mapped as buff_id -> min stacks of buff
 
-        int buff_duration; // total length this buff lasts
+        time_duration buff_duration; // total length this buff lasts
         int max_stacks; // total number of stacks this buff can have
 
         int dodges_bonus; // extra dodges, like karate
@@ -230,6 +236,22 @@ class martialart
         std::vector<mabuff_id> ondodge_buffs;
         std::vector<mabuff_id> onblock_buffs;
         std::vector<mabuff_id> ongethit_buffs;
+};
+
+class ma_style_callback : public uilist_callback
+{
+    private:
+        size_t offset;
+        const std::vector<matype_id> &styles;
+
+    public:
+        ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles )
+            : offset( style_offset )
+            , styles( selectable_styles )
+        {}
+
+        bool key( const input_context &ctxt, const input_event &event, int entnum, uilist *menu ) override;
+        ~ma_style_callback() override = default;
 };
 
 void load_technique( JsonObject &jo, const std::string &src );

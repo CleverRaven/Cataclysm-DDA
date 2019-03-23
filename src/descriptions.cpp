@@ -1,16 +1,16 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 
 #include "calendar.h"
-#include "game.h"
-#include "output.h"
-#include "player.h"
-#include "monster.h"
+#include "harvest.h"
+#include "input.h"
 #include "map.h"
 #include "mapdata.h"
+#include "output.h"
+#include "player.h"
 #include "string_formatter.h"
-#include "input.h"
 #include "ui.h"
-#include "harvest.h"
 
 const skill_id skill_survival( "survival" );
 
@@ -42,7 +42,7 @@ void game::extended_description( const tripoint &p )
     const int height = bottom - top;
     catacurses::window w_head = catacurses::newwin( top, TERMX, 0, 0 );
     catacurses::window w_main = catacurses::newwin( height, width, top, left );
-    // @todo: De-hardcode
+    // TODO: De-hardcode
     std::string header_message = _( "\
 c to describe creatures, f to describe furniture, t to describe terrain, Esc/Enter to close." );
     mvwprintz( w_head, 0, 0, c_white, header_message.c_str() );
@@ -141,10 +141,10 @@ std::string map_data_common_t::extended_description() const
                 continue;
             }
 
-            identical_harvest.insert( std::make_pair( hv, ( season_type )season ) );
+            identical_harvest.insert( std::make_pair( hv, static_cast<season_type>( season ) ) );
         }
         // Now print them in order of seasons
-        // @todo: Highlight current season
+        // TODO: Highlight current season
         for( size_t season = SPRING; season <= WINTER; season++ ) {
             const auto range = identical_harvest.equal_range( harvest_by_season[ season ] );
             if( range.first == range.second ) {
@@ -163,7 +163,7 @@ std::string map_data_common_t::extended_description() const
             ss << ":" << std::endl;
             // List the drops
             // They actually describe what player can get from it now, so it isn't spoily
-            // @todo: Allow spoily listing of everything
+            // TODO: Allow spoily listing of everything
             ss << range.first->first.obj().describe( player_skill ) << std::endl;
             // Remove the range from the multimap so that it isn't listed twice
             identical_harvest.erase( range.first, range.second );

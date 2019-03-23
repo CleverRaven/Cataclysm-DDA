@@ -2,30 +2,38 @@
 #ifndef CATA_UTILITY_H
 #define CATA_UTILITY_H
 
-#include <utility>
-#include <string>
-#include <vector>
 #include <fstream>
 #include <functional>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "units.h"
 
 class item;
 class Creature;
 struct tripoint;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-}
 class JsonIn;
 class JsonOut;
 
 /**
  * Greater-than comparison operator; required by the sort interface
  */
-struct pair_greater_cmp {
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) const;
+struct pair_greater_cmp_first {
+    template< class T, class U >
+    bool operator()( const std::pair<T, U> &a, const std::pair<T, U> &b ) const {
+        return a.first > b.first;
+    }
+
+};
+
+/**
+ * For use with smart pointers when you don't actually want the deleter to do
+ * anything.
+ */
+struct null_deleter {
+    template<typename T>
+    void operator()( T * ) const {}
 };
 
 /**
@@ -56,6 +64,26 @@ inline int fast_floor( double v )
  */
 double round_up( double val, unsigned int dp );
 
+/** Divide @p num by @p den, rounding up
+*
+* @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+*/
+template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+T divide_round_up( T num, T den )
+{
+    return ( num + den - 1 ) / den;
+}
+
+/** Divide @p num by @p den, rounding up
+ *
+ * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+ */
+template<typename T, typename U>
+T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
+{
+    return divide_round_up( num.value(), den.value() );
+}
+
 /**
  * Determine whether a value is between two given boundaries.
  *
@@ -80,6 +108,21 @@ bool isBetween( int test, int down, int up );
  *         string, otherwise returns false
  */
 bool lcmatch( const std::string &str, const std::string &qry );
+
+/**
+ * Matches text case insensitive with the include/exclude rules of the filter
+ *
+ * Multiple includes/excludes are possible
+ *
+ * Examle: bank,-house,tank,-car
+ * Will match text containing tank or bank while not containing house or car
+ *
+ * @param text String to be matched
+ * @param filter String with include/exclude rules
+ *
+ * @return true if include/exclude rules pass. See Example.
+ */
+bool match_include_exclude( const std::string &text, std::string filter );
 
 /**
  * Basic logistic function.
@@ -202,11 +245,16 @@ double convert_volume( int volume, int *out_scale );
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
  *
- * @param fahrenheit Temperature in degrees F.
- *
  * @return Temperature in degrees C.
  */
 double temp_to_celsius( double fahrenheit );
+
+/**
+ * Convert a temperature from degrees Fahrenheit to degrees Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double temp_to_kelvin( double fahrenheit );
 
 /**
  * Clamp (number and space wise) value to with,
@@ -407,7 +455,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char( void )> f );
+std::string obscure_message( const std::string &str, std::function<char()> f );
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -445,4 +493,24 @@ inline void deserialize( T &obj, const std::string &data )
 }
 /**@}*/
 
+/**
+ * \brief Returns true iff s1 starts with s2
+ */
+bool string_starts_with( const std::string &s1, const std::string &s2 );
+
+/**
+ * \brief Returns true iff s1 ends with s2
+ */
+bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/** Used as a default in function declarations in visitable.h, inventory.h, and player.h */
+const std::function<bool( const item & )> return_true = []( const item & )
+{
+    return true;
+};
+
+/**
+ * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ */
+std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 #endif // CAT_UTILITY_H

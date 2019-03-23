@@ -1,0 +1,556 @@
+[
+  {
+    "//": "Spawn for a room exactly 7x7 including the ability to adjust the north and west walls.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_7x7_wall_nw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "place_nested": [ { "chunks": [ [ "lab_spawn_7x7_nw_crossdoors_adapter", 50 ], [ "lab_room_7x7_wall_nw", 50 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "//": "Spawn for a room exactly 7x7 including the ability to adjust the south and west walls.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_7x7_wall_sw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "place_nested": [ { "chunks": [ [ "lab_spawn_7x7_sw_crossdoors_adapter", 50 ], [ "lab_room_7x7_wall_sw", 50 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "//": "Spawn for a room exactly 9x9 including the ability to adjust the north and west walls.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "place_nested": [ { "chunks": [ [ "lab_spawn_9x9_nw_crossdoors_adapter", 50 ], [ "lab_room_9x9_wall_nw", 50 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "//": "Spawn for a room exactly 9x9 including the ability to adjust the south and west walls.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_9x9_wall_sw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "place_nested": [ { "chunks": [ [ "lab_spawn_9x9_sw_crossdoors_adapter", 50 ], [ "lab_room_9x9_wall_sw", 50 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "//": "Puts a normal 7x7 room in the right spot of a 7x7+walls spawn.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_7x7_nw_crossdoors_adapter",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "place_nested": [ { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "Puts a normal 7x7 room in the right spot of a 7x7+walls spawn.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_7x7_sw_crossdoors_adapter",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "place_nested": [ { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 1, "y": 0} ]
+    }
+  },
+  {
+    "//": "Puts a normal 9x9 room in the right spot of a 9x9+walls spawn.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_9x9_nw_crossdoors_adapter",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "Puts a normal 9x9 room in the right spot of a 9x9+walls spawn.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_spawn_9x9_sw_crossdoors_adapter",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 0} ]
+    }
+  },
+  {
+    "//": "7x7nw fenced room. TODO: restrict to only rooms that look good with fences?",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_nw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "set": [
+        { "line": "terrain", "id": "t_chainfence_h", "x": 0, "x2": 7, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 1, "y2": 7 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": [ 3, 5], "y": 0 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [3, 5] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_7x7" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "7x7sw fenced room. TODO: restrict to only rooms that look good with fences?",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_sw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "set": [
+        { "line": "terrain", "id": "t_chainfence_h", "x": 0, "x2": 7, "y": 7, "y2": 7 },
+        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 0, "y2": 6 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": [ 3, 5], "y": 7 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [2, 4] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_7x7" ], "x": 1, "y": 0} ]
+    }
+  },
+  {
+    "//": "7x7nw window walls",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_nw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "set": [
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 7, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 1, "y2": 7 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": [ 3, 5], "y": 0 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": 0, "y": [3, 5] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_7x7" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "7x7sw window walls",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_sw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "set": [
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 7, "y": 7, "y2": 7 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 0, "y2": 6 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": [ 3, 5], "y": 7 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": 0, "y": [2, 4] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_7x7" ], "x": 1, "y": 0} ]
+    }
+  },
+  {
+    "//": "7x7nw cooling pool",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_nw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "|-------",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW"
+      ],
+      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+    }
+  },
+  {
+    "//": "7x7sw cooling pool",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_sw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|WWWWWWW",
+        "|-------"
+      ],
+      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+    }
+  },
+  {
+    "//": "7x7sw bionic vault",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_sw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "|#######",
+        "--MMMMM#",
+        ".6MrrrM#",
+        "..L,,,M#",
+        "..MrrrM#",
+        "--MMMMM#",
+        "|#######",
+        "|-------"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "terrain": { "M": "t_wall_metal" },
+      "place_monster": [ { "monster": "mon_turret", "x": 5, "y": 3, "chance": 25 } ]
+    }
+  },
+  {
+    "//": "7x7nw serum vault",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_nw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "|-------",
+        "|#######",
+        "--MMMMM#",
+        "..MrrrM#",
+        "..L,,,M#",
+        ".6MrrrM#",
+        "--MMMMM#",
+        "|#######"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "terrain": { "M": "t_wall_metal" },
+      "place_monster": [ { "monster": "mon_turret", "x": 5, "y": 3, "chance": 10 } ]
+    }
+  },
+  {
+    "//": "7x7nw storage shed roller entrance",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_wall_nw",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "....C...",
+        "-LLL-LLL",
+        "|...|...",
+        "|...|...",
+        "|...|...",
+        "|...|...",
+        "|...|...",
+        "|...|..."
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { "C": "t_gates_control_concrete_lab" },
+      "place_nested": [
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [1,3], "y": [2,7], "repeat": 8},
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [5,7], "y": [2,7], "repeat": 8}
+      ]
+    }
+  },
+  {
+    "//": "9x9nw fenced room. TODO: restrict to only rooms that look good with fences?",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "set": [
+        { "line": "terrain", "id": "t_chainfence_h", "x": 0, "x2": 9, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 1, "y2": 9 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": [ 4, 6 ], "y": 0 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [ 4, 6 ] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "9x9sw fenced room. TODO: restrict to only rooms that look good with fences?",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_sw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "set": [
+        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 0, "y2": 9 },
+        { "line": "terrain", "id": "t_chainfence_h", "x": 1, "x2": 9, "y": 9, "y2": 9 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": [ 4, 6 ], "y": 9 },
+        { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [ 3, 5 ] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 0} ]
+    }
+  },
+  {
+    "//": "9x9nw window walls",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "set": [
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 9, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 1, "y2": 9 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": [ 4, 6 ], "y": 0 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": 0, "y": [ 4, 6 ] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "9x9sw window walls",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_sw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "set": [
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 0, "y2": 9 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 1, "x2": 9, "y": 9, "y2": 9 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": [ 4, 6 ], "y": 9 },
+        { "point": "terrain", "id": "t_door_glass_lab_c", "x": 0, "y": [ 3, 5 ] }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 0} ]
+    }
+  },
+  {
+    "//": "9x9nw four 2x1 windows",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "set": [
+        { "line": "terrain", "id": "t_wall_glass", "x": 2, "x2": 3, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 7, "x2": 8, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 2, "y2": 3 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 7, "y2": 8 }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "9x9sw four 2x1 windows",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_sw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "set": [
+        { "line": "terrain", "id": "t_wall_glass", "x": 2, "x2": 3, "y": 9, "y2": 9 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 7, "x2": 8, "y": 9, "y2": 9 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 1, "y2": 2 },
+        { "line": "terrain", "id": "t_wall_glass", "x": 0, "x2": 0, "y": 6, "y2": 7 }
+      ],
+      "place_nested": [ { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 0} ]
+    }
+  },
+  {
+    "//": "9x9nw duplex apartments",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [0, 3],
+      "rows": [
+        "|----W----",
+        "|TS|f..cSO",
+        "|..|C.....",
+        "|-W|-|..ht",
+        "|...O|....",
+        "W...S|bb..",
+        "|...c|bb.s",
+        "|...f|--W-",
+        "|h....b|..",
+        "|t.s..b|ST"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "furniture": { "C": "f_cupboard", "O": "f_oven" },
+      "mapping": {
+        "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
+        "f": { "items": [ { "item": "fridge", "chance": 30 } ] },
+        "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
+        "c": { "items": [ { "item": "kitchen", "chance": 20 } ] },
+        "O": { "items": [ { "item": "oven", "chance": 20 } ] }
+      }
+    }
+  },
+  {
+    "//": "9x9sw duplex apartments",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_sw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [0, 3],
+      "rows": [
+        "|t.s..b|ST",
+        "|h....b|..",
+        "|...f|--W-",
+        "|...c|bb.s",
+        "W...S|bb..",
+        "|...O|....",
+        "|-W|-|..ht",
+        "|..|C.....",
+        "|TS|f..cSO",
+        "|----W----"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "furniture": { "C": "f_cupboard", "O": "f_oven" },
+      "mapping": {
+        "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
+        "f": { "items": [ { "item": "fridge", "chance": 30 } ] },
+        "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
+        "c": { "items": [ { "item": "kitchen", "chance": 20 } ] },
+        "O": { "items": [ { "item": "oven", "chance": 20 } ] }
+      }
+    }
+  },
+  {
+    "//": "9x9nw cooling pool",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [0, 3],
+      "rows": [
+        "|---------",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW"
+      ],
+      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+    }
+  },
+  {
+    "//": "9x9nw turret server room with small windows",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [0, 3],
+      "rows": [
+        "|-g-G-g-g-",
+        "|x,,,x,,,x",
+        "g,,,,,,,,,",
+        "|,,,,,,,,,",
+        "g,,,,,,,,,",
+        "|x,,,7,,,x",
+        "g,,,,,,,,,",
+        "|,,,,,,,,,",
+        "g,,,,,,,,,",
+        "|x,,,x,,,x"
+      ],
+      "palettes": [ "lab_palette" ],
+      "monster": {
+        "7": { "monster": "mon_turret"}
+      },
+      "terrain": { "g": "t_wall_glass", "G": "t_door_glass_lab_c", "7": "t_thconc_floor" }
+    }
+  },
+  {
+    "//": "9x9sw cooling pool",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_sw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [0, 3],
+      "rows": [
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|WWWWWWWWW",
+        "|---------"
+      ],
+      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+    }
+  },
+  {
+    "//": "9x9nw barracks",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "-----+----",
+        "|.........",
+        "|bb.....bb",
+        "|s.......s",
+        "|.........",
+        "|bb.....bb",
+        "|s.......s",
+        "|.........",
+        "|bb.....bb",
+        "|s.......s"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "place_monster": [ { "monster": ["mon_zombie_soldier"], "x": [ 1, 9 ], "y": [ 1, 9 ], "chance": 25, "pack_size": [1,3] } ]
+    }
+  },
+  {
+    "//": "9x9nw cubicles",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_nw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "-----+----",
+        "|d..|.|..d",
+        "|ch.....ch",
+        "|----.----",
+        "|d..|.|?.d",
+        "|ch.....hc",
+        "|d.?|.|..d",
+        "|----.----",
+        "|ch.....hc",
+        "|d..|x|..d"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "furniture": { "?": ["f_null", "f_null", "f_indoor_plant"] }
+    }
+  },
+  {
+    "//": "9x9sw cubicles",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_wall_sw",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "|dc|dcd|cd",
+        "|.h|.h.|h.",
+        "|..|?..|..",
+        "|-.--.--.-",
+        "+........x",
+        "|-.--.--.-",
+        "|..|..?|..",
+        "|.h|.h.|h.",
+        "|dc|dcd|cd",
+        "----------"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "furniture": { "?": ["f_null", "f_null", "f_indoor_plant"] }
+    }
+  }
+]

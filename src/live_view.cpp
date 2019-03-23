@@ -1,12 +1,12 @@
 #include "live_view.h"
 
-#include "output.h"
-#include "game.h"
-#include "string_formatter.h"
-#include "map.h"
-#include "translations.h"
 #include "catacharset.h" // center_text_pos
 #include "color.h"
+#include "game.h"
+#include "map.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
@@ -19,7 +19,6 @@ namespace
 {
 
 constexpr int START_LINE = 1;
-constexpr int START_COLUMN = 1;
 constexpr int MIN_BOX_HEIGHT = 11;
 
 } //namespace
@@ -29,7 +28,7 @@ void live_view::init()
     hide();
 }
 
-int live_view::draw( const catacurses::window &win, int const max_height )
+int live_view::draw( const catacurses::window &win, const int max_height )
 {
     if( !enabled ) {
         return 0;
@@ -39,8 +38,7 @@ int live_view::draw( const catacurses::window &win, int const max_height )
     const int line_limit = max_height - 2;
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
     int line_out = START_LINE;
-    g->print_all_tile_info( mouse_position, win, START_COLUMN, line_out,
-                            line_limit, false, cache );
+    g->pre_print_all_tile_info( mouse_position, win, line_out, line_limit, cache );
 
     const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
 

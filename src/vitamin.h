@@ -2,12 +2,12 @@
 #ifndef VITAMIN_H
 #define VITAMIN_H
 
-#include "string_id.h"
-
-#include <string>
 #include <map>
 #include <utility>
 #include <vector>
+
+#include "calendar.h"
+#include "string_id.h"
 
 class JsonObject;
 class vitamin;
@@ -18,7 +18,7 @@ using efftype_id = string_id<effect_type>;
 class vitamin
 {
     public:
-        vitamin() : id_( vitamin_id( "null" ) ) {}
+        vitamin() : id_( vitamin_id( "null" ) ), rate_( 1_hours ) {}
 
         const vitamin_id &id() const {
             return id_;
@@ -53,11 +53,10 @@ class vitamin
         }
 
         /**
-         * Usage rate of vitamin (turns to consume unit)
+         * Usage rate of vitamin (time to consume unit)
          * Lower bound is zero whereby vitamin is not required (but may still accumulate)
-         * If unspecified in JSON a default value of 60 minutes is used
          */
-        int rate() const {
+        time_duration rate() const {
             return rate_;
         }
 
@@ -83,7 +82,7 @@ class vitamin
         efftype_id excess_;
         int min_;
         int max_;
-        int rate_;
+        time_duration rate_;
         std::vector<std::pair<int, int>> disease_;
 };
 

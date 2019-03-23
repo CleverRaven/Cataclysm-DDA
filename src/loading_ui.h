@@ -5,12 +5,12 @@
 #include <memory>
 #include <vector>
 
-class uimenu;
+class uilist;
 
 class loading_ui
 {
     private:
-        std::unique_ptr<uimenu> menu;
+        std::unique_ptr<uilist> menu;
         std::vector<std::string> entries;
     public:
         loading_ui( bool display );

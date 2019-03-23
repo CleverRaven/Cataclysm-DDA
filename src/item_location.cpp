@@ -1,23 +1,26 @@
 #include "item_location.h"
 
-#include "game_constants.h"
-#include "enums.h"
-#include "debug.h"
-#include "game.h"
-#include "map.h"
-#include "map_selector.h"
-#include "json.h"
+#include <climits>
+#include <list>
+#include <algorithm>
+
 #include "character.h"
-#include "player.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "veh_type.h"
+#include "debug.h"
+#include "enums.h"
+#include "game.h"
+#include "game_constants.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "json.h"
+#include "map.h"
+#include "map_selector.h"
+#include "output.h"
+#include "player.h"
 #include "translations.h"
-
-#include <climits>
-#include <algorithm>
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -56,6 +59,7 @@ class item_location::impl
         class item_on_vehicle;
 
         impl() = default;
+        impl( std::list<item> *what ) :  what( &what->front() ), whatstart( what ) {}
         impl( item *what ) : what( what ) {}
         impl( int idx ) : idx( idx ) {}
 
@@ -101,9 +105,30 @@ class item_location::impl
             return what;
         }
 
+        // Add up the total charges of a stack of items
+        long charges_in_stack( unsigned int countOnly ) const {
+            long sum = 0L;
+            unsigned int c = countOnly;
+            // If the list points to a nullpointer, then the target pointer must still be valid
+            if( whatstart == nullptr ) {
+                return target()->charges;
+            }
+            for( std::list<item>::iterator it = whatstart->begin(); it != whatstart->end() && c; ++it, --c ) {
+                sum += it->charges;
+            }
+            return sum;
+        }
+
     private:
         mutable item *what = nullptr;
         mutable int idx = -1;
+        //Only used for stacked cash card currently, needed to be able to process a stack of different items
+        mutable std::list<item> *whatstart = nullptr;
+
+    public:
+        //Flag that controls whether functions like obtain() should stack the obtained item
+        //with similar existing items in the inventory or create a new stack for the item
+        bool should_stack = true;
 };
 
 class item_location::impl::nowhere : public item_location::impl
@@ -123,6 +148,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+        item_on_map( const map_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -162,9 +188,9 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();
                 return inv;
             }
@@ -184,7 +210,7 @@ class item_location::impl::item_on_map : public item_location::impl
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur );
 
-            //@todo: handle unpacking costs
+            // TODO: handle unpacking costs
 
             return mv;
         }
@@ -194,17 +220,35 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 };
 
+static bool gun_has_item( const item &gun, const item *it )
+{
+    if( !gun.is_gun() ) {
+        return false;
+    }
+
+    if( gun.magazine_current() == it ) {
+        return true;
+    }
+
+    auto gms = gun.gunmods();
+    return !gms.empty() && std::find( gms.begin(), gms.end(), it ) != gms.end();
+}
+
 class item_location::impl::item_on_person : public item_location::impl
 {
     private:
         Character &who;
 
     public:
+        item_on_person( Character &who, std::list<item> *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
 
         bool valid() const override {
-            return target() && who.has_item( *target() );
+            const item *targ = target();
+            return targ && who.has_item_with( [targ]( const item & it ) {
+                return &it == targ || gun_has_item( it, targ );
+            } );
         }
 
         void serialize( JsonOut &js ) const override {
@@ -258,9 +302,9 @@ class item_location::impl::item_on_person : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();  // This also takes off the item from whoever wears it.
                 return inv;
             }
@@ -301,12 +345,12 @@ class item_location::impl::item_on_person : public item_location::impl
 
             } else {
                 // it is more expensive to obtain items from the inventory
-                // @todo: calculate cost for searching in inventory proportional to item volume
+                // TODO: calculate cost for searching in inventory proportional to item volume
                 mv += dynamic_cast<player &>( who ).item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
             }
 
             if( &ch != &who ) {
-                // @todo: implement movement cost for transferring item between characters
+                // TODO: implement movement cost for transferring item between characters
             }
 
             return mv;
@@ -324,6 +368,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -363,9 +408,18 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = cur.veh.parts[ cur.part ].name();
+            vpart_position part_pos( cur.veh, cur.part );
+            std::string res;
+            if( auto label = part_pos.get_label() ) {
+                res = colorize( *label, c_light_blue ) + " ";
+            }
+            if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
+                res += cargo_part->part().name();
+            } else {
+                debugmsg( "item in vehicle part without cargo storage" );
+            }
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
             }
             return res;
         }
@@ -375,9 +429,9 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
                 remove_item();
                 return inv;
             }
@@ -398,7 +452,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                      VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
-            //@todo: handle unpacking costs
+            // TODO: handle unpacking costs
 
             return mv;
         }
@@ -423,11 +477,20 @@ const item_location item_location::nowhere;
 item_location::item_location()
     : ptr( new impl::nowhere() ) {}
 
+item_location::item_location( const map_cursor &mc, std::list<item> *which )
+    : ptr( new impl::item_on_map( mc, which ) ) {}
+
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new impl::item_on_map( mc, which ) ) {}
 
+item_location::item_location( Character &ch, std::list<item> *which )
+    : ptr( new impl::item_on_person( ch, which ) ) {}
+
 item_location::item_location( Character &ch, item *which )
     : ptr( new impl::item_on_person( ch, which ) ) {}
+
+item_location::item_location( const vehicle_cursor &vc, std::list<item> *which )
+    : ptr( new impl::item_on_vehicle( vc, which ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new impl::item_on_vehicle( vc, which ) ) {}
@@ -490,12 +553,17 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_map( pos, idx ) );
 
     } else if( type == "vehicle" ) {
-        auto *veh = g->m.veh_at( pos );
+        vehicle *const veh = veh_pointer_or_null( g->m.veh_at( pos ) );
         int part = obj.get_int( "part" );
-        if( veh && part >= 0 && part < int( veh->parts.size() ) ) {
+        if( veh && part >= 0 && part < static_cast<int>( veh->parts.size() ) ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     }
+}
+
+long item_location::charges_in_stack( unsigned int countOnly ) const
+{
+    return ptr->charges_in_stack( countOnly );
 }
 
 item_location::type item_location::where() const
@@ -552,4 +620,9 @@ item_location item_location::clone() const
     item_location res;
     res.ptr = ptr;
     return res;
+}
+
+void item_location::set_should_stack( bool should_stack ) const
+{
+    ptr->should_stack = should_stack;
 }

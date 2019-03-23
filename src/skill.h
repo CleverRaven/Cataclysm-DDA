@@ -2,19 +2,20 @@
 #ifndef SKILL_H
 #define SKILL_H
 
+#include <functional>
+#include <map>
+#include <set>
+#include <vector>
+
 #include "calendar.h"
 #include "string_id.h"
-
-#include <functional>
-#include <string>
-#include <map>
-#include <vector>
-#include <set>
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class Skill;
+class recipe;
+class item;
 using skill_id = string_id<Skill>;
 
 class Skill
@@ -37,20 +38,20 @@ class Skill
         // clear skill vector, every skill pointer becomes invalid!
         static void reset();
 
-        static std::vector<Skill const *> get_skills_sorted_by(
-            std::function<bool ( Skill const &, Skill const & )> pred );
+        static std::vector<const Skill *> get_skills_sorted_by(
+            std::function<bool ( const Skill &, const Skill & )> pred );
 
         Skill();
         Skill( skill_id ident, std::string name, std::string description,
                std::set<std::string> tags );
 
-        skill_id const &ident() const {
+        const skill_id &ident() const {
             return _ident;
         }
-        std::string const &name() const {
+        const std::string &name() const {
             return _name;
         }
-        std::string const &description() const {
+        const std::string &description() const {
             return _description;
         }
 
@@ -165,6 +166,27 @@ class SkillLevel
 
 class SkillLevelMap : public std::map<skill_id, SkillLevel>
 {
+    public:
+        const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
+        SkillLevel &get_skill_level_object( const skill_id &ident );
+        void mod_skill_level( const skill_id &ident, int delta );
+        int get_skill_level( const skill_id &ident ) const;
+        int get_skill_level( const skill_id &ident, const item &context ) const;
+
+        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
+        bool meets_skill_requirements( const std::map<skill_id, int> &req,
+                                       const item &context ) const;
+        /** Calculates skill difference
+         * @param req Required skills to be compared with.
+         * @param context An item to provide context for contextual skills. Can be null.
+         * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
+         */
+        std::map<skill_id, int> compare_skill_requirements(
+            const std::map<skill_id, int> &req ) const;
+        std::map<skill_id, int> compare_skill_requirements(
+            const std::map<skill_id, int> &req, const item &context ) const;
+        int exceeds_recipe_requirements( const recipe &rec ) const;
+        bool has_recipe_requirements( const recipe &rec ) const;
 };
 
 double price_adjustment( int );

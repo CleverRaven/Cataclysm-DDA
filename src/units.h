@@ -1,10 +1,11 @@
 #pragma once
-#ifndef QUANTITY_CATA_H
-#define QUANTITY_CATA_H
+#ifndef UNITS_H
+#define UNITS_H
 
-#include <utility>
 #include <cstddef>
 #include <limits>
+#include <ostream>
+#include <utility>
 
 namespace units
 {
@@ -201,7 +202,7 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
 }
 
 // and the revers of the multiplication above:
-// quantity<foo, unit> / scalar == quantity<decltype(foo * scalar), unit>
+// quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
 template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
 inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
 operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
@@ -229,9 +230,44 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
     lhs = lhs / divisor;
     return lhs;
 }
+
+// remainder:
+// quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
+template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
+inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
+{
+    return { lhs.value() % divisor, ut{} };
+}
+
+// scalar % quantity<foo, unit> is not supported
+template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
+inline void operator%( lvt, quantity<rvt, ut> ) = delete;
+
+// quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
+template<typename lvt, typename ut, typename rvt>
+inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+{
+    return { lhs.value() % rhs.value(), ut{} };
+}
+
+// operator %=
+template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
+inline quantity<lvt, ut> &
+operator%=( quantity<lvt, ut> &lhs, const st &divisor )
+{
+    lhs = lhs % divisor;
+    return lhs;
+}
+template<typename lvt, typename ut, typename rvt>
+inline quantity<lvt, ut> &
+operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+{
+    lhs = lhs % rhs;
+    return lhs;
+}
 /**@}*/
-
-
 
 class volume_in_milliliter_tag
 {
@@ -308,6 +344,25 @@ inline constexpr value_type to_gram( const quantity<value_type, mass_in_gram_tag
 inline constexpr double to_kilogram( const mass &v )
 {
     return v.value() / 1000.0;
+}
+
+// Streaming operators for debugging and tests
+// (for UI output other functions should be used which render in the user's
+// chosen units)
+inline std::ostream &operator<<( std::ostream &o, mass_in_gram_tag )
+{
+    return o << "g";
+}
+
+inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
+{
+    return o << "ml";
+}
+
+template<typename value_type, typename tag_type>
+inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
+{
+    return o << v.value() << tag_type{};
 }
 
 } // namespace units

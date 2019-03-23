@@ -2,9 +2,9 @@
 #ifndef INT_ID_H
 #define INT_ID_H
 
+#include <functional>
 #include <string>
 #include <type_traits>
-#include <functional>
 
 template<typename T>
 class string_id;
@@ -25,7 +25,7 @@ class int_id
          * Explicit constructor to make it stand out in the code, so one can easily search for all
          * places that use it.
          */
-        explicit int_id( int const id )
+        explicit int_id( const int id )
             : _id( id ) {
         }
         /**

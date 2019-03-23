@@ -2,12 +2,11 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "optional.h"
-
-#include <vector>
-#include <set>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
+
+#include "optional.h"
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
@@ -130,10 +129,6 @@ class Item_spawn_data
 
         /** probability, used by the parent object. */
         int probability;
-    private:
-        // not implemented
-        Item_spawn_data( const Item_spawn_data & );
-        Item_spawn_data &operator=( const Item_spawn_data & );
 };
 /**
  * Creates a single item, but can change various aspects
@@ -225,7 +220,7 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( const int ammo, const int mag );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;
@@ -246,7 +241,7 @@ class Item_group : public Item_spawn_data
         } Type;
 
         Item_group( Type type, int probability, int ammo_chance, int magazine_chance );
-        ~Item_group() override;
+        ~Item_group() override = default;
 
         const Type type;
         /**
@@ -257,7 +252,7 @@ class Item_group : public Item_spawn_data
          * If type is G_DISTRIBUTION, probability is relative,
          * the sum probability is sum_prob.
          */
-        typedef std::vector<Item_spawn_data *> prop_list;
+        typedef std::vector<std::unique_ptr<Item_spawn_data>> prop_list;
 
         void add_item_entry( const Item_tag &itemid, int probability );
         void add_group_entry( const Group_tag &groupid, int probability );
@@ -266,9 +261,9 @@ class Item_group : public Item_spawn_data
          * @ref Item_factory::add_entry, @ref add_item_entry or @ref add_group_entry). Its purpose is to add
          * a Single_item_creator or Item_group to @ref items.
          */
-        void add_entry( std::unique_ptr<Item_spawn_data> &ptr );
+        void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;

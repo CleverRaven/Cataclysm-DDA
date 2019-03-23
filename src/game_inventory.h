@@ -2,15 +2,33 @@
 #ifndef GAME_INVENTORY_H
 #define GAME_INVENTORY_H
 
-#include "enums.h"
-
 #include <list>
-#include <string>
 
+#include "enums.h"
+#include "inventory_ui.h"
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class item;
 class item_location;
 class player;
+class salvage_actor;
 
+typedef std::function<bool( const item_location & )> item_location_filter;
+
+class inventory_filter_preset : public inventory_selector_preset
+{
+    public:
+        inventory_filter_preset( const item_location_filter &filter );
+
+        bool is_shown( const item_location &location ) const override;
+
+    private:
+        item_location_filter filter;
+};
 namespace game_menus
 {
 
@@ -22,14 +40,14 @@ namespace inv
 *
 * The functions here execute customized inventory menus for specific game situations.
 * Each menu displays only related inventory (or nearby) items along with context dependent information.
-* More functions will follow. @todo: update all 'inv_for...()' functions to return @ref item_location instead of
+* More functions will follow. TODO: update all 'inv_for...()' functions to return @ref item_location instead of
 * plain int and move them here.
 * @return Either location of the selected item or null location if none was selected.
 */
 /*@{*/
 
 void common( player &p );
-void compare( player &p, const tripoint &offset = tripoint_min );
+void compare( player &p, const cata::optional<tripoint> &offset );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 
@@ -63,6 +81,8 @@ item_location saw_barrel( player &p, item &tool );
 item_location wear( player &p );
 /** Choose item to take off. */
 item_location take_off( player &p );
+/** Item cut up menu. */
+item_location salvage( player &p, const salvage_actor *actor );
 /*@}*/
 
 }

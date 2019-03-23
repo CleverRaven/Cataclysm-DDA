@@ -1,0 +1,118 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "field",
+    "terrains": [ "field" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest_without_trail",
+    "terrains": [ "forest", "forest_thick" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest",
+    "terrains": [ "forest", "forest_thick", "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "swamp",
+    "terrains": [ "forest_water" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "land",
+    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "water",
+    "terrains": [
+      "river",
+      "river_center",
+      "river_c_not_ne",
+      "river_c_not_nw",
+      "river_c_not_se",
+      "river_c_not_sw",
+      "river_ne",
+      "river_se",
+      "river_sw",
+      "river_nw"
+    ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "wilderness",
+    "terrains": [ "forest", "forest_thick", "field", "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean",
+    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "sewer" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_subway",
+    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "subway" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "road",
+    "terrains": [ "hiway_ns", "hiway_ew", "ranch_camp_77", "necropolis_a_11", "road", "road_nesw_manhole" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "need_none",
+    "terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "need_ammo",
+    "terrains": [ "house", "s_gun" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "need_gun",
+    "terrains": [ "s_gun" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "need_weapon",
+    "terrains": [ "s_gun", "s_sports", "s_hardware" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "need_drink",
+    "terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "need_food",
+    "terrains": [ "s_grocery" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest_trail",
+    "terrains": [ "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest_edge",
+    "terrains": [ "forest" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "forest_center",
+    "terrains": [ "forest_thick" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad",
+    "terrains": [ "railroad" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad_level_crossing_allowed",
+    "terrains": [ "hiway_ns", "hiway_ew", "road" ]
+  }
+]

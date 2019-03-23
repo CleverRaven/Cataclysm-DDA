@@ -2,12 +2,11 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include "string_id.h"
-#include "requirements.h"
-
 #include <list>
-#include <string>
 #include <vector>
+
+#include "requirements.h"
+#include "string_id.h"
 
 class inventory;
 class item;
@@ -54,7 +53,7 @@ class craft_command
 {
     public:
         /** Instantiates an empty craft_command, which can't be executed. */
-        craft_command() {}
+        craft_command() = default;
         craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
             rec( to_make ), batch_size( batch_size ), is_long( is_long ), crafter( crafter ) {}
 
@@ -87,9 +86,6 @@ class craft_command
         /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<tool_comp>> check_tool_components_missing(
                                                 const inventory &map_inv ) const;
-
-        /** Selects components to use */
-        void select_components( inventory &map_inv );
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

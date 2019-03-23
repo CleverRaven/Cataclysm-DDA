@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_air_runway_r" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "zzzzzzzzzzzzzzzzzzzzzzzz",
+        "cccccccccccccccccccccccz",
+        "zzzzzzzzzzzzzzzzzzzzzzcz",
+        "zzzzzzzzzzzzzzzzzzzzzzcz",
+        "zzzzzzzzzzzzzzzzzzzzzzcz",
+        "zzzzzzzzzzzzzzzzzzzzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "bbbbbbbbbbbbbbbbbbzzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "aabbbbaaaabbbbaaaazzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "bbbbbbbbbbbbbbbbbbzzzzcz",
+        "aaaaaaaaaaaaaaaaaazzzzcz",
+        "zzzzzzzzzzzzzzzzzzzzzzcz",
+        "zzzzzzzzzzzzzzzzzzzzzzcz",
+        "zzzzzzzzzzzzzzzzzzzzzzcz",
+        "cccccccccccccccccccccccz",
+        "zzzzzzzzzzzzzzzzzzzzzzzz"
+      ],
+      "terrain": { "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ], "a": "t_pavement", "b": "t_pavement_y", "c": "t_chainfence_v" },
+      "furniture": {  }
+    }
+  }
+]

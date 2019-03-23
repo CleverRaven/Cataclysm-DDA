@@ -7,6 +7,42 @@
     "items": [ [ "rechargeable_battery", 50 ] ]
   },
   {
+    "id" : "bionics",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 10 ]
+    ]
+  },
+  {
+    "id" : "bionics_common",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 10 ]
+    ]
+  },
+  {
+    "id" : "bionics_sci",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 5 ]
+    ]
+  },
+  {
+    "id" : "bionics_op",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 15 ]
+    ]
+  },
+  {
     "id": "hardware_plumbing",
     "type": "item_group",
     "items": [
@@ -84,5 +120,10 @@
     "id": "guns_pistol_improvised",
     "type": "item_group",
     "items": [ [ "v29_cheap", 10 ] ]
+  },
+  {
+    "id": "chem_lab",
+    "type": "item_group",
+    "items": [ [ "panacea", 1 ] ]
   }
 ]

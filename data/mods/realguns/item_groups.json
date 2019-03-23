@@ -57,6 +57,13 @@
     ]
   },
   {
+    "id": "guns_pistol_common",
+    "type": "item_group",
+    "items": [
+      [ "model_10_revolver", 20 ]
+    ]
+  },
+  {
     "id": "guns_pistol_rare",
     "type": "item_group",
     "items": [
@@ -129,6 +136,13 @@
     "items": [
       [ "m1991_38smag", 10 ],
       [ "af2011a1mag", 10 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_pistol_common",
+    "items": [
+      ["357_mag_speedloader", 5]
     ]
   },
   {

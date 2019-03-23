@@ -1,0 +1,30 @@
+[
+  {
+    "id": "bn_bio_solar",
+    "//": "That's right, it's taken from Bright Nights. Sue me!",
+    "type": "bionic",
+    "name": "Solar Panels",
+    "description": "Installed on your back is a set of retractable, reinforced solar panels resembling angular butterfly wings.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE" ]
+  },
+  {
+    "id": "afs_bio_precision_solderers",
+    "type": "bionic",
+    "name": "Precision Solderers",
+    "description": "Your hands have been outfitted with precise soldering tools, wire cutters, and cable spools.  They're too small to use in most crafting, but in the absence of proper machinery, they're essential for creating bionics without better tools.",
+    "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
+    "fake_item": "afs_solderers_item"
+  },
+  {
+    "id": "afs_bio_missiles",
+    "type": "bionic",
+    "//": "Watch those wrist rockets!",
+    "name": "Deployable Grenade Launcher",
+    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances.",
+    "occupied_bodyparts": [ [ "HAND_R", 3 ] ],
+    "fake_item": "afs_bionic_rocket",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "act_cost": 5
+  }
+]

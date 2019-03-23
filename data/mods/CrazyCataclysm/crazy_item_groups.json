@@ -1,0 +1,28 @@
+[
+  {
+    "id": "grenades",
+    "type": "item_group",
+    "items": [ [ "granade", 1 ] ]
+  },
+  {
+    "id": "skeltal_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "milk", "prob": 9 }, { "item": "trumpet", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics",
+    "items": [ [ "bio_chest_gun", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_mil",
+    "items": [ [ "bio_chest_gun", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_op",
+    "items": [ [ "bio_chest_gun", 1 ] ]
+  }
+]

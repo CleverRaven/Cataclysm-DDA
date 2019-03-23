@@ -1,22 +1,19 @@
 #include "craft_command.h"
 
+#include <sstream>
+#include <algorithm>
+
 #include "debug.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
-#include "inventory.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
-#include "crafting.h"
-
-#include <list>
-#include <sstream>
-#include <string>
-#include <vector>
-
+#include "uistate.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -57,10 +54,9 @@ void craft_command::execute()
         }
     }
 
-    const auto needs = rec->requirements();
-
     if( need_selections ) {
         item_selections.clear();
+        const auto needs = rec->requirements();
         for( const auto &it : needs.get_components() ) {
             comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {
@@ -81,15 +77,28 @@ void craft_command::execute()
     }
 
     auto type = activity_id( is_long ? "ACT_LONGCRAFT" : "ACT_CRAFT" );
-    auto activity = player_activity( type, crafter->time_to_craft( *rec, batch_size ), -1, INT_MIN,
+    auto activity = player_activity( type, crafter->base_time_to_craft( *rec, batch_size ), -1, INT_MIN,
                                      rec->ident().str() );
     activity.values.push_back( batch_size );
+    activity.values.push_back( calendar::turn );
+    activity.coords.push_back( crafter->pos() );
 
     crafter->assign_activity( activity );
 
-    /* legacy support for lua bindings to last_batch and lastrecipe */
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
+
+    const auto iter = std::find( uistate.recent_recipes.begin(), uistate.recent_recipes.end(),
+                                 rec->ident() );
+    if( iter != uistate.recent_recipes.end() ) {
+        uistate.recent_recipes.erase( iter );
+    }
+
+    uistate.recent_recipes.push_back( rec->ident() );
+
+    if( uistate.recent_recipes.size() > 20 ) {
+        uistate.recent_recipes.erase( uistate.recent_recipes.begin() );
+    }
 }
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
@@ -119,14 +128,7 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
         component_list_string( ss, missing_tools );
     }
 
-    std::vector<std::string> options;
-    options.push_back( _( "Yes" ) );
-    options.push_back( _( "No" ) );
-
-    // We NEED a copy.
-    const std::string str = ss.str();
-    int selection = menu_vec( true, str.c_str(), options );
-    return selection == 1;
+    return query_yn( ss.str() );
 }
 
 std::list<item> craft_command::consume_components()
@@ -196,7 +198,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
             // Counting by units, not charges.
             switch( item_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_amount( type, count ) ) {
+                    if( !crafter->has_amount( type, count, false, is_crafting_component ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
@@ -206,7 +208,10 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     }
                     break;
                 case use_from_both:
-                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) ) {
+                    if( !( crafter->amount_of( type, false, std::numeric_limits<int>::max(),
+                                               is_crafting_component ) +
+                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
+                                              is_crafting_component ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;

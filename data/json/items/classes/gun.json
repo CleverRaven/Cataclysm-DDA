@@ -2,6 +2,7 @@
   {
     "abstract": "gun_base",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "base gun",
     "symbol": "(",
     "color": "light_gray"
@@ -10,12 +11,13 @@
     "abstract": "flamethrower_base",
     "copy-from": "gun_base",
     "type": "GUN",
+    "reload_noise": "slosh.",
     "name": "base flamethrower",
     "skill": "launcher",
     "ammo": "flammable",
     "ammo_effects": [ "NO_BOOM", "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS" ]
+    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ]
   },
   {
     "abstract": "launcher_base",
@@ -37,6 +39,7 @@
       [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
@@ -75,12 +78,14 @@
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -96,11 +101,13 @@
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -128,11 +135,13 @@
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -142,9 +151,8 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "pump action shotgun",
-    "reload_noise_volume": 10,
     "reload_noise": "chuk chuk.",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ]
   },
   {
     "abstract": "smg_base",

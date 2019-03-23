@@ -8,17 +8,17 @@
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
 #if (defined __CYGWIN__)
-#include "ncurses/curses.h"
+#include <ncurses/curses.h>
 #else
 #include <curses.h>
 #endif
 
-#include "cursesdef.h"
+#include <stdexcept>
 
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "color.h"
-
-#include <stdexcept>
+#include "game_ui.h"
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
@@ -26,14 +26,14 @@ extern int VIEW_OFFSET_Y; // Y position of terrain window
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
-        //@todo: debug message
+        // TODO: debug message
     }
 }
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const int begin_y,
                                        const int begin_x )
 {
-    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // @todo: check for errors
+    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // TODO: check for errors
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
@@ -197,6 +197,15 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
 
 catacurses::window catacurses::stdscr;
 
+void catacurses::resizeterm()
+{
+    const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
+    const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
+    if( ::is_term_resized( new_x, new_y ) ) {
+        game_ui::init_ui();
+    }
+}
+
 // init_interface is defined in another cpp file, depending on build type:
 // wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
 void catacurses::init_interface()
@@ -216,7 +225,7 @@ void catacurses::init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
     set_escdelay( 10 ); // Make Escape actually responsive
-    start_color(); //@todo: error checking
+    start_color(); // TODO: error checking
     init_colors();
 }
 
@@ -245,6 +254,8 @@ input_event input_manager::get_input_event()
             rval.type = CATA_INPUT_ERROR;
         }
         // ncurses mouse handling
+    } else if( key == KEY_RESIZE ) {
+        catacurses::resizeterm();
     } else if( key == KEY_MOUSE ) {
         MEVENT event;
         if( getmouse( &event ) == OK ) {

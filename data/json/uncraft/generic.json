@@ -15,6 +15,15 @@
     "difficulty": 1,
     "time": 15000,
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap", 20 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 24 ] ] ]
+  },
+  {
+    "result": "sheet_metal_small",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 1200,
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 5 ] ] ]
   }
 ]

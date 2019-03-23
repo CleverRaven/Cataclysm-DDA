@@ -2,12 +2,12 @@
 #ifndef VEHICLE_GROUP_H
 #define VEHICLE_GROUP_H
 
-#include "mapgen.h"
-#include <string>
 #include <memory>
 #include <unordered_map>
 
+#include "mapgen.h"
 #include "optional.h"
+#include "rng.h"
 #include "string_id.h"
 #include "weighted_list.h"
 
@@ -28,7 +28,7 @@ extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 class VehicleGroup
 {
     public:
-        VehicleGroup() : vehicles() {}
+        VehicleGroup() {}
 
         void add_vehicle( const vproto_id &type, const int &probability ) {
             vehicles.add( type, probability );
@@ -51,7 +51,7 @@ struct VehicleFacings {
     VehicleFacings( JsonObject &jo, const std::string &key );
 
     int pick() const {
-        return values[rng( 0, values.size() - 1 )];
+        return random_entry( values );
     }
 
     std::vector<int> values;
@@ -153,7 +153,7 @@ class VehicleFunction_json : public VehicleFunction
 class VehicleSpawn
 {
     public:
-        VehicleSpawn() : types() {}
+        VehicleSpawn() {}
 
         void add( const double &weight, const std::shared_ptr<VehicleFunction> &func ) {
             types.add( func, weight );

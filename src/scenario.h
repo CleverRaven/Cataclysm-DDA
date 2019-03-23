@@ -2,12 +2,10 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
-#include "string_id.h"
-
-#include <string>
-#include <vector>
-#include <map>
 #include <set>
+#include <vector>
+
+#include "string_id.h"
 
 class scenario;
 class profession;
@@ -101,7 +99,7 @@ class scenario
         std::string prof_count_str() const;
 
         /** Such as a seasonal start, fiery start, surrounded start, etc. */
-        bool has_flag( std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
 
         /**
          *

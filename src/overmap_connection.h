@@ -1,14 +1,14 @@
 #pragma once
-#ifndef OVERMAP_CONNECTIONS_H
-#define OVERMAP_CONNECTIONS_H
+#ifndef OVERMAP_CONNECTION_H
+#define OVERMAP_CONNECTION_H
+
+#include <list>
+#include <vector>
 
 #include "enums.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
-
-#include <list>
-#include <vector>
 
 class JsonObject;
 class JsonIn;
@@ -83,4 +83,4 @@ string_id<overmap_connection> guess_for( const int_id<oter_t> &oter_id );
 
 }
 
-#endif // OVERMAP_CONNECTIONS_H
+#endif // OVERMAP_CONNECTION_H

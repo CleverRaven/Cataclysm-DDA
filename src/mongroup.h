@@ -2,13 +2,15 @@
 #ifndef MONGROUP_H
 #define MONGROUP_H
 
-#include <vector>
 #include <map>
 #include <set>
-#include <string>
+#include <vector>
+
+#include "calendar.h"
 #include "enums.h"
-#include "string_id.h"
+#include "io_tags.h"
 #include "monster.h"
+#include "string_id.h"
 
 // from overmap.h
 class overmap;
@@ -25,11 +27,6 @@ struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
-namespace io
-{
-struct object_archive_tag;
-}
-
 struct MonsterGroupEntry {
     mtype_id name;
     int frequency;
@@ -37,15 +34,14 @@ struct MonsterGroupEntry {
     int pack_minimum;
     int pack_maximum;
     std::vector<std::string> conditions;
-    int starts;
-    int ends;
+    time_duration starts;
+    time_duration ends;
     bool lasts_forever() const {
-        return ( ends <= 0 );
+        return ( ends <= 0_turns );
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
-                       int new_pack_min, int new_pack_max, int new_starts,
-                       int new_ends )
+                       int new_pack_min, int new_pack_max, const time_duration &new_starts, const time_duration &new_ends )
         : name( id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
@@ -73,12 +69,14 @@ struct MonsterGroup {
     mtype_id defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
+    bool is_animal;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
     mongroup_id new_monster_group;
-    int monster_group_time;  //time in days
+    time_duration monster_group_time = 0_turns;
     bool is_safe; /// Used for @ref mongroup::is_safe()
+    int freq_total; // Default 1000 unless specified - max number to roll for spawns
 };
 
 struct mongroup {
@@ -104,7 +102,7 @@ struct mongroup {
      *  And "roam", who roam around the map randomly, not taking care to return
      *  anywhere.
      */
-    std::string horde_behaviour = "";
+    std::string horde_behaviour;
     bool diffuse = false;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )
@@ -112,17 +110,13 @@ struct mongroup {
         , pos( pposx, pposy, pposz )
         , radius( prad )
         , population( ppop )
-        , target()
-        , interest( 0 )
-        , dying( false )
-        , horde( false )
-        , diffuse( false ) {
+        , target() {
     }
     mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
-    mongroup() { }
+    mongroup() = default;
     bool is_safe() const;
     bool empty() const;
     void clear();
@@ -130,7 +124,7 @@ struct mongroup {
         target.x = x;
         target.y = y;
     }
-    void wander( overmap & );
+    void wander( const overmap & );
     void inc_interest( int inc ) {
         interest += inc;
         if( interest > 100 ) {
@@ -152,6 +146,7 @@ struct mongroup {
         }
         interest = set;
     }
+    float avg_speed() const;
 
     template<typename Archive>
     void io( Archive & );
@@ -187,6 +182,8 @@ class MonsterGroupManager
         static void ClearMonsterGroups();
 
         static bool monster_is_blacklisted( const mtype_id &m );
+
+        static bool is_animal( const mongroup_id &group );
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

@@ -21,10 +21,11 @@ enum target_mode : int {
     TARGET_MODE_THROW,
     TARGET_MODE_TURRET,
     TARGET_MODE_TURRET_MANUAL,
-    TARGET_MODE_REACH
+    TARGET_MODE_REACH,
+    TARGET_MODE_THROW_BLIND
 };
 
-// @todo: move callbacks to a new struct and define some constructors for ease of use
+// TODO: move callbacks to a new struct and define some constructors for ease of use
 struct targeting_data {
     target_mode mode;
     item *relevant;
@@ -40,7 +41,7 @@ struct targeting_data {
 
 class target_handler
 {
-        // @todo: alias return type of target_ui
+        // TODO: alias return type of target_ui
     public:
         /**
          *  Prompts for target and returns trajectory to it.

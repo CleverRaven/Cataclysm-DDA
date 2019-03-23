@@ -2,10 +2,10 @@
 #ifndef OPTIONAL_H
 #define OPTIONAL_H
 
-#include <type_traits>
-#include <stdexcept>
 #include <cassert>
 #include <initializer_list>
+#include <stdexcept>
+#include <type_traits>
 
 namespace cata
 {
@@ -132,6 +132,11 @@ class optional
             return get();
         }
 
+        template<typename O>
+        T value_or( O &&other ) const {
+            return full ? get() : static_cast<T>( other );
+        }
+
         template<class... Args>
         T &emplace( Args &&... args ) {
             reset();
@@ -151,7 +156,6 @@ class optional
                 destruct();
             }
         }
-
 
         optional &operator=( nullopt_t ) noexcept {
             reset();
@@ -177,7 +181,11 @@ class optional
             }
             return *this;
         }
-        template<class U = T>
+        template < class U = T,
+                   typename std::enable_if <
+                       !std::is_same<optional<T>, typename std::decay<U>::type>::value &&
+                       std::is_constructible < T, U && >::value &&
+                       std::is_convertible < U &&, T >::value, bool >::type = true >
         optional & operator=( U && value ) {
             if( full ) {
                 get() =  std::forward<U>( value );

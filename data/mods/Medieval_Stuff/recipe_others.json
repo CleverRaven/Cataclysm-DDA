@@ -1,5 +1,19 @@
 [
   {
+    "result": "anvil_bronze",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 100000,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "scrap_bronze", 10 ] ] ]
+  },
+  {
     "result": "scrap_bronze",
     "type": "recipe",
     "category": "CC_OTHER",

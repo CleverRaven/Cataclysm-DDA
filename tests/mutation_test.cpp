@@ -1,17 +1,19 @@
+#include <sstream>
+
 #include "catch/catch.hpp"
-
-#include "mutation.h"
-
 #include "game.h"
+#include "mutation.h"
 #include "npc.h"
 #include "player.h"
+
+std::string get_mutations_as_string( const player &p );
 
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
 void give_all_mutations( player &p, const mutation_category_trait &category,
-                         bool include_postthresh )
+                         const bool include_postthresh )
 {
-    const std::vector<trait_id> category_mutations = mutations_category[category.category_full];
+    const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
     // Add the threshold mutation first
     if( include_postthresh && !category.threshold_mut.is_empty() ) {
@@ -21,8 +23,14 @@ void give_all_mutations( player &p, const mutation_category_trait &category,
     for( auto &m : category_mutations ) {
         const auto &mdata = m.obj();
         if( include_postthresh || ( !mdata.threshold && mdata.threshreq.empty() ) ) {
-            while( p.mutation_ok( m, false, false ) ) {
-                p.mutate_towards( m );
+            int mutation_attempts = 10;
+            while( mutation_attempts > 0 && p.mutation_ok( m, false, false ) ) {
+                INFO( "Current mutations: " << get_mutations_as_string( p ) );
+                INFO( "Mutating towards " << m.c_str() );
+                if( !p.mutate_towards( m ) ) {
+                    --mutation_attempts;
+                }
+                CHECK( mutation_attempts > 0 );
             }
         }
     }
@@ -43,7 +51,7 @@ std::string get_mutations_as_string( const player &p )
 {
     std::ostringstream s;
     for( auto &m : p.get_mutations() ) {
-        s << ( std::string ) m << " ";
+        s << static_cast<std::string>( m ) << " ";
     }
     return s.str();
 }
@@ -52,9 +60,8 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 {
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;
-        const auto &cat_id = cur_cat.category;
-        const auto &cat_id_full = cur_cat.category_full;
-        if( cat_id_full == "MUTCAT_ANY" ) {
+        const auto &cat_id = cur_cat.id;
+        if( cat_id == "ANY" ) {
             continue;
         }
 
@@ -64,7 +71,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 
             THEN( cat_id + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                CHECK( dummy.get_highest_category() == cat_id_full );
+                CHECK( dummy.get_highest_category() == cat_id );
             }
         }
 
@@ -74,7 +81,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 
             THEN( cat_id + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                CHECK( dummy.get_highest_category() == cat_id_full );
+                CHECK( dummy.get_highest_category() == cat_id );
             }
         }
     }
@@ -88,9 +95,8 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
 
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;
-        const auto &cat_id = cur_cat.category;
-        const auto &cat_id_full = cur_cat.category_full;
-        if( cat_id_full == "MUTCAT_ANY" ) {
+        const auto &cat_id = cur_cat.id;
+        if( cat_id == "ANY" ) {
             continue;
         }
 
@@ -98,9 +104,9 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
             npc dummy;
             give_all_mutations( dummy, cur_cat, false );
 
-            int category_strength = dummy.mutation_category_level[cat_id_full];
-            int total_strength = get_total_category_strength( dummy );
-            float breach_chance = category_strength / ( float ) total_strength;
+            const int category_strength = dummy.mutation_category_level[cat_id];
+            const int total_strength = get_total_category_strength( dummy );
+            float breach_chance = category_strength / static_cast<float>( total_strength );
 
             THEN( "Threshold breach chance is at least 0.2" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );

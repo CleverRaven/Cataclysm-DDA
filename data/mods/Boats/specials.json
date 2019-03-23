@@ -1,0 +1,22 @@
+[
+  {
+    "//": "Add the following to specials.json in /data/json/overmap/",
+    "type": "overmap_special",
+    "id": "Boat Rental",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "water" ],
+    "city_distance": [ 5, 15 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Riverside Dwelling",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling_north" } ],
+    "locations": [ "water" ],
+    "city_distance": [ -1, 25 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 12 ]
+  }
+]

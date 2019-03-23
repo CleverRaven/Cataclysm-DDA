@@ -15,6 +15,7 @@
     "bonus": 600,
     "damage_modifier": 10,
     "folded_volume": 4,
+    "description": "A charger for batteries that runs off vehicle power.  It is quite inefficient, but charges fast.",
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] },

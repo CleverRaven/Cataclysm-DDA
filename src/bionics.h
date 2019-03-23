@@ -2,13 +2,12 @@
 #ifndef BIONICS_H
 #define BIONICS_H
 
+#include <map>
+#include <set>
+#include <vector>
+
 #include "bodypart.h"
 #include "string_id.h"
-
-#include <set>
-#include <string>
-#include <vector>
-#include <map>
 
 class player;
 class JsonObject;
@@ -36,6 +35,9 @@ struct bionic_data {
     int charge_time = 0;
     /** Power bank size **/
     int capacity = 0;
+
+    /** True if a bionic can be used by an NPC and installed on them */
+    bool npc_usable = false;
     /** True if a bionic is a "faulty" bionic */
     bool faulty = false;
     bool power_source = false;
@@ -105,7 +107,7 @@ struct bionic {
     bionic( bionic_id pid, char pinvlet )
         : id( std::move( pid ) ), invlet( pinvlet ) { }
 
-    bionic_data const &info() const {
+    const bionic_data &info() const {
         return *id;
     }
 
@@ -128,5 +130,7 @@ void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                const bool each_bp_on_new_line = true );
+
+int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
 
 #endif

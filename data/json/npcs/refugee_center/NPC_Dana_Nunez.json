@@ -1,0 +1,135 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Dana",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Dana is a young woman who survived with her husband, but she was pregnant and lost the baby.",
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ 0, 4 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Dana_worn",
+    "carry_override": "REFUGEE_Dana_carried",
+    "weapon_override": "REFUGEE_Dana_wield",
+    "traits": [ { "trait": "PAINRESIST" }, { "trait": "MYOPIC" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "tailor", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 0, 1 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Dana_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "longshirt" },
+      { "item": "jeans" },
+      { "item": "jacket_evac" },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "purse" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Dana_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "emer_blanket" }, { "item": "lighter" }, { "item": "bandages" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Dana_wield"
+  },
+  {
+    "type": "npc",
+    "id": "refugee_DanaNunez",
+    "name_unique": "Dana Nunez",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Dana",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Dana_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_Dana_Nunez",
+    "//": "Use this flag to indicate if the player has met this NPC before."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_1",
+    "dynamic_line": {
+      "u_has_effect": "u_met_Dana_Nunez",
+      "yes": [ "Hello, nice to see you again.", "It's good to see you're still around." ],
+      "no": "Hi there.  I'm Dana, nice to see a new face."
+    },
+    "responses": [
+      {
+        "text": "Dana, hey?  Nice to meet you.",
+        "condition": { "not": { "u_has_effect": "u_met_Dana_Nunez" } },
+        "effect": { "u_add_effect": "u_met_Dana_Nunez", "duration": "PERMANENT" },
+        "topic": "TALK_REFUGEE_Dana_1_firstmeet",
+        "switch": true
+      },
+      {
+        "text": "Hi, Dana.  What's up?",
+        "condition": { "days_since_cataclysm": 180 },
+        "topic": "TALK_REFUGEE_Dana_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Hi, Dana.  What's up?",
+        "condition": { "days_since_cataclysm": 60 },
+        "topic": "TALK_REFUGEE_Dana_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Hi, Dana.  What's up?",
+        "condition": { "days_since_cataclysm": 30 },
+        "topic": "TALK_REFUGEE_Dana_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Hi, Dana.  What's up?",
+        "condition": { "u_has_effect": "u_met_Dana_Nunez" },
+        "topic": "TALK_REFUGEE_Dana_2_stub",
+        "switch": true
+      },
+      {
+        "text": "Hi Dana, nice to meet you.  I gotta go though.",
+        "effect": { "u_add_effect": "u_met_Dana_Nunez", "duration": "PERMANENT" },
+        "condition": { "not": { "u_has_effect": "u_met_Dana_Nunez" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hi Dana, nice to see you too.  I gotta go though.",
+        "condition": { "u_has_effect": "u_met_Dana_Nunez" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_1_firstmeet",
+    "dynamic_line": "We don't get many new faces around here.  How can I help you?",
+    "responses": [
+      { "text": "What's up in your life these days?", "topic": "TALK_REFUGEE_Dana_2_stub" },
+      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_2_stub",
+    "dynamic_line": "Not much is up right now.  Ask me again some time.",
+    "//": "TK: not written yet",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  }
+]

@@ -1,14 +1,15 @@
 #include "anatomy.h"
-#include "generic_factory.h"
-#include "rng.h"
-#include "output.h"
-#include "messages.h"
-#include "cata_utility.h"
-#include "weighted_list.h"
 
-#include <numeric>
-#include <algorithm>
+#include <array>
 #include <cmath>
+#include <numeric>
+
+#include "cata_utility.h"
+#include "generic_factory.h"
+#include "messages.h"
+#include "output.h"
+#include "rng.h"
+#include "weighted_list.h"
 
 anatomy_id human_anatomy( "human_anatomy" );
 
@@ -92,7 +93,8 @@ void anatomy::check() const
             return acc + bp->hit_size_relative[i];
         } );
         if( size_all <= 0.0f ) {
-            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(), ( int )i - 1 );
+            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
+                      static_cast<int>( i ) - 1 );
         }
     }
 }
@@ -104,7 +106,7 @@ void anatomy::add_body_part( const bodypart_ids &new_bp )
     size_sum += bp_struct.hit_size;
 }
 
-// @todo: get_function_with_better_name
+// TODO: get_function_with_better_name
 bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
 {
     for( auto &part : cached_bps ) {

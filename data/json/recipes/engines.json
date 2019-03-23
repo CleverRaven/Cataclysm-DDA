@@ -1,0 +1,225 @@
+[
+  {
+    "abstract": "engine_disassembly",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ]
+  },
+  {
+    "type": "uncraft",
+    "result": "1cyl_combustion",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 40000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_tiny", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "1cyl_combustion_small",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 40000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_tiny", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "i4_combustion",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 40000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_small", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "i6_diesel",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 50000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 1 ] ],
+      [ [ "pump_complex", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "glowplug", 1 ] ],
+      [ [ "engine_block_medium", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "v2_combustion",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 40000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_tiny", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "v6_combustion",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 40000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_medium", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "v6_diesel",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 50000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 1 ] ],
+      [ [ "pump_complex", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "glowplug", 1 ] ],
+      [ [ "engine_block_medium", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "v8_combustion",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 40000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_large", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "v8_diesel",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 50000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 1 ] ],
+      [ [ "pump_complex", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "glowplug", 1 ] ],
+      [ [ "engine_block_large", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "v12_combustion",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 40000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_massive", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "v12_diesel",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": 50000,
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 1 ] ],
+      [ [ "pump_complex", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "glowplug", 1 ] ],
+      [ [ "engine_block_massive", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ]
+    ]
+  }
+]

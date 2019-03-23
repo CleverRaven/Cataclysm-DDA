@@ -4,6 +4,8 @@ Normal buildings just use the first letter in the site's name. P for Pizza not P
 
 Multi-tile sites have inverted colors. The road connection or entrance (or lab stair) is marked with a capital letter.
 
+Parking lots part of a multi-tile building are treated as single tile stand-alone buildings. So they have {"sym": 112, "color": "light_blue"}.
+
 Colors mark the (loose) thematic category, with some comprimises between the building's original purpose and its current lootability. 
 
 
@@ -12,7 +14,7 @@ Color = theme. Existing examples. Possible examples.
 
 Light Green= Housing and residential. Houses, apartments, hotels, mansions. Trailer parks, dorms, old folks homes.
 
-Magenta = Retail or supplies. Most misc stores. Any place that sold stuff. 
+Magenta = Retail or supplies. Most misc stores. Any place that sold stuff.
 
 Green = Food, booze, restaurants. Grocery store, bar, restaurant, coffeshop. Brewery, candy shop.
 
@@ -22,7 +24,7 @@ Red = Guns, military, emergency. Gun stores, police stations, bunkers, FEMA, LMO
 
 Light Red = Medical, drugs, cyber. Hospitals, dr offices, pharmacies, vet. Methlab, pot farm, cyber boutique, optometrist, autodoc. 
 
-Pink = Science, toxins or radition, monsters, weirdness. Dump, slime, fungus, labs, craters. Robot dispatch center, anomalous zones.
+Pink = Science, toxins or radition, monsters, weirdness. Slime, fungus, labs, craters. Robot dispatch center, anomalous zones.
 
 White= Tourism, culture, education. Museums, libraries, bookstores, churches, cemeteries.  College campus, theater, gallery. 
 
@@ -30,9 +32,9 @@ Light Cyan = Hardware, tools, construction. Public Works, home improvement, elec
 
 Light Blue= Vehicles, repair, fuel. Garages, parking lots, gas stations. Car sales lot, Parking ramps, go cart track.
 
-Gray = Workplaces or abandoned. Offices, mines. Factories, docks, call centers. 
+Gray = Workplaces or abandoned. Offices, mines. Factories, docks, call centers, dumps.
 
 Yellow = Government and public services. Subways, fire, electric stations, sewer plants, banks, prisons. Courthouse, mail center.
 
 Blue = Service and entertainment. (low loot.) Laundromats, gyms, arcade, football field, radio. Movie theaters, amusement parks, spas, hair salons, etc. 
-Blue on black is hard to see, so it was used for places you don't often scan the map for. 
+Blue on black is hard to see, so it was used for places you don't often scan the map for. Ponds and related locations that are mostly natural water are also blue with `#` as their sign.

@@ -109,6 +109,17 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "boots_acidchitin",
+    "copy-from": "boots_chitin",
+    "type": "ARMOR",
+    "name": "pair of biosilicified chitin boots",
+    "name_plural": "pairs of biosilicified chitin boots",
+    "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 2, "material_thickness": 1 }
+  },
+  {
     "id": "boots_combat",
     "type": "ARMOR",
     "category": "armor",
@@ -337,6 +348,7 @@
   {
     "id": "boots_steel",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of steeltoed boots",
     "name_plural": "pairs of steeltoed boots",
     "description": "Leather boots with a steel toe.  Extremely durable.",
@@ -387,20 +399,8 @@
     "name_plural": "pairs of western boots",
     "description": "Stiff leather boots with intricate embroidery and one-inch heels.  They look good, but aren't made for running.  Each boot is large enough to conceal a small holdout pistol.",
     "coverage": 95,
-    "proportional": {
-      "weight": 1.2,
-      "volume": 1.2,
-      "price": 2,
-      "encumbrance": 2
-    },
-    "use_action": {
-      "type": "holster",
-      "max_volume": 1,
-      "max_weight": 600,
-      "draw_cost": 80,
-      "multi": 2,
-      "skills": [ "pistol" ]
-    },
+    "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
+    "use_action": { "type": "holster", "max_volume": 1, "max_weight": 600, "draw_cost": 80, "multi": 2, "skills": [ "pistol" ] },
     "extend": { "flags": [ "FANCY" ] }
   },
   {
@@ -487,6 +487,26 @@
     "coverage": 80,
     "encumbrance": 15,
     "warmth": 20,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "golf_shoes",
+    "type": "ARMOR",
+    "name": "pair of golf shoes",
+    "name_plural": "pairs of golf shoes",
+    "description": "Snug fit sport shoes with hard ridges on the bottom.",
+    "weight": 820,
+    "volume": 6,
+    "price": 6500,
+    "bashing": 2,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "FEET" ],
+    "coverage": 70,
+    "encumbrance": 12,
+    "warmth": 15,
     "material_thickness": 3,
     "flags": [ "VARSIZE" ]
   },

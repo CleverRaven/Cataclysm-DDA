@@ -1,0 +1,278 @@
+[
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_firewood",
+    "items": [ [ "stick", 200 ], [ "withered", 10 ], [ "straw_pile", 10 ], [ "splinter", 400 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_1",
+    "items": [ [ "2x4", 100 ], [ "stick", 200 ], [ "rock", 100 ], [ "straw_pile", 100 ], [ "nail", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_2",
+    "items": [ [ "2x4", 100 ], [ "stick", 200 ], [ "rock", 100 ], [ "nail", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_3",
+    "items": [
+      [ "2x4", 100 ],
+      [ "stick", 300 ],
+      [ "rock", 100 ],
+      [ "straw_pile", 100 ],
+      [ "nail", 10 ],
+      [ "sheet_metal", 20 ],
+      [ "pipe", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_4",
+    "items": [
+      [ "2x4", 100 ],
+      [ "stick", 300 ],
+      [ "rock", 100 ],
+      [ "straw_pile", 100 ],
+      [ "nail", 10 ],
+      [ "sheet_metal", 20 ],
+      [ "pipe", 30 ],
+      [ "broketent", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_5",
+    "items": [ [ "2x4", 50 ], [ "log", 100 ], [ "stick", 300 ], [ "nail", 10 ], [ "broketent", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_6",
+    "items": [
+      [ "2x4", 100 ],
+      [ "stick", 300 ],
+      [ "rock", 100 ],
+      [ "straw_pile", 100 ],
+      [ "nail", 10 ],
+      [ "sheet_metal", 20 ],
+      [ "pipe", 30 ],
+      [ "broketent", 10 ],
+      [ "scrap", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_7",
+    "items": [
+      [ "2x4", 50 ],
+      [ "log", 100 ],
+      [ "stick", 300 ],
+      [ "nail", 10 ],
+      [ "broketent", 10 ],
+      [ "metal_tank", 10 ],
+      [ "scrap", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_8",
+    "items": [
+      [ "2x4", 100 ],
+      [ "stick", 300 ],
+      [ "rock", 100 ],
+      [ "straw_pile", 100 ],
+      [ "nail", 10 ],
+      [ "sheet_metal", 20 ],
+      [ "pipe", 30 ],
+      [ "broketent", 10 ],
+      [ "scrap", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_9",
+    "items": [
+      [ "2x4", 10 ],
+      [ "log", 100 ],
+      [ "stick", 300 ],
+      [ "nail", 10 ],
+      [ "broketent", 10 ],
+      [ "sheet_metal", 20 ],
+      [ "scrap", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_10",
+    "items": [ [ "2x4", 30 ], [ "log", 100 ], [ "stick", 300 ], [ "nail", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_11",
+    "items": [
+      [ "rock", 100 ],
+      [ "stick", 100 ],
+      [ "pipe", 30 ],
+      [ "2x4", 40 ],
+      [ "nail", 10 ],
+      [ "scrap", 40 ],
+      [ "steel_chunk", 20 ],
+      [ "broketent", 10 ],
+      [ "well_pump", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_12",
+    "items": [
+      [ "withered", 300 ],
+      [ "straw_pile", 100 ],
+      [ "vine_30", 50 ],
+      [ "log", 100 ],
+      [ "nail", 10 ],
+      [ "scrap", 20 ],
+      [ "steel_chunk", 10 ],
+      [ "broketent", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_13",
+    "items": [
+      [ "withered", 500 ],
+      [ "straw_pile", 100 ],
+      [ "vine_30", 50 ],
+      [ "log", 100 ],
+      [ "nail", 10 ],
+      [ "scrap", 20 ],
+      [ "steel_chunk", 10 ],
+      [ "broketent", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_14",
+    "items": [
+      [ "withered", 100 ],
+      [ "straw_pile", 50 ],
+      [ "vine_30", 25 ],
+      [ "2x4", 50 ],
+      [ "log", 100 ],
+      [ "stick", 300 ],
+      [ "nail", 10 ],
+      [ "broketent", 30 ],
+      [ "metal_tank", 10 ],
+      [ "scrap", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_15",
+    "items": [
+      [ "2x4", 50 ],
+      [ "pipe", 50 ],
+      [ "stick", 300 ],
+      [ "nail", 10 ],
+      [ "broketent", 30 ],
+      [ "metal_tank", 20 ],
+      [ "scrap", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_16",
+    "items": [ [ "2x4", 100 ], [ "stick", 300 ], [ "nail", 20 ], [ "scrap", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gathering_faction_base_camp_17",
+    "items": [
+      [ "2x4", 10 ],
+      [ "log", 100 ],
+      [ "stick", 300 ],
+      [ "nail", 10 ],
+      [ "broketent", 10 ],
+      [ "sheet_metal", 20 ],
+      [ "scrap", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "comment": "There are no more upgrades for the camp but you shouldn't be punished for that.",
+    "id": "gathering_faction_base_camp_18",
+    "items": [
+      [ "2x4", 10 ],
+      [ "log", 100 ],
+      [ "stick", 300 ],
+      [ "nail", 10 ],
+      [ "rag", 100 ],
+      [ "sheet_metal", 20 ],
+      [ "scrap", 30 ],
+      [ "withered", 50 ],
+      [ "straw_pile", 50 ],
+      [ "vine_30", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_spring",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "group": "forage_spring", "prob": 55 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_summer",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "sunflower", "count": [ 1, 2 ], "prob": 20 },
+      { "item": "cherries", "count": [ 3, 9 ], "prob": 30 },
+      { "item": "pear", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "apricot", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "plums", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "mulberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "elderberries", "count": [ 4, 10 ], "prob": 30 },
+      { "item": "blueberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "strawberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "blackberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "huckleberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "raspberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "grapes", "count": [ 1, 3 ], "prob": 25 },
+      { "group": "forage_summer", "prob": 250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_autumn",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "walnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "chestnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "beech_nuts", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "hazelnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "acorns", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "apple", "count": [ 1, 3 ], "prob": 20 },
+      { "item": "pear", "count": [ 1, 3 ], "prob": 20 },
+      { "item": "coffee_pod", "count": [ 2, 5 ], "prob": 15 },
+      { "item": "hickory_nut", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "pistachio", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "almond", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "pecan", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "peanut", "count": [ 3, 6 ], "prob": 20 },
+      { "group": "forage_autumn", "prob": 200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_winter",
+    "items": [ { "item": "cattail_rhizome", "count": [ 1, 4 ], "prob": 25 }, { "group": "forage_winter", "prob": 75 } ]
+  }
+]

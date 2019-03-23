@@ -7,5 +7,10 @@
     "category": "rebalance",
     "dependencies": [ "dda" ],
     "obsolete": true
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "stat": { "name": "speed", "modifier": 0.5 }
   }
 ]

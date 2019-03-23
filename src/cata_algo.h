@@ -3,7 +3,6 @@
 #define CATA_ALGO_H
 
 #include <algorithm>
-#include <functional>
 #include <vector>
 
 namespace algo

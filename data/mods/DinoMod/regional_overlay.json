@@ -1,12 +1,8 @@
 [
-   {
-      "type": "region_overlay",
-      "id": "dinomod_overlay",              "//": "unique identifier for this overlay",
-      "regions": [ "all" ],                 "//": "A list of regions to which this overlay should be applied",
-      "city": {
-          "parks": {                        "//": "weighted list for park overmap terrains",
-              "fieldoffice": 1
-          }
-      }
-   }
+  {
+    "type": "region_overlay",
+    "id": "dinomod_overlay",
+    "regions": [ "all" ],
+    "city": { "parks": { "fieldoffice": 100 } }
+  }
 ]

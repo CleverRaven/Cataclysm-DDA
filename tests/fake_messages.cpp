@@ -4,11 +4,6 @@
  * Stubs to turn all Messages calls into no-ops for unit testing.
  */
 
-class Messages::impl_t {};
-
-Messages::Messages() {}
-Messages::~Messages() {}
-
 std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size_t )
 {
     return std::vector<std::pair<std::string, std::string>>();
@@ -16,6 +11,7 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size
 void Messages::add_msg( std::string ) {}
 void Messages::add_msg( game_message_type, std::string ) {}
 void Messages::clear_messages() {}
+void Messages::deactivate() {}
 size_t Messages::size()
 {
     return 0;

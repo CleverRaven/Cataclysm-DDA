@@ -21,7 +21,7 @@
     "id": "pistol_grip",
     "type": "GUNMOD",
     "name": "ergonomic grip",
-    "description": "A set of ergonomic replacement furniture for a firearm improving handling and accuracy.",
+    "description": "A set of ergonomic replacement furniture for a firearm improving handling.",
     "weight": 125,
     "volume": 1,
     "integral_volume": 0,
@@ -31,7 +31,6 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "dispersion_modifier": -15,
     "handling_modifier": 2,
     "min_skills": [ [ "weapon", 2 ] ]
   }

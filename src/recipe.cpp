@@ -1,17 +1,21 @@
 #include "recipe.h"
 
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+
 #include "calendar.h"
+#include "game_constants.h"
 #include "generic_factory.h"
-#include "itype.h"
 #include "item.h"
-#include "string_formatter.h"
+#include "itype.h"
 #include "output.h"
 #include "skill.h"
-#include "game_constants.h"
+#include "uistate.h"
+#include "string_formatter.h"
 
-#include <algorithm>
-#include <numeric>
-#include <math.h>
+struct oter_t;
+using oter_str_id = string_id<oter_t>;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -24,7 +28,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         multiplier = 1.0f;
     }
 
-    const float local_time = float( time ) / multiplier;
+    const float local_time = static_cast<float>( time ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
@@ -56,7 +60,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         total_time = local_time;
     }
 
-    return int( total_time );
+    return static_cast<int>( total_time );
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const
@@ -75,6 +79,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
     } else {
         result_ = jo.get_string( "result" );
         ident_ = recipe_id( result_ );
+    }
+
+    if( jo.has_bool( "obsolete" ) ) {
+        assign( jo, "obsolete", obsolete );
     }
 
     assign( jo, "time", time, strict, 0 );
@@ -127,6 +135,11 @@ void recipe::load( JsonObject &jo, const std::string &src )
             auto arr = sk.next_array();
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
+    }
+
+    // Never let the player have a debug or NPC recipe
+    if( jo.has_bool( "never_learn" ) ) {
+        assign( jo, "never_learn", never_learn );
     }
 
     if( jo.has_member( "decomp_learn" ) ) {
@@ -183,9 +196,13 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
         assign( jo, "category", category, strict );
         assign( jo, "subcategory", subcategory, strict );
+        assign( jo, "description", description, strict );
         assign( jo, "reversible", reversible, strict );
 
         if( jo.has_member( "byproducts" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
             auto bp = jo.get_array( "byproducts" );
             byproducts.clear();
             while( bp.has_more() ) {
@@ -200,9 +217,9 @@ void recipe::load( JsonObject &jo, const std::string &src )
     }
 
     // inline requirements are always replaced (cannot be inherited)
-    const auto req_id = string_format( "inline_%s_%s", type.c_str(), ident_.c_str() );
+    const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
     requirement_data::load_requirement( jo, req_id );
-    reqs_internal = { { requirement_id( req_id ), 1 } };
+    reqs_internal = { { req_id, 1 } };
 }
 
 void recipe::finalize()
@@ -215,7 +232,7 @@ void recipe::finalize()
     reqs_internal.clear();
 
     if( contained && container == "null" ) {
-        container = item::find_type( result_ )->default_container;
+        container = item::find_type( result_ )->default_container.value_or( "null" );
     }
 
     if( autolearn && autolearn_requirements.empty() ) {
@@ -236,7 +253,11 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ ) ) {
+    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING" ) {
+        return "defines invalid result";
+    }
+
+    if( category == "CC_BUILDING" && !oter_str_id( result_.c_str() ).is_valid() ) {
         return "defines invalid result";
     }
 
@@ -290,7 +311,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // @todo: Make it work for charge-less items
+        // TODO: Make it work for charge-less items
         newit.charges *= result_mult;
     }
 
@@ -298,7 +319,7 @@ item recipe::create_result() const
         newit.item_tags.insert( "FIT" );
     }
 
-    if( contained == true ) {
+    if( contained ) {
         newit = newit.in_container( container );
     }
 
@@ -353,21 +374,43 @@ std::vector<item> recipe::create_byproducts( int batch ) const
 
 bool recipe::has_byproducts() const
 {
-    return byproducts.size() != 0;
+    return !byproducts.empty();
 }
 
-std::string recipe::required_skills_string() const
+std::string recipe::required_skills_string( const Character *c, bool print_skill_level ) const
 {
     if( required_skills.empty() ) {
-        return _( "N/A" );
+        return _( "<color_cyan>none</color>" );
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
-    []( const std::pair<skill_id, int> &skill ) {
-        return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
+    [&]( const std::pair<skill_id, int> &skill ) {
+        auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
+        skill_level_string += std::to_string( skill.second );
+        return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                              skill.first.obj().name(), difficulty_color, skill_level_string );
     } );
+}
+
+std::string recipe::required_skills_string( const Character *c ) const
+{
+    return required_skills_string( c, false );
+}
+
+std::string recipe::batch_savings_string() const
+{
+    return ( batch_rsize != 0 ) ?
+           string_format( _( "%s%% at >%s units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
+           : _( "none" );
 }
 
 std::string recipe::result_name() const
 {
-    return item::nname( result_ );
+    std::string name = item::nname( result_ );
+    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+        name = "* " + name;
+    }
+
+    return name;
 }

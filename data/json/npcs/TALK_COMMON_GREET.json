@@ -1,0 +1,167 @@
+[
+  {
+    "id": [ "TALK_STRANGER_NEUTRAL", "TALK_STRANGER_FRIENDLY" ],
+    "type": "talk_topic",
+    "responses": [
+      { "text": "Another survivor!  We should travel together.", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "What are you doing?", "topic": "TALK_DESCRIBE_MISSION" },
+      { "text": "Care to trade?", "topic": "TALK_DONE", "effect": "start_trade" }
+    ]
+  },
+  {
+    "id": [ "TALK_STRANGER_SCARED", "TALK_STRANGER_WARY" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "&Put away weapon.",
+        "topic": "TALK_STRANGER_NEUTRAL",
+        "effect": "player_weapon_away",
+        "opinion": { "trust": 2, "fear": -2 },
+        "condition": "u_can_stow_weapon"
+      },
+      {
+        "text": "&Drop weapon.",
+        "topic": "TALK_STRANGER_NEUTRAL",
+        "effect": "player_weapon_drop",
+        "opinion": { "trust": 4, "fear": -3 },
+        "condition": "u_has_weapon"
+      },
+      {
+        "text": "Don't worry, I'm not going to hurt you",
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "BRAVERY", 2 ], [ "FEAR", -2 ], [ "TRUST", 2 ] ] },
+        "success": { "topic": "TALK_STRANGER_NEUTRAL", "effect": "stranger_neutral", "opinion": { "trust": 1, "fear": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "flee" }
+      }
+    ]
+  },
+  {
+    "id": [
+      "TALK_STRANGER_NEUTRAL",
+      "TALK_STRANGER_FRIENDLY",
+      "TALK_STRANGER_SCARED",
+      "TALK_STRANGER_WARY",
+      "TALK_MISSION_DESCRIBE_URGENT"
+    ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Drop your weapon!",
+        "condition": "npc_has_weapon",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": 4, "fear": -3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      {
+        "text": "Get out of here or I'll kill you.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20 },
+        "success": { "topic": "TALK_DONE", "effect": "flee" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_STRANGER_FRIENDLY",
+    "type": "talk_topic",
+    "dynamic_line": "Hey there, <name_g>.",
+    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_STRANGER_NEUTRAL",
+    "type": "talk_topic",
+    "dynamic_line": "Hello there.",
+    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_STRANGER_WARY",
+    "type": "talk_topic",
+    "dynamic_line": "Okay, no sudden movements...",
+    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_STRANGER_SCARED",
+    "type": "talk_topic",
+    "dynamic_line": "Keep your distance!",
+    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_STRANGER_AGGRESSIVE",
+    "type": "talk_topic",
+    "dynamic_line": { "u_has_weapon": "<drop_it>", "u_unarmed": "This is my territory, <name_b>." },
+    "responses": [
+      { "text": "&Drop weapon.", "topic": "TALK_DEMAND_LEAVE", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
+      {
+        "text": "Calm down.  I'm not going to hurt you.",
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 30,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_WARY", "effect": "stranger_neutral", "opinion": { "trust": 1, "fear": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      {
+        "text": "Screw you, no.",
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": 25,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_MUG",
+    "type": "talk_topic",
+    "dynamic_line": { "u_has_weapon": "<drop_it>", "u_unarmed": "<hands_up>" },
+    "responses": [
+      {
+        "text": "Calm down.  I'm not going to hurt you.",
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 35,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_WARY", "effect": "stranger_neutral", "opinion": { "trust": 1, "fear": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      {
+        "text": "Screw you, no.",
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": 30,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      { "text": "&Drop weapon.", "topic": "TALK_MUG", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
+      {
+        "text": "&Put hands up.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "u_has_weapon" },
+        "effect": "start_mugging"
+      }
+    ]
+  },
+  {
+    "id": "TALK_WEAPON_DROPPED",
+    "type": "talk_topic",
+    "dynamic_line": { "npc_male": "*drops his weapon.", "npc_female": "*drops_her_weapon." },
+    "responses": [
+      {
+        "text": "Now get out of here",
+        "topic": "TALK_DONE",
+        "effect": "flee",
+        "opinion": { "trust": -1, "fear": -2, "anger": -2 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_DEMAND_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "Now get out of here, before I kill you.",
+    "responses": [ { "text": "Okay, I'm going.", "topic": "TALK_DONE", "effect": "player_leaving", "opinion": { "fear": -1 } } ]
+  }
+]

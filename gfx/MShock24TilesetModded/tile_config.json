@@ -11262,13 +11262,13 @@
           "rotates": false
         },
         {
-          "id": "novel_coa",
+          "id": [ "novel_coa", "novel_coa2" ],
           "fg": 686,
           "bg": 625,
           "rotates": false
         },
         {
-          "id": "novel_crime",
+          "id": [ "novel_crime", "novel_crime2" ],
           "fg": 704,
           "bg": 625,
           "rotates": false
@@ -11376,7 +11376,7 @@
           "rotates": false
         },
         {
-          "id": "novel_war",
+          "id": [ "novel_war", "novel_war2" ],
           "fg": 705,
           "bg": 625,
           "rotates": false
@@ -12341,10 +12341,10 @@
           "rotates": false
         },
         {
-          "id": "t_fence_h",
+          "id": [ "t_fence", "t_fence_h" ] ,
           "fg": 2129,
           "bg": 629,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "t_fence_wire",
@@ -14528,7 +14528,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_metal_o",
+          "id": [ "t_door_metal_o", "t_door_metal_lab_o" ],
           "fg": 2120,
           "bg": 650,
           "rotates": false
@@ -14540,7 +14540,7 @@
           "rotates": false
         },
         {
-          "id": "t_gates_mech_control",
+          "id": [ "t_gates_mech_control", "t_gates_mech_control_lab" ],
           "fg": 2148,
           "bg": 650,
           "rotates": false
@@ -14552,10 +14552,10 @@
           "rotates": false
         },
         {
-          "id": "t_railing_h",
+          "id": [ "t_railing", "t_railing_h" ],
           "fg": 2219,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -14594,7 +14594,7 @@
           "id": "t_railing_v",
           "fg": 2219,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -15107,7 +15107,7 @@
           "rotates": false
         },
         {
-          "id": "t_thconc_floor",
+          "id": [ "t_thconc_floor", "t_thconc_floor_olight" ],
           "fg": 650,
           "rotates": false
         },
@@ -15213,10 +15213,10 @@
           "rotates": false
         },
         {
-          "id": "t_chainfence_h",
+          "id": [ "t_chainfence", "t_chainfence_h" ],
           "fg": 2066,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -15255,7 +15255,7 @@
           "id": "t_chainfence_v",
           "fg": 2066,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -15320,15 +15320,105 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_o",
+          "id": "t_door_red_frame",
+          "fg": 2113,
+          "bg": 2063,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_frame",
+          "fg": 2113,
+          "bg": 2061,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_frame",
+          "fg": 2113,
+          "bg": 2178,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_frame",
+          "fg": 2113,
+          "bg": 2177,
+          "rotates": false
+        },
+        {
+          "id": "t_door_lab_frame",
+          "fg": 2113,
+          "bg": 650,
+          "rotates": false
+        },
+        {
+          "id": "t_door_glass_red_o",
+          "fg": 2115,
+          "bg": 2063,
+          "rotates": false
+        },
+        {
+          "id": "t_door_glass_green_o",
+          "fg": 2115,
+          "bg": 2061,
+          "rotates": false
+        },
+        {
+          "id": "t_door_glass_white_o",
+          "fg": 2115,
+          "bg": 2178,
+          "rotates": false
+        },
+        {
+          "id": "t_door_glass_gray_o",
+          "fg": 2115,
+          "bg": 2177,
+          "rotates": false
+        },
+        {
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 2115,
           "bg": 652,
+          "rotates": false
+        },
+        {
+          "id": [ "t_door_glass_lab_o", "t_door_glass_frosted_lab_o", "t_reinforced_door_glass_lab_o" ],
+          "fg": 2115,
+          "bg": 650,
           "rotates": false
         },
         {
           "id": "t_door_o",
           "fg": 2121,
           "bg": 652,
+          "rotates": false
+        },
+        {
+          "id": "t_door_lab_o",
+          "fg": 2121,
+          "bg": 650,
+          "rotates": false
+        },
+        {
+          "id": "t_door_red_o",
+          "fg": 2121,
+          "bg": 2063,
+          "rotates": false
+        },
+        {
+          "id": "t_door_green_o",
+          "fg": 2121,
+          "bg": 2061,
+          "rotates": false
+        },
+        {
+          "id": "t_door_white_o",
+          "fg": 2121,
+          "bg": 2178,
+          "rotates": false
+        },
+        {
+          "id": "t_door_gray_o",
+          "fg": 2121,
+          "bg": 2177,
           "rotates": false
         },
         {
@@ -15340,6 +15430,12 @@
           "id": "t_mdoor_frame",
           "fg": 2187,
           "bg": 652,
+          "rotates": false
+        },
+        {
+          "id": "t_mdoor_lab_frame",
+          "fg": 2187,
+          "bg": 650,
           "rotates": false
         },
         {
@@ -15943,7 +16039,7 @@
           "bg": 657
         },
         {
-          "id": "t_fence_h_season_winter",
+          "id": [ "t_fence_season_winter", "t_fence_h_season_winter" ],
           "fg": 2129,
           "bg": 657
         },
@@ -16774,7 +16870,7 @@
           "rotates": false
         },
         {
-          "id": "apple_vac",
+          "id": "apple_sugar",
           "fg": 730,
           "rotates": false
         },
@@ -17384,7 +17480,7 @@
           "rotates": false
         },
         {
-          "id": "fish_vac",
+          "id": "salted_fish",
           "fg": 836,
           "rotates": false
         },
@@ -17447,7 +17543,7 @@
           "rotates": false
         },
         {
-          "id": "hflesh_vac",
+          "id": "hflesh_salted",
           "fg": 855,
           "rotates": false
         },
@@ -17637,7 +17733,7 @@
           "rotates": false
         },
         {
-          "id": "meat_vac",
+          "id": "meat_salted",
           "fg": 901,
           "rotates": false
         },
@@ -18003,7 +18099,7 @@
           "rotates": false
         },
         {
-          "id": "veggy_vac",
+          "id": "veggy_salted",
           "fg": 1002,
           "rotates": false
         },
@@ -19057,28 +19153,8 @@
           "rotates": false
         },
         {
-          "id": "bag_apple_vac",
+          "id": "plastic_bag_vac",
           "fg": 1215,
-          "rotates": false
-        },
-        {
-          "id": "bag_fish_vac",
-          "fg": 1216,
-          "rotates": false
-        },
-        {
-          "id": "bag_hflesh_vac",
-          "fg": 1217,
-          "rotates": false
-        },
-        {
-          "id": "bag_meat_vac",
-          "fg": 1218,
-          "rotates": false
-        },
-        {
-          "id": "bag_veggy_vac",
-          "fg": 1219,
           "rotates": false
         },
         {
@@ -20968,7 +21044,8 @@
           "rotates": false
         },
         {
-          "id": "t_chainfence_h_season_winter",
+          "id": [ "t_chainfence_season_winter", "t_chainfence_h_season_winter" ],
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -21098,7 +21175,7 @@
           ]
         },
         {
-          "id": "t_door_b",
+          "id": [ "t_door_b", "t_door_lab_b", "t_door_red_b", "t_door_green_b", "t_door_white_b", "t_door_gray_b" ],
           "fg": 2101,
           "rotates": false
         },
@@ -21128,7 +21205,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_c",
+          "id": [ "t_door_c", "t_door_lab_c", "t_door_red_c", "t_door_green_c", "t_door_white_c", "t_door_gray_c" ],
           "fg": 2109,
           "rotates": false
         },
@@ -21167,7 +21244,7 @@
           "fg": 2112
         },
         {
-          "id": "t_door_glass_c",
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c", "t_reinforced_door_glass_lab_c", "t_door_glass_red_c", "t_door_glass_green_c", "t_door_glass_white_c", "t_door_glass_gray_c" ],
           "fg": 2114,
           "rotates": false
         },
@@ -21177,7 +21254,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_metal_c",
+          "id": [ "t_door_metal_c", "t_door_metal_lab_c" ],
           "fg": 2118,
           "rotates": true
         },
@@ -21231,17 +21308,17 @@
           "rotates": false
         },
         {
-          "id": "t_gates_control_brick",
+          "id": [ "t_gates_control_brick", "t_gates_control_brick_lab" ],
           "fg": 2146,
           "rotates": false
         },
         {
-          "id": "t_gates_control_concrete",
+          "id": [ "t_gates_control_concrete", "t_gates_control_concrete_lab" ],
           "fg": 2147,
           "rotates": false
         },
         {
-          "id": "t_gates_control_metal",
+          "id": [ "t_gates_control_metal", "t_gates_control_metal_lab" ],
           "fg": 2147
         },
         {

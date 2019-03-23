@@ -1,9 +1,6 @@
 #include "string_formatter.h"
 
 #include <stdexcept>
-#include <cstdarg>
-
-std::string vstring_format( const char *pattern, va_list argptr );
 
 char cata::string_formatter::consume_next_input()
 {
@@ -62,7 +59,7 @@ int cata::string_formatter::parse_integer( )
 {
     int result = 0;
     while( has_digit() ) {
-        //@todo: Check for overflow
+        // TODO: Check for overflow
         result = result * 10 + ( consume_next_input() - '0' );
     }
     return result;
@@ -102,8 +99,8 @@ cata::optional<int> cata::string_formatter::read_precision()
 
 void cata::string_formatter::throw_error( const std::string &msg ) const
 {
-    throw std::runtime_error( msg + " at: \"" + current_format.substr( 0,
-                              current_index_in_format ) + "|" + current_format.substr( current_index_in_format ) + "\"" );
+    throw std::runtime_error( msg + " at: \"" + format.substr( 0,
+                              current_index_in_format ) + "|" + format.substr( current_index_in_format ) + "\"" );
 }
 
 std::string cata::handle_string_format_error()
@@ -113,15 +110,6 @@ std::string cata::handle_string_format_error()
     } catch( const std::exception &err ) {
         return err.what();
     }
-}
-
-std::string cata::string_formatter::raw_string_format( const char *const pattern, ... )
-{
-    va_list ap;
-    va_start( ap, pattern );
-    std::string result = vstring_format( pattern, ap );
-    va_end( ap );
-    return result;
 }
 
 void cata::string_formatter::add_long_long_length_modifier()

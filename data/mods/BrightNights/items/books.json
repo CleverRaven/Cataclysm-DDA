@@ -11,7 +11,7 @@
     "bashing": 8,
     "material": [ "paper" ],
     "symbol": "?",
-    "color": "light__green",
+    "color": "light_green",
     "skill": "electronics",
     "required_level": 5,
     "max_level": 7,

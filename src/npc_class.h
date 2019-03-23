@@ -2,11 +2,9 @@
 #ifndef NPC_CLASS_H
 #define NPC_CLASS_H
 
-#include <vector>
-#include <map>
-#include <array>
-#include <random>
 #include <functional>
+#include <map>
+#include <vector>
 
 #include "string_id.h"
 
@@ -32,7 +30,7 @@ typedef string_id<Trait_group> Trait_group_tag;
 
 }
 
-// @todo: Move to better suited file (rng.h/.cpp?)
+// TODO: Move to better suited file (rng.h/.cpp?)
 class distribution
 {
     private:
@@ -50,7 +48,7 @@ class distribution
 
         static distribution constant( float val );
         static distribution rng_roll( int from, int to );
-        static distribution dice_roll( int sides, int sizes );
+        static distribution dice_roll( int sides, int size );
         static distribution one_in( float in );
 };
 
@@ -115,7 +113,7 @@ class npc_class
         static void check_consistency();
 };
 
-// @todo: Get rid of that
+// TODO: Get rid of that
 extern npc_class_id NC_NONE;
 extern npc_class_id NC_EVAC_SHOPKEEP;
 extern npc_class_id NC_SHOPKEEP;

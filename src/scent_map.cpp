@@ -1,12 +1,13 @@
 #include "scent_map.h"
-#include "calendar.h"
-#include "color.h"
-#include "map.h"
-#include "output.h"
-#include "game.h"
 
 #include <cassert>
 #include <cmath>
+
+#include "calendar.h"
+#include "color.h"
+#include "game.h"
+#include "map.h"
+#include "output.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -71,19 +72,13 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
     }
 }
 
-static bool in_bounds( int x, int y )
-{
-    return x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE;
-}
-
 void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 {
     scent_array<int> new_scent;
-    for( size_t x = 0; x < SEEX * MAPSIZE; ++x ) {
-        for( size_t y = 0; y < SEEY * MAPSIZE; ++y ) {
-            new_scent[x][y] = in_bounds( x + sm_shift_x, y + sm_shift_y ) ?
-                              grscent[ x + sm_shift_x ][ y + sm_shift_y ] :
-                              0;
+    for( size_t x = 0; x < MAPSIZE_X; ++x ) {
+        for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
+            const point p( x + sm_shift_x, y + sm_shift_y );
+            new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
         }
     }
     grscent = new_scent;
@@ -107,19 +102,32 @@ void scent_map::set( const tripoint &p, int value )
 bool scent_map::inbounds( const tripoint &p ) const
 {
     // This weird long check here is a hack around the fact that scentmap is 2D
-    // A z-level can access scentmap if it is within 1 flying z-level move from player's z-level
+    // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
-    return p.x >= 0 && p.x < SEEX * MAPSIZE && p.y >= 0 && p.y < SEEY * MAPSIZE &&
-           ( p.z == gm.get_levz() || ( std::abs( p.z - gm.get_levz() ) == 1 &&
-                                       gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) ) );
+
+    const bool scent_map_z_level_inbounds = ( p.z == gm.get_levz() ) ||
+                                            ( std::abs( p.z - gm.get_levz() ) == SCENT_MAP_Z_REACH &&
+                                                    gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) );
+    if( !scent_map_z_level_inbounds ) {
+        return false;
+    };
+    const point scent_map_boundary_min( point_zero );
+    const point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
+    const point scent_map_clearance_min( point_zero );
+    const point scent_map_clearance_max( 1, 1 );
+
+    const rectangle scent_map_boundaries( scent_map_boundary_min, scent_map_boundary_max );
+    const rectangle scent_map_clearance( scent_map_clearance_min, scent_map_clearance_max );
+
+    return generic_inbounds( { p.x, p.y }, scent_map_boundaries, scent_map_clearance );
 }
 
 void scent_map::update( const tripoint &center, map &m )
 {
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
-    if( center != player_last_position ) {
-        player_last_position = center;
+    if( !player_last_position || center != *player_last_position ) {
+        player_last_position.emplace( center );
         player_last_moved = calendar::turn;
     } else if( player_last_moved + 1000_turns < calendar::turn ) {
         return;
@@ -127,7 +135,7 @@ void scent_map::update( const tripoint &center, map &m )
 
     // note: the next four intermediate matrices need to be at least
     // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
-    // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
+    // The code I'm modifying used [MAPSIZE_X]. I'm staying with that to avoid new bugs.
 
     // These two matrices are transposed so that x addresses are contiguous in memory
     scent_array<int> sum_3_scent_y;
@@ -155,7 +163,7 @@ void scent_map::update( const tripoint &center, map &m )
     // is a net performance improvement over the old code. Could probably still be better.
     // note: this method needs an array that is one square larger on each side in the x direction
     // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
-    // SEEX*MAPSIZE, but if that changes, this may need tweaking.
+    // MAPSIZE_X, but if that changes, this may need tweaking.
     for( int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x ) {
         for( int y = scentmap_miny; y <= scentmap_maxy; ++y ) {
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
@@ -193,9 +201,8 @@ void scent_map::update( const tripoint &center, map &m )
                 } else {
                     this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
                 }
-                int temp_scent;
                 // take the old scent and subtract what diffuses out
-                temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
+                int temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
                 // neighboring walls and reduce_scent squares absorb some scent
                 temp_scent -= scent_here * this_diffusivity * ( 90 - squares_used ) / 5;
                 // we've already summed neighboring scent values in the y direction in the previous

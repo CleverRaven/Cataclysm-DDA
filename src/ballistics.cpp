@@ -1,5 +1,7 @@
 #include "ballistics.h"
 
+#include <algorithm>
+
 #include "creature.h"
 #include "dispersion.h"
 #include "explosion.h"
@@ -9,14 +11,14 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
+#include "output.h"
 #include "player.h"
 #include "projectile.h"
+#include "rng.h"
 #include "sounds.h"
-#include "output.h"
 #include "trap.h"
 #include "vehicle.h"
-
-#include <algorithm>
+#include "vpart_position.h"
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -42,7 +44,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
-        sounds::sound( pt, 16, _( "glass breaking!" ) );
+        sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ) );
         return;
     }
 
@@ -90,9 +92,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         if( effects.count( "HEAVY_HIT" ) ) {
             if( g->m.has_flag( "LIQUID", pt ) ) {
-                sounds::sound( pt, 10, _( "splash!" ) );
+                sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ) );
             } else {
-                sounds::sound( pt, 8, _( "thud." ) );
+                sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ) );
             }
             const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
@@ -114,7 +116,7 @@ static size_t blood_trail_len( int damage )
     return 0;
 }
 
-projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range,
+projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersion, double range,
         double target_size )
 {
     projectile_attack_aim aim;
@@ -142,10 +144,10 @@ projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, dou
 }
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
-        const tripoint &target_arg, dispersion_sources dispersion,
+        const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin, const vehicle *in_veh )
 {
-    const bool do_animation = get_option<bool>( "ANIMATIONS" );
+    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 
@@ -201,7 +203,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // cap wild misses at +/- 30 degrees
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
-        // @todo: This should also represent the miss on z axis
+        // TODO: This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
@@ -248,7 +250,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
-        // @todo: Make it use a more distant point for more realistic extended lines
+        // TODO: Make it use a more distant point for more realistic extended lines
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                 extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
@@ -283,19 +285,19 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
-                g->draw_bullet( tp, ( int )i, trajectory, bullet );
+                g->draw_bullet( tp, static_cast<int>( i ), trajectory, bullet );
                 projectile_skip_current_frame = 0;
                 // If we missed recalculate the skip factor so they spread out.
-                projectile_skip_calculation = std::max( ( size_t )range, i ) * projectile_skip_multiplier;
+                projectile_skip_calculation =
+                    std::max( static_cast<size_t>( range ), i ) * projectile_skip_multiplier;
             } else {
                 projectile_skip_current_frame++;
             }
         }
 
         if( in_veh != nullptr ) {
-            int part;
-            vehicle *other = g->m.veh_at( tp, part );
-            if( in_veh == other && other->is_inside( part ) ) {
+            const optional_vpart_position other = g->m.veh_at( tp );
+            if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
                 continue; // Turret is on the roof and can't hit anything inside
             }
         }
@@ -328,12 +330,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // at the start, misses should stay as misses
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(),
-                                      0.4 );
+            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) /
+                                      critter->ranged_target_size(), 0.4 );
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
-            if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh && critter->is_player() ) {
+            if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh &&
+                critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
@@ -353,7 +356,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             } else {
                 attack.missed_by = aim.missed_by;
             }
-        } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
+        } else if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot( tp, proj, !no_item_damage && tp == target );
@@ -372,7 +375,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( tp, int( traj_len-- ), trajectory, bullet );
+        g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
     if( g->m.impassable( tp ) ) {
@@ -391,7 +394,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     if( proj.proj_effects.count( "BOUNCE" ) ) {
         // Add effect so the shooter is not targeted itself.
         if( origin && !origin->has_effect( effect_bounced ) ) {
-            origin->add_effect( effect_bounced, 1 );
+            origin->add_effect( effect_bounced, 1_turns );
         }
         Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
             // search for creatures in radius 4 around impact site
@@ -407,7 +410,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
             add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
-            z.add_effect( effect_bounced, 1 );
+            z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
                                      sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );

@@ -1,0 +1,135 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "church" ],
+    "//": "New England Church",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "          ^^^^^^         ",
+        "      |---|--------|     ",
+        "     ||dh.|.6ooo.ll||    ",
+        "     |W...+.........Dsss ",
+        "   ^^|--+-|------+--|^^s ",
+        "   ^||..............||^s ",
+        "    wp...b..tt..b....w s ",
+        "    |................| s ",
+        "   ^w................w^s ",
+        "   ^|.######..######.|^s ",
+        "   ^w................w^s ",
+        "   ^|.######..######.|^s ",
+        "    w................w s ",
+        "    |.######..######.| s ",
+        "   ^w................w^s ",
+        "   ^|.######..######.|^s ",
+        "   ^|................|^s ",
+        "    |-w|----..----|w-| s ",
+        "     ^^|ll|....|ST|^^  s ",
+        "      ^|.......+..|^   s ",
+        "       |----++-|--|    s ",
+        "          O ss O       s ",
+        "      ^^    ss    ^^   s ",
+        "      ^^    ss    ^^   s "
+      ],
+      "terrain": { "p": "t_floor", "W": "t_floor" },
+      "furniture": { "p": "f_piano", "W": "f_wardrobe" },
+      "palettes": [ "church" ],
+      "mapping": { "b": { "furniture": "f_brazier" } },
+      "items": {
+        "#": { "item": "church", "chance": 40 },
+        ".": { "item": "church", "chance": 5 },
+        "d": { "item": "office", "chance": 30 },
+        "l": { "item": "jackets", "chance": 60 },
+        "o": { "item": "church", "chance": 40 }
+      },
+      "computers": {
+        "6": {
+          "name": "Church Bells 1.2",
+          "options": [
+            { "name": "Gathering Toll", "action": "toll" },
+            { "name": "Wedding Toll", "action": "toll" },
+            { "name": "Funeral Toll", "action": "toll" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "church" ],
+    "//": "Gothic Church",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        " $$    W        W    $$ ",
+        " $$  WWWWGVBBVGWWWW  $$ ",
+        "     W..h.cccc.h..W     ",
+        " WWVWWR..........RWWBWW ",
+        "WW#.#.R.b..cc..b.R.#.#WW",
+        " G#.#.R..........R.#.#V ",
+        " V#.#.Rrrrr..rrrrR.#.#B ",
+        "WW#..................#WW",
+        " WW+WW#####..#####WW+WW ",
+        "ssss V............B ssss",
+        "s   WW#####..#####WW   s",
+        "s $ WW............WW $ s",
+        "s $  G#####..#####V  $ s",
+        "s $  B............G  $ s",
+        "s $ WW#####..#####WW $ s",
+        "s $ WW............WW $ s",
+        "s    V####....####B    s",
+        "s WWWW--|--gg-----WWWW s",
+        "s WLLWTS|.....lll.W..W s",
+        "s W..+..+.........+..W s",
+        "s W..WWWWWW++WWWWWW6.W s",
+        "s W.CWW$$WWssWW$$WW..W s",
+        "s WWWWW    ss    WWWWW s",
+        "ssssssssssssssssssssssss"
+      ],
+      "palettes": [ "church" ],
+      "mapping": { "b": { "furniture": "f_brazier" } },
+      "terrain": {
+        "#": "t_rock_floor",
+        "$": "t_shrub",
+        ".": "t_rock_floor",
+        "B": "t_window_stained_blue",
+        "C": "t_rock_floor",
+        "G": "t_window_stained_green",
+        "R": "t_railing_v",
+        "S": "t_rock_floor",
+        "T": "t_rock_floor",
+        "V": "t_window_stained_red",
+        "W": "t_rock",
+        "b": "t_rock_floor",
+        "L": "t_rock_floor",
+        "c": "t_rock_floor",
+        "g": "t_door_glass_c",
+        "h": "t_rock_floor",
+        "l": "t_rock_floor",
+        "r": "t_railing_h",
+        "t": "t_rock_floor"
+      },
+      "items": {
+        "#": { "item": "church", "chance": 40 },
+        ".": { "item": "church", "chance": 5 },
+        "L": { "item": "cleaning", "chance": 30 },
+        "c": { "item": "church", "chance": 40 },
+        "l": { "item": "jackets", "chance": 60 }
+      },
+      "computers": {
+        "6": {
+          "name": "Church Bells 1.2",
+          "options": [
+            { "name": "Gathering Toll", "action": "toll" },
+            { "name": "Wedding Toll", "action": "toll" },
+            { "name": "Funeral Toll", "action": "toll" }
+          ]
+        }
+      }
+    }
+  }
+]

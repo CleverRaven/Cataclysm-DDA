@@ -1,0 +1,39 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "robot_dispatch_second",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "#####PPPPPP#############",
+        "#####PPPPPP#############",
+        "#####PPPPPP#############",
+        "##rrrrrrrrr--ggg-ggg--##",
+        "##rrrrrrrrr|DDD   D6D|##",
+        "##rrrrrrrrrg c     c g##",
+        "##rrrrrrrrrg         g##",
+        "##rrrrrrrrrg        Dg##",
+        "##rrrrrrrrr|       cD|##",
+        "##rrrrrrrrr|        D|##",
+        "##rrrrrrrrr|D      c6|##",
+        "##rrrrrrrrrgDc      D|##",
+        "##rrrrrrrrrgD      c6|##",
+        "##rrrrrrrrr|        D|##",
+        "##---ggg----       c6|##",
+        "##|l    |           D|##",
+        "##|l    +          c6|##",
+        "##|-----|         ---|##",
+        "##|s    +         +>>|##",
+        "##|&    |         +>>|##",
+        "##----gg-----ggg------##",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "robot_dispatch" ],
+      "terrain": { "#": "t_open_air", "r": "t_flat_roof" }
+    }
+  }
+]

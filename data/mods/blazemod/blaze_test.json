@@ -44,19 +44,16 @@
     "time": 108000,
     "reversible": false,
     "autolearn": true,
-    "byproducts": [ [ "vpower" ] ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
@@ -76,19 +73,16 @@
     "skills_required": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
     "time": 108000,
     "autolearn": true,
-    "byproducts": [ [ "vpower" ] ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
@@ -109,12 +103,11 @@
     "skills_required": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
     "time": 144000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ] ],
     "components": [
       [ [ "cargo_rack", 1 ] ],
       [ [ "teleporter", 1 ] ],
@@ -132,11 +125,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 12 ] ],
@@ -157,11 +150,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 90000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "2x4", 12 ], [ "stick", 12 ] ],
@@ -183,11 +176,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -207,11 +200,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -231,11 +224,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 60000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 50 ], [ "toolset", 50 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 4 ] ],
@@ -253,11 +246,11 @@
     "difficulty": 10,
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
-    "tools": [ [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "charcoal", 50 ] ],
       [ [ "plasma", 10 ] ],
@@ -274,11 +267,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 90000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 10 ] ],
@@ -293,7 +286,6 @@
     "type": "vehicle_part",
     "name": "vortex accelerator turret",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -304,14 +296,13 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexacceleratornc",
     "type": "vehicle_part",
     "name": "automated vortex accelerator",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -321,14 +312,13 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexbolter",
     "type": "vehicle_part",
     "name": "vortex bolter turret",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -339,14 +329,13 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexbolternc",
     "type": "vehicle_part",
     "name": "automated vortex bolter",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -356,14 +345,13 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexrifle",
     "type": "vehicle_part",
     "name": "vortex rifle turret",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -374,14 +362,13 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexriflenc",
     "type": "vehicle_part",
     "name": "automated vortex rifle",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -391,7 +378,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "charcoal",
@@ -411,109 +398,45 @@
     "broken_symbol": "#",
     "color": "white",
     "broken_color": "white",
-    "difficulty": 1,
+    "description": "A transparent, solid sheet of self-sustaining crystals.",
+    "difficulty": 6,
     "durability": 5000,
     "breaks_into": [
       { "item": "spiral_matrix" },
       { "item": "dshards", "count": [ 50, 100 ] },
       { "item": "dcluster", "count": [ 2, 6 ] }
     ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "flags": [ "OBSTACLE", "WINDOW", "FULL_BOARD" ]
   },
   {
     "id": "dboard_ne",
     "type": "vehicle_part",
-    "name": "diamond barrier",
-    "item": "diamondplate",
-    "location": "center",
-    "symbol": "u",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 5000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 50, 100 ] },
-      { "item": "dcluster", "count": [ 2, 6 ] }
-    ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "copy-from": "dboard_horizontal",
+    "symbol": "u"
   },
   {
     "id": "dboard_nw",
     "type": "vehicle_part",
-    "name": "diamond barrier",
-    "item": "diamondplate",
-    "location": "center",
-    "symbol": "y",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 5000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 50, 100 ] },
-      { "item": "dcluster", "count": [ 2, 6 ] }
-    ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "copy-from": "dboard_horizontal",
+    "symbol": "y"
   },
   {
     "id": "dboard_se",
     "type": "vehicle_part",
-    "name": "diamond barrier",
-    "item": "diamondplate",
-    "location": "center",
-    "symbol": "n",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 5000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 50, 100 ] },
-      { "item": "dcluster", "count": [ 2, 6 ] }
-    ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "copy-from": "dboard_horizontal",
+    "symbol": "n"
   },
   {
     "id": "dboard_sw",
     "type": "vehicle_part",
-    "name": "diamond barrier",
-    "item": "diamondplate",
-    "location": "center",
-    "symbol": "b",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 5000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 50, 100 ] },
-      { "item": "dcluster", "count": [ 2, 6 ] }
-    ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "copy-from": "dboard_horizontal",
+    "symbol": "b"
   },
   {
     "id": "dboard_vertical",
     "type": "vehicle_part",
-    "name": "diamond barrier",
-    "item": "diamondplate",
-    "location": "center",
-    "symbol": "j",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 5000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 50, 100 ] },
-      { "item": "dcluster", "count": [ 2, 6 ] }
-    ],
-    "flags": [ "OBSTACLE", "WINDOW" ]
+    "copy-from": "dboard_horizontal",
+    "symbol": "j"
   },
   {
     "id": "dcluster",
@@ -527,8 +450,9 @@
     "material": "diamond",
     "symbol": "*",
     "color": "white",
+    "looks_like": "diamond",
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "dshards",
     "use_action": {
       "target": "dshards",
       "msg": "The cluster comes apart in your hands.",
@@ -547,7 +471,8 @@
     "broken_symbol": "#",
     "color": "white",
     "broken_color": "white",
-    "difficulty": 1,
+    "description": "A framework of super-strong crystal.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "difficulty": 6,
     "durability": 3000,
     "breaks_into": [
       { "item": "spiral_matrix" },
@@ -559,173 +484,57 @@
   {
     "id": "dframe_cross",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
+    "copy-from": "dframe_cover",
     "symbol": "c",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
     "flags": [ "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "dframe_horizontal",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "h",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "h"
   },
   {
     "id": "dframe_horizontal_2",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "=",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "="
   },
   {
     "id": "dframe_ne",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "u",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "u"
   },
   {
     "id": "dframe_nw",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "y",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "y"
   },
   {
     "id": "dframe_se",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "n",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "n"
   },
   {
     "id": "dframe_sw",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "b",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "b"
   },
   {
     "id": "dframe_vertical",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "j",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "j"
   },
   {
     "id": "dframe_vertical_2",
     "type": "vehicle_part",
-    "name": "diamond frame",
-    "item": "diamondframe",
-    "location": "structure",
-    "symbol": "H",
-    "broken_symbol": "#",
-    "color": "white",
-    "broken_color": "white",
-    "difficulty": 1,
-    "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "MOUNTABLE" ]
+    "copy-from": "dframe_cover",
+    "symbol": "H"
   },
   {
     "id": "diamondframe",
@@ -764,8 +573,8 @@
     "pierce": 100,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 50,
+    "reload": 20,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -775,7 +584,6 @@
     "type": "vehicle_part",
     "name": "diamond lance",
     "item": "diamondlance",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -786,14 +594,13 @@
     "damage_modifier": 80,
     "folded_volume": 22,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "diamondnova",
     "type": "vehicle_part",
     "name": "diamond nova",
     "item": "diamondnova",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -804,14 +611,14 @@
     "damage_modifier": 80,
     "folded_volume": 22,
     "breaks_into": [ { "item": "diamondnova", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "diamondnova",
     "type": "GUN",
     "name": "diamond nova",
     "//": "Behold, the bringer of light.",
-    "description": "A weapon that is as deadly as it is dazzling.  The diamond matrix in this weapon's center acts as a catalyst; rapidly changing carbon-heavy materials into a crystalline substance that is nearly equal to diamond in hardness.  The substance rapidly decays when separated from the catalyst, and at  sizes as large as the projectile used, also rapidly decays when in contact with other matter. Thus the projectile is held and launched by the use of pressurized air from a vortex stone.  Upon striking its target, the projectile undergoes explosive decomposition; shattering into a brilliant burst of diamond fragments.",
+    "description": "A weapon that is as deadly as it is dazzling.  The diamond matrix in this weapon's center acts as a catalyst; rapidly changing carbon-heavy materials into a crystalline substance that is nearly equal to diamond in hardness.  The substance rapidly decays when separated from the catalyst, and at sizes as large as the projectile used, also rapidly decays when in contact with other matter.  Thus the projectile is held and launched by the use of pressurized air from a vortex stone.  Upon striking its target, the projectile undergoes explosive decomposition; shattering into a brilliant burst of diamond fragments.",
     "weight": 25815,
     "volume": 22,
     "price": 60000,
@@ -827,8 +634,8 @@
     "pierce": 20,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 50,
+    "reload": 20,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT", "FRAG", "FLASHBANG" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -861,6 +668,7 @@
     "material": "diamond",
     "symbol": "=",
     "color": "white",
+    "looks_like": "diamond",
     "count": 100,
     "ammo_type": "BB",
     "damage": 1,
@@ -877,6 +685,7 @@
     "broken_symbol": ")",
     "color": "white",
     "broken_color": "white",
+    "description": "Transparent crystal armor plate.  Will partially protect other components on the same frame from damage.",
     "difficulty": 5,
     "durability": 5000,
     "breaks_into": [
@@ -912,9 +721,9 @@
     "broken_symbol": "O",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 1,
+    "difficulty": 8,
     "durability": 400,
-    "size": 1000000,
+    "size": 40000,
     "breaks_into": [],
     "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
   },
@@ -931,8 +740,9 @@
     "material": "diamond",
     "symbol": "*",
     "color": "white",
+    "looks_like": "spiral_stone",
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "spiral_matrix",
     "use_action": {
       "target": "spiral_matrix",
       "msg": "Your senses dull as you gaze into the depths of this gemstone's center...",
@@ -942,10 +752,10 @@
   },
   {
     "id": "vgen",
-    "type": "CONTAINER",
+    "type": "TOOL",
     "category": "veh_parts",
     "name": "vortex engine",
-    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allows it to be attached to a vehicle to render it mobile. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allows it to be attached to a vehicle to render it mobile.",
     "weight": 62071,
     "volume": 225,
     "price": 1500000,
@@ -953,16 +763,12 @@
     "rigid": true,
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "magenta",
-    "contains": 1,
-    "seals": true,
-    "watertight": true
+    "color": "magenta"
   },
   {
     "id": "vgen",
     "type": "vehicle_part",
     "name": "vortex generator",
-    "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
     "item": "vgen2",
     "location": "engine_block",
     "fuel_type": "vpower",
@@ -970,13 +776,15 @@
     "broken_symbol": "x",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 1,
+    "difficulty": 6,
     "durability": 400,
-    "power": 500000000,
-    "epower": 315,
+    "//": "Here power is a multiplier on power efficiency, though ignored because of the PERPTUAL flag",
+    "power": 100,
+    "epower": 37300,
     "size": 100,
     "damage_modifier": 10,
     "breaks_into": [
+      { "item": "spiral_stone" },
       { "item": "foot_crank", "count": [ 0, 2 ] },
       { "item": "chain", "count": [ 0, 4 ] },
       { "item": "hose", "count": [ 0, 4 ] },
@@ -984,7 +792,7 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "REACTOR" ]
+    "flags": [ "REACTOR", "PERPETUAL" ]
   },
   {
     "id": "vgen2",
@@ -997,10 +805,12 @@
     "broken_symbol": "x",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 1,
+    "difficulty": 6,
     "durability": 400,
-    "power": 800,
-    "epower": 1,
+    "power": 37300,
+    "epower": 1865,
+    "noise_factor": 25,
+    "m2c": 90,
     "size": 100,
     "damage_modifier": 10,
     "breaks_into": [
@@ -1011,14 +821,14 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "ENGINE", "TOOL_NONE" ]
+    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL", "E_ALTERNATOR" ]
   },
   {
     "id": "vgen2",
-    "type": "CONTAINER",
+    "type": "TOOL",
     "category": "veh_parts",
     "name": "vortex generator",
-    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allow it to be hooked up to a battery to store the power generated. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allow it to be hooked up to a battery to store the power generated.",
     "weight": 48066,
     "volume": 200,
     "price": 1500000,
@@ -1026,10 +836,7 @@
     "rigid": true,
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "magenta",
-    "contains": 1,
-    "seals": true,
-    "watertight": true
+    "color": "magenta"
   },
   {
     "id": "vortexaccelerator",
@@ -1052,8 +859,8 @@
     "dispersion": 300,
     "sight_dispersion": 150,
     "durability": 10,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 250,
+    "reload": 10,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -1063,7 +870,6 @@
     "type": "vehicle_part",
     "name": "vortex accelerator",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1074,14 +880,13 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexbolter",
     "type": "vehicle_part",
     "name": "vortex bolter",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1092,7 +897,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexbolter",
@@ -1116,8 +921,8 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 30,
+    "reload": 40,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -1127,7 +932,6 @@
     "type": "vehicle_part",
     "name": "vortex cannon",
     "item": "vortexcannon",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1138,14 +942,13 @@
     "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexcannon",
     "type": "vehicle_part",
     "name": "vortex cannon turret",
     "item": "vortexcannon",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1157,7 +960,7 @@
     "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexcannon",
@@ -1178,8 +981,8 @@
     "ranged_damage": 120,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 12,
+    "reload": 100,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -1189,7 +992,6 @@
     "type": "vehicle_part",
     "name": "vortex rifle",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1200,7 +1002,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexrifle",
@@ -1224,8 +1026,8 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 5,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 250,
+    "reload": 10,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -1242,14 +1044,15 @@
     "category": "chems",
     "name": "vortex core",
     "name_plural": "vortex core",
-    "description": "An unknown, but powerful force contained within spiral and vortex stones. Can be harnessed by those with the knowledge to do so.",
+    "description": "Seeing this is a bug.",
     "weight": 0,
-    "volume": 1,
+    "volume": 0,
     "bashing": 1,
     "phase": "solid",
     "material": "diamond",
+    "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 },
-    "symbol": "=",
+    "symbol": "?",
     "color": "magenta",
     "count": 1,
     "ammo_type": "vpower"
