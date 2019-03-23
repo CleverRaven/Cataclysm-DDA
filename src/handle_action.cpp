@@ -1491,12 +1491,15 @@ bool game::handle_action()
                 break;
 
             case ACTION_HIDE:
-                if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
-                    if( !u.hide( *pnt ) ) {
-                        add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
-                    }
+            if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
+                if( !u.hide( *pnt, false ) ) {
+                    add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
+                } else {
+                    u.prev_pos = u.pos();
+                    u.hide( *pnt );
                 }
-                break;
+            }
+            break;
 
             case ACTION_HAUL:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
