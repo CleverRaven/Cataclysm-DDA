@@ -863,6 +863,9 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
     }
     p->remove_effect( effect_winded );
     p->mod_painkiller( 2 );
+    if( p->is_underwater() ) {
+        p->oxygen += 30;
+    }
     return it->type->charges_to_use();
 }
 

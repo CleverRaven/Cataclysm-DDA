@@ -5461,7 +5461,7 @@
     "id": "oxygen_tank",
     "type": "TOOL",
     "name": "oxygen tank",
-    "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy. Also used by divers.",
+    "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy. Can also provide air underwater.",
     "weight": 2268,
     "volume": 6,
     "price": 6000,
@@ -5473,7 +5473,8 @@
     "initial_charges": 24,
     "max_charges": 24,
     "charges_per_use": 1,
-    "use_action": "OXYGEN_BOTTLE"
+    "use_action": "OXYGEN_BOTTLE",
+    "flags": [ "OXYGEN" ]
   },
   {
     "id": "paint_brush",
@@ -6852,7 +6853,7 @@
     "id": "smoxygen_tank",
     "type": "TOOL",
     "name": "emergency oxygen pack",
-    "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy. Also used by divers.",
+    "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy. Can also provide air underwater.",
     "weight": 1134,
     "volume": 3,
     "price": 4000,
@@ -6864,7 +6865,8 @@
     "initial_charges": 12,
     "max_charges": 12,
     "charges_per_use": 1,
-    "use_action": "OXYGEN_BOTTLE"
+    "use_action": "OXYGEN_BOTTLE",
+    "flags": [ "OXYGEN" ]
   },
   {
     "id": "soldering_iron",
