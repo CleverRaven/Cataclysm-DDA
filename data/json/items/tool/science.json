@@ -190,8 +190,8 @@
     "type": "TOOL",
     "category": "tools",
     "name": "microscope",
-	"description": "A classic tool for the ages! This hefty, durable piece of lab equipment makes small things look bigger. Without electricity the light doesn't work, but the rest of it is surprisingly functional. Unfortunately it's not useful for very much at the moment.",
-	"weight": 2000,
+    "description": "A classic tool for the ages! This hefty, durable piece of lab equipment makes small things look bigger. Without electricity the light doesn't work, but the rest of it is surprisingly functional. Unfortunately it's not useful for very much at the moment.",
+    "weight": 2000,
     "volume": "3800mL",
     "price": 3000,
     "to_hit": -5,
@@ -199,13 +199,13 @@
     "symbol": "G",
     "color": "white"
   },
-  {	
+  {
     "id": "microscope_dissecting",
     "type": "TOOL",
     "category": "tools",
     "name": "dissecting microscope",
-	"description": "This microscope has less magnification than a standard one. It's also stereoscopic and produces a neat 3d image of the surface. It was typically used for doing dissections and other fine detail work on small creatures. It still works pretty well with an added light source, but what would you do with it?",
-	"weight": 2200,
+    "description": "This microscope has less magnification than a standard one. It's also stereoscopic and produces a neat 3d image of the surface. It was typically used for doing dissections and other fine detail work on small creatures. It still works pretty well with an added light source, but what would you do with it?",
+    "weight": 2200,
     "volume": "4000mL",
     "price": 3000,
     "to_hit": -5,
@@ -213,13 +213,13 @@
     "symbol": "G",
     "color": "white"
   },
-  {	
+  {
     "id": "funnel_separation",
     "type": "TOOL",
     "category": "tools",
     "name": "separation funnel",
-	"description": "This thing doesn't look much like a funnel. It's a teardrop shaped piece of glass with a stopper at the wide end and a valve at the other. It can be used to wash one liquid with another, like water and an oil, and then draw off whichever of the two liquids contains a higher amount of whatever compound you're trying to isolate. With a high level of skill it can also be used to make juvenile farting noises.",
-	"weight": 200,
+    "description": "This thing doesn't look much like a funnel. It's a teardrop shaped piece of glass with a stopper at the wide end and a valve at the other. It can be used to wash one liquid with another, like water and an oil, and then draw off whichever of the two liquids contains a higher amount of whatever compound you're trying to isolate. With a high level of skill it can also be used to make juvenile farting noises.",
+    "weight": 200,
     "volume": "700mL",
     "price": 100,
     "to_hit": -5,
@@ -228,13 +228,13 @@
     "color": "light_blue",
     "qualities": [ [ "SEPARATION", 1 ] ]
   },
-  {	
+  {
     "id": "burette",
     "type": "TOOL",
     "category": "tools",
     "name": "burette",
-	"description": "A tall glass column with a stopcock at the end. If you're serious about chemistry, you probably have a tattoo of one of these somewhere.",
-	"weight": 300,
+    "description": "A tall glass column with a stopcock at the end. If you're serious about chemistry, you probably have a tattoo of one of these somewhere.",
+    "weight": 300,
     "volume": "1000mL",
     "price": 1000,
     "to_hit": -4,
@@ -242,13 +242,13 @@
     "symbol": "|",
     "color": "light_blue"
   },
-  {	
+  {
     "id": "rotovap",
     "type": "TOOL",
     "category": "tools",
     "name": "rotary evapourator",
-	"description": "Just looking at this thing makes you feel like a proper mad scientist. It's a series of glass tubes and round flasks, connected to a central motor and a heating element. The heating element warms one flask, kept rotating by the motor, evapourating the contents. The vapour is then condensed in the tubes and collected in another flask, in case you wanted to save it for later.",
-	"weight": 18000,
+    "description": "Just looking at this thing makes you feel like a proper mad scientist. It's a series of glass tubes and round flasks, connected to a central motor and a heating element. The heating element warms one flask, kept rotating by the motor, evapourating the contents. The vapour is then condensed in the tubes and collected in another flask, in case you wanted to save it for later.",
+    "weight": 18000,
     "volume": "60000mL",
     "price": 8000,
     "to_hit": -5,
@@ -257,14 +257,14 @@
     "color": "white",
     "qualities": [ [ "CONCENTRATION", 1 ] ]
   },
-  {	
+  {
     "id": "still_lab",
     "type": "TOOL",
     "category": "tools",
     "name": "fractional distillation apparatus",
     "name_plural": "fractional distillation apparati",
-	"description": "One of the classic pieces of mad science glassware, this is basically a small volume still that passes the vapour through a fractional distillation column and then condenses the distillate in a cooled collection column. A grad student or a robot (is there really any difference?) collects the distillate in fractions so that specific contents can be analyzed. Going a few milliliters at a time, it would not be very effective to try to distill whiskey in this thing.",
-	"weight": 1000,
+    "description": "One of the classic pieces of mad science glassware, this is basically a small volume still that passes the vapour through a fractional distillation column and then condenses the distillate in a cooled collection column. A grad student or a robot (is there really any difference?) collects the distillate in fractions so that specific contents can be analyzed. Going a few milliliters at a time, it would not be very effective to try to distill whiskey in this thing.",
+    "weight": 1000,
     "volume": "5000mL",
     "price": 2000,
     "to_hit": -5,
@@ -273,13 +273,13 @@
     "color": "light_blue",
     "qualities": [ [ "FINE_DISTILLATION", 1 ] ]
   },
-  {	
+  {
     "id": "gelbox",
     "type": "TOOL",
     "category": "tools",
     "name": "electrophoresis tray",
-	"description": "This is a set of plastic trays, electrodes, and a power supply designed to create an electric voltage gradient through a liquid solution containing a solid gel. Stuff like proteins and DNA would then get separated on the gel according to electrical charge and size. Pretty useless now, for anything but salvage.",
-	"weight": 1000,
+    "description": "This is a set of plastic trays, electrodes, and a power supply designed to create an electric voltage gradient through a liquid solution containing a solid gel. Stuff like proteins and DNA would then get separated on the gel according to electrical charge and size. Pretty useless now, for anything but salvage.",
+    "weight": 1000,
     "volume": "5000mL",
     "price": 500,
     "to_hit": -5,
@@ -288,13 +288,13 @@
     "color": "light_blue",
     "qualities": [ [ "FINE_DISTILLATION", 1 ] ]
   },
-  {	
+  {
     "id": "microcentrifuge",
     "type": "TOOL",
     "category": "tools",
     "name": "microcentrifuge",
-	"description": "This is a smaller, benchtop version of the larger furniture-sized centrifuge. Don't be fooled by its portable scale; it's still a very powerful piece of equipment that can spin stuff really quickly. It's not a toy!",
-	"weight": 2000,
+    "description": "This is a smaller, benchtop version of the larger furniture-sized centrifuge. Don't be fooled by its portable scale; it's still a very powerful piece of equipment that can spin stuff really quickly. It's not a toy!",
+    "weight": 2000,
     "volume": "1500mL",
     "price": 1000,
     "to_hit": -5,
@@ -305,7 +305,7 @@
     "max_charges": 100,
     "qualities": [ [ "CONCENTRATION", 1 ] ]
   },
-  {	
+  {
     "id": "stopcock",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -319,7 +319,7 @@
     "symbol": "T",
     "color": "white"
   },
-  {	
+  {
     "id": "rack_test_tube",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -333,7 +333,7 @@
     "symbol": "#",
     "color": "yellow"
   },
-  {	
+  {
     "id": "rack_test_tube_micro",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -347,7 +347,7 @@
     "symbol": "#",
     "color": "yellow"
   },
-  {	
+  {
     "id": "stand_ring",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -361,7 +361,7 @@
     "symbol": "l",
     "color": "light_gray"
   },
-  {	
+  {
     "id": "stand_ring_clamps",
     "type": "GENERIC",
     "category": "spare_parts",
