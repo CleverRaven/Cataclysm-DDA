@@ -71,7 +71,7 @@ extern void handle_additional_window_clear( WINDOW *win );
 
 } // namespace cata_cursesport
 
-//@todo: move into cata_cursesport
+// TODO: move into cata_cursesport
 //used only in SDL mode for clearing windows using rendering
 void clear_window_area( const catacurses::window &win );
 int projected_window_width();

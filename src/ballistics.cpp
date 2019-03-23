@@ -147,7 +147,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin, const vehicle *in_veh )
 {
-    const bool do_animation = get_option<bool>( "ANIMATIONS" );
+    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 
@@ -203,7 +203,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // cap wild misses at +/- 30 degrees
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
-        // @todo: This should also represent the miss on z axis
+        // TODO: This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
@@ -250,7 +250,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
-        // @todo: Make it use a more distant point for more realistic extended lines
+        // TODO: Make it use a more distant point for more realistic extended lines
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                 extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
@@ -375,7 +375,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( tp, int( traj_len-- ), trajectory, bullet );
+        g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
     if( g->m.impassable( tp ) ) {

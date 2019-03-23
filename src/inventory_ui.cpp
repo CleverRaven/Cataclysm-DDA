@@ -317,7 +317,7 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         // Negative step '-k' (backwards) is equivalent to '-k + N' (forward), where:
         //     N = entries.size()  - number of elements,
         //     k = |step|          - absolute step (k <= N).
-        new_index = ( new_index + int( dir ) + entries.size() ) % entries.size();
+        new_index = ( new_index + static_cast<int>( dir ) + entries.size() ) % entries.size();
     } while( new_index != index && !entries[new_index].is_selectable() );
 
     return new_index;
@@ -341,7 +341,7 @@ void inventory_column::move_selection_page( scroll_direction dir )
     do {
         const size_t next_index = next_selectable_index( index, dir );
         const bool flipped = next_index == selected_index ||
-                             ( next_index > selected_index ) != ( int( dir ) > 0 );
+                             ( next_index > selected_index ) != ( static_cast<int>( dir ) > 0 );
 
         if( flipped && page_of( next_index ) == page_index() ) {
             break; // If flipped and still on the same page - no need to flip
@@ -378,7 +378,7 @@ size_t inventory_column::get_entry_cell_width( const inventory_entry &entry,
 
 size_t inventory_column::get_cells_width() const
 {
-    return std::accumulate( cells.begin(), cells.end(), size_t( 0 ), []( size_t lhs,
+    return std::accumulate( cells.begin(), cells.end(), static_cast<size_t>( 0 ), []( size_t lhs,
     const cell_t &cell ) {
         return lhs + cell.current_width;
     } );
@@ -529,10 +529,11 @@ bool inventory_column::has_available_choices() const
     if( !allows_selecting() ) {
         return false;
     }
-    for( size_t i = 0; i < entries.size(); ++i )
+    for( size_t i = 0; i < entries.size(); ++i ) {
         if( entries[i].is_item() && get_entry_cell_cache( i ).denial.empty() ) {
             return true;
         }
+    }
     return false;
 }
 
@@ -767,7 +768,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         }
 
         int x1 = x + get_entry_indent( entry );
-        int x2 = x + std::max( int( reserved_width - get_cells_width() ), 0 );
+        int x2 = x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
         int yy = y + line;
 
         const bool selected = active && is_selected( entry );
@@ -781,9 +782,10 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         const std::string &denial = entry_cell_cache.denial;
 
         if( !denial.empty() ) {
-            const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap +
+            const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
                                             get_entry_cell_width( index, 0 ) ) ), 0 );
-            const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
+            const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
+                                                  true ) ) );
 
             trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, denial );
         }
@@ -917,7 +919,7 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 
-// @todo: Move it into some 'item_stack' class.
+// TODO: Move it into some 'item_stack' class.
 std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
                             const std::list<item>::const_iterator &to, bool check_components = false )
 {
@@ -1219,7 +1221,7 @@ size_t inventory_selector::get_header_min_width() const
 
     size_t stats_width = 0;
     for( const std::string &elem : get_stats() ) {
-        stats_width = std::max( size_t( utf8_width( elem, true ) ), stats_width );
+        stats_width = std::max( static_cast<size_t>( utf8_width( elem, true ) ), stats_width );
     }
 
     return titles_width + stats_width + ( stats_width != 0 ? 3 : 0 );
@@ -1231,7 +1233,8 @@ size_t inventory_selector::get_footer_min_width() const
     navigation_mode m = mode;
 
     do {
-        result = std::max( size_t( utf8_width( get_footer( m ).first, true ) ) + 2 + 4, result );
+        result = std::max( static_cast<size_t>( utf8_width( get_footer( m ).first, true ) ) + 2 + 4,
+                           result );
         m = get_navigation_data( m ).next_mode;
     } while( m != mode );
 
@@ -1402,7 +1405,8 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
     const bool centered = are_columns_centered( screen_width );
 
     const int free_space = screen_width - get_columns_width( columns );
-    const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) :
+    const int max_gap = ( columns.size() > 1 ) ? free_space / ( static_cast<int>
+                        ( columns.size() ) - 1 ) :
                         free_space;
     const int gap = centered ? max_gap : std::min<int>( max_gap, normal_column_gap );
     const int gap_rounding_error = centered && columns.size() > 1
@@ -1603,8 +1607,8 @@ double inventory_selector::get_columns_occupancy_ratio( size_t client_width ) co
 {
     const auto visible_columns = get_visible_columns();
     const int free_width = client_width - get_columns_width( visible_columns )
-                           - min_column_gap * std::max( int( visible_columns.size() ) - 1, 0 );
-    return 1.0 - double( free_width ) / client_width;
+                           - min_column_gap * std::max( static_cast<int>( visible_columns.size() ) - 1, 0 );
+    return 1.0 - static_cast<double>( free_width ) / client_width;
 }
 
 bool inventory_selector::are_columns_centered( size_t client_width ) const
@@ -1693,6 +1697,7 @@ item_location inventory_pick_selector::execute()
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
+            g->draw_panels();
         }
     }
 }

@@ -324,6 +324,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
+    "charges": 2,
     "time": 22500,
     "autolearn": false,
     "never_learn": true,

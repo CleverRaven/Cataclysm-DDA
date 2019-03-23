@@ -415,17 +415,17 @@
     "id": "bio_tattoo_led",
     "type": "bionic",
     "name": "LED Tattoo",
-    "description": "A simple LED display is implanted under the skin, bright enough to be seen through the dermal layer when active, vanishing from sight when inactive. You might not be able to show off in clubs with it anymore but its faint glow could provide some comfort in the dark.",
+    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
     "act_cost": 1,
     "react_cost": 1,
-    "time": 25,
+    "time": 50,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_glowy",
     "type": "bionic",
     "name": "Glowy Thing",
-    "description": "Something is glowing under your skin, it turns on and off on its own and makes you quite visible.",
+    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slighest.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -1037,6 +1037,14 @@
     "description": "Your joints have been surgically equipped with torsion ratchets that generate power slowly when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "occupied_bodyparts": [ [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_jointservo",
+    "type": "bionic",
+    "name": "Joint Servo",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
+    "occupied_bodyparts": [ [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_trip",

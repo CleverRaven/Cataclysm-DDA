@@ -109,7 +109,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "38", [ "taurus38mag" ] ],

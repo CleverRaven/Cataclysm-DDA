@@ -92,6 +92,11 @@
           "yes": "*will not engage enemies."
         },
         {
+          "npc_rule": "avoid_combat",
+          "yes": "  <mypronoun> will follow you instead of fighting.",
+          "no": "  <mypronoun> will fight instead of following you."
+        },
+        {
           "npc_rule": "use_guns",
           "yes": {
             "npc_rule": "use_silent",
@@ -116,6 +121,15 @@
     "responses": [
       { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
       { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_combat" },
+          "true": "Stand and fight.",
+          "false": "If you see me running away, you follow me."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "avoid_combat" }
+      },
       {
         "truefalsetext": {
           "condition": { "npc_rule": "use_guns" },

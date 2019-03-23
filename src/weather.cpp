@@ -31,8 +31,6 @@ const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
-static const trait_id trait_GOODHEARING( "GOODHEARING" );
-static const trait_id trait_BADHEARING( "BADHEARING" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -222,7 +220,7 @@ void item::add_rain_to_container( bool acid, int charges )
     if( contents.empty() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
-            // Funnels aren't always clean enough for water. // @todo: disinfectant squeegie->funnel
+            // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
             ret.poison = one_in( 10 ) ? 1 : 0;
         }
         ret.charges = std::min<long>( charges, capa );
@@ -325,7 +323,7 @@ void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
-        if( one_in( turns_per_charge ) ) { // @todo: fixme
+        if( one_in( turns_per_charge ) ) { // FIXME:
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
@@ -463,12 +461,11 @@ void weather_effect::thunder()
         if( g->get_levz() >= 0 ) {
             add_msg( _( "You hear a distant rumble of thunder." ) );
             sfx::play_variant_sound( "environment", "thunder_far", 80, rng( 0, 359 ) );
-        } else if( g->u.has_trait( trait_GOODHEARING ) && one_in( 1 - 2 * g->get_levz() ) ) {
+        } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() /
+                                     g->u.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( _( "You hear a rumble of thunder from above." ) );
-            sfx::play_variant_sound( "environment", "thunder_far", 100, rng( 0, 359 ) );
-        } else if( !g->u.has_trait( trait_BADHEARING ) && one_in( 1 - 3 * g->get_levz() ) ) {
-            add_msg( _( "You hear a rumble of thunder from above." ) );
-            sfx::play_variant_sound( "environment", "thunder_far", 60, rng( 0, 359 ) );
+            sfx::play_variant_sound( "environment", "thunder_far",
+                                     ( 80 * g->u.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
         }
     }
 }
@@ -633,7 +630,7 @@ std::string weather_forecast( const point &abs_sm_pos )
     double high = -100.0;
     double low = 100.0;
     const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
-    // TODO wind direction and speed
+    // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::time_of_cataclysm ) %
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
@@ -753,7 +750,7 @@ std::string get_wind_strength_bars( double windpower )
 {
     std::string wind_bars;
     if( windpower < 3 ) {
-        wind_bars = "";
+        wind_bars.clear();
     } else if( windpower < 12 ) {
         wind_bars = "+";
     } else if( windpower < 24 ) {
@@ -852,7 +849,7 @@ std::string get_dirstring( int angle )
 
 std::string get_wind_arrow( int dirangle )
 {
-    std::string wind_arrow = "";
+    std::string wind_arrow;
     if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
         wind_arrow = "\u21D3";
     } else if( dirangle <= 68 && dirangle > 23 ) {
@@ -870,7 +867,7 @@ std::string get_wind_arrow( int dirangle )
     } else if( dirangle <= 338 && dirangle > 293 ) {
         wind_arrow = "\u21D9";
     } else {
-        wind_arrow = "";
+        wind_arrow.clear();
     }
     return wind_arrow;
 }
@@ -960,10 +957,9 @@ std::string get_wind_desc( double windpower )
 rl_vec2d convert_wind_to_coord( const int angle )
 {
 
-    float fx, fy;
     rl_vec2d windvec;
-    fy = -cos( angle * M_PI / 180.0f );
-    fx = sin( angle * M_PI / 180.0f );
+    float fx = sin( angle * M_PI / 180.0f );
+    float fy = -cos( angle * M_PI / 180.0f );
     int roundedx;
     int roundedy;
     if( fx > 0.5 ) {

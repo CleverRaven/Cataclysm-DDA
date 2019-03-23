@@ -111,6 +111,7 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_monster_armor( "monster_armour" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
@@ -230,13 +231,13 @@ const tripoint &monster::pos() const
 
 void monster::poly( const mtype_id &id )
 {
-    double hp_percentage = double( hp ) / double( type->hp );
+    double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
     type = &id.obj();
     moves = 0;
     Creature::set_speed_base( type->speed );
     anger = type->agro;
     morale = type->morale;
-    hp = int( hp_percentage * type->hp );
+    hp = static_cast<int>( hp_percentage * type->hp );
     special_attacks.clear();
     for( auto &sa : type->special_attacks ) {
         auto &entry = special_attacks[sa.first];
@@ -452,13 +453,14 @@ std::string monster::name( unsigned int quantity ) const
         debugmsg( "monster::name empty type!" );
         return std::string();
     }
-    if( !unique_name.empty() )
+    if( !unique_name.empty() ) {
         return string_format( "%s: %s",
                               ( type->nname( quantity ).c_str() ), unique_name.c_str() );
+    }
     return type->nname( quantity );
 }
 
-// MATERIALS-TODO: put description in materials.json?
+// TODO: MATERIALS put description in materials.json?
 std::string monster::name_with_armor() const
 {
     std::string ret;
@@ -478,6 +480,15 @@ std::string monster::name_with_armor() const
     } else {
         ret = string_format( _( "armor" ) );
     }
+    if( has_effect( effect_monster_armor ) && !inv.empty() ) {
+        for( const item &armor : inv ) {
+            if( armor.is_pet_armor( true ) ) {
+                ret += string_format( _( "wearing %1$s" ), armor.tname( 1 ) );
+                break;
+            }
+        }
+    }
+
     return ret;
 }
 
@@ -1088,7 +1099,7 @@ bool monster::is_underwater() const
 
 bool monster::is_on_ground() const
 {
-    return false; //TODO: actually make this work
+    return false; // TODO: actually make this work
 }
 
 bool monster::has_weapon() const
@@ -1431,7 +1442,8 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, body_part /*bp*/, int dam, const bool /*bypass_med*/ )
+void monster::apply_damage( Creature *source, body_part /*bp*/, int dam,
+                            const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
         return;
@@ -1440,7 +1452,7 @@ void monster::apply_damage( Creature *source, body_part /*bp*/, int dam, const b
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
-        process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
+        process_trigger( MTRIG_HURT, 1 + static_cast<int>( dam / 3 ) );
     }
 }
 
@@ -1572,21 +1584,37 @@ std::string monster::get_effect_status() const
     return enumerate_as_string( effect_status );
 }
 
+int monster::get_worn_armor_val( damage_type dt ) const
+{
+    if( !has_effect( effect_monster_armor ) || inv.empty() ) {
+        return 0;
+    }
+    for( const item &armor : inv ) {
+        if( armor.get_var( "pet_armor", "" ).empty() ) {
+            continue;
+        }
+        return armor.damage_resist( dt );
+    }
+    return 0;
+}
+
 int monster::get_armor_cut( body_part bp ) const
 {
     ( void ) bp;
     // TODO: Add support for worn armor?
-    return int( type->armor_cut ) + armor_cut_bonus;
+    return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val( DT_CUT );
 }
 
 int monster::get_armor_bash( body_part bp ) const
 {
     ( void ) bp;
-    return int( type->armor_bash ) + armor_bash_bonus;
+    return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
 }
 
 int monster::get_armor_type( damage_type dt, body_part bp ) const
 {
+    int worn_armor = get_worn_armor_val( dt );
+
     switch( dt ) {
         case DT_TRUE:
             return 0;
@@ -1597,15 +1625,15 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
         case DT_CUT:
             return get_armor_cut( bp );
         case DT_ACID:
-            return int( type->armor_acid );
+            return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
-            return int( type->armor_stab ) + armor_cut_bonus * 0.8f;
+            return worn_armor + static_cast<int>( type->armor_stab ) + armor_cut_bonus * 0.8f;
         case DT_HEAT:
-            return int( type->armor_fire );
+            return worn_armor + static_cast<int>( type->armor_fire );
         case DT_COLD:
-            return 0;
+            return worn_armor;
         case DT_ELECTRIC:
-            return 0;
+            return worn_armor;
         case DT_NULL:
         case NUM_DT:
             // Let it error below
@@ -2047,7 +2075,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     }
 
     const efftype_id &id = it.get_id();
-    // MATERIALS-TODO: use fire resistance
+    // TODO: MATERIALS use fire resistance
     if( it.impairs_movement() ) {
         effect_cache[MOVEMENT_IMPAIRED] = true;
     } else if( id == effect_onfire ) {
@@ -2096,7 +2124,7 @@ void monster::process_effects()
     if( has_flag( MF_REGENERATES_IN_DARK ) ) {
         const float light = g->m.ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( int( 50.0 *  exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
+        if( heal( static_cast<int>( 50.0 *  exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
                   g->u.sees( *this ) ) ) {
             add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
         }

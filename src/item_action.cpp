@@ -117,6 +117,12 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                 continue;
             }
 
+            // Don't try to remove 'irremovable' toolmods
+            if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
+                actual_item->has_flag( "IRREMOVABLE" ) ) {
+                continue;
+            }
+
             // Add to usable items if it needs less charges per use or has less charges
             auto found = candidates.find( use );
             bool better = false;
@@ -294,6 +300,7 @@ void game::item_action_menu()
 
     draw_ter();
     wrefresh( w_terrain );
+    draw_panels();
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];

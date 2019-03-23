@@ -34,6 +34,7 @@
 #include "loading_ui.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "path_info.h"
 #include "player.h"
 #include "rng.h"
@@ -1115,6 +1116,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
             win->width * font->fontwidth, win->height * font->fontheight );
         update = true;
+
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
         update = font->draw_window( w );
@@ -1171,11 +1173,8 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
     Everything else works on strict equality because there aren't yet IDs for some of them.
     */
-    if( g && ( w == g->w_terrain || w == g->w_minimap || w == g->w_HP || w == g->w_status ||
-               w == g->w_status2 || w == g->w_messages || w == g->w_location ) ) {
-        if( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
-            winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
-            winBuffer == g->w_messages || winBuffer == g->w_location ) {
+    if( g && ( w == g->w_terrain || w == g->w_minimap ) ) {
+        if( winBuffer == g->w_terrain || winBuffer == g->w_minimap ) {
             oldWinCompatible = true;
         }
     } else if( g && ( w == g->w_overmap || w == g->w_omlegend ) ) {
@@ -1188,7 +1187,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         }
     }
 
-    // @todo: Get this from UTF system to make sure it is exactly the kind of space we need
+    // TODO: Get this from UTF system to make sure it is exactly the kind of space we need
     static const std::string space_string = " ";
 
     bool update = false;
@@ -1362,6 +1361,78 @@ int HandleDPad()
     return 0;
 }
 
+SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
+{
+    switch( key ) {
+        case SDLK_UP:
+            return SDLK_DOWN;
+        case SDLK_DOWN:
+            return SDLK_UP;
+        case SDLK_LEFT:
+            return SDLK_RIGHT;
+        case SDLK_RIGHT:
+            return SDLK_LEFT;
+    }
+    return 0;
+}
+
+bool sdl_keycode_is_arrow( SDL_Keycode key )
+{
+    return static_cast<bool>( sdl_keycode_opposite_arrow( key ) );
+}
+
+long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
+{
+    if( ( mod == SDLK_UP    && key == SDLK_RIGHT ) ||
+        ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
+        return KEY_NUM( 9 );
+    }
+    if( ( mod == SDLK_UP    && key == SDLK_UP ) ) {
+        return KEY_NUM( 8 );
+    }
+    if( ( mod == SDLK_UP    && key == SDLK_LEFT ) ||
+        ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
+        return KEY_NUM( 7 );
+    }
+    if( ( mod == SDLK_RIGHT && key == SDLK_RIGHT ) ) {
+        return KEY_NUM( 6 );
+    }
+    if( mod == sdl_keycode_opposite_arrow( key ) ) {
+        return KEY_NUM( 5 );
+    }
+    if( ( mod == SDLK_LEFT  && key == SDLK_LEFT ) ) {
+        return KEY_NUM( 4 );
+    }
+    if( ( mod == SDLK_DOWN  && key == SDLK_RIGHT ) ||
+        ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 3 );
+    }
+    if( ( mod == SDLK_DOWN  && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 2 );
+    }
+    if( ( mod == SDLK_DOWN  && key == SDLK_LEFT ) ||
+        ( mod == SDLK_LEFT  && key == SDLK_DOWN ) ) {
+        return KEY_NUM( 1 );
+    }
+    return 0;
+}
+
+static long arrow_combo_modifier = 0;
+
+static long handle_arrow_combo( SDL_Keycode key )
+{
+    if( !arrow_combo_modifier ) {
+        arrow_combo_modifier = key;
+        return 0;
+    }
+    return arrow_combo_to_numpad( arrow_combo_modifier, key );
+}
+
+static void end_arrow_combo()
+{
+    arrow_combo_modifier = 0;
+}
+
 /**
  * Translate SDL key codes to key identifiers used by ncurses, this
  * allows the input_manager to only consider those.
@@ -1372,7 +1443,17 @@ int HandleDPad()
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
-    if( get_option<bool>( "DIAG_MOVE_WITH_MODIFIERS" ) ) {
+    const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
+
+    if( diag_mode == "mode1" ) {
+        if( keysym.mod & KMOD_CTRL && sdl_keycode_is_arrow( keysym.sym ) ) {
+            return handle_arrow_combo( keysym.sym );
+        } else {
+            end_arrow_combo();
+        }
+    }
+
+    if( diag_mode == "mode2" ) {
         //Shift + Cursor Arrow (diagonal clockwise)
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
@@ -1401,6 +1482,26 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
         }
     }
 
+    if( diag_mode == "mode3" ) {
+        //Shift + Cursor Left/RightArrow
+        if( keysym.mod & KMOD_SHIFT ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+            }
+        }
+        //Ctrl + Cursor Left/Right Arrow
+        if( keysym.mod & KMOD_CTRL ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
@@ -3188,7 +3289,6 @@ void init_term_size_and_scaling_factor()
 
         terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
         terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
-
 
         get_options().get_option( "TERMINAL_X" ).setValue(
             std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );

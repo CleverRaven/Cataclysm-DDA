@@ -568,6 +568,10 @@ bool player::create( character_type type, const std::string &tempname )
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
+        if( it.has_flag( "WET" ) ) {
+            it.active = true;
+            it.item_counter = 450; // Give it some time to dry off
+        }
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it.has_flag( "no_auto_equip" ) ) {
             it.unset_flag( "no_auto_equip" );
@@ -575,10 +579,6 @@ bool player::create( character_type type, const std::string &tempname )
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( it, false );
-        } else if( it.has_flag( "WET" ) ) {
-            it.active = true;
-            it.item_counter = 450; // Give it some time to dry off
-            inv.push_back( it );
         } else {
             inv.push_back( it );
         }
@@ -1674,7 +1674,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
                 recipe_dict.all_autolearn().count( &r ) &&
                 with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
 
-            if( !would_autolearn_recipe &&
+            if( !would_autolearn_recipe && !r.never_learn &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
                 with_prof_skills.has_recipe_requirements( r ) )  {
 
@@ -1745,7 +1745,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             for( auto &prof_skill : u.prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
                     wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)",
-                             int( prof_skill.second ) );
+                             static_cast<int>( prof_skill.second ) );
                     break;
                 }
             }
@@ -2462,7 +2462,7 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    //@todo get rid of using g->u here, use `this` instead
+    // TODO: get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );

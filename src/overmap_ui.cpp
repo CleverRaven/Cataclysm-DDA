@@ -1,15 +1,18 @@
 #include "overmap_ui.h"
 
+#include "basecamp.h"
 #include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
+#include "faction_camp.h"
 #include "game.h"
 #include "input.h"
 #include "line.h"
 #include "map_iterator.h"
 #include "map.h"
 #include "mapbuffer.h"
+#include "messages.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -241,6 +244,44 @@ void draw_city_labels( const catacurses::window &w, const tripoint &center )
     }
 }
 
+void draw_camp_labels( const catacurses::window &w, const tripoint &center )
+{
+    const int win_x_max = getmaxx( w );
+    const int win_y_max = getmaxy( w );
+    const int sm_radius = std::max( win_x_max, win_y_max );
+
+    const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
+
+    for( const auto &element : overmap_buffer.get_camps_near( omt_to_sm_copy( center ), sm_radius ) ) {
+        const point camp_pos( element->camp_omt_pos().x, element->camp_omt_pos().y );
+        const point screen_pos( camp_pos - point( center.x, center.y ) + screen_center_pos );
+        const int text_width = utf8_width( element->name, true );
+        const int text_x_min = screen_pos.x - text_width / 2;
+        const int text_x_max = text_x_min + text_width;
+        const int text_y = screen_pos.y;
+        const std::string camp_name = element->name;
+        if( text_x_min < 0 ||
+            text_x_max > win_x_max ||
+            text_y < 0 ||
+            text_y > win_y_max ) {
+            continue;   // outside of the window bounds.
+        }
+
+        if( screen_center_pos.x >= ( text_x_min - 1 ) &&
+            screen_center_pos.x <= ( text_x_max ) &&
+            screen_center_pos.y >= ( text_y - 1 ) &&
+            screen_center_pos.y <= ( text_y + 1 ) ) {
+            continue;   // right under the cursor.
+        }
+
+        if( !overmap_buffer.seen( camp_pos.x, camp_pos.y, center.z ) ) {
+            continue;   // haven't seen it.
+        }
+
+        mvwprintz( w, text_y, text_x_min, i_white, camp_name );
+    }
+}
+
 point draw_notes( int z )
 {
     const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( z );
@@ -305,7 +346,7 @@ point draw_notes( int z )
             wrefresh( w_notes );
             redraw = false;
         }
-        // @todo: use input context
+        // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         if( ch == '<' && start >= maxitems ) {
             start -= maxitems;
@@ -611,6 +652,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     if( z == 0 && uistate.overmap_show_city_labels ) {
         draw_city_labels( w, tripoint( cursx, cursy, z ) );
+        draw_camp_labels( w, tripoint( cursx, cursy, z ) );
     }
 
     if( has_target && blink &&
@@ -1148,7 +1190,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 } else {
                     uistate.place_special = oslist[pmenu.ret];
                 }
-                // @todo: Unify these things.
+                // TODO: Unify these things.
                 const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() :
                                         uistate.place_special->rotatable;
 
