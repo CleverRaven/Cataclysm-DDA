@@ -472,6 +472,7 @@ class monster : public Creature
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
+        tripoint prev_pos;
         bool dead;
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( const int old_ammo );

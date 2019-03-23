@@ -155,6 +155,7 @@ monster::monster()
     position.x = 20;
     position.y = 10;
     position.z = -500; // Some arbitrary number that will cause debugmsgs
+    prev_pos = tripoint_zero;
     unset_dest();
     wandf = 0;
     hp = 60;
