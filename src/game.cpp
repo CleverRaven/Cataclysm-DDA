@@ -4751,8 +4751,8 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
+        // Critters in impassable tiles get pushed away, unless it's not impassable for them. Impassable property ignored when hidding
+        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) && !critter.has_effect( effect_hidden ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name().c_str()
                            << " can't move to its location! (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
