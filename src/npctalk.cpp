@@ -950,7 +950,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance = condition( d ) ? 100 : 0;
             break;
     }
-    for( auto this_mod : modifiers ) {
+    for( const auto &this_mod : modifiers ) {
         chance += parse_mod( d, this_mod.first, this_mod.second );
     }
 

@@ -1609,7 +1609,7 @@ void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_p
     // which way should our railroads curve, based on neighbor railroads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( railroads_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "railroad" ) {
+        if( !railroads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "railroad" ) {
             continue;
         }
         // n_* contain details about the neighbor being considered

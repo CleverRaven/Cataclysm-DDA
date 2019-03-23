@@ -3095,7 +3095,7 @@ void basecamp::validate_sort_points()
 bool basecamp::set_sort_points( bool reset_pts, bool choose_pts )
 {
     std::vector<tripoint> new_pts;
-    for( std::pair<const std::string, point> sort_pt : sort_point_data ) {
+    for( const std::pair<const std::string, point> &sort_pt : sort_point_data ) {
         tripoint default_pt = omt_pos + sort_pt.second;
         new_pts.push_back( default_pt );
     }

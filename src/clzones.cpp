@@ -904,7 +904,7 @@ void zone_manager::revert_vzones()
             cache_vzones();
         }
     }
-    for( auto zpair : changed_vzones ) {
+    for( const auto &zpair : changed_vzones ) {
         *( zpair.second ) = zpair.first;
     }
     for( auto zone : added_vzones ) {

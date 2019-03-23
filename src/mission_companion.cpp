@@ -380,9 +380,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     auto reset_cur_key_list = [&]() {
         cur_key_list = mission_key.entries[0];
-        for( auto k : mission_key.entries[1] ) {
+        for( const auto &k : mission_key.entries[1] ) {
             bool has = false;
-            for( auto keys : cur_key_list ) {
+            for( const auto &keys : cur_key_list ) {
                 if( k.id == keys.id ) {
                     has = true;
                     break;
@@ -415,13 +415,13 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
-                for( auto k : mission_key.entries[0] ) {
+                for( const auto &k : mission_key.entries[0] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_yellow );
                     }
                 }
                 //dull uncraftable items
-                for( auto k : mission_key.entries[10] ) {
+                for( const auto &k : mission_key.entries[10] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_dark_gray );
                     }
