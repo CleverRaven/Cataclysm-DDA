@@ -1103,20 +1103,22 @@
     "weight": 1
   },
   {
-    "type": "AMMO",
-    "id": "ash",
+    "type": "COMESTIBLE",
+    "id": "chem_acrylamide",
     "category": "chems",
-    "price": 0,
-    "name": "wood ash",
-    "name_plural": "wood ashes",
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "This is almost weightless residue left after the burning of some substance.",
-    "ammo_type": "components",
+    "price": 10,
+    "name": "agar",
+    "name_plural": "acrylamide",
+    "symbol": ";",
+    "quench": -15,
+    "healthy": 0,
+    "fun": -6,
+    "color": "white",
+    "container": "box_small",
+    "description": "This highly carcinogenic white powder can be readily polymerized into a whole bunch of useful water-soluble gels.",
     "material": "powder_nonflam",
     "volume": 0.1,
-    "weight": 1,
-    "count": 100
+    "weight": 1
   },
   {
     "id": "steel_grille",
