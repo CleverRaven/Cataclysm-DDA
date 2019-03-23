@@ -70,8 +70,12 @@
     "id": "tools_electronics",
     "type": "item_group",
     "//": "Portable tools used by electricians and for electronics repair",
-    "items": [ { "group": "tools_common", "prob": 100 }, [ "soldering_iron", 100 ], [ "magnifying_glass", 100 ],
-      [ "voltmeter", 5 ], ]
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "soldering_iron", 100 ],
+      [ "magnifying_glass", 100 ],
+      [ "voltmeter", 100 ]
+    ]
   },
   {
     "id": "tools_entry",
