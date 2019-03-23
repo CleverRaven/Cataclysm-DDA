@@ -2081,6 +2081,7 @@
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT" ],
     "examine_action": "keg",
+    "keg_capacity": 500,
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 18 },
@@ -2889,6 +2890,7 @@
     "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
+    "keg_capacity": 1200,
     "bash": {
       "str_min": 10,
       "str_max": 20,
@@ -3874,6 +3876,8 @@
     "required_str": -1,
     "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT" ],
+    "examine_action": "keg",
+    "keg_capacity": 240,
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },

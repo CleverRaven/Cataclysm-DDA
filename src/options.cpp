@@ -1301,16 +1301,47 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-    add( "ARROW_KEYS_VS_MODIFIERS", "interface",
-         translate_marker( "Behavior for Ctrl/Shift modifiers and arrow keys" ),
-         translate_marker( "Numpad emulation: holding Ctrl picks the first arrow key pressed as a modifier for consecutive arrow presses, combining them into the corresponding numpad keys.  Rotation: allows diagonal movement with cursor keys using CTRL and SHIFT modifiers." ),
-    {
-        { "", translate_marker( "None" ) },
-        { "numpad", translate_marker( "Numpad emulation" ) },
-        { "rotation", translate_marker( "Rotation" ) }
-    },
-    "numpad", COPT_CURSES_HIDE
-       );
+#ifndef __ANDROID__
+    add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
+         translate_marker( "Diagonal movement with cursor keys and modifiers" ),
+         /*
+         Possible modes:
+
+         # None
+
+         # Mode 1: Numpad Emulation
+
+         * Press and keep holding Ctrl
+         * Press and release ↑ to set it as the modifier (until Ctrl is released)
+         * Press and release → to get the move ↑ + → = ↗ i.e. just like pressing and releasing 9
+         * Holding → results in repeated ↗, so just like holding 9
+         * If I press any other direction, they are similarly modified by ↑, both for single presses and while holding.
+
+         # Mode 2: CW/CCW
+
+         * `Shift` + `Cursor Left` -> `7` = `Move Northwest`;
+         * `Shift` + `Cursor Right` -> `3` = `Move Southeast`;
+         * `Shift` + `Cursor Up` -> `9` = `Move Northeast`;
+         * `Shift` + `Cursor Down` -> `1` =  `Move Southwest`.
+
+         and
+
+         * `Ctrl` + `Cursor Left` -> `1` = `Move Southwest`;
+         * `Ctrl` + `Cursor Right` -> `9` = `Move Northeast`;
+         * `Ctrl` + `Cursor Up` -> `7` = `Move Northwest`;
+         * `Ctrl` + `Cursor Down` -> `3` = `Move Southeast`.
+
+         # Mode 3: L/R Tilt
+
+         * `Shift` + `Cursor Left` -> `7` = `Move Northwest`;
+         * `Ctrl` + `Cursor Left` -> `3` = `Move Southeast`;
+         * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
+         * `Ctrl` + `Cursor Right` -> `1` =  `Move Southwest`.
+
+         */
+    translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
+    "none", COPT_CURSES_HIDE );
+#endif
 
     mOptionsSort["interface"]++;
 

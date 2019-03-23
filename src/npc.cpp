@@ -105,6 +105,10 @@ npc::npc()
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
+    for( size_t i = 0; i < 8; i++ ) {
+        direction threat_dir = npc_threat_dir[i];
+        ai_cache.threat_map[ threat_dir ] = 0.0f;
+    }
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -2161,7 +2165,7 @@ epilogue *epilogue::find_epilogue( const std::string &ident )
 void epilogue::random_by_group( std::string group )
 {
     std::vector<epilogue> v;
-    for( auto epi : _all_epilogue ) {
+    for( const auto &epi : _all_epilogue ) {
         if( epi.second.group == group ) {
             v.push_back( epi.second );
         }

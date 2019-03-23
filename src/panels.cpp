@@ -32,7 +32,6 @@
 #include "cursesport.h"
 #endif
 
-
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -49,7 +48,6 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
     toggle = def_toggle;
     default_toggle = def_toggle;
 }
-
 
 // ====================================
 // panels prettify and helper functions
@@ -384,7 +382,7 @@ void decorate_panel( const std::string name, const catacurses::window &w )
     draw_border( w );
 
     static const char *title_prefix = " ";
-    const std::string title = name;
+    const std::string &title = name;
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
@@ -1658,7 +1656,6 @@ void draw_weapon_classic( const player &u, const catacurses::window &w )
         mvwprintz( w, 0, 31, style_color, style );
     }
 
-
     wrefresh( w );
 }
 
@@ -1769,7 +1766,6 @@ panel_manager::panel_manager()
     layouts = initialize_default_panel_layouts();
 }
 
-
 std::vector<window_panel> &panel_manager::get_current_layout()
 {
     auto kv = layouts.find( current_layout_id );
@@ -1780,7 +1776,6 @@ std::vector<window_panel> &panel_manager::get_current_layout()
     current_layout_id = "classic";
     return get_current_layout();
 }
-
 
 const std::string panel_manager::get_current_layout_id() const
 {
@@ -1817,7 +1812,7 @@ void panel_manager::serialize( JsonOut &json )
 
     json.start_array();
 
-    for( auto kv : layouts ) {
+    for( const auto &kv : layouts ) {
         json.start_object();
 
         json.member( "layout_id", kv.first );
@@ -1825,7 +1820,7 @@ void panel_manager::serialize( JsonOut &json )
 
         json.start_array();
 
-        for( auto panel : kv.second ) {
+        for( const auto &panel : kv.second ) {
             json.start_object();
 
             json.member( "name", panel.get_name() );

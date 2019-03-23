@@ -1290,6 +1290,19 @@
   },
   {
     "type": "profession",
+    "ident": "bionic_runner",
+    "name": "Bionic Runner",
+    "description": "You were that kind of sportsman who couldn't get off the track.  You love running, and you enhanced your body to do it even better.  Now there is plenty to run from, but this is your kind of game.",
+    "points": 4,
+    "CBMs": [ "bio_adrenaline", "bio_torsionratchet", "bio_power_storage_mkII", "bio_jointservo" ],
+    "items": {
+      "both": [ "socks", "under_armor_shorts", "under_armor", "tshirt", "shorts", "lowtops", "fanny", "sports_drink" ],
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "bionic_cop",
     "name": "Bionic Police Officer",
     "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",

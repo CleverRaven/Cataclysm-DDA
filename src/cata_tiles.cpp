@@ -1096,7 +1096,6 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 continue;
             }
 
-
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
             if( g->displaying_scent ) {
                 const int scent_value = g->scent.get( {x, y, center.z} );

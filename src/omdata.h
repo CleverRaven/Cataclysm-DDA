@@ -412,7 +412,6 @@ const std::vector<overmap_land_use_code> &get_all();
 
 }
 
-
 namespace overmap_specials
 {
 

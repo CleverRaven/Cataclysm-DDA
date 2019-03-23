@@ -1442,14 +1442,18 @@ static void end_arrow_combo()
  */
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
-    std::string arrow_keys_vs_modifiers = get_option<std::string>( "ARROW_KEYS_VS_MODIFIERS" );
-    if( arrow_keys_vs_modifiers == "numpad" ) {
+
+    const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
+
+    if( diag_mode == "mode1" ) {
         if( keysym.mod & KMOD_CTRL && sdl_keycode_is_arrow( keysym.sym ) ) {
             return handle_arrow_combo( keysym.sym );
         } else {
             end_arrow_combo();
         }
-    } else if( arrow_keys_vs_modifiers == "rotation" ) {
+    }
+
+    if( diag_mode == "mode2" ) {
         //Shift + Cursor Arrow (diagonal clockwise)
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
@@ -1478,6 +1482,26 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
         }
     }
 
+    if( diag_mode == "mode3" ) {
+        //Shift + Cursor Left/RightArrow
+        if( keysym.mod & KMOD_SHIFT ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+            }
+        }
+        //Ctrl + Cursor Left/Right Arrow
+        if( keysym.mod & KMOD_CTRL ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
@@ -3265,7 +3289,6 @@ void init_term_size_and_scaling_factor()
 
         terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
         terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
-
 
         get_options().get_option( "TERMINAL_X" ).setValue(
             std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );

@@ -5472,8 +5472,7 @@ void map::add_camp( const tripoint &p, const std::string &name )
     tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
     basecamp temp_camp = basecamp( name, omt_tri );
     get_submap_at( p )->camp = temp_camp;
-    basecamp *pointer_camp;
-    pointer_camp = &get_submap_at( p )->camp;
+    basecamp *pointer_camp = &get_submap_at( p )->camp;
     overmap_buffer.add_camp( pointer_camp );
     g->u.camps.insert( omt_tri );
     g->validate_camps();

@@ -3054,7 +3054,6 @@ static void perform_zone_activity_turn( player *p,
     p->activity.set_to_null();
 }
 
-
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
     auto reject_tile = [p]( const tripoint & tile ) {
@@ -3110,7 +3109,6 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     auto have_fertilizer = [&]() {
         return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
     };
-
 
     auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
@@ -3191,7 +3189,6 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             iexamine::plant_seed( p, tile_loc, it->typeId() );
         }
     };
-
 
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
