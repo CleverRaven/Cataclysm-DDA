@@ -167,7 +167,6 @@ struct talk_effect_t {
         dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
 };
 
-
 /**
  * This defines possible responses from the player character.
  */

@@ -1220,7 +1220,6 @@ void vehicle::open_all_at( int p )
     }
 }
 
-
 /**
  * Opens or closes an openable part at the specified index based on the @opening value passed.
  * If it's a multipart, opens or closes all attached parts as well.
@@ -1314,7 +1313,7 @@ void vehicle::use_bike_rack( int part )
     std::vector<int> carried_parts;
     std::vector<int> carry_rack;
     bool found_vehicle = false;
-    for( auto rack_parts : racks_parts ) {
+    for( const auto &rack_parts : racks_parts ) {
         for( auto rack_part : rack_parts ) {
             // skip parts that aren't carrying anything
             if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {

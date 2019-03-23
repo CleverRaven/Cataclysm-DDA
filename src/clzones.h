@@ -117,7 +117,6 @@ class plot_options : public zone_options, public mark_option
         void deserialize( JsonObject &jo_zone ) override;
 };
 
-
 /**
  * These are zones the player can designate.
  */

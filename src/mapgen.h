@@ -226,7 +226,7 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_x_y );
+        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_y );
 
         bool check_bounds( const jmapgen_place place, JsonObject &jso );
 

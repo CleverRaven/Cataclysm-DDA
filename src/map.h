@@ -1620,7 +1620,7 @@ class tinymap : public map
         friend class editmap;
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
-        bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint &p ) const override;
 };
 
 #endif

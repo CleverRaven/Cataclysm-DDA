@@ -135,7 +135,6 @@ struct liquid_dest_opt {
     vehicle *veh = nullptr;
 };
 
-
 enum peek_act : int {
     PA_BLIND_THROW
     // obvious future additional value is PA_BLIND_FIRE
@@ -966,12 +965,12 @@ class game
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
-        void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
-        void reload( item_location &loc, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
+        void reload( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );

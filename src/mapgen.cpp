@@ -174,8 +174,26 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     }
 
     const auto &spawns = terrain_type->get_static_spawns();
-    if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
-        int pop = rng( spawns.population.min, spawns.population.max );
+
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( spawns.group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    // Apply a multiplier to the number of monsters for really high densities.
+    float odds_after_density = spawns.chance * spawn_density;
+    const float max_odds = 100 - ( 100 - spawns.chance ) / 2;
+    float density_multiplier = 1.0f;
+    if( odds_after_density > max_odds ) {
+        density_multiplier = 1.0f * odds_after_density / max_odds;
+        odds_after_density = max_odds;
+    }
+    const int spawn_count = roll_remainder( density_multiplier );
+
+    if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+        int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
             if( !spawn_details.name ) {
@@ -754,6 +772,56 @@ class jmapgen_sign : public jmapgen_piece
             replace_city_tag( signtext, cityname );
             replace_name_tags( signtext );
             return signtext;
+        }
+};
+/**
+ * Place graffiti with some text or a snippet.
+ * "text": the text of the graffiti.
+ * "snippet": snippet category to pull from for text instead.
+ */
+class jmapgen_graffiti : public jmapgen_piece
+{
+    public:
+        std::string text;
+        std::string snippet;
+        jmapgen_graffiti( JsonObject &jsi ) : jmapgen_piece()
+            , text( jsi.get_string( "text", "" ) )
+            , snippet( jsi.get_string( "snippet", "" ) ) {
+            if( text.empty() && snippet.empty() ) {
+                jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mon_density*/ ) const override {
+            const int rx = x.get();
+            const int ry = y.get();
+
+            std::string graffiti;
+
+            if( !snippet.empty() ) {
+                // select a snippet from the category
+                graffiti = SNIPPET.get( SNIPPET.assign( snippet ) );
+            } else if( !text.empty() ) {
+                graffiti = text;
+            }
+            if( !graffiti.empty() ) {
+                // replace tags
+                graffiti = _( graffiti.c_str() );
+
+                std::string cityname = "illegible city name";
+                tripoint abs_sub = dat.m.get_abs_sub();
+                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                if( c != nullptr ) {
+                    cityname = c->name;
+                }
+                graffiti = apply_all_tags( graffiti, cityname );
+            }
+            dat.m.set_graffiti( tripoint( rx, ry, dat.m.get_abs_sub().z ), graffiti );
+        }
+        std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
+            replace_city_tag( graffiti, cityname );
+            replace_name_tags( graffiti );
+            return graffiti;
         }
 };
 /**
@@ -1864,6 +1932,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
+    new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
 
     return new_pal;
 }
@@ -2022,6 +2091,7 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
     objects.load_objects<jmapgen_computer>( jo, "place_computers" );
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
+    objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
 
     is_ready = true; // skip setup attempts from any additional pointers
 }
@@ -6603,7 +6673,14 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         return;
     }
 
-    float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    float multiplier = density * spawn_density;
     float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
     int num = roll_remainder( thenum );
 

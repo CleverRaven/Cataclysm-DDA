@@ -47,7 +47,6 @@ data/json/items/software.json
 data/json/items/tool_armor.json
 data/json/items/tool/lighting.json
 data/json/items/vehicle_parts.json
-data/json/lab_notes.json
 data/json/mapgen/abandoned01.json
 data/json/mapgen/apartment_con.json
 data/json/mapgen/apartment_mod.json
@@ -144,7 +143,6 @@ data/json/monsters/military.json
 data/json/monsters/zed_children.json
 data/json/monsters/zed_explosive.json
 data/json/mutation_category.json
-data/json/mutation_ordering.json
 data/json/mutations.json
 data/json/npcs/classes.json
 data/json/npcs/epilogues.json
@@ -180,7 +178,6 @@ data/json/npcs/talk_tags.json
 data/json/overmap/multitile_buildings_terrain.json
 data/json/overmap/specials.json
 data/json/overmap_connections.json
-data/json/overmap_locations.json
 data/json/recipes/ammo/pistol.json
 data/json/recipes/ammo/rifle.json
 data/json/recipes/armor/arms.json
@@ -212,12 +209,10 @@ data/json/recipes/weapon/mods.json
 data/json/recipes/weapon/piercing.json
 data/json/recipes/weapon/ranged.json
 data/json/requirements/ammo.json
-data/json/road_vehicles.json
 data/json/snippets.json
 data/json/species.json
 data/json/speech.json
 data/json/techniques.json
-data/json/traps.json
 data/json/tutorial.json
 data/json/uncraft/ammo/38.json
 data/json/uncraft/ammo/40.json
@@ -247,9 +242,6 @@ data/json/vehicles/military.json
 data/json/vehicles/trucks.json
 data/json/vehicles/utility.json
 data/json/vehicles/vans_busses.json
-data/legacy/1/obsolete.json
-data/legacy/4/boots.json
-data/legacy/5/vehicle_parts.json
 data/mods/Animatronics/animatronics.json
 data/mods/Animatronics/bankrupt_pizzeria.json
 data/mods/Animatronics/dead_animatronics.json

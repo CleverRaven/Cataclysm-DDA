@@ -249,8 +249,6 @@ game::game() :
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( 16 ),
-    wind_direction_override(),
-    windspeed_override(),
     weather_override( WEATHER_NULL ),
     displaying_scent( false )
 
@@ -2001,7 +1999,15 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
+
+        if( oThisItem.is_favorite ) {
+            addentry( 'f', pgettext( "action", "unfavorite" ), HINT_GOOD );
+        } else {
+            addentry( 'f', pgettext( "action", "favorite" ), HINT_GOOD );
+        }
+
         addentry( '=', pgettext( "action", "reassign" ), HINT_GOOD );
+
         if( bHPR ) {
             addentry( '-', _( "Autopickup" ), HINT_IFFY );
         } else {
@@ -2105,6 +2111,9 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     break;
                 case 'D':
                     u.disassemble( pos );
+                    break;
+                case 'f':
+                    oThisItem.is_favorite = !oThisItem.is_favorite;
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, u.i_at( pos ) );
@@ -3599,7 +3608,6 @@ void game::draw_panels( size_t column, size_t index )
         mgr.draw_adm( w_panel_adm, column, index );
     }
 }
-
 
 void game::draw_pixel_minimap( const catacurses::window &w )
 {
@@ -7893,7 +7901,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, 0, BORDER_COLOR, LINE_XOXO ); // |
     mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, width - 1, BORDER_COLOR, LINE_XOXO ); // |
 
-
     mvwprintz( w_monsters_border, 0, 2, c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
@@ -9305,7 +9312,7 @@ void game::reload( int pos, bool prompt )
     reload( loc, prompt );
 }
 
-void game::reload( item_location &loc, bool prompt )
+void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
     bool use_loc = true;
@@ -9372,7 +9379,7 @@ void game::reload( item_location &loc, bool prompt )
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
                               item::reload_option( &u, it, it, u.ammo_location.clone() ) :
-                              u.select_ammo( *it, prompt );
+                              u.select_ammo( *it, prompt, empty );
 
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
@@ -9387,39 +9394,76 @@ void game::reload( item_location &loc, bool prompt )
     refresh_all();
 }
 
-void game::reload()
+void game::reload( bool try_everything )
 {
-    // general reload item menu will popup if:
-    // - user is unarmed;
-    // - weapon wielded can't be reloaded (bows can, they just reload before shooting automatically)
-    // - weapon wielded reloads before shooting (like bows)
-    if( !u.is_armed() || !u.can_reload( u.weapon ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
-        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        turret_data turret;
-        if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
-            if( opt ) {
-                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-                g->u.activity.targets.emplace_back( turret.base() );
-                g->u.activity.targets.push_back( std::move( opt.ammo ) );
-            }
+    // As a special streamlined activity, hitting reload repeatedly should:
+    // Reload wielded gun
+    // First reload a magazine if necessary.
+    // Then load said magazine into gun.
+    // Reload magazines that are compatible with the current gun.
+    // Reload other guns in inventory.
+    // Reload misc magazines in inventory.
+    std::vector<item_location> reloadables = u.find_reloadables();
+    std::sort( reloadables.begin(), reloadables.end(),
+    [this]( const item_location & a, const item_location & b ) {
+        const item *ap = a.get_item();
+        const item *bp = b.get_item();
+        // Current wielded weapon comes first.
+        if( this->u.is_wielding( *ap ) ) {
+            return true;
+        }
+        if( this->u.is_wielding( *bp ) ) {
+            return false;
+        }
+        // Second sort by afiliation with wielded gun
+        const std::set<itype_id> compatible_magazines = this->u.weapon.magazine_compatible();
+        const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
+        const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
+        if( mag_ap != mag_bp ) {
+            return mag_ap;
+        }
+        // Third sort by gun vs magazine,
+        if( ap->is_gun() != bp->is_gun() ) {
+            return ap->is_gun();
+        }
+        // Finally sort by speed to reload.
+        return ( ap->get_reload_time() * ( ap->ammo_capacity() - ap->ammo_remaining() ) ) <
+               ( bp->get_reload_time() * ( bp->ammo_capacity() - bp->ammo_remaining() ) );
+    } );
+    for( item_location &candidate : reloadables ) {
+        std::vector<item::reload_option> ammo_list;
+        u.list_ammo( *candidate.get_item(), ammo_list, false );
+        if( !ammo_list.empty() ) {
+            reload( candidate, false, false );
             return;
         }
-
-        item_location item_loc = inv_map_splice( [&]( const item & it ) {
-            return u.rate_action_reload( it ) == HINT_GOOD;
-        }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
-
-        if( !item_loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        reload( item_loc );
-
-    } else {
-        reload( -1 );
     }
+    // Just for testing, bail out here to avoid unwanted side effects.
+    if( !try_everything ) {
+        return;
+    }
+    // If we make it here and haven't found anything to reload, start looking elsewhere.
+    vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
+    turret_data turret;
+    if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
+        item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+        if( opt ) {
+            g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+            g->u.activity.targets.emplace_back( turret.base() );
+            g->u.activity.targets.push_back( std::move( opt.ammo ) );
+        }
+        return;
+    }
+    item_location item_loc = inv_map_splice( [&]( const item & it ) {
+        return u.rate_action_reload( it ) == HINT_GOOD;
+    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    reload( item_loc );
 }
 
 // Unload a container, gun, or tool
@@ -10338,7 +10382,6 @@ void game::place_player( const tripoint &dest_loc )
     }
 
 
-
     // If we moved out of the nonant, we need update our map data
     if( m.has_flag( "SWIMMABLE", dest_loc ) && u.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
@@ -10815,6 +10858,13 @@ void game::on_move_effects()
     if( u.lifetime_stats.squares_walked % 160 == 0 ) {
         if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power( 1 );
+        }
+    }
+    if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        if( u.move_mode == "run" ) {
+            u.charge_power( -20 );
+        } else {
+            u.charge_power( -10 );
         }
     }
 

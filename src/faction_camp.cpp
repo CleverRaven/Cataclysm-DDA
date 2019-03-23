@@ -2636,7 +2636,6 @@ bool basecamp::om_upgrade( const std::string &next_upgrade, const tripoint &upos
     return true;
 }
 
-
 int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, true, false );
@@ -3096,7 +3095,7 @@ void basecamp::validate_sort_points()
 bool basecamp::set_sort_points( bool reset_pts, bool choose_pts )
 {
     std::vector<tripoint> new_pts;
-    for( std::pair<const std::string, point> sort_pt : sort_point_data ) {
+    for( const std::pair<const std::string, point> &sort_pt : sort_point_data ) {
         tripoint default_pt = omt_pos + sort_pt.second;
         new_pts.push_back( default_pt );
     }
