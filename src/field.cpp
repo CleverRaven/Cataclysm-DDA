@@ -855,7 +855,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         dirty_transparency_cache = true;
                         break;
 
-                    // TODO-MATERIALS: use fire resistance
+                    // TODO: MATERIALS use fire resistance
                     case fd_fire: {
                         // Entire objects for ter/frn for flags
                         const auto &ter = map_tile.get_ter_t();
@@ -1458,9 +1458,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         p->check_dead_state();
                                     } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
-                                        if( g->u.sees( newp ) )
+                                        if( g->u.sees( newp ) ) {
                                             add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname().c_str(),
                                                      mon->name().c_str() );
+                                        }
                                         mon->check_dead_state();
                                     }
                                 }
@@ -1964,7 +1965,7 @@ void map::player_in_field( player &u )
                 float rads = rng( cur.getFieldDensity(),
                                   cur.getFieldDensity() * ( cur.getFieldDensity() + 1 ) );
                 bool rad_proof = !u.irradiate( rads );
-                //TODO: Reduce damage for rad resistant?
+                // TODO: Reduce damage for rad resistant?
                 if( cur.getFieldDensity() == 3 && !rad_proof ) {
                     u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
                     u.hurtall( rng( 1, 3 ), nullptr );
@@ -2201,7 +2202,7 @@ void map::monster_in_field( monster &z )
                 }
                 break;
 
-            // MATERIALS-TODO: Use fire resistance
+            // TODO: MATERIALS Use fire resistance
             case fd_fire:
                 if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
@@ -2319,7 +2320,7 @@ void map::monster_in_field( monster &z )
                 }
                 break;
 
-            // MATERIALS-TODO: Use fire resistance
+            // TODO: MATERIALS Use fire resistance
             case fd_flame_burst:
                 if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
@@ -2372,7 +2373,7 @@ void map::monster_in_field( monster &z )
                 break;
 
             case fd_incendiary:
-                // MATERIALS-TODO: Use fire resistance
+                // TODO: MATERIALS Use fire resistance
                 if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
                     return;
                 }
@@ -2470,7 +2471,7 @@ time_duration field_entry::getFieldAge() const
 field_id field_entry::setFieldType( const field_id new_field_id )
 {
 
-    //TODO: Better bounds checking.
+    // TODO: Better bounds checking.
     if( new_field_id >= 0 && new_field_id < num_fields ) {
         type = new_field_id;
     } else {

@@ -8,7 +8,6 @@
 #include <sstream>
 
 #include "ammo.h"
-#include "catalua.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -175,8 +174,26 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     }
 
     const auto &spawns = terrain_type->get_static_spawns();
-    if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
-        int pop = rng( spawns.population.min, spawns.population.max );
+
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( spawns.group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    // Apply a multiplier to the number of monsters for really high densities.
+    float odds_after_density = spawns.chance * spawn_density;
+    const float max_odds = 100 - ( 100 - spawns.chance ) / 2;
+    float density_multiplier = 1.0f;
+    if( odds_after_density > max_odds ) {
+        density_multiplier = 1.0f * odds_after_density / max_odds;
+        odds_after_density = max_odds;
+    }
+    const int spawn_count = roll_remainder( density_multiplier );
+
+    if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+        int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
             if( !spawn_details.name ) {
@@ -209,14 +226,6 @@ void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, con
                                         const time_point &t, float d )
 {
     ( *fptr )( m, terrain_type, mgd, t, d );
-
-    const std::string mapgen_generator_type = "builtin";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +247,7 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
-void calculate_mapgen_weights()   // @todo: rename as it runs jsonfunction setup too
+void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
     oter_mapgen_weights.clear();
     for( auto &omw : oter_mapgen ) {
@@ -322,29 +331,6 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
             }
-        } else if( mgtype == "lua" ) { // lua script
-            if( jio.has_string( "script" ) ) { // minified into one\nline
-                const std::string mgscript = jio.get_string( "script" );
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-            } else if( jio.has_array( "script" ) ) { // or 1 line per entry array
-                std::string mgscript;
-                JsonArray jascr = jio.get_array( "script" );
-                while( jascr.has_more() ) {
-                    mgscript += jascr.next_string();
-                    mgscript += "\n";
-                }
-                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret );
-                // @todo: pass dirname current.json, because the latter two are icky
-                // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).",
-                          id_base.c_str() );
-            }
-#ifndef LUA
-            dbg( D_ERROR ) << "oter_t " << id_base << ": mapgen entry requires a build with LUA=1.";
-#endif
         } else if( mgtype == "json" ) {
             if( jio.has_object( "object" ) ) {
                 JsonObject jo = jio.get_object( "object" );
@@ -358,7 +344,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
             debugmsg( "oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
         }
     } else {
-        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").",
+        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\" or \"json\").",
                   id_base.c_str() );
     }
     return ret;
@@ -641,9 +627,9 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
                     //Suppress warnings
                     break;
             }
-            tmp_i.valmax = tmp_i.val; // @todo: ... support for random furniture? or not.
+            tmp_i.valmax = tmp_i.val; // TODO: ... support for random furniture? or not.
         }
-        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // @todo: sanity check?
+        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // TODO: sanity check?
         pjo.read( "chance", tmp_chance );
         pjo.read( "rotation", tmp_rotation );
         pjo.read( "fuel", tmp_fuel );
@@ -789,6 +775,56 @@ class jmapgen_sign : public jmapgen_piece
         }
 };
 /**
+ * Place graffiti with some text or a snippet.
+ * "text": the text of the graffiti.
+ * "snippet": snippet category to pull from for text instead.
+ */
+class jmapgen_graffiti : public jmapgen_piece
+{
+    public:
+        std::string text;
+        std::string snippet;
+        jmapgen_graffiti( JsonObject &jsi ) : jmapgen_piece()
+            , text( jsi.get_string( "text", "" ) )
+            , snippet( jsi.get_string( "snippet", "" ) ) {
+            if( text.empty() && snippet.empty() ) {
+                jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mon_density*/ ) const override {
+            const int rx = x.get();
+            const int ry = y.get();
+
+            std::string graffiti;
+
+            if( !snippet.empty() ) {
+                // select a snippet from the category
+                graffiti = SNIPPET.get( SNIPPET.assign( snippet ) );
+            } else if( !text.empty() ) {
+                graffiti = text;
+            }
+            if( !graffiti.empty() ) {
+                // replace tags
+                graffiti = _( graffiti.c_str() );
+
+                std::string cityname = "illegible city name";
+                tripoint abs_sub = dat.m.get_abs_sub();
+                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                if( c != nullptr ) {
+                    cityname = c->name;
+                }
+                graffiti = apply_all_tags( graffiti, cityname );
+            }
+            dat.m.set_graffiti( tripoint( rx, ry, dat.m.get_abs_sub().z ), graffiti );
+        }
+        std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
+            replace_city_tag( graffiti, cityname );
+            replace_name_tags( graffiti );
+            return graffiti;
+        }
+};
+/**
  * Place a vending machine with content.
  * "item_group": the item group that is used to generate the content of the vending machine.
  */
@@ -909,6 +945,7 @@ class jmapgen_liquid_item : public jmapgen_piece
  * Place items from an item group.
  * "item": id of the item group.
  * "chance": chance of items being placed, see @ref map::place_items
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_item_group : public jmapgen_piece
 {
@@ -921,6 +958,7 @@ class jmapgen_item_group : public jmapgen_piece
             if( !item_group::group_is_defined( group_id ) ) {
                 jsi.throw_error( "no such item group", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -1131,6 +1169,7 @@ class jmapgen_vehicle : public jmapgen_piece
  * "item": id of item type to spawn.
  * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
  * "amount": amount of items to spawn.
+ * "repeat": number of times to apply this piece
  */
 class jmapgen_spawn_item : public jmapgen_piece
 {
@@ -1145,6 +1184,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             if( !item::type_is_defined( type ) ) {
                 jsi.throw_error( "no such item type", "item" );
             }
+            repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/ ) const override {
@@ -1217,7 +1257,7 @@ class jmapgen_terrain : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/ ) const override {
             dat.m.ter_set( x.get(), y.get(), id );
-            // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
+            // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( "WALL", x.get(), y.get() ) ) {
                 dat.m.furn_set( x.get(), y.get(), f_null );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
@@ -1375,7 +1415,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                         return;
                     }
 
-                    /// @todo: Somehow check that the item group always produces exactly one seed.
+                    /// TODO: Somehow check that the item group always produces exactly one seed.
                 }
             }
         }
@@ -1563,12 +1603,12 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
-            where.repeat.val = std::max( int( where.repeat.val * rate ), 1 );
-            where.repeat.valmax = std::max( int( where.repeat.valmax * rate ), 1 );
+            where.repeat.val = std::max( static_cast<int>( where.repeat.val * rate ), 1 );
+            where.repeat.valmax = std::max( static_cast<int>( where.repeat.valmax * rate ), 1 );
 
         } else if( loot->chance != 100 ) {
             // otherwise except where chance is 100% scale probability
-            loot->chance = std::max( std::min( int( loot->chance * rate ), 100 ), 1 );
+            loot->chance = std::max( std::min( static_cast<int>( loot->chance * rate ), 100 ), 1 );
         }
 
         add( where, loot );
@@ -1667,9 +1707,40 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
                     // Using the json object here adds nice formatting and context information
                     jarr.throw_error( err.what() );
                 }
-            } else {
+            } else if( jarr.test_object() ) {
                 JsonObject jsi = jarr.next_object();
                 alter->alternatives.emplace_back( jsi );
+            } else if( jarr.test_array() ) {
+                // If this is an array, it means it is an entry followed by a desired total count of instances.
+                JsonArray piece_and_count_jarr = jarr.next_array();
+                if( piece_and_count_jarr.size() != 2 ) {
+                    piece_and_count_jarr.throw_error( "Array must have exactly two entries: the object, then the count." );
+                }
+
+                // Test if this is a string or object, and then just emplace it.
+                if( piece_and_count_jarr.test_string() ) {
+                    try {
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next_string() );
+                    } catch( const std::runtime_error &err ) {
+                        piece_and_count_jarr.throw_error( err.what() );
+                    }
+                } else if( piece_and_count_jarr.test_object() ) {
+                    JsonObject jsi = piece_and_count_jarr.next_object();
+                    alter->alternatives.emplace_back( jsi );
+                } else {
+                    piece_and_count_jarr.throw_error( "First entry must be a string or object." );
+                }
+
+                if( piece_and_count_jarr.test_int() ) {
+                    // We already emplaced the first instance, so do one less.
+                    int repeat = std::max( 0, piece_and_count_jarr.next_int() - 1 );
+                    PieceType piece_to_repeat = alter->alternatives.back();
+                    for( int i = 0; i < repeat; i++ ) {
+                        alter->alternatives.emplace_back( piece_to_repeat );
+                    }
+                } else {
+                    piece_and_count_jarr.throw_error( "Second entry must be an integer." );
+                }
             }
         }
         vect.push_back( alter );
@@ -1860,6 +1931,8 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
     new_pal.load_place_mapings<jmapgen_sealed_item>( jo, "sealed_item", format_placings );
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
+    new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
+    new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
 
     return new_pal;
 }
@@ -1874,17 +1947,6 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
     // something akin to mapgen fill_background.
     if( jo.has_string( "fill_ter" ) ) {
         fill_ter = ter_str_id( jo.get_string( "fill_ter" ) ).id();
-    }
-
-    if( jo.has_string( "lua" ) ) { // minified into one\nline
-        luascript = jo.get_string( "lua" );
-    } else if( jo.has_array( "lua" ) ) { // or 1 line per entry array
-        luascript.clear();
-        JsonArray jascr = jo.get_array( "lua" );
-        while( jascr.has_more() ) {
-            luascript += jascr.next_string();
-            luascript += "\n";
-        }
     }
 
     if( jo.has_member( "rotation" ) ) {
@@ -1999,7 +2061,7 @@ void mapgen_function_json_base::setup_common()
     // No fill_ter? No format? GTFO.
     if( ! qualifies ) {
         jo.throw_error( "  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)" );
-        // @todo: write TFM.
+        // TODO: write TFM.
     }
 
     if( jo.has_array( "set" ) ) {
@@ -2029,6 +2091,7 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
     objects.load_objects<jmapgen_computer>( jo, "place_computers" );
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
+    objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
 
     is_ready = true; // skip setup attempts from any additional pointers
 }
@@ -2092,7 +2155,7 @@ void jmapgen_objects::check( const std::string &oter_name ) const
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
- * @todo: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
+ * TODO: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
 bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const
 {
@@ -2231,7 +2294,7 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int off
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md,
-                                     const time_point &t, float d )
+                                     const time_point &, float d )
 {
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
@@ -2241,9 +2304,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     }
     for( auto &elem : setmap_points ) {
         elem.apply( md, 0, 0 );
-    }
-    if( ! luascript.empty() ) {
-        lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
     place_stairs( m, terrain_type, md );
@@ -2255,14 +2315,6 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     if( terrain_type->is_rotatable() ) {
         mapgen_rotate( m, terrain_type, false );
     }
-
-    const std::string mapgen_generator_type = "json";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y,
@@ -2290,7 +2342,9 @@ void jmapgen_objects::apply( const mapgendata &dat, float density ) const
     for( auto &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
@@ -2310,52 +2364,13 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
         auto where = obj.first;
         where.offset( -offset_x, -offset_y );
         const auto &what = *obj.second;
-        const int repeat = where.repeat.get();
+        // The user will only specify repeat once in JSON, but it may get loaded both
+        // into the what and where in some cases--we just need the greater value of the two.
+        const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
             what.apply( dat, where.x, where.y, density );
         }
     }
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-///// lua mapgen functions
-// wip: need more bindings. Basic stuff works
-
-#ifndef LUA
-int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &mgd, const time_point &t,
-                float d, const std::string & )
-{
-    mapgen_crater( m, terrain_type, mgd, to_turn<int>( t ), d );
-    mapf::formatted_set_simple( m, 0, 6,
-                                "\
-    *   *  ***\n\
-    **  * *   *\n\
-    * * * *   *\n\
-    *  ** *   *\n\
-    *   *  ***\n\
-\n\
- *     *   *   *\n\
- *     *   *  * *\n\
- *     *   *  ***\n\
- *     *   * *   *\n\
- *****  ***  *   *\n\
-", mapf::ter_bind( "*", t_paper ), mapf::furn_bind( "*", f_null ) );
-    return 0;
-}
-#endif
-
-void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
-                                    const time_point &t, float d )
-{
-    lua_mapgen( m, terrain_type, mgd, t, d, scr );
-
-    const std::string mapgen_generator_type = "lua";
-    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
-    CallbackArgumentContainer lua_callback_args_info;
-    lua_callback_args_info.emplace_back( mapgen_generator_type );
-    lua_callback_args_info.emplace_back( terrain_type.id().str() );
-    lua_callback_args_info.emplace_back( terrain_tripoint );
-    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////
@@ -2428,7 +2443,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         fmapit->second[fidx]->generate( this, terrain_type, dat, when, density );
-        // @todo: make these json or mappable functions
+        // TODO: make these json or mappable functions
     } else if( terrain_type == "office_tower_1_entrance" ) {
 
         dat.fill_groundcover();
@@ -4061,202 +4076,6 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set( i, j, t_thconc_floor_olight );
                         }
                     }
-                }
-            }
-        }
-
-    } else if( terrain_type == "outpost" ) {
-
-        dat.fill_groundcover();
-
-        line( this, t_chainfence,            0,            0, SEEX * 2 - 1,            0 );
-        line( this, t_chaingate_l,            11,            0,           12,            0 );
-        line( this, t_chainfence,            0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1 );
-        line( this, t_chaingate_l,            11, SEEY * 2 - 1,           12, SEEY * 2 - 1 );
-        line( this, t_chainfence,            0,            0,            0, SEEX * 2 - 1 );
-        line( this, t_chaingate_l,             0,           11,            0,           12 );
-        line( this, t_chainfence, SEEX * 2 - 1,            0, SEEX * 2 - 1, SEEY * 2 - 1 );
-        line( this, t_chaingate_l,  SEEX * 2 - 1,           11, SEEX * 2 - 1,           12 );
-        // Place some random buildings
-
-        bool okay = true;
-        while( okay ) {
-            int buildx = rng( 6, 17 ), buildy = rng( 6, 17 );
-            int buildwidthmax  = ( buildx <= 11 ? buildx - 3 : 20 - buildx ),
-                buildheightmax = ( buildy <= 11 ? buildy - 3 : 20 - buildy );
-            int buildwidth = rng( 3, buildwidthmax ), buildheight = rng( 3, buildheightmax );
-            if( !dat.is_groundcover( ter( buildx, buildy ) ) ) {
-                okay = false;
-            } else {
-                int bx1 = buildx - buildwidth, bx2 = buildx + buildwidth,
-                    by1 = buildy - buildheight, by2 = buildy + buildheight;
-                bool overlap = false;
-                for( int x = bx1; x <= bx2 && !overlap; x++ ) {
-                    for( int y = by1; y <= by2 && !overlap; y++ ) {
-                        if( !dat.is_groundcover( ter( x, y ) ) ) {
-                            overlap = true;
-                        }
-                    }
-                }
-                if( overlap ) {
-                    continue;
-                }
-                square( this, t_floor, bx1, by1, bx2, by2 );
-                line( this, t_concrete_wall, bx1, by1, bx2, by1 );
-                line( this, t_concrete_wall, bx1, by2, bx2, by2 );
-                line( this, t_concrete_wall, bx1, by1, bx1, by2 );
-                line( this, t_concrete_wall, bx2, by1, bx2, by2 );
-                switch( rng( 1, 3 ) ) { // What type of building?
-                    case 1: // Barracks
-                        for( int i = by1 + 1; i <= by2 - 1; i += 2 ) {
-                            line_furn( this, f_bed, bx1 + 1, i, bx1 + 2, i );
-                            line_furn( this, f_bed, bx2 - 2, i, bx2 - 1, i );
-                            place_items( "bed", 50, bx1 + 1, i, bx1 + 2, i, false, 0 );
-                            place_items( "bed", 50, bx2 - 2, i, bx2 - 1, i, false, 0 );
-                        }
-                        place_items( "bedroom", 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0 );
-                        place_items( "book_military", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0 );
-                        break;
-                    case 2: // Armory
-                        line_furn( this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1 );
-                        line_furn( this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1 );
-                        line_furn( this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2 );
-                        line_furn( this, f_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2 );
-                        place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
-                        place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                        place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                        place_items( "guns_launcher_milspec", 40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0 );
-                        place_items( "grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0 );
-                        place_items( "mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0 );
-                        break;
-                    case 3: // Supplies
-                        for( int i = by1 + 1; i <= by2 - 1; i += 3 ) {
-                            line_furn( this, f_rack, bx1 + 2, i, bx2 - 2, i );
-                            place_items( "mil_food", 78, bx1 + 2, i, bx2 - 2, i, false, 0 );
-                        }
-                        break;
-                }
-                std::vector<direction> doorsides;
-                if( bx1 > 3 ) {
-                    doorsides.push_back( WEST );
-                }
-                if( bx2 < 20 ) {
-                    doorsides.push_back( EAST );
-                }
-                if( by1 > 3 ) {
-                    doorsides.push_back( NORTH );
-                }
-                if( by2 < 20 ) {
-                    doorsides.push_back( SOUTH );
-                }
-                int doorx = 0;
-                int doory = 0;
-                switch( random_entry( doorsides ) ) {
-                    case WEST:
-                        doorx = bx1;
-                        doory = rng( by1 + 1, by2 - 1 );
-                        break;
-                    case EAST:
-                        doorx = bx2;
-                        doory = rng( by1 + 1, by2 - 1 );
-                        break;
-                    case NORTH:
-                        doorx = rng( bx1 + 1, bx2 - 1 );
-                        doory = by1;
-                        break;
-                    case SOUTH:
-                        doorx = rng( bx1 + 1, bx2 - 1 );
-                        doory = by2;
-                        break;
-                    default:
-                        break;
-                }
-                for( int i = doorx - 1; i <= doorx + 1; i++ ) {
-                    for( int j = doory - 1; j <= doory + 1; j++ ) {
-                        i_clear( i, j );
-                        if( furn( i, j ) == f_bed || furn( i, j ) == f_rack || furn( i, j ) == f_counter ) {
-                            furn_set( i, j, f_null );
-                        }
-                    }
-                }
-                for( int i = -1; i <= +1; i += 2 ) {
-                    // Wall from another room, make a double door, doesn't look nice,
-                    // but is better than a door leading into wall. Original:
-                    // ---     -+-
-                    // -+- ==> -+-
-                    // ...     ...
-                    if( ter( doorx + i, doory ) == t_concrete_wall && ter( doorx - i, doory ) == t_floor ) {
-                        ter_set( doorx + i, doory, t_door_c );
-                    }
-                    if( ter( doorx, doory + i ) == t_concrete_wall && ter( doorx, doory - i ) == t_floor ) {
-                        ter_set( doorx, doory + i, t_door_c );
-                    }
-                }
-                ter_set( doorx, doory, t_door_c );
-            }
-        }
-
-        // Place turrets by (possible) entrances
-        add_spawn( mon_turret_rifle, 1,  1, 11 );
-        add_spawn( mon_turret_rifle, 1,  1, 12 );
-        add_spawn( mon_turret_rifle, 1, SEEX * 2 - 2, 11 );
-        add_spawn( mon_turret_rifle, 1, SEEX * 2 - 2, 12 );
-        add_spawn( mon_turret_rifle, 1, 11,  1 );
-        add_spawn( mon_turret_rifle, 1, 12,  1 );
-        add_spawn( mon_turret_rifle, 1, 11, SEEY * 2 - 2 );
-        add_spawn( mon_turret_rifle, 1, 12, SEEY * 2 - 2 );
-
-        // Place searchlights
-        if( one_in( 3 ) ) {
-            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this](
-            const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                ter_set( *p, t_plut_generator );
-                add_spawn( mon_turret_searchlight, 1, 1, 1 );
-                add_spawn( mon_turret_searchlight, 1, SEEX * 2 - 2, 1 );
-                add_spawn( mon_turret_searchlight, 1, 1, SEEY * 2 - 2 );
-                add_spawn( mon_turret_searchlight, 1, SEEX * 2 - 2, SEEY * 2 - 2 );
-            }
-        }
-
-        // Finally, scatter dead bodies / mil zombies
-        for( int i = 0; i < 20; i++ ) {
-            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this](
-            const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                if( one_in( 5 ) ) { // Military zombie
-                    add_spawn( mon_zombie_soldier, 1, p->x, p->y );
-                } else if( one_in( 2 ) ) {
-                    add_item( *p, item::make_corpse( mon_zombie_soldier ) );
-                    if( one_in( 3 ) ) {
-                        place_items( "mon_zombie_soldier_death_drops", 100, *p, *p, true, 0, 100 );
-                    }
-                } else if( one_in( 4 ) ) { // Bionic Op zombie!
-                    add_spawn( mon_zombie_bio_op, 1, p->x, p->y );
-                } else if( one_in( 4 ) ) {
-                    if( one_in( 10 ) ) {
-                        add_spawn( mon_zombie_grenadier_elite, 1, p->x, p->y );
-                    } else {
-                        add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
-                    }
-                } else if( one_in( 4 ) ) { // Zombie Burner
-                    if( one_in( 5 ) ) {
-                        add_spawn( mon_zombie_flamer, 1, p->x, p->y );
-                    }
-                } else if( one_in( 20 ) ) {
-                    rough_circle_furn( this, f_rubble, p->x, p->y, rng( 3, 6 ) );
-                }
-            }
-        }
-        // Oh wait--let's also put radiation in any rubble
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                int extra_radiation = ( one_in( 5 ) ? rng( 1, 2 ) : 0 );
-                adjust_radiation( i, j, extra_radiation );
-                if( furn( i, j ) == f_rubble ) {
-                    adjust_radiation( i, j, rng( 1, 3 ) );
                 }
             }
         }
@@ -6533,7 +6352,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             do {
                 node_built[node] = true;
                 step++;
-                int nodex = 1 + 6 * ( node % 4 ), nodey = 1 + 6 * int( node / 4 );
+                int nodex = 1 + 6 * ( node % 4 ), nodey = 1 + 6 * static_cast<int>( node / 4 );
                 // Clear a 4x4 dirt square
                 square( this, t_dirt, nodex, nodey, nodex + 3, nodey + 3 );
                 // Spawn a monster in there
@@ -6566,10 +6385,10 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 if( node % 4 < 3 && !node_built[node + 1] ) {
                     move.push_back( EAST );
                 }
-                if( int( node / 4 ) > 0 && !node_built[node - 4] ) {
+                if( static_cast<int>( node / 4 ) > 0 && !node_built[node - 4] ) {
                     move.push_back( NORTH );
                 }
-                if( int( node / 4 ) < 3 && !node_built[node + 4] ) {
+                if( static_cast<int>( node / 4 ) < 3 && !node_built[node + 4] ) {
                     move.push_back( SOUTH );
                 }
 
@@ -6824,7 +6643,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 for( int y = 0; y < 4; y++ ) {
                     for( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
                         if( x - y > SEEX * 2 - 4 ) {
-                            //TODO more discriminating conditions
+                            // TODO: more discriminating conditions
                             if( ter( x, y ) == t_grass ||
                                 ter( x, y ) == t_dirt ||
                                 ter( x, y ) == t_shrub ) {
@@ -6854,7 +6673,14 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         return;
     }
 
-    float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
+    float spawn_density = 1.0f;
+    if( MonsterGroupManager::is_animal( group ) ) {
+        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+    } else {
+        spawn_density = get_option< float >( "SPAWN_DENSITY" );
+    }
+
+    float multiplier = density * spawn_density;
     float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
     int num = roll_remainder( thenum );
 
@@ -6940,7 +6766,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
-    //@todo: implement for 3D
+    // TODO: implement for 3D
     return place_items( loc, chance, f.x, f.y, t.x, t.y, ongrass, turn, magazine, ammo );
 }
 
@@ -7175,7 +7001,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             for( auto &part : veh->parts ) {
                 const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
-                // @todo change mount points to be tripoint
+                // TODO: change mount points to be tripoint
                 wreckage->install_part( point( part_pos.x, part_pos.y ), part );
             }
 
@@ -7251,7 +7077,7 @@ void map::rotate( int turns )
     const tripoint &abs_sub = get_abs_sub();
     rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
-    // @todo: This radius can be smaller - how small?
+    // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
     const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y,
@@ -7598,31 +7424,33 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             break;
         case room_lobby:
             if( rotate % 2 == 0 ) { // Vertical
-                int desk = y1 + rng( int( height / 2 ) - int( height / 4 ), int( height / 2 ) + 1 );
-                for( int x = x1 + int( width / 4 ); x < x2 - int( width / 4 ); x++ ) {
+                int desk = y1 + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
+                                     static_cast<int>( height / 2 ) + 1 );
+                for( int x = x1 + static_cast<int>( width / 4 ); x < x2 - static_cast<int>( width / 4 ); x++ ) {
                     m->furn_set( x, desk, f_counter );
                 }
-                computer *tmpcomp = m->add_computer( tripoint( x2 - int( width / 4 ), desk, z ),
+                computer *tmpcomp = m->add_computer( tripoint( x2 - static_cast<int>( width / 4 ), desk, z ),
                                                      _( "Log Console" ), 3 );
                 tmpcomp->add_option( _( "View Research Logs" ), COMPACT_RESEARCH, 0 );
                 tmpcomp->add_option( _( "Download Map Data" ), COMPACT_MAPS, 0 );
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->add_spawn( mon_turret, 1, int( ( x1 + x2 ) / 2 ), desk );
+                m->add_spawn( mon_turret, 1, static_cast<int>( ( x1 + x2 ) / 2 ), desk );
             } else {
-                int desk = x1 + rng( int( height / 2 ) - int( height / 4 ), int( height / 2 ) + 1 );
-                for( int y = y1 + int( width / 4 ); y < y2 - int( width / 4 ); y++ ) {
+                int desk = x1 + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
+                                     static_cast<int>( height / 2 ) + 1 );
+                for( int y = y1 + static_cast<int>( width / 4 ); y < y2 - static_cast<int>( width / 4 ); y++ ) {
                     m->furn_set( desk, y, f_counter );
                 }
-                computer *tmpcomp = m->add_computer( tripoint( desk, y2 - int( width / 4 ), z ),
+                computer *tmpcomp = m->add_computer( tripoint( desk, y2 - static_cast<int>( width / 4 ), z ),
                                                      _( "Log Console" ), 3 );
                 tmpcomp->add_option( _( "View Research Logs" ), COMPACT_RESEARCH, 0 );
                 tmpcomp->add_option( _( "Download Map Data" ), COMPACT_MAPS, 0 );
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->add_spawn( mon_turret, 1, desk, int( ( y1 + y2 ) / 2 ) );
+                m->add_spawn( mon_turret, 1, desk, static_cast<int>( ( y1 + y2 ) / 2 ) );
             }
             break;
         case room_chemistry:
@@ -7655,14 +7483,17 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             }
             break;
         case room_teleport:
-            m->furn_set( int( ( x1 + x2 ) / 2 ), int( ( y1 + y2 ) / 2 ), f_counter );
-            m->furn_set( int( ( x1 + x2 ) / 2 ) + 1, int( ( y1 + y2 ) / 2 ), f_counter );
-            m->furn_set( int( ( x1 + x2 ) / 2 ), int( ( y1 + y2 ) / 2 ) + 1, f_counter );
-            m->furn_set( int( ( x1 + x2 ) / 2 ) + 1, int( ( y1 + y2 ) / 2 ) + 1, f_counter );
+            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ), f_counter );
+            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, static_cast<int>( ( y1 + y2 ) / 2 ),
+                         f_counter );
+            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ) + 1,
+                         f_counter );
+            m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, static_cast<int>( ( y1 + y2 ) / 2 ) + 1,
+                         f_counter );
             mtrap_set( m, trapx, trapy, tr_telepad );
-            m->place_items( "teleport", 70, int( ( x1 + x2 ) / 2 ),
-                            int( ( y1 + y2 ) / 2 ), int( ( x1 + x2 ) / 2 ) + 1,
-                            int( ( y1 + y2 ) / 2 ) + 1, false, 0 );
+            m->place_items( "teleport", 70, static_cast<int>( ( x1 + x2 ) / 2 ),
+                            static_cast<int>( ( y1 + y2 ) / 2 ), static_cast<int>( ( x1 + x2 ) / 2 ) + 1,
+                            static_cast<int>( ( y1 + y2 ) / 2 ) + 1, false, 0 );
             break;
         case room_goo:
             do {
@@ -7720,16 +7551,18 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 }
                 m->place_items( "dissection", 80, x2 - 1, y1, x2 - 1, y2, false, 0 );
             }
-            mtrap_set( m, int( ( x1 + x2 ) / 2 ), int( ( y1 + y2 ) / 2 ), tr_dissector );
+            mtrap_set( m, static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ),
+                       tr_dissector );
             if( one_in( 10 ) ) {
-                m->add_spawn( mon_broken_cyborg, 1, int( ( ( x1 + x2 ) / 2 ) + 1 ),
-                              int( ( ( y1 + y2 ) / 2 ) + 1 ) );
+                m->add_spawn( mon_broken_cyborg, 1, static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
+                              static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ) );
             }
             break;
 
         case room_bionics:
             if( rotate % 2 == 0 ) {
-                int biox = x1 + 2, bioy = int( ( y1 + y2 ) / 2 );
+                int biox = x1 + 2;
+                int bioy = static_cast<int>( ( y1 + y2 ) / 2 );
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
                                             "\
 ---\n\
@@ -7763,7 +7596,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp2->add_failure( COMPFAIL_MANHACKS );
                 tmpcomp2->add_failure( COMPFAIL_SECUBOTS );
             } else {
-                int bioy = y1 + 2, biox = int( ( x1 + x2 ) / 2 );
+                int bioy = y1 + 2;
+                int biox = static_cast<int>( ( x1 + x2 ) / 2 );
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
                                             "\
 |-|\n\
@@ -7834,23 +7668,25 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             break;
         case room_split:
             if( rotate % 2 == 0 ) {
-                int w1 = int( ( x1 + x2 ) / 2 ) - 2, w2 = int( ( x1 + x2 ) / 2 ) + 2;
+                int w1 = static_cast<int>( ( x1 + x2 ) / 2 ) - 2;
+                int w2 = static_cast<int>( ( x1 + x2 ) / 2 ) + 2;
                 for( int y = y1; y <= y2; y++ ) {
                     m->ter_set( w1, y, t_concrete_wall );
                     m->ter_set( w2, y, t_concrete_wall );
                 }
-                m->ter_set( w1, int( ( y1 + y2 ) / 2 ), t_door_glass_frosted_c );
-                m->ter_set( w2, int( ( y1 + y2 ) / 2 ), t_door_glass_frosted_c );
+                m->ter_set( w1, static_cast<int>( ( y1 + y2 ) / 2 ), t_door_glass_frosted_c );
+                m->ter_set( w2, static_cast<int>( ( y1 + y2 ) / 2 ), t_door_glass_frosted_c );
                 science_room( m, x1, y1, w1 - 1, y2, z, 1 );
                 science_room( m, w2 + 1, y1, x2, y2, z, 3 );
             } else {
-                int w1 = int( ( y1 + y2 ) / 2 ) - 2, w2 = int( ( y1 + y2 ) / 2 ) + 2;
+                int w1 = static_cast<int>( ( y1 + y2 ) / 2 ) - 2;
+                int w2 = static_cast<int>( ( y1 + y2 ) / 2 ) + 2;
                 for( int x = x1; x <= x2; x++ ) {
                     m->ter_set( x, w1, t_concrete_wall );
                     m->ter_set( x, w2, t_concrete_wall );
                 }
-                m->ter_set( int( ( x1 + x2 ) / 2 ), w1, t_door_glass_frosted_c );
-                m->ter_set( int( ( x1 + x2 ) / 2 ), w2, t_door_glass_frosted_c );
+                m->ter_set( static_cast<int>( ( x1 + x2 ) / 2 ), w1, t_door_glass_frosted_c );
+                m->ter_set( static_cast<int>( ( x1 + x2 ) / 2 ), w2, t_door_glass_frosted_c );
                 science_room( m, x1, y1, x2, w1 - 1, z, 2 );
                 science_room( m, x1, w2 + 1, x2, y2, z, 0 );
             }
@@ -8108,7 +7944,7 @@ void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, ma
 {
     ( void )dat;
     std::vector<direction> possibilities;
-    int midx = int( ( x1 + x2 ) / 2 ), midy = int( ( y1 + y2 ) / 2 );
+    int midx = static_cast<int>( ( x1 + x2 ) / 2 ), midy = static_cast<int>( ( y1 + y2 ) / 2 );
     if( x2 < SEEX ) {
         possibilities.push_back( EAST );
     }
@@ -8339,12 +8175,13 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_BREATHING:
             for( int i = cx - 1; i <= cx + 1; i++ ) {
-                for( int j = cy - 1; j <= cy + 1; j++ )
+                for( int j = cy - 1; j <= cy + 1; j++ ) {
                     if( i == cx && j == cy ) {
                         add_spawn( mon_breather_hub, 1, i, j );
                     } else {
                         add_spawn( mon_breather, 1, i, j );
                     }
+                }
             }
             break;
 

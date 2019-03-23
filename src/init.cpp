@@ -52,6 +52,7 @@
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "skill.h"
+#include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "start_location.h"
@@ -194,6 +195,7 @@ void DynamicDataLoader::initialize()
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
+    add( "skill_boost", &skill_boost::load_boost );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -229,6 +231,9 @@ void DynamicDataLoader::initialize()
     } );
     add( "ARMOR", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_armor( jo, src );
+    } );
+    add( "PET_ARMOR", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_pet_armor( jo, src );
     } );
     add( "TOOL", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_tool( jo, src );
@@ -283,7 +288,7 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
-
+    add( "monster_adjustment", &load_monster_adjustment );
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
@@ -491,7 +496,7 @@ void DynamicDataLoader::unload_data()
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything
-    // @todo: Make it print to stdout?
+    // TODO: Make it print to stdout?
     loading_ui ui( false );
     finalize_loaded_data( ui );
 }

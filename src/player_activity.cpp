@@ -23,7 +23,7 @@ player_activity::player_activity( const player_activity &rhs )
       moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
       values( rhs.values ), str_values( rhs.str_values ),
-      coords( rhs.coords ), placement( rhs.placement ),
+      coords( rhs.coords ), monsters( rhs.monsters ), placement( rhs.placement ),
       auto_resume( rhs.auto_resume )
 {
     targets.clear();
@@ -45,6 +45,7 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     ignored_distractions = rhs.ignored_distractions;
     values = rhs.values;
     str_values = rhs.str_values;
+    monsters = rhs.monsters;
     coords = rhs.coords;
     placement = rhs.placement;
     auto_resume = rhs.auto_resume;
@@ -150,7 +151,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    // @todo: Once activity_handler_actors exist, the less ugly method of using a
+    // TODO: Once activity_handler_actors exist, the less ugly method of using a
     // pure virtual can_resume_with should be used
 
     if( !*this || !other || type->no_resume() ) {
@@ -163,10 +164,10 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         // (This would be much less hacky in the hypothetical future of
         // activity_handler_actors).
         if( !( values.size() == other.values.size() &&
-               values.size() >= 1 &&
+               !values.empty() &&
                std::equal( values.begin(), values.end() - 1, other.values.begin() ) &&
                coords.size() == other.coords.size() &&
-               coords.size() >= 1 &&
+               !coords.empty() &&
                std::equal( coords.begin(), coords.end() - 1, other.coords.begin() ) ) ) {
             return false;
         }
@@ -200,8 +201,8 @@ void player_activity::resume_with( const player_activity &other )
         // For crafting actions, we need to update the start turn and position
         // to the resumption time values.  These are stored in the last
         // elements of values and coords respectively.
-        if( !( values.size() >= 1 && values.size() == other.values.size() &&
-               coords.size() >= 1 && coords.size() == other.coords.size() ) ) {
+        if( !( !values.empty() && values.size() == other.values.size() &&
+               !coords.empty() && coords.size() == other.coords.size() ) ) {
             debugmsg( "Activities incompatible; should not have resumed" );
             return;
         }

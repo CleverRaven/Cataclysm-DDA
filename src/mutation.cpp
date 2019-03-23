@@ -288,6 +288,8 @@ void player::activate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
+    // Preserve the fake weapon used to initiate ranged mutation firing
+    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_hunger() + get_starvation() >= 700 ) || ( mdata.thirst &&
@@ -486,6 +488,13 @@ void player::activate_mutation( const trait_id &mut )
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
+        tdata.powered = false;
+        return;
+    } else if( !mdata.ranged_mutation.empty() ) {
+        mut_ranged = item( mdata.ranged_mutation );
+        add_msg_if_player( mdata.ranged_mutation_message() );
+        g->refresh_all();
+        g->plfire( mut_ranged );
         tdata.powered = false;
         return;
     }
@@ -690,7 +699,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo: Turn it into the null id
+    // TODO: Turn it into the null id
     if( cat == "ANY" ) {
         mutate();
         return;
@@ -853,7 +862,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre = elem;
+            const trait_id &pre = elem;
             const auto &p = pre.obj();
             for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -868,7 +877,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre2 = elem;
+            const trait_id &pre2 = elem;
             const auto &p = pre2.obj();
             for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -895,7 +904,7 @@ bool player::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        // TODO: Limit this to visible mutations
+        //  TODO: Limit this to visible mutations
         // TODO: In case invisible mutation turns into visible or vice versa
         //  print only the visible mutation appearing/disappearing
         add_msg_player_or_npc( rating,
@@ -1134,7 +1143,7 @@ void player::remove_mutation( const trait_id &mut )
 bool player::has_child_flag( const trait_id &flag ) const
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
         }
@@ -1145,7 +1154,7 @@ bool player::has_child_flag( const trait_id &flag ) const
 void player::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );
             return;

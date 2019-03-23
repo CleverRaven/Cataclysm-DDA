@@ -22,7 +22,7 @@
 #include "string_id.h"
 #include "units.h"
 
-//TODO: include comments about how these variables work. Where are they used. Are they constant etc.
+// TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
@@ -947,7 +947,7 @@ class map
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
                                     long &amount, const std::function<bool( const item & )> &filter = is_crafting_component );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     long &amount );
+                                     long &amount, const std::function<bool( const item & )> &filter = return_true );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
@@ -1469,7 +1469,7 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
+        bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
                            const maptile &tile,
                            bool invert, bool show_items,
                            const tripoint &view_center,
@@ -1480,7 +1480,7 @@ class map
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
+        void draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
                               const maptile &tile, bool invert,
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;
@@ -1620,7 +1620,7 @@ class tinymap : public map
         friend class editmap;
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
-        bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint &p ) const override;
 };
 
 #endif

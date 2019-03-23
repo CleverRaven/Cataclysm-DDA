@@ -146,7 +146,7 @@ void draw_grid( const catacurses::window &w, const int list_width )
     wrefresh( w );
 }
 
-nc_color construction_color( std::string &con_name, bool highlight )
+nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -202,7 +202,7 @@ void construction_menu()
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
     catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
 
-    const int w_list_width = int( .375 * w_width );
+    const int w_list_width = static_cast<int>( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width,
@@ -790,6 +790,7 @@ void place_construction( const std::string &desc )
                      g->u.pos() + g->u.view_offset );
     }
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
@@ -1102,7 +1103,7 @@ void construct::done_mine_upstair( const tripoint &p )
     }
 
     static const std::set<ter_id> liquids = {{
-            t_water_sh, t_sewage, t_water_dp, t_water_pool
+            t_water_sh, t_sewage, t_water_dp, t_water_pool, t_water_moving_sh, t_water_moving_dp,
         }
     };
 

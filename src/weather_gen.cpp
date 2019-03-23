@@ -94,18 +94,16 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     } else {
         //when wind strength is low, wind direction is more variable
         bool changedir = one_in( W * 360 );
-        if( changedir == true ) {
+        if( changedir ) {
             current_winddir = get_wind_direction( season, seed );
             current_winddir = convert_winddir( current_winddir );
         }
     }
-    std::string dirstring = get_dirstring( current_winddir );
-    std::string shortdirstring = get_shortdirstring( current_winddir );
     std::string wind_desc = get_wind_desc( W );
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-    return w_point {T, H, P, W, wind_desc, current_winddir, dirstring, shortdirstring, acid};
+    return w_point {T, H, P, W, wind_desc, current_winddir, acid};
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -255,36 +253,11 @@ int weather_generator::get_water_temperature() const
     return water_temperature;
 }
 
-std::string weather_generator::get_dirstring( int angle ) const
-{
-    //convert angle to cardinal directions
-    std::string dirstring;
-    int dirangle = angle;
-    if( dirangle <= 23 || dirangle > 338 ) {
-        dirstring = ( "North" );
-    } else if( dirangle <= 68 && dirangle > 23 ) {
-        dirstring = ( "North-East" );
-    } else if( dirangle <= 113 && dirangle > 68 ) {
-        dirstring = ( "East" );
-    } else if( dirangle <= 158 && dirangle > 113 ) {
-        dirstring = ( "South-East" );
-    } else if( dirangle <= 203 && dirangle > 158 ) {
-        dirstring = ( "South" );
-    } else if( dirangle <= 248 && dirangle > 203 ) {
-        dirstring = ( "South-West" );
-    } else if( dirangle <= 293 && dirangle > 248 ) {
-        dirstring = ( "West" );
-    } else if( dirangle <= 338 && dirangle > 293 ) {
-        dirstring = ( "North-West" );
-    }
-    return dirstring;
-}
-
 void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
-    //@todo: this is wrong. weather_generator does not have such a constructor
+    // TODO: this is wrong. weather_generator does not have such a constructor
     // weather_generator WEATHERGEN(0); // Seeds the weather object.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
@@ -299,32 +272,8 @@ void weather_generator::test_weather() const
         weather_type c =  get_weather_conditions( w );
         weather_datum wd = weather_data( c );
         testfile << to_turn<int>( i ) << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure <<
-                 ";" << wd.name << ";" << w.windpower << ";" << w.dirstring << std::endl;
+                 ";" << wd.name << ";" << w.windpower << ";" << w.winddirection << std::endl;
     }
-}
-
-std::string weather_generator::get_shortdirstring( int angle ) const
-{
-    std::string dirstring;
-    int dirangle = angle;
-    if( dirangle <= 23 || dirangle > 338 ) {
-        dirstring = ( "N" );
-    } else if( dirangle <= 68 && dirangle > 23 ) {
-        dirstring = ( "NE" );
-    } else if( dirangle <= 113 && dirangle > 68 ) {
-        dirstring = ( "E" );
-    } else if( dirangle <= 158 && dirangle > 113 ) {
-        dirstring = ( "SE" );
-    } else if( dirangle <= 203 && dirangle > 158 ) {
-        dirstring = ( "S" );
-    } else if( dirangle <= 248 && dirangle > 203 ) {
-        dirstring = ( "SW" );
-    } else if( dirangle <= 293 && dirangle > 248 ) {
-        dirstring = ( "W" );
-    } else if( dirangle <= 338 && dirangle > 293 ) {
-        dirstring = ( "NW" );
-    }
-    return dirstring;
 }
 
 weather_generator weather_generator::load( JsonObject &jo )

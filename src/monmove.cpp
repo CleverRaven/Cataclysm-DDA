@@ -30,9 +30,14 @@ const species_id FUNGUS( "FUNGUS" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
+
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id BLOB( "BLOB" );
+const species_id ROBOT( "ROBOT" );
 
 bool monster::wander()
 {
@@ -376,7 +381,7 @@ void monster::plan( const mfactions &factions )
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                anger += 10 - int( hp_per / 10 );
+                anger += 10 - static_cast<int>( hp_per / 10 );
             }
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
@@ -642,7 +647,7 @@ void monster::move()
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
-                // @todo: Remove z-level stair bullshit teleport after aligning all stairs
+                // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
@@ -771,14 +776,22 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
+    std::string footstep = "footsteps.";
+    if( type->in_species( BLOB ) ) {
+        footstep = "plop.";
+    } else if( type->in_species( ZOMBIE ) ) {
+        footstep = "shuffling.";
+    } else if( type->in_species( ROBOT ) ) {
+        footstep = "mechanical whirring.";
+    }
     int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this );
+    sounds::add_footstep( p, volume, dist, this, footstep );
     return;
 }
 
 tripoint monster::scent_move()
 {
-    // @todo: Remove when scentmap is 3D
+    // TODO: Remove when scentmap is 3D
     if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
@@ -1148,6 +1161,13 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
+
+    if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, p ) && on_ground ) {
+        add_effect( effect_no_sight, 1_turns, num_bp, true );
+    } else if( has_effect( effect_no_sight ) ) {
+        remove_effect( effect_no_sight );
+    }
+
     g->m.creature_on_trap( *this );
     if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
         underwater = g->m.has_flag( "DIGGABLE", pos() );
@@ -1542,11 +1562,11 @@ int monster::turns_to_reach( int x, int y )
             // the doors intact.
             return 999;
         } else if( i == 0 ) {
-            turns += double( calc_movecost( pos(), next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( pos(), next ) ) / get_speed();
         } else {
-            turns += double( calc_movecost( path[i - 1], next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( path[i - 1], next ) ) / get_speed();
         }
     }
 
-    return int( turns + .9 ); // Halve (to get turns) and round up
+    return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
 }

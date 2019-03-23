@@ -55,10 +55,12 @@
     "//": "Sort of long install time. Gotta grind down the carrier trip to SP1-ish length. Unfortunately, since you're sort of guessing how long that is, the AR's timing with this installed will be borked.(disco might be disengaged at non-ideal times).",
     "install_time": 25000,
     "dispersion_modifier": 40,
+    "consume_chance": 300,
+    "consume_divisor": 110,
     "durability_modifier": -3,
     "mode_modifier": [ [ "DEFAULT", "auto", 14 ] ],
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT" ]
+    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },
   {
     "id": "waterproof_gunmod",

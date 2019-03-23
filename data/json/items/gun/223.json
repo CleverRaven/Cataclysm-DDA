@@ -147,7 +147,7 @@
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 3 ]
     ],
-    "valid_mod_locations": [ [ "accessories", 2 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sling", 1 ]  ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -167,7 +167,7 @@
       "weight": 400
     },
     "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_u_shotgun", "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "barrel", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_dsr_223",
@@ -188,7 +188,7 @@
     },
     "delete": { "modes": [ [ "AUTO", "auto", 3 ] ] },
     "built_in_mods": [ "lead_rifle_scope", "lead_barrel_big", "lead_bipod", "lead_grip",  "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_lmg_223",
@@ -209,7 +209,7 @@
     },
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
     "built_in_mods": [ "lead_acog_scope", "lead_barrel_heavy_duty", "lead_bipod", "lead_grip", "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_mbr_223",
@@ -224,7 +224,7 @@
       "volume": 2
     },
     "built_in_mods": [ "lead_acog_scope", "lead_red_dot_sight", "lead_grip", "lead_glm", "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 2 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 2 ], [ "sling", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "m249",
@@ -246,7 +246,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 12 ] ],
     "built_in_mods": [ "bipod" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "223", [ "belt223", "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "308", [ "belt308" ] ]
@@ -314,7 +314,7 @@
     "dispersion": 100,
     "durability": 8,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "magazines": [
       [ "223", [ "stanag10", "stanag30", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -392,7 +392,7 @@
     "durability": 8,
     "burst": 12,
     "built_in_mods": [ "grip" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -420,7 +420,7 @@
     "durability": 6,
     "loudness": 25,
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [ [ "223", [ "survivor223mag" ] ] ]
   }
 ]
