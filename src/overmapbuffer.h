@@ -166,9 +166,9 @@ class overmapbuffer
         /**
          * Add Basecamp to overmapbuffer
          */
-        void add_camp( basecamp *camp );
+        void add_camp( basecamp camp );
 
-        cata::optional<basecamp *> find_camp( const int x, const int y );
+        cata::optional<basecamp> find_camp( const int x, const int y );
         /**
          * Get all npcs in a area with given radius around (x, y).
          * Only npcs on the given z-level are considered.
@@ -401,7 +401,7 @@ class overmapbuffer
          * All entries in the returned vector are valid (have a valid tower pointer).
          */
         std::vector<radio_tower_reference> find_all_radio_stations();
-        std::vector<basecamp *> get_camps_near( const tripoint &location, int radius );
+        std::vector<basecamp> get_camps_near( const tripoint &location, int radius );
         /**
          * Find all cities within the specified @ref radius.
          * Result is sorted by proximity to @ref location in ascending order.

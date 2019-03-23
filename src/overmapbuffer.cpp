@@ -397,7 +397,7 @@ bool overmapbuffer::has_camp( int x, int y, int z )
     }
 
     for( const auto &v : om->camps ) {
-        if( v->camp_omt_pos().x == x && v->camp_omt_pos().y == y ) {
+        if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
             return true;
         }
     }
@@ -559,14 +559,14 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp *camp )
+void overmapbuffer::remove_camp( const basecamp camp )
 {
-    const point omt = point( camp->camp_omt_pos().x, camp->camp_omt_pos().y );
+    const point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt );
     int index = 0;
     for( const auto &v : om.camps ) {
-        if( v->camp_omt_pos().x == camp->camp_omt_pos().x &&
-            v->camp_omt_pos().y == camp->camp_omt_pos().y ) {
+        if( v.camp_omt_pos().x == camp.camp_omt_pos().x &&
+            v.camp_omt_pos().y == camp.camp_omt_pos().y ) {
             om.camps.erase( om.camps.begin() + index );
             return;
         }
@@ -597,9 +597,9 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     veh->om_id = id;
 }
 
-void overmapbuffer::add_camp( basecamp *camp )
+void overmapbuffer::add_camp( basecamp camp )
 {
-    point omt = point( camp->camp_omt_pos().x, camp->camp_omt_pos().y );
+    point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt.x, omt.y );
     om.camps.push_back( camp );
 }
@@ -906,7 +906,7 @@ std::shared_ptr<npc> overmapbuffer::find_npc( int id )
     return nullptr;
 }
 
-cata::optional<basecamp *> overmapbuffer::find_camp( const int x, const int y )
+cata::optional<basecamp> overmapbuffer::find_camp( const int x, const int y )
 {
     for( auto &it : overmaps ) {
         if( auto p = it.second->find_camp( x, y ) ) {
@@ -1073,12 +1073,12 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     return result;
 }
 
-std::vector<basecamp *> overmapbuffer::get_camps_near( const tripoint &location, int radius )
+std::vector<basecamp> overmapbuffer::get_camps_near( const tripoint &location, int radius )
 {
-    std::vector<basecamp *> result;
+    std::vector<basecamp> result;
 
     for( const auto om : get_overmaps_near( location, radius ) ) {
-        for( const auto camp : om->camps ) {
+        for( auto camp : om->camps ) {
             result.push_back( camp );
         }
 
