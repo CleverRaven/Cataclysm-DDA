@@ -211,6 +211,7 @@
   {
     "type": "item_group",
     "id": "tools_science",
+    "//": "tools and equipment you might find on lab benches of nearly any lab."
     "items": [
       [ "chemistry_set", 5 ],
       [ "chemistry_set_basic", 2 ],
