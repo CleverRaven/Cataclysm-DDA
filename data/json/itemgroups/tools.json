@@ -70,7 +70,8 @@
     "id": "tools_electronics",
     "type": "item_group",
     "//": "Portable tools used by electricians and for electronics repair",
-    "items": [ { "group": "tools_common", "prob": 100 }, [ "soldering_iron", 100 ], [ "magnifying_glass", 100 ] ]
+    "items": [ { "group": "tools_common", "prob": 100 }, [ "soldering_iron", 100 ], [ "magnifying_glass", 100 ],
+      [ "voltmeter", 5 ], ]
   },
   {
     "id": "tools_entry",
@@ -201,6 +202,7 @@
       [ "balance_small", 5 ],
       [ "cuvettes", 5 ],
       [ "ph_meter", 5 ],
+      [ "voltmeter", 5 ],
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
       [ "hotplate", 5 ],

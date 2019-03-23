@@ -112,6 +112,22 @@
     "color": "light_gray"
   },
   {
+    "id": "voltmeter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "voltmeter",
+    "description": "This device has two probes that let you measure the electrical potential between two points.",
+    "weight": 3000,
+    "volume": 6,
+    "price": 6000,
+    "ammo": "battery",
+    "max_charges": 100,
+    "to_hit": -5,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
     "id": "melting_point",
     "type": "TOOL",
     "category": "tools",
