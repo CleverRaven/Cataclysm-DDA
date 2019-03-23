@@ -582,6 +582,41 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_roof",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_1",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_roof_1",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_2",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_roof_2",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_teashop",
     "name": "teashop",
     "copy-from": "generic_city_building",

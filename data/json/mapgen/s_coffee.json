@@ -140,7 +140,7 @@
         "S_____,_____SSSSSSSS/MzS",
         "S_____,_____SSzzzSSS/MzS",
         "S_____,_____SS||V{{{V||S",
-        "S_____,_____SS|D      |S",
+        "S_____,_____SS|D     <|S",
         "SSSSSSSSSSSSSS|r      OS",
         "SSSSSSSSSSSSSS|r      |S",
         "SVVVVVVVz./Mzz|   #W##|S",
@@ -157,7 +157,7 @@
         "SO6   6 6 6   B66B|Lwl|S",
         "S|B ^???????^ B66B|Lwl|S",
         "S|||||||||||||||||||3||S",
-        "SSSSSSSSSSSSSSSSSSSSSSSS"
+        "S4SSSSSSSSSSSSSSSSSSSSSS"
       ],
       "terrain": {
         " ": "t_floor",
@@ -193,6 +193,8 @@
         "z": "t_shrub",
         "{": "t_door_glass_c",
         "|": "t_wall",
+        "<": "t_stairs_up",
+        "4": "t_gutter_downspout",
         "T": "t_tree_coffee"
       },
       "furniture": {
@@ -247,7 +249,60 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_restaurant_coffee" ],
+    "om_terrain": [ "s_restaurant_coffee_roof" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_tile_flat_roof",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "..............|||||||||.",
+        "..............|     |>|.",
+        "..............|       |.",
+        "..............|       |.",
+        ".|||||||......|     bt|.",
+        ".|     |......|tb     |.",
+        ".|     |......|tb   bt|.",
+        ".|     |......|tb   bt|.",
+        ".|     |......|     bt|.",
+        ".|     |......|tb   bt|.",
+        ".|     ||||||||     bt|.",
+        ".|                    |.",
+        ".|b                   |.",
+        ".|b tt      btb btb   |.",
+        ".|b tt      btb btb   |.",
+        ".|bbbbb               |.",
+        ".||||||||||||||||||||||.",
+        ".5---------------------.",
+        "........................"
+      ],
+      "terrain": {
+        ".": "t_open_air",
+        " ": "t_tile_flat_roof",
+        "|": "t_glass_railing",
+        "-": "t_gutter_south",
+        ">": "t_stairs_down",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "b": "f_bench", "t": "f_table" },
+      "place_items": [
+        { "item": "coffee_table", "x": [ 4, 5 ], "y": [ 18, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "coffee_table", "x": 13, "y": [ 18, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "coffee_table", "x": 17, "y": [ 18, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "coffee_table", "x": 15, "y": [ 10, 13 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "coffee_table", "x": 15, "y": 14, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "coffee_table", "x": 21, "y": [ 11, 15 ], "chance": 50, "repeat": [ 1, 3 ] }
+      ],
+      "place_nested": [ { "chunks": [ [ "roof_2x2_golf", 10 ], [ "null", 80 ], [ "roof_3x3_wine", 10 ] ], "x": [ 3, 4 ], "y": [ 10, 13 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_restaurant_coffee_1" ],
     "weight": 250,
     "object": {
       "//": "Default fill is floor but some tables are outside",
@@ -268,7 +323,7 @@
         "______________ss%......|",
         "______________ss+.....&|",
         "______________ss+......|",
-        "ssssssssssssssss%....HH|",
+        "s4ssssssssssssss%....HH|",
         "|--555-555-555--|....TT|",
         "|..HTH.HTH.HTH.......TT|",
         "|....................HH|",
@@ -308,6 +363,7 @@
         "r": "t_linoleum_white",
         "s": "t_sidewalk",
         "x": "t_console_broken",
+        "4": "t_gutter_downspout",
         "|": "t_wall"
       },
       "furniture": {
@@ -345,8 +401,58 @@
     }
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_restaurant_coffee_roof_1",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________|2222223",
+        "________________|......3",
+        "________________|....&.3",
+        "________________|......3",
+        "________________|......3",
+        "________________|......3",
+        "|5222222222222222......3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|.#....................3",
+        "|......................3"
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        "_": "t_open_air",
+        "|": "t_gutter_west",
+        "2": "t_gutter_north",
+        "3": "t_gutter_east",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "#": "f_vent_pipe" },
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 18, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 40 ], [ "roof_4x4_utility", 60 ] ], "x": [ 3, 15 ], "y": 18 },
+        { "chunks": [ [ "null", 40 ], [ "roof_2x2_utilities_d", 60 ] ], "x": 18, "y": 14 }
+      ]
+    }
+  },
+  {
     "method": "json",
     "object": {
+      "fill_ter": "t_floor",
       "furniture": {
         "#": "f_chair",
         "&": "f_trashcan",
@@ -380,7 +486,7 @@
         { "chance": 20, "item": "coffee_display_2", "x": 6, "y": 11 },
         { "chance": 35, "item": "coffee_condiments", "x": [ 5, 6 ], "y": 12 },
         { "chance": 35, "item": "coffee_condiments", "x": 6, "y": 9 },
-        { "chance": 35, "item": "clothing_work_torso", "x": [ 7, 9 ], "y": 17 },
+        { "chance": 35, "item": "clothing_work_torso", "x": [ 7, 9 ], "y": 20 },
         { "chance": 40, "item": "coffee_trash", "x": 5, "y": 15 },
         { "chance": 35, "item": "kitchen_nonfood", "x": 5, "y": [ 13, 14 ] },
         { "chance": 35, "item": "coffee_dishes", "x": 6, "y": 8 },
@@ -399,7 +505,7 @@
         "__||||||----||sss||w||__",
         "_u|{{o|#tr{t#|sss|..^|__",
         "__|...|.##t#.|+|+|...|__",
-        "_u|...|..#..#r{rvr...|u_",
+        "_u|...D..#..#r{rvr...|u_",
         "__|...|......#.tt....|__",
         "__|...c..............|__",
         "__|...c.............^|u_",
@@ -410,10 +516,10 @@
         "__|..c|......#....|D||__",
         "__|..&|...........|..|__",
         "__|...|||||#...#..|..|__",
-        "_u|....lll|t#.#t#.|aT|__",
-        "_u|.......||||||||||||__",
-        "__|#t#....bppppddpppS___",
-        "__|#t#....|pppppppppS___",
+        "_u|.....D<|t#.#t#.|aT|__",
+        "_u|.....||||||||||||||__",
+        "__|#t#....bppppdd4ppS___",
+        "__|#t#.lll|pppppppppS___",
         "__|||||||||pppppppppS___",
         "_____u_____ppppppppp____",
         "________________________"
@@ -430,7 +536,7 @@
         "^": "t_floor",
         "_": "t_grass",
         "a": "t_floor",
-        "b": "t_door_metal_locked",
+        "b": "t_door_metal_pickable",
         "c": "t_floor",
         "d": "t_pavement",
         "l": "t_floor",
@@ -443,11 +549,63 @@
         "v": "t_floor",
         "w": "t_window_boarded_noglass",
         "{": "t_floor",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up",
         "|": "t_wall"
       }
     },
-    "om_terrain": "coffee_shop",
+    "om_terrain": "s_restaurant_coffee_2",
     "type": "mapgen",
     "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_restaurant_coffee_roof_2",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "__|22222222222___32222__",
+        "__|..........|___3...3__",
+        "__|...&......|2223...3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|..................3__",
+        "__|......>.........:.3__",
+        "__|.......311111151113__",
+        "__|.......3_____________",
+        "__|.......3_____________",
+        "__111111113_____________",
+        "________________________",
+        "________________________"
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        "_": "t_open_air",
+        "|": "t_gutter_west",
+        "2": "t_gutter_north",
+        "3": "t_gutter_east",
+        "1": "t_gutter_south",
+        "5": "t_gutter_drop",
+        ">": "t_ladder_down"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "#": "f_vent_pipe" },
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 5, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 40 ], [ "roof_4x4_utility", 60 ], [ "roof_4x4_holdout", 10 ] ], "x": [ 4, 16 ], "y": [ 7, 13 ] }
+      ]
+    }
   }
 ]
