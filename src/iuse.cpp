@@ -8062,6 +8062,21 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::craft( player *p, item *it, bool, const tripoint & )
+{
+    int pos = p->get_item_position( it );
+
+    // Giving player::disassemble INT_MIN is actually a special case to
+    // disassemble all, but get_item_position returns INT_MIN if it's not
+    // actually in our inventory/worn/wielded. Skip this nonsensical case.
+    if( pos != INT_MIN ) {
+        p->assign_activity( activity_id( "ACT_CRAFT" ) );
+        p->activity.values.push_back( pos );
+        // TODO: allow crafting from map/vehicle position
+    }
+    return 0;
+}
+
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
     int pos = p->get_item_position( it );

@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "output.h"
 #include "player.h"
+#include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
@@ -136,8 +137,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
-    { activity_id( "ACT_CRAFT" ), craft_finish },
-    { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
+    // { activity_id( "ACT_CRAFT" ), craft_finish },
+    // { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
@@ -2632,8 +2633,12 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
-    const recipe &rec = recipe_id( act->name ).obj();
+    int pos = act->values.front();
+    item &craft = p->i_at( pos );
+
+    const recipe &rec = craft.get_making();
     const float crafting_speed = p->crafting_speed_multiplier( rec, true );
+
     if( crafting_speed <= 0.0f ) {
         if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
             p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -2643,28 +2648,22 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
-    act->moves_left -= crafting_speed * p->get_moves();
-    p->set_moves( 0 );
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
         // TODO: Describe the causes of slowdown
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
-}
 
-void activity_handlers::craft_finish( player_activity *act, player *p )
-{
-    p->complete_craft();
+    craft.item_counter += crafting_speed * p->get_moves();
+    p->set_moves( 0 );
     act->set_to_null();
-}
-
-void activity_handlers::longcraft_finish( player_activity *act, player *p )
-{
-    const int batch_size = act->values.front();
-    p->complete_craft();
-    act->set_to_null();
-    // Workaround for a bug where longcraft can be unset in complete_craft().
-    if( p->making_would_work( p->lastrecipe, batch_size ) ) {
-        p->last_craft->execute();
+    
+    if( craft.item_counter >= rec.time ) {
+        item craft_copy = craft;
+        p->i_rem( pos );
+        p->complete_craft( craft_copy );
+    } else {
+        p->assign_activity( activity_id( "ACT_CRAFT" ) );
+        p->activity.values.push_back( pos );
     }
 }
 

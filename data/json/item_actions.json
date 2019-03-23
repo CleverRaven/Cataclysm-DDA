@@ -1028,5 +1028,10 @@
     "type": "item_action",
     "id": "PANACEA",
     "name": "Take"
+  },
+  {
+    "type": "item_action",
+    "id": "CRAFT",
+    "name": "Work on craft"
   }
 ]

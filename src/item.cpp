@@ -209,6 +209,14 @@ item::item( const itype *type, time_point turn, solitary_tag )
 item::item( const itype_id &id, time_point turn, solitary_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
+item::item( const recipe *rec, long qty, t_item_vector items )
+    : item( "craft", calendar::turn, qty )
+{
+    making = rec;
+    components = items;
+}
+
+
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
@@ -1995,8 +2003,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( !components.empty() && parts->test( iteminfo_parts::DESCRIPTION_COMPONENTS_MADEFROM ) ) {
-        info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
-                                  _( components_to_string().c_str() ) ) ) );
+        if( is_craft() ) {
+            info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Using: %s" ),
+                                      _( components_to_string().c_str() ) ) ) );
+        } else {
+            info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
+                                      _( components_to_string().c_str() ) ) ) );
+        }
     } else {
         const auto &dis = recipe_dictionary::get_uncraft( typeId() );
         const auto &req = dis.disassembly_requirements();
@@ -2066,7 +2079,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else if( idescription != item_vars.end() ) {
                 info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
             } else {
-                info.push_back( iteminfo( "DESCRIPTION", _( type->description.c_str() ) ) );
+                if( is_craft() && making ) {
+                    const int percent_progress = item_counter / making->time;
+                    info.push_back( iteminfo( "DESCRIPTION", string_format( _( type->description.c_str() ),
+                                              making->result_name(),
+                                              percent_progress ) ) );
+                } else {
+                    info.push_back( iteminfo( "DESCRIPTION", _( type->description.c_str() ) ) );
+                }
             }
         }
         auto all_techniques = type->techniques;
@@ -2916,6 +2936,21 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         ret << label( quantity );
         ret << "+1";
         maintext = ret.str();
+    } else if( is_craft() ) {
+        ret.str( "" );
+        if( making ) {
+            ret << string_format( label( quantity ), making->result_name() );
+        } else {
+            ret << string_format( label( quantity ), item().tname() );
+        }
+        if( charges > 1 ) {
+            ret << " (" << charges << ")";
+        }
+        if( making ) {
+            const int percent_progress = 100 * item_counter / making->time;
+            ret << " (" << percent_progress << "%)";
+        }
+        maintext = ret.str();
     } else if( contents.size() == 1 ) {
         const item &contents_item = contents.front();
         if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
@@ -3185,6 +3220,14 @@ units::mass item::weight( bool include_contents ) const
         return 0_gram;
     }
 
+    if( is_craft() ) {
+        units::mass ret = 0_gram;
+        for( auto it : components ) {
+            ret += it.weight();
+        }
+        return ret;
+    }
+
     units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
@@ -3271,6 +3314,13 @@ units::volume item::base_volume() const
     if( is_corpse() ) {
         return corpse_volume( corpse );
     }
+    if( is_craft() ) {
+        units::volume ret = 0_ml;
+        for( auto it : components ) {
+            ret += it.base_volume();
+        }
+        return ret;
+    }
 
     if( count_by_charges() ) {
         if( type->volume % type->stack_size == 0_ml ) {
@@ -3291,6 +3341,14 @@ units::volume item::volume( bool integral ) const
 
     if( is_corpse() ) {
         return corpse_volume( corpse );
+    }
+
+    if( is_craft() ) {
+        units::volume ret = 0_ml;
+        for( auto it : components ) {
+            ret += it.volume();
+        }
+        return ret;
     }
 
     const int local_volume = get_var( "volume", -1 );
@@ -4743,6 +4801,11 @@ bool item::is_salvageable() const
         return false;
     }
     return !has_flag( "NO_SALVAGE" );
+}
+
+bool item::is_craft() const
+{
+    return typeId() == "craft";
 }
 
 bool item::is_funnel_container( units::volume &bigger_than ) const
@@ -7366,6 +7429,12 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         return false;
     }
 
+    // item_counter is used differently for in progress crafts and should not be
+    // decremented here.
+    if( is_craft() ) {
+        return false;
+    }
+
     if( !is_food() && item_counter > 0 ) {
         item_counter--;
     }
@@ -7756,4 +7825,13 @@ std::vector<item_comp> item::get_uncraft_components() const
         }
     }
     return ret;
+}
+
+const recipe &item::get_making() const
+{
+    if( !making ) {
+        debugmsg( "Craft '%s' has a null recipe", tname() );
+        return recipe().ident().obj();
+    }
+    return *making;
 }

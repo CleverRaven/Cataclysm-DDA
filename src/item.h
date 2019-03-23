@@ -63,6 +63,7 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 struct point;
 struct tripoint;
+using recipe_id = string_id<recipe>;
 class Skill;
 using skill_id = string_id<Skill>;
 class fault;
@@ -185,6 +186,9 @@ class item : public visitable<item>
         struct solitary_tag {};
         item( const itype_id &id, time_point turn, solitary_tag );
         item( const itype *type, time_point turn, solitary_tag );
+
+        /** For constructing in-progress crafts */
+        item( const recipe *rec, long qty, std::vector<item> items );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -1009,6 +1013,7 @@ class item : public visitable<item>
         bool is_book() const;
         bool is_map() const;
         bool is_salvageable() const;
+        bool is_craft() const;
 
         bool is_tool() const;
         bool is_tool_reversible() const;
@@ -1806,6 +1811,8 @@ class item : public visitable<item>
 
         int get_min_str() const;
 
+        const recipe &get_making() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1860,6 +1867,7 @@ class item : public visitable<item>
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
+        const recipe *making = nullptr; // Only for in-progress crafts
 
     public:
         long charges;

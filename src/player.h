@@ -1380,7 +1380,9 @@ class player : public Character
         std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
                 bool ignore_last = false );
         std::list<item> consume_some_components_for_craft( const recipe &making, int batch_size );
-        void complete_craft();
+        /** consume components and create an active, in progress craft containing them */
+        void start_craft( const recipe &making, int batch_size );
+        void complete_craft( item &craft );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
