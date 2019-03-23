@@ -12520,7 +12520,7 @@ void game::start_calendar()
                              scen->has_flag( "SUM_ADV_START" );
 
     if( scen_season ) {
-        // Configured starting date overridden by scenario, time_of_cataclysm is left as Spring 1
+        // Configured starting date overridden by scenario, calendar::start is left as Spring 1
         calendar::start = HOURS( get_option<int>( "INITIAL_TIME" ) );
         calendar::turn = HOURS( get_option<int>( "INITIAL_TIME" ) );
         if( scen->has_flag( "SPR_START" ) ) {
