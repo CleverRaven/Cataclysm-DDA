@@ -2279,7 +2279,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "lump_steel", 1 ] ],
+      [ [ "steel_lump", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "hotplate", 1 ] ],
       [ [ "solder_wire", 6 ] ],
@@ -2295,7 +2295,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "lump_steel", 1 ] ],
+      [ [ "steel_lump", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "engine_electric_tiny", 1 ] ],
       [ [ "plastic_chunk", 2 ] ],
@@ -2308,23 +2308,79 @@
     "skill_used": "electronics",
     "time": 5000,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "voltmeter", 1 ] ],
-      [ [ "glass_tube_small", 2 ] ]
-    ]
+    "components": [ [ [ "voltmeter", 1 ] ], [ [ "glass_tube_small", 2 ] ] ]
   },
   {
     "result": "voltmeter",
     "type": "uncraft",
     "skill_used": "electronics",
     "time": 60000,
-    "qualities": [ { "id": "SCREW", "level": 1 } ]
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 6 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "e_scrap", 3 ] ] ]
+  },
+  {
+    "result": "microscope",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 45000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "scrap", 2 ] ],
+      [ [ "steel_lump", 2 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "cable", 6 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "scrap", 3 ] ],
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "e_scrap", 3 ] ]
+      [ [ "lens_small", 8 ] ],
+      [ [ "lens", 2 ] ]
     ]
   },
+  {
+    "result": "microscope_dissecting",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 45000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "steel_lump", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "lens_small", 4 ] ],
+      [ [ "lens", 4 ] ]
+    ]
+  },
+  {
+    "result": "microcentrifuge",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 60000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "engine_electric_small", 1 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "solder_wire", 10 ] ]
+    ]
+  },
+  {
+    "result": "gelbox",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 40000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [
+      [ [ "power_converter", 4 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "cable", 6 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "solder_wire", 5 ] ]
+    ]
+  }
 ]
