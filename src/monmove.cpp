@@ -688,6 +688,7 @@ void monster::move()
             // TODO : make hiding more sensible and less random
             if( hide( candidate, false ) ) {
                 if( one_in( 10 ) ) {
+                    prev_pos = pos();
                     hide( candidate );
                     continue;
                 }
@@ -1176,10 +1177,6 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         remove_effect( effect_no_sight );
     }
 
-    if ( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
-        remove_effect( effect_hidden );
-    }
-
     g->m.creature_on_trap( *this );
     if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
         underwater = g->m.has_flag( "DIGGABLE", pos() );
@@ -1234,6 +1231,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
         }
     }
+
+    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
+        return unhide( prev_pos );
+    }
+
     return true;
 }
 
