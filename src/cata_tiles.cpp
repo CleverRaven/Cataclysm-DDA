@@ -33,6 +33,7 @@
 #include "player.h"
 #include "rect_range.h"
 #include "sdl_wrappers.h"
+#include "scent_map.h"
 #include "sounds.h"
 #include "submap.h"
 #include "trap.h"
@@ -199,7 +200,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force ) {
         return;
     }
-    //@todo: move into clear or somewhere else.
+    // TODO: move into clear or somewhere else.
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
@@ -1095,12 +1096,22 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 continue;
             }
 
+            // Add scent value to the overlay_strings list for every visible tile when displaying scent
+            if( g->displaying_scent ) {
+                const int scent_value = g->scent.get( {x, y, center.z} );
+                if( scent_value > 0 ) {
+                    overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                             formatted_text( std::to_string( scent_value ), 11,
+                                                     NORTH ) );
+                }
+            }
+
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
                 int height_3d = 0;
                 draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );
                 const auto critter = g->critter_at( tripoint( x, y, center.z ), true );
                 if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    //TODO defer drawing this until later when we know how tall
+                    // TODO: defer drawing this until later when we know how tall
                     //     the terrain/furniture under the creature is.
                     draw_from_id_string( "infrared_creature", C_NONE, empty_string, temp, 0, 0, LL_LIT, false );
                 }
@@ -1956,9 +1967,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     const point screen_pos = player_to_screen( pos.x, pos.y );
 
     // seed the PRNG to get a reproducible random int
-    // TODO faster solution here
+    // TODO: faster solution here
     unsigned int seed = 0;
-    // TODO determine ways other than category to differentiate more types of sprites
+    // TODO: determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
         case C_FIELD:
@@ -1968,7 +1979,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             break;
         case C_VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
-            // TODO also use some vehicle id, for less predictability
+            // TODO: also use some vehicle id, for less predictability
         {
             // new scope for variable declarations
             const optional_vpart_position vp = g->m.veh_at( pos );
@@ -1984,10 +1995,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
-            // TODO come up with ways to make random sprites consistent for these types
+            // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // FIXME add persistent id to Creature type, instead of using monster pointer address
+            // FIXME: add persistent id to Creature type, instead of using monster pointer address
             seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
             break;
         default:

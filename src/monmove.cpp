@@ -381,7 +381,7 @@ void monster::plan( const mfactions &factions )
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                anger += 10 - int( hp_per / 10 );
+                anger += 10 - static_cast<int>( hp_per / 10 );
             }
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
@@ -647,7 +647,7 @@ void monster::move()
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
-                // @todo: Remove z-level stair bullshit teleport after aligning all stairs
+                // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
@@ -791,7 +791,7 @@ void monster::footsteps( const tripoint &p )
 
 tripoint monster::scent_move()
 {
-    // @todo: Remove when scentmap is 3D
+    // TODO: Remove when scentmap is 3D
     if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
@@ -1562,11 +1562,11 @@ int monster::turns_to_reach( int x, int y )
             // the doors intact.
             return 999;
         } else if( i == 0 ) {
-            turns += double( calc_movecost( pos(), next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( pos(), next ) ) / get_speed();
         } else {
-            turns += double( calc_movecost( path[i - 1], next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( path[i - 1], next ) ) / get_speed();
         }
     }
 
-    return int( turns + .9 ); // Halve (to get turns) and round up
+    return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
 }

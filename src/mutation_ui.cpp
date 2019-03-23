@@ -30,8 +30,8 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
                           string_format( "<color_yellow>%s</color>", keys.c_str() ).c_str() );
 };
 
-void show_mutations_titlebar( const catacurses::window &window, std::string &menu_mode,
-                              input_context &ctxt )
+void show_mutations_titlebar( const catacurses::window &window, const std::string &menu_mode,
+                              const input_context &ctxt )
 {
     werase( window );
     std::ostringstream desc;

@@ -106,8 +106,8 @@ void basecamp::define_camp( npc &p )
     omt_pos = p.global_omt_location();
     sort_points = p.companion_mission_points;
     // purging the regions guarantees all entries will start with faction_base_
-    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( omt_pos, 1,
-            true ) ) {
+    for( const std::pair<std::string, tripoint> &expansion :
+         talk_function::om_building_region( omt_pos, 1, true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
     const std::string om_cur = overmap_buffer.ter( omt_pos ).id().c_str();
@@ -196,8 +196,13 @@ const std::string basecamp::next_upgrade( const std::string &dir, const int offs
     auto e = expansions.find( dir );
     if( e != expansions.end() ) {
         int cur_level = e->second.cur_level;
-        if( cur_level >= 0 && cur_level < max_upgrade_by_type( e->second.type ) ) {
-            return faction_encode_full( e->second, offset );
+        if( cur_level >= 0 ) {
+            // cannot upgrade anymore
+            if( offset > 0 && cur_level >= max_upgrade_by_type( e->second.type ) ) {
+                return "null";
+            } else {
+                return faction_encode_full( e->second, offset );
+            }
         }
     }
     return "null";
@@ -276,7 +281,7 @@ void basecamp::query_new_name()
     .text( "" )
     .max_length( 25 )
     .query();
-    if( popup.canceled() || popup.text() == "" ) {
+    if( popup.canceled() || popup.text().empty() ) {
         camp_name = "faction_camp";
     } else {
         camp_name = popup.text();

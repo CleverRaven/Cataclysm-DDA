@@ -180,7 +180,7 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
 size_t available_assistant_count( const player &u, const recipe &rec )
 {
     // NPCs around you should assist in batch production if they have the skills
-    // @todo Cache them in activity, include them in modifier calculations
+    // TODO: Cache them in activity, include them in modifier calculations
     const auto helpers = u.get_crafting_helpers();
     return std::count_if( helpers.begin(), helpers.end(),
     [&]( const npc * np ) {
@@ -419,7 +419,7 @@ std::list<item> player::consume_components_for_craft( const recipe &making, int 
     } else {
         // This should fail and return, but currently crafting_command isn't saved
         // Meaning there are still cases where has_cached_selections will be false
-        // @todo: Allow saving last_craft and debugmsg+fail craft if selection isn't cached
+        // TODO: Allow saving last_craft and debugmsg+fail craft if selection isn't cached
         const auto &req = making.requirements();
         for( const auto &it : req.get_components() ) {
             std::list<item> tmp = consume_items( it, batch_size );
@@ -457,7 +457,7 @@ std::list<item> player::consume_some_components_for_craft( const recipe &making,
 
 static void set_item_food( item &newit )
 {
-    //@todo: encapsulate this into some function
+    // TODO: encapsulate this into some function
     int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
 }
@@ -766,18 +766,20 @@ void player::complete_craft()
             }
         }
 
-        if( should_heat ) {
-            newit.heat_up();
-        } else if( newit.is_food() || newit.is_food_container() ) {
-            // Really what we should be doing is averaging the temperatures
-            // between the recipe components if we don't have a heat tool, but
-            // that's kind of hard.  For now just set the item to 20 C
-            // and reset the temperature, don't
-            // forget byproducts below either when you fix this.
-            //
-            // Temperature is not functional for non-foods
-            newit.set_item_temperature( 293.15 );
-            newit.reset_temp_check();
+        if( newit.is_food() ) {
+            if( should_heat ) {
+                newit.heat_up();
+            } else {
+                // Really what we should be doing is averaging the temperatures
+                // between the recipe components if we don't have a heat tool, but
+                // that's kind of hard.  For now just set the item to 20 C
+                // and reset the temperature, don't
+                // forget byproducts below either when you fix this.
+                //
+                // Temperature is not functional for non-foods
+                newit.set_item_temperature( 293.15 );
+                newit.reset_temp_check();
+            }
         }
 
         finalize_crafted_item( newit );
@@ -790,11 +792,13 @@ void player::complete_craft()
             if( bp.goes_bad() ) {
                 bp.set_relative_rot( max_relative_rot );
             }
-            if( should_heat ) {
-                bp.heat_up();
-            } else if( bp.is_food() || bp.is_food_container() ) {
-                bp.set_item_temperature( 293.15 );
-                bp.reset_temp_check();
+            if( bp.is_food() ) {
+                if( should_heat ) {
+                    bp.heat_up();
+                } else {
+                    bp.set_item_temperature( 293.15 );
+                    bp.reset_temp_check();
+                }
             }
             finalize_crafted_item( bp );
             set_item_inventory( bp );
@@ -1559,9 +1563,9 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
         if( can_decomp_learn( dis ) ) {
-            // @todo: make this depend on intelligence
+            // TODO: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &dis.ident().obj() );//@todo: change to forward an id or a reference
+                learn_recipe( &dis.ident().obj() );// TODO: change to forward an id or a reference
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname().c_str() );
             } else {

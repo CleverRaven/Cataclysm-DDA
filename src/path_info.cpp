@@ -104,6 +104,7 @@ void PATH_INFO::update_datadir()
 void PATH_INFO::update_config_dir()
 {
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
     update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
@@ -114,6 +115,7 @@ void PATH_INFO::update_config_dir()
     update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
     update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
     update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
+    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
 }
 
 void PATH_INFO::set_standard_filenames()
@@ -182,6 +184,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "graveyarddir", FILENAMES["user_dir"] + "graveyard/" );
 
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
@@ -193,6 +196,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
     update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
     update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
+    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
     update_pathname( "user_moddir", FILENAMES["user_dir"] + "mods/" );
     update_pathname( "worldoptions", "worldoptions.json" );
 
@@ -232,7 +236,7 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
         }
 #endif
 
-        const char *v = setlocale( LC_ALL, NULL );
+        const char *v = setlocale( LC_ALL, nullptr );
         if( v != nullptr ) {
             loc_name = v;
         }

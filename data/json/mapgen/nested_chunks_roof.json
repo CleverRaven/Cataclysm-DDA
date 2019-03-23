@@ -36,6 +36,54 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "roof_16x16_help",
+    "rotation": [ 0, 0 ],
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "place_loot": [
+        { "group": "roof_sign", "x": 0, "y": 0 },
+        { "group": "roof_sign", "x": 0, "y": 1 },
+        { "group": "roof_sign", "x": 0, "y": 2 },
+        { "group": "roof_sign", "x": 0, "y": 3 },
+        { "group": "roof_sign", "x": 0, "y": 4 },
+        { "group": "roof_sign", "x": 1, "y": 2 },
+        { "group": "roof_sign", "x": 2, "y": 2 },
+        { "group": "roof_sign", "x": 3, "y": 0 },
+        { "group": "roof_sign", "x": 3, "y": 1 },
+        { "group": "roof_sign", "x": 3, "y": 2 },
+        { "group": "roof_sign", "x": 3, "y": 3 },
+        { "group": "roof_sign", "x": 3, "y": 4 },
+        { "group": "roof_sign", "x": 5, "y": 0 },
+        { "group": "roof_sign", "x": 5, "y": 1 },
+        { "group": "roof_sign", "x": 5, "y": 2 },
+        { "group": "roof_sign", "x": 5, "y": 3 },
+        { "group": "roof_sign", "x": 5, "y": 4 },
+        { "group": "roof_sign", "x": 6, "y": 0 },
+        { "group": "roof_sign", "x": 6, "y": 2 },
+        { "group": "roof_sign", "x": 6, "y": 4 },
+        { "group": "roof_sign", "x": 7, "y": 0 },
+        { "group": "roof_sign", "x": 7, "y": 4 },
+        { "group": "roof_sign", "x": 9, "y": 0 },
+        { "group": "roof_sign", "x": 9, "y": 1 },
+        { "group": "roof_sign", "x": 9, "y": 2 },
+        { "group": "roof_sign", "x": 9, "y": 3 },
+        { "group": "roof_sign", "x": 9, "y": 4 },
+        { "group": "roof_sign", "x": 10, "y": 4 },
+        { "group": "roof_sign", "x": 11, "y": 4 },
+        { "group": "roof_sign", "x": 13, "y": 0 },
+        { "group": "roof_sign", "x": 13, "y": 1 },
+        { "group": "roof_sign", "x": 13, "y": 2 },
+        { "group": "roof_sign", "x": 13, "y": 3 },
+        { "group": "roof_sign", "x": 13, "y": 4 },
+        { "group": "roof_sign", "x": 14, "y": 0 },
+        { "group": "roof_sign", "x": 14, "y": 2 },
+        { "group": "roof_sign", "x": 15, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "roof_5x5_coop",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -60,6 +108,74 @@
       "rows": [ "_xxx", "__ax", "_xxx", "__ox" ],
       "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
       "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_golf",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_liquids": [ { "liquid": "vodka", "x": 0, "y": 0, "amount": [ 2, 4 ] } ],
+      "place_loot": [
+        { "item": "bottle_glass", "x": 0, "y": 0 },
+        { "item": "golf_club", "x": 1, "y": 1 },
+        { "item": "golf_bag", "x": 0, "y": 1, "chance": 20 },
+        { "item": "golf_tee", "x": 1, "y": 0 },
+        { "item": "golf_ball", "x": 1, "y": 0 },
+        { "item": "scorecard", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_utilities_b",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 }, { "furn": "f_water_purifier", "x": 0, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_utilities_c",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 }, { "furn": "f_solar_unit", "x": 0, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_3x3_wine",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_furniture": [
+        { "furn": "f_camp_chair", "x": 0, "y": 0 },
+        { "furn": "f_camp_chair", "x": 2, "y": 0 },
+        { "furn": "f_tourist_table", "x": 1, "y": 0 }
+      ],
+      "place_loot": [
+        { "group": "wines_worthy", "x": 1, "y": 0 },
+        { "item": "glass", "x": 1, "y": 0, "repeat": 2 },
+        { "item": "survivor_scope", "x": 0, "y": 2, "chance": 20 },
+        { "item": "diamond_ring", "x": 0, "y": 0, "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_utilities",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [
+        { "furn": "f_water_heater", "x": 0, "y": 0 },
+        { "furn": "f_air_conditioner", "x": 1, "y": 0 },
+        { "furn": "f_solar_unit", "x": 0, "y": 1 },
+        { "furn": "f_water_purifier", "x": 1, "y": 1 }
+      ]
     }
   }
 ]

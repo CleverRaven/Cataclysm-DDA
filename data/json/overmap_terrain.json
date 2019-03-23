@@ -1623,6 +1623,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_twd_1",
+    "copy-from": "generic_city_building",
+    "name": "motel",
+    "sym": 104,
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_2",
+    "copy-from": "generic_city_building",
+    "name": "motel",
+    "sym": 104,
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_entrance",
     "copy-from": "generic_city_building",
     "name": "motel",
@@ -2561,6 +2577,120 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hdwr_large_0_0_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_0_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_1_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_1_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_2_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_2_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_0_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_0_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_1_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_1_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_2_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_2_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "looted_building",
     "name": "looted building",
     "sym": 35,
@@ -3005,6 +3135,46 @@
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "dispensary",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_roof_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
     "sym": 68,
     "color": "i_green"
   },
@@ -4747,6 +4917,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "animalpound_roof",
+    "name": "animal pound roof",
+    "copy-from": "generic_city_building",
+    "sym": 84,
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "animalshelter",
     "name": "animal shelter",
     "copy-from": "generic_city_building",
@@ -4754,8 +4932,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "animalshelter_roof",
+    "name": "animal shelter roof",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_antique",
     "name": "antique store",
+    "copy-from": "generic_city_building",
+    "sym": 65,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_antique_roof",
+    "name": "antique store roof",
     "copy-from": "generic_city_building",
     "sym": 65,
     "color": "brown"

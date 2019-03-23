@@ -108,7 +108,7 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, std::string de
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
-                           const std::string footstep )
+                           const std::string &footstep )
 {
     sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
                                          sound_t::movement, footstep, false, true, "", ""} ) );
@@ -227,7 +227,7 @@ void sounds::process_sounds()
         }
         // Alert all monsters (that can hear) to the sound.
         for( monster &critter : g->all_monsters() ) {
-            // @todo: Generalize this to Creature::hear_sound
+            // TODO: Generalize this to Creature::hear_sound
             const int dist = rl_dist( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound

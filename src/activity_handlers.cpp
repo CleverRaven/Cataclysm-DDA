@@ -1276,6 +1276,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
+        if( liquid.is_food() && liquid.specific_energy < 0 ) {
+            liquid.set_item_temperature( temp_to_kelvin( g->get_temperature( p->pos() ) ) );
+        }
 
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
@@ -1709,7 +1712,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
-    it.charges = std::max( long( 0 ), it.charges - it.type->charges_to_use() );
+    it.charges = std::max( static_cast<long>( 0 ), it.charges - it.type->charges_to_use() );
     if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
         p->i_rem( &it );
     }
@@ -2055,10 +2058,10 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
 
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
-    const long charges_used = std::min( long( act->values[0] ), it.ammo_required() );
+    const long charges_used = std::min( static_cast<long>( act->values[0] ), it.ammo_required() );
 
     it.ammo_consume( charges_used, p->pos() );
-    act->values[0] -= int( charges_used );
+    act->values[0] -= static_cast<int>( charges_used );
 
     if( calendar::once_every( 2_turns ) ) {
         sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hissssssssss!" ) );
@@ -2302,7 +2305,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->position == INT_MIN ) {
-        g->draw_sidebar_messages();     // Refresh messages to show feedback.
         const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
             return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
                    &itm != &main_tool;
@@ -2353,7 +2355,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
-            g->draw_sidebar_messages();
             repeat = repeat_menu( title, repeat );
 
             if( repeat == REPEAT_CANCEL ) {
@@ -2637,7 +2638,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     act->moves_left -= crafting_speed * p->get_moves();
     p->set_moves( 0 );
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
-        // @todo Describe the causes of slowdown
+        // TODO: Describe the causes of slowdown
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
 }
@@ -3053,7 +3054,6 @@ static void perform_zone_activity_turn( player *p,
     p->activity.set_to_null();
 }
 
-
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
     auto reject_tile = [p]( const tripoint & tile ) {
@@ -3110,11 +3110,10 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
     };
 
-
     auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
-        std::string failure = iexamine::fertilize_failure_reason( *p, tile, fertilizer );
-        return !p->sees( tile ) || !failure.empty();
+        ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
+        return !p->sees( tile ) || !can_fert.success();
     };
 
     auto fertilize = [&]( player & p, const tripoint & tile ) {
@@ -3191,7 +3190,6 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
         }
     };
 
-
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tiles,
@@ -3214,7 +3212,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
         return;
     }
 
-    // @todo  Add some kind of chance of getting the target's attention
+    // TODO: Add some kind of chance of getting the target's attention
 
     // Allow time to pass
     p->pause();

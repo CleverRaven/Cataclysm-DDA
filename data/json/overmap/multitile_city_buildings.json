@@ -16,6 +16,21 @@
     ]
   },
   {
+    "type": "city_building",
+    "id": "animalshelter",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "animalshelter_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "animalshelter_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_antique",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_antique_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_antique_roof_north" } ]
+  },
+  {
     "//": "All of those overmap specials that spawn also outside of town require a second declare as city_building.",
     "type": "city_building",
     "id": "motel_city",
@@ -427,6 +442,25 @@
   },
   {
     "type": "city_building",
+    "id": "home_improvement_superstore_new",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hdwr_large_0_0_0_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "hdwr_large_1_0_0_south" },
+      { "point": [ 1, 1, 0 ], "overmap": "hdwr_large_1_1_0_south" },
+      { "point": [ 0, 1, 0 ], "overmap": "hdwr_large_0_1_0_south" },
+      { "point": [ 1, 2, 0 ], "overmap": "hdwr_large_1_2_0_south" },
+      { "point": [ 0, 2, 0 ], "overmap": "hdwr_large_0_2_0_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "hdwr_large_0_0_1_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "hdwr_large_1_0_1_south" },
+      { "point": [ 1, 1, 1 ], "overmap": "hdwr_large_1_1_1_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "hdwr_large_0_1_1_south" },
+      { "point": [ 1, 2, 1 ], "overmap": "hdwr_large_1_2_1_south" },
+      { "point": [ 0, 2, 1 ], "overmap": "hdwr_large_0_2_1_south" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "football_field",
     "locations": [ "land" ],
     "overmaps": [
@@ -655,6 +689,33 @@
   },
   {
     "type": "city_building",
+    "id": "dispensary",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dispensary_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dispensary_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dispensary_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dispensary_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dispensary_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dispensary_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dispensary_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dispensary_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "abandonedwarehouse",
     "locations": [ "land" ],
     "overmaps": [
@@ -696,6 +757,15 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "abandonedwarehouse_4_north" },
       { "point": [ 0, 0, 1 ], "overmap": "abandonedwarehouse_4_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "animalpound",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "animalpound_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "animalpound_roof_north" }
     ]
   }
 ]

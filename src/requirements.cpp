@@ -197,12 +197,12 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     requirement_data res = *this;
     for( auto &group : res.components ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
     for( auto &group : res.tools ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
 
@@ -220,7 +220,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // @todo: deduplicate qualities and combine other requirements
+    // TODO: deduplicate qualities and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;

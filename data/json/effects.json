@@ -110,6 +110,18 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_run_away",
+    "name": [ "Running away!" ],
+    "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "npc_fire_bad",
+    "name": [ "Avoiding a fire!" ],
+    "desc": [ "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "infection",
     "name": [ "Infection" ],
     "desc": [ "AI tag used for the infected NPC quest.  This is a bug if you have it." ],
@@ -132,6 +144,12 @@
     "id": "has_bag",
     "name": [ "Has Bag" ],
     "desc": [ "AI tag used for critters holding your bags.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "monster_armor",
+    "name": [ "Has Armor" ],
+    "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -286,7 +304,7 @@
   {
     "type": "effect_type",
     "id": "glowy_led",
-    "apply_message": "You are emitting a LED glow",
+    "apply_message": "A bionic LED is glowing softly beneath your skin.",
     "rating": "mixed"
   },
   {

@@ -23,7 +23,15 @@
     "clip_size": 10,
     "ups_charges": 100,
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -48,7 +56,7 @@
     "clip_size": 1,
     "ups_charges": 40,
     "reload": 200,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "stock", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "sights", 1 ] ],
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
     "flags": [ "RELOAD_ONE" ]
   }
