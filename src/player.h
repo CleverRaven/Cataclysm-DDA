@@ -1483,7 +1483,6 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
-
         const profession *prof;
 
         start_location_id start_location;

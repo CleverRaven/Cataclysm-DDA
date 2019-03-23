@@ -298,6 +298,8 @@ class Creature
 
         /**Checks if selected tile is elligible for hiding and if so moves and hide in it*/
         virtual bool hide( const tripoint &target, bool move = true );
+        /**Set position to entered_from and remove no_sight and hidden effect if appropriate*/
+        virtual bool unhide( const tripoint entered_from );
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;

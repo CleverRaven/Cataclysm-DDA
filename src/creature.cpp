@@ -150,7 +150,6 @@ bool Creature::hide( const tripoint &target, bool move )
             return false;
         }
     }
-
     if( move ) {
         setpos( target );
         moves -=100; // TODO : make cost specific to hiding
@@ -163,6 +162,20 @@ bool Creature::hide( const tripoint &target, bool move )
         }
     }
 
+    return true;
+
+}
+
+bool Creature::unhide( const tripoint entered_from )
+{
+    if( has_effect( effect_no_sight ) && !g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, entered_from ) ) {
+        remove_effect( effect_no_sight );
+    }
+    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, entered_from ) ) {
+        remove_effect( effect_hidden );
+    }
+    setpos( entered_from );
+    moves -= ( g->m.move_cost( entered_from ) + 100 ); // mimic combined_movecost but set move_cost to 100 for current pos
     return true;
 
 }
