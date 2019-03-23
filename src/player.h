@@ -1483,6 +1483,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
+        tripoint prev_pos; // record previous position when hiding
         const profession *prof;
 
         start_location_id start_location;
