@@ -40,6 +40,9 @@
         "L": "f_floor_lamp",
         "G": "f_glass_cabinet"
       },
+      "liquids": {
+        "W": { "liquid": "water_clean", "amount": [ 0, 100 ] }
+      },
       "palettes": [
         "basement_game"
       ],
@@ -54,7 +57,6 @@
         { "group": "tools_common", "x": [ 16, 17 ], "y": 18, "chance": 30 },
         { "group": "tools_mechanic", "x": 17, "y": [ 17, 18 ], "chance": 20 }
       ],
-      "place_liquids": [ { "liquid": "water_clean", "x": 15, "y": 18, "amount": [ 0, 100 ] } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
       ]
@@ -99,6 +101,9 @@
         "W": "f_water_heater",
         "L": "f_floor_lamp"
       },
+      "liquids": {
+        "W": { "liquid": "water_clean", "amount": [ 0, 100 ] }
+      },
       "palettes": [
         "basement_game"
       ],
@@ -113,7 +118,6 @@
         { "group": "dresser", "x": 22, "y": 18, "chance": 80 },
         { "group": "cleaning", "x": [ 14, 18 ], "y": 18, "chance": 80 }
       ],
-      "place_liquids": [ { "liquid": "water_clean", "x": 6, "y": 5, "amount": [ 0, 100 ] } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
       ]
@@ -158,6 +162,9 @@
         "W": "f_water_heater",
         "S": "f_utility_shelf"
       },
+      "liquids": {
+        "W": { "liquid": "water_clean", "amount": [ 0, 100 ] }
+      },
       "palettes": [
         "basement_game"
       ],
@@ -170,7 +177,6 @@
         { "group": "tools_common", "x": [ 16, 17 ], "y": 18, "chance": 40 },
         { "group": "tools_mechanic", "x": 17, "y": [ 17, 18 ], "chance": 15 }
       ],
-      "place_liquids": [ { "liquid": "water_clean", "x": 15, "y": 18, "amount": [ 0, 100 ] } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
       ]
@@ -214,6 +220,9 @@
         "F": "f_home_furnace",
         "W": "f_water_heater"
       },
+      "liquids": {
+        "W": { "liquid": "water_clean", "amount": [ 0, 100 ] }
+      },
       "palettes": [
         "basement_game"
       ],
@@ -226,7 +235,6 @@
         { "group": "dresser", "x": 22, "y": 18, "chance": 80 },
         { "group": "cleaning", "x": [ 14, 18 ], "y": 18, "chance": 80 }
       ],
-      "place_liquids": [ { "liquid": "water_clean", "x": 2, "y": 6, "amount": [ 0, 100 ] } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
       ]

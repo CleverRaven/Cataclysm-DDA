@@ -412,14 +412,14 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
                             const std::string &sTypeName,
-                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch = false, const bool without_border = false,
                             const bool handle_scrolling = false, const bool scrollbar_left = true,
                             const bool use_full_win = false, const unsigned int padding = 1 );
 
 input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
                             const std::string &sItemName, const std::string &sTypeName,
-                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch = false, const bool without_border = false,
                             const bool handle_scrolling = false, const bool scrollbar_left = true,
                             const bool use_full_win = false, const unsigned int padding = 1 );
@@ -483,7 +483,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 // extra_resolution
 const std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5,
         bool extra_resolution = true,
-        std::vector<nc_color> colors = { c_green, c_light_green, c_yellow, c_light_red, c_red } );
+        const std::vector<nc_color> &colors = { c_green, c_light_green, c_yellow, c_light_red, c_red } );
 
 const std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
@@ -523,7 +523,7 @@ inline std::string get_labeled_bar( const double val, const int width, const std
         int used_width = 0;
         for( RatingIterator it( begin ); it != end; ++it ) {
             const double factor = std::min( 1.0, std::max( 0.0, it->first * val ) );
-            const int seg_width = int( factor * bar_width ) - used_width;
+            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
 
             if( seg_width <= 0 ) {
                 continue;
@@ -593,7 +593,7 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
-    values.reserve( size_t( std::distance( first, last ) ) );
+    values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
     for( _FIter iter = first; iter != last; ++iter ) {
         const std::string str( pred( *iter ) );
         if( !str.empty() ) {

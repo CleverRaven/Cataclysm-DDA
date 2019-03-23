@@ -71,6 +71,7 @@
     "description": "Dried mushrooms are a tasty and healthy addition to many meals.",
     "price": 180,
     "material": "mushroom",
+    "primary_material": "dried_vegetable",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 1

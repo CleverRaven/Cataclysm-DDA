@@ -28,7 +28,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         multiplier = 1.0f;
     }
 
-    const float local_time = float( time ) / multiplier;
+    const float local_time = static_cast<float>( time ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
@@ -60,7 +60,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         total_time = local_time;
     }
 
-    return int( total_time );
+    return static_cast<int>( total_time );
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const
@@ -311,7 +311,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // @todo: Make it work for charge-less items
+        // TODO: Make it work for charge-less items
         newit.charges *= result_mult;
     }
 
@@ -401,7 +401,7 @@ std::string recipe::required_skills_string( const Character *c ) const
 std::string recipe::batch_savings_string() const
 {
     return ( batch_rsize != 0 ) ?
-           string_format( _( "%s%% at >%s units" ), int( batch_rscale * 100 ), batch_rsize )
+           string_format( _( "%s%% at >%s units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
            : _( "none" );
 }
 

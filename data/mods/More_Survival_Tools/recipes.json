@@ -469,31 +469,6 @@
   "components": [
     [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "weed", 1 ] ]
   ]
-},{
-  "type" : "recipe",
-  "result": "pebble_clay",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 45000,
-  "autolearn": true,
-  "tools": [
-  [
-    [ "brick_kiln", 10 ],
-    [ "kiln", 10 ],
-    [ "surface_heat", 10, "LIST" ]
-  ]
-  ],
-  "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "clay_lump", 1 ]
-    ]
-  ]
 },
   {
     "type" : "recipe",
