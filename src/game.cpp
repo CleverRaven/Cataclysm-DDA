@@ -12558,7 +12558,9 @@ void game::start_calendar()
             calendar::initial_season = WINTER;
         }
 
-        calendar::turn = calendar::start + HOURS( get_option<int>( "INITIAL_TIME" ) );
+        calendar::turn = calendar::start
+                         + HOURS( get_option<int>( "INITIAL_TIME" ) )
+                         + DAYS( get_option<int>( "SPAWN_DELAY" ) );
     }
 
 }

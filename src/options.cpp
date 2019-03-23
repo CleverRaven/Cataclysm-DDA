@@ -1761,8 +1761,13 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
-         translate_marker( "How many days into the year the game starts. Day 0 is Spring 1. This is the day of the cataclysm, so food rot and monster spawns will not occur unless a scenario delays the player's spawn time." ),
+         translate_marker( "How many days into the year the cataclysm occurred. Day 0 is Spring 1. Can be overridden by scenarios. This does not advance food rot or monster evolution." ),
          0, 999, 0
+       );
+
+    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
+         translate_marker( "How many days after the cataclysm the player spawns. Day 0 is the day of the cataclysm. Can be overridden by scenarios. Increasing this will cause food rot and monster evolution to advance." ),
+         0, 9999, 0
        );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
