@@ -52,15 +52,16 @@
         "min_melee": 3,
         "unarmed_allowed" : true,
         "mult_bonuses" : [
-            ["movecost",  0.80],
-            ["damage", "bash", 0.66],
+            ["movecost",  1.25],
+            ["damage", "bash", 1.05],
             ["damage", "cut", 1.05],
-            ["damage", "stab", 1.0]
+            ["damage", "stab", 1.05]
         ],
         "flat_bonuses" : [
-            ["damage", "stab", "dex", 0.1],
-            ["damage", "cut", "dex", 0.5],
-            ["movecost", "dex", -0.20]
+            ["damage", "bash", "str", 0.5],
+            ["damage", "cut", "dex", 0.2],
+            ["damage", "stab", "str", 0.3],
+            ["movecost", "str", -3]
         ],
         "crit_tec" : true,
         "messages" : [
