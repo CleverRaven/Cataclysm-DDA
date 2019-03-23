@@ -2682,13 +2682,21 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     if( ( g->m.has_flag( "DIGGABLE", pnt ) && ( g->m.has_flag( "CURRENT", north ) ||
             g->m.has_flag( "CURRENT", south ) || g->m.has_flag( "CURRENT", east ) ||
             g->m.has_flag( "CURRENT", west ) ) ) ) {
-        moves = MINUTES( 120 ) / it->get_quality( DIG ) * 100;
+
+        const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+        for( const npc *np : helpers ) {
+            add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            break;
+        }
+
+        moves = dig_pit_moves( p, it, true );
     } else {
         p->add_msg_if_player( _( "You can't dig a channel on this ground." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_DIG_CHANNEL" ), moves, -1, p->get_item_position( it ) );
+    player_activity act( activity_id( "ACT_DIG_CHANNEL" ), moves, -1, p->get_item_position( it ) );
+    p->assign_activity( act );
     p->activity.placement = pnt;
 
     return it->type->charges_to_use();
