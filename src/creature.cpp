@@ -26,6 +26,7 @@
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_hidden( "hidden" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_sap( "sap" );
 const efftype_id effect_sleep( "sleep" );
@@ -124,6 +125,48 @@ void Creature::process_turn()
     moves += get_speed();
 }
 
+bool Creature::hide( const tripoint &target, bool move )
+{
+    // Is target a place to hide
+    if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, target ) ) {
+        return false;
+    }
+
+    // Can we fit in there
+    if( g->m.has_flag_ter_or_furn( "MAX_TINY", target ) ) {
+        if( get_size() != MS_TINY ) {
+            return false;
+        }
+    } else if( g->m.has_flag_ter_or_furn( "MAX_SMALL", target ) ) {
+        if( get_size() > MS_SMALL ) {
+            return false;
+        }
+    } else if( g->m.has_flag_ter_or_furn( "MAX_MEDIUM", target ) ) {
+        if( get_size() > MS_MEDIUM ) {
+            return false;
+        }
+    } else if( g->m.has_flag_ter_or_furn( "MAX_LARGE", target ) ) {
+        if( get_size() > MS_LARGE ) {
+            return false;
+        }
+    }
+
+    if( move ) {
+        setpos( target );
+        moves -=100; // TODO : make cost specific to hiding
+        add_effect( effect_hidden, 1_turns, num_bp, true );
+        if( is_player() ) {
+            add_msg( m_good, _( "You are hiding in the %s." ), g->m.name( target ).c_str() );
+        }
+        if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, target ) ) {
+            add_effect( effect_no_sight, 1_turns, num_bp, true );
+        }
+    }
+
+    return true;
+
+}
+
 // MF_DIGS or MF_CAN_DIG and diggable terrain
 bool Creature::digging() const
 {
@@ -174,7 +217,7 @@ bool Creature::sees( const Creature &critter ) const
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
-               ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
+               ( critter.has_effect( effect_hidden ) &&
                  !( abs( posx() - critter.posx() ) <= 1 && abs( posy() - critter.posy() ) <= 1 &&
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;

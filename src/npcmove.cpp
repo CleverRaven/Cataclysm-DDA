@@ -49,6 +49,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
+const efftype_id effect_hidden( "hidden" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_infected( "infected" );
@@ -1635,6 +1636,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
         moves = 0;
     }
+    // If we can hide in it, we might do so
+    // TODO : Make hiding more sensible and less random
+    if( hide( p, false ) ) {
+        if( one_in( 2 ) ) {
+            hide( p );
+        }
+    }
 
     if( moved ) {
         const tripoint old_pos = pos();
@@ -1650,6 +1658,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             add_effect( effect_no_sight, 1_turns, num_bp, true );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
+        }
+
+        if ( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
+            remove_effect( effect_hidden );
         }
 
         if( in_vehicle ) {

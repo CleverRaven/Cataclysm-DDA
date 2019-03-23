@@ -1432,6 +1432,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Hide in a tile nearby",
+    "category": "DEFAULTMODE",
+    "id": "hide",
+    "bindings": [ { "input_method": "keyboard", "key": "j" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Haul items along the ground",
     "category": "DEFAULTMODE",
     "id": "haul",

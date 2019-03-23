@@ -171,6 +171,7 @@ const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_hot( "hot" );
+const efftype_id effect_hidden( "hidden" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_no_sight( "no_sight" );
@@ -2204,6 +2205,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "grab" );
+    ctxt.register_action( "hide" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
@@ -4509,8 +4511,8 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
+        // Critters in impassable tiles get pushed away, unless it's not impassable for them. Impassable property ignored when hidding
+        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) && !critter.has_effect( effect_hidden ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name().c_str()
                            << " can't move to its location! (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
@@ -10255,8 +10257,11 @@ bool game::walk_move( const tripoint &dest_loc )
             u.activity.values.push_back( amount );
         }
     }
-    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
-        add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ).c_str() );
+    if( u.has_effect( effect_hidden ) && !m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+        u.remove_effect( effect_hidden );
+    }
+    if( u.has_effect( effect_no_sight ) && !m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
+        u.remove_effect( effect_no_sight );
     }
 
     if( dest_loc != u.pos() ) {
@@ -10328,11 +10333,7 @@ void game::place_player( const tripoint &dest_loc )
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
-    if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
-    } else if( u.has_effect( effect_no_sight ) ) {
-        u.remove_effect( effect_no_sight );
-    }
+
 
 
     // If we moved out of the nonant, we need update our map data

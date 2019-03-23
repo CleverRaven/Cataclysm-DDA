@@ -30,6 +30,7 @@ const species_id FUNGUS( "FUNGUS" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_hidden( "hidden" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
@@ -683,7 +684,14 @@ void monster::move()
                 // Friendly fire and pushing are always bad choices - they take a lot of time
                 bad_choice = true;
             }
-
+            // If we can hide in it, we might do so
+            // TODO : make hiding more sensible and less random
+            if( hide( candidate, false ) ) {
+                if( one_in( 10 ) ) {
+                    hide( candidate );
+                    continue;
+                }
+            }
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
@@ -1166,6 +1174,10 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         add_effect( effect_no_sight, 1_turns, num_bp, true );
     } else if( has_effect( effect_no_sight ) ) {
         remove_effect( effect_no_sight );
+    }
+
+    if ( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
+        remove_effect( effect_hidden );
     }
 
     g->m.creature_on_trap( *this );

@@ -1490,6 +1490,14 @@ bool game::handle_action()
                 }
                 break;
 
+            case ACTION_HIDE:
+                if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
+                    if( !u.hide( *pnt ) ) {
+                        add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
+                    }
+                }
+                break;
+
             case ACTION_HAUL:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't haul things while you're in your shell." ) );

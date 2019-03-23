@@ -686,7 +686,7 @@
     "color": "blue",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "HIDE_PLACE", "MAX_SMALL", "NO_SIGHT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -707,7 +707,7 @@
     "move_cost_mod": 1,
     "required_str": 5,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "HIDE_PLACE", "MAX_TINY", "NO_SIGHT" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -726,7 +726,7 @@
     "move_cost_mod": -1,
     "required_str": 5,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "HIDE_PLACE", "MAX_TINY", "NO_SIGHT" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -914,7 +914,7 @@
     "color": "light_gray",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "HIDE_PLACE", "MAX_TINY", "NO_SIGHT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
     },
@@ -988,7 +988,7 @@
     "move_cost_mod": -1,
     "required_str": 10,
     "insulation": 3,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "HIDE_PLACE", "MAX_SMALL", "NO_SIGHT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -1075,7 +1075,18 @@
     "color": "brown",
     "move_cost_mod": -1,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "MAX_MEDIUM",
+      "NO_SIGHT"
+    ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "max_volume": 8000,
     "bash": {
@@ -1095,7 +1106,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 9,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "MAX_SMALL", "NO_SIGHT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 1, 2 ] },
@@ -1179,7 +1190,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "max_volume": 1200,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "HIDE_PLACE", "MAX_SMALL", "NO_SIGHT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -1220,7 +1231,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "max_volume": 1500,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "HIDE_PLACE", "MAX_SMALL", "NO_SIGHT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -1339,9 +1350,9 @@
     "description": "Stores your trash.",
     "symbol": "{",
     "color": "green",
-    "move_cost_mod": 3,
+    "move_cost_mod": -1,
     "required_str": 16,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "MAX_MEDIUM", "NO_SIGHT" ],
     "bash": {
       "str_min": 8,
       "str_max": 45,
@@ -1468,7 +1479,7 @@
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
     }
   },
-  {
+ {
     "type": "furniture",
     "id": "f_crate_o",
     "name": "open crate",
@@ -1477,7 +1488,18 @@
     "bgcolor": "brown",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "MOUNTABLE",
+      "SHORT",
+      "HIDE_PLACE",
+      "MAX_MEDIUM",
+      "NO_SIGHT"
+    ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -2542,7 +2564,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "HIDE_PLACE", "MAX_TINY", "NO_SIGHT" ],
     "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -2919,7 +2941,7 @@
     "examine_action": "kiln_empty",
     "max_volume": 500,
     "crafting_pseudo_item": "char_kiln",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE", "HIDE_PLACE", "MAX_TINY" ],
     "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
     "bash": {
       "str_min": 25,
@@ -2961,7 +2983,7 @@
     "examine_action": "kiln_empty",
     "max_volume": 500,
     "crafting_pseudo_item": "char_kiln",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "HIDE_PLACE", "MAX_TINY" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
       "str_min": 12,
@@ -3126,7 +3148,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "HIDE_PLACE", "MAX_TINY" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -3147,7 +3169,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "brick_kiln",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "HIDE_PLACE", "MAX_TINY" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -3609,6 +3631,7 @@
       "EASY_DECONSTRUCT",
       "BASHABLE",
       "HIDE_PLACE",
+      "MAX_MEDIUM",
       "NO_SIGHT"
     ],
     "bash": {
@@ -3711,7 +3734,7 @@
     "color": "i_brown",
     "move_cost_mod": -1,
     "required_str": 9,
-    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "HIDE_PLACE", "MAX_MEDIUM", "NO_SIGHT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 12 ] } ] },
     "max_volume": 8000,
     "bash": {

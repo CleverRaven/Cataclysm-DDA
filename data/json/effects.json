@@ -558,6 +558,14 @@
   },
   {
     "type": "effect_type",
+    "id": "hidden",
+    "name": [ "Hidden" ],
+    "desc": [ "You are hidden from creatures more than one tile away." ],
+    "remove_message": "You are no longer hidden.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "pkill1",
     "max_duration": 240,
     "base_mods": { "pkill_tick": [ 7 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
