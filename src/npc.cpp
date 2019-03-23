@@ -80,6 +80,7 @@ npc::npc()
     position.x = -1;
     position.y = -1;
     position.z = 500;
+    prev_pos = tripoint_zero;
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = no_goal_point;

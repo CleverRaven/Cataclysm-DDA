@@ -829,7 +829,7 @@ class npc : public player
         npc_class_id myclass; // What's our archetype?
         std::string idz; // A temp variable used to inform the game which npc json to use as a template
         mission_type_id miss_id; // A temp variable used to link to the correct mission
-
+        tripoint prev_pos;// record position before hiding, returns to that positon when unhiding
     private:
 
         npc_attitude attitude; // What we want to do to the player
