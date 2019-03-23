@@ -153,20 +153,6 @@ void bulk_trade_accept( npc &, const itype_id &it )
     g->u.cash += total;
 }
 
-void talk_function::assign_base( npc &p )
-{
-    // TODO: decide what to do upon assign? maybe pathing required
-    basecamp *camp = g->m.camp_at( g->u.pos() );
-    if( !camp ) {
-        dbg( D_ERROR ) << "talk_function::assign_base: Assigned to base but no base here.";
-        return;
-    }
-
-    add_msg( _( "%1$s waits at %2$s" ), p.name, camp->camp_name() );
-    p.mission = NPC_MISSION_BASE;
-    p.set_attitude( NPCATT_NULL );
-}
-
 void talk_function::assign_guard( npc &p )
 {
     add_msg( _( "%s is posted as a guard." ), p.name );

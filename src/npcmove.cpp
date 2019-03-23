@@ -74,7 +74,6 @@ enum npc_action : int {
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
-    npc_base_idle,
     npc_noop,
     npc_reach_attack,
     npc_aim,
@@ -898,11 +897,6 @@ void npc::execute_action( npc_action action )
             escape_explosion();
             break;
 
-        case npc_base_idle:
-            // TODO: patrol or sleep or something?
-            move_pause();
-            break;
-
         case npc_undecided:
             complain();
             move_pause();
@@ -1275,12 +1269,6 @@ npc_action npc::long_term_goal_action()
 
     if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER ) {
         return npc_pause;    // Shopkeepers just stay put.
-    }
-
-    // TODO: Follow / look for player
-
-    if( mission == NPC_MISSION_BASE ) {
-        return npc_base_idle;
     }
 
     if( !has_destination() ) {

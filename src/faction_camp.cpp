@@ -428,18 +428,22 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     return avail;
 }
 
-static basecamp *get_basecamp( npc &p )
+static cata::optional<basecamp *> get_basecamp( npc &p )
 {
-    basecamp *bcp = g->m.camp_at( p.pos(), 60 );
+
+    tripoint omt_tri = p.global_omt_location();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
     if( bcp ) {
         return bcp;
     }
     g->m.add_camp( p.pos(), "faction_camp" );
-    bcp = g->m.camp_at( p.pos(), 60 );
-    if( bcp ) {
-        bcp->define_camp( p );
+    bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+    if( !bcp ) {
+        return cata::nullopt;
     }
-    return bcp;
+    basecamp *temp_camp = *bcp;
+    temp_camp->define_camp( p );
+    return temp_camp;
 }
 
 void talk_function::start_camp( npc &p )
@@ -524,9 +528,11 @@ void talk_function::recover_camp( npc &p )
 
 void talk_function::remove_overseer( npc &p )
 {
-    basecamp *bcp = g->m.camp_at( p.pos(), 60 );
+    tripoint omt_tri = p.global_omt_location();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
     if( bcp ) {
-        if( !bcp->reset_camp() ) {
+        basecamp *temp_camp = *bcp;
+        if( !temp_camp->reset_camp() ) {
             return;
         }
     }
@@ -546,8 +552,11 @@ void talk_function::basecamp_mission( npc &p )
     const tripoint omt_pos = p.global_omt_location();
     mission_data mission_key;
 
-    basecamp *bcp = get_basecamp( p );
-
+    cata::optional<basecamp *> temp_camp = get_basecamp( p );
+    if( !temp_camp ) {
+        return;
+    }
+    basecamp *bcp = *temp_camp;
     bcp->get_available_missions( mission_key );
     if( display_and_choose_opts( mission_key, omt_pos, basecamp_id, title ) ) {
         bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
@@ -2501,10 +2510,11 @@ std::string talk_function::name_mission_tabs( const tripoint &omt_pos, const std
     if( role_id != basecamp_id ) {
         return cur_title;
     }
-    basecamp *bcp = g->m.camp_at( g->m.getlocal( omt_pos ), 60 );
-    if( !bcp ) {
+    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    if( !temp_camp ) {
         return cur_title;
     }
+    basecamp *bcp = *temp_camp;
     std::string dir;
     switch( cur_tab ) {
         case TAB_MAIN:

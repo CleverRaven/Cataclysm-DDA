@@ -1197,6 +1197,7 @@ void new_faction_manager::display() const
                         tripoint camp_pos = camp->camp_omt_pos();
                         std::string direction = direction_name( direction_from(
                                 player_abspos, camp_pos ) );
+                        mvwprintz( w_missions, ++y, 31, c_light_gray, _( "Press enter to rename this camp" ) );
                         std::string centerstring = "center";
                         if( ( !direction.compare( centerstring ) ) == 0 ) {
                             mvwprintz( w_missions, ++y, 31, c_light_gray,
@@ -1374,6 +1375,8 @@ void new_faction_manager::display() const
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && interactable && guy ) {
                 guy->talk_to_u();
+            } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
+                camp->query_new_name();
             }
         } else if( action == "QUIT" ) {
             break;
