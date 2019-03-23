@@ -5168,7 +5168,7 @@ void player::suffer()
             if( has_bionic( bio_gills ) && power_level >= 25 ) {
                 oxygen += 5;
                 charge_power( -25 );
-            } else if( has_item_with_flag( "OXYGEN" ) ) {          
+            } else if( has_item_with_flag( "OXYGEN" ) ) {
                 std::vector<item *> oxy = items_with( []( const item & itm ) {
                     return itm.has_flag( "OXYGEN" );
                 } );
