@@ -1011,7 +1011,7 @@
     "fun": -20,
     "color": "light_cyan",
     "container": "bottle_glass",
-    "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things. It has the weird property that it absorbs very quickly through the skin, causing a garlic flavor in the mouth even if it touched your arm.",
+    "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things.  It has the weird property that it absorbs very quickly through the skin, causing a garlic flavor in the mouth even if it touched your arm.",
     "volume": "1 ml",
     "phase": "liquid"
   },
@@ -1028,7 +1028,7 @@
     "quench": -96,
     "healthy": -20,
     "fun": -20,
-    "description": "Famous for its abilities as an illicit sedative, this substance is also a very good solvent. In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
+    "description": "Famous for its abilities as an illicit sedative, this substance is also a very good solvent.  In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
     "volume": "1 ml",
     "phase": "liquid"
   },
@@ -1045,7 +1045,7 @@
     "fun": -20,
     "color": "light_cyan",
     "container": "bottle_glass",
-    "description": "This useful stuff is a potent solvent and has a wide range of reactive applications. It can be used to make a huge number of plastics and polymers, it can be a disinfectant, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun. Wear gloves.",
+    "description": "This useful stuff is a potent solvent and has a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be a disinfectant, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
     "volume": "1 ml",
     "phase": "liquid"
   },
@@ -1079,7 +1079,7 @@
     "container": "bottle_plastic_small",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
-    "description": "This is a pre-mixed salty solution of protein and sugar. It's meant for bacteria to eat, but if you were desperate you could eat it too; it's not much different from cup noodle stock.",
+    "description": "This is a pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate you could eat it too; it's not much different from cup noodle stock.",
     "material": "powder_nonflam",
     "volume": 0.1,
     "weight": 1
@@ -1098,7 +1098,7 @@
     "container": "bottle_plastic_small",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
-    "description": "These clear flakes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel. Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
+    "description": "These clear flakes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
     "material": "powder_nonflam",
     "volume": 0.1,
     "weight": 1
