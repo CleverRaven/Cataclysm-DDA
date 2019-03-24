@@ -2282,6 +2282,163 @@ void conditional_t::set_mission_goal( JsonObject &jo )
     };
 }
 
+void conditional_t::set_no_assigned_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.missions_assigned.empty();
+    };
+}
+
+void conditional_t::set_has_assigned_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.missions_assigned.size() == 1;
+    };
+}
+
+void conditional_t::set_has_many_assigned_missions()
+{
+    condition = []( const dialogue & d ) {
+        return d.missions_assigned.size() >= 2;
+    };
+}
+
+void conditional_t::set_no_available_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->chatbin.missions.empty();
+    };
+}
+
+void conditional_t::set_has_available_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->chatbin.missions.size() == 1;
+    };
+}
+
+void conditional_t::set_has_many_available_missions()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->chatbin.missions.size() >= 2;
+    };
+}
+
+void conditional_t::set_mission_complete()
+{
+    condition = []( const dialogue & d ) {
+        mission *miss = d.beta->chatbin.mission_selected;
+        if( !miss ) {
+            return false;
+        }
+        return miss->is_complete( d.beta->getID() );
+    };
+}
+
+void conditional_t::set_mission_incomplete()
+{
+    condition = []( const dialogue & d ) {
+        mission *miss = d.beta->chatbin.mission_selected;
+        if( !miss ) {
+            return false;
+        }
+        return !miss->is_complete( d.beta->getID() );
+    };
+}
+
+void conditional_t::set_npc_available()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->has_effect( effect_currently_busy );
+    };
+}
+
+void conditional_t::set_npc_following()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->is_following();
+    };
+}
+
+void conditional_t::set_npc_friend()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->is_friend();
+    };
+}
+
+void conditional_t::set_npc_hostile()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->is_enemy();
+    };
+}
+
+void conditional_t::set_npc_train_skills()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->skills_offered_to( *d.alpha ).empty();
+    };
+}
+
+void conditional_t::set_npc_train_styles()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->styles_offered_to( *d.alpha ).empty();
+    };
+}
+
+void conditional_t::set_at_safe_space()
+{
+    condition = []( const dialogue & d ) {
+        return overmap_buffer.is_safe( d.beta->global_omt_location() );
+    };
+}
+
+void conditional_t::set_can_stow_weapon( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return !actor->unarmed_attack() && actor->can_pickVolume( actor->weapon );
+    };
+}
+
+void conditional_t::set_has_weapon( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return !actor->unarmed_attack();
+    };
+}
+
+void conditional_t::set_is_day()
+{
+    condition = []( const dialogue & ) {
+        return !calendar::turn.is_night();
+    };
+}
+
+void conditional_t::set_is_outside()
+{
+    condition = []( const dialogue & d ) {
+        const tripoint pos = g->m.getabs( d.beta->pos() );
+        return !g->m.has_flag( TFLAG_INDOORS, pos );
+    };
+}
+
+void conditional_t::set_u_has_camp()
+{
+    condition = []( const dialogue & ) {
+        return !g->u.camps.empty();
+    };
+}
+
 conditional_t::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -2415,8 +2572,8 @@ conditional_t::conditional_t( JsonObject jo )
                 "mission_complete", "mission_incomplete",
                 "npc_available", "npc_following", "npc_friend", "npc_hostile",
                 "npc_train_skills", "npc_train_styles",
-                "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
-                "is_day", "is_outside", "u_has_camp"
+                "at_safe_space", "is_day", "is_outside", "u_has_camp",
+                "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon"
             }
         };
         bool found_sub_member = false;
@@ -2440,100 +2597,51 @@ conditional_t::conditional_t( JsonObject jo )
 
 conditional_t::conditional_t( const std::string &type )
 {
+    const bool is_npc = true;
     if( type == "has_no_assigned_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.missions_assigned.empty();
-        };
+        set_no_assigned_mission();
     } else if( type == "has_assigned_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.missions_assigned.size() == 1;
-        };
+        set_has_assigned_mission();
     } else if( type == "has_many_assigned_missions" ) {
-        condition = []( const dialogue & d ) {
-            return d.missions_assigned.size() >= 2;
-        };
+        set_has_many_assigned_missions();
     } else if( type == "has_no_available_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->chatbin.missions.empty();
-        };
+        set_no_available_mission();
     } else if( type == "has_available_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->chatbin.missions.size() == 1;
-        };
+        set_has_available_mission();
     } else if( type == "has_many_available_missions" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->chatbin.missions.size() >= 2;
-        };
+        set_has_many_available_missions();
     } else if( type == "mission_complete" ) {
-        condition = []( const dialogue & d ) {
-            mission *miss = d.beta->chatbin.mission_selected;
-            if( !miss ) {
-                return false;
-            }
-            return miss->is_complete( d.beta->getID() );
-        };
+        set_mission_complete();
     } else if( type == "mission_incomplete" ) {
-        condition = []( const dialogue & d ) {
-            mission *miss = d.beta->chatbin.mission_selected;
-            if( !miss ) {
-                return false;
-            }
-            return !miss->is_complete( d.beta->getID() );
-        };
+        set_mission_incomplete();
     } else if( type == "npc_available" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->has_effect( effect_currently_busy );
-        };
+        set_npc_available();
     } else if( type == "npc_following" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->is_following();
-        };
+        set_npc_following();
     } else if( type == "npc_friend" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->is_friend();
-        };
+        set_npc_friend();
     } else if( type == "npc_hostile" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->is_enemy();
-        };
+        set_npc_hostile();
     } else if( type == "npc_train_skills" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->skills_offered_to( *d.alpha ).empty();
-        };
+        set_npc_train_skills();
     } else if( type == "npc_train_styles" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->styles_offered_to( *d.alpha ).empty();
-        };
+        set_npc_train_styles();
     } else if( type == "at_safe_space" ) {
-        condition = []( const dialogue & d ) {
-            return overmap_buffer.is_safe( d.beta->global_omt_location() );
-        };
+        set_at_safe_space();
     } else if( type == "u_can_stow_weapon" ) {
-        condition = []( const dialogue & d ) {
-            return !d.alpha->unarmed_attack() && ( d.alpha->volume_carried() +
-                                                   d.alpha->weapon.volume() <= d.alpha->volume_capacity() );
-        };
+        set_can_stow_weapon();
+    } else if( type == "npc_can_stow_weapon" ) {
+        set_can_stow_weapon( is_npc );
     } else if( type == "u_has_weapon" ) {
-        condition = []( const dialogue & d ) {
-            return !d.alpha->unarmed_attack();
-        };
+        set_has_weapon();
     } else if( type == "npc_has_weapon" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->unarmed_attack();
-        };
+        set_has_weapon( is_npc );
     } else if( type == "is_day" ) {
-        condition = []( const dialogue & ) {
-            return !calendar::turn.is_night();
-        };
+        set_is_day();
     } else if( type == "is_outside" ) {
-        condition = []( const dialogue & d ) {
-            const tripoint pos = g->m.getabs( d.beta->pos() );
-            return !g->m.has_flag( TFLAG_INDOORS, pos );
-        };
+        set_is_outside();
     } else if( type == "u_has_camp" ) {
-        condition = []( const dialogue & ) {
-            return !g->u.camps.empty();
-        };
+        set_u_has_camp();
     } else {
         condition = []( const dialogue & ) {
             return false;

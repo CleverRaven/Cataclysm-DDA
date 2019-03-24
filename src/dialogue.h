@@ -361,6 +361,26 @@ struct conditional_t {
         void set_days_since( JsonObject &jo );
         void set_is_season( JsonObject &jo );
         void set_mission_goal( JsonObject &jo );
+        void set_no_assigned_mission();
+        void set_has_assigned_mission();
+        void set_has_many_assigned_missions();
+        void set_no_available_mission();
+        void set_has_available_mission();
+        void set_has_many_available_missions();
+        void set_mission_complete();
+        void set_mission_incomplete();
+        void set_npc_available();
+        void set_npc_following();
+        void set_npc_friend();
+        void set_npc_hostile();
+        void set_npc_train_skills();
+        void set_npc_train_styles();
+        void set_at_safe_space();
+        void set_can_stow_weapon( bool is_npc = false );
+        void set_has_weapon( bool is_npc = false );
+        void set_is_day();
+        void set_is_outside();
+        void set_u_has_camp();
 
         bool operator()( const dialogue &d ) const {
             if( !condition ) {
