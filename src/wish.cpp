@@ -499,6 +499,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             if( cb.has_flag ) {
                 granted.item_tags.insert( cb.flag );
             }
+            granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr ) {
