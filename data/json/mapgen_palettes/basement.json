@@ -40,13 +40,17 @@
       "F": "t_floor",
       "S": "t_floor",
       "l": "t_floor",
-      "|": "t_wall"
+      "B": "t_floor",
+      "M": "t_floor",
+      "|": "t_wall",
+      "1": "t_wall_log"
     },
     "furniture": {
       "&": "f_toilet",
       "a": "f_armchair",
       "A": "f_armchair",
       "b": "f_bookcase",
+      "B": "f_bookcase",
       "c": "f_counter",
       "n": "f_counter",
       "d": "f_dryer",
@@ -61,6 +65,7 @@
       "#": "f_table",
       "w": "f_washer",
       "l": "f_floor_lamp",
+      "M": "f_desk",
       "T": "f_trashcan"
     },
     "toilets": { "&": {  } }
