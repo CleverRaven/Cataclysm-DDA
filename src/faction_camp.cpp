@@ -431,13 +431,13 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
 static cata::optional<basecamp *> get_basecamp( npc &p )
 {
 
-    tripoint omt_tri = p.global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+    tripoint omt_pos = p.global_omt_location();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
     if( bcp ) {
         return bcp;
     }
     g->m.add_camp( p.pos(), "faction_camp" );
-    bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+    bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
     if( !bcp ) {
         return cata::nullopt;
     }

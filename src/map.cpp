@@ -5448,11 +5448,10 @@ basecamp map::hoist_submap_camp( const tripoint &p )
 
 void map::add_camp( const tripoint &p, const std::string &name )
 {
-    point omt = ms_to_omt_copy( g->m.getabs( p.x, p.y ) );
-    tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
-    basecamp temp_camp = basecamp( name, omt_tri );
+    tripoint omt_pos = ms_to_omt_copy( g->m.getabs( p ) );
+    basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
-    g->u.camps.insert( omt_tri );
+    g->u.camps.insert( omt_pos );
     g->validate_camps();
 }
 
