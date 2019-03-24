@@ -213,6 +213,7 @@ static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bn_bio_solar( "bn_bio_solar" );
+static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_syringe( "bio_syringe" );
@@ -10337,6 +10338,9 @@ int player::sleep_spot( const tripoint &p ) const
 
 bool player::can_sleep()
 {
+	if( has_bionic( bio_soporific ) ) {
+		return true;
+	}
     if( has_effect( effect_meth ) ) {
         // Sleep ain't happening until that meth wears off completely.
         return false;

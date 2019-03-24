@@ -1118,5 +1118,12 @@
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_soporific",
+    "type": "bionic",
+    "name": "Soporific Induction",
+    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus, granting you the enviable power to fall asleep immediately, whenever, wherever.",
+    "occupied_bodyparts": [ [ "HEAD", 1 ] ]
   }
 ]
