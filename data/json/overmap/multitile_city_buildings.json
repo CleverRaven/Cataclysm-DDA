@@ -17,6 +17,33 @@
   },
   {
     "type": "city_building",
+    "id": "s_restaurant_coffee",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_coffee_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_coffee_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_restaurant_coffee_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_coffee_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_coffee_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_restaurant_coffee_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_coffee_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_coffee_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "animalshelter",
     "locations": [ "land" ],
     "overmaps": [
@@ -767,5 +794,11 @@
       { "point": [ 0, 0, 0 ], "overmap": "animalpound_north" },
       { "point": [ 0, 0, 1 ], "overmap": "animalpound_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_arcade",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_arcade_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_arcade_roof_north" } ]
   }
 ]

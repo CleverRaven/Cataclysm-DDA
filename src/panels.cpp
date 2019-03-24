@@ -382,7 +382,7 @@ void decorate_panel( const std::string name, const catacurses::window &w )
     draw_border( w );
 
     static const char *title_prefix = " ";
-    const std::string title = name;
+    const std::string &title = name;
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
@@ -1812,7 +1812,7 @@ void panel_manager::serialize( JsonOut &json )
 
     json.start_array();
 
-    for( auto kv : layouts ) {
+    for( const auto &kv : layouts ) {
         json.start_object();
 
         json.member( "layout_id", kv.first );
@@ -1820,7 +1820,7 @@ void panel_manager::serialize( JsonOut &json )
 
         json.start_array();
 
-        for( auto panel : kv.second ) {
+        for( const auto &panel : kv.second ) {
             json.start_object();
 
             json.member( "name", panel.get_name() );

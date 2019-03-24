@@ -1265,7 +1265,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
 
 bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks )
 {
-    for( auto this_bike_rack : list_of_racks ) {
+    for( const auto &this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
         carry_vehs.assign( 4, nullptr );
         vehicle *test_veh = nullptr;

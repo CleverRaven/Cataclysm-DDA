@@ -850,7 +850,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
         print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_land_use_codes ? c_pink : c_magenta );
-        print_hint( "TOGGLE_LOCATION_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
+        print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
@@ -950,7 +950,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             ret = overmap::invalid_tripoint;
         } else if( action == "CREATE_NOTE" ) {
             std::string color_notes = _( "Color codes: " );
-            for( auto color_pair : get_note_color_names() ) {
+            for( const auto &color_pair : get_note_color_names() ) {
                 // The color index is not translatable, but the name is.
                 color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
                                               _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );

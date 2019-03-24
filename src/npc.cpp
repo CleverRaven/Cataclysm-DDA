@@ -2165,7 +2165,7 @@ epilogue *epilogue::find_epilogue( const std::string &ident )
 void epilogue::random_by_group( std::string group )
 {
     std::vector<epilogue> v;
-    for( auto epi : _all_epilogue ) {
+    for( const auto &epi : _all_epilogue ) {
         if( epi.second.group == group ) {
             v.push_back( epi.second );
         }
