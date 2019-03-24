@@ -4328,7 +4328,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
