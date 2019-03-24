@@ -239,8 +239,6 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
-        void draw_ter( const tripoint &center, const tripoint &sidebar_offset, bool looking = false,
-                       bool draw_sounds = true );
         void draw_panels();
         void draw_panels( size_t column, size_t index );
         /**
