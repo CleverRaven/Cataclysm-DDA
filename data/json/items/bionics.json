@@ -901,6 +901,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Soporific Induction CBM",
+    "description": "A microscopic electrode designed to gently stimulate a particular cluster of neurons in your hypothalamus. Once installed, you will be able to fall asleep as soon as you try, no matter the circumstances.",
     "price": 350000,
     "difficulty": 2
   },
