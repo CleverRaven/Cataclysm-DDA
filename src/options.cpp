@@ -1129,6 +1129,20 @@ void options_manager::add_options_general()
 
     mOptionsSort["general"]++;
 
+    add( "IGNORE_DISTANT_SOUNDS", "general", translate_marker( "Ignore distant sounds during actions" ),
+         translate_marker( "If true, distant sounds like those above and below you, or ones from far away, won't interrupt you during actions like crafting or reading." ),
+         false
+       );
+
+    add( "IGNORE_ALL_SOUNDS", "general", translate_marker( "Ignore all sounds during actions" ),
+         translate_marker( "If true, no sounds will interrupt you during actions like crafting or reading." ),
+         false
+       );
+
+    get_option( "IGNORE_ALL_SOUNDS" ).setPrerequisite( "IGNORE_DISTANT_SOUNDS" );
+
+    mOptionsSort["general"]++;
+
     add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
          translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
          false

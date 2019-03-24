@@ -18,6 +18,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -335,8 +336,12 @@ void sounds::process_sound_markers( player *p )
             continue;
         }
 
+        // depending on our options, we might not care about the sound
+        const bool ignored_sound = ( get_option<bool>( "IGNORE_DISTANT_SOUNDS" ) && ( pos.z != p->pos().z ||
+                                     distance_to_sound >= 15 ) ) || get_option<bool>( "IGNORE_ALL_SOUNDS" );
         // don't print our own noise or things without descriptions
-        if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
+        if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) &&
+            !ignored_sound ) {
             if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
                 const std::string query = string_format( _( "Heard %s!" ), description );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
