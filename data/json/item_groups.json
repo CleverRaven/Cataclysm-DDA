@@ -9133,7 +9133,7 @@
       ["bio_faraday", 20],
       ["bio_weight", 20],
       ["bio_shock_absorber", 20],
-	  ["bio_soporific", 20]
+      ["bio_soporific", 20]
     ]
   },{
     "type" : "item_group",

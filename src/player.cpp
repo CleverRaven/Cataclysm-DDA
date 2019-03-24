@@ -10338,9 +10338,9 @@ int player::sleep_spot( const tripoint &p ) const
 
 bool player::can_sleep()
 {
-	if( has_bionic( bio_soporific ) ) {
-		return true;
-	}
+    if( has_bionic( bio_soporific ) ) {
+        return true;
+    }
     if( has_effect( effect_meth ) ) {
         // Sleep ain't happening until that meth wears off completely.
         return false;
