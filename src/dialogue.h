@@ -317,6 +317,32 @@ struct dynamic_line_t {
         }
 };
 
+namespace dialogue_data
+{
+const std::unordered_set<std::string> simple_string_conds = { {
+        "has_assigned_mission", "has_many_assigned_missions", "has_no_available_mission",
+        "has_available_mission", "has_many_available_missions",
+        "mission_complete", "mission_incomplete",
+        "npc_available", "npc_following", "npc_friend", "npc_hostile",
+        "npc_train_skills", "npc_train_styles",
+        "at_safe_space", "is_day", "is_outside", "u_has_camp",
+        "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon"
+    }
+};
+const std::unordered_set<std::string> complex_conds = { {
+        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
+        "u_has_trait_flag", "npc_has_trait_flag", "npc_has_class", "u_has_mission",
+        "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
+        "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
+        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item",
+        "u_has_items", "npc_has_items", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
+        "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
+        "u_has_cash", "npc_aim_rule", "npc_engagement_rule", "npc_rule", "days_since_cataclysm",
+        "is_season", "mission_goal"
+    }
+};
+};
+
 // the truly awful declaration for the conditional_t loading helper_function
 void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
                               bool default_val );

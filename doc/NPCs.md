@@ -135,153 +135,6 @@ The dynamic line is chosen based on whether the character has a weapon in hand o
 }
 ```
 
-#### Based on items worn by the player character
-The dynamic line is chosen based on whether the player character wears a specific item.  Both entries are optional.  The `u_is_wearing` string should be a valid item id.  The line from `yes` will be shown if the character is wearing the item, otherwise the line from `no`.
-
-```C++
-{
-    "u_is_wearing": "fur_cat_ears",
-    "yes": "Hello, I like your ears.",
-    "no": "Hello."
-}
-```
-
-#### Based on items owned by the player character
-The dynamic line is chosen based on whether the player character has a specific item somewhere in their inventory.  Both entries are optional.  The `u_has_item` string should be a valid item id.  The line from `yes` will be shown if the character has the item, otherwise the line from `no`.
-
-```C++
-{
-    "u_has_item": "beer",
-    "yes": "C'mon, give me a drink.",
-    "no": "You're not much of a bartender."
-}
-```
-
-#### Based on mutation (trait) possessed by the player character
-The dynamic line is chosen based on whether the player character has any of an array of traits.  Both entries are optional.  The `u_has_any_trait` string should be one or more valid mutation IDs.  The line from `yes` will be shown if the character has one of the traits, otherwise the line from `no`.
-
-```C++
-{
-    "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
-    "yes": "Hello, I like your ears.",
-    "no": "Hello."
-}
-```
-
-#### Based on mutation (trait) possessed by the NPC
-The dynamic line is chosen based on whether the NPC has any of an array of traits.  Both entries are optional.  The `npc_has_any_trait` string should be one or more valid mutation IDs.  The line from `yes` will be shown if the NPC has one of the traits, otherwise the line from `no`.
-
-```C++
-{
-    "npc_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
-    "yes": "I was subjected to strange experiments in a lab.",
-    "no": "I was a college student."
-}
-```
-
-#### Based on trait or mutation possessed by the player character
-The dynamic line is chosen based on whether the player character has a specific trait.  Both entries are optional.  The `u_has_trait` string should be a valid mutation ID.  The line from `yes` will be shown if the character has the trait, otherwise the line from `no`.
-
-```C++
-{
-    "u_has_trait": "ELFA_EARS",
-    "yes": "A forest protector! You must help us.",
-    "no": "Hello."
-}
-```
-
-#### Based on trait or mutation possessed by the NPC
-The dynamic line is chosen based on whether the NPC has a specific trait.  Both entries are optional. The `npc_has_trait` string should be a valid mutation ID. The line from `yes` will be shown if the NPC has the trait, otherwise the line from `no`.
-
-```C++
-{
-    "npc_has_trait": "ELFA_EARS",
-    "yes": "I am a forest protector, and do not speak to outsiders.",
-    "no": "Hello."
-}
-```
-
-#### Based on trait or mutation flag possessed by the player character
-The dynamic line is chosen based on whether the player character has a trait with a specific flag.  Both entries are optional.  The `u_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the character has any traits with the flag, otherwise the line from `no`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player has crossed a mutation threshold.
-
-```C++
-{
-    "u_has_trait_flag": "CANNIBAL",
-    "yes": "You monster!  Get away from me!",
-    "no": "Hello."
-}
-```
-
-#### Based on trait or mutation flag possessed by the NPC
-The dynamic line is chosen based on whether the NPC has a trait with a specific flag.  Both entries are optional.  The `npc_has_trait_flag` string should be a valid trait flag.  The line from `yes` will be shown if the NPC has any traits with the flag, otherwise the line from `no`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the NPC has crossed a mutation threshold.
-
-```C++
-{
-    "npc_has_trait": "CANNIBAL",
-    "yes": "Meat is meat, so sure, I'll have some.",
-    "no": "You are disgusting!"
-}
-```
-
-#### Based on the NPC's class
-The dynamic line is chosen based on whether the NPC is part of a specific class.  Both entries are optional. The `npc_has_class` string should be a valid NPC class ID.  The line from `yes` will be shown if the NPC is part of the class, otherwise the line from `no`.
-
-```C++
-{
-    "npc_has_class": "NC_ARSONIST",
-    "yes": "I like setting fires.",
-    "no": "Hello."
-}
-```
-
-#### Based on effect possessed by the player character
-The dynamic line is chosen based on whether the player character is currently is under the effect.  Both entries are optional.  The line from `yes` will be shown if the player character has the effect, otherwise the line from `no`.
-
-```C++
-{
-    "u_has_effect": "infected",
-    "yes": "You look sick.  You should get some antibiotics.",
-    "no": "What's going on?"
-}
-```
-
-#### Based on effect possessed by the NPC
-The dynamic line is chosen based on whether the NPC is currently is under the effect.  Both entries are optional.  The line from `yes` will be shown if the NPC has the effect, otherwise the line from `no`.
-
-```C++
-{
-    "npc_has_effect": "infected",
-    "yes": "I need antibiotics.",
-    "no": "What's going on?"
-}
-```
-
-#### Based on the NPC's current needs
-The dynamic line is chosed based on the NPC's current hunger, thirst, or fatigue.  `level` or `amount` is required: `amount` is an integer, and `level` is one of the four defined fatigue levels "TIRED", "DEAD_TIRED", "EXHAUSTED", or "MASSIVE_FATIGUE".  The line from `yes` will be shown if the NPC's need is at least that amount, and otherwise the line from `no`.
-
-```C++
-{
-    "and" [
-        {
-            "npc_need": "hunger",
-            "amount": 100,
-            "yes": "I'm hungry!  "
-        },
-        {
-            "npc_need": "thirst",
-            "amount": 100,
-            "yes": "I need a drink!  "
-        },
-        {
-            "npc_need": "fatigue",
-            "level": "TIRED",
-            "yes": "I could use a nap.",
-            "no": "I'm otherwise good."
-        }
-    ]
-}
-```
-
 #### Based on whether the NPC has missions available
 The dynamic line is chosen based on whether the NPC has any missions to give out.  All entries are optional.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
 
@@ -319,65 +172,6 @@ The dynamic line is chosen if the player is driving a vehicle, or the NPC is dri
 }
 ```
 
-#### Based on an NPC follower AI rule
-The dynamic line is chosen based on NPC follower AI rules settings.  There are three variants: `npc_aim_rule`, `npc_engagement_rule`, and `npc_rule`, all of which take a rule value and an optional `yes` and `no` response.  The `yes` response is chosen if the NPC follower AI rule value matches the rule value and otherwise the no value is chosen.
-
-`npc_aim_rule` values are currently "AIM_SPRAY", "AIM_WHEN_CONVENIENT", "AIM_PRECISE", or "AIM_STRICTLY_PRECISE".
-`npc_engagement_rule` values are currently "ENGAGE_NONE", "ENGAGE_CLOSE", "ENGAGE_WEAK", "ENGAGE_HIT", or "ENGAGE_NO_MOVE".
-`npc_rule` values are currently "use_guns", "use_grenades", "use_silent", "avoid_friendly_fire", "allow_pick_up", "allow_bash", "allow_sleep", "allow_complain", "allow_pulp", or "close_doors".
-
-```C++
-{
-    "and": [
-        {
-            "npc_aim_rule": "AIM_STRICTLY_PRECISE",
-            "yes": "No wasting ammo, got it.  "
-        },
-        {
-            "npc_engagement_rule": "ENGAGE_NO_MOVE",
-            "yes": "Stay where I am.  "
-        },
-        {
-            "npc_rule": "allow_pulp",
-            "yes": "Pulp the corpses when I'm done.",
-            "no": "Leave the corpses for someone else to deal with."
-        }
-    ]
-}
-```
-
-#### Based on whether the NPC has a pickup list
-The dynamic line is chosen based on whether the NPC has a pickup list or not.  The line from `yes` will be shown if they have a pickup list and otherwise the line from `no`.  The line from `yes` will be shown even if `npc_rule`: `allow_pick_up` is false.
-
-```C++
-{
-    "has_pickup_list": true,
-    "yes": "I know what to get.",
-    "no": "What was I supposed to take?"
-}
-```
-
-#### Based on the days since the Cataclysm
-The dynamic line is chosen based on the specified number of days have elapsed since the start of the Catacylsm.  Both entries are optional.  The line from `yes` will be shown if at least that many days have passed, otherwise the line from `no`.
-
-```C++
-{
-    "days_since_cataclysm": 30,
-    "yes": "Things are really getting bad!",
-    "no": "I'm sure the government will restore services soon."
-}
-```
-
-#### Based on the season
-The dynamic line is chosen is the current season matches `is_season`.  Valid seasons are "spring", "summer", "autumn", or "winter". The line from `yes` will be shown if the current season matches `is_season`, otherwise the line from `no`.
-```C++
-{
-    "is_season": "summer",
-    "yes": "At least it's a dry heat.",
-    "no": "What's going on?"
-}
-```
-
 #### Based on the day/night cycle
 The dynamic line is chosen based whether it is currently daytime or nighttime.  Both entries must exist.
 
@@ -397,6 +191,32 @@ The dynamic line will be randomly chosen from the hints snippets.
 }
 ```
 
+#### Based on any Dialogue condition
+The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` reponses are optional.  Simple string conditions must be followed by `"true"` to make them fields in the dynamic line dictionary.
+
+```C++
+{
+    "npc_need": "fatigue",
+    "level": "TIRED",
+    "no": "Just few minutes more...",
+    "yes": "Make it quick, I want to go back to sleep."
+}
+{
+    "npc_aim_rule": "AIM_PRECISE",
+    "no": "*will not bother to aim at all.",
+    "yes": "*will take time and aim carefully."
+}
+{
+    "u_has_item": "india_pale_ale",
+    "yes": "<noticedbooze>",
+    "no": "<neutralchitchat>"
+}
+{
+    "days_since_cataclysm": 30,
+    "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
+    "no": "<neutralchitchat>"
+} 
+```
 ---
 
 ## Responses
@@ -530,7 +350,7 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 ```
 
 ### condition
-This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content see below.
+This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content see Dialogue Conditions below.
 
 ---
 
@@ -649,7 +469,7 @@ trust, value, fear, and anger are optional keywords inside the `mission_opinion`
 
 ---
 
-### response conditions
+## Dialogue conditions
 Conditions can be a simple string with no other values, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
 
 The following keys and simple strings are available:
@@ -678,13 +498,13 @@ Condition | Type | Description
 "u_has_item"<br\>"npc_has_item" | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
 "u_has_items"<br\>"npc_has_item" | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
 "u_has_effect"<br\>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
+"u_can_stow_weapon"<br\>"npc_can_stow_weapon" | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
+"u_has_weapon"<br\>"npc_has_weapon" | simple string | `true` if the player character or NPC is wielding a weapon.
 
 #### Player Only conditions
 
 "u_has_mission" | string | `true` if the mission is assigned to the player character.
 "u_has_cash" | int | `true` if the player character has at least `u_has_cash` cash available.  Used to check if the PC can buy something.
-"u_can_stow_weapon" | simple string | `true` if the player character is wielding a weapon and has enough space to put it away.
-"u_has_weapon" | simple string | `true` if the player character is wielding a weapon.
 "u_has_camp" | simple string | `true` is the player has one or more active base camps.
 
 #### Player and NPC interaction conditions
@@ -716,7 +536,6 @@ Condition | Type | Description
 "npc_train_styles" | simple string | `true` if the NPC knows one or more martial arts styles that the player does not know.
 "npc_has_class" | array | `true` if the NPC is a member of an NPC class.
 "npc_role_nearby" | string | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
-"npc_has_weapon" | simple string | `true` if the NPC is wielding a weapon.
 
 #### NPC Follower AI rules
 Condition | Type | Description
