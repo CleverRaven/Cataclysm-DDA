@@ -88,7 +88,7 @@ int snippet_library::assign( const std::string &category, const int seed ) const
         return 0;
     }
     std::mt19937 generator( seed );
-    const std::uniform_int_distribution<int> dis( 0, count - 1 );
+    std::uniform_int_distribution<int> dis( 0, count - 1 );
     const int selected_text = dis( generator );
     std::multimap<std::string, int>::const_iterator it = categories.lower_bound( category );
     for( int index = 0; index < selected_text; ++index ) {

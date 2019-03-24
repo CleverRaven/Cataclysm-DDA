@@ -77,7 +77,7 @@ struct pathfinder {
     }
 
     tripoint get_next() {
-        const const auto pt = open.top();
+        const auto pt = open.top();
         open.pop();
         return pt.second;
     }
