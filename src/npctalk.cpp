@@ -2282,6 +2282,17 @@ void conditional_t::set_mission_goal( JsonObject &jo )
     };
 }
 
+void conditional_t::set_is_gender( bool is_male, bool is_npc )
+{
+    condition = [is_male, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->male == is_male;
+    };
+}
+
 void conditional_t::set_no_assigned_mission()
 {
     condition = []( const dialogue & d ) {
@@ -2439,6 +2450,13 @@ void conditional_t::set_u_has_camp()
     };
 }
 
+void conditional_t::set_has_pickup_list()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->rules.pickup_whitelist->empty();
+    };
+}
+
 conditional_t::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -2588,7 +2606,15 @@ conditional_t::conditional_t( JsonObject jo )
 conditional_t::conditional_t( const std::string &type )
 {
     const bool is_npc = true;
-    if( type == "has_no_assigned_mission" ) {
+    if( type == "u_male" ) {
+        set_is_gender( true );
+    } else if( type == "npc_male" ) {
+        set_is_gender( true, is_npc );
+    } else if( type == "u_female" ) {
+        set_is_gender( false );
+    } else if( type == "npc_female" ) {
+        set_is_gender( false, is_npc );
+    } else if( type == "has_no_assigned_mission" ) {
         set_no_assigned_mission();
     } else if( type == "has_assigned_mission" ) {
         set_has_assigned_mission();
@@ -2632,6 +2658,8 @@ conditional_t::conditional_t( const std::string &type )
         set_is_outside();
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
+    } else if( type == "has_pickup_list" ) {
+        set_has_pickup_list();
     } else {
         condition = []( const dialogue & ) {
             return false;
@@ -2750,50 +2778,17 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             }
             return no_vehicle( d );
         };
-    } else if( jo.has_member( "is_day" ) && jo.has_member( "is_night" ) ) {
-        const dynamic_line_t is_day = from_member( jo, "is_day" );
-        const dynamic_line_t is_night = from_member( jo, "is_night" );
-        function = [is_day, is_night]( const dialogue & d ) {
-            return ( calendar::turn.is_night() ? is_night : is_day )( d );
-        };
-    } else if( jo.has_member( "u_male" ) && jo.has_member( "u_female" ) ) {
-        const dynamic_line_t u_male = from_member( jo, "u_male" );
-        const dynamic_line_t u_female = from_member( jo, "u_female" );
-        function = [u_male, u_female]( const dialogue & d ) {
-            return ( d.alpha->male ? u_male : u_female )( d );
-        };
-    } else if( jo.has_member( "npc_male" ) && jo.has_member( "npc_female" ) ) {
-        const dynamic_line_t npc_male = from_member( jo, "npc_male" );
-        const dynamic_line_t npc_female = from_member( jo, "npc_female" );
-        function = [npc_male, npc_female]( const dialogue & d ) {
-            return ( d.beta->male ? npc_male : npc_female )( d );
-        };
-    } else if( jo.has_member( "u_has_weapon" ) && jo.has_member( "u_unarmed" ) ) {
-        const dynamic_line_t u_has_weapon = from_member( jo, "u_has_weapon" );
-        const dynamic_line_t u_unarmed = from_member( jo, "u_unarmed" );
-        function = [u_has_weapon, u_unarmed]( const dialogue & d ) {
-            return ( d.alpha->unarmed_attack() ? u_unarmed : u_has_weapon )( d );
-        };
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
-        };
-    } else if( jo.has_bool( "has_pickup_list" ) ) {
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [yes, no]( const dialogue & d ) {
-            if( d.beta->rules.pickup_whitelist->empty() ) {
-                return no( d );
-            }
-            return yes( d );
         };
     } else {
         conditional_t dcondition;
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
-            if( jo.has_string( sub_member ) ) {
-                dcondition = conditional_t( jo.get_string( sub_member ) );
+            if( jo.has_bool( sub_member ) ) {
+                dcondition = conditional_t( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
                 };

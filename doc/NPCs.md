@@ -94,44 +94,17 @@ The dynamic line is a list of dynamic lines, all of which are displayed.  The dy
 {
     "and": [
         {
-            "npc_male": "I'm a man.",
-            "npc_female": "I'm a woman."
+            "npc_male": true,
+            "yes": "I'm a man.",
+            "no": "I'm a woman."
         },
         "  ",
         {
-            "u_male": "You're a man.",
-            "u_female": "You're a woman."
+            "u_female": true,
+            "no": "You're a man.",
+            "yes": "You're a woman."
         }
     ]
-}
-```
-#### Based on the gender of the NPC / NPC
-The dynamic line is chosen based on the gender of the NPC.  Both entries must exist.
-
-```C++
-{
-    "npc_male": "I'm a man.",
-    "npc_female": "I'm a woman."
-}
-```
-
-#### Based on the gender of the player character
-The dynamic line is chosen based on the gender of the player character.  Both entries must exist.
-
-```C++
-{
-    "u_male": "You're a man.",
-    "u_female": "You're a woman."
-}
-```
-
-#### Based on whether the player character is armed or unarmed
-The dynamic line is chosen based on whether the character has a weapon in hand or not.  Both entries must exist.
-
-```C++
-{
-    "u_has_weapon": "Drop your weapon!",
-    "u_unarmed": "Put your hands in air!"
 }
 ```
 
@@ -487,6 +460,8 @@ These conditions can be tested for the player using the `"u_"` form, and for the
 
 Condition | Type | Description
 --- | --- | ---
+"u_male"<br\>"npc_male" | simple string | `true` if the player character or NPC is male.
+"u_female"<br\>"npc_female" | simple string | `true` if the player character or NPC is female.
 "u_at_om_location"<br\>"npc_at_om_location" | string | `true` if the player character or NPC is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player or NPC is standing on a faction camp overmap tile.
 "u_has_trait"<br\>"npc_has_trait" | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
 "u_has_trait_flag"<br\>"npc_has_trait_flag" | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player or NPC has crossed a mutation threshold.
