@@ -495,7 +495,7 @@
       ],
       "place_monsters": [
         { "chance": 4, "density": 1, "monster": "GROUP_ZOMBIE", "x": 8, "y": 10 },
-        { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE_FAT", "x": 17, "y": 11 }
+        { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE_FAT_BASE", "x": 17, "y": 11 }
       ],
       "place_toilets": [ { "x": 20, "y": 17 } ],
       "rows": [

@@ -1154,6 +1154,13 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_ZOMBIE_FAT_BASE",
+    "default" : "mon_zombie_fat",
+    "monsters" : [
+      { "monster" : "mon_zombie_fat", "freq" : 40, "cost_multiplier": 2}
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_ZOMBIE_FAT",
     "default" : "mon_zombie_gasbag",
     "monsters" : [
