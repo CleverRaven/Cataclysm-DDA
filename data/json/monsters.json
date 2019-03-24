@@ -2350,7 +2350,7 @@
     "id": "mon_skeleton_brute",
     "type": "MONSTER",
     "name": "skeletal brute",
-    "description": "Distorted outgrowths of calcified bone plates covers this zombie's rotten skin. Its joints and cracks around its body oozes with black goo.",
+    "description": "Distorted outgrowths of calcified bone plates cover this zombie's rotten skin. Joints and cracks around its body ooze with black goo.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
