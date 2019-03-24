@@ -52,6 +52,22 @@
   },
   {
     "type": "recipe",
+    "result": "ammolink223",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 4 ],
+    "difficulty": 7,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "charges": 25,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "ammolink308",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
