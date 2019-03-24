@@ -505,6 +505,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_grocery_roof",
+    "name": "grocery store roof",
+    "copy-from": "generic_city_building",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_grocery_1",
+    "name": "grocery store",
+    "copy-from": "generic_city_building",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_grocery_roof_1",
+    "name": "grocery store roof",
+    "copy-from": "generic_city_building",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_hardware",
     "name": "hardware store",
     "copy-from": "generic_city_building",
