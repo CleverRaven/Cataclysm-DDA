@@ -1358,7 +1358,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line ) const
+void npc::say( const std::string &line, const bool shout ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
@@ -1371,7 +1371,13 @@ void npc::say( const std::string &line ) const
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Sound happens even if we can't hear it
-    sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    // Default volume for shouting for NPCs at 25
+    // TODO use same logic as for player shout volume
+    if( shout ) {
+        sounds::sound( pos(), 25, sounds::sound_t::alert, sound );
+    } else {
+        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    }
 }
 
 bool npc::wants_to_sell( const item &it ) const
@@ -1631,7 +1637,7 @@ bool npc::is_guarding() const
 {
     return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
            mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
-           mission == NPC_MISSION_GUARD_ALLY ||
+           mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ||
            has_effect( effect_infection );
 }
 
@@ -2460,7 +2466,7 @@ npc_companion_mission npc::get_companion_mission() const
     return comp_mission;
 }
 
-attitude_group get_attitude_group( npc_attitude att )
+attitude_group npc::get_attitude_group( npc_attitude att )
 {
     switch( att ) {
         case NPCATT_MUG:

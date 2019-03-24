@@ -241,7 +241,8 @@ void sounds::process_sounds()
 // skip most movement sounds
 bool describe_sound( sounds::sound_t category )
 {
-    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ) {
+    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ||
+        category == sounds::sound_t::alert ) {
         return true;
     }
     return one_in( 5 );

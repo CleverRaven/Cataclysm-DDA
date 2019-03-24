@@ -205,7 +205,6 @@ void game::chat()
         .identifier( "sentence" )
         .max_length( 128 )
         .query();
-
         std::string sentence = popup.text();
         add_msg( _( "You yell, \"%s\"" ), sentence );
         u.shout( string_format( _( "%s yelling \"%s\"" ), u.disp_name(), sentence ) );
@@ -255,6 +254,44 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( sees( spos ) ) {
         return;
     }
+    // ignore low priority sounds if the NPC "knows" it came from a friend.
+    // @ todo NPC will need to respond to talking noise eventually
+    // but only for bantering purposes, not for investigating.
+    npc *const sound_source = g->critter_at<npc>( spos );
+    if( sound_source ) {
+        if( ( my_fac == sound_source->my_fac ||
+              get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
+                  sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
+            add_msg( "NPC ignored same faction %s", name.c_str() );
+            return;
+        }
+    }
+    // discount if sound source is player and listener is friendly
+    if( ( priority < 6 ) && spos == g->u.pos() && ( is_friend() ||
+            mission == NPC_MISSION_GUARD_ALLY ||
+            get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
+        add_msg( "NPC ignored player noise %s", name.c_str() );
+        return;
+    }
+    // patrolling guards will investigate more readily than stationary NPCS
+    int investigate_dist = 10;
+    if( mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ) {
+        investigate_dist = 50;
+    }
+    if( priority > 3 && ai_cache.total_danger < 1.0f && rl_dist( pos(), spos ) < investigate_dist ) {
+        add_msg( "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
+        dangerous_sound temp_sound;
+        temp_sound.pos = spos;
+        temp_sound.volume = heard_volume;
+        temp_sound.type = priority;
+        if( !ai_cache.sound_alerts.empty() ) {
+            if( ai_cache.sound_alerts.back().pos != spos ) {
+                ai_cache.sound_alerts.push_back( temp_sound );
+            }
+        } else {
+            ai_cache.sound_alerts.push_back( temp_sound );
+        }
+    }
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
@@ -269,7 +306,6 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             break;
         case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
             if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
-                // replace with warn_about when that merges
                 warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
             }
             break;
@@ -536,6 +572,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 return _( "I'm guarding this location." );
             case NPC_MISSION_GUARD:
             case NPC_MISSION_GUARD_ALLY:
+            case NPC_MISSION_GUARD_PATROL:
                 return _( "I'm guarding this location." );
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();

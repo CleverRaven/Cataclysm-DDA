@@ -15,6 +15,7 @@
     "attitude" : 0,
     "//" : "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
     "//" : "and 7=NPC_MISSION_GUARD",
+    "//" : "8 = NPC_MISSION_GUARD_PATROL will actively investigate noises",
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_REP",
     "faction" : "old_guard",
@@ -26,7 +27,7 @@
     "name_suffix" : "Soldier",
     "class" : "NC_SOLDIER",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_OLD_GUARD_SOLDIER",
     "faction" : "old_guard"
   },{
@@ -91,7 +92,7 @@
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_EVAC_GUARD1",
     "faction" : "free_merchants"
   },{
@@ -101,7 +102,7 @@
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_EVAC_GUARD2",
     "faction" : "free_merchants"
   },{
@@ -111,7 +112,7 @@
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_EVAC_GUARD3",
     "faction" : "free_merchants"
   },{
@@ -121,7 +122,7 @@
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_GUARD",
     "faction" : "free_merchants"
   },{
@@ -131,7 +132,7 @@
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 10,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_DONE",
     "faction" : "free_merchants"
   },{
@@ -296,7 +297,7 @@
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_GUARD",
     "faction" : "tacoma_commune"
   },{
@@ -339,7 +340,7 @@
     "name_suffix" : "Thug",
     "class" : "NC_THUG",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   },{
@@ -349,7 +350,7 @@
     "name_suffix" : "Bandit",
     "class" : "NC_SCAVENGER",
     "attitude" : 0,
-    "mission" : 7,
+    "mission" : 8,
     "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   },{
