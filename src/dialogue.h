@@ -105,7 +105,7 @@ struct talk_effect_fun_t {
         void set_npc_change_faction( const std::string &faction_name );
         void set_npc_change_class( const std::string &faction_class );
         void set_change_faction_rep( int amount );
-        void set_add_debt( const std::vector<trial_mod> debt_modifiers );
+        void set_add_debt( const std::vector<trial_mod> &debt_modifiers );
         void set_toggle_npc_rule( const std::string &rule );
         void set_npc_engagement_rule( const std::string &setting );
         void set_npc_aim_rule( const std::string &setting );
@@ -166,7 +166,6 @@ struct talk_effect_t {
     private:
         dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
 };
-
 
 /**
  * This defines possible responses from the player character.

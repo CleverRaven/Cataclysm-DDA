@@ -84,7 +84,7 @@ void MonsterGenerator::reset()
 
     attack_map.clear();
     // Hardcode attacks need to be re-added here
-    // @todo: Move initialization from constructor to init()
+    // TODO: Move initialization from constructor to init()
     init_attack();
 }
 

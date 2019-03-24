@@ -397,7 +397,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                 }
                 input_context ctxt( wmenu.input_category );
                 cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
-                                        num_spawned, int( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
+                                        num_spawned, static_cast<int>( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
                 uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
@@ -592,6 +592,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.query();
             g->draw_ter();
             wrefresh( g->w_terrain );
+            g->draw_panels();
             skset = sksetmenu.ret;
         }
 

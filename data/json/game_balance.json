@@ -145,5 +145,19 @@
     "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_ANIMAL_DENSITY",
+    "info": "A scaling factor that determines density of wild, formerly domesticated and mutated animal spawns.",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_ANIMAL_CLASH",
+    "info": "Disable additional spawn of large groups of monsters fighting each other on swamps.",
+    "stype": "bool",
+    "value": false
   }
 ]

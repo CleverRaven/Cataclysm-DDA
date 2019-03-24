@@ -270,7 +270,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
         auto djo = jo.get_object( "dialogue" );
-        // @todo: There should be a cleaner way to do it
+        // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
         mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );

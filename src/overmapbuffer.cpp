@@ -796,7 +796,6 @@ bool overmapbuffer::is_findable_location( const tripoint &location, const std::s
         }
     }
 
-
     return true;
 }
 
@@ -986,7 +985,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
 std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
 {
     std::vector<std::shared_ptr<npc>> available;
-    //@todo: this is an arbitrary radius, replace with something sane.
+    // TODO: this is an arbitrary radius, replace with something sane.
     for( const auto &guy : get_npcs_near_player( 100 ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );
@@ -1033,7 +1032,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     return result;
 }
 
-radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
+radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
         const tripoint &center )
 {
     // global submap coordinates, same as center is

@@ -95,8 +95,6 @@ void WORLD::add_save( const save_t &name )
 
 worldfactory::worldfactory()
     : active_world( nullptr )
-    , all_worlds()
-    , mman()
     , mman_ui( *mman )
 {
     // prepare tab display order
@@ -241,6 +239,8 @@ bool WORLD::save( const bool is_conversion ) const
 
 void worldfactory::init()
 {
+    load_last_world_info();
+
     std::vector<std::string> qualifiers;
     qualifiers.push_back( FILENAMES["worldoptions"] );
     qualifiers.push_back( FILENAMES["legacy_worldoptions"] );
@@ -531,6 +531,30 @@ void worldfactory::remove_world( const std::string &worldname )
     }
 }
 
+void worldfactory::load_last_world_info()
+{
+    std::ifstream file( FILENAMES["lastworld"], std::ifstream::in | std::ifstream::binary );
+    if( !file.good() ) {
+        return;
+    }
+
+    JsonIn jsin( file );
+    JsonObject data = jsin.get_object();
+    last_world_name = data.get_string( "world_name" );
+    last_character_name = data.get_string( "character_name" );
+}
+
+void worldfactory::save_last_world_info()
+{
+    write_to_file( FILENAMES["lastworld"], [&]( std::ostream & file ) {
+        JsonOut jsout( file, true );
+        jsout.start_object();
+        jsout.member( "world_name", last_world_name );
+        jsout.member( "character_name", last_character_name );
+        jsout.end_object();
+    }, _( "last world info" ) );
+}
+
 std::string worldfactory::pick_random_name()
 {
     // TODO: add some random worldname parameters to name generator
@@ -662,9 +686,9 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
     }
 
     if( first_line_is_category && iActive == 1 ) {  // Ensure that the scrollbar starts at zero position
-        draw_scrollbar( w, 0, iMaxRows, int( iModNum ), 0 );
+        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), 0 );
     } else {
-        draw_scrollbar( w, int( iActive ), iMaxRows, int( iModNum ), 0 );
+        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), 0 );
     }
 
     wrefresh( w );
@@ -821,12 +845,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_headers ) {
             for( size_t i = 0; i < headers.size(); ++i ) {
                 werase( header_windows[i] );
-                const int header_x = int ( ( getmaxx( header_windows[i] ) - headers[i].size() ) / 2 );
+                const int header_x = static_cast<int>( ( getmaxx( header_windows[i] ) - headers[i].size() ) / 2 );
                 mvwprintz( header_windows[i], 0, header_x, c_cyan, headers[i] );
 
                 if( active_header == i ) {
                     mvwputch( header_windows[i], 0, header_x - 3, c_red, '<' );
-                    mvwputch( header_windows[i], 0, header_x + int( headers[i].size() ) + 2, c_red, '>' );
+                    mvwputch( header_windows[i], 0, header_x + static_cast<int>( headers[i].size() ) + 2, c_red, '>' );
                 }
                 wrefresh( header_windows[i] );
             }

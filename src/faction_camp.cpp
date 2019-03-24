@@ -502,27 +502,12 @@ void talk_function::start_camp( npc &p )
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
-
     editmap edit;
     tripoint new_pos = omt_pos;
     if( !edit.mapgen_set( "faction_base_camp_0", new_pos ) ) {
         popup( _( "You weren't able to survey the camp site." ) );
         return;
     }
-    become_overseer( p );
-}
-
-void talk_function::become_overseer( npc &p )
-{
-    add_msg( _( "%s has become a camp manager." ), p.name );
-    if( p.name.find( _( ", Camp Manager" ) ) == std::string::npos ) {
-        p.name = p.name + _( ", Camp Manager" );
-    }
-    p.companion_mission_role_id = basecamp_id;
-    p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD_ALLY;
-    p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
-    p.set_destination();
     get_basecamp( p );
 }
 
@@ -534,7 +519,7 @@ void talk_function::recover_camp( npc &p )
         popup( _( "There is no faction camp here to recover!" ) );
         return;
     }
-    become_overseer( p );
+    get_basecamp( p );
 }
 
 void talk_function::remove_overseer( npc &p )
@@ -1358,6 +1343,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
 
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     return true;
 }
@@ -2481,7 +2467,7 @@ bool basecamp::farm_return( const std::string &task, const tripoint &omt_tgt, fa
 
 // window manipulation
 void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_tab_mode cur_tab,
-                                    std::vector<std::vector<mission_entry>> &entries )
+                                    const std::vector<std::vector<mission_entry>> &entries )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -2649,7 +2635,6 @@ bool basecamp::om_upgrade( const std::string &next_upgrade, const tripoint &upos
     g->load_npcs();
     return true;
 }
-
 
 int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
 {
@@ -3110,7 +3095,7 @@ void basecamp::validate_sort_points()
 bool basecamp::set_sort_points( bool reset_pts, bool choose_pts )
 {
     std::vector<tripoint> new_pts;
-    for( std::pair<const std::string, point> sort_pt : sort_point_data ) {
+    for( const std::pair<const std::string, point> &sort_pt : sort_point_data ) {
         tripoint default_pt = omt_pos + sort_pt.second;
         new_pts.push_back( default_pt );
     }
@@ -3440,7 +3425,7 @@ std::string camp_car_description( vehicle *car )
         if( pt.is_battery() ) {
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - vp.name().length(),
-                                    int( 100.0 * pt.ammo_remaining() / pt.ammo_capacity() ) );
+                                    static_cast<int>( 100.0 * pt.ammo_remaining() / pt.ammo_capacity() ) );
         }
     }
     entry += " \n";

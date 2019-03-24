@@ -94,7 +94,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     } else {
         //when wind strength is low, wind direction is more variable
         bool changedir = one_in( W * 360 );
-        if( changedir == true ) {
+        if( changedir ) {
             current_winddir = get_wind_direction( season, seed );
             current_winddir = convert_winddir( current_winddir );
         }
@@ -257,7 +257,7 @@ void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
-    //@todo: this is wrong. weather_generator does not have such a constructor
+    // TODO: this is wrong. weather_generator does not have such a constructor
     // weather_generator WEATHERGEN(0); // Seeds the weather object.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
@@ -275,7 +275,6 @@ void weather_generator::test_weather() const
                  ";" << wd.name << ";" << w.windpower << ";" << w.winddirection << std::endl;
     }
 }
-
 
 weather_generator weather_generator::load( JsonObject &jo )
 {

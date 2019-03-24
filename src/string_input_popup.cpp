@@ -45,11 +45,11 @@ void string_input_popup::create_window()
 
         for( int wraplen = w_width - 2; wraplen >= titlesize; wraplen-- ) {
             title_split = foldstring( _title, wraplen );
-            if( int( title_split.back().size() ) <= titlesize ) {
+            if( static_cast<int>( title_split.back().size() ) <= titlesize ) {
                 break;
             }
         }
-        w_height += int( title_split.size() ) - 1;
+        w_height += static_cast<int>( title_split.size() ) - 1;
     }
 
     std::vector<std::string> descformatted;
@@ -78,7 +78,7 @@ void string_input_popup::create_window()
     for( size_t i = 0; i < descformatted.size(); ++i ) {
         trim_and_print( w, 1 + i, 1, w_width - 2, _desc_color, descformatted[i] );
     }
-    for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
+    for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
         mvwprintz( w, _starty++, i + 1, _title_color, title_split[i] );
     }
     right_print( w, _starty, w_width - titlesize - 1, _title_color, title_split.back() );
@@ -415,7 +415,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
-                //TODO: it is safe now since you only input ASCII chars
+                // TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
                 redraw = true;

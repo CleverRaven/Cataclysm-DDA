@@ -1561,6 +1561,9 @@ class item : public visitable<item>
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
+        /* Get the name to be used when sorting this item by ammo type */
+        std::string ammo_sort_name() const;
+
         /** How many spent casings are contained within this item? */
         int casings_count() const;
 
@@ -1900,6 +1903,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        bool is_favorite = false;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
