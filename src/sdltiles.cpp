@@ -1443,6 +1443,7 @@ static void end_arrow_combo()
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
+#ifndef __ANDROID__
     const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
 
     if( diag_mode == "mode1" ) {
@@ -1502,6 +1503,7 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
             }
         }
     }
+#endif
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
