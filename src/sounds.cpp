@@ -253,11 +253,9 @@ void sounds::process_sound_markers( player *p )
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
     const int weather_vol = weather_data( g->weather ).sound_attn;
-
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
-
         const int distance_to_sound = rl_dist( p->pos().x, p->pos().y, pos.x, pos.y ) +
                                       abs( p->pos().z - pos.z ) * 10;
         const int raw_volume = sound.volume;
@@ -325,7 +323,6 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
         if( p->is_npc() ) {
             if( !sound.ambient ) {

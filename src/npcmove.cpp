@@ -3105,7 +3105,6 @@ void npc::go_to_destination()
             path.clear();
             ai_cache.guard_pos = cata::nullopt;
             move_pause();
-            reach_destination();
             return;
         }
     }

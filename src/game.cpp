@@ -1370,15 +1370,13 @@ bool game::do_turn()
     reset_light_level();
 
     perhaps_add_random_npc();
-
+    process_activity();
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
             sounds::process_sound_markers( &guy );
         }
     }
-
-    process_activity();
 
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
@@ -1392,6 +1390,11 @@ bool game::do_turn()
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
                 // Process any new sounds the player caused during their turn.
+                for( npc &guy : all_npcs() ) {
+                    if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                        sounds::process_sound_markers( &guy );
+                    }
+                }
                 sounds::process_sound_markers( &u );
                 if( !u.activity && uquit != QUIT_WATCH ) {
                     draw();
