@@ -1026,11 +1026,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": 360,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "straw_pile", 60 ], [ "withered", 60 ] ],
-      [ [ "cordage", 8, "LIST" ] ]
-    ],
+    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
