@@ -130,7 +130,11 @@
             { "point":[1,2,-1], "overmap": "sewage_treatment_under"}
         ],
         "connections" : [
-            { "point" : [0,-1,0] }
+            { "point" : [0,-1,0] },
+            { "point": [ 0, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
+            { "point": [ 2, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 1, 1, -1 ] },
+            { "point": [ 0, 3, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 2, -1 ] },
+            { "point": [ -2, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ -1, 1, -1 ] }
         ],
         "locations" : [ "land" ],
         "city_distance" : [10, 20],
