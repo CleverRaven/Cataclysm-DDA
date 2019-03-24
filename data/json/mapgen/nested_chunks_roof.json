@@ -172,6 +172,15 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "roof_2x2_utilities_d",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 }, { "furn": "f_air_conditioner", "x": 0, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "roof_3x3_wine",
     "object": {
       "mapgensize": [ 3, 3 ],
