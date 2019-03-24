@@ -72,6 +72,20 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "supplies_samples_lab",
+    "//": "non-secret laboratory biological samples.",
+    "items": [
+      [ "meat", 10 ],
+      [ "offal", 10 ],
+      { "item": "lung", "prob": 10, "charges": 2 },
+      { "item": "kidney", "prob": 10, "charges": 2 },
+      { "item": "liver", "prob": 10, "charges": 1 },
+      { "item": "brain", "prob": 10, "charges": 1 },
+      { "item": "sweetbread", "prob": 10, "charges": 1 }
+    ]
+  },
+  {
     "id": "supplies_farming",
     "type": "item_group",
     "//": "Consumable supplies excluding seeds used for farming or other agriculture",
