@@ -1636,6 +1636,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     // TODO : Make hiding more sensible and less random
     if( hide( p, false ) ) {
         if( one_in( 2 ) ) {
+            prev_pos = pos();
             hide( p );
         }
     }
@@ -1657,7 +1658,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         if ( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
-            remove_effect( effect_hidden );
+            unhide( prev_pos );
         }
 
         if( in_vehicle ) {
