@@ -1095,7 +1095,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
         for( int i = 0; i < OMAPX; i++ ) {
-            int value = array[i][j];
+            const int value = array[i][j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );

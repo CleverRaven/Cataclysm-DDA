@@ -23,13 +23,13 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk )
 
 int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who )
 {
-    auto iter = vp.install_skills.find( sk );
+    const auto iter = vp.install_skills.find( sk );
     if( iter == vp.install_skills.end() ) {
         return 0;
     }
 
     // how many levels are we above the requirement?
-    int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
+    const int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
 
     // scale xp gain per hour according to relative level
     // 0-1: 60 xp /h
@@ -76,15 +76,15 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
         }
     }
 
-    auto part_damage_comparison = [&repairable_cache]( const vehicle_part & a,
+    const auto part_damage_comparison = [&repairable_cache]( const vehicle_part & a,
     const vehicle_part & b ) {
         return ( repairable_cache[ &b ] > repairable_cache[ &a ] ) ||
                ( repairable_cache[ &b ] == repairable_cache[ &a ] && b.damage() > a.damage() );
     };
 
-    auto high_damage_iterator = std::max_element( veh.parts.begin(),
-                                veh.parts.end(),
-                                part_damage_comparison );
+    const auto high_damage_iterator = std::max_element( veh.parts.begin(),
+                                      veh.parts.end(),
+                                      part_damage_comparison );
     if( high_damage_iterator == veh.parts.end() ||
         high_damage_iterator->removed ||
         !high_damage_iterator->info().is_repairable() ||

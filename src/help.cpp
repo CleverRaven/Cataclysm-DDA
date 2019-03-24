@@ -144,6 +144,7 @@ void help::display_help()
             wrefresh( w_help_border );
             draw_menu( w_help );
             catacurses::refresh();
+            needs_refresh = false;
         }
 
         action = ctxt.handle_input();
