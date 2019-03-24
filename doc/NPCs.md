@@ -662,28 +662,32 @@ Condition | Type | Description
 "or" | array | `true` if every condition in the array is true. Can be used to create complex condition tests, like `"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
 "not" | object | `true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as<br/>`"[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"`
 
-#### Player conditions
+#### Player or NPC conditions
+These conditions can be tested for the player using the `"u_"` form, and for the NPC using the `"npc_"` form.
 
 Condition | Type | Description
 --- | --- | ---
-"u_at_om_location" | string | `true` if the player character is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player is standing on a faction camp overmap tile.
-"u_any_trait" | string | `true` if the player character has a specific trait.  A simpler version of `u_has_any_trait` that only checks for one trait.
-"u_any_trait_flag" | string | `true` if the player character has any traits with the specific trait flag.  A more robust version of `u_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player has crossed a mutation threshold.
-"u_has_any_trait" | array | `true` if the player character has any trait or mutation in the array. Used to check multiple traits.
-"u_has_strength" | int | `true` if the player character's strength is at least the value of `u_has_strength`.
-"u_has_dexterity" | int | `true` if the player character's dexterity is at least the value of `u_has_dexterity`.
-"u_has_intelligence" | int | `true` if the player character's intelligence is at least the value of `u_has_intelligence`.
-"u_has_perception" | int | `true` if the player character's perception is at least the value of `u_has_perception`.
-"u_has_item" | string | `true` if the player character has something with `u_has_item`'s `item_id` in their inventory.
-"u_has_items" | dictionary | `u_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character has at least `count` charges or counts of `item` in their inventory.
-"u_has_effect" | string | `true` if the player character is under the effect with u_has_effect's `effect_id`.
+"u_at_om_location"<br\>"npc_at_om_location" | string | `true` if the player character or NPC is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player or NPC is standing on a faction camp overmap tile.
+"u_has_trait"<br\>"npc_has_trait" | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
+"u_has_trait_flag"<br\>"npc_has_trait_flag" | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player or NPC has crossed a mutation threshold.
+"u_has_any_trait"<br\>"npc_has_any_trait" | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
+"u_has_strength"<br\>"npc_has_strength" | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
+"u_has_dexterity"<br\>"npc_has_dexterity" | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
+"u_has_intelligence"<br\>"npc_has_intelligence" | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.
+"u_has_perception"<br\>"npc_has_perception" | int | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
+"u_has_item"<br\>"npc_has_item" | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
+"u_has_items"<br\>"npc_has_item" | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
+"u_has_effect"<br\>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
+
+#### Player Only conditions
+
 "u_has_mission" | string | `true` if the mission is assigned to the player character.
 "u_has_cash" | int | `true` if the player character has at least `u_has_cash` cash available.  Used to check if the PC can buy something.
 "u_can_stow_weapon" | simple string | `true` if the player character is wielding a weapon and has enough space to put it away.
 "u_has_weapon" | simple string | `true` if the player character is wielding a weapon.
 "u_has_camp" | simple string | `true` is the player has one or more active base camps.
 
-#### Player-NPC conditions
+#### Player and NPC interaction conditions
 
 Condition | Type | Description
 --- | --- | ---
@@ -700,7 +704,7 @@ Condition | Type | Description
 "npc_allies" | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 "npc_following" | simple string | `true` if the NPC is following the player character.
 
-#### NPC conditions
+#### NPC only conditions
 
 Condition | Type | Description
 --- | --- | ---
@@ -710,11 +714,7 @@ Condition | Type | Description
 "npc_hostile" | simple string | `true` if the NPC is an enemy of the player character.
 "npc_train_skills" | simple string | `true` if the NPC has one or more skills with more levels than the player.
 "npc_train_styles" | simple string | `true` if the NPC knows one or more martial arts styles that the player does not know.
-"npc_has_any_trait" | array | `true` if the NPC has any trait or mutation in the array. Used to check multiple traits.
 "npc_has_class" | array | `true` if the NPC is a member of an NPC class.
-"npc_has_effect" | string | `true` if the NPC is under the effect with npc_has_effect's `effect_id`.
-"npc_has_trait" | string | `true` if the NPC has a specific trait. A simpler version of `npc_has_any_trait` that only checks for one trait.
-"npc_has_trait_flag" | string | `true` if the NPC has any traits with the specific trait flag. A more robust version of `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the NPC has crossed a mutation threshold.
 "npc_role_nearby" | string | `true` if there is an NPC with the same companion mission role as `npc_role_nearby` within 100 tiles.
 "npc_has_weapon" | simple string | `true` if the NPC is wielding a weapon.
 

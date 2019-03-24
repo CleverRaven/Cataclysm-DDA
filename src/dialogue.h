@@ -336,6 +336,32 @@ struct conditional_t {
         conditional_t( const std::string &type );
         conditional_t( JsonObject jo );
 
+        void set_has_any_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_trait_flag( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_npc_has_class( JsonObject &jo );
+        void set_u_has_mission( JsonObject &jo );
+        void set_has_strength( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_dexterity( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_intelligence( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_perception( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_wearing( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_item( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_items( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_effect( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_need( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_at_om_location( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_npc_role_nearby( JsonObject &jo );
+        void set_npc_allies( JsonObject &jo );
+        void set_npc_service( JsonObject &jo );
+        void set_u_has_cash( JsonObject &jo );
+        void set_npc_aim_rule( JsonObject &jo );
+        void set_npc_engagement_rule( JsonObject &jo );
+        void set_npc_rule( JsonObject &jo );
+        void set_days_since( JsonObject &jo );
+        void set_is_season( JsonObject &jo );
+        void set_mission_goal( JsonObject &jo );
+
         bool operator()( const dialogue &d ) const {
             if( !condition ) {
                 return false;
