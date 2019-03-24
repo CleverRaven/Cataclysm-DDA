@@ -768,7 +768,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.type == "flesh" ) {
                 roll /= 6;
             } else {
-                roll = 0;
                 continue;
             }
         }
@@ -788,7 +787,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         // you only get the skin from skinning
         if( action == SKIN ) {
             if( entry.type != "skin" ) {
-                roll = 0;
                 continue;
             }
         }
