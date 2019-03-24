@@ -203,7 +203,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "basement" ],
-    "weight": 25000,
+    "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock_floor",
