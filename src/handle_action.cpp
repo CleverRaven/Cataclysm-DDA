@@ -47,6 +47,7 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
+const efftype_id effect_hidden( "hidden" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_relax_gas( "relax_gas" );
 
@@ -1491,15 +1492,17 @@ bool game::handle_action()
                 break;
 
             case ACTION_HIDE:
-            if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
-                if( !u.hide( *pnt, false ) ) {
-                    add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
-                } else {
-                    u.prev_pos = u.pos();
-                    u.hide( *pnt );
+                if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
+                    if( !u.hide( *pnt, false ) ) {
+                        add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
+                    } else {
+                        if( !u.has_effect( effect_hidden ) ) {
+                            u.prev_pos = u.pos();
+                        }
+                        u.hide( *pnt );
+                    }
                 }
-            }
-            break;
+                break;
 
             case ACTION_HAUL:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
