@@ -6254,7 +6254,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
         item_tags.erase( "FROZEN" );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
-			current_phase = type->phase;
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6331,7 +6331,7 @@ void item::set_item_temperature( float new_temperature )
         item_tags.erase( "FROZEN" );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
-			current_phase = type->phase;
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6868,7 +6868,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         item_tags.erase( "FROZEN" );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
-			current_phase = type->phase;
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
