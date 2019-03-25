@@ -688,7 +688,9 @@ void monster::move()
             // TODO : make hiding more sensible and less random
             if( hide( candidate, false ) ) {
                 if( one_in( 10 ) ) {
-                    prev_pos = pos();
+                    if( !has_effect( effect_hidden ) ) {
+                        prev_pos = pos();
+                    }
                     hide( candidate );
                     continue;
                 }
