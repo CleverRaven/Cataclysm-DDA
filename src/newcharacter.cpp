@@ -627,6 +627,7 @@ bool player::create( character_type type, const std::string &tempname )
     apply_persistent_morale();
 
     stamina_max_penalty = 0;
+    stamina_used = 0;
 
     return true;
 }

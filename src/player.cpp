@@ -4568,8 +4568,8 @@ void player::regen( int rate_multiplier )
             mod_stat( stat, mod_result );
         };
         modify_stat( "hunger", g->stamina_increase_hunger, "metabolism_modifier" );
-        modify_stat( "fatigue", g->stamina_increase_thirst, "thirst_modifier" );
-        modify_stat( "thirst", g->stamina_increase_fatigue, "fatigue_modifier" );
+        modify_stat( "thirst", g->stamina_increase_thirst, "thirst_modifier" );
+        modify_stat( "fatigue", g->stamina_increase_fatigue, "fatigue_modifier" );
     }
     stamina_used = 0;
 
