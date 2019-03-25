@@ -9812,48 +9812,47 @@ bool game::plmove( int dx, int dy, int dz )
     }
 
     if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
-        int turns;
-        if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 && get_option<bool>( "AUTO_MINING" ) &&
-            u.weapon.has_flag( "DIG_TOOL" ) && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
-            if( u.weapon.has_flag( "POWERED" ) ) {
-                if( u.weapon.ammo_sufficient() ) {
-                    turns = MINUTES( 30 );
-                    u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
-                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), turns * 100, -1,
+        int mining_turns = 100;
+        if( mostseen == 0 && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
+            if( m.move_cost( dest_loc ) == 2 ) {
+                // breaking up some flat surface, like pavement
+                mining_turns /= 2;
+            }
+            if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
+                u.weapon.has_flag( "DIG_TOOL" ) ) {
+                if( u.weapon.has_flag( "POWERED" ) ) {
+                    if( u.weapon.ammo_sufficient() ) {
+                        mining_turns *= MINUTES( 30 );
+                        u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
+                        u.assign_activity( activity_id( "ACT_JACKHAMMER" ), mining_turns, -1,
+                                           u.get_item_position( &u.weapon ) );
+                        u.activity.placement = dest_loc;
+                        add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                                 m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                        u.defer_move( dest_loc ); // don't move into the tile until done mining
+                        return true;
+                    } else {
+                        add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
+                    }
+                } else {
+                    mining_turns *= ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
+                    u.assign_activity( activity_id( "ACT_PICKAXE" ), mining_turns, -1,
                                        u.get_item_position( &u.weapon ) );
                     u.activity.placement = dest_loc;
                     add_msg( _( "You start breaking the %1$s with your %2$s." ),
                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
                     u.defer_move( dest_loc ); // don't move into the tile until done mining
                     return true;
-                } else {
-                    add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
                 }
-            } else {
-                if( m.move_cost( dest_loc ) == 2 ) {
-                    // breaking up some flat surface, like pavement
-                    turns = MINUTES( 20 );
-                } else {
-                    turns = ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
-                }
-                u.assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1,
-                                   u.get_item_position( &u.weapon ) );
+            } else if( u.has_active_mutation( trait_BURROW ) ) {
+                mining_turns *= ( ( MAX_STAT + 3 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 2 );
+                u.assign_activity( activity_id( "ACT_BURROW" ), mining_turns, -1, 0 );
                 u.activity.placement = dest_loc;
-                add_msg( _( "You start breaking the %1$s with your %2$s." ),
-                         m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                add_msg( _( "You start tearing into the %s with your teeth and claws." ),
+                         m.tername( dest_loc ).c_str() );
                 u.defer_move( dest_loc ); // don't move into the tile until done mining
                 return true;
             }
-        } else if( u.has_active_mutation( trait_BURROW ) ) {
-            if( m.move_cost( dest_loc ) == 2 ) {
-                turns = MINUTES( 10 );
-            } else {
-                turns = MINUTES( 30 );
-            }
-            u.assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
-            u.activity.placement = dest_loc;
-            add_msg( _( "You start tearing into the %s with your teeth and claws." ),
-                     m.tername( dest_loc ).c_str() );
         }
     }
 
