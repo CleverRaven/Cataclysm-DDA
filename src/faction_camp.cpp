@@ -194,7 +194,7 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
             }
         },
         {
-            "_faction_camp_upgrade_exp_", {
+            "_faction_upgrade_exp_", {
                 " Expansion Upgrade", _( " Expansion Upgrade" ),
                 _( "Working to upgrade your expansions!\n" ),
                 "Recover Ally", _( "Recover Ally" )
@@ -222,20 +222,20 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
         {
             "_faction_exp_plow_", {
                 " Plow Fields", _( " Plow Fields" ), _( "Working to plow your fields!\n" ),
-                " (Finish)  Plow Fields", _( " (Finish) Plow fields" )
+                " (Finish) Plow Fields", _( " (Finish) Plow fields" )
             }
         },
         {
             "_faction_exp_plant_", {
                 " Plant Fields", _( " Plant Fields" ), _( "Working to plant your fields!\n" ),
-                " (Finish)  Plant Fields", _( " (Finish) Plow Fields" )
+                " (Finish) Plant Fields", _( " (Finish) Plant Fields" )
             }
         },
         {
             "_faction_exp_harvest_", {
                 " Harvest Fields", _( " Harvest Fields" ),
                 _( "Working to harvest your fields!\n" ),
-                " (Finish)  Harvest Fields", _( " (Finish) Harvest Fields" )
+                " (Finish) Harvest Fields", _( " (Finish) Harvest Fields" )
             }
         },
         {
@@ -545,7 +545,6 @@ void talk_function::basecamp_mission( npc &p )
 void basecamp::get_available_missions( mission_data &mission_key )
 {
     std::string entry;
-    g->u.camps.insert( omt_pos );
 
     const std::string camp_ctr = "camp";
     const std::string base_dir = "[B]";
@@ -1297,7 +1296,6 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
                 mission_return( "_faction_exp_blacksmith_crafting_" + miss_dir, 15_minutes,
                                 true, msg, "fabrication", 2 );
             }
-
             if( miss_id == miss_dir + " Plow Fields" ) {
                 start_farm_op( miss_dir, omt_trg, farm_ops::plow );
             } else if( miss_id == miss_dir + " (Finish) Plow Fields" ) {
@@ -2355,6 +2353,7 @@ void basecamp::combat_mission_return( const std::string &miss )
 
 bool basecamp::survey_return()
 {
+    tripoint omt_tgt = omt_pos;
     npc_ptr comp = companion_choose_return( "_faction_camp_expansion", 3_hours );
     if( comp == nullptr ) {
         return false;
@@ -2375,10 +2374,10 @@ bool basecamp::survey_return()
         return false;
     }
     editmap edit;
-    if( !edit.mapgen_set( pos_expansion_name_id[expan], omt_pos, 1 ) ) {
+    if( !edit.mapgen_set( pos_expansion_name_id[expan], omt_tgt, 1 ) ) {
         return false;
     }
-    add_expansion( pos_expansion_name_id[expan], omt_pos );
+    add_expansion( pos_expansion_name_id[expan], omt_tgt );
     const std::string msg = _( "returns from surveying for the expansion." );
     finish_return( *comp, true, msg, "construction", 2 );
     return true;
