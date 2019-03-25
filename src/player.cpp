@@ -10176,10 +10176,10 @@ void player::try_to_sleep( const time_duration &dur )
     }
     add_msg_if_player( _( "You start trying to fall asleep." ) );
     if( has_active_bionic( bio_soporific ) ) {
+        bio_soporific_powered_at_last_sleep_check = power_level > 0;
         if( power_level > 0 ) {
             // The actual bonus is applied in sleep_spot( p ).
             add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
-            charge_power( -1 );
         } else {
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
         }
@@ -10365,15 +10365,28 @@ bool player::can_sleep()
     // check anyway, this will reset the timer if 'dur' is negative.
     const time_point now = calendar::turn;
     const time_duration dur = now - last_sleep_check;
-    if( dur >= 30_minutes || dur < 0_turns ) {
-        last_sleep_check = now;
-        int sleepy = sleep_spot( pos() );
-        sleepy += rng( -8, 8 );
-        if( sleepy > 0 ) {
-            return true;
+    if( dur >= 0_turns && dur < 30_minutes ) {
+        return false;
+    }
+    last_sleep_check = now;
+
+    int sleepy = sleep_spot( pos() );
+    sleepy += rng( -8, 8 );
+    bool result = sleepy > 0;
+
+    if( has_active_bionic( bio_soporific ) ) {
+        if( bio_soporific_powered_at_last_sleep_check && power_level == 0 ) {
+            add_msg_if_player( m_bad, _( "Your soporific inducer runs out of power!" ) );
+        } else if( !bio_soporific_powered_at_last_sleep_check && power_level > 0 ) {
+            add_msg_if_player( m_good, _( "Your soporific inducer starts back up." ) );
+        }
+        bio_soporific_powered_at_last_sleep_check = power_level > 0;
+        if( power_level > 0 ) {
+            charge_power( -1 );
         }
     }
-    return false;
+
+    return result;
 }
 
 void player::fall_asleep()
