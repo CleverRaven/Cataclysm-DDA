@@ -2122,6 +2122,10 @@ void npc::on_load()
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
     }
+    if( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
+        prev_pos = pos();
+        hide( pos() );
+    }
 }
 
 void npc_chatbin::add_new_mission( mission *miss )
