@@ -860,6 +860,10 @@ class game
         bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
+        // the calculated number of columns to shift the terrain window in order
+        // to center the screen with a sidebar
+        // negative number is left hand side of screen, positive is right side
+        tripoint sidebar_offset;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );

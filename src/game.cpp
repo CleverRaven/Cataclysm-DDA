@@ -531,6 +531,16 @@ void game::init_ui( const bool resized )
     w_pixel_minimap = catacurses::newwin( 1, 1, 0, 0 );
     liveview.init();
 
+    // initializes centering based on sidebar layout
+    int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+    int h; // to_map_font_dimension needs a second input
+    to_map_font_dimension( width, h );
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        width *= -1;
+    }
+    // divided by two because we want the offset to center the screen
+    g->sidebar_offset.x = width / 2;
+
     // Only refresh if we are in-game, otherwise all resources are not initialized
     // and this refresh will crash the game.
     if( resized && u.getID() != -1 ) {
@@ -3675,10 +3685,7 @@ bool game::is_in_viewport( const tripoint &p, int margin ) const
 
 void game::draw_ter( const bool draw_sounds )
 {
-    int sidebar_offset = panel_manager::get_manager().get_current_layout().begin()->get_width();
-    int h;
-    to_map_font_dimension( sidebar_offset, h );
-    draw_ter( u.pos() + u.view_offset + tripoint( sidebar_offset / 2, 0, 0 ), false,
+    draw_ter( u.pos() + u.view_offset + sidebar_offset, false,
               draw_sounds );
 }
 

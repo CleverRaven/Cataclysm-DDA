@@ -37,6 +37,13 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
+#ifdef TILES
+// defined in sdltiles.cpp
+void to_map_font_dimension( int &w, int &h );
+#else
+void to_map_font_dimension( int &, int & ) { }
+#endif
+
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
                             draw_func, std::string nm, int ht, int wd, bool def_toggle )
@@ -1986,6 +1993,14 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 iter++;
             }
             current_layout_id = iter->first;
+            int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            int h; // to_map_font_dimension needs a second input
+            to_map_font_dimension( width, h );
+            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+                width *= -1;
+            }
+            // divided by two because we want the offset to center the screen
+            g->sidebar_offset.x = width / 2;
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;
