@@ -6,8 +6,10 @@
 #include <vector>
 
 #include "ammo.h"
+#include "activity_handlers.h"
 #include "bionics.h"
 #include "catacharset.h"
+#include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -15,6 +17,7 @@
 #include "debug.h"
 #include "dialogue.h"
 #include "editmap.h"
+#include "field.h"
 #include "game.h"
 #include "iexamine.h"
 #include "item_group.h"
@@ -66,28 +69,13 @@ const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 const skill_id skill_swimming( "swimming" );
 
+const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
+const zone_type_id z_camp_food( "CAMP_FOOD" );
+
 using mass_volume = std::pair<units::mass, units::volume>;
 
 static const std::string basecamp_id = "FACTION_CAMP";
-
-static const int COMPANION_SORT_POINTS = 12;
-enum class sort_pt_ids : int {
-    ufood, cfood, seeds,
-    weapons, clothing, bionics,
-    tools, wood, trash,
-    books, meds, ammo
-};
-
-static std::array<std::pair<const std::string, point>, COMPANION_SORT_POINTS> sort_point_data = { {
-        { _( "food for you" ), point( -3, -1 ) }, { _( "food for companions" ), point( 1, 0 ) },
-        { _( "seeds" ), point( -1, -1 ) }, { _( "weapons" ), point( -1, 1 ) },
-        { _( "clothing" ), point( -3, -2 ) }, { _( "bionics" ), point( -3, 1 ) },
-        { _( "all kinds of tools" ), point( -3, 2 ) },
-        { _( "wood of various sorts" ), point( -5, 2 ) },
-        { _( "trash and rotting food" ), point( -6, -3 ) }, { _( "books" ), point( -3, 1 ) },
-        { _( "medication" ), point( -3, 1 ) }, { _( "ammo" ), point( -3, 1 ) }
-    }
-};
 
 // eventually this will include the start and return functions
 struct bcp_miss_data {
@@ -631,9 +619,10 @@ void basecamp::get_available_missions( mission_data &mission_key )
 
         entry = string_format( _( "Notes:\n"
                                   "Distribute food to your follower and fill you larders.  Place "
-                                  "the food you wish to distribute on the companion food sort "
-                                  "point.  By default, that is opposite the tent door between "
-                                  "the manager and wall.\n \n"
+                                  "the food you wish to distribute in the camp food zone.  You "
+                                  "must have a camp food zone, an unsorted loot zone, and at "
+                                  "least one loot destination zone or you will be prompted to "
+                                  "create them using the zone manager.\n"
                                   "Effects:\n"
                                   "> Increases your faction's food supply value which in turn is "
                                   "used to pay laborers for their time\n \n"
@@ -648,15 +637,16 @@ void basecamp::get_available_missions( mission_data &mission_key )
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
 
         entry = string_format( _( "Notes:\n"
-                                  "Reset the points that items are sorted to using the [ Menial "
+                                  "Reset the zones that items are sorted to using the [ Menial "
                                   "Labor ] mission.\n \n"
                                   "Effects:\n"
-                                  "> Assignable Points: food, food for distribution, seeds, "
-                                  "weapons, clothing, bionics, all kinds of tools, wood, trash, "
-                                  "books, medication, and ammo.\n"
-                                  "> Items sitting on any type of furniture will not be moved.\n"
-                                  "> Items that are not listed in one of the categories are "
-                                  "defaulted to the tools group." ) );
+                                  "> Assign sort zones using the zone manager.  You must have a "
+                                  "camp food zone, an unsorted loot zone, and at least one loot "
+                                  "destination zone.\n"
+                                  "> Only items that are in the unsorted loot zone and not in "
+                                  "any other zone will be sorted.\n"
+                                  "Items that do not have a loot destination zone will be sorted "
+                                  "using the normal rules for automatic zone sorting." ) );
         mission_key.add( "Reset Sort Points", _( "Reset Sort Points" ), entry );
     }
 
@@ -690,10 +680,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "Skill used: fabrication\n"
                                   "Difficulty: N/A \n"
                                   "Effects:\n"
-                                  "> Material left outside on the ground will be sorted into the "
-                                  "four crates in front of the tent.\n"
-                                  "Default, top to bottom:  Clothing, Food, Books/Bionics, and "
-                                  "Tools.  Wood will be piled to the south.  Trash to the north."
+                                  "> Material left in the unsorted loot zone will be sorted into "
+                                  "a defined loot zone."
                                   "\n\nRisk: None\n"
                                   "Time: 3 Hours\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
@@ -1169,7 +1157,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
     }
 
     if( miss_id == "Reset Sort Points" ) {
-        set_sort_points( false, true );
+        set_sort_points();
     }
 
     if( miss_id == "Upgrade Camp" ) {
@@ -1193,8 +1181,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
     }
 
     if( miss_id == "Menial Labor" ) {
-        start_mission( "_faction_camp_menial", 3_hours, true,
-                       _( "departs to dig ditches and scrub toilets..." ), false, {}, "", 0 );
+        start_menial_labor();
     } else if( miss_id == "Recover Menial Laborer" ) {
         menial_return();
     }
@@ -1397,6 +1384,24 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key )
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
+}
+
+void basecamp::start_menial_labor()
+{
+    if( camp_food_supply() < time_to_food( 3_hours ) ) {
+        popup( _( "You don't have enough food stored to feed your companion." ) );
+        return;
+    }
+    std::shared_ptr<npc> comp = talk_function::companion_choose( "", 0 );
+    if( comp == nullptr ) {
+        return;
+    }
+    validate_sort_points();
+
+    comp->set_attitude( NPCATT_ACTIVITY );
+    comp->assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    comp->mission = NPC_MISSION_ACTIVITY;
+    popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
 void basecamp::start_cut_logs()
@@ -2072,70 +2077,6 @@ bool basecamp::menial_return()
     npc_ptr comp = mission_return( "_faction_camp_menial", 3_hours, true, msg, "menial", 2 );
     if( comp == nullptr ) {
         return false;
-    }
-    validate_sort_points();
-
-    tripoint p_food = sort_points[ static_cast<size_t>( sort_pt_ids::ufood ) ];
-    tripoint p_seed = sort_points[ static_cast<size_t>( sort_pt_ids::seeds ) ];
-    tripoint p_weapon = sort_points[ static_cast<size_t>( sort_pt_ids::weapons ) ];
-    tripoint p_clothing = sort_points[ static_cast<size_t>( sort_pt_ids::clothing ) ];
-    tripoint p_bionic = sort_points[ static_cast<size_t>( sort_pt_ids::bionics ) ];
-    tripoint p_tool = sort_points[ static_cast<size_t>( sort_pt_ids::tools ) ];
-    tripoint p_wood = sort_points[ static_cast<size_t>( sort_pt_ids::wood ) ];
-    tripoint p_trash = sort_points[ static_cast<size_t>( sort_pt_ids::trash ) ];
-    tripoint p_book = sort_points[ static_cast<size_t>( sort_pt_ids::books ) ];
-    tripoint p_medication = sort_points[ static_cast<size_t>( sort_pt_ids::meds ) ];
-    tripoint p_ammo = sort_points[ static_cast<size_t>( sort_pt_ids::ammo ) ];
-
-    //This prevents the loop from getting stuck on the piles in the open
-    for( tripoint &sort_point : sort_points ) {
-        if( g->m.furn( sort_point ) == f_null ) {
-            g->m.furn_set( sort_point, f_ash );
-        }
-    }
-    for( const tripoint &tmp : g->m.points_in_radius( g->u.pos(), 72 ) ) {
-        if( g->m.has_furn( tmp ) ) {
-            continue;
-        }
-        for( auto &i : g->m.i_at( tmp ) ) {
-            if( i.made_of( LIQUID ) ) {
-                continue;
-            } else if( i.is_comestible() && i.rotten() ) {
-                g->m.add_item_or_charges( p_trash, i, true );
-            } else if( i.is_seed() ) {
-                g->m.add_item_or_charges( p_seed, i, true );
-            } else if( i.is_food() ) {
-                g->m.add_item_or_charges( p_food, i, true );
-            } else if( i.is_corpse() ) {
-                g->m.add_item_or_charges( p_trash, i, true );
-            } else if( i.is_book() ) {
-                g->m.add_item_or_charges( p_book, i, true );
-            } else if( i.is_bionic() ) {
-                g->m.add_item_or_charges( p_bionic, i, true );
-            } else if( i.is_medication() ) {
-                g->m.add_item_or_charges( p_medication, i, true );
-            } else if( i.is_tool() ) {
-                g->m.add_item_or_charges( p_tool, i, true );
-            } else if( i.is_gun() ) {
-                g->m.add_item_or_charges( p_weapon, i, true );
-            } else if( i.is_ammo() ) {
-                g->m.add_item_or_charges( p_ammo, i, true );
-            } else if( i.is_armor() ) {
-                g->m.add_item_or_charges( p_clothing, i, true );
-            } else if( i.typeId() == "log" || i.typeId() == "splinter" || i.typeId() == "stick" ||
-                       i.typeId() == "2x4" ) {
-                g->m.add_item_or_charges( p_wood, i, true );
-            } else {
-                g->m.add_item_or_charges( p_tool, i, true );
-            }
-        }
-        g->m.i_clear( tmp );
-    }
-    //Undo our hack!
-    for( tripoint &sort_point : sort_points ) {
-        if( g->m.furn( sort_point ) == f_ash ) {
-            g->m.furn_set( sort_point, f_null );
-        }
     }
     return true;
 }
@@ -3094,61 +3035,31 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
     return equipment_lost;
 }
 
-void basecamp::validate_sort_points()
+bool basecamp::validate_sort_points()
 {
-    if( sort_points.size() < COMPANION_SORT_POINTS ) {
-        popup( _( "Sorting points have changed, forcing reset." ) );
-        set_sort_points( true, true );
+    auto &mgr = zone_manager::get_manager();
+    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+        mgr.cache_vzones();
     }
+    const auto abspos = g->m.getabs( g->u.pos() );
+    if( !mgr.has_near( z_loot_unsorted, abspos ) ||
+        !mgr.has_near( z_camp_food, abspos ) || !mgr.has_loot_dest_near( abspos ) ) {
+        if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
+            return set_sort_points();
+        } else {
+            return false;
+        }
+    }
+    return true;
 }
 
-bool basecamp::set_sort_points( bool reset_pts, bool choose_pts )
+bool basecamp::set_sort_points()
 {
-    std::vector<tripoint> new_pts;
-    for( const std::pair<const std::string, point> &sort_pt : sort_point_data ) {
-        tripoint default_pt = omt_pos + sort_pt.second;
-        new_pts.push_back( default_pt );
-    }
-    if( reset_pts ) {
-        sort_points.clear();
-        sort_points.insert( sort_points.end(), new_pts.begin(), new_pts.end() );
-        if( !choose_pts ) {
-            return true;
-        }
-    }
-    if( choose_pts ) {
-        for( size_t spi = 0; spi < new_pts.size(); spi++ ) {
-            if( query_yn( string_format( _( "Reset point: %s?" ),
-                                         sort_point_data[ spi ].first ) ) ) {
-                const cata::optional<tripoint> where( g->look_around() );
-                if( where && rl_dist( g->u.pos(), *where ) <= 20 ) {
-                    new_pts[ spi ] = *where;
-                }
-            }
-        }
-    }
-    std::string show_pts = _( "                    Items       New Point       Old Point\n \n" );
-    for( size_t spi = 0; spi < new_pts.size(); spi++ ) {
-        std::string display_new_pt = string_format( "( %d, %d, %d)", new_pts[ spi ].x,
-                                     new_pts[ spi ].y, new_pts[ spi ].z );
-        std::string display_old_pt;
-        if( sort_points.size() == new_pts.size() ) {
-            display_old_pt = string_format( "( %d, %d, %d)", sort_points[ spi ].x,
-                                            sort_points[ spi ].y, sort_points[ spi ].y );
-        }
-        show_pts += string_format( "%25s %15s %15s    \n", sort_point_data[ spi ].first.c_str(),
-                                   display_new_pt, display_old_pt );
-    }
-    show_pts += _( "\n \n             Save Points?" );
-    if( query_yn( show_pts ) ) {
-        sort_points.clear();
-        sort_points.insert( sort_points.end(), new_pts.begin(), new_pts.end() );
-        return true;
-    }
-    if( query_yn( _( "Revert to default points?" ) ) ) {
-        return set_sort_points( true, false );
-    }
-    return false;
+    popup( _( "Sorting zones have changed.  Please create some sorting zones.  "
+              "You must create a camp food zone for your camp, an unsorted loot zone, "
+              "and at least one destination loot zone." ) );
+    g->zones_manager();
+    return validate_sort_points();
 }
 
 // camp analysis functions
@@ -3473,13 +3384,29 @@ int time_to_food( time_duration work )
 // mission support
 bool basecamp::distribute_food()
 {
-    validate_sort_points();
-    tripoint p_food_stock = sort_points[ static_cast<size_t>( sort_pt_ids::cfood ) ];
-    tripoint p_trash = sort_points[ static_cast<size_t>( sort_pt_ids::trash ) ];
-    tripoint p_litter = bb_pos + point( -7, 0 );
-    tripoint p_tool = sort_points[ static_cast<size_t>( sort_pt_ids::tools ) ];
+    if( !validate_sort_points() ) {
+        popup( _( "You do not a camp food zone.  Aborting..." ) );
+        return false;
+    }
 
-    if( g->m.i_at( p_food_stock ).empty() ) {
+    auto &mgr = zone_manager::get_manager();
+    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+        mgr.cache_vzones();
+    }
+    const tripoint &abspos = g->m.getabs( g->u.pos() );
+    const std::unordered_set<tripoint> &z_food = mgr.get_near( z_camp_food, abspos );
+
+    tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
+
+    bool has_food = false;
+    for( const tripoint &p_food_stock_abs : z_food ) {
+        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
+        if( !g->m.i_at( p_food_stock ).empty() ) {
+            has_food = true;
+            break;
+        }
+    }
+    if( !has_food ) {
         popup( _( "No items are located at the drop point..." ) );
         return false;
     }
@@ -3487,55 +3414,43 @@ bool basecamp::distribute_food()
     double slow_rot = 0.8 + ( any_has_level( "kitchen", 4 ) ? 0.05 : 0 );
     int total = 0;
     std::vector<item> keep_me;
-    auto initial_items = g->m.i_at( p_food_stock );
-    for( auto &i : initial_items ) {
-        bool track = p_trash == p_food_stock;
-        if( i.is_container() && i.get_contained().is_food() ) {
-            auto comest = i.get_contained();
-            i.contents.clear();
-            //NPCs are lazy bastards who leave empties all around the camp fire
-            tripoint litter_spread = p_litter;
-            litter_spread.x += rng( -3, 3 );
-            litter_spread.y += rng( -3, 3 );
-            i.on_contents_changed();
-            g->m.add_item_or_charges( litter_spread, i, false );
-            i = comest;
-            track = false;
-        }
-        if( i.is_comestible() && ( i.rotten() || i.type->comestible->fun < -6 ) ) {
-            if( track ) {
-                keep_me.push_back( i );
-            } else {
-                g->m.add_item_or_charges( p_trash, i, false );
+    for( const tripoint &p_food_stock_abs : z_food ) {
+        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
+        map_stack initial_items = g->m.i_at( p_food_stock );
+        for( item &i : initial_items ) {
+            if( i.is_container() && i.get_contained().is_food() ) {
+                auto comest = i.get_contained();
+                i.contents.clear();
+                //NPCs are lazy bastards who leave empties all around the camp fire
+                tripoint litter_spread = p_litter;
+                litter_spread.x += rng( -3, 3 );
+                litter_spread.y += rng( -3, 3 );
+                i.on_contents_changed();
+                g->m.add_item_or_charges( litter_spread, i, false );
+                i = comest;
             }
-        } else if( i.is_food() ) {
-            double rot_multip;
-            int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
-            if( rots_in >= 5 ) {
-                rot_multip = 1.00;
-            } else if( rots_in >= 2 ) {
-                rot_multip = slow_rot;
-            } else {
-                rot_multip = quick_rot;
-            }
-            total += i.type->comestible->get_calories() * rot_multip * i.count();
-        } else if( i.is_corpse() ) {
-            if( track ) {
+            if( i.is_comestible() && ( i.rotten() || i.type->comestible->fun < -6 ) ) {
                 keep_me.push_back( i );
+            } else if( i.is_food() ) {
+                double rot_multip;
+                int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
+                if( rots_in >= 5 ) {
+                    rot_multip = 1.00;
+                } else if( rots_in >= 2 ) {
+                    rot_multip = slow_rot;
+                } else {
+                    rot_multip = quick_rot;
+                }
+                total += i.type->comestible->get_calories() * rot_multip * i.count();
             } else {
-                g->m.add_item_or_charges( p_trash, i, false );
-            }
-        } else {
-            if( p_tool == p_food_stock ) {
                 keep_me.push_back( i );
-            } else {
-                g->m.add_item_or_charges( p_tool, i, false );
             }
         }
-    }
-    g->m.i_clear( p_food_stock );
-    for( auto &i : keep_me ) {
-        g->m.add_item_or_charges( p_food_stock, i, false );
+        g->m.i_clear( p_food_stock );
+        for( item &i : keep_me ) {
+            g->m.add_item_or_charges( p_food_stock, i, false );
+        }
+        keep_me.clear();
     }
 
     popup( _( "You distribute %d kcal worth of food to your companions." ), total );

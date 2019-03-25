@@ -1629,9 +1629,14 @@ bool npc::is_enemy() const
 
 bool npc::is_guarding() const
 {
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_SHOPKEEP ||
-           mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY ||
-           has_effect( effect_infection );
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_GUARD_ALLY ||
+           mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+           mission == NPC_MISSION_ACTIVITY || has_effect( effect_infection );
+}
+
+bool npc::has_player_activity() const
+{
+    return activity && mission == NPC_MISSION_ACTIVITY;
 }
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
@@ -2019,6 +2024,8 @@ std::string npc_attitude_name( npc_attitude att )
             return _( "Fleeing" );
         case NPCATT_HEAL:          // Get to the player and heal them
             return _( "Healing you" );
+        case NPCATT_ACTIVITY:
+            return _( "Performing a task" );
         default:
             break;
     }
@@ -2106,6 +2113,10 @@ void npc::on_load()
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
         process_active_items();
+        // give NPCs that are doing activities a pile of moves
+        if( has_destination() || activity ) {
+            mod_moves( to_moves<int>( dt ) );
+        }
     }
 
     // Not necessarily true, but it's not a bad idea to set this
@@ -2469,6 +2480,7 @@ attitude_group get_attitude_group( npc_attitude att )
         case NPCATT_FLEE:
             return attitude_group::fearful;
         case NPCATT_FOLLOW:
+        case NPCATT_ACTIVITY:
         case NPCATT_LEAD:
             return attitude_group::friendly;
         default:

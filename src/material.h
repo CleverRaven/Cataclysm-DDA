@@ -97,7 +97,7 @@ class material_type
         bool soft() const;
 
         double vitamin( const vitamin_id &id ) const {
-            auto iter = _vitamins.find( id );
+            const auto iter = _vitamins.find( id );
             return iter != _vitamins.end() ? iter->second : 0;
         }
 

@@ -5610,7 +5610,8 @@ void player::suffer()
     if( has_trait( trait_ASTHMA ) &&
         one_in( ( 3600 - stim * 50 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
-        bool auto_use = has_charges( "inhaler", 1 );
+        bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
+                        has_charges( "smoxygen_tank", 1 );
         bool oxygenator = has_bionic( bio_gills ) && power_level >= 3;
         if( underwater ) {
             oxygen = oxygen / 2;
@@ -5627,15 +5628,26 @@ void player::suffer()
                 add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, then go back to sleep." ) );
             } else if( auto_use ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
-                use_charges( "inhaler", 1 );
-                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                if( use_charges_if_avail( "inhaler", 1 ) ) {
+                    add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
+                           use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+                    add_msg_if_player( m_info,
+                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                }
                 // check if an inhaler is somewhere near
-            } else if( map_inv.has_charges( "inhaler", 1 ) ) {
+            } else if( map_inv.has_charges( "inhaler", 1 ) || map_inv.has_charges( "oxygen_tank", 1 ) ||
+                       map_inv.has_charges( "smoxygen_tank", 1 ) ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 // create new variable to resolve a reference issue
                 long amount = 1;
-                g->m.use_charges( g->u.pos(), 2, "inhaler", amount );
-                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
+                    add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
+                           !g->m.use_charges( g->u.pos(), 2, "smoxygen_tank", amount ).empty() ) {
+                    add_msg_if_player( m_info,
+                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                }
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
                 if( has_effect( effect_sleep ) ) {
@@ -5645,15 +5657,31 @@ void player::suffer()
                 }
             }
         } else if( auto_use ) {
-            use_charges( "inhaler", 1 );
-            moves -= 40;
-            const auto charges = charges_of( "inhaler" );
-            if( charges == 0 ) {
-                add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
-            } else {
-                add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
-                                                     "You use your inhaler, only %d charges left.", charges ),
-                                   charges );
+            long charges = 0;
+            if( use_charges_if_avail( "inhaler", 1 ) ) {
+                moves -= 40;
+                charges = charges_of( "inhaler" );
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                if( charges == 0 ) {
+                    add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
+                } else {
+                    add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
+                                                         "You use your inhaler, only %d charges left.", charges ),
+                                       charges );
+                }
+            } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
+                       use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+                moves -= 500; // synched with use action
+                charges = charges_of( "oxygen_tank" ) + charges_of( "smoxygen_tank" );
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                if( charges == 0 ) {
+                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen from the tank." ) );
+                } else {
+                    add_msg_if_player( m_info,
+                                       ngettext( "You take a deep breath from your oxygen tank, only %d charge left.",
+                                                 "You take a deep breath from your oxygen tank, only %d charges left.", charges ),
+                                       charges );
+                }
             }
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
