@@ -170,8 +170,8 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
-        item_comp component = item_sel.comp;
-        long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
+        const item_comp component = item_sel.comp;
+        const long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {
@@ -233,7 +233,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
     for( const auto &tool_sel : tool_selections ) {
         itype_id type = tool_sel.comp.type;
         if( tool_sel.comp.count > 0 ) {
-            long count = tool_sel.comp.count * batch_size;
+            const long count = tool_sel.comp.count * batch_size;
             switch( tool_sel.use_from ) {
                 case use_from_player:
                     if( !crafter->has_charges( type, count ) ) {

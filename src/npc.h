@@ -66,6 +66,7 @@ enum npc_attitude : int {
 
     NPCATT_LEGACY_4,
     NPCATT_LEGACY_5,
+    NPCATT_ACTIVITY, // Perform a mission activity
     NPCATT_END
 };
 
@@ -92,6 +93,7 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
+    NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
 };
 
 struct npc_companion_mission {
@@ -597,6 +599,8 @@ class npc : public player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
+        /** is performing a player_activity */
+        bool has_player_activity() const;
         /** Standing in one spot, moving back if removed from it. */
         bool is_guarding() const;
         /** Trusts you a lot. */
@@ -774,6 +778,8 @@ class npc : public player
         bool find_corpse_to_pulp();
         /** Returns true if it handles the turn. */
         bool do_pulp();
+        /** perform a player activity, returning true if it took up the turn */
+        bool do_player_activity();
 
         // Combat functions and player interaction functions
         void wield_best_melee();
@@ -787,10 +793,10 @@ class npc : public player
         bool consume_food();
 
         // Movement on the overmap scale
-        bool has_destination() const; // Do we have a long-term destination?
-        void set_destination(); // Pick a place to go
-        void go_to_destination(); // Move there; on the micro scale
-        void reach_destination(); // We made it!
+        bool has_omt_destination() const; // Do we have a long-term destination?
+        void set_omt_destination(); // Pick a place to go
+        void go_to_omt_destination(); // Move there; on the micro scale
+        void reach_omt_destination(); // We made it!
 
         void guard_current_pos();
 

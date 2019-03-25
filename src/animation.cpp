@@ -235,7 +235,7 @@ void game::draw_explosion( const tripoint &p, const int r, const nc_color &col )
 
     explosion_animation anim;
 
-    bool visible = is_radius_visible( p, r );
+    const bool visible = is_radius_visible( p, r );
     for( int i = 1; i <= r; i++ ) {
         tilecontext->init_explosion( p, i ); // TODO: not xpos ypos?
         if( visible ) {

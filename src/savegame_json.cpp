@@ -85,7 +85,7 @@ void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
 
     obj.reset();
     if( data.read( "monster_at", temp_pos ) ) {
-        auto monp = g->critter_tracker->find( temp_pos );
+        const auto monp = g->critter_tracker->find( temp_pos );
 
         if( monp == nullptr ) {
             debugmsg( "no monster found at %d,%d,%d", temp_pos.x, temp_pos.y, temp_pos.z );
@@ -2005,7 +2005,7 @@ static void migrate_toolmod( item &it )
 
 void item::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
 }
@@ -2144,7 +2144,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
     // legacy turrets loaded ammo via a pseudo CARGO space
     if( is_turret() && !items.empty() ) {
-        int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item & rhs ) {
+        const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item & rhs ) {
             return lhs + rhs.charges;
         } );
         ammo_set( items.front().ammo_current(), qty );
@@ -2317,7 +2317,7 @@ void vehicle::deserialize( JsonIn &jsin )
     of_turn = 0;
 
     /** Legacy saved games did not store part enabled status within parts */
-    auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
+    const auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
             for( const vpart_reference &vp : get_any_parts( flag ) ) {
                 vp.part().enabled = true;
@@ -2589,7 +2589,7 @@ void Creature::store( JsonOut &jsout ) const
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
     for( auto maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto i : maps.second ) {
             std::ostringstream convert;
             convert << i.first;
             tmp_map[maps.first.str()][convert.str()] = i.second;
@@ -2921,14 +2921,6 @@ void basecamp::serialize( JsonOut &json ) const
     json.member( "name", name );
     json.member( "pos", omt_pos );
     json.member( "bb_pos", bb_pos );
-    json.member( "sort_points" );
-    json.start_array();
-    for( const tripoint &it : sort_points ) {
-        json.start_object();
-        json.member( "pos", it );
-        json.end_object();
-    }
-    json.end_array();
     json.member( "expansions" );
     json.start_array();
     for( const auto &expansion : expansions ) {
@@ -2949,14 +2941,7 @@ void basecamp::deserialize( JsonIn &jsin )
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
-    JsonArray ja = data.get_array( "sort_points" );
-    while( ja.has_more() ) {
-        JsonObject sdata = ja.next_object();
-        tripoint spt;
-        sdata.read( "pos", spt );
-        sort_points.push_back( spt );
-    }
-    ja = data.get_array( "expansions" );
+    JsonArray ja = data.get_array( "expansions" );
     while( ja.has_more() ) {
         JsonObject edata = ja.next_object();
         expansion_data e;

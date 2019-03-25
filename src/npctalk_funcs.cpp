@@ -173,7 +173,7 @@ void talk_function::assign_guard( npc &p )
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.set_destination();
+    p.set_omt_destination();
 }
 
 void talk_function::stop_guard( npc &p )
