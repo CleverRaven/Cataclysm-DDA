@@ -1585,14 +1585,10 @@
         "%": "t_floor",
         "&": "t_floor",
         "$": "t_floor",
-        "C": "t_floor",
         "<": "t_stairs_down",
         ":": "t_floor",
         "b": "t_floor",
         "t": "t_floor",
-        "c": "t_floor",
-        "y": "t_floor",
-        "T": "t_floor",
         "Y": "t_floor",
         "-": "t_wall",
         "|": "t_wall",
@@ -1603,15 +1599,11 @@
       },
       "furniture": {
         "b": "f_bed",
-        "c": "f_chair",
         "t": "f_table",
-        "T": "f_trashcan",
         "%": "f_sink",
         "$": "f_shower",
         ":": "f_dresser",
-        "C": "f_counter",
-        "Y": "f_rack_coat",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+        "Y": "f_rack_coat"
       },
       "toilets": { "&": {  } }
     }
