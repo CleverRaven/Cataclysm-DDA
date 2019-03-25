@@ -10175,6 +10175,9 @@ void player::try_to_sleep( const time_duration &dur )
                            ter_at_pos.obj().name().c_str() );
     }
     add_msg_if_player( _( "You start trying to fall asleep." ) );
+    if( has_active_bionic( bio_soporific ) && power_level == 0 ) {
+        add_msg_if_player( _( "Your soporific inducer doesn't have the power to activate." ) );
+    }
     assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
@@ -10338,7 +10341,9 @@ int player::sleep_spot( const tripoint &p ) const
 
 bool player::can_sleep()
 {
-    if( has_bionic( bio_soporific ) ) {
+    if( has_active_bionic( bio_soporific ) && power_level > 0 ) {
+        charge_power( -1 );
+        add_msg_if_player( _( "Your brain tickles." ) );
         return true;
     }
     if( has_effect( effect_meth ) ) {

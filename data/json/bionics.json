@@ -1124,6 +1124,7 @@
     "type": "bionic",
     "name": "Soporific Induction",
     "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus, granting you the enviable power to fall asleep immediately, whenever, wherever.",
-    "occupied_bodyparts": [ [ "HEAD", 1 ] ]
+    "occupied_bodyparts": [ [ "HEAD", 1 ] ],
+	"flags": [ "BIONIC_TOGGLED" ]
   }
 ]
