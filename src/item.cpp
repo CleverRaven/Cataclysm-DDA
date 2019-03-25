@@ -6250,6 +6250,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
+    current_phase = type->phase;
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
         if( freeze_percentage > 0.5 ) {
@@ -6326,6 +6327,7 @@ void item::set_item_temperature( float new_temperature )
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
+    current_phase = type->phase;
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
         if( freeze_percentage > 0.5 ) {
@@ -6868,6 +6870,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
+    current_phase = type->phase;
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
         if( freeze_percentage > 0.5 ) {
@@ -6909,6 +6912,7 @@ void item::heat_up()
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
     item_tags.insert( "HOT" );
+    current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
@@ -6922,6 +6926,7 @@ void item::cold_up()
     item_tags.erase( "HOT" );
     item_tags.erase( "FROZEN" );
     item_tags.insert( "COLD" );
+    current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;
