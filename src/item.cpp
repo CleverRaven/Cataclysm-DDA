@@ -6265,6 +6265,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_item_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6340,6 +6341,7 @@ void item::set_item_temperature( float new_temperature )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6881,6 +6883,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_item_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
