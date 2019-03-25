@@ -27,7 +27,8 @@
         "overmaps" : [
             { "point":[0,-1,0], "overmap" : "road_end_north"},
             { "point":[0,0,0], "overmap": "motel_twd_1_north"},
-            { "point":[1,0,0], "overmap": "motel_twd_2_north"}
+            { "point":[1,0,0], "overmap": "motel_twd_2_north"},
+            { "point":[0,0,1], "overmap": "motel_twd_second_floor_north"}
         ],
         "connections" : [
             { "point" : [0,-1,0] }

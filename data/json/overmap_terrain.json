@@ -1674,6 +1674,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_twd_second_floor",
+    "copy-from": "generic_city_building",
+    "name": "motel",
+    "sym": 104,
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_entrance",
     "copy-from": "generic_city_building",
     "name": "motel",
