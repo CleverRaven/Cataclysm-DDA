@@ -251,7 +251,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
             mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
-            auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
+            const auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
@@ -270,12 +270,12 @@ void npc_class::load( JsonObject &jo, const std::string & )
             JsonObject skill_obj = jarr.next_object();
             auto skill_ids = skill_obj.get_tags( "skill" );
             if( skill_obj.has_object( "level" ) ) {
-                distribution dis = load_distribution( skill_obj, "level" );
+                const distribution dis = load_distribution( skill_obj, "level" );
                 for( const auto &sid : skill_ids ) {
                     skills[ skill_id( sid ) ] = dis;
                 }
             } else {
-                distribution dis = load_distribution( skill_obj, "bonus" );
+                const distribution dis = load_distribution( skill_obj, "bonus" );
                 for( const auto &sid : skill_ids ) {
                     bonus_skills[ skill_id( sid ) ] = dis;
                 }

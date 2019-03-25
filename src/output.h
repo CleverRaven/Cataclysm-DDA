@@ -553,7 +553,7 @@ template<typename _Container>
 std::string enumerate_as_string( const _Container &values,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
-    std::string final_separator = [&]() {
+    const std::string final_separator = [&]() {
         switch( conj ) {
             case enumeration_conjunction::none:
                 return _( ", " );
