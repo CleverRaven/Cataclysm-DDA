@@ -787,6 +787,35 @@ const std::string &input_context::handle_input( const int timeout )
     inp_mngr.set_timeout( timeout );
     next_action.type = CATA_INPUT_ERROR;
     const std::string *result = &CATA_ERROR;
+#ifdef GSI
+    // Could this be the spot to hook for all inputs?
+    std::vector<std::string> bound_actions;
+    std::vector<std::vector<std::string>> bound_keys;
+    std::for_each(registered_actions.begin(), registered_actions.end(), [this, &bound_actions, &bound_keys](std::string action)
+    {
+
+        std::vector<std::string> binds;
+        const std::vector<input_event> &events = inp_mngr.get_input_for_action(action,
+            category);
+        for (const auto &events_event : events) {
+            // Ignore multi-key input and non-keyboard input
+            // TODO: fix for Unicode.
+            if (events_event.type == CATA_INPUT_KEYBOARD &&
+                events_event.sequence.front() < 0xFF && isprint(events_event.sequence.front())) {
+                binds.push_back(inp_mngr.get_keyname(events_event.sequence.front(),CATA_INPUT_KEYBOARD));
+            }
+        }
+        if (binds.size() != 0)
+        {
+            bound_actions.push_back(action);
+            bound_keys.push_back(binds);
+        }
+    }
+    );
+    gsi::get().bound_actions = bound_actions;
+    gsi::get().bound_keys = bound_keys;
+    gsi_socket::get().sockout();
+#endif
     while( true ) {
         next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {

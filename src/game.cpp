@@ -1523,6 +1523,7 @@ bool game::do_turn()
     sfx::do_danger_music();
     sfx::do_fatigue();
 #ifdef GSI
+    // Player Stats
     // MUST update first -- others will decide to hide info based on the trait
     gsi::get().is_self_aware = u.has_trait((trait_id)"SELFAWARE");
 
@@ -1556,7 +1557,6 @@ bool game::do_turn()
     gsi::get().update_temp(u.temp_cur, u.temp_conv);
     gsi::get().update_invlets(u);
 
-
     gsi::get().stamina = u.stamina;
     gsi::get().stamina_max = u.get_stamina_max();
     gsi::get().power_level = u.power_level;
@@ -1568,6 +1568,14 @@ bool game::do_turn()
         gsi::get().safe_mode = 4;
     else
         gsi::get().safe_mode = turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
+
+    // Environment Stats
+    gsi::get().update_light(u);
+
+
+
+
+
     gsi_socket::get().sockout();
 #endif
     // reset player noise

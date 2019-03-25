@@ -12,9 +12,11 @@
 #include "json.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "player.h"
 #include "weather.h"
 #include "inventory.h"
 #include "color.h"
+#include "output.h"
 
 #ifdef _WINDOWS
 #include <Windows.h>
@@ -230,13 +232,18 @@ void gsi::update_invlets(Character & character)
     }
 }
 
+void gsi::update_light(player & player)
+{
+    light_level = get_all_colors().get_name(get_light_level(player.fine_detail_vision_mod()).second);
+}
+
 void gsi::serialize(JsonOut &jsout) const
 {
     jsout.start_object();
-    jsout.member("provider");
+    jsout.member("provider"); // Provider Node -- provides information for Aurora mainly.
     jsout.start_object();
     jsout.member("name", "cataclysm");
-    jsout.member("appid", -1);
+    jsout.member("appid", -1); // supposed to be a Steam app ID, with -1 denoting non steam -- should that ever happen update this
     jsout.end_object();
 
     jsout.member("keybinds");
@@ -246,6 +253,8 @@ void gsi::serialize(JsonOut &jsout) const
     jsout.member("invlets", invlets);
     jsout.member("invlets_color", invlets_c);
     jsout.member("invlets_status", invlets_s);
+    jsout.member("actions", bound_actions);
+    jsout.member("binds", bound_keys);
     jsout.end_object();
 
     jsout.member("player");
@@ -275,66 +284,6 @@ void gsi::serialize(JsonOut &jsout) const
     //jsout.end_array();
 
     jsout.end_object();
-}
-
-void gsi::write_out()
-{
-    FILE* fp = NULL;
-#ifdef _WINDOWS
-    HANDLE gsiHandle = CreateFileA( // Create a memory-mapped file.  This will not use the disk wherever possible.
-        "temp\\gamestate.json",
-        GENERIC_WRITE,
-        FILE_SHARE_READ,
-        NULL,
-        CREATE_ALWAYS,
-        FILE_ATTRIBUTE_TEMPORARY | FILE_FLAG_SEQUENTIAL_SCAN,
-        NULL);
-
-    if (gsiHandle != INVALID_HANDLE_VALUE)
-    {
-        int file_descriptor = _open_osfhandle((intptr_t)gsiHandle, _O_TEXT);
-        if (file_descriptor != -1)
-            fp = _fdopen(file_descriptor, "w");
-        else
-            _close(file_descriptor);
-    }
-    else
-        CloseHandle(gsiHandle);
-#endif
-    if (fp != NULL)
-    {
-        std::ostringstream ostream(std::ostringstream::ate);
-        JsonOut jout(ostream, true);
-        gsi::get().serialize(jout);
-        if(!outofdate)
-            fprintf(fp, "%s", ostream.str().c_str());
-        fclose(fp);
-    }
-}
-
-void gsi_thread::worker()
-{
-    std::thread writeout_thread(&gsi_thread::prep_out);
-    while (true)
-    {
-        std::unique_lock<std::mutex> lock(m);
-        gsi::get().gsi_update.wait(lock); // wait until notified to actually write out data
-        // TODO: Add condition to CV to avoid unnecessary writeouts?
-        outofdate = true;
-        gsi::get().gsi_writer.notify_one();
-    }
-}
-
-void gsi_thread::prep_out()
-{
-    while (true)
-    {
-        std::unique_lock<std::mutex> lock(otherMutex);
-        if(!outofdate)
-            gsi::get().gsi_writer.wait(lock);
-        outofdate = false;
-        gsi::get().write_out();
-    }
 }
 
 void gsi_socket::sockListen()
@@ -390,6 +339,7 @@ void gsi_socket::processCommands()
             commandqueue.pop();
 
             if (command[0] == "gsi")
+                if(std::stoi(command[1]) >= 1024 && std::stoi(command[1]) <= 49151 )
                 ports.insert(std::stoi(command[1]));
         }
         catch (int e)
@@ -399,76 +349,83 @@ void gsi_socket::processCommands()
     }
 }
 
-int gsi_socket::sockInit(void)
+void gsi_socket::sockInit()
 {
 #ifdef _WIN32
     WSADATA wsa_data;
-    return WSAStartup(MAKEWORD(1, 1), &wsa_data);
-#else
-    return 0;
+    WSAStartup(MAKEWORD(1, 1), &wsa_data);
 #endif
+    return;
 }
 
-int gsi_socket::sockQuit(void)
+void gsi_socket::sockQuit()
 {
 #ifdef _WIN32
-    return WSACleanup();
-#else
-    return 0;
+    WSACleanup();
 #endif
+    return;
 }
 
 void gsi_socket::sockout()
 {
-    processCommands();
-    std::vector<int> v;
-    std::copy(ports.begin(), ports.end(), std::back_inserter(v));
-    for (int i = 0; i < v.size(); i++)
+    try {
+        processCommands();
+        if (ports.size() != 0)
+        {
+            std::vector<int> v;
+            std::copy(ports.begin(), ports.end(), std::back_inserter(v));
+            for (int i = 0; i < v.size(); i++)
+            {
+                int sock;
+                sockInit();
+                sock = socket(AF_INET, SOCK_STREAM, 0);
+                int error = WSAGetLastError();
+                struct sockaddr_in address;
+                address.sin_family = AF_INET;
+                inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
+                address.sin_port = htons(v[i]);
+
+                if (sock == INVALID_SOCKET)
+                {
+                    sockQuit();
+                    return;
+                }
+
+                if (connect(sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
+                    _close(sock);
+                    sockQuit();
+                    return;
+                }
+                std::ostringstream ostream(std::ostringstream::ate);
+                JsonOut jout(ostream, true);
+                gsi::get().serialize(jout);
+
+                std::stringstream ss;
+                ss.imbue(std::locale::classic()); // this prevents STL from formatting numbers
+                ss << "POST http://localhost HTTP/1.1\r\n"
+                    << "Host: http://localhost\r\n"
+                    << "Content-Type: application/json\r\n"
+                    << "Content-Length: " << ostream.str().length() << "\r\n\r\n"
+                    << ostream.str();
+
+                std::string request = ss.str();
+                if (send(sock, request.c_str(), request.length(), 0) != (int)request.length())
+                {
+                    sockQuit();
+                    return;
+                }
+
+                char buf[1024];
+                std::cout << recv(sock, buf, 1024, 0) << std::endl;
+                std::cout << buf << std::endl;
+
+                sockQuit();
+            }
+        }
+    }
+    catch(...)
     {
-        int sock;
-        sockInit();
-        sock = socket(AF_INET, SOCK_STREAM, 0);
-        int error = WSAGetLastError();
-        struct sockaddr_in address;
-        address.sin_family = AF_INET;
-        inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
-        address.sin_port = htons(v[i]);
 
-        if (sock == INVALID_SOCKET)
-        {
-            sockQuit();
-            return;
-        }
-
-        if (connect(sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
-            _close(sock);
-            sockQuit();
-            return;
-        }
-        std::ostringstream ostream(std::ostringstream::ate);
-        JsonOut jout(ostream, true);
-        gsi::get().serialize(jout);
-
-        std::stringstream ss;
-        ss.imbue(std::locale::classic());
-        ss << "POST http://localhost HTTP/1.1\r\n"
-            << "Host: http://localhost\r\n"
-            << "Content-Type: application/json\r\n"
-            << "Content-Length: " << ostream.str().length() << "\r\n\r\n"
-            << ostream.str();
-
-        std::string request = ss.str();
-        if (send(sock, request.c_str(), request.length(), 0) != (int)request.length())
-        {
-            sockQuit();
-            return;
-        }
-
-        char buf[1024];
-        std::cout << recv(sock, buf, 1024, 0) << std::endl;
-        std::cout << buf << std::endl;
-
-        sockQuit();
     }
     
     return;

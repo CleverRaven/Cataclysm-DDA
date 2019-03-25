@@ -61,6 +61,8 @@ public:
 
     bool is_self_aware;
 
+
+
     void update_hunger(int hunger, int starvation);
     void update_thirst(int thirst);
     void update_fatigue(int fatigue);
@@ -69,16 +71,17 @@ public:
     void update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> temp_conv);
     void update_invlets(Character &character);
 
+    void update_light(player & player);
+
     int stamina, stamina_max;
     int power_level, max_power_level;
     int pain;
     int morale;
     int safe_mode;
-
+    std::vector<std::string> bound_actions;
+    std::vector<std::vector<std::string>> bound_keys;
     // Everything that goes in the output goes here
     void serialize(JsonOut &jsout) const;
-
-    void write_out();
 
 private:
     // Blank constructor
@@ -93,14 +96,9 @@ private:
     std::array<int, num_hp_parts> limb_state;
     std::array<float, num_hp_parts> splint_state;
     int temp_level, temp_change;
-};
+    
 
-class gsi_thread
-{
-public:
-    std::condition_variable gsi_update;
-    static void worker();  // Start the writeout thread
-    static void prep_out();
+    std::string light_level;
 };
 
 class gsi_socket
@@ -127,6 +125,6 @@ private:
     std::set<int> ports;
 
     void tryReceive();
-    int sockInit(void);
-    int sockQuit(void);
+    void sockInit();
+    void sockQuit();
 };

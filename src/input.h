@@ -395,7 +395,7 @@ class input_context
             category( category ), handling_coordinate_input( false ) {
 #ifdef GSI
             gsi::get().ctxt.push(category);
-            gsi::get().gsi_update.notify_one();
+            gsi_socket::get().sockout();
 #endif
 #ifdef __ANDROID__
             input_context_stack.push_back( this );
@@ -406,7 +406,7 @@ class input_context
         virtual ~input_context() {
             if(!(gsi::get().ctxt.empty()) && gsi::get().ctxt.top() == category)
                 gsi::get().ctxt.pop();
-            gsi::get().gsi_update.notify_one();
+            gsi_socket::get().sockout();
         }
 #endif
 #ifdef __ANDROID__
