@@ -315,11 +315,7 @@
     "durability": 8,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
-    "magazines": [
-      [ "223", [ "stanag10", "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag" ] ]
-    ]
+    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30" ] ] ]
   },
   {
     "id": "scar_l",
