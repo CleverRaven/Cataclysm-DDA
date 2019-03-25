@@ -313,7 +313,7 @@ void npc::assess_danger()
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float min_danger = ( att == MATT_ATTACK ) ? NPC_DANGER_VERY_LOW : 0.0f;
-        float critter_danger = std::max( critter.type->difficulty * ( hp_percent * 0.5f + 0.5f ),
+        float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
                                          min_danger );
         ai_cache.total_danger += critter_danger / scaled_distance;
         if( is_following() && !ok_by_rules( critter, dist, scaled_distance ) ) {
@@ -323,11 +323,10 @@ void npc::assess_danger()
         // don't ignore monsters that are too close or too close to the player
         float min_priority = ( att == MATT_ATTACK ) && ( dist <= def_radius ||
                              ( is_following() && too_close( critter.pos(), g->u.pos() ) ) ) ?
-                             1.0f : 0.0f;
+                             NPC_DANGER_VERY_LOW : 0.0f;
         float priority = std::max( min_priority,
                                    critter_danger - 2.0f * ( scaled_distance - 1.0f ) );
         cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
-
         if( priority > highest_priority ) {
             highest_priority = priority;
             ai_cache.target = g->shared_from( critter );
@@ -348,7 +347,7 @@ void npc::assess_danger()
         if( !is_following() || ok_by_rules( guy, dist, scaled_distance ) ) {
             float min_priority = ( att == A_HOSTILE ) && ( dist <= def_radius ||
                                  ( is_following() && too_close( guy.pos(), g->u.pos() ) ) ) ?
-                                 1.0f : 0.0f;
+                                 NPC_DANGER_VERY_LOW : 0.0f;
             float priority = std::max( guy_threat - 2.0f * ( scaled_distance - 1 ),
                                        min_priority );
             cur_threat_map[direction_from( pos(), guy.pos() )] += priority;
