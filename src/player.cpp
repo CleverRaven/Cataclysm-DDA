@@ -10175,8 +10175,14 @@ void player::try_to_sleep( const time_duration &dur )
                            ter_at_pos.obj().name().c_str() );
     }
     add_msg_if_player( _( "You start trying to fall asleep." ) );
-    if( has_active_bionic( bio_soporific ) && power_level == 0 ) {
-        add_msg_if_player( _( "Your soporific inducer doesn't have the power to activate." ) );
+    if( has_active_bionic( bio_soporific ) ) {
+        if( power_level > 0 ) {
+            // The actual bonus is applied in sleep_spot( p ).
+            add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
+            charge_power( -1 );
+        } else {
+            add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
+        }
     }
     assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
@@ -10315,6 +10321,9 @@ int player::sleep_spot( const tripoint &p ) const
         // so it's OK for the value to be that much higher
         sleepy += 24;
     }
+    if( has_active_bionic( bio_soporific ) ) {
+        sleepy += 30;
+    }
     if( has_trait( trait_EASYSLEEPER2 ) ) {
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
@@ -10341,11 +10350,6 @@ int player::sleep_spot( const tripoint &p ) const
 
 bool player::can_sleep()
 {
-    if( has_active_bionic( bio_soporific ) && power_level > 0 ) {
-        charge_power( -1 );
-        add_msg_if_player( _( "Your brain tickles." ) );
-        return true;
-    }
     if( has_effect( effect_meth ) ) {
         // Sleep ain't happening until that meth wears off completely.
         return false;
