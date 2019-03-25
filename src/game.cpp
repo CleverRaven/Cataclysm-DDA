@@ -3677,7 +3677,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
 
 bool game::is_in_viewport( const tripoint &p, int margin ) const
 {
-    const tripoint diff( u.pos() + u.view_offset - p );
+    const tripoint diff( u.pos() + u.view_offset + sidebar_offset - p );
 
     return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin ) &&
            ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin );
@@ -3740,7 +3740,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
         // Draw auto-move preview trail
         const tripoint &final_destination = destination_preview.back();
-        tripoint line_center = u.pos() + u.view_offset;
+        tripoint line_center = u.pos() + u.view_offset + sidebar_offset;
         draw_line( final_destination, line_center, destination_preview );
         mvwputch( w_terrain, POSY + ( final_destination.y - ( u.posy() + u.view_offset.y ) ),
                   POSX + ( final_destination.x - ( u.posx() + u.view_offset.x ) ), c_white, 'X' );
@@ -4194,7 +4194,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         dangerou = false;
     }
 
-    tripoint view = u.pos() + u.view_offset;
+    tripoint view = u.pos() + u.view_offset + sidebar_offset;
     new_seen_mon.clear();
 
     const int current_turn = calendar::turn;
@@ -6592,7 +6592,7 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint center = u.pos() + u.view_offset;
+        tripoint center = u.pos() + u.view_offset + sidebar_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
         if( first.position )
@@ -6898,7 +6898,7 @@ void game::zones_manager()
                                           tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                           false,
                                           false,
-                                          u.pos() + u.view_offset );
+                                          u.pos() + u.view_offset + sidebar_offset );
                             } else {
                                 if( u.has_effect( effect_boomered ) ) {
                                     mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#' );
@@ -7268,7 +7268,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
     draw_ter();
 
     std::vector<tripoint> pts;
-    tripoint center = u.pos() + u.view_offset;
+    tripoint center = u.pos() + u.view_offset + sidebar_offset;
     if( t != tripoint_zero ) {
         //Draw trail
         pts = line_to( u.pos(), u.pos() + t, 0, 0 );
@@ -12167,7 +12167,7 @@ void game::display_scent()
             return;
         }
         draw_ter();
-        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
+        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset + sidebar_offset );
         wrefresh( w_terrain );
         draw_panels();
         inp_mngr.wait_for_any_key();
