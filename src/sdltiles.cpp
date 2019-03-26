@@ -39,6 +39,7 @@
 #include "player.h"
 #include "rng.h"
 #include "sdlsound.h"
+#include "sdltiles.h"
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
