@@ -35,6 +35,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "player.h"
 #include "requirements.h"
@@ -1254,14 +1255,18 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
-    basecamp *bcp = g->m.camp_at( examp, 60 );
+    g->validate_camps();
+    point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
+    tripoint omt_tri = tripoint( omt.x, omt.y, p.pos().z );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
     if( bcp ) {
+        basecamp *temp_camp = *bcp;
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        bcp->get_available_missions( mission_key );
-        if( talk_function::display_and_choose_opts( mission_key, bcp->camp_omt_pos(), "FACTION_CAMP",
+        temp_camp->get_available_missions( mission_key );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
                 title ) ) {
-            bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );

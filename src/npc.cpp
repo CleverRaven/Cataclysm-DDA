@@ -1629,10 +1629,9 @@ bool npc::is_enemy() const
 
 bool npc::is_guarding() const
 {
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_GUARD_ALLY ||
            mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
-           mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_ACTIVITY ||
-           has_effect( effect_infection );
+           mission == NPC_MISSION_ACTIVITY || has_effect( effect_infection );
 }
 
 bool npc::has_player_activity() const
