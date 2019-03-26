@@ -521,6 +521,7 @@
     "description": "Dried leaves of a tropical plant.  You can boil them into tea, or you can just eat them raw.  They aren't too filling though.",
     "price": 1030,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 20,

@@ -105,6 +105,10 @@ npc::npc()
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
+    for( size_t i = 0; i < 8; i++ ) {
+        direction threat_dir = npc_threat_dir[i];
+        ai_cache.threat_map[ threat_dir ] = 0.0f;
+    }
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -551,7 +555,7 @@ void npc::randomize_from_faction( faction *fac )
         personality.altruism += rng( 0, 4 );
         int_max += rng( 2, 4 );
         per_max += rng( 0, 2 );
-        mod_skill_level( skill_firstaid, int( rng( 1, 5 ) ) );
+        mod_skill_level( skill_firstaid, static_cast<int>( rng( 1, 5 ) ) );
     }
     if( fac->has_job( FACJOB_FARMERS ) ) {
         personality.aggression -= rng( 2, 4 );
@@ -766,14 +770,14 @@ void starting_inv( npc &who, const npc_class_id &type )
             ammo = container;
         }
 
-        // @todo: Move to npc_class
+        // TODO: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
         long qty = 1 + ( type == NC_COWBOY ||
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
-            // @todo: give NPC a default magazine instead
+            // TODO: give NPC a default magazine instead
             res.push_back( ammo );
         }
     }
@@ -994,7 +998,7 @@ bool npc::wear_if_wanted( const item &it )
         }
 
         if( encumb_ok && can_wear( it ).success() ) {
-            // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            // TODO: Hazmat/power armor makes this not work due to 1 boots/headgear limit
             return !!wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
@@ -1063,7 +1067,7 @@ void npc::form_opinion( const player &u )
 {
     // FEAR
     if( u.weapon.is_gun() ) {
-        // @todo: Make bows not guns
+        // TODO: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
@@ -1131,7 +1135,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 2;
     }
 
-    // @todo: More effects
+    // TODO: More effects
     if( u.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }
@@ -1191,7 +1195,7 @@ float npc::vehicle_danger( int radius ) const
     for( unsigned int i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
-            // #FIXME this can't be the right way to do this
+            // FIXME: this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
             int ax = wrapped_veh.v->global_pos3().x;
@@ -1495,14 +1499,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
-            ret += 14; // @todo: magazines - don't count ammo as usable if the weapon isn't.
+            ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
         if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
         [&]( const ammotype & e ) {
         return has_gun_for_ammo( e );
         } ) ) {
-            ret += 14; // @todo: consider making this cumulative (once was)
+            ret += 14; // TODO: consider making this cumulative (once was)
         }
     }
 
@@ -1625,10 +1629,14 @@ bool npc::is_enemy() const
 
 bool npc::is_guarding() const
 {
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_GUARD_ALLY ||
            mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
-           mission == NPC_MISSION_GUARD_ALLY ||
-           has_effect( effect_infection );
+           mission == NPC_MISSION_ACTIVITY || has_effect( effect_infection );
+}
+
+bool npc::has_player_activity() const
+{
+    return activity && mission == NPC_MISSION_ACTIVITY;
 }
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
@@ -1650,7 +1658,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         return other.attitude_to( *this );
     }
 
-    // @todo: Get rid of the ugly cast without duplicating checks
+    // TODO: Get rid of the ugly cast without duplicating checks
     const monster &m = dynamic_cast<const monster &>( other );
     switch( m.attitude( this ) ) {
         case MATT_FOLLOW:
@@ -1689,7 +1697,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return float( melee_value( weapon ) );
+    return static_cast<float>( melee_value( weapon ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -1723,7 +1731,7 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // @todo: Allow player to set that
+    // TODO: Allow player to set that
     return 4;
 }
 
@@ -1758,11 +1766,11 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
     nc_color color ) {
-        // @todo: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
+        // TODO: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    long( iWidth ) );
+                    static_cast<long>( iWidth ) );
             if( split == std::string::npos ) {
                 mvwprintz( w, line, column, color, str_in.c_str() );
             } else {
@@ -2016,6 +2024,8 @@ std::string npc_attitude_name( npc_attitude att )
             return _( "Fleeing" );
         case NPCATT_HEAL:          // Get to the player and heal them
             return _( "Healing you" );
+        case NPCATT_ACTIVITY:
+            return _( "Performing a task" );
         default:
             break;
     }
@@ -2103,6 +2113,10 @@ void npc::on_load()
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
         process_active_items();
+        // give NPCs that are doing activities a pile of moves
+        if( has_destination() || activity ) {
+            mod_moves( to_moves<int>( dt ) );
+        }
     }
 
     // Not necessarily true, but it's not a bad idea to set this
@@ -2161,7 +2175,7 @@ epilogue *epilogue::find_epilogue( const std::string &ident )
 void epilogue::random_by_group( std::string group )
 {
     std::vector<epilogue> v;
-    for( auto epi : _all_epilogue ) {
+    for( const auto &epi : _all_epilogue ) {
         if( epi.second.group == group ) {
             v.push_back( epi.second );
         }
@@ -2321,7 +2335,7 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
-    // @todo: Extract climb skill
+    // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
@@ -2339,7 +2353,7 @@ std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
-        // @todo: Cache this somewhere
+        // TODO: Cache this somewhere
         ret.insert( critter.pos() );
     }
     return ret;
@@ -2387,7 +2401,7 @@ std::string npc::extended_description() const
     if( hit_by_player ) {
         ss << "--" << std::endl;
         ss << _( "Is still innocent and killing them will be considered murder." );
-        // @todo: "But you don't care because you're an edgy psycho"
+        // TODO: "But you don't care because you're an edgy psycho"
     }
 
     return replace_colors( ss.str() );
@@ -2466,6 +2480,7 @@ attitude_group get_attitude_group( npc_attitude att )
         case NPCATT_FLEE:
             return attitude_group::fearful;
         case NPCATT_FOLLOW:
+        case NPCATT_ACTIVITY:
         case NPCATT_LEAD:
             return attitude_group::friendly;
         default:
@@ -2523,6 +2538,7 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
+    clear_flag( ally_rule::avoid_combat );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test ) const

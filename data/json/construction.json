@@ -539,6 +539,59 @@
   },
   {
     "type": "construction",
+    "description": "Build Wattle-and-Daub Wall",
+    "//": "Step 1: half of a wall in an empty space",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "time": 50,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
+      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall_wattle_half"
+  },
+  {
+    "type": "construction",
+    "description": "Build Wattle-and-Daub Wall",
+    "//": "Step 2: complete the half made wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "time": 50,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
+      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ]
+    ],
+    "pre_terrain": "t_wall_wattle_half",
+    "post_terrain": "t_wall_wattle"
+  },
+  {
+    "type": "construction",
+    "description": "Repair Wattle-and-Daub Wall",
+    "category": "REPAIR",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
+    "time": 30,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 2 ], [ "stick", 4 ] ],
+      [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
+      [ [ "pebble", 4 ], [ "material_sand", 4 ] ],
+      [ [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ],
+    "pre_terrain": "t_wall_wattle_broken",
+    "post_terrain": "t_wall_wattle"
+  },
+  {
+    "type": "construction",
     "description": "Build Wood Wall",
     "//": "Step 1: half of a wall where a window used to be",
     "category": "CONSTRUCT",
@@ -1277,6 +1330,16 @@
     "time": 30,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_table"
+  },
+  {
+    "type": "construction",
+    "description": "Place Table",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 1,
+    "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_table"
   },

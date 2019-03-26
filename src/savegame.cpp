@@ -843,7 +843,7 @@ void overmap::unserialize( std::istream &fin )
             if( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
-                    settings = rit->second; // @todo: optimize
+                    settings = rit->second; // TODO: optimize
                 }
             }
         } else if( name == "mongroups" ) {
@@ -972,6 +972,13 @@ void overmap::unserialize( std::istream &fin )
                 }
                 npcs.push_back( new_npc );
             }
+        } else if( name == "camps" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                basecamp new_camp;
+                new_camp.deserialize( jsin );
+                camps.push_back( new_camp );
+            }
         } else if( name == "overmap_special_placements" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -1009,8 +1016,6 @@ void overmap::unserialize( std::istream &fin )
         }
     }
 }
-
-
 
 static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
 {
@@ -1097,7 +1102,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
         for( int i = 0; i < OMAPX; i++ ) {
-            int value = array[i][j];
+            const int value = array[i][j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1215,7 +1220,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
         jout.start_array();
         // Zero the bin position so that it isn't serialized
         // The position is stored separately, in the list
-        // @todo: Do it without the copy
+        // TODO: Do it without the copy
         mongroup saved_group = group_bin.first;
         saved_group.pos = tripoint_zero;
         jout.write( saved_group );
@@ -1349,6 +1354,14 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "camps" );
+    json.start_array();
+    for( auto &i : camps ) {
+        json.write( i );
     }
     json.end_array();
     fout << std::endl;

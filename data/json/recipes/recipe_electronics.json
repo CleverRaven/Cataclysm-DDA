@@ -1600,18 +1600,17 @@
   "skill_used": "fabrication",
   "skills_required" : [ "electronics", 2 ],
   "difficulty": 5,
-  "time": 40000,
+  "time": 3000,
   "autolearn": true,
+  "charges": 1,
   "qualities" : [
-    {"id":"SAW_M","level":1},
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":2}
+    { "id": "ANVIL", "level": 1 },
+    { "id": "HAMMER", "level": 2 },
+    { "id": "CHISEL", "level": 3 },
+    { "id": "CUT", "level": 1 }
   ],
-  "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-  "components": [
-    [ [ "copper", 100 ], [ "scrap_copper", 1 ] ],
-    [ [ "duct_tape", 100 ] ]
-  ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "elec_jackhammer",

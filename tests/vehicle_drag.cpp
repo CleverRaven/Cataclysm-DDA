@@ -229,7 +229,7 @@ TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
     }
 }
 
-// format is vehicle, coeff_air_drag, coeff_rolling_drag, safe speed, max speed
+// format is vehicle, coeff_air_drag, coeff_rolling_drag, coeff_water_drag, safe speed, max speed
 // coeffs are dimensionless, speeds are 100ths of mph, so 6101 is 61.01 mph
 TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
@@ -270,9 +270,9 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "tractor_plow", 0.609525, 0.893061, 1691.485577, 11852, 13756 );
     test_vehicle_drag( "tractor_reaper", 0.609525, 0.778836, 1475.139423, 11874, 13777 );
     test_vehicle_drag( "tractor_seed", 0.609525, 0.778836, 1475.139423, 11874, 13777 );
-    test_vehicle_drag( "aapc-mg", 1.842120, 8.587756, 4342.302827, 7687, 9035 );
-    test_vehicle_drag( "apc", 1.842120, 8.464568, 4280.014137, 7696, 9043 );
-    test_vehicle_drag( "humvee", 0.616298, 7.235435, 4878.022321, 12874, 15132 );
+    test_vehicle_drag( "aapc-mg", 1.625400, 8.606709, 4351.886161, 7972, 9379 );
+    test_vehicle_drag( "apc", 1.625400, 8.483520, 4289.597470, 7982, 9388 );
+    test_vehicle_drag( "humvee", 0.616298, 7.232786, 4876.236607, 12875, 15132 );
     test_vehicle_drag( "military_cargo_truck", 0.840758, 9.416864, 4345.338889, 11502, 13545 );
     test_vehicle_drag( "flatbed_truck", 0.883328, 4.458495, 1995.980114, 9717, 11717 );
     test_vehicle_drag( "pickup", 0.589208, 3.088771, 1249.441964, 11219, 13499 );
@@ -285,7 +285,7 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "road_roller", 1.823738, 2.745174, 9120.522917, 9382, 10893 );
     test_vehicle_drag( "forklift", 0.565988, 1.350440, 637.312500, 8400, 8717 );
     test_vehicle_drag( "trencher", 0.659728, 1.080300, 1227.673558, 8060, 8360 );
-    test_vehicle_drag( "armored_car", 0.896872, 6.948507, 4684.580357, 11588, 13577 );
+    test_vehicle_drag( "armored_car", 0.896872, 6.951678, 4686.717857, 11588, 13577 );
     test_vehicle_drag( "cube_van", 0.518580, 2.636314, 2163.746875, 11796, 14161 );
     test_vehicle_drag( "cube_van_cheap", 0.512775, 2.572474, 1853.869207, 9978, 12027 );
     test_vehicle_drag( "hippie_van", 0.386033, 2.780080, 1124.573214, 10804, 13062 );

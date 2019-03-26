@@ -541,6 +541,14 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
         } while( tries < 10 && m.impassable( x, y ) );
 
         if( tries < 10 ) { // We found a valid spot!
+            if( a_has_drugs && num_drugs > 0 ) {
+                int drugs_placed = rng( 2, 6 );
+                if( drugs_placed > num_drugs ) {
+                    drugs_placed = num_drugs;
+                    num_drugs = 0;
+                }
+                m.spawn_item( x, y, drugtype, 0, drugs_placed );
+            }
             if( one_in( 10 ) ) {
                 m.add_spawn( mon_zombie_spitter, 1, x, y );
             } else {
@@ -550,14 +558,6 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
                     m.add_field( {x + ( j * x_offset ), y + ( j * y_offset ), abs_sub.z},
                                  fd_blood, 1, 0_turns );
                 }
-            }
-            if( a_has_drugs && num_drugs > 0 ) {
-                int drugs_placed = rng( 2, 6 );
-                if( drugs_placed > num_drugs ) {
-                    drugs_placed = num_drugs;
-                    num_drugs = 0;
-                }
-                m.spawn_item( x, y, drugtype, 0, drugs_placed );
             }
         }
     }

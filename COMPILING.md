@@ -443,16 +443,16 @@ The version of gcc/g++ installed with the [Command Line Tools for Xcode](https:/
 
     brew install gcc
 
-However, homebrew installs gcc as gcc-6 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-6` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
+However, homebrew installs gcc as gcc-8 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-8` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
 
     cd /usr/local/bin
-    ln -s gcc-6 gcc
-    ln -s g++-6 g++
-    ln -s c++-6 c++
+    ln -s gcc-8 gcc
+    ln -s g++-8 g++
+    ln -s c++-8 c++
 
-Or, to do this for everything in `/usr/local/bin/` ending with `-6`,
+Or, to do this for everything in `/usr/local/bin/` ending with `-8`,
 
-    find /usr/local/bin -name "*-6" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
+    find /usr/local/bin -name "*-8" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
 
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
 

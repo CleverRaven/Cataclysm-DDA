@@ -330,7 +330,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string item_name;
         if( it.ammo_type() == "money" ) {
             //Count charges
-            //TODO: transition to the item_location system used for the normal inventory
+            // TODO: transition to the item_location system used for the normal inventory
             unsigned long charges_total = 0;
             for( const auto item : sitem.items ) {
                 charges_total += item->charges;
@@ -452,8 +452,8 @@ struct advanced_inv_sorter {
                 // There are many items with "false" ammo types (e.g.
                 // scrap metal has "components") that actually is not
                 // used as ammo, so we consider them as non-ammo.
-                const bool ammoish1 = a1 != "" && a1 != "components" && a1 != "none" && a1 != "NULL";
-                const bool ammoish2 = a2 != "" && a2 != "components" && a2 != "none" && a2 != "NULL";
+                const bool ammoish1 = !a1.empty() && a1 != "components" && a1 != "none" && a1 != "NULL";
+                const bool ammoish2 = !a2.empty() && a2 != "components" && a2 != "none" && a2 != "NULL";
                 if( ammoish1 != ammoish2 ) {
                     return ammoish1;
                 } else if( ammoish1 && ammoish2 ) {
@@ -2083,7 +2083,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
 
     std::string err;
-    // @todo: Allow buckets here, but require them to be on the ground or wielded
+    // TODO: Allow buckets here, but require them to be on the ground or wielded
     const long amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
     if( !err.empty() ) {
         popup( err.c_str() );

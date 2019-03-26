@@ -720,7 +720,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo: Turn it into the null id
+    // TODO: Turn it into the null id
     if( cat == "ANY" ) {
         mutate();
         return;
@@ -883,7 +883,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre = elem;
+            const trait_id &pre = elem;
             const auto &p = pre.obj();
             for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -898,7 +898,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre2 = elem;
+            const trait_id &pre2 = elem;
             const auto &p = pre2.obj();
             for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -925,7 +925,7 @@ bool player::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        // TODO: Limit this to visible mutations
+        //  TODO: Limit this to visible mutations
         // TODO: In case invisible mutation turns into visible or vice versa
         //  print only the visible mutation appearing/disappearing
         add_msg_player_or_npc( rating,
@@ -1164,7 +1164,7 @@ void player::remove_mutation( const trait_id &mut )
 bool player::has_child_flag( const trait_id &flag ) const
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
         }
@@ -1175,7 +1175,7 @@ bool player::has_child_flag( const trait_id &flag ) const
 void player::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );
             return;

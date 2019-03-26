@@ -115,6 +115,7 @@ struct explosion_data;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
+class window_panel;
 
 typedef std::function<bool( const item & )> item_filter;
 
@@ -142,6 +143,13 @@ enum peek_act : int {
 struct look_around_result {
     cata::optional<tripoint> position;
     cata::optional<peek_act> peek_action;
+};
+
+struct w_map {
+    int id;
+    std::string name;
+    bool toggle;
+    catacurses::window win;
 };
 
 class game
@@ -231,6 +239,8 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+        void draw_panels();
+        void draw_panels( size_t column, size_t index );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -600,7 +610,7 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        // @todo: Move these functions to game_menus::inv and isolate them.
+        // TODO: Move these functions to game_menus::inv and isolate them.
         int inv_for_filter( const std::string &title, item_filter filter,
                             const std::string &none_message = "" );
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
@@ -623,9 +633,9 @@ class game
         bool has_gametype() const;
         special_game_id gametype() const;
 
-        void toggle_sidebar_style();
         void toggle_fullscreen();
         void toggle_pixel_minimap();
+        void toggle_panel_adm();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -679,30 +689,17 @@ class game
     private:
         catacurses::window w_terrain_ptr;
         catacurses::window w_minimap_ptr;
-        catacurses::window w_pixel_minimap_ptr;
-        catacurses::window w_HP_ptr;
-        catacurses::window w_messages_short_ptr;
-        catacurses::window w_messages_long_ptr;
-        catacurses::window w_location_wider_ptr;
-        catacurses::window w_location_ptr;
-        catacurses::window w_status_ptr;
-        catacurses::window w_status2_ptr;
-
     public:
         catacurses::window w_terrain;
         catacurses::window w_overmap;
         catacurses::window w_omlegend;
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
-        catacurses::window w_HP;
         //only a pointer, can refer to w_messages_short or w_messages_long
-        catacurses::window w_messages;
-        catacurses::window w_messages_short;
-        catacurses::window w_messages_long;
-        catacurses::window w_location_wider;
-        catacurses::window w_location;
-        catacurses::window w_status;
-        catacurses::window w_status2;
+
+        catacurses::window w_panel_adm_ptr;
+        catacurses::window w_panel_adm;
+
         catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
@@ -858,8 +855,9 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
-        bool narrow_sidebar;
+        bool show_panel_adm;
         bool right_sidebar;
+        bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
 
@@ -967,12 +965,12 @@ class game
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
-        void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
-        void reload( item_location &loc, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
+        void reload( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
@@ -986,6 +984,8 @@ class game
         void set_npcs_dirty();
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
+        void mon_info( const catacurses::window &,
+                       int hor_padding = 0 ); // Prints a list of nearby monsters
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
@@ -1044,7 +1044,6 @@ class game
         void monmove();          // Monster movement
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
@@ -1064,12 +1063,10 @@ class game
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void draw_minimap();     // Draw the 5x5 minimap
-        /** Draws the sidebar (if it's visible), including all windows there */
-        void draw_sidebar();
     public:
-        void draw_sidebar_messages();
+        // Draws the pixel minimap based on the player's current location
+        void draw_pixel_minimap( const catacurses::window &w );
     private:
-        void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
@@ -1090,16 +1087,18 @@ class game
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
-        void debug();           // All-encompassing debug screen.  TODO: This.
+        void debug();           // All-encompassing debug screen. TODO: This.
         void display_scent();   // Displays the scent map
 
         // ########################## DATA ################################
 
+    public:
         safe_mode_type safe_mode;
+        int turnssincelastmon; // needed for auto run mode
+    private:
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
         bool bVMonsterLookFire;
         time_point nextweather; // The time on which weather will shift next.

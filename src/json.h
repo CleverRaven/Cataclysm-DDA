@@ -658,7 +658,7 @@ class JsonObject
     public:
         JsonObject( JsonIn &jsin );
         JsonObject( const JsonObject &jsobj );
-        JsonObject() : positions(), start( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonObject() {
             finish();
         }
@@ -831,7 +831,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : positions(), start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
         ~JsonArray() {
             finish();
         }

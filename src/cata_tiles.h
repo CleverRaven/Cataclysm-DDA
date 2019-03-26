@@ -179,7 +179,7 @@ struct minimap_shared_texture_pool {
             //shouldn't be happening, but minimap will just be default color instead of crashing
             return nullptr;
         }
-        int index = inactive_index.back();
+        const int index = inactive_index.back();
         inactive_index.pop_back();
         active_index.insert( index );
         i = index;
@@ -189,7 +189,7 @@ struct minimap_shared_texture_pool {
     //releases the provided texture back into the inactive pool to be used again
     //called automatically in the submap cache destructor
     void release_tex( int i, SDL_Texture_Ptr ptr ) {
-        auto it = active_index.find( i );
+        const auto it = active_index.find( i );
         if( it == active_index.end() ) {
             return;
         }

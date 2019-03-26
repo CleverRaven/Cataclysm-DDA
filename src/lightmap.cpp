@@ -62,7 +62,7 @@ void map::add_light_from_items( const tripoint &p, std::list<item>::iterator beg
     }
 }
 
-// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
+// TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
@@ -1166,7 +1166,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
-        // @todo: Factor in the mirror facing and only cast in the
+        // TODO: Factor in the mirror facing and only cast in the
         // directions the player's line of sight reflects to.
         //
         // The naive solution of making the mirrors act like a second player
@@ -1184,8 +1184,8 @@ float fastexp( float x )
         float f;
         int i;
     } u, v;
-    u.i = ( long long )( 6051102 * x + 1056478197 );
-    v.i = ( long long )( 1056478197 - 6051102 * x );
+    u.i = static_cast<long long>( 6051102 * x + 1056478197 );
+    v.i = static_cast<long long>( 1056478197 - 6051102 * x );
     return u.f / v.f;
 }
 
@@ -1358,12 +1358,16 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         if( trigdist ) {
             double fdist = ( ao * HALFPI ) / wangle;
             double orad = ( PI * ao / 180.0 );
-            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad + orad ) );
-            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad + orad ) );
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+                                          rad + orad ) );
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+                                          rad + orad ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad - orad ) );
-            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad - orad ) );
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+                                          rad - orad ) );
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+                                          rad - orad ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );

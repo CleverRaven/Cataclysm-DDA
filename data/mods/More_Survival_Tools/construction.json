@@ -37,46 +37,6 @@
     },{
         "type" : "construction",
         "skill" : "survival",
-        "description" : "Build Wattle-and-Daub Wall", "//": "Step 1: half of a wall in an empty space",
-        "category" : "CONSTRUCT",
-        "difficulty" : 2,
-        "time" : 50,
-        "qualities": [
-            { "id": "CUT", "level": 1 },
-            { "id": "HAMMER", "level": 1 }
-        ],
-        "components" : [
-            [ [ "2x4", 5 ], [ "stick", 10 ]  ],
-            [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
-            [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-            [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
-            [ [ "water", 5 ], [ "water_clean", 5 ] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_terrain" : "t_wall_wattle_half"
-    },{
-        "type" : "construction",
-        "skill" : "survival",
-        "description" : "Build Wattle-and-Daub Wall", "//": "Step 2: complete the half made wall",
-        "category" : "CONSTRUCT",
-        "difficulty" : 2,
-        "time" : 50,
-        "qualities": [
-            { "id": "CUT", "level": 1 },
-            { "id": "HAMMER", "level": 1 }
-        ],
-        "components" : [
-            [ [ "2x4", 5 ], [ "stick", 10 ]  ],
-            [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
-            [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-            [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
-            [ [ "water", 5 ], [ "water_clean", 5 ] ]
-        ],
-        "pre_terrain" : "t_wall_wattle_half",
-        "post_terrain" : "t_wall_wattle"
-    },{
-        "type" : "construction",
-        "skill" : "survival",
         "description" : "Build Thatched Roof",
         "category" : "CONSTRUCT",
         "difficulty" : 3,
@@ -90,25 +50,6 @@
         ],
         "pre_special" : "check_support",
         "post_terrain" : "t_dirtfloor"
-    },{
-        "type" : "construction",
-        "description" : "Repair Wattle-and-Daub Wall",
-        "category" : "REPAIR",
-        "difficulty" : 1,
-        "time" : 30,
-        "qualities": [
-            { "id": "CUT", "level": 1 },
-            { "id": "HAMMER", "level": 1 }
-        ],
-        "components" : [
-            [ [ "2x4", 2 ], [ "stick", 4 ]  ],
-            [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
-            [ [ "pebble", 4 ], [ "material_sand", 4 ] ],
-            [ [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ],
-            [ [ "water", 2 ], [ "water_clean", 2 ] ]
-        ],
-        "pre_terrain" : "t_wall_wattle_broken",
-        "post_terrain" : "t_wall_wattle"
     },{
         "type" : "construction",
         "skill" : "survival",

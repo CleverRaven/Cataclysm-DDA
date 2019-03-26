@@ -387,7 +387,7 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( explosion.power <= 0 ) {
-        // @todo: List other effects, like EMP and clouds
+        // TODO: List other effects, like EMP and clouds
         return;
     }
 
@@ -576,7 +576,7 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     // Apply the various effects.
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         time_duration dur = eff.duration;
         if( p.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
@@ -591,7 +591,8 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     for( const auto &field : fields_produced ) {
         const field_id fid = field_from_ident( field.first );
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid,
+            g->m.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
+                            fid,
                             field.second );
         }
     }
@@ -635,7 +636,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    //@todo: change return type to time_duration
+    // TODO: change return type to time_duration
     return transform_age - to_turns<int>( it.age() );
 }
 
@@ -1360,7 +1361,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Original item has been consumed.
     cut.remove_item();
 
-    for( auto salvaged : materials_salvaged ) {
+    for( const auto &salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
@@ -2028,7 +2029,6 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
     }
 
-
     sounds::ambient_sound( p.pos(), volume, sounds::sound_t::music, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
@@ -2047,7 +2047,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
 ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool,
         const tripoint & ) const
 {
-    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
@@ -3142,7 +3142,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         healer.add_msg_if_player( _( "You finish using the %s." ), it.tname().c_str() );
     }
 
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
@@ -3533,7 +3533,7 @@ iuse_actor *emit_actor::clone() const
 void emit_actor::finalize( const itype_id &my_item_type )
 {
     /*
-    // @todo: This must be called after all finalization
+    // TODO: This must be called after all finalization
     for( const auto& e : emits ) {
         if( !e.is_valid() ) {
             debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );

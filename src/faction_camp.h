@@ -62,7 +62,7 @@ void recover_camp( npc & );
 void remove_overseer( npc & );
 
 void draw_camp_tabs( const catacurses::window &win, camp_tab_mode cur_tab,
-                     std::vector<std::vector<mission_entry>> &entries );
+                     const std::vector<std::vector<mission_entry>> &entries );
 std::string name_mission_tabs( const tripoint &omt_pos, const std::string &role_id,
                                const std::string &cur_title, camp_tab_mode cur_tab );
 
