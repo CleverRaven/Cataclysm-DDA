@@ -1,57 +1,5 @@
 [
   {
-    "id": "diner_food",
-    "type": "item_group",
-    "items": [
-      [ "cheeseburger", 6 ],
-      [ "hamburger", 8 ],
-      [ "sloppyjoe", 6 ],
-      [ "blt", 6 ],
-      [ "fries", 10 ],
-      [ "onion_rings", 8 ],
-      [ "fchicken", 8 ],
-      [ "sausage", 8 ],
-      [ "bratwurst_sausage", 6 ],
-      [ "sweet_sausage", 2 ],
-      [ "hotdogs_cooked", 8 ],
-      [ "chilidogs", 6 ],
-      [ "corndogs_cooked", 8 ],
-      [ "scrambled_eggs", 8 ],
-      [ "deluxe_eggs", 5 ],
-      [ "pancakes", 12 ],
-      [ "fruit_pancakes", 6 ],
-      [ "choc_pancakes", 6 ],
-      [ "waffles", 10 ],
-      [ "fruit_waffles", 6 ],
-      [ "choc_waffles", 6 ],
-      [ "pie", 9 ],
-      [ "pie_meat", 8 ],
-      [ "pan", 30 ]
-    ]
-  },
-  {
-    "id": "diner_back",
-    "type": "item_group",
-    "items": [
-      { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
-      [ "bacon", 20 ],
-      [ "fries", 20 ],
-      [ "onion_rings", 20 ],
-      [ "sausage", 20 ],
-      [ "bratwurst_sausage", 10 ],
-      [ "sweet_sausage", 5 ],
-      [ "hotdogs_frozen", 20 ],
-      [ "corndogs_frozen", 20 ],
-      [ "pancakes", 20 ],
-      [ "waffles", 20 ],
-      [ "tomato", 20 ],
-      [ "lettuce", 20 ],
-      [ "soup_veggy", 20 ],
-      [ "soup_meat", 20 ],
-      [ "soup_tomato", 20 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_3" ],
