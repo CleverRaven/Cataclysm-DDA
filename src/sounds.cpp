@@ -16,6 +16,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -106,10 +107,11 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, std::string de
                                                  false, id, variant} ) );
 }
 
-void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
+void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
+                           const std::string &footstep )
 {
     sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, "footsteps", false, true, "", ""} ) );
+                                         sound_t::movement, footstep, false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -225,7 +227,7 @@ void sounds::process_sounds()
         }
         // Alert all monsters (that can hear) to the sound.
         for( monster &critter : g->all_monsters() ) {
-            // @todo: Generalize this to Creature::hear_sound
+            // TODO: Generalize this to Creature::hear_sound
             const int dist = rl_dist( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
@@ -644,13 +646,11 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     }
 
     itype_id weapon_id = firing.typeId();
-    int angle;
-    int distance;
+    int angle = 0;
+    int distance = 0;
     std::string selected_sound;
     // this does not mean p == g->u (it could be a vehicle turret)
     if( g->u.pos() == source ) {
-        angle = 0;
-        distance = 0;
         selected_sound = "fire_gun";
 
         const auto mods = firing.gunmods();

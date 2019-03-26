@@ -13,6 +13,7 @@ class item;
 class player;
 class JsonObject;
 class MonsterGenerator;
+class monster;
 
 template<typename T> class ret_val;
 
@@ -84,6 +85,7 @@ class iuse
         int crowbar( player *, item *, bool, const tripoint & );
         int makemound( player *, item *, bool, const tripoint & );
         int dig( player *, item *, bool, const tripoint & );
+        int dig_channel( player *, item *, bool, const tripoint & );
         int fill_pit( player *, item *, bool, const tripoint & );
         int clear_rubble( player *, item *, bool, const tripoint & );
         int siphon( player *, item *, bool, const tripoint & );
@@ -177,6 +179,8 @@ class iuse
         int pack_item( player *, item *, bool, const tripoint & );
         int radglove( player *, item *, bool, const tripoint & );
         int robotcontrol( player *, item *, bool, const tripoint & );
+        // Helper for validating a potential taget of robot control
+        static bool robotcontrol_can_target( player *, const monster & );
         int einktabletpc( player *, item *, bool, const tripoint & );
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );

@@ -34,7 +34,7 @@ class mattack_actor
 
 struct mtype_special_attack {
     protected:
-        // @todo: Remove friend
+        // TODO: Remove friend
         friend struct mtype;
         std::unique_ptr<mattack_actor> actor;
 

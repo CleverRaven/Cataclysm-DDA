@@ -90,6 +90,7 @@
     "id": "mut_quills",
     "type": "GUN",
     "name": "Assault barbs",
+    "name_plural": "Assault barbs",
     "description": "this a pseudo item",
     "volume": 12,
     "price": 0,

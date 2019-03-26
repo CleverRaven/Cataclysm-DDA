@@ -47,7 +47,7 @@ class actmenu_cb : public uilist_callback
             const std::string &action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
-            auto itemless_action = am.find( action );
+            const auto itemless_action = am.find( action );
             if( itemless_action != am.end() ) {
                 popup( _( "You do not have an item that can perform this action." ) );
                 return true;
@@ -114,6 +114,12 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                 continue;
             }
             if( !actual_item->ammo_sufficient() ) {
+                continue;
+            }
+
+            // Don't try to remove 'irremovable' toolmods
+            if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
+                actual_item->has_flag( "IRREMOVABLE" ) ) {
                 continue;
             }
 
@@ -294,6 +300,7 @@ void game::item_action_menu()
 
     draw_ter();
     wrefresh( w_terrain );
+    draw_panels();
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];

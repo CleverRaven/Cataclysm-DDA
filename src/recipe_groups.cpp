@@ -38,8 +38,8 @@ void recipe_group_data::load( JsonObject &jo, const std::string & )
     JsonArray jsarr = jo.get_array( "recipes" );
     while( jsarr.has_more() ) {
         JsonObject ordering = jsarr.next_object();
-        std::string name_id = ordering.get_string( "id" );
-        std::string desc = ordering.get_string( "description" );
+        const std::string name_id = ordering.get_string( "id" );
+        const std::string desc = ordering.get_string( "description" );
         cooking_recipes[desc] = name_id;
     }
 
@@ -58,13 +58,13 @@ std::map<std::string, std::string> recipe_group::get_recipes( std::string id )
 {
     std::map<std::string, std::string> all_rec;
     if( id == "ALL" ) {
-        for( auto gr : recipe_groups_data.get_all() ) {
+        for( const auto &gr : recipe_groups_data.get_all() ) {
             std::map<std::string, std::string> tmp = gr.cooking_recipes;
             all_rec.insert( tmp.begin(), tmp.end() );
         }
         return all_rec;
     } else if( id == "COOK" || id == "BASE" || id == "FARM" || id == "SMITH" ) {
-        for( auto gr : recipe_groups_data.get_all() ) {
+        for( const auto &gr : recipe_groups_data.get_all() ) {
             if( gr.building_type != id ) {
                 continue;
             }

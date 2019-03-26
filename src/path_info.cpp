@@ -17,7 +17,7 @@ std::map<std::string, std::string> FILENAMES;
 void PATH_INFO::init_base_path( std::string path )
 {
     if( !path.empty() ) {
-        char ch = path.at( path.length() - 1 );
+        const char ch = path.at( path.length() - 1 );
         if( ch != '/' && ch != '\\' ) {
             path.push_back( '/' );
         }
@@ -58,7 +58,7 @@ void PATH_INFO::init_user_dir( const char *ud )
 
 void PATH_INFO::update_pathname( const std::string &name, const std::string &path )
 {
-    std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
+    const std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
     if( iter != FILENAMES.end() ) {
         FILENAMES[name] = path;
     } else {
@@ -70,7 +70,6 @@ void PATH_INFO::update_datadir()
 {
     // Shared dirs
     update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
-    update_pathname( "luadir", FILENAMES["datadir"] + "lua/" );
     update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
     update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
     update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
@@ -84,8 +83,6 @@ void PATH_INFO::update_datadir()
     update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
 
     // Shared files
-    update_pathname( "autoexeclua", FILENAMES["luadir"] + "autoexec.lua" );
-    update_pathname( "class_defslua", FILENAMES["luadir"] + "class_definitions.lua" );
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
     update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
@@ -107,6 +104,7 @@ void PATH_INFO::update_datadir()
 void PATH_INFO::update_config_dir()
 {
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
     update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
@@ -117,30 +115,26 @@ void PATH_INFO::update_config_dir()
     update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
     update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
     update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
+    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
 }
 
 void PATH_INFO::set_standard_filenames()
 {
-    // Special: data_dir lua_dir and gfx_dir
+    // Special: data_dir and gfx_dir
     if( !FILENAMES["base_path"].empty() ) {
 #ifdef DATA_DIR_PREFIX
         update_pathname( "datadir", FILENAMES["base_path"] + "share/cataclysm-dda/" );
         update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
-        update_pathname( "luadir", FILENAMES["datadir"] + "lua/" );
 #else
         update_pathname( "datadir", FILENAMES["base_path"] + "data/" );
         update_pathname( "gfxdir", FILENAMES["base_path"] + "gfx/" );
-        update_pathname( "luadir", FILENAMES["base_path"] + "lua/" );
 #endif
     } else {
         update_pathname( "datadir", "data/" );
         update_pathname( "gfxdir", "gfx/" );
-        update_pathname( "luadir", "lua/" );
     }
 
     // Shared dirs
-    update_pathname( "autoexeclua", FILENAMES["luadir"] + "autoexec.lua" );
-    update_pathname( "class_defslua", FILENAMES["luadir"] + "class_definitions.lua" );
     update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
     update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
     update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
@@ -190,6 +184,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "graveyarddir", FILENAMES["user_dir"] + "graveyard/" );
 
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
+    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
     update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
     update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
@@ -201,6 +196,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
     update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
     update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
+    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
     update_pathname( "user_moddir", FILENAMES["user_dir"] + "mods/" );
     update_pathname( "worldoptions", "worldoptions.json" );
 
@@ -240,7 +236,7 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
         }
 #endif
 
-        const char *v = setlocale( LC_ALL, NULL );
+        const char *v = setlocale( LC_ALL, nullptr );
         if( v != nullptr ) {
             loc_name = v;
         }

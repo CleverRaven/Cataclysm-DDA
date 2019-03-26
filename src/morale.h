@@ -135,7 +135,7 @@ class player_morale
         void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
-        void update_bodytemp_penalty( time_duration ticks );
+        void update_bodytemp_penalty( const time_duration &ticks );
         void update_constrained_penalty();
 
     private:

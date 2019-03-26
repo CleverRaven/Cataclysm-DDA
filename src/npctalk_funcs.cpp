@@ -173,7 +173,7 @@ void talk_function::assign_guard( npc &p )
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.set_destination();
+    p.set_omt_destination();
 }
 
 void talk_function::stop_guard( npc &p )
@@ -471,6 +471,7 @@ void talk_function::buy_100_logs( npc &p )
 
 void talk_function::follow( npc &p )
 {
+    g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
     g->u.cash += p.cash;
     p.cash = 0;
@@ -526,6 +527,7 @@ void talk_function::flee( npc &p )
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
+    g->remove_npc_follower( p.getID() );
     p.set_attitude( NPCATT_NULL );
 }
 

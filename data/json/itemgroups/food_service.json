@@ -1,0 +1,291 @@
+[
+  {
+    "id": "coffee_display_2",
+    "type": "item_group",
+    "items": [
+      [ "bottle_glass", 5 ],
+      [ "ceramic_cup", 15 ],
+      [ "ceramic_plate", 15 ],
+      [ "chips", 25 ],
+      [ "chips2", 25 ],
+      [ "chips3", 25 ],
+      [ "choco_coffee_beans", 50 ],
+      [ "coffee_raw", 50 ],
+      [ "coffee_syrup", 15 ],
+      [ "cookies", 35 ],
+      [ "tea_raw", 50 ]
+    ]
+  },
+  {
+    "id": "coffee_condiments",
+    "type": "item_group",
+    "items": [
+      [ "bag_plastic", 25 ],
+      [ "box_small", 30 ],
+      [ "honey_bottled", 10 ],
+      [ "honey_glassed", 10 ],
+      [ "milk", 10 ],
+      [ "milk_powder", 65 ],
+      [ "salt", 15 ],
+      [ "sugar", 70 ],
+      [ "tea_raw", 15 ],
+      [ "wrapper", 75 ]
+    ]
+  },
+  {
+    "id": "coffee_counter",
+    "type": "item_group",
+    "items": [
+      [ "atomic_coffee", 3 ],
+      [ "bottle_glass", 5 ],
+      [ "ceramic_cup", 30 ],
+      [ "choco_coffee_beans", 40 ],
+      [ "coffee", 55 ],
+      [ "cookies", 5 ],
+      [ "cup_plastic", 70 ],
+      [ "tea", 15 ]
+    ]
+  },
+  {
+    "id": "coffee_newsstand",
+    "type": "item_group",
+    "items": [ [ "mag_news", 35 ], [ "news_regional", 35 ], [ "newest_newspaper", 55 ] ]
+  },
+  {
+    "id": "coffee_prep",
+    "type": "item_group",
+    "items": [
+      [ "atomic_coffeepot", 1 ],
+      [ "bottle_glass", 15 ],
+      [ "coffee_raw", 25 ],
+      [ "coffee_syrup", 25 ],
+      [ "cup_plastic", 35 ],
+      [ "jug_plastic", 15 ]
+    ]
+  },
+  {
+    "id": "coffee_freezer",
+    "type": "item_group",
+    "items": [
+      [ "blt", 40 ],
+      [ "insta_salad", 60 ],
+      [ "pudding", 40 ],
+      [ "sandwich_pb", 35 ],
+      [ "sandwich_pbh", 35 ],
+      [ "sandwich_pbj", 40 ],
+      [ "sandwich_pbm", 10 ],
+      [ "sandwich_t", 45 ],
+      [ "yoghurt", 40 ]
+    ]
+  },
+  {
+    "id": "coffee_locker",
+    "type": "item_group",
+    "items": [
+      [ "apron_leather", 25 ],
+      [ "sm_extinguisher", 10 ],
+      [ "hat_ball", 25 ],
+      [ "towel", 10 ],
+      [ "soap", 8 ],
+      [ "detergent", 8 ],
+      [ "rag", 15 ],
+      [ "broom", 8 ],
+      [ "bleach", 8 ],
+      [ "hotplate", 1 ],
+      [ "vinegar", 3 ]
+    ]
+  },
+  {
+    "id": "coffee_dishes",
+    "type": "item_group",
+    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ], [ "cup_plastic", 20 ] ]
+  },
+  {
+    "id": "coffee_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 17 ],
+      [ "bag_plastic", 15 ],
+      [ "bottle_glass", 10 ],
+      [ "can_drink_unsealed", 10 ],
+      [ "rag", 10 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ],
+      [ "hairpin", 10 ],
+      [ "flyer", 7 ]
+    ]
+  },
+  {
+    "id": "coffee_bathroom",
+    "type": "item_group",
+    "items": [ [ "weed", 10 ], [ "coke", 10 ], [ "aspirin", 45 ], [ "mag_news", 30 ], [ "purse", 10 ], [ "hairpin", 25 ] ]
+  },
+  {
+    "id": "groce_bread",
+    "type": "item_group",
+    "items": [
+      [ "bread", 65 ],
+      [ "cake2", 10 ],
+      [ "cake3", 10 ],
+      [ "cornbread", 35 ],
+      [ "brioche", 50 ],
+      [ "hardtack", 30 ],
+      [ "jihelucake", 10 ],
+      [ "biscuit", 50 ],
+      [ "crackers", 40 ],
+      [ "almond_unshelled", 20 ],
+      [ "pecan_unshelled", 20 ],
+      [ "cashews", 20 ],
+      [ "pistachio_unshelled", 20 ],
+      [ "peanut_unshelled", 20 ]
+    ]
+  },
+  {
+    "id": "groce_premade",
+    "type": "item_group",
+    "items": [
+      [ "blt", 50 ],
+      [ "sandwich_pbj", 50 ],
+      [ "sandwich_pbh", 20 ],
+      [ "sandwich_pbm", 10 ],
+      [ "sandwich_pb", 35 ],
+      [ "fish_sandwich", 20 ],
+      [ "sandwich_t", 50 ],
+      [ "frozen_burrito", 30 ],
+      [ "taco", 40 ],
+      [ "insta_salad", 60 ],
+      [ "yoghurt", 50 ],
+      [ "macaroni_cooked", 20 ]
+    ]
+  },
+  {
+    "id": "groce_cereal",
+    "type": "item_group",
+    "items": [
+      [ "oatmeal", 50 ],
+      [ "cereal", 65 ],
+      [ "cereal2", 55 ],
+      [ "cereal3", 65 ],
+      [ "toastem", 30 ],
+      [ "toastem2", 25 ],
+      [ "toastem3", 20 ]
+    ]
+  },
+  {
+    "id": "groce_pasta",
+    "type": "item_group",
+    "items": [ [ "spaghetti_raw", 60 ], [ "lasagne_raw", 50 ], [ "macaroni_raw", 60 ], [ "noodles_fast", 50 ] ]
+  },
+  {
+    "id": "groce_ingredient",
+    "type": "item_group",
+    "items": [
+      [ "flour", 65 ],
+      [ "cornmeal", 50 ],
+      [ "yeast", 40 ],
+      [ "powder_eggs", 55 ],
+      [ "milk_powder", 45 ],
+      [ "salt", 50 ],
+      [ "sugar", 60 ],
+      [ "dry_rice", 65 ]
+    ]
+  },
+  {
+    "id": "groce_softdrink",
+    "type": "item_group",
+    "items": [
+      [ "lemonade", 30 ],
+      [ "sports_drink", 40 ],
+      [ "energy_drink", 40 ],
+      [ "energy_drink_atomic", 5 ],
+      [ "cola", 35 ],
+      [ "creamsoda", 30 ],
+      [ "lemonlime", 40 ],
+      [ "orangesoda", 30 ],
+      [ "colamdew", 40 ],
+      [ "rootbeer", 30 ],
+      [ "spezi", 10 ],
+      [ "crispycran", 35 ],
+      [ "purple_drink", 50 ],
+      { "item": "cola", "prob": 30, "container-item": "bottle_plastic" },
+      { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "lemonlime", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic" },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
+      { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
+    ]
+  },
+  {
+    "id": "groce_condiment",
+    "type": "item_group",
+    "//": "might split this into two categories; condiments and seasonings, and preserves",
+    "items": [
+      [ "mayonnaise", 40 ],
+      [ "ketchup", 60 ],
+      [ "mustard", 60 ],
+      [ "horseradish", 10 ],
+      [ "honey_bottled", 35 ],
+      [ "honey_glassed", 35 ],
+      [ "peanutbutter", 60 ],
+      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "coffee_syrup", 35 ],
+      [ "coffee_raw", 45 ],
+      [ "tea_raw", 45 ],
+      [ "salt", 50 ],
+      [ "pepper", 50 ],
+      [ "cinnamon", 20 ],
+      [ "syrup", 50 ],
+      [ "seasoning_salt", 45 ],
+      [ "seasoning_italian", 50 ],
+      [ "curry_powder", 40 ],
+      [ "can_cheese", 30 ],
+      [ "sauce_red", 40 ],
+      [ "sauce_pesto", 20 ]
+    ]
+  },
+  {
+    "id": "groce_frozen",
+    "type": "item_group",
+    "items": [
+      [ "frozen_dinner", 80 ],
+      [ "pizza_veggy", 50 ],
+      [ "pizza_meat", 50 ],
+      [ "frozen_burrito", 50 ],
+      [ "icecream_artificial", 30 ],
+      [ "icecream_candy", 20 ]
+    ]
+  },
+  {
+    "id": "groce_meat",
+    "type": "item_group",
+    "items": [
+      [ "bologna", 50 ],
+      [ "sausage", 50 ],
+      [ "bratwurst_sausage", 35 ],
+      [ "sweet_sausage", 10 ],
+      [ "hotdogs_frozen", 50 ],
+      [ "lunchmeat", 60 ],
+      [ "meat", 60 ]
+    ]
+  },
+  {
+    "id": "groce_dairyegg",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_bird", "prob": 65, "count-min": 6, "count-max": 12 },
+      { "item": "milk", "prob": 80 },
+      { "item": "cheese", "prob": 60 },
+      { "item": "yoghurt", "prob": 40 },
+      { "item": "pudding", "prob": 30 },
+      { "item": "icecream", "prob": 30 },
+      { "item": "icecream_artificial", "prob": 15 }
+    ]
+  }
+]

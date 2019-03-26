@@ -633,7 +633,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
 
     Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
 
-    // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
+    // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
         JsonArray traits = jsobj.get_array( "traits" );
         while( traits.has_more() ) {
@@ -643,7 +643,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         return;
     }
 
-    // TODO(sm): Taken from item_factory.cpp almost verbatim. Ensure that these work!
+    // TODO: (sm) Taken from item_factory.cpp almost verbatim. Ensure that these work!
     if( jsobj.has_member( "entries" ) ) {
         JsonArray traits = jsobj.get_array( "entries" );
         while( traits.has_more() ) {

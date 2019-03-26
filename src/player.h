@@ -14,6 +14,7 @@
 #include "item.h"
 #include "map_memory.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -205,6 +206,7 @@ class player : public Character
 
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( const int visibility_cap ) const;
+        std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
@@ -223,8 +225,6 @@ class player : public Character
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Generates the sidebar and it's data in-game */
-        void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -327,7 +327,8 @@ class player : public Character
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
-        void bionics_uninstall_failure( player &installer );
+        void bionics_uninstall_failure( player &installer, int difficulty, int success,
+                                        float adjusted_skill );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -831,6 +832,8 @@ class player : public Character
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;
 
+        /** Handles the kcal value for a comestible **/
+        int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
@@ -890,13 +893,18 @@ class player : public Character
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
+        int get_lift_assist() const;
 
+        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty = true ) const;
         /**
          * Select suitable ammo with which to reload the item
          * @param base Item to select ammo for
          * @param prompt force display of the menu even if only one choice
+         * @param empty allow selection of empty magazines
          */
-        item::reload_option select_ammo( const item &base, bool prompt = false ) const;
+        item::reload_option select_ammo( const item &base, bool prompt = false,
+                                         bool empty = true ) const;
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
@@ -906,12 +914,13 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
+            const int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
             } else if( has_trait( trait_id( "BADBACK" ) ) ) {
                 str /= 1.35;
             }
-            return str >= obj.lift_strength();
+            return str + npc_str >= obj.lift_strength();
         }
 
         /**
@@ -1371,7 +1380,7 @@ class player : public Character
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
-
+        int get_num_crafting_helpers( int max ) const;
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
@@ -1603,7 +1612,7 @@ class player : public Character
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 
-        //@todo make protected and move into Character
+        // TODO: make protected and move into Character
         void do_skill_rust();
 
         // drawing related stuff
