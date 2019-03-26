@@ -358,6 +358,12 @@ bool overmap::obsolete_terrain( const std::string &ter )
         "public_works", "public_works_entrance",
         "hdwr_large_entrance", "hdwr_large_SW", "hdwr_large_NW",
         "hdwr_large_NE", "hdwr_large_backroom", "hdwr_large_loadingbay",
+        "cemetery_4square_00", "cemetery_4square_10",
+        "cemetery_4square_01", "cemetery_4square_11",
+        "loffice_tower_1", "loffice_tower_2", "loffice_tower_3", "loffice_tower_4",
+        "loffice_tower_5", "loffice_tower_6", "loffice_tower_7", "loffice_tower_8",
+        "loffice_tower_9", "loffice_tower_10", "loffice_tower_11", "loffice_tower_12",
+        "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16",
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
@@ -455,6 +461,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
 
         } else if( old.compare( 0, 11, "hdwr_large_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
+
+        } else if( old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
+
+        } else if( old.compare( 0, 14, "loffice_tower_" ) == 0 ) {
             //Migrate terrains with NO_ROTATE flag to rotatable
             new_id = oter_id( old + "_north" );
 
