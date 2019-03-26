@@ -2002,13 +2002,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle crouching",
-    "category": "DEFAULTMODE",
-    "id": "toggle_crouching",
-    "bindings": [ { "input_method": "keyboard", "key": "]" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "COMPARE",
     "category": "LIST_ITEMS",
     "name": "Compare",
