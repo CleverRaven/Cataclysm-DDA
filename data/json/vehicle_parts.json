@@ -673,8 +673,9 @@
     "broken_color": "dark_gray",
     "flags": [ "NO_REPAIR" ],
     "requirements": {
-    "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
-    "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] } },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 0, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -1218,6 +1219,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "water_wheel",
+    "name": "water wheel",
+    "symbol": "*",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 50,
+    "description": "A water wheel.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
+    "epower": 80,
+    "item": "water_wheel",
+    "difficulty": 4,
+    "location": "center",
+    "flags": [ "WATER_WHEEL", "TOOL_WRENCH", "OBSTACLE" ],
+    "requirements": {
+      "install": { "time": 25000, "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "rope_natural_short", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "breaks_into": [ { "item": "splinter", "count": [ 40, 60 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "solar_panel",
     "name": "solar panel",
     "symbol": "#",
@@ -1258,7 +1282,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
-    "flags": [ "WIND_TURBINE"],
+    "flags": [ "WIND_TURBINE" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -1843,10 +1867,7 @@
     "size": 200,
     "item": "animal_locker",
     "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE" ],
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 3, 4 ] }
-    ]
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 4 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2110,6 +2131,10 @@
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 60000, "using": [ [ "rope_natural", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "using": [ [ "adhesive", 1 ] ] }
+    },
     "damage_reduction": { "all": 10 }
   },
   {

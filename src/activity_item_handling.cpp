@@ -601,9 +601,12 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
+    auto is_liquid = []( const item & it ) {
+        return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
+    };
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required.water ) &&
-        !crafting_inv.has_charges( "water_clean", required.water ) ) {
+    if( !crafting_inv.has_charges( "water", required.water, is_liquid ) &&
+        !crafting_inv.has_charges( "water_clean", required.water, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                               required.water );
         act->set_to_null();
@@ -625,7 +628,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "water", required.water ) );
     comps.push_back( item_comp( "water_clean", required.water ) );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component, is_liquid );
 
     std::vector<item_comp> comps1;
     comps1.push_back( item_comp( "soap", required.cleanser ) );

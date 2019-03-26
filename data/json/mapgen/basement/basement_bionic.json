@@ -6,6 +6,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "     |----------        ",
         "     |?..i|..LL|        ",
@@ -20,9 +21,9 @@
         "|.................s.t..|",
         "|%..@.............s.t..|",
         "|................|-----|",
-        "|.........|++|...|&...i|",
-        "|.........|..|...+....C|",
-        "|..}......|<<|...|.cc.*|",
+        "|......|+-|++|...|&...i|",
+        "|......|.W|..|...+....C|",
+        "|..}...|.F|<<|...|.cc.*|",
         "------------------------",
         "                        ",
         "                        ",
@@ -45,7 +46,9 @@
         "_": "f_bench",
         "L": "f_locker",
         "?": "f_autodoc",
-        "/": "f_autodoc_couch"
+        "/": "f_autodoc_couch",
+        "F": "f_home_furnace",
+        "W": "f_water_heater"
       },
       "place_loot": [
         { "group": "alcohol", "x": [ 14, 15 ], "y": 6, "chance": 96, "repeat": [ 1, 2 ] },
@@ -68,6 +71,7 @@
         { "item": "towel", "x": 2, "y": 7, "chance": 60 },
         { "item": "stereo", "x": 1, "y": 7, "chance": 50 }
       ],
+      "place_liquids": [ { "liquid": "water_clean", "x": 9, "y": 14, "amount": [ 0, 100 ] } ],
       "place_monster": [ { "monster": "mon_broken_cyborg", "x": 14, "y": 3, "chance": 100 } ]
     }
   },
@@ -78,6 +82,7 @@
     "weight": 500,
     "object": {
       "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
       "rows": [
         "          ------        ",
         "          |..LL|        ",
@@ -92,9 +97,9 @@
         "|.................s.t..|",
         "|%..@.............s.t..|",
         "|................|-----|",
-        "|.........|++|...|&...i|",
-        "|.........|..|...+....C|",
-        "|..}......|<<|...|.cc.*|",
+        "|......|+-|++|...|&...i|",
+        "|......|.W|..|...+....C|",
+        "|..}...|.F|<<|...|.cc.*|",
         "------------------------",
         "                        ",
         "                        ",
@@ -115,7 +120,9 @@
         "C": "f_cupboard",
         "{": "f_bigmirror",
         "_": "f_bench",
-        "L": "f_locker"
+        "L": "f_locker",
+        "F": "f_home_furnace",
+        "W": "f_water_heater"
       },
       "place_loot": [
         { "group": "alcohol", "x": [ 14, 15 ], "y": 6, "chance": 96, "repeat": [ 1, 2 ] },
@@ -135,6 +142,7 @@
         { "item": "towel", "x": 2, "y": 7, "chance": 60 },
         { "item": "stereo", "x": 1, "y": 7, "chance": 50 }
       ],
+      "place_liquids": [ { "liquid": "water_clean", "x": 9, "y": 14, "amount": [ 0, 100 ] } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 17 ], "y": [ 9, 11 ], "chance": 2 } ]
     }
   }

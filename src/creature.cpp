@@ -32,6 +32,7 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_zapped( "zapped" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_no_sight( "no_sight" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -202,6 +203,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
             range = wanted_range;
         } else {
             range = range_min;
+        }
+        if( has_effect( effect_no_sight ) ) {
+            range = 1;
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.

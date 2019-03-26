@@ -364,6 +364,11 @@
     "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ]
   },
   {
+      "type": "vehicle_group",
+      "id": "workshop_vehicles",
+      "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
+  },
+  {
     "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [

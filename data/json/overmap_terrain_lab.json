@@ -1,0 +1,280 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "lab",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_stairs",
+    "name": "science lab",
+    "sym": 76,
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_core",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_escape_cells",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_escape_entrance",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_lab",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_lab_stairs",
+    "name": "science lab",
+    "sym": 76,
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_finale",
+    "name": "science lab",
+    "sym": 76,
+    "color": "cyan",
+    "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_stairs",
+    "name": "science lab",
+    "sym": 76,
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_core",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_finale",
+    "name": "science lab",
+    "sym": 76,
+    "color": "cyan",
+    "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab",
+    "name": "science lab tower",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab_stairs",
+    "name": "science lab tower",
+    "sym": 76,
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab_finale",
+    "name": "science lab tower",
+    "sym": 76,
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_train_depot",
+    "name": "science train depot",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "subway",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_train_depot",
+    "name": "central train depot",
+    "copy-from": "lab_train_depot",
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_entrance",
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_shaft",
+    "name": "access shaft",
+    "sym": 48,
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_central_lab",
+    "name": "central lab",
+    "sym": 76,
+    "color": "cyan",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_1",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_2",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_3",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_4",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_5",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_6",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_7",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_8",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_9",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab",
+    "name": "central lab",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_stairs",
+    "name": "central lab",
+    "sym": 76,
+    "color": "blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_core",
+    "name": "central lab",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_finale",
+    "name": "central lab",
+    "sym": 76,
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+  }
+]

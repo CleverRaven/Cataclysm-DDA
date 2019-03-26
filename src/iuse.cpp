@@ -3247,7 +3247,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-int iuse::arrow_flamable( player *p, item *it, bool, const tripoint & )
+int iuse::arrow_flammable( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -7367,8 +7367,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = int( 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                cur_om_ter, p->pos(), weatherPoint.winddirection, g->is_sheltered( p->pos() ) ) );
+        double windpower = int( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
+                                cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7378,7 +7378,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ).c_str() );
-        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
+        std::string dirstring = get_dirstring( g->winddirection );
+        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 
     return 0;
@@ -7610,10 +7611,21 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
-    long available_water = std::max( crafting_inv.charges_of( "water" ),
-                                     crafting_inv.charges_of( "clean_water" ) );
+
+    auto is_liquid = []( const item & it ) {
+        return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
+    };
+    long available_water = std::max(
+                               crafting_inv.charges_of( "water", std::numeric_limits<long>::max(), is_liquid ),
+                               crafting_inv.charges_of( "clean_water", std::numeric_limits<long>::max(), is_liquid )
+                           );
     available_water = std::min<long>( available_water, INT_MAX );
     long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                         crafting_inv.charges_of( "detergent" ) );
@@ -7669,8 +7681,8 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
-    if( !crafting_inv.has_charges( "water", required.water ) &&
-        !crafting_inv.has_charges( "water_clean", required.water ) ) {
+    if( !crafting_inv.has_charges( "water", required.water, is_liquid ) &&
+        !crafting_inv.has_charges( "water_clean", required.water, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                               required.water );
         return 0;

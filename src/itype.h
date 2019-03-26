@@ -539,6 +539,12 @@ struct islot_gunmod : common_ranged_data {
     /** Percentage value change to the gun's loading time. Higher is slower */
     int reload_modifier = 0;
 
+    /** Percentage value change to the gun's loading time. Higher is less likely */
+    int consume_chance = 10000;
+
+    /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
+    int consume_divisor = 1;
+
     /** Modifies base strength required */
     int min_str_required_mod = 0;
 

@@ -82,6 +82,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_DISMEMBER",
+    "type": "activity_type",
+    "stop_phrase": "Stop dismembering?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_DISSECT",
     "type": "activity_type",
     "stop_phrase": "Stop dissecting?",
@@ -336,13 +342,15 @@
     "id": "ACT_REPAIR_ITEM",
     "type": "activity_type",
     "stop_phrase": "Stop repairing?",
-    "based_on": "neither"
+    "based_on": "neither",
+    "refuel_fires": true
   },
   {
     "id": "ACT_MEND_ITEM",
     "type": "activity_type",
     "stop_phrase": "Stop mending?",
-    "based_on": "speed"
+    "based_on": "speed",
+    "refuel_fires": true
   },
   {
     "id": "ACT_GUNMOD_ADD",
