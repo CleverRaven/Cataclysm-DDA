@@ -6,7 +6,6 @@ data/json/itemgroups/gunmod.json
 data/json/itemgroups/guns.json
 data/json/item_groups.json
 data/json/itemgroups/locations.json
-data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
 data/json/itemgroups/map_extras.json
 data/json/itemgroups/misc.json
