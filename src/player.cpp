@@ -2709,6 +2709,7 @@ int player::overmap_sight_range( int light_level ) const
 
     /** @EFFECT_PER determines overmap sight range */
     sight += ( -4 + static_cast<int>( get_per() / 2 ) );
+    sight += std::max( 0, posz() ) * 2; // the higher up you are, the farther you can see
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
 
     if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
