@@ -356,6 +356,8 @@ bool overmap::obsolete_terrain( const std::string &ter )
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
         "bridge_ew", "bridge_ns",
         "public_works", "public_works_entrance",
+        "hdwr_large_entrance", "hdwr_large_SW", "hdwr_large_NW",
+        "hdwr_large_NE", "hdwr_large_backroom", "hdwr_large_loadingbay",
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
@@ -451,6 +453,10 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+
+        } else if( old.compare( 0, 11, "hdwr_large_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
 
         } else if( old.compare( 0, 7, "school_" ) == 0 ) {
             const std::string school = "school_";
