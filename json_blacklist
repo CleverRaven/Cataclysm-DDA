@@ -10,7 +10,6 @@ data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
 data/json/itemgroups/map_extras.json
 data/json/itemgroups/misc.json
-data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
 data/json/itemgroups/tools.json
 data/json/itemgroups/vending_machines.json
