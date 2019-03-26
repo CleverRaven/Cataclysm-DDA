@@ -9,7 +9,7 @@
     "difficulty": 1,
     "time": 15000,
     "autolearn": true,
-	"batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "brain", 1 ] ] ]
