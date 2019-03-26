@@ -73,7 +73,6 @@
       ["m9mag", 5],
       ["mp5mag", 10],
       ["sig40mag", 20],
-      ["stanag10", 10],
       ["stanag30", 5]
     ]
   },
@@ -169,7 +168,9 @@
       ["m14mag", 40 ],
       ["m14smallmag", 40 ],
       ["ruger1022mag", 100 ],
-      ["stanag10", 100 ],
+      ["ruger5", 50 ],
+      ["stanag10", 30 ],
+      ["ruger30", 20 ],
       ["stanag30", 10 ]
     ]
   },
