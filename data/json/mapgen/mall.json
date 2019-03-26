@@ -3283,14 +3283,13 @@
         { "item": "toy_store", "x": [ 6, 7 ], "y": [ 0, 3 ], "chance": 60 },
         { "item": "toy_store", "x": [ 2, 3 ], "y": [ 0, 3 ], "chance": 60 }
       ],
-      ],
+      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.3 } ],
       "place_vehicles": [
         { "vehicle": "tricycle", "x": 2, "y": 4, "chance": 20, "status": 0 },
         { "vehicle": "tricycle", "x": 3, "y": 4, "chance": 20, "status": 0 },
         { "vehicle": "tricycle", "x": 6, "y": 4, "chance": 20, "status": 0 },
         { "vehicle": "tricycle", "x": 7, "y": 4, "chance": 20, "status": 0 }
       ]
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.3 } ]
     }
   },
   {
