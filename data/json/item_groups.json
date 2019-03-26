@@ -274,6 +274,7 @@
       [ "wetsuit_gloves", 3 ],
       [ "wetsuit_booties", 3 ],
       [ "wetsuit_hood", 2 ],
+      [ "scuba_tank", 2 ],
       [ "dive_bag", 3 ],
       [ "poncho", 15 ],
       [ "folding_poncho", 5 ],
@@ -2236,6 +2237,8 @@
       [ "wetsuit_gloves", 20 ],
       [ "wetsuit_booties", 20 ],
       [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 20 ],
+      [ "small_scuba_tank", 10 ],
       [ "fishing_rod_professional", 4 ],
       [ "dive_bag", 5 ],
       [ "diving_watch", 10 ],
@@ -2370,6 +2373,8 @@
       [ "wetsuit_gloves", 20 ],
       [ "wetsuit_booties", 20 ],
       [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 20 ],
+      [ "small_scuba_tank", 10 ],
       [ "dive_bag", 10 ],
       [ "rebreather", 3 ],
       [ "rebreather_filter", 2 ],
@@ -2569,6 +2574,8 @@
       [ "wetsuit_gloves", 20 ],
       [ "wetsuit_booties", 20 ],
       [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 20 ],
+      [ "small_scuba_tank", 10 ],
       [ "dive_bag", 10 ],
       [ "rebreather", 2 ],
       [ "rebreather_filter", 4 ],
@@ -3932,7 +3939,7 @@
   {
     "type": "item_group",
     "id": "swimmer_torso",
-    "items": [ [ "bikini_top", 50 ], [ "dive_bag", 5 ], [ "flotation_vest", 10 ] ]
+    "items": [ [ "bikini_top", 50 ], [ "dive_bag", 5 ], [ "flotation_vest", 10 ], [ "scuba_tank", 2 ] ]
   },
   {
     "type": "item_group",
