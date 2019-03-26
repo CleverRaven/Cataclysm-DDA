@@ -30,6 +30,22 @@
         "weight": 3,
         "volume": 0
     },
+    {
+      "type": "GENERIC",
+      "id": "scorecard",
+      "category": "books",
+      "symbol": ",",
+      "color": "dark_gray",
+      "name": "score card",
+      "name_plural": "score cards",
+      "snippet_category": "scores",
+      "description": "A colorfully printed score card.",
+      "price": 0,
+      "material": "paper",
+      "flags": "TRADER_AVOID",
+      "weight": 3,
+      "volume": 0
+    },
         {
         "type":"GENERIC",
         "id": "newest_newspaper",

@@ -9,7 +9,6 @@
 *.cpp     text
 *.h       text
 *.json    text
-*.lua     text
 *.md      text
 *.py      text
 *.rc      text

@@ -67,7 +67,7 @@ const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
 const quality_id SELF_JACK( "SELF_JACK" );
 const skill_id skill_mechanics( "mechanics" );
-static const itype_id fuel_type_battery( "battery" );
+const itype_id fuel_type_battery( "battery" );
 } // namespace
 
 void act_vehicle_siphon( vehicle *veh );
@@ -264,7 +264,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    //@todo: better have a from_moves function
+    // TODO: better have a from_moves function
     msg << "> " << to_string_approx( time_duration::from_turns( moves / 100 ) ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
@@ -520,7 +520,7 @@ task_reason veh_interact::cant_do( char mode )
     if( !part_free ) {
         return NOT_FREE;
     }
-    if( !has_skill ) { // @todo: that is always false!
+    if( !has_skill ) { // TODO: that is always false!
         return LACK_SKILL;
     }
     return CAN_DO;
@@ -677,9 +677,15 @@ bool veh_interact::can_install_part()
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
 
     //~ %1$s is quality name, %2$d is quality level
+    const auto helpers = g->u.get_crafting_helpers();
+    std::string str_string;
+    if( !helpers.empty() ) {
+        str_string = string_format( _( "strength ( assisted ) %d" ), str );
+    } else {
+        str_string = string_format( _( "strength %d" ), str );
+    }
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                             qual.obj().name.c_str(), lvl );
-    std::string str_string = string_format( _( "strength %d" ), str );
     msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
                           colorize( aid_string, aid_color ),
                           colorize( str_string, str_color ) ) << "\n";
@@ -804,6 +810,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "SECURITY" ) ||
                part.has_flag( "SEAT" ) ||
                part.has_flag( "BED" ) ||
+               part.has_flag( "SPACE_HEATER" ) ||
                part.has_flag( "DOOR_MOTOR" ) ||
                part.has_flag( "WATER_PURIFIER" );
     };
@@ -1014,6 +1021,10 @@ bool veh_interact::do_repair( std::string &msg )
             }
         }
 
+        std::string desc_color = string_format( "<color_%1$s>",
+                                                string_from_color( pt.is_broken() ? c_dark_gray : c_light_gray ) );
+        vp.format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
+
         werase( w_msg );
         fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
         wrefresh( w_msg );
@@ -1027,6 +1038,10 @@ bool veh_interact::do_repair( std::string &msg )
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
             sel_vehicle_part = &pt;
             sel_vpart_info = &vp;
+            const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+            for( const npc *np : helpers ) {
+                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            }
             sel_cmd = 'r';
             break;
 
@@ -1283,7 +1298,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( pt.is_battery() && pt.is_available() ) {
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
+                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
             };
@@ -1329,7 +1344,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     int pos = -1;
     if( enable && action ) {
         do {
-            if( ++pos >= int( opts.size() ) ) {
+            if( ++pos >= static_cast<int>( opts.size() ) ) {
                 pos = -1;
                 break; // nothing could be selected
             }
@@ -1346,7 +1361,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                             c_yellow, _( "'{' to scroll up" ) );
             y++;
         }
-        for( int idx = overview_offset; idx != int( opts.size() ); ++idx ) {
+        for( int idx = overview_offset; idx != static_cast<int>( opts.size() ); ++idx ) {
             const auto &pt = *opts[idx].part;
 
             // if this is a new section print a header row
@@ -1418,7 +1433,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( input == "DOWN" ) {
             do {
                 move_overview_line( 1 );
-                if( ++pos >= int( opts.size() ) ) {
+                if( ++pos >= static_cast<int>( opts.size() ) ) {
                     pos = 0;
                 }
             } while( !opts[pos].hotkey );
@@ -1519,18 +1534,28 @@ bool veh_interact::can_remove_part( int idx )
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
+    const auto helpers = g->u.get_crafting_helpers();
     //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-    msg << string_format(
-            _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-            status_color( use_aid ), qual.obj().name.c_str(), lvl,
-            status_color( use_str ), str ) << "\n";
-
+    if( !helpers.empty() ) {
+        msg << string_format(
+                _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
+                status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                status_color( use_str ), str ) << "\n";
+    } else {
+        msg << string_format(
+                _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
+                status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                status_color( use_str ), str ) << "\n";
+    }
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
         msg << string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
+    std::string desc_color = string_format( "<color_%1$s>",
+                                            string_from_color( sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray ) );
+    sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
@@ -1587,6 +1612,10 @@ bool veh_interact::do_remove( std::string &msg )
         //read input
         const std::string action = main_context.handle_input();
         if( can_remove && ( action == "REMOVE" || action == "CONFIRM" ) ) {
+            const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+            for( const npc *np : helpers ) {
+                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            }
             sel_cmd = 'o';
             break;
         } else if( action == "QUIT" ) {
@@ -1664,6 +1693,7 @@ bool veh_interact::do_unload( std::string &msg )
 
 bool veh_interact::do_tirechange( std::string &msg )
 {
+    const auto helpers = g->u.get_crafting_helpers();
     switch( cant_do( 'c' ) ) {
         case INVALID_TARGET:
             msg = _( "There is no wheel to change here." );
@@ -1671,11 +1701,19 @@ bool veh_interact::do_tirechange( std::string &msg )
 
         case LACK_TOOLS:
             //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
-            msg = string_format(
-                      _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                         "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
-                      status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
-                      status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+            if( !helpers.empty() ) {
+                msg = string_format(
+                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
+                             "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
+                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
+                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+            } else {
+                msg = string_format(
+                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
+                             "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
+                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
+                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+            }
             return false;
 
         case MOVING_VEHICLE:
@@ -1700,6 +1738,9 @@ bool veh_interact::do_tirechange( std::string &msg )
         const std::string action = main_context.handle_input();
         if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
             is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
+            for( const npc *np : helpers ) {
+                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            }
             sel_cmd = 'c';
             break;
 
@@ -1919,7 +1960,7 @@ void veh_interact::display_grid()
     mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
     mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_border );
-    w_border = catacurses::window(); //@todo: move code using w_border into a separate scope
+    w_border = catacurses::window(); // TODO: move code using w_border into a separate scope
 
     const int grid_w = getmaxx( w_grid );
 
@@ -2107,7 +2148,7 @@ void veh_interact::display_stats() const
                         vel_to_int( veh->max_ground_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        //TODO: extract accelerations units to its own function
+        // TODO: extract accelerations units to its own function
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         //~ /t means per turn
                         _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
@@ -2124,7 +2165,7 @@ void veh_interact::display_stats() const
                         vel_to_int( veh->max_water_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        //TODO: extract accelerations units to its own function
+        // TODO: extract accelerations units to its own function
         fold_and_print( w_stats, y[i], x[i], w[i], c_light_gray,
                         //~ /t means per turn
                         _( "Water Acceleration: <color_light_blue>%3d</color> %s/t" ),
@@ -2284,8 +2325,9 @@ void veh_interact::display_mode()
     for( size_t i = 0; i < actions.size(); i++ ) {
         pos[i + 1] = pos[i] + utf8_width( actions[i] ) - 2;
     }
-    int spacing = int( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
-    int shift = int( ( esc_pos - pos[actions.size()] - spacing * ( actions.size() - 1 ) ) / 2 ) - 1;
+    int spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
+    int shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
+                                    ( actions.size() - 1 ) ) / 2 ) - 1;
     for( size_t i = 0; i < actions.size(); i++ ) {
         shortcut_print( w_mode, 0, pos[i] + spacing * i + shift,
                         enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
@@ -2782,7 +2824,8 @@ void veh_interact::complete_vehicle()
                     int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
 
                     const double PI = 3.14159265358979f;
-                    dir = int( atan2( static_cast<float>( delta_y ), static_cast<float>( delta_x ) ) * 180.0 / PI );
+                    dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
+                                                   static_cast<float>( delta_x ) ) * 180.0 / PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;
@@ -2796,7 +2839,7 @@ void veh_interact::complete_vehicle()
             }
 
             const tripoint vehp = veh->global_pos3() + tripoint( q.x, q.y, 0 );
-            //@todo: allow boarding for non-players as well.
+            // TODO: allow boarding for non-players as well.
             player *const pl = g->critter_at<player>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
                 g->m.board_vehicle( vehp, pl );

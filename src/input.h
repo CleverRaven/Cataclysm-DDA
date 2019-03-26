@@ -41,6 +41,10 @@ inline constexpr int KEY_F( const int n )
 {
     return 0x108 + n;    /* F1, F2, etc*/
 }
+inline constexpr int KEY_NUM( const int n )
+{
+    return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
+}
 static constexpr int KEY_NPAGE      = 0x152;    /* page down */
 static constexpr int KEY_PPAGE      = 0x153;    /* page up */
 static constexpr int KEY_ENTER      = 0x157;    /* enter */

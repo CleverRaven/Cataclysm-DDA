@@ -467,6 +467,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
     return std::all_of( start, finish, is_safe_char );
 }
 
+#if (!defined _WIN32 || !defined _WIN64)
 std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
 {
     if( binary.find( '/' ) != std::string::npos ) {
@@ -553,6 +554,7 @@ cata::optional<uintptr_t> debug_compute_load_offset(
 
     return cata::nullopt;
 }
+#endif
 
 void debug_write_backtrace( std::ostream &out )
 {

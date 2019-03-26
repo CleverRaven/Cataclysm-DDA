@@ -59,7 +59,7 @@ int cata::string_formatter::parse_integer( )
 {
     int result = 0;
     while( has_digit() ) {
-        //@todo: Check for overflow
+        // TODO: Check for overflow
         result = result * 10 + ( consume_next_input() - '0' );
     }
     return result;
