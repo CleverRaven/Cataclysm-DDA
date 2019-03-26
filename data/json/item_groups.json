@@ -4028,6 +4028,7 @@
     "id": "hospital_bed",
     "items": [
       [ "corpse", 10 ],
+      [ "bag_body_bag", 10 ],
       [ "child_book", 5 ],
       [ "stethoscope", 20 ],
       [ "tall_tales", 10 ],
@@ -5706,7 +5707,8 @@
       [ "rag_bloody", 1 ],
       [ "chem_nitric_acid", 10 ],
       [ "chem_hydrogen_peroxide_conc", 10 ],
-      [ "denat_alcohol", 10 ]
+      [ "denat_alcohol", 10 ],
+      [ "bag_body_bag", 10 ]
     ]
   },
   {
@@ -8303,7 +8305,8 @@
       [ "smoxygen_tank", 35 ],
       [ "watercannon", 10 ],
       [ "l-stick", 1 ],
-      [ "solarpack", 2 ]
+      [ "solarpack", 2 ],
+      [ "bag_body_bag", 5 ]
     ]
   },
   {
@@ -8671,7 +8674,8 @@
       [ "syringe", 1 ],
       [ "spike", 1 ],
       [ "tanbark", 2 ],
-      [ "thermos", 1 ]
+      [ "thermos", 1 ],
+      [ "bag_body_bag", 3 ]
     ]
   },
   {
