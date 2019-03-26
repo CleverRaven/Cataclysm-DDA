@@ -6091,7 +6091,8 @@
       [ "bio_syringe", 10 ],
       [ "bio_weight", 10 ],
       [ "bio_shock_absorber", 10 ],
-      [ "bio_jointservo", 10 ]
+      [ "bio_jointservo", 10 ],
+      [ "bio_shotgun", 10 ]
     ]
   },
   {
@@ -6476,7 +6477,8 @@
       [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
       [ "bio_weight", 10 ],
-      [ "bio_jointservo", 10 ]
+      [ "bio_jointservo", 10 ],
+      [ "bio_shotgun", 10 ]
     ]
   },
   {
@@ -6543,7 +6545,8 @@
       [ "bio_power_armor_interface_mkII", 5 ],
       [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
-      [ "bio_jointservo", 20 ]
+      [ "bio_jointservo", 20 ],
+      [ "bio_shotgun", 10 ]
     ]
   },
   {
@@ -7124,6 +7127,7 @@
       [ "bio_power_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_lighter", 10 ],
+      [ "bio_shotgun", 10 ],
       [ "arrow_cf", 5 ],
       [ "spray_can", 50 ],
       [ "bio_blaster", 10 ],
@@ -7993,7 +7997,8 @@
       [ "tanto", 4 ],
       [ "katana", 1 ],
       [ "survnote", 3 ],
-      [ "ear_spool", 30 ]
+      [ "ear_spool", 30 ],
+      [ "bio_shotgun", 10 ]
     ]
   },
   {
