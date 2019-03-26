@@ -19,6 +19,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "player.h"
+#include "sdltiles.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -36,13 +37,6 @@ static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
-
-#ifdef TILES
-// defined in sdltiles.cpp
-void to_map_font_dimension( int &w, int &h );
-#else
-void to_map_font_dimension( int &, int & ) { }
-#endif
 
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
@@ -1711,7 +1705,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_lighting_classic, "Lighting", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 5, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
 #ifdef TILES
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
