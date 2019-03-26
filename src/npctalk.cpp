@@ -568,8 +568,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 return _( "I'm holing up here for safety." );
             case NPC_MISSION_SHOPKEEP:
                 return _( "I run the shop here." );
-            case NPC_MISSION_BASE:
-                return _( "I'm guarding this location." );
             case NPC_MISSION_GUARD:
             case NPC_MISSION_GUARD_ALLY:
             case NPC_MISSION_GUARD_PATROL:
@@ -1821,7 +1819,6 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( clear_mission ),
             WRAP( mission_reward ),
             WRAP( start_trade ),
-            WRAP( assign_base ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
@@ -2202,7 +2199,8 @@ void conditional_t::set_at_om_location( JsonObject &jo, const std::string &membe
         oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
-            if( g->m.camp_at( omt_pos ) ) {
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+            if( bcp ) {
                 return true;
             }
             // legacy check

@@ -1871,27 +1871,15 @@ void game::validate_npc_followers()
 
 void game::validate_camps()
 {
-    // Make sure camps already present are added to the overmap list
-    basecamp *bcp = m.camp_at( u.pos(), 60 );
-    if( bcp ) {
-        int count = 1;
-        if( u.camps.empty() ) {
-            u.camps.insert( bcp->camp_omt_pos() );
-        }
-        for( auto camp : u.camps ) {
-            // check if already on the overmapbuffer list
-            cata::optional<basecamp *> p = overmap_buffer.find_camp( camp.x, camp.y );
-            if( !p ) {
-                //if not on overmap buffer list
-                if( camp.x == bcp->camp_omt_pos().x && camp.y == bcp->camp_omt_pos().y ) {
-                    // if this local camp is the one that needs adding
-                    std::string camp_name = _( "Faction Camp " ) + std::to_string( count );
-                    bcp->set_name( camp_name );
-                    overmap_buffer.add_camp( bcp );
-                    count += 1;
-                }
-            }
-        }
+    basecamp camp = m.hoist_submap_camp( u.pos() );
+    if( camp.is_valid() ) {
+        overmap_buffer.add_camp( camp );
+        m.remove_submap_camp( u.pos() );
+    } else if( camp.camp_omt_pos() != tripoint_zero ) {
+        std::string camp_name = _( "Faction Camp" );
+        camp.set_name( camp_name );
+        overmap_buffer.add_camp( camp );
+        m.remove_submap_camp( u.pos() );
     }
 }
 

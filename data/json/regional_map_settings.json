@@ -577,6 +577,7 @@
         "s_gas": 500,
         "s_pharm": 300,
         "s_grocery": 1500,
+        "s_grocery_1": 1500,
         "s_hardware": 500,
         "s_sports": 500,
         "dojo": 200,
