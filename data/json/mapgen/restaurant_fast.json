@@ -119,7 +119,7 @@
         ",_____|ewccOwc|t-|_____,",
         ",_____|l=w=w=S|=S|_____,",
         ",_____||eercwx|P||_____,",
-        ",_____#|----o---|#_____,",
+        ",_____#|----o---|4_____,",
         ",________,_____________,",
         ",________,_____________,",
         ",________,_____________,",
@@ -157,6 +157,7 @@
         "t": "t_door_c",
         "w": "t_linoleum_white",
         "x": "t_console_broken",
+        "4": "t_gutter_downspout",
         "|": "t_wall"
       },
       "furniture": {
@@ -194,10 +195,69 @@
       ]
     }
     },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "om_terrain": [ "s_restaurant_fast_roof" ],
+      "weight": 300,
+      "object": {
+        "fill_ter": "t_tar_flat_roof",
+        "rows": [
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "      ------------      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |..........3      ",
+          "      |....&....:3      ",
+          "      22........52      ",
+          "       2222222222       ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        "
+        ],
+        "terrain": {
+          ".": "t_tar_flat_roof",
+          " ": "t_open_air",
+          "|": "t_gutter_west",
+          "-": "t_gutter_north",
+          "3": "t_gutter_east",
+          "2": "t_gutter_south",
+          "5": "t_gutter_drop"
+        },
+        "furniture": { "&": "f_roof_turbine_vent", ":": "f_vent_pipe" },
+        "place_items": [ { "item": "roof_trash", "x": [ 9, 14 ], "y": [ 6, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+        "place_nested": [
+          {
+            "chunks": [
+              [ "roof_2x2_utilities_b", 20 ],
+              [ "roof_2x2_utilities_c", 20 ],
+              [ "roof_2x2_utilities_d", 20 ],
+              [ "roof_2x2_utilities", 20 ],
+              [ "null", 20 ]
+            ],
+            "x": [ 8, 13 ],
+            "y": [ 7, 12 ]
+          }
+        ]
+      }
+    },
   	{
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_restaurant_fast" ],
+    "om_terrain": [ "s_restaurant_fast_1" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -222,7 +282,7 @@
         "|ewrrwcScwwx......t==|||",
         "|ewrrw|||wwT..|FFF|S=tP|",
         "|ewrrw|l|w||||||||||||||",
-        "|ewwww|ltwDsssdd!       ",
+        "|ewwww|ltwDss4dd!       ",
         "|||||||||||sssdd!       ",
         "           sssdd!       ",
         "           !!!!!!       "
@@ -254,6 +314,7 @@
         "t": "t_door_c",
         "w": "t_linoleum_white",
         "x": "t_console_broken",
+        "4": "t_gutter_downspout",
         "|": "t_wall"
       },
       "furniture": {
@@ -282,6 +343,66 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 30 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_restaurant_fast_roof_1" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "            |----------3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "            |..........3",
+        "------------|..........3",
+        "|.&....................3",
+        "|......................3",
+        "|....................:.3",
+        "|.........32252222222223",
+        "|.........3             ",
+        "|2222222222             ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "|": "t_gutter_west",
+        "-": "t_gutter_north",
+        "3": "t_gutter_east",
+        "2": "t_gutter_south",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", ":": "f_vent_pipe" },
+      "place_items": [ { "item": "roof_trash", "x": [ 13, 20 ], "y": [ 3, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "roof_2x2_utilities_b", 20 ],
+            [ "roof_2x2_utilities_c", 20 ],
+            [ "roof_2x2_utilities_d", 20 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "null", 20 ]
+          ],
+          "x": [ 2, 6 ],
+          "y": [ 17, 19 ]
+        },
+        { "chunks": [ [ "roof_4x4_utility_1", 50 ], [ "null", 50 ] ], "x": 15, "y": [ 3, 14 ] }
       ]
     }
   }
