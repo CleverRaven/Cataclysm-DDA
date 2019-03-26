@@ -30,7 +30,7 @@ static const std::map< std::string, nameFlags > gender_flags {
 
 static nameFlags usage_flag( const std::string &usage )
 {
-    auto it = usage_flags.find( usage );
+    const auto it = usage_flags.find( usage );
     if( it != usage_flags.end() ) {
         return it->second;
     }
@@ -39,7 +39,7 @@ static nameFlags usage_flag( const std::string &usage )
 
 static nameFlags gender_flag( const std::string &gender )
 {
-    auto it = gender_flags.find( gender );
+    const auto it = gender_flags.find( gender );
     if( it != gender_flags.end() ) {
         return it->second;
     }
@@ -121,7 +121,7 @@ std::string get( nameFlags searchFlags )
 
 std::string generate( bool is_male )
 {
-    nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
+    const nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
     //One in four chance to pull from the backer list, otherwise generate a name from the parts list
     if( one_in( 4 ) ) {
         return get( baseSearchFlags | nameIsFullName );

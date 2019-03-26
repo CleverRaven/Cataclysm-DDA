@@ -6252,8 +6252,9 @@ void item::set_item_specific_energy( const float new_specific_energy )
     // Frozen = Over 50% frozen
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
-        if( freeze_percentage > 0.5 ) {
+        if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6265,6 +6266,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_item_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6327,8 +6329,9 @@ void item::set_item_temperature( float new_temperature )
     }
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
-        if( freeze_percentage > 0.5 ) {
+        if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6340,6 +6343,7 @@ void item::set_item_temperature( float new_temperature )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6685,12 +6689,6 @@ int item::processing_speed() const
 
 void item::apply_freezerburn()
 {
-    if( !item_tags.count( "FROZEN" ) ) {
-        return;
-    }
-    item_tags.erase( "FROZEN" );
-    current_phase = type->phase;
-
     if( !has_flag( "FREEZERBURN" ) ) {
         return;
     }
@@ -6868,8 +6866,9 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Frozen = Over 50% frozen
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
-        if( freeze_percentage > 0.5 ) {
+        if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6881,6 +6880,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_item_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6906,6 +6906,7 @@ void item::heat_up()
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
     item_tags.insert( "HOT" );
+    current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
@@ -6919,6 +6920,7 @@ void item::cold_up()
     item_tags.erase( "HOT" );
     item_tags.erase( "FROZEN" );
     item_tags.insert( "COLD" );
+    current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;

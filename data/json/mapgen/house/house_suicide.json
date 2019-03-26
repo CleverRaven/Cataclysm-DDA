@@ -160,8 +160,8 @@
       ],
       "place_loot": [
         { "group": "house_suicide_clothing", "x": 2, "y": 2 },
-        { "item": "corpse", "x": 2, "y": 2 },
-        { "item": "razor_blade", "x": 2, "y": 2 }
+        { "item": "razor_blade", "x": 2, "y": 2 },
+        { "item": "corpse", "x": 2, "y": 2 }
       ]
     }
   }

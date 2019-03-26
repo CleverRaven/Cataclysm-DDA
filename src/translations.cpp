@@ -171,7 +171,7 @@ void set_language()
         }
 #endif
         else {
-            auto env = getenv( "LANGUAGE" );
+            const auto env = getenv( "LANGUAGE" );
             if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
             } else {

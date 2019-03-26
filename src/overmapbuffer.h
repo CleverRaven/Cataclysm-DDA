@@ -53,6 +53,22 @@ struct city_reference {
     int get_distance_from_bounds() const;
 };
 
+struct camp_reference {
+    static const camp_reference invalid;
+    /** The camp itself, points into @ref overmap::camps */
+    basecamp *camp;
+    /** The global absolute position of the camp (in submap coordinates!) */
+    tripoint abs_sm_pos;
+    /** Distance to center of the search */
+    int distance;
+
+    operator bool() const {
+        return camp != nullptr;
+    }
+
+    int get_distance_from_bounds() const;
+};
+
 struct overmap_with_local_coordinates {
     overmap *overmap_pointer;
     tripoint coordinates;
@@ -158,7 +174,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp *camp );
+        void remove_camp( const basecamp camp );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */
@@ -166,7 +182,7 @@ class overmapbuffer
         /**
          * Add Basecamp to overmapbuffer
          */
-        void add_camp( basecamp *camp );
+        void add_camp( basecamp camp );
 
         cata::optional<basecamp *> find_camp( const int x, const int y );
         /**
@@ -401,7 +417,7 @@ class overmapbuffer
          * All entries in the returned vector are valid (have a valid tower pointer).
          */
         std::vector<radio_tower_reference> find_all_radio_stations();
-        std::vector<basecamp *> get_camps_near( const tripoint &location, int radius );
+        std::vector<camp_reference> get_camps_near( const tripoint &location, int radius );
         /**
          * Find all cities within the specified @ref radius.
          * Result is sorted by proximity to @ref location in ascending order.

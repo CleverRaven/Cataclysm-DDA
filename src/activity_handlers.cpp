@@ -217,7 +217,7 @@ bool check_butcher_cbm( const int roll )
     // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
     // The roll is usually b/t 0 and first_aid-3, so first_aid 4 will succeed
     // 50%, first_aid 5 will succeed 61%, first_aid 6 will succeed 67%, etc.
-    bool failed = x_in_y( 2, 3 + roll * 3 );
+    const bool failed = x_in_y( 2, 3 + roll * 3 );
     return !failed;
 }
 
@@ -266,8 +266,8 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
-    int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
-                                quality_id( "BUTCHER" ) );
+    const int factor = u.max_quality( action == DISSECT ? quality_id( "CUT_FINE" ) :
+                                      quality_id( "BUTCHER" ) );
     auto items = g->m.i_at( u.pos() );
     if( static_cast<size_t>( act.index ) >= items.size() ) {
         // Let it print a msg for lack of corpses
@@ -340,9 +340,9 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
-                        u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
-        bool big_corpse = corpse.size >= MS_MEDIUM;
+        const bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
+                              u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
+        const bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
             u.add_msg_if_player( m_info,
@@ -417,8 +417,8 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     // applies to all butchery actions
-    bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
-                    !corpse.in_species( ZOMBIE ) );
+    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
+                          !corpse.in_species( ZOMBIE ) );
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) ||
                        u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
@@ -609,10 +609,10 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 // this function modifies the input weight by its damage level, depending on the bodypart
 int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
-    float slight_damage = 0.9;
-    float damage = 0.75;
-    float high_damage = 0.5;
-    int destroyed = 0;
+    const float slight_damage = 0.9;
+    const float damage = 0.75;
+    const float high_damage = 0.5;
+    const int destroyed = 0;
 
     switch( damage_level ) {
         case 2: // "damaged"
@@ -683,13 +683,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
-    harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate( mt ) : mt.harvest;
+    const harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate( mt ) : mt.harvest;
     const harvest_list &harvest = *hid;
 
     for( const auto &entry : harvest ) {
-        int butchery = roll_butchery();
-        float min_num = entry.base_num.first + butchery * entry.scale_num.first;
-        float max_num = entry.base_num.second + butchery * entry.scale_num.second;
+        const int butchery = roll_butchery();
+        const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
+        const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
@@ -768,7 +768,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.type == "flesh" ) {
                 roll /= 6;
             } else {
-                roll = 0;
                 continue;
             }
         }
@@ -788,7 +787,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         // you only get the skin from skinning
         if( action == SKIN ) {
             if( entry.type != "skin" ) {
-                roll = 0;
                 continue;
             }
         }
@@ -974,7 +972,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_level += p->get_skill_level( skill_electronics ) / 2;
     }
 
-    auto roll_butchery = [&]() {
+    const auto roll_butchery = [&]() {
         double skill_shift = 0.0;
         ///\EFFECT_SURVIVAL randomly increases butcher rolls
         skill_shift += rng_float( 0, skill_level - 3 );
@@ -1021,7 +1019,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
     // function just for drop yields
-    auto roll_drops = [&]() {
+    const auto roll_drops = [&]() {
         factor = std::max( factor, -50 );
         return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
     };
@@ -1277,7 +1275,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
         if( liquid.is_food() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( temp_to_kelvin( g->get_temperature( p->pos() ) ) );
+            liquid.set_item_temperature( std::max( temp_to_kelvin( g->get_temperature( p->pos() ) ), 277.15 ) );
         }
 
         // 2. Transfer charges.
@@ -1395,8 +1393,8 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    hp_part healed = static_cast<hp_part>( act->values[0] );
-    long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
+    const hp_part healed = static_cast<hp_part>( act->values[0] );
+    const long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
     // Erase activity and values.
@@ -1452,7 +1450,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
 
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
-    int veggy_chance = rng( 1, 100 );
+    const int veggy_chance = rng( 1, 100 );
     bool found_something = false;
 
     items_location loc;
@@ -1548,7 +1546,7 @@ void activity_handlers::hotwire_finish( player_activity *act, player *p )
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
                                            p->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
-        int mech_skill = act->values[2];
+        const int mech_skill = act->values[2];
         if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
             //success
             veh->is_locked = false;
@@ -1609,7 +1607,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     auto items = g->m.i_at( p->pos() );
-    std::string corpse_name = act->str_values[0];
+    const std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 
     for( auto &item : items ) {
@@ -1723,7 +1721,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     // Stabbing weapons are a lot less effective at pulping
-    int cut_power = std::max( p->weapon.damage_melee( DT_CUT ), p->weapon.damage_melee( DT_STAB ) / 2 );
+    const int cut_power = std::max( p->weapon.damage_melee( DT_CUT ),
+                                    p->weapon.damage_melee( DT_STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
@@ -1822,8 +1821,8 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     item &reloadable = *act->targets[ 0 ];
-    int qty = act->index;
-    bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
+    const int qty = act->index;
+    const bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname().c_str() );
@@ -1873,7 +1872,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 
     p->mod_moves( -p->moves );
     const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-    float light = actor->light_mod( p->pos() );
+    const float light = actor->light_mod( p->pos() );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
         add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
@@ -2284,7 +2283,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->position = INT_MIN;
         }
 
-        bool event_happened =
+        const bool event_happened =
             attempt == repair_item_actor::AS_FAILURE ||
             attempt == repair_item_actor::AS_SUCCESS ||
             old_level != p->get_skill_level( actor->used_skill );
@@ -2387,13 +2386,13 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     item_location &target = act->targets[ 0 ];
 
-    auto f = target->faults.find( fault_id( act->name ) );
+    const auto f = target->faults.find( fault_id( act->name ) );
     if( f == target->faults.end() ) {
         debugmsg( "item %s does not have fault %s", target->tname().c_str(), act->name.c_str() );
         return;
     }
 
-    auto inv = p->crafting_inventory();
+    const auto inv = p->crafting_inventory();
     const auto &reqs = f->obj().requirements();
     if( !reqs.can_make_with_inventory( inv ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname().c_str() );
@@ -2422,12 +2421,12 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     item &gun = p->i_at( act->position );
     item &mod = p->i_at( act->values[0] );
 
-    int roll = act->values[1]; // chance of success (%)
-    int risk = act->values[2]; // chance of damage (%)
+    const int roll = act->values[1]; // chance of success (%)
+    const int risk = act->values[2]; // chance of damage (%)
 
     // any tool charges used during installation
-    std::string tool = act->name;
-    int qty = act->values[3];
+    const std::string tool = act->name;
+    const int qty = act->values[3];
 
     if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
@@ -2625,7 +2624,7 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
     const recipe &rec = recipe_id( act->name ).obj();
-    float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    const float crafting_speed = p->crafting_speed_multiplier( rec, true );
     if( crafting_speed <= 0.0f ) {
         if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
             p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -2651,7 +2650,7 @@ void activity_handlers::craft_finish( player_activity *act, player *p )
 
 void activity_handlers::longcraft_finish( player_activity *act, player *p )
 {
-    int batch_size = act->values.front();
+    const int batch_size = act->values.front();
     p->complete_craft();
     act->set_to_null();
     // Workaround for a bug where longcraft can be unset in complete_craft().
@@ -2780,7 +2779,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
         // try again
     }
 
-    tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
+    const tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
         g->m.destroy( elem );
@@ -2987,9 +2986,9 @@ void activity_handlers::unload_mag_finish( player_activity *act, player *p )
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles )
 {
-    auto cmp = [abspos]( tripoint a, tripoint b ) {
-        int da = rl_dist( abspos, a );
-        int db = rl_dist( abspos, b );
+    const auto cmp = [abspos]( tripoint a, tripoint b ) {
+        const int da = rl_dist( abspos, a );
+        const int db = rl_dist( abspos, b );
 
         return da < db;
     };
@@ -3056,7 +3055,7 @@ static void perform_zone_activity_turn( player *p,
 
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
-    auto reject_tile = [p]( const tripoint & tile ) {
+    const auto reject_tile = [p]( const tripoint & tile ) {
         return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
     };
     perform_zone_activity_turn( p,
@@ -3069,12 +3068,12 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
-    auto reject_tile = [p]( const tripoint & tile ) {
+    const auto reject_tile = [p]( const tripoint & tile ) {
         return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
                g->m.ter( tile ) == t_dirtmound;
     };
 
-    auto dig = []( player & p, const tripoint & tile_loc ) {
+    const auto dig = []( player & p, const tripoint & tile_loc ) {
         p.add_msg_if_player( _( "You churn up the earth here." ) );
         p.mod_moves( -300 );
         g->m.ter_set( tile_loc, t_dirtmound );
@@ -3110,13 +3109,13 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         return !fertilizer.empty() && p->has_charges( fertilizer, 1 );
     };
 
-    auto reject_tile = [&]( const tripoint & tile ) {
+    const auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
         ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
         return !p->sees( tile ) || !can_fert.success();
     };
 
-    auto fertilize = [&]( player & p, const tripoint & tile ) {
+    const auto fertilize = [&]( player & p, const tripoint & tile ) {
         check_fertilizer();
         if( have_fertilizer() ) {
             iexamine::fertilize_plant( p, tile, fertilizer );
@@ -3163,7 +3162,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     };
 
     // cleanup unwanted tiles (local coords)
-    auto reject_tiles = [&]( const tripoint & tile ) {
+    const auto reject_tiles = [&]( const tripoint & tile ) {
         if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
             return true;
         }
@@ -3177,7 +3176,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
         } );
     };
 
-    auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
+    const auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
         const auto seeds = get_seeds( tile_loc );
         std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
             return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
@@ -3185,7 +3184,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
             } );
         } );
         if( !seed_inv.empty() ) {
-            auto it = seed_inv.front();
+            const auto it = seed_inv.front();
             iexamine::plant_seed( p, tile_loc, it->typeId() );
         }
     };
@@ -3204,7 +3203,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    std::shared_ptr<monster> z = act->monsters[0].lock();
+    const std::shared_ptr<monster> z = act->monsters[0].lock();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
         p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
@@ -3239,8 +3238,8 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
-                    ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    const float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
+                          ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
     if( success >= 0 ) {
         p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
                               z->name().c_str() );
