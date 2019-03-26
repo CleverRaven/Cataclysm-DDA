@@ -5473,8 +5473,7 @@
     "initial_charges": 24,
     "max_charges": 24,
     "charges_per_use": 1,
-    "use_action": "OXYGEN_BOTTLE",
-    "flags": [ "OXYGEN" ]
+    "use_action": "OXYGEN_BOTTLE"
   },
   {
     "id": "paint_brush",
@@ -6865,8 +6864,7 @@
     "initial_charges": 12,
     "max_charges": 12,
     "charges_per_use": 1,
-    "use_action": "OXYGEN_BOTTLE",
-    "flags": [ "OXYGEN" ]
+    "use_action": "OXYGEN_BOTTLE"
   },
   {
     "id": "soldering_iron",

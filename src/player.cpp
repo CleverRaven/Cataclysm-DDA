@@ -5168,16 +5168,6 @@ void player::suffer()
             if( has_bionic( bio_gills ) && power_level >= 25 ) {
                 oxygen += 5;
                 charge_power( -25 );
-            } else if( has_item_with_flag( "OXYGEN" ) ) {
-                std::vector<item *> oxy = items_with( []( const item & itm ) {
-                    return itm.has_flag( "OXYGEN" );
-                } );
-                for( auto &i : oxy ) {
-                    if( has_charges( i->typeId(), 1 ) ) {
-                        invoke_item( i );
-                        break;
-                    }
-                }
             } else {
                 add_msg_if_player( m_bad, _( "You're drowning!" ) );
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );

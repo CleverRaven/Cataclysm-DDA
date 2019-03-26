@@ -878,7 +878,8 @@
       ["denat_alcohol", 10],
       ["popcan_stove", 5],
       ["pet_carrier",3],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["scuba_tank", 2]
     ]
   },{
     "type" : "item_group",
@@ -1986,7 +1987,8 @@
       ["chem_thermite", 10],
       ["chem_zinc_powder", 10],
       ["denat_alcohol", 25],
-      ["tourist_table", 1]
+      ["tourist_table", 1],
+      ["scuba_tank", 3]
     ]
   },{
     "type"  : "item_group",
@@ -2061,7 +2063,9 @@
       ["survnote", 1],
       ["material_quicklime", 10],
       ["denat_alcohol", 25],
-      ["tourist_table", 1]
+      ["tourist_table", 1],
+      ["scuba_tank", 2],
+      ["small_scuba_tank", 1]
     ]
   },{
     "type" : "item_group",
@@ -2218,6 +2222,8 @@
       ["diving_watch", 10],
       ["rebreather", 3],
       ["rebreather_filter", 3],
+      ["scuba_tank", 10],
+      ["small_scuba_tank", 5],
       ["glowstick", 60],
       ["handflare", 40],
       ["elbow_pads", 40],
@@ -2387,7 +2393,9 @@
       ["l-stick", 1],
       ["tourist_table", 30],
       ["trailmap", 5],
-      ["chem_hexamine", 5]
+      ["chem_hexamine", 5],
+      ["scuba_tank", 1],
+      ["small_scuba_tank", 1]
     ]
   },{
     "type" : "item_group",
@@ -2547,6 +2555,8 @@
       ["dive_bag", 10],
       ["rebreather", 2],
       ["rebreather_filter", 4],
+      ["scuba_tank", 10],
+      ["small_scuba_tank", 5],
       ["glowstick", 60],
       ["handflare", 40],
       ["folding_bicycle", 1],
