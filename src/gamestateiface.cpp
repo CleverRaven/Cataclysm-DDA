@@ -17,6 +17,9 @@
 #include "inventory.h"
 #include "color.h"
 #include "output.h"
+#include "effect.h"
+#include "options.h"
+#include "input.h"
 
 #ifdef _WINDOWS
 #include <Windows.h>
@@ -39,6 +42,105 @@ std::mutex m;
 std::mutex otherMutex;
 std::mutex writeout;
 bool outofdate = false;
+
+bool gsi::update_player(player & u)
+{
+#ifdef GSI
+    // Player Stats
+    // MUST update first -- others will decide to hide info based on the trait
+    is_self_aware = u.has_trait((trait_id)"SELFAWARE");
+
+    update_hunger(u.get_hunger(), u.get_starvation());
+    update_thirst(u.get_thirst());
+    update_fatigue(u.get_fatigue());
+
+    static std::array<body_part, 7> part = { {
+            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
+        }
+    };
+    std::array<nc_color, num_hp_parts> bp_status;
+    std::array<float, num_hp_parts> splints;
+    for (int i = 0; i < part.size(); i++)
+    {
+        bp_status[i] = u.limb_color(part[i], true, true, true);
+    }
+
+    for (int i = 0; i < part.size(); i++)
+    {
+        if (!(u.worn_with_flag("SPLINT", part[i])))
+            splints[i] = -1;
+        else
+        {
+            static const efftype_id effect_mending("mending");
+            const auto &eff = u.get_effect(effect_mending, part[i]);
+            splints[i] = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+        }
+    }
+    update_body(u.hp_cur, u.hp_max, bp_status, splints);
+    update_temp(u.temp_cur, u.temp_conv);
+    update_invlets(u);
+
+    stamina = u.stamina;
+    stamina_max = u.get_stamina_max();
+    power_level = u.power_level;
+    max_power_level = u.max_power_level;
+    pain = u.get_perceived_pain();
+    morale = u.get_morale_level();
+
+    // Environment Stats
+    update_light(u);
+    return true;
+#endif
+    return false;
+}
+
+bool gsi::update_safemode(safe_mode_type _safe_mode, int turnssincelastmon)
+{
+#ifdef GSI
+    if (_safe_mode == SAFE_MODE_ON)
+        safe_mode = 4;
+    else
+        safe_mode = turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
+    return true;
+#endif
+    return false;
+}
+
+bool gsi::update_input(std::vector<std::string> registered_actions, std::string category)
+{
+#ifdef GSI
+
+    // TODO: Try to return false if things haven't changed.
+    // Maybe see if the last input was a timeout?
+    std::vector<std::string> _bound_actions;
+    std::vector<std::vector<std::string>> _bound_keys;
+    std::for_each(registered_actions.begin(), registered_actions.end(), [category, &_bound_actions, &_bound_keys](std::string action)
+    {
+
+        std::vector<std::string> binds;
+        const std::vector<input_event> &events = inp_mngr.get_input_for_action(action,
+            category);
+        for (const auto &events_event : events) {
+            // Ignore multi-key input and non-keyboard input
+            // TODO: fix for Unicode.
+            if (events_event.type == CATA_INPUT_KEYBOARD &&
+                events_event.sequence.front() < 0xFF && isprint(events_event.sequence.front())) {
+                binds.push_back(inp_mngr.get_keyname(events_event.sequence.front(), CATA_INPUT_KEYBOARD));
+            }
+        }
+        if (binds.size() != 0)
+        {
+            _bound_actions.push_back(action);
+            _bound_keys.push_back(binds);
+        }
+    }
+    );
+    gsi::get().bound_actions = _bound_actions;
+    gsi::get().bound_keys = _bound_keys;
+    return true;
+#endif
+    return false;
+}
 
 void gsi::update_hunger(int hunger, int starvation)
 {

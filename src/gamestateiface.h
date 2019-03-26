@@ -1,3 +1,6 @@
+#ifndef GSI_H
+#define GSI_H
+
 #include <vector>
 #include <string>
 #include <stack>
@@ -12,6 +15,8 @@
 #include "pldata.h"
 #include "bodypart.h"
 #include "character.h"
+#include "game.h"
+#include "input.h"
 
 #ifdef _WINDOWS
 #include <Windows.h>
@@ -47,9 +52,26 @@ public:
     gsi(gsi const&) = delete;
     void operator=(gsi const&) = delete;
 
+
+
+    bool update_player(player & u);
+    bool update_safemode(safe_mode_type safe_mode, int turnssincelastmon);
+    bool update_input(std::vector<std::string> registered_actions, std::string category);
+
+    // Everything that goes in the output goes here
+    void serialize(JsonOut &jsout) const;
+
+private:
+    // Blank constructor
+    gsi() 
+    {
+        ctxt.push("default");
+        mctxt.push("default");
+    }
+
     std::stack<std::string> ctxt;  // current input context
     std::stack<std::string> mctxt; // current input context, for menus
-    
+
     std::vector<std::string> invlets;        // inventory letters in use
     std::vector<std::string> invlets_c;  // inventory letters' corresponding colors
     std::vector<std::string> invlets_s;  // Special status of inventory item:
@@ -61,12 +83,15 @@ public:
 
     bool is_self_aware;
 
-
-
+    int hunger_level, thirst_level, fatigue_level;
+    std::array<int, num_hp_parts> hp_cur_level, hp_max_level;
+    std::array<int, num_hp_parts> limb_state;
+    std::array<float, num_hp_parts> splint_state;
+    int temp_level, temp_change;
     void update_hunger(int hunger, int starvation);
     void update_thirst(int thirst);
     void update_fatigue(int fatigue);
-    void update_body(std::array<int, num_hp_parts> hp_cur, std::array<int, num_hp_parts> hp_max, 
+    void update_body(std::array<int, num_hp_parts> hp_cur, std::array<int, num_hp_parts> hp_max,
         std::array<nc_color, num_hp_parts> bp_status, std::array<float, num_hp_parts> splints);
     void update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> temp_conv);
     void update_invlets(Character &character);
@@ -80,22 +105,6 @@ public:
     int safe_mode;
     std::vector<std::string> bound_actions;
     std::vector<std::vector<std::string>> bound_keys;
-    // Everything that goes in the output goes here
-    void serialize(JsonOut &jsout) const;
-
-private:
-    // Blank constructor
-    gsi() 
-    {
-        ctxt.push("default");
-        mctxt.push("default");
-    }
-
-    int hunger_level, thirst_level, fatigue_level;
-    std::array<int, num_hp_parts> hp_cur_level, hp_max_level;
-    std::array<int, num_hp_parts> limb_state;
-    std::array<float, num_hp_parts> splint_state;
-    int temp_level, temp_change;
     
 
     std::string light_level;
@@ -128,3 +137,5 @@ private:
     void sockInit();
     void sockQuit();
 };
+
+#endif

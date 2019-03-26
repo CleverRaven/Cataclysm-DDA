@@ -12,9 +12,8 @@
 #include <algorithm>
 #endif
 
-#ifdef GSI
 #include "gamestateiface.h"
-#endif
+
 
 
 struct tripoint;

@@ -1522,62 +1522,11 @@ bool game::do_turn()
     }
     sfx::do_danger_music();
     sfx::do_fatigue();
-#ifdef GSI
-    // Player Stats
-    // MUST update first -- others will decide to hide info based on the trait
-    gsi::get().is_self_aware = u.has_trait((trait_id)"SELFAWARE");
+    
+    // these functions will always return false if compiled without GSI option
+    if(gsi::get().update_player(u) || gsi::get().update_safemode(safe_mode, turnssincelastmon))
+        gsi_socket::get().sockout();
 
-    gsi::get().update_hunger(u.get_hunger(), u.get_starvation());
-    gsi::get().update_thirst(u.get_thirst());
-    gsi::get().update_fatigue(u.get_fatigue());
-
-    static std::array<body_part, 7> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
-        }
-    };
-    std::array<nc_color, num_hp_parts> bp_status;
-    std::array<float, num_hp_parts> splints;
-    for (int i = 0; i < part.size(); i++)
-    {
-        bp_status[i] = u.limb_color(part[i], true, true, true);
-    }
-
-    for (int i = 0; i < part.size(); i++)
-    {
-        if (!(u.worn_with_flag("SPLINT", part[i])))
-            splints[i] = -1;
-        else
-        {
-            static const efftype_id effect_mending("mending");
-            const auto &eff = u.get_effect(effect_mending, part[i]);
-            splints[i] = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
-        }
-    }
-    gsi::get().update_body(u.hp_cur, u.hp_max, bp_status, splints);
-    gsi::get().update_temp(u.temp_cur, u.temp_conv);
-    gsi::get().update_invlets(u);
-
-    gsi::get().stamina = u.stamina;
-    gsi::get().stamina_max = u.get_stamina_max();
-    gsi::get().power_level = u.power_level;
-    gsi::get().max_power_level = u.max_power_level;
-    gsi::get().pain = u.get_perceived_pain();
-    gsi::get().morale = u.get_morale_level();
-
-    if (safe_mode == SAFE_MODE_ON)
-        gsi::get().safe_mode = 4;
-    else
-        gsi::get().safe_mode = turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
-
-    // Environment Stats
-    gsi::get().update_light(u);
-
-
-
-
-
-    gsi_socket::get().sockout();
-#endif
     // reset player noise
     u.volume = 0;
 
