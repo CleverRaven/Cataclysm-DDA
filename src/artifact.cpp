@@ -910,9 +910,9 @@ std::string new_natural_artifact( artifact_natural_property prop )
     // Pick a form
     const artifact_shape_datum &shape_data = random_entry_ref( artifact_shape_data );
     // Pick a property
-    artifact_natural_property property = ( prop > ARTPROP_NULL ? prop :
-                                           artifact_natural_property( rng( ARTPROP_NULL + 1,
-                                                   ARTPROP_MAX - 1 ) ) );
+    const artifact_natural_property property = ( prop > ARTPROP_NULL ? prop :
+            artifact_natural_property( rng( ARTPROP_NULL + 1,
+                                            ARTPROP_MAX - 1 ) ) );
     const artifact_property_datum &property_data = artifact_property_data[property];
 
     def.sym = ":";
@@ -1084,10 +1084,9 @@ std::vector<art_effect_active> fill_bad_active()
 
 std::string artifact_name( const std::string &type )
 {
-    std::string ret;
-    std::string noun = _( random_entry_ref( artifact_noun ).c_str() );
-    std::string adj = _( random_entry_ref( artifact_adj ).c_str() );
-    ret = string_format( noun, adj.c_str() );
+    const std::string noun = _( random_entry_ref( artifact_noun ).c_str() );
+    const std::string adj = _( random_entry_ref( artifact_adj ).c_str() );
+    std::string ret = string_format( noun, adj.c_str() );
     ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(),
                          ret.c_str() );
     return ret;

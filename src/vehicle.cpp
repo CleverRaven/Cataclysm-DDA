@@ -1265,7 +1265,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
 
 bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks )
 {
-    for( auto this_bike_rack : list_of_racks ) {
+    for( const auto &this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
         carry_vehs.assign( 4, nullptr );
         vehicle *test_veh = nullptr;
@@ -3664,6 +3664,9 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
                 g->u.charge_power( 1 );
             }
         }
+        if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+            g->u.charge_power( -10 );
+        }
         if( one_in( 10 ) ) {
             g->u.mod_hunger( mod );
             g->u.mod_thirst( mod );
@@ -3671,6 +3674,8 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         }
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             g->u.mod_stat( "stamina", -mod * 30 );
+        } else if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+            g->u.mod_stat( "stamina", -mod * 10 );
         } else {
             g->u.mod_stat( "stamina", -mod * 20 );
         }

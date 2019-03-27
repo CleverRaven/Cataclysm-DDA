@@ -4570,7 +4570,7 @@ int grenade_helper( monster *const z, Creature *const target, const int dist,
 
     // Find how much ammo we currently have to get the total ratio
     int curr_ammo = 0;
-    for( auto amm : z->ammo ) {
+    for( const auto &amm : z->ammo ) {
         curr_ammo += amm.second;
     }
     float rat = curr_ammo / static_cast<float>( total_ammo );
@@ -4584,7 +4584,7 @@ int grenade_helper( monster *const z, Creature *const target, const int dist,
     // Hey look! another weighted list!
     // Grab all attacks that pass their chance check and we've spent enough ammo for
     weighted_float_list<std::string> possible_attacks;
-    for( auto amm : z->ammo ) {
+    for( const auto &amm : z->ammo ) {
         if( amm.second > 0 && data[amm.first].ammo_percentage >= rat ) {
             possible_attacks.add( amm.first, 1.0 / data[amm.first].chance );
         }

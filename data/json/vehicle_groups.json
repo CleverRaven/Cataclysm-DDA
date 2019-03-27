@@ -144,7 +144,8 @@
       [ "pickup", 300 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 150 ],
-      [ "bicycle_dirt", 125 ]
+      [ "bicycle_dirt", 125 ],
+      [ "tricycle", 5 ]
     ]
   },
   {

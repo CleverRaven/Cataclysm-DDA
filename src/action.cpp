@@ -50,13 +50,13 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             getline( keymap_txt, id );  // Empty line, chomp it
         } else if( id == "unbind" ) {
             keymap_txt >> id;
-            action_id act = look_up_action( id );
+            const action_id act = look_up_action( id );
             if( act != ACTION_NULL ) {
                 unbound_keymap.insert( act );
             }
             break;
         } else if( id[0] != '#' ) {
-            action_id act = look_up_action( id );
+            const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
@@ -94,7 +94,7 @@ std::vector<char> keys_bound_to( action_id act )
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
+    const input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -839,7 +839,7 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
 
-    auto REGISTER_ACTION = [&]( action_id name ) {
+    const auto REGISTER_ACTION = [&]( action_id name ) {
         entries.emplace_back( name, true, hotkey_for_action( name ),
                               ctxt.get_action_name( action_ident( name ) ) );
     };
@@ -863,9 +863,9 @@ action_id handle_main_menu()
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
-    int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
-             ( entries.size() ) - 2 ) / 2 - 1 : 0;
+    const int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
+    const int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+                   ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 

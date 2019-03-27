@@ -1161,6 +1161,9 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
     bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap ||
                                             w == w_hit_animation );
 
+    std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
+                                          terminal_framebuffer;
+
     /*
     Let's try to keep track of different windows.
     A number of windows are coexisting on the screen, so don't have to interfere.
@@ -1195,9 +1198,22 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         if( !win->line[j].touched ) {
             continue;
         }
+
+        const int fby = win->y + j;
+        if( fby >= static_cast<int>( framebuffer.size() ) ) {
+            // prevent indexing outside the frame buffer. This might happen for some parts of the window. FIX #28953.
+            break;
+        }
+
         update = true;
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
+            const int fbx = win->x + i;
+            if( fbx >= static_cast<int>( framebuffer[fby].chars.size() ) ) {
+                // prevent indexing outside the frame buffer. This might happen for some parts of the window.
+                break;
+            }
+
             const cursecell &cell = win->line[j].chars[i];
 
             const int drawx = offsetx + i * fontwidth;
@@ -1209,18 +1225,6 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
             // Avoid redrawing an unchanged tile by checking the framebuffer cache
             // TODO: handle caching when drawing normal windows over graphical tiles
-            const int fbx = win->x + i;
-            const int fby = win->y + j;
-
-            std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
-                                                  terminal_framebuffer;
-
-#ifdef __ANDROID__
-            // BUGFIX: Prevents an occasional crash when viewing player info. This seems like it might be a cross-platform issue in the experimental build
-            if( fby >= ( int )framebuffer.size() || fbx >= ( int )framebuffer[fby].chars.size() ) {
-                continue;
-            }
-#endif
             cursecell &oldcell = framebuffer[fby].chars[fbx];
 
             if( oldWinCompatible && cell == oldcell && fontScale == fontScaleBuffer ) {
@@ -1443,6 +1447,7 @@ static void end_arrow_combo()
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
+#ifndef __ANDROID__
     const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
 
     if( diag_mode == "mode1" ) {
@@ -1502,6 +1507,7 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
             }
         }
     }
+#endif
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
