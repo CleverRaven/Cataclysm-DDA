@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "ident": "MMA",
     "name": "Mythical Martial Arts",
-    "authors": [ "Photoloss", "C:DDA main repo" ],
+    "authors": [ "Photoloss" ],
     "description": "A collection of fictional, mythologically inspired or otherwise unrealistic martial arts.",
     "category": "misc_additions",
     "dependencies": [ "dda" ]
