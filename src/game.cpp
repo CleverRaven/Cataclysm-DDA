@@ -9672,6 +9672,7 @@ void game::set_safe_mode( safe_mode_type mode )
 {
     safe_mode = mode;
     safe_mode_warning_logged = false;
+    gsi::get().update_safemode(true);
 }
 
 bool game::disable_robot( const tripoint &p )

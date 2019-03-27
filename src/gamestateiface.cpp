@@ -48,9 +48,7 @@ bool gsi::update_turn()
     // MUST update first -- others will decide to hide info based on the trait
     is_self_aware = g->u.has_trait((trait_id)"SELFAWARE");
     
-    update_hunger(g->u.get_hunger(), g->u.get_starvation());
-    update_thirst(g->u.get_thirst());
-    update_fatigue(g->u.get_fatigue());
+    update_needs();
 
     static std::array<body_part, 6> part = { {
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
@@ -74,24 +72,21 @@ bool gsi::update_turn()
             splints[i] = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
         }
     }
-    update_body(g->u.hp_cur, g->u.hp_max, bp_status, splints);
-    update_temp(g->u.temp_cur, g->u.temp_conv);
-    update_invlets(g->u);
-    
-    stamina = g->u.stamina;
-    stamina_max = g->u.get_stamina_max();
+    update_body();
+    update_temp();
+    update_invlets();
+    update_stamina();
+
     power_level = g->u.power_level;
     max_power_level = g->u.max_power_level;
     pain = g->u.get_perceived_pain();
     morale = g->u.get_morale_level();
 
-    if (g->safe_mode == SAFE_MODE_ON)
-        safe_mode = 4;
-    else
-        safe_mode = g->turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
+    // is this necessary anymore?
+    update_safemode(false);
 
     // Environment Stats
-    update_light(g->u);
+    update_light();
     if (g->get_levz() < 0)
         weather = "Underground";
     else
@@ -109,16 +104,19 @@ bool gsi::update_turn()
     return false;
 }
 
-bool gsi::update_safemode(safe_mode_type _safe_mode, int turnssincelastmon)
+void gsi::update_safemode(bool forceupdate)
 {
 #ifdef GSI
-    if (_safe_mode == SAFE_MODE_ON)
+    if (g->safe_mode == SAFE_MODE_ON)
         safe_mode = 4;
+    else if (g->safe_mode == SAFE_MODE_STOP)
+        safe_mode = -1;
     else
-        safe_mode = turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
-    return true;
+        safe_mode = g->turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
+
+    if (forceupdate)
+        gsi_socket::get().sockout();
 #endif
-    return false;
 }
 
 bool gsi::update_input(std::vector<std::string> registered_actions, std::string category)
@@ -158,8 +156,14 @@ bool gsi::update_input(std::vector<std::string> registered_actions, std::string 
     return false;
 }
 
-void gsi::update_hunger(int hunger, int starvation)
+void gsi::update_needs()
 {
+    int hunger = g->u.get_hunger();
+    int starvation = g->u.get_starvation();
+    int thirst = g->u.get_thirst();
+    int fatigue = g->u.get_fatigue();
+
+    // Hunger
     if (hunger >= 300 && starvation > 2500)
         hunger_level = -5;
     else if (hunger >= 300 && starvation > 1100)
@@ -178,10 +182,8 @@ void gsi::update_hunger(int hunger, int starvation)
         hunger_level = 1;
     else
         hunger_level = 0;
-}
 
-void gsi::update_thirst(int thirst)
-{
+    // Thirst
     if (thirst > 520)
         thirst_level = -4;
     else if (thirst > 240)
@@ -198,10 +200,8 @@ void gsi::update_thirst(int thirst)
         thirst_level = 1;
     else
         thirst_level = 0;
-}
 
-void gsi::update_fatigue(int fatigue)
-{
+    // Fatigue
     if (fatigue > EXHAUSTED)
         fatigue_level = -3;
     else if (fatigue > DEAD_TIRED)
@@ -212,38 +212,56 @@ void gsi::update_fatigue(int fatigue)
         fatigue_level = 0;
 }
 
-void gsi::update_body(std::array<int, num_hp_parts> hp_cur, std::array<int, num_hp_parts> hp_max, std::array<nc_color, num_hp_parts> bp_status, std::array<float, num_hp_parts> splints)
+void gsi::update_stamina()
 {
+    stamina = (int)((double)g->u.stamina / (double)g->u.get_stamina_max() * 10.0);
+    stamina_max = 10;
+}
+
+void gsi::update_body()
+{
+    static std::array<body_part, 6> part = { {
+        bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    }
+    };
+    std::array<nc_color, num_hp_parts> bp_status = { c_black, c_black, c_black, c_black, c_black, c_black };
+    std::array<float, num_hp_parts> splints = { 0, 0, 0, 0, 0, 0 };
+    for (int i = 0; i < part.size(); i++)
+    {
+        bp_status[i] = g->u.limb_color(part[i], true, true, true);
+    }
+
+    for (int i = 0; i < part.size(); i++)
+    {
+        if (!(g->u.worn_with_flag("SPLINT", part[i])))
+            splints[i] = -1;
+        else
+        {
+            static const efftype_id effect_mending("mending");
+            const auto &eff = g->u.get_effect(effect_mending, part[i]);
+            splints[i] = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+        }
+    }
+
     for (int i = 0; i < num_hp_parts; i++)
     {
         if (is_self_aware) // Don't obfuscate data if player is self-aware.
         {
-            hp_cur_level[i] = hp_cur[i];
-            hp_max_level[i] = hp_max[i];
+            hp_cur_level[i] = g->u.hp_cur[i];
+            hp_max_level[i] = g->u.hp_max[i];
             splint_state[i] = splints[i];
         }
         else // If player isn't self aware, obfuscate data to match sidebar's detail.
         {
-            double hp_ratio = static_cast<double>(hp_cur[i]) / (hp_max[i] ? hp_max[i] : 1);
-            hp_cur_level[i] =
-                (hp_ratio >= 1.0) ? 10 :
-                (hp_ratio >= 0.9) ? 9 :
-                (hp_ratio >= 0.8) ? 8 :
-                (hp_ratio >= 0.7) ? 7 :
-                (hp_ratio >= 0.6) ? 6 :
-                (hp_ratio >= 0.5) ? 5 :
-                (hp_ratio >= 0.4) ? 4 :
-                (hp_ratio >= 0.3) ? 3 :
-                (hp_ratio >= 0.2) ? 2 :
-                (hp_ratio >= 0.1) ? 1 : 0;
+            hp_cur_level[i] = (int)((double)g->u.hp_cur[i] / (double)g->u.hp_max[i] * 10.0);
             hp_max_level[i] = 10;
             if (splints[i] >= 0)
                 splint_state[i] = splints[i] * 5 / 100;
         }
-        if (hp_cur[i] == 0 && splints[i] == -1)
+        if (g->u.hp_cur[i] == 0 && splints[i] == -1)
             splint_state[i] = -100;
         
-        if (hp_cur[i] == 0) // limb broken, must make sure this applies first
+        if (g->u.hp_cur[i] == 0) // limb broken, must make sure this applies first
             limb_state[i] = -1;
         else if (bp_status[i] == c_red) // bleeding
             limb_state[i] = 1;
@@ -283,22 +301,22 @@ int define_temp_level_gsi(const int lvl)
     return 1;
 }
 
-void gsi::update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> temp_conv)
+void gsi::update_temp()
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
     int current_bp_extreme = 0;
     int conv_bp_extreme = 0;
     for (int i = 0; i < num_bp; i++) {
-        if (abs(temp_cur[i] - BODYTEMP_NORM) > abs(temp_cur[current_bp_extreme] - BODYTEMP_NORM))
+        if (abs(g->u.temp_cur[i] - BODYTEMP_NORM) > abs(g->u.temp_cur[current_bp_extreme] - BODYTEMP_NORM))
             current_bp_extreme = i;
-        if (abs(temp_conv[i] - BODYTEMP_NORM) > abs(temp_conv[conv_bp_extreme] - BODYTEMP_NORM))
+        if (abs(g->u.temp_conv[i] - BODYTEMP_NORM) > abs(g->u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM))
             conv_bp_extreme = i;
     }
 
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level_gsi(temp_cur[current_bp_extreme]);
-    const int conv_zone = define_temp_level_gsi(temp_conv[conv_bp_extreme]);
+    const int cur_zone = define_temp_level_gsi(g->u.temp_cur[current_bp_extreme]);
+    const int conv_zone = define_temp_level_gsi(g->u.temp_conv[conv_bp_extreme]);
 
     // delta will be positive if temp_cur is rising
     int delta = conv_zone - cur_zone;
@@ -309,50 +327,50 @@ void gsi::update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> 
     temp_change = delta;
 
     // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
-    if (temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING)
+    if (g->u.temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING)
         temp_level = 3;
-    else if (temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT)
+    else if (g->u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT)
         temp_level = 2;
-    else if (temp_cur[current_bp_extreme] > BODYTEMP_HOT)
+    else if (g->u.temp_cur[current_bp_extreme] > BODYTEMP_HOT)
         temp_level = 1;
-    else if (temp_cur[current_bp_extreme] >
+    else if (g->u.temp_cur[current_bp_extreme] >
         BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
         temp_level = 0;
-    else if (temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD)
+    else if (g->u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD)
         temp_level = -1;
-    else if (temp_cur[current_bp_extreme] > BODYTEMP_FREEZING)
+    else if (g->u.temp_cur[current_bp_extreme] > BODYTEMP_FREEZING)
         temp_level = -2;
-    else if (temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)
+    else if (g->u.temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)
         temp_level = -3;
 }
 
-void gsi::update_invlets(Character & character)
+void gsi::update_invlets()
 {
     invlets.clear();
     invlets_c.clear();
     invlets_s.clear();
 
-    std::set<char> invlets_temp = character.allocated_invlets();
+    std::set<char> invlets_temp = g->u.allocated_invlets();
     std::vector<char> invlets_i;
     std::copy(invlets_temp.begin(), invlets_temp.end(), std::back_inserter(invlets_i));
     for (int i = 0; i < invlets_temp.size(); i++)
     {
         item t; 
-        if (character.weapon.invlet == invlets_i[i])
-            t = character.weapon;
-        else if (character.inv.invlet_to_position(invlets_i[i]) == INT_MIN) // if not weapon and it isnt in inventory it is worn
-            t = *std::find_if(character.worn.begin(), character.worn.end(), [invlets_i, i](item k) { return k.invlet == invlets_i[i]; });
+        if (g->u.weapon.invlet == invlets_i[i])
+            t = g->u.weapon;
+        else if (g->u.inv.invlet_to_position(invlets_i[i]) == INT_MIN) // if not weapon and it isnt in inventory it is worn
+            t = *std::find_if(g->u.worn.begin(), g->u.worn.end(), [invlets_i, i](item k) { return k.invlet == invlets_i[i]; });
         else
-            t = character.inv.find_item(character.inv.invlet_to_position(invlets_i[i]));
+            t = g->u.inv.find_item(g->u.inv.invlet_to_position(invlets_i[i]));
         invlets_c.push_back(get_all_colors().get_name(t.color()));
         invlets_s.push_back(get_all_colors().get_name(t.color_in_inventory()));
         invlets.push_back(std::string(1, invlets_i[i]));
     }
 }
 
-void gsi::update_light(player & player)
+void gsi::update_light()
 {
-    light_level = get_all_colors().get_name(get_light_level(player.fine_detail_vision_mod()).second);
+    light_level = get_all_colors().get_name(get_light_level(g->u.fine_detail_vision_mod()).second);
 }
 
 void gsi::serialize(JsonOut &jsout) const
@@ -436,8 +454,8 @@ void gsi_socket::sockListen()
         closesocket(ListenSocket);
         return;
     }
-    int ret = listen(ListenSocket, 5);
-    int error = WSAGetLastError();
+    listen(ListenSocket, 5);
+
     initialized = TRUE;
 }
 

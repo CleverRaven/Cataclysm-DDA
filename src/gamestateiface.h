@@ -40,9 +40,6 @@ class gsi : public JsonSerializer
 {
 public:
 
-    std::condition_variable gsi_update;
-    std::condition_variable gsi_writer;
-
     static gsi& get()
     {
         static gsi instance;
@@ -52,11 +49,10 @@ public:
     gsi(gsi const&) = delete;
     void operator=(gsi const&) = delete;
 
-
-
     bool update_turn();
-    bool update_safemode(safe_mode_type safe_mode, int turnssincelastmon);
+    void update_safemode(bool forceupdate);
     bool update_input(std::vector<std::string> registered_actions, std::string category);
+
 
     // Everything that goes in the output goes here
     void serialize(JsonOut &jsout) const;
@@ -83,15 +79,15 @@ private:
     std::array<int, num_hp_parts> limb_state;
     std::array<float, num_hp_parts> splint_state;
     int temp_level, temp_change;
-    void update_hunger(int hunger, int starvation);
-    void update_thirst(int thirst);
-    void update_fatigue(int fatigue);
-    void update_body(std::array<int, num_hp_parts> hp_cur, std::array<int, num_hp_parts> hp_max,
-        std::array<nc_color, num_hp_parts> bp_status, std::array<float, num_hp_parts> splints);
-    void update_temp(std::array<int, num_bp> temp_cur, std::array<int, num_bp> temp_conv);
-    void update_invlets(Character &character);
 
-    void update_light(player & player);
+
+    void update_needs();
+    void update_stamina();
+    void update_body();
+    void update_temp();
+    void update_invlets();
+
+    void update_light();
 
     int stamina, stamina_max;
     int power_level, max_power_level;
