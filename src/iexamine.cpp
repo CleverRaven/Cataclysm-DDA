@@ -3224,12 +3224,9 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     map_stack items_here = g->m.i_at( examp );
     const int amount_in_furn = count_charges_in_list( ammo, items_here );
     const int amount_in_inv = p.charges_of( ammo->get_id() );
-    bool unload = false;
     if( amount_in_furn > 0 ) {
-        unload = p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
-                 ammo->nname( amount_in_furn ).c_str() );
-
-        if( unload ) {
+        if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
+                 ammo->nname( amount_in_furn ).c_str() ) ) {
             for( size_t i = 0; i < items_here.size(); i++ ) {
                 auto &it = items_here[i];
                 if( it.type == ammo ) {
