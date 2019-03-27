@@ -4684,14 +4684,17 @@ bool item::is_reloadable_with( const itype_id &ammo ) const
 bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 {
     // empty ammo is passed for listing possible ammo apparently, so it needs to return true.
-    if( !is_reloadable() )  {
+    if( !is_reloadable() )
+    {
         return false;
-    } else if( is_watertight_container() ) {
-        return ( ( now ? !is_container_full() : true ) &&
-            ( ammo.empty() ||
-             ( find_type(ammo)->phase == LIQUID && ( is_container_empty() || contents.front().typeId() == ammo ) ) ));
+    } else if( is_watertight_container() )
+    {
+        return ( ( now ? !is_container_full() : true ) && ( ammo.empty()
+                 || ( find_type(ammo)->phase == LIQUID && ( is_container_empty()
+                         || contents.front().typeId() == ammo ) ) ));
 
-    } else if( magazine_integral() ) {
+    } else if( magazine_integral() )
+    {
         if( !ammo.empty() ) {
             if( ammo_data() ) {
                 if( ammo_current() != ammo ) {
@@ -4700,13 +4703,14 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
             } else {
                 auto at = find_type( ammo );
                 if( ( !at->ammo || !at->ammo->type.count( ammo_type() ) ) &&
-                    !magazine_compatible().count( ammo ) ) {
+                        !magazine_compatible().count( ammo ) ) {
                     return false;
                 }
             }
         }
         return now ? ( ammo_remaining() < ammo_capacity() ) : true;
-    } else {
+    } else
+    {
         return ammo.empty() ? true : magazine_compatible().count( ammo );
     }
 }
