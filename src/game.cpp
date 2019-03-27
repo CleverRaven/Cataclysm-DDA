@@ -7272,10 +7272,11 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
             sym = 'v';
         }
         if( pts.empty() ) {
-            mvwputch( w_terrain, POSY, POSX, c_white, sym );
+            mvwputch( w_terrain, POSY - sidebar_offset.y, POSX - sidebar_offset.x, c_white, sym );
         } else {
-            mvwputch( w_terrain, POSY + ( pts[pts.size() - 1].y - ( u.posy() + u.view_offset.y ) ),
-                      POSX + ( pts[pts.size() - 1].x - ( u.posx() + u.view_offset.x ) ),
+            mvwputch( w_terrain, POSY + ( pts[pts.size() - 1].y - ( u.posy() + u.view_offset.y ) -
+                                          sidebar_offset.y ),
+                      POSX + ( pts[pts.size() - 1].x - ( u.posx() + u.view_offset.x ) - sidebar_offset.x ),
                       c_white, sym );
         }
     }
