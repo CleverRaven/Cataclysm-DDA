@@ -646,13 +646,11 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     }
 
     itype_id weapon_id = firing.typeId();
-    int angle;
-    int distance;
+    int angle = 0;
+    int distance = 0;
     std::string selected_sound;
     // this does not mean p == g->u (it could be a vehicle turret)
     if( g->u.pos() == source ) {
-        angle = 0;
-        distance = 0;
         selected_sound = "fire_gun";
 
         const auto mods = firing.gunmods();

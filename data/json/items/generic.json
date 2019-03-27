@@ -1842,7 +1842,7 @@
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": 0,
     "price": 200
   },
   {

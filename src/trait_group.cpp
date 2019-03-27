@@ -174,7 +174,7 @@ Trait_list Trait_group_creator::create( RecursionList &rec ) const
         debugmsg( "unknown trait creation list %s", id.c_str() );
         return result;
     }
-    auto tcd = mutation_branch::get_group( id );
+    const auto tcd = mutation_branch::get_group( id );
 
     Trait_list tmplist = tcd->create( rec );
     rec.pop_back();

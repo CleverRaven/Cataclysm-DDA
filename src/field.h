@@ -9,6 +9,9 @@
 #include "calendar.h"
 #include "color.h"
 #include "game_constants.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 
 enum phase_id : int;
 
@@ -123,6 +126,15 @@ extern field_id field_from_ident( const std::string &field_ident );
  * Returns if the field has at least one intensity for which dangerous[intensity] is true.
  */
 bool field_type_dangerous( field_id id );
+
+/**
+ * converts wind direction to list of co-ords to block neighbours to spread to.
+ */
+std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
+        const tripoint &pos );
+/**
+ * converts xy of disallowed wind directions to map tiles.
+ */
 
 /**
  * An active or passive effect existing on a tile.

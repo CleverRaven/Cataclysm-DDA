@@ -24,7 +24,7 @@
     "magazine_well": 1,
     "magazines": [
       [ "3006", [ "blrmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
@@ -50,7 +50,7 @@
     "magazine_well": 1,
     "magazines": [
       [ "3006", [ "garandclip" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
@@ -98,7 +98,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "3006", [ "m1918mag", "m1918bigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ]
     ]
   },
   {

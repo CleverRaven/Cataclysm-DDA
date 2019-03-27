@@ -94,7 +94,7 @@ static void eff_fun_fungus( player &u, effect &it )
 {
     const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
-    int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
+    const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     switch( intense ) {
         case 1: // First hour symptoms
             if( one_in( 160 + bonus ) ) {
@@ -121,7 +121,7 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
-                int awfulness = rng( 0, 70 );
+                const int awfulness = rng( 0, 70 );
                 u.moves = -200;
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
