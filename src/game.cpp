@@ -10468,8 +10468,8 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     //Autopickup
-    if( get_option<bool>( "AUTO_PICKUP" ) && ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) ||
-            mostseen == 0 ) &&
+    if( get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
+        ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::pick_up( u.pos(), -1 );
     }
