@@ -120,6 +120,23 @@
     "count": 50
   },
   {
+    "type": "AMMO",
+    "id": "material_soil",
+    "category": "spare_parts",
+    "price": 0,
+    "name": "soil",
+    "name_plural": "soil",
+    "symbol": "=",
+    "color": "brown",
+    "description": "A pile of loosely packed, slightly damp loamy soil.  This mixture of sand, silt and clay is ideal for growing plants.",
+    "material": "soil",
+    "volume": "5L",
+    "weight": 6500,
+    "bashing": 1,
+    "ammo_type": "components",
+    "stack_size": 1
+  },
+  {
     "type": "GENERIC",
     "id": "material_shrd_limestone",
     "symbol": ",",

@@ -5,32 +5,40 @@
     "subtype": "collection",
     "//": "Smokable item and something to light it with",
     "items": [
-      { "distribution": [
-        { "item": "cig", "prob": 70, "charges": [1, 10] },
-        { "collection": [
-            { "item": "tobacco" },
-            { "distribution": [
-              { "item": "rolling_paper", "prob": 70 },
-              { "item": "pipe_tobacco", "prob": 30 }
-            ] }
-        ], "prob": 20 },
-        { "item": "cigar", "prob": 5, "charges": [1, 1] },
-        { "item": "joint", "prob": 5 }
-      ] },
-      { "distribution": [
-        { "item": "lighter" },
-        { "item": "matches" }
-      ] }
+      {
+        "distribution": [
+          { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
+          {
+            "collection": [
+              { "item": "tobacco" },
+              { "distribution": [ { "item": "rolling_paper", "prob": 70 }, { "item": "pipe_tobacco", "prob": 30 } ] }
+            ],
+            "prob": 20
+          },
+          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
+          { "item": "joint", "prob": 5 }
+        ]
+      },
+      { "distribution": [ { "item": "lighter" }, { "item": "matches" } ] }
     ]
   },
   {
     "id": "stoner",
     "type": "item_group",
-    "//" : "Processed weed and weed accessories",
+    "//": "Processed weed and weed accessories",
+    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
+  },
+  {
+    "id": "digging_soil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
     "items": [
-      [ "joint", 100 ],
-      [ "joint_roach", 20 ],
-      [ "pipe_glass", 10 ]
+      { "item": "material_soil", "count": [ 8, 12 ] },
+      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]
   }
 ]

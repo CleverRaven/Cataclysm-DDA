@@ -1868,27 +1868,15 @@ void game::validate_npc_followers()
 
 void game::validate_camps()
 {
-    // Make sure camps already present are added to the overmap list
-    basecamp *bcp = m.camp_at( u.pos(), 60 );
-    if( bcp ) {
-        int count = 1;
-        if( u.camps.empty() ) {
-            u.camps.insert( bcp->camp_omt_pos() );
-        }
-        for( auto camp : u.camps ) {
-            // check if already on the overmapbuffer list
-            cata::optional<basecamp *> p = overmap_buffer.find_camp( camp.x, camp.y );
-            if( !p ) {
-                //if not on overmap buffer list
-                if( camp.x == bcp->camp_omt_pos().x && camp.y == bcp->camp_omt_pos().y ) {
-                    // if this local camp is the one that needs adding
-                    std::string camp_name = _( "Faction Camp " ) + std::to_string( count );
-                    bcp->set_name( camp_name );
-                    overmap_buffer.add_camp( bcp );
-                    count += 1;
-                }
-            }
-        }
+    basecamp camp = m.hoist_submap_camp( u.pos() );
+    if( camp.is_valid() ) {
+        overmap_buffer.add_camp( camp );
+        m.remove_submap_camp( u.pos() );
+    } else if( camp.camp_omt_pos() != tripoint_zero ) {
+        std::string camp_name = _( "Faction Camp" );
+        camp.set_name( camp_name );
+        overmap_buffer.add_camp( camp );
+        m.remove_submap_camp( u.pos() );
     }
 }
 
@@ -9310,7 +9298,7 @@ void game::reload( int pos, bool prompt )
     reload( loc, prompt );
 }
 
-void game::reload( item_location &loc, bool prompt )
+void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
     bool use_loc = true;
@@ -9377,7 +9365,7 @@ void game::reload( item_location &loc, bool prompt )
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
                               item::reload_option( &u, it, it, u.ammo_location.clone() ) :
-                              u.select_ammo( *it, prompt );
+                              u.select_ammo( *it, prompt, empty );
 
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
@@ -9392,39 +9380,76 @@ void game::reload( item_location &loc, bool prompt )
     refresh_all();
 }
 
-void game::reload()
+void game::reload( bool try_everything )
 {
-    // general reload item menu will popup if:
-    // - user is unarmed;
-    // - weapon wielded can't be reloaded (bows can, they just reload before shooting automatically)
-    // - weapon wielded reloads before shooting (like bows)
-    if( !u.is_armed() || !u.can_reload( u.weapon ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
-        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        turret_data turret;
-        if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
-            if( opt ) {
-                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-                g->u.activity.targets.emplace_back( turret.base() );
-                g->u.activity.targets.push_back( std::move( opt.ammo ) );
-            }
+    // As a special streamlined activity, hitting reload repeatedly should:
+    // Reload wielded gun
+    // First reload a magazine if necessary.
+    // Then load said magazine into gun.
+    // Reload magazines that are compatible with the current gun.
+    // Reload other guns in inventory.
+    // Reload misc magazines in inventory.
+    std::vector<item_location> reloadables = u.find_reloadables();
+    std::sort( reloadables.begin(), reloadables.end(),
+    [this]( const item_location & a, const item_location & b ) {
+        const item *ap = a.get_item();
+        const item *bp = b.get_item();
+        // Current wielded weapon comes first.
+        if( this->u.is_wielding( *ap ) ) {
+            return true;
+        }
+        if( this->u.is_wielding( *bp ) ) {
+            return false;
+        }
+        // Second sort by afiliation with wielded gun
+        const std::set<itype_id> compatible_magazines = this->u.weapon.magazine_compatible();
+        const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
+        const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
+        if( mag_ap != mag_bp ) {
+            return mag_ap;
+        }
+        // Third sort by gun vs magazine,
+        if( ap->is_gun() != bp->is_gun() ) {
+            return ap->is_gun();
+        }
+        // Finally sort by speed to reload.
+        return ( ap->get_reload_time() * ( ap->ammo_capacity() - ap->ammo_remaining() ) ) <
+               ( bp->get_reload_time() * ( bp->ammo_capacity() - bp->ammo_remaining() ) );
+    } );
+    for( item_location &candidate : reloadables ) {
+        std::vector<item::reload_option> ammo_list;
+        u.list_ammo( *candidate.get_item(), ammo_list, false );
+        if( !ammo_list.empty() ) {
+            reload( candidate, false, false );
             return;
         }
-
-        item_location item_loc = inv_map_splice( [&]( const item & it ) {
-            return u.rate_action_reload( it ) == HINT_GOOD;
-        }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
-
-        if( !item_loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        reload( item_loc );
-
-    } else {
-        reload( -1 );
     }
+    // Just for testing, bail out here to avoid unwanted side effects.
+    if( !try_everything ) {
+        return;
+    }
+    // If we make it here and haven't found anything to reload, start looking elsewhere.
+    vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
+    turret_data turret;
+    if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
+        item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+        if( opt ) {
+            g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+            g->u.activity.targets.emplace_back( turret.base() );
+            g->u.activity.targets.push_back( std::move( opt.ammo ) );
+        }
+        return;
+    }
+    item_location item_loc = inv_map_splice( [&]( const item & it ) {
+        return u.rate_action_reload( it ) == HINT_GOOD;
+    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    reload( item_loc );
 }
 
 // Unload a container, gun, or tool
@@ -9775,48 +9800,47 @@ bool game::plmove( int dx, int dy, int dz )
     }
 
     if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
-        int turns;
-        if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 && get_option<bool>( "AUTO_MINING" ) &&
-            u.weapon.has_flag( "DIG_TOOL" ) && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
-            if( u.weapon.has_flag( "POWERED" ) ) {
-                if( u.weapon.ammo_sufficient() ) {
-                    turns = MINUTES( 30 );
-                    u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
-                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), turns * 100, -1,
+        int mining_turns = 100;
+        if( mostseen == 0 && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
+            if( m.move_cost( dest_loc ) == 2 ) {
+                // breaking up some flat surface, like pavement
+                mining_turns /= 2;
+            }
+            if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
+                u.weapon.has_flag( "DIG_TOOL" ) ) {
+                if( u.weapon.has_flag( "POWERED" ) ) {
+                    if( u.weapon.ammo_sufficient() ) {
+                        mining_turns *= MINUTES( 30 );
+                        u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
+                        u.assign_activity( activity_id( "ACT_JACKHAMMER" ), mining_turns, -1,
+                                           u.get_item_position( &u.weapon ) );
+                        u.activity.placement = dest_loc;
+                        add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                                 m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                        u.defer_move( dest_loc ); // don't move into the tile until done mining
+                        return true;
+                    } else {
+                        add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
+                    }
+                } else {
+                    mining_turns *= ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
+                    u.assign_activity( activity_id( "ACT_PICKAXE" ), mining_turns, -1,
                                        u.get_item_position( &u.weapon ) );
                     u.activity.placement = dest_loc;
                     add_msg( _( "You start breaking the %1$s with your %2$s." ),
                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
                     u.defer_move( dest_loc ); // don't move into the tile until done mining
                     return true;
-                } else {
-                    add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
                 }
-            } else {
-                if( m.move_cost( dest_loc ) == 2 ) {
-                    // breaking up some flat surface, like pavement
-                    turns = MINUTES( 20 );
-                } else {
-                    turns = ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
-                }
-                u.assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1,
-                                   u.get_item_position( &u.weapon ) );
+            } else if( u.has_active_mutation( trait_BURROW ) ) {
+                mining_turns *= ( ( MAX_STAT + 3 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 2 );
+                u.assign_activity( activity_id( "ACT_BURROW" ), mining_turns, -1, 0 );
                 u.activity.placement = dest_loc;
-                add_msg( _( "You start breaking the %1$s with your %2$s." ),
-                         m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                add_msg( _( "You start tearing into the %s with your teeth and claws." ),
+                         m.tername( dest_loc ).c_str() );
                 u.defer_move( dest_loc ); // don't move into the tile until done mining
                 return true;
             }
-        } else if( u.has_active_mutation( trait_BURROW ) ) {
-            if( m.move_cost( dest_loc ) == 2 ) {
-                turns = MINUTES( 10 );
-            } else {
-                turns = MINUTES( 30 );
-            }
-            u.assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
-            u.activity.placement = dest_loc;
-            add_msg( _( "You start tearing into the %s with your teeth and claws." ),
-                     m.tername( dest_loc ).c_str() );
         }
     }
 

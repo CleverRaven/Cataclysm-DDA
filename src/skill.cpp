@@ -263,7 +263,7 @@ int SkillLevelMap::get_skill_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_skill_level( id );
 }
 

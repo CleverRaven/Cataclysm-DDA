@@ -220,7 +220,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
                     return true;
                 }
-                auto iter = r.second.required_skills.find( skill_id( s ) );
+                const auto iter = r.second.required_skills.find( skill_id( s ) );
                 return iter != r.second.required_skills.end() && iter->second > 0;
             } ) ) {
                 dict.include( &r.second );

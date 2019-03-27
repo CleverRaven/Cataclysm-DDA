@@ -111,6 +111,10 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "FARM_PLOT" ),
                    zone_type( translate_marker( "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
+    types.emplace( zone_type_id( "CAMP_FOOD" ),
+                   zone_type( translate_marker( "Basecamp: Food" ),
+                              translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
+
 }
 
 std::string zone_type::name() const
@@ -452,6 +456,22 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) c
         }
     }
 
+    return false;
+}
+
+bool zone_manager::has_loot_dest_near( const tripoint &where ) const
+{
+    for( const auto &ztype : get_manager().get_types() ) {
+        const zone_type_id &type = ztype.first;
+        if( type == zone_type_id( "CAMP_FOOD" ) || type == zone_type_id( "FARM_PLOT" ) ||
+            type == zone_type_id( "LOOT_UNSORTED" ) || type == zone_type_id( "LOOT_IGNORE" ) ||
+            type == zone_type_id( "NO_AUTO_PICKUP" ) || type == zone_type_id( "NO_NPC_PICKUP" ) ) {
+            continue;
+        }
+        if( has_near( type, where ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -904,7 +924,7 @@ void zone_manager::revert_vzones()
             cache_vzones();
         }
     }
-    for( auto zpair : changed_vzones ) {
+    for( const auto &zpair : changed_vzones ) {
         *( zpair.second ) = zpair.first;
     }
     for( auto zone : added_vzones ) {

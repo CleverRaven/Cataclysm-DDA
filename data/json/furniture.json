@@ -2059,6 +2059,7 @@
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT" ],
     "examine_action": "keg",
+    "keg_capacity": 500,
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 18 },
@@ -2867,6 +2868,7 @@
     "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
+    "keg_capacity": 1200,
     "bash": {
       "str_min": 10,
       "str_max": 20,
@@ -3852,6 +3854,7 @@
     "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT" ],
     "examine_action": "keg",
+    "keg_capacity": 240,
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -4363,7 +4366,7 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 2, 6 ] },
-        { "item": "nail", "count": [ 4, 16 ] },
+        { "item": "nail", "charges": [ 4, 16 ] },
         { "item": "glass_sheet", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
@@ -4378,7 +4381,7 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
-        { "item": "nail", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "glass_shard", "count": [ 2, 12 ] },
         { "item": "scrap", "count": [ 0, 2 ] }
       ]
@@ -4397,7 +4400,7 @@
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "amplifier", "count": [ 1, 4 ] },
         { "item": "light_bulb", "count": [ 1, 4 ] },
         { "item": "steel_lump", "count": 1 },
@@ -4411,7 +4414,7 @@
       "sound_fail": "bonk!",
       "items": [
         { "item": "scrap", "count": [ 1, 2 ] },
-        { "item": "cable", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "glass_shard", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
@@ -4433,7 +4436,7 @@
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 50, 75 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
@@ -4451,7 +4454,7 @@
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "cable", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
       ]
     }
@@ -4753,7 +4756,7 @@
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4795,7 +4798,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4835,7 +4838,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4874,7 +4877,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4914,7 +4917,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4954,7 +4957,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5031,7 +5034,7 @@
         { "item": "oxygen_tank", "count": [ 1, 2 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5075,7 +5078,7 @@
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5117,7 +5120,7 @@
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "oxygen_tank", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5223,7 +5226,7 @@
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "motor", "count": 1 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5262,7 +5265,7 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "motor_small", "count": 1 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5301,7 +5304,7 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "motor_small", "count": 1 },
-        { "item": "solder_wire", "count": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
     },
@@ -5340,7 +5343,7 @@
         { "item": "plastic_chunk", "count": [ 2, 12 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "laptop", "count": [ 2, 4 ] },
-        { "item": "cable", "count": [ 5, 10 ] }
+        { "item": "cable", "charges": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -5354,7 +5357,7 @@
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 },
         { "item": "e_scrap", "count": [ 20, 50 ] },
-        { "item": "cable", "count": [ 2, 8 ] }
+        { "item": "cable", "charges": [ 2, 8 ] }
       ]
     }
   },
@@ -5379,7 +5382,7 @@
         { "item": "motor", "count": 1 },
         { "item": "metal_tank", "count": 1 },
         { "item": "plastic_chunk", "count": [ 4, 6 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {

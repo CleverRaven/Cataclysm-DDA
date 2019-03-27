@@ -51,6 +51,12 @@
   },
   {
     "type": "start_location",
+    "ident": "s_grocery_1",
+    "name": "Grocery Store",
+    "target": "s_grocery_1"
+  },
+  {
+    "type": "start_location",
     "ident": "s_gun",
     "name": "Gun Store",
     "target": "s_gun"

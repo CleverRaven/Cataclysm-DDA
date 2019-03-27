@@ -852,7 +852,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
             add_ascii_subtile( curr_tile, id, 201 + base_offset, "corner" );
             add_ascii_subtile( curr_tile, id, 186 + base_offset, "edge" );
             add_ascii_subtile( curr_tile, id, 203 + base_offset, "t_connection" );
-            add_ascii_subtile( curr_tile, id, 208 + base_offset, "end_piece" );
+            add_ascii_subtile( curr_tile, id, 210 + base_offset, "end_piece" );
             add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
         }
         ts.create_tile_type( id, std::move( curr_tile ) );

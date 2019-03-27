@@ -35,6 +35,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "player.h"
 #include "requirements.h"
@@ -1254,14 +1255,18 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
-    basecamp *bcp = g->m.camp_at( examp, 60 );
+    g->validate_camps();
+    point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
+    tripoint omt_tri = tripoint( omt.x, omt.y, p.pos().z );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
     if( bcp ) {
+        basecamp *temp_camp = *bcp;
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        bcp->get_available_missions( mission_key );
-        if( talk_function::display_and_choose_opts( mission_key, bcp->camp_omt_pos(), "FACTION_CAMP",
+        temp_camp->get_available_missions( mission_key );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
                 title ) ) {
-            bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -2310,7 +2315,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         }
     }
 
-    const bool has_firestarter = firestarters.size() > 0;
+    const bool has_firestarter = !firestarters.empty();
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
                                         p.power_level >= bionic_id( "bio_lighter" )->power_activate;
 
@@ -2581,20 +2586,10 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 }
 
-//probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 static units::volume get_keg_capacity( const tripoint &pos )
 {
     const furn_t &furn = g->m.furn( pos ).obj();
-    if( furn.id == "f_standing_tank" )  {
-        return units::from_liter( 300 );
-    } else if( furn.id == "f_wood_keg" )  {
-        return units::from_liter( 125 );
-    }
-    //add additional cases above
-    else                                {
-        //if the size of the keg isn't defined, assume 60L, the standard size of a tank in game.
-        return units::from_liter( 60 );
-    }
+    return furn.keg_capacity;
 }
 
 /**
@@ -4099,7 +4094,6 @@ void smoker_activate( player &p, const tripoint &examp )
             add_msg( _( "You remove %s from the rack." ), it.tname().c_str() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
-            i--;
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
@@ -4256,7 +4250,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     }
     count = 0;
     auto what = entries[smenu.ret];
-    for( auto c : comps ) {
+    for( const auto &c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;
         }
@@ -4316,7 +4310,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return;
     }
 
-    for( item m : moved ) {
+    for( const item &m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
         add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(),
