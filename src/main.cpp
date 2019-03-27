@@ -630,11 +630,6 @@ int main( int argc, char *argv[] )
         exit_handler( -999 );
     }
 
-#ifdef GSI
-    gsi_socket::get().sockListen();
-#endif
-
-
     // Now we do the actual game.
 
     g->init_ui();

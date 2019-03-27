@@ -1,6 +1,0 @@
-{
-  "keybinds": { "input_context": "default", "menu_context": "default", "invlets": [ "a", "b", "c", "d", "e" ], "invlets_color": [ "c_black", "c_black", "c_black", "c_black", "c_black" ], "invlets_status": [ "c_light_gray", "c_light_gray", "c_light_gray", "c_light_gray", "c_light_gray" ]
-  },
-  "player": { "is_self_aware": false, "hunger": 3, "thirst": -4, "fatigue": 0, "temp_level": 0, "temp_change": -1, "hp_cur": [ 10, 10, 10, 10, 10, 10 ], "hp_max": [ 10, 10, 10, 10, 10, 10 ], "splints": [ 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000 ], "limbs": [ 0, 0, 0, 0, 0, 0 ], "stamina": 1000, "stamina_max": 1000, "power_level": 0, "max_power_level": 0, "pain": 0, "morale": 0, "safe_mode": 4
-  }
-}

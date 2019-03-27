@@ -1523,9 +1523,7 @@ bool game::do_turn()
     sfx::do_danger_music();
     sfx::do_fatigue();
     
-    // these functions will always return false if compiled without GSI option
-    if(gsi::get().update_player(u) || gsi::get().update_safemode(safe_mode, turnssincelastmon))
-        gsi_socket::get().sockout();
+    gsi::get().update_turn();
 
     // reset player noise
     u.volume = 0;

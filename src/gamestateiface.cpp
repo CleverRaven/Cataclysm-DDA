@@ -36,59 +36,74 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <sys/time.h>
 #endif
 
-std::mutex m;
-std::mutex otherMutex;
-std::mutex writeout;
-bool outofdate = false;
+#define LISTEN_PORT 3441
 
-bool gsi::update_player(player & u)
+bool gsi::update_turn()
 {
 #ifdef GSI
     // Player Stats
     // MUST update first -- others will decide to hide info based on the trait
-    is_self_aware = u.has_trait((trait_id)"SELFAWARE");
+    is_self_aware = g->u.has_trait((trait_id)"SELFAWARE");
+    
+    update_hunger(g->u.get_hunger(), g->u.get_starvation());
+    update_thirst(g->u.get_thirst());
+    update_fatigue(g->u.get_fatigue());
 
-    update_hunger(u.get_hunger(), u.get_starvation());
-    update_thirst(u.get_thirst());
-    update_fatigue(u.get_fatigue());
-
-    static std::array<body_part, 7> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
+    static std::array<body_part, 6> part = { {
+            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
-    std::array<nc_color, num_hp_parts> bp_status;
-    std::array<float, num_hp_parts> splints;
+    std::array<nc_color, num_hp_parts> bp_status = { c_black, c_black, c_black, c_black, c_black, c_black };
+    std::array<float, num_hp_parts> splints = { 0, 0, 0, 0, 0, 0 };
     for (int i = 0; i < part.size(); i++)
     {
-        bp_status[i] = u.limb_color(part[i], true, true, true);
+        bp_status[i] = g->u.limb_color(part[i], true, true, true);
     }
 
     for (int i = 0; i < part.size(); i++)
     {
-        if (!(u.worn_with_flag("SPLINT", part[i])))
+        if (!(g->u.worn_with_flag("SPLINT", part[i])))
             splints[i] = -1;
         else
         {
             static const efftype_id effect_mending("mending");
-            const auto &eff = u.get_effect(effect_mending, part[i]);
+            const auto &eff = g->u.get_effect(effect_mending, part[i]);
             splints[i] = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
         }
     }
-    update_body(u.hp_cur, u.hp_max, bp_status, splints);
-    update_temp(u.temp_cur, u.temp_conv);
-    update_invlets(u);
+    update_body(g->u.hp_cur, g->u.hp_max, bp_status, splints);
+    update_temp(g->u.temp_cur, g->u.temp_conv);
+    update_invlets(g->u);
+    
+    stamina = g->u.stamina;
+    stamina_max = g->u.get_stamina_max();
+    power_level = g->u.power_level;
+    max_power_level = g->u.max_power_level;
+    pain = g->u.get_perceived_pain();
+    morale = g->u.get_morale_level();
 
-    stamina = u.stamina;
-    stamina_max = u.get_stamina_max();
-    power_level = u.power_level;
-    max_power_level = u.max_power_level;
-    pain = u.get_perceived_pain();
-    morale = u.get_morale_level();
+    if (g->safe_mode == SAFE_MODE_ON)
+        safe_mode = 4;
+    else
+        safe_mode = g->turnssincelastmon * 4 / get_option<int>("AUTOSAFEMODETURNS");
 
     // Environment Stats
-    update_light(u);
+    update_light(g->u);
+    if (g->get_levz() < 0)
+        weather = "Underground";
+    else
+        weather = weather_data(g->weather).name.c_str();
+
+    if (g->u.has_item_with_flag("THERMOMETER") ||
+        g->u.has_bionic(bionic_id("bio_meteorologist")))
+        temp = g->get_temperature(g->u.pos());
+    else
+        temp = -500;
+
+    gsi_socket::get().sockout();
     return true;
 #endif
     return false;
@@ -135,8 +150,9 @@ bool gsi::update_input(std::vector<std::string> registered_actions, std::string 
         }
     }
     );
-    gsi::get().bound_actions = _bound_actions;
-    gsi::get().bound_keys = _bound_keys;
+    bound_actions = _bound_actions;
+    bound_keys = _bound_keys;
+    ctxt = category;
     return true;
 #endif
     return false;
@@ -350,8 +366,7 @@ void gsi::serialize(JsonOut &jsout) const
 
     jsout.member("keybinds");
     jsout.start_object();
-    jsout.member("input_context", ctxt.top());
-    jsout.member("menu_context", mctxt.top());
+    jsout.member("input_context", ctxt);
     jsout.member("invlets", invlets);
     jsout.member("invlets_color", invlets_c);
     jsout.member("invlets_status", invlets_s);
@@ -380,6 +395,13 @@ void gsi::serialize(JsonOut &jsout) const
     jsout.member("morale", morale);
     jsout.member("safe_mode", safe_mode);
     jsout.end_object();
+
+    jsout.member("world");
+    jsout.start_object();
+    jsout.member("temperature", temp);
+    jsout.member("weather", weather);
+    jsout.member("light_level", light_level);
+    jsout.end_object();
     //jsout.start_array();
     //jsout.write(x);
     //jsout.write(y);
@@ -391,39 +413,91 @@ void gsi::serialize(JsonOut &jsout) const
 void gsi_socket::sockListen()
 {
     sockInit();
-    struct sockaddr_in address;
-    ListenSocket = socket(AF_INET, SOCK_DGRAM, 0);
+    
+
+    ListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+    bool option = true;
+    setsockopt(ListenSocket, SOL_SOCKET, SO_REUSEADDR, (char *) &option, 1);
+
 #ifdef _WIN32
     u_long mode = 1;
     ioctlsocket(ListenSocket, FIONBIO, &mode);
 #else
     fcntl(ListenSocket, F_SETFL, O_NONBLOCK);
 #endif
-    address.sin_family = AF_INET;
-    inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
-    address.sin_port = htons(3441);
+    listenaddress.sin_family = AF_INET;
+    inet_pton(AF_INET, "127.0.0.1", &(listenaddress.sin_addr));
+    listenaddress.sin_port = htons(LISTEN_PORT);
     if (ListenSocket == INVALID_SOCKET)
         return;
-    if (bind(ListenSocket, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR)
+    if (bind(ListenSocket, (struct sockaddr *)&listenaddress, sizeof(listenaddress)) == SOCKET_ERROR)
     {
         closesocket(ListenSocket);
         return;
     }
+    int ret = listen(ListenSocket, 5);
+    int error = WSAGetLastError();
+    initialized = TRUE;
 }
 
 void gsi_socket::tryReceive() 
 {
     if (ListenSocket != INVALID_SOCKET)
     {
-        const int buflen = 1024;
-        char buf[buflen];
-        SOCKADDR sender;
-        int sender_len = sizeof(sender);
-        while (recvfrom(ListenSocket, buf, buflen, 0, &sender, &sender_len) > 0)
+        fd_set fdset;
+        timeval timeout;
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 10000;
+
+        FD_ZERO(&fdset);
+        FD_SET(ListenSocket, &fdset);
+        nfds = ListenSocket;
+        for (int i = 0; i < sockets.size(); i++)
         {
-            commandqueue.push(std::string(buf));
+            FD_SET(sockets[i], &fdset);
+            if (sockets[i] > nfds)
+                nfds = sockets[i];
+        }
+
+        if (select(nfds + 1, &fdset, NULL, NULL, &timeout) > 0)
+        {
+            // process new connection attempt
+            if (FD_ISSET(ListenSocket, &fdset))
+            {
+                SOCKET new_client;
+                new_client = accept(ListenSocket, NULL, NULL);
+                sockets.push_back(new_client);
+            }
+
+            for (int i = 0; i < sockets.size(); i++)
+            {
+                SOCKET s = sockets[i];
+                const int buflen = 1024;
+                char buf[buflen];
+
+                if (FD_ISSET(s, &fdset))
+                {
+                    // read returning 0 indicates socket is closed
+                    if (recv(s, buf, buflen, NULL) == 0)
+                    {
+                        closesocket(s);
+                        sockets.erase(sockets.begin() + i);
+                    }
+                    // add all commands to queue
+                    else
+                    {
+                        std::vector<std::string> command;
+                        std::stringstream ss(buf);
+                        std::string substring;
+                        while (std::getline(ss, substring, ';'))
+                            commandqueue.push(substring);
+                    }
+                }
+            }
         }
     }
+    int error = WSAGetLastError();
 }
 
 void gsi_socket::processCommands()
@@ -471,6 +545,10 @@ void gsi_socket::sockQuit()
 void gsi_socket::sockout()
 {
     try {
+
+        if(!initialized)
+            sockListen();
+
         processCommands();
         if (ports.size() != 0)
         {
@@ -494,7 +572,7 @@ void gsi_socket::sockout()
                 }
 
                 if (connect(sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
-                    _close(sock);
+                    closesocket(sock);
                     sockQuit();
                     return;
                 }

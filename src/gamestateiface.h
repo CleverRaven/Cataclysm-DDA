@@ -54,7 +54,7 @@ public:
 
 
 
-    bool update_player(player & u);
+    bool update_turn();
     bool update_safemode(safe_mode_type safe_mode, int turnssincelastmon);
     bool update_input(std::vector<std::string> registered_actions, std::string category);
 
@@ -63,14 +63,9 @@ public:
 
 private:
     // Blank constructor
-    gsi() 
-    {
-        ctxt.push("default");
-        mctxt.push("default");
-    }
+    gsi() { }
 
-    std::stack<std::string> ctxt;  // current input context
-    std::stack<std::string> mctxt; // current input context, for menus
+    std::string ctxt; // current input context
 
     std::vector<std::string> invlets;        // inventory letters in use
     std::vector<std::string> invlets_c;  // inventory letters' corresponding colors
@@ -108,6 +103,8 @@ private:
     
 
     std::string light_level;
+    std::string weather;
+    int temp;
 };
 
 class gsi_socket
@@ -129,10 +126,13 @@ public:
 
 private:
     gsi_socket() {}
+    bool initialized = false;
 
     SOCKET ListenSocket;
+    struct sockaddr_in listenaddress;
     std::set<int> ports;
-
+    std::vector<SOCKET> sockets;
+    int nfds;
     void tryReceive();
     void sockInit();
     void sockQuit();
