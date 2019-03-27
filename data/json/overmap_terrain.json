@@ -3321,6 +3321,14 @@
     "color": "i_yellow"
   },
   {
+    "id": "art_gallery_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "art gallery roof",
+    "sym": 97,
+    "color": "i_yellow"
+  },
+  {
     "id": "state_park_0_0",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building_no_sidewalk",

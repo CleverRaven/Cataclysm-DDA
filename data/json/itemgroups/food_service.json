@@ -1,5 +1,10 @@
 [
   {
+    "id": "baked_goods",
+    "type": "item_group",
+    "items": [ [ "cookies", 17 ], [ "cake2", 15 ], [ "cake3", 10 ], [ "biscuit", 10 ], [ "jihelucake", 10 ], [ "brownie", 20 ] ]
+  },
+  {
     "id": "coffee_display_2",
     "type": "item_group",
     "items": [

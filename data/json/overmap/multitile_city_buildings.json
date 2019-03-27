@@ -806,6 +806,15 @@
   },
   {
     "type": "city_building",
+    "id": "art_gallery",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "art_gallery_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "art_gallery_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "animalpound",
     "locations": [ "land" ],
     "overmaps": [
